@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class SavedSearchCard extends StatelessWidget {
@@ -26,56 +25,38 @@ class SavedSearchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> nonEmptyDataTags = dataTag.where((element) => element.trim().isNotEmpty).toList();
-    return DecoratedBox(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
-        Shadows.boxShadow,
-      ]),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Material(
-          type: MaterialType.transparency,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
-          ),
-          child: InkWell(
-            onTap: onTap ?? () {},
-            splashColor: AppColors.primaryLighten,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(Margins.spacing_base, 0, Margins.spacing_base, Margins.spacing_base),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 16),
-                          child: Text(title, style: TextStyles.textBaseBold),
-                        ),
-                      ),
-                      _buildTrashButton(),
-                    ],
-                  ),
-                  if (nonEmptyDataTags.isNotEmpty || lieu != null) _buildDataTags(nonEmptyDataTags, lieu),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(child: Container()),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Text(Strings.savedSearchSeeResults, style: TextStyles.textSRegular()),
-                      ),
-                      SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor)
-                    ],
-                  )
-                ],
+    return GenericCard(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text(title, style: TextStyles.textBaseBold),
+                ),
               ),
-            ),
+              _buildTrashButton(),
+            ],
           ),
-        ),
+          if (nonEmptyDataTags.isNotEmpty || lieu != null) _buildDataTags(nonEmptyDataTags, lieu),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(child: Container()),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Text(Strings.savedSearchSeeResults, style: TextStyles.textSRegular()),
+              ),
+              SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor)
+            ],
+          )
+        ],
       ),
     );
   }

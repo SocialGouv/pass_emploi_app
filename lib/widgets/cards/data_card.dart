@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
-import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
@@ -34,42 +33,37 @@ class DataCard<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> nonEmptyDataTags = dataTag.where((element) => element.isNotEmpty).toList();
-    return DecoratedBox(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
-        Shadows.boxShadow,
-      ]),
-      child: GenericCard(
-        onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (category != null && category!.isNotEmpty) _buildCategory(category!),
-                      _buildTitre(),
-                      if (sousTitre != null && sousTitre!.isNotEmpty) _buildSousTitre(),
-                      if (lieu != null && lieu!.isNotEmpty) _buildLieu(),
-                    ],
-                  ),
+    return GenericCard(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (category != null && category!.isNotEmpty) _buildCategory(category!),
+                    _buildTitre(),
+                    if (sousTitre != null && sousTitre!.isNotEmpty) _buildSousTitre(),
+                    if (lieu != null && lieu!.isNotEmpty) _buildLieu(),
+                  ],
                 ),
-                if (id != null && from != null)
-                  FavoriHeart<T>(
-                    offreId: id!,
-                    withBorder: false,
-                    from: from!,
-                  )
-              ],
-            ),
-            if (nonEmptyDataTags.isNotEmpty) _buildDataTags(nonEmptyDataTags),
-          ],
-        ),
+              ),
+              if (id != null && from != null)
+                FavoriHeart<T>(
+                  offreId: id!,
+                  withBorder: false,
+                  from: from!,
+                )
+            ],
+          ),
+          if (nonEmptyDataTags.isNotEmpty) _buildDataTags(nonEmptyDataTags),
+        ],
       ),
     );
   }
