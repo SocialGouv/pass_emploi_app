@@ -17,7 +17,6 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
@@ -26,6 +25,7 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
@@ -174,30 +174,16 @@ class _DelayedActionsBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration:
-          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [Shadows.boxShadow]),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: onActionDelayedTap,
-            splashColor: AppColors.primaryLighten,
-            child: Padding(
-              padding: const EdgeInsets.all(Margins.spacing_base),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  _WarningIcon(),
-                  _NumberOfDelayedActions(banner.delayedLabel),
-                  Text(Strings.see, style: TextStyles.textBaseRegular),
-                  _ChevronIcon(),
-                ],
-              ),
-            ),
-          ),
-        ),
+    return GenericCard(
+      onTap: onActionDelayedTap,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          _WarningIcon(),
+          _NumberOfDelayedActions(banner.delayedLabel),
+          Text(Strings.see, style: TextStyles.textBaseRegular),
+          _ChevronIcon(),
+        ],
       ),
     );
   }
