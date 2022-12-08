@@ -14,10 +14,10 @@ import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -123,37 +123,24 @@ class _Card extends StatelessWidget {
   Widget _builder(SuggestionRechercheCardViewModel? viewModel) {
     if (viewModel == null) return SizedBox(height: 0);
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [Shadows.boxShadow],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          Margins.spacing_base,
-          Margins.spacing_base,
-          Margins.spacing_base,
-          10,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _Type(viewModel.type),
+    return GenericCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _Type(viewModel.type),
+          _Space(),
+          _Titre(viewModel.titre),
+          _Space(),
+          if (viewModel.metier != null) ...[
+            _Metier(viewModel.metier!),
             _Space(),
-            _Titre(viewModel.titre),
-            _Space(),
-            if (viewModel.metier != null) ...[
-              _Metier(viewModel.metier!),
-              _Space(),
-            ],
-            if (viewModel.localisation != null) ...[
-              _Localisation(viewModel.localisation!),
-              _Space(),
-            ],
-            _Buttons(onTapAjouter: viewModel.ajouterSuggestion, onTapRefuser: viewModel.refuserSuggestion),
           ],
-        ),
+          if (viewModel.localisation != null) ...[
+            _Localisation(viewModel.localisation!),
+            _Space(),
+          ],
+          _Buttons(onTapAjouter: viewModel.ajouterSuggestion, onTapRefuser: viewModel.refuserSuggestion),
+        ],
       ),
     );
   }

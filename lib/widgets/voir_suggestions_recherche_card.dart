@@ -6,10 +6,10 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
 
 class VoirSuggestionsRechercheCard extends StatelessWidget {
   final Function() onTapShowSuggestions;
@@ -43,7 +43,7 @@ class _Body extends StatelessWidget {
     if (viewModel.hasSuggestionsRecherche) {
       return Padding(
         padding: padding ?? const EdgeInsets.all(0),
-        child: _Card(
+        child: GenericCard(
           child: Column(
             children: [
               _Icon(),
@@ -108,30 +108,6 @@ class _Button extends StatelessWidget {
         withShadow: false,
         heightPadding: 8,
         onPressed: onTapShowSuggestions,
-      ),
-    );
-  }
-}
-
-class _Card extends StatelessWidget {
-  final Widget child;
-
-  _Card({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [Shadows.boxShadow],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(Margins.spacing_base),
-          child: child,
-        ),
       ),
     );
   }
