@@ -5,10 +5,9 @@ import 'package:pass_emploi_app/presentation/voir_suggestions_recherche_view_mod
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
 
 class VoirSuggestionsRechercheBandeau extends StatelessWidget {
   final Function() onTapShowSuggestions;
@@ -97,26 +96,9 @@ class _Bandeau extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [Shadows.boxShadow],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: onTapShowSuggestions,
-            splashColor: AppColors.primaryLighten,
-            child: Padding(
-              padding: const EdgeInsets.all(Margins.spacing_base),
-              child: child,
-            ),
-          ),
-        ),
-      ),
+    return GenericCard(
+      onTap: onTapShowSuggestions,
+      child: child,
     );
   }
 }
