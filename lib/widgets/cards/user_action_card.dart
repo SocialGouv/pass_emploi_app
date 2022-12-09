@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_card.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
@@ -39,7 +39,7 @@ class UserActionCard extends StatelessWidget {
   }
 
   Widget _body(BuildContext context, UserActionCardViewModel viewModel) {
-    return GenericCard(
+    return CardContainer(
       onTap: onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,

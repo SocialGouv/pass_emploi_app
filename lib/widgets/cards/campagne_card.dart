@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class CampagneCard extends StatelessWidget {
   final VoidCallback onTap;
@@ -12,7 +12,7 @@ class CampagneCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GenericCard(
+    return CardContainer(
       onTap: onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,

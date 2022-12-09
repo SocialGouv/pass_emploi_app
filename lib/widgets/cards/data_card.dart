@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
@@ -33,7 +33,7 @@ class DataCard<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> nonEmptyDataTags = dataTag.where((element) => element.isNotEmpty).toList();
-    return GenericCard(
+    return CardContainer(
       onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

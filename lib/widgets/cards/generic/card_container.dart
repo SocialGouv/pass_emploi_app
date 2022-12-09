@@ -3,8 +3,8 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 
-class GenericCard extends StatelessWidget {
-  const GenericCard({super.key, required this.child, this.onTap});
+class CardContainer extends StatelessWidget {
+  const CardContainer({super.key, required this.child, this.onTap});
   final Widget child;
   final void Function()? onTap;
 

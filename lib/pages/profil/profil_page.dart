@@ -154,7 +154,6 @@ class _ActivityShareCard extends StatelessWidget {
 class _LegalInformationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: Generic card ??
     return ProfilCard(
       padding: EdgeInsets.zero,
       child: ClipRRect(

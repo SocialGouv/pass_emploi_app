@@ -25,7 +25,7 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
@@ -174,7 +174,7 @@ class _DelayedActionsBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GenericCard(
+    return CardContainer(
       onTap: onActionDelayedTap,
       child: Row(
         mainAxisSize: MainAxisSize.max,

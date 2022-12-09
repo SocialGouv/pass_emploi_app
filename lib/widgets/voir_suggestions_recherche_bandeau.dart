@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class VoirSuggestionsRechercheBandeau extends StatelessWidget {
   final Function() onTapShowSuggestions;
@@ -96,7 +96,7 @@ class _Bandeau extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GenericCard(
+    return CardContainer(
       onTap: onTapShowSuggestions,
       child: child,
     );

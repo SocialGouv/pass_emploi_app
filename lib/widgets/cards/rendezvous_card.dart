@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_tag.dart';
 import 'package:redux/redux.dart';
 
@@ -46,7 +46,7 @@ class _Container extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GenericCard(
+    return CardContainer(
       onTap: onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,

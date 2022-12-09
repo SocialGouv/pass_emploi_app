@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class VoirSuggestionsRechercheCard extends StatelessWidget {
   final Function() onTapShowSuggestions;
@@ -43,7 +43,7 @@ class _Body extends StatelessWidget {
     if (viewModel.hasSuggestionsRecherche) {
       return Padding(
         padding: padding ?? const EdgeInsets.all(0),
-        child: GenericCard(
+        child: CardContainer(
           child: Column(
             children: [
               _Icon(),

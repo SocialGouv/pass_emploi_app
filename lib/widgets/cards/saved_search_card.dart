@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/generic_card.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class SavedSearchCard extends StatelessWidget {
@@ -25,7 +25,7 @@ class SavedSearchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> nonEmptyDataTags = dataTag.where((element) => element.trim().isNotEmpty).toList();
-    return GenericCard(
+    return CardContainer(
       onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
