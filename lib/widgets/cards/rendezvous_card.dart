@@ -9,10 +9,10 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_tag.dart';
 import 'package:redux/redux.dart';
 
@@ -46,42 +46,25 @@ class _Container extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(Margins.spacing_base),
-        boxShadow: [Shadows.boxShadow],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(Margins.spacing_base),
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: onTap,
-            splashColor: AppColors.primaryLighten,
-            child: Padding(
-              padding: const EdgeInsets.all(Margins.spacing_base),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (viewModel.isAnnule && simpleCard == false) _Annule(),
-                  Row(
-                    children: [
-                      RendezvousTag(viewModel.tag, viewModel.greenTag),
-                      Spacer(),
-                      if (viewModel.isInscrit) _InscritTag(),
-                    ],
-                  ),
-                  _Date(viewModel.date),
-                  if (viewModel.title != null && simpleCard == false) _Titre(viewModel.title!),
-                  if (viewModel.subtitle != null && simpleCard == false) _SousTitre(viewModel.subtitle!),
-                  if (simpleCard == false) _Link(),
-                ],
-              ),
-            ),
+    return CardContainer(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (viewModel.isAnnule && simpleCard == false) _Annule(),
+          Row(
+            children: [
+              RendezvousTag(viewModel.tag, viewModel.greenTag),
+              Spacer(),
+              if (viewModel.isInscrit) _InscritTag(),
+            ],
           ),
-        ),
+          _Date(viewModel.date),
+          if (viewModel.title != null && simpleCard == false) _Titre(viewModel.title!),
+          if (viewModel.subtitle != null && simpleCard == false) _SousTitre(viewModel.subtitle!),
+          if (simpleCard == false) _Link(),
+        ],
       ),
     );
   }

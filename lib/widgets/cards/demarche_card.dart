@@ -6,9 +6,9 @@ import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_mo
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_card.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
@@ -39,39 +39,22 @@ class DemarcheCard extends StatelessWidget {
   }
 
   Widget _build(BuildContext context, DemarcheCardViewModel viewModel) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [Shadows.boxShadow],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: onTap,
-            splashColor: AppColors.primaryLighten,
-            child: Padding(
-              padding: const EdgeInsets.all(Margins.spacing_base),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (viewModel.tag != null) _Tag(viewModel.tag!),
-                  Text(viewModel.titre, style: TextStyles.textBaseBold),
-                  if (viewModel.sousTitre != null) _SousTitre(viewModel.sousTitre!),
-                  if (viewModel.createdByAdvisor) _CreatorText(),
-                  if (viewModel.dateFormattedTexts != null)
-                    DateEcheanceInCard(
-                      formattedTexts: viewModel.dateFormattedTexts!,
-                      color: viewModel.dateColor,
-                    ),
-                ],
-              ),
+    return CardContainer(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (viewModel.tag != null) _Tag(viewModel.tag!),
+          Text(viewModel.titre, style: TextStyles.textBaseBold),
+          if (viewModel.sousTitre != null) _SousTitre(viewModel.sousTitre!),
+          if (viewModel.createdByAdvisor) _CreatorText(),
+          if (viewModel.dateFormattedTexts != null)
+            DateEcheanceInCard(
+              formattedTexts: viewModel.dateFormattedTexts!,
+              color: viewModel.dateColor,
             ),
-          ),
-        ),
+        ],
       ),
     );
   }
