@@ -1,7 +1,9 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/explication_page_mode_demo.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
@@ -18,10 +20,8 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
-// ignore: must_be_immutable
 class EntreePage extends StatelessWidget {
   static const minimum_height_to_see_jeune_face = 656;
-  int _modeDemoClicks = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +41,7 @@ class EntreePage extends StatelessWidget {
                   SizedBox(height: 16),
                   SvgPicture.asset(Drawables.icUnJeuneUneSolution, width: screenWidth * 0.25),
                   SizedBox(height: 32),
-                  GestureDetector(
-                    onTap: () => _onModeDemoClick(context),
+                  _HiddenMenuGesture(
                     child: SvgPicture.asset(Drawables.cejAppLogo, width: screenWidth * 0.6),
                   ),
                   SizedBox(height: 16),
@@ -85,15 +84,6 @@ class EntreePage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _onModeDemoClick(BuildContext context) {
-    if (_modeDemoClicks == 2) {
-      _modeDemoClicks = 0;
-      Navigator.push(context, ExplicationModeDemoPage.materialPageRoute());
-    } else {
-      _modeDemoClicks = _modeDemoClicks + 1;
-    }
   }
 
   Column _buttonCard(BuildContext context) {
@@ -163,6 +153,105 @@ class Link extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class _HiddenMenuGesture extends StatelessWidget {
+  int _numberOfClicks = 0;
+
+  final Widget child;
+
+  _HiddenMenuGesture({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _onClick(context),
+      child: child,
+    );
+  }
+
+  void _onClick(BuildContext context) {
+    if (_numberOfClicks == 2) {
+      _numberOfClicks = 0;
+      _showHiddenMenu(context);
+    } else {
+      _numberOfClicks = _numberOfClicks + 1;
+    }
+  }
+
+  void _showHiddenMenu(BuildContext context) {
+    showModalBottomSheet<void>(
+      isDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 350,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                PrimaryActionButton(
+                  label: 'Passer en mode démo',
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _showDemo(context);
+                  },
+                ),
+                SizedBox(height: Margins.spacing_base),
+                PrimaryActionButton(
+                  label: 'Voir les informations',
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _showSupportDialog(context);
+                  },
+                ),
+                SizedBox(height: Margins.spacing_base),
+                PrimaryActionButton(
+                  label: 'Fermer',
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                SizedBox(height: Margins.spacing_l),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showDemo(BuildContext context) {
+    Navigator.push(context, ExplicationModeDemoPage.materialPageRoute());
+  }
+
+  void _showSupportDialog(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Infos pour support'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('InstallationID', style: TextStyles.textBaseBold),
+                SelectableText('noacc-117343-perc-eval'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Fermer'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
