@@ -241,27 +241,34 @@ class _HiddenMenu extends StatelessWidget {
     showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Infos pour support'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('InstallationID', style: TextStyles.textBaseBold),
-                SelectableText('noacc-117343-perc-eval'), // TODO: real installationId
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Fermer'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+      builder: (BuildContext context) => _SupportDialog(),
+    );
+  }
+}
+
+class _SupportDialog extends StatelessWidget {
+  const _SupportDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Infos pour support'),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
+            Text('InstallationID', style: TextStyles.textBaseBold),
+            SelectableText('noacc-117343-perc-eval'), // TODO: real installationId
           ],
-        );
-      },
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          child: const Text('Fermer'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     );
   }
 }
