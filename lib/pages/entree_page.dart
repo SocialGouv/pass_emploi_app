@@ -1,12 +1,12 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/explication_page_mode_demo.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:redux/redux.dart';
 
 class EntreePage extends StatelessWidget {
   static const minimum_height_to_see_jeune_face = 656;
@@ -246,8 +247,33 @@ class _HiddenMenu extends StatelessWidget {
   }
 }
 
+class TrucViewModel {
+  final String installationId = "toto"; //TODO: uuid
+
+  TrucViewModel();
+
+  factory TrucViewModel.fromStore(Store<AppState> store) {
+    return TrucViewModel();
+  }
+}
+
 class _SupportDialog extends StatelessWidget {
   const _SupportDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, TrucViewModel>(
+      converter: (store) => TrucViewModel.fromStore(store),
+      builder: (context, vm) => _Machin(vm),
+      distinct: true,
+    );
+  }
+}
+
+class _Machin extends StatelessWidget {
+  final TrucViewModel vm;
+
+  _Machin(this.vm);
 
   @override
   Widget build(BuildContext context) {
@@ -257,7 +283,7 @@ class _SupportDialog extends StatelessWidget {
         child: ListBody(
           children: <Widget>[
             Text('InstallationID', style: TextStyles.textBaseBold),
-            SelectableText('noacc-117343-perc-eval'), // TODO: real installationId
+            SelectableText(vm.installationId),
           ],
         ),
       ),
