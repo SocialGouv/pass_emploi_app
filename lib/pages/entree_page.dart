@@ -185,42 +185,52 @@ class _HiddenMenuGesture extends StatelessWidget {
   void _showHiddenMenu(BuildContext context) {
     showModalBottomSheet<void>(
       isDismissible: false,
+      isScrollControlled: true,
       context: context,
-      builder: (BuildContext context) {
-        return SizedBox(
-          height: 350,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                PrimaryActionButton(
-                  label: 'Passer en mode démo',
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    _showDemo(context);
-                  },
-                ),
-                SizedBox(height: Margins.spacing_base),
-                PrimaryActionButton(
-                  label: 'Voir les informations',
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    _showSupportDialog(context);
-                  },
-                ),
-                SizedBox(height: Margins.spacing_base),
-                PrimaryActionButton(
-                  label: 'Fermer',
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                SizedBox(height: Margins.spacing_l),
-              ],
-            ),
-          ),
-        );
-      },
+      builder: (context) => _HiddenMenu(),
     );
+  }
+}
+
+class _HiddenMenu extends StatelessWidget {
+  const _HiddenMenu();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(children: [
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: Margins.spacing_l, horizontal: Margins.spacing_l),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              PrimaryActionButton(
+                label: 'Passer en mode démo',
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _showDemo(context);
+                },
+              ),
+              SizedBox(height: Margins.spacing_base),
+              PrimaryActionButton(
+                label: 'Voir les informations',
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _showSupportDialog(context);
+                },
+              ),
+              SizedBox(height: Margins.spacing_base),
+              SecondaryButton(
+                label: 'Fermer',
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            ],
+          ),
+        ),
+      ),
+    ]);
   }
 
   void _showDemo(BuildContext context) {
@@ -238,7 +248,7 @@ class _HiddenMenuGesture extends StatelessWidget {
             child: ListBody(
               children: <Widget>[
                 Text('InstallationID', style: TextStyles.textBaseBold),
-                SelectableText('noacc-117343-perc-eval'),
+                SelectableText('noacc-117343-perc-eval'), // TODO: real installationId
               ],
             ),
           ),
