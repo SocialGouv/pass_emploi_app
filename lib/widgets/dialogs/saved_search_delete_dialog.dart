@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
@@ -13,6 +12,7 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
@@ -59,7 +59,7 @@ class SavedSearchDeleteDialog extends StatelessWidget {
         builder: (context, viewModel) => _alertDialog(context, viewModel),
         onWillChange: (_, viewModel) {
           if (viewModel.displayState == SavedSearchDeleteDisplayState.SUCCESS) {
-            MatomoTracker.trackScreenWithName(_actionName(type), _screenName(type));
+            PassEmploiMatomoTracker.instance.trackScreenWithName(widgetName: _screenName(type), eventName: _actionName(type));
             Navigator.pop(context, true);
           }
         },

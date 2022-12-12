@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
@@ -106,6 +105,7 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -141,7 +141,7 @@ class StoreFactory {
   final SuppressionCompteRepository suppressionCompteRepository;
   final ModeDemoRepository modeDemoRepository;
   final CampagneRepository campagneRepository;
-  final MatomoTracker matomoTracker;
+  final PassEmploiMatomoTracker matomoTracker;
   final UpdateDemarcheRepository updateDemarcheRepository;
   final CreateDemarcheRepository createDemarcheRepository;
   final SearchDemarcheRepository demarcheDuReferentielRepository;

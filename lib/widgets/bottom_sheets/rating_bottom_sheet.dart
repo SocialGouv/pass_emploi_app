@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:in_app_review/in_app_review.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/rating_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -11,6 +10,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/mail_handler.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/cards/rating_card.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -117,4 +117,6 @@ class _RatingHeader extends StatelessWidget {
   }
 }
 
-void _matomoTracking(String action) => MatomoTracker.trackScreenWithName(action, AnalyticsScreenNames.ratingPage);
+void _matomoTracking(String action) {
+  PassEmploiMatomoTracker.instance.trackScreenWithName(widgetName: AnalyticsScreenNames.ratingPage, eventName: action);
+}

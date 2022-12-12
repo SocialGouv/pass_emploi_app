@@ -74,7 +74,7 @@ class FirebasePushNotificationManager extends PushNotificationManager {
             InitializationSettings(
               android: AndroidInitializationSettings('ic_notification'),
             ),
-            onSelectNotification: (payload) => _onLocalNotificationOpened(payload, store));
+            onDidReceiveNotificationResponse: (response) => _onLocalNotificationOpened(response.payload, store));
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
             notification.title,

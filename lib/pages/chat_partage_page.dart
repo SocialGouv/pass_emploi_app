@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
@@ -10,6 +9,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -151,7 +151,7 @@ class _ChatPartagePageState extends State<ChatPartagePage> {
       case DisplayState.LOADING:
         return;
       case DisplayState.CONTENT:
-        MatomoTracker.trackScreenWithName(viewModel.snackbarSuccessTracking, "");
+        PassEmploiMatomoTracker.instance.trackScreen(context, eventName: viewModel.snackbarSuccessTracking);
         showSuccessfulSnackBar(context, viewModel.snackbarSuccessText);
         viewModel.snackbarDisplayed();
         Navigator.pop(context);

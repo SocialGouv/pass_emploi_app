@@ -2,7 +2,6 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
@@ -315,15 +314,6 @@ class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {
     DateTime? dateDebut,
   ) async {
     return null;
-  }
-}
-
-class DummyMatomoTracker extends MatomoTracker {
-  DummyMatomoTracker() : super.internal();
-
-  @override
-  void setOptOut(bool optout) {
-    // Do nothing
   }
 }
 
