@@ -30,7 +30,7 @@ Matcher _shouldSetUuid() {
   return StateIs<DeviceInfoSuccessState>(
     (state) => state.deviceInfoState,
     (state) {
-      expect(state.uuid, "super-unique-id");
+      expect(state.installationId, "super-unique-id");
     },
   );
 }

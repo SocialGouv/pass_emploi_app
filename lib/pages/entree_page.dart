@@ -3,9 +3,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/device_info/device_info_state.dart';
 import 'package:pass_emploi_app/features/mode_demo/explication_page_mode_demo.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
+import 'package:pass_emploi_app/presentation/device_info_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -219,7 +221,7 @@ class _HiddenMenu extends StatelessWidget {
                 label: 'Voir les informations',
                 onPressed: () {
                   Navigator.of(context).pop();
-                  _showSupportDialog(context);
+                  _showDeviceInfos(context);
                 },
               ),
               SizedBox(height: Margins.spacing_base),
@@ -238,58 +240,48 @@ class _HiddenMenu extends StatelessWidget {
     Navigator.push(context, ExplicationModeDemoPage.materialPageRoute());
   }
 
-  void _showSupportDialog(BuildContext context) {
+  void _showDeviceInfos(BuildContext context) {
     showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) => _SupportDialog(),
+      builder: (BuildContext context) => _DeviceInfos(),
     );
   }
 }
 
-class TrucViewModel {
-  final String installationId = "toto"; //TODO: uuid
-
-  TrucViewModel();
-
-  factory TrucViewModel.fromStore(Store<AppState> store) {
-    return TrucViewModel();
-  }
-}
-
-class _SupportDialog extends StatelessWidget {
-  const _SupportDialog();
+class _DeviceInfos extends StatelessWidget {
+  const _DeviceInfos();
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, TrucViewModel>(
-      converter: (store) => TrucViewModel.fromStore(store),
-      builder: (context, vm) => _Machin(vm),
+    return StoreConnector<AppState, DeviceInfoViewModel>(
+      converter: (store) => DeviceInfoViewModel.fromStore(store),
+      builder: (context, viewmodel) => _DeviceInfosDialog(viewmodel),
       distinct: true,
     );
   }
 }
 
-class _Machin extends StatelessWidget {
-  final TrucViewModel vm;
+class _DeviceInfosDialog extends StatelessWidget {
+  final DeviceInfoViewModel viewmodel;
 
-  _Machin(this.vm);
+  _DeviceInfosDialog(this.viewmodel);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Infos pour support'),
+      title: const Text('Device Infos'),
       content: SingleChildScrollView(
         child: ListBody(
           children: <Widget>[
             Text('InstallationID', style: TextStyles.textBaseBold),
-            SelectableText(vm.installationId),
+            SelectableText(viewmodel.installationId),
           ],
         ),
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text('Fermer'),
+          child: Text(Strings.close),
           onPressed: () {
             Navigator.of(context).pop();
           },
