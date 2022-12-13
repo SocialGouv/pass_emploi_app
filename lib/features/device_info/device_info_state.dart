@@ -8,10 +8,10 @@ abstract class DeviceInfoState extends Equatable {
 class DeviceInfoNotInitializedState extends DeviceInfoState {}
 
 class DeviceInfoSuccessState extends DeviceInfoState {
-  final String uuid;
+  final String installationId;
 
-  DeviceInfoSuccessState(this.uuid);
+  DeviceInfoSuccessState(this.installationId);
 
   @override
-  List<Object?> get props => [uuid];
+  List<Object?> get props => [installationId];
 }
