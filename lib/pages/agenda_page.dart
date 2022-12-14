@@ -238,16 +238,16 @@ class _CurrentWeek extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (days.isEmpty) {
-      return _CurrentWeekEmpty(noEventLabel);
+      return _CurrentWeekEmptyCard(noEventLabel);
     }
     return Column(children: days.map((e) => _DaySection(e, noEventLabel)).toList());
   }
 }
 
-class _CurrentWeekEmpty extends StatelessWidget {
+class _CurrentWeekEmptyCard extends StatelessWidget {
   final String noEventLabel;
 
-  const _CurrentWeekEmpty(this.noEventLabel);
+  const _CurrentWeekEmptyCard(this.noEventLabel);
 
   @override
   Widget build(BuildContext context) {
