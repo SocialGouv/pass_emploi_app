@@ -252,6 +252,19 @@ void main() {
     });
 
     group('are grouped by week', () {
+      group('with current week empty if there is no event', () {
+        // Given
+        final store = givenState() //
+            .loggedInMiloUser()
+            .agenda(actions: [], rendezvous: [], dateDeDebut: samedi20).store();
+
+        // When
+        final viewModel = AgendaPageViewModel.create(store);
+
+        // Then
+        expect(viewModel.events[0], CurrentWeekAgendaItem([]));
+      });
+
       group('with current week grouped by days', () {
         test('starting monday if no event on weekend', () {
           // Given
@@ -443,7 +456,21 @@ void main() {
     });
 
     group('are grouped by week', () {
-      test('with date debut as first day', () {
+
+      group('with current week empty if there is no event', () {
+        // Given
+        final store = givenState() //
+            .loggedInMiloUser()
+            .agenda(actions: [], rendezvous: [], dateDeDebut: samedi20).store();
+
+        // When
+        final viewModel = AgendaPageViewModel.create(store);
+
+        // Then
+        expect(viewModel.events[0], CurrentWeekAgendaItem([]));
+      });
+
+      test('with current week starting at date debut as first day', () {
         // Given
         final demarches = [demarcheLundiMatin, demarcheVendredi, demarcheSamediProchain];
         final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];

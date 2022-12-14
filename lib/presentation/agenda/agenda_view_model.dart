@@ -99,6 +99,10 @@ CurrentWeekAgendaItem _makeCurrentWeek(List<EventAgenda> events, DateTime dateDe
   final nextWeekFirstDay = dateDeDebutAgenda.addWeeks(1);
   final currentWeekEvents = events.where((element) => element.date.isBefore(nextWeekFirstDay));
 
+  if (currentWeekEvents.isEmpty) {
+    return CurrentWeekAgendaItem([]);
+  }
+
   final eventsByDay = _sevenDaysMap(dateDeDebutAgenda);
   for (var event in currentWeekEvents) {
     (eventsByDay[event.date.toDayOfWeekWithFullMonth().firstLetterUpperCased()] ??= []).add(event);
