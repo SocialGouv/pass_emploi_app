@@ -251,12 +251,38 @@ class _CurrentWeekEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _SectionTitle(Strings.semaineEnCours),
-        _NoEventTitle(noEventLabel),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: Margins.spacing_base),
+      child: CardContainer(
+          child: Column(
+        children: [
+          Text(
+            "Vous n’avez pas d’action ni de rendez-vous prévus cette semaine",
+            style: TextStyles.textMBold,
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Vous pouvez voir les événements à venir dans votre Mission locale",
+            style: TextStyles.textBaseRegular,
+          ),
+          SizedBox(height: 10),
+          TextButton(
+              onPressed: () {},
+              child: Row(
+                children: [
+                  Text(
+                    "Voir les événements de votre agence",
+                    style: TextStyles.textBaseUnderline,
+                  ),
+                  SizedBox(width: 10),
+                  Icon(
+                    Icons.chevron_right_rounded,
+                    size: 20,
+                  )
+                ],
+              ))
+        ],
+      )),
     );
   }
 }
