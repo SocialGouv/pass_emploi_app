@@ -267,7 +267,10 @@ class _CurrentWeekEmptyCard extends StatelessWidget {
           ),
           SizedBox(height: 10),
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                // TODO:
+                // StoreProvider.of<AppState>(context).dispatch();
+              },
               child: Row(
                 children: [
                   Text(
