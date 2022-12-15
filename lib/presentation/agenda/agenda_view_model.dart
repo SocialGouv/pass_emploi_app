@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
@@ -22,6 +23,7 @@ class AgendaPageViewModel extends Equatable {
   final CreateButton createButton;
   final Function() resetCreateAction;
   final Function(DateTime) reload;
+  final Function() goToEventList;
 
   AgendaPageViewModel({
     required this.displayState,
@@ -31,6 +33,7 @@ class AgendaPageViewModel extends Equatable {
     required this.createButton,
     required this.resetCreateAction,
     required this.reload,
+    required this.goToEventList,
   });
 
   factory AgendaPageViewModel.create(Store<AppState> store) {
@@ -44,6 +47,7 @@ class AgendaPageViewModel extends Equatable {
       createButton: isPoleEmploi ? CreateButton.demarche : CreateButton.userAction,
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
       reload: (date) => store.dispatch(AgendaRequestAction(date)),
+      goToEventList: () => store.dispatch(LocalDeeplinkAction({"type": "EVENT_LIST"})),
     );
   }
 

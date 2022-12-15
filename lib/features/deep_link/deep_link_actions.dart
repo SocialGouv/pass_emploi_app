@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class DeepLinkAction {
@@ -6,10 +7,13 @@ class DeepLinkAction {
   DeepLinkAction(this.message);
 }
 
-class LocalDeeplinkAction {
+class LocalDeeplinkAction extends Equatable {
   final Map<String, dynamic> data;
 
   LocalDeeplinkAction(this.data);
+
+  @override
+  List<Object?> get props => [data];
 }
 
 class ResetDeeplinkAction {}

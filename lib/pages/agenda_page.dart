@@ -157,7 +157,7 @@ class _Content extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = viewModel.events[index];
           if (item is DelayedActionsBannerAgendaItem) return _DelayedActionsBanner(item, onActionDelayedTap);
-          if (item is CurrentWeekAgendaItem) return _CurrentWeek(item.days, viewModel.noEventLabel);
+          if (item is CurrentWeekAgendaItem) return _CurrentWeek(item.days, viewModel);
           if (item is NextWeekAgendaItem) return _NextWeek(item.events, viewModel.noEventLabel);
           return SizedBox(height: 0);
         },
@@ -231,24 +231,25 @@ class _NumberOfDelayedActions extends StatelessWidget {
 
 class _CurrentWeek extends StatelessWidget {
   final List<DaySectionAgenda> days;
-  final String noEventLabel;
+  final AgendaPageViewModel agendaPageViewModel;
 
-  _CurrentWeek(this.days, this.noEventLabel);
+  _CurrentWeek(this.days, this.agendaPageViewModel);
 
   @override
   Widget build(BuildContext context) {
+    final noEventLabel = agendaPageViewModel.noEventLabel;
     if (days.isEmpty || 1 == 1) {
       // FIXME: enlever
-      return _CurrentWeekEmptyCard(noEventLabel);
+      return _CurrentWeekEmptyCard(agendaPageViewModel: agendaPageViewModel);
     }
     return Column(children: days.map((e) => _DaySection(e, noEventLabel)).toList());
   }
 }
 
 class _CurrentWeekEmptyCard extends StatelessWidget {
-  final String noEventLabel;
+  final AgendaPageViewModel agendaPageViewModel;
 
-  const _CurrentWeekEmptyCard(this.noEventLabel);
+  const _CurrentWeekEmptyCard({required this.agendaPageViewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -269,10 +270,7 @@ class _CurrentWeekEmptyCard extends StatelessWidget {
           SizedBox(height: 10),
           TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              onPressed: () {
-                // TODO:
-                // StoreProvider.of<AppState>(context).dispatch();
-              },
+              onPressed: agendaPageViewModel.goToEventList,
               child: Row(
                 children: [
                   Text(

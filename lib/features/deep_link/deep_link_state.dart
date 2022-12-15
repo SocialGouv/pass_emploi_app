@@ -23,6 +23,8 @@ class DeepLinkState extends Equatable {
         return SavedSearchDeepLinkState(idSavedSearch: data["id"] as String);
       case 'NOUVELLES_FONCTIONNALITES':
         return NouvellesFonctionnalitesDeepLinkState(lastVersion: Version.fromString(data["version"] as String));
+      case "EVENT_LIST":
+        return NouveauMessageDeepLinkState();
       default:
         return NotInitializedDeepLinkState();
     }

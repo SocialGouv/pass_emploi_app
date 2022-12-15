@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -252,7 +253,7 @@ void main() {
     });
 
     group('are grouped by week', () {
-      group('with current week empty if there is no event', () {
+      test('with current week empty if there is no event', () {
         // Given
         final store = givenState() //
             .loggedInMiloUser()
@@ -456,8 +457,7 @@ void main() {
     });
 
     group('are grouped by week', () {
-
-      group('with current week empty if there is no event', () {
+      test('with current week empty if there is no event', () {
         // Given
         final store = givenState() //
             .loggedInMiloUser()
@@ -547,6 +547,17 @@ void main() {
       // Then
       expect(store.dispatchedAction, isA<UserActionCreateResetAction>());
     });
+  });
+  test('should go to event list', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = AgendaPageViewModel.create(store);
+
+    // When
+    viewModel.goToEventList();
+
+    // Then
+    expect(store.dispatchedAction, LocalDeeplinkAction({"type": "EVENT_LIST"}));
   });
 }
 
