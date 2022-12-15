@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/pages/profil/profil_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
+import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -121,7 +122,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
-        return SolutionsTabPage();
+        return SolutionsTabPage(_initialSolutionTab());
       case _indexOfFavorisPage:
         return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
       case _indexOfPlusPage:
@@ -137,6 +138,15 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return MonSuiviTab.ACTIONS;
       case MainPageDisplayState.RENDEZVOUS_TAB:
         return MonSuiviTab.RENDEZVOUS;
+      default:
+        return null;
+    }
+  }
+
+  SolutionsTab? _initialSolutionTab() {
+    switch (widget.displayState) {
+      case MainPageDisplayState.EVENT_LIST:
+        return SolutionsTab.events;
       default:
         return null;
     }
