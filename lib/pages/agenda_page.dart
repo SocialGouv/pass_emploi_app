@@ -237,7 +237,8 @@ class _CurrentWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (days.isEmpty) {
+    if (days.isEmpty || 1 == 1) {
+      // FIXME: enlever
       return _CurrentWeekEmptyCard(noEventLabel);
     }
     return Column(children: days.map((e) => _DaySection(e, noEventLabel)).toList());
@@ -257,16 +258,17 @@ class _CurrentWeekEmptyCard extends StatelessWidget {
           child: Column(
         children: [
           Text(
-            "Vous n’avez pas d’action ni de rendez-vous prévus cette semaine",
+            Strings.agendaNoActionThisWeekTitle,
             style: TextStyles.textMBold,
           ),
           SizedBox(height: 10),
           Text(
-            "Vous pouvez voir les événements à venir dans votre Mission locale",
+            Strings.agendaNoActionThisWeekDescription,
             style: TextStyles.textBaseRegular,
           ),
           SizedBox(height: 10),
           TextButton(
+              style: TextButton.styleFrom(padding: EdgeInsets.zero),
               onPressed: () {
                 // TODO:
                 // StoreProvider.of<AppState>(context).dispatch();
@@ -274,14 +276,11 @@ class _CurrentWeekEmptyCard extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    "Voir les événements de votre agence",
+                    Strings.agendaSeeEventInAgenceButton,
                     style: TextStyles.textBaseUnderline,
                   ),
                   SizedBox(width: 10),
-                  Icon(
-                    Icons.chevron_right_rounded,
-                    size: 20,
-                  )
+                  SvgPicture.asset(Drawables.icChevronRight, color: AppColors.primary),
                 ],
               ))
         ],
