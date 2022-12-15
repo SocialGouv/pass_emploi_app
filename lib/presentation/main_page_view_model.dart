@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-enum MainPageDisplayState { DEFAULT, ACTIONS_TAB, RENDEZVOUS_TAB, CHAT, SEARCH, SAVED_SEARCH }
+enum MainPageDisplayState { DEFAULT, ACTIONS_TAB, RENDEZVOUS_TAB, CHAT, SEARCH, SAVED_SEARCH, EVENT_LIST }
 
 class MainPageViewModel extends Equatable {
   final bool withChatBadge;

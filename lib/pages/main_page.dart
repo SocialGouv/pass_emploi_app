@@ -150,6 +150,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return _indexOfSolutionsPage;
       case MainPageDisplayState.SAVED_SEARCH:
         return _indexOfFavorisPage;
+      case MainPageDisplayState.EVENT_LIST:
+        return _indexOfSolutionsPage;
       default:
         return _indexOfMonSuiviPage;
     }

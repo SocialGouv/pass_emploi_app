@@ -24,7 +24,7 @@ class DeepLinkState extends Equatable {
       case 'NOUVELLES_FONCTIONNALITES':
         return NouvellesFonctionnalitesDeepLinkState(lastVersion: Version.fromString(data["version"] as String));
       case "EVENT_LIST":
-        return NouveauMessageDeepLinkState();
+        return EventListDeepLinkState();
       default:
         return NotInitializedDeepLinkState();
     }
@@ -57,6 +57,8 @@ class DetailRendezvousDeepLinkState extends DeepLinkState {
 }
 
 class NouveauMessageDeepLinkState extends DeepLinkState {}
+
+class EventListDeepLinkState extends DeepLinkState {}
 
 class NouvellesFonctionnalitesDeepLinkState extends DeepLinkState {
   final Version? lastVersion;
