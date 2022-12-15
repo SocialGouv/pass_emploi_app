@@ -115,7 +115,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget _content(int index, MainPageViewModel viewModel) {
     switch (index) {
       case _indexOfMonSuiviPage:
-        final initialTab = !_deepLinkHandled ? _initialTab() : null;
+        final initialTab = !_deepLinkHandled ? _initialMonSuiviTab() : null;
         _deepLinkHandled = true;
         return MonSuiviTabPage(initialTab);
       case _indexOfChatPage:
@@ -131,7 +131,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
-  MonSuiviTab? _initialTab() {
+  MonSuiviTab? _initialMonSuiviTab() {
     switch (widget.displayState) {
       case MainPageDisplayState.ACTIONS_TAB:
         return MonSuiviTab.ACTIONS;
