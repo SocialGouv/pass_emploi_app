@@ -238,8 +238,7 @@ class _CurrentWeek extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final noEventLabel = agendaPageViewModel.noEventLabel;
-    if (days.isEmpty || 1 == 1) {
-      // FIXME: enlever
+    if (days.isEmpty) {
       return _CurrentWeekEmptyCard(agendaPageViewModel: agendaPageViewModel);
     }
     return Column(children: days.map((e) => _DaySection(e, noEventLabel)).toList());
