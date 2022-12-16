@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/pages/profil/profil_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
+import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -115,13 +116,15 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget _content(int index, MainPageViewModel viewModel) {
     switch (index) {
       case _indexOfMonSuiviPage:
-        final initialTab = !_deepLinkHandled ? _initialTab() : null;
+        final initialTab = !_deepLinkHandled ? _initialMonSuiviTab() : null;
         _deepLinkHandled = true;
         return MonSuiviTabPage(initialTab);
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
-        return SolutionsTabPage();
+        final initialTab = !_deepLinkHandled ? _initialSolutionTab(viewModel) : null;
+        _deepLinkHandled = true;
+        return SolutionsTabPage(initialTab);
       case _indexOfFavorisPage:
         return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
       case _indexOfPlusPage:
@@ -131,12 +134,22 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
-  MonSuiviTab? _initialTab() {
+  MonSuiviTab? _initialMonSuiviTab() {
     switch (widget.displayState) {
       case MainPageDisplayState.ACTIONS_TAB:
         return MonSuiviTab.ACTIONS;
       case MainPageDisplayState.RENDEZVOUS_TAB:
         return MonSuiviTab.RENDEZVOUS;
+      default:
+        return null;
+    }
+  }
+
+  SolutionsTab? _initialSolutionTab(MainPageViewModel viewModel) {
+    switch (widget.displayState) {
+      case MainPageDisplayState.EVENT_LIST:
+        viewModel.resetDeeplink();
+        return SolutionsTab.events;
       default:
         return null;
     }
@@ -150,6 +163,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return _indexOfSolutionsPage;
       case MainPageDisplayState.SAVED_SEARCH:
         return _indexOfFavorisPage;
+      case MainPageDisplayState.EVENT_LIST:
+        return _indexOfSolutionsPage;
       default:
         return _indexOfMonSuiviPage;
     }

@@ -95,6 +95,14 @@ class TextStyles {
     fontWeight: FontWeight.w400,
   );
 
+  static final textBaseUnderline = TextStyle(
+    color: AppColors.primary,
+    fontFamily: 'Marianne',
+    fontSize: FontSizes.medium,
+    fontWeight: FontWeight.w500,
+    decoration: TextDecoration.underline,
+  );
+
   static final textBaseMedium = TextStyle(
     color: AppColors.contentColor,
     fontFamily: 'Marianne',
