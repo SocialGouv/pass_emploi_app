@@ -122,7 +122,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
-        return SolutionsTabPage(_initialSolutionTab());
+        final initialTab = !_deepLinkHandled ? _initialSolutionTab(viewModel) : null;
+        _deepLinkHandled = true;
+        return SolutionsTabPage(initialTab);
       case _indexOfFavorisPage:
         return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
       case _indexOfPlusPage:
@@ -143,9 +145,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
-  SolutionsTab? _initialSolutionTab() {
+  SolutionsTab? _initialSolutionTab(MainPageViewModel viewModel) {
     switch (widget.displayState) {
       case MainPageDisplayState.EVENT_LIST:
+        viewModel.resetDeeplink();
         return SolutionsTab.events;
       default:
         return null;
