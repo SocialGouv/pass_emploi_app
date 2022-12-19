@@ -105,3 +105,7 @@ enum RendezvousTypeCode {
 enum RendezvousModalityType { TELEPHONE, NONE }
 
 enum RendezvousSource { milo, passEmploi }
+
+extension RendezvousSourceExt on RendezvousSource {
+  bool get isMilo => this == RendezvousSource.milo;
+}

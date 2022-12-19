@@ -98,42 +98,67 @@ void main() {
       expect(viewModel.date, "Le 01/03/2022 à 10h20");
     });
 
-    test('should display modality with conseiller', () {
-      // Given
-      final store = _store(mockRendezvous(
-        id: '1',
-        modality: "en visio",
-        withConseiller: true,
-        conseiller: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
-      ));
+    group("subtitle", () {
+      test('should display modality with conseiller when source is pass emploi', () {
+        // Given
+        final store = _store(mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          modality: "en visio",
+          withConseiller: true,
+          conseiller: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+        ));
 
-      // When
-      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
+        // When
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
 
-      // Then
-      expect(viewModel.subtitle, "En visio avec Nils Tavernier");
-    });
+        // Then
+        expect(viewModel.subtitle, "En visio avec Nils Tavernier");
+      });
 
-    test('should display modality without conseiller', () {
-      // Given
-      final store = _store(mockRendezvous(id: '1', modality: "en visio", withConseiller: false));
+      test('should display modality without conseiller', () {
+        // Given
+        final store = _store(mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          modality: "en visio",
+          withConseiller: false,
+        ));
 
-      // When
-      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
+        // When
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
 
-      // Then
-      expect(viewModel.subtitle, "En visio");
-    });
+        // Then
+        expect(viewModel.subtitle, "En visio");
+      });
 
-    test('should not display empty modality', () {
-      // Given
-      final store = _store(mockRendezvous(id: '1', modality: null, withConseiller: false));
+      test('should not display empty modality', () {
+        // Given
+        final store = _store(mockRendezvous(id: '1', modality: null, withConseiller: false));
 
-      // When
-      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
+        // When
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
 
-      // Then
-      expect(viewModel.subtitle, isNull);
+        // Then
+        expect(viewModel.subtitle, isNull);
+      });
+
+      test('should display modality without conseiller when source is milo', () {
+        // Given
+        final store = _store(mockRendezvous(
+          id: '1',
+          source: RendezvousSource.milo,
+          modality: "en visio",
+          withConseiller: true,
+          conseiller: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+        ));
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
+
+        // Then
+        expect(viewModel.subtitle, "En visio");
+      });
     });
 
     test('should display whether rdv is annule or not', () {
