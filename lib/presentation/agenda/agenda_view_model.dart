@@ -17,6 +17,7 @@ enum CreateButton { userAction, demarche }
 
 class AgendaPageViewModel extends Equatable {
   final DisplayState displayState;
+  final bool isPoleEmploi;
   final List<AgendaItem> events;
   final String emptyMessage;
   final String noEventLabel;
@@ -27,6 +28,7 @@ class AgendaPageViewModel extends Equatable {
 
   AgendaPageViewModel({
     required this.displayState,
+    required this.isPoleEmploi,
     required this.events,
     required this.emptyMessage,
     required this.noEventLabel,
@@ -41,6 +43,7 @@ class AgendaPageViewModel extends Equatable {
     final isPoleEmploi = loginState is LoginSuccessState && loginState.user.loginMode.isPe();
     return AgendaPageViewModel(
       displayState: _displayState(store),
+      isPoleEmploi: isPoleEmploi,
       events: _events(store, isPoleEmploi),
       emptyMessage: isPoleEmploi ? Strings.agendaEmptyPoleEmploi : Strings.agendaEmptyMilo,
       noEventLabel: isPoleEmploi ? Strings.agendaEmptyForDayPoleEmploi : Strings.agendaEmptyForDayMilo,
@@ -52,7 +55,7 @@ class AgendaPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, events, emptyMessage, noEventLabel, createButton];
+  List<Object?> get props => [displayState, isPoleEmploi, events, emptyMessage, noEventLabel, createButton];
 }
 
 DisplayState _displayState(Store<AppState> store) {

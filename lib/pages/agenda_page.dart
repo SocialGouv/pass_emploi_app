@@ -239,16 +239,37 @@ class _CurrentWeek extends StatelessWidget {
   Widget build(BuildContext context) {
     final noEventLabel = agendaPageViewModel.noEventLabel;
     if (days.isEmpty) {
-      return _CurrentWeekEmptyCard(agendaPageViewModel: agendaPageViewModel);
+      if (agendaPageViewModel.isPoleEmploi) {
+        return _CurrentWeekEmptyPeCard(agendaPageViewModel: agendaPageViewModel);
+      } else {
+        return _CurrentWeekEmptyMiloCard(agendaPageViewModel: agendaPageViewModel);
+      }
     }
     return Column(children: days.map((e) => _DaySection(e, noEventLabel)).toList());
   }
 }
 
-class _CurrentWeekEmptyCard extends StatelessWidget {
+class _CurrentWeekEmptyPeCard extends StatelessWidget {
   final AgendaPageViewModel agendaPageViewModel;
 
-  const _CurrentWeekEmptyCard({required this.agendaPageViewModel});
+  const _CurrentWeekEmptyPeCard({required this.agendaPageViewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _SectionTitle(Strings.semaineEnCours),
+        _NoEventTitle(agendaPageViewModel.noEventLabel),
+      ],
+    );
+  }
+}
+
+class _CurrentWeekEmptyMiloCard extends StatelessWidget {
+  final AgendaPageViewModel agendaPageViewModel;
+
+  const _CurrentWeekEmptyMiloCard({required this.agendaPageViewModel});
 
   @override
   Widget build(BuildContext context) {

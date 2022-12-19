@@ -62,6 +62,30 @@ void main() {
     date: DateTime(2022, 8, 30, 15),
   );
 
+  group('isPoleEmploi', () {
+    test('true when logged in with PE account', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().agenda().store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.isPoleEmploi, true);
+    });
+
+    test('false when logged in with MILO account', () {
+      // Given
+      final store = givenState().loggedInMiloUser().agenda().store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.isPoleEmploi, false);
+    });
+  });
+
   group('display state', () {
     test('should be loading on not initialize state', () {
       // Given
