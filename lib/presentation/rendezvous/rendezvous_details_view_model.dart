@@ -215,6 +215,7 @@ bool _shouldHidePresentielInformation(Rendezvous rdv) {
 }
 
 bool _shouldDisplayConseillerPresence(Rendezvous rdv) {
+  if (rdv.source.isMilo) return false;
   return rdv.type.code != RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER &&
       rdv.type.code != RendezvousTypeCode.PRESTATION &&
       rdv.withConseiller != null;
@@ -250,6 +251,7 @@ String? _modality(Rendezvous rdv) {
 }
 
 String? _conseiller(Rendezvous rdv) {
+  if (rdv.source.isMilo) return null;
   if (rdv.isInVisio || rdv.modality == null) return null;
   final conseiller = rdv.conseiller;
   final withConseiller = rdv.withConseiller;
