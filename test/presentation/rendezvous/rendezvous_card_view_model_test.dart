@@ -152,6 +152,7 @@ void main() {
       final store = _store(
         Rendezvous(
           id: '1',
+          source: RendezvousSource.passEmploi,
           date: DateTime(2021, 12, 23, 10, 20),
           title: "Super bio",
           duration: 60,
@@ -187,6 +188,7 @@ void main() {
       // Given
       final rdv = Rendezvous(
         id: '1',
+        source: RendezvousSource.passEmploi,
         date: DateTime(2021, 12, 23, 10, 20),
         title: "Super bio",
         duration: 60,
@@ -222,6 +224,7 @@ void main() {
       // Given
       final rdv = Rendezvous(
         id: '1',
+        source: RendezvousSource.passEmploi,
         date: DateTime(2021, 12, 23, 10, 20),
         title: "Super bio",
         duration: 60,

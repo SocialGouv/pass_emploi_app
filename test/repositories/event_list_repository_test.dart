@@ -35,6 +35,7 @@ void main() {
               result?[0],
               Rendezvous(
                 id: '2d663392-b9ff-4b20-81ca-70a3c779e299',
+                source: RendezvousSource.passEmploi,
                 date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
                 modality: 'en présentiel : Misson locale / Permanence',
                 isInVisio: false,

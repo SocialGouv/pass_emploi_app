@@ -712,6 +712,7 @@ void main() {
         // Given
         final store = _store(Rendezvous(
           id: '1',
+          source: RendezvousSource.passEmploi,
           title: "Super atelier",
           date: DateTime(2022, 3, 1),
           duration: 30,

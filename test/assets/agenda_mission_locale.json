@@ -12,6 +12,7 @@
   "rendezVous": [
     {
       "id": "id-1",
+      "source": "PASS_EMPLOI",
       "date": "2021-07-21T00:00:00.000Z",
       "isLocaleDate": true,
       "modality": "par visio",
