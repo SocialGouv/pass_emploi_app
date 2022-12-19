@@ -126,7 +126,7 @@ class Strings {
   static String nextWeek = "Semaine prochaine";
   static String agendaNoActionThisWeekTitle = "Vous n’avez pas d’action ni de rendez-vous prévus cette semaine";
   static String agendaNoActionThisWeekDescription = "Vous pouvez voir les événements à venir dans votre Mission locale";
-  static String agendaSeeEventInAgenceButton = "Voir les événements de votre agence";
+  static String agendaSeeEventInAgenceButton = "Voir les événements de votre mission locale";
 
   // Rendezvous
   static String eventTitle = "Événement";

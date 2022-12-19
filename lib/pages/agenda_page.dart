@@ -272,9 +272,11 @@ class _CurrentWeekEmptyCard extends StatelessWidget {
               onPressed: agendaPageViewModel.goToEventList,
               child: Row(
                 children: [
-                  Text(
-                    Strings.agendaSeeEventInAgenceButton,
-                    style: TextStyles.textBaseUnderline,
+                  Expanded(
+                    child: Text(
+                      Strings.agendaSeeEventInAgenceButton,
+                      style: TextStyles.textBaseUnderline,
+                    ),
                   ),
                   SizedBox(width: 10),
                   SvgPicture.asset(Drawables.icChevronRight, color: AppColors.primary),
