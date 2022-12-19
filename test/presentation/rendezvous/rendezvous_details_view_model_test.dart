@@ -226,6 +226,8 @@ void main() {
         );
 
         assertConseillerIsHidden("without conseiller field", mockRendezvous(id: '1', withConseiller: null));
+
+        assertConseillerIsHidden("with source milo", mockRendezvous(id: '1', source: RendezvousSource.milo));
       });
 
       test('and comment is not set', () {
@@ -368,6 +370,29 @@ void main() {
         // Then
         expect(viewModel.modality, "Le rendez-vous se fera en visio");
         expect(viewModel.conseiller, "votre conseiller Nils Tavernier");
+      });
+
+      test('should hide conseiller in modality when source is milo', () {
+        // Given
+        final store = _store(mockRendezvous(
+          id: '1',
+          source: RendezvousSource.milo,
+          modality: "en visio",
+          withConseiller: true,
+          conseiller: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+        ));
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(
+          store: store,
+          source: RendezvousStateSource.rendezvousList,
+          rdvId: '1',
+          platform: Platform.IOS,
+        );
+
+        // Then
+        expect(viewModel.modality, "Le rendez-vous se fera en visio");
+        expect(viewModel.conseiller, null);
       });
 
       test('should display createur if present', () {
@@ -712,6 +737,7 @@ void main() {
         // Given
         final store = _store(Rendezvous(
           id: '1',
+          source: RendezvousSource.passEmploi,
           title: "Super atelier",
           date: DateTime(2022, 3, 1),
           duration: 30,

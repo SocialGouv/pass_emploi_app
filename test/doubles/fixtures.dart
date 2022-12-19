@@ -225,6 +225,7 @@ ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
 Rendezvous rendezvousStub({String? id, DateTime? date}) {
   return Rendezvous(
     id: id ?? "id-1",
+    source: RendezvousSource.passEmploi,
     date: date ?? DateTime(2021, 07, 21),
     isInVisio: false,
     isAnnule: false,
@@ -238,6 +239,7 @@ Rendezvous rendezvousStub({String? id, DateTime? date}) {
 
 Rendezvous mockRendezvous({
   String id = '',
+  RendezvousSource source = RendezvousSource.passEmploi,
   bool isInVisio = false,
   bool isAnnule = false,
   bool isInscrit = false,
@@ -260,6 +262,7 @@ Rendezvous mockRendezvous({
 }) {
   return Rendezvous(
     id: id,
+    source: source,
     title: title,
     date: date ?? DateTime.now(),
     duration: duration,

@@ -33,6 +33,7 @@ void main() {
               result[0],
               Rendezvous(
                 id: '2d663392-b9ff-4b20-81ca-70a3c779e299',
+                source: RendezvousSource.milo,
                 date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
                 modality: 'en présentiel : Misson locale / Permanence',
                 isInVisio: false,
@@ -51,6 +52,7 @@ void main() {
               result[1],
               Rendezvous(
                 id: '2d663392-b9ff-4b20-81ca-70a3c779e300',
+                source: RendezvousSource.passEmploi,
                 date: parseDateTimeUtcWithCurrentTimeZone('2021-11-29T13:34:00.000Z'),
                 modality: null,
                 isInVisio: false,
@@ -124,6 +126,7 @@ void main() {
             result[0],
             Rendezvous(
               id: '4995ea8a-4f6a-48be-925e-f45593c481f6',
+              source: RendezvousSource.passEmploi,
               date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
               title: 'Super titre',
               modality: 'par visio',
