@@ -24,8 +24,8 @@ void main() {
   });
 
   test('customJsonEncode for PutRegisterTokenRequest', () {
-    final request = PutRegisterTokenRequest(token: 'token123');
+    final request = PutRegisterTokenRequest(token: 'token123', fuseauHoraire: "Europe/Paris");
     final json = customJsonEncode(request);
-    expect(json, '{"registration_token":"token123"}');
+    expect(json, '{"registration_token":"token123","fuseauHoraire":"Europe/Paris"}');
   });
 }

@@ -20,10 +20,15 @@ class RegisterTokenRepository {
 
   Future<void> registerToken(String userId) async {
     final token = await _pushNotificationManager.getToken();
+    final fuseauHoraire = DateTime.now().timeZoneName;
     if (token != null) {
       final url = Uri.parse(_baseUrl + "/jeunes/$userId/configuration-application");
       try {
-        await _httpClient.put(url, body: customJsonEncode(PutRegisterTokenRequest(token: token)));
+        await _httpClient.put(url,
+            body: customJsonEncode(PutRegisterTokenRequest(
+              token: token,
+              fuseauHoraire: fuseauHoraire,
+            )));
       } catch (e, stack) {
         _crashlytics?.recordNonNetworkException(e, stack, url);
       }
