@@ -7,7 +7,7 @@ jobs:
   test-gad:
     runs-on: macos-11
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Add Python bin to PATH
         run: echo "/Library/Frameworks/Python.framework/Versions/Current/bin" >> $GITHUB_PATH
