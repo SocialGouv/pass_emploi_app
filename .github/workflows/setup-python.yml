@@ -2,6 +2,8 @@ name: Setup Python
 
 on:
   pull_request:
+  push:
+  workflow_dispatch:
 
 jobs:
 
