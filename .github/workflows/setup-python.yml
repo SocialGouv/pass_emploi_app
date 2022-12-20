@@ -1,16 +1,11 @@
-name: PR Continuous Integration - Mobile App
+name: Static analysis of Dart and Flutter code
 
 on:
-  push:
-    branches: [ develop ]
   pull_request:
-  workflow_dispatch:
 
 jobs:
-
   test-gad:
     runs-on: macos-11
-    needs: pre-build
     steps:
       - uses: actions/checkout@v2
 
@@ -49,4 +44,3 @@ jobs:
         shell: bash
         run: |
           keychain initialize
-
