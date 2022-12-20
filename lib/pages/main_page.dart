@@ -68,6 +68,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MainPageViewModel>(
       converter: (store) => MainPageViewModel.create(store),
+      onInitialBuild: (viewModel) {
+        if (widget.displayState == MainPageDisplayState.ACTUALISATION_PE) {
+          viewModel.resetDeeplink();
+          _showActualisationPeDialog();
+        }
+      },
       onInit: (store) => store.dispatch(SubscribeToChatStatusAction()),
       onDispose: (store) => store.dispatch(UnsubscribeFromChatStatusAction()),
       onDidChange: (oldViewModel, newViewModel) {
@@ -75,6 +81,17 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       },
       builder: (context, viewModel) => _body(viewModel, context),
       distinct: true,
+    );
+  }
+
+  void _showActualisationPeDialog() {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("Met à jour ton profil sur PE"),
+        );
+      },
     );
   }
 

@@ -122,6 +122,18 @@ void main() {
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.EVENT_LIST);
     });
 
+    test('…and deep link is set to event list should display main page with event list display state', () {
+      final state = AppState.initialState().copyWith(
+        loginState: successMiloUserState(),
+        deepLinkState: ActualisationPeDeepLinkState(),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.ACTUALISATION_PE);
+    });
+
     test('should show tutorial if user didn`t read it yet', () {
       final state = AppState.initialState().copyWith(
         loginState: successMiloUserState(),

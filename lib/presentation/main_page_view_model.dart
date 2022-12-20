@@ -5,14 +5,27 @@ import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-enum MainPageDisplayState { DEFAULT, ACTIONS_TAB, RENDEZVOUS_TAB, CHAT, SEARCH, SAVED_SEARCH, EVENT_LIST }
+enum MainPageDisplayState {
+  DEFAULT,
+  ACTIONS_TAB,
+  RENDEZVOUS_TAB,
+  CHAT,
+  SEARCH,
+  SAVED_SEARCH,
+  EVENT_LIST,
+  ACTUALISATION_PE,
+}
 
 class MainPageViewModel extends Equatable {
   final bool withChatBadge;
   final bool showRating;
   final Function resetDeeplink;
 
-  MainPageViewModel({required this.withChatBadge, required this.showRating, required this.resetDeeplink});
+  MainPageViewModel({
+    required this.withChatBadge,
+    required this.showRating,
+    required this.resetDeeplink,
+  });
 
   factory MainPageViewModel.create(Store<AppState> store) {
     final chatStatusState = store.state.chatStatusState;
