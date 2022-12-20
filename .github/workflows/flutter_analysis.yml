@@ -3,22 +3,25 @@ name: Static analysis of Dart and Flutter code
 on:
   pull_request:
 
-
 jobs:
   analysis:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set Environment Variables
+          uses: ./.github/actions/setvars
+          with:
+            varFilePath: ./.github/variables/myvars.env
+
       - uses: actions/setup-java@v1
         with:
-          java-version: '12.x'
-      - name: Set Environment Variables
-        uses: ./.github/actions/setvars
-        with:
-          varFilePath: ./.github/variables/myvars.env
+          java-version: ${{ env.JAVA_VERSION }}
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+
       - name: Launch Dart, Flutter & custom analysis
         run: |
           flutter analyze
