@@ -128,7 +128,6 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          cache: 'pip'
 
       - name: Install Codemagic CLI tools
         shell: bash
