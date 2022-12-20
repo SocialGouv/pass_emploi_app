@@ -262,6 +262,7 @@ String? _conseiller(Rendezvous rdv) {
 }
 
 String? _createur(Rendezvous rdv) {
+  if (rdv.source.isMilo) return null;
   final createur = rdv.createur;
   return createur != null ? Strings.rendezvousCreateur('${createur.firstName} ${createur.lastName}') : null;
 }

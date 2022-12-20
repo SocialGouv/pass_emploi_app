@@ -395,24 +395,48 @@ void main() {
         expect(viewModel.conseiller, null);
       });
 
-      test('should display createur if present', () {
-        // Given
-        final store = _store(mockRendezvous(
-          id: '1',
-          withConseiller: true,
-          createur: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
-        ));
+      group("createur", () {
+        test('should display createur if present', () {
+          // Given
+          final store = _store(mockRendezvous(
+            id: '1',
+            withConseiller: true,
+            createur: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+          ));
 
-        // When
-        final viewModel = RendezvousDetailsViewModel.create(
-          store: store,
-          source: RendezvousStateSource.rendezvousList,
-          rdvId: '1',
-          platform: Platform.IOS,
-        );
+          // When
+          final viewModel = RendezvousDetailsViewModel.create(
+            store: store,
+            source: RendezvousStateSource.rendezvousList,
+            rdvId: '1',
+            platform: Platform.IOS,
+          );
 
-        // Then
-        expect(viewModel.createur, "Le rendez-vous a été programmé par votre conseiller précédent Nils Tavernier");
+          // Then
+          expect(viewModel.createur, "Le rendez-vous a été programmé par votre conseiller précédent Nils Tavernier");
+        });
+
+        test('should hide createur if source is milo', () {
+          // Given
+          final store = _store(mockRendezvous(
+            id: '1',
+            source: RendezvousSource.milo,
+            withConseiller: true,
+            conseiller: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+            createur: Conseiller(id: 'id', firstName: 'Système', lastName: 'Milo'),
+          ));
+
+          // When
+          final viewModel = RendezvousDetailsViewModel.create(
+            store: store,
+            source: RendezvousStateSource.rendezvousList,
+            rdvId: '1',
+            platform: Platform.IOS,
+          );
+
+          // Then
+          expect(viewModel.createur, null);
+        });
       });
 
       test('should display modality without conseiller', () {
