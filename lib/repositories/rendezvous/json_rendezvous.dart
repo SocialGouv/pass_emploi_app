@@ -60,7 +60,7 @@ class JsonRendezvous {
     final createur = json['createur'] != null ? Conseiller.fromJson(json['createur']) : null;
     return JsonRendezvous._(
       id: json['id'] as String,
-      source: _rendezvousSource(json['source'] as String),
+      source: _rendezvousSource(json['source'] as String?),
       date: json['date'] as String,
       isLocaleDate: json['isLocaleDate'] as bool,
       duration: json['duration'] as int,
@@ -127,9 +127,11 @@ RendezvousType _rendezvousType(dynamic json) {
   return RendezvousType(parseRendezvousTypeCode(json['code'] as String), json['label'] as String);
 }
 
-RendezvousSource _rendezvousSource(String source) {
+RendezvousSource _rendezvousSource(String? source) {
+  const defaultSource = RendezvousSource.passEmploi;
+  if (source == null) return defaultSource;
   if (source == "MILO") return RendezvousSource.milo;
-  return RendezvousSource.passEmploi;
+  return defaultSource;
 }
 
 String? _title(dynamic json) {
