@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/register_token_repository.dart';
+import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:redux/src/store.dart';
 
 import '../../doubles/dummies.dart';
@@ -28,13 +28,13 @@ void main() {
   });
 }
 
-class _RegisterTokenRepositorySpy extends RegisterTokenRepository {
+class _RegisterTokenRepositorySpy extends ConfigurationApplicationRepository {
   bool wasCalled = false;
 
   _RegisterTokenRepositorySpy() : super("", DummyHttpClient(), DummyPushNotificationManager());
 
   @override
-  Future<void> registerToken(String userId) async {
+  Future<void> configureApplication(String userId) async {
     expect(userId, "1");
     wasCalled = true;
   }

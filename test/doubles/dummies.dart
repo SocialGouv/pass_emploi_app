@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart'
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -39,7 +40,6 @@ import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
-import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
@@ -73,11 +73,11 @@ class DummyPushNotificationManager extends PushNotificationManager {
   Future<void> init(Store<AppState> store) async {}
 }
 
-class DummyRegisterTokenRepository extends RegisterTokenRepository {
+class DummyRegisterTokenRepository extends ConfigurationApplicationRepository {
   DummyRegisterTokenRepository() : super("", DummyHttpClient(), DummyPushNotificationManager());
 
   @override
-  Future<void> registerToken(String userId) async {}
+  Future<void> configureApplication(String userId) async {}
 }
 
 class DummySharedPreferences extends FlutterSecureStorage {
