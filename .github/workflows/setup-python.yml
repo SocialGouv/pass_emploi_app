@@ -1,10 +1,8 @@
-name: Static analysis of Dart and Flutter code
-
 on:
   pull_request:
 
 jobs:
-  test-gad-python-10:
+  ok-on-python-10:
     runs-on: macos-11
     steps:
       - uses: actions/checkout@v3
@@ -17,28 +15,6 @@ jobs:
         run: |
           pip3 install codemagic-cli-tools
           xcrun xcodebuild -version
-
-      - name: Write p12 certificate
-        shell: bash
-        run: |
-          echo "$P12_B64" | base64 --decode > ios/cert.p12
-        env:
-          P12_B64: ${{ secrets.P12_B64 }}
-
-      - name: Install Apple Certificate
-        uses: apple-actions/import-codesign-certs@v1
-        with:
-          p12-filepath: "ios/cert.p12"
-          p12-password: ${{ secrets.P12_PASSWORD }}
-
-      - name: Write Apple prod API Key
-        shell: bash
-        run: |
-          mkdir ~/.private_keys
-          echo "$APPLE_PROD_API_KEY_B64" | base64 --decode > ios/AuthKey_"$APPLE_PROD_API_KEY".p8
-        env:
-          APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
-          APPLE_PROD_API_KEY_B64: ${{ secrets.APPLE_PROD_API_KEY_B64 }}
 
       - name: Set up a temporary keychain for code signing
         shell: bash
