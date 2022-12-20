@@ -2,6 +2,27 @@ on:
   pull_request:
 
 jobs:
+  ko-on-python-11:
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Codemagic CLI tools
+        shell: bash
+        run: |
+          pip3 install codemagic-cli-tools
+          xcrun xcodebuild -version
+          codemagic-cli-tools --version
+
+      - name: Set up a temporary keychain for code signing
+        shell: bash
+        run: |
+          keychain initialize
+
+
   ok-on-python-10:
     runs-on: macos-11
     steps:
@@ -15,25 +36,7 @@ jobs:
         run: |
           pip3 install codemagic-cli-tools
           xcrun xcodebuild -version
-
-      - name: Set up a temporary keychain for code signing
-        shell: bash
-        run: |
-          keychain initialize
-
-  fails-on-python-11:
-    runs-on: macos-11
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install Codemagic CLI tools
-        shell: bash
-        run: |
-          pip3 install codemagic-cli-tools
-          xcrun xcodebuild -version
+          codemagic-cli-tools --version.
 
       - name: Set up a temporary keychain for code signing
         shell: bash
