@@ -36,7 +36,7 @@ jobs:
         run: |
           pip3 install codemagic-cli-tools
           xcrun xcodebuild -version
-          codemagic-cli-tools --version.
+          codemagic-cli-tools --version
 
       - name: Set up a temporary keychain for code signing
         shell: bash
