@@ -12,7 +12,8 @@ class RegisterPushNotificationTokenMiddleware extends MiddlewareClass<AppState> 
   void call(Store<AppState> store, action, NextDispatcher next) {
     next(action);
     if (action is LoginSuccessAction) {
-      _repository.configureApplication(action.user.id);
+      final fuseauHoraire = DateTime.now().timeZoneName;
+      _repository.configureApplication(action.user.id, fuseauHoraire);
     }
   }
 }

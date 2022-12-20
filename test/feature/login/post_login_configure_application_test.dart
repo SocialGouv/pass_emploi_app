@@ -34,7 +34,7 @@ class _RegisterTokenRepositorySpy extends ConfigurationApplicationRepository {
   _RegisterTokenRepositorySpy() : super("", DummyHttpClient(), DummyPushNotificationManager());
 
   @override
-  Future<void> configureApplication(String userId) async {
+  Future<void> configureApplication(String userId, String fuseauHoraire) async {
     expect(userId, "1");
     wasCalled = true;
   }

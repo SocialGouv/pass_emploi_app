@@ -18,9 +18,8 @@ class ConfigurationApplicationRepository {
     this._crashlytics,
   ]);
 
-  Future<void> configureApplication(String userId) async {
+  Future<void> configureApplication(String userId, String fuseauHoraire) async {
     final token = await _pushNotificationManager.getToken();
-    final fuseauHoraire = DateTime.now().timeZoneName;
     if (token != null) {
       final url = Uri.parse(_baseUrl + "/jeunes/$userId/configuration-application");
       try {

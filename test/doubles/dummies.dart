@@ -77,7 +77,7 @@ class DummyRegisterTokenRepository extends ConfigurationApplicationRepository {
   DummyRegisterTokenRepository() : super("", DummyHttpClient(), DummyPushNotificationManager());
 
   @override
-  Future<void> configureApplication(String userId) async {}
+  Future<void> configureApplication(String userId, String fuseauHoraire) async {}
 }
 
 class DummySharedPreferences extends FlutterSecureStorage {
