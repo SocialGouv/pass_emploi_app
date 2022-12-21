@@ -190,8 +190,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 }
 
 class _PopUpActualisationPe extends StatelessWidget {
-  _PopUpActualisationPe(this.actualisationPoleEmploiUrl);
   final String actualisationPoleEmploiUrl;
+
+  _PopUpActualisationPe(this.actualisationPoleEmploiUrl);
 
   @override
   Widget build(BuildContext context) {
