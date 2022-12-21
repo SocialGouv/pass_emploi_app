@@ -81,13 +81,21 @@ Une fois la montée de version de Flutter effectuée, mettre à jour :
   et `dev_dependencies`.
 * Vérifier que le projet compile bien en lançant la commande `$flutter pub get`.
 
-## Déployer une app sur Firebase avec les Github actions
+## Déployer une app sur Firebase App Distribution avec les Github actions
 
-A chaque push sur la branche develop, un build et un déploiement sont faits sur Firebase App
+A chaque push sur la brancheð develop, un build et un déploiement sont faits sur Firebase App
 Distribution. Lorsque des variables d'environnement sont modifiées/ajoutées, il faut les ajouter
 dans les secrets github. Le fichier `ci/.env.template` permet de lister les variables nécessaires.
 Pour rappel, elles sont stockées dans les notes partagées Dashlane (`[APP MOBILE] .env.staging`
 ou `[APP MOBILE] .env.prod`).
+
+#### Ajouter un appareil iOS pour les tests internes
+
+1. Ajouter le device sur App Store Connect (Firebase nous envoit directement un mail avec l'UDID du
+   smartphone quand l'utilisateur tente de télécharger l'app de test sur iOS).
+2. Mettre à jour le Provisioning Profil Ad Hoc de Staging avec ce nouveau device ajouté.
+3. Relancer la CI (ou attendre un prochain build) : la dernière version du Provisioning Profile est
+   directement prise en compte dans le build.
 
 #### Mettre à jour ou insérer de nouvelles variables d'environnement dans Github Action
 
