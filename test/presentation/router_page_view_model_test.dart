@@ -122,7 +122,8 @@ void main() {
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.EVENT_LIST);
     });
 
-    test('…and deep link is set to event list should display main page with event list display state', () {
+    test('…and deep link is set to actualisation pole emploi should display main page with actualisation pole emploi',
+        () {
       final state = AppState.initialState().copyWith(
         loginState: successMiloUserState(),
         deepLinkState: ActualisationPeDeepLinkState(),
