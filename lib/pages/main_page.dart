@@ -195,7 +195,7 @@ class _PopUpActualisationPe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double normalizedFontSize = 16.0;
+    const double fontSize = 16.0;
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
       contentPadding: EdgeInsets.all(Margins.spacing_l),
@@ -203,24 +203,24 @@ class _PopUpActualisationPe extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(Strings.popUpTitle, style: TextStyles.textMBold, textAlign: TextAlign.center),
+        children: [
+          Text(Strings.actualisationPePopUpTitle, style: TextStyles.textMBold, textAlign: TextAlign.center),
           SizedBox(height: Margins.spacing_base),
-          Text(Strings.popUpSubtitle, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+          Text(Strings.actualisationPePopUpSubtitle, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
           SizedBox(height: Margins.spacing_l),
           PrimaryActionButton(
-            label: Strings.popUpPrimaryButton,
-            drawableRes: "assets/launch.svg",
+            label: Strings.actualisationPePopUpPrimaryButton,
+            drawableRes: Drawables.icLaunch,
             heightPadding: 8,
-            iconSize: normalizedFontSize,
-            fontSize: normalizedFontSize,
+            iconSize: 16.0,
+            fontSize: fontSize,
             onPressed: () => launchExternalUrl(actualisationPoleEmploiUrl),
           ),
           SizedBox(height: Margins.spacing_base),
           SecondaryButton(
-            label: Strings.popUpSecondaryButton,
+            label: Strings.actualisationPePopUpSecondaryButton,
             onPressed: () => Navigator.pop(context),
-            fontSize: normalizedFontSize,
+            fontSize: fontSize,
           ),
         ],
       ),
