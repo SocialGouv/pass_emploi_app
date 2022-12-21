@@ -164,6 +164,7 @@ Configuration configuration({Version version = const Version(1, 0, 0), Flavor fl
     ['scope1', 'scope2', 'scope3'],
     'authClientSecret',
     'someKey',
+    'actualisationPoleEmploiUrl',
   );
 }
 

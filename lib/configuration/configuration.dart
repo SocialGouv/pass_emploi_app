@@ -8,18 +8,19 @@ import 'package:pass_emploi_app/utils/log.dart';
 enum Flavor { STAGING, PROD }
 
 class Configuration {
-  Version? version;
-  Flavor flavor;
-  String serverBaseUrl;
-  String matomoBaseUrl;
-  String matomoSiteId;
-  String authClientId;
-  String authLoginRedirectUrl;
-  String authLogoutRedirectUrl;
-  String authIssuer;
-  List<String> authScopes;
-  String authClientSecret;
-  String iSRGX1CertificateForOldDevices;
+  final Version? version;
+  final Flavor flavor;
+  final String serverBaseUrl;
+  final String matomoBaseUrl;
+  final String matomoSiteId;
+  final String authClientId;
+  final String authLoginRedirectUrl;
+  final String authLogoutRedirectUrl;
+  final String authIssuer;
+  final List<String> authScopes;
+  final String authClientSecret;
+  final String iSRGX1CertificateForOldDevices;
+  final String actualisationPoleEmploiUrl;
 
   Configuration(
     this.version,
@@ -34,6 +35,7 @@ class Configuration {
     this.authScopes,
     this.authClientSecret,
     this.iSRGX1CertificateForOldDevices,
+    this.actualisationPoleEmploiUrl,
   );
 
   static Future<Configuration> build() async {
@@ -53,20 +55,21 @@ class Configuration {
     final authScopes = getArrayOrThrow('AUTH_SCOPE');
     final authClientSecret = getOrThrow('AUTH_CLIENT_SECRET');
     final iSRGX1CertificateForOldDevices = utf8.decode(base64Decode(getOrThrow('ISRGX1_CERT_FOR_OLD_DEVICES')));
+    final actualisationPoleEmploiUrl = getOrThrow('ACTUALISATION_PE_URL');
     return Configuration(
-      currentVersion,
-      flavor,
-      serverBaseUrl,
-      matomoBaseUrl,
-      matomoSiteId,
-      authClientId,
-      authLoginRedirectUrl,
-      authLogoutRedirectUrl,
-      authIssuer,
-      authScopes,
-      authClientSecret,
-      iSRGX1CertificateForOldDevices,
-    );
+        currentVersion,
+        flavor,
+        serverBaseUrl,
+        matomoBaseUrl,
+        matomoSiteId,
+        authClientId,
+        authLoginRedirectUrl,
+        authLogoutRedirectUrl,
+        authIssuer,
+        authScopes,
+        authClientSecret,
+        iSRGX1CertificateForOldDevices,
+        actualisationPoleEmploiUrl);
   }
 
   static Future<void> loadEnvironmentVariables(Flavor flavor) async {

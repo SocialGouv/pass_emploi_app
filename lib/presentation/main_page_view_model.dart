@@ -20,11 +20,13 @@ class MainPageViewModel extends Equatable {
   final bool withChatBadge;
   final bool showRating;
   final Function resetDeeplink;
+  final String actualisationPoleEmploiUrl;
 
   MainPageViewModel({
     required this.withChatBadge,
     required this.showRating,
     required this.resetDeeplink,
+    required this.actualisationPoleEmploiUrl,
   });
 
   factory MainPageViewModel.create(Store<AppState> store) {
@@ -35,6 +37,7 @@ class MainPageViewModel extends Equatable {
       withChatBadge: (chatStatusState is ChatStatusSuccessState) && (chatStatusState.unreadMessageCount > 0),
       showRating: ratingState is ShowRatingState,
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
+      actualisationPoleEmploiUrl: store.state.configurationState.configuration?.actualisationPoleEmploiUrl ?? "",
     );
   }
 

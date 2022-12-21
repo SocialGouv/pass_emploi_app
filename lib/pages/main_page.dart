@@ -14,8 +14,13 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
 import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
 
@@ -71,7 +76,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       onInitialBuild: (viewModel) {
         if (widget.displayState == MainPageDisplayState.ACTUALISATION_PE) {
           viewModel.resetDeeplink();
-          _showActualisationPeDialog();
+          _showActualisationPeDialog(viewModel.actualisationPoleEmploiUrl);
         }
       },
       onInit: (store) => store.dispatch(SubscribeToChatStatusAction()),
@@ -84,14 +89,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     );
   }
 
-  void _showActualisationPeDialog() {
+  void _showActualisationPeDialog(String actualisationPoleEmploiUrl) {
     showDialog(
       context: context,
-      builder: (_) {
-        return AlertDialog(
-          title: Text("Met à jour ton profil sur PE"),
-        );
-      },
+      builder: (context) => _PopUpActualisationPe(actualisationPoleEmploiUrl),
     );
   }
 
@@ -185,5 +186,44 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       default:
         return _indexOfMonSuiviPage;
     }
+  }
+}
+
+class _PopUpActualisationPe extends StatelessWidget {
+  _PopUpActualisationPe(this.actualisationPoleEmploiUrl);
+  final String actualisationPoleEmploiUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    const double normalizedFontSize = 16.0;
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+      contentPadding: EdgeInsets.all(Margins.spacing_l),
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(Strings.popUpTitle, style: TextStyles.textMBold, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_base),
+          Text(Strings.popUpSubtitle, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_l),
+          PrimaryActionButton(
+            label: Strings.popUpPrimaryButton,
+            drawableRes: "assets/launch.svg",
+            heightPadding: 8,
+            iconSize: normalizedFontSize,
+            fontSize: normalizedFontSize,
+            onPressed: () => launchExternalUrl(actualisationPoleEmploiUrl),
+          ),
+          SizedBox(height: Margins.spacing_base),
+          SecondaryButton(
+            label: Strings.popUpSecondaryButton,
+            onPressed: () => Navigator.pop(context),
+            fontSize: normalizedFontSize,
+          ),
+        ],
+      ),
+    );
   }
 }
