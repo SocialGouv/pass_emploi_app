@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart' hide Lock;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -27,6 +28,8 @@ import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
 import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/auth_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/demo_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
@@ -58,6 +61,7 @@ import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository2.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
@@ -182,11 +186,16 @@ class AppInitializer {
     logoutRepository.setCacheManager(requestCacheManager);
     final chatCrypto = ChatCrypto();
     final baseUrl = configuration.serverBaseUrl;
+    final options = BaseOptions(baseUrl: baseUrl);
+    final dioClient = Dio(options);
+    dioClient.interceptors.add(DemoInterceptor(modeDemoRepository));
+    dioClient.interceptors.add(AuthInterceptor(accessTokenRetriever));
     final reduxStore = StoreFactory(
       authenticator,
       crashlytics,
       chatCrypto,
       PageActionRepository(baseUrl, httpClient, crashlytics),
+      PageActionRepository2(dioClient, crashlytics),
       PageDemarcheRepository(baseUrl, httpClient, crashlytics),
       RendezvousRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, crashlytics),

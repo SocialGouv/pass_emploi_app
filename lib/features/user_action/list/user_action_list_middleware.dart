@@ -1,12 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository2.dart';
 import 'package:redux/redux.dart';
 
 class UserActionListMiddleware extends MiddlewareClass<AppState> {
-  final PageActionRepository _repository;
+  final PageActionRepository2 _repository;
 
   UserActionListMiddleware(this._repository);
 
