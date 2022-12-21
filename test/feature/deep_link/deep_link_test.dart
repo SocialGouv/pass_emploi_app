@@ -65,6 +65,10 @@ void main() {
         EventListDeepLinkState(),
       );
       assertState(
+        DeepLinkAction(RemoteMessage(data: {"type": "ACTUALISATION_PE"})),
+        ActualisationPeDeepLinkState(),
+      );
+      assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "DELETED_RENDEZVOUS"})),
         DetailRendezvousDeepLinkState(idRendezvous: null),
       );

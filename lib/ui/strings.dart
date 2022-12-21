@@ -129,6 +129,12 @@ class Strings {
   static String agendaNoActionThisWeekDescription = "Vous pouvez voir les événements à venir dans votre Mission locale";
   static String agendaSeeEventInAgenceButton = "Voir les événements de votre mission locale";
 
+  // Actualisation PE
+  static String actualisationPePopUpTitle = "La période d’actualisation Pôle emploi a commencé";
+  static String actualisationPePopUpSubtitle = "Pensez à vous actualiser avant le 15 du mois";
+  static String actualisationPePopUpPrimaryButton = "S'actualiser";
+  static String actualisationPePopUpSecondaryButton = "Fermer";
+
   // Rendezvous
   static String eventTitle = "Événement";
   static String myRendezVous = "Mon rendez-vous";

@@ -14,8 +14,13 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
 import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
 
@@ -68,6 +73,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MainPageViewModel>(
       converter: (store) => MainPageViewModel.create(store),
+      onInitialBuild: (viewModel) {
+        if (widget.displayState == MainPageDisplayState.ACTUALISATION_PE) {
+          viewModel.resetDeeplink();
+          _showActualisationPeDialog(viewModel.actualisationPoleEmploiUrl);
+        }
+      },
       onInit: (store) => store.dispatch(SubscribeToChatStatusAction()),
       onDispose: (store) => store.dispatch(UnsubscribeFromChatStatusAction()),
       onDidChange: (oldViewModel, newViewModel) {
@@ -75,6 +86,13 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       },
       builder: (context, viewModel) => _body(viewModel, context),
       distinct: true,
+    );
+  }
+
+  void _showActualisationPeDialog(String actualisationPoleEmploiUrl) {
+    showDialog(
+      context: context,
+      builder: (context) => _PopUpActualisationPe(actualisationPoleEmploiUrl),
     );
   }
 
@@ -168,5 +186,45 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       default:
         return _indexOfMonSuiviPage;
     }
+  }
+}
+
+class _PopUpActualisationPe extends StatelessWidget {
+  final String actualisationPoleEmploiUrl;
+
+  _PopUpActualisationPe(this.actualisationPoleEmploiUrl);
+
+  @override
+  Widget build(BuildContext context) {
+    const double fontSize = 16.0;
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+      contentPadding: EdgeInsets.all(Margins.spacing_l),
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(Strings.actualisationPePopUpTitle, style: TextStyles.textMBold, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_base),
+          Text(Strings.actualisationPePopUpSubtitle, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_l),
+          PrimaryActionButton(
+            label: Strings.actualisationPePopUpPrimaryButton,
+            drawableRes: Drawables.icLaunch,
+            heightPadding: 8,
+            iconSize: 16.0,
+            fontSize: fontSize,
+            onPressed: () => launchExternalUrl(actualisationPoleEmploiUrl),
+          ),
+          SizedBox(height: Margins.spacing_base),
+          SecondaryButton(
+            label: Strings.actualisationPePopUpSecondaryButton,
+            onPressed: () => Navigator.pop(context),
+            fontSize: fontSize,
+          ),
+        ],
+      ),
+    );
   }
 }
