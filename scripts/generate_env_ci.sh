@@ -23,9 +23,6 @@ cat ios/cert.p12 | base64 >> ci/env.ci
 
 echo -e "\nP12_PASSWORD=A_DEMANDER_A_LA_TEAM" >> ci/env.ci
 
-echo -e "\nSTAGING_IOS_PROVISIONING_PROFILE_B64=" >> ci/env.ci
-cat ci/frfabriquesocialgouvpassemploistaging.mobileprovision | base64 >> ci/env.ci
-
 echo -e "\nAPPLE_STAGING_PROVISIONNING_PROFILE_ID=76GBKHVK25.fr.fabrique.social.gouv.passemploi.staging" >> ci/env.ci
 
 echo -e "\nAPPLE_TEAM_ID=76GBKHVK25" >> ci/env.ci
@@ -46,8 +43,5 @@ cat env/.env.prod | base64 >> ci/env.ci
 
 echo -e "\nPROD_GOOGLE_SERVICE_IOS_B64=" >> ci/env.ci
 cat ios/firebase-config/prod/GoogleService-Info.plist | base64 >> ci/env.ci
-
-echo -e "\nPROD_IOS_PROVISIONING_PROFILE_B64=" >> ci/env.ci
-cat ci/frfabriquesocialgouvpassemploi.mobileprovision | base64 >> ci/env.ci
 
 echo -e "\nAPPLE_PROD_PROVISIONING_PROFILE_ID=76GBKHVK25.fr.fabrique.social.gouv.passemploi.distribution" >> ci/env.ci
