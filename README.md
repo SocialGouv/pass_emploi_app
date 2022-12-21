@@ -7,7 +7,9 @@ Celles-ci sont spécifiées dans le fichier [`CONTRIBUTING.md`](CONTRIBUTING.md)
 ## Renseigner les variables d'environnement
 
 Créer un fichier dans le répertoire `env` intitulé `env.staging` en vous inspirant du
-fichier `env.template` situé à la racine du projet. Y insérer toutes les bonnes valeurs.
+fichier `env.template` situé à la racine du projet. Y insérer toutes les bonnes valeurs. Elles se
+trouvent dans les notes partagées Dashlane (`[APP MOBILE] .env.staging` ou `[APP MOBILE] .env.prod`)
+.
 
 ## Lancer l'application depuis Android Studio
 
@@ -28,7 +30,7 @@ Il est nécessaire pour cela de créer 2 configurations, en fonction que vous so
 
 ## Renseigner les secrets Firebase
 
-Le projet utilise plusieurs foncionnalité de firebase. Les secrets ne sont pas et ne doivent pas
+Le projet utilise plusieurs foncionnalités de Firebase. Les secrets ne sont pas et ne doivent pas
 être commités (à ce titre, ils sont présent dans le `.gitignore`. Pour autant, ils sont nécessaires
 au bon fonctionnement de l'application. Ils sont téléchargeables directement depuis Firebase.
 
@@ -79,28 +81,21 @@ Une fois la montée de version de Flutter effectuée, mettre à jour :
   et `dev_dependencies`.
 * Vérifier que le projet compile bien en lançant la commande `$flutter pub get`.
 
-## Déployer une app sur Firebase
+## Déployer une app sur Firebase avec les Github actions
 
-### Spécificités Android
+A chaque push sur la branche develop, un build et un déploiement sont faits sur Firebase App
+Distribution. Lorsque des variables d'environnement sont modifiées/ajoutées, il faut les ajouter
+dans les secrets github. Le fichier `ci/.env.template` permet de lister les variables nécessaires.
+Pour rappel, elles sont stockées dans les notes partagées Dashlane (`[APP MOBILE] .env.staging`
+ou `[APP MOBILE] .env.prod`).
 
-1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le
-   repertoire `android/keystore`
-2. Créer un fichier `key.properties` dans le repertoire `android` à partir du même modèle que
-   `key.properties.template`. Ce fichier ne doit JAMAIS être versionné.
-3. Renseigner les valeurs demandées (valeurs présentes dans le Drive du projet) dans ce fichier.
+#### Mettre à jour ou insérer de nouvelles variables d'environnement dans Github Action
 
-### Avec les github actions
-
-A chaque push sur la branche develop, un build et un déploiement est fait sur firebase. Lorsque des
-variables d'environnement sont modifiées/ajoutées, il faut les ajouter dans les secrets github. Le
-fichier `ci/.env.template` permet de lister les variables nécessaires.
-
-#### Mettre à jour ou insérer de nouvelle variable d'environnement dans Github Action
-
-1. Assurer vous d'avoir mis la nouvelle variable d'environnement dans le fichier
-   local `env/.env.staging`.
+1. Assurer vous d'avoir mis la ou les nouvelles variables d'environnement dans le fichier
+   local `env/.env.staging` et `env/.env.prod` et dans Dashlane (pour la postérité).
 2. Lancer le script `bash scripts/generate_env_ci.sh`
-3. Récupérer la valeur de STAGING_RUNTIME_ENV_B64 dans le fichier  `ci/env.ci`.
+3. Récupérer les valeurs de `STAGING_RUNTIME_ENV_B64` et de `PROD_RUNTIME_ENV_B64` dans le
+   fichier  `ci/env.ci`.
 4. Mettre à jour le secret de Github action 'STAGING_RUNTIME_ENV_B64' (Github > Settings > Secrets).
 
 #### Mettre à jour le provisioning profile dans Github Action
@@ -112,19 +107,6 @@ fichier `ci/.env.template` permet de lister les variables nécessaires.
 4. Mettre à jour le secret de Github action 'STAGING_IOS_PROVISIONING_PROFILE_B64' (Github >
    Settings > Secrets).
 
-### En local
-
-#### Lancement du script
-
-Le script lance les tests, build les ipa et apk, et les distribue sur firebase app distribution.
-
-NB: le déploiement nécessite [la cli firebase](https://firebase.google.com/docs/cli). Il ne devrait
-pas être nécessaire d'être connecté, le script utilisant un token "ci".
-
-1. S'assurer que le script `scripts/staging_release_when_github_is_down.sh` est bien
-   executable : `chmod u+x scripts/staging_release_when_github_is_down.sh`
-2. En se plaçant à la racine du projet, lancer le
-   script `scripts/staging_release_when_github_is_down.sh`.
 
 ## Déployer une nouvelle version de l'app en bêta test sur les stores publics
 
