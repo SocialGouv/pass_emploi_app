@@ -60,9 +60,15 @@ class RendezvousDetailsPage extends StatelessWidget {
       },
       converter: _converter,
       builder: _scaffold,
+      onInitialBuild: (viewModel) {
+        if (viewModel.trackingPageName != null) {
+          PassEmploiMatomoTracker.instance.trackScreen(context, eventName: viewModel.trackingPageName!);
+        }
+      },
       onDispose: (store) {
         _source == RendezvousStateSource.noSource ? store.dispatch(RendezvousDetailsResetAction()) : {};
       },
+      distinct: true,
     );
   }
 
@@ -86,9 +92,6 @@ class RendezvousDetailsPage extends StatelessWidget {
   }
 
   Widget _content(BuildContext context, RendezvousDetailsViewModel viewModel) {
-    if (viewModel.trackingPageName != null) {
-      PassEmploiMatomoTracker.instance.trackScreen(context, eventName: viewModel.trackingPageName!);
-    }
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(Margins.spacing_base),
