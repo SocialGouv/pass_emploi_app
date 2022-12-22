@@ -49,6 +49,7 @@ dependencies:
   firebase_auth: '3.3.17'
   cloud_firestore: '3.1.14'
   flutterfire_installations: '0.1.0'
+  flutter_native_timezone: ^2.0.0
 
 dev_dependencies:
   flutter_test:

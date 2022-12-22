@@ -43,10 +43,12 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/configuration/configuration.dart';
+import '../doubles/dummies.dart';
+import '../doubles/fixtures.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
-import '../doubles/dummies.dart';
 import '../doubles/dummy_matomo_tracker.dart';
 
 class TestStoreFactory {
@@ -93,53 +95,56 @@ class TestStoreFactory {
   AgendaRepository agendaRepository = DummyAgendaRepository();
   SuggestionsRechercheRepository suggestionsRechercheRepository = DummySuggestionsRechercheRepository();
   EventListRepository eventListRepository = DummyEventListRepository();
+  final Configuration _configuration = configuration();
+
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
-      authenticator,
-      crashlytics,
-      chatCrypto,
-      pageActionRepository,
-      pageDemarcheRepository,
-      rendezvousRepository,
-      offreEmploiRepository,
-      chatRepository,
-      registerTokenRepository,
-      detailedOfferRepository,
-      offreEmploiFavorisRepository,
-      immersionFavorisRepository,
-      serviceCiviqueFavorisRepository,
-      searchLocationRepository,
-      metierRepository,
-      immersionRepository,
-      immersionDetailsRepository,
-      firebaseAuthRepository,
-      firebaseAuthWrapper,
-      trackingEventRepository,
-      offreEmploiSavedSearchRepository,
-      immersionSavedSearchRepository,
-      serviceCiviqueSavedSearchRepository,
-      getSavedSearchRepository,
-      savedSearchDeleteRepository,
-      serviceCiviqueRepository,
-      serviceCiviqueDetailRepository,
-      detailsJeuneRepository,
-      suppressionCompteRepository,
-      demoRepository,
-      campagneRepository,
-      matomoTracker,
-      updateDemarcheRepository,
-      createDemarcheRepository,
-      searchDemarcheRepository,
-      pieceJointeRepository,
-      tutorialRepository,
-      partageActiviteRepository,
-      ratingRepository,
-      actionCommentaireRepository,
-      agendaRepository,
-      suggestionsRechercheRepository,
-      eventListRepository,
+        authenticator,
+        crashlytics,
+        chatCrypto,
+        pageActionRepository,
+        pageDemarcheRepository,
+        rendezvousRepository,
+        offreEmploiRepository,
+        chatRepository,
+        registerTokenRepository,
+        detailedOfferRepository,
+        offreEmploiFavorisRepository,
+        immersionFavorisRepository,
+        serviceCiviqueFavorisRepository,
+        searchLocationRepository,
+        metierRepository,
+        immersionRepository,
+        immersionDetailsRepository,
+        firebaseAuthRepository,
+        firebaseAuthWrapper,
+        trackingEventRepository,
+        offreEmploiSavedSearchRepository,
+        immersionSavedSearchRepository,
+        serviceCiviqueSavedSearchRepository,
+        getSavedSearchRepository,
+        savedSearchDeleteRepository,
+        serviceCiviqueRepository,
+        serviceCiviqueDetailRepository,
+        detailsJeuneRepository,
+        suppressionCompteRepository,
+        demoRepository,
+        campagneRepository,
+        matomoTracker,
+        updateDemarcheRepository,
+        createDemarcheRepository,
+        searchDemarcheRepository,
+        pieceJointeRepository,
+        tutorialRepository,
+        partageActiviteRepository,
+        ratingRepository,
+        actionCommentaireRepository,
+        agendaRepository,
+        suggestionsRechercheRepository,
+        eventListRepository,
+        _configuration
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }

@@ -165,6 +165,7 @@ Configuration configuration({Version version = const Version(1, 0, 0), Flavor fl
     'authClientSecret',
     'someKey',
     'actualisationPoleEmploiUrl',
+    'Europe/Paris'
   );
 }
 
