@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/utils/log.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 enum Flavor { STAGING, PROD }
 
@@ -21,22 +22,23 @@ class Configuration {
   final String authClientSecret;
   final String iSRGX1CertificateForOldDevices;
   final String actualisationPoleEmploiUrl;
+  final String fuseauHoraire;
 
   Configuration(
-    this.version,
-    this.flavor,
-    this.serverBaseUrl,
-    this.matomoBaseUrl,
-    this.matomoSiteId,
-    this.authClientId,
-    this.authLoginRedirectUrl,
-    this.authLogoutRedirectUrl,
-    this.authIssuer,
-    this.authScopes,
-    this.authClientSecret,
-    this.iSRGX1CertificateForOldDevices,
-    this.actualisationPoleEmploiUrl,
-  );
+      this.version,
+      this.flavor,
+      this.serverBaseUrl,
+      this.matomoBaseUrl,
+      this.matomoSiteId,
+      this.authClientId,
+      this.authLoginRedirectUrl,
+      this.authLogoutRedirectUrl,
+      this.authIssuer,
+      this.authScopes,
+      this.authClientSecret,
+      this.iSRGX1CertificateForOldDevices,
+      this.actualisationPoleEmploiUrl,
+      this.fuseauHoraire);
 
   static Future<Configuration> build() async {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -56,6 +58,7 @@ class Configuration {
     final authClientSecret = getOrThrow('AUTH_CLIENT_SECRET');
     final iSRGX1CertificateForOldDevices = utf8.decode(base64Decode(getOrThrow('ISRGX1_CERT_FOR_OLD_DEVICES')));
     final actualisationPoleEmploiUrl = getOrThrow('ACTUALISATION_PE_URL');
+    final fuseauHoraire = await FlutterNativeTimezone.getLocalTimezone();
     return Configuration(
         currentVersion,
         flavor,
@@ -69,7 +72,8 @@ class Configuration {
         authScopes,
         authClientSecret,
         iSRGX1CertificateForOldDevices,
-        actualisationPoleEmploiUrl);
+        actualisationPoleEmploiUrl,
+        fuseauHoraire);
   }
 
   static Future<void> loadEnvironmentVariables(Flavor flavor) async {

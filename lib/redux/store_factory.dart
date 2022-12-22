@@ -153,6 +153,7 @@ class StoreFactory {
   final AgendaRepository agendaRepository;
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
   final EventListRepository eventListRepository;
+  final Configuration configuration;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -199,6 +200,7 @@ class StoreFactory {
     this.agendaRepository,
     this.suggestionsRechercheRepository,
     this.eventListRepository,
+    this.configuration,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -223,7 +225,7 @@ class StoreFactory {
         ChatStatusMiddleware(chatRepository),
         RendezvousListMiddleware(rendezvousRepository),
         RendezvousDetailsMiddleware(rendezvousRepository),
-        RegisterPushNotificationTokenMiddleware(registerTokenRepository),
+        RegisterPushNotificationTokenMiddleware(registerTokenRepository, configuration),
         OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
         OffreEmploiSavedSearchMiddleware(offreEmploiRepository),
@@ -236,7 +238,6 @@ class StoreFactory {
         FavoriIdsMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
         FavoriListMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
         FavoriUpdateMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository, ServiceCiviqueDataFromIdExtractor()),
-        RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),
         SearchMetierMiddleware(metierRepository),
