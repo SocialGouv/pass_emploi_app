@@ -85,7 +85,7 @@ List<AgendaItem> _events(Store<AppState> store, bool isPoleEmploi) {
       DelayedActionsBannerAgendaItem(
         isPoleEmploi ? Strings.numberOfDemarches(delayedActions) : Strings.numberOfActions(delayedActions),
       ),
-    _makeCurrentWeek(events, agendaState.agenda.dateDeDebut, isPoleEmploi),
+    _makeCurrentWeek(events, agendaState.agenda.dateDeDebut),
     _makeNextWeek(events, agendaState.agenda.dateDeDebut),
   ];
 }
@@ -102,7 +102,7 @@ List<EventAgenda> _allEventsSorted(Agenda agenda) {
   return events;
 }
 
-CurrentWeekAgendaItem _makeCurrentWeek(List<EventAgenda> events, DateTime dateDeDebutAgenda, bool isPoleEmploi) {
+CurrentWeekAgendaItem _makeCurrentWeek(List<EventAgenda> events, DateTime dateDeDebutAgenda) {
   final nextWeekFirstDay = dateDeDebutAgenda.addWeeks(1);
   final currentWeekEvents = events.where((element) => element.date.isBefore(nextWeekFirstDay));
 
@@ -121,25 +121,7 @@ CurrentWeekAgendaItem _makeCurrentWeek(List<EventAgenda> events, DateTime dateDe
     return DaySectionAgenda(title, events);
   }).toList();
 
-  if (!isPoleEmploi) daySections.removeWeekendIfNoEvent(dateDeDebutAgenda);
-
   return CurrentWeekAgendaItem(daySections);
-}
-
-extension _ListDaySectionAgendaExt on List<DaySectionAgenda> {
-  void removeWeekendIfNoEvent(DateTime dateDeDebutAgenda) {
-    if (dateDeDebutAgenda.isSaturday() == false) return;
-
-    final saturdayEvents = this[0].events;
-    final sundayEvents = this[1].events;
-
-    if (saturdayEvents.isEmpty && sundayEvents.isEmpty) {
-      removeAt(0);
-      removeAt(0);
-    } else if (saturdayEvents.isEmpty) {
-      removeAt(0);
-    }
-  }
 }
 
 Map<String, List<EventAgenda>> _sevenDaysMap(DateTime dateDeDebut) {
