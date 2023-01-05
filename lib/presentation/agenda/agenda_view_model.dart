@@ -45,7 +45,7 @@ class AgendaPageViewModel extends Equatable {
     final loginState = store.state.loginState;
     final isPoleEmploi = loginState is LoginSuccessState && loginState.user.loginMode.isPe();
     return AgendaPageViewModel(
-      displayState: _displayState(store),
+      displayState: _displayState(store, isPoleEmploi),
       isPoleEmploi: isPoleEmploi,
       events: _events(store, isPoleEmploi),
       events2: _events2(store, isPoleEmploi),
@@ -62,13 +62,13 @@ class AgendaPageViewModel extends Equatable {
   List<Object?> get props => [displayState, isPoleEmploi, events, events2, emptyMessage, noEventLabel, createButton];
 }
 
-DisplayState _displayState(Store<AppState> store) {
+DisplayState _displayState(Store<AppState> store, bool isPoleEmploi) {
   final agendaState = store.state.agendaState;
   if (agendaState is AgendaFailureState) {
     return DisplayState.FAILURE;
   } else if (agendaState is AgendaSuccessState) {
     final agenda = agendaState.agenda;
-    if (agenda.actions.isEmpty && agenda.demarches.isEmpty && agenda.rendezvous.isEmpty) {
+    if (agenda.actions.isEmpty && agenda.demarches.isEmpty && agenda.rendezvous.isEmpty && isPoleEmploi) {
       return DisplayState.EMPTY;
     } else {
       return DisplayState.CONTENT;
@@ -101,12 +101,19 @@ List<AgendaItem> _events2(Store<AppState> store, bool isPoleEmploi) {
   final events = _allEventsSorted(agendaState.agenda);
   final delayedActions = agendaState.agenda.delayedActions;
 
+  if (!isPoleEmploi && events.isEmpty) {
+    return [
+      if (delayedActions > 0) DelayedActionsBannerAgendaItem(Strings.numberOfActions(delayedActions)),
+      CallToActionEventMiloAgendaItem()
+    ];
+  }
+
   return [
     if (delayedActions > 0)
       DelayedActionsBannerAgendaItem(
         isPoleEmploi ? Strings.numberOfDemarches(delayedActions) : Strings.numberOfActions(delayedActions),
       ),
-    ..._makeCurrentWeek2(events, agendaState.agenda.dateDeDebut),
+    ..._makeCurrentWeek2(events, agendaState.agenda.dateDeDebut, isPoleEmploi),
     ..._makeNextWeek2(events, agendaState.agenda.dateDeDebut),
   ];
 }
@@ -145,15 +152,17 @@ CurrentWeekAgendaItem _makeCurrentWeek(List<EventAgenda> events, DateTime dateDe
   return CurrentWeekAgendaItem(daySections);
 }
 
-List<AgendaItem> _makeCurrentWeek2(List<EventAgenda> events, DateTime dateDeDebutAgenda) {
+List<AgendaItem> _makeCurrentWeek2(List<EventAgenda> events, DateTime dateDeDebutAgenda, bool isPoleEmploi) {
   final nextWeekFirstDay = dateDeDebutAgenda.addWeeks(1);
   final currentWeekEvents = events.where((element) => element.date.isBefore(nextWeekFirstDay));
 
-  if (currentWeekEvents.isEmpty) {
+  if (currentWeekEvents.isEmpty && isPoleEmploi) {
     return [
       WeekSeparatorAgendaItem("Semaine en cours"), // FIXME: Strings
       EmptyMessageAgendaItem(),
     ];
+  } else if (currentWeekEvents.isEmpty && !isPoleEmploi) {
+    return [CallToActionEventMiloAgendaItem()];
   } else {
     final eventsByDay = _sevenDaysMap(dateDeDebutAgenda);
     for (var event in currentWeekEvents) {
@@ -308,6 +317,8 @@ class UserActionAgendaItem extends AgendaItem {
   @override
   List<Object?> get props => [actionId, collapsed];
 }
+
+class CallToActionEventMiloAgendaItem extends AgendaItem {}
 
 class DaySectionAgenda extends Equatable {
   final String title;

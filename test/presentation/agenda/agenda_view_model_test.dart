@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -38,8 +39,8 @@ void main() {
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-26T08:00:00.000Z"),
   );
   final demarcheSamediProchain = demarcheStub(
-    id: "demarche 27/08 08h",
-    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-27T08:00:00.000Z"),
+    id: "action 03/09 08h",
+    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-09-03T08:00:00.000Z"),
   );
 
   final rendezvousLundiMatin = rendezvousStub(
@@ -53,11 +54,11 @@ void main() {
 
   test('when this week is empty but not next week', () {
     // Given
-    final actions = [actionSamediProchain];
+    final demarches = [demarcheSamediProchain];
     final rendezvous = [rendezvousLundiProchain];
     final store = givenState() //
-        .loggedInMiloUser()
-        .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: lundi22)
+        .loggedInPoleEmploiUser()
+        .agenda(demarches: demarches, rendezvous: rendezvous, dateDeDebut: lundi22)
         .store();
 
     // When
@@ -71,17 +72,17 @@ void main() {
         EmptyMessageAgendaItem(),
         WeekSeparatorAgendaItem("Semaine prochaine"),
         RendezvousAgendaItem(rendezvousLundiProchain.id, collapsed: true),
-        UserActionAgendaItem(actionSamediProchain.id, collapsed: true),
+        DemarcheAgendaItem(demarcheSamediProchain.id, collapsed: true),
       ],
     );
   });
   test('when this week has one event but not next week', () {
     // Given
-    final demarches = [demarcheLundiMatin];
+    final actions = [actionLundiMatin];
     final rendezvous = [rendezvousLundiMatin];
     final store = givenState() //
-        .loggedInPoleEmploiUser()
-        .agenda(demarches: demarches, rendezvous: rendezvous, dateDeDebut: lundi22)
+        .loggedInMiloUser()
+        .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: lundi22)
         .store();
 
     // When
@@ -92,7 +93,7 @@ void main() {
       viewModel.events2,
       [
         DaySeparatorAgendaItem("Lundi 22 août"),
-        DemarcheAgendaItem(demarcheLundiMatin.id),
+        UserActionAgendaItem(actionLundiMatin.id),
         RendezvousAgendaItem(rendezvousLundiMatin.id),
         DaySeparatorAgendaItem("Mardi 23 août"),
         EmptyMessageAgendaItem(),
@@ -110,5 +111,63 @@ void main() {
         EmptyMessageAgendaItem(),
       ],
     );
+  });
+
+  group('for Milo users', () {
+    test('should display events call to action when there is nothing this week but something next week', () {
+      // Given
+      final actions = [actionSamediProchain];
+      final rendezvous = [rendezvousLundiProchain];
+      final store = givenState() //
+          .loggedInMiloUser()
+          .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: lundi22)
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.events2,
+        [
+          CallToActionEventMiloAgendaItem(),
+          WeekSeparatorAgendaItem("Semaine prochaine"),
+          RendezvousAgendaItem(rendezvousLundiProchain.id, collapsed: true),
+          UserActionAgendaItem(actionSamediProchain.id, collapsed: true),
+        ],
+      );
+    });
+    test('when empty should always display events call to action', () {
+      // Given
+      final store = givenState() //
+          .loggedInMiloUser()
+          .agenda(dateDeDebut: lundi22)
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.events2, [CallToActionEventMiloAgendaItem()]);
+    });
+
+    test('when empty with delayed actions should always display events call to action and delayed action banner', () {
+      // Given
+      final store = givenState() //
+          .loggedInMiloUser()
+          .agenda(dateDeDebut: lundi22, delayedActions: 3)
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.events2, [
+        DelayedActionsBannerAgendaItem("3 actions"),
+        CallToActionEventMiloAgendaItem(),
+      ]);
+    });
   });
 }
