@@ -114,7 +114,7 @@ List<AgendaItem> _events2(Store<AppState> store, bool isPoleEmploi) {
         isPoleEmploi ? Strings.numberOfDemarches(delayedActions) : Strings.numberOfActions(delayedActions),
       ),
     ..._makeCurrentWeek2(events, agendaState.agenda.dateDeDebut, isPoleEmploi),
-    ..._makeNextWeek2(events, agendaState.agenda.dateDeDebut),
+    ..._makeNextWeek2(events, agendaState.agenda.dateDeDebut, isPoleEmploi),
   ];
 }
 
@@ -152,14 +152,18 @@ CurrentWeekAgendaItem _makeCurrentWeek(List<EventAgenda> events, DateTime dateDe
   return CurrentWeekAgendaItem(daySections);
 }
 
+EmptyMessageAgendaItem _makeEmptyMessage(bool isPoleEmploi) {
+  return EmptyMessageAgendaItem(isPoleEmploi ? Strings.agendaEmptyForDayPoleEmploi : Strings.agendaEmptyForDayMilo);
+}
+
 List<AgendaItem> _makeCurrentWeek2(List<EventAgenda> events, DateTime dateDeDebutAgenda, bool isPoleEmploi) {
   final nextWeekFirstDay = dateDeDebutAgenda.addWeeks(1);
   final currentWeekEvents = events.where((element) => element.date.isBefore(nextWeekFirstDay));
 
   if (currentWeekEvents.isEmpty && isPoleEmploi) {
     return [
-      WeekSeparatorAgendaItem("Semaine en cours"), // FIXME: Strings
-      EmptyMessageAgendaItem(),
+      WeekSeparatorAgendaItem(Strings.semaineEnCours),
+      _makeEmptyMessage(isPoleEmploi),
     ];
   } else if (currentWeekEvents.isEmpty && !isPoleEmploi) {
     return [CallToActionEventMiloAgendaItem()];
@@ -173,7 +177,7 @@ List<AgendaItem> _makeCurrentWeek2(List<EventAgenda> events, DateTime dateDeDebu
     for (var entry in eventsByDay.entries) {
       currentWeekItems.add(DaySeparatorAgendaItem(entry.key));
       if (entry.value.isEmpty) {
-        currentWeekItems.add(EmptyMessageAgendaItem());
+        currentWeekItems.add(_makeEmptyMessage(isPoleEmploi));
       } else {
         for (var event in entry.value) {
           switch (event.runtimeType) {
@@ -207,13 +211,13 @@ NextWeekAgendaItem _makeNextWeek(List<EventAgenda> events, DateTime dateDeDebutA
   return NextWeekAgendaItem(nextWeekEvents);
 }
 
-List<AgendaItem> _makeNextWeek2(List<EventAgenda> events, DateTime dateDeDebutAgenda) {
+List<AgendaItem> _makeNextWeek2(List<EventAgenda> events, DateTime dateDeDebutAgenda, bool isPoleEmploi) {
   final nextWeekFirstDay = dateDeDebutAgenda.addWeeks(1);
   final nextWeekEvents = events.where((element) => !element.date.isBefore(nextWeekFirstDay)).toList();
   if (nextWeekEvents.isEmpty) {
     return [
-      WeekSeparatorAgendaItem("Semaine prochaine"),
-      EmptyMessageAgendaItem(),
+      WeekSeparatorAgendaItem(Strings.nextWeek),
+      _makeEmptyMessage(isPoleEmploi),
     ];
   } else {
     final nextWeekAgendaItems = nextWeekEvents
@@ -230,7 +234,7 @@ List<AgendaItem> _makeNextWeek2(List<EventAgenda> events, DateTime dateDeDebutAg
         .whereType<AgendaItem>()
         .toList();
     return [
-      WeekSeparatorAgendaItem("Semaine prochaine"),
+      WeekSeparatorAgendaItem(Strings.nextWeek),
       ...nextWeekAgendaItems,
     ];
   }
@@ -286,7 +290,13 @@ class DaySeparatorAgendaItem extends AgendaItem {
   List<Object?> get props => [text];
 }
 
-class EmptyMessageAgendaItem extends AgendaItem {}
+class EmptyMessageAgendaItem extends AgendaItem {
+  final String text;
+  EmptyMessageAgendaItem(this.text);
+
+  @override
+  List<Object?> get props => [text];
+}
 
 class RendezvousAgendaItem extends AgendaItem {
   final String rendezvousId;
