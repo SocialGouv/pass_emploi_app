@@ -15,9 +15,13 @@ import '../../utils/test_datetime.dart';
 
 void main() {
   final lundi22 = DateTime(2022, 8, 22);
-  final actionLundiMatin = userActionStub(
+  final actionLundi = userActionStub(
     id: "action 22/08 11h",
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"),
+  );
+  final actionJeudi = userActionStub(
+    id: "action 25/08 10h",
+    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-25T10:00:00.000Z"),
   );
 
   final actionSamediProchain = userActionStub(
@@ -25,7 +29,7 @@ void main() {
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-09-03T08:00:00.000Z"),
   );
 
-  final demarcheLundiMatin = demarcheStub(
+  final demarcheLundi = demarcheStub(
     id: "demarche 22/08 11h",
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"),
   );
@@ -38,7 +42,7 @@ void main() {
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-09-03T08:00:00.000Z"),
   );
 
-  final rendezvousLundiMatin = rendezvousStub(
+  final rendezvousLundi = rendezvousStub(
     id: "rendezvous 22/08 15h",
     date: DateTime(2022, 8, 22, 15),
   );
@@ -46,11 +50,15 @@ void main() {
     id: "rendezvous 30/08 15h",
     date: DateTime(2022, 8, 30, 15),
   );
+  final rendezvousMardiProchain = rendezvousStub(
+    id: "rendezvous 31/08 11h",
+    date: DateTime(2022, 8, 31, 11),
+  );
 
-  test('when this week is empty but not next week', () {
+  test('when this week is empty but not next week should arrange agenda with sorted events', () {
     // Given
     final demarches = [demarcheSamediProchain];
-    final rendezvous = [rendezvousLundiProchain];
+    final rendezvous = [rendezvousMardiProchain, rendezvousLundiProchain];
     final store = givenState() //
         .loggedInPoleEmploiUser()
         .agenda(demarches: demarches, rendezvous: rendezvous, dateDeDebut: lundi22)
@@ -67,14 +75,15 @@ void main() {
         EmptyMessageAgendaItem("Pas de démarche ni de rendez-vous"),
         WeekSeparatorAgendaItem("Semaine prochaine"),
         RendezvousAgendaItem(rendezvousLundiProchain.id, collapsed: true),
+        RendezvousAgendaItem(rendezvousMardiProchain.id, collapsed: true),
         DemarcheAgendaItem(demarcheSamediProchain.id, collapsed: true),
       ],
     );
   });
-  test('when this week has one event but not next week', () {
+  test('when this week has one event but not next week should arrange agenda with sorted events', () {
     // Given
-    final actions = [actionLundiMatin];
-    final rendezvous = [rendezvousLundiMatin];
+    final actions = [actionJeudi, actionLundi];
+    final rendezvous = [rendezvousLundi];
     final store = givenState() //
         .loggedInMiloUser()
         .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: lundi22)
@@ -88,14 +97,14 @@ void main() {
       viewModel.events,
       [
         DaySeparatorAgendaItem("Lundi 22 août"),
-        UserActionAgendaItem(actionLundiMatin.id),
-        RendezvousAgendaItem(rendezvousLundiMatin.id),
+        UserActionAgendaItem(actionLundi.id),
+        RendezvousAgendaItem(rendezvousLundi.id),
         DaySeparatorAgendaItem("Mardi 23 août"),
         EmptyMessageAgendaItem("Pas d’action ni de rendez-vous"),
         DaySeparatorAgendaItem("Mercredi 24 août"),
         EmptyMessageAgendaItem("Pas d’action ni de rendez-vous"),
         DaySeparatorAgendaItem("Jeudi 25 août"),
-        EmptyMessageAgendaItem("Pas d’action ni de rendez-vous"),
+        UserActionAgendaItem(actionJeudi.id),
         DaySeparatorAgendaItem("Vendredi 26 août"),
         EmptyMessageAgendaItem("Pas d’action ni de rendez-vous"),
         DaySeparatorAgendaItem("Samedi 27 août"),
@@ -321,62 +330,6 @@ void main() {
   });
 
   group('events for Mission Locale (including user actions & rendezvous)', () {
-    test('have both actions and rendezvous', () {
-      // Given
-      final actions = [userActionStub(), userActionStub()];
-      final rendezvous = [rendezvousStub(), rendezvousStub(), rendezvousStub()];
-      final store = givenState().loggedInMiloUser().agenda(actions: actions, rendezvous: rendezvous).store();
-
-      // When
-      final viewModel = AgendaPageViewModel.create(store);
-
-      // Then
-      final actualActionCount = viewModel.events.whereType<UserActionAgendaItem>().length;
-      final actualRendezvousCount = viewModel.events.whereType<RendezvousAgendaItem>().length;
-      final actualDemarcheCount = viewModel.events.whereType<DemarcheAgendaItem>().length;
-      expect(actualActionCount, 2);
-      expect(actualRendezvousCount, 3);
-      expect(actualDemarcheCount, 0);
-    });
-
-    test('are sorted by date', () {
-      // Given
-      // Given
-      final actions = [actionLundiMatin, actionSamediProchain];
-      final rendezvous = [rendezvousLundiMatin];
-      final store = givenState() //
-          .loggedInMiloUser()
-          .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: lundi22)
-          .store();
-
-      // When
-      final viewModel = AgendaPageViewModel.create(store);
-
-      // Then
-      expect(
-        viewModel.events,
-        [
-          DaySeparatorAgendaItem("Lundi 22 août"),
-          UserActionAgendaItem(actionLundiMatin.id),
-          RendezvousAgendaItem(rendezvousLundiMatin.id),
-          DaySeparatorAgendaItem("Mardi 23 août"),
-          EmptyMessageAgendaItem("Pas d’action ni de rendez-vous"),
-          DaySeparatorAgendaItem("Mercredi 24 août"),
-          EmptyMessageAgendaItem("Pas d’action ni de rendez-vous"),
-          DaySeparatorAgendaItem("Jeudi 25 août"),
-          EmptyMessageAgendaItem("Pas d’action ni de rendez-vous"),
-          DaySeparatorAgendaItem("Vendredi 26 août"),
-          EmptyMessageAgendaItem("Pas d’action ni de rendez-vous"),
-          DaySeparatorAgendaItem("Samedi 27 août"),
-          EmptyMessageAgendaItem("Pas d’action ni de rendez-vous"),
-          DaySeparatorAgendaItem("Dimanche 28 août"),
-          EmptyMessageAgendaItem("Pas d’action ni de rendez-vous"),
-          WeekSeparatorAgendaItem("Semaine prochaine"),
-          UserActionAgendaItem(actionSamediProchain.id, collapsed: true),
-        ],
-      );
-    });
-
     test('when there are no event for a day should return proper label', () {
       // Given
       final store = givenState().loggedInMiloUser().agenda().store();
@@ -387,77 +340,9 @@ void main() {
       // Then
       expect(viewModel.noEventLabel, 'Pas d’action ni de rendez-vous');
     });
-
-    test('should reset create action', () {
-      // Given
-      final store = StoreSpy();
-      final viewModel = AgendaPageViewModel.create(store);
-
-      // When
-      viewModel.resetCreateAction();
-
-      // Then
-      expect(store.dispatchedAction, isA<UserActionCreateResetAction>());
-    });
   });
 
   group('events for Pole Emploi (including demarches & rendezvous)', () {
-    test('have both demarches and rendezvous', () {
-      // Given
-      final demarches = [demarcheStub()];
-      final rendezvous = [rendezvousStub(), rendezvousStub(), rendezvousStub()];
-      final store = givenState().loggedInPoleEmploiUser().agenda(demarches: demarches, rendezvous: rendezvous).store();
-
-      // When
-      final viewModel = AgendaPageViewModel.create(store);
-
-      // Then
-
-      final actualActionCount = viewModel.events.whereType<UserActionAgendaItem>().length;
-      final actualRendezvousCount = viewModel.events.whereType<RendezvousAgendaItem>().length;
-      final actualDemarcheCount = viewModel.events.whereType<DemarcheAgendaItem>().length;
-      expect(actualActionCount, 0);
-      expect(actualDemarcheCount, 1);
-      expect(actualRendezvousCount, 3);
-    });
-
-    test('are sorted by date', () {
-      // Given
-      final demarches = [demarcheLundiMatin, demarcheVendredi, demarcheSamediProchain];
-      final rendezvous = [rendezvousLundiMatin];
-      final store = givenState()
-          .loggedInPoleEmploiUser()
-          .agenda(demarches: demarches, rendezvous: rendezvous, dateDeDebut: lundi22)
-          .store();
-
-      // When
-      final viewModel = AgendaPageViewModel.create(store);
-
-      // Then
-      expect(
-        viewModel.events,
-        [
-          DaySeparatorAgendaItem("Lundi 22 août"),
-          DemarcheAgendaItem(demarcheLundiMatin.id),
-          RendezvousAgendaItem(rendezvousLundiMatin.id),
-          DaySeparatorAgendaItem("Mardi 23 août"),
-          EmptyMessageAgendaItem("Pas de démarche ni de rendez-vous"),
-          DaySeparatorAgendaItem("Mercredi 24 août"),
-          EmptyMessageAgendaItem("Pas de démarche ni de rendez-vous"),
-          DaySeparatorAgendaItem("Jeudi 25 août"),
-          EmptyMessageAgendaItem("Pas de démarche ni de rendez-vous"),
-          DaySeparatorAgendaItem("Vendredi 26 août"),
-          DemarcheAgendaItem(demarcheVendredi.id),
-          DaySeparatorAgendaItem("Samedi 27 août"),
-          EmptyMessageAgendaItem("Pas de démarche ni de rendez-vous"),
-          DaySeparatorAgendaItem("Dimanche 28 août"),
-          EmptyMessageAgendaItem("Pas de démarche ni de rendez-vous"),
-          WeekSeparatorAgendaItem("Semaine prochaine"),
-          DemarcheAgendaItem(demarcheSamediProchain.id, collapsed: true),
-        ],
-      );
-    });
-
     test('when there are no event for a day should return proper label', () {
       // Given
       final store = givenState().loggedInPoleEmploiUser().agenda().store();
@@ -468,18 +353,18 @@ void main() {
       // Then
       expect(viewModel.noEventLabel, 'Pas de démarche ni de rendez-vous');
     });
+  });
 
-    test('should reset create action', () {
-      // Given
-      final store = StoreSpy();
-      final viewModel = AgendaPageViewModel.create(store);
+  test('should reset create action', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = AgendaPageViewModel.create(store);
 
-      // When
-      viewModel.resetCreateAction();
+    // When
+    viewModel.resetCreateAction();
 
-      // Then
-      expect(store.dispatchedAction, isA<UserActionCreateResetAction>());
-    });
+    // Then
+    expect(store.dispatchedAction, isA<UserActionCreateResetAction>());
   });
 
   test('should go to event list', () {
