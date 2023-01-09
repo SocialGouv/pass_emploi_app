@@ -18,9 +18,7 @@ class RendezvousListMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(RendezvousListLoadingAction(action.period));
     final result = await _repository.getRendezvousList(loginState.user.id, action.period);
     store.dispatch(
-      result != null
-          ? RendezvousListSuccessAction(result.rendezvous, action.period)
-          : RendezvousListFailureAction(action.period),
+      result != null ? RendezvousListSuccessAction(result, action.period) : RendezvousListFailureAction(action.period),
     );
   }
 }

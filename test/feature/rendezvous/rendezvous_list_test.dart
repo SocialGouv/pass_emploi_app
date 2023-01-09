@@ -17,7 +17,7 @@ void main() {
     group("when requesting in FUTUR", () {
       sut.when(() => RendezvousListRequestAction(RendezvousPeriod.FUTUR));
 
-      test("should load and succeed when request succeed", () async {
+      test("should load and succeed when request succeeds", () async {
         sut.givenStore = givenState()
             .loggedInUser() //
             .store((f) => {f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id")});
@@ -25,7 +25,7 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadFutur(), _shouldSucceedFutur()]);
       });
 
-      test("shoud load and fail when request fail", () async {
+      test("shoud load and fail when request fails", () async {
         sut.givenStore = givenState()
             .loggedInUser() //
             .store((f) => {f.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id")});
@@ -37,7 +37,7 @@ void main() {
     group("when requesting in PASSE", () {
       sut.when(() => RendezvousListRequestAction(RendezvousPeriod.PASSE));
 
-      test("should load and succeed with concatenated rendezvous when request succeed", () async {
+      test("should load and succeed with concatenated rendezvous when request succeeds", () async {
         sut.givenStore = givenState().loggedInUser() //
             .rendezvousFutur([mockRendezvous(id: "futur")]) //
             .store((f) => {f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id")});
@@ -45,7 +45,7 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadPasse(), _shouldSucceedPasseAndKeepFutur()]);
       });
 
-      test("shoud load and fail when request fail", () async {
+      test("shoud load and fail when request fails", () async {
         sut.givenStore = givenState()
             .loggedInUser() //
             .store((f) => {f.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id")});
@@ -74,6 +74,7 @@ Matcher _shouldSucceedFutur() {
     (state) {
       expect(state.rendezvousListState.rendezvous.length, 1);
       expect(state.rendezvousListState.rendezvous.first.id, 'futur');
+      expect(state.rendezvousListState.dateDerniereMiseAJour, DateTime(2023, 1, 1));
     },
   );
 }
@@ -97,8 +98,11 @@ class RendezvousRepositorySuccessStub extends RendezvousRepository {
   @override
   Future<RendezvousListResult?> getRendezvousList(String userId, RendezvousPeriod period) async {
     if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
-    final id = period == RendezvousPeriod.PASSE ? "passe" : "futur";
-    return RendezvousListResult(rendezvous: [mockRendezvous(id: id)]);
+    final id = period == RendezvousPeriod.FUTUR ? "futur" : "passe";
+    return RendezvousListResult(
+      rendezvous: [mockRendezvous(id: id)],
+      dateDerniereMiseAJour: period == RendezvousPeriod.FUTUR ? DateTime(2023, 1, 1) : null,
+    );
   }
 }
 
