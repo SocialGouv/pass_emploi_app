@@ -121,7 +121,8 @@ void main() {
       test('retrieve rendezvous list correctly', () async {
         await sut.expectResult<RendezvousListResult?>((result) {
           expect(result, isNotNull);
-          expect(result!.rendezvous.length, 10);
+          expect(result!.dateDerniereMiseAJour, parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'));
+          expect(result.rendezvous.length, 10);
           expect(result.rendezvous[0].organism, 'Agence Pôle Emploi');
           expect(
             result.rendezvous[0],
