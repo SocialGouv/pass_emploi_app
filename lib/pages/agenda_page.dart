@@ -156,9 +156,14 @@ class _Content extends StatelessWidget {
         itemCount: viewModel.events.length,
         itemBuilder: (context, index) {
           final item = viewModel.events[index];
+          if (item is WeekSeparatorAgendaItem) return _WeekSeparator(item);
+          if (item is DaySeparatorAgendaItem) return _DaySeparatorAgendaItem(item);
+          if (item is EmptyMessageAgendaItem) return _MessageAgendaItem(item);
+          if (item is RendezvousAgendaItem) return _RendezvousAgendaItem(item);
+          if (item is DemarcheAgendaItem) return _DemarcheAgendaItem(item);
+          if (item is UserActionAgendaItem) return _UserActionAgendaItem(item);
+          if (item is CallToActionEventMiloAgendaItem) return _CurrentWeekEmptyMiloCard(agendaPageViewModel: viewModel);
           if (item is DelayedActionsBannerAgendaItem) return _DelayedActionsBanner(item, onActionDelayedTap);
-          if (item is CurrentWeekAgendaItem) return _CurrentWeek(item.days, viewModel);
-          if (item is NextWeekAgendaItem) return _NextWeek(item.events, viewModel.noEventLabel);
           return SizedBox(height: 0);
         },
       ),
@@ -229,43 +234,6 @@ class _NumberOfDelayedActions extends StatelessWidget {
   }
 }
 
-class _CurrentWeek extends StatelessWidget {
-  final List<DaySectionAgenda> days;
-  final AgendaPageViewModel agendaPageViewModel;
-
-  _CurrentWeek(this.days, this.agendaPageViewModel);
-
-  @override
-  Widget build(BuildContext context) {
-    final noEventLabel = agendaPageViewModel.noEventLabel;
-    if (days.isEmpty) {
-      if (agendaPageViewModel.isPoleEmploi) {
-        return _CurrentWeekEmptyPeCard(agendaPageViewModel: agendaPageViewModel);
-      } else {
-        return _CurrentWeekEmptyMiloCard(agendaPageViewModel: agendaPageViewModel);
-      }
-    }
-    return Column(children: days.map((e) => _DaySection(e, noEventLabel)).toList());
-  }
-}
-
-class _CurrentWeekEmptyPeCard extends StatelessWidget {
-  final AgendaPageViewModel agendaPageViewModel;
-
-  const _CurrentWeekEmptyPeCard({required this.agendaPageViewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _SectionTitle(Strings.semaineEnCours),
-        _NoEventTitle(agendaPageViewModel.noEventLabel),
-      ],
-    );
-  }
-}
-
 class _CurrentWeekEmptyMiloCard extends StatelessWidget {
   final AgendaPageViewModel agendaPageViewModel;
 
@@ -309,51 +277,23 @@ class _CurrentWeekEmptyMiloCard extends StatelessWidget {
   }
 }
 
-class _NextWeek extends StatelessWidget {
-  final List<EventAgenda> events;
-  final String noEventLabel;
-
-  _NextWeek(this.events, this.noEventLabel);
+class _WeekSeparator extends StatelessWidget {
+  final WeekSeparatorAgendaItem weekSeparator;
+  const _WeekSeparator(this.weekSeparator);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: Margins.spacing_m, bottom: Margins.spacing_s),
-          child: BigTitleSeparator(Strings.nextWeek),
-        ),
-        if (events.isEmpty) _NoEventTitle(noEventLabel),
-        if (events.isNotEmpty) ...events.widgets(context: context, simpleCard: true),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: Margins.spacing_m, bottom: Margins.spacing_base),
+      child: BigTitleSeparator(weekSeparator.text),
     );
   }
 }
 
-class _DaySection extends StatelessWidget {
-  final DaySectionAgenda section;
-  final String noEventLabel;
+class _DaySeparatorAgendaItem extends StatelessWidget {
+  final DaySeparatorAgendaItem daySeparatorAgendaItem;
 
-  _DaySection(this.section, this.noEventLabel);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _SectionTitle(section.title),
-        if (section.events.isNotEmpty) ...section.events.widgets(context: context, simpleCard: false),
-        if (section.events.isEmpty) _NoEventTitle(noEventLabel),
-      ],
-    );
-  }
-}
-
-class _SectionTitle extends StatelessWidget {
-  final String title;
-
-  _SectionTitle(this.title);
+  _DaySeparatorAgendaItem(this.daySeparatorAgendaItem);
 
   @override
   Widget build(BuildContext context) {
@@ -361,60 +301,43 @@ class _SectionTitle extends StatelessWidget {
       padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: Margins.spacing_s),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(title, style: TextStyles.textBaseMedium),
+        child: Text(daySeparatorAgendaItem.text, style: TextStyles.textBaseMedium),
       ),
     );
   }
 }
 
-class _NoEventTitle extends StatelessWidget {
-  final String label;
+class _MessageAgendaItem extends StatelessWidget {
+  final EmptyMessageAgendaItem emptyMessageAgendaItem;
 
-  const _NoEventTitle(this.label);
+  const _MessageAgendaItem(this.emptyMessageAgendaItem);
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      label,
+      emptyMessageAgendaItem.text,
       style: TextStyles.textBaseRegularWithColor(AppColors.grey700),
     );
   }
 }
 
-extension _EventWidgets on List<EventAgenda> {
-  List<Widget> widgets({required BuildContext context, required bool simpleCard}) {
-    return map((event) => event.widget(context, simpleCard)).toList();
-  }
-}
+class _UserActionAgendaItem extends StatelessWidget {
+  final UserActionAgendaItem userActionAgendaItem;
+  const _UserActionAgendaItem(this.userActionAgendaItem);
 
-extension _EventWidget on EventAgenda {
-  Widget widget(BuildContext context, bool simpleCard) {
-    final event = this;
-    if (event is UserActionEventAgenda) {
-      return event.agendaCard(context, simpleCard);
-    } else if (event is DemarcheEventAgenda) {
-      return event.demarcheCard(context, simpleCard);
-    } else if (event is RendezvousEventAgenda) {
-      return event.rendezvousCard(context, simpleCard);
-    } else {
-      return SizedBox(height: 0);
-    }
-  }
-}
-
-extension _ActionCard on UserActionEventAgenda {
-  Widget agendaCard(BuildContext context, bool simpleCard) {
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
       child: UserActionCard(
-        userActionId: id,
+        userActionId: userActionAgendaItem.actionId,
         stateSource: UserActionStateSource.agenda,
-        simpleCard: simpleCard,
+        simpleCard: userActionAgendaItem.collapsed,
         onTap: () {
           context.trackEvent(EventType.ACTION_DETAIL);
           Navigator.push(
             context,
-            UserActionDetailPage.materialPageRoute(id, UserActionStateSource.agenda),
+            UserActionDetailPage.materialPageRoute(userActionAgendaItem.actionId, UserActionStateSource.agenda),
           );
         },
       ),
@@ -422,35 +345,43 @@ extension _ActionCard on UserActionEventAgenda {
   }
 }
 
-extension _DemarcheCard on DemarcheEventAgenda {
-  Widget demarcheCard(BuildContext context, bool simpleCard) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: DemarcheCard(
-        demarcheId: id,
-        stateSource: DemarcheStateSource.agenda,
-        simpleCard: simpleCard,
-        onTap: () {
-          context.trackEvent(EventType.ACTION_DETAIL);
-          Navigator.push(
-            context,
-            DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.agenda),
-          );
-        },
-      ),
-    );
-  }
-}
+class _RendezvousAgendaItem extends StatelessWidget {
+  final RendezvousAgendaItem rendezvousAgendaItem;
+  const _RendezvousAgendaItem(this.rendezvousAgendaItem);
 
-extension _RendezvousCard on RendezvousEventAgenda {
-  Widget rendezvousCard(BuildContext context, bool simpleCard) {
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: id.rendezvousCard(
+      child: rendezvousAgendaItem.rendezvousId.rendezvousCard(
         context: context,
         stateSource: RendezvousStateSource.agenda,
         trackedEvent: EventType.RDV_DETAIL,
-        simpleCard: simpleCard,
+        simpleCard: rendezvousAgendaItem.collapsed,
+      ),
+    );
+  }
+}
+
+class _DemarcheAgendaItem extends StatelessWidget {
+  final DemarcheAgendaItem demarcheAgendaItem;
+  const _DemarcheAgendaItem(this.demarcheAgendaItem);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      child: DemarcheCard(
+        demarcheId: demarcheAgendaItem.demarcheId,
+        stateSource: DemarcheStateSource.agenda,
+        simpleCard: demarcheAgendaItem.collapsed,
+        onTap: () {
+          context.trackEvent(EventType.ACTION_DETAIL);
+          Navigator.push(
+            context,
+            DemarcheDetailPage.materialPageRoute(demarcheAgendaItem.demarcheId, DemarcheStateSource.agenda),
+          );
+        },
       ),
     );
   }

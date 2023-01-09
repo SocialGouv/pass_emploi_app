@@ -13,10 +13,11 @@ class BigTitleSeparator extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          width: 48,
-          height: 2,
-          color: AppColors.contentColor,
+        Expanded(
+          child: Divider(
+            thickness: 1,
+            color: AppColors.contentColor,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -25,10 +26,11 @@ class BigTitleSeparator extends StatelessWidget {
             style: TextStyles.textMBold,
           ),
         ),
-        Container(
-          width: 48,
-          height: 2,
-          color: AppColors.contentColor,
+        Expanded(
+          child: Divider(
+            thickness: 1,
+            color: AppColors.contentColor,
+          ),
         ),
       ],
     );
