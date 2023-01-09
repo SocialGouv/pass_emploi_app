@@ -62,8 +62,8 @@ extension AppStateDSL on AppState {
   AppState rendezvousFutur(List<Rendezvous> rendezvous) =>
       copyWith(rendezvousListState: RendezvousListState.successfulFuture(rendezvous));
 
-  AppState rendezvous(List<Rendezvous> rendezvous) =>
-      copyWith(rendezvousListState: RendezvousListState.successful(rendezvous));
+  AppState rendezvous(List<Rendezvous> rendezvous, [DateTime? dateDerniereMiseAJour]) =>
+      copyWith(rendezvousListState: RendezvousListState.successful(rendezvous, dateDerniereMiseAJour));
 
   AppState rendezvousNotInitialized() => copyWith(rendezvousListState: RendezvousListState.notInitialized());
 
