@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -70,7 +70,7 @@ Matcher _shouldFailPasse() =>
 
 Matcher _shouldSucceedFutur() {
   return StateMatch(
-        (state) => state.rendezvousListState.futurRendezVousStatus == RendezvousListStatus.SUCCESS,
+    (state) => state.rendezvousListState.futurRendezVousStatus == RendezvousListStatus.SUCCESS,
     (state) {
       expect(state.rendezvousListState.rendezvous.length, 1);
       expect(state.rendezvousListState.rendezvous.first.id, 'futur');
@@ -80,7 +80,7 @@ Matcher _shouldSucceedFutur() {
 
 Matcher _shouldSucceedPasseAndKeepFutur() {
   return StateMatch(
-        (state) => state.rendezvousListState.futurRendezVousStatus == RendezvousListStatus.SUCCESS,
+    (state) => state.rendezvousListState.futurRendezVousStatus == RendezvousListStatus.SUCCESS,
     (state) {
       expect(state.rendezvousListState.rendezvous.length, 2);
       expect(state.rendezvousListState.rendezvous[0].id, 'passe');
@@ -95,10 +95,10 @@ class RendezvousRepositorySuccessStub extends RendezvousRepository {
   RendezvousRepositorySuccessStub({required this.expectedUserId}) : super("", DummyHttpClient());
 
   @override
-  Future<List<Rendezvous>?> getRendezvousList(String userId, RendezvousPeriod period) async {
+  Future<RendezvousListResult?> getRendezvousList(String userId, RendezvousPeriod period) async {
     if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
     final id = period == RendezvousPeriod.PASSE ? "passe" : "futur";
-    return [mockRendezvous(id: id)];
+    return RendezvousListResult(rendezvous: [mockRendezvous(id: id)]);
   }
 }
 
@@ -108,7 +108,7 @@ class RendezvousRepositoryFailureStub extends RendezvousRepository {
   RendezvousRepositoryFailureStub({required this.expectedUserId}) : super("", DummyHttpClient());
 
   @override
-  Future<List<Rendezvous>?> getRendezvousList(String userId, RendezvousPeriod period) async {
+  Future<RendezvousListResult?> getRendezvousList(String userId, RendezvousPeriod period) async {
     if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
     return null;
   }
