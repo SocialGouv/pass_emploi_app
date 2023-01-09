@@ -29,14 +29,6 @@ void main() {
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-09-03T08:00:00.000Z"),
   );
 
-  final demarcheLundi = demarcheStub(
-    id: "demarche 22/08 11h",
-    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"),
-  );
-  final demarcheVendredi = demarcheStub(
-    id: "demarche 26/08 08h",
-    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-26T08:00:00.000Z"),
-  );
   final demarcheSamediProchain = demarcheStub(
     id: "action 03/09 08h",
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-09-03T08:00:00.000Z"),
@@ -326,32 +318,6 @@ void main() {
 
       // Then
       expect(viewModel.events.firstWhereOrNull((item) => item is DelayedActionsBannerAgendaItem), null);
-    });
-  });
-
-  group('events for Mission Locale (including user actions & rendezvous)', () {
-    test('when there are no event for a day should return proper label', () {
-      // Given
-      final store = givenState().loggedInMiloUser().agenda().store();
-
-      // When
-      final viewModel = AgendaPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.noEventLabel, 'Pas d’action ni de rendez-vous');
-    });
-  });
-
-  group('events for Pole Emploi (including demarches & rendezvous)', () {
-    test('when there are no event for a day should return proper label', () {
-      // Given
-      final store = givenState().loggedInPoleEmploiUser().agenda().store();
-
-      // When
-      final viewModel = AgendaPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.noEventLabel, 'Pas de démarche ni de rendez-vous');
     });
   });
 

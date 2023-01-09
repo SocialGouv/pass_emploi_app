@@ -21,7 +21,6 @@ class AgendaPageViewModel extends Equatable {
   final bool isPoleEmploi;
   final List<AgendaItem> events;
   final String emptyMessage;
-  final String noEventLabel;
   final CreateButton createButton;
   final Function() resetCreateAction;
   final Function(DateTime) reload;
@@ -32,7 +31,6 @@ class AgendaPageViewModel extends Equatable {
     required this.isPoleEmploi,
     required this.events,
     required this.emptyMessage,
-    required this.noEventLabel,
     required this.createButton,
     required this.resetCreateAction,
     required this.reload,
@@ -47,7 +45,6 @@ class AgendaPageViewModel extends Equatable {
       isPoleEmploi: isPoleEmploi,
       events: _events(store, isPoleEmploi),
       emptyMessage: isPoleEmploi ? Strings.agendaEmptyPoleEmploi : Strings.agendaEmptyMilo,
-      noEventLabel: isPoleEmploi ? Strings.agendaEmptyForDayPoleEmploi : Strings.agendaEmptyForDayMilo,
       createButton: isPoleEmploi ? CreateButton.demarche : CreateButton.userAction,
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
       reload: (date) => store.dispatch(AgendaRequestAction(date)),
@@ -56,7 +53,7 @@ class AgendaPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, isPoleEmploi, events, emptyMessage, noEventLabel, createButton];
+  List<Object?> get props => [displayState, isPoleEmploi, events, emptyMessage, createButton];
 }
 
 DisplayState _displayState(Store<AppState> store, bool isPoleEmploi) {
