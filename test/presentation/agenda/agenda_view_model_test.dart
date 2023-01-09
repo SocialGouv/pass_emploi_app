@@ -72,7 +72,7 @@ void main() {
       ],
     );
   });
-  test('when this week has one event but not next week should arrange agenda with sorted events', () {
+  test('when this week has events but not next week should arrange agenda with sorted events', () {
     // Given
     final actions = [actionJeudi, actionLundi];
     final rendezvous = [rendezvousLundi];
@@ -148,7 +148,7 @@ void main() {
       expect(viewModel.events, [CallToActionEventMiloAgendaItem()]);
     });
 
-    test('when empty with delayed actions should always display events call to action and delayed action banner', () {
+    test('when empty with delayed actions should always display events call to action and delayed actions banner', () {
       // Given
       final store = givenState() //
           .loggedInMiloUser()

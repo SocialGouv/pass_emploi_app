@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
@@ -123,34 +122,42 @@ List<AgendaItem> _makeCurrentWeek(List<EventAgenda> events, DateTime dateDeDebut
   } else if (currentWeekEvents.isEmpty && !isPoleEmploi) {
     return [CallToActionEventMiloAgendaItem()];
   } else {
-    final eventsByDay = _sevenDaysMap(dateDeDebutAgenda);
-    for (var event in currentWeekEvents) {
-      (eventsByDay[event.date.toDayOfWeekWithFullMonth().firstLetterUpperCased()] ??= []).add(event);
-    }
+    return _makeCurrentWeekWithEvents(currentWeekEvents, dateDeDebutAgenda, isPoleEmploi);
+  }
+}
 
-    final List<AgendaItem> currentWeekItems = [];
-    for (var entry in eventsByDay.entries) {
-      currentWeekItems.add(DaySeparatorAgendaItem(entry.key));
-      if (entry.value.isEmpty) {
-        currentWeekItems.add(_makeEmptyMessage(isPoleEmploi));
-      } else {
-        for (var event in entry.value) {
-          switch (event.runtimeType) {
-            case UserActionEventAgenda:
-              currentWeekItems.add(UserActionAgendaItem(event.id));
-              break;
-            case DemarcheEventAgenda:
-              currentWeekItems.add(DemarcheAgendaItem(event.id));
-              break;
-            case RendezvousEventAgenda:
-              currentWeekItems.add(RendezvousAgendaItem(event.id));
-              break;
-          }
+List<AgendaItem> _makeCurrentWeekWithEvents(
+  Iterable<EventAgenda> currentWeekEvents,
+  DateTime dateDeDebutAgenda,
+  bool isPoleEmploi,
+) {
+  final eventsByDay = _sevenDaysMap(dateDeDebutAgenda);
+  for (var event in currentWeekEvents) {
+    (eventsByDay[event.date.toDayOfWeekWithFullMonth().firstLetterUpperCased()] ??= []).add(event);
+  }
+
+  final List<AgendaItem> currentWeekItems = [];
+  for (var entry in eventsByDay.entries) {
+    currentWeekItems.add(DaySeparatorAgendaItem(entry.key));
+    if (entry.value.isEmpty) {
+      currentWeekItems.add(_makeEmptyMessage(isPoleEmploi));
+    } else {
+      for (var event in entry.value) {
+        switch (event.runtimeType) {
+          case UserActionEventAgenda:
+            currentWeekItems.add(UserActionAgendaItem(event.id));
+            break;
+          case DemarcheEventAgenda:
+            currentWeekItems.add(DemarcheAgendaItem(event.id));
+            break;
+          case RendezvousEventAgenda:
+            currentWeekItems.add(RendezvousAgendaItem(event.id));
+            break;
         }
       }
     }
-    return currentWeekItems;
   }
+  return currentWeekItems;
 }
 
 Map<String, List<EventAgenda>> _sevenDaysMap(DateTime dateDeDebut) {
@@ -169,24 +176,28 @@ List<AgendaItem> _makeNextWeek(List<EventAgenda> events, DateTime dateDeDebutAge
       _makeEmptyMessage(isPoleEmploi),
     ];
   } else {
-    final nextWeekAgendaItems = nextWeekEvents
-        .map((e) {
-          switch (e.runtimeType) {
-            case UserActionEventAgenda:
-              return UserActionAgendaItem(e.id, collapsed: true);
-            case DemarcheEventAgenda:
-              return DemarcheAgendaItem(e.id, collapsed: true);
-            case RendezvousEventAgenda:
-              return RendezvousAgendaItem(e.id, collapsed: true);
-          }
-        })
-        .whereType<AgendaItem>()
-        .toList();
-    return [
-      WeekSeparatorAgendaItem(Strings.nextWeek),
-      ...nextWeekAgendaItems,
-    ];
+    return _makeNextWeekWithEvents(nextWeekEvents);
   }
+}
+
+List<AgendaItem> _makeNextWeekWithEvents(List<EventAgenda> nextWeekEvents) {
+  final nextWeekAgendaItems = nextWeekEvents
+      .map((e) {
+        switch (e.runtimeType) {
+          case UserActionEventAgenda:
+            return UserActionAgendaItem(e.id, collapsed: true);
+          case DemarcheEventAgenda:
+            return DemarcheAgendaItem(e.id, collapsed: true);
+          case RendezvousEventAgenda:
+            return RendezvousAgendaItem(e.id, collapsed: true);
+        }
+      })
+      .whereType<AgendaItem>()
+      .toList();
+  return [
+    WeekSeparatorAgendaItem(Strings.nextWeek),
+    ...nextWeekAgendaItems,
+  ];
 }
 
 abstract class AgendaItem extends Equatable {
