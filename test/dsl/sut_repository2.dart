@@ -58,24 +58,30 @@ class RepositorySut2<REPO> {
     });
   }
 
-  // Then
+  // Then on request
 
   Future<void> expectRequestBody({
-    required String method,
+    required HttpMethod method,
     required String url,
     Map<String, dynamic>? bodyFields,
     Map<String, dynamic>? jsonBody,
   }) async {
     await _when(_repository);
 
-    final capturedUrl = verify(() => _client.get(captureAny())).captured.last; //TODO: only on get call
-    // expect(captured[0], method);
+    final dynamic capturedUrl;
+    switch (method) {
+      case HttpMethod.get:
+        capturedUrl = mocktail.verify(() => _client.get(mocktail.captureAny())).captured.last;
+        break;
+    }
     expect(capturedUrl, url);
 
-    //TODO:
+    //TODO: fields
     // if (bodyFields != null) expect(_request.bodyFields, bodyFields);
     // if (jsonBody != null) expect(jsonUtf8Decode(_request.bodyBytes), jsonBody);
   }
+
+  // Then on result
 
   Future<void> expectResult<RESULT>(Function(RESULT) expectLambda) async {
     final result = await _when(_repository) as RESULT;
@@ -103,3 +109,6 @@ class RepositorySut2<REPO> {
     expect(result, false);
   }
 }
+
+//TODO: move?
+enum HttpMethod { get }

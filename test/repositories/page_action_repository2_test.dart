@@ -26,7 +26,7 @@ void main() {
         sut.givenJsonResponse(fromJson: "home_actions.json");
 
         test('result should be valid', () {
-          sut.expectRequestBody(method: "GET", url: "/jeunes/uuid/home/actions");
+          sut.expectRequestBody(method: HttpMethod.get, url: "/jeunes/uuid/home/actions");
         });
 
         test('result should be valid', () {
