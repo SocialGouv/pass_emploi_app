@@ -71,7 +71,7 @@ class HttpClientWithCache extends BaseClient {
     final stringUrl = request.url.toString();
     if (request.method == "GET" && stringUrl.isWhitelisted()) {
       final fileFromCache = await cacheManager.getFileFromCache(stringUrl);
-      if (fileFromCache != null && await fileFromCache.file.exists() && _isStillUpToDate(fileFromCache)) {
+      if (fileFromCache != null && await fileFromCache.file.exists() && isCacheStillUpToDate(fileFromCache)) {
         return StreamedResponse(fileFromCache.file.openRead(), 200);
       } else {
         final response = await cacheManager.downloadFile(stringUrl, key: stringUrl, authHeaders: request.headers);
@@ -80,21 +80,21 @@ class HttpClientWithCache extends BaseClient {
     }
     return httpClient.send(request);
   }
-
-  bool _isStillUpToDate(FileInfo file) {
-    // The lib set a default value to 7-days cache when there isn't cache-control headers in our HTTP responses.
-    // And our backend do not set these headers.
-    // In future : directly use `getSingleFile` without checking date.
-    final now = DateTime.now().add(_defaultCacheDuration).subtract(PassEmploiCacheManager.requestCacheDuration);
-    return file.validTill.isAfter(now);
-  }
 }
 
-extension _Whiteliste on String {
+extension Whiteliste on String {
   bool isWhitelisted() {
     for (final route in _blacklistedRoutes) {
       if (contains(route)) return false;
     }
     return true;
   }
+}
+
+bool isCacheStillUpToDate(FileInfo file) {
+  // The lib set a default value to 7-days cache when there isn't cache-control headers in our HTTP responses.
+  // And our backend do not set these headers.
+  // In future : directly use `getSingleFile` without checking date.
+  final now = DateTime.now().add(_defaultCacheDuration).subtract(PassEmploiCacheManager.requestCacheDuration);
+  return file.validTill.isAfter(now);
 }

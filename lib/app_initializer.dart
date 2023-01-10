@@ -29,6 +29,7 @@ import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/auth_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/demo_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
@@ -190,6 +191,7 @@ class AppInitializer {
     final dioClient = Dio(options);
     dioClient.interceptors.add(DemoInterceptor(modeDemoRepository));
     dioClient.interceptors.add(AuthInterceptor(accessTokenRetriever));
+    dioClient.interceptors.add(CacheInterceptor(requestCacheManager));
     final reduxStore = StoreFactory(
       authenticator,
       crashlytics,
