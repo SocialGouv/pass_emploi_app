@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class CampagneCard extends StatelessWidget {
   final VoidCallback onTap;
@@ -13,31 +12,16 @@ class CampagneCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
-        Shadows.boxShadow,
-      ]),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: onTap,
-            splashColor: AppColors.primaryLighten,
-            child: Padding(
-              padding: const EdgeInsets.all(Margins.spacing_base),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(titre, style: TextStyles.textBaseBold),
-                  SizedBox(height: Margins.spacing_s),
-                  Text(description, style: TextStyles.textSRegular()),
-                ],
-              ),
-            ),
-          ),
-        ),
+    return CardContainer(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(titre, style: TextStyles.textBaseBold),
+          SizedBox(height: Margins.spacing_s),
+          Text(description, style: TextStyles.textSRegular()),
+        ],
       ),
     );
   }

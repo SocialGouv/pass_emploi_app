@@ -4,8 +4,8 @@ import 'package:pass_emploi_app/presentation/demarche/demarche_du_referentiel_ca
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class DemarcheDuReferentielCard extends StatelessWidget {
@@ -24,32 +24,15 @@ class DemarcheDuReferentielCard extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, DemarcheDuReferentielCardViewModel viewModel) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [Shadows.boxShadow],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: onTap,
-            splashColor: AppColors.primaryLighten,
-            child: Padding(
-              padding: const EdgeInsets.all(Margins.spacing_base),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _Tag(viewModel.pourquoi),
-                  Text(viewModel.quoi, style: TextStyles.textBaseBold),
-                ],
-              ),
-            ),
-          ),
-        ),
+    return CardContainer(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _Tag(viewModel.pourquoi),
+          Text(viewModel.quoi, style: TextStyles.textBaseBold),
+        ],
       ),
     );
   }

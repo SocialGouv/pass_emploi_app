@@ -1,4 +1,3 @@
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
@@ -10,6 +9,7 @@ import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -29,7 +29,6 @@ import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
-import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
@@ -43,9 +42,14 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/configuration/configuration.dart';
+import '../doubles/dummies.dart';
+import '../doubles/fixtures.dart';
+/*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
-import '../doubles/dummies.dart';
+import '../doubles/dummy_matomo_tracker.dart';
 
 class TestStoreFactory {
   Authenticator authenticator = DummyAuthenticator();
@@ -55,7 +59,7 @@ class TestStoreFactory {
   ChatRepository chatRepository = DummyChatRepository();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
   OffreEmploiDetailsRepository detailedOfferRepository = DummyDetailedRepository();
-  RegisterTokenRepository registerTokenRepository = DummyRegisterTokenRepository();
+  ConfigurationApplicationRepository registerTokenRepository = DummyRegisterTokenRepository();
   Crashlytics crashlytics = DummyCrashlytics();
   OffreEmploiFavorisRepository offreEmploiFavorisRepository = DummyOffreEmploiFavorisRepository();
   SearchLocationRepository searchLocationRepository = DummySearchLocationRepository();
@@ -79,7 +83,7 @@ class TestStoreFactory {
   SuppressionCompteRepository suppressionCompteRepository = DummySuppressionCompteRepository();
   CampagneRepository campagneRepository = DummyCampagneRepository();
   ModeDemoRepository demoRepository = ModeDemoRepository();
-  MatomoTracker matomoTracker = DummyMatomoTracker();
+  PassEmploiMatomoTracker matomoTracker = DummyMatomoTracker();
   UpdateDemarcheRepository updateDemarcheRepository = DummyUpdateDemarcheRepository();
   CreateDemarcheRepository createDemarcheRepository = DummySuccessCreateDemarcheRepository();
   SearchDemarcheRepository searchDemarcheRepository = DummyDemarcheDuReferentielRepository();
@@ -91,52 +95,57 @@ class TestStoreFactory {
   AgendaRepository agendaRepository = DummyAgendaRepository();
   SuggestionsRechercheRepository suggestionsRechercheRepository = DummySuggestionsRechercheRepository();
   EventListRepository eventListRepository = DummyEventListRepository();
+  final Configuration _configuration = configuration();
+
+  /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
-      authenticator,
-      crashlytics,
-      chatCrypto,
-      pageActionRepository,
-      pageDemarcheRepository,
-      rendezvousRepository,
-      offreEmploiRepository,
-      chatRepository,
-      registerTokenRepository,
-      detailedOfferRepository,
-      offreEmploiFavorisRepository,
-      immersionFavorisRepository,
-      serviceCiviqueFavorisRepository,
-      searchLocationRepository,
-      metierRepository,
-      immersionRepository,
-      immersionDetailsRepository,
-      firebaseAuthRepository,
-      firebaseAuthWrapper,
-      trackingEventRepository,
-      offreEmploiSavedSearchRepository,
-      immersionSavedSearchRepository,
-      serviceCiviqueSavedSearchRepository,
-      getSavedSearchRepository,
-      savedSearchDeleteRepository,
-      serviceCiviqueRepository,
-      serviceCiviqueDetailRepository,
-      detailsJeuneRepository,
-      suppressionCompteRepository,
-      demoRepository,
-      campagneRepository,
-      matomoTracker,
-      updateDemarcheRepository,
-      createDemarcheRepository,
-      searchDemarcheRepository,
-      pieceJointeRepository,
-      tutorialRepository,
-      partageActiviteRepository,
-      ratingRepository,
-      actionCommentaireRepository,
-      agendaRepository,
-      suggestionsRechercheRepository,
-      eventListRepository,
+        authenticator,
+        crashlytics,
+        chatCrypto,
+        pageActionRepository,
+        pageDemarcheRepository,
+        rendezvousRepository,
+        offreEmploiRepository,
+        chatRepository,
+        registerTokenRepository,
+        detailedOfferRepository,
+        offreEmploiFavorisRepository,
+        immersionFavorisRepository,
+        serviceCiviqueFavorisRepository,
+        searchLocationRepository,
+        metierRepository,
+        immersionRepository,
+        immersionDetailsRepository,
+        firebaseAuthRepository,
+        firebaseAuthWrapper,
+        trackingEventRepository,
+        offreEmploiSavedSearchRepository,
+        immersionSavedSearchRepository,
+        serviceCiviqueSavedSearchRepository,
+        getSavedSearchRepository,
+        savedSearchDeleteRepository,
+        serviceCiviqueRepository,
+        serviceCiviqueDetailRepository,
+        detailsJeuneRepository,
+        suppressionCompteRepository,
+        demoRepository,
+        campagneRepository,
+        matomoTracker,
+        updateDemarcheRepository,
+        createDemarcheRepository,
+        searchDemarcheRepository,
+        pieceJointeRepository,
+        tutorialRepository,
+        partageActiviteRepository,
+        ratingRepository,
+        actionCommentaireRepository,
+        agendaRepository,
+        suggestionsRechercheRepository,
+        eventListRepository,
+        _configuration
+      /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }
 }

@@ -9,11 +9,18 @@ import 'package:pass_emploi_app/pages/profil/profil_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
+import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/font_sizes.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
 import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
 
@@ -66,6 +73,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MainPageViewModel>(
       converter: (store) => MainPageViewModel.create(store),
+      onInitialBuild: (viewModel) {
+        if (widget.displayState == MainPageDisplayState.ACTUALISATION_PE) {
+          viewModel.resetDeeplink();
+          _showActualisationPeDialog(viewModel.actualisationPoleEmploiUrl);
+        }
+      },
       onInit: (store) => store.dispatch(SubscribeToChatStatusAction()),
       onDispose: (store) => store.dispatch(UnsubscribeFromChatStatusAction()),
       onDidChange: (oldViewModel, newViewModel) {
@@ -76,6 +89,13 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     );
   }
 
+  void _showActualisationPeDialog(String actualisationPoleEmploiUrl) {
+    showDialog(
+      context: context,
+      builder: (context) => _PopUpActualisationPe(actualisationPoleEmploiUrl),
+    );
+  }
+
   Widget _body(MainPageViewModel viewModel, BuildContext context) {
     return Scaffold(
       body: Container(
@@ -83,6 +103,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         child: _content(_selectedIndex, viewModel),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        // Required to avoid having a disproportionate NavBar height
+        selectedFontSize: FontSizes.extraSmall,
+        unselectedFontSize: FontSizes.extraSmall,
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: AppColors.secondary,
@@ -111,13 +134,15 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget _content(int index, MainPageViewModel viewModel) {
     switch (index) {
       case _indexOfMonSuiviPage:
-        final initialTab = !_deepLinkHandled ? _initialTab() : null;
+        final initialTab = !_deepLinkHandled ? _initialMonSuiviTab() : null;
         _deepLinkHandled = true;
         return MonSuiviTabPage(initialTab);
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
-        return SolutionsTabPage();
+        final initialTab = !_deepLinkHandled ? _initialSolutionTab(viewModel) : null;
+        _deepLinkHandled = true;
+        return SolutionsTabPage(initialTab);
       case _indexOfFavorisPage:
         return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
       case _indexOfPlusPage:
@@ -127,12 +152,22 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
-  MonSuiviTab? _initialTab() {
+  MonSuiviTab? _initialMonSuiviTab() {
     switch (widget.displayState) {
       case MainPageDisplayState.ACTIONS_TAB:
         return MonSuiviTab.ACTIONS;
       case MainPageDisplayState.RENDEZVOUS_TAB:
         return MonSuiviTab.RENDEZVOUS;
+      default:
+        return null;
+    }
+  }
+
+  SolutionsTab? _initialSolutionTab(MainPageViewModel viewModel) {
+    switch (widget.displayState) {
+      case MainPageDisplayState.EVENT_LIST:
+        viewModel.resetDeeplink();
+        return SolutionsTab.events;
       default:
         return null;
     }
@@ -146,8 +181,50 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return _indexOfSolutionsPage;
       case MainPageDisplayState.SAVED_SEARCH:
         return _indexOfFavorisPage;
+      case MainPageDisplayState.EVENT_LIST:
+        return _indexOfSolutionsPage;
       default:
         return _indexOfMonSuiviPage;
     }
+  }
+}
+
+class _PopUpActualisationPe extends StatelessWidget {
+  final String actualisationPoleEmploiUrl;
+
+  _PopUpActualisationPe(this.actualisationPoleEmploiUrl);
+
+  @override
+  Widget build(BuildContext context) {
+    const double fontSize = 16.0;
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+      contentPadding: EdgeInsets.all(Margins.spacing_l),
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(Strings.actualisationPePopUpTitle, style: TextStyles.textMBold, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_base),
+          Text(Strings.actualisationPePopUpSubtitle, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_l),
+          PrimaryActionButton(
+            label: Strings.actualisationPePopUpPrimaryButton,
+            drawableRes: Drawables.icLaunch,
+            heightPadding: 8,
+            iconSize: 16.0,
+            fontSize: fontSize,
+            onPressed: () => launchExternalUrl(actualisationPoleEmploiUrl),
+          ),
+          SizedBox(height: Margins.spacing_base),
+          SecondaryButton(
+            label: Strings.actualisationPePopUpSecondaryButton,
+            onPressed: () => Navigator.pop(context),
+            fontSize: fontSize,
+          ),
+        ],
+      ),
+    );
   }
 }

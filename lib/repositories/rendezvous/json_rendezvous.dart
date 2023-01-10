@@ -6,6 +6,7 @@ const String _poleEmploiOrganism = 'Agence Pôle Emploi';
 
 class JsonRendezvous {
   final String id;
+  final RendezvousSource source;
   final String date;
   final bool isLocaleDate;
   final int duration;
@@ -30,6 +31,7 @@ class JsonRendezvous {
 
   JsonRendezvous._({
     required this.id,
+    required this.source,
     required this.date,
     required this.isLocaleDate,
     required this.duration,
@@ -58,6 +60,7 @@ class JsonRendezvous {
     final createur = json['createur'] != null ? Conseiller.fromJson(json['createur']) : null;
     return JsonRendezvous._(
       id: json['id'] as String,
+      source: _rendezvousSource(json['source'] as String?),
       date: json['date'] as String,
       isLocaleDate: json['isLocaleDate'] as bool,
       duration: json['duration'] as int,
@@ -85,6 +88,7 @@ class JsonRendezvous {
   Rendezvous toRendezvous() {
     return Rendezvous(
       id: id,
+      source: source,
       date: _dateTime(),
       duration: duration != 0 ? duration : null,
       modality: modality.isNotEmpty ? modality : null,
@@ -121,6 +125,13 @@ class JsonRendezvous {
 
 RendezvousType _rendezvousType(dynamic json) {
   return RendezvousType(parseRendezvousTypeCode(json['code'] as String), json['label'] as String);
+}
+
+RendezvousSource _rendezvousSource(String? source) {
+  const defaultSource = RendezvousSource.passEmploi;
+  if (source == null) return defaultSource;
+  if (source == "MILO") return RendezvousSource.milo;
+  return defaultSource;
 }
 
 String? _title(dynamic json) {

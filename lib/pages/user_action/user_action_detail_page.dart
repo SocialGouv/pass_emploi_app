@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
@@ -20,6 +19,7 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
@@ -151,7 +151,10 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   void _onDeleteAction(UserActionDetailsViewModel viewModel) {
     if (viewModel.deleteDisplayState != DeleteDisplayState.SHOW_LOADING) {
       viewModel.onDelete(viewModel.id);
-      MatomoTracker.trackScreenWithName(AnalyticsActionNames.deleteUserAction, AnalyticsScreenNames.userActionDetails);
+      PassEmploiMatomoTracker.instance.trackScreenWithName(
+        widgetName: AnalyticsScreenNames.userActionDetails,
+        eventName: AnalyticsActionNames.deleteUserAction,
+      );
     }
   }
 
@@ -199,7 +202,10 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   }
 
   void _trackSuccessfulUpdate() {
-    MatomoTracker.trackScreenWithName(AnalyticsScreenNames.updateUserAction, AnalyticsScreenNames.userActionDetails);
+    PassEmploiMatomoTracker.instance.trackScreenWithName(
+      widgetName: AnalyticsScreenNames.userActionDetails,
+      eventName: AnalyticsScreenNames.updateUserAction,
+    );
   }
 }
 
@@ -377,9 +383,9 @@ class _CommentCard extends StatelessWidget {
   }
 
   void _onCommentClick(BuildContext context, String actionId, String actionTitle) {
-    MatomoTracker.trackScreenWithName(
-      AnalyticsActionNames.accessToActionComments,
-      AnalyticsScreenNames.userActionDetails,
+    PassEmploiMatomoTracker.instance.trackScreenWithName(
+      widgetName: AnalyticsScreenNames.userActionDetails,
+      eventName: AnalyticsActionNames.accessToActionComments,
     );
     Navigator.push(
       context,

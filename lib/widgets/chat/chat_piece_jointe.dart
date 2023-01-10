@@ -1,66 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/presentation/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_message_container.dart';
 
-class ChatPieceJointeWidget extends StatelessWidget {
+class ChatPieceJointe extends StatelessWidget {
   final PieceJointeConseillerMessageItem item;
 
-  const ChatPieceJointeWidget(this.item) : super();
+  const ChatPieceJointe(this.item) : super();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 10, bottom: 10),
-      child: Column(
+    return ChatMessageContainer(
+      content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _MessageBubble(
-            children: [
-              SelectableText(item.message, style: TextStyles.textSRegular()),
-              SizedBox(height: 14),
-              _PieceJointeName(item.filename),
-              SizedBox(height: 20),
-              _DownloadButton(item: item),
-            ],
-          ),
-          _Caption(item.caption),
+          SelectableText(item.message, style: TextStyles.textSRegular()),
+          SizedBox(height: 14),
+          _PieceJointeName(item.filename),
+          SizedBox(height: 20),
+          _DownloadButton(item: item),
         ],
       ),
-    );
-  }
-}
-
-class _MessageBubble extends StatelessWidget {
-  final List<Widget> children;
-
-  const _MessageBubble({required this.children}) : super();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        left: 0,
-        right: 77.0,
-      ),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: children,
-      ),
+      isMyMessage: false,
+      caption: item.caption,
     );
   }
 }
@@ -82,23 +53,6 @@ class _PieceJointeName extends StatelessWidget {
             style: TextStyles.textSBoldWithColor(Colors.black),
           ),
         ),
-      ],
-    );
-  }
-}
-
-class _Caption extends StatelessWidget {
-  final String text;
-
-  const _Caption(this.text) : super();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: Margins.spacing_xs),
-        Text(text, style: TextStyles.textXsRegular()),
       ],
     );
   }

@@ -157,8 +157,8 @@ class AnalyticsActionNames {
 }
 
 class AnalyticsCustomDimensions {
-  static const userTypeId = 1;
-  static const structureId = 2;
+  static const userTypeId = '1';
+  static const structureId = '2';
 
   static const appUserType = "jeune";
 }

@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/models/conseiller.dart';
 
 class Rendezvous extends Equatable {
   final String id;
+  final RendezvousSource source;
   final DateTime date;
   final bool isInVisio;
   final bool isAnnule;
@@ -25,6 +26,7 @@ class Rendezvous extends Equatable {
 
   Rendezvous({
     required this.id,
+    required this.source,
     required this.date,
     required this.isInVisio,
     required this.isAnnule,
@@ -55,6 +57,7 @@ class Rendezvous extends Equatable {
   List<Object?> get props {
     return [
       id,
+      source,
       date,
       duration,
       isInVisio,
@@ -99,7 +102,10 @@ enum RendezvousTypeCode {
   AUTRE,
 }
 
-enum RendezvousModalityType {
-  TELEPHONE,
-  NONE
+enum RendezvousModalityType { TELEPHONE, NONE }
+
+enum RendezvousSource { milo, passEmploi }
+
+extension RendezvousSourceExt on RendezvousSource {
+  bool get isMilo => this == RendezvousSource.milo;
 }

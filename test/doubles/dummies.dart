@@ -2,7 +2,6 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
@@ -21,6 +20,7 @@ import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart'
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -40,7 +40,6 @@ import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
-import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
@@ -54,6 +53,7 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+/*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -73,11 +73,11 @@ class DummyPushNotificationManager extends PushNotificationManager {
   Future<void> init(Store<AppState> store) async {}
 }
 
-class DummyRegisterTokenRepository extends RegisterTokenRepository {
+class DummyRegisterTokenRepository extends ConfigurationApplicationRepository {
   DummyRegisterTokenRepository() : super("", DummyHttpClient(), DummyPushNotificationManager());
 
   @override
-  Future<void> registerToken(String userId) async {}
+  Future<void> configureApplication(String userId, String fuseauHoraire) async {}
 }
 
 class DummySharedPreferences extends FlutterSecureStorage {
@@ -317,15 +317,6 @@ class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {
   }
 }
 
-class DummyMatomoTracker extends MatomoTracker {
-  DummyMatomoTracker() : super.internal();
-
-  @override
-  void setOptOut(bool optout) {
-    // Do nothing
-  }
-}
-
 class DummySuccessCreateDemarcheRepository extends CreateDemarcheRepository {
   DummySuccessCreateDemarcheRepository() : super("", DummyHttpClient());
 }
@@ -362,3 +353,5 @@ class DummyEventListRepository extends EventListRepository {
 class DummyMetierRepository extends MetierRepository {
   DummyMetierRepository() : super("", DummyHttpClient());
 }
+
+/*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

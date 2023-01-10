@@ -15,10 +15,8 @@
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# VSCode related
+.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -58,10 +56,7 @@ build.env
 # prod build
 build.prod.env
 
-ios/StagingOptionsPlist.plist
-ios/ProdOptionsPlist.plist
-ios/StagingExportOptions.plist
-ios/ProdExportOptions.plist
+ios/*.plist
 ios/*.p12
 ios/*.p8
 

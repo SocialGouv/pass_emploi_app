@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
-import 'package:pass_emploi_app/network/put_register_token_request.dart';
+import 'package:pass_emploi_app/network/put_configuration_application.dart';
 import 'package:pass_emploi_app/network/put_user_action_request.dart';
 
 void main() {
@@ -24,8 +24,8 @@ void main() {
   });
 
   test('customJsonEncode for PutRegisterTokenRequest', () {
-    final request = PutRegisterTokenRequest(token: 'token123');
+    final request = PutConfigurationApplication(token: 'token123', fuseauHoraire: "Europe/Paris");
     final json = customJsonEncode(request);
-    expect(json, '{"registration_token":"token123"}');
+    expect(json, '{"registration_token":"token123","fuseauHoraire":"Europe/Paris"}');
   });
 }

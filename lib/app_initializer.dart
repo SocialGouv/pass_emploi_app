@@ -12,7 +12,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
-import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/auth/auth_access_checker.dart';
@@ -42,6 +41,7 @@ import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart'
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -62,7 +62,6 @@ import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
-import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
@@ -76,6 +75,8 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+/*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -104,8 +105,10 @@ class AppInitializer {
   Future<void> _initializeMatomoTracker(Configuration configuration) async {
     final siteId = configuration.matomoSiteId;
     final url = configuration.matomoBaseUrl;
-    await MatomoTracker().initialize(siteId: int.parse(siteId), url: url);
-    MatomoTracker.setCustomDimension(AnalyticsCustomDimensions.userTypeId, AnalyticsCustomDimensions.appUserType);
+    await PassEmploiMatomoTracker.instance.initialize(siteId: int.parse(siteId), url: url);
+    PassEmploiMatomoTracker.instance.trackDimensions({
+      AnalyticsCustomDimensions.userTypeId: AnalyticsCustomDimensions.appUserType,
+    });
   }
 
   Future<FirebaseRemoteConfig?> _remoteConfig() async {
@@ -188,7 +191,7 @@ class AppInitializer {
       RendezvousRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, crashlytics),
       ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
-      RegisterTokenRepository(baseUrl, httpClient, pushNotificationManager, crashlytics),
+      ConfigurationApplicationRepository(baseUrl, httpClient, pushNotificationManager, crashlytics),
       OffreEmploiDetailsRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ImmersionFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
@@ -211,7 +214,7 @@ class AppInitializer {
       SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
       modeDemoRepository,
       CampagneRepository(baseUrl, httpClient, crashlytics),
-      MatomoTracker(),
+      PassEmploiMatomoTracker.instance,
       UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
       CreateDemarcheRepository(baseUrl, httpClient, crashlytics),
       SearchDemarcheRepository(baseUrl, httpClient, crashlytics),
@@ -223,6 +226,8 @@ class AppInitializer {
       AgendaRepository(baseUrl, httpClient, crashlytics),
       SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       EventListRepository(baseUrl, httpClient, crashlytics),
+      configuration
+      /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);

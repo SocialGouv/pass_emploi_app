@@ -23,6 +23,10 @@ class DeepLinkState extends Equatable {
         return SavedSearchDeepLinkState(idSavedSearch: data["id"] as String);
       case 'NOUVELLES_FONCTIONNALITES':
         return NouvellesFonctionnalitesDeepLinkState(lastVersion: Version.fromString(data["version"] as String));
+      case "EVENT_LIST":
+        return EventListDeepLinkState();
+      case "ACTUALISATION_PE":
+        return ActualisationPeDeepLinkState();
       default:
         return NotInitializedDeepLinkState();
     }
@@ -56,6 +60,8 @@ class DetailRendezvousDeepLinkState extends DeepLinkState {
 
 class NouveauMessageDeepLinkState extends DeepLinkState {}
 
+class EventListDeepLinkState extends DeepLinkState {}
+
 class NouvellesFonctionnalitesDeepLinkState extends DeepLinkState {
   final Version? lastVersion;
 
@@ -74,3 +80,5 @@ class SavedSearchDeepLinkState extends DeepLinkState {
 class UsedDeepLinkState extends DeepLinkState {}
 
 class NotInitializedDeepLinkState extends DeepLinkState {}
+
+class ActualisationPeDeepLinkState extends DeepLinkState {}

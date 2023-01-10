@@ -226,6 +226,8 @@ void main() {
         );
 
         assertConseillerIsHidden("without conseiller field", mockRendezvous(id: '1', withConseiller: null));
+
+        assertConseillerIsHidden("with source milo", mockRendezvous(id: '1', source: RendezvousSource.milo));
       });
 
       test('and comment is not set', () {
@@ -370,12 +372,14 @@ void main() {
         expect(viewModel.conseiller, "votre conseiller Nils Tavernier");
       });
 
-      test('should display createur if present', () {
+      test('should hide conseiller in modality when source is milo', () {
         // Given
         final store = _store(mockRendezvous(
           id: '1',
+          source: RendezvousSource.milo,
+          modality: "en visio",
           withConseiller: true,
-          createur: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+          conseiller: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
         ));
 
         // When
@@ -387,7 +391,52 @@ void main() {
         );
 
         // Then
-        expect(viewModel.createur, "Le rendez-vous a été programmé par votre conseiller précédent Nils Tavernier");
+        expect(viewModel.modality, "Le rendez-vous se fera en visio");
+        expect(viewModel.conseiller, null);
+      });
+
+      group("createur", () {
+        test('should display createur if present', () {
+          // Given
+          final store = _store(mockRendezvous(
+            id: '1',
+            withConseiller: true,
+            createur: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+          ));
+
+          // When
+          final viewModel = RendezvousDetailsViewModel.create(
+            store: store,
+            source: RendezvousStateSource.rendezvousList,
+            rdvId: '1',
+            platform: Platform.IOS,
+          );
+
+          // Then
+          expect(viewModel.createur, "Le rendez-vous a été programmé par votre conseiller précédent Nils Tavernier");
+        });
+
+        test('should hide createur if source is milo', () {
+          // Given
+          final store = _store(mockRendezvous(
+            id: '1',
+            source: RendezvousSource.milo,
+            withConseiller: true,
+            conseiller: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+            createur: Conseiller(id: 'id', firstName: 'Système', lastName: 'Milo'),
+          ));
+
+          // When
+          final viewModel = RendezvousDetailsViewModel.create(
+            store: store,
+            source: RendezvousStateSource.rendezvousList,
+            rdvId: '1',
+            platform: Platform.IOS,
+          );
+
+          // Then
+          expect(viewModel.createur, null);
+        });
       });
 
       test('should display modality without conseiller', () {
@@ -712,6 +761,7 @@ void main() {
         // Given
         final store = _store(Rendezvous(
           id: '1',
+          source: RendezvousSource.passEmploi,
           title: "Super atelier",
           date: DateTime(2022, 3, 1),
           duration: 30,

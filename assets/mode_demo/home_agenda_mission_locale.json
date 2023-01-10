@@ -55,6 +55,16 @@
         "code": "ENTRETIEN_INDIVIDUEL_CONSEILLER",
         "label": "Entretien individuel conseiller"
       },
+      "createur": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      },
+      "conseiller": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      },
       "presenceConseiller": true,
       "invitation": false
     },
@@ -73,6 +83,16 @@
       "type": {
         "code": "ENTRETIEN_INDIVIDUEL_CONSEILLER",
         "label": "Entretien individuel conseiller"
+      },
+      "createur": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      },
+      "conseiller": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
       },
       "presenceConseiller": true,
       "invitation": false
@@ -94,7 +114,46 @@
         "code": "ATELIER",
         "label": "Atelier"
       },
+      "createur": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      },
+      "conseiller": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      },
       "presenceConseiller": true,
+      "invitation": false
+    },
+    {
+      "id": "12345678-b3e6-4dce-89c9-361be54a04f5",
+      "source": "MILO",
+      "date": "2022-05-04T08:00:00.000Z",
+      "isLocaleDate": false,
+      "modality": "par visio",
+      "duration": 120,
+      "title": "Événement de ma mission locale",
+      "jeune": {
+        "id": "SEVP",
+        "nom": "Sevier",
+        "prenom": "Paul"
+      },
+      "type": {
+        "code": "ATELIER",
+        "label": "Atelier"
+      },     
+      "createur": {
+        "id": "0",
+        "nom": "Milo",
+        "prenom": "Système"
+      },
+      "conseiller": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      },
       "invitation": false
     }
   ],

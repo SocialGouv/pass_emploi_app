@@ -57,6 +57,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
+/*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
   final ConfigurationState configurationState;
@@ -114,6 +115,7 @@ class AppState extends Equatable {
   final SuggestionsRechercheState suggestionsRechercheState;
   final TraiterSuggestionRechercheState traiterSuggestionRechercheState;
   final EventListState eventListState;
+  /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
     required this.configurationState,
@@ -171,6 +173,7 @@ class AppState extends Equatable {
     required this.suggestionsRechercheState,
     required this.traiterSuggestionRechercheState,
     required this.eventListState,
+    /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
   AppState copyWith({
@@ -229,6 +232,7 @@ class AppState extends Equatable {
     final SuggestionsRechercheState? suggestionsRechercheState,
     final TraiterSuggestionRechercheState? traiterSuggestionRechercheState,
     final EventListState? eventListState,
+    /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -287,6 +291,7 @@ class AppState extends Equatable {
       suggestionsRechercheState: suggestionsRechercheState ?? this.suggestionsRechercheState,
       traiterSuggestionRechercheState: traiterSuggestionRechercheState ?? this.traiterSuggestionRechercheState,
       eventListState: eventListState ?? this.eventListState,
+      /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
 
@@ -347,6 +352,7 @@ class AppState extends Equatable {
       suggestionsRechercheState: SuggestionsRechercheNotInitializedState(),
       traiterSuggestionRechercheState: TraiterSuggestionRechercheNotInitializedState(),
       eventListState: EventListNotInitializedState(),
+      /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
 
@@ -400,6 +406,7 @@ class AppState extends Equatable {
         suggestionsRechercheState,
         traiterSuggestionRechercheState,
         eventListState,
+        /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 
   @override

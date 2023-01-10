@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
@@ -62,6 +61,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
+/*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -72,6 +72,7 @@ import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -91,7 +92,6 @@ import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
-import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
@@ -105,6 +105,8 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+/*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
 class StoreFactory {
@@ -116,7 +118,7 @@ class StoreFactory {
   final RendezvousRepository rendezvousRepository;
   final OffreEmploiRepository offreEmploiRepository;
   final ChatRepository chatRepository;
-  final RegisterTokenRepository registerTokenRepository;
+  final ConfigurationApplicationRepository registerTokenRepository;
   final OffreEmploiDetailsRepository offreEmploiDetailsRepository;
   final OffreEmploiFavorisRepository offreEmploiFavorisRepository;
   final ImmersionFavorisRepository immersionFavorisRepository;
@@ -139,7 +141,7 @@ class StoreFactory {
   final SuppressionCompteRepository suppressionCompteRepository;
   final ModeDemoRepository modeDemoRepository;
   final CampagneRepository campagneRepository;
-  final MatomoTracker matomoTracker;
+  final PassEmploiMatomoTracker matomoTracker;
   final UpdateDemarcheRepository updateDemarcheRepository;
   final CreateDemarcheRepository createDemarcheRepository;
   final SearchDemarcheRepository demarcheDuReferentielRepository;
@@ -151,6 +153,8 @@ class StoreFactory {
   final AgendaRepository agendaRepository;
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
   final EventListRepository eventListRepository;
+  final Configuration configuration;
+  /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
     this.authenticator,
@@ -196,6 +200,8 @@ class StoreFactory {
     this.agendaRepository,
     this.suggestionsRechercheRepository,
     this.eventListRepository,
+    this.configuration,
+    /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -219,7 +225,7 @@ class StoreFactory {
         ChatStatusMiddleware(chatRepository),
         RendezvousListMiddleware(rendezvousRepository),
         RendezvousDetailsMiddleware(rendezvousRepository),
-        RegisterPushNotificationTokenMiddleware(registerTokenRepository),
+        RegisterPushNotificationTokenMiddleware(registerTokenRepository, configuration),
         OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
         OffreEmploiSavedSearchMiddleware(offreEmploiRepository),
@@ -232,7 +238,6 @@ class StoreFactory {
         FavoriIdsMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
         FavoriListMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
         FavoriUpdateMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository, ServiceCiviqueDataFromIdExtractor()),
-        RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),
         SearchMetierMiddleware(metierRepository),
@@ -263,6 +268,7 @@ class StoreFactory {
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository),
         TraiterSuggestionRechercheMiddleware(suggestionsRechercheRepository),
         EventListMiddleware(eventListRepository),
+        /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],

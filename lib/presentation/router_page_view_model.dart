@@ -76,5 +76,7 @@ MainPageDisplayState _toMainPageDisplayStateByDeepLink(DeepLinkState state) {
   if (state is DetailRendezvousDeepLinkState) return MainPageDisplayState.RENDEZVOUS_TAB;
   if (state is NouveauMessageDeepLinkState) return MainPageDisplayState.CHAT;
   if (state is SavedSearchDeepLinkState) return MainPageDisplayState.SAVED_SEARCH;
+  if (state is EventListDeepLinkState) return MainPageDisplayState.EVENT_LIST;
+  if (state is ActualisationPeDeepLinkState) return MainPageDisplayState.ACTUALISATION_PE;
   return MainPageDisplayState.DEFAULT;
 }

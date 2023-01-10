@@ -7,7 +7,9 @@ Celles-ci sont spécifiées dans le fichier [`CONTRIBUTING.md`](CONTRIBUTING.md)
 ## Renseigner les variables d'environnement
 
 Créer un fichier dans le répertoire `env` intitulé `env.staging` en vous inspirant du
-fichier `env.template` situé à la racine du projet. Y insérer toutes les bonnes valeurs.
+fichier `env.template` situé à la racine du projet. Y insérer toutes les bonnes valeurs. Elles se
+trouvent dans les notes partagées Dashlane (`[APP MOBILE] .env.staging` ou `[APP MOBILE] .env.prod`)
+.
 
 ## Lancer l'application depuis Android Studio
 
@@ -28,7 +30,7 @@ Il est nécessaire pour cela de créer 2 configurations, en fonction que vous so
 
 ## Renseigner les secrets Firebase
 
-Le projet utilise plusieurs foncionnalité de firebase. Les secrets ne sont pas et ne doivent pas
+Le projet utilise plusieurs foncionnalités de Firebase. Les secrets ne sont pas et ne doivent pas
 être commités (à ce titre, ils sont présent dans le `.gitignore`. Pour autant, ils sont nécessaires
 au bon fonctionnement de l'application. Ils sont téléchargeables directement depuis Firebase.
 
@@ -79,145 +81,63 @@ Une fois la montée de version de Flutter effectuée, mettre à jour :
   et `dev_dependencies`.
 * Vérifier que le projet compile bien en lançant la commande `$flutter pub get`.
 
-## Déployer une app sur Firebase
+## Déployer une app sur Firebase App Distribution avec les Github actions
 
-### Spécificités Android
+A chaque push sur la brancheð develop, un build et un déploiement sont faits sur Firebase App
+Distribution. Lorsque des variables d'environnement sont modifiées/ajoutées, il faut les ajouter
+dans les secrets github. Le fichier `ci/.env.template` permet de lister les variables nécessaires.
+Pour rappel, elles sont stockées dans les notes partagées Dashlane (`[APP MOBILE] .env.staging`
+ou `[APP MOBILE] .env.prod`).
 
-1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le
-   repertoire `android/keystore`
-2. Créer un fichier `key.properties` dans le repertoire `android` à partir du même modèle que
-   `key.properties.template`. Ce fichier ne doit JAMAIS être versionné.
-3. Renseigner les valeurs demandées (valeurs présentes dans le Drive du projet) dans ce fichier.
+#### Ajouter un appareil iOS pour les tests internes
 
-### Spécificités iOS
+1. Ajouter le device sur App Store Connect (Firebase nous envoit directement un mail avec l'UDID du
+   smartphone quand l'utilisateur tente de télécharger l'app de test sur iOS).
+2. Mettre à jour le Provisioning Profil Ad Hoc de Staging avec ce nouveau device ajouté.
+3. Relancer la CI (ou attendre un prochain build) : la dernière version du Provisioning Profile est
+   directement prise en compte dans le build.
 
-1. Vérifier que votre compte Apple Dev ait bien accès au compte Apple "Fabrique numérique des
-   ministères sociaux"
-2. Ouvrir le projet dans Xcode
-3. Configurer XCode, notamment sur la
-   partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] 
-   en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi.staging`
-4. Récupérer le fichier `StagingOptionsPlist.plist` dans le Drive du projet, et le placer dans le
-   dossier `ios`.
-5. Récupérer le fichier `DistCert_47M2TN7F3J.p12` dans le Drive du projet, et le placer dans le
-   dossier `ios` en le nommant `cert.p12`.
-6. Récupérer le fichier `frfabriquesocialgouvpassemploistaging.mobileprovision` dans le Drive du
-   projet, et le placer dans le dossier `ci`.
+#### Mettre à jour ou insérer de nouvelles variables d'environnement dans Github Action
 
-### Avec les github actions
-
-A chaque push sur la branche develop, un build et un déploiement est fait sur firebase. Lorsque des
-variables d'environnement sont modifiées/ajoutées, il faut les ajouter dans les secrets github. Le
-fichier `ci/.env.template` permet de lister les variables nécessaires.
-
-#### Mettre à jour ou insérer de nouvelle variable d'environnement dans Github Action
-
-1. Assurer vous d'avoir mis la nouvelle variable d'environnement dans le fichier
-   local `env/.env.staging`.
+1. Assurer vous d'avoir mis la ou les nouvelles variables d'environnement dans le fichier
+   local `env/.env.staging` et `env/.env.prod` et dans Dashlane (pour la postérité).
 2. Lancer le script `bash scripts/generate_env_ci.sh`
-3. Récupérer la valeur de STAGING_RUNTIME_ENV_B64 dans le fichier  `ci/env.ci`.
+3. Récupérer les valeurs de `STAGING_RUNTIME_ENV_B64` et de `PROD_RUNTIME_ENV_B64` dans le
+   fichier  `ci/env.ci`.
 4. Mettre à jour le secret de Github action 'STAGING_RUNTIME_ENV_B64' (Github > Settings > Secrets).
-
-#### Mettre à jour le provisioning profile dans Github Action
-
-1. Récupérer la dernière version du fichier `frfabriquesocialgouvpassemploistaging.mobileprovision`
-   sur App Store Connect et le placer dans le répertoire `ci`.
-2. Lancer le script `bash scripts/generate_env_ci.sh`
-3. Récupérer la valeur de STAGING_IOS_PROVISIONING_PROFILE_B64 dans le fichier  `ci/env.ci`.
-4. Mettre à jour le secret de Github action 'STAGING_IOS_PROVISIONING_PROFILE_B64' (Github >
-   Settings > Secrets).
-
-### En local
-
-#### Lancement du script
-
-Le script lance les tests, build les ipa et apk, et les distribue sur firebase app distribution.
-
-NB: le déploiement nécessite [la cli firebase](https://firebase.google.com/docs/cli). Il ne devrait
-pas être nécessaire d'être connecté, le script utilisant un token "ci".
-
-1. S'assurer que le script `scripts/staging_release_when_github_is_down.sh` est bien
-   executable : `chmod u+x scripts/staging_release_when_github_is_down.sh`
-2. En se plaçant à la racine du projet, lancer le
-   script `scripts/staging_release_when_github_is_down.sh`.
 
 ## Déployer une nouvelle version de l'app en bêta test sur les stores publics
 
-1. Se mettre à jour sur `develop`
-2. Mettre à jour le version name dans le fichier `pubspec.yaml` (variable `version`)
-3. Commiter et push le changement
-4. Merger `develop` sur `master` :
+Lancer le script `release.sh` avec le numéro de version en paramètre :
 
 ```shell script
-$ git checkout master
-$ git pull
-$ git merge --no-ff develop
-$ git push
+$ ./scripts/release.sh <major.minor.patch> 
 ```
 
-6. Tagger la release pour générer et uploader les builds de production via la CI
+La pipeline de production se lancera automatiquement dans la foulée. À la fin du job, le build de
+l'appli se retrouve disponible :
 
-```shell script
-$ git tag -a <major.minor.patch> -m "major.minor.patch" # major.minor.patch étant le version name de l'étape 3
-$ git push --tags 
-```
-
-7. À la fin du job, le build de l'appli se retrouve disponible :
-    * Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
-      avant que les utilisateurs internes puissent le voir dans le Play Store.
-    * Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
-      groupe de testeurs internes "Équipe projet".
+* Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
+  avant que les utilisateurs internes puissent le voir dans le Play Store.
+* Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
+  groupe de testeurs internes "Équipe projet".
 
 ## Déployer un hotfix de l'app en bêta test sur les stores publics
 
-1. **Prérequis : avoir corrigé le bug rencontré sur la branche `develop`**
-2. Créer une branche de hotfix à partir du dernier tag en production, et appliquer le(s) correctif(
-   s) :
+1. **Prérequis : avoir corrigé le bug rencontré sur les branches `master` ET `develop`**
+2. Lancer le script `hotfix.sh` avec le numéro de version en paramètre :
 
 ```shell script
-$ git checkout <major.minor.patch> # major.minor.patch étant le tag sur lequel on veut appliquer un hotfix
-$ git checkout -b hotfix/<major.minor.patch+1> # ex: passer de 3.0.0 à 3.0.1
-$ git cherry-pick <hash-du-commit-correctif-sur-develop>
+$ ./scripts/hotfix.sh <major.minor.patch> 
 ```
 
-3. Mettre à jour le version name dans le fichier `pubspec.yaml` (variable `version`)
-4. Commiter le changement
-5. Merger la branche de hotfix sur `develop` :
+La pipeline de production se lancera automatiquement dans la foulée. À la fin du job, le build de
+l'appli se retrouve disponible :
 
-```shell script
-$ git checkout develop
-$ git pull
-$ git merge --no-ff <branche-de-hotfix>
-$ git push
-```
-
-6. Merger la branche de hotfix sur `master` :
-
-```shell script
-$ git checkout master
-$ git pull
-$ git merge --no-ff <branche-de-hotfix>
-$ git push
-```
-
-7. Supprimer la branche de hotfix en local :
-
-```shell script
-$ git branch -D <branche-de-hotfix>
-```
-
-8. Tagger la release pour générer et uploader les builds de production via la CI
-
-```shell script
-$ git tag -a major.minor.patch -m "major.minor.patch" # major.minor.patch étant le version name de l'étape 3
-$ git push --tags 
-```
-
-9. À la fin du job, le build de l'appli se retrouve disponible :
-    * Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
-      avant que les utilisateurs internes puissent le voir dans le Play Store.
-    * Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
-      groupe de testeurs internes "Équipe projet".
+* Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
+  avant que les utilisateurs internes puissent le voir dans le Play Store.
+* Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
+  groupe de testeurs internes "Équipe projet".
 
 ## Promouvoir la version pour tous les utilisateurs
 

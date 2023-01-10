@@ -32,20 +32,17 @@ abstract class MessageItem extends ChatItem {
   List<Object?> get props => [content, caption];
 }
 
-abstract class UserMessageItem extends MessageItem {
+class TextMessageItem extends MessageItem {
+  final Sender sender;
 
-  UserMessageItem(super.content, super.caption);
+  TextMessageItem({
+    required String content,
+    required String caption,
+    required this.sender,
+  }) : super(content, caption);
 
   @override
-  List<Object?> get props => [content, caption];
-}
-
-class JeuneMessageItem extends UserMessageItem {
-  JeuneMessageItem({required String content, required String caption}) : super(content, caption);
-}
-
-class ConseillerMessageItem extends UserMessageItem {
-  ConseillerMessageItem({required String content, required String caption}) : super(content, caption);
+  List<Object?> get props => [content, caption, sender];
 }
 
 abstract class PartageMessageItem extends MessageItem {

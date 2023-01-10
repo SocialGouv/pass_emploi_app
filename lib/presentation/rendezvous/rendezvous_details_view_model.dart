@@ -167,9 +167,6 @@ class RendezvousDetailsViewModel extends Equatable {
       greenTag,
       date,
       hourAndDuration,
-      modality,
-      conseiller,
-      createur,
       conseillerPresenceLabel,
       conseillerPresenceColor,
       isInscrit,
@@ -184,6 +181,9 @@ class RendezvousDetailsViewModel extends Equatable {
       title,
       commentTitle,
       comment,
+      modality,
+      conseiller,
+      createur,
       organism,
       phone,
       address,
@@ -215,6 +215,7 @@ bool _shouldHidePresentielInformation(Rendezvous rdv) {
 }
 
 bool _shouldDisplayConseillerPresence(Rendezvous rdv) {
+  if (rdv.source.isMilo) return false;
   return rdv.type.code != RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER &&
       rdv.type.code != RendezvousTypeCode.PRESTATION &&
       rdv.withConseiller != null;
@@ -250,6 +251,7 @@ String? _modality(Rendezvous rdv) {
 }
 
 String? _conseiller(Rendezvous rdv) {
+  if (rdv.source.isMilo) return null;
   if (rdv.isInVisio || rdv.modality == null) return null;
   final conseiller = rdv.conseiller;
   final withConseiller = rdv.withConseiller;
@@ -260,6 +262,7 @@ String? _conseiller(Rendezvous rdv) {
 }
 
 String? _createur(Rendezvous rdv) {
+  if (rdv.source.isMilo) return null;
   final createur = rdv.createur;
   return createur != null ? Strings.rendezvousCreateur('${createur.firstName} ${createur.lastName}') : null;
 }

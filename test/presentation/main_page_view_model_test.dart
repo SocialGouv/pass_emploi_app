@@ -1,11 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
+import '../doubles/spies.dart';
 import '../dsl/app_state_dsl.dart';
 
 void main() {
@@ -87,5 +89,18 @@ void main() {
       // Then
       expect(viewModel.showRating, isTrue);
     });
+  });
+
+
+  test('resetDeeplink should trigger ResetDeeplinkAction', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = MainPageViewModel.create(store);
+
+    // When
+    viewModel.resetDeeplink();
+
+    // Then
+    expect(store.dispatchedAction, isA<ResetDeeplinkAction>());
   });
 }
