@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
 
 class DemoInterceptor extends Interceptor {
   final ModeDemoRepository demoRepository;
@@ -11,8 +12,16 @@ class DemoInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if (!demoRepository.getModeDemo()) handler.next(options);
-    handler.resolve(Response(requestOptions: options, data: await readFile("home_actions")));
+    if (!demoRepository.getModeDemo() || !options.uri.toString().isSupposedToBeMocked()) {
+      handler.next(options);
+      return;
+    }
+    if (options.method != "GET") {
+      handler.resolve(Response(requestOptions: options, statusCode: 201));
+      return;
+    }
+    final demoFileName = getDemoFileName(options.uri.path, options.uri.query);
+    handler.resolve(Response(requestOptions: options, data: await readFile(demoFileName!), statusCode: 200));
   }
 
   Future<dynamic> readFile(String stringUrl) async {
@@ -35,3 +44,5 @@ class DemoInterceptor extends Interceptor {
         .then((json) => jsonDecode(json));
   }
 }
+
+//TODO: mode demo validator

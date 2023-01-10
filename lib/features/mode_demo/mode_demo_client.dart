@@ -17,7 +17,7 @@ class ModeDemoClient extends BaseClient {
     if (request.method != "GET") {
       return StreamedResponse(Stream.empty(), 201);
     } else {
-      final fileName = _getFileName(request.url.path, request.url.query);
+      final fileName = getDemoFileName(request.url.path, request.url.query);
       return StreamedResponse(readFileBytes(fileName!), 200);
     }
   }
@@ -52,7 +52,7 @@ class ModeDemoValidatorClient extends BaseClient {
   @override
   Future<StreamedResponse> send(BaseRequest request) async {
     if (request.method == "GET" && request.url.toString().isSupposedToBeMocked()) {
-      final fileName = _getFileName(request.url.path, request.url.query);
+      final fileName = getDemoFileName(request.url.path, request.url.query);
       if (fileName == null) throw ModeDemoException(request.url.toString());
     }
     return httpClient.send(request);
@@ -74,7 +74,7 @@ class ModeDemoException implements Exception {
   }
 }
 
-String? _getFileName(String url, String query) {
+String? getDemoFileName(String url, String query) {
   if (url.contains("/home/agenda/pole-emploi")) return "home_agenda_pole_emploi";
   if (url.contains("/home/agenda")) return "home_agenda_mission_locale";
   if (url.endsWith("/home/demarches")) return "home_demarches";
@@ -102,7 +102,7 @@ String? _getFileName(String url, String query) {
   return null;
 }
 
-extension _UrlExtensions on String {
+extension UrlExtensions on String {
   bool isSupposedToBeMocked() {
     return !contains("referentiels/communes-et-departements") &&
         !contains("fichiers") &&
