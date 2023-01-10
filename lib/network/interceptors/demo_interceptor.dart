@@ -12,16 +12,22 @@ class DemoInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    final demoFileName = getDemoFileName(options.uri.path, options.uri.query);
+    if (options.method == "GET" && demoFileName == null) {
+      //TODO: est-ce que ça throw aussi dans les tests ?
+      throw ModeDemoException(options.uri.toString());
+    }
+
     if (!demoRepository.getModeDemo() || !options.uri.toString().isSupposedToBeMocked()) {
       handler.next(options);
       return;
     }
-    if (options.method != "GET") {
+
+    if (options.method == "GET") {
+      handler.resolve(Response(requestOptions: options, data: await readFile(demoFileName!), statusCode: 200));
+    } else {
       handler.resolve(Response(requestOptions: options, statusCode: 201));
-      return;
     }
-    final demoFileName = getDemoFileName(options.uri.path, options.uri.query);
-    handler.resolve(Response(requestOptions: options, data: await readFile(demoFileName!), statusCode: 200));
   }
 
   Future<dynamic> readFile(String stringUrl) async {
@@ -44,5 +50,3 @@ class DemoInterceptor extends Interceptor {
         .then((json) => jsonDecode(json));
   }
 }
-
-//TODO: mode demo validator
