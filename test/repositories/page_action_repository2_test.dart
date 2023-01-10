@@ -20,7 +20,7 @@ void main() {
     sut.givenRepository((client) => PageActionRepository2(client));
 
     group('getPageActions', () {
-      sut.wwhen((pageActionRepository) => pageActionRepository.getPageActions("uuid"));
+      sut.when((pageActionRepository) => pageActionRepository.getPageActions("uuid"));
 
       group('when response is valid', () {
         sut.givenJsonResponse(fromJson: "home_actions.json");
@@ -139,4 +139,3 @@ void main() {
     );
   });
 }
-

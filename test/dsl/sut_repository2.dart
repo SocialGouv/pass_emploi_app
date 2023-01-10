@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:mocktail/mocktail.dart' as mocktail;
 
 import '../doubles/dio_mock.dart';
-import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
 class RepositorySut2<REPO> {
@@ -50,13 +49,13 @@ class RepositorySut2<REPO> {
 
   // When
 
-  void wwhen(Future<dynamic> Function(REPO) wwwwhen) {
-    setUp(
-      () => _when = (repo) {
-        when(() => _client.get(any())).thenAnswer((_) async => _response());
-        return wwwwhen(repo);
-      },
-    );
+  void when(Future<dynamic> Function(REPO) when) {
+    setUp(() {
+      return _when = (repo) {
+        mocktail.when(() => _client.get(mocktail.any())).thenAnswer((_) async => _response());
+        return when(repo);
+      };
+    });
   }
 
   // Then
