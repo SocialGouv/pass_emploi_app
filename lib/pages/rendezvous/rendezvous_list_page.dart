@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class RendezvousListPage extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
       onInit: (store) => RendezvousListViewModel.fetchRendezvous(store, _pageOffset),
       converter: (store) => RendezvousListViewModel.create(store, DateTime.now(), _pageOffset),
       builder: _builder,
-      onDidChange: (_, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
+      onDidChange: _onDidChange,
       distinct: true,
       key: ValueKey(_pageOffset),
     );
@@ -68,6 +69,13 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
         ),
       ),
     );
+  }
+
+  void _onDidChange(RendezvousListViewModel? previous, RendezvousListViewModel current) {
+    _openDeeplinkIfNeeded(current, context);
+    if (previous?.withNotUpToDateMessage == true && !current.withNotUpToDateMessage) {
+      showSuccessfulSnackBar(context, Strings.rendezvousUpToDate);
+    }
   }
 
   void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
