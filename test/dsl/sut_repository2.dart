@@ -36,7 +36,7 @@ class RepositorySut2<REPO> {
   }
 
   RequestOptions _makeRequestOptions() {
-    return RequestOptions(path: "todo"); //TODO: request path
+    return RequestOptions(path: "sut-path");
   }
 
   DioMock _makeClient() {
