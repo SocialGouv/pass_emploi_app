@@ -192,6 +192,8 @@ class AppInitializer {
     dioClient.interceptors.add(DemoInterceptor(modeDemoRepository));
     dioClient.interceptors.add(AuthInterceptor(accessTokenRetriever));
     dioClient.interceptors.add(CacheInterceptor(requestCacheManager));
+    dioClient.interceptors.add(LogoutInterceptor2(authAccessChecker));
+    dioClient.interceptors.add(LoggingInterceptor2());
     final reduxStore = StoreFactory(
       authenticator,
       crashlytics,
