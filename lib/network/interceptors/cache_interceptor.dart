@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/utils/log.dart';
@@ -19,12 +23,18 @@ class CacheInterceptor extends Interceptor {
     final fileFromCache = await cacheManager.getFileFromCache(stringUrl);
     if (fileFromCache != null && await fileFromCache.file.exists() && isCacheStillUpToDate(fileFromCache)) {
       Log.i("Intercepting cache request for ${options.uri.path} : return cached data.");
-      handler.resolve(Response(requestOptions: options, data: fileFromCache.file.openRead(), statusCode: 200));
+      handler.resolve(await _response(options, fileFromCache.file));
     } else {
       Log.i("Intercepting cache request for ${options.uri.path} : return fresh data.");
-      final headers = options.headers.updateAll((key, value) => value.toString()) as Map<String, String>;
-      final response = await cacheManager.downloadFile(stringUrl, key: stringUrl, authHeaders: headers);
-      handler.resolve(Response(requestOptions: options, data: response.file.openRead(), statusCode: 200));
+      final headers = options.headers.map((key, value) => MapEntry(key, value.toString()));
+      final downloadedFile = await cacheManager.downloadFile(stringUrl, key: stringUrl, authHeaders: headers);
+      handler.resolve(await _response(options, downloadedFile.file));
     }
   }
+}
+
+Future<Response<dynamic>> _response(RequestOptions options, File file) async {
+  final decodedData = await utf8.decodeStream(file.openRead());
+  final json = jsonDecode(decodedData);
+  return Response(requestOptions: options, data: json, statusCode: 200);
 }
