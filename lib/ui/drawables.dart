@@ -6,6 +6,7 @@ class Drawables {
   static const String _svg = ".svg";
   static const String _png = ".png";
   static String icLogo = _assets + "ic_logo" + _svg;
+  static String icRefresh = _assets + "ic_refresh" + _svg;
   static String icMenuHome = _assets + "ic_menu_home" + _svg;
   static String icMenuAction = _assets + "ic_menu_action" + _svg;
   static String icMenuChat = _assets + "ic_menu_chat" + _svg;

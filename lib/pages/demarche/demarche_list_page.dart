@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
+import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
@@ -77,8 +78,18 @@ class DemarcheListPage extends StatelessWidget {
         Margins.spacing_base,
         Margins.spacing_huge,
       ),
-      itemCount: viewModel.items.length,
-      itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
+      itemCount: viewModel.items.length + 1,
+      itemBuilder: (context, i) {
+        if (i == 0) {
+          return viewModel.withNotUpToDateMessage
+              ? NotUpToDateMessage(
+                  message: Strings.demarchesNotUpToDateMessage,
+                  onRefresh: () => {},
+                )
+              : Container();
+        }
+        return _listItem(context, viewModel.items[i - 1], viewModel);
+      },
       separatorBuilder: (context, i) => _listSeparator(),
     );
   }
