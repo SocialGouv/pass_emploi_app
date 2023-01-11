@@ -26,6 +26,7 @@ class LogoutInterceptor2 extends Interceptor {
 
   @override
   void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
+    //TODO: vérifier que c'est OK
     _authAccessChecker.logoutUserIfTokenIsExpired(response.toString(), response.statusCode ?? 700);
     handler.next(response);
   }

@@ -130,7 +130,7 @@ class DummyAuthWrapper extends AuthWrapper {
 class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyPageActionRepository extends PageActionRepository {
-  DummyPageActionRepository() : super("", DummyHttpClient());
+  DummyPageActionRepository() : super(DioMock());
 }
 
 class DummyPageDemarcheRepository extends PageDemarcheRepository {

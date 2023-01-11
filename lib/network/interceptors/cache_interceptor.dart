@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/utils/log.dart';

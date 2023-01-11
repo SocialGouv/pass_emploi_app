@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart' as mocktail;
+import 'package:pass_emploi_app/network/status_code.dart';
 
 import '../doubles/dio_mock.dart';
 import '../utils/test_assets.dart';
@@ -21,7 +22,13 @@ class RepositorySut2<REPO> {
   }
 
   void givenResponseCode(int code) {
-    givenResponse(() => Response(requestOptions: _makeRequestOptions(), statusCode: code));
+    //TODO: actuellement la lib Dio fait péter une exception quand c'est un mauvais status code.
+    // Si on mock une réponse avec un code 500, ça ne fait pas péter l'exception
+    // Deux solutions :
+    // - on throw une exception quand c'est un code invalide
+    // - on garde le if code.isValid dans les repo (avantage: on reste indépendant de la lib. inconvénient: faut l'écrire)
+    dynamic data() => code.isValid() ? null : throw Exception("SUT: invalid HTTP code.");
+    givenResponse(() => Response(requestOptions: _makeRequestOptions(), statusCode: code, data: data()));
   }
 
   void givenThrowingExceptionResponse() {
@@ -50,9 +57,21 @@ class RepositorySut2<REPO> {
   // When
 
   void when(Future<dynamic> Function(REPO) when) {
+    //TODO: attention, si on ne met pas un "any" sur un paramètre qu'on utilise dans get/post/etc, ça ne marche pas #relou #viveLeVanillaMocking
     setUp(() {
-      return _when = (repo) {
-        mocktail.when(() => _client.get(mocktail.any())).thenAnswer((_) async => _response());
+      _when = (repo) {
+        mocktail //
+            .when(() => _client.get(mocktail.any()))
+            .thenAnswer((_) async => _response());
+        mocktail //
+            .when(() => _client.post(mocktail.any(), data: mocktail.any(named: "data")))
+            .thenAnswer((_) async => _response());
+        mocktail //
+            .when(() => _client.put(mocktail.any(), data: mocktail.any(named: "data")))
+            .thenAnswer((_) async => _response());
+        mocktail //
+            .when(() => _client.delete(mocktail.any()))
+            .thenAnswer((_) async => _response());
         return when(repo);
       };
     });
@@ -69,16 +88,35 @@ class RepositorySut2<REPO> {
     await _when(_repository);
 
     final dynamic capturedUrl;
+    dynamic capturedData;
+    //TODO: attention, si on ne met pas un "any" sur un paramètre qu'on utilise dans get/post/etc, ça ne marche pas #relou #viveLeVanillaMocking
     switch (method) {
       case HttpMethod.get:
         capturedUrl = mocktail.verify(() => _client.get(mocktail.captureAny())).captured.last;
         break;
+      case HttpMethod.post:
+        final captured = mocktail
+            .verify(() => _client.post(mocktail.captureAny(), data: mocktail.captureAny(named: "data")))
+            .captured;
+        capturedUrl = captured[0];
+        capturedData = captured[1];
+        break;
+      case HttpMethod.put:
+        final captured = mocktail
+            .verify(() => _client.put(mocktail.captureAny(), data: mocktail.captureAny(named: "data")))
+            .captured;
+        capturedUrl = captured[0];
+        capturedData = captured[1];
+        break;
+      case HttpMethod.delete:
+        capturedUrl = mocktail.verify(() => _client.delete(mocktail.captureAny())).captured.last;
+        break;
     }
     expect(capturedUrl, url);
+    if (jsonBody != null) expect(jsonDecode(capturedData as String), jsonBody);
 
-    //TODO: fields
-    // if (bodyFields != null) expect(_request.bodyFields, bodyFields);
-    // if (jsonBody != null) expect(jsonUtf8Decode(_request.bodyBytes), jsonBody);
+    //TODO: bodyFields, si un repo l'utilise sinon suppr
+    //if (bodyFields != null) expect(_request.bodyFields, bodyFields);
   }
 
   // Then on result
@@ -111,4 +149,4 @@ class RepositorySut2<REPO> {
 }
 
 //TODO: move?
-enum HttpMethod { get }
+enum HttpMethod { get, post, put, delete }

@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/repositories/page_action_repository2.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 
 import '../doubles/dio_mock.dart';
 import '../dsl/sut_repository2.dart';
@@ -17,8 +17,8 @@ import '../utils/test_datetime.dart';
 //TODO: to remove/merge
 void main() {
   group('PageActionRepository2', () {
-    final sut = RepositorySut2<PageActionRepository2>();
-    sut.givenRepository((client) => PageActionRepository2(client));
+    final sut = RepositorySut2<PageActionRepository>();
+    sut.givenRepository((client) => PageActionRepository(client));
 
     group('getPageActions', () {
       sut.when((pageActionRepository) => pageActionRepository.getPageActions("uuid"));
@@ -93,7 +93,7 @@ void main() {
     final data = jsonDecode(loadTestAssets("home_actions.json"));
     final response = Response(requestOptions: options, data: data);
     when(() => dio.get(any())).thenAnswer((_) async => response);
-    final repo = PageActionRepository2(dio);
+    final repo = PageActionRepository(dio);
     // When
     final result = await repo.getPageActions("JOCH");
     // Then
