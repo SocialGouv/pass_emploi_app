@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:redux/src/store.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
@@ -55,7 +55,7 @@ Store<AppState> _storeWithErrorFetchingRepositories() {
 }
 
 class DetailsJeuneRepositorySuccessStub extends DetailsJeuneRepository {
-  DetailsJeuneRepositorySuccessStub() : super('', DummyHttpClient());
+  DetailsJeuneRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<DetailsJeune?> fetch(String userId) async {
@@ -64,7 +64,7 @@ class DetailsJeuneRepositorySuccessStub extends DetailsJeuneRepository {
 }
 
 class DetailsJeuneRepositoryErrorStub extends DetailsJeuneRepository {
-  DetailsJeuneRepositoryErrorStub() : super('', DummyHttpClient());
+  DetailsJeuneRepositoryErrorStub() : super(DioMock());
 
   @override
   Future<DetailsJeune?> fetch(String userId) async {

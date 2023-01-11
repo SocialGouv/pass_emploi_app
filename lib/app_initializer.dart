@@ -221,7 +221,7 @@ class AppInitializer {
       SavedSearchDeleteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, crashlytics),
-      DetailsJeuneRepository(baseUrl, httpClient, crashlytics),
+      DetailsJeuneRepository(dioClient, crashlytics),
       SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
       modeDemoRepository,
       CampagneRepository(baseUrl, httpClient, crashlytics),

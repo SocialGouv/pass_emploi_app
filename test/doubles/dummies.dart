@@ -259,7 +259,7 @@ class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisReposito
 }
 
 class DummyDetailsJeuneRepository extends DetailsJeuneRepository {
-  DummyDetailsJeuneRepository() : super("", DummyHttpClient());
+  DummyDetailsJeuneRepository() : super(DioMock());
 }
 
 class DummyLogoutRepository extends LogoutRepository {
