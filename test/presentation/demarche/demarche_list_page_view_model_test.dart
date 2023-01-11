@@ -151,6 +151,39 @@ void main() {
     expect(viewModel.items.length, 1);
     expect(viewModel.items[0] is DemarcheCampagneItemViewModel, isTrue);
   });
+
+  test("should display technical message when data are not up to date", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: loggedInState().copyWith(
+        demarcheListState: DemarcheListSuccessState([], DateTime(2023, 1, 1)),
+        campagneState: CampagneState(null, []),
+      ),
+    );
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.withNotUpToDateMessage, true);
+  });
+
+  test("should not display technical message when data are up to date", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: loggedInState().copyWith(
+        demarcheListState: DemarcheListSuccessState([]),
+        campagneState: CampagneState(null, []),
+      ),
+    );
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+    // Then
+    expect(viewModel.withNotUpToDateMessage, false);
+  });
 }
 
 class StoreSpy {

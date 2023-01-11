@@ -7,7 +7,9 @@ DemarcheListState demarcheListReducer(DemarcheListState current, dynamic action)
   if (action is DemarcheListLoadingAction) return DemarcheListLoadingState();
   if (action is DemarcheListFailureAction) return DemarcheListFailureState();
   if (action is DemarcheListResetAction) return DemarcheListNotInitializedState();
-  if (action is DemarcheListSuccessAction) return DemarcheListSuccessState(action.demarches);
+  if (action is DemarcheListSuccessAction) {
+    return DemarcheListSuccessState(action.demarches, action.dateDerniereMiseAJour);
+  }
   if (action is UpdateDemarcheSuccessAction) return _listWithUpdatedDemarches(current, action.modifiedDemarche);
   return current;
 }
@@ -18,7 +20,7 @@ DemarcheListState _listWithUpdatedDemarches(DemarcheListState current, Demarche 
     final indexOfCurrentDemarche = currentDemarches.indexWhere((e) => e.id == modifiedDemarche.id);
     if (indexOfCurrentDemarche == -1) return current;
     currentDemarches[indexOfCurrentDemarche] = modifiedDemarche;
-    return DemarcheListSuccessState(currentDemarches);
+    return DemarcheListSuccessState(currentDemarches, current.dateDerniereMiseAJour);
   }
   return current;
 }

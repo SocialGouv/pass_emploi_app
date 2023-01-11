@@ -9,11 +9,13 @@ import 'package:redux/redux.dart';
 class DemarcheListPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<DemarcheListItem> items;
+  final bool withNotUpToDateMessage;
   final Function() onRetry;
 
   DemarcheListPageViewModel({
     required this.displayState,
     required this.items,
+    required this.withNotUpToDateMessage,
     required this.onRetry,
   });
 
@@ -26,12 +28,13 @@ class DemarcheListPageViewModel extends Equatable {
         activeItemIds: _activeItems(state: state),
         inactiveIds: _inactiveItems(state: state),
       ),
+      withNotUpToDateMessage: _withNotUpToDateMessage(state),
       onRetry: () => store.dispatch(DemarcheListRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items];
+  List<Object?> get props => [displayState, items, withNotUpToDateMessage, onRetry];
 }
 
 DisplayState _displayState(AppState state) {
@@ -45,6 +48,13 @@ DisplayState _displayState(AppState state) {
   } else {
     return DisplayState.LOADING;
   }
+}
+
+bool _withNotUpToDateMessage(DemarcheListState actionState) {
+  if (actionState is DemarcheListSuccessState) {
+    return actionState.dateDerniereMiseAJour != null;
+  }
+  return false;
 }
 
 DemarcheCampagneItemViewModel? _campagneItem({required AppState state}) {

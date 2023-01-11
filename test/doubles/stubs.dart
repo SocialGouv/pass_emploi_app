@@ -133,6 +133,7 @@ class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
         ),
       ],
       campagne: _campagne,
+      dateDerniereMiseAJour: DateTime(2023, 1, 1),
     );
   }
 }
