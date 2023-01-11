@@ -81,11 +81,8 @@ class DemarcheListPage extends StatelessWidget {
       itemCount: viewModel.items.length + 1,
       itemBuilder: (context, i) {
         if (i == 0) {
-          return viewModel.withNotUpToDateMessage
-              ? NotUpToDateMessage(
-                  message: Strings.demarchesNotUpToDateMessage,
-                  onRefresh: () => {},
-                )
+          return viewModel.withNotUpToDateMessage || 1 == 1
+              ? NotUpToDateMessage(message: Strings.demarchesNotUpToDateMessage, onRefresh: viewModel.onRetry)
               : Container();
         }
         return _listItem(context, viewModel.items[i - 1], viewModel);
