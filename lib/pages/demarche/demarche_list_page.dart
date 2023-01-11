@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class DemarcheListPage extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
@@ -32,6 +33,7 @@ class DemarcheListPage extends StatelessWidget {
         onInit: (store) => store.dispatch(DemarcheListRequestAction()),
         builder: (context, viewModel) => _scaffold(context, viewModel),
         converter: (store) => DemarcheListPageViewModel.create(store),
+        onDidChange: (previous, current) => _onDidChange(context, previous, current),
         distinct: true,
         onDispose: (store) => store.dispatch(DemarcheListResetAction()),
       ),
@@ -93,6 +95,12 @@ class DemarcheListPage extends StatelessWidget {
         stateSource: DemarcheStateSource.list,
         onTap: () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.list)),
       );
+    }
+  }
+
+  void _onDidChange(BuildContext context, DemarcheListPageViewModel? previous, DemarcheListPageViewModel current) {
+    if (previous?.withNotUpToDateMessage == true && !current.withNotUpToDateMessage) {
+      showSuccessfulSnackBar(context, Strings.rendezvousUpToDate);
     }
   }
 }
