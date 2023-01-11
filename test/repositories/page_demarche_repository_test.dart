@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../dsl/sut_repository.dart';
+import '../utils/test_datetime.dart';
 
 void main() {
   final sut = RepositorySut<PageDemarcheRepository>();
@@ -19,7 +20,7 @@ void main() {
       test('request should be valid', () async {
         await sut.expectRequestBody(
           method: "GET",
-          url: "BASE_URL/jeunes/UID/home/demarches",
+          url: "BASE_URL/v2/jeunes/UID/home/demarches",
         );
       });
 
@@ -43,6 +44,7 @@ void main() {
           expect(result?.demarches, isNotNull);
           expect(result?.demarches.length, 7);
           expect(result?.demarches.first, demarcheStub());
+          expect(result!.dateDerniereMiseAJour, parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'));
         });
       });
     });

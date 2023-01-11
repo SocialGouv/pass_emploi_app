@@ -13,7 +13,7 @@ class PageDemarcheRepository {
   PageDemarcheRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
   Future<PageDemarches?> getPageDemarches(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/home/demarches");
+    final url = Uri.parse(_baseUrl + "/v2/jeunes/$userId/home/demarches");
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
