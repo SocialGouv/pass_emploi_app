@@ -199,7 +199,6 @@ class AppInitializer {
       crashlytics,
       chatCrypto,
       PageActionRepository(baseUrl, httpClient, crashlytics),
-      PageActionRepository2(dioClient, crashlytics),
       PageDemarcheRepository(baseUrl, httpClient, crashlytics),
       RendezvousRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, crashlytics),

@@ -88,7 +88,6 @@ import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_repository2.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
@@ -115,7 +114,6 @@ class StoreFactory {
   final Crashlytics crashlytics;
   final ChatCrypto chatCrypto;
   final PageActionRepository pageActionRepository;
-  final PageActionRepository2 pageActionRepository2;
   final PageDemarcheRepository pageDemarcheRepository;
   final RendezvousRepository rendezvousRepository;
   final OffreEmploiRepository offreEmploiRepository;
@@ -163,7 +161,6 @@ class StoreFactory {
     this.crashlytics,
     this.chatCrypto,
     this.pageActionRepository,
-    this.pageActionRepository2,
     this.pageDemarcheRepository,
     this.rendezvousRepository,
     this.offreEmploiRepository,
@@ -214,7 +211,7 @@ class StoreFactory {
       middleware: [
         BootstrapMiddleware(),
         LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker),
-        UserActionListMiddleware(pageActionRepository2),
+        UserActionListMiddleware(pageActionRepository),
         UserActionCreateMiddleware(pageActionRepository),
         UserActionUpdateMiddleware(pageActionRepository),
         UserActionDeleteMiddleware(pageActionRepository),
