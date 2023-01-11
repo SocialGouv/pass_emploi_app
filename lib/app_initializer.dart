@@ -236,7 +236,7 @@ class AppInitializer {
       PartageActiviteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       RatingRepository(securedPreferences),
       ActionCommentaireRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      AgendaRepository(baseUrl, httpClient, crashlytics),
+      AgendaRepository(baseUrl, dioClient, crashlytics),
       SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       EventListRepository(baseUrl, httpClient, crashlytics),
       configuration

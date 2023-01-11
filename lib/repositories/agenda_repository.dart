@@ -1,13 +1,11 @@
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class AgendaRepository {
   final String _baseUrl;
-  final Client _httpClient;
+  final Dio _httpClient;
 
   final Crashlytics? _crashlytics;
 
@@ -27,11 +25,8 @@ class AgendaRepository {
 
   Future<Agenda?> _getAgenda(Uri url) async {
     try {
-      final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes);
-        return Agenda.fromJson(json);
-      }
+      final response = await _httpClient.get(url.toString());
+      return Agenda.fromJson(response.data);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
