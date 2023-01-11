@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
