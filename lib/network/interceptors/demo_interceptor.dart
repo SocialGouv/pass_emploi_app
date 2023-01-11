@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
+import 'package:pass_emploi_app/utils/log.dart';
 
 class DemoInterceptor extends Interceptor {
   final ModeDemoRepository demoRepository;
@@ -22,6 +23,8 @@ class DemoInterceptor extends Interceptor {
       handler.next(options);
       return;
     }
+
+    Log.i("Intercepting demo request for ${options.uri.path}.");
 
     if (options.method == "GET") {
       handler.resolve(Response(requestOptions: options, data: await readFile(demoFileName!), statusCode: 200));
