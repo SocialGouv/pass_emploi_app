@@ -151,6 +151,7 @@ class _Content extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // TODO: (1307) : Ajouter le bouton retry quand on aura le design final
         _DateHeader(viewModel: viewModel, onPageOffsetChanged: onPageOffsetChanged),
         if (viewModel.rendezvous.isEmpty)
           _EmptyWeek(
