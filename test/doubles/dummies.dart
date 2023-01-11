@@ -159,6 +159,9 @@ class DummyCrashlytics extends Crashlytics {
 
   @override
   void recordNonNetworkException(dynamic exception, [StackTrace? stack, Uri? failingEndpoint]) {}
+
+  @override
+  void recordNonNetworkExceptionUrl(dynamic exception, [StackTrace? stack, String? failingEndpoint]) {}
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
