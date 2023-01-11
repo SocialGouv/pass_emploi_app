@@ -57,6 +57,7 @@ import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
+import 'dio_mock.dart';
 import 'dummies_for_cache.dart';
 import 'fixtures.dart';
 
@@ -342,7 +343,7 @@ class DummyActionCommentaireRepository extends ActionCommentaireRepository {
 }
 
 class DummyAgendaRepository extends AgendaRepository {
-  DummyAgendaRepository() : super("", DummyHttpClient());
+  DummyAgendaRepository() : super(DioMock());
 }
 
 class DummySuggestionsRechercheRepository extends SuggestionsRechercheRepository {
@@ -357,4 +358,5 @@ class DummyMetierRepository extends MetierRepository {
   DummyMetierRepository() : super("", DummyHttpClient());
 }
 
+//TODO: il faudra changer le script de génération de repo
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

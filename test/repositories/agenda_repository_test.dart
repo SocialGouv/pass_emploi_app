@@ -9,7 +9,7 @@ import '../utils/test_datetime.dart';
 void main() {
   group('AgendaRepository', () {
     final sut = RepositorySut2<AgendaRepository>();
-    sut.givenRepository((client) => AgendaRepository("BASE_URL", client));
+    sut.givenRepository((client) => AgendaRepository(client));
 
     group('getAgendaMissionLocale', () {
       sut.when(
@@ -25,7 +25,7 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: HttpMethod.get,
-            url: "BASE_URL/jeunes/UID/home/agenda?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
+            url: "/jeunes/UID/home/agenda?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
           );
         });
 
@@ -68,7 +68,7 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: HttpMethod.get,
-            url: "BASE_URL/jeunes/UID/home/agenda/pole-emploi?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
+            url: "/jeunes/UID/home/agenda/pole-emploi?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
           );
         });
 
