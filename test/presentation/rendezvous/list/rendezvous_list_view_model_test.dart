@@ -8,9 +8,9 @@ import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_vie
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-import '../../doubles/fixtures.dart';
-import '../../doubles/spies.dart';
-import '../../dsl/app_state_dsl.dart';
+import '../../../doubles/fixtures.dart';
+import '../../../doubles/spies.dart';
+import '../../../dsl/app_state_dsl.dart';
 
 void main() {
   final DateTime thursday3thFebruary = DateTime(2022, 2, 3, 4, 5, 30);
@@ -67,6 +67,24 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
       expect(viewModel.withPreviousPageButton, true);
+    });
+
+    test("should display technical message when data are not up to date", () {
+      // Given
+      final store = givenState().loggedInMiloUser().rendezvous([], DateTime(2023, 1, 1)).store();
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+      // Then
+      expect(viewModel.withNotUpToDateMessage, true);
+    });
+
+    test("should not display technical message when data are up to date", () {
+      // Given
+      final store = givenState().loggedInMiloUser().rendezvous([]).store();
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+      // Then
+      expect(viewModel.withNotUpToDateMessage, false);
     });
   });
 

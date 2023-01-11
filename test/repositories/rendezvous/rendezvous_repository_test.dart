@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
 import '../../dsl/sut_repository.dart';
@@ -21,16 +22,16 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: 'GET',
-            url: 'BASE_URL/jeunes/userID/rendezvous?periode=PASSES',
+            url: 'BASE_URL/v2/jeunes/userID/rendezvous?periode=PASSES',
           );
         });
 
         test('response should be valid', () async {
-          await sut.expectResult<List<Rendezvous>?>((result) {
+          await sut.expectResult<RendezvousListResult?>((result) {
             expect(result, isNotNull);
-            expect(result!.length, 3);
+            expect(result!.rendezvous.length, 3);
             expect(
-              result[0],
+              result.rendezvous[0],
               Rendezvous(
                 id: '2d663392-b9ff-4b20-81ca-70a3c779e299',
                 source: RendezvousSource.milo,
@@ -49,7 +50,7 @@ void main() {
               ),
             );
             expect(
-              result[1],
+              result.rendezvous[1],
               Rendezvous(
                 id: '2d663392-b9ff-4b20-81ca-70a3c779e300',
                 source: RendezvousSource.passEmploi,
@@ -66,7 +67,7 @@ void main() {
               ),
             );
             expect(
-              result[2].date,
+              result.rendezvous[2].date,
               parseDateTimeUnconsideringTimeZone('2001-01-17T03:43:00.000Z'),
             );
           });
@@ -91,14 +92,14 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: 'GET',
-            url: 'BASE_URL/jeunes/userID/rendezvous?periode=FUTURS',
+            url: 'BASE_URL/v2/jeunes/userID/rendezvous?periode=FUTURS',
           );
         });
 
         test('response should be valid', () async {
-          await sut.expectResult<List<Rendezvous>?>((result) {
+          await sut.expectResult<RendezvousListResult?>((result) {
             expect(result, isNotNull);
-            expect(result!.length, 3);
+            expect(result!.rendezvous.length, 3);
           });
         });
       });
@@ -118,12 +119,13 @@ void main() {
       sut.when((repository) => repository.getRendezvousList('userID', RendezvousPeriod.PASSE));
 
       test('retrieve rendezvous list correctly', () async {
-        await sut.expectResult<List<Rendezvous>?>((result) {
+        await sut.expectResult<RendezvousListResult?>((result) {
           expect(result, isNotNull);
-          expect(result!.length, 10);
-          expect(result[0].organism, 'Agence Pôle Emploi');
+          expect(result!.dateDerniereMiseAJour, parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'));
+          expect(result.rendezvous.length, 10);
+          expect(result.rendezvous[0].organism, 'Agence Pôle Emploi');
           expect(
-            result[0],
+            result.rendezvous[0],
             Rendezvous(
               id: '4995ea8a-4f6a-48be-925e-f45593c481f6',
               source: RendezvousSource.passEmploi,
@@ -147,18 +149,18 @@ void main() {
       });
 
       test('an organism should be more important than an agence Pole Emploi', () async {
-        await sut.expectResult<List<Rendezvous>?>((result) {
+        await sut.expectResult<RendezvousListResult?>((result) {
           expect(result, isNotNull);
-          expect(result!.length, 10);
-          expect(result[4].organism, 'MBCCE');
+          expect(result!.rendezvous.length, 10);
+          expect(result.rendezvous[4].organism, 'MBCCE');
         });
       });
 
       test('an agence Pole Emploi should be an organism', () async {
-        await sut.expectResult<List<Rendezvous>?>((result) {
+        await sut.expectResult<RendezvousListResult?>((result) {
           expect(result, isNotNull);
-          expect(result!.length, 10);
-          expect(result[0].organism, 'Agence Pôle Emploi');
+          expect(result!.rendezvous.length, 10);
+          expect(result.rendezvous[0].organism, 'Agence Pôle Emploi');
         });
       });
     });
@@ -189,23 +191,23 @@ void main() {
 
   group('specific use cases', () {
     group('if conseiller and createur are same', () {
-      sut.when((repository) => repository.getRendezvousList('userID', RendezvousPeriod.PASSE));
+      sut.when((repository) => repository.getRendezvous('userID', 'rdvID'));
       sut.givenJsonResponse(fromJson: 'rendezvous_where_conseiller_is_createur.json');
       test('should functionally return a null createur', () async {
-        await sut.expectResult<List<Rendezvous>?>((result) {
-          expect(result!.first.conseiller, Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'));
-          expect(result.first.createur, isNull);
+        await sut.expectResult<Rendezvous?>((result) {
+          expect(result!.conseiller, Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'));
+          expect(result.createur, isNull);
         });
       });
     });
 
     group('if type is unknown', () {
-      sut.when((repository) => repository.getRendezvousList('userID', RendezvousPeriod.PASSE));
+      sut.when((repository) => repository.getRendezvous('userID', 'rdvID'));
       sut.givenJsonResponse(fromJson: 'rendezvous_with_unknown_type.json');
       test('should fallback to "Autre" rendezvous type', () async {
-        await sut.expectResult<List<Rendezvous>?>((result) {
+        await sut.expectResult<Rendezvous?>((result) {
           expect(result, isNotNull);
-          expect(result!.first.type, RendezvousType(RendezvousTypeCode.AUTRE, 'Entretien fin de CEJ'));
+          expect(result!.type, RendezvousType(RendezvousTypeCode.AUTRE, 'Entretien fin de CEJ'));
         });
       });
     });
