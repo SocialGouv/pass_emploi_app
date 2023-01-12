@@ -23,8 +23,10 @@ void main() {
     expect(await displayedLoading, true);
     final appState = await successAppState;
     expect(appState.demarcheListState is DemarcheListSuccessState, isTrue);
-    expect((appState.demarcheListState as DemarcheListSuccessState).demarches.length, 1);
-    expect((appState.demarcheListState as DemarcheListSuccessState).demarches[0].id, "id");
+    final demarcheListSuccess = appState.demarcheListState as DemarcheListSuccessState;
+    expect(demarcheListSuccess.demarches.length, 1);
+    expect(demarcheListSuccess.demarches[0].id, "id");
+    expect(demarcheListSuccess.dateDerniereMiseAJour, DateTime(2023, 1, 1));
   });
 
   test("demarche should display an error when fetching failed", () async {

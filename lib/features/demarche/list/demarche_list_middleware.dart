@@ -17,7 +17,9 @@ class DemarcheListMiddleware extends MiddlewareClass<AppState> {
     if (loginState is LoginSuccessState && action is DemarcheListRequestAction) {
       store.dispatch(DemarcheListLoadingAction());
       final page = await _repository.getPageDemarches(loginState.user.id);
-      store.dispatch(page != null ? DemarcheListSuccessAction(page.demarches) : DemarcheListFailureAction());
+      store.dispatch(page != null
+          ? DemarcheListSuccessAction(page.demarches, page.dateDerniereMiseAJour)
+          : DemarcheListFailureAction());
       store.dispatch(CampagneFetchedAction(page?.campagne));
     }
   }

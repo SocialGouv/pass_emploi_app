@@ -12,8 +12,9 @@ class DemarcheListLoadingState extends DemarcheListState {}
 
 class DemarcheListSuccessState extends DemarcheListState {
   final List<Demarche> demarches;
+  final DateTime? dateDerniereMiseAJour;
 
-  DemarcheListSuccessState(this.demarches);
+  DemarcheListSuccessState(this.demarches, [this.dateDerniereMiseAJour]);
 
   @override
   List<Object> get props => [demarches];

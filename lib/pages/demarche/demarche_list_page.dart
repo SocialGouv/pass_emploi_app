@@ -19,7 +19,9 @@ import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
+import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class DemarcheListPage extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
@@ -32,6 +34,7 @@ class DemarcheListPage extends StatelessWidget {
         onInit: (store) => store.dispatch(DemarcheListRequestAction()),
         builder: (context, viewModel) => _scaffold(context, viewModel),
         converter: (store) => DemarcheListPageViewModel.create(store),
+        onDidChange: (previous, current) => _onDidChange(context, previous, current),
         distinct: true,
         onDispose: (store) => store.dispatch(DemarcheListResetAction()),
       ),
@@ -84,8 +87,10 @@ class DemarcheListPage extends StatelessWidget {
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
   Widget _listItem(BuildContext context, DemarcheListItem item, DemarcheListPageViewModel viewModel) {
-    if (item is DemarcheCampagneItemViewModel) {
+    if (item is DemarcheCampagneItem) {
       return _CampagneCard(title: item.titre, description: item.description);
+    } else if (item is DemarcheNotUpToDateItem) {
+      return NotUpToDateMessage(message: Strings.demarchesNotUpToDateMessage, onRefresh: viewModel.onRetry);
     } else {
       final id = (item as IdItem).demarcheId;
       return DemarcheCard(
@@ -94,6 +99,20 @@ class DemarcheListPage extends StatelessWidget {
         onTap: () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.list)),
       );
     }
+  }
+
+  void _onDidChange(BuildContext context, DemarcheListPageViewModel? previous, DemarcheListPageViewModel current) {
+    if (_previousDemarchesWereNotUpToDate(previous) && _currentDemarchesAreUpToDate(current)) {
+      showSuccessfulSnackBar(context, Strings.demarchesUpToDate);
+    }
+  }
+
+  bool _previousDemarchesWereNotUpToDate(DemarcheListPageViewModel? previous) {
+    return previous?.items.isNotEmpty == true && previous?.items.first is DemarcheNotUpToDateItem;
+  }
+
+  bool _currentDemarchesAreUpToDate(DemarcheListPageViewModel current) {
+    return current.items.isEmpty || current.items.first is! DemarcheNotUpToDateItem;
   }
 }
 
