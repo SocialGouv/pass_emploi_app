@@ -358,5 +358,4 @@ class DummyMetierRepository extends MetierRepository {
   DummyMetierRepository() : super("", DummyHttpClient());
 }
 
-//TODO: il faudra changer le script de génération de repo
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/
