@@ -23,12 +23,10 @@ class RepositorySut2<REPO> {
   }
 
   void givenResponseCode(int code) {
-    //TODO: actuellement la lib Dio fait péter une exception quand c'est un mauvais status code.
-    // Si on mock une réponse avec un code 500, ça ne fait pas péter l'exception
-    // Deux solutions :
-    // - on throw une exception quand c'est un code invalide
-    // - on garde le if code.isValid dans les repo (avantage: on reste indépendant de la lib. inconvénient: faut l'écrire)
-    dynamic data() => code.isValid() ? null : throw Exception("SUT: invalid HTTP code.");
+    dynamic data() {
+      return code.isValid() ? null : throw Exception("Mocking client: exception thrown when status code is invalid.");
+    }
+
     givenResponse(() => Response(requestOptions: _makeRequestOptions(), statusCode: code, data: data()));
   }
 
