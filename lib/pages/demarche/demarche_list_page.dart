@@ -78,15 +78,8 @@ class DemarcheListPage extends StatelessWidget {
         Margins.spacing_base,
         Margins.spacing_huge,
       ),
-      itemCount: viewModel.items.length + 1,
-      itemBuilder: (context, i) {
-        if (i == 0) {
-          return viewModel.withNotUpToDateMessage || 1 == 1 // FIXME: Remove
-              ? NotUpToDateMessage(message: Strings.demarchesNotUpToDateMessage, onRefresh: viewModel.onRetry)
-              : Container();
-        }
-        return _listItem(context, viewModel.items[i - 1], viewModel);
-      },
+      itemCount: viewModel.items.length,
+      itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
       separatorBuilder: (context, i) => _listSeparator(),
     );
   }
@@ -94,8 +87,10 @@ class DemarcheListPage extends StatelessWidget {
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
   Widget _listItem(BuildContext context, DemarcheListItem item, DemarcheListPageViewModel viewModel) {
-    if (item is DemarcheCampagneItemViewModel) {
+    if (item is DemarcheCampagneItem) {
       return _CampagneCard(title: item.titre, description: item.description);
+    } else if (item is DemarcheNotUpToDateItem) {
+      return NotUpToDateMessage(message: Strings.demarchesNotUpToDateMessage, onRefresh: viewModel.onRetry);
     } else {
       final id = (item as IdItem).demarcheId;
       return DemarcheCard(
@@ -107,9 +102,17 @@ class DemarcheListPage extends StatelessWidget {
   }
 
   void _onDidChange(BuildContext context, DemarcheListPageViewModel? previous, DemarcheListPageViewModel current) {
-    if (previous?.withNotUpToDateMessage == true && !current.withNotUpToDateMessage) {
-      showSuccessfulSnackBar(context, Strings.rendezvousUpToDate);
+    if (_previousDemarchesWereNotUpToDate(previous) && _currentDemarchesAreUpToDate(current)) {
+      showSuccessfulSnackBar(context, Strings.demarchesUpToDate);
     }
+  }
+
+  bool _previousDemarchesWereNotUpToDate(DemarcheListPageViewModel? previous) {
+    return previous?.items.isNotEmpty == true && previous?.items.first is DemarcheNotUpToDateItem;
+  }
+
+  bool _currentDemarchesAreUpToDate(DemarcheListPageViewModel current) {
+    return current.items.isEmpty || current.items.first is! DemarcheNotUpToDateItem;
   }
 }
 

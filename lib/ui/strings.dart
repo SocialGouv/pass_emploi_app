@@ -643,6 +643,7 @@ class Strings {
 
   // Mode dégradé Pôle Emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
+  static String demarchesUpToDate = "Vos démarches sont à jour";
   static String demarchesNotUpToDateMessage =
       "Une erreur technique s’est produite. Certaines de vos démarches ne sont peut-être pas à jour.";
   static String reloadPage = "Recharger la page";

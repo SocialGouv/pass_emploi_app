@@ -97,7 +97,7 @@ void main() {
 
     // Then
     expect(viewModel.items.length, 13);
-    expect(viewModel.items[0] is DemarcheCampagneItemViewModel, isTrue);
+    expect(viewModel.items.first, isA<DemarcheCampagneItem>());
 
     for (var i = 1; i < 7; ++i) {
       expect((viewModel.items[i] as IdItem).demarcheId, isIn(['IN_PROGRESS', 'NOT_STARTED']));
@@ -144,7 +144,7 @@ void main() {
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items.length, 1);
-    expect(viewModel.items[0] is DemarcheCampagneItemViewModel, isTrue);
+    expect(viewModel.items.first, isA<DemarcheCampagneItem>());
   });
 
   test("should display technical message when data are not up to date", () {
@@ -161,22 +161,6 @@ void main() {
     final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.withNotUpToDateMessage, true);
-  });
-
-  test("should not display technical message when data are up to date", () {
-    // Given
-    final store = givenState() //
-        .loggedInPoleEmploiUser()
-        .copyWith(
-          demarcheListState: DemarcheListSuccessState([]),
-          campagneState: CampagneState(null, []),
-        )
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-    // Then
-    expect(viewModel.withNotUpToDateMessage, false);
+    expect(viewModel.items.first, isA<DemarcheNotUpToDateItem>());
   });
 }

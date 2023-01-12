@@ -9,13 +9,11 @@ import 'package:redux/redux.dart';
 class DemarcheListPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<DemarcheListItem> items;
-  final bool withNotUpToDateMessage;
   final Function() onRetry;
 
   DemarcheListPageViewModel({
     required this.displayState,
     required this.items,
-    required this.withNotUpToDateMessage,
     required this.onRetry,
   });
 
@@ -27,14 +25,14 @@ class DemarcheListPageViewModel extends Equatable {
         campagne: _campagneItem(state: store.state),
         activeItemIds: _activeItems(state: state),
         inactiveIds: _inactiveItems(state: state),
+        withNotUpToDateItem: state is DemarcheListSuccessState && state.dateDerniereMiseAJour != null,
       ),
-      withNotUpToDateMessage: _withNotUpToDateMessage(state),
       onRetry: () => store.dispatch(DemarcheListRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items, withNotUpToDateMessage];
+  List<Object?> get props => [displayState, items];
 }
 
 DisplayState _displayState(AppState state) {
@@ -50,17 +48,10 @@ DisplayState _displayState(AppState state) {
   }
 }
 
-bool _withNotUpToDateMessage(DemarcheListState actionState) {
-  if (actionState is DemarcheListSuccessState) {
-    return actionState.dateDerniereMiseAJour != null;
-  }
-  return false;
-}
-
-DemarcheCampagneItemViewModel? _campagneItem({required AppState state}) {
+DemarcheCampagneItem? _campagneItem({required AppState state}) {
   final campagne = state.campagneState.campagne;
   if (campagne != null) {
-    return DemarcheCampagneItemViewModel(titre: campagne.titre, description: campagne.description);
+    return DemarcheCampagneItem(titre: campagne.titre, description: campagne.description);
   }
   return null;
 }
@@ -86,18 +77,23 @@ List<String> _inactiveItems({required DemarcheListState state}) {
 }
 
 List<DemarcheListItem> _listItems({
-  required DemarcheCampagneItemViewModel? campagne,
+  required DemarcheCampagneItem? campagne,
   required List<String> activeItemIds,
   required List<String> inactiveIds,
+  required bool withNotUpToDateItem,
 }) {
   return [
+    if (withNotUpToDateItem) DemarcheNotUpToDateItem(),
     if (campagne != null) ...[campagne],
     ...activeItemIds.map((e) => IdItem(e)),
     ...inactiveIds.map((e) => IdItem(e)),
   ];
 }
 
-abstract class DemarcheListItem extends Equatable {}
+abstract class DemarcheListItem extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class IdItem extends DemarcheListItem {
   final String demarcheId;
@@ -108,12 +104,14 @@ class IdItem extends DemarcheListItem {
   List<Object?> get props => [demarcheId];
 }
 
-class DemarcheCampagneItemViewModel extends DemarcheListItem {
+class DemarcheCampagneItem extends DemarcheListItem {
   final String titre;
   final String description;
 
-  DemarcheCampagneItemViewModel({required this.titre, required this.description});
+  DemarcheCampagneItem({required this.titre, required this.description});
 
   @override
   List<Object?> get props => [titre, description];
 }
+
+class DemarcheNotUpToDateItem extends DemarcheListItem {}

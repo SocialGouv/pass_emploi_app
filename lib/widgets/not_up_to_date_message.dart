@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
 class NotUpToDateMessage extends StatelessWidget {
   final String message;
@@ -17,7 +18,7 @@ class NotUpToDateMessage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(Margins.spacing_base),
       decoration: BoxDecoration(
-        color: AppColors.bluePurple,
+        color: AppColors.disabled,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -25,7 +26,7 @@ class NotUpToDateMessage extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.info, color: contentColor),
+              SvgPicture.asset(Drawables.icActualisation, color: contentColor),
               SizedBox(width: Margins.spacing_base),
               Expanded(child: Text(message, style: TextStyles.textBaseRegular.copyWith(color: contentColor))),
             ],
@@ -33,12 +34,11 @@ class NotUpToDateMessage extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           SizedBox(
             width: double.infinity,
-            child: PrimaryActionButton(
+            child: SecondaryButton(
               label: Strings.reloadPage,
               onPressed: onRefresh,
               drawableRes: Drawables.icRefresh,
               backgroundColor: Colors.white,
-              textColor: AppColors.primary,
             ),
           ),
         ],

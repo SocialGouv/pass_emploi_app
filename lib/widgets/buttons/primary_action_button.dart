@@ -76,7 +76,7 @@ class PrimaryActionButton extends StatelessWidget {
                   drawableRes!,
                   height: iconSize,
                   width: iconSize,
-                  color: textColor,
+                  color: Colors.white,
                 ),
               )),
         Text(
