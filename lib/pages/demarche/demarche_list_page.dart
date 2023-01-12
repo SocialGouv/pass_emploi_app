@@ -81,7 +81,7 @@ class DemarcheListPage extends StatelessWidget {
       itemCount: viewModel.items.length + 1,
       itemBuilder: (context, i) {
         if (i == 0) {
-          return viewModel.withNotUpToDateMessage || 1 == 1
+          return viewModel.withNotUpToDateMessage || 1 == 1 // FIXME: Remove
               ? NotUpToDateMessage(message: Strings.demarchesNotUpToDateMessage, onRefresh: viewModel.onRetry)
               : Container();
         }

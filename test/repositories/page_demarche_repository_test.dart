@@ -27,9 +27,9 @@ void main() {
       test('response should be valid', () async {
         await sut.expectResult<PageDemarches?>((result) {
           expect(result, isNotNull);
-          expect(result?.campagne, isNotNull);
+          expect(result!.campagne, isNotNull);
           expect(
-            result?.campagne,
+            result.campagne,
             Campagne(
               id: "id-campagne",
               titre: "Votre expérience sur l'application",
@@ -41,10 +41,10 @@ void main() {
               ],
             ),
           );
-          expect(result?.demarches, isNotNull);
-          expect(result?.demarches.length, 7);
-          expect(result?.demarches.first, demarcheStub());
-          expect(result!.dateDerniereMiseAJour, parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'));
+          expect(result.demarches, isNotNull);
+          expect(result.demarches.length, 7);
+          expect(result.demarches.first, demarcheStub());
+          expect(result.dateDerniereMiseAJour, parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'));
         });
       });
     });

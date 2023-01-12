@@ -34,7 +34,7 @@ class DemarcheListPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, items, withNotUpToDateMessage, onRetry];
+  List<Object?> get props => [displayState, items, withNotUpToDateMessage];
 }
 
 DisplayState _displayState(AppState state) {
