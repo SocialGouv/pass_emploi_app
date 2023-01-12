@@ -24,10 +24,17 @@ class LogoutInterceptor2 extends Interceptor {
 
   LogoutInterceptor2(this._authAccessChecker);
 
+  //TODO: vérifier que c'est OK. Et je pense qu'il faut qu'il soit juste dans onError.
+
   @override
   void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
-    //TODO: vérifier que c'est OK
-    _authAccessChecker.logoutUserIfTokenIsExpired(response.toString(), response.statusCode ?? 700);
+    _authAccessChecker.logoutUserIfTokenIsExpired(response.toString(), response.statusCode ?? 777);
     handler.next(response);
+  }
+
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    _authAccessChecker.logoutUserIfTokenIsExpired(err.response?.toString(), err.response?.statusCode ?? 700);
+    handler.next(err);
   }
 }
