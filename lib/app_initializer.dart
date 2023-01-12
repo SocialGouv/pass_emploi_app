@@ -31,6 +31,7 @@ import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.da
 import 'package:pass_emploi_app/network/interceptors/auth_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/demo_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/expired_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
@@ -191,8 +192,8 @@ class AppInitializer {
     dioClient.interceptors.add(DemoInterceptor(modeDemoRepository));
     dioClient.interceptors.add(AuthInterceptor(accessTokenRetriever));
     dioClient.interceptors.add(CacheInterceptor(requestCacheManager));
-    dioClient.interceptors.add(LogoutInterceptor2(authAccessChecker));
-    dioClient.interceptors.add(LoggingInterceptor2());
+    dioClient.interceptors.add(LoggingNetworkInterceptor());
+    dioClient.interceptors.add(ExpiredTokenInterceptor(authAccessChecker));
     final reduxStore = StoreFactory(
       authenticator,
       crashlytics,

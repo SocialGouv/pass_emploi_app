@@ -14,7 +14,7 @@ class CacheInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     final stringUrl = options.uri.toString();
-    if (options.method != "GET" || !stringUrl.isWhitelisted()) {
+    if (options.method != "GET" || !stringUrl.isWhitelistedForCache()) {
       handler.next(options);
       return;
     }

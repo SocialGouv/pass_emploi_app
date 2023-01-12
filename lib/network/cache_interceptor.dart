@@ -69,7 +69,7 @@ class HttpClientWithCache extends BaseClient {
   @override
   Future<StreamedResponse> send(BaseRequest request) async {
     final stringUrl = request.url.toString();
-    if (request.method == "GET" && stringUrl.isWhitelisted()) {
+    if (request.method == "GET" && stringUrl.isWhitelistedForCache()) {
       final fileFromCache = await cacheManager.getFileFromCache(stringUrl);
       if (fileFromCache != null && await fileFromCache.file.exists() && isCacheStillUpToDate(fileFromCache)) {
         return StreamedResponse(fileFromCache.file.openRead(), 200);
@@ -83,7 +83,7 @@ class HttpClientWithCache extends BaseClient {
 }
 
 extension Whiteliste on String {
-  bool isWhitelisted() {
+  bool isWhitelistedForCache() {
     for (final route in _blacklistedRoutes) {
       if (contains(route)) return false;
     }

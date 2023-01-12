@@ -16,7 +16,7 @@ class LoggingInterceptor implements InterceptorContract {
   }
 }
 
-class LoggingInterceptor2 extends Interceptor {
+class LoggingNetworkInterceptor extends Interceptor {
   @override
   void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
     Log.i("Response from ${response.realUri.toString()} (code ${response.statusCode}): ${response.toString()}");

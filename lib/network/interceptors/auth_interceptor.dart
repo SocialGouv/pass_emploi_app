@@ -9,7 +9,6 @@ class AuthInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     options.headers["Authorization"] = "Bearer ${await _accessTokenRetriever.accessToken()}";
-
-    super.onRequest(options, handler);
+    handler.next(options);
   }
 }
