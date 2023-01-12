@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart' as mocktail;
+import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
 import '../doubles/dio_mock.dart';
@@ -57,7 +58,6 @@ class RepositorySut2<REPO> {
   // When
 
   void when(Future<dynamic> Function(REPO) when) {
-    //TODO: attention, si on ne met pas un "any" sur un paramètre qu'on utilise dans get/post/etc, ça ne marche pas #relou #viveLeVanillaMocking
     setUp(() {
       _when = (repo) {
         mocktail //
@@ -82,14 +82,12 @@ class RepositorySut2<REPO> {
   Future<void> expectRequestBody({
     required HttpMethod method,
     required String url,
-    Map<String, dynamic>? bodyFields,
     Map<String, dynamic>? jsonBody,
   }) async {
     await _when(_repository);
 
     final dynamic capturedUrl;
     dynamic capturedData;
-    //TODO: attention, si on ne met pas un "any" sur un paramètre qu'on utilise dans get/post/etc, ça ne marche pas #relou #viveLeVanillaMocking
     switch (method) {
       case HttpMethod.get:
         capturedUrl = mocktail.verify(() => _client.get(mocktail.captureAny())).captured.last;
@@ -112,11 +110,10 @@ class RepositorySut2<REPO> {
         capturedUrl = mocktail.verify(() => _client.delete(mocktail.captureAny())).captured.last;
         break;
     }
+
     expect(capturedUrl, url);
     if (jsonBody != null) expect(jsonDecode(capturedData as String), jsonBody);
-
-    //TODO: bodyFields, si un repo l'utilise sinon suppr
-    //if (bodyFields != null) expect(_request.bodyFields, bodyFields);
+    throwModeDemoExceptionIfNecessary(method == HttpMethod.get, Uri.parse(url));
   }
 
   // Then on result
@@ -148,5 +145,4 @@ class RepositorySut2<REPO> {
   }
 }
 
-//TODO: move?
 enum HttpMethod { get, post, put, delete }

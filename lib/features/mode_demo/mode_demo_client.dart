@@ -44,6 +44,12 @@ class ModeDemoClient extends BaseClient {
   }
 }
 
+void throwModeDemoExceptionIfNecessary(bool isGet, Uri uri) {
+  if (!isGet) return;
+  if (!uri.toString().isSupposedToBeMocked()) return;
+  if (getDemoFileName(uri.path, uri.query) == null) throw ModeDemoException(uri.toString());
+}
+
 class ModeDemoValidatorClient extends BaseClient {
   final Client httpClient;
 
@@ -51,10 +57,7 @@ class ModeDemoValidatorClient extends BaseClient {
 
   @override
   Future<StreamedResponse> send(BaseRequest request) async {
-    if (request.method == "GET" && request.url.toString().isSupposedToBeMocked()) {
-      final fileName = getDemoFileName(request.url.path, request.url.query);
-      if (fileName == null) throw ModeDemoException(request.url.toString());
-    }
+    throwModeDemoExceptionIfNecessary(request.method == "GET", request.url);
     return httpClient.send(request);
   }
 }

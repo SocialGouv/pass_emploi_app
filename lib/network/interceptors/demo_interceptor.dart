@@ -13,11 +13,7 @@ class DemoInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    final demoFileName = getDemoFileName(options.uri.path, options.uri.query);
-    if (options.method == "GET" && demoFileName == null) {
-      //TODO: est-ce que ça throw aussi dans les tests ?
-      throw ModeDemoException(options.uri.toString());
-    }
+    throwModeDemoExceptionIfNecessary(options.method == "GET", options.uri);
 
     if (!demoRepository.getModeDemo() || !options.uri.toString().isSupposedToBeMocked()) {
       handler.next(options);
@@ -25,7 +21,7 @@ class DemoInterceptor extends Interceptor {
     }
 
     Log.i("Intercepting demo request for ${options.uri.path}.");
-
+    final demoFileName = getDemoFileName(options.uri.path, options.uri.query);
     if (options.method == "GET") {
       handler.resolve(Response(requestOptions: options, data: await readFile(demoFileName!), statusCode: 200));
     } else {
