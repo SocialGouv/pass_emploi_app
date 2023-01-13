@@ -28,6 +28,7 @@ class DemarcheCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, DemarcheCardViewModel>(
+      rebuildOnChange: false,
       converter: (store) => DemarcheCardViewModel.create(
         store: store,
         stateSource: stateSource,

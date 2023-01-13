@@ -102,13 +102,9 @@ class DemarcheListPage extends StatelessWidget {
   }
 
   void _onDidChange(BuildContext context, DemarcheListPageViewModel? previous, DemarcheListPageViewModel current) {
-    if (_previousDemarchesWereNotUpToDate(previous) && _currentDemarchesAreUpToDate(current)) {
+    if (previous?.isReloading == true && _currentDemarchesAreUpToDate(current)) {
       showSuccessfulSnackBar(context, Strings.demarchesUpToDate);
     }
-  }
-
-  bool _previousDemarchesWereNotUpToDate(DemarcheListPageViewModel? previous) {
-    return previous?.items.isNotEmpty == true && previous?.items.first is DemarcheNotUpToDateItem;
   }
 
   bool _currentDemarchesAreUpToDate(DemarcheListPageViewModel current) {

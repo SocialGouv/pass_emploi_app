@@ -9,11 +9,13 @@ import 'package:redux/redux.dart';
 class DemarcheListPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<DemarcheListItem> items;
+  final bool isReloading;
   final Function() onRetry;
 
   DemarcheListPageViewModel({
     required this.displayState,
     required this.items,
+    this.isReloading = false,
     required this.onRetry,
   });
 
@@ -27,12 +29,13 @@ class DemarcheListPageViewModel extends Equatable {
         inactiveIds: _inactiveItems(state: state),
         withNotUpToDateItem: state is DemarcheListSuccessState && state.dateDerniereMiseAJour != null,
       ),
-      onRetry: () => store.dispatch(DemarcheListRequestAction()),
+      isReloading: state is DemarcheListReloadingState,
+      onRetry: () => store.dispatch(DemarcheListRequestReloadAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items];
+  List<Object?> get props => [displayState, items, isReloading];
 }
 
 DisplayState _displayState(AppState state) {
