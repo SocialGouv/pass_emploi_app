@@ -10,7 +10,7 @@ class JsonRendezvous {
   final String date;
   final bool isLocaleDate;
   final int duration;
-  final String modality;
+  final String? modality;
   final bool? isInVisio;
   final bool? withConseiller;
   final bool? isAnnule;
@@ -64,7 +64,7 @@ class JsonRendezvous {
       date: json['date'] as String,
       isLocaleDate: json['isLocaleDate'] as bool,
       duration: json['duration'] as int,
-      modality: json['modality'] as String,
+      modality: _modality(json),
       isInVisio: json['visio'] as bool?,
       withConseiller: json['presenceConseiller'] as bool?,
       isAnnule: json['annule'] as bool?,
@@ -91,7 +91,7 @@ class JsonRendezvous {
       source: source,
       date: _dateTime(),
       duration: duration != 0 ? duration : null,
-      modality: modality.isNotEmpty ? modality : null,
+      modality: modality,
       isInVisio: isInVisio ?? false,
       withConseiller: withConseiller,
       isAnnule: isAnnule ?? false,
@@ -138,6 +138,12 @@ String? _title(dynamic json) {
   final title = json['title'] as String?;
   if (title == null || title.isEmpty) return null;
   return title;
+}
+
+String? _modality(dynamic json) {
+  final modality = json['modality'] as String?;
+  if (modality == null || modality.isEmpty) return null;
+  return modality;
 }
 
 RendezvousTypeCode parseRendezvousTypeCode(String rendezvousTypeCode) {
