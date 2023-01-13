@@ -10,6 +10,8 @@ class DemarcheListNotInitializedState extends DemarcheListState {}
 
 class DemarcheListLoadingState extends DemarcheListState {}
 
+class DemarcheListReloadingState extends DemarcheListState {}
+
 class DemarcheListSuccessState extends DemarcheListState {
   final List<Demarche> demarches;
   final DateTime? dateDerniereMiseAJour;

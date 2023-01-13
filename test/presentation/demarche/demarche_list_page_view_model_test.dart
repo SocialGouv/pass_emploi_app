@@ -62,7 +62,7 @@ void main() {
     viewModel.onRetry();
 
     // Then
-    expect(storeSpy.dispatchedAction, isA<DemarcheListRequestAction>());
+    expect(storeSpy.dispatchedAction, isA<DemarcheListRequestReloadAction>());
   });
 
   test(
@@ -162,5 +162,33 @@ void main() {
 
     // Then
     expect(viewModel.items.first, isA<DemarcheNotUpToDateItem>());
+  });
+
+  test('should be reloading on reload', () {
+    // Given
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(demarcheListState: DemarcheListReloadingState())
+        .store();
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.isReloading, isTrue);
+  });
+
+  test('should display loading on reload state', () {
+    // Given
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(demarcheListState: DemarcheListReloadingState())
+        .store();
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.LOADING);
   });
 }

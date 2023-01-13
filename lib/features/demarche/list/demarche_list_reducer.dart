@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 
 DemarcheListState demarcheListReducer(DemarcheListState current, dynamic action) {
   if (action is DemarcheListLoadingAction) return DemarcheListLoadingState();
+  if (action is DemarcheListReloadingAction) return DemarcheListReloadingState();
   if (action is DemarcheListFailureAction) return DemarcheListFailureState();
   if (action is DemarcheListResetAction) return DemarcheListNotInitializedState();
   if (action is DemarcheListSuccessAction) {

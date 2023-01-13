@@ -46,4 +46,44 @@ void main() {
     final appState = await failureAppState;
     expect(appState.demarcheListState is DemarcheListFailureState, isTrue);
   });
+
+  test("demarche should be reloaded and displayed when fetching succeeds", () async {
+    // Given
+    final testStoreFactory = TestStoreFactory();
+    testStoreFactory.pageDemarcheRepository = PageDemarcheRepositorySuccessStub();
+    final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
+
+    final displayedLoading = store.onChange.any((e) => e.demarcheListState is DemarcheListReloadingState);
+    final successAppState = store.onChange.firstWhere((e) => e.demarcheListState is DemarcheListSuccessState);
+
+    // When
+    await store.dispatch(DemarcheListRequestReloadAction());
+
+    // Then
+    expect(await displayedLoading, true);
+    final appState = await successAppState;
+    expect(appState.demarcheListState is DemarcheListSuccessState, isTrue);
+    final demarcheListSuccess = appState.demarcheListState as DemarcheListSuccessState;
+    expect(demarcheListSuccess.demarches.length, 1);
+    expect(demarcheListSuccess.demarches[0].id, "id");
+    expect(demarcheListSuccess.dateDerniereMiseAJour, DateTime(2023, 1, 1));
+  });
+
+  test("demarche should be reloaded and display an error when fetching failed", () async {
+    // Given
+    final testStoreFactory = TestStoreFactory();
+    testStoreFactory.pageDemarcheRepository = PageDemarcheRepositoryFailureStub();
+    final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
+
+    final displayedLoading = store.onChange.any((e) => e.demarcheListState is DemarcheListReloadingState);
+    final failureAppState = store.onChange.firstWhere((e) => e.demarcheListState is DemarcheListFailureState);
+
+    // When
+    await store.dispatch(DemarcheListRequestReloadAction());
+
+    // Then
+    expect(await displayedLoading, true);
+    final appState = await failureAppState;
+    expect(appState.demarcheListState is DemarcheListFailureState, isTrue);
+  });
 }
