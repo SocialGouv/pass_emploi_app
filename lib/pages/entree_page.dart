@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -21,6 +22,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:redux/redux.dart';
 
 class EntreePage extends StatelessWidget {
@@ -210,7 +212,7 @@ class _HiddenMenu extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               PrimaryActionButton(
-                label: 'Passer en mode démo',
+                label: Strings.passerEnDemo,
                 onPressed: () {
                   Navigator.of(context).pop();
                   _showDemo(context);
@@ -218,7 +220,7 @@ class _HiddenMenu extends StatelessWidget {
               ),
               SizedBox(height: Margins.spacing_base),
               PrimaryActionButton(
-                label: 'Voir les informations',
+                label: Strings.supportInformations,
                 onPressed: () {
                   Navigator.of(context).pop();
                   _showDeviceInfos(context);
@@ -226,7 +228,7 @@ class _HiddenMenu extends StatelessWidget {
               ),
               SizedBox(height: Margins.spacing_base),
               SecondaryButton(
-                label: 'Fermer',
+                label: Strings.close,
                 onPressed: () => Navigator.of(context).pop(),
               )
             ],
@@ -275,7 +277,22 @@ class _DeviceInfosDialog extends StatelessWidget {
         child: ListBody(
           children: <Widget>[
             Text('InstallationID', style: TextStyles.textBaseBold),
-            SelectableText(viewmodel.installationId),
+            Row(
+              children: [
+                Expanded(child: Text(viewmodel.installationId)),
+                IconButton(
+                  icon: Icon(
+                    Icons.copy,
+                    color: AppColors.primary,
+                  ),
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: viewmodel.installationId));
+                    Navigator.of(context).pop();
+                    showSuccessfulSnackBar(context, Strings.copie);
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),

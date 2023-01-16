@@ -12,6 +12,7 @@ class Strings {
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
   static String seeDetail = "Voir le détail >";
+  static String copie = "Copié";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
@@ -575,7 +576,11 @@ class Strings {
   static String savedSearchDeleteError = "Erreur lors de la suppression de la recherche.";
   static String savedSearchDeleteSuccess = "Votre recherche sauvegardée a été supprimée avec succès.";
 
+  // Mode support
+  static String supportInformations = "Infos pour le support";
+
   // Mode démo
+  static String passerEnDemo = "Passer en mode démo";
   static String modeDemoAppBarLabel = "Version démo conseiller";
   static String modeDemoExplicationTitre = "Espace démo conseiller";
   static String modeDemoExplicationPremierPoint1 = "→ Cette version vous ";
