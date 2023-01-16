@@ -3,4 +3,5 @@ class Dimens {
 
   static const double flatAppBarHeight = 59;
   static const double bottomNavigationBarItemHeight = 21;
+  static const double radius_l = 24;
 }

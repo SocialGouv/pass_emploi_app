@@ -11,6 +11,7 @@ class Strings {
   static String ajouter = "Ajouter";
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
+  static String seeDetail = "Voir le détail >";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
