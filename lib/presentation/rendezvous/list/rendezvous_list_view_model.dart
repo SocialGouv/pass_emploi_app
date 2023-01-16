@@ -11,13 +11,12 @@ import 'package:redux/redux.dart';
 class RendezvousListViewModel extends Equatable {
   final int pageOffset;
   final DisplayState displayState;
-  final List<RendezvousSection> rendezvous;
+  final List<RendezvousItem> rendezvousItems;
   final String? deeplinkRendezvousId;
   final Function() onRetry;
   final Function() onDeeplinkUsed;
   final bool withPreviousPageButton;
   final bool withNextPageButton;
-  final bool withNotUpToDateMessage;
   final int? nextRendezvousPageOffset;
   final String title;
   final String dateLabel;
@@ -28,13 +27,12 @@ class RendezvousListViewModel extends Equatable {
   RendezvousListViewModel({
     required this.pageOffset,
     required this.displayState,
-    required this.rendezvous,
+    required this.rendezvousItems,
     required this.deeplinkRendezvousId,
     required this.onRetry,
     required this.onDeeplinkUsed,
     required this.withPreviousPageButton,
     required this.withNextPageButton,
-    required this.withNotUpToDateMessage,
     required this.nextRendezvousPageOffset,
     required this.title,
     required this.dateLabel,
@@ -49,7 +47,8 @@ class RendezvousListViewModel extends Equatable {
     return RendezvousListViewModel(
       pageOffset: pageOffset,
       displayState: _displayState(rendezvousListState, pageOffset),
-      rendezvous: builder.rendezvous(),
+      rendezvousItems: _makeRendezvousItems(
+          rendezvous: builder.rendezvous(), dateDerniereMiseAJour: rendezvousListState.dateDerniereMiseAJour),
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousListState),
       onRetry: () => _retry(store, pageOffset),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
@@ -57,7 +56,6 @@ class RendezvousListViewModel extends Equatable {
       dateLabel: builder.makeDateLabel(),
       withPreviousPageButton: RendezVousListBuilder.hasPreviousPage(pageOffset, store.state.loginState),
       withNextPageButton: RendezVousListBuilder.hasNextPage(pageOffset),
-      withNotUpToDateMessage: rendezvousListState.dateDerniereMiseAJour != null,
       nextRendezvousPageOffset: builder.nextRendezvousPageOffset(),
       emptyLabel: builder.makeEmptyLabel(),
       emptySubtitleLabel: builder.makeEmptySubtitleLabel(),
@@ -82,12 +80,20 @@ class RendezvousListViewModel extends Equatable {
   List<Object?> get props => [
         pageOffset,
         displayState,
-        rendezvous,
+        rendezvousItems,
         deeplinkRendezvousId,
         withPreviousPageButton,
         withNextPageButton,
         nextRendezvousPageOffset,
       ];
+}
+
+List<RendezvousItem> _makeRendezvousItems(
+    {required List<RendezvousSection> rendezvous, DateTime? dateDerniereMiseAJour}) {
+  return [
+    if (dateDerniereMiseAJour != null || true) RendezvousNotUpToDateItem(),
+    ...rendezvous,
+  ];
 }
 
 DisplayState _displayState(RendezvousListState state, int pageOffset) {
@@ -116,7 +122,12 @@ String? _deeplinkRendezvousId(DeepLinkState state, RendezvousListState rendezvou
   return (state is DetailRendezvousDeepLinkState && rdvIds.contains(state.idRendezvous)) ? state.idRendezvous : null;
 }
 
-class RendezvousSection extends Equatable {
+abstract class RendezvousItem extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
+class RendezvousSection extends RendezvousItem {
   final String title;
   final List<String> displayedRendezvous;
   final List<String> expandableRendezvous;
@@ -138,3 +149,5 @@ class RendezvousSection extends Equatable {
   @override
   List<Object?> get props => [title, displayedRendezvous, expandableRendezvous];
 }
+
+class RendezvousNotUpToDateItem extends RendezvousItem {}
