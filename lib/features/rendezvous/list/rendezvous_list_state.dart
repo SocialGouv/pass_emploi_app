@@ -33,6 +33,12 @@ class RendezvousListState {
         rendezvous = [],
         dateDerniereMiseAJour = null;
 
+  RendezvousListState.reloadingFuture()
+      : futurRendezVousStatus = RendezvousListStatus.RELOADING,
+        pastRendezVousStatus = RendezvousListStatus.NOT_INITIALIZED,
+        rendezvous = [],
+        dateDerniereMiseAJour = null;
+
   RendezvousListState.failedFuture()
       : futurRendezVousStatus = RendezvousListStatus.FAILURE,
         pastRendezVousStatus = RendezvousListStatus.NOT_INITIALIZED,

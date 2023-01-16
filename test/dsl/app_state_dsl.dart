@@ -69,6 +69,8 @@ extension AppStateDSL on AppState {
 
   AppState loadingFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.loadingFuture());
 
+  AppState reloadingFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.reloadingFuture());
+
   AppState failedFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.failedFuture());
 
   AppState loadingPastRendezvous() => copyWith(rendezvousListState: RendezvousListState.loadingPast());

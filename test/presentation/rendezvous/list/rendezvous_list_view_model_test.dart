@@ -39,6 +39,17 @@ void main() {
       expect(viewModel.displayState, DisplayState.LOADING);
     });
 
+    test('when reloading should display loading', () {
+      // Given
+      final store = givenState().loggedInUser().reloadingFutureRendezvous().store();
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
+    });
+
     test('should display failure', () {
       // Given
       final store = givenState().loggedInUser().failedFutureRendezvous().store();

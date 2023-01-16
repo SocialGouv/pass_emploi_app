@@ -104,6 +104,7 @@ DisplayState _displayState(RendezvousListState state, int pageOffset) {
     return DisplayState.FAILURE;
   } else {
     if (state.futurRendezVousStatus == RendezvousListStatus.LOADING) return DisplayState.LOADING;
+    if (state.futurRendezVousStatus == RendezvousListStatus.RELOADING) return DisplayState.LOADING;
     if (state.futurRendezVousStatus == RendezvousListStatus.SUCCESS) return DisplayState.CONTENT;
     return DisplayState.FAILURE;
   }
