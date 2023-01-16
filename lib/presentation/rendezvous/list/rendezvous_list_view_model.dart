@@ -17,6 +17,7 @@ class RendezvousListViewModel extends Equatable {
   final Function() onDeeplinkUsed;
   final bool withPreviousPageButton;
   final bool withNextPageButton;
+  final bool isReloading;
   final int? nextRendezvousPageOffset;
   final String title;
   final String dateLabel;
@@ -33,6 +34,7 @@ class RendezvousListViewModel extends Equatable {
     required this.onDeeplinkUsed,
     required this.withPreviousPageButton,
     required this.withNextPageButton,
+    required this.isReloading,
     required this.nextRendezvousPageOffset,
     required this.title,
     required this.dateLabel,
@@ -56,6 +58,7 @@ class RendezvousListViewModel extends Equatable {
       dateLabel: builder.makeDateLabel(),
       withPreviousPageButton: RendezVousListBuilder.hasPreviousPage(pageOffset, store.state.loginState),
       withNextPageButton: RendezVousListBuilder.hasNextPage(pageOffset),
+      isReloading: rendezvousListState.futurRendezVousStatus == RendezvousListStatus.RELOADING,
       nextRendezvousPageOffset: builder.nextRendezvousPageOffset(),
       emptyLabel: builder.makeEmptyLabel(),
       emptySubtitleLabel: builder.makeEmptySubtitleLabel(),
@@ -84,6 +87,7 @@ class RendezvousListViewModel extends Equatable {
         deeplinkRendezvousId,
         withPreviousPageButton,
         withNextPageButton,
+        isReloading,
         nextRendezvousPageOffset,
       ];
 }
@@ -91,7 +95,7 @@ class RendezvousListViewModel extends Equatable {
 List<RendezvousItem> _makeRendezvousItems(
     {required List<RendezvousSection> rendezvous, DateTime? dateDerniereMiseAJour}) {
   return [
-    if (dateDerniereMiseAJour != null || true) RendezvousNotUpToDateItem(),
+    if (dateDerniereMiseAJour != null) RendezvousNotUpToDateItem(),
     ...rendezvous,
   ];
 }
@@ -112,9 +116,9 @@ DisplayState _displayState(RendezvousListState state, int pageOffset) {
 
 void _retry(Store<AppState> store, int pageOffset) {
   if (pageOffset.isInPast()) {
-    store.dispatch(RendezvousListRequestAction(RendezvousPeriod.PASSE));
+    store.dispatch(RendezvousListRequestReloadAction(RendezvousPeriod.PASSE));
   } else {
-    store.dispatch(RendezvousListRequestAction(RendezvousPeriod.FUTUR));
+    store.dispatch(RendezvousListRequestReloadAction(RendezvousPeriod.FUTUR));
   }
 }
 

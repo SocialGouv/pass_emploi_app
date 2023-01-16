@@ -63,13 +63,14 @@ class RendezvousListState {
     final RendezvousListStatus? futurRendezVousStatus,
     final RendezvousListStatus? pastRendezVousStatus,
     final List<Rendezvous>? rendezvous,
-    final DateTime? dateDerniereMiseAJour,
+    final DateTime? Function()? dateDerniereMiseAJour,
   }) {
     return RendezvousListState(
       futurRendezVousStatus ?? this.futurRendezVousStatus,
       pastRendezVousStatus ?? this.pastRendezVousStatus,
       rendezvous ?? this.rendezvous,
-      dateDerniereMiseAJour ?? this.dateDerniereMiseAJour,
+      // dateDerniereMiseAJour ?? this.dateDerniereMiseAJour,
+      dateDerniereMiseAJour != null ? dateDerniereMiseAJour() : this.dateDerniereMiseAJour,
     );
   }
 

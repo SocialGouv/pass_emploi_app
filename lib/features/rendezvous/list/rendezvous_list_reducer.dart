@@ -10,10 +10,11 @@ RendezvousListState rendezvousListReducer(RendezvousListState current, dynamic a
     }
   }
   if (action is RendezvousListReloadingAction) {
+    //TODO: mettre a null le
     if (action.period == RendezvousPeriod.FUTUR) {
-      return current.copyWith(futurRendezVousStatus: RendezvousListStatus.RELOADING);
+      return current.copyWith(futurRendezVousStatus: RendezvousListStatus.RELOADING, dateDerniereMiseAJour: () => null);
     } else {
-      return current.copyWith(pastRendezVousStatus: RendezvousListStatus.RELOADING);
+      return current.copyWith(pastRendezVousStatus: RendezvousListStatus.RELOADING, dateDerniereMiseAJour: () => null);
     }
   }
   if (action is RendezvousListFailureAction) {
@@ -28,14 +29,14 @@ RendezvousListState rendezvousListReducer(RendezvousListState current, dynamic a
       return current.copyWith(
         futurRendezVousStatus: RendezvousListStatus.SUCCESS,
         rendezvous: action.rendezvousListResult.rendezvous,
-        dateDerniereMiseAJour: action.rendezvousListResult.dateDerniereMiseAJour,
+        dateDerniereMiseAJour: () => action.rendezvousListResult.dateDerniereMiseAJour,
       );
     } else {
       final rendezvous = action.rendezvousListResult.rendezvous + current.rendezvous;
       return current.copyWith(
         pastRendezVousStatus: RendezvousListStatus.SUCCESS,
         rendezvous: rendezvous,
-        dateDerniereMiseAJour: action.rendezvousListResult.dateDerniereMiseAJour,
+        dateDerniereMiseAJour: () => action.rendezvousListResult.dateDerniereMiseAJour,
       );
     }
   }

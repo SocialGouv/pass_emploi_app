@@ -50,6 +50,17 @@ void main() {
       expect(viewModel.displayState, DisplayState.LOADING);
     });
 
+    test('when reloading should be reloading', () {
+      // Given
+      final store = givenState().loggedInUser().reloadingFutureRendezvous().store();
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+
+      // Then
+      expect(viewModel.isReloading, true);
+    });
+
     test('should display failure', () {
       // Given
       final store = givenState().loggedInUser().failedFutureRendezvous().store();
@@ -666,9 +677,10 @@ void main() {
 
       // Then
       final dispatchedAction = store.dispatchedAction;
-      expect(dispatchedAction, isA<RendezvousListRequestAction>());
-      if (dispatchedAction is RendezvousListRequestAction) {
+      if (dispatchedAction is RendezvousListRequestReloadAction) {
         expect(dispatchedAction.period, expectedPeriod);
+      } else {
+        expect(dispatchedAction, isA<RendezvousListRequestAction>());
       }
     }
 

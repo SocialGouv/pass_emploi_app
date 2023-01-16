@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class RendezvousListPage extends StatefulWidget {
   @override
@@ -73,9 +74,13 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
 
   void _onDidChange(RendezvousListViewModel? previous, RendezvousListViewModel current) {
     _openDeeplinkIfNeeded(current, context);
-    // if (previous?.withNotUpToDateMessage == true && !current.withNotUpToDateMessage) {
-    //   showSuccessfulSnackBar(context, Strings.rendezvousUpToDate);
-    // }
+    if (previous?.isReloading == true && _currentRendezvousAreUpToDate(current)) {
+      showSuccessfulSnackBar(context, Strings.rendezvousUpToDate);
+    }
+  }
+
+  bool _currentRendezvousAreUpToDate(RendezvousListViewModel current) {
+    return current.rendezvousItems.isEmpty || current.rendezvousItems.first is! RendezvousNotUpToDateItem;
   }
 
   void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
