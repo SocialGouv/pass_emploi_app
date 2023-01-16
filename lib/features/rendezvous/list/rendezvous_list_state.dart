@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/models/rendezvous.dart';
 
-enum RendezvousListStatus { NOT_INITIALIZED, LOADING, SUCCESS, FAILURE }
+enum RendezvousListStatus { NOT_INITIALIZED, LOADING, SUCCESS, RELOADING, FAILURE }
 
 class RendezvousListState {
   final RendezvousListStatus futurRendezVousStatus;

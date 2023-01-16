@@ -34,6 +34,26 @@ void main() {
       });
     });
 
+    group('when reloading in FUTUR', () {
+      sut.when(() => RendezvousListRequestReloadAction(RendezvousPeriod.FUTUR));
+
+      test("should reload and succeed when request succeeds", () async {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id")});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldReloadFutur(), _shouldSucceedFutur()]);
+      });
+
+      test("shoud reload and fail when request fails", () async {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id")});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldReloadFutur(), _shouldFailFutur()]);
+      });
+    });
+
     group("when requesting in PASSE", () {
       sut.when(() => RendezvousListRequestAction(RendezvousPeriod.PASSE));
 
@@ -58,6 +78,9 @@ void main() {
 
 Matcher _shouldLoadFutur() =>
     StateMatch((state) => state.rendezvousListState.futurRendezVousStatus == RendezvousListStatus.LOADING);
+
+Matcher _shouldReloadFutur() =>
+    StateMatch((state) => state.rendezvousListState.futurRendezVousStatus == RendezvousListStatus.RELOADING);
 
 Matcher _shouldLoadPasse() =>
     StateMatch((state) => state.rendezvousListState.pastRendezVousStatus == RendezvousListStatus.LOADING);

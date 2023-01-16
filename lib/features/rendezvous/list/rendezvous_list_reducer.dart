@@ -9,6 +9,13 @@ RendezvousListState rendezvousListReducer(RendezvousListState current, dynamic a
       return current.copyWith(pastRendezVousStatus: RendezvousListStatus.LOADING);
     }
   }
+  if (action is RendezvousListReloadingAction) {
+    if (action.period == RendezvousPeriod.FUTUR) {
+      return current.copyWith(futurRendezVousStatus: RendezvousListStatus.RELOADING);
+    } else {
+      return current.copyWith(pastRendezVousStatus: RendezvousListStatus.RELOADING);
+    }
+  }
   if (action is RendezvousListFailureAction) {
     if (action.period == RendezvousPeriod.FUTUR) {
       return current.copyWith(futurRendezVousStatus: RendezvousListStatus.FAILURE);
