@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class UserActionListPage extends StatefulWidget {
   @override
@@ -39,9 +40,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
         builder: (context, viewModel) => _scaffold(context, viewModel),
         converter: (store) => UserActionListPageViewModel.create(store),
         distinct: true,
-        onDidChange: (previousViewModel, viewModel) {
-          _openDeeplinkIfNeeded(viewModel, context);
-        },
+        onDidChange: (previousViewModel, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
         onDispose: (store) => store.dispatch(UserActionListResetAction()),
       ),
     );
@@ -122,7 +121,20 @@ class _UserActionListPageState extends State<UserActionListPage> {
       onPressed: () => showPassEmploiBottomSheet(
         context: context,
         builder: (context) => CreateUserActionBottomSheet(),
-      ).then((value) => _onCreateUserActionDismissed(viewModel)),
+      ).then((value) {
+        if (value != null) {
+          _showSnackBarWithDetail(value as String);
+          _onCreateUserActionDismissed(viewModel);
+        }
+      }),
+    );
+  }
+
+  void _showSnackBarWithDetail(String userActionId) {
+    showSuccessfulSnackBar(
+      context,
+      Strings.createActionSuccess,
+      () => Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.list)),
     );
   }
 

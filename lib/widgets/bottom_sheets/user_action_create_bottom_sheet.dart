@@ -116,7 +116,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           Text(Strings.actionLabel, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_base),
           _textField(
-            isEnabled: viewModel.displayState != UserActionCreateDisplayState.SHOW_LOADING,
+            isEnabled: viewModel.displayState is! DisplayLoading,
             onChanged: (value) => _actionContent = value,
             isMandatory: true,
             mandatoryError: Strings.mandatoryActionLabelError,
@@ -126,7 +126,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           Text(Strings.actionDescription, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_base),
           _textField(
-            isEnabled: viewModel.displayState != UserActionCreateDisplayState.SHOW_LOADING,
+            isEnabled: viewModel.displayState is! DisplayLoading,
             onChanged: (value) => _actionComment = value,
             textInputAction: TextInputAction.done,
           ),
@@ -178,7 +178,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
             status: _initialStatus,
             update: (wantedStatus) => _update(wantedStatus),
             isCreated: true,
-            isEnabled: viewModel.displayState != UserActionCreateDisplayState.SHOW_LOADING,
+            isEnabled: viewModel.displayState is! DisplayLoading,
           ),
         ],
       ),
@@ -207,7 +207,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
                     }
                 : null,
           ),
-          if (viewModel.displayState == UserActionCreateDisplayState.SHOW_ERROR)
+          if (viewModel.displayState is DisplayError)
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -225,13 +225,11 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 
   bool _isFormValid() => _formKey.currentState?.validate() == true && _dateEcheance != null;
 
-  bool _isLoading(UserActionCreateViewModel viewModel) =>
-      viewModel.displayState != UserActionCreateDisplayState.SHOW_LOADING;
+  bool _isLoading(UserActionCreateViewModel viewModel) => viewModel.displayState is! DisplayLoading;
 
   void _dismissBottomSheetIfNeeded(BuildContext context, UserActionCreateViewModel viewModel) {
-    if (viewModel.displayState == UserActionCreateDisplayState.TO_DISMISS) {
-      Navigator.pop(context);
-    }
+    final displayState = viewModel.displayState;
+    if (displayState is Dismiss) Navigator.pop(context, displayState.userActionCreatedId);
   }
 }
 

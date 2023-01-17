@@ -234,6 +234,7 @@ class Strings {
   static String deleteAction = "Supprimer l'action";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
+  static String createActionSuccess = "Votre action a bien été créée.";
   static String demarcheCreationSuccess = "La démarche a bien été créée";
   static String linkDetailsRendezVous = "Voir les détails du rendez-vous";
 

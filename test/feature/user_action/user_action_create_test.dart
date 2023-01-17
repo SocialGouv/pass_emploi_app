@@ -45,7 +45,12 @@ void main() {
 
 Matcher _shouldLoadState() => StateIs<UserActionCreateLoadingState>((state) => state.userActionCreateState);
 
-Matcher _shouldSucceedState() => StateIs<UserActionCreateSuccessState>((state) => state.userActionCreateState);
+Matcher _shouldSucceedState() {
+  return StateIs<UserActionCreateSuccessState>(
+    (state) => state.userActionCreateState,
+    (state) => expect(state.userActionCreatedId, 'USER-ACTION-ID'),
+  );
+}
 
 Matcher _shouldFailState() => StateIs<UserActionCreateFailureState>((state) => state.userActionCreateState);
 

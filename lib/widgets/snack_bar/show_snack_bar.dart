@@ -66,7 +66,10 @@ void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetail
                         SizedBox(width: Margins.spacing_s),
                         InkWell(
                           borderRadius: BorderRadius.circular(Dimens.radius_l),
-                          onTap: onSeeDetailTap,
+                          onTap: () {
+                            _clearAllSnackBars();
+                            onSeeDetailTap();
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(Margins.spacing_s),
                             child: Text(

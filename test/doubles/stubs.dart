@@ -64,11 +64,12 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
   }
 
   @override
-  Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
-    return userId == "id" &&
+  Future<UserActionId?> createUserAction(String userId, UserActionCreateRequest request) async {
+    final success = userId == "id" &&
         request.content == "content" &&
         request.comment == "comment" &&
         request.initialStatus == UserActionStatus.NOT_STARTED;
+    return success ? 'USER-ACTION-ID' : null;
   }
 
   @override
@@ -88,8 +89,8 @@ class PageActionRepositoryFailureStub extends PageActionRepository {
   var isActionUpdated = false;
 
   @override
-  Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
-    return false;
+  Future<UserActionId?> createUserAction(String userId, UserActionCreateRequest request) async {
+    return null;
   }
 
   @override
