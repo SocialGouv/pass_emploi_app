@@ -190,6 +190,19 @@ void main() {
     });
   });
 
+  group('isReloading', () {
+    test('should be true on reloading state', () {
+      // Given
+      final store = givenState().loggedInMiloUser().copyWith(agendaState: AgendaReloadingState()).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.isReloading, isTrue);
+    });
+  });
+
   group('display state', () {
     test('should be loading on not initialize state', () {
       // Given
@@ -205,6 +218,17 @@ void main() {
     test('should be loading on loading state', () {
       // Given
       final store = givenState().loggedInMiloUser().copyWith(agendaState: AgendaLoadingState()).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
+    });
+
+    test('should be loading on reloading state', () {
+      // Given
+      final store = givenState().loggedInMiloUser().copyWith(agendaState: AgendaReloadingState()).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -387,7 +411,7 @@ void main() {
     viewModel.reload(date);
 
     // Then
-    expectTypeThen<AgendaRequestAction>(store.dispatchedAction, (action) {
+    expectTypeThen<AgendaRequestReloadAction>(store.dispatchedAction, (action) {
       expect(action.maintenant, DateTime(2042));
     });
   });

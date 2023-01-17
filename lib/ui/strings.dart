@@ -649,6 +649,7 @@ class Strings {
   static String demarchesNotUpToDateMessage =
       "Une erreur technique s’est produite. Certaines de vos démarches ne sont peut-être pas à jour.";
   static String reloadPage = "Recharger la page";
+  static String agendaUpToDate = "Vos rendez-vous et démarches sont à jour";
   static String agendaNotUpToDate =
       "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
 }

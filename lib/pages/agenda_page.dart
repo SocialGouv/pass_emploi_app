@@ -32,6 +32,7 @@ import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class AgendaPage extends StatelessWidget {
   final Function() onActionDelayedTap;
@@ -44,11 +45,22 @@ class AgendaPage extends StatelessWidget {
       tracking: AnalyticsScreenNames.agenda,
       child: StoreConnector<AppState, AgendaPageViewModel>(
         onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
+        onDidChange: (previous, current) => _onDidChange(context, previous, current),
         builder: (context, viewModel) => _Scaffold(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap),
         converter: (store) => AgendaPageViewModel.create(store),
         distinct: true,
       ),
     );
+  }
+
+  void _onDidChange(BuildContext context, AgendaPageViewModel? previous, AgendaPageViewModel current) {
+    if (previous?.isReloading == true && _currentAgendaIsUpToDate(current)) {
+      showSuccessfulSnackBar(context, Strings.agendaUpToDate);
+    }
+  }
+
+  bool _currentAgendaIsUpToDate(AgendaPageViewModel current) {
+    return current.events.isEmpty || current.events.first is! NotUpToDateAgendaItem;
   }
 }
 
