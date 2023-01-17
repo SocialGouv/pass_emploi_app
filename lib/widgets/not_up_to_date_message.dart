@@ -10,12 +10,14 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 class NotUpToDateMessage extends StatelessWidget {
   final String message;
   final void Function() onRefresh;
-  const NotUpToDateMessage({super.key, required this.message, required this.onRefresh});
+  final EdgeInsets? margin;
+  const NotUpToDateMessage({super.key, required this.message, required this.onRefresh, this.margin});
 
   @override
   Widget build(BuildContext context) {
     const contentColor = Colors.white;
     return Container(
+      margin: margin,
       padding: EdgeInsets.all(Margins.spacing_base),
       decoration: BoxDecoration(
         color: AppColors.disabled,

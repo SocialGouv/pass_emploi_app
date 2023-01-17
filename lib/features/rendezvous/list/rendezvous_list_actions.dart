@@ -14,6 +14,18 @@ class RendezvousListLoadingAction {
   RendezvousListLoadingAction(this.period);
 }
 
+class RendezvousListRequestReloadAction {
+  final RendezvousPeriod period;
+
+  RendezvousListRequestReloadAction(this.period);
+}
+
+class RendezvousListReloadingAction {
+  final RendezvousPeriod period;
+
+  RendezvousListReloadingAction(this.period);
+}
+
 class RendezvousListSuccessAction {
   final RendezvousListResult rendezvousListResult;
   final RendezvousPeriod period;

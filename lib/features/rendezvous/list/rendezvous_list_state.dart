@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/models/rendezvous.dart';
 
-enum RendezvousListStatus { NOT_INITIALIZED, LOADING, SUCCESS, FAILURE }
+enum RendezvousListStatus { NOT_INITIALIZED, LOADING, SUCCESS, RELOADING, FAILURE }
 
 class RendezvousListState {
   final RendezvousListStatus futurRendezVousStatus;
@@ -33,6 +33,12 @@ class RendezvousListState {
         rendezvous = [],
         dateDerniereMiseAJour = null;
 
+  RendezvousListState.reloadingFuture()
+      : futurRendezVousStatus = RendezvousListStatus.RELOADING,
+        pastRendezVousStatus = RendezvousListStatus.NOT_INITIALIZED,
+        rendezvous = [],
+        dateDerniereMiseAJour = null;
+
   RendezvousListState.failedFuture()
       : futurRendezVousStatus = RendezvousListStatus.FAILURE,
         pastRendezVousStatus = RendezvousListStatus.NOT_INITIALIZED,
@@ -57,13 +63,13 @@ class RendezvousListState {
     final RendezvousListStatus? futurRendezVousStatus,
     final RendezvousListStatus? pastRendezVousStatus,
     final List<Rendezvous>? rendezvous,
-    final DateTime? dateDerniereMiseAJour,
+    final DateTime? Function()? dateDerniereMiseAJour,
   }) {
     return RendezvousListState(
       futurRendezVousStatus ?? this.futurRendezVousStatus,
       pastRendezVousStatus ?? this.pastRendezVousStatus,
       rendezvous ?? this.rendezvous,
-      dateDerniereMiseAJour ?? this.dateDerniereMiseAJour,
+      dateDerniereMiseAJour != null ? dateDerniereMiseAJour() : this.dateDerniereMiseAJour,
     );
   }
 

@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -73,9 +74,13 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
 
   void _onDidChange(RendezvousListViewModel? previous, RendezvousListViewModel current) {
     _openDeeplinkIfNeeded(current, context);
-    if (previous?.withNotUpToDateMessage == true && !current.withNotUpToDateMessage) {
+    if (previous?.isReloading == true && _currentRendezvousAreUpToDate(current)) {
       showSuccessfulSnackBar(context, Strings.rendezvousUpToDate);
     }
+  }
+
+  bool _currentRendezvousAreUpToDate(RendezvousListViewModel current) {
+    return current.rendezvousItems.isEmpty || current.rendezvousItems.first is! RendezvousNotUpToDateItem;
   }
 
   void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
@@ -151,24 +156,31 @@ class _Content extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // TODO: (1307) : Ajouter le bouton retry quand on aura le design final
         _DateHeader(viewModel: viewModel, onPageOffsetChanged: onPageOffsetChanged),
-        if (viewModel.rendezvous.isEmpty)
+        if (viewModel.rendezvousItems.isEmpty)
           _EmptyWeek(
             title: viewModel.emptyLabel,
             subtitle: viewModel.emptySubtitleLabel,
             withNextRendezvousButton: viewModel.nextRendezvousPageOffset != null,
             onNextRendezvousButtonTap: onNextRendezvousButtonTap,
           ),
-        if (viewModel.rendezvous.isNotEmpty)
+        if (viewModel.rendezvousItems.isNotEmpty)
           Expanded(
             child: ListView.separated(
-              itemCount: viewModel.rendezvous.length,
-              padding: const EdgeInsets.all(Margins.spacing_s),
+              itemCount: viewModel.rendezvousItems.length,
+              padding: const EdgeInsets.all(Margins.spacing_base),
               separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
               itemBuilder: (context, index) {
-                final section = viewModel.rendezvous[index];
-                return _RendezvousSection(section: section);
+                final item = viewModel.rendezvousItems[index];
+                if (item is RendezvousSection) return _RendezvousSection(section: item);
+                if (item is RendezvousNotUpToDateItem) {
+                  return NotUpToDateMessage(
+                    margin: EdgeInsets.only(bottom: Margins.spacing_s),
+                    message: Strings.rendezvousNotUpToDateMessage,
+                    onRefresh: viewModel.onRetry,
+                  );
+                }
+                return Container();
               },
             ),
           ),
@@ -187,6 +199,7 @@ class _RendezvousSection extends StatelessWidget {
     return Column(
       children: [
         BigTitleSeparator(section.title),
+        SizedBox(height: Margins.spacing_base),
         ...section.displayedRendezvous.cards(context),
         if (section.expandableRendezvous.isNotEmpty)
           Theme(
@@ -205,7 +218,7 @@ extension _RendezvousIdCards on List<String> {
   List<Widget> cards(BuildContext context) {
     return map(
       (id) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: Margins.spacing_s),
+        padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
         child: id.rendezvousCard(
           context: context,
           stateSource: RendezvousStateSource.rendezvousList,
