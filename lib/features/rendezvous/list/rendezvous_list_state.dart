@@ -69,7 +69,6 @@ class RendezvousListState {
       futurRendezVousStatus ?? this.futurRendezVousStatus,
       pastRendezVousStatus ?? this.pastRendezVousStatus,
       rendezvous ?? this.rendezvous,
-      // dateDerniereMiseAJour ?? this.dateDerniereMiseAJour,
       dateDerniereMiseAJour != null ? dateDerniereMiseAJour() : this.dateDerniereMiseAJour,
     );
   }

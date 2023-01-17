@@ -10,7 +10,6 @@ RendezvousListState rendezvousListReducer(RendezvousListState current, dynamic a
     }
   }
   if (action is RendezvousListReloadingAction) {
-    //TODO: mettre a null le
     if (action.period == RendezvousPeriod.FUTUR) {
       return current.copyWith(futurRendezVousStatus: RendezvousListStatus.RELOADING, dateDerniereMiseAJour: () => null);
     } else {
