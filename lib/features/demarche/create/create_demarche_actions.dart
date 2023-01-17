@@ -21,7 +21,11 @@ class CreateDemarchePersonnaliseeRequestAction {
 
 class CreateDemarcheLoadingAction {}
 
-class CreateDemarcheSuccessAction {}
+class CreateDemarcheSuccessAction {
+  final String demarcheCreatedId;
+
+  CreateDemarcheSuccessAction(this.demarcheCreatedId);
+}
 
 class CreateDemarcheFailureAction {}
 

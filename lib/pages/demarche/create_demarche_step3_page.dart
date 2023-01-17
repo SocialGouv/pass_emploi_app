@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -17,7 +18,6 @@ import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class CreateDemarcheStep3Page extends StatefulWidget {
@@ -25,7 +25,7 @@ class CreateDemarcheStep3Page extends StatefulWidget {
 
   CreateDemarcheStep3Page._(this.idDemarche);
 
-  static MaterialPageRoute<void> materialPageRoute(String idDemarche) {
+  static MaterialPageRoute<String?> materialPageRoute(String idDemarche) {
     return MaterialPageRoute(builder: (context) => CreateDemarcheStep3Page._(idDemarche));
   }
 
@@ -102,10 +102,10 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
   }
 
   void _onDidChange(CreateDemarcheStep3ViewModel? oldVm, CreateDemarcheStep3ViewModel newVm) {
-    if (newVm.shouldGoBack) {
-      Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
+    final creationState = newVm.demarcheCreationState;
+    if (creationState is DemarcheCreationSuccessState) {
       PassEmploiMatomoTracker.instance.trackScreen(context, eventName: AnalyticsScreenNames.searchDemarcheStep3Success);
-      showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
+      Navigator.pop(context, creationState.demarcheCreatedId);
     }
   }
 

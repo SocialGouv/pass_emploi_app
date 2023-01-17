@@ -1,14 +1,13 @@
-import 'package:equatable/equatable.dart';
-
-abstract class CreateDemarcheState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
+abstract class CreateDemarcheState {}
 
 class CreateDemarcheNotInitializedState extends CreateDemarcheState {}
 
 class CreateDemarcheLoadingState extends CreateDemarcheState {}
 
-class CreateDemarcheSuccessState extends CreateDemarcheState {}
+class CreateDemarcheSuccessState extends CreateDemarcheState {
+  final String demarcheCreatedId;
+
+  CreateDemarcheSuccessState(this.demarcheCreatedId);
+}
 
 class CreateDemarcheFailureState extends CreateDemarcheState {}

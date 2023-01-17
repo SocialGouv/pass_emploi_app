@@ -1,8 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -20,7 +21,7 @@ void main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
-    expect(viewModel.shouldGoBack, isFalse);
+    expect(viewModel.demarcheCreationState, isA<DemarcheCreationPendingState>());
   });
 
   test('create when state is loading should display loading', () {
@@ -34,20 +35,21 @@ void main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
-    expect(viewModel.shouldGoBack, isFalse);
+    expect(viewModel.demarcheCreationState, isA<DemarcheCreationPendingState>());
   });
 
   test('create when state is success should go back to previous page', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(createDemarcheState: CreateDemarcheSuccessState()),
+      initialState: loggedInState().copyWith(createDemarcheState: CreateDemarcheSuccessState('DEMARCHE-ID')),
     );
 
     // When
     final viewModel = CreateDemarchePersonnaliseeViewModel.create(store);
 
     // Then
-    expect(viewModel.shouldGoBack, isTrue);
+    expect(viewModel.demarcheCreationState, isA<DemarcheCreationSuccessState>());
+    expect((viewModel.demarcheCreationState as DemarcheCreationSuccessState).demarcheCreatedId, 'DEMARCHE-ID');
   });
 
   test('onSearchDemarche should trigger action', () {

@@ -322,7 +322,7 @@ class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {
 }
 
 class DummySuccessCreateDemarcheRepository extends CreateDemarcheRepository {
-  DummySuccessCreateDemarcheRepository() : super("", DummyHttpClient());
+  DummySuccessCreateDemarcheRepository() : super(DioMock());
 }
 
 class DummyDemarcheDuReferentielRepository extends SearchDemarcheRepository {

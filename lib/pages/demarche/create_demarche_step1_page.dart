@@ -16,7 +16,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 
 class CreateDemarcheStep1Page extends StatefulWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
+  static MaterialPageRoute<String?> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateDemarcheStep1Page());
   }
 
@@ -77,10 +77,10 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
 
   void _onDidChange(CreateDemarcheStep1ViewModel? oldVm, CreateDemarcheStep1ViewModel newVm) {
     if (newVm.shouldGoToStep2) {
-      Navigator.push(
-        context,
-        CreateDemarcheStep2Page.materialPageRoute(),
-      );
+      Navigator.push(context, CreateDemarcheStep2Page.materialPageRoute()).then((value) {
+        // forward result to previous page
+        if (value != null) Navigator.pop(context, value);
+      });
     }
   }
 

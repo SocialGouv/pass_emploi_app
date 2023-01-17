@@ -17,29 +17,29 @@ class CreateDemarcheMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (action is CreateDemarcheRequestAction && loginState is LoginSuccessState) {
       store.dispatch(CreateDemarcheLoadingAction());
-      final success = await _repository.createDemarche(
+      final demarcheId = await _repository.createDemarche(
         userId: loginState.user.id,
         codeQuoi: action.codeQuoi,
         codePourquoi: action.codePourquoi,
         codeComment: action.codeComment,
         dateEcheance: action.dateEcheance,
       );
-      _dispatchCreateDemarche(success, store);
+      _dispatchCreateDemarche(demarcheId, store);
     }
     if (action is CreateDemarchePersonnaliseeRequestAction && loginState is LoginSuccessState) {
       store.dispatch(CreateDemarcheLoadingAction());
       final success = await _repository.createDemarchePersonnalisee(
         userId: loginState.user.id,
-        commentaire : action.commentaire,
-        dateEcheance : action.dateEcheance,
+        commentaire: action.commentaire,
+        dateEcheance: action.dateEcheance,
       );
       _dispatchCreateDemarche(success, store);
     }
   }
 
-  void _dispatchCreateDemarche(bool success, Store<AppState> store) {
-    if (success) {
-      store.dispatch(CreateDemarcheSuccessAction());
+  void _dispatchCreateDemarche(String? demarcheId, Store<AppState> store) {
+    if (demarcheId != null) {
+      store.dispatch(CreateDemarcheSuccessAction(demarcheId));
       store.dispatch(DemarcheListRequestAction());
       store.dispatch(AgendaRequestAction(DateTime.now()));
     } else {
