@@ -283,6 +283,38 @@ void main() {
     });
   });
 
+  group('not up to date', () {
+    test('when user is from Pole Emploi and API PE is KO, should have not-up-to-date item at first position', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().agenda(
+        actions: [actionJeudi],
+        delayedActions: 7,
+        dateDerniereMiseAjour: DateTime(2023),
+      ).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.events.first, NotUpToDateAgendaItem());
+    });
+
+    test('when user is from Pole Emploi and API PE is OK, should not have not-up-to-date item', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().agenda(
+        actions: [actionJeudi],
+        delayedActions: 7,
+        dateDerniereMiseAjour: null,
+      ).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.events.first, isNot(isA<NotUpToDateAgendaItem>()));
+    });
+  });
+
   group('delayed items', () {
     test(
         'when user is from Mission Locale should have delayed item at first position when there are some delayed actions',

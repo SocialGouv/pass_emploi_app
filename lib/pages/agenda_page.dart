@@ -30,6 +30,7 @@ import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
+import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class AgendaPage extends StatelessWidget {
@@ -164,9 +165,25 @@ class _Content extends StatelessWidget {
           if (item is UserActionAgendaItem) return _UserActionAgendaItem(item);
           if (item is CallToActionEventMiloAgendaItem) return _CurrentWeekEmptyMiloCard(agendaPageViewModel: viewModel);
           if (item is DelayedActionsBannerAgendaItem) return _DelayedActionsBanner(item, onActionDelayedTap);
+          if (item is NotUpToDateAgendaItem) return _NotUpToDateMessage();
           return SizedBox(height: 0);
         },
       ),
+    );
+  }
+}
+
+class _NotUpToDateMessage extends StatelessWidget {
+  const _NotUpToDateMessage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return NotUpToDateMessage(
+      message: Strings.agendaNotUpToDate,
+      margin: EdgeInsets.only(bottom: Margins.spacing_base),
+      onRefresh: () => {},
     );
   }
 }

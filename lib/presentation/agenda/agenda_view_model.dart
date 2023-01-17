@@ -85,6 +85,7 @@ List<AgendaItem> _events(Store<AppState> store, bool isPoleEmploi) {
   }
 
   return [
+    if (agendaState.agenda.dateDerniereMiseAjour != null) NotUpToDateAgendaItem(),
     if (delayedActions > 0)
       DelayedActionsBannerAgendaItem(
         isPoleEmploi ? Strings.numberOfDemarches(delayedActions) : Strings.numberOfActions(delayedActions),
@@ -204,6 +205,8 @@ abstract class AgendaItem extends Equatable {
   @override
   List<Object?> get props => [];
 }
+
+class NotUpToDateAgendaItem extends AgendaItem {}
 
 class DelayedActionsBannerAgendaItem extends AgendaItem {
   final String delayedLabel;
