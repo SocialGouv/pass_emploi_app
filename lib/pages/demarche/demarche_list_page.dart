@@ -151,7 +151,7 @@ class _AddDemarcheButton extends StatelessWidget {
   void _showSnackBarWithDetail(BuildContext context, String demarcheCreatedId) {
     showSuccessfulSnackBar(
       context,
-      Strings.demarcheCreationSuccess,
+      Strings.createDemarcheSuccess,
       () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheCreatedId, DemarcheStateSource.list)),
     );
   }

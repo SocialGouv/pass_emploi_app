@@ -235,7 +235,7 @@ class Strings {
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
   static String createActionSuccess = "Votre action a bien été créée.";
-  static String demarcheCreationSuccess = "La démarche a bien été créée";
+  static String createDemarcheSuccess = "La démarche a bien été créée";
   static String linkDetailsRendezVous = "Voir les détails du rendez-vous";
 
   static String dateEcheanceFormat(String formattedDate) => "À réaliser pour le $formattedDate";

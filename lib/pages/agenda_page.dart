@@ -92,8 +92,12 @@ class _Scaffold extends StatelessWidget {
         if (viewModel.createButton == CreateButton.demarche)
           _CreateButton(
             label: Strings.addADemarche,
-            onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute())
-                .then((value) => viewModel.reload(DateTime.now())),
+            onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
+              if (value != null) {
+                _showDemarcheSnackBarWithDetail(context, value);
+                viewModel.reload(DateTime.now());
+              }
+            }),
           ),
       ]),
     );
@@ -104,6 +108,14 @@ class _Scaffold extends StatelessWidget {
       context,
       Strings.createActionSuccess,
       () => Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.agenda)),
+    );
+  }
+
+  void _showDemarcheSnackBarWithDetail(BuildContext context, String demarcheId) {
+    showSuccessfulSnackBar(
+      context,
+      Strings.createDemarcheSuccess,
+      () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheId, DemarcheStateSource.agenda)),
     );
   }
 }
