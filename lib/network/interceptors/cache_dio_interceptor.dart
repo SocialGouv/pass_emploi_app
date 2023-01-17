@@ -6,10 +6,10 @@ import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
-class CacheInterceptor extends Interceptor {
+class CacheDioInterceptor extends Interceptor {
   final PassEmploiCacheManager cacheManager;
 
-  CacheInterceptor(this.cacheManager);
+  CacheDioInterceptor(this.cacheManager);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {

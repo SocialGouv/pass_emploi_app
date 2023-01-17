@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart' as mocktail;
-import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
+import 'package:pass_emploi_app/features/mode_demo/mode_demo_exception.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
 import '../doubles/dio_mock.dart';

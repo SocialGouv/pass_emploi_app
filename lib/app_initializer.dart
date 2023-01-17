@@ -28,10 +28,11 @@ import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
 import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/auth_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/cache_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/demo_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/expired_token_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/auth_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/cache_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/demo_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/expired_token_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/logging_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
@@ -189,11 +190,11 @@ class AppInitializer {
     final baseUrl = configuration.serverBaseUrl;
     final options = BaseOptions(baseUrl: baseUrl);
     final dioClient = Dio(options);
-    dioClient.interceptors.add(DemoInterceptor(modeDemoRepository));
-    dioClient.interceptors.add(AuthInterceptor(accessTokenRetriever));
-    dioClient.interceptors.add(CacheInterceptor(requestCacheManager));
-    dioClient.interceptors.add(LoggingNetworkInterceptor());
-    dioClient.interceptors.add(ExpiredTokenInterceptor(authAccessChecker));
+    dioClient.interceptors.add(DemoDioInterceptor(modeDemoRepository));
+    dioClient.interceptors.add(AuthDioInterceptor(accessTokenRetriever));
+    dioClient.interceptors.add(CacheDioInterceptor(requestCacheManager));
+    dioClient.interceptors.add(LoggingNetworkDioInterceptor());
+    dioClient.interceptors.add(ExpiredTokenDioInterceptor(authAccessChecker));
     final reduxStore = StoreFactory(
       authenticator,
       crashlytics,
@@ -238,7 +239,7 @@ class AppInitializer {
       AgendaRepository(dioClient, crashlytics),
       SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       EventListRepository(baseUrl, httpClient, crashlytics),
-      configuration
+      configuration,
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

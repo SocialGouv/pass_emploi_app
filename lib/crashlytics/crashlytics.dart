@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
@@ -26,7 +27,7 @@ class CrashlyticsWithFirebase extends Crashlytics {
 
   @override
   void recordNonNetworkExceptionUrl(dynamic exception, [StackTrace? stack, String? failingEndpoint]) {
-    if (exception is SocketException) return;
+    if (exception is SocketException || exception is DioError) return;
     final logPrefix = failingEndpoint != null ? 'Exception on $failingEndpoint' : 'Exception';
     Log.e(logPrefix, exception, stack);
     FirebaseCrashlytics.instance.recordError(
@@ -39,14 +40,6 @@ class CrashlyticsWithFirebase extends Crashlytics {
 
   @override
   void recordNonNetworkException(dynamic exception, [StackTrace? stack, Uri? failingEndpoint]) {
-    if (exception is SocketException) return;
-    final logPrefix = failingEndpoint != null ? 'Exception on $failingEndpoint' : 'Exception';
-    Log.e(logPrefix, exception, stack);
-    FirebaseCrashlytics.instance.recordError(
-      exception,
-      stack,
-      reason: failingEndpoint != null ? 'Exception on $failingEndpoint' : null,
-      printDetails: false,
-    );
+    recordNonNetworkExceptionUrl(exception, stack, failingEndpoint?.toString());
   }
 }
