@@ -35,6 +35,7 @@ import 'package:pass_emploi_app/network/interceptors/expired_token_dio_intercept
 import 'package:pass_emploi_app/network/interceptors/logging_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/monitoring_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
@@ -169,8 +170,9 @@ class AppInitializer {
     logoutRepository.setHttpClient(httpClient);
     logoutRepository.setCacheManager(requestCacheManager);
     final baseUrl = configuration.serverBaseUrl;
-    final dioClient =
-        _makeDioClient(baseUrl, modeDemoRepository, accessTokenRetriever, requestCacheManager, authAccessChecker);
+    final monitoringDioInterceptor = MonitoringDioInterceptor(InstallationIdRepository(securedPreferences));
+    final dioClient = _makeDioClient(baseUrl, modeDemoRepository, accessTokenRetriever, requestCacheManager,
+        authAccessChecker, monitoringDioInterceptor);
     final chatCrypto = ChatCrypto();
     final reduxStore = StoreFactory(
       authenticator,
@@ -222,6 +224,7 @@ class AppInitializer {
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
     monitoringInterceptor.setStore(reduxStore);
+    monitoringDioInterceptor.setStore(reduxStore);
     chatCrypto.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
     return reduxStore;
@@ -233,10 +236,12 @@ class AppInitializer {
     AuthAccessTokenRetriever accessTokenRetriever,
     PassEmploiCacheManager requestCacheManager,
     AuthAccessChecker authAccessChecker,
+    MonitoringDioInterceptor monitoringDioInterceptor,
   ) {
     final options = BaseOptions(baseUrl: baseUrl);
     final dioClient = Dio(options);
     dioClient.interceptors.add(DemoDioInterceptor(modeDemoRepository));
+    dioClient.interceptors.add(monitoringDioInterceptor);
     dioClient.interceptors.add(AuthDioInterceptor(accessTokenRetriever));
     dioClient.interceptors.add(CacheDioInterceptor(requestCacheManager));
     dioClient.interceptors.add(LoggingNetworkDioInterceptor());
