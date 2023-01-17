@@ -59,3 +59,30 @@ enum CachedRessource {
   SAVED_SEARCH,
   UPDATE_PARTAGE_ACTIVITE,
 }
+
+const _blacklistedRoutes = [
+  '/rendezvous',
+  '/home/agenda',
+  '/home/agenda/pole-emploi',
+  '/home/actions',
+  '/home/demarches',
+  '/fichiers',
+];
+
+extension Whiteliste on String {
+  bool isWhitelistedForCache() {
+    for (final route in _blacklistedRoutes) {
+      if (contains(route)) return false;
+    }
+    return true;
+  }
+}
+
+bool isCacheStillUpToDate(FileInfo file) {
+  // The lib set a default value to 7-days cache when there isn't cache-control headers in our HTTP responses.
+  // And our backend do not set these headers.
+  // In future : directly use `getSingleFile` without checking date.
+  const defaultCacheDuration = Duration(days: 7);
+  final now = DateTime.now().add(defaultCacheDuration).subtract(PassEmploiCacheManager.requestCacheDuration);
+  return file.validTill.isAfter(now);
+}

@@ -3,13 +3,13 @@ import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository.dart';
+import '../dsl/sut_repository2.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
   group('AgendaRepository', () {
-    final sut = RepositorySut<AgendaRepository>();
-    sut.givenRepository((client) => AgendaRepository("BASE_URL", client));
+    final sut = RepositorySut2<AgendaRepository>();
+    sut.givenRepository((client) => AgendaRepository(client));
 
     group('getAgendaMissionLocale', () {
       sut.when(
@@ -24,8 +24,8 @@ void main() {
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
-            method: "GET",
-            url: "BASE_URL/jeunes/UID/home/agenda?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
+            method: HttpMethod.get,
+            url: "/jeunes/UID/home/agenda?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
           );
         });
 
@@ -67,8 +67,8 @@ void main() {
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
-            method: "GET",
-            url: "BASE_URL/jeunes/UID/home/agenda/pole-emploi?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
+            method: HttpMethod.get,
+            url: "/jeunes/UID/home/agenda/pole-emploi?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
           );
         });
 

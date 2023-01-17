@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -81,7 +81,7 @@ Matcher _shouldSucceedForPoleEmploiUser() {
 }
 
 class AgendaRepositorySuccessStub extends AgendaRepository {
-  AgendaRepositorySuccessStub() : super("", DummyHttpClient());
+  AgendaRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<Agenda?> getAgendaMissionLocale(String userId, DateTime maintenant) async {
@@ -107,7 +107,7 @@ class AgendaRepositorySuccessStub extends AgendaRepository {
 }
 
 class AgendaRepositoryErrorStub extends AgendaRepository {
-  AgendaRepositoryErrorStub() : super("", DummyHttpClient());
+  AgendaRepositoryErrorStub() : super(DioMock());
 
   @override
   Future<Agenda?> getAgendaMissionLocale(String userId, DateTime maintenant) async {

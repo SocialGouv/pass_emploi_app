@@ -70,27 +70,22 @@ mkdir -p "test/feature/$feature_snake_case"
 
 echo "Creating repository…"
 cat > "lib/repositories/${feature_snake_case}_repository.dart" <<- EOM
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
 
 class ${repositoryClass} {
-  final String _baseUrl;
-  final Client _httpClient;
+  final Dio _httpClient;
   final Crashlytics? _crashlytics;
 
-  ${repositoryClass}(this._baseUrl, this._httpClient, [this._crashlytics]);
+  ${repositoryClass}(this._httpClient, [this._crashlytics]);
 
   Future<bool?> get() async {
-    final url = Uri.parse(_baseUrl + '/jeunes/todo');
+    final url = "/jeunes/todo";
     try {
       final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        //return response.bodyBytes.asListOf((json) => JsonRendezvous.fromJson(json).toRendezvous());
-        return true;
-      }
+      return true;
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return null;
   }
@@ -255,7 +250,7 @@ echo "Editing $editing_file"
 
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT" "$repositoryImport"
 
-value="${repositoryClass}(baseUrl, httpClient, crashlytics),"
+value="${repositoryClass}(dioClient, crashlytics),"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR" "$value"
 
 dart format "$editing_file" -l $dart_max_char_in_line
@@ -282,7 +277,7 @@ echo "Editing $editing_file"
 
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT" "$repositoryImport"
 
-value="class ${repositoryDummyClass} extends ${repositoryClass} { ${repositoryDummyClass}() : super(\"\", DummyHttpClient()); }"
+value="class ${repositoryDummyClass} extends ${repositoryClass} { ${repositoryDummyClass}() : super(DioMock()); }"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION" "$value"
 
 dart format "$editing_file" -l $dart_max_char_in_line
@@ -294,12 +289,12 @@ cat > "test/repositories/${feature_snake_case}_repository_test.dart" <<- EOM
 import 'package:flutter_test/flutter_test.dart';
 ${repositoryImport}
 
-import '../dsl/sut_repository.dart';
+import '../dsl/sut_repository2.dart';
 
 void main() {
   group('${repositoryClass}', () {
-    final sut = RepositorySut<${repositoryClass}>();
-    sut.givenRepository((client) => ${repositoryClass}("BASE_URL", client));
+    final sut = RepositorySut2<${repositoryClass}>();
+    sut.givenRepository((client) => ${repositoryClass}(client));
 
     group('get', () {
       sut.when((repository) => repository.get());
@@ -309,8 +304,8 @@ void main() {
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
-            method: "GET",
-            url: "BASE_URL/jeunes/todo",
+            method: HttpMethod.get,
+            url: "/jeunes/todo",
           );
         });
 
@@ -340,7 +335,7 @@ ${actionImport}
 ${stateImport}
 ${repositoryImport}
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
@@ -385,7 +380,7 @@ Matcher _shouldSucceed() {
 }
 
 class ${repositoryClass}SuccessStub extends ${repositoryClass} {
-  ${repositoryClass}SuccessStub() : super("", DummyHttpClient());
+  ${repositoryClass}SuccessStub() : super(DioMock());
 
   @override
   Future<bool?> get() async {
@@ -394,7 +389,7 @@ class ${repositoryClass}SuccessStub extends ${repositoryClass} {
 }
 
 class ${repositoryClass}ErrorStub extends ${repositoryClass} {
-  ${repositoryClass}ErrorStub() : super("", DummyHttpClient());
+  ${repositoryClass}ErrorStub() : super(DioMock());
 
   @override
   Future<bool?> get() async {

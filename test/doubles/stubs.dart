@@ -31,6 +31,7 @@ import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:synchronized/synchronized.dart';
 
+import 'dio_mock.dart';
 import 'dummies.dart';
 import 'fixtures.dart';
 import 'spies.dart';
@@ -39,7 +40,7 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
   Campagne? _campagne;
   var isActionUpdated = false;
 
-  PageActionRepositorySuccessStub() : super("", DummyHttpClient());
+  PageActionRepositorySuccessStub() : super(DioMock());
 
   void withCampagne(Campagne campagne) {
     _campagne = campagne;
@@ -83,7 +84,7 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
 }
 
 class PageActionRepositoryFailureStub extends PageActionRepository {
-  PageActionRepositoryFailureStub() : super("", DummyHttpClient());
+  PageActionRepositoryFailureStub() : super(DioMock());
   var isActionUpdated = false;
 
   @override

@@ -1,19 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-
-const _blacklistedRoutes = [
-  '/rendezvous',
-  '/home/agenda',
-  '/home/agenda/pole-emploi',
-  '/home/actions',
-  '/home/demarches',
-  '/fichiers',
-];
-const _defaultCacheDuration = Duration(days: 7);
 
 class HttpClientWithCache extends BaseClient {
   final PassEmploiCacheManager cacheManager;
@@ -69,9 +58,9 @@ class HttpClientWithCache extends BaseClient {
   @override
   Future<StreamedResponse> send(BaseRequest request) async {
     final stringUrl = request.url.toString();
-    if (request.method == "GET" && stringUrl.isWhitelisted()) {
+    if (request.method == "GET" && stringUrl.isWhitelistedForCache()) {
       final fileFromCache = await cacheManager.getFileFromCache(stringUrl);
-      if (fileFromCache != null && await fileFromCache.file.exists() && _isStillUpToDate(fileFromCache)) {
+      if (fileFromCache != null && await fileFromCache.file.exists() && isCacheStillUpToDate(fileFromCache)) {
         return StreamedResponse(fileFromCache.file.openRead(), 200);
       } else {
         final response = await cacheManager.downloadFile(stringUrl, key: stringUrl, authHeaders: request.headers);
@@ -79,22 +68,5 @@ class HttpClientWithCache extends BaseClient {
       }
     }
     return httpClient.send(request);
-  }
-
-  bool _isStillUpToDate(FileInfo file) {
-    // The lib set a default value to 7-days cache when there isn't cache-control headers in our HTTP responses.
-    // And our backend do not set these headers.
-    // In future : directly use `getSingleFile` without checking date.
-    final now = DateTime.now().add(_defaultCacheDuration).subtract(PassEmploiCacheManager.requestCacheDuration);
-    return file.validTill.isAfter(now);
-  }
-}
-
-extension _Whiteliste on String {
-  bool isWhitelisted() {
-    for (final route in _blacklistedRoutes) {
-      if (contains(route)) return false;
-    }
-    return true;
   }
 }
