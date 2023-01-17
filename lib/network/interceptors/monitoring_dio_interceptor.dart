@@ -24,7 +24,7 @@ class MonitoringDioInterceptor extends Interceptor {
     options.headers['X-CorrelationId'] = userId + '-' + DateTime.now().millisecondsSinceEpoch.toString();
     options.headers['X-AppVersion'] = await _getAppVersion();
     options.headers['X-Platform'] = Platform.operatingSystem;
-    if (_contentTypeIsNotValid(options.headers)) options.headers['Content-Type'] = 'application/json; charset=utf-8';
+    if (_contentTypeIsNotValid(options)) options.headers['Content-Type'] = 'application/json; charset=utf-8';
     handler.next(options);
   }
 
@@ -52,9 +52,8 @@ class MonitoringDioInterceptor extends Interceptor {
     }
   }
 
-  bool _contentTypeIsNotValid(Map<String, dynamic> headers) {
-    //TODO: c'est pas tout en lowercase pour dio ?
-    final contentType = headers['Content-Type'] as String?;
+  bool _contentTypeIsNotValid(RequestOptions options) {
+    final contentType = options.headers['Content-Type'] as String?;
     return contentType == null || contentType.contains("text/plain");
   }
 }
