@@ -82,7 +82,12 @@ class _Scaffold extends StatelessWidget {
             onPressed: () => showPassEmploiBottomSheet(
               context: context,
               builder: (context) => CreateUserActionBottomSheet(),
-            ).then((value) => viewModel.resetCreateAction()),
+            ).then((value) {
+              if (value != null) {
+                _showUserActionSnackBarWithDetail(context, value as String);
+                viewModel.resetCreateAction();
+              }
+            }),
           ),
         if (viewModel.createButton == CreateButton.demarche)
           _CreateButton(
@@ -91,6 +96,14 @@ class _Scaffold extends StatelessWidget {
                 .then((value) => viewModel.reload(DateTime.now())),
           ),
       ]),
+    );
+  }
+
+  void _showUserActionSnackBarWithDetail(BuildContext context, String userActionId) {
+    showSuccessfulSnackBar(
+      context,
+      Strings.createActionSuccess,
+      () => Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.agenda)),
     );
   }
 }
@@ -307,6 +320,7 @@ class _CurrentWeekEmptyMiloCard extends StatelessWidget {
 
 class _WeekSeparator extends StatelessWidget {
   final WeekSeparatorAgendaItem weekSeparator;
+
   const _WeekSeparator(this.weekSeparator);
 
   @override
@@ -351,6 +365,7 @@ class _MessageAgendaItem extends StatelessWidget {
 
 class _UserActionAgendaItem extends StatelessWidget {
   final UserActionAgendaItem userActionAgendaItem;
+
   const _UserActionAgendaItem(this.userActionAgendaItem);
 
   @override
@@ -375,6 +390,7 @@ class _UserActionAgendaItem extends StatelessWidget {
 
 class _RendezvousAgendaItem extends StatelessWidget {
   final RendezvousAgendaItem rendezvousAgendaItem;
+
   const _RendezvousAgendaItem(this.rendezvousAgendaItem);
 
   @override
@@ -393,6 +409,7 @@ class _RendezvousAgendaItem extends StatelessWidget {
 
 class _DemarcheAgendaItem extends StatelessWidget {
   final DemarcheAgendaItem demarcheAgendaItem;
+
   const _DemarcheAgendaItem(this.demarcheAgendaItem);
 
   @override
