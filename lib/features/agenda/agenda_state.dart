@@ -10,6 +10,8 @@ class AgendaNotInitializedState extends AgendaState {}
 
 class AgendaLoadingState extends AgendaState {}
 
+class AgendaReloadingState extends AgendaState {}
+
 class AgendaFailureState extends AgendaState {}
 
 class AgendaSuccessState extends AgendaState {
