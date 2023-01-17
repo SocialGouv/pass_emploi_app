@@ -68,7 +68,7 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: HttpMethod.get,
-            url: "/jeunes/UID/home/agenda/pole-emploi?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
+            url: "/v2/jeunes/UID/home/agenda/pole-emploi?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
           );
         });
 
@@ -76,14 +76,16 @@ void main() {
           await sut.expectResult<Agenda?>((result) {
             expect(result, isNotNull);
             expect(
-                result,
-                Agenda(
-                  actions: [],
-                  demarches: [demarcheStub()],
-                  rendezvous: [rendezvousStub()],
-                  delayedActions: 3,
-                  dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2022-08-27T00:00:00.000Z'),
-                ));
+              result,
+              Agenda(
+                actions: [],
+                demarches: [demarcheStub()],
+                rendezvous: [rendezvousStub()],
+                delayedActions: 3,
+                dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2022-08-27T00:00:00.000Z'),
+                dateDerniereMiseAjour: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
+              ),
+            );
           });
         });
       });

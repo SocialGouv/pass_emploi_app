@@ -11,6 +11,7 @@ class Agenda extends Equatable {
   final List<Rendezvous> rendezvous;
   final int delayedActions;
   final DateTime dateDeDebut;
+  final DateTime? dateDerniereMiseAjour;
 
   Agenda({
     required this.actions,
@@ -18,19 +19,28 @@ class Agenda extends Equatable {
     required this.rendezvous,
     required this.delayedActions,
     required this.dateDeDebut,
+    this.dateDerniereMiseAjour,
   });
 
-  factory Agenda.fromJson(dynamic json) {
-    final rendezvous = (json["rendezVous"] as List).map((e) => JsonRendezvous.fromJson(e).toRendezvous()).toList();
-    final metadata = json["metadata"];
+  factory Agenda.fromV1Json(dynamic json) {
+    final result = {"resultat": json};
+    return Agenda.fromV2Json(result);
+  }
+
+  factory Agenda.fromV2Json(dynamic json) {
+    final result = json["resultat"];
+    final rendezvous = (result["rendezVous"] as List).map((e) => JsonRendezvous.fromJson(e).toRendezvous()).toList();
+    final metadata = result["metadata"];
     final delayedActions = _delayedActions(metadata);
     final dateDeDebut = (metadata["dateDeDebut"] as String).toDateTimeUtcOnLocalTimeZone();
+    final dateDerniereMiseAjour = (json["dateDerniereMiseAJour"] as String?)?.toDateTimeUtcOnLocalTimeZone();
     return Agenda(
-      actions: _actions(json),
-      demarches: _demarches(json),
+      actions: _actions(result),
+      demarches: _demarches(result),
       rendezvous: rendezvous,
       delayedActions: delayedActions,
       dateDeDebut: dateDeDebut,
+      dateDerniereMiseAjour: dateDerniereMiseAjour,
     );
   }
 
@@ -40,6 +50,7 @@ class Agenda extends Equatable {
     final List<Rendezvous>? rendezvous,
     final int? delayedActions,
     final DateTime? dateDeDebut,
+    final DateTime? dateDerniereMiseAjour,
   }) {
     return Agenda(
       actions: actions ?? this.actions,
@@ -47,11 +58,12 @@ class Agenda extends Equatable {
       rendezvous: rendezvous ?? this.rendezvous,
       delayedActions: delayedActions ?? this.delayedActions,
       dateDeDebut: dateDeDebut ?? this.dateDeDebut,
+      dateDerniereMiseAjour: dateDerniereMiseAjour ?? this.dateDerniereMiseAjour,
     );
   }
 
   @override
-  List<Object?> get props => [actions, demarches, rendezvous, delayedActions, dateDeDebut];
+  List<Object?> get props => [actions, demarches, rendezvous, delayedActions, dateDeDebut, dateDerniereMiseAjour];
 }
 
 int _delayedActions(metadata) {
