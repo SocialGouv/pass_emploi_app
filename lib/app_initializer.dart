@@ -161,40 +161,17 @@ class AppInitializer {
     );
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
     final authAccessChecker = AuthAccessChecker();
-    final defaultContext = SecurityContext.defaultContext;
-    final modeDemoRepository = ModeDemoRepository();
-    try {
-      defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
-    } catch (e, stack) {
-      crashlytics.recordNonNetworkException(e, stack);
-    }
-    final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
     final requestCacheManager = PassEmploiCacheManager.requestCache();
+    final modeDemoRepository = ModeDemoRepository();
     final monitoringInterceptor = MonitoringInterceptor(InstallationIdRepository(securedPreferences));
-    final modeDemoClient = ModeDemoClient(
-      modeDemoRepository,
-      HttpClientWithCache(requestCacheManager, clientWithCertificate),
-    );
-    final httpClient = InterceptedClient.build(
-      client: modeDemoClient,
-      interceptors: [
-        monitoringInterceptor,
-        AccessTokenInterceptor(accessTokenRetriever, modeDemoRepository),
-        LogoutInterceptor(authAccessChecker),
-        LoggingInterceptor(),
-      ],
-    );
+    final httpClient = _makeHttpClient(modeDemoRepository, accessTokenRetriever, requestCacheManager, authAccessChecker,
+        monitoringInterceptor, crashlytics, configuration);
     logoutRepository.setHttpClient(httpClient);
     logoutRepository.setCacheManager(requestCacheManager);
-    final chatCrypto = ChatCrypto();
     final baseUrl = configuration.serverBaseUrl;
-    final options = BaseOptions(baseUrl: baseUrl);
-    final dioClient = Dio(options);
-    dioClient.interceptors.add(DemoDioInterceptor(modeDemoRepository));
-    dioClient.interceptors.add(AuthDioInterceptor(accessTokenRetriever));
-    dioClient.interceptors.add(CacheDioInterceptor(requestCacheManager));
-    dioClient.interceptors.add(LoggingNetworkDioInterceptor());
-    dioClient.interceptors.add(ExpiredTokenDioInterceptor(authAccessChecker));
+    final dioClient =
+        _makeDioClient(baseUrl, modeDemoRepository, accessTokenRetriever, requestCacheManager, authAccessChecker);
+    final chatCrypto = ChatCrypto();
     final reduxStore = StoreFactory(
       authenticator,
       crashlytics,
@@ -248,5 +225,53 @@ class AppInitializer {
     chatCrypto.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
     return reduxStore;
+  }
+
+  Dio _makeDioClient(
+    String baseUrl,
+    ModeDemoRepository modeDemoRepository,
+    AuthAccessTokenRetriever accessTokenRetriever,
+    PassEmploiCacheManager requestCacheManager,
+    AuthAccessChecker authAccessChecker,
+  ) {
+    final options = BaseOptions(baseUrl: baseUrl);
+    final dioClient = Dio(options);
+    dioClient.interceptors.add(DemoDioInterceptor(modeDemoRepository));
+    dioClient.interceptors.add(AuthDioInterceptor(accessTokenRetriever));
+    dioClient.interceptors.add(CacheDioInterceptor(requestCacheManager));
+    dioClient.interceptors.add(LoggingNetworkDioInterceptor());
+    dioClient.interceptors.add(ExpiredTokenDioInterceptor(authAccessChecker));
+    return dioClient;
+  }
+
+  Client _makeHttpClient(
+    ModeDemoRepository modeDemoRepository,
+    AuthAccessTokenRetriever accessTokenRetriever,
+    PassEmploiCacheManager requestCacheManager,
+    AuthAccessChecker authAccessChecker,
+    MonitoringInterceptor monitoringInterceptor,
+    CrashlyticsWithFirebase crashlytics,
+    Configuration configuration,
+  ) {
+    final defaultContext = SecurityContext.defaultContext;
+    try {
+      defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
+    } catch (e, stack) {
+      crashlytics.recordNonNetworkException(e, stack);
+    }
+    final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
+    final modeDemoClient = ModeDemoClient(
+      modeDemoRepository,
+      HttpClientWithCache(requestCacheManager, clientWithCertificate),
+    );
+    return InterceptedClient.build(
+      client: modeDemoClient,
+      interceptors: [
+        monitoringInterceptor,
+        AccessTokenInterceptor(accessTokenRetriever, modeDemoRepository),
+        LogoutInterceptor(authAccessChecker),
+        LoggingInterceptor(),
+      ],
+    );
   }
 }
