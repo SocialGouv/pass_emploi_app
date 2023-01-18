@@ -177,7 +177,7 @@ class _Content extends StatelessWidget {
           if (item is UserActionAgendaItem) return _UserActionAgendaItem(item);
           if (item is CallToActionEventMiloAgendaItem) return _CurrentWeekEmptyMiloCard(agendaPageViewModel: viewModel);
           if (item is DelayedActionsBannerAgendaItem) return _DelayedActionsBanner(item, onActionDelayedTap);
-          if (item is NotUpToDateAgendaItem) return _NotUpToDateMessage(agendaPageViewModel: viewModel);
+          if (item is NotUpToDateAgendaItem) return _NotUpToDateMessage(viewModel);
           return SizedBox(height: 0);
         },
       ),
@@ -187,10 +187,7 @@ class _Content extends StatelessWidget {
 
 class _NotUpToDateMessage extends StatelessWidget {
   final AgendaPageViewModel agendaPageViewModel;
-  const _NotUpToDateMessage({
-    Key? key,
-    required this.agendaPageViewModel,
-  }) : super(key: key);
+  const _NotUpToDateMessage(this.agendaPageViewModel);
 
   @override
   Widget build(BuildContext context) {
