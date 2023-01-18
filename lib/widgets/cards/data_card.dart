@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
@@ -17,6 +18,7 @@ class DataCard<T> extends StatelessWidget {
   final VoidCallback onTap;
   final String? id;
   final OffrePage? from;
+  final Widget? additionalChild;
 
   const DataCard({
     Key? key,
@@ -28,6 +30,7 @@ class DataCard<T> extends StatelessWidget {
     this.id,
     this.from,
     this.category,
+    this.additionalChild,
   }) : super(key: key);
 
   @override
@@ -63,6 +66,10 @@ class DataCard<T> extends StatelessWidget {
             ],
           ),
           if (nonEmptyDataTags.isNotEmpty) _buildDataTags(nonEmptyDataTags),
+          if (additionalChild != null) ...[
+            SizedBox(height: Margins.spacing_base),
+            additionalChild!,
+          ],
         ],
       ),
     );

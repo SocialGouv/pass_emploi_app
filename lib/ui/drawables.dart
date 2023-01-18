@@ -50,6 +50,7 @@ class Drawables {
   static String puzzle = _assets + "puzzle" + _svg;
   static String icEmpty = _assets + "ic_empty" + _svg;
   static String icAlertSuggestions = _assets + "ic_alert_suggestions" + _svg;
+  static String icRocket = _assets + "ic_rocket" + _svg;
 
   static String cejAppLogo = _assets + "logo_app_cej" + _svg;
   static String icAlert = _assets + "ic_alert" + _svg;
