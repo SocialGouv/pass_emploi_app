@@ -13,19 +13,21 @@ class AgendaRepository {
   Future<Agenda?> getAgendaMissionLocale(String userId, DateTime maintenant) async {
     final date = Uri.encodeComponent(maintenant.toIso8601WithOffsetDateTime());
     final url = "/jeunes/$userId/home/agenda?maintenant=$date";
-    return _getAgenda(url);
+    try {
+      final response = await _httpClient.get(url);
+      return Agenda.fromV1Json(response.data);
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
+    }
+    return null;
   }
 
   Future<Agenda?> getAgendaPoleEmploi(String userId, DateTime maintenant) async {
     final date = Uri.encodeComponent(maintenant.toIso8601WithOffsetDateTime());
-    final url = "/jeunes/$userId/home/agenda/pole-emploi?maintenant=$date";
-    return _getAgenda(url);
-  }
-
-  Future<Agenda?> _getAgenda(String url) async {
+    final url = "/v2/jeunes/$userId/home/agenda/pole-emploi?maintenant=$date";
     try {
       final response = await _httpClient.get(url);
-      return Agenda.fromJson(response.data);
+      return Agenda.fromV2Json(response.data);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }

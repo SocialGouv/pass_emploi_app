@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 
 AgendaState agendaReducer(AgendaState current, dynamic action) {
   if (action is AgendaRequestAction) return AgendaLoadingState();
+  if (action is AgendaRequestReloadAction) return AgendaReloadingState();
   if (action is AgendaRequestFailureAction) return AgendaFailureState();
   if (action is AgendaRequestSuccessAction) return AgendaSuccessState(action.agenda);
   if (action is UserActionDeleteSuccessAction) return _listWithDeletedAction(current, action);

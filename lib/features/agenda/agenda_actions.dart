@@ -6,6 +6,14 @@ class AgendaRequestAction {
   AgendaRequestAction(this.maintenant);
 }
 
+class AgendaRequestReloadAction {
+  final DateTime maintenant;
+
+  AgendaRequestReloadAction(this.maintenant);
+}
+
+class AgendaReloadingAction {}
+
 class AgendaRequestFailureAction {}
 
 class AgendaRequestSuccessAction {

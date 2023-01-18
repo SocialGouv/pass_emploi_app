@@ -21,6 +21,7 @@ class AgendaPageViewModel extends Equatable {
   final List<AgendaItem> events;
   final String emptyMessage;
   final CreateButton createButton;
+  final bool isReloading;
   final Function() resetCreateAction;
   final Function(DateTime) reload;
   final Function() goToEventList;
@@ -31,6 +32,7 @@ class AgendaPageViewModel extends Equatable {
     required this.events,
     required this.emptyMessage,
     required this.createButton,
+    required this.isReloading,
     required this.resetCreateAction,
     required this.reload,
     required this.goToEventList,
@@ -45,14 +47,15 @@ class AgendaPageViewModel extends Equatable {
       events: _events(store, isPoleEmploi),
       emptyMessage: isPoleEmploi ? Strings.agendaEmptyPoleEmploi : Strings.agendaEmptyMilo,
       createButton: isPoleEmploi ? CreateButton.demarche : CreateButton.userAction,
+      isReloading: store.state.agendaState is AgendaReloadingState,
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
-      reload: (date) => store.dispatch(AgendaRequestAction(date)),
+      reload: (date) => store.dispatch(AgendaRequestReloadAction(date)),
       goToEventList: () => store.dispatch(LocalDeeplinkAction({"type": "EVENT_LIST"})),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, isPoleEmploi, events, emptyMessage, createButton];
+  List<Object?> get props => [displayState, isPoleEmploi, events, emptyMessage, createButton, isReloading];
 }
 
 DisplayState _displayState(Store<AppState> store, bool isPoleEmploi) {
@@ -85,6 +88,7 @@ List<AgendaItem> _events(Store<AppState> store, bool isPoleEmploi) {
   }
 
   return [
+    if (agendaState.agenda.dateDerniereMiseAjour != null) NotUpToDateAgendaItem(),
     if (delayedActions > 0)
       DelayedActionsBannerAgendaItem(
         isPoleEmploi ? Strings.numberOfDemarches(delayedActions) : Strings.numberOfActions(delayedActions),
@@ -204,6 +208,8 @@ abstract class AgendaItem extends Equatable {
   @override
   List<Object?> get props => [];
 }
+
+class NotUpToDateAgendaItem extends AgendaItem {}
 
 class DelayedActionsBannerAgendaItem extends AgendaItem {
   final String delayedLabel;

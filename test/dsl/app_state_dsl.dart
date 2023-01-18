@@ -196,6 +196,7 @@ extension AppStateDSL on AppState {
     List<Rendezvous>? rendezvous,
     int delayedActions = 0,
     DateTime? dateDeDebut,
+    DateTime? dateDerniereMiseAjour,
   }) {
     return copyWith(
       agendaState: AgendaSuccessState(Agenda(
@@ -204,6 +205,7 @@ extension AppStateDSL on AppState {
         rendezvous: rendezvous ?? [],
         delayedActions: delayedActions,
         dateDeDebut: dateDeDebut ?? DateTime(2042),
+        dateDerniereMiseAjour: dateDerniereMiseAjour,
       )),
     );
   }
