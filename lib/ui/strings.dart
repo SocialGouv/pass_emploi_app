@@ -372,15 +372,8 @@ class Strings {
   static String immersionError = "Erreur lors de la récupération de l'offre d'immersion. Veuillez réessayer";
   static String immersionNonAccueillanteExplanation =
       "Cette entreprise peut recruter sur ce métier et être intéressée pour vous recevoir en immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.";
-  static String immersionAccueillanteExplanation = "Cette entreprise recherche activement des candidats à l’immersion.";
-  static String immersionUnknownContactModeExplanation =
-      "Contactez-la en expliquant votre projet professionnel et vos motivations.";
-  static String immersionPhoneContactModeExplanation =
-      "Contactez-la par téléphone en expliquant votre projet professionnel et vos motivations.";
-  static String immersionMailContactModeExplanation =
-      "Contactez-la par e-mail en expliquant votre projet professionnel et vos motivations.\n\nVous n’avez pas besoin d’envoyer un CV.";
-  static String immersionInPersonContactModeExplanation =
-      "Rendez-vous directement sur place pour expliquer votre projet professionnel et vos motivations.";
+  static String immersionAccueillanteExplanation =
+      "Cette entreprise recherche activement des candidats à l’immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.";
   static String immersionDescriptionLabel = "Si l’entreprise est d’accord pour vous accueillir :\n\n"
       "· Prévenez votre conseiller\n"
       "· Remplissez une convention d’immersion avec lui";
