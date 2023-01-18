@@ -31,6 +31,7 @@ import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
+import 'package:pass_emploi_app/widgets/reloadable_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
@@ -154,10 +155,21 @@ class _Body extends StatelessWidget {
       case DisplayState.CONTENT:
         return _Content(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap);
       case DisplayState.EMPTY:
-        return Empty(description: viewModel.emptyMessage);
+        return _emptyPage(context, viewModel);
       case DisplayState.FAILURE:
         return _Retry(viewModel: viewModel);
     }
+  }
+
+  Widget _emptyPage(BuildContext context, AgendaPageViewModel viewModel) {
+    final showNotUpToDateMessage = viewModel.events.isNotEmpty && viewModel.events.first is NotUpToDateAgendaItem;
+    return showNotUpToDateMessage
+        ? ReloadablePage(
+            reloadMessage: Strings.agendaNotUpToDate,
+            emptyMessage: viewModel.emptyMessage,
+            onReload: () => viewModel.reload(DateTime.now()),
+          )
+        : Empty(description: viewModel.emptyMessage);
   }
 }
 
