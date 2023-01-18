@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
-import 'package:pass_emploi_app/features/device_info/device_info_actions.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_state.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 
