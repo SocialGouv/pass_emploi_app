@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
+import 'package:pass_emploi_app/utils/log.dart';
 import 'package:redux/redux.dart';
 
 class CrashlyticsMiddleware extends MiddlewareClass<AppState> {
@@ -23,12 +24,10 @@ class CrashlyticsMiddleware extends MiddlewareClass<AppState> {
     crashlytics.setCustomKey("last_actions", _formatQueueForCrashlytics());
     crashlytics.setCustomKey("app_state", _formatStoreForCrashlytics(store));
 
-    // aussi au logout ? non parce que BootstrapAction est dispatch
-    if (action is BootstrapAction /* && !isInitialized */) {
-      //final uuid = _notLoggedInUserId();
+    if (action is BootstrapAction) {
       final uuid = await _installationIdRepository.getInstallationId();
       crashlytics.setUserIdentifier(uuid);
-      print("@@@ set uuid: $uuid");
+      Log.i("Crashlytics setUserIdentifier: $uuid");
     }
 
     next(action);
