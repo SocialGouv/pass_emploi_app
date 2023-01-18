@@ -11,7 +11,7 @@ class Agenda extends Equatable {
   final List<Rendezvous> rendezvous;
   final int delayedActions;
   final DateTime dateDeDebut;
-  final DateTime? dateDerniereMiseAjour;
+  final DateTime? dateDerniereMiseAJour;
 
   Agenda({
     required this.actions,
@@ -19,7 +19,7 @@ class Agenda extends Equatable {
     required this.rendezvous,
     required this.delayedActions,
     required this.dateDeDebut,
-    this.dateDerniereMiseAjour,
+    this.dateDerniereMiseAJour,
   });
 
   factory Agenda.fromV1Json(dynamic json) {
@@ -40,7 +40,7 @@ class Agenda extends Equatable {
       rendezvous: rendezvous,
       delayedActions: delayedActions,
       dateDeDebut: dateDeDebut,
-      dateDerniereMiseAjour: dateDerniereMiseAjour,
+      dateDerniereMiseAJour: dateDerniereMiseAjour,
     );
   }
 
@@ -58,12 +58,12 @@ class Agenda extends Equatable {
       rendezvous: rendezvous ?? this.rendezvous,
       delayedActions: delayedActions ?? this.delayedActions,
       dateDeDebut: dateDeDebut ?? this.dateDeDebut,
-      dateDerniereMiseAjour: dateDerniereMiseAjour ?? this.dateDerniereMiseAjour,
+      dateDerniereMiseAJour: dateDerniereMiseAjour ?? dateDerniereMiseAJour,
     );
   }
 
   @override
-  List<Object?> get props => [actions, demarches, rendezvous, delayedActions, dateDeDebut, dateDerniereMiseAjour];
+  List<Object?> get props => [actions, demarches, rendezvous, delayedActions, dateDeDebut, dateDerniereMiseAJour];
 }
 
 int _delayedActions(metadata) {

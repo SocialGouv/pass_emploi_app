@@ -17,3 +17,7 @@ extension StringExtensions on String {
 
   String firstLetterLowerCased() => length > 1 ? substring(0, 1).toLowerCase() + substring(1) : this;
 }
+
+extension DateTimeExtension on DateTime {
+  String toHumanDate() => DateFormat("DD/MM/yyyy à HH:mm").format(this).replaceAll(":", "h");
+}
