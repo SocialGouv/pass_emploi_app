@@ -370,7 +370,7 @@ class ServiceCiviqueDetailRepositoryWithErrorStub extends ServiceCiviqueDetailRe
 }
 
 class ImmersionRepositoryFailureStub extends ImmersionRepository {
-  ImmersionRepositoryFailureStub() : super("", DummyHttpClient());
+  ImmersionRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {

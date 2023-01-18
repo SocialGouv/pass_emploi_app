@@ -60,7 +60,7 @@ class RepositorySut2<REPO> {
       _when = (repo) {
         mocktail.reset(_client);
         mocktail //
-            .when(() => _client.get(mocktail.any()))
+            .when(() => _client.get(mocktail.any(), queryParameters: mocktail.any(named: "queryParameters")))
             .thenAnswer((_) async => _response());
         mocktail //
             .when(() => _client.post(mocktail.any(), data: mocktail.any(named: "data")))
@@ -82,14 +82,23 @@ class RepositorySut2<REPO> {
     required HttpMethod method,
     required String url,
     Map<String, dynamic>? jsonBody,
+    Map<String, dynamic>? queryParameters,
   }) async {
     await _when(_repository);
 
     final dynamic capturedUrl;
     dynamic capturedData;
+    dynamic capturedQueryParameters;
     switch (method) {
       case HttpMethod.get:
-        capturedUrl = mocktail.verify(() => _client.get(mocktail.captureAny())).captured.last;
+        final captured = mocktail
+            .verify(() => _client.get(
+                  mocktail.captureAny(),
+                  queryParameters: mocktail.captureAny(named: "queryParameters"),
+                ))
+            .captured;
+        capturedUrl = captured[0];
+        capturedQueryParameters = captured[1];
         break;
       case HttpMethod.post:
         final captured = mocktail
@@ -112,6 +121,7 @@ class RepositorySut2<REPO> {
 
     expect(capturedUrl, url);
     if (jsonBody != null) expect(jsonDecode(capturedData as String), jsonBody);
+    if (capturedQueryParameters != null) expect(capturedQueryParameters, queryParameters);
     throwModeDemoExceptionIfNecessary(method == HttpMethod.get, Uri.parse(url));
   }
 
