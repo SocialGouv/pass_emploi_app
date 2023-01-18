@@ -4,7 +4,8 @@
     "metier": "xxxx",
     "nomEtablissement": "ACCUEIL DE JOUR POUR PERSONNES AGEES",
     "secteurActivite": "xxxx",
-    "ville": "xxxx"
+    "ville": "xxxx",
+    "estVolontaire": true
   },
   {
     "id": "c92290c1-1586-4e97-b6e7-4933756fc406",

@@ -133,10 +133,10 @@ ImmersionDetailsViewModel _otherCasesViewModel(ImmersionDetailsState state, Stor
 }
 
 String _explanationLabel(ImmersionDetails immersion) {
-  if (immersion.isVolontaire) {
-    return Strings.immersionVolontaireExplanation + ' ' + _contactModeLabel(immersion.contact?.mode);
+  if (immersion.fromEntrepriseAccueillante) {
+    return Strings.immersionAccueillanteExplanation + ' ' + _contactModeLabel(immersion.contact?.mode);
   }
-  return Strings.immersionNonVolontaireExplanation;
+  return Strings.immersionNonAccueillanteExplanation;
 }
 
 String _contactModeLabel(ImmersionContactMode? mode) {

@@ -90,9 +90,9 @@ void main() {
   });
 
   group('Explanation label…', () {
-    test('when enterprise is not volontaire', () {
+    test('when enterprise is not accueillante', () {
       // Given
-      final store = _successStore(_mockImmersion(isVolontaire: false));
+      final store = _successStore(_mockImmersion(fromEntrepriseAccueillante: false));
 
       // When
       final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
@@ -104,10 +104,11 @@ void main() {
       );
     });
 
-    group('when enterprise is volontaire…', () {
+    group('when enterprise is accueillante…', () {
       test('… and contact mode is unknown', () {
         // Given
-        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.INCONNU));
+        final store =
+            _successStore(_mockImmersion(fromEntrepriseAccueillante: true, mode: ImmersionContactMode.INCONNU));
 
         // When
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
@@ -121,7 +122,7 @@ void main() {
 
       test('… and contact mode is phone', () {
         // Given
-        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.PHONE));
+        final store = _successStore(_mockImmersion(fromEntrepriseAccueillante: true, mode: ImmersionContactMode.PHONE));
 
         // When
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
@@ -135,7 +136,7 @@ void main() {
 
       test('… and contact mode is mail', () {
         // Given
-        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.MAIL));
+        final store = _successStore(_mockImmersion(fromEntrepriseAccueillante: true, mode: ImmersionContactMode.MAIL));
 
         // When
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
@@ -149,7 +150,8 @@ void main() {
 
       test('… and contact mode is in person', () {
         // Given
-        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.PRESENTIEL));
+        final store =
+            _successStore(_mockImmersion(fromEntrepriseAccueillante: true, mode: ImmersionContactMode.PRESENTIEL));
 
         // When
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
@@ -476,7 +478,7 @@ Store<AppState> _store(ImmersionDetailsState immersionDetailsState) {
 Store<AppState> _successStore(ImmersionDetails immersion) => _store(ImmersionDetailsSuccessState(immersion));
 
 ImmersionDetails _mockImmersion({
-  bool isVolontaire = false,
+  bool fromEntrepriseAccueillante = false,
   ImmersionContactMode mode = ImmersionContactMode.INCONNU,
 }) {
   return ImmersionDetails(
@@ -486,7 +488,7 @@ ImmersionDetails _mockImmersion({
     secteurActivite: 'Secteur',
     ville: 'Ville',
     address: 'Adresse',
-    isVolontaire: isVolontaire,
+    fromEntrepriseAccueillante: fromEntrepriseAccueillante,
     contact: ImmersionContact(
       firstName: '',
       lastName: '',
@@ -506,7 +508,7 @@ ImmersionDetails _mockImmersionWithContact(ImmersionContact? contact, {String? a
     secteurActivite: '',
     ville: '',
     address: address ?? '',
-    isVolontaire: true,
+    fromEntrepriseAccueillante: true,
     contact: contact,
   );
 }
