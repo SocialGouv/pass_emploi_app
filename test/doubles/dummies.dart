@@ -198,7 +198,7 @@ class DummyFirebaseAuthWrapper extends FirebaseAuthWrapper {
 }
 
 class DummyImmersionRepository extends ImmersionRepository {
-  DummyImmersionRepository() : super("", DummyHttpClient());
+  DummyImmersionRepository() : super(DioMock());
 }
 
 class DummyImmersionDetailsRepository extends ImmersionDetailsRepository {
