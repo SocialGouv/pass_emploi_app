@@ -165,14 +165,27 @@ class AppInitializer {
     final requestCacheManager = PassEmploiCacheManager.requestCache();
     final modeDemoRepository = ModeDemoRepository();
     final monitoringInterceptor = MonitoringInterceptor(InstallationIdRepository(securedPreferences));
-    final httpClient = _makeHttpClient(modeDemoRepository, accessTokenRetriever, requestCacheManager, authAccessChecker,
-        monitoringInterceptor, crashlytics, configuration);
+    final httpClient = _makeHttpClient(
+      modeDemoRepository,
+      accessTokenRetriever,
+      requestCacheManager,
+      authAccessChecker,
+      monitoringInterceptor,
+      crashlytics,
+      configuration,
+    );
     logoutRepository.setHttpClient(httpClient);
     logoutRepository.setCacheManager(requestCacheManager);
     final baseUrl = configuration.serverBaseUrl;
     final monitoringDioInterceptor = MonitoringDioInterceptor(InstallationIdRepository(securedPreferences));
-    final dioClient = _makeDioClient(baseUrl, modeDemoRepository, accessTokenRetriever, requestCacheManager,
-        authAccessChecker, monitoringDioInterceptor);
+    final dioClient = _makeDioClient(
+      baseUrl,
+      modeDemoRepository,
+      accessTokenRetriever,
+      requestCacheManager,
+      authAccessChecker,
+      monitoringDioInterceptor,
+    );
     final chatCrypto = ChatCrypto();
     final reduxStore = StoreFactory(
       authenticator,
@@ -208,7 +221,7 @@ class AppInitializer {
       CampagneRepository(baseUrl, httpClient, crashlytics),
       PassEmploiMatomoTracker.instance,
       UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
-      CreateDemarcheRepository(baseUrl, httpClient, crashlytics),
+      CreateDemarcheRepository(dioClient, crashlytics),
       SearchDemarcheRepository(baseUrl, httpClient, crashlytics),
       PieceJointeRepository(baseUrl, httpClient, crashlytics),
       TutorialRepository(securedPreferences),

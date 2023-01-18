@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/widgets/cards/demarche_du_referentiel_card.dart'
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class CreateDemarcheStep2Page extends StatelessWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
+  static MaterialPageRoute<String?> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateDemarcheStep2Page());
   }
 
@@ -46,21 +46,19 @@ class CreateDemarcheStep2Page extends StatelessWidget {
             return DemarcheDuReferentielCard(
               idDemarche: item.idDemarche,
               onTap: () {
-                Navigator.push(
-                  context,
-                  CreateDemarcheStep3Page.materialPageRoute(item.idDemarche),
-                );
+                Navigator.push(context, CreateDemarcheStep3Page.materialPageRoute(item.idDemarche)).then((value) {
+                  // forward result to previous page
+                  if (value != null) Navigator.pop(context, value);
+                });
               },
             );
           }
           return SecondaryButton(
             label: Strings.createDemarchePersonnalisee,
-            onPressed: () {
-              Navigator.push(
-                context,
-                CreateDemarchePersonnaliseePage.materialPageRoute(),
-              );
-            },
+            onPressed: () => Navigator.push(context, CreateDemarchePersonnaliseePage.materialPageRoute()).then((value) {
+              // forward result to previous page
+              if (value != null) Navigator.pop(context, value);
+            }),
           );
         },
       ),

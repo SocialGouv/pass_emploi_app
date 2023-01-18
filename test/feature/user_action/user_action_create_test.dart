@@ -16,7 +16,7 @@ void main() {
   group("when creating user action", () {
     sut.when(() => UserActionCreateRequestAction(_request()));
 
-    group("when request succeed", () {
+    group("when request succeeds", () {
       test("should display loading and success", () {
         sut.givenStore = givenState()
             .loggedInUser() //
@@ -32,7 +32,7 @@ void main() {
       });
     });
 
-    group("when request fail", () {
+    group("when request fails", () {
       test("should display loading and failure", () {
         sut.givenStore = givenState()
             .loggedInUser() //
@@ -45,7 +45,12 @@ void main() {
 
 Matcher _shouldLoadState() => StateIs<UserActionCreateLoadingState>((state) => state.userActionCreateState);
 
-Matcher _shouldSucceedState() => StateIs<UserActionCreateSuccessState>((state) => state.userActionCreateState);
+Matcher _shouldSucceedState() {
+  return StateIs<UserActionCreateSuccessState>(
+    (state) => state.userActionCreateState,
+    (state) => expect(state.userActionCreatedId, 'USER-ACTION-ID'),
+  );
+}
 
 Matcher _shouldFailState() => StateIs<UserActionCreateFailureState>((state) => state.userActionCreateState);
 

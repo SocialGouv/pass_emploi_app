@@ -1,28 +1,28 @@
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_create_demarche.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
+
+typedef DemarcheId = String;
 
 class CreateDemarcheRepository {
-  final String _baseUrl;
-  final Client _httpClient;
+  final Dio _httpClient;
   final Crashlytics? _crashlytics;
 
-  CreateDemarcheRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
+  CreateDemarcheRepository(this._httpClient, [this._crashlytics]);
 
-  Future<bool> createDemarche({
+  Future<DemarcheId?> createDemarche({
     required String userId,
     required String codeQuoi,
     required String codePourquoi,
     required String? codeComment,
     required DateTime dateEcheance,
   }) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/demarches");
+    final url = "/jeunes/$userId/demarches";
     try {
       final response = await _httpClient.post(
         url,
-        body: customJsonEncode(
+        data: customJsonEncode(
           PostCreateDemarche(
             codeQuoi: codeQuoi,
             codePourquoi: codePourquoi,
@@ -31,28 +31,28 @@ class CreateDemarcheRepository {
           ),
         ),
       );
-      if (response.statusCode.isValid()) return true;
+      return response.data['id'] as String;
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
-    return false;
+    return null;
   }
 
-  Future<bool> createDemarchePersonnalisee({
+  Future<DemarcheId?> createDemarchePersonnalisee({
     required String userId,
     required String commentaire,
     required DateTime dateEcheance,
   }) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/demarches");
+    final url = "/jeunes/$userId/demarches";
     try {
       final response = await _httpClient.post(
         url,
-        body: customJsonEncode(PostCreateDemarchePersonnalisee(commentaire, dateEcheance)),
+        data: customJsonEncode(PostCreateDemarchePersonnalisee(commentaire, dateEcheance)),
       );
-      if (response.statusCode.isValid()) return true;
+      return response.data['id'] as String;
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
-    return false;
+    return null;
   }
 }

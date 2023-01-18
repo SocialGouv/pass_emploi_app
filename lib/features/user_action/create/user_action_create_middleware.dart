@@ -17,9 +17,9 @@ class UserActionCreateMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is UserActionCreateRequestAction) {
       store.dispatch(UserActionCreateLoadingAction());
-      final result = await _repository.createUserAction(loginState.user.id, action.request);
-      if (result) {
-        store.dispatch(UserActionCreateSuccessAction());
+      final userActionCreatedId = await _repository.createUserAction(loginState.user.id, action.request);
+      if (userActionCreatedId != null) {
+        store.dispatch(UserActionCreateSuccessAction(userActionCreatedId));
         store.dispatch(UserActionListRequestAction());
         store.dispatch(AgendaRequestAction(DateTime.now()));
       } else {

@@ -28,6 +28,7 @@ class UserActionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionCardViewModel>(
+      rebuildOnChange: false,
       converter: (store) => UserActionCardViewModel.create(
         store: store,
         stateSource: stateSource,

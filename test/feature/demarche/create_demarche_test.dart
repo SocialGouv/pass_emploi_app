@@ -3,152 +3,138 @@ import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 
 void main() {
-  group('When creating a demarche', () {
-    test('should update create demarche state with success', () async {
-      // Given
-      final store = givenState()
-          .loggedInPoleEmploiUser()
-          .store((factory) => {factory.createDemarcheRepository = CreateDemarcheRepositorySuccessStub()});
-      final displayedLoading = store.onChange.any((e) => e.createDemarcheState is CreateDemarcheLoadingState);
-      final successAppState = store.onChange.firstWhere((e) => e.createDemarcheState is CreateDemarcheSuccessState);
+  final sut = StoreSut();
 
-      // When
-      await store.dispatch(
-        CreateDemarcheRequestAction(
+  group('when creating a demarche', () {
+    sut.when(() => CreateDemarcheRequestAction(
           codeQuoi: 'codeQuoi',
           codePourquoi: 'codePourquoi',
           codeComment: 'codeComment',
           dateEcheance: DateTime(2022),
-        ),
-      );
+        ));
 
-      // Then
-      expect(await displayedLoading, true);
-      final appState = await successAppState;
-      expect(appState.createDemarcheState is CreateDemarcheSuccessState, true);
+    group('when request succeeds', () {
+      test('should display loading and success', () async {
+        sut.givenStore = givenState()
+            .loggedInPoleEmploiUser()
+            .store((factory) => {factory.createDemarcheRepository = CreateDemarcheRepositorySuccessStub()});
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldSucceedState()]);
+      });
     });
 
-    test('should update create demarche state with failure', () async {
-      // Given
-      final store = givenState()
-          .loggedInPoleEmploiUser()
-          .store((factory) => {factory.createDemarcheRepository = CreateDemarcheRepositoryFailureStub()});
-      final displayedLoading = store.onChange.any((e) => e.createDemarcheState is CreateDemarcheLoadingState);
-      final failureAppState = store.onChange.firstWhere((e) => e.createDemarcheState is CreateDemarcheFailureState);
-
-      // When
-      await store.dispatch(CreateDemarchePersonnaliseeRequestAction('commentaire', DateTime(2022)));
-
-      // Then
-      expect(await displayedLoading, true);
-      final appState = await failureAppState;
-      expect(appState.createDemarcheState is CreateDemarcheFailureState, true);
+    group('when request fails', () {
+      test('should display loading and failure', () async {
+        sut.givenStore = givenState()
+            .loggedInPoleEmploiUser()
+            .store((factory) => {factory.createDemarcheRepository = CreateDemarcheRepositoryFailureStub()});
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldFailState()]);
+      });
     });
   });
 
-  group('When creating a demarche personnalisee', () {
-    test('should update create demarche state with success', () async {
-      // Given
-      final store = givenState()
-          .loggedInPoleEmploiUser()
-          .store((factory) => {factory.createDemarcheRepository = CreateDemarcheRepositorySuccessStub()});
-      final displayedLoading = store.onChange.any((e) => e.createDemarcheState is CreateDemarcheLoadingState);
-      final successAppState = store.onChange.firstWhere((e) => e.createDemarcheState is CreateDemarcheSuccessState);
+  group('when creating a demarche personnalisee', () {
+    sut.when(() => CreateDemarchePersonnaliseeRequestAction('commentaire', DateTime(2022)));
 
-      // When
-      await store.dispatch(CreateDemarchePersonnaliseeRequestAction('commentaire', DateTime(2022)));
-
-      // Then
-      expect(await displayedLoading, true);
-      final appState = await successAppState;
-      expect(appState.createDemarcheState is CreateDemarcheSuccessState, true);
+    group('when request succeeds', () {
+      test('should display loading and success', () async {
+        sut.givenStore = givenState()
+            .loggedInPoleEmploiUser()
+            .store((factory) => {factory.createDemarcheRepository = CreateDemarcheRepositorySuccessStub()});
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldSucceedState()]);
+      });
     });
 
-    test('should update create demarche state with failure', () async {
-      // Given
-      final store = givenState()
-          .loggedInPoleEmploiUser()
-          .store((factory) => {factory.createDemarcheRepository = CreateDemarcheRepositoryFailureStub()});
-      final displayedLoading = store.onChange.any((e) => e.createDemarcheState is CreateDemarcheLoadingState);
-      final failureAppState = store.onChange.firstWhere((e) => e.createDemarcheState is CreateDemarcheFailureState);
-
-      // When
-      await store.dispatch(CreateDemarchePersonnaliseeRequestAction('commentaire', DateTime(2022)));
-
-      // Then
-      expect(await displayedLoading, true);
-      final appState = await failureAppState;
-      expect(appState.createDemarcheState is CreateDemarcheFailureState, true);
+    group('when request fails', () {
+      test('should display loading and failure', () async {
+        sut.givenStore = givenState()
+            .loggedInPoleEmploiUser()
+            .store((factory) => {factory.createDemarcheRepository = CreateDemarcheRepositoryFailureStub()});
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldFailState()]);
+      });
     });
   });
 
   test('on reset action, demarche state is properly reset', () async {
-    // Given
     final store = givenState() //
         .loggedInPoleEmploiUser()
-        .copyWith(createDemarcheState: CreateDemarcheSuccessState())
+        .copyWith(createDemarcheState: CreateDemarcheSuccessState('DEMARCHE-ID'))
         .store();
 
     // When
     await store.dispatch(CreateDemarcheResetAction());
 
     // Then
-    expect(store.state.createDemarcheState is CreateDemarcheNotInitializedState, true);
+    expect(store.state.createDemarcheState, isA<CreateDemarcheNotInitializedState>());
   });
 }
 
+Matcher _shouldLoadState() => StateIs<CreateDemarcheLoadingState>((state) => state.createDemarcheState);
+
+Matcher _shouldSucceedState() {
+  return StateIs<CreateDemarcheSuccessState>(
+    (state) => state.createDemarcheState,
+    (state) => expect(state.demarcheCreatedId, 'DEMARCHE-ID'),
+  );
+}
+
+Matcher _shouldFailState() => StateIs<CreateDemarcheFailureState>((state) => state.createDemarcheState);
+
 class CreateDemarcheRepositorySuccessStub extends CreateDemarcheRepository {
-  CreateDemarcheRepositorySuccessStub() : super('', DummyHttpClient());
+  CreateDemarcheRepositorySuccessStub() : super(DioMock());
 
   @override
-  Future<bool> createDemarche({
+  Future<DemarcheId?> createDemarche({
     required String userId,
     required String codeQuoi,
     required String codePourquoi,
     required String? codeComment,
     required DateTime dateEcheance,
   }) async {
-    return userId == 'id' &&
+    final success = userId == 'id' &&
         codeQuoi == 'codeQuoi' &&
         codePourquoi == 'codePourquoi' &&
         codeComment == 'codeComment' &&
         dateEcheance == DateTime(2022);
+    return success ? 'DEMARCHE-ID' : null;
   }
 
   @override
-  Future<bool> createDemarchePersonnalisee({
+  Future<DemarcheId?> createDemarchePersonnalisee({
     required String userId,
     required String commentaire,
     required DateTime dateEcheance,
   }) async {
-    return commentaire == 'commentaire' && dateEcheance == DateTime(2022) && userId == 'id';
+    final success = commentaire == 'commentaire' && dateEcheance == DateTime(2022) && userId == 'id';
+    return success ? 'DEMARCHE-ID' : null;
   }
 }
 
 class CreateDemarcheRepositoryFailureStub extends CreateDemarcheRepository {
-  CreateDemarcheRepositoryFailureStub() : super('', DummyHttpClient());
+  CreateDemarcheRepositoryFailureStub() : super(DioMock());
 
   @override
-  Future<bool> createDemarche({
+  Future<DemarcheId?> createDemarche({
     required String userId,
     required String codeQuoi,
     required String codePourquoi,
     required String? codeComment,
     required DateTime dateEcheance,
   }) async {
-    return false;
+    return null;
   }
 
   @override
-  Future<bool> createDemarchePersonnalisee({
+  Future<DemarcheId?> createDemarchePersonnalisee({
     required String userId,
     required String commentaire,
     required DateTime dateEcheance,
   }) async {
-    return false;
+    return null;
   }
 }

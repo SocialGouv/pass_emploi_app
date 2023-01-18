@@ -27,7 +27,8 @@ class CrashlyticsWithFirebase extends Crashlytics {
 
   @override
   void recordNonNetworkExceptionUrl(dynamic exception, [StackTrace? stack, String? failingEndpoint]) {
-    if (exception is SocketException || exception is DioError) return;
+    if (exception is SocketException) return;
+    if (exception is DioError && exception.error is SocketException) return;
     final logPrefix = failingEndpoint != null ? 'Exception on $failingEndpoint' : 'Exception';
     Log.e(logPrefix, exception, stack);
     FirebaseCrashlytics.instance.recordError(

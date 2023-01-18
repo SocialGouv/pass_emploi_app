@@ -58,6 +58,7 @@ class RepositorySut2<REPO> {
   void when(Future<dynamic> Function(REPO) when) {
     setUp(() {
       _when = (repo) {
+        mocktail.reset(_client);
         mocktail //
             .when(() => _client.get(mocktail.any()))
             .thenAnswer((_) async => _response());

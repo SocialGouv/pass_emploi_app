@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -15,10 +16,9 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
-import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class CreateDemarchePersonnaliseePage extends StatefulWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
+  static MaterialPageRoute<String?> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateDemarchePersonnaliseePage());
   }
 
@@ -97,9 +97,9 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
   }
 
   void _onDidChange(CreateDemarchePersonnaliseeViewModel? oldVm, CreateDemarchePersonnaliseeViewModel newVm) {
-    if (newVm.shouldGoBack) {
-      Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
-      showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
+    final creationState = newVm.demarcheCreationState;
+    if (creationState is DemarcheCreationSuccessState) {
+      Navigator.pop(context, creationState.demarcheCreatedId);
     }
   }
 

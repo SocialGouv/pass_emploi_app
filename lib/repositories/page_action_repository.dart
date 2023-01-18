@@ -7,15 +7,16 @@ import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_user_action_request.dart';
 import 'package:pass_emploi_app/network/put_user_action_request.dart';
 
+typedef UserActionId = String;
+
 class PageActionRepository {
   final Dio _httpClient;
-
   final Crashlytics? _crashlytics;
 
   PageActionRepository(this._httpClient, [this._crashlytics]);
 
   Future<PageActions?> getPageActions(String userId) async {
-    final url = "/jeunes/$userId/home/actions";
+    final url = '/jeunes/$userId/home/actions';
     try {
       final response = await _httpClient.get(url);
       return PageActions.fromJson(response.data);
@@ -26,7 +27,7 @@ class PageActionRepository {
   }
 
   Future<bool> updateActionStatus(String actionId, UserActionStatus newStatus) async {
-    final url = "/actions/$actionId";
+    final url = '/actions/$actionId';
     try {
       await _httpClient.put(
         url,
@@ -39,22 +40,22 @@ class PageActionRepository {
     return false;
   }
 
-  Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
-    final url = "/jeunes/$userId/action";
+  Future<UserActionId?> createUserAction(String userId, UserActionCreateRequest request) async {
+    final url = '/jeunes/$userId/action';
     try {
-      await _httpClient.post(
+      final response = await _httpClient.post(
         url,
         data: customJsonEncode(PostUserActionRequest(request)),
       );
-      return true;
+      return response.data['id'] as String;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
-    return false;
+    return null;
   }
 
   Future<bool> deleteUserAction(String actionId) async {
-    final url = "/actions/$actionId";
+    final url = '/actions/$actionId';
     try {
       await _httpClient.delete(url);
       return true;

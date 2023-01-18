@@ -140,9 +140,19 @@ class _AddDemarcheButton extends StatelessWidget {
         child: PrimaryActionButton(
           drawableRes: Drawables.icAdd,
           label: Strings.addADemarche,
-          onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()),
+          onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
+            if (value != null) _showSnackBarWithDetail(context, value);
+          }),
         ),
       ),
+    );
+  }
+
+  void _showSnackBarWithDetail(BuildContext context, String demarcheCreatedId) {
+    showSuccessfulSnackBar(
+      context,
+      Strings.createDemarcheSuccess,
+      () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheCreatedId, DemarcheStateSource.list)),
     );
   }
 }

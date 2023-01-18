@@ -11,6 +11,7 @@ class Strings {
   static String ajouter = "Ajouter";
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
+  static String seeDetail = "Voir le détail >";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
@@ -233,7 +234,8 @@ class Strings {
   static String deleteAction = "Supprimer l'action";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
-  static String demarcheCreationSuccess = "La démarche a bien été créée";
+  static String createActionSuccess = "Votre action a bien été créée.";
+  static String createDemarcheSuccess = "La démarche a bien été créée";
   static String linkDetailsRendezVous = "Voir les détails du rendez-vous";
 
   static String dateEcheanceFormat(String formattedDate) => "À réaliser pour le $formattedDate";

@@ -20,7 +20,7 @@ void main() {
       group('when response is valid', () {
         sut.givenJsonResponse(fromJson: "home_actions.json");
 
-        test('result should be valid', () {
+        test('request should be valid', () {
           sut.expectRequestBody(method: HttpMethod.get, url: "/jeunes/uuid/home/actions");
         });
 
@@ -87,9 +87,9 @@ void main() {
       );
 
       group('when response is valid', () {
-        sut.givenResponseCode(201);
+        sut.givenJsonResponse(fromJson: "create_action.json");
 
-        test('result should be valid', () {
+        test('request should be valid', () {
           sut.expectRequestBody(
             method: HttpMethod.post,
             url: "/jeunes/UID/action",
@@ -103,15 +103,17 @@ void main() {
           );
         });
 
-        test('result should be true', () {
-          sut.expectTrueAsResult();
+        test('result should be UserAction created ID', () {
+          sut.expectResult<String?>((result) {
+            expect(result, "ACTION-ID");
+          });
         });
       });
       group('when response is invalid', () {
         sut.givenResponseCode(500);
 
-        test('result should be false', () {
-          sut.expectFalseAsResult();
+        test('result should be null', () {
+          sut.expectNullResult();
         });
       });
     });
@@ -122,7 +124,7 @@ void main() {
       group('when response is valid', () {
         sut.givenResponseCode(201);
 
-        test('result should be valid', () {
+        test('request should be valid', () {
           sut.expectRequestBody(method: HttpMethod.delete, url: "/actions/UID");
         });
 
@@ -145,7 +147,7 @@ void main() {
       group('when response is valid', () {
         sut.givenResponseCode(201);
 
-        test('result should be valid', () {
+        test('request should be valid', () {
           sut.expectRequestBody(
             method: HttpMethod.put,
             url: "/actions/UID",
