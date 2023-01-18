@@ -137,7 +137,7 @@ ImmersionDetails _mockImmersionDetails() {
     secteurActivite: "",
     ville: "",
     address: "",
-    isVolontaire: true,
+    fromEntrepriseAccueillante: true,
     contact: null,
   );
 }

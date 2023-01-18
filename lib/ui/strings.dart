@@ -368,9 +368,9 @@ class Strings {
   static String immersionFieldHint = "Rechercher";
   static String immersionsTitle = "Offres d'immersion";
   static String immersionError = "Erreur lors de la récupération de l'offre d'immersion. Veuillez réessayer";
-  static String immersionNonVolontaireExplanation =
+  static String immersionNonAccueillanteExplanation =
       "Cette entreprise peut recruter sur ce métier et être intéressée pour vous recevoir en immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.";
-  static String immersionVolontaireExplanation = "Cette entreprise recherche activement des candidats à l’immersion.";
+  static String immersionAccueillanteExplanation = "Cette entreprise recherche activement des candidats à l’immersion.";
   static String immersionUnknownContactModeExplanation =
       "Contactez-la en expliquant votre projet professionnel et vos motivations.";
   static String immersionPhoneContactModeExplanation =

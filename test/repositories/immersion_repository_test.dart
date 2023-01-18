@@ -37,6 +37,7 @@ void main() {
                 nomEtablissement: "ACCUEIL DE JOUR POUR PERSONNES AGEES",
                 secteurActivite: "xxxx",
                 ville: "xxxx",
+                fromEntrepriseAccueillante: true,
               ),
             );
           });

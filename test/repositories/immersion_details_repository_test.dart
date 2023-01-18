@@ -34,7 +34,7 @@ void main() {
         secteurActivite: "xxxx",
         ville: "xxxx",
         address: "Service des ressources humaines, 40 RUE DU DEPUTE HALLEZ, 67500 HAGUENAU",
-        isVolontaire: false,
+        fromEntrepriseAccueillante: false,
         contact: null,
       ),
     );
@@ -65,7 +65,7 @@ void main() {
         secteurActivite: "xxxx",
         ville: "xxxx",
         address: "4 RUE DES FRERES LUMIERE 67170 BRUMATH",
-        isVolontaire: true,
+        fromEntrepriseAccueillante: true,
         contact: ImmersionContact(
           lastName: "PHILIPPE",
           firstName: "LAUREAU",
