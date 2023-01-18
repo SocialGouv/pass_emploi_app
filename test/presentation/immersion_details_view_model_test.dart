@@ -81,7 +81,7 @@ void main() {
     expect(viewModel.secteurActivite, "incomplete-secteur");
     expect(viewModel.ville, "incomplete-ville");
     expect(viewModel.address, isNull);
-    expect(viewModel.explanationLabel, isNull);
+    expect(viewModel.fromEntrepriseAccueillante, isFalse);
     expect(viewModel.contactLabel, isNull);
     expect(viewModel.contactInformation, isNull);
     expect(viewModel.withSecondaryCallToActions, isNull);
@@ -89,8 +89,19 @@ void main() {
     expect(viewModel.secondaryCallToActions, isNull);
   });
 
-  group('Explanation label…', () {
-    test('when enterprise is not accueillante', () {
+  group('from entreprise accueillante', () {
+    test('when entreprise is accueillante should return true', () {
+      // Given
+      final store = _successStore(_mockImmersion(fromEntrepriseAccueillante: true));
+
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+
+      // Then
+      expect(viewModel.fromEntrepriseAccueillante, isTrue);
+    });
+
+    test('when entreprise is not accueillante should return false', () {
       // Given
       final store = _successStore(_mockImmersion(fromEntrepriseAccueillante: false));
 
@@ -98,70 +109,7 @@ void main() {
       final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
-      expect(
-        viewModel.explanationLabel,
-        'Cette entreprise peut recruter sur ce métier et être intéressée pour vous recevoir en immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.',
-      );
-    });
-
-    group('when enterprise is accueillante…', () {
-      test('… and contact mode is unknown', () {
-        // Given
-        final store =
-            _successStore(_mockImmersion(fromEntrepriseAccueillante: true, mode: ImmersionContactMode.INCONNU));
-
-        // When
-        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-        // Then
-        expect(
-          viewModel.explanationLabel,
-          'Cette entreprise recherche activement des candidats à l’immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.',
-        );
-      });
-
-      test('… and contact mode is phone', () {
-        // Given
-        final store = _successStore(_mockImmersion(fromEntrepriseAccueillante: true, mode: ImmersionContactMode.PHONE));
-
-        // When
-        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-        // Then
-        expect(
-          viewModel.explanationLabel,
-          'Cette entreprise recherche activement des candidats à l’immersion. Contactez-la par téléphone en expliquant votre projet professionnel et vos motivations.',
-        );
-      });
-
-      test('… and contact mode is mail', () {
-        // Given
-        final store = _successStore(_mockImmersion(fromEntrepriseAccueillante: true, mode: ImmersionContactMode.MAIL));
-
-        // When
-        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-        // Then
-        expect(
-          viewModel.explanationLabel,
-          'Cette entreprise recherche activement des candidats à l’immersion. Contactez-la par e-mail en expliquant votre projet professionnel et vos motivations.\n\nVous n’avez pas besoin d’envoyer un CV.',
-        );
-      });
-
-      test('… and contact mode is in person', () {
-        // Given
-        final store =
-            _successStore(_mockImmersion(fromEntrepriseAccueillante: true, mode: ImmersionContactMode.PRESENTIEL));
-
-        // When
-        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-        // Then
-        expect(
-          viewModel.explanationLabel,
-          'Cette entreprise recherche activement des candidats à l’immersion. Rendez-vous directement sur place pour expliquer votre projet professionnel et vos motivations.',
-        );
-      });
+      expect(viewModel.fromEntrepriseAccueillante, isFalse);
     });
   });
 
