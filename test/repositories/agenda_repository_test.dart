@@ -83,7 +83,7 @@ void main() {
                 rendezvous: [rendezvousStub()],
                 delayedActions: 3,
                 dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2022-08-27T00:00:00.000Z'),
-                dateDerniereMiseAjour: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
+                dateDerniereMiseAJour: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
               ),
             );
           });

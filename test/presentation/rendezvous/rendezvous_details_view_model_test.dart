@@ -187,6 +187,21 @@ void main() {
         expect(viewModel.conseillerPresenceColor, AppColors.warning);
         expect(viewModel.withConseillerPresencePart, isTrue);
       });
+      test('and dateDerniereMiseAJour is present', () {
+        // Given
+        final store = _storeNotUpToDate(mockRendezvous(id: '1'), DateTime(2023, 1, 1, 12, 30));
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(
+          store: store,
+          source: RendezvousStateSource.rendezvousList,
+          rdvId: '1',
+          platform: Platform.IOS,
+        );
+
+        // Then
+        expect(viewModel.withDateDerniereMiseAJour, "Dernière actualisation de vos démarches le 01/01/2023 à 12h30");
+      });
 
       group('should hide conseiller presence', () {
         void assertConseillerIsHidden(String title, Rendezvous rdv) {
@@ -981,6 +996,14 @@ Store<AppState> _store(Rendezvous rendezvous) {
   return TestStoreFactory().initializeReduxStore(
     initialState: loggedInState().copyWith(
       rendezvousListState: RendezvousListState.successfulFuture([rendezvous]),
+    ),
+  );
+}
+
+Store<AppState> _storeNotUpToDate(Rendezvous rendezvous, DateTime dateDerniereMiseAJour) {
+  return TestStoreFactory().initializeReduxStore(
+    initialState: loggedInState().copyWith(
+      rendezvousListState: RendezvousListState.successfulFuture([rendezvous], dateDerniereMiseAJour),
     ),
   );
 }
