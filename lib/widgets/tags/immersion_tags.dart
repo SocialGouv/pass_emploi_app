@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class ImmersionTags extends StatelessWidget {
@@ -11,8 +12,8 @@ class ImmersionTags extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: 8,
-      runSpacing: 8,
+      spacing: Margins.spacing_base,
+      runSpacing: Margins.spacing_base,
       children: [
         DataTag(label: secteurActivite),
         DataTag(label: ville, drawableRes: Drawables.icPlace),

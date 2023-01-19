@@ -21,9 +21,9 @@ class ImmersionDetailsViewModel extends Equatable {
   final String title;
   final String companyName;
   final String secteurActivite;
+  final bool fromEntrepriseAccueillante;
   final String ville;
   final String? address;
-  final String? explanationLabel;
   final String? contactLabel;
   final String? contactInformation;
   final bool? withSecondaryCallToActions;
@@ -37,9 +37,9 @@ class ImmersionDetailsViewModel extends Equatable {
     required this.title,
     required this.companyName,
     required this.secteurActivite,
+    required this.fromEntrepriseAccueillante,
     required this.ville,
     this.address,
-    this.explanationLabel,
     this.contactLabel,
     this.contactInformation,
     this.withSecondaryCallToActions,
@@ -72,7 +72,6 @@ class ImmersionDetailsViewModel extends Equatable {
         secteurActivite,
         ville,
         address,
-        explanationLabel,
         contactLabel,
         contactInformation,
       ];
@@ -96,9 +95,9 @@ ImmersionDetailsViewModel _successViewModel(ImmersionDetailsState state, Immersi
     title: immersionDetails.metier,
     companyName: immersionDetails.companyName,
     secteurActivite: immersionDetails.secteurActivite,
+    fromEntrepriseAccueillante: immersionDetails.fromEntrepriseAccueillante,
     ville: immersionDetails.ville,
     address: immersionDetails.address,
-    explanationLabel: _explanationLabel(immersionDetails),
     contactLabel: _contactLabel(immersionDetails),
     contactInformation: _contactInformation(immersionDetails),
     withSecondaryCallToActions: secondaryCallToActions.isNotEmpty,
@@ -115,6 +114,7 @@ ImmersionDetailsViewModel _incompleteViewModel(Immersion immersion, Store<AppSta
     title: immersion.metier,
     companyName: immersion.nomEtablissement,
     secteurActivite: immersion.secteurActivite,
+    fromEntrepriseAccueillante: immersion.fromEntrepriseAccueillante,
     ville: immersion.ville,
     onRetry: (immersionId) => _retry(store, immersionId),
   );
@@ -127,30 +127,10 @@ ImmersionDetailsViewModel _otherCasesViewModel(ImmersionDetailsState state, Stor
     title: "",
     companyName: "",
     secteurActivite: "",
+    fromEntrepriseAccueillante: false,
     ville: "",
     onRetry: (immersionId) => _retry(store, immersionId),
   );
-}
-
-String _explanationLabel(ImmersionDetails immersion) {
-  if (immersion.isVolontaire) {
-    return Strings.immersionVolontaireExplanation + ' ' + _contactModeLabel(immersion.contact?.mode);
-  }
-  return Strings.immersionNonVolontaireExplanation;
-}
-
-String _contactModeLabel(ImmersionContactMode? mode) {
-  switch (mode) {
-    case ImmersionContactMode.MAIL:
-      return Strings.immersionMailContactModeExplanation;
-    case ImmersionContactMode.PHONE:
-      return Strings.immersionPhoneContactModeExplanation;
-    case ImmersionContactMode.PRESENTIEL:
-      return Strings.immersionInPersonContactModeExplanation;
-    case ImmersionContactMode.INCONNU:
-    case null:
-      return Strings.immersionUnknownContactModeExplanation;
-  }
 }
 
 String _contactLabel(ImmersionDetails immersion) {

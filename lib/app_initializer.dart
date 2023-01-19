@@ -204,7 +204,7 @@ class AppInitializer {
       ServiceCiviqueFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       SearchLocationRepository(baseUrl, httpClient, crashlytics),
       MetierRepository(baseUrl, httpClient),
-      ImmersionRepository(baseUrl, httpClient, crashlytics),
+      ImmersionRepository(dioClient, crashlytics),
       ImmersionDetailsRepository(baseUrl, httpClient, crashlytics),
       FirebaseAuthRepository(baseUrl, httpClient, crashlytics),
       FirebaseAuthWrapper(),

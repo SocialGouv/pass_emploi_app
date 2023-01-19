@@ -1,126 +1,110 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
-import '../doubles/fixtures.dart';
-import '../utils/pass_emploi_mock_client.dart';
-import '../utils/test_assets.dart';
+import '../dsl/sut_repository2.dart';
 
 void main() {
-  test('search when response is valid should return immersions', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async {
-      if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/offres-immersion")) return invalidHttpResponse();
-      if (request.url.queryParameters["rome"] != "J1301") return invalidHttpResponse();
-      if (request.url.queryParameters["lat"] != "48.7") return invalidHttpResponse();
-      if (request.url.queryParameters["lon"] != "7.7") return invalidHttpResponse();
-      return Response(loadTestAssets("immersions.json"), 200);
-    });
-    final repository = ImmersionRepository("BASE_URL", httpClient);
+  group('ImmersionRepository', () {
+    final sut = RepositorySut2<ImmersionRepository>();
+    sut.givenRepository((client) => ImmersionRepository(client));
 
-    // When
-    final immersions = await repository.search(userId: "ID", request: _requestWithoutFiltres());
+    group('search', () {
+      sut.when((repository) => repository.search(userId: "ID", request: _requestWithoutFiltres()));
 
-    // Then
-    expect(immersions, isNotNull);
-    expect(immersions!.length, 13);
-    expect(
-      immersions.first,
-      Immersion(
-        id: "036383f3-85ca-4dbd-b636-ae2657164439",
-        metier: "xxxx",
-        nomEtablissement: "ACCUEIL DE JOUR POUR PERSONNES AGEES",
-        secteurActivite: "xxxx",
-        ville: "xxxx",
-      ),
-    );
-  });
+      group('when response is valid', () {
+        sut.givenJsonResponse(fromJson: "immersions.json");
 
-  test('search when response is invalid should return null', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = ImmersionRepository("BASE_URL", httpClient);
-
-    // When
-    final immersions = await repository.search(userId: "ID", request: _requestWithoutFiltres());
-
-    // Then
-    expect(immersions, isNull);
-  });
-
-  test('search when response throws exception should return null', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => throw Exception());
-    final repository = ImmersionRepository("BASE_URL", httpClient);
-
-    // When
-    final immersions = await repository.search(userId: "ID", request: _requestWithoutFiltres());
-
-    // Then
-    expect(immersions, isNull);
-  });
-
-  group("search when filtres are applied ...", () {
-    void assertFiltres(
-      String title,
-      ImmersionSearchParametersFiltres filtres,
-      bool Function(String query) assertion,
-    ) {
-      test(title, () async {
-        // Given
-        final httpClient = PassEmploiMockClient((request) async {
-          if (!assertion(request.url.query)) return invalidHttpResponse();
-          return Response(loadTestAssets("immersions.json"), 200);
+        test('request should be valid', () {
+          sut.expectRequestBody(
+            method: HttpMethod.get,
+            url: "/offres-immersion",
+            queryParameters: {'rome': 'J1301', 'lon': '7.7', 'lat': '48.7'},
+          );
         });
-        final repository = ImmersionRepository("BASE_URL", httpClient);
 
-        // When
-        final location =
-            Location(libelle: "Issy-les-Moulineaux", code: "03129", codePostal: "92130", type: LocationType.COMMUNE);
-        final search = await repository.search(
-          userId: "ID",
-          request: SearchImmersionRequest(
-            location: location,
-            filtres: filtres,
-            codeRome: "J1301",
+        test('result should be valid', () {
+          sut.expectResult<List<Immersion>?>((result) {
+            expect(result, isNotNull);
+            expect(result!.length, 13);
+            expect(
+              result.first,
+              Immersion(
+                id: "036383f3-85ca-4dbd-b636-ae2657164439",
+                metier: "xxxx",
+                nomEtablissement: "ACCUEIL DE JOUR POUR PERSONNES AGEES",
+                secteurActivite: "xxxx",
+                ville: "xxxx",
+                fromEntrepriseAccueillante: true,
+              ),
+            );
+          });
+        });
+      });
+
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
+
+        test('result should be null', () {
+          sut.expectNullResult();
+        });
+      });
+
+      group('when response throws exception', () {
+        sut.givenThrowingExceptionResponse();
+
+        test('result should be null', () {
+          sut.expectNullResult();
+        });
+      });
+    });
+
+    group('search when filtres are applied', () {
+      sut.givenJsonResponse(fromJson: "immersions.json");
+
+      group('when distance is 70', () {
+        sut.when(
+          (repository) => repository.search(
+            userId: "ID",
+            request: _requestWithFiltres(ImmersionSearchParametersFiltres.distance(70)),
           ),
         );
-
-        // Then
-        expect(search, isNotNull);
+        test('query parameters should be properly built', () {
+          sut.expectRequestBody(
+            method: HttpMethod.get,
+            url: "/offres-immersion",
+            queryParameters: {'rome': 'J1301', 'lon': '7.7', 'lat': '48.7', 'distance': '70'},
+          );
+        });
       });
-    }
 
-    group(("when distance is applied should set proper distance"), () {
-      assertFiltres(
-        "when distance is 70",
-        ImmersionSearchParametersFiltres.distance(70),
-        (query) => query.contains("distance=70"),
-      );
-
-      assertFiltres(
-        "when distance is 32",
-        ImmersionSearchParametersFiltres.distance(32),
-        (query) => query.contains("distance=32"),
-      );
-
-      assertFiltres(
-        "when not filter is set should not set distance",
-        ImmersionSearchParametersFiltres.noFiltres(),
-        (query) => !query.contains("distance"),
-      );
+      group('when no distance is set', () {
+        sut.when(
+          (repository) => repository.search(
+            userId: "ID",
+            request: _requestWithFiltres(ImmersionSearchParametersFiltres.noFiltres()),
+          ),
+        );
+        test('query parameters should be properly built', () {
+          sut.expectRequestBody(
+            method: HttpMethod.get,
+            url: "/offres-immersion",
+            queryParameters: {'rome': 'J1301', 'lon': '7.7', 'lat': '48.7'},
+          );
+        });
+      });
     });
   });
 }
 
-SearchImmersionRequest _requestWithoutFiltres() {
+SearchImmersionRequest _requestWithFiltres(ImmersionSearchParametersFiltres filtres) {
   return SearchImmersionRequest(
     codeRome: "J1301",
     location: Location(libelle: "Paris", code: "75", type: LocationType.COMMUNE, latitude: 48.7, longitude: 7.7),
-    filtres: ImmersionSearchParametersFiltres.noFiltres(),
+    filtres: filtres,
   );
 }
+
+SearchImmersionRequest _requestWithoutFiltres() => _requestWithFiltres(ImmersionSearchParametersFiltres.noFiltres());

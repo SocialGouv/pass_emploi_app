@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
+import 'package:pass_emploi_app/widgets/tags/entreprise_accueillante_tag.dart';
 
 class ImmersionListPage extends StatelessWidget {
   final bool fromSavedSearch;
@@ -126,6 +127,7 @@ class ImmersionListPage extends StatelessWidget {
       ),
       from: OffrePage.immersionResults,
       id: immersion.id,
+      additionalChild: immersion.fromEntrepriseAccueillante ? EntrepriseAccueillanteTag() : null,
     );
   }
 
