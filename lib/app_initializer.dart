@@ -164,7 +164,8 @@ class AppInitializer {
     final authAccessChecker = AuthAccessChecker();
     final requestCacheManager = PassEmploiCacheManager.requestCache();
     final modeDemoRepository = ModeDemoRepository();
-    final monitoringInterceptor = MonitoringInterceptor(InstallationIdRepository(securedPreferences));
+    final installationIdRepository = InstallationIdRepository(securedPreferences);
+    final monitoringInterceptor = MonitoringInterceptor(installationIdRepository);
     final httpClient = _makeHttpClient(
       modeDemoRepository,
       accessTokenRetriever,
@@ -177,7 +178,7 @@ class AppInitializer {
     logoutRepository.setHttpClient(httpClient);
     logoutRepository.setCacheManager(requestCacheManager);
     final baseUrl = configuration.serverBaseUrl;
-    final monitoringDioInterceptor = MonitoringDioInterceptor(InstallationIdRepository(securedPreferences));
+    final monitoringDioInterceptor = MonitoringDioInterceptor(installationIdRepository);
     final dioClient = _makeDioClient(
       baseUrl,
       modeDemoRepository,
@@ -231,6 +232,7 @@ class AppInitializer {
       AgendaRepository(dioClient, crashlytics),
       SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       EventListRepository(baseUrl, httpClient, crashlytics),
+      installationIdRepository,
       configuration,
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
