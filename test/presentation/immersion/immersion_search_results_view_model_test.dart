@@ -9,16 +9,15 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
   test("create when state is success should convert data to view model", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        immersionListState: ImmersionListSuccessState([mockImmersion()]),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .copyWith(immersionListState: ImmersionListSuccessState([mockImmersion()]))
+        .store();
 
     // When
     final viewModel = ImmersionSearchResultsViewModel.create(store);
@@ -31,12 +30,10 @@ void main() {
 
   test("create when state is success but there is not data should correctly map it to view model", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        immersionListState: ImmersionListSuccessState([]),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .copyWith(immersionListState: ImmersionListSuccessState([]))
+        .store();
 
     // When
     final viewModel = ImmersionSearchResultsViewModel.create(store);
@@ -49,12 +46,10 @@ void main() {
 
   test("create when state is loading should convert data to view model", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        immersionListState: ImmersionListLoadingState(),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .copyWith(immersionListState: ImmersionListLoadingState())
+        .store();
 
     // When
     final viewModel = ImmersionSearchResultsViewModel.create(store);
@@ -67,12 +62,10 @@ void main() {
 
   test("create when state is failure should convert data to view model", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        immersionListState: ImmersionListFailureState(),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .copyWith(immersionListState: ImmersionListFailureState())
+        .store();
 
     // When
     final viewModel = ImmersionSearchResultsViewModel.create(store);
@@ -117,7 +110,45 @@ void main() {
     });
   });
 
+  group('with Entreprises Accueillantes header', () {
+    test('when not any immersion is from entreprise accueillante should return false', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser()
+          .copyWith(
+            immersionListState: ImmersionListSuccessState([
+              mockImmersion(fromEntrepriseAccueillante: false),
+              mockImmersion(fromEntrepriseAccueillante: false),
+            ]),
+          )
+          .store();
 
+      // When
+      final viewModel = ImmersionSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.withEntreprisesAccueillantesHeader, isFalse);
+    });
+
+    test('when at least one immersion is from entreprise accueillante should return true', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser()
+          .copyWith(
+            immersionListState: ImmersionListSuccessState([
+              mockImmersion(fromEntrepriseAccueillante: false),
+              mockImmersion(fromEntrepriseAccueillante: true),
+            ]),
+          )
+          .store();
+
+      // When
+      final viewModel = ImmersionSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.withEntreprisesAccueillantesHeader, isTrue);
+    });
+  });
 }
 
 Store<AppState> _storeWithFiltres(ImmersionSearchParametersFiltres filtres) {

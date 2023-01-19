@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -90,18 +91,23 @@ class ImmersionListPage extends StatelessWidget {
     return Stack(
       children: [
         ListView.separated(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(
+            Margins.spacing_base,
+            Margins.spacing_base,
+            Margins.spacing_base,
+            Margins.spacing_base + Margins.spacing_huge,
+          ),
           itemBuilder: (context, index) => _buildItem(context, viewModel, index),
-          separatorBuilder: (context, index) => Container(height: Margins.spacing_base),
-          itemCount: viewModel.items.length + 1,
+          separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
+          itemCount: viewModel.items.length,
         ),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
             padding: const EdgeInsets.only(bottom: Margins.spacing_m),
             child: Wrap(
-              spacing: 16,
-              runSpacing: 16,
+              spacing: Margins.spacing_base,
+              runSpacing: Margins.spacing_base,
               children: [
                 _alertPrimaryButton(context),
                 _filtrePrimaryButton(context, viewModel),
@@ -114,21 +120,20 @@ class ImmersionListPage extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, ImmersionSearchResultsViewModel viewModel, int index) {
-    if (index == viewModel.items.length) return SizedBox(height: 80);
     final immersion = viewModel.items[index];
-    return DataCard<Immersion>(
+    final dataCard = DataCard<Immersion>(
       titre: immersion.metier,
       sousTitre: immersion.nomEtablissement,
       lieu: immersion.ville,
       dataTag: [immersion.secteurActivite],
-      onTap: () => Navigator.push(
-        context,
-        ImmersionDetailsPage.materialPageRoute(immersion.id),
-      ),
+      onTap: () => Navigator.push(context, ImmersionDetailsPage.materialPageRoute(immersion.id)),
       from: OffrePage.immersionResults,
       id: immersion.id,
       additionalChild: immersion.fromEntrepriseAccueillante ? EntrepriseAccueillanteTag() : null,
     );
+    return index == 0 && viewModel.withEntreprisesAccueillantesHeader
+        ? Column(children: [_EntreprisesAccueillantesHeader(), SizedBox(height: Margins.spacing_base), dataCard])
+        : dataCard;
   }
 
   Widget _alertPrimaryButton(BuildContext context) {
@@ -190,5 +195,28 @@ class ImmersionListPage extends StatelessWidget {
 
   void _trackEmptyResult(BuildContext context) {
     PassEmploiMatomoTracker.instance.trackScreen(context, eventName: AnalyticsScreenNames.immersionNoResults);
+  }
+}
+
+class _EntreprisesAccueillantesHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppColors.primaryLighten,
+      padding: EdgeInsets.all(Margins.spacing_m),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SvgPicture.asset(Drawables.icInfo, color: AppColors.primary),
+          SizedBox(width: Margins.spacing_s),
+          Flexible(
+            child: Text(
+              Strings.entreprisesAccueillantesHeader,
+              style: TextStyles.textBaseBoldWithColor(AppColors.primary),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
