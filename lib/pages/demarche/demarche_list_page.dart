@@ -143,17 +143,14 @@ class _CampagneCard extends StatelessWidget {
 class _AddDemarcheButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: PrimaryActionButton(
-          drawableRes: Drawables.icAdd,
-          label: Strings.addADemarche,
-          onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
-            if (value != null) _showSnackBarWithDetail(context, value);
-          }),
-        ),
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: PrimaryActionButton(
+        drawableRes: Drawables.icAdd,
+        label: Strings.addADemarche,
+        onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
+          if (value != null) _showSnackBarWithDetail(context, value);
+        }),
       ),
     );
   }
