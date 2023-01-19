@@ -9,9 +9,9 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
 class NotUpToDateMessage extends StatelessWidget {
   final String message;
-  final void Function() onRefresh;
+  final void Function()? onRefresh;
   final EdgeInsets? margin;
-  const NotUpToDateMessage({super.key, required this.message, required this.onRefresh, this.margin});
+  const NotUpToDateMessage({super.key, required this.message, this.onRefresh, this.margin});
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +33,18 @@ class NotUpToDateMessage extends StatelessWidget {
               Expanded(child: Text(message, style: TextStyles.textBaseRegular.copyWith(color: contentColor))),
             ],
           ),
-          SizedBox(height: Margins.spacing_base),
-          SizedBox(
-            width: double.infinity,
-            child: SecondaryButton(
-              label: Strings.reloadPage,
-              onPressed: onRefresh,
-              drawableRes: Drawables.icRefresh,
-              backgroundColor: Colors.white,
+          if (onRefresh != null) ...[
+            SizedBox(height: Margins.spacing_base),
+            SizedBox(
+              width: double.infinity,
+              child: SecondaryButton(
+                label: Strings.reloadPage,
+                onPressed: onRefresh,
+                drawableRes: Drawables.icRefresh,
+                backgroundColor: Colors.white,
+              ),
             ),
-          ),
+          ]
         ],
       ),
     );

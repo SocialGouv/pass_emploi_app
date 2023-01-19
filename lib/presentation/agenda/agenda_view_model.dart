@@ -88,7 +88,7 @@ List<AgendaItem> _events(Store<AppState> store, bool isPoleEmploi) {
   }
 
   return [
-    if (agendaState.agenda.dateDerniereMiseAjour != null) NotUpToDateAgendaItem(),
+    if (agendaState.agenda.dateDerniereMiseAJour != null) NotUpToDateAgendaItem(),
     if (delayedActions > 0)
       DelayedActionsBannerAgendaItem(
         isPoleEmploi ? Strings.numberOfDemarches(delayedActions) : Strings.numberOfActions(delayedActions),

@@ -205,7 +205,7 @@ extension AppStateDSL on AppState {
         rendezvous: rendezvous ?? [],
         delayedActions: delayedActions,
         dateDeDebut: dateDeDebut ?? DateTime(2042),
-        dateDerniereMiseAjour: dateDerniereMiseAjour,
+        dateDerniereMiseAJour: dateDerniereMiseAjour,
       )),
     );
   }

@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_tag.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -98,6 +99,10 @@ class RendezvousDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (viewModel.withDateDerniereMiseAJour != null) ...[
+              NotUpToDateMessage(message: viewModel.withDateDerniereMiseAJour!),
+              SizedBox(height: Margins.spacing_base),
+            ],
             if (viewModel.isInscrit) ...[
               _InscritTag(),
               SizedBox(height: Margins.spacing_base),
