@@ -189,7 +189,7 @@ class _NotUpToDate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isOnlyItem = viewModel.rendezvousItems.length == 1;
+    final hasOnlyNotUpToDateItem = viewModel.rendezvousItems.every((element) => element is RendezvousNotUpToDateItem);
     return Column(
       children: [
         NotUpToDateMessage(
@@ -197,7 +197,7 @@ class _NotUpToDate extends StatelessWidget {
           message: Strings.rendezvousNotUpToDateMessage,
           onRefresh: viewModel.onRetry,
         ),
-        if (isOnlyItem) ...[
+        if (hasOnlyNotUpToDateItem) ...[
           SizedBox(height: Margins.spacing_base),
           Text(viewModel.emptyLabel, style: TextStyles.textBaseBold, textAlign: TextAlign.center)
         ],
