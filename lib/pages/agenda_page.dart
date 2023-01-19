@@ -93,10 +93,7 @@ class _Scaffold extends StatelessWidget {
           _CreateButton(
             label: Strings.addADemarche,
             onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
-              if (value != null) {
-                _showDemarcheSnackBarWithDetail(context, value);
-                viewModel.reload(DateTime.now());
-              }
+              if (value != null) _showDemarcheSnackBarWithDetail(context, value);
             }),
           ),
       ]),
