@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -29,8 +28,8 @@ import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/tags/entreprise_accueillante_tag.dart';
 import 'package:pass_emploi_app/widgets/tags/immersion_tags.dart';
-import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
 class ImmersionDetailsPage extends StatelessWidget {
@@ -226,12 +225,7 @@ class _EntrepriseAccueillanteCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DataTag(
-            label: Strings.entrepriseAccueillante,
-            drawableRes: Drawables.icRocket,
-            contentColor: AppColors.contentColor,
-            backgroundColor: AppColors.additional1Lighten,
-          ),
+          EntrepriseAccueillanteTag(),
           SizedBox(height: Margins.spacing_s),
           Text(Strings.immersionAccueillanteExplanation, style: TextStyles.textSRegular()),
         ],

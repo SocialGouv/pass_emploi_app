@@ -24,7 +24,7 @@ import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
-import 'package:pass_emploi_app/widgets/tags/tags.dart';
+import 'package:pass_emploi_app/widgets/tags/entreprise_accueillante_tag.dart';
 
 class ImmersionListPage extends StatelessWidget {
   final bool fromSavedSearch;
@@ -127,7 +127,7 @@ class ImmersionListPage extends StatelessWidget {
       ),
       from: OffrePage.immersionResults,
       id: immersion.id,
-      additionalChild: immersion.fromEntrepriseAccueillante ? _EntrepriseAccueillanteTag() : null,
+      additionalChild: immersion.fromEntrepriseAccueillante ? EntrepriseAccueillanteTag() : null,
     );
   }
 
@@ -190,21 +190,5 @@ class ImmersionListPage extends StatelessWidget {
 
   void _trackEmptyResult(BuildContext context) {
     PassEmploiMatomoTracker.instance.trackScreen(context, eventName: AnalyticsScreenNames.immersionNoResults);
-  }
-}
-
-class _EntrepriseAccueillanteTag extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      children: [
-        DataTag(
-          label: Strings.entrepriseAccueillante,
-          drawableRes: Drawables.icRocket,
-          contentColor: AppColors.contentColor,
-          backgroundColor: AppColors.additional1Lighten,
-        ),
-      ],
-    );
   }
 }

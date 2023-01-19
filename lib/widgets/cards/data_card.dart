@@ -39,7 +39,7 @@ class DataCard<T> extends StatelessWidget {
     return CardContainer(
       onTap: onTap,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
