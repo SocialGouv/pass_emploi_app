@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 final DateTime minDateTime = DateTime.fromMicrosecondsSinceEpoch(0);
 
 extension DateExtensions on DateTime {
-
   String toIso8601WithOffsetDateTime() {
     String twoDigits(int n) => n >= 10 ? "$n" : "0$n";
 
@@ -23,6 +22,8 @@ extension DateExtensions on DateTime {
     if (isToday()) return "Aujourd'hui ${DateFormat('à HH\'h\'mm').format(this)}";
     return DateFormat('\'Le\' dd/MM/yyyy à HH\'h\'mm').format(this);
   }
+
+  String toDayandHour() => DateFormat("DD/MM/yyyy à HH'h'mm").format(this);
 
   String toDay() => DateFormat('dd/MM/yyyy').format(this);
 
