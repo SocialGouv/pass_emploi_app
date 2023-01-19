@@ -13,27 +13,31 @@ class ImmersionSearchResultsViewModel extends Equatable {
   final List<Immersion> items;
   final int? filtresCount;
   final String errorMessage;
+  final bool withEntreprisesAccueillantesHeader;
 
   ImmersionSearchResultsViewModel._({
     required this.displayState,
     required this.items,
     required this.filtresCount,
     required this.errorMessage,
+    required this.withEntreprisesAccueillantesHeader,
   });
 
   factory ImmersionSearchResultsViewModel.create(Store<AppState> store) {
     final searchState = store.state.immersionListState;
     final searchParamsState = store.state.immersionSearchParametersState;
+    final immersions = _items(searchState);
     return ImmersionSearchResultsViewModel._(
       displayState: _displayState(searchState),
-      items: _items(searchState),
+      items: immersions,
       filtresCount: _filtresCount(searchParamsState),
       errorMessage: _errorMessage(searchState),
+      withEntreprisesAccueillantesHeader: immersions.any((immersion) => immersion.fromEntrepriseAccueillante),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items, filtresCount, errorMessage];
+  List<Object?> get props => [displayState, items, filtresCount, errorMessage, withEntreprisesAccueillantesHeader];
 }
 
 int? _filtresCount(ImmersionSearchParametersState searchParamsState) {

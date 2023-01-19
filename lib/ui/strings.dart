@@ -354,6 +354,8 @@ class Strings {
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
   static String entrepriseAccueillante = 'Entreprise accueillante';
+  static String entreprisesAccueillantesHeader =
+      'Les entreprises accueillantes facilitent vos immersions professionnelles';
   static String metierCompulsoryLabel = "* Métier";
   static String villeCompulsoryLabel = "* Localisation";
   static String villeNonCompulsoryLabel = "Localisation";
