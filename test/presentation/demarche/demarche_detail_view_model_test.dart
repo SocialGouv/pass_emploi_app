@@ -44,7 +44,7 @@ void main() {
       final store = givenState().copyWith(demarcheListState: DemarcheListSuccessState([demarche])).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.list, "8802034");
+      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "8802034");
 
       // Then
       expect(viewModel.createdByAdvisor, isTrue);
@@ -96,7 +96,7 @@ void main() {
       final store = givenState().copyWith(demarcheListState: DemarcheListSuccessState([demarche])).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.list, "8802034");
+      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "8802034");
 
       // Then
       expect(
@@ -109,6 +109,25 @@ void main() {
       expect(viewModel.dateBackgroundColor, AppColors.warningLighten);
       expect(viewModel.dateTextColor, AppColors.warning);
       expect(viewModel.dateIcons, [Drawables.icImportantOutlined, Drawables.icClock]);
+    });
+
+    test("not up to date", () {
+      // Given
+      final demarche = mockDemarche(id: "8802034");
+      final store = givenState()
+          .copyWith(
+            demarcheListState: DemarcheListSuccessState(
+              [demarche],
+              DateTime(2023, 1, 1, 12, 30),
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "8802034");
+
+      // Then
+      expect(viewModel.withDateDerniereMiseAJour, "Dernière actualisation de vos démarches le 01/01/2023 à 12h30");
     });
   });
 
@@ -129,7 +148,7 @@ void main() {
       final store = givenState().updateDemarcheNotInit().withDemarches(mockDemarches()).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.list, "demarcheId");
+      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
 
       // Then
       expect(viewModel.updateDisplayState, DisplayState.EMPTY);
@@ -140,7 +159,7 @@ void main() {
       final store = givenState().updateDemarcheLoading().withDemarches(mockDemarches()).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.list, "demarcheId");
+      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
 
       // Then
       expect(viewModel.updateDisplayState, DisplayState.LOADING);
@@ -151,7 +170,7 @@ void main() {
       final store = givenState().updateDemarcheSuccess().withDemarches(mockDemarches()).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.list, "demarcheId");
+      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
 
       // Then
       expect(viewModel.updateDisplayState, DisplayState.EMPTY);
@@ -162,7 +181,7 @@ void main() {
       final store = givenState().updateDemarcheFailure().withDemarches(mockDemarches()).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.list, "demarcheId");
+      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
 
       // Then
       expect(viewModel.updateDisplayState, DisplayState.FAILURE);
@@ -173,7 +192,7 @@ void main() {
     // Given
     final store = StoreSpy.withState(givenState().withDemarches(mockDemarches()));
 
-    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.list, "demarcheId");
+    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
 
     // When
     viewModel.onModifyStatus(UserActionTagViewModel(
@@ -192,7 +211,7 @@ void main() {
     // Given
     final store = StoreSpy.withState(givenState().withDemarches(mockDemarches()));
 
-    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.list, "demarcheId");
+    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
 
     // When
     viewModel.resetUpdateStatus();

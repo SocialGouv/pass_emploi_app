@@ -96,8 +96,9 @@ class DemarcheListPage extends StatelessWidget {
       final id = (item as IdItem).demarcheId;
       return DemarcheCard(
         demarcheId: id,
-        stateSource: DemarcheStateSource.list,
-        onTap: () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.list)),
+        stateSource: DemarcheStateSource.demarcheList,
+        onTap: () =>
+            Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.demarcheList)),
       );
     }
   }
@@ -159,7 +160,8 @@ class _AddDemarcheButton extends StatelessWidget {
     showSuccessfulSnackBar(
       context,
       Strings.createDemarcheSuccess,
-      () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheCreatedId, DemarcheStateSource.list)),
+      () => Navigator.push(
+          context, DemarcheDetailPage.materialPageRoute(demarcheCreatedId, DemarcheStateSource.demarcheList)),
     );
   }
 }

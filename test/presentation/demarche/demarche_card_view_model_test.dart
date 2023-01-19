@@ -39,7 +39,7 @@ void main() {
     // When
     final viewModel = DemarcheCardViewModel.create(
       store: store,
-      stateSource: DemarcheStateSource.list,
+      stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
       simpleCard: false,
     );
@@ -113,7 +113,7 @@ void main() {
     // When
     final viewModel = DemarcheCardViewModel.create(
       store: store,
-      stateSource: DemarcheStateSource.list,
+      stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
       simpleCard: false,
     );
@@ -144,7 +144,7 @@ void main() {
     // When
     final viewModel = DemarcheCardViewModel.create(
       store: store,
-      stateSource: DemarcheStateSource.list,
+      stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
       simpleCard: false,
     );
@@ -178,7 +178,7 @@ void main() {
     // When
     final viewModel = DemarcheCardViewModel.create(
       store: store,
-      stateSource: DemarcheStateSource.list,
+      stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
       simpleCard: false,
     );
@@ -208,7 +208,7 @@ void main() {
     // When
     final viewModel = DemarcheCardViewModel.create(
       store: store,
-      stateSource: DemarcheStateSource.list,
+      stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
       simpleCard: false,
     );
@@ -243,7 +243,7 @@ void main() {
     // When
     final viewModel = DemarcheCardViewModel.create(
       store: store,
-      stateSource: DemarcheStateSource.list,
+      stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
       simpleCard: false,
     );
@@ -272,7 +272,7 @@ void main() {
     // When
     final viewModel = DemarcheCardViewModel.create(
       store: store,
-      stateSource: DemarcheStateSource.list,
+      stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
       simpleCard: false,
     );

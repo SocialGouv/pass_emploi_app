@@ -653,5 +653,6 @@ class Strings {
   static String agendaUpToDate = "Vos rendez-vous et démarches sont à jour";
   static String agendaNotUpToDate =
       "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
-  static String dateDerniereMiseAJourrendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
+  static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
+  static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";
 }

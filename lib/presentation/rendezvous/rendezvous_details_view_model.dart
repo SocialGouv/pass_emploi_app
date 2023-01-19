@@ -212,7 +212,7 @@ DateTime? _getDateDerniereMiseAJour(Store<AppState> store, RendezvousStateSource
 
 String? _withDateDerniereMiseAJour(DateTime? dateDerniereMiseAJour) {
   if (dateDerniereMiseAJour == null) return null;
-  return Strings.dateDerniereMiseAJourrendezvous(dateDerniereMiseAJour.toDayandHour());
+  return Strings.dateDerniereMiseAJourRendezvous(dateDerniereMiseAJour.toDayandHour());
 }
 
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }

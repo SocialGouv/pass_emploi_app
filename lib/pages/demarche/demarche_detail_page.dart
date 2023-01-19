@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
+import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class DemarcheDetailPage extends StatelessWidget {
@@ -66,6 +67,8 @@ class _Body extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                if (viewModel.withDateDerniereMiseAJour != null)
+                  NotUpToDateMessage(message: viewModel.withDateDerniereMiseAJour!),
                 if (viewModel.label != null) ...[
                   SizedBox(height: Margins.spacing_base),
                   _Categorie(viewModel.label!),
@@ -262,37 +265,41 @@ class _StatutItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(40)),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            viewModel.onModifyStatus(statut);
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(40)),
-              color: statut.backgroundColor,
-              border: Border.all(color: statut.textColor),
-            ),
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (statut.isSelected)
-                  SvgPicture.asset(
-                    Drawables.icDone,
-                    color: statut.textColor,
-                    height: 14,
-                    width: 14,
+    final bool isActive = viewModel.withDateDerniereMiseAJour == null;
+    return Opacity(
+      opacity: isActive ? 1 : 0.5,
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(40)),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              if (isActive) viewModel.onModifyStatus(statut);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(40)),
+                color: statut.backgroundColor,
+                border: Border.all(color: statut.textColor),
+              ),
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (statut.isSelected)
+                    SvgPicture.asset(
+                      Drawables.icDone,
+                      color: statut.textColor,
+                      height: 14,
+                      width: 14,
+                    ),
+                  if (statut.isSelected) SizedBox(width: 10),
+                  Text(
+                    statut.title,
+                    style: TextStyles.textSRegularWithColor(statut.textColor),
                   ),
-                if (statut.isSelected) SizedBox(width: 10),
-                Text(
-                  statut.title,
-                  style: TextStyles.textSRegularWithColor(statut.textColor),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
