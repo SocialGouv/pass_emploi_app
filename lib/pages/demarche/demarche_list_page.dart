@@ -117,7 +117,7 @@ class DemarcheListPage extends StatelessWidget {
     final showNotUpToDateMessage = viewModel.items.isNotEmpty && viewModel.items.first is DemarcheNotUpToDateItem;
     return showNotUpToDateMessage
         ? ReloadablePage(
-            reloadMessage: Strings.agendaNotUpToDate, onReload: viewModel.onRetry, emptyMessage: emptyMessage)
+            reloadMessage: Strings.demarchesNotUpToDateMessage, onReload: viewModel.onRetry, emptyMessage: emptyMessage)
         : Empty(description: emptyMessage);
   }
 }
