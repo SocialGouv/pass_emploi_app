@@ -1,1 +1,1 @@
-enum DemarcheStateSource { agenda, list }
+enum DemarcheStateSource { agenda, demarcheList }
