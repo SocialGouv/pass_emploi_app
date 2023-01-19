@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
+import 'package:pass_emploi_app/widgets/reloadable_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
@@ -63,7 +64,7 @@ class DemarcheListPage extends StatelessWidget {
       case DisplayState.LOADING:
         return Center(child: CircularProgressIndicator());
       case DisplayState.EMPTY:
-        return Empty(description: Strings.emptyContentTitle(Strings.demarchesToDo));
+        return _emptyPage(context, viewModel);
       case DisplayState.FAILURE:
         return Center(child: Retry(Strings.demarchesError, () => viewModel.onRetry()));
     }
@@ -109,6 +110,15 @@ class DemarcheListPage extends StatelessWidget {
 
   bool _currentDemarchesAreUpToDate(DemarcheListPageViewModel current) {
     return current.items.isEmpty || current.items.first is! DemarcheNotUpToDateItem;
+  }
+
+  Widget _emptyPage(BuildContext context, DemarcheListPageViewModel viewModel) {
+    final emptyMessage = Strings.emptyContentTitle(Strings.demarchesToDo);
+    final showNotUpToDateMessage = viewModel.items.isNotEmpty && viewModel.items.first is DemarcheNotUpToDateItem;
+    return showNotUpToDateMessage
+        ? ReloadablePage(
+            reloadMessage: Strings.demarchesNotUpToDateMessage, onReload: viewModel.onRetry, emptyMessage: emptyMessage)
+        : Empty(description: emptyMessage);
   }
 }
 

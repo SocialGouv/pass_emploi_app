@@ -173,17 +173,34 @@ class _Content extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = viewModel.rendezvousItems[index];
                 if (item is RendezvousSection) return _RendezvousSection(section: item);
-                if (item is RendezvousNotUpToDateItem) {
-                  return NotUpToDateMessage(
-                    margin: EdgeInsets.only(bottom: Margins.spacing_s),
-                    message: Strings.rendezvousNotUpToDateMessage,
-                    onRefresh: viewModel.onRetry,
-                  );
-                }
+                if (item is RendezvousNotUpToDateItem) return _NotUpToDate(viewModel: viewModel);
                 return Container();
               },
             ),
           ),
+      ],
+    );
+  }
+}
+
+class _NotUpToDate extends StatelessWidget {
+  final RendezvousListViewModel viewModel;
+  const _NotUpToDate({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    final hasOnlyNotUpToDateItem = viewModel.rendezvousItems.every((element) => element is RendezvousNotUpToDateItem);
+    return Column(
+      children: [
+        NotUpToDateMessage(
+          margin: EdgeInsets.only(bottom: Margins.spacing_s),
+          message: Strings.rendezvousNotUpToDateMessage,
+          onRefresh: viewModel.onRetry,
+        ),
+        if (hasOnlyNotUpToDateItem) ...[
+          SizedBox(height: Margins.spacing_base),
+          Text(viewModel.emptyLabel, style: TextStyles.textBaseBold, textAlign: TextAlign.center)
+        ],
       ],
     );
   }
