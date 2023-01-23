@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/big_title_separator.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
@@ -103,18 +104,38 @@ class _Scaffold extends StatelessWidget {
   }
 
   void _showUserActionSnackBarWithDetail(BuildContext context, String userActionId) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
+    );
     showSuccessfulSnackBar(
       context,
       Strings.createActionSuccess,
-      () => Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.agenda)),
+      () {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.createActionEventCategory,
+          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+        );
+        Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.agenda));
+      },
     );
   }
 
   void _showDemarcheSnackBarWithDetail(BuildContext context, String demarcheId) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
+    );
     showSuccessfulSnackBar(
       context,
       Strings.createDemarcheSuccess,
-      () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheId, DemarcheStateSource.agenda)),
+      () {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.createActionEventCategory,
+          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+        );
+        Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheId, DemarcheStateSource.agenda));
+      },
     );
   }
 }
