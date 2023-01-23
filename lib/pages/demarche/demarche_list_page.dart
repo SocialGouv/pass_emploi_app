@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
@@ -110,7 +111,8 @@ class DemarcheListPage extends StatelessWidget {
   }
 
   bool _currentDemarchesAreUpToDate(DemarcheListPageViewModel current) {
-    return current.items.isEmpty || current.items.first is! DemarcheNotUpToDateItem;
+    return [DisplayState.CONTENT, DisplayState.EMPTY].contains(current.displayState) &&
+        (current.items.isEmpty || current.items.first is! DemarcheNotUpToDateItem);
   }
 
   Widget _emptyPage(BuildContext context, DemarcheListPageViewModel viewModel) {
@@ -157,11 +159,26 @@ class _AddDemarcheButton extends StatelessWidget {
   }
 
   void _showSnackBarWithDetail(BuildContext context, String demarcheCreatedId) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
+    );
     showSuccessfulSnackBar(
       context,
       Strings.createDemarcheSuccess,
-      () => Navigator.push(
-          context, DemarcheDetailPage.materialPageRoute(demarcheCreatedId, DemarcheStateSource.demarcheList)),
+      () {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.createActionEventCategory,
+          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+        );
+        Navigator.push(
+          context,
+          DemarcheDetailPage.materialPageRoute(
+            demarcheCreatedId,
+            DemarcheStateSource.demarcheList,
+          ),
+        );
+      },
     );
   }
 }

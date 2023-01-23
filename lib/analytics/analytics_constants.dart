@@ -156,6 +156,14 @@ class AnalyticsActionNames {
   static const sendComment = "/actions/detail/comments/send";
 }
 
+class AnalyticsEventNames {
+  AnalyticsEventNames._();
+
+  static const createActionEventCategory = "Création action/démarche";
+  static const createActionDisplaySnackBarAction = "Affichage SnackBar succès";
+  static const createActionClickOnSnackBarAction = "Clic détail action/démarche";
+}
+
 class AnalyticsCustomDimensions {
   static const userTypeId = '1';
   static const structureId = '2';
