@@ -110,7 +110,8 @@ class DemarcheListPage extends StatelessWidget {
   }
 
   bool _currentDemarchesAreUpToDate(DemarcheListPageViewModel current) {
-    return current.items.isEmpty || current.items.first is! DemarcheNotUpToDateItem;
+    return [DisplayState.CONTENT, DisplayState.EMPTY].contains(current.displayState) &&
+        (current.items.isEmpty || current.items.first is! DemarcheNotUpToDateItem);
   }
 
   Widget _emptyPage(BuildContext context, DemarcheListPageViewModel viewModel) {

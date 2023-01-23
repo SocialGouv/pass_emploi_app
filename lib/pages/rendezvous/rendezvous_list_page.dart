@@ -80,7 +80,8 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   }
 
   bool _currentRendezvousAreUpToDate(RendezvousListViewModel current) {
-    return current.rendezvousItems.isEmpty || current.rendezvousItems.first is! RendezvousNotUpToDateItem;
+    return [DisplayState.CONTENT, DisplayState.EMPTY].contains(current.displayState) &&
+        (current.rendezvousItems.isEmpty || current.rendezvousItems.first is! RendezvousNotUpToDateItem);
   }
 
   void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
@@ -185,6 +186,7 @@ class _Content extends StatelessWidget {
 
 class _NotUpToDate extends StatelessWidget {
   final RendezvousListViewModel viewModel;
+
   const _NotUpToDate({required this.viewModel});
 
   @override

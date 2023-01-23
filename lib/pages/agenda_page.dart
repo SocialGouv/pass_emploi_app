@@ -61,7 +61,8 @@ class AgendaPage extends StatelessWidget {
   }
 
   bool _currentAgendaIsUpToDate(AgendaPageViewModel current) {
-    return current.events.isEmpty || current.events.first is! NotUpToDateAgendaItem;
+    return [DisplayState.CONTENT, DisplayState.EMPTY].contains(current.displayState) &&
+        (current.events.isEmpty || current.events.first is! NotUpToDateAgendaItem);
   }
 }
 
@@ -221,6 +222,7 @@ class _Content extends StatelessWidget {
 
 class _NotUpToDateMessage extends StatelessWidget {
   final AgendaPageViewModel agendaPageViewModel;
+
   const _NotUpToDateMessage(this.agendaPageViewModel);
 
   @override
