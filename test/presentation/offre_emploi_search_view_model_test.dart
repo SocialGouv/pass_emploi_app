@@ -28,7 +28,7 @@ void main() {
     final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.searchDisplayState, DisplayState.LOADING);
     expect(viewModel.errorMessage, "");
   });
 
@@ -45,7 +45,7 @@ void main() {
     final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.searchDisplayState, DisplayState.FAILURE);
     expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
   });
 
@@ -65,7 +65,7 @@ void main() {
     final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.searchDisplayState, DisplayState.CONTENT);
     expect(viewModel.errorMessage, '');
   });
 
@@ -84,7 +84,7 @@ void main() {
     final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.searchDisplayState, DisplayState.CONTENT);
     expect(viewModel.errorMessage, "");
   });
 

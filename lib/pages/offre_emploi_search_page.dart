@@ -40,7 +40,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         onInit: (store) => store.dispatch(SuggestionsRechercheRequestAction()),
         converter: (store) => OffreEmploiSearchViewModel.create(store),
         onWillChange: (_, newViewModel) {
-          if (newViewModel.displayState == DisplayState.CONTENT) {
+          if (newViewModel.searchDisplayState == DisplayState.CONTENT) {
             Navigator.push(context, OffreEmploiListPage.materialPageRoute(onlyAlternance: widget.onlyAlternance));
           }
         },
@@ -91,9 +91,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     );
   }
 
-  bool _isLoading(OffreEmploiSearchViewModel viewModel) => viewModel.displayState == DisplayState.LOADING;
+  bool _isLoading(OffreEmploiSearchViewModel viewModel) => viewModel.searchDisplayState == DisplayState.LOADING;
 
-  bool _isError(OffreEmploiSearchViewModel viewModel) => viewModel.displayState == DisplayState.FAILURE;
+  bool _isError(OffreEmploiSearchViewModel viewModel) => viewModel.searchDisplayState == DisplayState.FAILURE;
 
   SizedBox _separator() => SizedBox(height: Margins.spacing_m);
 
