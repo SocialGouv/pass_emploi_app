@@ -31,6 +31,7 @@ import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:synchronized/synchronized.dart';
 
+import 'dio_mock.dart';
 import 'dummies.dart';
 import 'fixtures.dart';
 import 'spies.dart';
@@ -39,7 +40,7 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
   Campagne? _campagne;
   var isActionUpdated = false;
 
-  PageActionRepositorySuccessStub() : super("", DummyHttpClient());
+  PageActionRepositorySuccessStub() : super(DioMock());
 
   void withCampagne(Campagne campagne) {
     _campagne = campagne;
@@ -63,11 +64,12 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
   }
 
   @override
-  Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
-    return userId == "id" &&
+  Future<UserActionId?> createUserAction(String userId, UserActionCreateRequest request) async {
+    final success = userId == "id" &&
         request.content == "content" &&
         request.comment == "comment" &&
         request.initialStatus == UserActionStatus.NOT_STARTED;
+    return success ? 'USER-ACTION-ID' : null;
   }
 
   @override
@@ -83,12 +85,12 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
 }
 
 class PageActionRepositoryFailureStub extends PageActionRepository {
-  PageActionRepositoryFailureStub() : super("", DummyHttpClient());
+  PageActionRepositoryFailureStub() : super(DioMock());
   var isActionUpdated = false;
 
   @override
-  Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
-    return false;
+  Future<UserActionId?> createUserAction(String userId, UserActionCreateRequest request) async {
+    return null;
   }
 
   @override
@@ -133,6 +135,7 @@ class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
         ),
       ],
       campagne: _campagne,
+      dateDerniereMiseAJour: DateTime(2023, 1, 1),
     );
   }
 }
@@ -367,7 +370,7 @@ class ServiceCiviqueDetailRepositoryWithErrorStub extends ServiceCiviqueDetailRe
 }
 
 class ImmersionRepositoryFailureStub extends ImmersionRepository {
-  ImmersionRepositoryFailureStub() : super("", DummyHttpClient());
+  ImmersionRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
@@ -9,6 +10,8 @@ abstract class Crashlytics {
   void setUserIdentifier(String identifier);
 
   void recordNonNetworkException(dynamic exception, [StackTrace stack, Uri? failingEndpoint]);
+
+  void recordNonNetworkExceptionUrl(dynamic exception, [StackTrace stack, String? failingEndpoint]);
 }
 
 class CrashlyticsWithFirebase extends Crashlytics {
@@ -23,8 +26,9 @@ class CrashlyticsWithFirebase extends Crashlytics {
   void setUserIdentifier(String identifier) => instance.setUserIdentifier(identifier);
 
   @override
-  void recordNonNetworkException(dynamic exception, [StackTrace? stack, Uri? failingEndpoint]) {
+  void recordNonNetworkExceptionUrl(dynamic exception, [StackTrace? stack, String? failingEndpoint]) {
     if (exception is SocketException) return;
+    if (exception is DioError && exception.error is SocketException) return;
     final logPrefix = failingEndpoint != null ? 'Exception on $failingEndpoint' : 'Exception';
     Log.e(logPrefix, exception, stack);
     FirebaseCrashlytics.instance.recordError(
@@ -33,5 +37,10 @@ class CrashlyticsWithFirebase extends Crashlytics {
       reason: failingEndpoint != null ? 'Exception on $failingEndpoint' : null,
       printDetails: false,
     );
+  }
+
+  @override
+  void recordNonNetworkException(dynamic exception, [StackTrace? stack, Uri? failingEndpoint]) {
+    recordNonNetworkExceptionUrl(exception, stack, failingEndpoint?.toString());
   }
 }

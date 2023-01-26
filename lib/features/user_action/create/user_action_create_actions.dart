@@ -8,7 +8,11 @@ class UserActionCreateRequestAction {
 
 class UserActionCreateLoadingAction {}
 
-class UserActionCreateSuccessAction {}
+class UserActionCreateSuccessAction {
+  final String userActionCreatedId;
+
+  UserActionCreateSuccessAction(this.userActionCreatedId);
+}
 
 class UserActionCreateFailureAction {}
 

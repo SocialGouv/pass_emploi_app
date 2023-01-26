@@ -22,7 +22,7 @@ void main() {
     final viewModel = UserActionCreateViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionCreateDisplayState.SHOW_LOADING);
+    expect(viewModel.displayState, isA<DisplayLoading>());
   });
 
   test("create when state is not initialized should set display state to show content", () {
@@ -34,19 +34,22 @@ void main() {
     final viewModel = UserActionCreateViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionCreateDisplayState.SHOW_CONTENT);
+    expect(viewModel.displayState, isA<DisplayContent>());
   });
 
   test("create when state is success should set display state to dismiss", () {
     // Given
-    final state = AppState.initialState().copyWith(userActionCreateState: UserActionCreateSuccessState());
+    final state = AppState.initialState().copyWith(
+      userActionCreateState: UserActionCreateSuccessState('USER-ACTION-ID'),
+    );
     final store = Store<AppState>(reducer, initialState: state);
 
     // When
     final viewModel = UserActionCreateViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionCreateDisplayState.TO_DISMISS);
+    expect(viewModel.displayState, isA<Dismiss>());
+    expect((viewModel.displayState as Dismiss).userActionCreatedId, 'USER-ACTION-ID');
   });
 
   test("create when state is failure should display an error", () {
@@ -58,7 +61,7 @@ void main() {
     final viewModel = UserActionCreateViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionCreateDisplayState.SHOW_ERROR);
+    expect(viewModel.displayState, isA<DisplayError>());
   });
 
   group('isRappelActive', () {

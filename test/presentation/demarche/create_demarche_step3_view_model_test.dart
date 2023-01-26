@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.d
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
 import '../../doubles/fixtures.dart';
@@ -165,14 +166,15 @@ void main() {
     final store = givenState() //
         .loggedInUser() //
         .searchDemarchesSuccess([(mockDemarcheDuReferentiel('id'))]) //
-        .copyWith(createDemarcheState: CreateDemarcheSuccessState())
+        .copyWith(createDemarcheState: CreateDemarcheSuccessState('DEMARCHE-ID'))
         .store();
 
     // When
     final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
 
     // Then
-    expect(viewModel.shouldGoBack, isTrue);
+    expect(viewModel.demarcheCreationState, isA<DemarcheCreationSuccessState>());
+    expect((viewModel.demarcheCreationState as DemarcheCreationSuccessState).demarcheCreatedId, 'DEMARCHE-ID');
   });
 
   test('onSearchDemarche should trigger action', () {

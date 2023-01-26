@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/features/mode_demo/explication_page_mode_demo.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -16,12 +15,11 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
+import 'package:pass_emploi_app/widgets/hidden_menu.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
-// ignore: must_be_immutable
 class EntreePage extends StatelessWidget {
   static const minimum_height_to_see_jeune_face = 656;
-  int _modeDemoClicks = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +39,7 @@ class EntreePage extends StatelessWidget {
                   SizedBox(height: 16),
                   SvgPicture.asset(Drawables.icUnJeuneUneSolution, width: screenWidth * 0.25),
                   SizedBox(height: 32),
-                  GestureDetector(
-                    onTap: () => _onModeDemoClick(context),
+                  HiddenMenuGesture(
                     child: SvgPicture.asset(Drawables.cejAppLogo, width: screenWidth * 0.6),
                   ),
                   SizedBox(height: 16),
@@ -85,15 +82,6 @@ class EntreePage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _onModeDemoClick(BuildContext context) {
-    if (_modeDemoClicks == 2) {
-      _modeDemoClicks = 0;
-      Navigator.push(context, ExplicationModeDemoPage.materialPageRoute());
-    } else {
-      _modeDemoClicks = _modeDemoClicks + 1;
-    }
   }
 
   Column _buttonCard(BuildContext context) {

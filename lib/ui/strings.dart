@@ -11,6 +11,8 @@ class Strings {
   static String ajouter = "Ajouter";
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
+  static String seeDetail = "Voir le détail >";
+  static String copie = "Copié";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
@@ -233,7 +235,8 @@ class Strings {
   static String deleteAction = "Supprimer l'action";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
-  static String demarcheCreationSuccess = "La démarche a bien été créée";
+  static String createActionSuccess = "Votre action a bien été créée.";
+  static String createDemarcheSuccess = "La démarche a bien été créée";
   static String linkDetailsRendezVous = "Voir les détails du rendez-vous";
 
   static String dateEcheanceFormat(String formattedDate) => "À réaliser pour le $formattedDate";
@@ -350,6 +353,9 @@ class Strings {
 
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
+  static String entrepriseAccueillante = 'Entreprise accueillante';
+  static String entreprisesAccueillantesHeader =
+      'Les entreprises accueillantes facilitent vos immersions professionnelles';
   static String metierCompulsoryLabel = "* Métier";
   static String villeCompulsoryLabel = "* Localisation";
   static String villeNonCompulsoryLabel = "Localisation";
@@ -366,17 +372,10 @@ class Strings {
   static String immersionFieldHint = "Rechercher";
   static String immersionsTitle = "Offres d'immersion";
   static String immersionError = "Erreur lors de la récupération de l'offre d'immersion. Veuillez réessayer";
-  static String immersionNonVolontaireExplanation =
+  static String immersionNonAccueillanteExplanation =
       "Cette entreprise peut recruter sur ce métier et être intéressée pour vous recevoir en immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.";
-  static String immersionVolontaireExplanation = "Cette entreprise recherche activement des candidats à l’immersion.";
-  static String immersionUnknownContactModeExplanation =
-      "Contactez-la en expliquant votre projet professionnel et vos motivations.";
-  static String immersionPhoneContactModeExplanation =
-      "Contactez-la par téléphone en expliquant votre projet professionnel et vos motivations.";
-  static String immersionMailContactModeExplanation =
-      "Contactez-la par e-mail en expliquant votre projet professionnel et vos motivations.\n\nVous n’avez pas besoin d’envoyer un CV.";
-  static String immersionInPersonContactModeExplanation =
-      "Rendez-vous directement sur place pour expliquer votre projet professionnel et vos motivations.";
+  static String immersionAccueillanteExplanation =
+      "Cette entreprise recherche activement des candidats à l’immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.";
   static String immersionDescriptionLabel = "Si l’entreprise est d’accord pour vous accueillir :\n\n"
       "· Prévenez votre conseiller\n"
       "· Remplissez une convention d’immersion avec lui";
@@ -579,7 +578,11 @@ class Strings {
   static String savedSearchDeleteError = "Erreur lors de la suppression de la recherche.";
   static String savedSearchDeleteSuccess = "Votre recherche sauvegardée a été supprimée avec succès.";
 
+  // Mode support
+  static String supportInformations = "Infos pour le support";
+
   // Mode démo
+  static String passerEnDemo = "Passer en mode démo";
   static String modeDemoAppBarLabel = "Version démo conseiller";
   static String modeDemoExplicationTitre = "Espace démo conseiller";
   static String modeDemoExplicationPremierPoint1 = "→ Cette version vous ";
@@ -640,4 +643,18 @@ class Strings {
   static String eventListEmpty = "Il n'y a actuellement aucun événement";
   static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
+
+  // Mode dégradé Pôle Emploi
+  static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
+  static String rendezvousNotUpToDateMessage =
+      "Une erreur technique s’est produite. Certains de vos rendez-vous ne sont peut-être pas à jour.";
+  static String demarchesUpToDate = "Vos démarches sont à jour";
+  static String demarchesNotUpToDateMessage =
+      "Une erreur technique s’est produite. Certaines de vos démarches ne sont peut-être pas à jour.";
+  static String reloadPage = "Recharger la page";
+  static String agendaUpToDate = "Vos rendez-vous et démarches sont à jour";
+  static String agendaNotUpToDate =
+      "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
+  static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
+  static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";
 }

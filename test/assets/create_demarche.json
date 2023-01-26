@@ -1,0 +1,27 @@
+{
+  "id": "DEMARCHE-ID",
+  "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
+  "contenu": "Identification de ses compétences avec pole-emploi.fr",
+  "dateModification": "2021-11-29T10:04:00.000Z",
+  "statut": "EN_COURS",
+  "dateFin": "2021-12-21T09:00:00.000Z",
+  "label": "Mon (nouveau) métier",
+  "titre": "Identification de ses points forts et de ses compétences",
+  "sousTitre": "Par un autre moyen",
+  "dateCreation": "2022-05-11T09:04:00.000Z",
+  "attributs": [
+    {
+      "cle": "metier",
+      "valeur": "Agriculture",
+      "label": "Nom du métier"
+    }
+  ],
+  "statutsPossibles": [
+    "ANNULEE",
+    "REALISEE",
+    "A_FAIRE",
+    "EN_COURS"
+  ],
+  "modifieParConseiller": false,
+  "creeeParConseiller": true
+}

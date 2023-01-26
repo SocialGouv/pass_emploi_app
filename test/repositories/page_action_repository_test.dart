@@ -1,188 +1,173 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 
-import '../doubles/fixtures.dart';
-import '../utils/pass_emploi_mock_client.dart';
-import '../utils/test_assets.dart';
+import '../dsl/sut_repository2.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  group('getPageActions', () {
-    test('when response is valid', () async {
-      // Given
-      final httpClient = PassEmploiMockClient((request) async {
-        if (request.method != "GET") return invalidHttpResponse();
-        if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/home/actions")) return invalidHttpResponse();
-        return Response.bytes(loadTestAssetsAsBytes("home_actions.json"), 200);
+  group('PageActionRepository', () {
+    final sut = RepositorySut2<PageActionRepository>();
+    sut.givenRepository((client) => PageActionRepository(client));
+
+    group('getPageActions', () {
+      sut.when((pageActionRepository) => pageActionRepository.getPageActions("uuid"));
+
+      group('when response is valid', () {
+        sut.givenJsonResponse(fromJson: "home_actions.json");
+
+        test('request should be valid', () {
+          sut.expectRequestBody(method: HttpMethod.get, url: "/jeunes/uuid/home/actions");
+        });
+
+        test('result should be valid', () {
+          sut.expectResult<PageActions?>((result) {
+            expect(result, isNotNull);
+            expect(result?.campagne, isNotNull);
+            expect(
+              result?.campagne,
+              Campagne(
+                id: "id-campagne",
+                titre: "Votre expérience sur l'application",
+                description: "Donnez nous votre avis",
+                questions: [
+                  Question(id: 1, libelle: "la question ?", options: [
+                    Option(id: 1, libelle: "Non, pas du tout"),
+                  ])
+                ],
+              ),
+            );
+            expect(result?.actions, isNotNull);
+            expect(result?.actions.length, 2);
+            expect(
+              result?.actions[0],
+              UserAction(
+                id: "8802034",
+                content: "Changer de prénom",
+                comment: "Commentaire",
+                status: UserActionStatus.NOT_STARTED,
+                dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
+                creator: JeuneActionCreator(),
+              ),
+            );
+            expect(
+              result?.actions[1],
+              UserAction(
+                id: "8392839",
+                content: "Compléter son CV",
+                comment: "",
+                status: UserActionStatus.IN_PROGRESS,
+                dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2041-07-19T10:00:00.000Z"),
+                creator: ConseillerActionCreator(name: "Nils Tavernier"),
+              ),
+            );
+          });
+        });
       });
-      final repository = PageActionRepository("BASE_URL", httpClient);
 
-      // When
-      final PageActions? result = await repository.getPageActions("UID");
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
 
-      // Then
-      expect(result, isNotNull);
-      expect(result?.campagne, isNotNull);
-      expect(
-        result?.campagne,
-        Campagne(
-          id: "id-campagne",
-          titre: "Votre expérience sur l'application",
-          description: "Donnez nous votre avis",
-          questions: [
-            Question(id: 1, libelle: "la question ?", options: [
-              Option(id: 1, libelle: "Non, pas du tout"),
-            ])
-          ],
+        test('result should be null', () {
+          sut.expectNullResult();
+        });
+      });
+    });
+
+    group('createUserAction', () {
+      sut.when(
+        (repository) => repository.createUserAction(
+          "UID",
+          UserActionCreateRequest("content", "comment", DateTime.utc(2022, 1, 1), true, UserActionStatus.DONE),
         ),
       );
-      expect(result?.actions, isNotNull);
-      expect(result?.actions.length, 2);
-      expect(
-        result?.actions[0],
-        UserAction(
-          id: "8802034",
-          content: "Changer de prénom",
-          comment: "Commentaire",
-          status: UserActionStatus.NOT_STARTED,
-          dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
-          creator: JeuneActionCreator(),
-        ),
-      );
-      expect(
-        result?.actions[1],
-        UserAction(
-          id: "8392839",
-          content: "Compléter son CV",
-          comment: "",
-          status: UserActionStatus.IN_PROGRESS,
-          dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2041-07-19T10:00:00.000Z"),
-          creator: ConseillerActionCreator(name: "Nils Tavernier"),
-        ),
-      );
-    });
 
-    test('when response is invalid should return null', () async {
-      // Given
-      final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-      final repository = PageActionRepository("BASE_URL", httpClient);
+      group('when response is valid', () {
+        sut.givenJsonResponse(fromJson: "create_action.json");
 
-      // When
-      final search = await repository.getPageActions("UserID");
+        test('request should be valid', () {
+          sut.expectRequestBody(
+            method: HttpMethod.post,
+            url: "/jeunes/UID/action",
+            jsonBody: {
+              "content": "content",
+              "comment": "comment",
+              "status": "done",
+              "rappel": true,
+              "dateEcheance": "2022-01-01T00:00:00+00:00",
+            },
+          );
+        });
 
-      // Then
-      expect(search, isNull);
-    });
-  });
-
-  group('createUserAction', () {
-    test('when response is valid', () async {
-      // Given
-      final httpClient = PassEmploiMockClient((request) async {
-        if (request.method != "POST") return invalidHttpResponse();
-        if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/action")) return invalidHttpResponse();
-        final requestJson = jsonUtf8Decode(request.bodyBytes);
-        if (requestJson['content'] != 'content') return invalidHttpResponse();
-        if (requestJson['comment'] != 'comment') return invalidHttpResponse();
-        if (requestJson['status'] != 'done') return invalidHttpResponse();
-        if (requestJson['rappel'] != true) return invalidHttpResponse();
-        if (requestJson['dateEcheance'] != '2022-01-01T00:00:00+00:00') return invalidHttpResponse();
-        return Response('', 201);
+        test('result should be UserAction created ID', () {
+          sut.expectResult<String?>((result) {
+            expect(result, "ACTION-ID");
+          });
+        });
       });
-      final repository = PageActionRepository("BASE_URL", httpClient);
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
 
-      // When
-      final result = await repository.createUserAction(
-        "UID",
-        UserActionCreateRequest("content", "comment", DateTime.utc(2022, 1, 1), true, UserActionStatus.DONE),
-      );
-
-      // Then
-      expect(result, isTrue);
-    });
-
-    test('when response is not valid should return false', () async {
-      // Given
-      final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-      final repository = PageActionRepository("BASE_URL", httpClient);
-
-      // When
-      final result = await repository.createUserAction(
-        "UID",
-        UserActionCreateRequest("content", "comment", DateTime(2022, 1, 1), true, UserActionStatus.DONE),
-      );
-
-      // Then
-      expect(result, isFalse);
-    });
-  });
-
-  group('deleteUserAction', () {
-    test('when response is valid should return true', () async {
-      // Given
-      final httpClient = PassEmploiMockClient((request) async {
-        if (request.method != "DELETE") return invalidHttpResponse();
-        if (!request.url.toString().startsWith("BASE_URL/actions/UID")) return invalidHttpResponse();
-        return Response('', 201);
+        test('result should be null', () {
+          sut.expectNullResult();
+        });
       });
-      final repository = PageActionRepository("BASE_URL", httpClient);
-
-      // When
-      final result = await repository.deleteUserAction("UID");
-
-      // Then
-      expect(result, isTrue);
     });
 
-    test('when response is not valid should return false', () async {
-      // Given
-      final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-      final repository = PageActionRepository("BASE_URL", httpClient);
+    group('deleteUserAction', () {
+      sut.when((repository) => repository.deleteUserAction("UID"));
 
-      // When
-      final result = await repository.deleteUserAction("UID");
+      group('when response is valid', () {
+        sut.givenResponseCode(201);
 
-      // Then
-      expect(result, isFalse);
-    });
-  });
+        test('request should be valid', () {
+          sut.expectRequestBody(method: HttpMethod.delete, url: "/actions/UID");
+        });
 
-  group('updateActionStatus', () {
-    test('when response is valid should return true', () async {
-      // Given
-      final httpClient = PassEmploiMockClient((request) async {
-        if (request.method != "PUT") return invalidHttpResponse();
-        if (!request.url.toString().startsWith("BASE_URL/actions/UID")) return invalidHttpResponse();
-        final requestJson = jsonUtf8Decode(request.bodyBytes);
-        if (requestJson['status'] != "not_started") return invalidHttpResponse();
-        return Response('', 201);
+        test('result should be true', () {
+          sut.expectTrueAsResult();
+        });
       });
-      final repository = PageActionRepository("BASE_URL", httpClient);
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
 
-      // When
-      final result = await repository.updateActionStatus("UID", UserActionStatus.NOT_STARTED);
-
-      // Then
-      expect(result, isTrue);
+        test('result should be false', () {
+          sut.expectFalseAsResult();
+        });
+      });
     });
 
-    test('when response is not valid should return false', () async {
-      // Given
-      final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-      final repository = PageActionRepository("BASE_URL", httpClient);
+    group('updateActionStatus', () {
+      sut.when((repository) => repository.updateActionStatus("UID", UserActionStatus.NOT_STARTED));
 
-      // When
-      final result = await repository.updateActionStatus("UID", UserActionStatus.NOT_STARTED);
+      group('when response is valid', () {
+        sut.givenResponseCode(201);
 
-      // Then
-      expect(result, isFalse);
+        test('request should be valid', () {
+          sut.expectRequestBody(
+            method: HttpMethod.put,
+            url: "/actions/UID",
+            jsonBody: {
+              "status": "not_started",
+            },
+          );
+        });
+
+        test('result should be true', () {
+          sut.expectTrueAsResult();
+        });
+      });
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
+
+        test('result should be false', () {
+          sut.expectFalseAsResult();
+        });
+      });
     });
   });
 }

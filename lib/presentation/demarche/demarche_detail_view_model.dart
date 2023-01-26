@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
@@ -27,6 +29,7 @@ class DemarcheDetailViewModel extends Equatable {
   final String? sousTitre;
   final String? modificationDate;
   final String? creationDate;
+  final String? withDateDerniereMiseAJour;
   final List<String> attributs;
   final List<UserActionTagViewModel> statutsPossibles;
   final Function(UserActionTagViewModel) onModifyStatus;
@@ -47,6 +50,7 @@ class DemarcheDetailViewModel extends Equatable {
     required this.statutsPossibles,
     required this.modificationDate,
     required this.creationDate,
+    required this.withDateDerniereMiseAJour,
     required this.onModifyStatus,
     required this.resetUpdateStatus,
     required this.updateDisplayState,
@@ -54,6 +58,7 @@ class DemarcheDetailViewModel extends Equatable {
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, DemarcheStateSource stateSource, String demarcheId) {
     final demarche = getDemarche(store, stateSource, demarcheId);
+    final dateDerniereMiseAJour = _getDateDerniereMiseAJour(store, stateSource);
     demarche.possibleStatus.sort((a, b) => a.compareTo(b));
     final isLate = _isLate(demarche.status, demarche.endDate);
     final updateState = store.state.updateDemarcheState;
@@ -71,6 +76,7 @@ class DemarcheDetailViewModel extends Equatable {
       statutsPossibles: demarche.possibleStatus.map((e) => _getTagViewModel(e, demarche.status)).toList(),
       modificationDate: demarche.modificationDate?.toDay(),
       creationDate: demarche.creationDate?.toDay(),
+      withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
       onModifyStatus: (tag) {
         final status = _getStatusFromTag(tag);
         if (!tag.isSelected && status != null) {
@@ -100,10 +106,26 @@ class DemarcheDetailViewModel extends Equatable {
         sousTitre,
         modificationDate,
         creationDate,
+        withDateDerniereMiseAJour,
         attributs,
         statutsPossibles,
         updateDisplayState,
       ];
+}
+
+DateTime? _getDateDerniereMiseAJour(Store<AppState> store, DemarcheStateSource stateSource) {
+  if (stateSource == DemarcheStateSource.agenda && store.state.agendaState is AgendaSuccessState) {
+    return (store.state.agendaState as AgendaSuccessState).agenda.dateDerniereMiseAJour;
+  } else if (stateSource == DemarcheStateSource.demarcheList &&
+      store.state.demarcheListState is DemarcheListSuccessState) {
+    return (store.state.demarcheListState as DemarcheListSuccessState).dateDerniereMiseAJour;
+  }
+  return null;
+}
+
+String? _withDateDerniereMiseAJour(DateTime? dateDerniereMiseAJour) {
+  if (dateDerniereMiseAJour == null) return null;
+  return Strings.dateDerniereMiseAJourDemarches(dateDerniereMiseAJour.toDayandHour());
 }
 
 UserActionTagViewModel _getTagViewModel(DemarcheStatus status, DemarcheStatus currentStatus) {

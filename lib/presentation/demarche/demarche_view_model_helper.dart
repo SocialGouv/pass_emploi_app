@@ -10,7 +10,7 @@ Demarche getDemarche(Store<AppState> store, DemarcheStateSource stateSource, Str
   switch (stateSource) {
     case DemarcheStateSource.agenda:
       return _getFromAgendaState(store, demarcheId);
-    case DemarcheStateSource.list:
+    case DemarcheStateSource.demarcheList:
       return _getFromDemarcheState(store, demarcheId);
   }
 }

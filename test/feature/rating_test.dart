@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 
+import '../doubles/dio_mock.dart';
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
 import '../dsl/app_state_dsl.dart';
@@ -75,7 +76,7 @@ class RatingRepositoryAlreadyRatedStub extends RatingRepository {
 }
 
 class DetailsJeuneRepositorySinceLessOneMonthStub extends DetailsJeuneRepository {
-  DetailsJeuneRepositorySinceLessOneMonthStub() : super("", DummyHttpClient());
+  DetailsJeuneRepositorySinceLessOneMonthStub() : super(DioMock());
 
   @override
   Future<DetailsJeune?> fetch(String userId) async {
@@ -84,7 +85,7 @@ class DetailsJeuneRepositorySinceLessOneMonthStub extends DetailsJeuneRepository
 }
 
 class DetailsJeuneRepositorySinceOneMonthStub extends DetailsJeuneRepository {
-  DetailsJeuneRepositorySinceOneMonthStub() : super("", DummyHttpClient());
+  DetailsJeuneRepositorySinceOneMonthStub() : super(DioMock());
 
   @override
   Future<DetailsJeune?> fetch(String userId) async {

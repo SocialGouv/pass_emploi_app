@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/big_title_separator.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
@@ -30,7 +31,10 @@ import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
+import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
+import 'package:pass_emploi_app/widgets/reloadable_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class AgendaPage extends StatelessWidget {
   final Function() onActionDelayedTap;
@@ -43,11 +47,23 @@ class AgendaPage extends StatelessWidget {
       tracking: AnalyticsScreenNames.agenda,
       child: StoreConnector<AppState, AgendaPageViewModel>(
         onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
+        onDidChange: (previous, current) => _onDidChange(context, previous, current),
         builder: (context, viewModel) => _Scaffold(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap),
         converter: (store) => AgendaPageViewModel.create(store),
         distinct: true,
       ),
     );
+  }
+
+  void _onDidChange(BuildContext context, AgendaPageViewModel? previous, AgendaPageViewModel current) {
+    if (previous?.isReloading == true && _currentAgendaIsUpToDate(current)) {
+      showSuccessfulSnackBar(context, Strings.agendaUpToDate);
+    }
+  }
+
+  bool _currentAgendaIsUpToDate(AgendaPageViewModel current) {
+    return [DisplayState.CONTENT, DisplayState.EMPTY].contains(current.displayState) &&
+        (current.events.isEmpty || current.events.first is! NotUpToDateAgendaItem);
   }
 }
 
@@ -69,15 +85,57 @@ class _Scaffold extends StatelessWidget {
             onPressed: () => showPassEmploiBottomSheet(
               context: context,
               builder: (context) => CreateUserActionBottomSheet(),
-            ).then((value) => viewModel.resetCreateAction()),
+            ).then((value) {
+              if (value != null) {
+                _showUserActionSnackBarWithDetail(context, value as String);
+                viewModel.resetCreateAction();
+              }
+            }),
           ),
         if (viewModel.createButton == CreateButton.demarche)
           _CreateButton(
             label: Strings.addADemarche,
-            onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute())
-                .then((value) => viewModel.reload(DateTime.now())),
+            onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
+              if (value != null) _showDemarcheSnackBarWithDetail(context, value);
+            }),
           ),
       ]),
+    );
+  }
+
+  void _showUserActionSnackBarWithDetail(BuildContext context, String userActionId) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
+    );
+    showSuccessfulSnackBar(
+      context,
+      Strings.createActionSuccess,
+      () {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.createActionEventCategory,
+          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+        );
+        Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.agenda));
+      },
+    );
+  }
+
+  void _showDemarcheSnackBarWithDetail(BuildContext context, String demarcheId) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
+    );
+    showSuccessfulSnackBar(
+      context,
+      Strings.createDemarcheSuccess,
+      () {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.createActionEventCategory,
+          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+        );
+        Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheId, DemarcheStateSource.agenda));
+      },
     );
   }
 }
@@ -119,10 +177,21 @@ class _Body extends StatelessWidget {
       case DisplayState.CONTENT:
         return _Content(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap);
       case DisplayState.EMPTY:
-        return Empty(description: viewModel.emptyMessage);
+        return _emptyPage(context, viewModel);
       case DisplayState.FAILURE:
         return _Retry(viewModel: viewModel);
     }
+  }
+
+  Widget _emptyPage(BuildContext context, AgendaPageViewModel viewModel) {
+    final showNotUpToDateMessage = viewModel.events.isNotEmpty && viewModel.events.first is NotUpToDateAgendaItem;
+    return showNotUpToDateMessage
+        ? ReloadablePage(
+            reloadMessage: Strings.agendaNotUpToDate,
+            emptyMessage: viewModel.emptyMessage,
+            onReload: () => viewModel.reload(DateTime.now()),
+          )
+        : Empty(description: viewModel.emptyMessage);
   }
 }
 
@@ -164,9 +233,25 @@ class _Content extends StatelessWidget {
           if (item is UserActionAgendaItem) return _UserActionAgendaItem(item);
           if (item is CallToActionEventMiloAgendaItem) return _CurrentWeekEmptyMiloCard(agendaPageViewModel: viewModel);
           if (item is DelayedActionsBannerAgendaItem) return _DelayedActionsBanner(item, onActionDelayedTap);
+          if (item is NotUpToDateAgendaItem) return _NotUpToDateMessage(viewModel);
           return SizedBox(height: 0);
         },
       ),
+    );
+  }
+}
+
+class _NotUpToDateMessage extends StatelessWidget {
+  final AgendaPageViewModel agendaPageViewModel;
+
+  const _NotUpToDateMessage(this.agendaPageViewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return NotUpToDateMessage(
+      message: Strings.agendaNotUpToDate,
+      margin: EdgeInsets.only(bottom: Margins.spacing_base),
+      onRefresh: () => agendaPageViewModel.reload(DateTime.now()),
     );
   }
 }
@@ -279,6 +364,7 @@ class _CurrentWeekEmptyMiloCard extends StatelessWidget {
 
 class _WeekSeparator extends StatelessWidget {
   final WeekSeparatorAgendaItem weekSeparator;
+
   const _WeekSeparator(this.weekSeparator);
 
   @override
@@ -323,6 +409,7 @@ class _MessageAgendaItem extends StatelessWidget {
 
 class _UserActionAgendaItem extends StatelessWidget {
   final UserActionAgendaItem userActionAgendaItem;
+
   const _UserActionAgendaItem(this.userActionAgendaItem);
 
   @override
@@ -347,6 +434,7 @@ class _UserActionAgendaItem extends StatelessWidget {
 
 class _RendezvousAgendaItem extends StatelessWidget {
   final RendezvousAgendaItem rendezvousAgendaItem;
+
   const _RendezvousAgendaItem(this.rendezvousAgendaItem);
 
   @override
@@ -365,6 +453,7 @@ class _RendezvousAgendaItem extends StatelessWidget {
 
 class _DemarcheAgendaItem extends StatelessWidget {
   final DemarcheAgendaItem demarcheAgendaItem;
+
   const _DemarcheAgendaItem(this.demarcheAgendaItem);
 
   @override

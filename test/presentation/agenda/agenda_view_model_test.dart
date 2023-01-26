@@ -190,6 +190,19 @@ void main() {
     });
   });
 
+  group('isReloading', () {
+    test('should be true on reloading state', () {
+      // Given
+      final store = givenState().loggedInMiloUser().copyWith(agendaState: AgendaReloadingState()).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.isReloading, isTrue);
+    });
+  });
+
   group('display state', () {
     test('should be loading on not initialize state', () {
       // Given
@@ -205,6 +218,17 @@ void main() {
     test('should be loading on loading state', () {
       // Given
       final store = givenState().loggedInMiloUser().copyWith(agendaState: AgendaLoadingState()).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
+    });
+
+    test('should be loading on reloading state', () {
+      // Given
+      final store = givenState().loggedInMiloUser().copyWith(agendaState: AgendaReloadingState()).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -283,6 +307,38 @@ void main() {
     });
   });
 
+  group('not up to date', () {
+    test('when user is from Pole Emploi and API PE is KO, should have not-up-to-date item at first position', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().agenda(
+        actions: [actionJeudi],
+        delayedActions: 7,
+        dateDerniereMiseAjour: DateTime(2023),
+      ).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.events.first, NotUpToDateAgendaItem());
+    });
+
+    test('when user is from Pole Emploi and API PE is OK, should not have not-up-to-date item', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().agenda(
+        actions: [actionJeudi],
+        delayedActions: 7,
+        dateDerniereMiseAjour: null,
+      ).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.events.first, isNot(isA<NotUpToDateAgendaItem>()));
+    });
+  });
+
   group('delayed items', () {
     test(
         'when user is from Mission Locale should have delayed item at first position when there are some delayed actions',
@@ -355,7 +411,7 @@ void main() {
     viewModel.reload(date);
 
     // Then
-    expectTypeThen<AgendaRequestAction>(store.dispatchedAction, (action) {
+    expectTypeThen<AgendaRequestReloadAction>(store.dispatchedAction, (action) {
       expect(action.maintenant, DateTime(2042));
     });
   });

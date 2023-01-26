@@ -1,10 +1,8 @@
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
 
 class SearchImmersionRequest {
   final String codeRome;
@@ -19,52 +17,28 @@ class SearchImmersionRequest {
 }
 
 class ImmersionRepository {
-  final String _baseUrl;
-  final Client _httpClient;
-
+  final Dio _httpClient;
   final Crashlytics? _crashlytics;
 
-  ImmersionRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
+  ImmersionRepository(this._httpClient, [this._crashlytics]);
 
   Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
-    final url = Uri.parse(_baseUrl + "/offres-immersion").replace(
-      query: _createQuery(request),
-    );
+    const url = "/offres-immersion";
     try {
-      final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes);
-        final list = (json as List).map((offre) => Immersion.fromJson(offre)).toList();
-        return list;
-      }
+      final response = await _httpClient.get(url, queryParameters: _queryParameters(request));
+      return (response.data as List).map((offre) => Immersion.fromJson(offre)).toList();
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return null;
   }
 
-  String _createQuery(SearchImmersionRequest request) {
-    final result = StringBuffer();
-    var separator = "";
-
-    void writeParameter(String key, String value) {
-      result.write(separator);
-      separator = "&";
-      result.write(Uri.encodeQueryComponent(key));
-      result.write("=");
-      result.write(Uri.encodeQueryComponent(value));
-    }
-
-    writeParameter("rome", request.codeRome);
-    final location = request.location;
-    if (location != null) {
-      writeParameter("lat", location.latitude.toString());
-      writeParameter("lon", location.longitude.toString());
-    }
-
-    if (request.filtres.distance != null) {
-      writeParameter("distance", request.filtres.distance.toString());
-    }
-    return result.toString();
+  Map<String, String> _queryParameters(SearchImmersionRequest request) {
+    return {
+      'rome': request.codeRome,
+      if (request.location != null) 'lat': request.location!.latitude.toString(),
+      if (request.location != null) 'lon': request.location!.longitude.toString(),
+      if (request.filtres.distance != null) 'distance': request.filtres.distance.toString(),
+    };
   }
 }

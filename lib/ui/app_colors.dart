@@ -46,6 +46,9 @@ class AppColors {
   static const Color grey700 = Color(0xFF878787);
   static const Color grey800 = Color(0xFF646464);
 
+  // Additional colors
+  static const Color additional1Lighten = Color(0xFFFFD88D);
+
   // Miscellaneous
   static const Color shadowColor = Color.fromARGB(10, 50, 0, 1);
   static const Color favoriteHeartColor = Color(0xFFFF8D7E);

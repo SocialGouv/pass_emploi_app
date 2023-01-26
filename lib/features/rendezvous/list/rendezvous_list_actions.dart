@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
 
 enum RendezvousPeriod { PASSE, FUTUR }
 
@@ -14,11 +14,23 @@ class RendezvousListLoadingAction {
   RendezvousListLoadingAction(this.period);
 }
 
-class RendezvousListSuccessAction {
-  final List<Rendezvous> rendezvous;
+class RendezvousListRequestReloadAction {
   final RendezvousPeriod period;
 
-  RendezvousListSuccessAction(this.rendezvous, this.period);
+  RendezvousListRequestReloadAction(this.period);
+}
+
+class RendezvousListReloadingAction {
+  final RendezvousPeriod period;
+
+  RendezvousListReloadingAction(this.period);
+}
+
+class RendezvousListSuccessAction {
+  final RendezvousListResult rendezvousListResult;
+  final RendezvousPeriod period;
+
+  RendezvousListSuccessAction(this.rendezvousListResult, this.period);
 }
 
 class RendezvousListFailureAction {

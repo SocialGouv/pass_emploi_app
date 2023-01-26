@@ -62,12 +62,14 @@ extension AppStateDSL on AppState {
   AppState rendezvousFutur(List<Rendezvous> rendezvous) =>
       copyWith(rendezvousListState: RendezvousListState.successfulFuture(rendezvous));
 
-  AppState rendezvous(List<Rendezvous> rendezvous) =>
-      copyWith(rendezvousListState: RendezvousListState.successful(rendezvous));
+  AppState rendezvous(List<Rendezvous> rendezvous, [DateTime? dateDerniereMiseAJour]) =>
+      copyWith(rendezvousListState: RendezvousListState.successful(rendezvous, dateDerniereMiseAJour));
 
   AppState rendezvousNotInitialized() => copyWith(rendezvousListState: RendezvousListState.notInitialized());
 
   AppState loadingFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.loadingFuture());
+
+  AppState reloadingFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.reloadingFuture());
 
   AppState failedFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.failedFuture());
 
@@ -194,6 +196,7 @@ extension AppStateDSL on AppState {
     List<Rendezvous>? rendezvous,
     int delayedActions = 0,
     DateTime? dateDeDebut,
+    DateTime? dateDerniereMiseAjour,
   }) {
     return copyWith(
       agendaState: AgendaSuccessState(Agenda(
@@ -202,6 +205,7 @@ extension AppStateDSL on AppState {
         rendezvous: rendezvous ?? [],
         delayedActions: delayedActions,
         dateDeDebut: dateDeDebut ?? DateTime(2042),
+        dateDerniereMiseAJour: dateDerniereMiseAjour,
       )),
     );
   }

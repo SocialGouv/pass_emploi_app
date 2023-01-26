@@ -81,7 +81,7 @@ void main() {
     expect(viewModel.secteurActivite, "incomplete-secteur");
     expect(viewModel.ville, "incomplete-ville");
     expect(viewModel.address, isNull);
-    expect(viewModel.explanationLabel, isNull);
+    expect(viewModel.fromEntrepriseAccueillante, isFalse);
     expect(viewModel.contactLabel, isNull);
     expect(viewModel.contactInformation, isNull);
     expect(viewModel.withSecondaryCallToActions, isNull);
@@ -89,77 +89,27 @@ void main() {
     expect(viewModel.secondaryCallToActions, isNull);
   });
 
-  group('Explanation label…', () {
-    test('when enterprise is not volontaire', () {
+  group('from entreprise accueillante', () {
+    test('when entreprise is accueillante should return true', () {
       // Given
-      final store = _successStore(_mockImmersion(isVolontaire: false));
+      final store = _successStore(_mockImmersion(fromEntrepriseAccueillante: true));
 
       // When
       final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
-      expect(
-        viewModel.explanationLabel,
-        'Cette entreprise peut recruter sur ce métier et être intéressée pour vous recevoir en immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.',
-      );
+      expect(viewModel.fromEntrepriseAccueillante, isTrue);
     });
 
-    group('when enterprise is volontaire…', () {
-      test('… and contact mode is unknown', () {
-        // Given
-        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.INCONNU));
+    test('when entreprise is not accueillante should return false', () {
+      // Given
+      final store = _successStore(_mockImmersion(fromEntrepriseAccueillante: false));
 
-        // When
-        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
-        // Then
-        expect(
-          viewModel.explanationLabel,
-          'Cette entreprise recherche activement des candidats à l’immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.',
-        );
-      });
-
-      test('… and contact mode is phone', () {
-        // Given
-        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.PHONE));
-
-        // When
-        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-        // Then
-        expect(
-          viewModel.explanationLabel,
-          'Cette entreprise recherche activement des candidats à l’immersion. Contactez-la par téléphone en expliquant votre projet professionnel et vos motivations.',
-        );
-      });
-
-      test('… and contact mode is mail', () {
-        // Given
-        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.MAIL));
-
-        // When
-        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-        // Then
-        expect(
-          viewModel.explanationLabel,
-          'Cette entreprise recherche activement des candidats à l’immersion. Contactez-la par e-mail en expliquant votre projet professionnel et vos motivations.\n\nVous n’avez pas besoin d’envoyer un CV.',
-        );
-      });
-
-      test('… and contact mode is in person', () {
-        // Given
-        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.PRESENTIEL));
-
-        // When
-        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-        // Then
-        expect(
-          viewModel.explanationLabel,
-          'Cette entreprise recherche activement des candidats à l’immersion. Rendez-vous directement sur place pour expliquer votre projet professionnel et vos motivations.',
-        );
-      });
+      // Then
+      expect(viewModel.fromEntrepriseAccueillante, isFalse);
     });
   });
 
@@ -476,7 +426,7 @@ Store<AppState> _store(ImmersionDetailsState immersionDetailsState) {
 Store<AppState> _successStore(ImmersionDetails immersion) => _store(ImmersionDetailsSuccessState(immersion));
 
 ImmersionDetails _mockImmersion({
-  bool isVolontaire = false,
+  bool fromEntrepriseAccueillante = false,
   ImmersionContactMode mode = ImmersionContactMode.INCONNU,
 }) {
   return ImmersionDetails(
@@ -486,7 +436,7 @@ ImmersionDetails _mockImmersion({
     secteurActivite: 'Secteur',
     ville: 'Ville',
     address: 'Adresse',
-    isVolontaire: isVolontaire,
+    fromEntrepriseAccueillante: fromEntrepriseAccueillante,
     contact: ImmersionContact(
       firstName: '',
       lastName: '',
@@ -506,7 +456,7 @@ ImmersionDetails _mockImmersionWithContact(ImmersionContact? contact, {String? a
     secteurActivite: '',
     ville: '',
     address: address ?? '',
-    isVolontaire: true,
+    fromEntrepriseAccueillante: true,
     contact: contact,
   );
 }

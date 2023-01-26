@@ -24,6 +24,15 @@ class TextStyles {
     );
   }
 
+  static TextStyle textSMedium({Color color = AppColors.contentColor}) {
+    return TextStyle(
+      color: color,
+      fontSize: FontSizes.normal,
+      fontWeight: FontWeight.w500,
+      fontFamily: 'Marianne',
+    );
+  }
+
   static TextStyle textSBoldWithColor(Color color) {
     return TextStyle(
       color: color,

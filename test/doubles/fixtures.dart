@@ -165,7 +165,7 @@ Configuration configuration({Version version = const Version(1, 0, 0), Flavor fl
     'authClientSecret',
     'someKey',
     'actualisationPoleEmploiUrl',
-    'Europe/Paris'
+    'Europe/Paris',
   );
 }
 
@@ -185,8 +185,15 @@ Location mockCommuneLocation({double? lat, double? lon, String label = ""}) => L
       longitude: lon,
     );
 
-Immersion mockImmersion({String id = ""}) {
-  return Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
+Immersion mockImmersion({String id = "", bool fromEntrepriseAccueillante = false}) {
+  return Immersion(
+    id: id,
+    metier: "",
+    nomEtablissement: "",
+    secteurActivite: "",
+    ville: "",
+    fromEntrepriseAccueillante: fromEntrepriseAccueillante,
+  );
 }
 
 ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(

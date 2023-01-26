@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -23,6 +24,7 @@ import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class UserActionListPage extends StatefulWidget {
   @override
@@ -39,9 +41,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
         builder: (context, viewModel) => _scaffold(context, viewModel),
         converter: (store) => UserActionListPageViewModel.create(store),
         distinct: true,
-        onDidChange: (previousViewModel, viewModel) {
-          _openDeeplinkIfNeeded(viewModel, context);
-        },
+        onDidChange: (previousViewModel, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
         onDispose: (store) => store.dispatch(UserActionListResetAction()),
       ),
     );
@@ -122,7 +122,30 @@ class _UserActionListPageState extends State<UserActionListPage> {
       onPressed: () => showPassEmploiBottomSheet(
         context: context,
         builder: (context) => CreateUserActionBottomSheet(),
-      ).then((value) => _onCreateUserActionDismissed(viewModel)),
+      ).then((value) {
+        if (value != null) {
+          _showSnackBarWithDetail(value as String);
+          _onCreateUserActionDismissed(viewModel);
+        }
+      }),
+    );
+  }
+
+  void _showSnackBarWithDetail(String userActionId) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
+    );
+    showSuccessfulSnackBar(
+      context,
+      Strings.createActionSuccess,
+      () {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.createActionEventCategory,
+          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+        );
+        Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.list));
+      },
     );
   }
 

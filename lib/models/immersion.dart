@@ -6,6 +6,7 @@ class Immersion extends Equatable {
   final String nomEtablissement;
   final String secteurActivite;
   final String ville;
+  final bool fromEntrepriseAccueillante;
 
   Immersion({
     required this.id,
@@ -13,6 +14,7 @@ class Immersion extends Equatable {
     required this.nomEtablissement,
     required this.secteurActivite,
     required this.ville,
+    this.fromEntrepriseAccueillante = false,
   });
 
   factory Immersion.fromJson(dynamic json) {
@@ -22,9 +24,10 @@ class Immersion extends Equatable {
       nomEtablissement: json['nomEtablissement'] as String,
       secteurActivite: json['secteurActivite'] as String,
       ville: json['ville'] as String,
+      fromEntrepriseAccueillante: json['estVolontaire'] as bool? ?? false,
     );
   }
 
   @override
-  List<Object?> get props => [id, metier, nomEtablissement, secteurActivite, ville];
+  List<Object?> get props => [id, metier, nomEtablissement, secteurActivite, ville, fromEntrepriseAccueillante];
 }

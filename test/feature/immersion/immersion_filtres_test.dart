@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:redux/src/store.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
@@ -80,7 +80,7 @@ Store<AppState> _initializeReduxStore(TestStoreFactory testStoreFactory) {
 }
 
 class ImmersionRepositorySuccessWithMoreDataMock extends ImmersionRepository {
-  ImmersionRepositorySuccessWithMoreDataMock() : super("", DummyHttpClient());
+  ImmersionRepositorySuccessWithMoreDataMock() : super(DioMock());
 
   bool wasCalledWithFiltres = false;
 

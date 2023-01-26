@@ -4,10 +4,15 @@ class DemarcheListRequestAction {}
 
 class DemarcheListLoadingAction {}
 
+class DemarcheListRequestReloadAction {}
+
+class DemarcheListReloadingAction {}
+
 class DemarcheListSuccessAction {
   final List<Demarche> demarches;
+  final DateTime? dateDerniereMiseAJour;
 
-  DemarcheListSuccessAction(this.demarches);
+  DemarcheListSuccessAction(this.demarches, [this.dateDerniereMiseAJour]);
 }
 
 class DemarcheListFailureAction {}

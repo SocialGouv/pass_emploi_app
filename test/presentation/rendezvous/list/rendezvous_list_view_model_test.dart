@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
@@ -8,9 +9,9 @@ import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_vie
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-import '../../doubles/fixtures.dart';
-import '../../doubles/spies.dart';
-import '../../dsl/app_state_dsl.dart';
+import '../../../doubles/fixtures.dart';
+import '../../../doubles/spies.dart';
+import '../../../dsl/app_state_dsl.dart';
 
 void main() {
   final DateTime thursday3thFebruary = DateTime(2022, 2, 3, 4, 5, 30);
@@ -36,6 +37,28 @@ void main() {
 
       // Then
       expect(viewModel.displayState, DisplayState.LOADING);
+    });
+
+    test('when reloading should display loading', () {
+      // Given
+      final store = givenState().loggedInUser().reloadingFutureRendezvous().store();
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
+    });
+
+    test('when reloading should be reloading', () {
+      // Given
+      final store = givenState().loggedInUser().reloadingFutureRendezvous().store();
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+
+      // Then
+      expect(viewModel.isReloading, true);
     });
 
     test('should display failure', () {
@@ -67,6 +90,24 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
       expect(viewModel.withPreviousPageButton, true);
+    });
+
+    test("should display technical message when data are not up to date", () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().rendezvous([], DateTime(2023, 1, 1)).store();
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+      // Then
+      expect(viewModel.rendezvousItems.first, RendezvousNotUpToDateItem());
+    });
+
+    test("should not display technical message when data are up to date", () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().rendezvous([]).store();
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+      // Then
+      expect(viewModel.rendezvousItems.firstOrNull, isNot(isA<RendezvousNotUpToDateItem>()));
     });
   });
 
@@ -144,7 +185,7 @@ void main() {
         expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous passés");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-past");
-        expect(viewModel.rendezvous, [
+        expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Janvier 2022 (2)",
             displayedRendezvous: ["semaine passée 1", "passés lointain 1"],
@@ -170,7 +211,7 @@ void main() {
         expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus cette semaine");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-0");
-        expect(viewModel.rendezvous, [
+        expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Samedi 5 février",
             displayedRendezvous: ["cette semaine après-demain 1"],
@@ -197,7 +238,7 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 07/02/2022 au 13/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-1");
-        expect(viewModel.rendezvous, [
+        expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 7 février",
             displayedRendezvous: ["semaine+1 lundi"],
@@ -228,7 +269,7 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 14/02/2022 au 20/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-2");
-        expect(viewModel.rendezvous, [
+        expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 14 février",
             displayedRendezvous: ["semaine+2 lundi"],
@@ -259,7 +300,7 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 21/02/2022 au 27/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-3");
-        expect(viewModel.rendezvous, [
+        expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 21 février",
             displayedRendezvous: ["semaine+3 lundi"],
@@ -290,7 +331,7 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 28/02/2022 au 06/03/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-4");
-        expect(viewModel.rendezvous, [
+        expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 28 février",
             displayedRendezvous: ["semaine+4 lundi"],
@@ -320,7 +361,7 @@ void main() {
         expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-future");
-        expect(viewModel.rendezvous, [
+        expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Mars 2022 (1)",
             displayedRendezvous: ["mois futur lundi 7 mars"],
@@ -362,7 +403,10 @@ void main() {
           final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
           // Then
           expect(
-            viewModel.rendezvous.indexWhere((section) => section.expandableRendezvous.isNotEmpty) != -1,
+            viewModel.rendezvousItems.indexWhere((item) {
+                  return item is RendezvousSection && item.expandableRendezvous.isNotEmpty;
+                }) !=
+                -1,
             shouldBeExpandable,
           );
         });
@@ -429,7 +473,7 @@ void main() {
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
         // Then
         expect(viewModel.withPreviousPageButton, true);
-        expect(viewModel.rendezvous, [
+        expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Dimanche 6 février",
             displayedRendezvous: ["cette semaine dimanche"],
@@ -443,7 +487,7 @@ void main() {
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
         // Then
-        expect(viewModel.rendezvous, [
+        expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Février 2022 (2)",
             displayedRendezvous: ["cette semaine mardi", "cette semaine lundi"],
@@ -633,9 +677,10 @@ void main() {
 
       // Then
       final dispatchedAction = store.dispatchedAction;
-      expect(dispatchedAction, isA<RendezvousListRequestAction>());
-      if (dispatchedAction is RendezvousListRequestAction) {
+      if (dispatchedAction is RendezvousListRequestReloadAction) {
         expect(dispatchedAction.period, expectedPeriod);
+      } else {
+        expect(dispatchedAction, isA<RendezvousListRequestAction>());
       }
     }
 

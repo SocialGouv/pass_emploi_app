@@ -1,4 +1,3 @@
-import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
@@ -12,13 +11,20 @@ class RendezvousListMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    final loginState = store.state.loginState;
-    if (loginState is! LoginSuccessState || action is! RendezvousListRequestAction) return;
 
-    store.dispatch(RendezvousListLoadingAction(action.period));
-    final result = await _repository.getRendezvousList(loginState.user.id, action.period);
-    store.dispatch(
-      result != null ? RendezvousListSuccessAction(result, action.period) : RendezvousListFailureAction(action.period),
-    );
+    final userId = store.state.userId();
+    if (userId == null) return;
+
+    if (action is RendezvousListRequestAction || action is RendezvousListRequestReloadAction) {
+      final period = action.period as RendezvousPeriod;
+      store.dispatch(action is RendezvousListRequestAction
+          ? RendezvousListLoadingAction(period)
+          : RendezvousListReloadingAction(period));
+      final result = await _repository.getRendezvousList(userId, period);
+      store.dispatch(result != null
+          ? RendezvousListSuccessAction(result, period) //
+          : RendezvousListFailureAction(period));
+    }
+    return;
   }
 }

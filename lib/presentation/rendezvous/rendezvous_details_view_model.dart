@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -32,6 +33,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final bool withDescriptionPart;
   final bool withModalityPart;
   final bool withIfAbsentPart;
+  final String? withDateDerniereMiseAJour;
   final bool isShareable;
   final VisioButtonState visioButtonState;
   final Function() onRetry;
@@ -66,6 +68,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.withDescriptionPart,
     required this.withModalityPart,
     required this.withIfAbsentPart,
+    this.withDateDerniereMiseAJour,
     required this.isShareable,
     required this.visioButtonState,
     required this.onRetry,
@@ -92,6 +95,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required Platform platform,
   }) {
     final rdv = _getRendezvous(store, source, rdvId);
+    final dateDerniereMiseAJour = _getDateDerniereMiseAJour(store, source);
     if (rdv == null) return RendezvousDetailsViewModel._createBlankRendezvous(store, rdvId);
     final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
@@ -116,6 +120,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withDescriptionPart: rdv.description != null || rdv.theme != null,
       withModalityPart: _withModalityPart(rdv),
       withIfAbsentPart: (source != RendezvousStateSource.eventList || isInscrit),
+      withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
       isShareable: (source == RendezvousStateSource.eventList && isInscrit == false),
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
@@ -175,6 +180,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withDescriptionPart,
       withModalityPart,
       withIfAbsentPart,
+      withDateDerniereMiseAJour,
       isShareable,
       visioButtonState,
       trackingPageName,
@@ -193,6 +199,20 @@ class RendezvousDetailsViewModel extends Equatable {
       description,
     ];
   }
+}
+
+DateTime? _getDateDerniereMiseAJour(Store<AppState> store, RendezvousStateSource source) {
+  if (source == RendezvousStateSource.agenda && store.state.agendaState is AgendaSuccessState) {
+    return (store.state.agendaState as AgendaSuccessState).agenda.dateDerniereMiseAJour;
+  } else if (source == RendezvousStateSource.rendezvousList) {
+    return store.state.rendezvousListState.dateDerniereMiseAJour;
+  }
+  return null;
+}
+
+String? _withDateDerniereMiseAJour(DateTime? dateDerniereMiseAJour) {
+  if (dateDerniereMiseAJour == null) return null;
+  return Strings.dateDerniereMiseAJourRendezvous(dateDerniereMiseAJour.toDayandHour());
 }
 
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }

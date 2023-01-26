@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
@@ -215,7 +216,7 @@ class _PopUpActualisationPe extends StatelessWidget {
             heightPadding: 8,
             iconSize: 16.0,
             fontSize: fontSize,
-            onPressed: () => launchExternalUrl(actualisationPoleEmploiUrl),
+            onPressed: () => _onActualisationPressed(context),
           ),
           SizedBox(height: Margins.spacing_base),
           SecondaryButton(
@@ -226,5 +227,11 @@ class _PopUpActualisationPe extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _onActualisationPressed(BuildContext context) {
+    Navigator.pop(context);
+    PassEmploiMatomoTracker.instance.trackOutlink(actualisationPoleEmploiUrl);
+    launchExternalUrl(actualisationPoleEmploiUrl);
   }
 }

@@ -5,19 +5,18 @@ import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart'
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/redux/app_reducer.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
   test('create when demarche state is loading should display loader', () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(demarcheListState: DemarcheListLoadingState()),
-    );
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(demarcheListState: DemarcheListLoadingState())
+        .store();
 
     // When
     final viewModel = DemarcheListPageViewModel.create(store);
@@ -28,10 +27,10 @@ void main() {
 
   test('create when demarche state is not initialized should display loader', () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(demarcheListState: DemarcheListNotInitializedState()),
-    );
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(demarcheListState: DemarcheListNotInitializedState())
+        .store();
 
     // When
     final viewModel = DemarcheListPageViewModel.create(store);
@@ -42,10 +41,10 @@ void main() {
 
   test('create when demarche state is a failure should display failure', () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(demarcheListState: DemarcheListFailureState()),
-    );
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(demarcheListState: DemarcheListFailureState())
+        .store();
 
     // When
     final viewModel = DemarcheListPageViewModel.create(store);
@@ -57,52 +56,48 @@ void main() {
   test('retry, after view model was created with failure, should dispatch a DemarcheListRequestAction', () {
     // Given
     final storeSpy = StoreSpy();
-    final store = Store<AppState>(
-      storeSpy.reducer,
-      initialState: loggedInState().copyWith(demarcheListState: DemarcheListFailureState()),
-    );
-    final viewModel = DemarcheListPageViewModel.create(store);
+    final viewModel = DemarcheListPageViewModel.create(storeSpy);
 
     // When
     viewModel.onRetry();
 
     // Then
-    expect(storeSpy.calledWithRetry, true);
+    expect(storeSpy.dispatchedAction, isA<DemarcheListRequestReloadAction>());
   });
 
   test(
       "create when demarche state is success with active, retarded, done, cancelled demarche and campagne should sort it correctly and put campagne in first position",
       () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(
-        demarcheListState: DemarcheListSuccessState(
-          [
-            mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
-            mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
-            mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
-            mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
-            mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
-            mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
-            mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
-            mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
-            mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
-            mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
-            mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
-            mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
-          ],
-        ),
-        campagneState: CampagneState(campagne(), []),
-      ),
-    );
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(
+          demarcheListState: DemarcheListSuccessState(
+            [
+              mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
+              mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
+              mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
+              mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
+              mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
+              mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
+              mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
+              mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
+              mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
+              mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
+              mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
+              mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
+            ],
+          ),
+          campagneState: CampagneState(campagne(), []),
+        )
+        .store();
 
     // When
     final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
     expect(viewModel.items.length, 13);
-    expect(viewModel.items[0] is DemarcheCampagneItemViewModel, isTrue);
+    expect(viewModel.items.first, isA<DemarcheCampagneItem>());
 
     for (var i = 1; i < 7; ++i) {
       expect((viewModel.items[i] as IdItem).demarcheId, isIn(['IN_PROGRESS', 'NOT_STARTED']));
@@ -116,13 +111,13 @@ void main() {
       'create when demarche state is success but there are no demarche and no campagne neither should display an empty message',
       () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(
-        demarcheListState: DemarcheListSuccessState([]),
-        campagneState: CampagneState(null, []),
-      ),
-    );
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(
+          demarcheListState: DemarcheListSuccessState([]),
+          campagneState: CampagneState(null, []),
+        )
+        .store();
 
     // When
     final viewModel = DemarcheListPageViewModel.create(store);
@@ -135,13 +130,13 @@ void main() {
   test('create when demarche state is success but there are no demarches but a campagne should display a campagne card',
       () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(
-        demarcheListState: DemarcheListSuccessState([]),
-        campagneState: CampagneState(campagne(), []),
-      ),
-    );
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(
+          demarcheListState: DemarcheListSuccessState([]),
+          campagneState: CampagneState(campagne(), []),
+        )
+        .store();
 
     // When
     final viewModel = DemarcheListPageViewModel.create(store);
@@ -149,15 +144,51 @@ void main() {
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items.length, 1);
-    expect(viewModel.items[0] is DemarcheCampagneItemViewModel, isTrue);
+    expect(viewModel.items.first, isA<DemarcheCampagneItem>());
   });
-}
 
-class StoreSpy {
-  var calledWithRetry = false;
+  test("should display technical message when data are not up to date", () {
+    // Given
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(
+          demarcheListState: DemarcheListSuccessState([], DateTime(2023, 1, 1)),
+          campagneState: CampagneState(null, []),
+        )
+        .store();
 
-  AppState reducer(AppState currentState, dynamic action) {
-    if (action is DemarcheListRequestAction) calledWithRetry = true;
-    return currentState;
-  }
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.items.first, isA<DemarcheNotUpToDateItem>());
+  });
+
+  test('should be reloading on reload', () {
+    // Given
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(demarcheListState: DemarcheListReloadingState())
+        .store();
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.isReloading, isTrue);
+  });
+
+  test('should display loading on reload state', () {
+    // Given
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(demarcheListState: DemarcheListReloadingState())
+        .store();
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.LOADING);
+  });
 }

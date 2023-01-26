@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 
 class CardContainer extends StatelessWidget {
   const CardContainer({super.key, required this.child, this.onTap});
+
   final Widget child;
   final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     const Color cardBackgroundColor = Colors.white;
-    final BorderRadius cardBorderRadius = BorderRadius.circular(16);
+    final BorderRadius cardBorderRadius = BorderRadius.circular(Dimens.radius_s);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: cardBackgroundColor,
         borderRadius: cardBorderRadius,
-        boxShadow: [
-          Shadows.boxShadow,
-        ],
+        boxShadow: [Shadows.boxShadow],
       ),
       child: Material(
           color: cardBackgroundColor,

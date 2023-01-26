@@ -2,12 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 
-import '../dsl/sut_repository.dart';
+import '../dsl/sut_repository2.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  final sut = RepositorySut<DetailsJeuneRepository>();
-  sut.givenRepository((client) => DetailsJeuneRepository("BASE_URL", client));
+  final sut = RepositorySut2<DetailsJeuneRepository>();
+  sut.givenRepository((client) => DetailsJeuneRepository(client));
 
   group("fetch", () {
     sut.when((repository) => repository.fetch("id-jeune"));
@@ -17,8 +17,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "GET",
-          url: "BASE_URL/jeunes/id-jeune",
+          method: HttpMethod.get,
+          url: "/jeunes/id-jeune",
         );
       });
 

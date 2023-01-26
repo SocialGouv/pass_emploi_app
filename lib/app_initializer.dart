@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart' hide Lock;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -27,8 +28,14 @@ import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
 import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/auth_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/cache_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/demo_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/expired_token_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/logging_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/monitoring_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
@@ -155,38 +162,37 @@ class AppInitializer {
     );
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
     final authAccessChecker = AuthAccessChecker();
-    final defaultContext = SecurityContext.defaultContext;
-    final modeDemoRepository = ModeDemoRepository();
-    try {
-      defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
-    } catch (e, stack) {
-      crashlytics.recordNonNetworkException(e, stack);
-    }
-    final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
     final requestCacheManager = PassEmploiCacheManager.requestCache();
-    final monitoringInterceptor = MonitoringInterceptor(InstallationIdRepository(securedPreferences));
-    final modeDemoClient = ModeDemoClient(
+    final modeDemoRepository = ModeDemoRepository();
+    final installationIdRepository = InstallationIdRepository(securedPreferences);
+    final monitoringInterceptor = MonitoringInterceptor(installationIdRepository);
+    final httpClient = _makeHttpClient(
       modeDemoRepository,
-      HttpClientWithCache(requestCacheManager, clientWithCertificate),
-    );
-    final httpClient = InterceptedClient.build(
-      client: modeDemoClient,
-      interceptors: [
-        monitoringInterceptor,
-        AccessTokenInterceptor(accessTokenRetriever, modeDemoRepository),
-        LogoutInterceptor(authAccessChecker),
-        LoggingInterceptor(),
-      ],
+      accessTokenRetriever,
+      requestCacheManager,
+      authAccessChecker,
+      monitoringInterceptor,
+      crashlytics,
+      configuration,
     );
     logoutRepository.setHttpClient(httpClient);
     logoutRepository.setCacheManager(requestCacheManager);
-    final chatCrypto = ChatCrypto();
     final baseUrl = configuration.serverBaseUrl;
+    final monitoringDioInterceptor = MonitoringDioInterceptor(installationIdRepository);
+    final dioClient = _makeDioClient(
+      baseUrl,
+      modeDemoRepository,
+      accessTokenRetriever,
+      requestCacheManager,
+      authAccessChecker,
+      monitoringDioInterceptor,
+    );
+    final chatCrypto = ChatCrypto();
     final reduxStore = StoreFactory(
       authenticator,
       crashlytics,
       chatCrypto,
-      PageActionRepository(baseUrl, httpClient, crashlytics),
+      PageActionRepository(dioClient, crashlytics),
       PageDemarcheRepository(baseUrl, httpClient, crashlytics),
       RendezvousRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, crashlytics),
@@ -198,7 +204,7 @@ class AppInitializer {
       ServiceCiviqueFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       SearchLocationRepository(baseUrl, httpClient, crashlytics),
       MetierRepository(baseUrl, httpClient),
-      ImmersionRepository(baseUrl, httpClient, crashlytics),
+      ImmersionRepository(dioClient, crashlytics),
       ImmersionDetailsRepository(baseUrl, httpClient, crashlytics),
       FirebaseAuthRepository(baseUrl, httpClient, crashlytics),
       FirebaseAuthWrapper(),
@@ -210,30 +216,82 @@ class AppInitializer {
       SavedSearchDeleteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, crashlytics),
-      DetailsJeuneRepository(baseUrl, httpClient, crashlytics),
+      DetailsJeuneRepository(dioClient, crashlytics),
       SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
       modeDemoRepository,
       CampagneRepository(baseUrl, httpClient, crashlytics),
       PassEmploiMatomoTracker.instance,
       UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
-      CreateDemarcheRepository(baseUrl, httpClient, crashlytics),
+      CreateDemarcheRepository(dioClient, crashlytics),
       SearchDemarcheRepository(baseUrl, httpClient, crashlytics),
       PieceJointeRepository(baseUrl, httpClient, crashlytics),
       TutorialRepository(securedPreferences),
       PartageActiviteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       RatingRepository(securedPreferences),
       ActionCommentaireRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      AgendaRepository(baseUrl, httpClient, crashlytics),
+      AgendaRepository(dioClient, crashlytics),
       SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       EventListRepository(baseUrl, httpClient, crashlytics),
-      configuration
+      installationIdRepository,
+      configuration,
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
     monitoringInterceptor.setStore(reduxStore);
+    monitoringDioInterceptor.setStore(reduxStore);
     chatCrypto.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
     return reduxStore;
+  }
+
+  Dio _makeDioClient(
+    String baseUrl,
+    ModeDemoRepository modeDemoRepository,
+    AuthAccessTokenRetriever accessTokenRetriever,
+    PassEmploiCacheManager requestCacheManager,
+    AuthAccessChecker authAccessChecker,
+    MonitoringDioInterceptor monitoringDioInterceptor,
+  ) {
+    final options = BaseOptions(baseUrl: baseUrl);
+    final dioClient = Dio(options);
+    dioClient.interceptors.add(DemoDioInterceptor(modeDemoRepository));
+    dioClient.interceptors.add(monitoringDioInterceptor);
+    dioClient.interceptors.add(AuthDioInterceptor(accessTokenRetriever));
+    dioClient.interceptors.add(CacheDioInterceptor(requestCacheManager));
+    dioClient.interceptors.add(LoggingNetworkDioInterceptor());
+    dioClient.interceptors.add(ExpiredTokenDioInterceptor(authAccessChecker));
+    return dioClient;
+  }
+
+  Client _makeHttpClient(
+    ModeDemoRepository modeDemoRepository,
+    AuthAccessTokenRetriever accessTokenRetriever,
+    PassEmploiCacheManager requestCacheManager,
+    AuthAccessChecker authAccessChecker,
+    MonitoringInterceptor monitoringInterceptor,
+    CrashlyticsWithFirebase crashlytics,
+    Configuration configuration,
+  ) {
+    final defaultContext = SecurityContext.defaultContext;
+    try {
+      defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
+    } catch (e, stack) {
+      crashlytics.recordNonNetworkException(e, stack);
+    }
+    final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
+    final modeDemoClient = ModeDemoClient(
+      modeDemoRepository,
+      HttpClientWithCache(requestCacheManager, clientWithCertificate),
+    );
+    return InterceptedClient.build(
+      client: modeDemoClient,
+      interceptors: [
+        monitoringInterceptor,
+        AccessTokenInterceptor(accessTokenRetriever, modeDemoRepository),
+        LogoutInterceptor(authAccessChecker),
+        LoggingInterceptor(),
+      ],
+    );
   }
 }

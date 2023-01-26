@@ -32,6 +32,7 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -57,6 +58,7 @@ import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
+import 'dio_mock.dart';
 import 'dummies_for_cache.dart';
 import 'fixtures.dart';
 
@@ -129,7 +131,7 @@ class DummyAuthWrapper extends AuthWrapper {
 class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyPageActionRepository extends PageActionRepository {
-  DummyPageActionRepository() : super("", DummyHttpClient());
+  DummyPageActionRepository() : super(DioMock());
 }
 
 class DummyPageDemarcheRepository extends PageDemarcheRepository {
@@ -159,6 +161,9 @@ class DummyCrashlytics extends Crashlytics {
 
   @override
   void recordNonNetworkException(dynamic exception, [StackTrace? stack, Uri? failingEndpoint]) {}
+
+  @override
+  void recordNonNetworkExceptionUrl(dynamic exception, [StackTrace? stack, String? failingEndpoint]) {}
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
@@ -194,7 +199,7 @@ class DummyFirebaseAuthWrapper extends FirebaseAuthWrapper {
 }
 
 class DummyImmersionRepository extends ImmersionRepository {
-  DummyImmersionRepository() : super("", DummyHttpClient());
+  DummyImmersionRepository() : super(DioMock());
 }
 
 class DummyImmersionDetailsRepository extends ImmersionDetailsRepository {
@@ -255,7 +260,7 @@ class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisReposito
 }
 
 class DummyDetailsJeuneRepository extends DetailsJeuneRepository {
-  DummyDetailsJeuneRepository() : super("", DummyHttpClient());
+  DummyDetailsJeuneRepository() : super(DioMock());
 }
 
 class DummyLogoutRepository extends LogoutRepository {
@@ -318,7 +323,7 @@ class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {
 }
 
 class DummySuccessCreateDemarcheRepository extends CreateDemarcheRepository {
-  DummySuccessCreateDemarcheRepository() : super("", DummyHttpClient());
+  DummySuccessCreateDemarcheRepository() : super(DioMock());
 }
 
 class DummyDemarcheDuReferentielRepository extends SearchDemarcheRepository {
@@ -339,7 +344,7 @@ class DummyActionCommentaireRepository extends ActionCommentaireRepository {
 }
 
 class DummyAgendaRepository extends AgendaRepository {
-  DummyAgendaRepository() : super("", DummyHttpClient());
+  DummyAgendaRepository() : super(DioMock());
 }
 
 class DummySuggestionsRechercheRepository extends SuggestionsRechercheRepository {
@@ -352,6 +357,10 @@ class DummyEventListRepository extends EventListRepository {
 
 class DummyMetierRepository extends MetierRepository {
   DummyMetierRepository() : super("", DummyHttpClient());
+}
+
+class DummyInstallationIdRepository extends InstallationIdRepository {
+  DummyInstallationIdRepository() : super(DummySharedPreferences());
 }
 
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

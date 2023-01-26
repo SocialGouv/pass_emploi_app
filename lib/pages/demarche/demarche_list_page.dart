@@ -14,12 +14,16 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
+import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
+import 'package:pass_emploi_app/widgets/reloadable_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class DemarcheListPage extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
@@ -32,6 +36,7 @@ class DemarcheListPage extends StatelessWidget {
         onInit: (store) => store.dispatch(DemarcheListRequestAction()),
         builder: (context, viewModel) => _scaffold(context, viewModel),
         converter: (store) => DemarcheListPageViewModel.create(store),
+        onDidChange: (previous, current) => _onDidChange(context, previous, current),
         distinct: true,
         onDispose: (store) => store.dispatch(DemarcheListResetAction()),
       ),
@@ -60,7 +65,7 @@ class DemarcheListPage extends StatelessWidget {
       case DisplayState.LOADING:
         return Center(child: CircularProgressIndicator());
       case DisplayState.EMPTY:
-        return Empty(description: Strings.emptyContentTitle(Strings.demarchesToDo));
+        return _emptyPage(context, viewModel);
       case DisplayState.FAILURE:
         return Center(child: Retry(Strings.demarchesError, () => viewModel.onRetry()));
     }
@@ -84,16 +89,39 @@ class DemarcheListPage extends StatelessWidget {
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
   Widget _listItem(BuildContext context, DemarcheListItem item, DemarcheListPageViewModel viewModel) {
-    if (item is DemarcheCampagneItemViewModel) {
+    if (item is DemarcheCampagneItem) {
       return _CampagneCard(title: item.titre, description: item.description);
+    } else if (item is DemarcheNotUpToDateItem) {
+      return NotUpToDateMessage(message: Strings.demarchesNotUpToDateMessage, onRefresh: viewModel.onRetry);
     } else {
       final id = (item as IdItem).demarcheId;
       return DemarcheCard(
         demarcheId: id,
-        stateSource: DemarcheStateSource.list,
-        onTap: () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.list)),
+        stateSource: DemarcheStateSource.demarcheList,
+        onTap: () =>
+            Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.demarcheList)),
       );
     }
+  }
+
+  void _onDidChange(BuildContext context, DemarcheListPageViewModel? previous, DemarcheListPageViewModel current) {
+    if (previous?.isReloading == true && _currentDemarchesAreUpToDate(current)) {
+      showSuccessfulSnackBar(context, Strings.demarchesUpToDate);
+    }
+  }
+
+  bool _currentDemarchesAreUpToDate(DemarcheListPageViewModel current) {
+    return [DisplayState.CONTENT, DisplayState.EMPTY].contains(current.displayState) &&
+        (current.items.isEmpty || current.items.first is! DemarcheNotUpToDateItem);
+  }
+
+  Widget _emptyPage(BuildContext context, DemarcheListPageViewModel viewModel) {
+    final emptyMessage = Strings.emptyContentTitle(Strings.demarchesToDo);
+    final showNotUpToDateMessage = viewModel.items.isNotEmpty && viewModel.items.first is DemarcheNotUpToDateItem;
+    return showNotUpToDateMessage
+        ? ReloadablePage(
+            reloadMessage: Strings.demarchesNotUpToDateMessage, onReload: viewModel.onRetry, emptyMessage: emptyMessage)
+        : Empty(description: emptyMessage);
   }
 }
 
@@ -118,16 +146,39 @@ class _CampagneCard extends StatelessWidget {
 class _AddDemarcheButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: PrimaryActionButton(
-          drawableRes: Drawables.icAdd,
-          label: Strings.addADemarche,
-          onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()),
-        ),
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: PrimaryActionButton(
+        drawableRes: Drawables.icAdd,
+        label: Strings.addADemarche,
+        onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
+          if (value != null) _showSnackBarWithDetail(context, value);
+        }),
       ),
+    );
+  }
+
+  void _showSnackBarWithDetail(BuildContext context, String demarcheCreatedId) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
+    );
+    showSuccessfulSnackBar(
+      context,
+      Strings.createDemarcheSuccess,
+      () {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.createActionEventCategory,
+          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+        );
+        Navigator.push(
+          context,
+          DemarcheDetailPage.materialPageRoute(
+            demarcheCreatedId,
+            DemarcheStateSource.demarcheList,
+          ),
+        );
+      },
     );
   }
 }

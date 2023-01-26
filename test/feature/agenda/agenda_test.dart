@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -53,10 +53,31 @@ void main() {
         });
       });
     });
+    group('when reloading agenda', () {
+      sut.when(() => AgendaRequestReloadAction(DateTime(2022, 7, 7)));
+
+      test('should reload then succeed when request succeed', () {
+        sut.givenStore = givenState()
+            .loggedInPoleEmploiUser() //
+            .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldReload(), _shouldSucceedForPoleEmploiUser()]);
+      });
+
+      test('should reload then fail when request fail', () {
+        sut.givenStore = givenState()
+            .loggedInPoleEmploiUser() //
+            .store((f) => {f.agendaRepository = AgendaRepositoryErrorStub()});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldReload(), _shouldFail()]);
+      });
+    });
   });
 }
 
 Matcher _shouldLoad() => StateIs<AgendaLoadingState>((state) => state.agendaState);
+
+Matcher _shouldReload() => StateIs<AgendaReloadingState>((state) => state.agendaState);
 
 Matcher _shouldFail() => StateIs<AgendaFailureState>((state) => state.agendaState);
 
@@ -81,7 +102,7 @@ Matcher _shouldSucceedForPoleEmploiUser() {
 }
 
 class AgendaRepositorySuccessStub extends AgendaRepository {
-  AgendaRepositorySuccessStub() : super("", DummyHttpClient());
+  AgendaRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<Agenda?> getAgendaMissionLocale(String userId, DateTime maintenant) async {
@@ -107,7 +128,7 @@ class AgendaRepositorySuccessStub extends AgendaRepository {
 }
 
 class AgendaRepositoryErrorStub extends AgendaRepository {
-  AgendaRepositoryErrorStub() : super("", DummyHttpClient());
+  AgendaRepositoryErrorStub() : super(DioMock());
 
   @override
   Future<Agenda?> getAgendaMissionLocale(String userId, DateTime maintenant) async {
