@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
@@ -17,8 +18,11 @@ class OffreEmploiSearchViewModel extends Equatable {
   final List<LocationViewModel> locations;
   final int nombreDeCriteres; //TODO: tests unitaires si on part sur cette solution
   final String errorMessage;
+  final Function() onClearSearch;
   final Function(String? input) onInputLocation;
   final Function(String keyWord, Location? location, bool onlyAlternance) onSearchingRequest;
+  final String selectedKeyWord;
+  final Location? selectedLocation;
 
   OffreEmploiSearchViewModel._({
     required this.searchDisplayState,
@@ -26,8 +30,11 @@ class OffreEmploiSearchViewModel extends Equatable {
     required this.locations,
     required this.nombreDeCriteres,
     required this.errorMessage,
+    required this.onClearSearch,
     required this.onInputLocation,
     required this.onSearchingRequest,
+    required this.selectedKeyWord,
+    required this.selectedLocation,
   });
 
   factory OffreEmploiSearchViewModel.create(Store<AppState> store) {
@@ -42,17 +49,27 @@ class OffreEmploiSearchViewModel extends Equatable {
           .toList(),
       nombreDeCriteres: _nombreDeCriteres(paramState),
       errorMessage: _setErrorMessage(searchState, searchResultsState),
+      onClearSearch: () => store.dispatch(OffreEmploiListResetAction()),
       onInputLocation: (input) => store.dispatch(SearchLocationRequestAction(input)),
       onSearchingRequest: (keywords, location, onlyAlternance) {
         return store.dispatch(
           OffreEmploiSearchRequestAction(keywords: keywords, location: location, onlyAlternance: onlyAlternance),
         );
       },
+      selectedKeyWord: paramState is OffreEmploiSearchParametersInitializedState ? paramState.keywords : '',
+      selectedLocation: paramState is OffreEmploiSearchParametersInitializedState ? paramState.location : null,
     );
   }
 
   @override
-  List<Object?> get props => [searchDisplayState, resultDisplayState, errorMessage, locations];
+  List<Object?> get props => [
+        searchDisplayState,
+        resultDisplayState,
+        errorMessage,
+        locations,
+        selectedKeyWord,
+        selectedLocation,
+      ];
 }
 
 int _nombreDeCriteres(OffreEmploiSearchParametersState paramState) {

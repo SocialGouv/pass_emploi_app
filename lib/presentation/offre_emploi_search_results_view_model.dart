@@ -16,6 +16,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
   final List<OffreEmploiItemViewModel> items;
   final bool displayLoaderAtBottomOfList;
   final bool withFiltreButton;
+  final bool withAlertButton;
   final int? filtresCount;
   final String errorMessage;
   final Function() onLoadMore;
@@ -25,6 +26,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
     required this.items,
     required this.displayLoaderAtBottomOfList,
     required this.withFiltreButton,
+    required this.withAlertButton,
     required this.filtresCount,
     required this.errorMessage,
     required this.onLoadMore,
@@ -38,7 +40,8 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
       displayState: _displayState(searchState, searchResultsState),
       items: _items(store.state.offreEmploiListState),
       displayLoaderAtBottomOfList: _displayLoader(store.state.offreEmploiListState),
-      withFiltreButton: _withFilterButton(searchParamsState),
+      withFiltreButton: _withFilterButton(searchParamsState, searchResultsState),
+      withAlertButton: searchResultsState is OffreEmploiListSuccessState,
       filtresCount: _filtresCount(searchParamsState),
       errorMessage: _errorMessage(searchState, searchResultsState),
       onLoadMore: () => store.dispatch(OffreEmploiSearchRequestMoreResultsAction()),
@@ -46,7 +49,14 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, items, displayLoaderAtBottomOfList, filtresCount];
+  List<Object?> get props => [
+        displayState,
+        items,
+        displayLoaderAtBottomOfList,
+        filtresCount,
+        withAlertButton,
+        withFiltreButton,
+      ];
 }
 
 int? _filtresCount(OffreEmploiSearchParametersState searchParamsState) {
@@ -99,9 +109,10 @@ String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiListState se
   return searchState is OffreEmploiSearchFailureState ? Strings.genericError : "";
 }
 
-bool _withFilterButton(OffreEmploiSearchParametersState state) {
-  if (state is OffreEmploiSearchParametersInitializedState && state.onlyAlternance) {
-    return state.location?.type == LocationType.COMMUNE;
+bool _withFilterButton(OffreEmploiSearchParametersState searchParamsState, OffreEmploiListState searchResultsState) {
+  if (searchResultsState is OffreEmploiListNotInitializedState) return false;
+  if (searchParamsState is OffreEmploiSearchParametersInitializedState && searchParamsState.onlyAlternance) {
+    return searchParamsState.location?.type == LocationType.COMMUNE;
   }
   return true;
 }

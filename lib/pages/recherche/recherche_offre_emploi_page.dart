@@ -70,11 +70,45 @@ class _Body extends StatelessWidget {
             if (viewModel.searchDisplayState == DisplayState.LOADING) Text("LOADER"),
             Text("TODO Design pour lancer la recherche + illus"),
           ] else ...[
-            _ParametresRechercheFerme(nombreDeCriteres: viewModel.nombreDeCriteres),
+            _ParametresRechercheSwitcher(
+              viewModel: viewModel,
+              nombreDeCriteres: viewModel.nombreDeCriteres,
+            ),
             Expanded(child: _ResultatRecherche()),
           ],
         ],
       ),
+    );
+  }
+}
+
+class _ParametresRechercheSwitcher extends StatefulWidget {
+  final OffreEmploiSearchViewModel viewModel;
+  final int nombreDeCriteres;
+
+  const _ParametresRechercheSwitcher({required this.viewModel, required this.nombreDeCriteres});
+
+  @override
+  State<_ParametresRechercheSwitcher> createState() => _ParametresRechercheSwitcherState();
+}
+
+class _ParametresRechercheSwitcherState extends State<_ParametresRechercheSwitcher> {
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.bounceIn,
+      child: _expanded
+          ? _ParametresRechercheOuvert(widget.viewModel)
+          : InkWell(
+              child: _ParametresRechercheFerme(nombreDeCriteres: widget.nombreDeCriteres),
+              onTap: () => setState(() {
+                widget.viewModel.onClearSearch();
+                _expanded = !_expanded;
+              }),
+            ),
     );
   }
 }
@@ -121,6 +155,15 @@ class _ParametresRechercheOuvertState extends State<_ParametresRechercheOuvert> 
   LocationViewModel? _selectedLocationViewModel;
 
   @override
+  void initState() {
+    _keyWord = widget.viewModel.selectedKeyWord;
+    if (widget.viewModel.selectedLocation != null) {
+      _selectedLocationViewModel = LocationViewModel.fromLocation(widget.viewModel.selectedLocation!);
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CardContainer(
       child: Column(
@@ -137,6 +180,7 @@ class _ParametresRechercheOuvertState extends State<_ParametresRechercheOuvert> 
               _keyWord = keyword;
               setState(() => _updateCriteresActifsCount());
             },
+            initialValue: _keyWord,
           ),
           Text("localisation:"),
           LocationAutocomplete(
@@ -150,6 +194,7 @@ class _ParametresRechercheOuvertState extends State<_ParametresRechercheOuvert> 
             getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
             formKey: null,
             validator: (value) => null,
+            initialValue: _selectedLocationViewModel?.title,
           ),
           PrimaryActionButton(
             onPressed: widget.viewModel.searchDisplayState.isLoading()
@@ -247,7 +292,7 @@ class _ResultatRechercheState extends State<_ResultatRecherche> {
                   spacing: 16,
                   runSpacing: 16,
                   children: [
-                    _alertPrimaryButton(context, viewModel),
+                    if (viewModel.withAlertButton) _alertPrimaryButton(context, viewModel),
                     if (viewModel.withFiltreButton) _filtrePrimaryButton(context, viewModel),
                   ],
                 ),

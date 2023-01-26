@@ -16,6 +16,7 @@ class LocationAutocomplete extends StatelessWidget {
   final List<LocationViewModel> locationViewModels;
   final String hint;
   final GlobalKey<FormState>? formKey;
+  final String? initialValue;
 
   final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
 
@@ -27,6 +28,7 @@ class LocationAutocomplete extends StatelessWidget {
     required this.getPreviouslySelectedTitle,
     required this.formKey,
     required this.validator,
+    this.initialValue,
   }) : super();
 
   @override
@@ -45,6 +47,7 @@ class LocationAutocomplete extends StatelessWidget {
           Keyboard.dismiss(context);
           onSelectLocationViewModel(locationViewModel);
         },
+        initialValue: TextEditingValue(text: initialValue ?? ''),
         optionsViewBuilder: (
           BuildContext _,
           AutocompleteOnSelected<LocationViewModel> onSelected,
