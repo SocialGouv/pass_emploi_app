@@ -6,8 +6,8 @@ import 'package:pass_emploi_app/features/raclette/raclette_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:redux/redux.dart';
 
 class RechercheRaclettePage extends StatelessWidget {
@@ -50,16 +50,22 @@ class _CritereRecherche extends StatelessWidget {
         return Column(
           children: [
             Text(vm.isOpen ? 'Critères ouverts' : 'Critères fermés'),
-            CardContainer(
-              child: ExpansionTile(
-                childrenPadding: EdgeInsets.zero,
-                tilePadding: EdgeInsets.zero,
-                maintainState: true,
-                collapsedBackgroundColor: AppColors.primary,
-                backgroundColor: Colors.white,
-                title: _CritereRechercheFerme(),
-                initiallyExpanded: vm.isOpen,
-                children: [_CritereRechercheOuvert()],
+            Material(
+              elevation: 16, //TODO Real box shadow ?
+              borderRadius: BorderRadius.circular(Dimens.radius_s),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(Dimens.radius_s),
+                child: Theme(
+                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    collapsedBackgroundColor: AppColors.primary,
+                    backgroundColor: Colors.white,
+                    collapsedTextColor: Colors.white,
+                    title: _CritereRechercheFerme(),
+                    initiallyExpanded: vm.isOpen,
+                    children: [_CritereRechercheOuvert()],
+                  ),
+                ),
               ),
             ),
           ],
@@ -96,7 +102,6 @@ class _CritereRechercheOuvert extends StatelessWidget {
       builder: (context, vm) {
         return Column(
           children: [
-            Text("ouvert"),
             if (vm.displayState == DisplayState.FAILURE) Text("failure"),
             if (vm.displayState == DisplayState.LOADING) Text("loading"),
             PrimaryActionButton(
@@ -138,7 +143,7 @@ DisplayState _displayState(Store<AppState> store) {
 class _CritereRechercheFerme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text("(0) critères actifs)");
+    return Text("(0) critères actifs");
   }
 }
 
@@ -148,9 +153,13 @@ class _ResultatRecherche extends StatelessWidget {
     return StoreConnector<AppState, ResultatRechercheViewModel>(
       builder: (context, vm) {
         final raclettes = vm.raclettes;
-        if (raclettes == null) return Text("Faites votre recherche !");
-        if (raclettes.isEmpty) return Text("Pas de chance");
-        return Text(raclettes.join("\n"));
+        if (raclettes == null) {
+          return Padding(padding: const EdgeInsets.symmetric(vertical: 16.0), child: Text("Faites votre recherche !"));
+        }
+        if (raclettes.isEmpty) {
+          return Padding(padding: const EdgeInsets.symmetric(vertical: 16.0), child: Text("Pas de chance"));
+        }
+        return Padding(padding: const EdgeInsets.symmetric(vertical: 16.0), child: Text(raclettes.join("\n")));
       },
       converter: (store) => ResultatRechercheViewModel.create(store),
       distinct: true,
