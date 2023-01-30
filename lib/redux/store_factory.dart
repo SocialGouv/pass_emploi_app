@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_middlew
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_middleware.dart';
+import 'package:pass_emploi_app/features/device_info/device_info_middleware.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
@@ -35,6 +36,7 @@ import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_middleware.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_middleware.dart';
 import 'package:pass_emploi_app/features/push/register_push_notification_token_middleware.dart';
+import 'package:pass_emploi_app/features/raclette/raclette_middleware.dart';
 import 'package:pass_emploi_app/features/rating/rating_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_middleware.dart';
@@ -61,7 +63,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/device_info/device_info_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -93,6 +94,7 @@ import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
+import 'package:pass_emploi_app/repositories/raclette_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -157,6 +159,8 @@ class StoreFactory {
   final EventListRepository eventListRepository;
   final InstallationIdRepository installationIdRepository;
   final Configuration configuration;
+  final RacletteRepository racletteRepository;
+
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -205,6 +209,7 @@ class StoreFactory {
     this.eventListRepository,
     this.installationIdRepository,
     this.configuration,
+    this.racletteRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -273,6 +278,7 @@ class StoreFactory {
         TraiterSuggestionRechercheMiddleware(suggestionsRechercheRepository),
         EventListMiddleware(eventListRepository),
         DeviceInfoMiddleware(installationIdRepository),
+        RacletteMiddleware(racletteRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
