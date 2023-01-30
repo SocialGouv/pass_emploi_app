@@ -5,7 +5,9 @@ import 'package:pass_emploi_app/features/raclette/raclette_actions.dart';
 import 'package:pass_emploi_app/features/raclette/raclette_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:redux/redux.dart';
 
 class RechercheRaclettePage extends StatelessWidget {
@@ -19,11 +21,16 @@ class RechercheRaclettePage extends StatelessWidget {
       builder: (_, __) {
         return Scaffold(
           appBar: AppBar(title: Text('Recherche raclette')),
-          body: Column(
-            children: [
-              _CritereRecherche(),
-              _ResultatRecherche(),
-            ],
+          backgroundColor: Colors.yellow,
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _CritereRecherche(),
+                _ResultatRecherche(),
+              ],
+            ),
           ),
         );
       },
@@ -40,11 +47,23 @@ class _CritereRecherche extends StatelessWidget {
     return StoreConnector<AppState, BlocCritereRacletteViewModel>(
       converter: (store) => BlocCritereRacletteViewModel.create(store),
       builder: (context, vm) {
-        if (vm.isOpen) {
-          return _CritereRechercheOuvert();
-        } else {
-          return _CritereRechercheFerme();
-        }
+        return Column(
+          children: [
+            Text(vm.isOpen ? 'Critères ouverts' : 'Critères fermés'),
+            CardContainer(
+              child: ExpansionTile(
+                childrenPadding: EdgeInsets.zero,
+                tilePadding: EdgeInsets.zero,
+                maintainState: true,
+                collapsedBackgroundColor: AppColors.primary,
+                backgroundColor: Colors.white,
+                title: _CritereRechercheFerme(),
+                initiallyExpanded: vm.isOpen,
+                children: [_CritereRechercheOuvert()],
+              ),
+            ),
+          ],
+        );
       },
       distinct: true,
     );
@@ -119,7 +138,7 @@ DisplayState _displayState(Store<AppState> store) {
 class _CritereRechercheFerme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text("fermé");
+    return Text("(0) critères actifs)");
   }
 }
 

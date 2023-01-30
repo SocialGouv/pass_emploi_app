@@ -15,3 +15,5 @@ class RacletteSuccessAction {
 class RacletteFailureAction {}
 
 class RacletteResetAction {}
+
+class RacletteNouvelleRechercheAction {}
