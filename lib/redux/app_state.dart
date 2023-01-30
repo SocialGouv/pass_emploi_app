@@ -364,7 +364,7 @@ class AppState extends Equatable {
       traiterSuggestionRechercheState: TraiterSuggestionRechercheNotInitializedState(),
       eventListState: EventListNotInitializedState(),
       deviceInfoState: DeviceInfoNotInitializedState(),
-      racletteState: RacletteState(status: RacletteStatus.nouvelleRecherche, critere: null, result: null),
+      racletteState: RacletteState.initial(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }

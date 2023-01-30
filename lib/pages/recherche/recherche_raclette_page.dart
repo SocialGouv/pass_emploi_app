@@ -15,15 +15,21 @@ class RechercheRaclettePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Recherche raclette'),
-      ),
-      body: Column(
-        children: [
-          _CritereRecherche(),
-        ],
-      ),
+    return StoreConnector<AppState, int>(
+      builder: (_, __) {
+        return Scaffold(
+          appBar: AppBar(title: Text('Recherche raclette')),
+          body: Column(
+            children: [
+              _CritereRecherche(),
+              _ResultatRecherche(),
+            ],
+          ),
+        );
+      },
+      onDispose: (store) => store.dispatch(RacletteResetAction()),
+      converter: (store) => 0,
+      distinct: true,
     );
   }
 }
@@ -115,4 +121,33 @@ class _CritereRechercheFerme extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text("fermé");
   }
+}
+
+class _ResultatRecherche extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, ResultatRechercheViewModel>(
+      builder: (context, vm) {
+        final raclettes = vm.raclettes;
+        if (raclettes == null) return Text("Faites votre recherche !");
+        if (raclettes.isEmpty) return Text("Pas de chance");
+        return Text(raclettes.join("\n"));
+      },
+      converter: (store) => ResultatRechercheViewModel.create(store),
+      distinct: true,
+    );
+  }
+}
+
+class ResultatRechercheViewModel extends Equatable {
+  final List<String>? raclettes;
+
+  ResultatRechercheViewModel(this.raclettes);
+
+  factory ResultatRechercheViewModel.create(Store<AppState> store) {
+    return ResultatRechercheViewModel(store.state.racletteState.result);
+  }
+
+  @override
+  List<Object?> get props => [raclettes];
 }

@@ -31,6 +31,14 @@ class RacletteState extends Equatable {
   @override
   List<Object?> get props => [status, critere, result];
 
+  factory RacletteState.initial() {
+    return RacletteState(
+      status: RacletteStatus.nouvelleRecherche,
+      critere: null,
+      result: null,
+    );
+  }
+
   RacletteState copyWith({
     RacletteStatus? status,
     RacletteCritere? Function()? critere,

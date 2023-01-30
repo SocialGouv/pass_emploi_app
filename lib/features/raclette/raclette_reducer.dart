@@ -16,6 +16,8 @@ RacletteState racletteReducer(RacletteState current, dynamic action) {
     return current.copyWith(
       status: RacletteStatus.failure,
     );
+  } else if (action is RacletteResetAction) {
+    return RacletteState.initial();
   }
   return current;
 }
