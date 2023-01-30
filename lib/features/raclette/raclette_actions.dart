@@ -6,10 +6,8 @@ class RacletteRequestAction {
   RacletteRequestAction(this.critere);
 }
 
-class RacletteLoadingAction {}
-
 class RacletteSuccessAction {
-  final bool result;
+  final List<String> result;
 
   RacletteSuccessAction(this.result);
 }

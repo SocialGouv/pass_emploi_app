@@ -3,11 +3,19 @@ import 'package:pass_emploi_app/features/raclette/raclette_state.dart';
 
 RacletteState racletteReducer(RacletteState current, dynamic action) {
   if (action is RacletteRequestAction) {
-    current.copyWith(status: RacletteStatus.loading, critere: () => action.critere,);
+    return current.copyWith(
+      status: RacletteStatus.loading,
+      critere: () => action.critere,
+    );
+  } else if (action is RacletteSuccessAction) {
+    return current.copyWith(
+      status: RacletteStatus.success,
+      result: () => action.result,
+    );
+  } else if (action is RacletteFailureAction) {
+    return current.copyWith(
+      status: RacletteStatus.failure,
+    );
   }
-  if (action is RacletteLoadingAction) return RacletteLoadingState();
-  if (action is RacletteFailureAction) return RacletteFailureState();
-  if (action is RacletteSuccessAction) return RacletteSuccessState(action.result);
-  if (action is RacletteResetAction) return RacletteNotInitializedState();
   return current;
-}}
+}
