@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
-import 'package:pass_emploi_app/pages/profil/profil_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
@@ -29,7 +28,6 @@ const int _indexOfMonSuiviPage = 0;
 const int _indexOfChatPage = 1;
 const int _indexOfSolutionsPage = 2;
 const int _indexOfFavorisPage = 3;
-const int _indexOfPlusPage = 4;
 
 class MainPage extends StatefulWidget {
   final MainPageDisplayState displayState;
@@ -131,10 +129,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
               drawableRes: Drawables.icHeart,
               label: Strings.menuFavoris,
             ),
-            menu.MenuItem(
-              drawableRes: Drawables.icMenuPlus,
-              label: Strings.menuProfil,
-            ),
           ],
           currentIndex: _selectedIndex,
           onTap: (index) => _onItemTapped(index, context),
@@ -164,8 +158,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return SolutionsTabPage(initialTab);
       case _indexOfFavorisPage:
         return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
-      case _indexOfPlusPage:
-        return ProfilPage();
       default:
         return MonSuiviTabPage();
     }
