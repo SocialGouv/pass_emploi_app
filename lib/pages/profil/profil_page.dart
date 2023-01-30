@@ -28,6 +28,14 @@ import 'package:pass_emploi_app/widgets/label_value_row.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class ProfilPage extends StatelessWidget {
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(
+      builder: (context) {
+        return ProfilPage();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Tracker(

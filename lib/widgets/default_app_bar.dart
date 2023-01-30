@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/profile_button.dart';
 
 class FlatDefaultAppBar extends AppBar {
   FlatDefaultAppBar({
@@ -39,19 +37,6 @@ class FlatDefaultAppBar extends AppBar {
 
 FlatDefaultAppBar passEmploiAppBar(
     {required String? label, required BuildContext context, bool withBackButton = false}) {
-  final store = StoreProvider.of<AppState>(context);
-  if (store.state.demoState) {
-    return FlatDefaultAppBar(
-      title: _ModeDemoPlaceholder(),
-      automaticallyImplyLeading: false,
-      bottom: label != null
-          ? FlatDefaultAppBar(
-              title: Text(label, style: TextStyles.textAppBar),
-              leading: withBackButton ? _appBarLeading : null,
-            )
-          : null,
-    );
-  }
   return FlatDefaultAppBar(
     title: label != null ? Text(label, style: TextStyles.textAppBar) : null,
     leading: withBackButton ? _appBarLeading : null,
@@ -73,34 +58,55 @@ Widget _appBarLeading = Builder(
   },
 );
 
-class _ModeDemoPlaceholder extends StatelessWidget {
+// TODO: Remove when demo mode is validated by design
+// class _ModeDemoPlaceholder extends StatelessWidget with PreferredSizeWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration: BoxDecoration(color: AppColors.warningLighten, borderRadius: BorderRadius.circular(8)),
+//       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+//       child: Row(
+//         mainAxisSize: MainAxisSize.max,
+//         children: [
+//           SvgPicture.asset(
+//             Drawables.icInfo,
+//             color: AppColors.warning,
+//           ),
+//           Expanded(
+//             child: Padding(
+//               padding: const EdgeInsets.only(left: 10),
+//               child: Text(
+//                 Strings.modeDemoAppBarLabel,
+//                 style: TextStyles.textBaseBoldWithColor(AppColors.warning),
+//                 textAlign: TextAlign.left,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   @override
+//   Size get preferredSize => Size.fromHeight(kToolbarHeight);
+// }
+
+class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
+  final String title;
+  final Color? backgroundColor;
+  const PrimaryAppBar({super.key, required this.title, this.backgroundColor});
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Container(
-        decoration: BoxDecoration(color: AppColors.warningLighten, borderRadius: BorderRadius.circular(8)),
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SvgPicture.asset(
-              Drawables.icInfo,
-              color: AppColors.warning,
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
-                  Strings.modeDemoAppBarLabel,
-                  style: TextStyles.textBaseBoldWithColor(AppColors.warning),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return AppBar(
+      backgroundColor: backgroundColor ?? Colors.transparent,
+      title: Text(title, style: TextStyles.primaryAppBar),
+      elevation: 0,
+      centerTitle: false,
+      actions: [ProfileButton()],
     );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(72.0);
 }

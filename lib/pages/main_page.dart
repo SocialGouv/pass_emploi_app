@@ -98,29 +98,47 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   Widget _body(MainPageViewModel viewModel, BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: AppColors.grey100,
-        child: _content(_selectedIndex, viewModel),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        // Required to avoid having a disproportionate NavBar height
-        selectedFontSize: FontSizes.extraSmall,
-        unselectedFontSize: FontSizes.extraSmall,
-        backgroundColor: Colors.white,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: AppColors.secondary,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: <BottomNavigationBarItem>[
-          menu.MenuItem(drawableRes: Drawables.icMenuAction, label: Strings.menuMonSuivi),
-          menu.MenuItem(drawableRes: Drawables.icMenuChat, label: Strings.menuChat, withBadge: viewModel.withChatBadge),
-          menu.MenuItem(drawableRes: Drawables.icSearchingBar, label: Strings.menuSolutions),
-          menu.MenuItem(drawableRes: Drawables.icHeart, label: Strings.menuFavoris),
-          menu.MenuItem(drawableRes: Drawables.icMenuPlus, label: Strings.menuProfil),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: (index) => _onItemTapped(index, context),
+    return ModeDemoWrapper(
+      child: Scaffold(
+        body: Container(
+          color: AppColors.grey100,
+          child: _content(_selectedIndex, viewModel),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          // Required to avoid having a disproportionate NavBar height
+          selectedFontSize: FontSizes.extraSmall,
+          unselectedFontSize: FontSizes.extraSmall,
+          backgroundColor: Colors.white,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: AppColors.secondary,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          items: <BottomNavigationBarItem>[
+            menu.MenuItem(
+              drawableRes: Drawables.icMenuAction,
+              label: Strings.menuMonSuivi,
+            ),
+            menu.MenuItem(
+              drawableRes: Drawables.icMenuChat,
+              label: Strings.menuChat,
+              withBadge: viewModel.withChatBadge,
+            ),
+            menu.MenuItem(
+              drawableRes: Drawables.icSearchingBar,
+              label: Strings.menuSolutions,
+            ),
+            menu.MenuItem(
+              drawableRes: Drawables.icHeart,
+              label: Strings.menuFavoris,
+            ),
+            menu.MenuItem(
+              drawableRes: Drawables.icMenuPlus,
+              label: Strings.menuProfil,
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: (index) => _onItemTapped(index, context),
+        ),
       ),
     );
   }
@@ -187,6 +205,29 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       default:
         return _indexOfMonSuiviPage;
     }
+  }
+}
+
+class ModeDemoWrapper extends StatelessWidget {
+  final Widget child;
+  const ModeDemoWrapper({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final store = StoreProvider.of<AppState>(context);
+    final isDemo = store.state.demoState;
+    if (!isDemo) return child;
+    return Banner(
+      message: 'DÉMO',
+      color: AppColors.primary,
+      location: BannerLocation.topStart,
+      child: MaterialApp(
+        home: child,
+      ),
+    );
   }
 }
 

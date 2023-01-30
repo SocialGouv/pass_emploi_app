@@ -163,6 +163,13 @@ class TextStyles {
     fontWeight: FontWeight.w700,
   );
 
+  static TextStyle primaryAppBar = TextStyle(
+    color: AppColors.primary,
+    fontFamily: 'Marianne',
+    fontSize: FontSizes.xl,
+    fontWeight: FontWeight.w700,
+  );
+
   static TextStyle textSmMedium({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
       color: color,

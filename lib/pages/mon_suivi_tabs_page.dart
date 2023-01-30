@@ -13,7 +13,6 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 
 class MonSuiviTabPage extends StatefulWidget {
@@ -48,7 +47,6 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
     _initializeTabController(viewModel);
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      appBar: viewModel.isModeDemo ? passEmploiAppBar(label: null, context: context) : null,
       body: SafeArea(
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
