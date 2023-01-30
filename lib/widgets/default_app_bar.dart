@@ -94,16 +94,20 @@ Widget _appBarLeading = Builder(
 class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final Color? backgroundColor;
-  const PrimaryAppBar({super.key, required this.title, this.backgroundColor});
+  final bool withProfileButton;
+  const PrimaryAppBar({super.key, required this.title, this.backgroundColor, this.withProfileButton = true});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: backgroundColor ?? Colors.transparent,
+      iconTheme: IconThemeData(
+        color: Colors.black,
+      ),
+      backgroundColor: backgroundColor ?? AppColors.grey100,
       title: Text(title, style: TextStyles.primaryAppBar),
       elevation: 0,
       centerTitle: false,
-      actions: [ProfileButton()],
+      actions: [if (withProfileButton) ProfileButton()],
     );
   }
 

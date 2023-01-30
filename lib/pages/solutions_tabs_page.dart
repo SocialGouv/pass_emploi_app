@@ -38,7 +38,7 @@ class _Body extends StatelessWidget {
       length: viewModel.tabs.length,
       child: Scaffold(
         backgroundColor: AppColors.grey100,
-        appBar: passEmploiAppBar(label: Strings.solutionsAppBarTitle, context: context),
+        appBar: PrimaryAppBar(title: Strings.solutionsAppBarTitle),
         body: Column(
           children: [
             PassEmploiTabBar(tabLabels: viewModel.tabs.titles()),
