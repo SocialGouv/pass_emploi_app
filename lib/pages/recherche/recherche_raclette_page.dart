@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
+import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:redux/redux.dart';
 
@@ -21,7 +22,6 @@ class RechercheRaclettePage extends StatelessWidget {
       builder: (_, __) {
         return Scaffold(
           appBar: AppBar(title: Text('Recherche raclette')),
-          backgroundColor: Colors.yellow,
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -49,7 +49,6 @@ class _CritereRecherche extends StatelessWidget {
       builder: (context, vm) {
         return Column(
           children: [
-            Text(vm.isOpen ? 'Critères ouverts' : 'Critères fermés'),
             Material(
               elevation: 16, //TODO Real box shadow ?
               borderRadius: BorderRadius.circular(Dimens.radius_s),
@@ -58,7 +57,11 @@ class _CritereRecherche extends StatelessWidget {
                 child: Theme(
                   data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                   child: ExpansionTile(
+                    key: UniqueKey(),
+                    // required to force rebuild with new vm.isOpen value
                     collapsedBackgroundColor: AppColors.primary,
+                    collapsedIconColor: Colors.white,
+                    iconColor: AppColors.primary,
                     backgroundColor: Colors.white,
                     collapsedTextColor: Colors.white,
                     title: _CritereRechercheFerme(),
@@ -143,7 +146,14 @@ DisplayState _displayState(Store<AppState> store) {
 class _CritereRechercheFerme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text("(0) critères actifs");
+    return Text(
+      "(0) critères actifs",
+      style: TextStyle(
+        fontFamily: 'Marianne',
+        fontSize: FontSizes.medium,
+        fontWeight: FontWeight.w600,
+      ),
+    );
   }
 }
 
