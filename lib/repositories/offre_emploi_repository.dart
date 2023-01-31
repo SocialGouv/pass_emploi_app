@@ -1,5 +1,6 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_middleware.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -23,7 +24,7 @@ class SearchOffreEmploiRequest {
   });
 }
 
-class OffreEmploiRepository {
+class OffreEmploiRepository extends RechercheRepository<SearchOffreEmploiRequest, OffreEmploi> {
   static const PAGE_SIZE = 50;
 
   final String _baseUrl;
@@ -33,6 +34,28 @@ class OffreEmploiRepository {
 
   OffreEmploiRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
+  @override
+  Future<RechercheResponse<OffreEmploi>?> recherche({
+    required String userId,
+    required SearchOffreEmploiRequest request,
+  }) async {
+    final url = Uri.parse(_baseUrl + "/offres-emploi").replace(
+      query: _createQuery(request),
+    );
+    try {
+      final response = await _httpClient.get(url);
+      if (response.statusCode.isValid()) {
+        final json = jsonUtf8Decode(response.bodyBytes);
+        final list = (json["results"] as List).map((offre) => OffreEmploi.fromJson(offre)).toList();
+        return RechercheResponse(canLoadMore: list.length == PAGE_SIZE, results: list);
+      }
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack, url);
+    }
+    return null;
+  }
+
+  //TODO: remove
   Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
     final url = Uri.parse(_baseUrl + "/offres-emploi").replace(
       query: _createQuery(request),
