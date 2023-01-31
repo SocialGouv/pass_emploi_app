@@ -7,7 +7,7 @@ enum RechercheStatus {
   success;
 }
 
-class RechercheState<Request, Result> extends Equatable {
+class RechercheState<Request extends Equatable, Result extends Equatable> extends Equatable {
   final RechercheStatus status;
   final Request? request;
   final List<Result>? results;

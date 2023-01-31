@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 
-RechercheState<Request, Result> rechercheReducer<Request, Result>(
+RechercheState<Request, Result> rechercheReducer<Request extends Equatable, Result extends Equatable>(
   RechercheState<Request, Result> current,
   dynamic action,
 ) {
