@@ -25,8 +25,7 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
       _rechercher(store: store, userId: userId, request: newRequest);
     } else if (action is RechercheLoadMoreAction<Result>) {
       final newRequest = copyRequestWith(state: store.state, newPage: (page) => page + 1);
-      _rechercher(store: store, userId: userId, request: newRequest);
-      //TODO: il faut concaténer les anciens Result avec les nouveaux Result
+      _rechercher(store: store, userId: userId, request: newRequest, previousResults: _previousResults(store.state));
     }
   }
 
@@ -34,16 +33,19 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
     required Store<AppState> store,
     required String userId,
     required RechercheRequest<Criteres, Filtres> request,
+    List<Result> previousResults = const [],
   }) async {
     final response = await _repository.rechercher(userId: userId, request: request);
     if (response != null) {
-      store.dispatch(RechercheSuccessAction(response.results, response.canLoadMore));
+      store.dispatch(RechercheSuccessAction(previousResults + response.results, response.canLoadMore));
     } else {
       store.dispatch(RechercheFailureAction());
     }
   }
 
-  //TODO: pour l'instant c'est en dur ici, mais ça sera à passer en abstract et donc avoir 4 petits middleware
+  //TODO: pour l'instant copyRequestWith() et _previousResults() sont en dur ici.
+  // Plus tard, on passe la classe en abstract, ces méthodes aussi.
+
   RechercheRequest<Criteres, Filtres> copyRequestWith({
     required AppState state,
     Filtres? filtres,
@@ -55,6 +57,8 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
       page: newPage == null ? null : newPage(oldRequest.page),
     ) as RechercheRequest<Criteres, Filtres>;
   }
+
+  List<Result> _previousResults(AppState state) => state.rechercheEmploiState.results as List<Result>;
 }
 
 abstract class RechercheRepository<Criteres extends Equatable, Filtres extends Equatable, Result> {
