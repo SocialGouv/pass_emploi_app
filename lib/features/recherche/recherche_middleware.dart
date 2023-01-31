@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -21,21 +20,12 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
 
     if (action is RechercheRequestAction<Criteres, Filtres>) {
       _rechercher(store: store, userId: userId, request: action.request);
-    } else if (action is RechercheUpdateFiltres<OffreEmploiSearchParametersFiltres>) {
-      //TODO: solution à trouver selon chaque type de recherche
-      //TODO: force unwrap ?
-      //TODO: force cast ?
-      final newRequest = store.state.rechercheEmploiState.request!.copyWith(filtres: action.filtres);
-      final newRequestGeneric = newRequest as RechercheRequest<Criteres, Filtres>;
-      _rechercher(store: store, userId: userId, request: newRequestGeneric);
-    } else if (action is RechercheLoadMoreAction<OffreEmploi>) {
-      //TODO: solution à trouver selon chaque type de recherche
-      //TODO: force unwrap ?
-      //TODO: force cast ?
-      final oldRequest = store.state.rechercheEmploiState.request!;
-      final newRequest = oldRequest.copyWith(page: oldRequest.page + 1);
-      final newRequestGeneric = newRequest as RechercheRequest<Criteres, Filtres>;
-      _rechercher(store: store, userId: userId, request: newRequestGeneric);
+    } else if (action is RechercheUpdateFiltres<Filtres>) {
+      final newRequest = updateFiltre(store.state, action.filtres);
+      _rechercher(store: store, userId: userId, request: newRequest);
+    } else if (action is RechercheLoadMoreAction<Result>) {
+      final newRequest = incrementPage(store.state);
+      _rechercher(store: store, userId: userId, request: newRequest);
     }
   }
 
@@ -50,6 +40,21 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
     } else {
       store.dispatch(RechercheFailureAction());
     }
+  }
+
+  //TODO: à voir si on peut avoir un get old request ? et un copy ? pour n'avoir que ici le increment
+  //TODO: pour l'instant c'est en dur ici, mais ça sera à passer en abstract et donc avoir 4 petits middleware
+
+  RechercheRequest<Criteres, Filtres> incrementPage(AppState state) {
+    final oldRequest = state.rechercheEmploiState.request!;
+    final newRequest = oldRequest.copyWith(page: oldRequest.page + 1);
+    return newRequest as RechercheRequest<Criteres, Filtres>;
+  }
+
+  RechercheRequest<Criteres, Filtres> updateFiltre(AppState state, Filtres filtres) {
+    final oldRequest = state.rechercheEmploiState.request!;
+    final newRequest = oldRequest.copyWith(filtres: filtres as OffreEmploiSearchParametersFiltres);
+    return newRequest as RechercheRequest<Criteres, Filtres>;
   }
 }
 
