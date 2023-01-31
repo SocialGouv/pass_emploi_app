@@ -35,7 +35,7 @@ class DemarcheDetailPage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.userActionDetails,
       child: Scaffold(
-        appBar: passEmploiAppBar(label: Strings.demarcheDetails, context: context),
+        appBar: SecondaryAppBar(title: Strings.demarcheDetails),
         body: StoreConnector<AppState, DemarcheDetailViewModel>(
           converter: (store) => DemarcheDetailViewModel.create(store, source, id),
           onDidChange: (oldViewModel, newViewModel) async {

@@ -23,7 +23,7 @@ class MatomoLoggingPage extends StatelessWidget {
 
   Widget _buildBody(BuildContext context, List<String> logs) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: Strings.developerOptionMatomoPage, context: context),
+      appBar: SecondaryAppBar(title: Strings.developerOptionMatomoPage),
       body: ListView.separated(
         padding: EdgeInsets.all(Margins.spacing_base),
         separatorBuilder: (_, index) => SepLine(Margins.spacing_s, Margins.spacing_s),

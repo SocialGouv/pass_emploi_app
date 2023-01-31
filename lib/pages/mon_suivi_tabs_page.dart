@@ -45,9 +45,10 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
 
   Scaffold _scaffold(MonSuiviViewModel viewModel) {
     _initializeTabController(viewModel);
+    const backgroundColor = AppColors.grey100;
     return Scaffold(
-      backgroundColor: AppColors.grey100,
-      appBar: PrimaryAppBar(title: Strings.monSuiviAppBarTitle),
+      backgroundColor: backgroundColor,
+      appBar: PrimaryAppBar(title: Strings.monSuiviAppBarTitle, backgroundColor: backgroundColor),
       body: SafeArea(
         child: _getBody(viewModel),
       ),

@@ -50,9 +50,10 @@ class ProfilPage extends StatelessWidget {
   }
 
   Scaffold _buildScaffold(BuildContext context, ProfilPageViewModel viewModel) {
+    const backgroundColor = AppColors.grey100;
     return Scaffold(
-      backgroundColor: AppColors.grey100,
-      appBar: PrimaryAppBar(title: Strings.menuProfil, withProfileButton: false),
+      backgroundColor: backgroundColor,
+      appBar: PrimaryAppBar(title: Strings.menuProfil, withProfileButton: false, backgroundColor: backgroundColor),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),

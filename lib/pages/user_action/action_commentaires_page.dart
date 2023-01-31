@@ -42,7 +42,7 @@ class _ActionCommentairesPageState extends State<ActionCommentairesPage> {
     return Tracker(
       tracking: AnalyticsScreenNames.actionCommentsPage,
       child: Scaffold(
-        appBar: passEmploiAppBar(label: Strings.actionCommentsTitle, context: context),
+        appBar: SecondaryAppBar(title: Strings.actionCommentsTitle),
         body: StoreConnector<AppState, ActionCommentairePageViewModel>(
           converter: (store) => ActionCommentairePageViewModel.create(store, widget.actionId),
           builder: (context, viewModel) => _body(context, viewModel),

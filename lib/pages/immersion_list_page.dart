@@ -38,14 +38,17 @@ class ImmersionListPage extends StatelessWidget {
       tracking: AnalyticsScreenNames.immersionResults,
       child: StoreConnector<AppState, ImmersionSearchResultsViewModel>(
         converter: (store) => ImmersionSearchResultsViewModel.create(store),
-        builder: (context, viewModel) => FavorisStateContext<Immersion>(
-          selectState: (store) => store.state.immersionFavorisState,
-          child: Scaffold(
-            backgroundColor: AppColors.grey100,
-            appBar: passEmploiAppBar(label: Strings.immersionsTitle, context: context, withBackButton: true),
-            body: _body(context, viewModel),
-          ),
-        ),
+        builder: (context, viewModel) {
+          const backgroundColor = AppColors.grey100;
+          return FavorisStateContext<Immersion>(
+            selectState: (store) => store.state.immersionFavorisState,
+            child: Scaffold(
+              backgroundColor: backgroundColor,
+              appBar: SecondaryAppBar(title: Strings.immersionsTitle, backgroundColor: backgroundColor),
+              body: _body(context, viewModel),
+            ),
+          );
+        },
         distinct: true,
       ),
     );

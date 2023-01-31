@@ -1,63 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/profile_button.dart';
 
-class FlatDefaultAppBar extends AppBar {
-  FlatDefaultAppBar({
-    Widget? title,
-    Widget? leading,
-    PreferredSizeWidget? bottom,
-    List<Widget>? actions,
-    bool? centerTitle = true,
-    Color? backgroundColor,
-    bool automaticallyImplyLeading = true,
-  }) : super(
-          title: title,
-          centerTitle: centerTitle,
-          actions: actions,
-          iconTheme: IconThemeData(color: AppColors.contentColor),
-          toolbarHeight: Dimens.flatAppBarHeight,
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarIconBrightness: Brightness.light,
-            statusBarBrightness: Brightness.light,
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: leading,
-          bottom: bottom,
-          automaticallyImplyLeading: automaticallyImplyLeading,
-        );
-}
+class SecondaryAppBar extends StatelessWidget with PreferredSizeWidget {
+  final String title;
+  final Color? backgroundColor;
+  const SecondaryAppBar({super.key, required this.title, this.backgroundColor});
 
-FlatDefaultAppBar passEmploiAppBar(
-    {required String? label, required BuildContext context, bool withBackButton = false}) {
-  return FlatDefaultAppBar(
-    title: label != null ? Text(label, style: TextStyles.textAppBar) : null,
-    leading: withBackButton ? _appBarLeading : null,
-  );
-}
-
-Widget _appBarLeading = Builder(
-  builder: (BuildContext context) {
-    return IconButton(
-      icon: SvgPicture.asset(
-        Drawables.icChevronLeft,
-        color: AppColors.contentColor,
-        height: Margins.spacing_xl,
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      titleSpacing: 0,
+      iconTheme: IconThemeData(
+        color: Colors.black,
       ),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
+      elevation: 0,
+      centerTitle: false,
+      backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+      title: Text(
+        title,
+        style: TextStyles.secondaryAppBar,
+        overflow: TextOverflow.fade,
+      ),
     );
-  },
-);
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(64.0);
+}
 
 class ModeDemoAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
@@ -104,7 +79,7 @@ class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
       iconTheme: IconThemeData(
         color: Colors.black,
       ),
-      backgroundColor: backgroundColor ?? AppColors.grey100,
+      backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       title: Text(title, style: TextStyles.primaryAppBar),
       elevation: 0,
       centerTitle: false,

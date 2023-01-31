@@ -62,9 +62,10 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
   }
 
   Scaffold _scaffold(Widget body, BuildContext context) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.serviceCiviqueDetailTitle, context: context, withBackButton: true),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.serviceCiviqueDetailTitle, backgroundColor: backgroundColor),
       body: body,
     );
   }

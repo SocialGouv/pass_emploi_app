@@ -33,12 +33,13 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const backgroundColor = AppColors.grey100;
     return DefaultTabController(
       initialIndex: viewModel.tabs._index(initialTab),
       length: viewModel.tabs.length,
       child: Scaffold(
-        backgroundColor: AppColors.grey100,
-        appBar: PrimaryAppBar(title: Strings.solutionsAppBarTitle),
+        backgroundColor: backgroundColor,
+        appBar: PrimaryAppBar(title: Strings.solutionsAppBarTitle, backgroundColor: backgroundColor),
         body: Column(
           children: [
             PassEmploiTabBar(tabLabels: viewModel.tabs.titles()),

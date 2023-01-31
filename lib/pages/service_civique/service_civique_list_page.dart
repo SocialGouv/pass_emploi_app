@@ -86,13 +86,10 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
   }
 
   Widget _scaffold(Widget body) {
+    const backgroundColor = AppColors.grey100;
     return Scaffold(
-      backgroundColor: AppColors.grey100,
-      appBar: passEmploiAppBar(
-        label: Strings.serviceCiviqueListTitle,
-        context: context,
-        withBackButton: true,
-      ),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.serviceCiviqueListTitle, backgroundColor: backgroundColor),
       body: body,
     );
   }

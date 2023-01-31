@@ -156,10 +156,10 @@ class TextStyles {
     );
   }
 
-  static final textAppBar = TextStyle(
+  static final secondaryAppBar = TextStyle(
     color: AppColors.primary,
     fontFamily: 'Marianne',
-    fontSize: FontSizes.semi,
+    fontSize: FontSizes.huge,
     fontWeight: FontWeight.w700,
   );
 

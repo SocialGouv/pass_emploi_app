@@ -82,13 +82,10 @@ class _Scaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const backgroundColor = AppColors.grey100;
     return Scaffold(
-      backgroundColor: AppColors.grey100,
-      appBar: passEmploiAppBar(
-        label: Strings.suggestionsDeRechercheTitlePage,
-        context: context,
-        withBackButton: true,
-      ),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.suggestionsDeRechercheTitlePage, backgroundColor: backgroundColor),
       body: Stack(
         children: [
           ListView.separated(

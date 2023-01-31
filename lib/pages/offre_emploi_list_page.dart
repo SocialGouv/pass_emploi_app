@@ -90,12 +90,12 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   }
 
   Widget _scaffold(Widget body, BuildContext context) {
+    const backgroundColor = AppColors.grey100;
     return Scaffold(
-      backgroundColor: AppColors.grey100,
-      appBar: passEmploiAppBar(
-        label: widget.onlyAlternance ? Strings.alternanceTitle : Strings.offresEmploiTitle,
-        context: context,
-        withBackButton: true,
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(
+        title: widget.onlyAlternance ? Strings.alternanceTitle : Strings.offresEmploiTitle,
+        backgroundColor: backgroundColor,
       ),
       body: body,
     );

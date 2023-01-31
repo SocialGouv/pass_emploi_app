@@ -38,9 +38,10 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
   }
 
   Widget _scaffold(BuildContext context, QuestionPageViewModel viewModel) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: viewModel.titre, context: context),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: viewModel.titre, backgroundColor: backgroundColor),
       body: _content(viewModel),
     );
   }
