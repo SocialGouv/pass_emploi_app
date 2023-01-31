@@ -39,6 +39,9 @@ class AnalyticsScreenNames {
   static const rendezvousPrestation = "rdv/prestation";
   static const rendezvousAutre = "rdv/autre";
 
+  // Recherche V2
+  static const rechercheV2Home = "recherche";
+
   static const emploiResearch = "recherche/emploi/search";
   static const emploiResults = "recherche/emploi/search_results";
   static const emploiNoResults = "recherche/emploi/search_no_results";

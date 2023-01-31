@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/boite_a_outils_page.dart';
 import 'package:pass_emploi_app/pages/event_list_page.dart';
-import 'package:pass_emploi_app/pages/search_annonces_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_home_page.dart';
 import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -66,7 +66,7 @@ extension _Tabs on List<SolutionsTab> {
     return map((tab) {
       switch (tab) {
         case SolutionsTab.offres:
-          return SearchAnnoncesPage();
+          return RechercheHomePage();
         case SolutionsTab.events:
           return EventListPage();
         case SolutionsTab.outils:
