@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
-import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -161,9 +160,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
-        final initialTab = !_deepLinkHandled ? _initialSolutionTab(viewModel) : null;
         _deepLinkHandled = true;
-        return SolutionsTabPage(initialTab);
+        return SolutionsTabPage();
       case _indexOfFavorisPage:
         return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
       case _indexOfEvenementsPage:
@@ -184,16 +182,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
-  SolutionsTab? _initialSolutionTab(MainPageViewModel viewModel) {
-    switch (widget.displayState) {
-      case MainPageDisplayState.EVENT_LIST:
-        viewModel.resetDeeplink();
-        return SolutionsTab.events;
-      default:
-        return null;
-    }
-  }
-
   int _setInitIndexPage() {
     switch (widget.displayState) {
       case MainPageDisplayState.CHAT:
@@ -203,8 +191,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case MainPageDisplayState.SAVED_SEARCH:
         return _indexOfFavorisPage;
       case MainPageDisplayState.EVENT_LIST:
-        return _indexOfSolutionsPage;
-      case MainPageDisplayState.EVENEMENTS:
         return _indexOfEvenementsPage;
       default:
         return _indexOfMonSuiviPage;
