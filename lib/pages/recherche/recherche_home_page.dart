@@ -29,7 +29,7 @@ class RechercheHomePage extends StatelessWidget {
               title: Strings.rechercheHomeOffresEmploiTitle,
               subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
               drawable: Drawables.icOffresEmploi,
-              pageRoute: RechercheOffrePage.materialPageRoute(),
+              onTap: () => Navigator.push(context, RechercheOffrePage.materialPageRoute()),
             ),
           ],
         ),
@@ -42,18 +42,19 @@ class _BlocSolution extends StatelessWidget {
   final String title;
   final String subtitle;
   final String drawable;
-  final MaterialPageRoute<void> pageRoute;
+  final void Function() onTap;
 
   const _BlocSolution({
     required this.title,
     required this.subtitle,
     required this.drawable,
-    required this.pageRoute,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return CardContainer(
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.only(top: Margins.spacing_base),
         child: Column(
@@ -82,7 +83,6 @@ class _BlocSolution extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () => Navigator.push(context, pageRoute),
     );
   }
 }
