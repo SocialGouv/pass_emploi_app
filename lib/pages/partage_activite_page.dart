@@ -33,7 +33,7 @@ class PartageActivitePage extends StatelessWidget {
 
   Widget _scaffold(BuildContext context, PartageActivitePageViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(context: context, label: Strings.activityShareLabel, withBackButton: true),
+      appBar: SecondaryAppBar(title: Strings.activityShareLabel),
       body: _body(viewModel),
     );
   }

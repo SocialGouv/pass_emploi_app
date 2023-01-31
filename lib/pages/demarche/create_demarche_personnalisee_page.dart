@@ -46,7 +46,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
 
   Widget _buildBody(BuildContext context, CreateDemarchePersonnaliseeViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: Strings.createDemarcheTitle, context: context),
+      appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -27,9 +27,10 @@ class CampagneDetailsPage extends StatelessWidget {
   }
 
   Widget _content(BuildContext context, Campagne? campagne) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.actionDetails, context: context),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.actionDetails, backgroundColor: backgroundColor),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         child: Column(

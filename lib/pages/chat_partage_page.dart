@@ -53,13 +53,10 @@ class _ChatPartagePageState extends State<ChatPartagePage> {
 
   Scaffold _scaffold(BuildContext context, ChatPartagePageViewModel viewModel) {
     _controller = TextEditingController(text: viewModel.defaultMessage);
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(
-        label: viewModel.pageTitle,
-        context: context,
-        withBackButton: true,
-      ),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: viewModel.pageTitle, backgroundColor: backgroundColor),
       body: _body(context, viewModel),
     );
   }

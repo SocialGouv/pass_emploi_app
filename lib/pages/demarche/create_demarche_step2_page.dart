@@ -32,7 +32,7 @@ class CreateDemarcheStep2Page extends StatelessWidget {
 
   Widget _buildBody(BuildContext context, CreateDemarcheStep2ViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: Strings.createDemarcheTitle, context: context),
+      appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
       body: ListView.separated(
         itemCount: viewModel.items.length,
         padding: const EdgeInsets.all(Margins.spacing_m),

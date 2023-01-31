@@ -74,9 +74,10 @@ class RendezvousDetailsPage extends StatelessWidget {
   }
 
   Widget _scaffold(BuildContext context, RendezvousDetailsViewModel viewModel) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: viewModel.navbarTitle, context: context, withBackButton: true),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: viewModel.navbarTitle, backgroundColor: backgroundColor),
       body: _body(context, viewModel),
     );
   }

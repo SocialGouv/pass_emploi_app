@@ -43,7 +43,7 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
 
   Widget _buildBody(BuildContext context, CreateDemarcheStep1ViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: Strings.createDemarcheTitle, context: context),
+      appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
       body: Padding(
         padding: const EdgeInsets.all(Margins.spacing_base),
         child: Column(

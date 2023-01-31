@@ -33,7 +33,7 @@ class SuppressionComptePage extends StatelessWidget {
 
   Widget _scaffold(BuildContext context, SuppressionCompteViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(context: context, label: Strings.suppressionPageTitle, withBackButton: true),
+      appBar: SecondaryAppBar(title: Strings.suppressionPageTitle),
       body: _body(viewModel),
     );
   }

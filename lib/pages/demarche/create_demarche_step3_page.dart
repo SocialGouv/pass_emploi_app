@@ -53,7 +53,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
 
   Widget _buildBody(BuildContext context, CreateDemarcheStep3ViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: Strings.createDemarcheTitle, context: context),
+      appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),

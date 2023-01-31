@@ -54,7 +54,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
     return Tracker(
       tracking: AnalyticsScreenNames.userActionDetails,
       child: Scaffold(
-        appBar: passEmploiAppBar(label: Strings.actionDetails, context: context),
+        appBar: SecondaryAppBar(title: Strings.actionDetails),
         body: StoreConnector<AppState, UserActionDetailsViewModel>(
           onInit: (store) {
             store.dispatch(UserActionUpdateResetAction());
