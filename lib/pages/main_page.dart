@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
 import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
 
@@ -96,7 +97,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   Widget _body(MainPageViewModel viewModel, BuildContext context) {
-    return ModeDemoWrapper(
+    return _ModeDemoWrapper(
       child: Scaffold(
         body: Container(
           color: AppColors.grey100,
@@ -200,9 +201,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 }
 
-class ModeDemoWrapper extends StatelessWidget {
+class _ModeDemoWrapper extends StatelessWidget {
   final Widget child;
-  const ModeDemoWrapper({
+  const _ModeDemoWrapper({
     Key? key,
     required this.child,
   }) : super(key: key);
@@ -212,11 +213,10 @@ class ModeDemoWrapper extends StatelessWidget {
     final store = StoreProvider.of<AppState>(context);
     final isDemo = store.state.demoState;
     if (!isDemo) return child;
-    return Banner(
-      message: 'DÉMO',
-      color: AppColors.primary,
-      location: BannerLocation.topStart,
-      child: MaterialApp(
+    return Scaffold(
+      appBar: ModeDemoAppBar(),
+      body: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: child,
       ),
     );

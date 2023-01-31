@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/profile_button.dart';
 
@@ -58,38 +59,38 @@ Widget _appBarLeading = Builder(
   },
 );
 
-// TODO: Remove when demo mode is validated by design
-// class _ModeDemoPlaceholder extends StatelessWidget with PreferredSizeWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       decoration: BoxDecoration(color: AppColors.warningLighten, borderRadius: BorderRadius.circular(8)),
-//       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
-//       child: Row(
-//         mainAxisSize: MainAxisSize.max,
-//         children: [
-//           SvgPicture.asset(
-//             Drawables.icInfo,
-//             color: AppColors.warning,
-//           ),
-//           Expanded(
-//             child: Padding(
-//               padding: const EdgeInsets.only(left: 10),
-//               child: Text(
-//                 Strings.modeDemoAppBarLabel,
-//                 style: TextStyles.textBaseBoldWithColor(AppColors.warning),
-//                 textAlign: TextAlign.left,
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
+class ModeDemoAppBar extends StatelessWidget with PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      titleSpacing: 0,
+      elevation: 0,
+      backgroundColor: AppColors.warningLighten,
+      title: Padding(
+        padding: const EdgeInsets.symmetric(vertical: Margins.spacing_base, horizontal: Margins.spacing_m),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            SvgPicture.asset(
+              Drawables.icInfo,
+              color: AppColors.warning,
+            ),
+            SizedBox(width: Margins.spacing_base),
+            Expanded(
+              child: Text(
+                Strings.modeDemoAppBarLabel,
+                style: TextStyles.textBaseBoldWithColor(AppColors.warning),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-//   @override
-//   Size get preferredSize => Size.fromHeight(kToolbarHeight);
-// }
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
 
 class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
