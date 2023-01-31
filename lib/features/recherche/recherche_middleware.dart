@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -25,6 +26,14 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
       //TODO: force unwrap ?
       //TODO: force cast ?
       final newRequest = store.state.rechercheEmploiState.request!.copyWith(filtres: action.filtres);
+      final newRequestGeneric = newRequest as RechercheRequest<Criteres, Filtres>;
+      _rechercher(store: store, userId: userId, request: newRequestGeneric);
+    } else if (action is RechercheLoadMoreAction<OffreEmploi>) {
+      //TODO: solution à trouver selon chaque type de recherche
+      //TODO: force unwrap ?
+      //TODO: force cast ?
+      final oldRequest = store.state.rechercheEmploiState.request!;
+      final newRequest = oldRequest.copyWith(page: oldRequest.page + 1);
       final newRequestGeneric = newRequest as RechercheRequest<Criteres, Filtres>;
       _rechercher(store: store, userId: userId, request: newRequestGeneric);
     }
