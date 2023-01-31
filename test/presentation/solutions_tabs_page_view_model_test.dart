@@ -15,16 +15,5 @@ void main() {
       // Then
       expect(viewModel.tabs, [SolutionsTab.offres, SolutionsTab.outils]);
     });
-
-    test('via Milo should set proper tabs', () {
-      // Given
-      final store = givenState().loggedInMiloUser().store();
-
-      // When
-      final viewModel = SolutionsTabPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.tabs, [SolutionsTab.offres, SolutionsTab.events, SolutionsTab.outils]);
-    });
   });
 }

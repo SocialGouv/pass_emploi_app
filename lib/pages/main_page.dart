@@ -3,12 +3,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
+import 'package:pass_emploi_app/pages/event_list_page.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
-import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -29,6 +29,7 @@ const int _indexOfMonSuiviPage = 0;
 const int _indexOfChatPage = 1;
 const int _indexOfSolutionsPage = 2;
 const int _indexOfFavorisPage = 3;
+const int _indexOfEvenementsPage = 4;
 
 class MainPage extends StatefulWidget {
   final MainPageDisplayState displayState;
@@ -130,6 +131,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
               drawableRes: Drawables.icHeart,
               label: Strings.menuFavoris,
             ),
+            if (viewModel.withEvenements)
+              menu.MenuItem(
+                drawableRes: Drawables.icCalendar,
+                label: Strings.menuEvenements,
+              ),
           ],
           currentIndex: _selectedIndex,
           onTap: (index) => _onItemTapped(index, context),
@@ -154,11 +160,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
-        final initialTab = !_deepLinkHandled ? _initialSolutionTab(viewModel) : null;
         _deepLinkHandled = true;
-        return SolutionsTabPage(initialTab);
+        return SolutionsTabPage();
       case _indexOfFavorisPage:
         return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
+      case _indexOfEvenementsPage:
+        return EventListPage();
       default:
         return MonSuiviTabPage();
     }
@@ -175,16 +182,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
-  SolutionsTab? _initialSolutionTab(MainPageViewModel viewModel) {
-    switch (widget.displayState) {
-      case MainPageDisplayState.EVENT_LIST:
-        viewModel.resetDeeplink();
-        return SolutionsTab.events;
-      default:
-        return null;
-    }
-  }
-
   int _setInitIndexPage() {
     switch (widget.displayState) {
       case MainPageDisplayState.CHAT:
@@ -194,7 +191,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case MainPageDisplayState.SAVED_SEARCH:
         return _indexOfFavorisPage;
       case MainPageDisplayState.EVENT_LIST:
-        return _indexOfSolutionsPage;
+        return _indexOfEvenementsPage;
       default:
         return _indexOfMonSuiviPage;
     }

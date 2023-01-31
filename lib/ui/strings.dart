@@ -21,6 +21,7 @@ class Strings {
   static String menuFavoris = "Favoris";
   static String menuRendezvous = "Rendez-vous";
   static String menuProfil = "Profil";
+  static String menuEvenements = "Évènements";
 
   // Chat
   static String yourMessage = "Votre message…";
@@ -643,6 +644,7 @@ class Strings {
   static String eventListEmpty = "Il n'y a actuellement aucun événement";
   static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
+  static String eventAppBarTitle = "Mes événements";
 
   // Mode dégradé Pôle Emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
