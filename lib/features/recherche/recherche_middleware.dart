@@ -21,11 +21,12 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
     if (action is RechercheRequestAction<Criteres, Filtres>) {
       _rechercher(store: store, userId: userId, request: action.request);
     } else if (action is RechercheUpdateFiltres<Filtres>) {
-      final newRequest = updateFiltre(store.state, action.filtres);
+      final newRequest = copyRequestWith(state: store.state, filtres: action.filtres);
       _rechercher(store: store, userId: userId, request: newRequest);
     } else if (action is RechercheLoadMoreAction<Result>) {
-      final newRequest = incrementPage(store.state);
+      final newRequest = copyRequestWith(state: store.state, newPage: (page) => page + 1);
       _rechercher(store: store, userId: userId, request: newRequest);
+      //TODO: il faut concaténer les anciens Result avec les nouveaux Result
     }
   }
 
@@ -42,19 +43,17 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
     }
   }
 
-  //TODO: à voir si on peut avoir un get old request ? et un copy ? pour n'avoir que ici le increment
   //TODO: pour l'instant c'est en dur ici, mais ça sera à passer en abstract et donc avoir 4 petits middleware
-
-  RechercheRequest<Criteres, Filtres> incrementPage(AppState state) {
+  RechercheRequest<Criteres, Filtres> copyRequestWith({
+    required AppState state,
+    Filtres? filtres,
+    int Function(int)? newPage,
+  }) {
     final oldRequest = state.rechercheEmploiState.request!;
-    final newRequest = oldRequest.copyWith(page: oldRequest.page + 1);
-    return newRequest as RechercheRequest<Criteres, Filtres>;
-  }
-
-  RechercheRequest<Criteres, Filtres> updateFiltre(AppState state, Filtres filtres) {
-    final oldRequest = state.rechercheEmploiState.request!;
-    final newRequest = oldRequest.copyWith(filtres: filtres as OffreEmploiSearchParametersFiltres);
-    return newRequest as RechercheRequest<Criteres, Filtres>;
+    return oldRequest.copyWith(
+      filtres: filtres == null ? null : filtres as OffreEmploiSearchParametersFiltres,
+      page: newPage == null ? null : newPage(oldRequest.page),
+    ) as RechercheRequest<Criteres, Filtres>;
   }
 }
 
