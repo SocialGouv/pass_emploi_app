@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -28,6 +29,7 @@ class RechercheHomePage extends StatelessWidget {
               title: Strings.rechercheHomeOffresEmploiTitle,
               subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
               drawable: Drawables.icOffresEmploi,
+              pageRoute: RechercheOffrePage.materialPageRoute(),
             ),
           ],
         ),
@@ -40,8 +42,14 @@ class _BlocSolution extends StatelessWidget {
   final String title;
   final String subtitle;
   final String drawable;
+  final MaterialPageRoute<void> pageRoute;
 
-  const _BlocSolution({required this.title, required this.subtitle, required this.drawable});
+  const _BlocSolution({
+    required this.title,
+    required this.subtitle,
+    required this.drawable,
+    required this.pageRoute,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +82,7 @@ class _BlocSolution extends StatelessWidget {
           ],
         ),
       ),
+      onTap: () => Navigator.push(context, pageRoute),
     );
   }
 }

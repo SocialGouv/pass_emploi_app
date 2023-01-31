@@ -316,6 +316,7 @@ class Strings {
   static String rechercheHomeVoirLaListe = "Voir la liste";
   static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
   static String rechercheHomeOffresEmploiSubtitle = "Découvrez toutes les offres d’emploi de votre métier";
+  static String rechercheOffresEmploiTitle = "offres d’emploi";
 
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
