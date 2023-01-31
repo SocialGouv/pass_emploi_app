@@ -13,4 +13,6 @@ class RechercheSuccessAction<Result> {
 
 class RechercheFailureAction {}
 
+class RechercheNewAction {}
+
 class RechercheResetAction {}
