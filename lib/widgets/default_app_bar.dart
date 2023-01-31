@@ -79,7 +79,7 @@ class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
       iconTheme: IconThemeData(
         color: Colors.black,
       ),
-      backgroundColor: backgroundColor ?? AppColors.grey100,
+      backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       title: Text(title, style: TextStyles.primaryAppBar),
       elevation: 0,
       centerTitle: false,
