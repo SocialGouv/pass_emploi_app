@@ -52,6 +52,7 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_state
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
@@ -119,7 +120,7 @@ class AppState extends Equatable {
   final TraiterSuggestionRechercheState traiterSuggestionRechercheState;
   final EventListState eventListState;
   final DeviceInfoState deviceInfoState;
-  final RechercheState<SearchOffreEmploiRequest, OffreEmploi> rechercheEmploiState;
+  final RechercheState<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi> rechercheEmploiState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -240,7 +241,8 @@ class AppState extends Equatable {
     final TraiterSuggestionRechercheState? traiterSuggestionRechercheState,
     final EventListState? eventListState,
     final DeviceInfoState? deviceInfoState,
-    final RechercheState<SearchOffreEmploiRequest, OffreEmploi>? rechercheEmploiState,
+    final RechercheState<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi>?
+        rechercheEmploiState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(

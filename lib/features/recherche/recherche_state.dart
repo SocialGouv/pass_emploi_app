@@ -7,9 +7,29 @@ enum RechercheStatus {
   success;
 }
 
-class RechercheState<Request extends Equatable, Result extends Equatable> extends Equatable {
+class RechercheRequest<Criteres extends Equatable, Filtres extends Equatable> extends Equatable {
+  final Criteres criteres;
+  final Filtres filtres;
+  final int page;
+
+  RechercheRequest(this.criteres, this.filtres, this.page);
+
+  RechercheRequest<Criteres, Filtres> copyWith({
+    Criteres? criteres,
+    Filtres? filtres,
+    int? page,
+  }) {
+    return RechercheRequest(criteres ?? this.criteres, filtres ?? this.filtres, page ?? this.page);
+  }
+
+  @override
+  List<Object?> get props => [criteres, filtres, page];
+}
+
+class RechercheState<Criteres extends Equatable, Filtres extends Equatable, Result extends Equatable>
+    extends Equatable {
   final RechercheStatus status;
-  final Request? request;
+  final RechercheRequest<Criteres, Filtres>? request;
   final List<Result>? results;
   final bool canLoadMore;
 
@@ -29,9 +49,9 @@ class RechercheState<Request extends Equatable, Result extends Equatable> extend
     );
   }
 
-  RechercheState<Request, Result> copyWith({
+  RechercheState<Criteres, Filtres, Result> copyWith({
     RechercheStatus? status,
-    Request? Function()? request,
+    RechercheRequest<Criteres, Filtres>? Function()? request,
     List<Result>? Function()? results,
     bool? canLoadMore,
   }) {

@@ -1,5 +1,8 @@
-class RechercheRequestAction<Request> {
-  final Request request;
+import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
+
+class RechercheRequestAction<Criteres extends Equatable, Filtres extends Equatable> {
+  final RechercheRequest<Criteres, Filtres> request;
 
   RechercheRequestAction(this.request);
 }
@@ -12,6 +15,12 @@ class RechercheSuccessAction<Result> {
 }
 
 class RechercheFailureAction {}
+
+class RechercheUpdateFiltres<Filtres> {
+  final Filtres filtres;
+
+  RechercheUpdateFiltres(this.filtres);
+}
 
 class RechercheNewAction {}
 
