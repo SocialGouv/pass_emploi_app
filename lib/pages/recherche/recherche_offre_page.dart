@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -41,7 +42,7 @@ class RechercheOffrePage extends StatelessWidget {
           ),
         );
       },
-      onDispose: (store) => store.dispatch(RechercheResetAction()),
+      onDispose: (store) => store.dispatch(RechercheResetAction<OffreEmploi>()),
       converter: (store) => 0,
       distinct: true,
     );

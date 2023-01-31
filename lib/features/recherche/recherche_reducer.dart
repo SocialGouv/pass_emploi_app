@@ -7,7 +7,7 @@ RechercheState<Criteres, Filtres, Result>
   RechercheState<Criteres, Filtres, Result> current,
   dynamic action,
 ) {
-  if (action is RechercheResetAction) {
+  if (action is RechercheResetAction<Result>) {
     return current.copyWith(
       status: RechercheStatus.newSearch,
       request: null,
@@ -15,7 +15,7 @@ RechercheState<Criteres, Filtres, Result>
       canLoadMore: false,
     );
   }
-  if (action is RechercheNewAction) {
+  if (action is RechercheNewAction<Result>) {
     return current.copyWith(
       status: RechercheStatus.newSearch,
     );
@@ -33,6 +33,6 @@ RechercheState<Criteres, Filtres, Result>
       canLoadMore: action.canLoadMore,
     );
   }
-  if (action is RechercheFailureAction) return current.copyWith(status: RechercheStatus.failure);
+  if (action is RechercheFailureAction<Result>) return current.copyWith(status: RechercheStatus.failure);
   return current;
 }
