@@ -121,19 +121,19 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
               label: Strings.menuMonSuivi,
             ),
             menu.MenuItem(
-              drawableRes: Drawables.icNavMonSuiviActive,
-              inactiveDrawableRes: Drawables.icNavMonSuiviInactive,
+              drawableRes: Drawables.icNavMessagesActive,
+              inactiveDrawableRes: Drawables.icNavMessagesInactive,
               label: Strings.menuChat,
               withBadge: viewModel.withChatBadge,
             ),
             menu.MenuItem(
-              drawableRes: Drawables.icNavMessagesActive,
-              inactiveDrawableRes: Drawables.icNavMessagesInactive,
+              drawableRes: Drawables.icRechercheActive,
+              inactiveDrawableRes: Drawables.icRechercheInactive,
               label: Strings.menuSolutions,
             ),
             menu.MenuItem(
-              drawableRes: Drawables.icRechercheActive,
-              inactiveDrawableRes: Drawables.icRechercheInactive,
+              drawableRes: Drawables.icHeartFull,
+              inactiveDrawableRes: Drawables.icHeart,
               label: Strings.menuFavoris,
             ),
             if (viewModel.withEvenements)
