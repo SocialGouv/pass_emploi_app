@@ -68,7 +68,7 @@ void main() {
   });
 
   group('Create MainPageViewModel when user is...', () {
-    test('should not display evenement when user is not from milo', () {
+    test('not from milo should not display evenement', () {
       // Given
       final store = givenState().loggedInPoleEmploiUser().store();
       // When
@@ -77,7 +77,7 @@ void main() {
       expect(viewModel.withEvenements, false);
     });
 
-    test('should display evenement when user is not from milo', () {
+    test('not from milo should display evenement', () {
       // Given
       final store = givenState().loggedInMiloUser().store();
       // When

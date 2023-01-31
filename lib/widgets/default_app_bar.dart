@@ -80,7 +80,11 @@ class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
         color: Colors.black,
       ),
       backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
-      title: Text(title, style: TextStyles.primaryAppBar),
+      title: Text(
+        title,
+        style: TextStyles.primaryAppBar,
+        overflow: TextOverflow.fade,
+      ),
       elevation: 0,
       centerTitle: false,
       actions: [if (withProfileButton) ProfileButton()],
