@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
@@ -48,26 +47,9 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
     _initializeTabController(viewModel);
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      appBar: viewModel.isModeDemo ? passEmploiAppBar(label: null, context: context) : null,
+      appBar: PrimaryAppBar(title: Strings.monSuiviAppBarTitle),
       body: SafeArea(
-        child: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
-                pinned: false,
-                snap: true,
-                floating: true,
-                expandedHeight: 40.0,
-                backgroundColor: AppColors.grey100,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Text(Strings.monSuiviAppBarTitle, style: TextStyles.textAppBar),
-                  centerTitle: true,
-                ),
-              ),
-            ];
-          },
-          body: _getBody(viewModel),
-        ),
+        child: _getBody(viewModel),
       ),
     );
   }

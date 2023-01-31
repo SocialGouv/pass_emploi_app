@@ -8,4 +8,11 @@ class Shadows {
     blurRadius: 8,
     offset: Offset(0, 6), // changes position of shadow
   );
+
+  static const boxShadow_wide = BoxShadow(
+    color: AppColors.shadowColor,
+    spreadRadius: 0,
+    blurRadius: 12,
+    offset: Offset(0, 4),
+  );
 }

@@ -23,7 +23,7 @@ class FavorisTabsPage extends StatelessWidget {
       initialIndex: initialTab,
       child: Scaffold(
         backgroundColor: AppColors.grey100,
-        appBar: passEmploiAppBar(label: Strings.menuFavoris, context: context),
+        appBar: PrimaryAppBar(title: Strings.menuFavoris),
         body: _buildTabBarView(),
       ),
     );

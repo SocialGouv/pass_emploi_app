@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
-import 'package:pass_emploi_app/pages/profil/profil_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
@@ -22,6 +21,7 @@ import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
 import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
 
@@ -29,7 +29,6 @@ const int _indexOfMonSuiviPage = 0;
 const int _indexOfChatPage = 1;
 const int _indexOfSolutionsPage = 2;
 const int _indexOfFavorisPage = 3;
-const int _indexOfPlusPage = 4;
 
 class MainPage extends StatefulWidget {
   final MainPageDisplayState displayState;
@@ -98,29 +97,43 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   Widget _body(MainPageViewModel viewModel, BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: AppColors.grey100,
-        child: _content(_selectedIndex, viewModel),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        // Required to avoid having a disproportionate NavBar height
-        selectedFontSize: FontSizes.extraSmall,
-        unselectedFontSize: FontSizes.extraSmall,
-        backgroundColor: Colors.white,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: AppColors.secondary,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: <BottomNavigationBarItem>[
-          menu.MenuItem(drawableRes: Drawables.icMenuAction, label: Strings.menuMonSuivi),
-          menu.MenuItem(drawableRes: Drawables.icMenuChat, label: Strings.menuChat, withBadge: viewModel.withChatBadge),
-          menu.MenuItem(drawableRes: Drawables.icSearchingBar, label: Strings.menuSolutions),
-          menu.MenuItem(drawableRes: Drawables.icHeart, label: Strings.menuFavoris),
-          menu.MenuItem(drawableRes: Drawables.icMenuPlus, label: Strings.menuProfil),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: (index) => _onItemTapped(index, context),
+    return _ModeDemoWrapper(
+      child: Scaffold(
+        body: Container(
+          color: AppColors.grey100,
+          child: _content(_selectedIndex, viewModel),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          // Required to avoid having a disproportionate NavBar height
+          selectedFontSize: FontSizes.extraSmall,
+          unselectedFontSize: FontSizes.extraSmall,
+          backgroundColor: Colors.white,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: AppColors.secondary,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          items: <BottomNavigationBarItem>[
+            menu.MenuItem(
+              drawableRes: Drawables.icMenuAction,
+              label: Strings.menuMonSuivi,
+            ),
+            menu.MenuItem(
+              drawableRes: Drawables.icMenuChat,
+              label: Strings.menuChat,
+              withBadge: viewModel.withChatBadge,
+            ),
+            menu.MenuItem(
+              drawableRes: Drawables.icSearchingBar,
+              label: Strings.menuSolutions,
+            ),
+            menu.MenuItem(
+              drawableRes: Drawables.icHeart,
+              label: Strings.menuFavoris,
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: (index) => _onItemTapped(index, context),
+        ),
       ),
     );
   }
@@ -146,8 +159,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return SolutionsTabPage(initialTab);
       case _indexOfFavorisPage:
         return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
-      case _indexOfPlusPage:
-        return ProfilPage();
       default:
         return MonSuiviTabPage();
     }
@@ -187,6 +198,28 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       default:
         return _indexOfMonSuiviPage;
     }
+  }
+}
+
+class _ModeDemoWrapper extends StatelessWidget {
+  final Widget child;
+  const _ModeDemoWrapper({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final store = StoreProvider.of<AppState>(context);
+    final isDemo = store.state.demoState;
+    if (!isDemo) return child;
+    return Scaffold(
+      appBar: ModeDemoAppBar(),
+      body: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: child,
+      ),
+    );
   }
 }
 

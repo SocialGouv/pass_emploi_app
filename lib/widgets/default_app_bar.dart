@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/profile_button.dart';
 
 class FlatDefaultAppBar extends AppBar {
   FlatDefaultAppBar({
@@ -39,19 +38,6 @@ class FlatDefaultAppBar extends AppBar {
 
 FlatDefaultAppBar passEmploiAppBar(
     {required String? label, required BuildContext context, bool withBackButton = false}) {
-  final store = StoreProvider.of<AppState>(context);
-  if (store.state.demoState) {
-    return FlatDefaultAppBar(
-      title: _ModeDemoPlaceholder(),
-      automaticallyImplyLeading: false,
-      bottom: label != null
-          ? FlatDefaultAppBar(
-              title: Text(label, style: TextStyles.textAppBar),
-              leading: withBackButton ? _appBarLeading : null,
-            )
-          : null,
-    );
-  }
   return FlatDefaultAppBar(
     title: label != null ? Text(label, style: TextStyles.textAppBar) : null,
     leading: withBackButton ? _appBarLeading : null,
@@ -73,14 +59,15 @@ Widget _appBarLeading = Builder(
   },
 );
 
-class _ModeDemoPlaceholder extends StatelessWidget {
+class ModeDemoAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Container(
-        decoration: BoxDecoration(color: AppColors.warningLighten, borderRadius: BorderRadius.circular(8)),
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+    return AppBar(
+      titleSpacing: 0,
+      elevation: 0,
+      backgroundColor: AppColors.warningLighten,
+      title: Padding(
+        padding: const EdgeInsets.symmetric(vertical: Margins.spacing_base, horizontal: Margins.spacing_m),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -88,14 +75,11 @@ class _ModeDemoPlaceholder extends StatelessWidget {
               Drawables.icInfo,
               color: AppColors.warning,
             ),
+            SizedBox(width: Margins.spacing_base),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
-                  Strings.modeDemoAppBarLabel,
-                  style: TextStyles.textBaseBoldWithColor(AppColors.warning),
-                  textAlign: TextAlign.left,
-                ),
+              child: Text(
+                Strings.modeDemoAppBarLabel,
+                style: TextStyles.textBaseBoldWithColor(AppColors.warning),
               ),
             ),
           ],
@@ -103,4 +87,31 @@ class _ModeDemoPlaceholder extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
+
+class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
+  final String title;
+  final Color? backgroundColor;
+  final bool withProfileButton;
+  const PrimaryAppBar({super.key, required this.title, this.backgroundColor, this.withProfileButton = true});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      iconTheme: IconThemeData(
+        color: Colors.black,
+      ),
+      backgroundColor: backgroundColor ?? AppColors.grey100,
+      title: Text(title, style: TextStyles.primaryAppBar),
+      elevation: 0,
+      centerTitle: false,
+      actions: [if (withProfileButton) ProfileButton()],
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(72.0);
 }
