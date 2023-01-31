@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class EventListPage extends StatelessWidget {
@@ -36,16 +37,23 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (viewModel.displayState) {
-      case DisplayState.LOADING:
-        return Center(child: CircularProgressIndicator());
-      case DisplayState.EMPTY:
-        return Center(child: Text(Strings.eventListEmpty, textAlign: TextAlign.center));
-      case DisplayState.CONTENT:
-        return _Content(viewModel);
-      case DisplayState.FAILURE:
-        return Center(child: Retry(Strings.eventListError, () => viewModel.onRetry()));
-    }
+    return Scaffold(
+      appBar: PrimaryAppBar(
+        title: Strings.eventAppBarTitle,
+      ),
+      body: Builder(builder: (context) {
+        switch (viewModel.displayState) {
+          case DisplayState.LOADING:
+            return Center(child: CircularProgressIndicator());
+          case DisplayState.EMPTY:
+            return Center(child: Text(Strings.eventListEmpty, textAlign: TextAlign.center));
+          case DisplayState.CONTENT:
+            return _Content(viewModel);
+          case DisplayState.FAILURE:
+            return Center(child: Retry(Strings.eventListError, () => viewModel.onRetry()));
+        }
+      }),
+    );
   }
 }
 
