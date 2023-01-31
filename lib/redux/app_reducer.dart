@@ -57,6 +57,8 @@ import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_reducer.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_reducer.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -138,6 +140,7 @@ AppState reducer(AppState current, dynamic action) {
     traiterSuggestionRechercheState: traiterSuggestionRechercheReducer(current.traiterSuggestionRechercheState, action),
     eventListState: eventListReducer(current.eventListState, action),
     deviceInfoState: deviceInfoReducer(current.deviceInfoState, action),
+    rechercheEmploiState: rechercheReducer<SearchOffreEmploiRequest, OffreEmploi>(current.rechercheEmploiState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }
