@@ -23,62 +23,25 @@ class DefaultMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color color = _itemColor(isActive);
 
-    return Stack(
-      alignment: Alignment.center,
-      clipBehavior: Clip.none,
+    return Column(
       children: [
-        Column(
+        Stack(
+          clipBehavior: Clip.none,
           children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                SizedBox(
-                  height: Dimens.bottomNavigationBarItemHeight,
-                  child: SvgPicture.asset(drawableRes, color: color),
-                ),
-                if (withBadge) Positioned(top: -1, left: 12, child: SvgPicture.asset(Drawables.icBadge)),
-              ],
+            SizedBox(
+              height: Dimens.bottomNavigationBarItemHeight,
+              child: SvgPicture.asset(drawableRes, color: color),
             ),
-            SizedBox(height: Margins.spacing_s),
-            Text(label, style: TextStyles.textMenuRegular(color)),
+            if (withBadge) Positioned(top: -1, left: 12, child: SvgPicture.asset(Drawables.icBadge)),
           ],
         ),
-        Builder(builder: (BuildContext context) {
-          return _ActiveIndicator(
-            isActive: isActive,
-          );
-        })
+        SizedBox(height: Margins.spacing_s),
+        Text(label, style: TextStyles.textMenuRegular(color).copyWith(fontWeight: isActive ? FontWeight.bold : null)),
       ],
     );
   }
 }
 
-class _ActiveIndicator extends StatelessWidget {
-  const _ActiveIndicator({required this.isActive});
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    final bottomPosition = isActive ? -6.0 : -20.0;
-    final opacity = isActive ? 1.0 : 0.0;
-    final animationDuration = Duration(milliseconds: 800);
-    return AnimatedPositioned(
-      curve: Curves.fastLinearToSlowEaseIn,
-      bottom: bottomPosition,
-      duration: animationDuration,
-      child: AnimatedOpacity(
-        opacity: opacity,
-        duration: animationDuration,
-        curve: Curves.fastLinearToSlowEaseIn,
-        child: SvgPicture.asset(
-          Drawables.icMenuSelectedBullet,
-          color: _itemColor(isActive),
-        ),
-      ),
-    );
-  }
-}
-
 Color _itemColor(bool isActive) {
-  return isActive ? AppColors.secondary : AppColors.grey800;
+  return isActive ? AppColors.primary : AppColors.grey800;
 }

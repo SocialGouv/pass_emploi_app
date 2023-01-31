@@ -5,6 +5,16 @@ class Drawables {
   static const String _tuto = "assets/tuto/";
   static const String _svg = ".svg";
   static const String _png = ".png";
+  static String icNavHomeActive = _assets + "ic_home_active" + _svg;
+  static String icNavHomeInactive = _assets + "ic_home_inactive" + _svg;
+  static String icNavMonSuiviActive = _assets + "ic_mon_suivi_active" + _svg;
+  static String icNavMonSuiviInactive = _assets + "ic_mon_suivi_inactive" + _svg;
+  static String icNavMessagesActive = _assets + "ic_message_active" + _svg;
+  static String icNavMessagesInactive = _assets + "ic_message_inactive" + _svg;
+  static String icRechercheActive = _assets + "ic_recherche_active" + _svg;
+  static String icRechercheInactive = _assets + "ic_recherche_inactive" + _svg;
+  static String icEvenementsActive = _assets + "ic_evenement_active" + _svg;
+  static String icEvenementsInactive = _assets + "ic_evenement_inactive" + _svg;
   static String icLogo = _assets + "ic_logo" + _svg;
   static String icRefresh = _assets + "ic_refresh" + _svg;
   static String icActualisation = _assets + "ic_actualisation" + _svg;

@@ -110,30 +110,36 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           unselectedFontSize: FontSizes.extraSmall,
           backgroundColor: Colors.white,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: AppColors.secondary,
+          selectedItemColor: AppColors.primary,
+          unselectedItemColor: AppColors.grey800,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           items: <BottomNavigationBarItem>[
             menu.MenuItem(
-              drawableRes: Drawables.icMenuAction,
+              drawableRes: Drawables.icNavHomeActive,
+              inactiveDrawableRes: Drawables.icNavHomeInactive,
               label: Strings.menuMonSuivi,
             ),
             menu.MenuItem(
-              drawableRes: Drawables.icMenuChat,
+              drawableRes: Drawables.icNavMonSuiviActive,
+              inactiveDrawableRes: Drawables.icNavMonSuiviInactive,
               label: Strings.menuChat,
               withBadge: viewModel.withChatBadge,
             ),
             menu.MenuItem(
-              drawableRes: Drawables.icSearchingBar,
+              drawableRes: Drawables.icNavMessagesActive,
+              inactiveDrawableRes: Drawables.icNavMessagesInactive,
               label: Strings.menuSolutions,
             ),
             menu.MenuItem(
-              drawableRes: Drawables.icHeart,
+              drawableRes: Drawables.icRechercheActive,
+              inactiveDrawableRes: Drawables.icRechercheInactive,
               label: Strings.menuFavoris,
             ),
             if (viewModel.withEvenements)
               menu.MenuItem(
-                drawableRes: Drawables.icCalendar,
+                drawableRes: Drawables.icEvenementsActive,
+                inactiveDrawableRes: Drawables.icEvenementsInactive,
                 label: Strings.menuEvenements,
               ),
           ],
