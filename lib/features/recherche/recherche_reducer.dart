@@ -2,8 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 
-RechercheState<Request, Result> rechercheReducer<Request extends Equatable, Result extends Equatable>(
-  RechercheState<Request, Result> current,
+RechercheState<Criteres, Filtres, Result>
+    rechercheReducer<Criteres extends Equatable, Filtres extends Equatable, Result extends Equatable>(
+  RechercheState<Criteres, Filtres, Result> current,
   dynamic action,
 ) {
   if (action is RechercheResetAction) {
@@ -19,7 +20,7 @@ RechercheState<Request, Result> rechercheReducer<Request extends Equatable, Resu
       status: RechercheStatus.newSearch,
     );
   }
-  if (action is RechercheRequestAction<Request>) {
+  if (action is RechercheRequestAction<Criteres, Filtres>) {
     return current.copyWith(
       status: RechercheStatus.loading,
       request: () => action.request,

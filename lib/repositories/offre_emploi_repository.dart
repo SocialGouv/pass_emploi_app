@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_middleware.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -9,6 +10,7 @@ import 'package:pass_emploi_app/network/filtres_request.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
+//TODO: peut-être à suppr.
 class SearchOffreEmploiRequest extends Equatable {
   final String keywords;
   final Location? location;
@@ -28,7 +30,23 @@ class SearchOffreEmploiRequest extends Equatable {
   List<Object?> get props => [keywords, location, onlyAlternance, page, filtres];
 }
 
-class OffreEmploiRepository extends RechercheRepository<SearchOffreEmploiRequest, OffreEmploi> {
+class EmploiCriteresRecherche extends Equatable {
+  final String keywords;
+  final Location? location;
+  final bool onlyAlternance;
+
+  EmploiCriteresRecherche({
+    required this.keywords,
+    required this.location,
+    required this.onlyAlternance,
+  });
+
+  @override
+  List<Object?> get props => [keywords, location, onlyAlternance];
+}
+
+class OffreEmploiRepository
+    extends RechercheRepository<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi> {
   static const PAGE_SIZE = 50;
 
   final String _baseUrl;
@@ -39,12 +57,12 @@ class OffreEmploiRepository extends RechercheRepository<SearchOffreEmploiRequest
   OffreEmploiRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
   @override
-  Future<RechercheResponse<OffreEmploi>?> recherche({
+  Future<RechercheResponse<OffreEmploi>?> rechercher({
     required String userId,
-    required SearchOffreEmploiRequest request,
+    required RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> request,
   }) async {
     final url = Uri.parse(_baseUrl + "/offres-emploi").replace(
-      query: _createQuery(request),
+      query: _createQueryNew(request),
     );
     try {
       final response = await _httpClient.get(url);
@@ -57,6 +75,17 @@ class OffreEmploiRepository extends RechercheRepository<SearchOffreEmploiRequest
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return null;
+  }
+
+  //TODO: temp
+  String _createQueryNew(RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> request) {
+    return _createQuery(SearchOffreEmploiRequest(
+      keywords: request.criteres.keywords,
+      location: request.criteres.location,
+      onlyAlternance: request.criteres.onlyAlternance,
+      page: request.page,
+      filtres: request.filtres,
+    ));
   }
 
   //TODO: remove
