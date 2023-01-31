@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
+import 'package:pass_emploi_app/pages/event_list_page.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
@@ -29,6 +30,7 @@ const int _indexOfMonSuiviPage = 0;
 const int _indexOfChatPage = 1;
 const int _indexOfSolutionsPage = 2;
 const int _indexOfFavorisPage = 3;
+const int _indexOfEvenementsPage = 4;
 
 class MainPage extends StatefulWidget {
   final MainPageDisplayState displayState;
@@ -130,6 +132,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
               drawableRes: Drawables.icHeart,
               label: Strings.menuFavoris,
             ),
+            if (viewModel.withEvenements)
+              menu.MenuItem(
+                drawableRes: Drawables.icCalendar,
+                label: Strings.menuEvenements,
+              ),
           ],
           currentIndex: _selectedIndex,
           onTap: (index) => _onItemTapped(index, context),
@@ -159,6 +166,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return SolutionsTabPage(initialTab);
       case _indexOfFavorisPage:
         return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
+      case _indexOfEvenementsPage:
+        return EventListPage();
       default:
         return MonSuiviTabPage();
     }
@@ -195,6 +204,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return _indexOfFavorisPage;
       case MainPageDisplayState.EVENT_LIST:
         return _indexOfSolutionsPage;
+      case MainPageDisplayState.EVENEMENTS:
+        return _indexOfEvenementsPage;
       default:
         return _indexOfMonSuiviPage;
     }
