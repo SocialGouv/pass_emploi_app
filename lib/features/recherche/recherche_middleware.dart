@@ -1,11 +1,25 @@
-import 'dart:math';
-
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
+class RechercheResponse<Result> {
+  final List<Result> results;
+  final bool canLoadMore;
+
+  RechercheResponse({
+    required this.results,
+    required this.canLoadMore,
+  });
+}
+
+abstract class RechercheRepository<Request, Result> {
+  Future<RechercheResponse<Result>?> search({required String userId, required Request request});
+}
+
 class RechercheMiddleware<Request, Result> extends MiddlewareClass<AppState> {
-  RechercheMiddleware();
+  final RechercheRepository<Request, Result> _repository;
+
+  RechercheMiddleware(this._repository);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -14,11 +28,10 @@ class RechercheMiddleware<Request, Result> extends MiddlewareClass<AppState> {
     final userId = store.state.userId();
     if (userId == null) return;
 
-    if (action is RechercheRequestAction) {
-      final List<Result>? result = Random().nextBool() ? [] : null;
-      final canLoadMore = Random().nextBool();
-      if (result != null) {
-        store.dispatch(RechercheSuccessAction(result, canLoadMore));
+    if (action is RechercheRequestAction<Request>) {
+      final response = await _repository.search(userId: userId, request: action.request);
+      if (response != null) {
+        store.dispatch(RechercheSuccessAction(response.results, response.canLoadMore));
       } else {
         store.dispatch(RechercheFailureAction());
       }

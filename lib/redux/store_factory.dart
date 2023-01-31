@@ -274,7 +274,7 @@ class StoreFactory {
         TraiterSuggestionRechercheMiddleware(suggestionsRechercheRepository),
         EventListMiddleware(eventListRepository),
         DeviceInfoMiddleware(installationIdRepository),
-        RechercheMiddleware<SearchOffreEmploiRequest, OffreEmploi>(),
+        //RechercheMiddleware<SearchOffreEmploiRequest, OffreEmploi>(offreEmploiRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
