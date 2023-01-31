@@ -312,6 +312,12 @@ class Strings {
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";
 
+  // Recherche (V2)
+  static String rechercheHomeNosOffres = "Nos offres";
+  static String rechercheHomeVoirLaListe = "Voir la liste";
+  static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
+  static String rechercheHomeOffresEmploiSubtitle = "Découvrez toutes les offres d’emploi de votre métier";
+
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";
