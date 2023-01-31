@@ -1,5 +1,5 @@
 class RechercheRequestAction<Request> {
-  final Request? request;
+  final Request request;
 
   RechercheRequestAction(this.request);
 }
