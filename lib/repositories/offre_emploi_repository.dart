@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_middleware.dart';
@@ -8,7 +9,7 @@ import 'package:pass_emploi_app/network/filtres_request.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
-class SearchOffreEmploiRequest {
+class SearchOffreEmploiRequest extends Equatable {
   final String keywords;
   final Location? location;
   final bool onlyAlternance;
@@ -22,6 +23,9 @@ class SearchOffreEmploiRequest {
     required this.page,
     required this.filtres,
   });
+
+  @override
+  List<Object?> get props => [keywords, location, onlyAlternance, page, filtres];
 }
 
 class OffreEmploiRepository extends RechercheRepository<SearchOffreEmploiRequest, OffreEmploi> {
