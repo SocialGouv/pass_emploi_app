@@ -13,7 +13,7 @@ class RechercheResponse<Result> {
 }
 
 abstract class RechercheRepository<Request, Result> {
-  Future<RechercheResponse<Result>?> search({required String userId, required Request request});
+  Future<RechercheResponse<Result>?> recherche({required String userId, required Request request});
 }
 
 class RechercheMiddleware<Request, Result> extends MiddlewareClass<AppState> {
@@ -29,7 +29,7 @@ class RechercheMiddleware<Request, Result> extends MiddlewareClass<AppState> {
     if (userId == null) return;
 
     if (action is RechercheRequestAction<Request>) {
-      final response = await _repository.search(userId: userId, request: action.request);
+      final response = await _repository.recherche(userId: userId, request: action.request);
       if (response != null) {
         store.dispatch(RechercheSuccessAction(response.results, response.canLoadMore));
       } else {
