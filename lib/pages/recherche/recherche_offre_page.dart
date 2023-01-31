@@ -152,14 +152,16 @@ class BlocCritereRechercheContenuViewModel extends Equatable {
   factory BlocCritereRechercheContenuViewModel.create(Store<AppState> store) {
     return BlocCritereRechercheContenuViewModel(
       displayState: _displayState(store),
-      onSearch: (keyword) => store.dispatch(RechercheRequestAction<SearchOffreEmploiRequest>(
-        // TODO: 1353 - Vraie recherche
-        SearchOffreEmploiRequest(
-          keywords: 'boulanger',
-          page: 0,
-          location: null,
-          onlyAlternance: false,
-          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      onSearch: (keyword) => store.dispatch(RechercheRequestAction(
+        RechercheRequest(
+          // TODO: 1353 - Vraie recherche
+          EmploiCriteresRecherche(
+            keywords: 'boulanger',
+            location: null,
+            onlyAlternance: false,
+          ),
+          OffreEmploiSearchParametersFiltres.noFiltres(),
+          1,
         ),
       )),
     );
