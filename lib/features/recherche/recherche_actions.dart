@@ -14,8 +14,7 @@ class RechercheSuccessAction<Result> {
   RechercheSuccessAction(this.results, this.canLoadMore);
 }
 
-//TODO: il faudra type générique sinon tous les reducers vont capturer
-class RechercheFailureAction {}
+class RechercheFailureAction<Result> {}
 
 class RechercheUpdateFiltres<Filtres> {
   final Filtres filtres;
@@ -25,8 +24,6 @@ class RechercheUpdateFiltres<Filtres> {
 
 class RechercheLoadMoreAction<Result> {}
 
-//TODO: il faudra type générique sinon tous les reducers vont capturer
-class RechercheNewAction {}
+class RechercheNewAction<Result> {}
 
-//TODO: il faudra type générique sinon tous les reducers vont capturer
-class RechercheResetAction {}
+class RechercheResetAction<Result> {}
