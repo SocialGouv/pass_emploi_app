@@ -14,6 +14,11 @@ RechercheState<Request, Result> rechercheReducer<Request extends Equatable, Resu
       canLoadMore: false,
     );
   }
+  if (action is RechercheNewAction) {
+    return current.copyWith(
+      status: RechercheStatus.newSearch,
+    );
+  }
   if (action is RechercheRequestAction<Request>) {
     return current.copyWith(
       status: RechercheStatus.loading,
