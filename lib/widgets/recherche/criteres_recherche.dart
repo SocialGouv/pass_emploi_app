@@ -27,46 +27,48 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BlocCriteresRechercheViewModel>(
       converter: (store) => BlocCriteresRechercheViewModel.create(store),
-      builder: (context, viewModel) {
-        return Column(
-          children: [
-            Material(
-              elevation: 16, //TODO Real box shadow ?
-              borderRadius: BorderRadius.circular(Dimens.radius_s),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(Dimens.radius_s),
-                child: Theme(
-                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                  child: ExpansionTile(
-                    key: UniqueKey(),
-                    // required to force rebuild with new vm.isOpen value
-                    collapsedBackgroundColor: AppColors.primary,
-                    collapsedIconColor: Colors.white,
-                    iconColor: AppColors.primary,
-                    backgroundColor: Colors.white,
-                    collapsedTextColor: Colors.white,
-                    title: _CriteresRechercheBandeau(),
-                    initiallyExpanded: viewModel.isOpen,
-                    children: [
-                      _CriteresRechercheContenu(
-                        onKeywordChanged: (keyword) => _keyword = keyword,
-                        onSelectLocationViewModel: (locationVM) => _selectedLocationViewModel = locationVM,
-                        getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
-                        onRechercheButtonPressed: () {
-                          // TODO: 1353 - only alternanc
-                          viewModel.onSearchingRequest(_keyword, _selectedLocationViewModel?.location, false);
-                          Keyboard.dismiss(context);
-                        },
-                      ),
-                    ],
+      builder: _builder,
+      distinct: true,
+    );
+  }
+
+  Widget _builder(BuildContext context, BlocCriteresRechercheViewModel viewModel) {
+    return Column(
+      children: [
+        Material(
+          elevation: 16, //TODO Real box shadow ?
+          borderRadius: BorderRadius.circular(Dimens.radius_s),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(Dimens.radius_s),
+            child: Theme(
+              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                key: UniqueKey(),
+                // required to force rebuild with new vm.isOpen value
+                collapsedBackgroundColor: AppColors.primary,
+                collapsedIconColor: Colors.white,
+                iconColor: AppColors.primary,
+                backgroundColor: Colors.white,
+                collapsedTextColor: Colors.white,
+                title: _CriteresRechercheBandeau(),
+                initiallyExpanded: viewModel.isOpen,
+                children: [
+                  _CriteresRechercheContenu(
+                    onKeywordChanged: (keyword) => _keyword = keyword,
+                    onSelectLocationViewModel: (locationVM) => _selectedLocationViewModel = locationVM,
+                    getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
+                    onRechercheButtonPressed: () {
+                      // TODO: 1353 - only alternanc
+                      viewModel.onSearchingRequest(_keyword, _selectedLocationViewModel?.location, false);
+                      Keyboard.dismiss(context);
+                    },
                   ),
-                ),
+                ],
               ),
             ),
-          ],
-        );
-      },
-      distinct: true,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -104,40 +106,42 @@ class _CriteresRechercheContenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BlocCriteresRechercheContenuViewModel>(
       converter: (store) => BlocCriteresRechercheContenuViewModel.create(store),
-      builder: (context, viewModel) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(Strings.keyWordsTitle, style: TextStyles.textBaseBold),
-              Text(Strings.keyWordsTextHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-              SizedBox(height: Margins.spacing_base),
-              _keywordTextFormField(),
-              const SizedBox(height: Margins.spacing_m),
-              Text(Strings.jobLocationTitle, style: TextStyles.textBaseBold),
-              Text(Strings.jobLocationHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-              SizedBox(height: Margins.spacing_base),
-              LocationAutocomplete(
-                onInputLocation: (newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
-                onSelectLocationViewModel: onSelectLocationViewModel,
-                locationViewModels: viewModel.locations,
-                hint: Strings.jobLocationHint,
-                getPreviouslySelectedTitle: getPreviouslySelectedTitle,
-                formKey: null,
-                validator: (value) => null,
-              ),
-              const SizedBox(height: Margins.spacing_m),
-              PrimaryActionButton(
-                label: Strings.searchButton,
-                onPressed: viewModel.displayState.isLoading() ? null : onRechercheButtonPressed,
-              ),
-              const SizedBox(height: Margins.spacing_m),
-            ],
-          ),
-        );
-      },
+      builder: _builder,
       distinct: true,
+    );
+  }
+
+  Widget _builder(BuildContext context, BlocCriteresRechercheContenuViewModel viewModel) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(Strings.keyWordsTitle, style: TextStyles.textBaseBold),
+          Text(Strings.keyWordsTextHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+          SizedBox(height: Margins.spacing_base),
+          _keywordTextFormField(),
+          const SizedBox(height: Margins.spacing_m),
+          Text(Strings.jobLocationTitle, style: TextStyles.textBaseBold),
+          Text(Strings.jobLocationHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+          SizedBox(height: Margins.spacing_base),
+          LocationAutocomplete(
+            onInputLocation: (newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
+            onSelectLocationViewModel: onSelectLocationViewModel,
+            locationViewModels: viewModel.locations,
+            hint: Strings.jobLocationHint,
+            getPreviouslySelectedTitle: getPreviouslySelectedTitle,
+            formKey: null,
+            validator: (value) => null,
+          ),
+          const SizedBox(height: Margins.spacing_m),
+          PrimaryActionButton(
+            label: Strings.searchButton,
+            onPressed: viewModel.displayState.isLoading() ? null : onRechercheButtonPressed,
+          ),
+          const SizedBox(height: Margins.spacing_m),
+        ],
+      ),
     );
   }
 
