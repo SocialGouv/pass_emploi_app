@@ -6,13 +6,12 @@ import 'package:pass_emploi_app/presentation/recherche/bloc_critereres_cherche_c
 import 'package:pass_emploi_app/presentation/recherche/bloc_critereres_cherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/customized_flutter_widgets/cej_expansion_tile.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
@@ -22,7 +21,7 @@ class CriteresRecherche extends StatefulWidget {
 }
 
 class _CriteresRechercheState extends State<CriteresRecherche> {
-  final _expansionTileKey = GlobalKey();
+  bool isOpen = true;
   int? _criteresActifsCount;
   LocationViewModel? _selectedLocationViewModel;
   String _keyword = '';
@@ -31,66 +30,100 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BlocCriteresRechercheViewModel>(
       converter: (store) => BlocCriteresRechercheViewModel.create(store),
-      onDidChange: (previousViewModel, currentViewModel) {
-        if (!currentViewModel.isOpen) {
-          final currentState = _expansionTileKey.currentState;
-          if (currentState is CejExpansionTileState) {
-            currentState.closeExpansion();
-          }
-        }
-      },
       builder: _builder,
       distinct: true,
     );
   }
 
   Widget _builder(BuildContext context, BlocCriteresRechercheViewModel viewModel) {
-    return Column(
-      children: [
-        Material(
-          elevation: 16, //TODO Real box shadow ?
-          borderRadius: BorderRadius.circular(Dimens.radius_s),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(Dimens.radius_s),
-            child: Theme(
-              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-              child: CejExpansionTile(
-                key: _expansionTileKey,
-                onExpansionChanged: viewModel.onExpansionChanged,
-                maintainState: true,
-                backgroundColor: Colors.white,
-                textColor: AppColors.primary,
-                iconColor: AppColors.primary,
-                collapsedBackgroundColor: AppColors.primary,
-                collapsedTextColor: Colors.white,
-                collapsedIconColor: Colors.white,
-                leading: Icon(Icons.search),
-                title: _CriteresRechercheBandeau(criteresActifsCount: _criteresActifsCount ?? 0),
-                initiallyExpanded: viewModel.isOpen,
-                children: [
-                  _CriteresRechercheContenu(
-                    onKeywordChanged: (keyword) {
-                      _keyword = keyword;
-                      setState(() => _updateCriteresActifsCount());
-                    },
-                    onSelectLocationViewModel: (locationVM) {
-                      _selectedLocationViewModel = locationVM;
-                      setState(() => _updateCriteresActifsCount());
-                    },
-                    getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
-                    onRechercheButtonPressed: () {
-                      // TODO: 1353 - only alternance
-                      viewModel.onSearchingRequest(_keyword, _selectedLocationViewModel?.location, false);
-                      Keyboard.dismiss(context);
-                    },
-                  ),
-                ],
-              ),
-            ),
+    final mainAnimationDuration = Duration(milliseconds: 300);
+    const mainAnimationCurve = Curves.ease;
+    return AnimatedContainer(
+      decoration: BoxDecoration(
+        color: isOpen ? Colors.white : AppColors.primary,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [Shadows.boxShadow],
+      ),
+      duration: mainAnimationDuration,
+      curve: mainAnimationCurve,
+      child: Column(
+        children: [
+          RechercheBandeau(
+            isOpen: isOpen,
+            criteresActifsCount: _criteresActifsCount ?? 0,
+            onPressed: () {
+              _onExpensionChanged();
+              viewModel.onExpansionChanged(isOpen);
+            },
           ),
-        ),
-      ],
+          AnimatedCrossFade(
+            firstChild: Container(),
+            secondChild: _CriteresRechercheContenu(
+              onKeywordChanged: (keyword) {
+                _keyword = keyword;
+                setState(() => _updateCriteresActifsCount());
+              },
+              onSelectLocationViewModel: (locationVM) {
+                _selectedLocationViewModel = locationVM;
+                setState(() => _updateCriteresActifsCount());
+              },
+              getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
+              onRechercheButtonPressed: () {
+                _onExpensionChanged();
+                // TODO: 1353 - only alternance
+                viewModel.onSearchingRequest(_keyword, _selectedLocationViewModel?.location, false);
+                Keyboard.dismiss(context);
+              },
+            ),
+            crossFadeState: isOpen ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            duration: mainAnimationDuration,
+            sizeCurve: mainAnimationCurve,
+          ),
+        ],
+      ),
     );
+    // return Column(
+    //   children: [
+    //     CejExpansionTile(
+    //       key: _expansionTileKey,
+    //       onExpansionChanged: viewModel.onExpansionChanged,
+    //       maintainState: true,
+    //       backgroundColor: Colors.white,
+    //       textColor: AppColors.primary,
+    //       iconColor: AppColors.primary,
+    //       collapsedBackgroundColor: AppColors.primary,
+    //       collapsedTextColor: Colors.white,
+    //       collapsedIconColor: Colors.white,
+    //       leading: Icon(Icons.search),
+    //       title: _CriteresRechercheBandeau(criteresActifsCount: _criteresActifsCount ?? 0),
+    //       initiallyExpanded: viewModel.isOpen,
+    //       children: [
+    //         _CriteresRechercheContenu(
+    //           onKeywordChanged: (keyword) {
+    //             _keyword = keyword;
+    //             setState(() => _updateCriteresActifsCount());
+    //           },
+    //           onSelectLocationViewModel: (locationVM) {
+    //             _selectedLocationViewModel = locationVM;
+    //             setState(() => _updateCriteresActifsCount());
+    //           },
+    //           getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
+    //           onRechercheButtonPressed: () {
+    //             // TODO: 1353 - only alternance
+    //             viewModel.onSearchingRequest(_keyword, _selectedLocationViewModel?.location, false);
+    //             Keyboard.dismiss(context);
+    //           },
+    //         ),
+    //       ],
+    //     ),
+    //   ],
+    // );
+  }
+
+  void _onExpensionChanged() {
+    setState(() {
+      isOpen = !isOpen;
+    });
   }
 
   void _updateCriteresActifsCount() {
@@ -101,10 +134,57 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
   }
 }
 
+class RechercheBandeau extends StatelessWidget {
+  final int criteresActifsCount;
+  final void Function() onPressed;
+  final bool isOpen;
+  const RechercheBandeau({
+    super.key,
+    required this.criteresActifsCount,
+    required this.onPressed,
+    required this.isOpen,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final color = isOpen ? Colors.black : Colors.white;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          child: Padding(
+            padding: EdgeInsets.all(Margins.spacing_base),
+            child: Row(
+              children: [
+                Icon(Icons.search, color: !isOpen ? Colors.white : AppColors.primary),
+                SizedBox(width: Margins.spacing_base),
+                Expanded(
+                    child: _CriteresRechercheBandeau(
+                  criteresActifsCount: criteresActifsCount,
+                  color: color,
+                )),
+                AnimatedRotation(
+                  turns: isOpen ? 0.5 : 0,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.ease,
+                  child: Icon(Icons.expand_less_rounded, color: color),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _CriteresRechercheBandeau extends StatelessWidget {
   final int criteresActifsCount;
+  final Color color;
 
-  const _CriteresRechercheBandeau({required this.criteresActifsCount});
+  const _CriteresRechercheBandeau({required this.criteresActifsCount, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +195,7 @@ class _CriteresRechercheBandeau extends StatelessWidget {
         one: Strings.rechercheCriteresActifsSingular(criteresActifsCount),
         other: Strings.rechercheCriteresActifsPlural(criteresActifsCount),
       ),
-      style: TextStyles.textBaseMediumBold(color: null),
+      style: TextStyles.textBaseMediumBold(color: color),
     );
   }
 }
