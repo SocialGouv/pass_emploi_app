@@ -59,7 +59,7 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
                 onExpansionChanged: viewModel.onExpansionChanged,
                 maintainState: true,
                 backgroundColor: Colors.white,
-                textColor: AppColors.primary,
+                textColor: AppColors.contentColor,
                 iconColor: AppColors.primary,
                 collapsedBackgroundColor: AppColors.primary,
                 collapsedTextColor: Colors.white,
