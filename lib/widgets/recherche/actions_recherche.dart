@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_mo
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_saved_search_bottom_sheet.dart';
@@ -24,8 +25,8 @@ class ActionsRecherche extends StatelessWidget {
   Widget _builder(BuildContext context, ActionsRechercheViewModel viewModel) {
     return Wrap(
       alignment: WrapAlignment.center,
-      spacing: 16,
-      runSpacing: 16,
+      spacing: Margins.spacing_base,
+      runSpacing: Margins.spacing_base,
       children: [
         if (viewModel.withAlertButton)
           PrimaryActionButton(

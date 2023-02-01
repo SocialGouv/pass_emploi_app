@@ -9,7 +9,7 @@ RechercheState<Criteres, Filtres, Result>
 ) {
   if (action is RechercheResetAction<Result>) {
     return current.copyWith(
-      status: RechercheStatus.newSearch,
+      status: RechercheStatus.nouvelleRecherche,
       request: () => null,
       results: () => null,
       canLoadMore: false,
@@ -17,7 +17,7 @@ RechercheState<Criteres, Filtres, Result>
   }
   if (action is RechercheNewAction<Result>) {
     return current.copyWith(
-      status: RechercheStatus.newSearch,
+      status: RechercheStatus.nouvelleRecherche,
     );
   }
   if (action is RechercheRequestAction<Criteres, Filtres>) {
