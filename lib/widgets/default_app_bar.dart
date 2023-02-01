@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/widgets/profile_button.dart';
 class SecondaryAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final Color? backgroundColor;
+
   const SecondaryAppBar({super.key, required this.title, this.backgroundColor});
 
   @override
@@ -17,11 +18,10 @@ class SecondaryAppBar extends StatelessWidget with PreferredSizeWidget {
     return AppBar(
       toolbarHeight: toolBarHeight,
       titleSpacing: 0,
-      iconTheme: IconThemeData(
-        color: Colors.black,
-      ),
+      iconTheme: IconThemeData(color: Colors.black),
       elevation: 0,
       centerTitle: false,
+      scrolledUnderElevation: 0,
       backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       title: Text(
         title,
@@ -74,6 +74,7 @@ class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final Color? backgroundColor;
   final bool withProfileButton;
+
   const PrimaryAppBar({super.key, required this.title, this.backgroundColor, this.withProfileButton = true});
 
   @override
