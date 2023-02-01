@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/customized_flutter_widgets/cej_expansion_tile.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
@@ -21,6 +22,7 @@ class CriteresRecherche extends StatefulWidget {
 }
 
 class _CriteresRechercheState extends State<CriteresRecherche> {
+  final _expansionTileKey = GlobalKey();
   int? _criteresActifsCount;
   LocationViewModel? _selectedLocationViewModel;
   String _keyword = '';
@@ -29,6 +31,14 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BlocCriteresRechercheViewModel>(
       converter: (store) => BlocCriteresRechercheViewModel.create(store),
+      onDidChange: (previousViewModel, currentViewModel) {
+        if (!currentViewModel.isOpen) {
+          final currentState = _expansionTileKey.currentState;
+          if (currentState is CejExpansionTileState) {
+            currentState.closeExpansion();
+          }
+        }
+      },
       builder: _builder,
       distinct: true,
     );
@@ -44,8 +54,8 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
             borderRadius: BorderRadius.circular(Dimens.radius_s),
             child: Theme(
               data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-              // TODO: 1353 - close programmatically
-              child: ExpansionTile(
+              child: CejExpansionTile(
+                key: _expansionTileKey,
                 onExpansionChanged: viewModel.onExpansionChanged,
                 maintainState: true,
                 backgroundColor: Colors.white,
