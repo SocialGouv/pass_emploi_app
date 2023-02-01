@@ -37,28 +37,19 @@ class _RechercheOffrePageState extends State<RechercheOffrePage> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: SecondaryAppBar(title: Strings.rechercheOffresEmploiTitle, backgroundColor: backgroundColor),
+      floatingActionButton: ActionsRecherche(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Padding(
         padding: const EdgeInsets.only(
           left: Margins.spacing_base,
           top: Margins.spacing_base,
           right: Margins.spacing_base,
         ),
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                CriteresRecherche(),
-                ResultatRecherche(),
-              ],
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 24),
-                child: ActionsRecherche(),
-              ),
-            )
+            CriteresRecherche(),
+            ResultatRecherche(),
           ],
         ),
       ),

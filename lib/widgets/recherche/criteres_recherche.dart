@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_critereres_cherche_contenu_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_critereres_cherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -20,6 +20,7 @@ class CriteresRecherche extends StatefulWidget {
 }
 
 class _CriteresRechercheState extends State<CriteresRecherche> {
+  int? _criteresActifsCount;
   LocationViewModel? _selectedLocationViewModel;
   String _keyword = '';
 
@@ -42,21 +43,28 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
             borderRadius: BorderRadius.circular(Dimens.radius_s),
             child: Theme(
               data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              // TODO: 1353 - close programmatically
               child: ExpansionTile(
-                // required to force rebuild with new vm.isOpen value
-                key: UniqueKey(),
                 onExpansionChanged: viewModel.onExpansionChanged,
-                collapsedBackgroundColor: AppColors.primary,
-                collapsedIconColor: Colors.white,
-                iconColor: AppColors.primary,
                 backgroundColor: Colors.white,
+                textColor: AppColors.primary,
+                iconColor: AppColors.primary,
+                collapsedBackgroundColor: AppColors.primary,
                 collapsedTextColor: Colors.white,
-                title: _CriteresRechercheBandeau(),
+                collapsedIconColor: Colors.white,
+                leading: Icon(Icons.search),
+                title: _CriteresRechercheBandeau(criteresActifsCount: _criteresActifsCount ?? 0),
                 initiallyExpanded: viewModel.isOpen,
                 children: [
                   _CriteresRechercheContenu(
-                    onKeywordChanged: (keyword) => _keyword = keyword,
-                    onSelectLocationViewModel: (locationVM) => _selectedLocationViewModel = locationVM,
+                    onKeywordChanged: (keyword) {
+                      _keyword = keyword;
+                      setState(() => _updateCriteresActifsCount());
+                    },
+                    onSelectLocationViewModel: (locationVM) {
+                      _selectedLocationViewModel = locationVM;
+                      setState(() => _updateCriteresActifsCount());
+                    },
                     getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
                     onRechercheButtonPressed: () {
                       // TODO: 1353 - only alternance
@@ -72,20 +80,30 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
       ],
     );
   }
+
+  void _updateCriteresActifsCount() {
+    int criteresActifsCount = 0;
+    criteresActifsCount += _keyword.isNotEmpty ? 1 : 0;
+    criteresActifsCount += _selectedLocationViewModel != null ? 1 : 0;
+    _criteresActifsCount = criteresActifsCount;
+  }
 }
 
 class _CriteresRechercheBandeau extends StatelessWidget {
+  final int criteresActifsCount;
+
+  const _CriteresRechercheBandeau({required this.criteresActifsCount});
+
   @override
   Widget build(BuildContext context) {
     return Text(
-      // TODO: 1353 MAJ des critères
-      "(0) critères actifs",
-      // TODO: 1353 Créer un bon TextStyle à part
-      style: TextStyle(
-        fontFamily: 'Marianne',
-        fontSize: FontSizes.medium,
-        fontWeight: FontWeight.w600,
+      Intl.plural(
+        criteresActifsCount,
+        zero: Strings.rechercheCriteresActifsSingular(criteresActifsCount),
+        one: Strings.rechercheCriteresActifsSingular(criteresActifsCount),
+        other: Strings.rechercheCriteresActifsPlural(criteresActifsCount),
       ),
+      style: TextStyles.textBaseMediumBold(color: null),
     );
   }
 }
