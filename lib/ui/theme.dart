@@ -5,7 +5,6 @@ class PassEmploiTheme {
   static final data = ThemeData(
     useMaterial3: true,
     toggleableActiveColor: AppColors.nightBlue,
-    primarySwatch: Colors.indigo,
     checkboxTheme: _checkboxes(),
     sliderTheme: _sliders(),
     progressIndicatorTheme: _progress(),
