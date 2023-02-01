@@ -45,8 +45,8 @@ class TextStyles {
   static TextStyle textMenuRegular(Color color) {
     return TextStyle(
       color: color,
-      fontSize: FontSizes.extraSmall,
-      fontWeight: FontWeight.w700,
+      fontSize: FontSizes.xs,
+      fontWeight: FontWeight.normal,
       fontFamily: 'Marianne',
     );
   }
