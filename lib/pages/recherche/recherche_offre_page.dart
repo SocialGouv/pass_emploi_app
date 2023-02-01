@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/recherche/actions_recherche.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche.dart';
 import 'package:pass_emploi_app/widgets/recherche/resultat_recherche.dart';
 import 'package:redux/redux.dart';
@@ -21,11 +22,11 @@ class RechercheOffrePage extends StatefulWidget {
 }
 
 class _RechercheOffrePageState extends State<RechercheOffrePage> {
-  late final Store<AppState> _store;
+  Store<AppState>? _store;
 
   @override
   void dispose() {
-    _store.dispatch(RechercheResetAction<OffreEmploi>());
+    _store?.dispatch(RechercheResetAction<OffreEmploi>());
     super.dispose();
   }
 
@@ -42,11 +43,22 @@ class _RechercheOffrePageState extends State<RechercheOffrePage> {
           top: Margins.spacing_base,
           right: Margins.spacing_base,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Stack(
           children: [
-            CriteresRecherche(),
-            ResultatRecherche(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                CriteresRecherche(),
+                ResultatRecherche(),
+              ],
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: ActionsRecherche(),
+              ),
+            )
           ],
         ),
       ),
