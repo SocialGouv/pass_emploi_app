@@ -66,7 +66,6 @@ void main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
-    expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
   });
 
   test(
@@ -85,7 +84,6 @@ void main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.errorMessage, '');
   });
 
   test("create when state has no filtre should set distance to 10km", () {
@@ -248,7 +246,7 @@ void main() {
     );
 
     // Then
-    final  action = store.dispatchedAction as OffreEmploiSearchParametersUpdateFiltresRequestAction;
+    final action = store.dispatchedAction as OffreEmploiSearchParametersUpdateFiltresRequestAction;
     expect(action.updatedFiltres.distance, 20);
     expect(action.updatedFiltres.debutantOnly, true);
     expect(action.updatedFiltres.contrat, [

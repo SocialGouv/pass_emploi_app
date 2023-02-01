@@ -38,7 +38,7 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
     final response = await _repository.rechercher(userId: userId, request: request);
     if (response != null) {
       store.dispatch(RechercheSuccessAction<Result>(response.results, response.canLoadMore));
-      // TODO-1353 : Jordan, l'ajout des list est pété
+      // TODO-1353 : Jordan, l'ajout des list est pété comme ça (histoire de cast
       //store.dispatch(RechercheSuccessAction<Result>(previousResults + response.results, response.canLoadMore));
     } else {
       store.dispatch(RechercheFailureAction<Result>());

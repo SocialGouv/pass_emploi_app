@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_actions.dart';
-import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
@@ -19,7 +17,6 @@ class OffreEmploiFiltresViewModel extends Equatable {
   final bool? initialDebutantOnlyFiltre;
   final List<CheckboxValueViewModel<ContratFiltre>> contratFiltres;
   final List<CheckboxValueViewModel<DureeFiltre>> dureeFiltres;
-  final String errorMessage;
   final Function(
     int? updatedDistanceValue,
     bool? debutantOnlyFiltre,
@@ -35,23 +32,21 @@ class OffreEmploiFiltresViewModel extends Equatable {
     required this.initialDebutantOnlyFiltre,
     required this.contratFiltres,
     required this.dureeFiltres,
-    required this.errorMessage,
     required this.updateFiltres,
   });
 
   factory OffreEmploiFiltresViewModel.create(Store<AppState> store) {
-    final parametersState = store.state.offreEmploiSearchParametersState;
-    final searchState = store.state.offreEmploiSearchState;
-    final searchResultsState = store.state.offreEmploiListState;
+    final state = store.state.rechercheEmploiState;
+    final criteres = state.request?.criteres;
+    final filtres = state.request?.filtres;
     return OffreEmploiFiltresViewModel._(
-      displayState: _displayState(searchState, searchResultsState),
-      shouldDisplayDistanceFiltre: _shouldDisplayDistanceFiltre(parametersState),
-      shouldDisplayNonDistanceFiltres: _shouldDisplayNonDistanceFiltres(parametersState),
-      initialDistanceValue: _distance(parametersState),
-      initialDebutantOnlyFiltre: _initialDebutantOnlyFiltre(parametersState),
-      contratFiltres: _contrat(parametersState),
-      dureeFiltres: _duree(parametersState),
-      errorMessage: _errorMessage(searchState, searchResultsState),
+      displayState: _displayState(state),
+      shouldDisplayDistanceFiltre: criteres?.location?.type == LocationType.COMMUNE,
+      shouldDisplayNonDistanceFiltres: criteres != null ? !criteres.onlyAlternance : true,
+      initialDistanceValue: filtres?.distance ?? OffreEmploiSearchParametersFiltres.defaultDistanceValue,
+      initialDebutantOnlyFiltre: filtres?.debutantOnly,
+      contratFiltres: _contrat(filtres),
+      dureeFiltres: _duree(filtres),
       updateFiltres: (updatedDistanceValue, debutantOnlyFiltre, contratFiltres, dureeFiltres) {
         _dispatchUpdateFiltresAction(store, updatedDistanceValue, debutantOnlyFiltre, contratFiltres, dureeFiltres);
       },
@@ -70,19 +65,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
       ];
 }
 
-String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiListState searchResultsState) {
-  return searchState is OffreEmploiSearchFailureState ? Strings.genericError : "";
-}
-
-bool? _initialDebutantOnlyFiltre(OffreEmploiSearchParametersState parametersState) {
-  if (parametersState is! OffreEmploiSearchParametersInitializedState) {
-    return null;
-  }
-  return parametersState.filtres.debutantOnly;
-}
-
-List<CheckboxValueViewModel<DureeFiltre>> _duree(OffreEmploiSearchParametersState parametersState) {
-  final filtres = _appliedFiltres(parametersState);
+List<CheckboxValueViewModel<DureeFiltre>> _duree(OffreEmploiSearchParametersFiltres? filtres) {
   return [
     CheckboxValueViewModel(
       label: Strings.dureeTempsPleinLabel,
@@ -97,8 +80,7 @@ List<CheckboxValueViewModel<DureeFiltre>> _duree(OffreEmploiSearchParametersStat
   ];
 }
 
-List<CheckboxValueViewModel<ContratFiltre>> _contrat(OffreEmploiSearchParametersState parametersState) {
-  final filtres = _appliedFiltres(parametersState);
+List<CheckboxValueViewModel<ContratFiltre>> _contrat(OffreEmploiSearchParametersFiltres? filtres) {
   return [
     CheckboxValueViewModel(
       label: Strings.contratCdiLabel,
@@ -120,45 +102,15 @@ List<CheckboxValueViewModel<ContratFiltre>> _contrat(OffreEmploiSearchParameters
   ];
 }
 
-bool _shouldDisplayDistanceFiltre(OffreEmploiSearchParametersState parametersState) {
-  if (parametersState is OffreEmploiSearchParametersInitializedState) {
-    return parametersState.location?.type == LocationType.COMMUNE;
-  } else {
-    return false;
+DisplayState _displayState(RechercheState state) {
+  switch (state.status) {
+    case RechercheStatus.loading:
+      return DisplayState.LOADING;
+    case RechercheStatus.success:
+      return DisplayState.CONTENT;
+    default:
+      return DisplayState.FAILURE;
   }
-}
-
-bool _shouldDisplayNonDistanceFiltres(OffreEmploiSearchParametersState parametersState) {
-  if (parametersState is OffreEmploiSearchParametersInitializedState) {
-    return !parametersState.onlyAlternance;
-  }
-  return true;
-}
-
-DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiListState searchResultsState) {
-  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiListSuccessState) {
-    return DisplayState.CONTENT;
-  } else if (searchState is OffreEmploiSearchLoadingState) {
-    return DisplayState.LOADING;
-  } else {
-    return DisplayState.FAILURE;
-  }
-}
-
-int _distance(OffreEmploiSearchParametersState parametersState) {
-  if (parametersState is OffreEmploiSearchParametersInitializedState) {
-    return parametersState.filtres.distance ?? OffreEmploiSearchParametersFiltres.defaultDistanceValue;
-  } else {
-    return OffreEmploiSearchParametersFiltres.defaultDistanceValue;
-  }
-}
-
-OffreEmploiSearchParametersFiltres? _appliedFiltres(OffreEmploiSearchParametersState parametersState) {
-  OffreEmploiSearchParametersFiltres? filtres;
-  if (parametersState is OffreEmploiSearchParametersInitializedState) {
-    filtres = parametersState.filtres;
-  }
-  return filtres;
 }
 
 void _dispatchUpdateFiltresAction(
@@ -168,7 +120,7 @@ void _dispatchUpdateFiltresAction(
     List<CheckboxValueViewModel<ContratFiltre>>? contratFiltres,
     List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres) {
   store.dispatch(
-    OffreEmploiSearchParametersUpdateFiltresRequestAction(
+    RechercheUpdateFiltres<OffreEmploiSearchParametersFiltres>(
       OffreEmploiSearchParametersFiltres.withFiltres(
         distance: updatedDistanceValue,
         debutantOnly: debutantOnlyFiltre,

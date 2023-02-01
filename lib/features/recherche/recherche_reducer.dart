@@ -33,6 +33,14 @@ RechercheState<Criteres, Filtres, Result>
       canLoadMore: action.canLoadMore,
     );
   }
+  if (action is RechercheUpdateFiltres<Filtres>) {
+    final currentRequest = current.request;
+    final newRequest = currentRequest?.copyWith(filtres: action.filtres);
+    return current.copyWith(
+      status: RechercheStatus.loading,
+      request: () => newRequest,
+    );
+  }
   if (action is RechercheFailureAction<Result>) return current.copyWith(status: RechercheStatus.failure);
   return current;
 }
