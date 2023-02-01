@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
 class CriteresRecherche extends StatefulWidget {
@@ -46,6 +47,7 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
               // TODO: 1353 - close programmatically
               child: ExpansionTile(
                 onExpansionChanged: viewModel.onExpansionChanged,
+                maintainState: true,
                 backgroundColor: Colors.white,
                 textColor: AppColors.primary,
                 iconColor: AppColors.primary,
@@ -154,6 +156,7 @@ class _CriteresRechercheContenu extends StatelessWidget {
             validator: (value) => null,
           ),
           const SizedBox(height: Margins.spacing_m),
+          if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
           PrimaryActionButton(
             label: Strings.searchButton,
             onPressed: viewModel.displayState.isLoading() ? null : onRechercheButtonPressed,

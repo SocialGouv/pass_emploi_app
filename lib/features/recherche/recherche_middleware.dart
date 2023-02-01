@@ -37,9 +37,9 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
   }) async {
     final response = await _repository.rechercher(userId: userId, request: request);
     if (response != null) {
-      store.dispatch(RechercheSuccessAction(previousResults + response.results, response.canLoadMore));
+      store.dispatch(RechercheSuccessAction<Result>(previousResults + response.results, response.canLoadMore));
     } else {
-      store.dispatch(RechercheFailureAction());
+      store.dispatch(RechercheFailureAction<Result>());
     }
   }
 
