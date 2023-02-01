@@ -44,14 +44,10 @@ void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetail
                 height: 30,
                 child: IconButton(
                   onPressed: () => _clearAllSnackBars(),
-                  icon: OverflowBox(
-                    maxHeight: 50,
-                    maxWidth: 50,
-                    child: Icon(
-                      Icons.close_rounded,
-                      size: 24,
-                      color: success ? AppColors.secondary : AppColors.warning,
-                    ),
+                  icon: Icon(
+                    Icons.close_rounded,
+                    size: 24,
+                    color: success ? AppColors.secondary : AppColors.warning,
                   ),
                 ),
               )
