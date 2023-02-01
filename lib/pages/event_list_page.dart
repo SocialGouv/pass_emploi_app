@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/events/event_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -37,9 +38,12 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const backgroundColor = AppColors.grey100;
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: PrimaryAppBar(
         title: Strings.eventAppBarTitle,
+        backgroundColor: backgroundColor,
       ),
       body: Builder(builder: (context) {
         switch (viewModel.displayState) {

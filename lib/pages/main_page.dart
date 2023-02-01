@@ -116,8 +116,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           showUnselectedLabels: false,
           items: <BottomNavigationBarItem>[
             menu.MenuItem(
-              drawableRes: Drawables.icNavHomeActive,
-              inactiveDrawableRes: Drawables.icNavHomeInactive,
+              drawableRes: Drawables.icNavMonSuiviActive,
+              inactiveDrawableRes: Drawables.icNavMonSuiviInactive,
               label: Strings.menuMonSuivi,
             ),
             menu.MenuItem(

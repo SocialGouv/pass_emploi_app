@@ -20,7 +20,7 @@ class Strings {
   static String menuSolutions = "Recherche";
   static String menuFavoris = "Favoris";
   static String menuRendezvous = "Rendez-vous";
-  static String menuProfil = "Profil";
+  static String menuProfil = "Mon profil";
   static String menuEvenements = "Évènements";
 
   // Chat
