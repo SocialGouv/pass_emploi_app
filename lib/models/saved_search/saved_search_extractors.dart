@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -24,9 +23,10 @@ abstract class AbstractSearchExtractor<SAVED_SEARCH_MODEL> {
 class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSavedSearch> {
   @override
   OffreEmploiSavedSearch getSearchFilters(Store<AppState> store) {
-    final state = store.state.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState;
-    final metier = state.keywords;
-    final location = state.location;
+    final state = store.state.rechercheEmploiState;
+    final request = state.request!;
+    final metier = request.criteres.keywords;
+    final location = request.criteres.location;
     final String _title = _setTitleForOffer(metier, location?.libelle);
     return OffreEmploiSavedSearch(
       id: "",
@@ -34,13 +34,13 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
       metier: metier,
       location: location,
       keywords: metier,
-      isAlternance: state.onlyAlternance,
+      isAlternance: request.criteres.onlyAlternance,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
-        distance: state.filtres.distance,
-        debutantOnly: state.filtres.debutantOnly,
-        experience: state.filtres.experience,
-        duree: state.filtres.duree,
-        contrat: state.filtres.contrat,
+        distance: request.filtres.distance,
+        debutantOnly: request.filtres.debutantOnly,
+        experience: request.filtres.experience,
+        duree: request.filtres.duree,
+        contrat: request.filtres.contrat,
       ),
     );
   }
