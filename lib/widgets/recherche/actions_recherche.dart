@@ -23,27 +23,37 @@ class ActionsRecherche extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, ActionsRechercheViewModel viewModel) {
-    return Wrap(
-      alignment: WrapAlignment.center,
-      spacing: Margins.spacing_base,
-      runSpacing: Margins.spacing_base,
-      children: [
-        if (viewModel.withAlertButton)
-          PrimaryActionButton(
-            label: Strings.createAlert,
-            drawableRes: Drawables.icAlert,
-            rippleColor: AppColors.primaryDarken,
-            heightPadding: 6,
-            widthPadding: 6,
-            iconSize: 16,
-            onPressed: () => _onAlertButtonPressed(context),
-          ),
-        if (viewModel.withFiltreButton)
-          FiltreButton.primary(
-            filtresCount: viewModel.filtresCount,
-            onPressed: () => _onFiltreButtonPressed(context),
-          ),
-      ],
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 400),
+      transitionBuilder: (child, animation) {
+        final offsetAnimation = Tween<Offset>(begin: Offset(0.0, 1), end: Offset(0.0, 0)).animate(animation);
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
+      switchInCurve: Curves.fastOutSlowIn,
+      switchOutCurve: Curves.fastOutSlowIn,
+      child: Wrap(
+        key: UniqueKey(),
+        alignment: WrapAlignment.center,
+        spacing: Margins.spacing_base,
+        runSpacing: Margins.spacing_base,
+        children: [
+          if (viewModel.withAlertButton)
+            PrimaryActionButton(
+              label: Strings.createAlert,
+              drawableRes: Drawables.icAlert,
+              rippleColor: AppColors.primaryDarken,
+              heightPadding: 6,
+              widthPadding: 6,
+              iconSize: 16,
+              onPressed: () => _onAlertButtonPressed(context),
+            ),
+          if (viewModel.withFiltreButton)
+            FiltreButton.primary(
+              filtresCount: viewModel.filtresCount,
+              onPressed: () => _onFiltreButtonPressed(context),
+            ),
+        ],
+      ),
     );
   }
 
