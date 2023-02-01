@@ -9,40 +9,47 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche.dart';
 import 'package:pass_emploi_app/widgets/recherche/resultat_recherche.dart';
+import 'package:redux/redux.dart';
 
-class RechercheOffrePage extends StatelessWidget {
+class RechercheOffrePage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => RechercheOffrePage());
   }
 
   @override
+  State<RechercheOffrePage> createState() => _RechercheOffrePageState();
+}
+
+class _RechercheOffrePageState extends State<RechercheOffrePage> {
+  late final Store<AppState> _store;
+
+  @override
+  void dispose() {
+    _store.dispatch(RechercheResetAction<OffreEmploi>());
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // TODO: 1353 - StoreConnector juste pour le dispose, voir si à mettre dans un view model
-    return StoreConnector<AppState, int>(
-      builder: (_, __) {
-        const backgroundColor = AppColors.grey100;
-        return Scaffold(
-          backgroundColor: backgroundColor,
-          appBar: SecondaryAppBar(title: Strings.rechercheOffresEmploiTitle, backgroundColor: backgroundColor),
-          body: Padding(
-            padding: const EdgeInsets.only(
-              left: Margins.spacing_base,
-              top: Margins.spacing_base,
-              right: Margins.spacing_base,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                CriteresRecherche(),
-                ResultatRecherche(),
-              ],
-            ),
-          ),
-        );
-      },
-      onDispose: (store) => store.dispatch(RechercheResetAction<OffreEmploi>()),
-      converter: (store) => 0,
-      distinct: true,
+    _store = StoreProvider.of<AppState>(context);
+    const backgroundColor = AppColors.grey100;
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.rechercheOffresEmploiTitle, backgroundColor: backgroundColor),
+      body: Padding(
+        padding: const EdgeInsets.only(
+          left: Margins.spacing_base,
+          top: Margins.spacing_base,
+          right: Margins.spacing_base,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CriteresRecherche(),
+            ResultatRecherche(),
+          ],
+        ),
+      ),
     );
   }
 }

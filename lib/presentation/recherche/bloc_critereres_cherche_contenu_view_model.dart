@@ -1,40 +1,34 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/redux.dart';
 
 class BlocCriteresRechercheContenuViewModel extends Equatable {
   final DisplayState displayState;
-  final Function(String) onSearch;
+  final List<LocationViewModel> locations;
+  final Function(String? input) onInputLocation;
 
-  BlocCriteresRechercheContenuViewModel({required this.displayState, required this.onSearch});
+  BlocCriteresRechercheContenuViewModel({
+    required this.displayState,
+    required this.locations,
+    required this.onInputLocation,
+  });
 
   factory BlocCriteresRechercheContenuViewModel.create(Store<AppState> store) {
     return BlocCriteresRechercheContenuViewModel(
       displayState: _displayState(store),
-      onSearch: (keyword) {
-        store.dispatch(RechercheRequestAction<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>(
-          RechercheRequest(
-            // TODO: 1353 - Vraie recherche
-            EmploiCriteresRecherche(
-              keywords: 'boulanger',
-              location: null,
-              onlyAlternance: false,
-            ),
-            OffreEmploiSearchParametersFiltres.noFiltres(),
-            1,
-          ),
-        ));
-      },
+      locations: store.state.searchLocationState.locations
+          .map((location) => LocationViewModel.fromLocation(location))
+          .toList(),
+      onInputLocation: (input) => store.dispatch(SearchLocationRequestAction(input)),
     );
   }
 
   @override
-  List<Object?> get props => [displayState];
+  List<Object?> get props => [displayState, locations];
 }
 
 DisplayState _displayState(Store<AppState> store) {

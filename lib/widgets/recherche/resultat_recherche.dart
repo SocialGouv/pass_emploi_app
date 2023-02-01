@@ -31,10 +31,7 @@ class ResultatRecherche extends StatelessWidget {
         selectState: (store) => store.state.offreEmploiFavorisState,
         child: Expanded(
           child: ListView.separated(
-            padding: const EdgeInsets.only(
-              top: Margins.spacing_base,
-              bottom: 120,
-            ),
+            padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
             //controller: _scrollController,
             itemBuilder: (context, index) => _buildItem(context, items[index]),
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
