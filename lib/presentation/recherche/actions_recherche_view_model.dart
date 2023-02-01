@@ -21,8 +21,8 @@ class ActionsRechercheViewModel extends Equatable {
   factory ActionsRechercheViewModel.create(Store<AppState> store) {
     final state = store.state.rechercheEmploiState;
     return ActionsRechercheViewModel(
-      withAlertButton: state.results != null,
-      withFiltreButton: _withFilterButton(state),
+      withAlertButton: _withAlertButton(state),
+      withFiltreButton: _withFiltreButton(state),
       filtresCount: _filtresCount(state.request?.filtres),
     );
   }
@@ -31,8 +31,13 @@ class ActionsRechercheViewModel extends Equatable {
   List<Object?> get props => [withAlertButton, withFiltreButton, filtresCount];
 }
 
-bool _withFilterButton(RechercheState<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi> state) {
+bool _withAlertButton(RechercheState state) {
+  return state.status != RechercheStatus.nouvelleRecherche && state.results != null;
+}
+
+bool _withFiltreButton(RechercheState<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi> state) {
   if (state.results == null) return false;
+  if (state.status == RechercheStatus.nouvelleRecherche) return false;
   if (state.request?.criteres.onlyAlternance == true) {
     return state.request?.criteres.location?.type == LocationType.COMMUNE;
   }

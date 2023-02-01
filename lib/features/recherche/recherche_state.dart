@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 enum RechercheStatus {
-  newSearch,
+  nouvelleRecherche,
   loading,
   failure,
   success;
@@ -42,7 +42,7 @@ class RechercheState<Criteres extends Equatable, Filtres extends Equatable, Resu
 
   factory RechercheState.initial() {
     return RechercheState(
-      status: RechercheStatus.newSearch,
+      status: RechercheStatus.nouvelleRecherche,
       request: null,
       results: null,
       canLoadMore: false,

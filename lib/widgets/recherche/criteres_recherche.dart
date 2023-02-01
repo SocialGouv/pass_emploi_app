@@ -43,8 +43,9 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
             child: Theme(
               data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
-                key: UniqueKey(),
                 // required to force rebuild with new vm.isOpen value
+                key: UniqueKey(),
+                onExpansionChanged: viewModel.onExpansionChanged,
                 collapsedBackgroundColor: AppColors.primary,
                 collapsedIconColor: Colors.white,
                 iconColor: AppColors.primary,
@@ -58,7 +59,7 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
                     onSelectLocationViewModel: (locationVM) => _selectedLocationViewModel = locationVM,
                     getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
                     onRechercheButtonPressed: () {
-                      // TODO: 1353 - only alternanc
+                      // TODO: 1353 - only alternance
                       viewModel.onSearchingRequest(_keyword, _selectedLocationViewModel?.location, false);
                       Keyboard.dismiss(context);
                     },
