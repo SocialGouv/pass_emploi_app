@@ -30,10 +30,12 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/tutorial.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -340,10 +342,14 @@ extension AppStateDSL on AppState {
     );
   }
 
-  AppState successRechercheEmploiState(List<OffreEmploi> results) {
+  AppState successRechercheEmploiState({
+    required List<OffreEmploi> results,
+    RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>? request,
+  }) {
     return copyWith(
       rechercheEmploiState: RechercheEmploiState.initial().copyWith(
         status: RechercheStatus.success,
+        request: () => request,
         results: () => results,
       ),
     );

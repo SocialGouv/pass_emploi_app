@@ -15,7 +15,6 @@ class Drawables {
   static String icRechercheInactive = _assets + "ic_recherche_inactive" + _svg;
   static String icEvenementsActive = _assets + "ic_evenement_active" + _svg;
   static String icEvenementsInactive = _assets + "ic_evenement_inactive" + _svg;
-  static String icLogo = _assets + "ic_logo" + _svg;
   static String icRefresh = _assets + "ic_refresh" + _svg;
   static String icActualisation = _assets + "ic_actualisation" + _svg;
   static String icMenuSelectedBullet = _assets + "ic_menu_selected_bullet" + _svg;
