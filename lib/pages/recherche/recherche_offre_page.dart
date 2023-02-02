@@ -39,6 +39,8 @@ class _RechercheOffrePageState extends State<RechercheOffrePage> {
       appBar: SecondaryAppBar(title: Strings.rechercheOffresEmploiTitle, backgroundColor: backgroundColor),
       floatingActionButton: ActionsRecherche(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      //TODO: 1353 - jusqu'à ce que la complétion se fasse sur un écran à part
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.only(
           left: Margins.spacing_base,
