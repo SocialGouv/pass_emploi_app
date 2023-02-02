@@ -21,11 +21,11 @@ class Strings {
   static String menuFavoris = "Favoris";
   static String menuRendezvous = "Rendez-vous";
   static String menuProfil = "Mon profil";
-  static String menuEvenements = "Évènements";
+  static String menuEvenements = "Événements";
 
   // Chat
   static String yourMessage = "Votre message…";
-  static String yourConseiller = "Votre conseiller";
+  static String yourConseiller = "Messages";
   static String today = "Aujourd'hui";
   static String read = "Lu";
   static String sent = "Envoyé";
@@ -322,7 +322,7 @@ class Strings {
   static String offresEmploiTitle = "Offres d'emploi";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
-  static String eventsTabTitle = "Évènements";
+  static String eventsTabTitle = "Événements";
   static String boiteAOutilsTabTitle = "Boîte à outils";
   static String solutionsAppBarTitle = "Recherche";
   static String immersionButton = "Immersion";
@@ -608,7 +608,7 @@ class Strings {
   // Tutorial
   static String tutoTitrePageUne = "Consultez la liste des ateliers et animations organisés dans votre Mission locale";
   static String tutoDescriptionPageUne =
-      "Partagez un de ces évènements avec votre conseiller pour qu'il vous y inscrive !";
+      "Partagez un de ces événements avec votre conseiller pour qu'il vous y inscrive !";
 
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";
@@ -644,7 +644,7 @@ class Strings {
   static String eventListEmpty = "Il n'y a actuellement aucun événement";
   static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
-  static String eventAppBarTitle = "Mes événements";
+  static String eventAppBarTitle = "Événements";
 
   // Mode dégradé Pôle Emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";

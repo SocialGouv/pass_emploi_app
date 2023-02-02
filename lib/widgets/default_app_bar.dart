@@ -15,6 +15,7 @@ class SecondaryAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      toolbarHeight: toolBarHeight,
       titleSpacing: 0,
       iconTheme: IconThemeData(
         color: Colors.black,
@@ -30,8 +31,10 @@ class SecondaryAppBar extends StatelessWidget with PreferredSizeWidget {
     );
   }
 
+  static const toolBarHeight = 64.0;
+
   @override
-  Size get preferredSize => Size.fromHeight(64.0);
+  Size get preferredSize => Size.fromHeight(toolBarHeight);
 }
 
 class ModeDemoAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -76,6 +79,7 @@ class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      toolbarHeight: toolBarHeight,
       iconTheme: IconThemeData(
         color: Colors.black,
       ),
@@ -91,6 +95,8 @@ class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
     );
   }
 
+  static const toolBarHeight = 72.0;
+
   @override
-  Size get preferredSize => Size.fromHeight(72.0);
+  Size get preferredSize => Size.fromHeight(toolBarHeight);
 }

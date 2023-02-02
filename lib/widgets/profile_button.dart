@@ -10,9 +10,14 @@ class ProfileButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 80,
-      height: 80,
+      width: 48,
+      height: 48,
+      clipBehavior: Clip.none,
       margin: const EdgeInsets.symmetric(horizontal: Margins.spacing_s),
+      decoration: BoxDecoration(
+        boxShadow: [Shadows.boxShadow_m],
+        shape: BoxShape.circle,
+      ),
       child: IconButton(
         onPressed: () => Navigator.of(context).push(ProfilPage.materialPageRoute()),
         padding: const EdgeInsets.all(0),
@@ -23,7 +28,7 @@ class ProfileButton extends StatelessWidget {
               shape: BoxShape.circle,
               color: AppColors.primary,
             ),
-            child: Icon(Icons.person_outline_rounded, size: 28, color: Colors.white),
+            child: Icon(Icons.person_outline_rounded, size: 24, color: Colors.white),
           ),
         ),
       ),
