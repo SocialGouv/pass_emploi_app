@@ -13,6 +13,10 @@ import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
 class ActionsRecherche extends StatelessWidget {
+  final Function() onFiltreApplied;
+
+  ActionsRecherche({required this.onFiltreApplied});
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ActionsRechercheViewModel>(
@@ -71,11 +75,7 @@ class ActionsRecherche extends StatelessWidget {
       // TODO-1353 only alternance
       OffreEmploiFiltresPage.materialPageRoute(false),
     ).then((value) {
-      if (value == true) {
-        // TODO-1353 scroll behavior
-        // _offsetBeforeLoading = 0;
-        // if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
-      }
+      if (value == true) onFiltreApplied();
     });
   }
 }

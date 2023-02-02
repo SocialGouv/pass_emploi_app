@@ -15,6 +15,10 @@ import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
 class ResultatRecherche extends StatelessWidget {
+  final Key listResultatKey;
+
+  ResultatRecherche({required this.listResultatKey});
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ResultatRechercheViewModel>(
@@ -31,7 +35,7 @@ class ResultatRecherche extends StatelessWidget {
       case ResultatRechercheDisplayState.empty:
         return _MessagePlaceholder(Strings.noContentError);
       case ResultatRechercheDisplayState.results:
-        return _ResultatRecherche(viewModel);
+        return _ResultatRecherche(key: listResultatKey, viewModel: viewModel);
     }
   }
 }
@@ -61,13 +65,13 @@ class _MessagePlaceholder extends StatelessWidget {
 class _ResultatRecherche extends StatefulWidget {
   final ResultatRechercheViewModel viewModel;
 
-  const _ResultatRecherche(this.viewModel);
+  const _ResultatRecherche({super.key, required this.viewModel});
 
   @override
-  State<_ResultatRecherche> createState() => _ResultatRechercheState();
+  State<_ResultatRecherche> createState() => ResultatRechercheState();
 }
 
-class _ResultatRechercheState extends State<_ResultatRecherche> {
+class ResultatRechercheState extends State<_ResultatRecherche> {
   late ScrollController _scrollController;
   double _offsetBeforeLoading = 0;
 
@@ -130,5 +134,10 @@ class _ResultatRechercheState extends State<_ResultatRecherche> {
       //OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance),
       OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: false),
     );
+  }
+
+  void scrollToTop() {
+    _offsetBeforeLoading = 0;
+    if (_scrollController.hasClients) _scrollController.jumpTo(0);
   }
 }

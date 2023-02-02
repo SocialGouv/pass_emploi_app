@@ -23,6 +23,7 @@ class RechercheOffrePage extends StatefulWidget {
 
 class _RechercheOffrePageState extends State<RechercheOffrePage> {
   Store<AppState>? _store;
+  final _listResultatKey = GlobalKey();
 
   @override
   void dispose() {
@@ -37,7 +38,7 @@ class _RechercheOffrePageState extends State<RechercheOffrePage> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: SecondaryAppBar(title: Strings.rechercheOffresEmploiTitle, backgroundColor: backgroundColor),
-      floatingActionButton: ActionsRecherche(),
+      floatingActionButton: ActionsRecherche(onFiltreApplied: _onFiltreApplied),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       //TODO: 1353 - jusqu'à ce que la complétion se fasse sur un écran à part
       resizeToAvoidBottomInset: false,
@@ -51,10 +52,12 @@ class _RechercheOffrePageState extends State<RechercheOffrePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             CriteresRecherche(),
-            ResultatRecherche(),
+            ResultatRecherche(listResultatKey: _listResultatKey),
           ],
         ),
       ),
     );
   }
+
+  void _onFiltreApplied() => (_listResultatKey.currentState as ResultatRechercheState?)?.scrollToTop();
 }
