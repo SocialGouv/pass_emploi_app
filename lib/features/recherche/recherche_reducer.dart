@@ -8,12 +8,7 @@ RechercheState<Criteres, Filtres, Result>
   dynamic action,
 ) {
   if (action is RechercheResetAction<Result>) {
-    return current.copyWith(
-      status: RechercheStatus.nouvelleRecherche,
-      request: () => null,
-      results: () => null,
-      canLoadMore: false,
-    );
+    return RechercheState.initial();
   }
   if (action is RechercheNewAction<Result>) {
     return current.copyWith(
@@ -23,7 +18,7 @@ RechercheState<Criteres, Filtres, Result>
   if (action is RechercheRequestAction<Criteres, Filtres>) {
     return current.copyWith(
       status: RechercheStatus.initialLoading,
-      request: () => action.request,
+      request: () => action.request, //TODO: utile ?
     );
   }
   if (action is RechercheSuccessAction<Criteres, Filtres, Result>) {
@@ -34,17 +29,9 @@ RechercheState<Criteres, Filtres, Result>
       canLoadMore: action.canLoadMore,
     );
   }
-  //TODO: c'est pas dommage de modifier ici et dans le middleware la requête ?
-  // ou alors, on fait en 2 temps :
-  // - SetFilterAction : uniquement dans reducer, changes le state
-  // - ReloadAction : lance une recherche
-  // Avantage 1 : on ne fais pas deux fois la modif.
-  // Avantage 2 : pas besoin dans le middleware de se faire chier à faire un copy semi générique semi spécifique :)
-  if (action is RechercheUpdateFiltres<Filtres>) {
-    final newRequest = current.request?.copyWith(filtres: action.filtres);
+  if (action is RechercheUpdateFiltresAction<Filtres>) {
     return current.copyWith(
       status: RechercheStatus.updateLoading,
-      request: () => newRequest,
     );
   }
   if (action is RechercheLoadMoreAction<Result>) {

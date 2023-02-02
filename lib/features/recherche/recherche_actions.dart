@@ -17,10 +17,10 @@ class RechercheSuccessAction<Criteres extends Equatable, Filtres extends Equatab
 
 class RechercheFailureAction<Result> {}
 
-class RechercheUpdateFiltres<Filtres> {
+class RechercheUpdateFiltresAction<Filtres> {
   final Filtres filtres;
 
-  RechercheUpdateFiltres(this.filtres);
+  RechercheUpdateFiltresAction(this.filtres);
 }
 
 class RechercheLoadMoreAction<Result> {}

@@ -20,7 +20,7 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
 
     if (action is RechercheRequestAction<Criteres, Filtres>) {
       _rechercher(store: store, userId: userId, request: action.request);
-    } else if (action is RechercheUpdateFiltres<Filtres>) {
+    } else if (action is RechercheUpdateFiltresAction<Filtres>) {
       final newRequest = copyRequestWith(state: store.state, filtres: action.filtres);
       _rechercher(store: store, userId: userId, request: newRequest);
     } else if (action is RechercheLoadMoreAction<Result>) {

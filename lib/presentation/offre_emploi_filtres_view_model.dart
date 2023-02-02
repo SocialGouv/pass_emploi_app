@@ -120,7 +120,7 @@ void _dispatchUpdateFiltresAction(
     List<CheckboxValueViewModel<ContratFiltre>>? contratFiltres,
     List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres) {
   store.dispatch(
-    RechercheUpdateFiltres<OffreEmploiSearchParametersFiltres>(
+    RechercheUpdateFiltresAction<OffreEmploiSearchParametersFiltres>(
       OffreEmploiSearchParametersFiltres.withFiltres(
         distance: updatedDistanceValue,
         debutantOnly: debutantOnlyFiltre,
