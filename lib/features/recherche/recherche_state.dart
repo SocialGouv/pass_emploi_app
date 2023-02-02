@@ -2,7 +2,8 @@ import 'package:equatable/equatable.dart';
 
 enum RechercheStatus {
   nouvelleRecherche,
-  loading,
+  initialLoading,
+  updateLoading,
   failure,
   success;
 }

@@ -32,15 +32,14 @@ class ActionsRechercheViewModel extends Equatable {
 }
 
 bool _withAlertButton(RechercheState state) {
-  return state.status == RechercheStatus.success && state.results != null;
+  return [RechercheStatus.success, RechercheStatus.updateLoading].contains(state.status);
 }
 
 bool _withFiltreButton(RechercheState<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi> state) {
-  if (state.results == null) return false;
   if (state.request?.criteres.onlyAlternance == true) {
     return state.request?.criteres.location?.type == LocationType.COMMUNE;
   }
-  return state.status == RechercheStatus.success;
+  return [RechercheStatus.success, RechercheStatus.updateLoading].contains(state.status);
 }
 
 int? _filtresCount(OffreEmploiSearchParametersFiltres? filtres) {

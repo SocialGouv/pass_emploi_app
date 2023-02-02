@@ -104,7 +104,7 @@ List<CheckboxValueViewModel<ContratFiltre>> _contrat(OffreEmploiSearchParameters
 
 DisplayState _displayState(RechercheState state) {
   switch (state.status) {
-    case RechercheStatus.loading:
+    case RechercheStatus.updateLoading:
       return DisplayState.LOADING;
     case RechercheStatus.success:
       return DisplayState.CONTENT;

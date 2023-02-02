@@ -46,7 +46,7 @@ class BlocCriteresRechercheViewModel extends Equatable {
 bool _isOpen(Store<AppState> store) {
   final isOpen = [
     RechercheStatus.nouvelleRecherche,
-    RechercheStatus.loading,
+    RechercheStatus.initialLoading,
     RechercheStatus.failure,
   ].contains(store.state.rechercheEmploiState.status);
   return isOpen;

@@ -33,7 +33,7 @@ class BlocCriteresRechercheContenuViewModel extends Equatable {
 
 DisplayState _displayState(Store<AppState> store) {
   final status = store.state.rechercheEmploiState.status;
-  if (status == RechercheStatus.loading) return DisplayState.LOADING;
+  if (status == RechercheStatus.initialLoading) return DisplayState.LOADING;
   if (status == RechercheStatus.failure) return DisplayState.FAILURE;
   return DisplayState.CONTENT;
 }

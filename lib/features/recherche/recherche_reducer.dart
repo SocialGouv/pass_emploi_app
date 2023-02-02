@@ -22,7 +22,7 @@ RechercheState<Criteres, Filtres, Result>
   }
   if (action is RechercheRequestAction<Criteres, Filtres>) {
     return current.copyWith(
-      status: RechercheStatus.loading,
+      status: RechercheStatus.initialLoading,
       request: () => action.request,
     );
   }
@@ -43,13 +43,13 @@ RechercheState<Criteres, Filtres, Result>
   if (action is RechercheUpdateFiltres<Filtres>) {
     final newRequest = current.request?.copyWith(filtres: action.filtres);
     return current.copyWith(
-      status: RechercheStatus.loading,
+      status: RechercheStatus.updateLoading,
       request: () => newRequest,
     );
   }
   if (action is RechercheLoadMoreAction<Result>) {
     return current.copyWith(
-      status: RechercheStatus.loading,
+      status: RechercheStatus.updateLoading,
     );
   }
   if (action is RechercheFailureAction<Result>) return current.copyWith(status: RechercheStatus.failure);

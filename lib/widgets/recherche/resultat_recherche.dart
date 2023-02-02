@@ -58,10 +58,37 @@ class _MessagePlaceholder extends StatelessWidget {
   }
 }
 
-class _ResultatRecherche extends StatelessWidget {
+class _ResultatRecherche extends StatefulWidget {
   final ResultatRechercheViewModel viewModel;
 
   const _ResultatRecherche(this.viewModel);
+
+  @override
+  State<_ResultatRecherche> createState() => _ResultatRechercheState();
+}
+
+class _ResultatRechercheState extends State<_ResultatRecherche> {
+  late ScrollController _scrollController;
+  double _offsetBeforeLoading = 0;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (widget.viewModel.withLoadMore && _scrollController.offset >= _scrollController.position.maxScrollExtent) {
+        _offsetBeforeLoading = _scrollController.offset;
+        widget.viewModel.onLoadMore();
+      }
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _onDidBuild);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +97,17 @@ class _ResultatRecherche extends StatelessWidget {
       child: Expanded(
         child: ListView.separated(
           padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
-          //controller: _scrollController,
-          itemBuilder: (context, index) => _buildItem(context, viewModel.items[index]),
+          controller: _scrollController,
+          itemBuilder: (context, index) => _buildItem(context, widget.viewModel.items[index]),
           separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
-          itemCount: viewModel.items.length,
+          itemCount: widget.viewModel.items.length,
         ),
       ),
     );
+  }
+
+  void _onDidBuild() {
+    if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
   }
 
   Widget _buildItem(BuildContext context, OffreEmploiItemViewModel item) {
@@ -93,13 +124,11 @@ class _ResultatRecherche extends StatelessWidget {
   }
 
   void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
-    // TODO: 1353 - Scroll
-    //_offsetBeforeLoading = _scrollController.offset;
     Navigator.push(
       context,
       // TODO: 1353 - only alternance
       //OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance),
       OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: false),
-    ); //.then((_) => _scrollController.jumpTo(_offsetBeforeLoading));
+    );
   }
 }
