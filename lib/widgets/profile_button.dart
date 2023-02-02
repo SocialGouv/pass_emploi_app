@@ -13,7 +13,7 @@ class ProfileButton extends StatelessWidget {
       width: 48,
       height: 48,
       clipBehavior: Clip.none,
-      margin: const EdgeInsets.symmetric(horizontal: Margins.spacing_s),
+      margin: const EdgeInsets.all(Margins.spacing_xs),
       decoration: BoxDecoration(
         boxShadow: [Shadows.boxShadow_m],
         shape: BoxShape.circle,
