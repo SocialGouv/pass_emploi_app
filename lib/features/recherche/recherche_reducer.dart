@@ -33,6 +33,8 @@ RechercheState<Criteres, Filtres, Result>
       canLoadMore: action.canLoadMore,
     );
   }
+  //TODO: c'est pas dommage de faire la newRequest ici et dans le middleware ?
+  //TODO: et probable qu'il faille faire pareil pour load more (ou pas, il faut plutôt le faire quand c'est en success)
   if (action is RechercheUpdateFiltres<Filtres>) {
     final currentRequest = current.request;
     final newRequest = currentRequest?.copyWith(filtres: action.filtres);
