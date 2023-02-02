@@ -26,21 +26,30 @@ RechercheState<Criteres, Filtres, Result>
       request: () => action.request,
     );
   }
-  if (action is RechercheSuccessAction<Result>) {
+  if (action is RechercheSuccessAction<Criteres, Filtres, Result>) {
     return current.copyWith(
       status: RechercheStatus.success,
+      request: () => action.request,
       results: () => action.results,
       canLoadMore: action.canLoadMore,
     );
   }
-  //TODO: c'est pas dommage de faire la newRequest ici et dans le middleware ?
-  //TODO: et probable qu'il faille faire pareil pour load more (ou pas, il faut plutôt le faire quand c'est en success)
+  //TODO: c'est pas dommage de modifier ici et dans le middleware la requête ?
+  // ou alors, on fait en 2 temps :
+  // - SetFilterAction : uniquement dans reducer, changes le state
+  // - ReloadAction : lance une recherche
+  // Avantage 1 : on ne fais pas deux fois la modif.
+  // Avantage 2 : pas besoin dans le middleware de se faire chier à faire un copy semi générique semi spécifique :)
   if (action is RechercheUpdateFiltres<Filtres>) {
-    final currentRequest = current.request;
-    final newRequest = currentRequest?.copyWith(filtres: action.filtres);
+    final newRequest = current.request?.copyWith(filtres: action.filtres);
     return current.copyWith(
       status: RechercheStatus.loading,
       request: () => newRequest,
+    );
+  }
+  if (action is RechercheLoadMoreAction<Result>) {
+    return current.copyWith(
+      status: RechercheStatus.loading,
     );
   }
   if (action is RechercheFailureAction<Result>) return current.copyWith(status: RechercheStatus.failure);

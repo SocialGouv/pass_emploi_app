@@ -7,11 +7,12 @@ class RechercheRequestAction<Criteres extends Equatable, Filtres extends Equatab
   RechercheRequestAction(this.request);
 }
 
-class RechercheSuccessAction<Result> {
+class RechercheSuccessAction<Criteres extends Equatable, Filtres extends Equatable, Result> {
+  final RechercheRequest<Criteres, Filtres> request;
   final List<Result> results;
   final bool canLoadMore;
 
-  RechercheSuccessAction(this.results, this.canLoadMore);
+  RechercheSuccessAction(this.request, this.results, this.canLoadMore);
 }
 
 class RechercheFailureAction<Result> {}
