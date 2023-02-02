@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
-import 'package:pass_emploi_app/widgets/rendezvous_tag.dart';
+import 'package:pass_emploi_app/widgets/tags/rendezvous_tag.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousCard extends StatelessWidget {

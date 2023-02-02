@@ -23,9 +23,9 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
-import 'package:pass_emploi_app/widgets/rendezvous_tag.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/tags/rendezvous_tag.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:redux/redux.dart';
 

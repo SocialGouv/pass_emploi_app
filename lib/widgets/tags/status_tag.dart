@@ -17,11 +17,10 @@ class StatutTag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
+        borderRadius: BorderRadius.all(Radius.circular(360)),
         color: backgroundColor,
-        border: Border.all(color: textColor),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
       child: Text(
         title,
         style: TextStyles.textSRegularWithColor(textColor),
