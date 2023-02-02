@@ -1,4 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+
+typedef RechercheEmploiState = RechercheState<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi>;
 
 enum RechercheStatus {
   nouvelleRecherche,

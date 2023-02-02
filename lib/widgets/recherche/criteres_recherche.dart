@@ -45,51 +45,47 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
   }
 
   Widget _builder(BuildContext context, BlocCriteresRechercheViewModel viewModel) {
-    return Column(
-      children: [
-        Material(
-          elevation: 16, //TODO Real box shadow ?
-          borderRadius: BorderRadius.circular(Dimens.radius_s),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(Dimens.radius_s),
-            child: Theme(
-              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-              child: CejExpansionTile(
-                key: _expansionTileKey,
-                onExpansionChanged: viewModel.onExpansionChanged,
-                maintainState: true,
-                backgroundColor: Colors.white,
-                textColor: AppColors.contentColor,
-                iconColor: AppColors.primary,
-                collapsedBackgroundColor: AppColors.primary,
-                collapsedTextColor: Colors.white,
-                collapsedIconColor: Colors.white,
-                leading: Icon(Icons.search),
-                title: _CriteresRechercheBandeau(criteresActifsCount: _criteresActifsCount ?? 0),
-                initiallyExpanded: viewModel.isOpen,
-                children: [
-                  _CriteresRechercheContenu(
-                    onKeywordChanged: (keyword) {
-                      _keyword = keyword;
-                      setState(() => _updateCriteresActifsCount());
-                    },
-                    onSelectLocationViewModel: (locationVM) {
-                      _selectedLocationViewModel = locationVM;
-                      setState(() => _updateCriteresActifsCount());
-                    },
-                    getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
-                    onRechercheButtonPressed: () {
-                      // TODO: 1353 - only alternance
-                      viewModel.onSearchingRequest(_keyword, _selectedLocationViewModel?.location, false);
-                      Keyboard.dismiss(context);
-                    },
-                  ),
-                ],
+    return Material(
+      elevation: 16, //TODO Real box shadow ?
+      borderRadius: BorderRadius.circular(Dimens.radius_s),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(Dimens.radius_s),
+        child: Theme(
+          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+          child: CejExpansionTile(
+            key: _expansionTileKey,
+            onExpansionChanged: viewModel.onExpansionChanged,
+            maintainState: true,
+            backgroundColor: Colors.white,
+            textColor: AppColors.contentColor,
+            iconColor: AppColors.primary,
+            collapsedBackgroundColor: AppColors.primary,
+            collapsedTextColor: Colors.white,
+            collapsedIconColor: Colors.white,
+            leading: Icon(Icons.search),
+            title: _CriteresRechercheBandeau(criteresActifsCount: _criteresActifsCount ?? 0),
+            initiallyExpanded: viewModel.isOpen,
+            children: [
+              _CriteresRechercheContenu(
+                onKeywordChanged: (keyword) {
+                  _keyword = keyword;
+                  setState(() => _updateCriteresActifsCount());
+                },
+                onSelectLocationViewModel: (locationVM) {
+                  _selectedLocationViewModel = locationVM;
+                  setState(() => _updateCriteresActifsCount());
+                },
+                getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
+                onRechercheButtonPressed: () {
+                  // TODO: 1353 - only alternance
+                  viewModel.onSearchingRequest(_keyword, _selectedLocationViewModel?.location, false);
+                  Keyboard.dismiss(context);
+                },
               ),
-            ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 

@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_detai
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
@@ -28,6 +29,7 @@ import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/tutorial.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -314,5 +316,36 @@ extension AppStateDSL on AppState {
 
   AppState succeedEventList(List<Rendezvous> events) {
     return copyWith(eventListState: EventListSuccessState(events));
+  }
+
+  AppState initialRechercheEmploiState() {
+    return copyWith(rechercheEmploiState: RechercheState.initial());
+  }
+
+  AppState initialLoadingRechercheEmploiState() {
+    return copyWith(
+      rechercheEmploiState: RechercheEmploiState.initial().copyWith(status: RechercheStatus.initialLoading),
+    );
+  }
+
+  AppState updateLoadingRechercheEmploiState() {
+    return copyWith(
+      rechercheEmploiState: RechercheEmploiState.initial().copyWith(status: RechercheStatus.updateLoading),
+    );
+  }
+
+  AppState failureRechercheEmploiState() {
+    return copyWith(
+      rechercheEmploiState: RechercheEmploiState.initial().copyWith(status: RechercheStatus.failure),
+    );
+  }
+
+  AppState successRechercheEmploiState(List<OffreEmploi> results) {
+    return copyWith(
+      rechercheEmploiState: RechercheEmploiState.initial().copyWith(
+        status: RechercheStatus.success,
+        results: () => results,
+      ),
+    );
   }
 }
