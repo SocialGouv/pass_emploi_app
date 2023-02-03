@@ -541,3 +541,11 @@ RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> in
 RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> secondRechercheEmploiRequest() {
   return initialRechercheEmploiRequest().copyWith(page: 2);
 }
+
+RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>
+    rechercheEmploiRequestWithZeroDistanceFiltre() {
+  return initialRechercheEmploiRequest().copyWith(filtres: mockEmploiFiltreZeroDistance());
+}
+
+OffreEmploiSearchParametersFiltres mockEmploiFiltreZeroDistance() =>
+    OffreEmploiSearchParametersFiltres.withFiltres(distance: 0);

@@ -22,10 +22,9 @@ void main() {
     }
 
     void givenRepositorySuccess() {
-      final results = mockOffresEmploi10();
-      const canLoadMore = true;
-      when(() => repo.rechercher(userId: any(named: "userId"), request: any(named: "request")))
-          .thenAnswer((_) async => RechercheResponse(results: results, canLoadMore: canLoadMore));
+      when(() {
+        return repo.rechercher(userId: any(named: "userId"), request: any(named: "request"));
+      }).thenAnswer((_) async => RechercheResponse(results: mockOffresEmploi10(), canLoadMore: true));
     }
 
     //TODO: laisser en global ?
@@ -105,7 +104,37 @@ void main() {
 
         givenRepositoryFailure();
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldBeUpdateLoading(), _shouldFailLoadingMoreKeepingPreviousData()]);
+        sut.thenExpectChangingStatesThroughOrder(
+            [_shouldBeUpdateLoading(), _shouldFailLoadingMoreKeepingPreviousData()]);
+      });
+    });
+
+    group("when updating filtres", () {
+      sut.when(() => RechercheUpdateFiltresAction(mockEmploiFiltreZeroDistance()));
+
+      test('should load then succeed with new request when request succeed', () {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .successRechercheEmploiState() //
+            .store((f) => {f.offreEmploiRepository = repo});
+
+        givenRepositorySuccess();
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldBeUpdateLoading(), _shouldSucceedUpdatingFiltres()]);
+      });
+
+      test('should load then fail with new request and previous data when request fail', () {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .successRechercheEmploiState() //
+            .store((f) => {f.offreEmploiRepository = repo});
+
+        givenRepositoryFailure();
+
+        sut.thenExpectChangingStatesThroughOrder([
+          _shouldBeUpdateLoading(),
+          _shouldFailLoadingMoreKeepingPreviousData(),
+        ]);
       });
     });
   });
@@ -165,6 +194,17 @@ Matcher _shouldFailLoadingMoreKeepingPreviousData() {
     (state) => state.rechercheEmploiState.status == RechercheStatus.failure,
     (state) {
       expect(state.rechercheEmploiState.request, initialRechercheEmploiRequest());
+      expect(state.rechercheEmploiState.results?.length, 10);
+      expect(state.rechercheEmploiState.canLoadMore, true);
+    },
+  );
+}
+
+Matcher _shouldSucceedUpdatingFiltres() {
+  return StateMatch(
+    (state) => state.rechercheEmploiState.status == RechercheStatus.success,
+    (state) {
+      expect(state.rechercheEmploiState.request, rechercheEmploiRequestWithZeroDistanceFiltre());
       expect(state.rechercheEmploiState.results?.length, 10);
       expect(state.rechercheEmploiState.canLoadMore, true);
     },
