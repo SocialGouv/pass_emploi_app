@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/suppression_compte_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -144,7 +145,7 @@ class _DeleteAlertTextFieldState extends State<_DeleteAlertTextField> {
           errorText: (_isNotValid()) ? Strings.mandatorySuppressionLabelError : null,
           errorMaxLines: 3,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(Dimens.radius_s),
             borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
           )),
       keyboardType: TextInputType.multiline,

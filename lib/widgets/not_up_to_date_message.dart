@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -21,7 +22,7 @@ class NotUpToDateMessage extends StatelessWidget {
       padding: EdgeInsets.all(Margins.spacing_base),
       decoration: BoxDecoration(
         color: AppColors.disabled,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Dimens.radius_s),
       ),
       child: Column(
         children: [

@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/tutorial_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -154,7 +155,7 @@ class _SkipButton extends StatelessWidget {
           InkWell(
             onTap: active
                 ? () {
-              viewModel.onDone();
+                    viewModel.onDone();
                     PassEmploiMatomoTracker.instance.trackScreenWithName(
                       widgetName: AnalyticsScreenNames.tutorialPage,
                       eventName: AnalyticsActionNames.skipTutorial,
@@ -196,9 +197,9 @@ class _TutorialContentCard extends StatelessWidget {
       padding: const EdgeInsets.all(Margins.spacing_m),
       child: Material(
         elevation: 8,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Dimens.radius_s),
         child: DecoratedBox(
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_s)),
           child: Padding(
             padding: const EdgeInsets.all(Margins.spacing_m),
             child: SingleChildScrollView(

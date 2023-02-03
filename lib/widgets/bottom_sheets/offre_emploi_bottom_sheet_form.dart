@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -69,7 +70,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
             iconSize: 18,
             onPressed: (_isFormValid())
                 ? () {
-              viewModel.createSavedSearch(searchTitle!);
+                    viewModel.createSavedSearch(searchTitle!);
                     PassEmploiMatomoTracker.instance.trackScreenWithName(
                       eventName: widget.onlyAlternance
                           ? AnalyticsScreenNames.alternanceCreateAlert
@@ -134,7 +135,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
           contentPadding: const EdgeInsets.all(16),
           errorText: (searchTitle != null && searchTitle!.isEmpty) ? mandatoryError : null,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(Dimens.radius_s),
             borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
           )),
       keyboardType: TextInputType.multiline,

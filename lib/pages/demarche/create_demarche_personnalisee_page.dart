@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.da
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -278,7 +279,7 @@ class _ChampCommentaire extends StatelessWidget {
         height: 90,
         decoration: BoxDecoration(
           border: Border.all(color: borderColor),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(Dimens.radius_s),
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),

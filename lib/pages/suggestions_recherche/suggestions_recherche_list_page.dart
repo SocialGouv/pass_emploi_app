@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_l
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -160,7 +161,7 @@ class _Type extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.accent2),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(Dimens.radius_l),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -191,7 +192,7 @@ class _Metier extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(Dimens.radius_l),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -211,7 +212,7 @@ class _Localisation extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(Dimens.radius_l),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
