@@ -27,7 +27,7 @@ class FavoriNotFoundError extends StatelessWidget {
               SizedBox(height: 8),
               Text(
                 Strings.offreNotFoundExplaination,
-                style: TextStyles.textSmRegular(color: AppColors.warning),
+                style: TextStyles.textSRegular(color: AppColors.warning),
               ),
             ],
           ),

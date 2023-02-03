@@ -122,7 +122,7 @@ class LocationAutocomplete extends StatelessWidget {
         onSelectLocationViewModel(viewModel);
       },
       child: ListTile(
-        title: Text(viewModel.title, style: TextStyles.textSmRegular()),
+        title: Text(viewModel.title, style: TextStyles.textSRegular()),
       ),
     );
   }

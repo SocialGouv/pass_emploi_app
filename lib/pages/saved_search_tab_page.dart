@@ -261,7 +261,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
           _suggestionsRechercheCard(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: Margins.spacing_l),
-            child: Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular())),
+            child: Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSRegular())),
           ),
         ],
       ),
