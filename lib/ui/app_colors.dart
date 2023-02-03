@@ -48,6 +48,15 @@ class AppColors {
 
   // Additional colors
   static const Color additional1Lighten = Color(0xFFFFD88D);
+  static const Color additional1 = Color(0xFFFCBF49);
+  static const Color additional2Ligthen = Color(0xFFDDFFED);
+  static const Color additional2 = Color(0xFF15616D);
+  static const Color additional3Ligthen = Color(0xFFD2CEF6);
+  static const Color additional3 = Color(0xFF5149A8);
+  static const Color additional4Ligten = Color(0xFFDBEDF9);
+  static const Color additional4 = Color(0xFF2186C7);
+  static const Color additional5Ligten = Color(0xFFCEF0F1);
+  static const Color additional5 = Color(0xFF49BBBF);
 
   // Miscellaneous
   static const Color shadowColor = Color.fromARGB(10, 50, 0, 1);
