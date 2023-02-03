@@ -55,7 +55,7 @@ class _Contenu extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(Dimens.radius_s),
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
           boxShadow: [Shadows.radius_base],
         ),
         child: SingleChildScrollView(

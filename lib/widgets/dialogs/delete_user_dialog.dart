@@ -145,7 +145,7 @@ class _DeleteAlertTextFieldState extends State<_DeleteAlertTextField> {
           errorText: (_isNotValid()) ? Strings.mandatorySuppressionLabelError : null,
           errorMaxLines: 3,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimens.radius_s),
+            borderRadius: BorderRadius.circular(Dimens.radius_base),
             borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
           )),
       keyboardType: TextInputType.multiline,

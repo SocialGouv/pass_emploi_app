@@ -135,7 +135,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
           contentPadding: const EdgeInsets.all(16),
           errorText: (searchTitle != null && searchTitle!.isEmpty) ? mandatoryError : null,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimens.radius_s),
+            borderRadius: BorderRadius.circular(Dimens.radius_base),
             borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
           )),
       keyboardType: TextInputType.multiline,

@@ -360,7 +360,7 @@ class _Createur extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: Margins.spacing_s),
       decoration: BoxDecoration(
         color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(Dimens.radius_s),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
       ),
       child: Padding(
         padding: const EdgeInsets.all(Margins.spacing_m),

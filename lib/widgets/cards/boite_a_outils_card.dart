@@ -36,7 +36,7 @@ class BoiteAOutilsCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(Dimens.radius_s),
+                  borderRadius: BorderRadius.circular(Dimens.radius_base),
                   child: Image.asset(
                     "assets/${outil.imagePath!}",
                     fit: BoxFit.fitWidth,

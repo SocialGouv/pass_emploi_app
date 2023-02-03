@@ -125,7 +125,7 @@ class _ChampRecherche extends StatelessWidget {
 class _Border extends OutlineInputBorder {
   _Border(Color color)
       : super(
-          borderRadius: BorderRadius.circular(Dimens.radius_s),
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
           borderSide: BorderSide(color: color, width: 1.0),
         );
 }

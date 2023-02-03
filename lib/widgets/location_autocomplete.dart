@@ -142,19 +142,19 @@ class LocationAutocomplete extends StatelessWidget {
     return InputDecoration(
       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(Dimens.radius_s),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
         borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(Dimens.radius_s),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
         borderSide: BorderSide(color: AppColors.primary, width: 1.0),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(Dimens.radius_s),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
         borderSide: BorderSide(color: AppColors.warning, width: 1.0),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(Dimens.radius_s),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
         borderSide: BorderSide(color: AppColors.warning, width: 1.0),
       ),
     );

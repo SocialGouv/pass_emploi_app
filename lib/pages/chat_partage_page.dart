@@ -107,7 +107,7 @@ class _ChatPartagePageState extends State<ChatPartagePage> {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(16),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimens.radius_s),
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
           borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
         ),
       ),

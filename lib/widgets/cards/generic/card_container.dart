@@ -13,7 +13,7 @@ class CardContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const Color cardBackgroundColor = Colors.white;
-    final BorderRadius cardBorderRadius = BorderRadius.circular(Dimens.radius_s);
+    final BorderRadius cardBorderRadius = BorderRadius.circular(Dimens.radius_base);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: cardBackgroundColor,

@@ -23,7 +23,7 @@ class DateEcheanceInDetail extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(Dimens.radius_s),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.max,

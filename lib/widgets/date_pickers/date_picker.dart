@@ -24,7 +24,7 @@ class DatePicker extends StatelessWidget {
           hintText: initialDateValue != null ? initialDateValue!.toDay() : "",
           contentPadding: const EdgeInsets.all(16),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimens.radius_s),
+            borderRadius: BorderRadius.circular(Dimens.radius_base),
             borderSide: BorderSide(color: AppColors.grey800, width: 1.0),
           )),
       keyboardType: TextInputType.none,

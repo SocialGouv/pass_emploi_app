@@ -197,9 +197,9 @@ class _TutorialContentCard extends StatelessWidget {
       padding: const EdgeInsets.all(Margins.spacing_m),
       child: Material(
         elevation: 8,
-        borderRadius: BorderRadius.circular(Dimens.radius_s),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
         child: DecoratedBox(
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_s)),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_base)),
           child: Padding(
             padding: const EdgeInsets.all(Margins.spacing_m),
             child: SingleChildScrollView(

@@ -279,7 +279,7 @@ class _ChampCommentaire extends StatelessWidget {
         height: 90,
         decoration: BoxDecoration(
           border: Border.all(color: borderColor),
-          borderRadius: BorderRadius.circular(Dimens.radius_s),
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),

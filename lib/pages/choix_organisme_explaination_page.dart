@@ -47,7 +47,7 @@ class ChoixOrganismeExplainationPage extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 0),
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
-                                    color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_s)),
+                                    color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_base)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(Margins.spacing_m),
                                   child: Column(
