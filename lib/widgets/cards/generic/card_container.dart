@@ -18,7 +18,7 @@ class CardContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: cardBackgroundColor,
         borderRadius: cardBorderRadius,
-        boxShadow: [Shadows.boxShadow],
+        boxShadow: [Shadows.radius_base],
       ),
       child: Material(
           color: cardBackgroundColor,

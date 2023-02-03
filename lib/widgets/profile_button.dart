@@ -15,7 +15,7 @@ class ProfileButton extends StatelessWidget {
       clipBehavior: Clip.none,
       margin: const EdgeInsets.all(Margins.spacing_xs),
       decoration: BoxDecoration(
-        boxShadow: [Shadows.boxShadow_m],
+        boxShadow: [Shadows.radius_base],
         shape: BoxShape.circle,
       ),
       child: IconButton(
@@ -24,7 +24,7 @@ class ProfileButton extends StatelessWidget {
         icon: SizedBox.expand(
           child: DecoratedBox(
             decoration: BoxDecoration(
-              boxShadow: [Shadows.boxShadow_wide],
+              boxShadow: [Shadows.radius_base],
               shape: BoxShape.circle,
               color: AppColors.primary,
             ),

@@ -59,7 +59,7 @@ class _Contenu extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          boxShadow: [Shadows.boxShadow],
+          boxShadow: [Shadows.radius_base],
         ),
         child: SingleChildScrollView(
           child: Column(

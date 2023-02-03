@@ -44,7 +44,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            boxShadow: [Shadows.boxShadow],
+            boxShadow: [Shadows.radius_base],
           ),
           child: Padding(
             padding: const EdgeInsets.only(left: 16),

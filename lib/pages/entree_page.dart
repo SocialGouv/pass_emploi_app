@@ -64,7 +64,7 @@ class EntreePage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      boxShadow: [Shadows.boxShadow],
+                      boxShadow: [Shadows.radius_base],
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(
