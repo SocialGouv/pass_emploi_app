@@ -3,6 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_middleware.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
 import '../../doubles/fixtures.dart';
@@ -55,7 +56,24 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldInitialLoad(), _shouldFail()]);
       });
     });
+
+    group("when reseting", () {
+      sut.when(() => RechercheResetAction<OffreEmploi>());
+
+      test('should load then succeed when request succeed', () {
+        sut.givenStore = givenState() //
+            .loggedInUser() //
+            .successRechercheEmploiState(results: []) //
+            .store((f) => {f.offreEmploiRepository = repo});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldHaveInitialState()]);
+      });
+    });
   });
+}
+
+Matcher _shouldHaveInitialState() {
+  return StateMatch((state) => state.rechercheEmploiState == RechercheEmploiState.initial());
 }
 
 Matcher _shouldInitialLoad() {
