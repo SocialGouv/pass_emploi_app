@@ -22,7 +22,7 @@ void main() {
     }
 
     void givenRepositorySuccess() {
-      final results = List.generate(10, (index) => mockOffreEmploi());
+      final results = mockOffresEmploi10();
       const canLoadMore = true;
       when(() => repo.rechercher(userId: any(named: "userId"), request: any(named: "request")))
           .thenAnswer((_) async => RechercheResponse(results: results, canLoadMore: canLoadMore));
@@ -60,20 +60,29 @@ void main() {
     group("when reseting", () {
       sut.when(() => RechercheResetAction<OffreEmploi>());
 
-      test('should load then succeed when request succeed', () {
+      test('should have initial state', () {
         sut.givenStore = givenState() //
             .loggedInUser() //
-            .successRechercheEmploiState(results: []) //
+            .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldHaveInitialState()]);
       });
     });
-  });
-}
 
-Matcher _shouldHaveInitialState() {
-  return StateMatch((state) => state.rechercheEmploiState == RechercheEmploiState.initial());
+    group("when new search", () {
+      sut.when(() => RechercheNewAction<OffreEmploi>());
+
+      test('should have new search status and previous data', () {
+        sut.givenStore = givenState() //
+            .loggedInUser() //
+            .successRechercheEmploiState() //
+            .store((f) => {f.offreEmploiRepository = repo});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldHaveNewSearchStateAndPreviousData()]);
+      });
+    });
+  });
 }
 
 Matcher _shouldInitialLoad() {
@@ -87,6 +96,21 @@ Matcher _shouldFail() {
 Matcher _shouldSucceedWithFirstResults() {
   return StateMatch(
     (state) => state.rechercheEmploiState.status == RechercheStatus.success,
+    (state) {
+      expect(state.rechercheEmploiState.request, initialRechercheEmploiRequest());
+      expect(state.rechercheEmploiState.results?.length, 10);
+      expect(state.rechercheEmploiState.canLoadMore, true);
+    },
+  );
+}
+
+Matcher _shouldHaveInitialState() {
+  return StateMatch((state) => state.rechercheEmploiState == RechercheEmploiState.initial());
+}
+
+Matcher _shouldHaveNewSearchStateAndPreviousData() {
+  return StateMatch(
+    (state) => state.rechercheEmploiState.status == RechercheStatus.nouvelleRecherche,
     (state) {
       expect(state.rechercheEmploiState.request, initialRechercheEmploiRequest());
       expect(state.rechercheEmploiState.results?.length, 10);

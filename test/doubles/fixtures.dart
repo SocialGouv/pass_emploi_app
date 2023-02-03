@@ -135,6 +135,8 @@ OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false}) 
       duration: "Temps plein",
     );
 
+List<OffreEmploi> mockOffresEmploi10() => List.generate(10, (index) => mockOffreEmploi());
+
 OffreEmploiItemViewModel mockOffreEmploiItemViewModel({String id = '123DXPM'}) {
   return OffreEmploiItemViewModel(
     id: id,

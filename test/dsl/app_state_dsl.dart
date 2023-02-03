@@ -343,14 +343,18 @@ extension AppStateDSL on AppState {
   }
 
   AppState successRechercheEmploiState({
-    required List<OffreEmploi> results,
+    List<OffreEmploi>? results,
     RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>? request,
+    bool canLoadMore = true,
   }) {
+    final _results = results ?? mockOffresEmploi10();
+    final _request = request ?? initialRechercheEmploiRequest();
     return copyWith(
       rechercheEmploiState: RechercheEmploiState.initial().copyWith(
         status: RechercheStatus.success,
-        request: () => request,
-        results: () => results,
+        request: () => _request,
+        results: () => _results,
+        canLoadMore: canLoadMore,
       ),
     );
   }
