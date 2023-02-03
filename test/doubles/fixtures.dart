@@ -537,3 +537,7 @@ RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> in
     1,
   );
 }
+
+RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> secondRechercheEmploiRequest() {
+  return initialRechercheEmploiRequest().copyWith(page: 2);
+}
