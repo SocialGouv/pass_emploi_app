@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -26,18 +25,13 @@ void main() {
       contrat: [ContratFiltre.cdd_interim_saisonnier],
     );
     final location = mockLocation();
-    final store = givenState().successRechercheEmploiState(
-      results: [],
-      request: RechercheRequest(
-        EmploiCriteresRecherche(
-          keywords: "Je suis un keyword",
-          location: location,
-          onlyAlternance: false,
-        ),
-        filtres,
-        1,
-      ),
-    ).store();
+
+    final store = givenState()
+        .successRechercheEmploiStateWithRequest(
+          criteres: EmploiCriteresRecherche(keywords: 'Je suis un keyword', location: location, onlyAlternance: false),
+          filtres: filtres,
+        )
+        .store();
 
     // When
     final result = OffreEmploiSearchExtractor().getSearchFilters(store);

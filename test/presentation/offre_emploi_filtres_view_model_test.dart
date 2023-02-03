@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -51,7 +50,7 @@ void main() {
       "create when search state is success but empty should display content (empty content is directly handled by result page)",
       () {
     // Given
-        final store = givenState().successRechercheEmploiState(results: []).store();
+    final store = givenState().successRechercheEmploiState(results: []).store();
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -62,14 +61,11 @@ void main() {
 
   test("create when state has no filtre should set distance to 10km", () {
     // Given
-    final store = givenState().successRechercheEmploiState(
-      results: [],
-      request: RechercheRequest(
-        EmploiCriteresRecherche(location: mockCommuneLocation(), keywords: '', onlyAlternance: false),
-        OffreEmploiSearchParametersFiltres.noFiltres(),
-        1,
-      ),
-    ).store();
+    final store = givenState()
+        .successRechercheEmploiStateWithRequest(
+          criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keywords: '', onlyAlternance: true),
+        )
+        .store();
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -80,18 +76,12 @@ void main() {
 
   test("create when state distance filtre set should set distance", () {
     // Given
-    final store = givenState().successRechercheEmploiState(
-      results: [],
-      request: RechercheRequest(
-        EmploiCriteresRecherche(
-          keywords: 'mots clés',
-          location: mockCommuneLocation(),
-          onlyAlternance: false,
-        ),
-        OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
-        1,
-      ),
-    ).store();
+    final store = givenState()
+        .successRechercheEmploiStateWithRequest(
+          criteres: EmploiCriteresRecherche(keywords: '', location: mockCommuneLocation(), onlyAlternance: false),
+          filtres: OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
+        )
+        .store();
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -102,18 +92,11 @@ void main() {
 
   test("create when search location is a departement should not display distance filtre", () {
     // Given
-    final store = givenState().successRechercheEmploiState(
-      results: [],
-      request: RechercheRequest(
-        EmploiCriteresRecherche(
-          keywords: 'mots clés',
-          location: mockLocation(),
-          onlyAlternance: false,
-        ),
-        OffreEmploiSearchParametersFiltres.noFiltres(),
-        1,
-      ),
-    ).store();
+    final store = givenState()
+        .successRechercheEmploiStateWithRequest(
+          criteres: EmploiCriteresRecherche(keywords: '', location: mockLocation(), onlyAlternance: false),
+        )
+        .store();
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -124,14 +107,12 @@ void main() {
 
   test("create when search location is a commune should display distance filtre", () {
     // Given
-    final store = givenState().successRechercheEmploiState(
-      results: [],
-      request: RechercheRequest(
-        EmploiCriteresRecherche(location: mockCommuneLocation(), keywords: '', onlyAlternance: false),
-        OffreEmploiSearchParametersFiltres.noFiltres(),
-        1,
-      ),
-    ).store();
+    final store = givenState()
+        .successRechercheEmploiStateWithRequest(
+          criteres: EmploiCriteresRecherche(keywords: '', location: mockCommuneLocation(), onlyAlternance: false),
+          filtres: OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
+        )
+        .store();
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -142,7 +123,7 @@ void main() {
 
   test('create when search location is not only alternance should display non distance filtres', () {
     // Given
-    final store = _store(alternanceOnly: false);
+    final store = _store(onlyAlternance: false);
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -153,7 +134,7 @@ void main() {
 
   test('create when search location is only alternance should not display non distance filtres', () {
     // Given
-    final store = _store(alternanceOnly: true);
+    final store = _store(onlyAlternance: true);
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -164,14 +145,9 @@ void main() {
 
   test("create when state has no filtre set should not pre-check any filtre", () {
     // Given
-    final store = givenState().successRechercheEmploiState(
-      results: [],
-      request: RechercheRequest(
-        EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
-        OffreEmploiSearchParametersFiltres.noFiltres(),
-        1,
-      ),
-    ).store();
+    final store = givenState()
+        .successRechercheEmploiStateWithRequest(filtres: OffreEmploiSearchParametersFiltres.noFiltres())
+        .store();
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -184,23 +160,20 @@ void main() {
 
   test("create when state has all checkboxes filtres selected should pre-check every filtres", () {
     // Given
-    final store = givenState().successRechercheEmploiState(
-      results: [],
-      request: RechercheRequest(
-        EmploiCriteresRecherche(location: mockCommuneLocation(), keywords: '', onlyAlternance: false),
-        OffreEmploiSearchParametersFiltres.withFiltres(
-          debutantOnly: true,
-          experience: [
-            ExperienceFiltre.de_zero_a_un_an,
-            ExperienceFiltre.de_un_a_trois_ans,
-            ExperienceFiltre.trois_ans_et_plus
-          ],
-          contrat: [ContratFiltre.cdi, ContratFiltre.cdd_interim_saisonnier, ContratFiltre.autre],
-          duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel],
-        ),
-        1,
-      ),
-    ).store();
+    final store = givenState()
+        .successRechercheEmploiStateWithRequest(
+          filtres: OffreEmploiSearchParametersFiltres.withFiltres(
+            debutantOnly: true,
+            experience: [
+              ExperienceFiltre.de_zero_a_un_an,
+              ExperienceFiltre.de_un_a_trois_ans,
+              ExperienceFiltre.trois_ans_et_plus
+            ],
+            contrat: [ContratFiltre.cdi, ContratFiltre.cdd_interim_saisonnier, ContratFiltre.autre],
+            duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel],
+          ),
+        )
+        .store();
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -281,13 +254,11 @@ List<CheckboxValueViewModel<ContratFiltre>> _allContratsInitiallyUnchecked() {
   ];
 }
 
-Store<AppState> _store({required bool alternanceOnly}) {
-  return givenState().successRechercheEmploiState(
-    results: [],
-    request: RechercheRequest(
-      EmploiCriteresRecherche(location: mockCommuneLocation(), keywords: '', onlyAlternance: alternanceOnly),
-      OffreEmploiSearchParametersFiltres.noFiltres(),
-      1,
-    ),
-  ).store();
+Store<AppState> _store({required bool onlyAlternance}) {
+  return givenState()
+      .successRechercheEmploiStateWithRequest(
+        criteres:
+            EmploiCriteresRecherche(keywords: '', location: mockCommuneLocation(), onlyAlternance: onlyAlternance),
+      )
+      .store();
 }
