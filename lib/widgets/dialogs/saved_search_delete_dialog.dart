@@ -59,7 +59,8 @@ class SavedSearchDeleteDialog extends StatelessWidget {
         builder: (context, viewModel) => _alertDialog(context, viewModel),
         onWillChange: (_, viewModel) {
           if (viewModel.displayState == SavedSearchDeleteDisplayState.SUCCESS) {
-            PassEmploiMatomoTracker.instance.trackScreenWithName(widgetName: _screenName(type), eventName: _actionName(type));
+            PassEmploiMatomoTracker.instance
+                .trackScreenWithName(widgetName: _screenName(type), eventName: _actionName(type));
             Navigator.pop(context, true);
           }
         },
@@ -89,8 +90,8 @@ class SavedSearchDeleteDialog extends StatelessWidget {
           label: Strings.suppressionLabel,
           textColor: AppColors.warning,
           backgroundColor: AppColors.warningLighten,
-          disabledBackgroundColor: AppColors.warningLight,
-          rippleColor: AppColors.warningLight,
+          disabledBackgroundColor: AppColors.warningLighten,
+          rippleColor: AppColors.warningLighten,
           withShadow: false,
           heightPadding: Margins.spacing_s,
           onPressed: _isLoading(viewModel) ? null : () => viewModel.onDeleteConfirm(savedSearchId),

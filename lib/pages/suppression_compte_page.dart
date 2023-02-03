@@ -105,8 +105,8 @@ class _DeleteAccountButton extends StatelessWidget {
       textColor: AppColors.warning,
       fontSize: FontSizes.normal,
       backgroundColor: AppColors.warningLighten,
-      disabledBackgroundColor: AppColors.warningLight,
-      rippleColor: AppColors.warningLight,
+      disabledBackgroundColor: AppColors.warningLighten,
+      rippleColor: AppColors.warningLighten,
       withShadow: false,
     );
   }

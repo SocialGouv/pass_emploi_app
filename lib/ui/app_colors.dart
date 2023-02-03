@@ -25,9 +25,8 @@ class AppColors {
   static const Color secondaryLighten = Color(0xFFE5F6EF);
 
   // Status colors
-  static const Color warning = Color.fromARGB(255, 211, 50, 17);
-  static const Color warningLight = Color(0xFFFFCBBC);
-  static const Color warningLighten = Color.fromARGB(255, 255, 241, 237);
+  static const Color warning = Color(0xFFD31140);
+  static const Color warningLighten = Color(0xFFFDEAEF);
 
   // Accent colors
   static const Color accent1 = Color(0xFF950EFF);

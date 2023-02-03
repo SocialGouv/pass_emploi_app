@@ -13,7 +13,7 @@ class FavoriNotFoundError extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        color: AppColors.warningLight,
+        color: AppColors.warningLighten,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(

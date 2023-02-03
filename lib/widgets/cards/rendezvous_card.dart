@@ -80,7 +80,7 @@ class _Annule extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(40)),
-          color: AppColors.warningLight,
+          color: AppColors.warningLighten,
           border: Border.all(color: AppColors.warning),
         ),
         padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
