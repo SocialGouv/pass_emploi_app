@@ -16,18 +16,6 @@ void main() {
     final sut = StoreSut();
     final repo = _OffreEmploiRepositoryMock();
 
-    void givenRepositoryFailure() {
-      when(() => repo.rechercher(userId: any(named: "userId"), request: any(named: "request")))
-          .thenAnswer((_) async => null);
-    }
-
-    void givenRepositorySuccess() {
-      when(() {
-        return repo.rechercher(userId: any(named: "userId"), request: any(named: "request"));
-      }).thenAnswer((_) async => RechercheResponse(results: mockOffresEmploi10(), canLoadMore: true));
-    }
-
-    //TODO: laisser en global ?
     setUpAll(() {
       registerFallbackValue(initialRechercheEmploiRequest());
     });
@@ -40,7 +28,7 @@ void main() {
             .loggedInUser() //
             .store((f) => {f.offreEmploiRepository = repo});
 
-        givenRepositorySuccess();
+        repo.givenRepositorySuccess();
 
         sut.thenExpectChangingStatesThroughOrder([_shouldInitialLoad(), _shouldSucceedWithFirstResults()]);
       });
@@ -50,7 +38,7 @@ void main() {
             .loggedInUser() //
             .store((f) => {f.offreEmploiRepository = repo});
 
-        givenRepositoryFailure();
+        repo.givenRepositoryFailure();
 
         sut.thenExpectChangingStatesThroughOrder([_shouldInitialLoad(), _shouldFail()]);
       });
@@ -91,7 +79,7 @@ void main() {
             .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
-        givenRepositorySuccess();
+        repo.givenRepositorySuccess();
 
         sut.thenExpectChangingStatesThroughOrder([_shouldBeUpdateLoading(), _shouldSucceedWithConcatenatedData()]);
       });
@@ -102,7 +90,7 @@ void main() {
             .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
-        givenRepositoryFailure();
+        repo.givenRepositoryFailure();
 
         sut.thenExpectChangingStatesThroughOrder(
             [_shouldBeUpdateLoading(), _shouldFailLoadingMoreKeepingPreviousData()]);
@@ -118,7 +106,7 @@ void main() {
             .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
-        givenRepositorySuccess();
+        repo.givenRepositorySuccess();
 
         sut.thenExpectChangingStatesThroughOrder([_shouldBeUpdateLoading(), _shouldSucceedUpdatingFiltres()]);
       });
@@ -129,7 +117,7 @@ void main() {
             .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
-        givenRepositoryFailure();
+        repo.givenRepositoryFailure();
 
         sut.thenExpectChangingStatesThroughOrder([
           _shouldBeUpdateLoading(),
@@ -211,4 +199,16 @@ Matcher _shouldSucceedUpdatingFiltres() {
   );
 }
 
-class _OffreEmploiRepositoryMock extends Mock implements OffreEmploiRepository {}
+class _OffreEmploiRepositoryMock extends Mock implements OffreEmploiRepository {
+  void givenRepositoryFailure() {
+    when(() {
+      return rechercher(userId: any(named: "userId"), request: any(named: "request"));
+    }).thenAnswer((_) async => null);
+  }
+
+  void givenRepositorySuccess() {
+    when(() {
+      return rechercher(userId: any(named: "userId"), request: any(named: "request"));
+    }).thenAnswer((_) async => RechercheResponse(results: mockOffresEmploi10(), canLoadMore: true));
+  }
+}
