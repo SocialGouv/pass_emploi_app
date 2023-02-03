@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_null_comparison, use_decorated_box
+
 import 'package:flutter/material.dart';
 
 const Duration _kExpand = Duration(milliseconds: 200);
