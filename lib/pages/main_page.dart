@@ -220,6 +220,11 @@ class _ModeDemoWrapper extends StatelessWidget {
       appBar: ModeDemoAppBar(),
       body: MaterialApp(
         debugShowCheckedModeBanner: false,
+        builder: (context, materialAppChild) => MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: materialAppChild ?? Container(),
+        ),
         home: child,
       ),
     );
