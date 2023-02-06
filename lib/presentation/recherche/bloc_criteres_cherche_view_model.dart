@@ -1,14 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-//TODO: 4T: besoin de store => status ou un state générique . status car status non spécifique(isOpen)
-//TODO: 4T: besoin de dispatch Result (onExpansionChanged)
-
-class BlocCriteresRechercheViewModel extends Equatable {
+class BlocCriteresRechercheViewModel<Result> extends Equatable {
   final bool isOpen;
   final Function(bool isOpen) onExpansionChanged;
 
@@ -17,11 +13,14 @@ class BlocCriteresRechercheViewModel extends Equatable {
     required this.onExpansionChanged,
   });
 
-  factory BlocCriteresRechercheViewModel.create(Store<AppState> store) {
+  factory BlocCriteresRechercheViewModel.create(
+    Store<AppState> store,
+    RechercheState Function(AppState) rechercheState,
+  ) {
     return BlocCriteresRechercheViewModel(
-      isOpen: _isOpen(store),
+      isOpen: _isOpen(rechercheState(store.state)),
       onExpansionChanged: (isOpen) {
-        if (isOpen) store.dispatch(RechercheNewAction<OffreEmploi>());
+        if (isOpen) store.dispatch(RechercheNewAction<Result>());
       },
     );
   }
@@ -30,11 +29,11 @@ class BlocCriteresRechercheViewModel extends Equatable {
   List<Object?> get props => [isOpen];
 }
 
-bool _isOpen(Store<AppState> store) {
+bool _isOpen(RechercheState state) {
   final isOpen = [
     RechercheStatus.nouvelleRecherche,
     RechercheStatus.initialLoading,
     RechercheStatus.failure,
-  ].contains(store.state.rechercheEmploiState.status);
+  ].contains(state.status);
   return isOpen;
 }

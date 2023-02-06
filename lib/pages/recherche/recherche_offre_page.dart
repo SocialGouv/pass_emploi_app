@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -16,6 +17,7 @@ import 'package:redux/redux.dart';
 
 abstract class RechercheOffrePage<Result extends Equatable> extends StatefulWidget {
   abstract final String appBarTitle;
+  RechercheState rechercheState(AppState appState);
 
   @override
   State<RechercheOffrePage> createState() => _RechercheOffrePageState();
@@ -51,7 +53,7 @@ class _RechercheOffrePageState<Result extends Equatable> extends State<Recherche
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            BlocCriteresRecherche(),
+            BlocCriteresRecherche(rechercheState: widget.rechercheState),
             BlocResultatRecherche(listResultatKey: _listResultatKey),
           ],
         ),
@@ -62,6 +64,8 @@ class _RechercheOffrePageState<Result extends Equatable> extends State<Recherche
   void _onFiltreApplied() => (_listResultatKey.currentState as ResultatRechercheContenuState?)?.scrollToTop();
 }
 
+//TODO: 4T: sinon on passe une struct de "config" partout ?
+
 class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => RechercheOffreEmploiPage());
@@ -69,4 +73,7 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
 
   @override
   final String appBarTitle = Strings.rechercheOffresEmploiTitle;
+
+  @override
+  RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
 }
