@@ -12,12 +12,14 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/recherche/actions_recherche.dart';
 import 'package:pass_emploi_app/widgets/recherche/bloc_criteres_recherche.dart';
 import 'package:pass_emploi_app/widgets/recherche/bloc_resultat_recherche.dart';
+import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_emploi_contenu.dart';
 import 'package:pass_emploi_app/widgets/recherche/resultat_recherche_contenu.dart';
 import 'package:redux/redux.dart';
 
 abstract class RechercheOffrePage<Result extends Equatable> extends StatefulWidget {
   abstract final String appBarTitle;
   RechercheState rechercheState(AppState appState);
+  Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged});
 
   @override
   State<RechercheOffrePage> createState() => _RechercheOffrePageState();
@@ -53,7 +55,10 @@ class _RechercheOffrePageState<Result extends Equatable> extends State<Recherche
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            BlocCriteresRecherche(rechercheState: widget.rechercheState),
+            BlocCriteresRecherche<OffreEmploi>(
+              rechercheState: widget.rechercheState,
+              buildCriteresContentWidget: widget.buildCriteresContentWidget,
+            ),
             BlocResultatRecherche(listResultatKey: _listResultatKey),
           ],
         ),
@@ -76,4 +81,9 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
+
+  @override
+  Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {
+    return CriteresRechercheEmploiContenu(onNumberOfCriteresChanged: onNumberOfCriteresChanged);
+  }
 }

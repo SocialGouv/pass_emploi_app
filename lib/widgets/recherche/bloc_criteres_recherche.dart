@@ -8,12 +8,12 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/widgets/customized_flutter_widgets/cej_expansion_tile.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_bandeau.dart';
-import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_emploi_contenu.dart';
 
 class BlocCriteresRecherche<Result> extends StatefulWidget {
   final RechercheState Function(AppState) rechercheState;
+  final Widget Function({required Function(int) onNumberOfCriteresChanged}) buildCriteresContentWidget;
 
-  BlocCriteresRecherche({required this.rechercheState});
+  BlocCriteresRecherche({required this.rechercheState, required this.buildCriteresContentWidget});
 
   @override
   State<BlocCriteresRecherche<Result>> createState() => _BlocCriteresRechercheState<Result>();
@@ -62,7 +62,7 @@ class _BlocCriteresRechercheState<Result> extends State<BlocCriteresRecherche<Re
             title: CriteresRechercheBandeau(criteresActifsCount: _criteresActifsCount ?? 0),
             initiallyExpanded: viewModel.isOpen,
             children: [
-              CriteresRechercheEmploiContenu(
+              widget.buildCriteresContentWidget(
                 onNumberOfCriteresChanged: (number) {
                   setState(() => _criteresActifsCount = number);
                 },
