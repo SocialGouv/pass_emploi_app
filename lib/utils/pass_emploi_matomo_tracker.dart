@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PassEmploiMatomoTracker {
   final MatomoTracker _decorated = MatomoTracker.instance;
+  Map<String, String>? _dimensions;
   Function(String)? onTrackScreen;
 
   static final instance = PassEmploiMatomoTracker._internal();
@@ -37,7 +38,7 @@ class PassEmploiMatomoTracker {
 
   Future<void> setOptOut({required bool optout}) => _decorated.setOptOut(optout: optout);
 
-  void trackDimensions(Map<String, String> dimensions) => _decorated.trackDimensions(dimensions);
+  void setDimensions(Map<String, String> dimensions) => _dimensions = dimensions;
 
   void trackEvent({
     required String eventCategory,
@@ -51,7 +52,7 @@ class PassEmploiMatomoTracker {
       action: action,
       eventName: eventName,
       eventValue: eventValue,
-      dimensions: dimensions,
+      dimensions: dimensions ?? _dimensions,
     );
   }
 
@@ -71,7 +72,7 @@ class PassEmploiMatomoTracker {
       eventName: eventName,
       currentScreenId: currentScreenId,
       path: path,
-      dimensions: dimensions,
+      dimensions: dimensions ?? _dimensions,
     );
     onTrackScreen?.call(eventName);
   }
@@ -88,7 +89,7 @@ class PassEmploiMatomoTracker {
       eventName: eventName,
       currentScreenId: currentScreenId,
       path: path,
-      dimensions: dimensions,
+      dimensions: dimensions ?? _dimensions,
     );
     onTrackScreen?.call('$eventName in $widgetName');
   }
