@@ -1,7 +1,9 @@
+import 'package:redux/redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -14,7 +16,7 @@ void main() {
       final store = givenState().initialRechercheEmploiState().store();
 
       // When
-      final viewModel = BlocResultatRechercheViewModel.create(store);
+      final viewModel = _makeViewModel(store);
 
       // Then
       expect(viewModel.displayState, BlocResultatRechercheDisplayState.recherche);
@@ -25,7 +27,7 @@ void main() {
       final store = givenState().updateLoadingRechercheEmploiState().store();
 
       // When
-      final viewModel = BlocResultatRechercheViewModel.create(store);
+      final viewModel = _makeViewModel(store);
 
       // Then
       expect(viewModel.displayState, BlocResultatRechercheDisplayState.results);
@@ -36,7 +38,7 @@ void main() {
       final store = givenState().successRechercheEmploiState(results: []).store();
 
       // When
-      final viewModel = BlocResultatRechercheViewModel.create(store);
+      final viewModel = _makeViewModel(store);
 
       // Then
       expect(viewModel.displayState, BlocResultatRechercheDisplayState.empty);
@@ -47,7 +49,7 @@ void main() {
       final store = givenState().successRechercheEmploiState(results: [mockOffreEmploi()]).store();
 
       // When
-      final viewModel = BlocResultatRechercheViewModel.create(store);
+      final viewModel = _makeViewModel(store);
 
       // Then
       expect(viewModel.displayState, BlocResultatRechercheDisplayState.results);
@@ -60,7 +62,7 @@ void main() {
       final store = givenState().successRechercheEmploiState(canLoadMore: true).store();
 
       // When
-      final viewModel = BlocResultatRechercheViewModel.create(store);
+      final viewModel = _makeViewModel(store);
 
       // Then
       expect(viewModel.withLoadMore, isTrue);
@@ -71,7 +73,7 @@ void main() {
       final store = givenState().successRechercheEmploiState(canLoadMore: false).store();
 
       // When
-      final viewModel = BlocResultatRechercheViewModel.create(store);
+      final viewModel = _makeViewModel(store);
 
       // Then
       expect(viewModel.withLoadMore, isFalse);
@@ -83,16 +85,16 @@ void main() {
     final store = givenState().successRechercheEmploiState(results: [mockOffreEmploi()]).store();
 
     // When
-    final viewModel = BlocResultatRechercheViewModel.create(store);
+    final viewModel = _makeViewModel(store);
 
     // Then
-    expect(viewModel.items, [mockOffreEmploiItemViewModel()]);
+    expect(viewModel.items, [mockOffreEmploi()]);
   });
 
   test('onLoadMore should dispatch proper action', () {
     // Given
     final store = StoreSpy();
-    final viewModel = BlocResultatRechercheViewModel.create(store);
+    final viewModel = _makeViewModel(store);
 
     // When
     viewModel.onLoadMore();
@@ -100,4 +102,8 @@ void main() {
     // Then
     expect(store.dispatchedAction, isA<RechercheLoadMoreAction<OffreEmploi>>());
   });
+}
+
+BlocResultatRechercheViewModel<OffreEmploi> _makeViewModel(Store<AppState> store) {
+  return BlocResultatRechercheViewModel.create(store, (state) => state.rechercheEmploiState);
 }
