@@ -55,7 +55,7 @@ class _RechercheOffrePageState<Result extends Equatable> extends State<Recherche
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            BlocCriteresRecherche<OffreEmploi>(
+            BlocCriteresRecherche<Result>(
               rechercheState: widget.rechercheState,
               buildCriteresContentWidget: widget.buildCriteresContentWidget,
             ),
