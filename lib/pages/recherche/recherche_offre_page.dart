@@ -17,7 +17,7 @@ import 'package:pass_emploi_app/widgets/recherche/resultat_recherche_contenu.dar
 import 'package:redux/redux.dart';
 
 abstract class RechercheOffrePage<Result extends Equatable> extends StatefulWidget {
-  abstract final String appBarTitle;
+  String appBarTitle();
   RechercheState rechercheState(AppState appState);
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged});
 
@@ -41,7 +41,7 @@ class _RechercheOffrePageState<Result extends Equatable> extends State<Recherche
     const backgroundColor = AppColors.grey100;
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: widget.appBarTitle, backgroundColor: backgroundColor),
+      appBar: SecondaryAppBar(title: widget.appBarTitle(), backgroundColor: backgroundColor),
       floatingActionButton: ActionsRecherche(onFiltreApplied: _onFiltreApplied),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       //TODO: 1353 - jusqu'à ce que la complétion se fasse sur un écran à part
@@ -77,7 +77,7 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   }
 
   @override
-  final String appBarTitle = Strings.rechercheOffresEmploiTitle;
+  String appBarTitle() => Strings.rechercheOffresEmploiTitle;
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
