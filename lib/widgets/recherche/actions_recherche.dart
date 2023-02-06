@@ -12,6 +12,9 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_saved_search_
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
+// TODO 1353 A abstractiser
+// onAlertButtonPressed
+// onFiltreButtonPressed
 class ActionsRecherche extends StatelessWidget {
   final Function() onFiltreApplied;
 

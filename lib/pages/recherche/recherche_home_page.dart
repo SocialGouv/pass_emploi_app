@@ -29,7 +29,7 @@ class RechercheHomePage extends StatelessWidget {
               title: Strings.rechercheHomeOffresEmploiTitle,
               subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
               drawable: Drawables.icOffresEmploi,
-              onTap: () => Navigator.push(context, RechercheOffrePage.materialPageRoute()),
+              onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute()),
             ),
           ],
         ),

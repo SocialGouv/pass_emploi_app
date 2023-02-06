@@ -11,13 +11,13 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
-class CriteresRechercheContenu extends StatelessWidget {
+class CriteresRechercheEmploiContenu extends StatelessWidget {
   final Function(String) onKeywordChanged;
   final Function(LocationViewModel? locationViewModel) onSelectLocationViewModel;
   final String? Function() getPreviouslySelectedTitle;
   final Function() onRechercheButtonPressed;
 
-  const CriteresRechercheContenu({
+  const CriteresRechercheEmploiContenu({
     required this.onKeywordChanged,
     required this.onSelectLocationViewModel,
     required this.getPreviouslySelectedTitle,

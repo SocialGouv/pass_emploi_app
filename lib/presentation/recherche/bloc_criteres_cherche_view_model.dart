@@ -8,6 +8,10 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/redux.dart';
 
+// TODO 1353 a abstractiser
+// onExpansionChanged (Typer en Offre Emploi pour le onExpansionChanged<T> ???)
+// onSearchingRequest
+
 class BlocCriteresRechercheViewModel extends Equatable {
   final bool isOpen;
   final Function(bool isOpen) onExpansionChanged;

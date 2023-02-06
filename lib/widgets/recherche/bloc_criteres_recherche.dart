@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/customized_flutter_widgets/cej_expansion_tile.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_bandeau.dart';
-import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_contenu.dart';
+import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_emploi_contenu.dart';
 
 class BlocCriteresRecherche extends StatefulWidget {
   @override
@@ -60,7 +60,7 @@ class _BlocCriteresRechercheState extends State<BlocCriteresRecherche> {
             title: CriteresRechercheBandeau(criteresActifsCount: _criteresActifsCount ?? 0),
             initiallyExpanded: viewModel.isOpen,
             children: [
-              CriteresRechercheContenu(
+              CriteresRechercheEmploiContenu(
                 onKeywordChanged: (keyword) {
                   _keyword = keyword;
                   setState(() => _updateCriteresActifsCount());
