@@ -9,6 +9,7 @@ class PrimaryActionButton extends StatelessWidget {
   final Color textColor;
   final Color? rippleColor;
   final String? drawableRes;
+  final IconData? icon;
   final String label;
   final bool withShadow;
   final VoidCallback? onPressed;
@@ -25,6 +26,7 @@ class PrimaryActionButton extends StatelessWidget {
     this.rippleColor = AppColors.primaryDarken,
     this.withShadow = true,
     this.drawableRes,
+    this.icon,
     this.onPressed,
     required this.label,
     this.fontSize,
@@ -67,17 +69,23 @@ class PrimaryActionButton extends StatelessWidget {
   Widget _getRow() {
     return Wrap(
       children: [
-        if (drawableRes != null)
+        if (drawableRes != null || icon != null)
           Padding(
               padding: const EdgeInsets.only(right: 12),
               child: Padding(
                 padding: const EdgeInsets.all(4),
-                child: SvgPicture.asset(
-                  drawableRes!,
-                  height: iconSize,
-                  width: iconSize,
-                  color: Colors.white,
-                ),
+                child: icon != null
+                    ? Icon(
+                        icon,
+                        size: iconSize,
+                        color: Colors.white,
+                      )
+                    : SvgPicture.asset(
+                        drawableRes!,
+                        height: iconSize,
+                        width: iconSize,
+                        color: Colors.white,
+                      ),
               )),
         Text(
           label,
