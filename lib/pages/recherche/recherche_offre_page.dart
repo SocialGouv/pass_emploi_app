@@ -18,7 +18,7 @@ import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_emploi_cont
 import 'package:pass_emploi_app/widgets/recherche/resultat_recherche_contenu.dart';
 import 'package:redux/redux.dart';
 
-abstract class RechercheOffrePage<Result extends Equatable> extends StatefulWidget {
+abstract class RechercheOffrePage<Result> extends StatefulWidget {
   String appBarTitle();
   RechercheState rechercheState(AppState appState);
   Widget buildAlertBottomSheet();
@@ -26,10 +26,10 @@ abstract class RechercheOffrePage<Result extends Equatable> extends StatefulWidg
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged});
 
   @override
-  State<RechercheOffrePage> createState() => _RechercheOffrePageState();
+  State<RechercheOffrePage<Result>> createState() => _RechercheOffrePageState();
 }
 
-class _RechercheOffrePageState<Result extends Equatable> extends State<RechercheOffrePage> {
+class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>> {
   Store<AppState>? _store;
   final _listResultatKey = GlobalKey();
 
