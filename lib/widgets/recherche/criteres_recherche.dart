@@ -47,9 +47,9 @@ class _CriteresRechercheState extends State<CriteresRecherche> {
   Widget _builder(BuildContext context, BlocCriteresRechercheViewModel viewModel) {
     return Material(
       elevation: 16, //TODO Real box shadow ?
-      borderRadius: BorderRadius.circular(Dimens.radius_s),
+      borderRadius: BorderRadius.circular(Dimens.radius_base),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(Dimens.radius_s),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
         child: Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: CejExpansionTile(
