@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mode_demo/page_choix_mode_demo.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
@@ -54,8 +55,8 @@ class _Contenu extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [Shadows.boxShadow],
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
+          boxShadow: [Shadows.radius_base],
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -128,9 +129,8 @@ class _Background extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Container(
-            decoration: BoxDecoration(
-                color: AppColors.primary, borderRadius: BorderRadius.vertical(bottom: Radius.circular(123456789))),
-          ),
+              decoration:
+                  BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(double.infinity))),
         ),
         Expanded(flex: 1, child: Container()),
       ],

@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -334,7 +335,7 @@ class _Annule extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(40)),
-          color: AppColors.warningLight,
+          color: AppColors.warningLighten,
           border: Border.all(color: AppColors.warning),
         ),
         padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
@@ -359,7 +360,7 @@ class _Createur extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: Margins.spacing_s),
       decoration: BoxDecoration(
         color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
       ),
       child: Padding(
         padding: const EdgeInsets.all(Margins.spacing_m),
@@ -411,7 +412,7 @@ class _InscritTag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(Dimens.radius_l),
         border: Border.all(color: AppColors.accent1),
       ),
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -19,7 +20,7 @@ class CejInformationContentCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(Margins.spacing_m),
       child: DecoratedBox(
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_base)),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(Margins.spacing_m),

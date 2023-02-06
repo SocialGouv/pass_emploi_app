@@ -81,7 +81,7 @@ class UserActionStatusButton extends StatelessWidget {
 
   double _borderWidth() => isSelected ? 2 : 1;
 
-  TextStyle _textStyle() => isSelected ? TextStyles.textSmMedium() : TextStyles.textSmRegular();
+  TextStyle _textStyle() => isSelected ? TextStyles.textSMedium() : TextStyles.textSRegular();
 
   Color _backgroundColor() => isSelected ? AppColors.nightBlueAlpha05 : Colors.transparent;
 }

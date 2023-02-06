@@ -25,7 +25,7 @@ void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetail
         vertical: onSeeDetailTap != null ? Margins.spacing_s : Margins.spacing_base,
       ),
       duration: Duration(days: 365),
-      backgroundColor: success ? AppColors.secondaryLighten : AppColors.warningLight,
+      backgroundColor: success ? AppColors.secondaryLighten : AppColors.warningLighten,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,

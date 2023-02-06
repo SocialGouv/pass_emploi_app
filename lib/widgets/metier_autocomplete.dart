@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/debouncer.dart';
@@ -95,7 +96,7 @@ class MetierAutocomplete extends StatelessWidget {
                 final Metier metier = metiers.elementAt(index);
                 return GestureDetector(
                   onTap: () => onSelected(metier),
-                  child: ListTile(title: Text(metier.libelle, style: TextStyles.textSmRegular())),
+                  child: ListTile(title: Text(metier.libelle, style: TextStyles.textSRegular())),
                 );
               },
             ),
@@ -123,19 +124,19 @@ class MetierAutocomplete extends StatelessWidget {
     return InputDecoration(
       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
         borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
         borderSide: BorderSide(color: AppColors.primary, width: 1.0),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
         borderSide: BorderSide(color: AppColors.warning, width: 1.0),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
         borderSide: BorderSide(color: AppColors.warning, width: 1.0),
       ),
     );

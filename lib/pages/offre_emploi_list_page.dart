@@ -167,7 +167,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   Widget _error(OffreEmploiSearchResultsViewModel viewModel) {
     return Stack(
       children: [
-        Center(child: Text(viewModel.errorMessage, style: TextStyles.textSmRegular())),
+        Center(child: Text(viewModel.errorMessage, style: TextStyles.textSRegular())),
         if (viewModel.withFiltreButton)
           Align(
             alignment: Alignment.bottomCenter,

@@ -24,7 +24,7 @@ class DataTag extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.all(Radius.circular(Dimens.radius_s)),
+        borderRadius: BorderRadius.all(Radius.circular(Dimens.radius_base)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(Margins.spacing_s),

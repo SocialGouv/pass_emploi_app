@@ -113,7 +113,7 @@ class LoginPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Center(child: Text(Strings.loginError, style: TextStyles.textSmMedium(color: AppColors.warning))),
+        Center(child: Text(Strings.loginError, style: TextStyles.textSMedium(color: AppColors.warning))),
         SizedBox(height: Margins.spacing_base),
         ..._loginButtons(viewModel, context),
       ],

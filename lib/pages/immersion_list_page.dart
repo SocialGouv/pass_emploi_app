@@ -166,7 +166,7 @@ class ImmersionListPage extends StatelessWidget {
   Widget _error(BuildContext context, ImmersionSearchResultsViewModel viewModel) {
     return Stack(
       children: [
-        Center(child: Text(viewModel.errorMessage, style: TextStyles.textSmRegular())),
+        Center(child: Text(viewModel.errorMessage, style: TextStyles.textSRegular())),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filtrePrimaryButton(context, viewModel)),

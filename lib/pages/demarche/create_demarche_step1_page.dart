@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -124,7 +125,7 @@ class _ChampRecherche extends StatelessWidget {
 class _Border extends OutlineInputBorder {
   _Border(Color color)
       : super(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
           borderSide: BorderSide(color: color, width: 1.0),
         );
 }

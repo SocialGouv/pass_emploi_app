@@ -15,7 +15,7 @@ class ErrorText extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyles.textSmRegular(color: AppColors.warning),
+          style: TextStyles.textSRegular(color: AppColors.warning),
         ),
       ),
     );
