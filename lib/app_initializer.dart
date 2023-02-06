@@ -113,7 +113,7 @@ class AppInitializer {
     final siteId = configuration.matomoSiteId;
     final url = configuration.matomoBaseUrl;
     await PassEmploiMatomoTracker.instance.initialize(siteId: int.parse(siteId), url: url);
-    PassEmploiMatomoTracker.instance.trackDimensions({
+    PassEmploiMatomoTracker.instance.setDimensions({
       AnalyticsCustomDimensions.userTypeId: AnalyticsCustomDimensions.appUserType,
     });
   }
