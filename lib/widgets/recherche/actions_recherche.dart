@@ -9,13 +9,16 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:redux/redux.dart';
 
 class ActionsRecherche extends StatelessWidget {
+  final ActionsRechercheViewModel Function(Store<AppState> store) buildViewModel;
   final Widget Function() buildAlertBottomSheet;
   final Route<bool> Function() buildFiltresMaterialPageRoute;
   final Function() onFiltreApplied;
 
   ActionsRecherche({
+    required this.buildViewModel,
     required this.buildAlertBottomSheet,
     required this.buildFiltresMaterialPageRoute,
     required this.onFiltreApplied,
@@ -24,7 +27,7 @@ class ActionsRecherche extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ActionsRechercheViewModel>(
-      converter: (store) => ActionsRechercheViewModel.create(store),
+      converter: buildViewModel,
       builder: _builder,
       distinct: true,
     );

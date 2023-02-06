@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
-import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
-import '../../doubles/fixtures.dart';
-import '../../dsl/app_state_dsl.dart';
+import '../../../doubles/fixtures.dart';
+import '../../../dsl/app_state_dsl.dart';
 
 void main() {
   group('withAlertButton', () {
@@ -13,7 +13,7 @@ void main() {
       final store = givenState().initialRechercheEmploiState().store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.withAlertButton, isFalse);
@@ -24,7 +24,7 @@ void main() {
       final store = givenState().failureRechercheEmploiState().store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.withAlertButton, isFalse);
@@ -35,7 +35,7 @@ void main() {
       final store = givenState().successRechercheEmploiState().store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.withAlertButton, isTrue);
@@ -46,7 +46,7 @@ void main() {
       final store = givenState().updateLoadingRechercheEmploiState().store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.withAlertButton, isTrue);
@@ -59,7 +59,7 @@ void main() {
       final store = givenState().initialRechercheEmploiState().store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.withFiltreButton, isFalse);
@@ -70,7 +70,7 @@ void main() {
       final store = givenState().failureRechercheEmploiState().store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.withFiltreButton, isFalse);
@@ -81,7 +81,7 @@ void main() {
       final store = givenState().successRechercheEmploiState().store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.withFiltreButton, isTrue);
@@ -92,7 +92,7 @@ void main() {
       final store = givenState().updateLoadingRechercheEmploiState().store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.withFiltreButton, isTrue);
@@ -108,7 +108,7 @@ void main() {
             .store();
 
         // When
-        final viewModel = ActionsRechercheViewModel.create(store);
+        final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
         // Then
         expect(viewModel.withFiltreButton, isFalse);
@@ -123,7 +123,7 @@ void main() {
             .store();
 
         // When
-        final viewModel = ActionsRechercheViewModel.create(store);
+        final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
         // Then
         expect(viewModel.withFiltreButton, isFalse);
@@ -138,7 +138,7 @@ void main() {
             .store();
 
         // When
-        final viewModel = ActionsRechercheViewModel.create(store);
+        final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
         // Then
         expect(viewModel.withFiltreButton, isTrue);
@@ -154,7 +154,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, isNull);
@@ -167,7 +167,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, 1);
@@ -180,7 +180,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, isNull);
@@ -195,7 +195,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, 1);
@@ -212,7 +212,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, 2);
@@ -227,7 +227,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, isNull);
@@ -242,7 +242,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, 1);
@@ -261,7 +261,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, 3);
@@ -276,7 +276,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, 1);
@@ -293,7 +293,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, 2);
@@ -327,7 +327,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ActionsRechercheViewModel.create(store);
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, 10);

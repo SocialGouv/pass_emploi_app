@@ -3,12 +3,12 @@ import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/recherche/criteres_recherche_emploi_contenu_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/emploi/criteres_recherche_emploi_contenu_view_model.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
-import '../../doubles/fixtures.dart';
-import '../../doubles/spies.dart';
-import '../../dsl/app_state_dsl.dart';
+import '../../../doubles/fixtures.dart';
+import '../../../doubles/spies.dart';
+import '../../../dsl/app_state_dsl.dart';
 
 void main() {
   group('displayState', () {

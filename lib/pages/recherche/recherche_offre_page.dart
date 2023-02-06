@@ -1,10 +1,11 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
+import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -19,10 +20,16 @@ import 'package:pass_emploi_app/widgets/recherche/resultat_recherche_contenu.dar
 import 'package:redux/redux.dart';
 
 abstract class RechercheOffrePage<Result> extends StatefulWidget {
+  ActionsRechercheViewModel buildActionsRechercheViewModel(Store<AppState> store);
+
   String appBarTitle();
+
   RechercheState rechercheState(AppState appState);
+
   Widget buildAlertBottomSheet();
+
   Route<bool> buildFiltresMaterialPageRoute();
+
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged});
 
   @override
@@ -47,6 +54,7 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
       backgroundColor: backgroundColor,
       appBar: SecondaryAppBar(title: widget.appBarTitle(), backgroundColor: backgroundColor),
       floatingActionButton: ActionsRecherche(
+        buildViewModel: widget.buildActionsRechercheViewModel,
         buildAlertBottomSheet: widget.buildAlertBottomSheet,
         buildFiltresMaterialPageRoute: widget.buildFiltresMaterialPageRoute,
         onFiltreApplied: _onFiltreApplied,
@@ -80,6 +88,11 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
 class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => RechercheOffreEmploiPage());
+  }
+
+  @override
+  ActionsRechercheViewModel buildActionsRechercheViewModel(Store<AppState> store) {
+    return ActionsRechercheEmploiViewModel.create(store);
   }
 
   @override
