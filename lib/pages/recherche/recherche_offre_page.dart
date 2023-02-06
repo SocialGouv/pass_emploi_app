@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
+import 'package:pass_emploi_app/pages/offre_page.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -11,6 +15,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_saved_search_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/recherche/actions_recherche.dart';
 import 'package:pass_emploi_app/widgets/recherche/bloc_criteres_recherche.dart';
@@ -26,11 +31,15 @@ abstract class RechercheOffrePage<Result> extends StatefulWidget {
 
   RechercheState rechercheState(AppState appState);
 
+  FavoriListState<Result> favorisState(AppState appState);
+
   Widget buildAlertBottomSheet();
 
   Route<bool> buildFiltresMaterialPageRoute();
 
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged});
+
+  Widget buildResultItem(BuildContext context, Result item);
 
   @override
   State<RechercheOffrePage<Result>> createState() => _RechercheOffrePageState();
@@ -75,7 +84,12 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
               rechercheState: widget.rechercheState,
               buildCriteresContentWidget: widget.buildCriteresContentWidget,
             ),
-            BlocResultatRecherche(listResultatKey: _listResultatKey),
+            BlocResultatRecherche<Result>(
+              listResultatKey: _listResultatKey,
+              rechercheState: widget.rechercheState,
+              favorisState: widget.favorisState,
+              buildResultItem: widget.buildResultItem,
+            ),
           ],
         ),
       ),
@@ -102,6 +116,9 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
 
   @override
+  FavoriListState<OffreEmploi> favorisState(AppState appState) => appState.offreEmploiFavorisState;
+
+  @override
   Widget buildAlertBottomSheet() {
     // TODO-1353 only alternance
     return OffreEmploiSavedSearchBottomSheet(onlyAlternance: false);
@@ -116,5 +133,29 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {
     return CriteresRechercheEmploiContenu(onNumberOfCriteresChanged: onNumberOfCriteresChanged);
+  }
+
+  @override
+  Widget buildResultItem(BuildContext context, OffreEmploi item) {
+    final viewModel = OffreEmploiItemViewModel.create(item);
+    return DataCard<OffreEmploi>(
+      titre: viewModel.title,
+      sousTitre: viewModel.companyName,
+      lieu: viewModel.location,
+      id: viewModel.id,
+      dataTag: [viewModel.contractType, viewModel.duration ?? ''],
+      onTap: () => _showOffreEmploiDetailsPage(context, viewModel.id),
+      from: OffrePage.emploiResults, // TODO: 1353 - only alternance
+      //from: widget.onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
+    );
+  }
+
+  void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
+    Navigator.push(
+      context,
+      // TODO: 1353 - only alternance
+      //OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance),
+      OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: false),
+    );
   }
 }

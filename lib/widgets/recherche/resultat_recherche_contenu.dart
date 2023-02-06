@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
-import 'package:pass_emploi_app/pages/offre_page.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
-//TODO: 4T: un VM dédié ici avec juste items
-//TODO: 4T: besoin d'associer item vm => widget card
-//TODO: 4T: besoin de Result pour FavorisContext
-//TODO: 4T: besoin d'indiquer le favorisState spécifique
-//TODO: 4T: besoin d'indiquer vers quelle page de détails naviguer
+class ResultatRechercheContenu<Result> extends StatefulWidget {
+  final BlocResultatRechercheViewModel<Result> viewModel;
+  final FavoriListState<Result> Function(AppState) favorisState;
+  final Widget Function(BuildContext, Result) buildItem;
 
-class ResultatRechercheContenu extends StatefulWidget {
-  final BlocResultatRechercheViewModel viewModel;
-
-  const ResultatRechercheContenu({super.key, required this.viewModel});
+  const ResultatRechercheContenu({
+    super.key,
+    required this.viewModel,
+    required this.favorisState,
+    required this.buildItem,
+  });
 
   @override
-  State<ResultatRechercheContenu> createState() => ResultatRechercheContenuState();
+  State<ResultatRechercheContenu<Result>> createState() => ResultatRechercheContenuState();
 }
 
-class ResultatRechercheContenuState extends State<ResultatRechercheContenu> {
+class ResultatRechercheContenuState<Result> extends State<ResultatRechercheContenu<Result>> {
   late ScrollController _scrollController;
   double _offsetBeforeLoading = 0;
 
@@ -48,13 +46,13 @@ class ResultatRechercheContenuState extends State<ResultatRechercheContenu> {
 
   @override
   Widget build(BuildContext context) {
-    return FavorisStateContext<OffreEmploi>(
-      selectState: (store) => store.state.offreEmploiFavorisState,
+    return FavorisStateContext<Result>(
+      selectState: (store) => widget.favorisState(store.state),
       child: Expanded(
         child: ListView.separated(
           padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
           controller: _scrollController,
-          itemBuilder: (context, index) => _buildItem(context, widget.viewModel.items[index]),
+          itemBuilder: (context, index) => widget.buildItem(context, widget.viewModel.items[index]),
           separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
           itemCount: widget.viewModel.items.length,
         ),
@@ -64,28 +62,6 @@ class ResultatRechercheContenuState extends State<ResultatRechercheContenu> {
 
   void _onDidBuild() {
     if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
-  }
-
-  Widget _buildItem(BuildContext context, OffreEmploiItemViewModel item) {
-    return DataCard<OffreEmploi>(
-      titre: item.title,
-      sousTitre: item.companyName,
-      lieu: item.location,
-      id: item.id,
-      dataTag: [item.contractType, item.duration ?? ''],
-      onTap: () => _showOffreEmploiDetailsPage(context, item.id),
-      from: OffrePage.emploiResults, // TODO: 1353 - only alternance
-      //from: widget.onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
-    );
-  }
-
-  void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
-    Navigator.push(
-      context,
-      // TODO: 1353 - only alternance
-      //OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance),
-      OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: false),
-    );
   }
 
   void scrollToTop() {
