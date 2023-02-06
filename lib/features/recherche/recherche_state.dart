@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 
 typedef RechercheEmploiState = RechercheState<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi>;
 
@@ -11,25 +12,6 @@ enum RechercheStatus {
   updateLoading,
   failure,
   success;
-}
-
-class RechercheRequest<Criteres extends Equatable, Filtres extends Equatable> extends Equatable {
-  final Criteres criteres;
-  final Filtres filtres;
-  final int page;
-
-  RechercheRequest(this.criteres, this.filtres, this.page);
-
-  RechercheRequest<Criteres, Filtres> copyWith({
-    Criteres? criteres,
-    Filtres? filtres,
-    int? page,
-  }) {
-    return RechercheRequest(criteres ?? this.criteres, filtres ?? this.filtres, page ?? this.page);
-  }
-
-  @override
-  List<Object?> get props => [criteres, filtres, page];
 }
 
 class RechercheState<Criteres extends Equatable, Filtres extends Equatable, Result extends Equatable>

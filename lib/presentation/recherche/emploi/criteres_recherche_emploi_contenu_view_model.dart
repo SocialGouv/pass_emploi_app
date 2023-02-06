@@ -1,18 +1,18 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/redux.dart';
 
-//TODO: 4T: sortir un VM dédié à location ?
-//TODO: 4T: store vers status ou state générique (pour display state)
-
+//TODO: 1353 - 4T: sortir un VM dédié à location ?
+//TODO: 1353 - 4T: store vers status ou state générique (pour display state)
 class CriteresRechercheEmploiContenuViewModel extends Equatable {
   final DisplayState displayState;
   final List<LocationViewModel> locations;

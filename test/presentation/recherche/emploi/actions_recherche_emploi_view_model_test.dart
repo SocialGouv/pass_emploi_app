@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
 import '../../../doubles/fixtures.dart';
 import '../../../dsl/app_state_dsl.dart';
