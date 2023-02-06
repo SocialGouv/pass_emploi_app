@@ -21,7 +21,7 @@ class JobTag extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_s, vertical: Margins.spacing_xs),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.all(Radius.circular(Dimens.radius_s)),
+        borderRadius: BorderRadius.all(Radius.circular(Dimens.radius_base)),
       ),
       child: Text(label, style: TextStyles.textSMedium(color: contentColor)),
     );
