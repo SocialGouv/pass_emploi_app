@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -8,17 +7,19 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
-// TODO 1353 A abstractiser
-// onAlertButtonPressed
-// onFiltreButtonPressed
 class ActionsRecherche extends StatelessWidget {
+  final Widget Function() buildAlertBottomSheet;
+  final Route<bool> Function() buildFiltresMaterialPageRoute;
   final Function() onFiltreApplied;
 
-  ActionsRecherche({required this.onFiltreApplied});
+  ActionsRecherche({
+    required this.buildAlertBottomSheet,
+    required this.buildFiltresMaterialPageRoute,
+    required this.onFiltreApplied,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -65,19 +66,11 @@ class ActionsRecherche extends StatelessWidget {
   }
 
   void _onAlertButtonPressed(BuildContext context) {
-    showPassEmploiBottomSheet(
-      context: context,
-      // TODO-1353 only alternance
-      builder: (context) => OffreEmploiSavedSearchBottomSheet(onlyAlternance: false),
-    );
+    showPassEmploiBottomSheet(context: context, builder: (_) => buildAlertBottomSheet());
   }
 
   Future<void> _onFiltreButtonPressed(BuildContext context) {
-    return Navigator.push(
-      context,
-      // TODO-1353 only alternance
-      OffreEmploiFiltresPage.materialPageRoute(false),
-    ).then((value) {
+    return Navigator.push(context, buildFiltresMaterialPageRoute()).then((value) {
       if (value == true) onFiltreApplied();
     });
   }

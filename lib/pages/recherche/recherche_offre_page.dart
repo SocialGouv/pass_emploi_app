@@ -4,10 +4,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/recherche/actions_recherche.dart';
 import 'package:pass_emploi_app/widgets/recherche/bloc_criteres_recherche.dart';
@@ -19,6 +21,8 @@ import 'package:redux/redux.dart';
 abstract class RechercheOffrePage<Result extends Equatable> extends StatefulWidget {
   String appBarTitle();
   RechercheState rechercheState(AppState appState);
+  Widget buildAlertBottomSheet();
+  Route<bool> buildFiltresMaterialPageRoute();
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged});
 
   @override
@@ -42,7 +46,11 @@ class _RechercheOffrePageState<Result extends Equatable> extends State<Recherche
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: SecondaryAppBar(title: widget.appBarTitle(), backgroundColor: backgroundColor),
-      floatingActionButton: ActionsRecherche(onFiltreApplied: _onFiltreApplied),
+      floatingActionButton: ActionsRecherche(
+        buildAlertBottomSheet: widget.buildAlertBottomSheet,
+        buildFiltresMaterialPageRoute: widget.buildFiltresMaterialPageRoute,
+        onFiltreApplied: _onFiltreApplied,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       //TODO: 1353 - jusqu'à ce que la complétion se fasse sur un écran à part
       resizeToAvoidBottomInset: false,
@@ -69,8 +77,6 @@ class _RechercheOffrePageState<Result extends Equatable> extends State<Recherche
   void _onFiltreApplied() => (_listResultatKey.currentState as ResultatRechercheContenuState?)?.scrollToTop();
 }
 
-//TODO: 4T: sinon on passe une struct de "config" partout ?
-
 class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => RechercheOffreEmploiPage());
@@ -81,6 +87,18 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
+
+  @override
+  Widget buildAlertBottomSheet() {
+    // TODO-1353 only alternance
+    return OffreEmploiSavedSearchBottomSheet(onlyAlternance: false);
+  }
+
+  @override
+  Route<bool> buildFiltresMaterialPageRoute() {
+    // TODO-1353 only alternance
+    return OffreEmploiFiltresPage.materialPageRoute(false);
+  }
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {
