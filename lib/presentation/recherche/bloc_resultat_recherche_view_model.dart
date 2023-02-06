@@ -27,7 +27,6 @@ class BlocResultatRechercheViewModel<Result> extends Equatable {
     return BlocResultatRechercheViewModel(
       displayState: _displayState(state),
       items: state.results as List<Result>? ?? [],
-      //items: state.results?.map((offre) => OffreEmploiItemViewModel.create(offre)).toList() ?? [],
       withLoadMore: state.canLoadMore,
       onLoadMore: () => store.dispatch(RechercheLoadMoreAction<Result>()),
     );

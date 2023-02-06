@@ -41,7 +41,7 @@ class BlocResultatRecherche<Result> extends StatelessWidget {
           key: listResultatKey,
           viewModel: viewModel,
           favorisState: favorisState,
-          buildItem: buildResultItem,
+          buildResultItem: buildResultItem,
         );
     }
   }

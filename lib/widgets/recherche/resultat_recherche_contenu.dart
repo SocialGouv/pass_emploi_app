@@ -8,13 +8,13 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 class ResultatRechercheContenu<Result> extends StatefulWidget {
   final BlocResultatRechercheViewModel<Result> viewModel;
   final FavoriListState<Result> Function(AppState) favorisState;
-  final Widget Function(BuildContext, Result) buildItem;
+  final Widget Function(BuildContext, Result) buildResultItem;
 
   const ResultatRechercheContenu({
     super.key,
     required this.viewModel,
     required this.favorisState,
-    required this.buildItem,
+    required this.buildResultItem,
   });
 
   @override
@@ -52,7 +52,7 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
         child: ListView.separated(
           padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
           controller: _scrollController,
-          itemBuilder: (context, index) => widget.buildItem(context, widget.viewModel.items[index]),
+          itemBuilder: (context, index) => widget.buildResultItem(context, widget.viewModel.items[index]),
           separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
           itemCount: widget.viewModel.items.length,
         ),
