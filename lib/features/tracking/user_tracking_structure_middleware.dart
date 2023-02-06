@@ -11,7 +11,7 @@ class UserTrackingStructureMiddleware extends MiddlewareClass<AppState> {
     next(action);
     if (action is LoginSuccessAction) {
       final structureName = _getStructureName(action.user.loginMode);
-      PassEmploiMatomoTracker.instance.trackDimensions({
+      PassEmploiMatomoTracker.instance.setDimensions({
         AnalyticsCustomDimensions.userTypeId: AnalyticsCustomDimensions.appUserType,
         AnalyticsCustomDimensions.structureId: structureName,
       });

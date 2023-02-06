@@ -29,7 +29,7 @@ class DummyMatomoTracker implements PassEmploiMatomoTracker {
   }
 
   @override
-  void trackDimensions(Map<String, String> dimensions) {
+  void setDimensions(Map<String, String> dimensions) {
     // Do nothing
   }
 
