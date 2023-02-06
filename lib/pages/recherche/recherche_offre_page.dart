@@ -8,8 +8,9 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/recherche/actions_recherche.dart';
-import 'package:pass_emploi_app/widgets/recherche/criteres_recherche.dart';
-import 'package:pass_emploi_app/widgets/recherche/resultat_recherche.dart';
+import 'package:pass_emploi_app/widgets/recherche/bloc_criteres_recherche.dart';
+import 'package:pass_emploi_app/widgets/recherche/bloc_resultat_recherche.dart';
+import 'package:pass_emploi_app/widgets/recherche/resultat_recherche_contenu.dart';
 import 'package:redux/redux.dart';
 
 class RechercheOffrePage extends StatefulWidget {
@@ -51,13 +52,13 @@ class _RechercheOffrePageState extends State<RechercheOffrePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CriteresRecherche(),
-            ResultatRecherche(listResultatKey: _listResultatKey),
+            BlocCriteresRecherche(),
+            BlocResultatRecherche(listResultatKey: _listResultatKey),
           ],
         ),
       ),
     );
   }
 
-  void _onFiltreApplied() => (_listResultatKey.currentState as ResultatRechercheState?)?.scrollToTop();
+  void _onFiltreApplied() => (_listResultatKey.currentState as ResultatRechercheContenuState?)?.scrollToTop();
 }

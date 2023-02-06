@@ -6,19 +6,19 @@ import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-class BlocCriteresRechercheContenuViewModel extends Equatable {
+class CriteresRechercheContenuViewModel extends Equatable {
   final DisplayState displayState;
   final List<LocationViewModel> locations;
   final Function(String? input) onInputLocation;
 
-  BlocCriteresRechercheContenuViewModel({
+  CriteresRechercheContenuViewModel({
     required this.displayState,
     required this.locations,
     required this.onInputLocation,
   });
 
-  factory BlocCriteresRechercheContenuViewModel.create(Store<AppState> store) {
-    return BlocCriteresRechercheContenuViewModel(
+  factory CriteresRechercheContenuViewModel.create(Store<AppState> store) {
+    return CriteresRechercheContenuViewModel(
       displayState: _displayState(store),
       locations: store.state.searchLocationState.locations
           .map((location) => LocationViewModel.fromLocation(location))

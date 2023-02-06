@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/recherche/bloc_critereres_cherche_contenu_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/criteres_cherche_contenu_view_model.dart';
 
 import '../../dsl/app_state_dsl.dart';
 
@@ -11,7 +11,7 @@ void main() {
       final store = givenState().initialRechercheEmploiState().store();
 
       // When
-      final viewModel = BlocCriteresRechercheContenuViewModel.create(store);
+      final viewModel = CriteresRechercheContenuViewModel.create(store);
 
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
@@ -22,7 +22,7 @@ void main() {
       final store = givenState().initialLoadingRechercheEmploiState().store();
 
       // When
-      final viewModel = BlocCriteresRechercheContenuViewModel.create(store);
+      final viewModel = CriteresRechercheContenuViewModel.create(store);
 
       // Then
       expect(viewModel.displayState, DisplayState.LOADING);
@@ -33,7 +33,7 @@ void main() {
       final store = givenState().failureRechercheEmploiState().store();
 
       // When
-      final viewModel = BlocCriteresRechercheContenuViewModel.create(store);
+      final viewModel = CriteresRechercheContenuViewModel.create(store);
 
       // Then
       expect(viewModel.displayState, DisplayState.FAILURE);

@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
-import 'package:pass_emploi_app/presentation/recherche/bloc_critereres_cherche_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/bloc_criteres_cherche_view_model.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
 import '../../doubles/fixtures.dart';
