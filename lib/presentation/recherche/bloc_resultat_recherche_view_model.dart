@@ -6,6 +6,12 @@ import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
+//TODO: 4T: Result (pour dispatch RechercheLoadMoreAction)
+//TODO: 4T: store vers status ou state générique (pour display state)
+//TODO: 4T: store vers results ou state générique (pour items)
+//TODO: 4T: store vers results ou state générique (pour canLoadMore)
+//TODO: 4T: attention ici items ne devrait pas être spécifique
+
 enum BlocResultatRechercheDisplayState { recherche, empty, results }
 
 class BlocResultatRechercheViewModel extends Equatable {

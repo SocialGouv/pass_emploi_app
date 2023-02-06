@@ -8,6 +8,12 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
+//TODO: 4T: un VM dédié ici avec juste items
+//TODO: 4T: besoin d'associer item vm => widget card
+//TODO: 4T: besoin de Result pour FavorisContext
+//TODO: 4T: besoin d'indiquer le favorisState spécifique
+//TODO: 4T: besoin d'indiquer vers quelle page de détails naviguer
+
 class ResultatRechercheContenu extends StatefulWidget {
   final BlocResultatRechercheViewModel viewModel;
 

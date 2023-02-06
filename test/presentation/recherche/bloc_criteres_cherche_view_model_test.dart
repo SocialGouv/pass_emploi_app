@@ -1,12 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_criteres_cherche_view_model.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
-import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
@@ -92,29 +88,5 @@ void main() {
       // Then
       expect(store.dispatchedAction, isNull);
     });
-  });
-
-  test('onSearchingRequest should dispatch proper action', () {
-    // Given
-    final store = StoreSpy();
-    final viewModel = BlocCriteresRechercheViewModel.create(store);
-
-    // When
-    viewModel.onSearchingRequest('keywords', mockLocation(), false);
-
-    // Then
-    final dispatchedAction = store.dispatchedAction;
-    expect(
-      dispatchedAction,
-      isA<RechercheRequestAction<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>>(),
-    );
-    expect(
-      (dispatchedAction as RechercheRequestAction<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>).request,
-      RechercheRequest(
-        EmploiCriteresRecherche(keywords: 'keywords', location: mockLocation(), onlyAlternance: false),
-        OffreEmploiSearchParametersFiltres.noFiltres(),
-        1,
-      ),
-    );
   });
 }

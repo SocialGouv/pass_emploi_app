@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/presentation/recherche/criteres_cherche_contenu_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/criteres_recherche_emploi_contenu_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
-class CriteresRechercheEmploiContenu extends StatelessWidget {
-  final Function(String) onKeywordChanged;
-  final Function(LocationViewModel? locationViewModel) onSelectLocationViewModel;
-  final String? Function() getPreviouslySelectedTitle;
-  final Function() onRechercheButtonPressed;
+class CriteresRechercheEmploiContenu extends StatefulWidget {
+  final Function(int) onNumberOfCriteresChanged;
 
   const CriteresRechercheEmploiContenu({
-    required this.onKeywordChanged,
-    required this.onSelectLocationViewModel,
-    required this.getPreviouslySelectedTitle,
-    required this.onRechercheButtonPressed,
+    required this.onNumberOfCriteresChanged,
   });
 
   @override
+  State<CriteresRechercheEmploiContenu> createState() => _CriteresRechercheEmploiContenuState();
+}
+
+class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploiContenu> {
+  LocationViewModel? _selectedLocationViewModel;
+  String _keyword = '';
+
+  @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, CriteresRechercheContenuViewModel>(
-      converter: (store) => CriteresRechercheContenuViewModel.create(store),
+    return StoreConnector<AppState, CriteresRechercheEmploiContenuViewModel>(
+      converter: (store) => CriteresRechercheEmploiContenuViewModel.create(store),
       builder: _builder,
       distinct: true,
     );
   }
 
-  Widget _builder(BuildContext context, CriteresRechercheContenuViewModel viewModel) {
+  Widget _builder(BuildContext context, CriteresRechercheEmploiContenuViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: Column(
@@ -49,10 +52,13 @@ class CriteresRechercheEmploiContenu extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           LocationAutocomplete(
             onInputLocation: (newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
-            onSelectLocationViewModel: onSelectLocationViewModel,
+            onSelectLocationViewModel: (locationViewModel) {
+              _selectedLocationViewModel = locationViewModel;
+              _updateCriteresActifsCount();
+            },
             locationViewModels: viewModel.locations,
             hint: Strings.jobLocationHint,
-            getPreviouslySelectedTitle: getPreviouslySelectedTitle,
+            getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
             formKey: null,
             validator: (value) => null,
           ),
@@ -60,7 +66,7 @@ class CriteresRechercheEmploiContenu extends StatelessWidget {
           if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
           PrimaryActionButton(
             label: Strings.searchButton,
-            onPressed: viewModel.displayState.isLoading() ? null : onRechercheButtonPressed,
+            onPressed: viewModel.displayState.isLoading() ? null : () => _search(viewModel),
           ),
           const SizedBox(height: Margins.spacing_m),
         ],
@@ -75,7 +81,10 @@ class CriteresRechercheEmploiContenu extends StatelessWidget {
       textCapitalization: TextCapitalization.words,
       textInputAction: TextInputAction.done,
       decoration: _inputDecoration(),
-      onChanged: onKeywordChanged,
+      onChanged: (keyword) {
+        _keyword = keyword;
+        _updateCriteresActifsCount();
+      },
     );
   }
 
@@ -91,5 +100,18 @@ class CriteresRechercheEmploiContenu extends StatelessWidget {
         borderSide: BorderSide(color: AppColors.primary, width: 1.0),
       ),
     );
+  }
+
+  void _updateCriteresActifsCount() {
+    int criteresActifsCount = 0;
+    criteresActifsCount += _keyword.isNotEmpty ? 1 : 0;
+    criteresActifsCount += _selectedLocationViewModel != null ? 1 : 0;
+    widget.onNumberOfCriteresChanged(criteresActifsCount);
+  }
+
+  void _search(CriteresRechercheEmploiContenuViewModel viewModel) {
+    // TODO: 1353 - only alternance
+    viewModel.onSearchingRequest(_keyword, _selectedLocationViewModel?.location, false);
+    Keyboard.dismiss(context);
   }
 }
