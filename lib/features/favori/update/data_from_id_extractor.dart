@@ -11,8 +11,13 @@ import 'package:redux/redux.dart';
 class OffreEmploiDataFromIdExtractor extends DataFromIdExtractor<OffreEmploi> {
   @override
   OffreEmploi extractFromId(Store<AppState> store, String favoriId) {
-    final state = store.state.offreEmploiListState as OffreEmploiListSuccessState;
-    return state.offres.firstWhere((element) => element.id == favoriId);
+    if (store.state.offreEmploiListState is OffreEmploiListSuccessState) {
+      final state = store.state.offreEmploiListState as OffreEmploiListSuccessState;
+      return state.offres.firstWhere((element) => element.id == favoriId);
+    }
+    // TODO : 1353 - Test later when offreEmploiListState would be removed
+    final state = store.state.rechercheEmploiState;
+    return state.results!.firstWhere((element) => element.id == favoriId);
   }
 }
 

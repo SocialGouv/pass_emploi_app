@@ -312,6 +312,18 @@ class Strings {
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";
 
+  // Recherche (V2)
+  static String rechercheHomeNosOffres = "Nos offres";
+  static String rechercheHomeVoirLaListe = "Voir la liste";
+  static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
+  static String rechercheHomeOffresEmploiSubtitle = "Découvrez toutes les offres d’emploi de votre métier";
+  static String rechercheOffresEmploiTitle = "offres d’emploi";
+  static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondants";
+
+  static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
+
+  static String rechercheCriteresActifsPlural(int count) => "($count) critères actifs";
+
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";

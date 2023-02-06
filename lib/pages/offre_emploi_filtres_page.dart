@@ -138,8 +138,7 @@ class _ContentState extends State<_Content> {
   double _sliderValueToDisplay(double initialDistanceValue) =>
       _currentSliderValue != null ? _currentSliderValue! : initialDistanceValue;
 
-  bool _isButtonEnabled(DisplayState viewModelDisplayState) =>
-      _hasFormChanged && viewModelDisplayState != DisplayState.LOADING;
+  bool _isButtonEnabled(DisplayState displayState) => _hasFormChanged && displayState != DisplayState.LOADING;
 
   void _onButtonClick(OffreEmploiFiltresViewModel viewModel) {
     viewModel.updateFiltres(
@@ -212,15 +211,11 @@ class _FiltersState extends State<_Filters> {
               ),
             ),
           ],
-          if (_isError(widget.viewModel.displayState)) ErrorText(widget.viewModel.errorMessage),
+          if (widget.viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
           SizedBox(height: 100),
         ],
       ),
     );
-  }
-
-  bool _isError(DisplayState viewModeDisplayState) {
-    return viewModeDisplayState == DisplayState.FAILURE || viewModeDisplayState == DisplayState.EMPTY;
   }
 }
 

@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
@@ -30,6 +31,7 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../utils/test_datetime.dart';
@@ -132,6 +134,8 @@ OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false}) 
       location: "77 - LOGNES",
       duration: "Temps plein",
     );
+
+List<OffreEmploi> mockOffresEmploi10() => List.generate(10, (index) => mockOffreEmploi());
 
 OffreEmploiItemViewModel mockOffreEmploiItemViewModel({String id = '123DXPM'}) {
   return OffreEmploiItemViewModel(
@@ -525,3 +529,23 @@ List<Metier> mockAutocompleteMetiers() {
     Metier(codeRome: "L1401", libelle: "Cavalier dresseur / Cavalière dresseuse de chevaux"),
   ];
 }
+
+RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> initialRechercheEmploiRequest() {
+  return RechercheRequest(
+    EmploiCriteresRecherche(keywords: "chevalier", location: null, onlyAlternance: false),
+    OffreEmploiSearchParametersFiltres.noFiltres(),
+    1,
+  );
+}
+
+RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> secondRechercheEmploiRequest() {
+  return initialRechercheEmploiRequest().copyWith(page: 2);
+}
+
+RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>
+    rechercheEmploiRequestWithZeroDistanceFiltre() {
+  return initialRechercheEmploiRequest().copyWith(filtres: mockEmploiFiltreZeroDistance());
+}
+
+OffreEmploiSearchParametersFiltres mockEmploiFiltreZeroDistance() =>
+    OffreEmploiSearchParametersFiltres.withFiltres(distance: 0);

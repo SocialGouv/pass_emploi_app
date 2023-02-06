@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_detai
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
@@ -28,10 +29,13 @@ import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/tutorial.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -314,5 +318,59 @@ extension AppStateDSL on AppState {
 
   AppState succeedEventList(List<Rendezvous> events) {
     return copyWith(eventListState: EventListSuccessState(events));
+  }
+
+  AppState initialRechercheEmploiState() {
+    return copyWith(rechercheEmploiState: RechercheState.initial());
+  }
+
+  AppState initialLoadingRechercheEmploiState() {
+    return copyWith(
+      rechercheEmploiState: RechercheEmploiState.initial().copyWith(status: RechercheStatus.initialLoading),
+    );
+  }
+
+  AppState updateLoadingRechercheEmploiState() {
+    return copyWith(
+      rechercheEmploiState: RechercheEmploiState.initial().copyWith(status: RechercheStatus.updateLoading),
+    );
+  }
+
+  AppState failureRechercheEmploiState() {
+    return copyWith(
+      rechercheEmploiState: RechercheEmploiState.initial().copyWith(status: RechercheStatus.failure),
+    );
+  }
+
+  AppState successRechercheEmploiState({
+    List<OffreEmploi>? results,
+    RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>? request,
+    bool canLoadMore = true,
+  }) {
+    final _results = results ?? mockOffresEmploi10();
+    final _request = request ?? initialRechercheEmploiRequest();
+    return copyWith(
+      rechercheEmploiState: RechercheEmploiState.initial().copyWith(
+        status: RechercheStatus.success,
+        request: () => _request,
+        results: () => _results,
+        canLoadMore: canLoadMore,
+      ),
+    );
+  }
+
+  AppState successRechercheEmploiStateWithRequest({
+    EmploiCriteresRecherche? criteres,
+    OffreEmploiSearchParametersFiltres? filtres,
+  }) {
+    return successRechercheEmploiState().copyWith(
+      rechercheEmploiState: RechercheEmploiState.initial().copyWith(
+        request: () => RechercheRequest(
+          criteres ?? EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
+          filtres ?? OffreEmploiSearchParametersFiltres.noFiltres(),
+          1,
+        ),
+      ),
+    );
   }
 }
