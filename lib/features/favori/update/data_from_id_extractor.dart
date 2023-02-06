@@ -15,7 +15,7 @@ class OffreEmploiDataFromIdExtractor extends DataFromIdExtractor<OffreEmploi> {
       final state = store.state.offreEmploiListState as OffreEmploiListSuccessState;
       return state.offres.firstWhere((element) => element.id == favoriId);
     }
-    // TODO : 1353 - Test ?
+    // TODO : 1353 - Test later when offreEmploiListState would be removed
     final state = store.state.rechercheEmploiState;
     return state.results!.firstWhere((element) => element.id == favoriId);
   }

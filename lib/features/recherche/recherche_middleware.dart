@@ -44,7 +44,7 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
     }
   }
 
-  //TODO: pour l'instant copyRequestWith() et _previousResults() sont en dur ici.
+  //TODO: 1353 - pour l'instant copyRequestWith() et _previousResults() sont en dur ici.
   // Plus tard, on passe la classe en abstract, ces méthodes aussi.
 
   RechercheRequest<Criteres, Filtres> copyRequestWith({
@@ -63,8 +63,10 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
 }
 
 abstract class RechercheRepository<Criteres extends Equatable, Filtres extends Equatable, Result> {
-  Future<RechercheResponse<Result>?> rechercher(
-      {required String userId, required RechercheRequest<Criteres, Filtres> request});
+  Future<RechercheResponse<Result>?> rechercher({
+    required String userId,
+    required RechercheRequest<Criteres, Filtres> request,
+  });
 }
 
 class RechercheResponse<Result> {
