@@ -25,7 +25,7 @@ class Strings {
 
   // Chat
   static String yourMessage = "Votre message…";
-  static String yourConseiller = "Messages";
+  static String yourConseiller = "Votre conseiller";
   static String today = "Aujourd'hui";
   static String read = "Lu";
   static String sent = "Envoyé";
