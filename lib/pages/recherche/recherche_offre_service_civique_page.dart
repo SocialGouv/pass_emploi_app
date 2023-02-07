@@ -16,42 +16,48 @@ import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_emploi_contenu.dart';
 import 'package:redux/redux.dart';
 
-class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
+class RechercheOffreServiceCiviquePage extends RechercheOffrePage<OffreEmploi> {
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => RechercheOffreEmploiPage());
+    return MaterialPageRoute(builder: (context) => RechercheOffreServiceCiviquePage());
   }
 
+  //TODO(1355)
   @override
   ActionsRechercheViewModel buildActionsRechercheViewModel(Store<AppState> store) {
     return ActionsRechercheEmploiViewModel.create(store);
   }
 
+  //TODO(1355)
   @override
   String appBarTitle() => Strings.rechercheOffresEmploiTitle;
 
+  //TODO(1355)
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
 
+  //TODO(1355)
   @override
   FavoriListState<OffreEmploi> favorisState(AppState appState) => appState.offreEmploiFavorisState;
 
+  //TODO(1355)
   @override
   Widget buildAlertBottomSheet() {
-    // TODO-1353 only alternance
     return OffreEmploiSavedSearchBottomSheet(onlyAlternance: false);
   }
 
+  //TODO(1355)
   @override
   Route<bool> buildFiltresMaterialPageRoute() {
-    // TODO-1353 only alternance
     return OffreEmploiFiltresPage.materialPageRoute(false);
   }
 
+  //TODO(1355)
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {
     return CriteresRechercheEmploiContenu(onNumberOfCriteresChanged: onNumberOfCriteresChanged);
   }
 
+  //TODO(1355)
   @override
   Widget buildResultItem(BuildContext context, OffreEmploi item) {
     final viewModel = OffreEmploiItemViewModel.create(item);
@@ -62,16 +68,14 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
       id: viewModel.id,
       dataTag: [viewModel.contractType, viewModel.duration ?? ''],
       onTap: () => _showOffreDetailsPage(context, viewModel.id),
-      from: OffrePage.emploiResults, // TODO: 1353 - only alternance
-      //from: widget.onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
+      from: OffrePage.emploiResults,
     );
   }
 
+  //TODO(1355)
   void _showOffreDetailsPage(BuildContext context, String offreId) {
     Navigator.push(
       context,
-      // TODO: 1353 - only alternance
-      //OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance),
       OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: false),
     );
   }
