@@ -9,6 +9,8 @@ import '../doubles/fixtures.dart';
 import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
+//TODO(1353) migrer tests vers la nouvelle fonction après nettoyage
+
 void main() {
   test('search when response is valid with keywords and a department location should return offres', () async {
     // Given
