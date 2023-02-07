@@ -1,12 +1,10 @@
+import 'package:redux/redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
-import 'package:pass_emploi_app/presentation/recherche/bloc_critereres_cherche_view_model.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/presentation/recherche/bloc_criteres_cherche_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
-import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
@@ -17,7 +15,7 @@ void main() {
       final store = givenState().initialRechercheEmploiState().store();
 
       // When
-      final viewModel = BlocCriteresRechercheViewModel.create(store);
+      final viewModel = createViewModel(store);
 
       // Then
       expect(viewModel.isOpen, isTrue);
@@ -28,7 +26,7 @@ void main() {
       final store = givenState().initialLoadingRechercheEmploiState().store();
 
       // When
-      final viewModel = BlocCriteresRechercheViewModel.create(store);
+      final viewModel = createViewModel(store);
 
       // Then
       expect(viewModel.isOpen, isTrue);
@@ -39,7 +37,7 @@ void main() {
       final store = givenState().failureRechercheEmploiState().store();
 
       // When
-      final viewModel = BlocCriteresRechercheViewModel.create(store);
+      final viewModel = createViewModel(store);
 
       // Then
       expect(viewModel.isOpen, isTrue);
@@ -50,7 +48,7 @@ void main() {
       final store = givenState().successRechercheEmploiState().store();
 
       // When
-      final viewModel = BlocCriteresRechercheViewModel.create(store);
+      final viewModel = createViewModel(store);
 
       // Then
       expect(viewModel.isOpen, isFalse);
@@ -61,7 +59,7 @@ void main() {
       final store = givenState().updateLoadingRechercheEmploiState().store();
 
       // When
-      final viewModel = BlocCriteresRechercheViewModel.create(store);
+      final viewModel = createViewModel(store);
 
       // Then
       expect(viewModel.isOpen, isFalse);
@@ -72,7 +70,7 @@ void main() {
     test('called with true should dispatch proper action', () {
       // Given
       final store = StoreSpy();
-      final viewModel = BlocCriteresRechercheViewModel.create(store);
+      final viewModel = createViewModel(store);
 
       // When
       viewModel.onExpansionChanged(true);
@@ -84,7 +82,7 @@ void main() {
     test('called with false should not dispatch action', () {
       // Given
       final store = StoreSpy();
-      final viewModel = BlocCriteresRechercheViewModel.create(store);
+      final viewModel = createViewModel(store);
 
       // When
       viewModel.onExpansionChanged(false);
@@ -93,28 +91,8 @@ void main() {
       expect(store.dispatchedAction, isNull);
     });
   });
+}
 
-  test('onSearchingRequest should dispatch proper action', () {
-    // Given
-    final store = StoreSpy();
-    final viewModel = BlocCriteresRechercheViewModel.create(store);
-
-    // When
-    viewModel.onSearchingRequest('keywords', mockLocation(), false);
-
-    // Then
-    final dispatchedAction = store.dispatchedAction;
-    expect(
-      dispatchedAction,
-      isA<RechercheRequestAction<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>>(),
-    );
-    expect(
-      (dispatchedAction as RechercheRequestAction<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>).request,
-      RechercheRequest(
-        EmploiCriteresRecherche(keywords: 'keywords', location: mockLocation(), onlyAlternance: false),
-        OffreEmploiSearchParametersFiltres.noFiltres(),
-        1,
-      ),
-    );
-  });
+BlocCriteresRechercheViewModel<OffreEmploi> createViewModel(Store<AppState> store) {
+  return BlocCriteresRechercheViewModel.create(store, (state) => state.rechercheEmploiState);
 }

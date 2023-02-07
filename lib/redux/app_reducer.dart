@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_reducer
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_reducer.dart';
+import 'package:pass_emploi_app/features/device_info/device_info_reducer.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
@@ -32,6 +33,8 @@ import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
 import 'package:pass_emploi_app/features/rating/rating_reducer.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_reducer.dart';
@@ -57,9 +60,6 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/features/device_info/device_info_reducer.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_reducer.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -142,7 +142,9 @@ AppState reducer(AppState current, dynamic action) {
     eventListState: eventListReducer(current.eventListState, action),
     deviceInfoState: deviceInfoReducer(current.deviceInfoState, action),
     rechercheEmploiState: rechercheReducer<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi>(
-        current.rechercheEmploiState, action),
+      current.rechercheEmploiState,
+      action,
+    ),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

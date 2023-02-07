@@ -1,15 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable, Result>
+abstract class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable, Result extends Equatable>
     extends MiddlewareClass<AppState> {
-  final RechercheRepository<Criteres, Filtres, Result> _repository;
+  RechercheRepository<Criteres, Filtres, Result> getRepository();
 
-  RechercheMiddleware(this._repository);
+  RechercheState<Criteres, Filtres, Result> getRechercheState(AppState state);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -21,10 +22,10 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
     if (action is RechercheRequestAction<Criteres, Filtres>) {
       _rechercher(store: store, userId: userId, request: action.request);
     } else if (action is RechercheUpdateFiltresAction<Filtres>) {
-      final newRequest = copyRequestWith(state: store.state, filtres: action.filtres);
+      final newRequest = _copyRequestWith(state: store.state, filtres: action.filtres);
       _rechercher(store: store, userId: userId, request: newRequest);
     } else if (action is RechercheLoadMoreAction<Result>) {
-      final newRequest = copyRequestWith(state: store.state, newPage: (page) => page + 1);
+      final newRequest = _copyRequestWith(state: store.state, newPage: (page) => page + 1);
       _rechercher(store: store, userId: userId, request: newRequest, previousResults: _previousResults(store.state));
     }
   }
@@ -35,7 +36,7 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
     required RechercheRequest<Criteres, Filtres> request,
     List<Result> previousResults = const [],
   }) async {
-    final response = await _repository.rechercher(userId: userId, request: request);
+    final response = await getRepository().rechercher(userId: userId, request: request);
     if (response != null) {
       final results = previousResults.isEmpty ? response.results : previousResults + response.results;
       store.dispatch(RechercheSuccessAction(request, results, response.canLoadMore));
@@ -44,37 +45,17 @@ class RechercheMiddleware<Criteres extends Equatable, Filtres extends Equatable,
     }
   }
 
-  //TODO: 1353 - pour l'instant copyRequestWith() et _previousResults() sont en dur ici.
-  // Plus tard, on passe la classe en abstract, ces méthodes aussi.
-
-  RechercheRequest<Criteres, Filtres> copyRequestWith({
+  RechercheRequest<Criteres, Filtres> _copyRequestWith({
     required AppState state,
     Filtres? filtres,
     int Function(int)? newPage,
   }) {
-    final oldRequest = state.rechercheEmploiState.request!;
+    final oldRequest = getRechercheState(state).request!;
     return oldRequest.copyWith(
-      filtres: filtres == null ? null : filtres as OffreEmploiSearchParametersFiltres,
-      page: newPage == null ? null : newPage(oldRequest.page),
-    ) as RechercheRequest<Criteres, Filtres>;
+      filtres: filtres,
+      page: newPage != null ? newPage(oldRequest.page) : null,
+    );
   }
 
-  List<Result> _previousResults(AppState state) => state.rechercheEmploiState.results as List<Result>;
-}
-
-abstract class RechercheRepository<Criteres extends Equatable, Filtres extends Equatable, Result> {
-  Future<RechercheResponse<Result>?> rechercher({
-    required String userId,
-    required RechercheRequest<Criteres, Filtres> request,
-  });
-}
-
-class RechercheResponse<Result> {
-  final List<Result> results;
-  final bool canLoadMore;
-
-  RechercheResponse({
-    required this.results,
-    required this.canLoadMore,
-  });
+  List<Result> _previousResults(AppState state) => getRechercheState(state).results!;
 }

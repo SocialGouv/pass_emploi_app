@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 
 class RechercheRequestAction<Criteres extends Equatable, Filtres extends Equatable> {
   final RechercheRequest<Criteres, Filtres> request;
