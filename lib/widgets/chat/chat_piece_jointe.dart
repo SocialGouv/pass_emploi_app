@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -46,7 +45,10 @@ class _PieceJointeName extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(padding: const EdgeInsets.only(right: 10), child: SvgPicture.asset(Drawables.icClip)),
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: Icon(AppIcons.attach_file_rounded),
+        ), // TODO: Color (icClip)
         Flexible(
           child: Text(
             filename,
@@ -92,7 +94,7 @@ class _DownloadButtonState extends State<_DownloadButton> {
     return Center(
       child: PrimaryActionButton(
         label: viewModel.displayState(widget.item.id) == DisplayState.FAILURE ? Strings.retry : Strings.open,
-        drawableRes: Drawables.icDownload,
+        icon: AppIcons.download_rounded,
         onPressed: () => viewModel.onClick(widget.item),
         heightPadding: 2,
       ),
@@ -114,8 +116,9 @@ class _FileWasDeleted extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: SvgPicture.asset(Drawables.icImportantOutlined, color: AppColors.warning)),
+          padding: const EdgeInsets.only(right: 10),
+          child: Icon(AppIcons.error_rounded, color: AppColors.warning),
+        ),
         Flexible(
           child: Text(
             Strings.fileNotAvailableTitle,

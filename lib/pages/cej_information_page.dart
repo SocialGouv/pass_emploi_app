@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/choix_organisme_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -123,10 +123,10 @@ class _CejInformationPageState extends State<CejInformationPage> {
 
   Widget _backButton(BuildContext context) {
     return IconButton(
-      icon: SvgPicture.asset(
-        Drawables.icChevronLeft,
+      icon: Icon(
+        AppIcons.chevron_left_rounded,
+        size: Dimens.icon_size_m,
         color: Colors.white,
-        height: Margins.spacing_xl,
       ),
       onPressed: () {
         Navigator.of(context).pop();

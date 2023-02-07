@@ -11,6 +11,8 @@ import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -253,9 +255,9 @@ class _PopUpActualisationPe extends StatelessWidget {
           SizedBox(height: Margins.spacing_l),
           PrimaryActionButton(
             label: Strings.actualisationPePopUpPrimaryButton,
-            drawableRes: Drawables.icLaunch,
+            icon: AppIcons.open_in_new_rounded,
             heightPadding: 8,
-            iconSize: 16.0,
+            iconSize: Dimens.icon_size_base,
             fontSize: fontSize,
             onPressed: () => _onActualisationPressed(context),
           ),

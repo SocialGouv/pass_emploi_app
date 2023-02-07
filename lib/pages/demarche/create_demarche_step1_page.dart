@@ -7,8 +7,8 @@ import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -64,7 +64,7 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 PrimaryActionButton(
-                  drawableRes: Drawables.icSearch,
+                  icon: AppIcons.search_rounded,
                   label: Strings.searchDemarcheButton,
                   onPressed: _buttonIsActive(viewModel) ? () => viewModel.onSearchDemarche(_query) : null,
                 ),

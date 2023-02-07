@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 
 class SecondaryIconButton extends StatelessWidget {
   // TODO: create SecondaryButton.icon(...)
-  final String drawableRes;
+  final String? drawableRes;
   final IconData? icon;
   final VoidCallback? onTap;
   final Color iconColor;
@@ -14,7 +14,7 @@ class SecondaryIconButton extends StatelessWidget {
 
   const SecondaryIconButton({
     Key? key,
-    required this.drawableRes,
+    this.drawableRes,
     required this.icon,
     required this.onTap,
     this.iconColor = AppColors.primary,
@@ -38,7 +38,7 @@ class SecondaryIconButton extends StatelessWidget {
             child: Center(
               child: icon != null
                   ? Icon(icon, size: iconSize, color: iconColor)
-                  : SvgPicture.asset(drawableRes, width: iconSize, color: iconColor),
+                  : SvgPicture.asset(drawableRes!, width: iconSize, color: iconColor),
             ),
           ),
         ),

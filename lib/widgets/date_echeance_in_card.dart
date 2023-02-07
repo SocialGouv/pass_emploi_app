@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -20,7 +19,7 @@ class DateEcheanceInCard extends StatelessWidget {
         SepLine(Margins.spacing_base, Margins.spacing_base),
         Row(
           children: [
-            SvgPicture.asset(Drawables.icClock, color: color),
+            Icon(AppIcons.schedule_rounded, color: color),
             SizedBox(width: Margins.spacing_s),
             _DateTitle(formattedTexts: formattedTexts, color: color),
           ],

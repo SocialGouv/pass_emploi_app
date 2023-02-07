@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
@@ -11,7 +10,8 @@ import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -236,10 +236,9 @@ class _LegalInformationCard extends StatelessWidget {
     launchExternalUrl(link);
   }
 
-  SvgPicture _redirectIcon() => SvgPicture.asset(
-        Drawables.icRedirection,
-        width: 18,
-        height: 18,
+  Widget _redirectIcon() => Icon(
+        AppIcons.open_in_new_rounded,
+        size: Dimens.icon_size_base,
         color: AppColors.grey800,
       );
 }
