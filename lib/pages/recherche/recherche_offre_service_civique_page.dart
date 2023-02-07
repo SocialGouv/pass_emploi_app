@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_filtres_page.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
-import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/service_civique/actions_recherche_service_civique_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
@@ -23,10 +23,9 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
     return MaterialPageRoute(builder: (context) => RechercheOffreServiceCiviquePage());
   }
 
-  //TODO(1355)
   @override
   ActionsRechercheViewModel buildActionsRechercheViewModel(Store<AppState> store) {
-    return ActionsRechercheEmploiViewModel.create(store);
+    return ActionsRechercheServiceCiviqueViewModel.create(store);
   }
 
   @override

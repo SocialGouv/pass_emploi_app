@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
 
-const int defaultDistanceValue = 10;
+const int defaultDistanceValueOnServiceCiviqueFiltre = 10;
 
 class ServiceCiviqueFiltresViewModel extends Equatable {
   final DisplayState displayState;
@@ -76,9 +76,9 @@ DisplayState _displayState(ServiceCiviqueSearchResultState searchResultsState) {
 
 int _distance(ServiceCiviqueSearchResultState state) {
   if (state is ServiceCiviqueSearchResultDataState) {
-    return state.lastRequest.distance ?? defaultDistanceValue;
+    return state.lastRequest.distance ?? defaultDistanceValueOnServiceCiviqueFiltre;
   } else {
-    return defaultDistanceValue;
+    return defaultDistanceValueOnServiceCiviqueFiltre;
   }
 }
 
