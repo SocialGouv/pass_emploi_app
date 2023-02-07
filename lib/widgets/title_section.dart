@@ -16,7 +16,7 @@ class TitleSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            SvgPicture.asset(Drawables.icOnePoint, color: AppColors.primary),
+            SvgPicture.asset(Drawables.badge, color: AppColors.primary),
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Text(label, style: TextStyles.textMBold),

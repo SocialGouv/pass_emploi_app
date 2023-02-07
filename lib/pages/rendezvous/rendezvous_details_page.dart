@@ -2,7 +2,6 @@ import 'dart:io' as io;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/pages/chat_partage_page.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
@@ -11,7 +10,7 @@ import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -139,11 +138,11 @@ class _Header extends StatelessWidget {
         SizedBox(height: Margins.spacing_m),
         Row(
           children: [
-            SvgPicture.asset(Drawables.icCalendar),
+            Icon(AppIcons.calendar_today_rounded), //TODO: Color (icCalendar)
             SizedBox(width: Margins.spacing_s),
             Text(viewModel.date, style: TextStyles.textBaseBold),
             Expanded(child: SizedBox()),
-            SvgPicture.asset(Drawables.icClock),
+            Icon(AppIcons.schedule_rounded), //TODO: Color (icClock)
             SizedBox(width: Margins.spacing_s),
             Text(viewModel.hourAndDuration, style: TextStyles.textBaseBold),
           ],
@@ -221,7 +220,7 @@ class _Modality extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: Margins.spacing_xs),
-                  child: SvgPicture.asset(Drawables.icPlace),
+                  child: Icon(AppIcons.location_on_rounded), // TODO: Color (icPlace)
                 ),
                 SizedBox(width: Margins.spacing_s),
                 Expanded(child: Text(viewModel.address!, style: TextStyles.textBaseRegular)),
@@ -368,7 +367,7 @@ class _Createur extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(Margins.spacing_xs),
-              child: SvgPicture.asset(Drawables.icInfo, color: AppColors.primary),
+              child: Icon(AppIcons.info_rounded, color: AppColors.primary),
             ),
             SizedBox(width: Margins.spacing_s),
             Flexible(child: Text(label, style: TextStyles.textBaseRegularWithColor(AppColors.primary))),
@@ -418,7 +417,7 @@ class _InscritTag extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(Drawables.icCalendar, color: AppColors.accent1),
+          Icon(AppIcons.calendar_today_rounded, color: AppColors.accent1),
           SizedBox(width: Margins.spacing_s),
           Text(Strings.eventVousEtesDejaInscrit, style: TextStyles.textSRegularWithColor(AppColors.accent1)),
         ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
@@ -12,7 +11,8 @@ import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_l
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -220,10 +220,10 @@ class _Localisation extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 6),
-              child: SvgPicture.asset(
-                Drawables.icPlace,
+              child: Icon(
+                AppIcons.location_on_rounded,
                 color: AppColors.primary,
-                height: 16,
+                size: Dimens.icon_size_base,
               ),
             ),
             Text(text, style: TextStyles.textSRegular(color: AppColors.primary)),
@@ -278,10 +278,10 @@ class _Supprimer extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 12),
-                child: SvgPicture.asset(
-                  Drawables.icTrash,
+                child: Icon(
+                  AppIcons.delete_rounded,
                   color: AppColors.primary,
-                  height: 12,
+                  size: Dimens.icon_size_base,
                 ),
               ),
               Text(Strings.suppressionLabel, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
@@ -305,7 +305,7 @@ class _Ajouter extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: PrimaryActionButton(
             label: Strings.ajouter,
-            drawableRes: Drawables.icAdd,
+            icon: AppIcons.add_rounded,
             withShadow: false,
             heightPadding: 6,
             onPressed: onTapAjouter,
@@ -339,8 +339,8 @@ void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewM
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
-                  child: SvgPicture.asset(
-                    Drawables.icDone,
+                  child: Icon(
+                    AppIcons.check_rounded,
                     color: Colors.white,
                   ),
                 ),
@@ -381,8 +381,8 @@ class _CloseSnackbar extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
-        child: SvgPicture.asset(
-          Drawables.icClose,
+        child: Icon(
+          AppIcons.close_rounded,
           color: AppColors.secondary,
         ),
       ),
@@ -409,8 +409,8 @@ class _SeeResults extends StatelessWidget {
             Strings.voirResultatsSuggestion,
             style: TextStyles.textBaseBoldWithColor(AppColors.secondary).copyWith(decoration: TextDecoration.underline),
           ),
-          SvgPicture.asset(
-            Drawables.icChevronRight,
+          Icon(
+            AppIcons.chevron_right_rounded,
             color: AppColors.secondary,
           ),
         ],

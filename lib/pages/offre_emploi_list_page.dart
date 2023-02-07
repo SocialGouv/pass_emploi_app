@@ -12,7 +12,8 @@ import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -291,11 +292,11 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   Widget _alertPrimaryButton(OffreEmploiSearchResultsViewModel viewModel) {
     return PrimaryActionButton(
       label: Strings.createAlert,
-      drawableRes: Drawables.icAlert,
+      icon: AppIcons.notifications_rounded,
       rippleColor: AppColors.primaryDarken,
       heightPadding: 6,
       widthPadding: 6,
-      iconSize: 16,
+      iconSize: Dimens.icon_size_base,
       onPressed: () => _onAlertButtonPressed(),
     );
   }
@@ -303,7 +304,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   Widget _alertSecondaryButton() {
     return SecondaryButton(
       label: Strings.createAlert,
-      drawableRes: Drawables.icAlert,
+      icon: AppIcons.notifications_rounded,
       onPressed: () => _onAlertButtonPressed(),
     );
   }

@@ -18,7 +18,7 @@ class Empty extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(height: Margins.spacing_l),
-          Flexible(child: SvgPicture.asset(Drawables.icEmpty)),
+          Flexible(child: SvgPicture.asset(Drawables.emptyIllustration)),
           Text(description, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
         ],
       ),

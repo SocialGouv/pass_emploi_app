@@ -51,40 +51,33 @@ class AppIcons {
   static const IconData event_repeat_rounded = Icons.event_repeat_rounded;
   static const IconData description_rounded = Icons.description_rounded;
   static const IconData location_on_rounded = Icons.location_on_rounded;
-
   static const IconData today_rounded = Icons.today_rounded;
   static const IconData today_outlined = Icons.today_outlined;
-
   static const IconData account_circle_rounded = Icons.account_circle_rounded;
   static const IconData account_circle_outlined = Icons.account_circle_outlined;
-
   static const IconData pageview_rounded = Icons.pageview;
   static const IconData pageview_outlined = Icons.pageview_outlined;
-
   static const IconData home_rounded = Icons.home_rounded;
   static const IconData home_outlined = Icons.home_outlined; // Not rounded
-
   static const IconData chat_rounded = Icons.chat_rounded;
   static const IconData chat_outlined = Icons.chat_outlined;
-
   static const IconData checklist_rounded = Icons.checklist_rounded;
   static const IconData rule_rounded = Icons.rule_rounded;
-
   static const IconData favorite_rounded = Icons.favorite_rounded;
   static const IconData favorite_outline_rounded = Icons.favorite_outline_rounded;
-
   static const IconData group_rounded = Icons.group_rounded;
   static const IconData group_outlined = Icons.group_outlined;
-
   static const IconData view_agenda_rounded = Icons.view_agenda_rounded;
   static const IconData view_agenda_outlined = Icons.view_agenda_outlined;
-
   static const IconData check_circle_rounded = Icons.check_circle_rounded;
   static const IconData check_circle_outline_rounded = Icons.check_circle_outline_rounded;
-
   static const IconData arrow_circle_right_rounded = Icons.arrow_circle_right_rounded;
   static const IconData arrow_circle_right_outlined = Icons.arrow_circle_right_outlined;
-
   static const IconData leaderboard_rounded = Icons.leaderboard_rounded;
   static const IconData leaderboard_outline_rounded = Icons.leaderboard_outlined;
+// Missing icons
+  static const IconData edit_rounded = Icons.edit_rounded;
+  static const IconData search_rounded = Icons.search_rounded;
+  static const IconData check_rounded = Icons.check_rounded;
+  static const IconData calendar_today_rounded = Icons.calendar_today_rounded;
 }

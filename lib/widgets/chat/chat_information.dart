@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
@@ -46,7 +45,7 @@ class _Title extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(Margins.spacing_xs),
-          child: SvgPicture.asset(Drawables.icInfo, color: AppColors.primary),
+          child: Icon(AppIcons.info_rounded, color: AppColors.primary),
         ),
         SizedBox(width: Margins.spacing_s),
         Flexible(

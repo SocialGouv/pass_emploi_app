@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
@@ -59,7 +59,8 @@ class SavedSearchDeleteDialog extends StatelessWidget {
         builder: (context, viewModel) => _alertDialog(context, viewModel),
         onWillChange: (_, viewModel) {
           if (viewModel.displayState == SavedSearchDeleteDisplayState.SUCCESS) {
-            PassEmploiMatomoTracker.instance.trackScreenWithName(widgetName: _screenName(type), eventName: _actionName(type));
+            PassEmploiMatomoTracker.instance
+                .trackScreenWithName(widgetName: _screenName(type), eventName: _actionName(type));
             Navigator.pop(context, true);
           }
         },
@@ -73,7 +74,7 @@ class SavedSearchDeleteDialog extends StatelessWidget {
     return AlertDialog(
       title: Column(
         children: [
-          SvgPicture.asset(Drawables.icTrashAlert),
+          SvgPicture.asset(Drawables.trashAlertIllustration),
           Text(Strings.savedSearchDeleteMessage, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
           if (_isLoading(viewModel)) _loader(),
           if (viewModel.displayState == SavedSearchDeleteDisplayState.FAILURE) _error(),

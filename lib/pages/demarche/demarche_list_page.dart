@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
@@ -149,7 +149,7 @@ class _AddDemarcheButton extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: PrimaryActionButton(
-        drawableRes: Drawables.icAdd,
+        icon: AppIcons.add_rounded,
         label: Strings.addADemarche,
         onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
           if (value != null) _showSnackBarWithDetail(context, value);

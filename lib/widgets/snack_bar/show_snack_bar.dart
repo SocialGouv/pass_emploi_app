@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -33,8 +32,8 @@ void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetail
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              SvgPicture.asset(
-                success ? Drawables.icDoneCircle : Drawables.icImportant,
+              Icon(
+                success ? AppIcons.check_circle_rounded : AppIcons.error_rounded,
                 color: success ? AppColors.secondary : AppColors.warning,
               ),
               SizedBox(width: Margins.spacing_s),

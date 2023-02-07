@@ -221,7 +221,7 @@ class _SuccessBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       userActionBottomSheetHeader(context, title: ""),
-      SvgPicture.asset(Drawables.icCongratulations),
+      SvgPicture.asset(Drawables.congratulationsIllustration),
       Padding(
         padding: const EdgeInsets.all(24),
         child: Text(

@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_vie
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -267,7 +268,7 @@ class _EmptyWeek extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
+          Flexible(child: SvgPicture.asset(Drawables.emptyOffresIllustration)),
           Padding(
             padding: const EdgeInsets.only(top: 20, left: 24, right: 24, bottom: 20),
             child: Column(
@@ -306,7 +307,7 @@ class _DateHeader extends StatelessWidget {
         children: [
           if (viewModel.withPreviousPageButton)
             SecondaryIconButton(
-              drawableRes: Drawables.icChevronLeft,
+              icon: AppIcons.chevron_left_rounded,
               iconColor: AppColors.primary,
               borderColor: Colors.transparent,
               onTap: () {
@@ -334,7 +335,7 @@ class _DateHeader extends StatelessWidget {
           ),
           if (viewModel.withNextPageButton)
             SecondaryIconButton(
-              drawableRes: Drawables.icChevronRight,
+              icon: AppIcons.chevron_right_rounded,
               iconColor: AppColors.primary,
               borderColor: Colors.transparent,
               onTap: () {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -11,7 +10,8 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -142,11 +142,11 @@ class ImmersionListPage extends StatelessWidget {
   Widget _alertPrimaryButton(BuildContext context) {
     return PrimaryActionButton(
       label: Strings.createAlert,
-      drawableRes: Drawables.icAlert,
+      icon: AppIcons.notifications_rounded,
       rippleColor: AppColors.primaryDarken,
       heightPadding: 6,
       widthPadding: 6,
-      iconSize: 16,
+      iconSize: Dimens.icon_size_base,
       onPressed: () => _onAlertButtonPressed(context),
     );
   }
@@ -154,7 +154,7 @@ class ImmersionListPage extends StatelessWidget {
   Widget _alertSecondaryButton(BuildContext context) {
     return SecondaryButton(
       label: Strings.createAlert,
-      drawableRes: Drawables.icAlert,
+      icon: AppIcons.notifications_rounded,
       onPressed: () => _onAlertButtonPressed(context),
     );
   }
@@ -210,7 +210,7 @@ class _EntreprisesAccueillantesHeader extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SvgPicture.asset(Drawables.icInfo, color: AppColors.primary),
+          Icon(AppIcons.info_rounded, color: AppColors.primary),
           SizedBox(width: Margins.spacing_s),
           Flexible(
             child: Text(

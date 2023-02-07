@@ -2,9 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class DatePicker extends StatelessWidget {
@@ -19,7 +18,7 @@ class DatePicker extends StatelessWidget {
     return TextField(
       enabled: isActiveDate,
       decoration: InputDecoration(
-          suffixIcon: SvgPicture.asset(Drawables.icCalendar, color: AppColors.grey800, fit: BoxFit.scaleDown),
+          suffixIcon: Icon(AppIcons.calendar_today_rounded, color: AppColors.grey800), // TODO: Vérifier position icone
           hintText: initialDateValue != null ? initialDateValue!.toDay() : "",
           contentPadding: const EdgeInsets.all(16),
           border: OutlineInputBorder(

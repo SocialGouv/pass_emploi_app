@@ -32,7 +32,7 @@ class DefaultMenuItem extends StatelessWidget {
               height: Dimens.bottomNavigationBarItemHeight,
               child: SvgPicture.asset(drawableRes, color: color),
             ),
-            if (withBadge) Positioned(top: -1, left: 12, child: SvgPicture.asset(Drawables.icBadge)),
+            if (withBadge) Positioned(top: -1, left: 12, child: SvgPicture.asset(Drawables.badge)),
           ],
         ),
         SizedBox(height: Margins.spacing_s),
