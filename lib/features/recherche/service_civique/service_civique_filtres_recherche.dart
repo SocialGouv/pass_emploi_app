@@ -11,6 +11,10 @@ class ServiceCiviqueFiltresRecherche extends Equatable {
     required this.domain,
   });
 
+  factory ServiceCiviqueFiltresRecherche.noFiltre() {
+    return ServiceCiviqueFiltresRecherche(distance: null, startDate: null, domain: null);
+  }
+
   @override
   List<Object?> get props => [distance, startDate, domain];
 }

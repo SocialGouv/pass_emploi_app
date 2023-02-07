@@ -374,4 +374,21 @@ extension AppStateDSL on AppState {
       ),
     );
   }
+
+  AppState initialRechercheServiceCiviqueState() {
+    return copyWith(rechercheServiceCiviqueState: RechercheState.initial());
+  }
+
+  AppState initialLoadingRechercheServiceCiviqueState() {
+    return copyWith(
+      rechercheServiceCiviqueState:
+          RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.initialLoading),
+    );
+  }
+
+  AppState failureRechercheServiceCiviqueState() {
+    return copyWith(
+      rechercheServiceCiviqueState: RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.failure),
+    );
+  }
 }
