@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -78,7 +77,7 @@ class SavedSearchCard extends StatelessWidget {
     if (lieu != null) {
       list.add(DataTag(
         label: lieu,
-        drawableRes: Drawables.icPlace,
+        icon: AppIcons.location_on_rounded,
       ));
     }
     return Padding(
