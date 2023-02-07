@@ -5,8 +5,8 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/event_list_page.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
-import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
+import 'package:pass_emploi_app/pages/temporary_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -163,7 +163,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfMonSuiviPage:
         final initialTab = !_deepLinkHandled ? _initialMonSuiviTab() : null;
         _deepLinkHandled = true;
-        return MonSuiviTabPage(initialTab);
+        // return MonSuiviTabPage(initialTab);
+        // TODO : 1391 remove
+        return TemporaryPage();
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
@@ -174,7 +176,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfEvenementsPage:
         return EventListPage();
       default:
-        return MonSuiviTabPage();
+        // return MonSuiviTabPage();
+        // TODO : 1391 remove
+        return TemporaryPage();
     }
   }
 
