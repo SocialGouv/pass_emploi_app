@@ -31,6 +31,13 @@ class RechercheHomePage extends StatelessWidget {
               drawable: Drawables.icOffresEmploi,
               onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute()),
             ),
+            SizedBox(height: Margins.spacing_base),
+            _BlocSolution(
+              title: Strings.rechercheHomeOffresServiceCiviqueTitle,
+              subtitle: Strings.rechercheHomeOffresServiceCiviqueSubtitle,
+              drawable: Drawables.icOffresEmploi, //TODO(1355) quand Adrien aura mis les ic material
+              onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute()), //TODO(1355)
+            ),
           ],
         ),
       ),
