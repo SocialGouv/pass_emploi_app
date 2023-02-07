@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_filtres_page.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_saved_search_bottom_sheet.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/service_civique_saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_emploi_contenu.dart';
 import 'package:redux/redux.dart';
 
-class RechercheOffreServiceCiviquePage extends RechercheOffrePage<OffreEmploi> {
+class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique> {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => RechercheOffreServiceCiviquePage());
   }
@@ -27,29 +29,20 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<OffreEmploi> {
     return ActionsRechercheEmploiViewModel.create(store);
   }
 
-  //TODO(1355)
   @override
-  String appBarTitle() => Strings.rechercheOffresEmploiTitle;
+  String appBarTitle() => Strings.rechercheOffresServiceCiviqueTitle;
 
-  //TODO(1355)
   @override
-  RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
+  RechercheState rechercheState(AppState appState) => appState.rechercheServiceCiviqueState;
 
-  //TODO(1355)
   @override
-  FavoriListState<OffreEmploi> favorisState(AppState appState) => appState.offreEmploiFavorisState;
+  FavoriListState<ServiceCivique> favorisState(AppState appState) => appState.serviceCiviqueFavorisState;
 
-  //TODO(1355)
   @override
-  Widget buildAlertBottomSheet() {
-    return OffreEmploiSavedSearchBottomSheet(onlyAlternance: false);
-  }
+  Widget buildAlertBottomSheet() => ServiceCiviqueSavedSearchBottomSheet();
 
-  //TODO(1355)
   @override
-  Route<bool> buildFiltresMaterialPageRoute() {
-    return OffreEmploiFiltresPage.materialPageRoute(false);
-  }
+  Route<bool> buildFiltresMaterialPageRoute() => ServiceCiviqueFiltresPage.materialPageRoute();
 
   //TODO(1355)
   @override
@@ -57,26 +50,27 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<OffreEmploi> {
     return CriteresRechercheEmploiContenu(onNumberOfCriteresChanged: onNumberOfCriteresChanged);
   }
 
-  //TODO(1355)
   @override
-  Widget buildResultItem(BuildContext context, OffreEmploi item) {
-    final viewModel = OffreEmploiItemViewModel.create(item);
-    return DataCard<OffreEmploi>(
-      titre: viewModel.title,
-      sousTitre: viewModel.companyName,
-      lieu: viewModel.location,
-      id: viewModel.id,
-      dataTag: [viewModel.contractType, viewModel.duration ?? ''],
-      onTap: () => _showOffreDetailsPage(context, viewModel.id),
-      from: OffrePage.emploiResults,
+  Widget buildResultItem(BuildContext context, ServiceCivique item) {
+    return DataCard<ServiceCivique>(
+      titre: item.title,
+      category: Domaine.fromTag(item.domain)?.titre,
+      sousTitre: item.companyName,
+      lieu: item.location,
+      id: item.id,
+      dataTag: [
+        if (item.startDate != null)
+          Strings.asSoonAs + item.startDate!.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),
+      ],
+      from: OffrePage.serviceCiviqueResults,
+      onTap: () => _showOffreDetailsPage(context, item.id),
     );
   }
 
-  //TODO(1355)
   void _showOffreDetailsPage(BuildContext context, String offreId) {
     Navigator.push(
       context,
-      OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: false),
+      ServiceCiviqueDetailPage.materialPageRoute(offreId),
     );
   }
 }

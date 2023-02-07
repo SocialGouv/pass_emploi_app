@@ -320,6 +320,7 @@ class Strings {
   static String rechercheHomeOffresServiceCiviqueTitle = "Offres de service civique";
   static String rechercheHomeOffresServiceCiviqueSubtitle = "Engagez-vous dans un projet d’intérêt général !";
   static String rechercheOffresEmploiTitle = "offres d’emploi";
+  static String rechercheOffresServiceCiviqueTitle = "offres de service civique";
   static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondants";
 
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
