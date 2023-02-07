@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 class DataTag extends StatelessWidget {
   final String label;
   final String? drawableRes;
+  final IconData? icon;
   final Color contentColor;
   final Color backgroundColor;
 
@@ -15,6 +16,7 @@ class DataTag extends StatelessWidget {
     Key? key,
     required this.label,
     this.drawableRes,
+    this.icon,
     this.contentColor = AppColors.primary,
     this.backgroundColor = AppColors.primaryLighten,
   }) : super(key: key);
@@ -31,10 +33,12 @@ class DataTag extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (drawableRes != null)
+            if (drawableRes != null || icon != null)
               Padding(
                 padding: const EdgeInsets.only(right: 6),
-                child: SvgPicture.asset(drawableRes!, color: contentColor),
+                child: icon != null
+                    ? Icon(icon, color: contentColor)
+                    : SvgPicture.asset(drawableRes!, color: contentColor),
               ),
             Flexible(child: Text(label, style: TextStyles.textSMedium(color: contentColor))),
           ],

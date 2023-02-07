@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -173,7 +172,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
   Widget _buildTag(TagInfo tagInfo) {
     return DataTag(
       label: tagInfo.label,
-      drawableRes: tagInfo.withIcon ? Drawables.icPlace : null,
+      icon: tagInfo.withIcon ? AppIcons.location_on_rounded : null,
     );
   }
 
