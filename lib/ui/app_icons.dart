@@ -75,6 +75,9 @@ class AppIcons {
   static const IconData arrow_circle_right_outlined = Icons.arrow_circle_right_outlined;
   static const IconData leaderboard_rounded = Icons.leaderboard_rounded;
   static const IconData leaderboard_outline_rounded = Icons.leaderboard_outlined;
+  static const IconData forum_rounded = Icons.forum_rounded;
+  static const IconData bolt_rounded = Icons.bolt_rounded;
+
 // Missing icons
   static const IconData edit_rounded = Icons.edit_rounded;
   static const IconData search_rounded = Icons.search_rounded;

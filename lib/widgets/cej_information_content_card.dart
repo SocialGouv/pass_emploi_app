@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -46,15 +47,15 @@ class CejInformationFirstContentCard extends StatelessWidget {
         SizedBox(height: Margins.spacing_base),
         Text(Strings.whyThisAppDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icDoneCircle, Strings.customService),
+        _cardBulletPoint(AppIcons.check_circle_rounded, Strings.customService),
         SizedBox(height: Margins.spacing_s),
         Text(Strings.customServiceDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icOnboardingChat, Strings.favoredContact),
+        _cardBulletPoint(AppIcons.forum_rounded, Strings.favoredContact),
         SizedBox(height: Margins.spacing_s),
         Text(Strings.favoredContactDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icSearch, Strings.searchTool),
+        _cardBulletPoint(AppIcons.search_rounded, Strings.searchTool),
         SizedBox(height: Margins.spacing_s),
         Text(Strings.searchToolDesc, style: TextStyles.textBaseRegular),
       ],
@@ -71,15 +72,15 @@ class CejInformationSecondContentCard extends StatelessWidget {
       children: [
         Text(Strings.whatIsCej, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icFlash, Strings.customService),
+        _cardBulletPoint(AppIcons.bolt_rounded, Strings.customService),
         SizedBox(height: Margins.spacing_s),
         Text(Strings.customServiceCejDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icPeople, Strings.uniqueReferent),
+        _cardBulletPoint(AppIcons.group_rounded, Strings.uniqueReferent),
         SizedBox(height: Margins.spacing_s),
         Text(Strings.uniqueReferentDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icEuro, Strings.financialHelp),
+        _cardBulletPoint(AppIcons.euro_rounded, Strings.financialHelp),
         SizedBox(height: Margins.spacing_s),
         Text(Strings.financialHelpDesc, style: TextStyles.textBaseRegular),
       ],
@@ -124,14 +125,14 @@ class CejInformationThirdContentCard extends StatelessWidget {
   }
 }
 
-Widget _cardBulletPoint(String icon, String text) {
+Widget _cardBulletPoint(IconData icon, String text) {
   return RichText(
     text: TextSpan(
       children: [
         WidgetSpan(
           child: Padding(
             padding: const EdgeInsets.only(right: Margins.spacing_s),
-            child: SvgPicture.asset(icon),
+            child: Icon(icon), // TODO: Color check
           ),
         ),
         TextSpan(text: text, style: TextStyles.textBaseBold),
