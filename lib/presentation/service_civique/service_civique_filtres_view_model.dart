@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
 
 const int defaultDistanceValueOnServiceCiviqueFiltre = 10;
@@ -80,11 +79,11 @@ int _distance(RechercheServiceCiviqueState state) {
 }
 
 Domaine _domain(RechercheServiceCiviqueState state) {
-  return Domaine.fromTag(state.request?.filtres.domain) ?? Domaine.all;
+  return state.request?.filtres.domain ?? Domaine.all;
 }
 
 DateTime? _startDate(RechercheServiceCiviqueState state) {
-  return state.request?.filtres.startDate?.toDateTimeUtcOnLocalTimeZone();
+  return state.request?.filtres.startDate;
 }
 
 void _dispatchUpdateFiltresAction(
@@ -93,12 +92,11 @@ void _dispatchUpdateFiltresAction(
   Domaine? updatedDomain,
   DateTime? updatedStartDate,
 ) {
-  //TODO(1355): essayer d'avoir domain et startDate + typé => c'est au repo de convertir en string ?
   store.dispatch(RechercheUpdateFiltresAction(
     ServiceCiviqueFiltresRecherche(
       distance: updatedDistanceValue,
-      domain: updatedDomain == Domaine.all ? null : updatedDomain?.tag,
-      startDate: updatedStartDate?.toIso8601String(),
+      domain: updatedDomain == Domaine.all ? null : updatedDomain,
+      startDate: updatedStartDate,
     ),
   ));
 }

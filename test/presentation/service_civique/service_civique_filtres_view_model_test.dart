@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/service_civique/service_civique_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
@@ -72,8 +71,8 @@ void main() {
       criteres: ServiceCiviqueCriteresRecherche(location: mockCommuneLocation(lat: 12, lon: 12)),
       filtres: ServiceCiviqueFiltresRecherche(
         distance: 30,
-        domain: "solidarite-insertion",
-        startDate: "2022-04-11T12:07:60.000z",
+        domain: Domaine.fromTag("solidarite-insertion"),
+        startDate: DateTime(2023),
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);
@@ -86,7 +85,7 @@ void main() {
     expect(viewModel.initialDistanceValue, 30);
     expect(viewModel.shouldDisplayDistanceFiltre, true);
     expect(viewModel.initialDomainValue, Domaine.values[2]);
-    expect(viewModel.initialStartDateValue, "2022-04-11T12:07:60.000z".toDateTimeUtcOnLocalTimeZone());
+    expect(viewModel.initialStartDateValue, DateTime(2023));
   });
 
   test("create should not display filter if lat is missing", () {
@@ -95,8 +94,8 @@ void main() {
       criteres: ServiceCiviqueCriteresRecherche(location: mockCommuneLocation(lon: 12)),
       filtres: ServiceCiviqueFiltresRecherche(
         distance: 30,
-        domain: "solidarite-insertion",
-        startDate: "2022-04-11T12:07:60.000z",
+        domain: Domaine.fromTag("solidarite-insertion"),
+        startDate: DateTime(2023),
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);
@@ -114,8 +113,8 @@ void main() {
       criteres: ServiceCiviqueCriteresRecherche(location: mockCommuneLocation(lat: 12)),
       filtres: ServiceCiviqueFiltresRecherche(
         distance: 30,
-        domain: "solidarite-insertion",
-        startDate: "2022-04-11T12:07:60.000z",
+        domain: Domaine.fromTag("solidarite-insertion"),
+        startDate: DateTime(2023),
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);

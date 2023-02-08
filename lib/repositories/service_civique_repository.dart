@@ -146,11 +146,11 @@ class ServiceCiviqueRepository
     if (request.filtres.distance != null) {
       writeParameter("distance", request.filtres.distance.toString());
     }
-    if (request.filtres.startDate != null && request.filtres.startDate!.isNotEmpty) {
-      writeParameter("dateDeDebutMinimum", request.filtres.startDate!);
+    if (request.filtres.startDate != null) {
+      writeParameter("dateDeDebutMinimum", request.filtres.startDate!.toIso8601String());
     }
-    if (request.filtres.domain != null && request.filtres.domain!.isNotEmpty) {
-      writeParameter("domaine", request.filtres.domain!);
+    if (request.filtres.domain != null) {
+      writeParameter("domaine", request.filtres.domain!.tag);
     }
     return result.toString();
   }

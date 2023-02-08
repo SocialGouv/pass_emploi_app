@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 
 class ServiceCiviqueFiltresRecherche extends Equatable {
   final int? distance;
-  final String? startDate;
-  final String? domain;
+  final DateTime? startDate;
+  final Domaine? domain;
 
   ServiceCiviqueFiltresRecherche({
     required this.distance,

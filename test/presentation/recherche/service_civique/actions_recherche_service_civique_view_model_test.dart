@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/presentation/recherche/service_civique/actions_recherche_service_civique_view_model.dart';
 
 import '../../../dsl/app_state_dsl.dart';
@@ -117,7 +118,11 @@ void main() {
       // Given
       final store = givenState()
           .successRechercheServiceCiviqueStateWithRequest(
-            filtres: ServiceCiviqueFiltresRecherche(distance: 20, startDate: "now", domain: "ddd"),
+            filtres: ServiceCiviqueFiltresRecherche(
+              distance: 20,
+              startDate: DateTime(2023),
+              domain: Domaine.fromTag("sport"),
+            ),
           )
           .store();
 

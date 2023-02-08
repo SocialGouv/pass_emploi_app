@@ -108,8 +108,8 @@ class ServiceCiviqueSearchExtractor extends AbstractSearchExtractor<ServiceCiviq
       location: lastRequest?.criteres.location,
       filtres: ServiceCiviqueFiltresParameters.distance(lastRequest?.filtres.distance),
       ville: lastRequest?.criteres.location?.libelle ?? "",
-      domaine: Domaine.fromTag(lastRequest?.filtres.domain),
-      dateDeDebut: lastRequest?.filtres.startDate,
+      domaine: lastRequest?.filtres.domain,
+      dateDeDebut: lastRequest?.filtres.startDate?.toIso8601String(),
     );
   }
 
@@ -123,7 +123,7 @@ class ServiceCiviqueSearchExtractor extends AbstractSearchExtractor<ServiceCiviq
     } else if (ville != null) {
       return ville;
     } else if (domain != null) {
-      return domain;
+      return domain.tag;
     } else {
       return "";
     }
