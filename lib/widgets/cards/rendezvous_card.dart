@@ -192,7 +192,7 @@ class _InscritTag extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Icon(AppIcons.calendar_today_rounded, color: AppColors.accent1),
+        child: Icon(AppIcons.today_rounded, color: AppColors.accent1),
       ),
     );
   }

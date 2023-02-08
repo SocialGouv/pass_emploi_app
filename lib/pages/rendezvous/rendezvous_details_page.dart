@@ -139,7 +139,7 @@ class _Header extends StatelessWidget {
         SizedBox(height: Margins.spacing_m),
         Row(
           children: [
-            Icon(AppIcons.calendar_today_rounded, color: AppColors.grey800),
+            Icon(AppIcons.today_rounded, color: AppColors.grey800),
             SizedBox(width: Margins.spacing_s),
             Text(viewModel.date, style: TextStyles.textBaseBold),
             Expanded(child: SizedBox()),
@@ -418,7 +418,7 @@ class _InscritTag extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(AppIcons.calendar_today_rounded, color: AppColors.accent1),
+          Icon(AppIcons.today_rounded, color: AppColors.accent1),
           SizedBox(width: Margins.spacing_s),
           Text(Strings.eventVousEtesDejaInscrit, style: TextStyles.textSRegularWithColor(AppColors.accent1)),
         ],

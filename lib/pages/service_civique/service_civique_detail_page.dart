@@ -153,12 +153,12 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: "Commence le ${detail.dateDeDebut}", icon: AppIcons.calendar_today_rounded),
+          child: DataTag(label: "Commence le ${detail.dateDeDebut}", icon: AppIcons.today_rounded),
         ),
         if (detail.dateDeFin != null)
           Padding(
             padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-            child: DataTag(label: "Termine le ${detail.dateDeFin}", icon: AppIcons.calendar_today_rounded),
+            child: DataTag(label: "Termine le ${detail.dateDeFin}", icon: AppIcons.today_rounded),
           ),
       ],
     );
