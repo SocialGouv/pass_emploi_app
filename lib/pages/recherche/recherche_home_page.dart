@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -30,21 +30,21 @@ class RechercheHomePage extends StatelessWidget {
               _BlocSolution(
                 title: Strings.rechercheHomeOffresEmploiTitle,
                 subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
-                drawable: Drawables.icOffresEmploi,
+                icon: AppIcons.description_rounded,
                 onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: false)),
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(
                 title: Strings.rechercheHomeOffresAlternanceTitle,
                 subtitle: Strings.rechercheHomeOffresAlternanceSubtitle,
-                drawable: Drawables.icOffresEmploi, //TODO(1354) quand Adrien aura mis les ic material
+                icon: AppIcons.description_rounded,
                 onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: true)),
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(
                 title: Strings.rechercheHomeOffresServiceCiviqueTitle,
                 subtitle: Strings.rechercheHomeOffresServiceCiviqueSubtitle,
-                drawable: Drawables.icOffresEmploi, //TODO(1355) quand Adrien aura mis les ic material
+                icon: AppIcons.description_rounded,
                 onTap: () => Navigator.push(context, RechercheOffreServiceCiviquePage.materialPageRoute()),
               ),
             ],
@@ -58,13 +58,13 @@ class RechercheHomePage extends StatelessWidget {
 class _BlocSolution extends StatelessWidget {
   final String title;
   final String subtitle;
-  final String drawable;
+  final IconData icon;
   final void Function() onTap;
 
   const _BlocSolution({
     required this.title,
     required this.subtitle,
-    required this.drawable,
+    required this.icon,
     required this.onTap,
   });
 
@@ -78,7 +78,7 @@ class _BlocSolution extends StatelessWidget {
           children: [
             Row(
               children: [
-                SvgPicture.asset(drawable),
+                Icon(icon, color: AppColors.primary),
                 SizedBox(width: Margins.spacing_base),
                 Text(title, style: TextStyles.textMBold),
               ],
@@ -93,7 +93,7 @@ class _BlocSolution extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(Strings.rechercheHomeVoirLaListe, style: TextStyles.textBaseRegular),
-                  SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor, height: 18),
+                  Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor, size: Dimens.icon_size_base),
                 ],
               ),
             ),
