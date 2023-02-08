@@ -9,7 +9,7 @@ class Tutorial extends Equatable {
     Tutorial(
       title: Strings.tutoTitrePageUne,
       description: Strings.tutoDescriptionPageUne,
-      image: Drawables.icTutoNewEvents,
+      image: Drawables.tutoNewEventsIllustration,
     ),
   ];
 
