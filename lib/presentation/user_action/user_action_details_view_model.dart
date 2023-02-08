@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
@@ -25,7 +25,7 @@ enum UpdateDisplayState { NOT_INIT, SHOW_SUCCESS, SHOW_LOADING, SHOW_UPDATE_ERRO
 
 class UserActionDetailDateEcheanceViewModel extends Equatable {
   final List<FormattedText> formattedTexts;
-  final List<String> icons;
+  final List<IconData> icons;
   final Color textColor;
   final Color backgroundColor;
 
@@ -129,7 +129,7 @@ UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction? userAc
   final isLate = userAction.isLate();
   return UserActionDetailDateEcheanceViewModel(
     formattedTexts: _formattedDate(userAction),
-    icons: [if (isLate) Drawables.icImportantOutlined, Drawables.icClock],
+    icons: [if (isLate) AppIcons.error_rounded, AppIcons.schedule_rounded],
     textColor: isLate ? AppColors.warning : AppColors.accent2,
     backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
   );

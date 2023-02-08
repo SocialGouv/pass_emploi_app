@@ -206,7 +206,7 @@ class ImmersionDetailsPage extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: double.infinity),
           child: SecondaryButton(
             label: cta.label,
-            drawableRes: cta.drawableRes,
+            icon: cta.icon,
             onPressed: () {
               context.trackEvent(cta.eventType);
               launchExternalUrl(cta.uri.toString());

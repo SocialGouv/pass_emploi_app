@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 import '../../doubles/fixtures.dart';
@@ -58,7 +58,7 @@ void main() {
       );
       expect(viewModel.dateBackgroundColor, AppColors.accent3Lighten);
       expect(viewModel.dateTextColor, AppColors.accent2);
-      expect(viewModel.dateIcons, [Drawables.icClock]);
+      expect(viewModel.dateIcons, [AppIcons.schedule_rounded]);
       expect(viewModel.label, "label");
       expect(viewModel.titreDetail, "titre");
       expect(viewModel.sousTitre, "sous titre");
@@ -108,7 +108,7 @@ void main() {
       );
       expect(viewModel.dateBackgroundColor, AppColors.warningLighten);
       expect(viewModel.dateTextColor, AppColors.warning);
-      expect(viewModel.dateIcons, [Drawables.icImportantOutlined, Drawables.icClock]);
+      expect(viewModel.dateIcons, [AppIcons.error_rounded, AppIcons.schedule_rounded]);
     });
 
     test("not up to date", () {

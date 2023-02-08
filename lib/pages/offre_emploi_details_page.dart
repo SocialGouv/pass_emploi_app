@@ -14,7 +14,6 @@ import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_mode
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -371,7 +370,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
           Flexible(child: _listItem(requiredText)),
           Padding(
             padding: const EdgeInsets.only(left: Margins.spacing_s, bottom: Margins.spacing_base),
-            child: HelpTooltip(message: Strings.requiredIcon, iconRes: Drawables.icImportant),
+            child: HelpTooltip(message: Strings.requiredIcon, icon: AppIcons.error_rounded),
           ),
         ],
       ),

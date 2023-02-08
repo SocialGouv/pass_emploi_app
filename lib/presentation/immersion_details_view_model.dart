@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/utils/uri_handler.dart';
@@ -195,7 +195,7 @@ List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform 
           Strings.immersionEmailButton,
           UriHandler().mailUri(to: mail, subject: Strings.immersionEmailSubject),
           EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
-          drawableRes: Drawables.icMail,
+          icon: AppIcons.outgoing_mail,
         ),
       if (phone != null && phone.isNotEmpty)
         CallToAction(
