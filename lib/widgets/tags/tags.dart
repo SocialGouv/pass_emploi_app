@@ -33,7 +33,7 @@ class DataTag extends StatelessWidget {
             if (icon != null)
               Padding(
                 padding: const EdgeInsets.only(right: 6),
-                child: Icon(icon, color: contentColor),
+                child: Icon(icon, color: contentColor, size: Dimens.icon_size_base),
               ),
             Flexible(child: Text(label, style: TextStyles.textSMedium(color: contentColor))),
           ],
