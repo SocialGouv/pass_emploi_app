@@ -40,7 +40,7 @@ class NotUpToDateMessage extends StatelessWidget {
               child: SecondaryButton(
                 label: Strings.reloadPage,
                 onPressed: onRefresh,
-                icon: AppIcons.refresh_rounded, // TODO: Color (icRefresh)
+                icon: AppIcons.refresh_rounded,
                 backgroundColor: Colors.white,
               ),
             ),

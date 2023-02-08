@@ -167,7 +167,10 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                 SizedBox(width: Margins.spacing_s),
                 FloatingActionButton(
                   backgroundColor: AppColors.primary,
-                  child: Icon(AppIcons.send_rounded), // TODO: color (white)
+                  child: Icon(
+                    AppIcons.send_rounded,
+                    color: Colors.white,
+                  ),
                   onPressed: () {
                     if (_controller?.value.text == "Je suis malade. Complètement malade.") {
                       _controller!.clear();

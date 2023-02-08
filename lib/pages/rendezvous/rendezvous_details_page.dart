@@ -139,11 +139,11 @@ class _Header extends StatelessWidget {
         SizedBox(height: Margins.spacing_m),
         Row(
           children: [
-            Icon(AppIcons.calendar_today_rounded), //TODO: Color (icCalendar)
+            Icon(AppIcons.calendar_today_rounded, color: AppColors.grey800),
             SizedBox(width: Margins.spacing_s),
             Text(viewModel.date, style: TextStyles.textBaseBold),
             Expanded(child: SizedBox()),
-            Icon(AppIcons.schedule_rounded), //TODO: Color (icClock)
+            Icon(AppIcons.schedule_rounded, color: AppColors.grey800),
             SizedBox(width: Margins.spacing_s),
             Text(viewModel.hourAndDuration, style: TextStyles.textBaseBold),
           ],
@@ -221,7 +221,7 @@ class _Modality extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: Margins.spacing_xs),
-                  child: Icon(AppIcons.location_on_rounded), // TODO: Color (icPlace)
+                  child: Icon(AppIcons.location_on_rounded, color: AppColors.grey800),
                 ),
                 SizedBox(width: Margins.spacing_s),
                 Expanded(child: Text(viewModel.address!, style: TextStyles.textBaseRegular)),

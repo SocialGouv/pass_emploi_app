@@ -19,7 +19,7 @@ class DatePicker extends StatelessWidget {
     return TextField(
       enabled: isActiveDate,
       decoration: InputDecoration(
-          suffixIcon: Icon(AppIcons.calendar_today_rounded, color: AppColors.grey800), // TODO: Vérifier position icone
+          suffixIcon: Icon(AppIcons.calendar_today_rounded, color: AppColors.grey800),
           hintText: initialDateValue != null ? initialDateValue!.toDay() : "",
           contentPadding: const EdgeInsets.all(16),
           border: OutlineInputBorder(
