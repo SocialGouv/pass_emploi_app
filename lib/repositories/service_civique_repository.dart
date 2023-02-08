@@ -149,10 +149,6 @@ class ServiceCiviqueRepository
     if (request.filtres.startDate != null && request.filtres.startDate!.isNotEmpty) {
       writeParameter("dateDeDebutMinimum", request.filtres.startDate!);
     }
-    //TODO(1355): normalement inutile
-    // if (request.filtres.endDate != null && request.filtres.endDate!.isNotEmpty) {
-    //   writeParameter("dateDeDebutMaximum", request.filtres.endDate!);
-    // }
     if (request.filtres.domain != null && request.filtres.domain!.isNotEmpty) {
       writeParameter("domaine", request.filtres.domain!);
     }
