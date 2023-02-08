@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
-import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -32,13 +33,13 @@ class ServiceCiviqueFiltresViewModel extends Equatable {
   });
 
   factory ServiceCiviqueFiltresViewModel.create(Store<AppState> store) {
-    final searchResultsState = store.state.serviceCiviqueSearchResultState;
+    final state = store.state.rechercheServiceCiviqueState;
     return ServiceCiviqueFiltresViewModel._(
-      displayState: _displayState(searchResultsState),
-      shouldDisplayDistanceFiltre: _shouldDisplayDistanceFiltre(searchResultsState),
-      initialDistanceValue: _distance(searchResultsState),
-      initialDomainValue: _domain(searchResultsState),
-      initialStartDateValue: _startDate(searchResultsState),
+      displayState: _displayState(state),
+      shouldDisplayDistanceFiltre: _shouldDisplayDistanceFiltre(state),
+      initialDistanceValue: _distance(state),
+      initialDomainValue: _domain(state),
+      initialStartDateValue: _startDate(state),
       updateFiltres: (updatedDistance, updatedDomain, updatedStartDate) {
         _dispatchUpdateFiltresAction(store, updatedDistance, updatedDomain, updatedStartDate);
       },
@@ -55,47 +56,35 @@ class ServiceCiviqueFiltresViewModel extends Equatable {
       ];
 }
 
-bool _shouldDisplayDistanceFiltre(ServiceCiviqueSearchResultState state) {
-  if (state is ServiceCiviqueSearchResultDataState) {
-    final location = state.lastRequest.location;
-    return location?.type == LocationType.COMMUNE && location?.longitude != null && location?.latitude != null;
-  } else {
-    return false;
+bool _shouldDisplayDistanceFiltre(RechercheServiceCiviqueState state) {
+  final request = state.request;
+  if (request == null) return false;
+
+  final location = request.criteres.location;
+  return location?.type == LocationType.COMMUNE && location?.longitude != null && location?.latitude != null;
+}
+
+DisplayState _displayState(RechercheServiceCiviqueState state) {
+  switch (state.status) {
+    case RechercheStatus.updateLoading:
+      return DisplayState.LOADING;
+    case RechercheStatus.success:
+      return DisplayState.CONTENT;
+    default:
+      return DisplayState.FAILURE;
   }
 }
 
-DisplayState _displayState(ServiceCiviqueSearchResultState searchResultsState) {
-  if (searchResultsState is ServiceCiviqueSearchResultDataState) {
-    return DisplayState.CONTENT;
-  } else if (searchResultsState is ServiceCiviqueSearchResultLoadingState) {
-    return DisplayState.LOADING;
-  } else {
-    return DisplayState.FAILURE;
-  }
+int _distance(RechercheServiceCiviqueState state) {
+  return state.request?.filtres.distance ?? defaultDistanceValueOnServiceCiviqueFiltre;
 }
 
-int _distance(ServiceCiviqueSearchResultState state) {
-  if (state is ServiceCiviqueSearchResultDataState) {
-    return state.lastRequest.distance ?? defaultDistanceValueOnServiceCiviqueFiltre;
-  } else {
-    return defaultDistanceValueOnServiceCiviqueFiltre;
-  }
+Domaine _domain(RechercheServiceCiviqueState state) {
+  return Domaine.fromTag(state.request?.filtres.domain) ?? Domaine.all;
 }
 
-Domaine _domain(ServiceCiviqueSearchResultState state) {
-  if (state is ServiceCiviqueSearchResultDataState) {
-    return Domaine.fromTag(state.lastRequest.domain) ?? Domaine.all;
-  } else {
-    return Domaine.all;
-  }
-}
-
-DateTime? _startDate(ServiceCiviqueSearchResultState state) {
-  if (state is ServiceCiviqueSearchResultDataState) {
-    return state.lastRequest.startDate?.toDateTimeUtcOnLocalTimeZone();
-  } else {
-    return null;
-  }
+DateTime? _startDate(RechercheServiceCiviqueState state) {
+  return state.request?.filtres.startDate?.toDateTimeUtcOnLocalTimeZone();
 }
 
 void _dispatchUpdateFiltresAction(
@@ -104,11 +93,12 @@ void _dispatchUpdateFiltresAction(
   Domaine? updatedDomain,
   DateTime? updatedStartDate,
 ) {
-  store.dispatch(
-    ServiceCiviqueSearchUpdateFiltresAction(
+  //TODO(1355): essayer d'avoir domain et startDate + typé => c'est au repo de convertir en string ?
+  store.dispatch(RechercheUpdateFiltresAction(
+    ServiceCiviqueFiltresRecherche(
       distance: updatedDistanceValue,
-      startDate: updatedStartDate,
-      domain: updatedDomain,
+      domain: updatedDomain == Domaine.all ? null : updatedDomain?.tag,
+      startDate: updatedStartDate?.toIso8601String(),
     ),
-  );
+  ));
 }

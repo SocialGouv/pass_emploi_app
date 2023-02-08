@@ -423,13 +423,11 @@ extension AppStateDSL on AppState {
     ServiceCiviqueCriteresRecherche? criteres,
     ServiceCiviqueFiltresRecherche? filtres,
   }) {
-    return successRechercheServiceCiviqueState().copyWith(
-      rechercheServiceCiviqueState: RechercheServiceCiviqueState.initial().copyWith(
-        request: () => RechercheRequest(
-          criteres ?? ServiceCiviqueCriteresRecherche(location: null),
-          filtres ?? ServiceCiviqueFiltresRecherche.noFiltre(),
-          1,
-        ),
+    return successRechercheServiceCiviqueState(
+      request: RechercheRequest(
+        criteres ?? ServiceCiviqueCriteresRecherche(location: null),
+        filtres ?? ServiceCiviqueFiltresRecherche.noFiltre(),
+        1,
       ),
     );
   }
