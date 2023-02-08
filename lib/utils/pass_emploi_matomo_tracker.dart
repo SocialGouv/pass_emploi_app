@@ -38,7 +38,9 @@ class PassEmploiMatomoTracker {
 
   Future<void> setOptOut({required bool optout}) => _decorated.setOptOut(optout: optout);
 
-  void setDimensions(Map<String, String> dimensions) => _dimensions = dimensions;
+  void setDimensions(Map<String, String> dimensions) {
+    _dimensions = dimensions.map((key, value) => MapEntry('dimension$key', Uri.encodeComponent(value)));
+  }
 
   void trackEvent({
     required String eventCategory,
