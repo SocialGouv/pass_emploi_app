@@ -49,7 +49,7 @@ int? _filtresCount(ServiceCiviqueFiltresRecherche? filtres) {
   final int distanceCount =
       filtres.distance != null && filtres.distance != defaultDistanceValueOnServiceCiviqueFiltre ? 1 : 0;
   final int startDateCount = filtres.startDate != null ? 1 : 0;
-  final int domainCount = filtres.domain != null && filtres.domain != Domaine.all.tag ? 1 : 0;
+  final int domainCount = filtres.domain != null && filtres.domain != Domaine.all ? 1 : 0;
   final count = distanceCount + startDateCount + domainCount;
   return count != 0 ? count : null;
 }

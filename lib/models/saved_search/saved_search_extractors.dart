@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
-import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
