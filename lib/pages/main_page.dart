@@ -117,7 +117,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           showUnselectedLabels: false,
           items: <BottomNavigationBarItem>[
             menu.MenuItem(
-              defaultIcon: AppIcons.checklist_rtl_rounded,
+              defaultIcon: AppIcons.checklist_rounded,
               inactiveIcon: AppIcons.rule_rounded,
               label: Strings.menuMonSuivi,
             ),

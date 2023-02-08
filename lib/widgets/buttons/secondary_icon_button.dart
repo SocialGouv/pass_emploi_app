@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 
 class SecondaryIconButton extends StatelessWidget {
-  // TODO: create SecondaryButton.icon(...)
   final IconData? icon;
   final VoidCallback? onTap;
   final Color iconColor;

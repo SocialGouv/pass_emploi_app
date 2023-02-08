@@ -284,7 +284,7 @@ class _WarningIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 10),
-      child: Icon(AppIcons.error_rounded, color: AppColors.warning, size: Dimens.icon_size_base),
+      child: Icon(AppIcons.error_rounded, color: AppColors.warning, size: Dimens.icon_size_m),
     );
   }
 }

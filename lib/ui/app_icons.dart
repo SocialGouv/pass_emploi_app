@@ -39,7 +39,7 @@ class AppIcons {
   static const IconData timer_rounded = Icons.timer_rounded;
   static const IconData lock_rounded = Icons.lock_rounded;
   static const IconData flag_rounded = Icons.flag_rounded;
-  static const IconData schedule_rounded = Icons.schedule_rounded;
+  static const IconData schedule_rounded = Icons.schedule_rounded; // FIXME: Not filled
   static const IconData error_rounded = Icons.error_rounded;
   static const IconData person_rounded = Icons.person_rounded;
   static const IconData info_rounded = Icons.info_rounded;
@@ -61,7 +61,7 @@ class AppIcons {
   static const IconData home_outlined = Icons.home_outlined; // Not rounded
   static const IconData chat_rounded = Icons.chat_rounded;
   static const IconData chat_outlined = Icons.chat_outlined;
-  static const IconData checklist_rtl_rounded = Icons.checklist_rtl_rounded;
+  static const IconData checklist_rounded = Icons.checklist_rtl_rounded;
   static const IconData rule_rounded = Icons.rule_rounded;
   static const IconData favorite_rounded = Icons.favorite_rounded;
   static const IconData favorite_outline_rounded = Icons.favorite_outline_rounded;

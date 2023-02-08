@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class PrimaryActionButton extends StatelessWidget {
@@ -27,7 +28,7 @@ class PrimaryActionButton extends StatelessWidget {
     this.onPressed,
     required this.label,
     this.fontSize,
-    this.iconSize = 12,
+    this.iconSize = Dimens.icon_size_m,
     this.heightPadding = 12,
     this.widthPadding = 20,
   }) : super(key: key);
@@ -65,17 +66,17 @@ class PrimaryActionButton extends StatelessWidget {
 
   Widget _getRow() {
     return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         if (icon != null)
           Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Icon(
-                    icon,
-                    size: iconSize,
-                    color: Colors.white,
-                  ))),
+            padding: const EdgeInsets.only(right: 12),
+            child: Icon(
+              icon,
+              size: iconSize,
+              color: Colors.white,
+            ),
+          ),
         Text(
           label,
           textAlign: TextAlign.center,
