@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/ui/app_icons_additional_icons.dart';
 
 class AppIcons {
   // Navigation
@@ -39,7 +40,7 @@ class AppIcons {
   static const IconData timer_rounded = Icons.timer_rounded;
   static const IconData lock_rounded = Icons.lock_rounded;
   static const IconData flag_rounded = Icons.flag_rounded;
-  static const IconData schedule_rounded = Icons.schedule_rounded; // FIXME: Not filled
+  static const IconData schedule_rounded = AppIconsAdditional.schedule;
   static const IconData error_rounded = Icons.error_rounded;
   static const IconData person_rounded = Icons.person_rounded;
   static const IconData info_rounded = Icons.info_rounded;
