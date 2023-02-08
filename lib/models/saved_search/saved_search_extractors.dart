@@ -1,16 +1,17 @@
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
-import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -100,24 +101,25 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
 class ServiceCiviqueSearchExtractor extends AbstractSearchExtractor<ServiceCiviqueSavedSearch> {
   @override
   ServiceCiviqueSavedSearch getSearchFilters(Store<AppState> store) {
-    final lastRequest =
-        (store.state.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState).lastRequest;
+    final lastRequest = store.state.rechercheServiceCiviqueState.request;
     return ServiceCiviqueSavedSearch(
       id: "",
       titre: _savedSearchTitleField(lastRequest),
-      location: lastRequest.location,
-      filtres: ServiceCiviqueFiltresParameters.distance(lastRequest.distance),
-      ville: lastRequest.location?.libelle ?? "",
-      domaine: Domaine.fromTag(lastRequest.domain),
-      dateDeDebut: lastRequest.startDate,
+      location: lastRequest?.criteres.location,
+      filtres: ServiceCiviqueFiltresParameters.distance(lastRequest?.filtres.distance),
+      ville: lastRequest?.criteres.location?.libelle ?? "",
+      domaine: Domaine.fromTag(lastRequest?.filtres.domain),
+      dateDeDebut: lastRequest?.filtres.startDate,
     );
   }
 
-  String _savedSearchTitleField(SearchServiceCiviqueRequest lastRequest) {
-    final ville = lastRequest.location?.libelle;
-    final domain = lastRequest.domain;
+  String _savedSearchTitleField(
+      RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>? lastRequest) {
+    if (lastRequest == null) return "";
+    final ville = lastRequest.criteres.location?.libelle;
+    final domain = lastRequest.filtres.domain;
     if (ville != null && domain != null) {
-      return Strings.savedSearchTitleField(domain, lastRequest.location?.libelle);
+      return Strings.savedSearchTitleField(domain, lastRequest.criteres.location?.libelle);
     } else if (ville != null) {
       return ville;
     } else if (domain != null) {
