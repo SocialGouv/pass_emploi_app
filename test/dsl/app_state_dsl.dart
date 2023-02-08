@@ -367,13 +367,11 @@ extension AppStateDSL on AppState {
     EmploiCriteresRecherche? criteres,
     OffreEmploiSearchParametersFiltres? filtres,
   }) {
-    return successRechercheEmploiState().copyWith(
-      rechercheEmploiState: RechercheEmploiState.initial().copyWith(
-        request: () => RechercheRequest(
-          criteres ?? EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
-          filtres ?? OffreEmploiSearchParametersFiltres.noFiltres(),
-          1,
-        ),
+    return successRechercheEmploiState(
+      request: RechercheRequest(
+        criteres ?? EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
+        filtres ?? OffreEmploiSearchParametersFiltres.noFiltres(),
+        1,
       ),
     );
   }
