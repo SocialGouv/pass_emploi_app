@@ -47,8 +47,11 @@ class _PieceJointeName extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(right: 10),
-          child: Icon(AppIcons.attach_file_rounded),
-        ), // TODO: Color (icClip)
+          child: Icon(
+            AppIcons.attach_file_rounded,
+            color: AppColors.primary,
+          ),
+        ),
         Flexible(
           child: Text(
             filename,

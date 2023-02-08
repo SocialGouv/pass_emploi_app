@@ -307,7 +307,8 @@ class _MessageError extends StatelessWidget {
         children: [
           Icon(
             AppIcons.error_rounded,
-            size: Dimens.icon_size_m, // TODO: Color (icImportantOutlined)
+            size: Dimens.icon_size_m,
+            color: AppColors.warning,
           ),
           Expanded(
             child: Padding(

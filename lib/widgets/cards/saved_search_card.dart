@@ -67,7 +67,10 @@ class SavedSearchCard extends StatelessWidget {
       onTap: onDeleteTap ?? () {},
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Icon(AppIcons.delete_rounded), // TODO: color (icTrash)
+        child: Icon(
+          AppIcons.delete_rounded,
+          color: AppColors.contentColor,
+        ),
       ),
     );
   }

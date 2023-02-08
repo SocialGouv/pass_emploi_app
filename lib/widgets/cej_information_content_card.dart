@@ -131,7 +131,7 @@ Widget _cardBulletPoint(IconData icon, String text) {
         WidgetSpan(
           child: Padding(
             padding: const EdgeInsets.only(right: Margins.spacing_s),
-            child: Icon(icon), // TODO: Color check
+            child: Icon(icon, color: AppColors.primary),
           ),
         ),
         TextSpan(text: text, style: TextStyles.textBaseBold),
