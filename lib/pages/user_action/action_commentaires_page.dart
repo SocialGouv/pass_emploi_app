@@ -193,7 +193,7 @@ class _CreateCommentaireWidgetState extends State<_CreateCommentaireWidget> {
             SizedBox(width: Margins.spacing_s),
             FloatingActionButton(
               backgroundColor: AppColors.primary,
-              child: Icon(AppIcons.send_rounded), // TODO: verify color (icPaperPlane)
+              child: Icon(AppIcons.send_rounded),
               onPressed: () {
                 if (_controller.value.text.isNotEmpty && !_loading()) {
                   widget.viewModel.onSend(_controller.value.text);

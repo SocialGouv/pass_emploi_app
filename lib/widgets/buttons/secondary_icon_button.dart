@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 
 class SecondaryIconButton extends StatelessWidget {
   // TODO: create SecondaryButton.icon(...)
-  final String? drawableRes;
   final IconData? icon;
   final VoidCallback? onTap;
   final Color iconColor;
@@ -14,7 +12,6 @@ class SecondaryIconButton extends StatelessWidget {
 
   const SecondaryIconButton({
     Key? key,
-    this.drawableRes,
     required this.icon,
     required this.onTap,
     this.iconColor = AppColors.primary,
@@ -36,9 +33,7 @@ class SecondaryIconButton extends StatelessWidget {
             width: width,
             height: height,
             child: Center(
-              child: icon != null
-                  ? Icon(icon, size: iconSize, color: iconColor)
-                  : SvgPicture.asset(drawableRes!, width: iconSize, color: iconColor),
+              child: Icon(icon, size: iconSize, color: iconColor),
             ),
           ),
         ),

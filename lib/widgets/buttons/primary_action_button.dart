@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
@@ -8,7 +7,6 @@ class PrimaryActionButton extends StatelessWidget {
   final Color disabledBackgroundColor;
   final Color textColor;
   final Color? rippleColor;
-  final String? drawableRes;
   final IconData? icon;
   final String label;
   final bool withShadow;
@@ -25,7 +23,6 @@ class PrimaryActionButton extends StatelessWidget {
     this.textColor = Colors.white,
     this.rippleColor = AppColors.primaryDarken,
     this.withShadow = true,
-    this.drawableRes,
     this.icon,
     this.onPressed,
     required this.label,
@@ -37,7 +34,7 @@ class PrimaryActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double leftPadding = drawableRes != null ? 12 : 20;
+    final double leftPadding = icon != null ? 12 : 20;
     final baseTextStyle = TextStyles.textPrimaryButton;
     final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
     return TextButton(
@@ -69,24 +66,16 @@ class PrimaryActionButton extends StatelessWidget {
   Widget _getRow() {
     return Wrap(
       children: [
-        if (drawableRes != null || icon != null)
+        if (icon != null)
           Padding(
               padding: const EdgeInsets.only(right: 12),
               child: Padding(
-                padding: const EdgeInsets.all(4),
-                child: icon != null
-                    ? Icon(
-                        icon,
-                        size: iconSize,
-                        color: Colors.white,
-                      )
-                    : SvgPicture.asset(
-                        drawableRes!,
-                        height: iconSize,
-                        width: iconSize,
-                        color: Colors.white,
-                      ),
-              )),
+                  padding: const EdgeInsets.all(4),
+                  child: Icon(
+                    icon,
+                    size: iconSize,
+                    color: Colors.white,
+                  ))),
         Text(
           label,
           textAlign: TextAlign.center,
