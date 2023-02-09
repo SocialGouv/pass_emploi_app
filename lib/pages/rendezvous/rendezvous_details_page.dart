@@ -22,9 +22,9 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
-import 'package:pass_emploi_app/widgets/rendezvous_tag.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:redux/redux.dart';
 
@@ -108,7 +108,10 @@ class RendezvousDetailsPage extends StatelessWidget {
               _InscritTag(),
               SizedBox(height: Margins.spacing_base),
             ],
-            RendezvousTag(viewModel.tag, viewModel.greenTag),
+            JobTag(
+              label: viewModel.tag,
+              backgroundColor: viewModel.greenTag ? AppColors.accent3Lighten : AppColors.accent2Lighten,
+            ),
             SizedBox(height: Margins.spacing_base),
             _Header(viewModel),
             if (viewModel.withModalityPart) _Modality(viewModel),
