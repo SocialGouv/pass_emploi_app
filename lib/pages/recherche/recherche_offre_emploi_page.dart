@@ -17,8 +17,16 @@ import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_emploi_cont
 import 'package:redux/redux.dart';
 
 class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => RechercheOffreEmploiPage());
+  final bool onlyAlternance;
+
+  RechercheOffreEmploiPage({required this.onlyAlternance});
+
+  static MaterialPageRoute<void> materialPageRoute({required bool onlyAlternance}) {
+    return MaterialPageRoute(
+      builder: (context) => RechercheOffreEmploiPage(
+        onlyAlternance: onlyAlternance,
+      ),
+    );
   }
 
   @override
@@ -27,7 +35,9 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   }
 
   @override
-  String appBarTitle() => Strings.rechercheOffresEmploiTitle;
+  String appBarTitle() {
+    return onlyAlternance ? Strings.rechercheOffresAlternanceTitle : Strings.rechercheOffresEmploiTitle;
+  }
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
@@ -37,19 +47,20 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
 
   @override
   Widget buildAlertBottomSheet() {
-    // TODO-1353 only alternance
-    return OffreEmploiSavedSearchBottomSheet(onlyAlternance: false);
+    return OffreEmploiSavedSearchBottomSheet(onlyAlternance: onlyAlternance);
   }
 
   @override
   Route<bool> buildFiltresMaterialPageRoute() {
-    // TODO-1353 only alternance
-    return OffreEmploiFiltresPage.materialPageRoute(false);
+    return OffreEmploiFiltresPage.materialPageRoute(onlyAlternance);
   }
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {
-    return CriteresRechercheEmploiContenu(onNumberOfCriteresChanged: onNumberOfCriteresChanged);
+    return CriteresRechercheEmploiContenu(
+      onlyAlternance: onlyAlternance,
+      onNumberOfCriteresChanged: onNumberOfCriteresChanged,
+    );
   }
 
   @override
@@ -62,17 +73,11 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
       id: viewModel.id,
       dataTag: [viewModel.contractType, viewModel.duration ?? ''],
       onTap: () => _showOffreDetailsPage(context, viewModel.id),
-      from: OffrePage.emploiResults, // TODO: 1353 - only alternance
-      //from: widget.onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
+      from: onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
     );
   }
 
   void _showOffreDetailsPage(BuildContext context, String offreId) {
-    Navigator.push(
-      context,
-      // TODO: 1353 - only alternance
-      //OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance),
-      OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: false),
-    );
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: onlyAlternance));
   }
 }
