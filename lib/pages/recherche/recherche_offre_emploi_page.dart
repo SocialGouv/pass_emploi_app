@@ -17,8 +17,16 @@ import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_emploi_cont
 import 'package:redux/redux.dart';
 
 class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => RechercheOffreEmploiPage());
+  final bool isAlternance;
+
+  RechercheOffreEmploiPage({required this.isAlternance});
+
+  static MaterialPageRoute<void> materialPageRoute({required bool isAlternance}) {
+    return MaterialPageRoute(
+      builder: (context) => RechercheOffreEmploiPage(
+        isAlternance: isAlternance,
+      ),
+    );
   }
 
   @override
@@ -37,19 +45,20 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
 
   @override
   Widget buildAlertBottomSheet() {
-    // TODO-1353 only alternance
-    return OffreEmploiSavedSearchBottomSheet(onlyAlternance: false);
+    return OffreEmploiSavedSearchBottomSheet(onlyAlternance: isAlternance);
   }
 
   @override
   Route<bool> buildFiltresMaterialPageRoute() {
-    // TODO-1353 only alternance
-    return OffreEmploiFiltresPage.materialPageRoute(false);
+    return OffreEmploiFiltresPage.materialPageRoute(isAlternance);
   }
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {
-    return CriteresRechercheEmploiContenu(onNumberOfCriteresChanged: onNumberOfCriteresChanged);
+    return CriteresRechercheEmploiContenu(
+      isAlternance: isAlternance,
+      onNumberOfCriteresChanged: onNumberOfCriteresChanged,
+    );
   }
 
   @override
@@ -62,17 +71,11 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
       id: viewModel.id,
       dataTag: [viewModel.contractType, viewModel.duration ?? ''],
       onTap: () => _showOffreDetailsPage(context, viewModel.id),
-      from: OffrePage.emploiResults, // TODO: 1353 - only alternance
-      //from: widget.onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
+      from: isAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
     );
   }
 
   void _showOffreDetailsPage(BuildContext context, String offreId) {
-    Navigator.push(
-      context,
-      // TODO: 1353 - only alternance
-      //OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance),
-      OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: false),
-    );
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: isAlternance));
   }
 }
