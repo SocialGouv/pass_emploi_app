@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
-import 'package:pass_emploi_app/presentation/location/location_view_model.dart';
+import 'package:pass_emploi_app/presentation/autocomplete/location_view_model.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';

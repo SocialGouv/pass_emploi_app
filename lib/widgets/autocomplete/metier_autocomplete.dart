@@ -2,9 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
-import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/presentation/autocomplete/location_displayable_extension.dart';
-import 'package:pass_emploi_app/presentation/autocomplete/location_view_model.dart';
+import 'package:pass_emploi_app/models/metier.dart';
+import 'package:pass_emploi_app/presentation/autocomplete/metier_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -12,25 +11,21 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/debouncer.dart';
 
-class LocationAutocomplete extends StatefulWidget {
+class MetierAutocomplete extends StatefulWidget {
   final String title;
-  final String hint;
-  final Function(Location? location) onLocationSelected;
-  final bool villesOnly;
+  final Function(Metier? location) onMetierSelected;
 
-  const LocationAutocomplete({
+  const MetierAutocomplete({
     required this.title,
-    required this.hint,
-    required this.onLocationSelected,
-    this.villesOnly = false,
+    required this.onMetierSelected,
   });
 
   @override
-  State<LocationAutocomplete> createState() => _LocationAutocompleteState();
+  State<MetierAutocomplete> createState() => _MetierAutocompleteState();
 }
 
-class _LocationAutocompleteState extends State<LocationAutocomplete> {
-  Location? _selectedLocation;
+class _MetierAutocompleteState extends State<MetierAutocomplete> {
+  Metier? _selectedMetier;
 
   @override
   Widget build(BuildContext context) {
@@ -39,40 +34,35 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.title, style: TextStyles.textBaseBold),
-            Text(widget.hint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-          ],
+          children: [Text(widget.title, style: TextStyles.textBaseBold)],
         ),
         SizedBox(height: Margins.spacing_base),
         Stack(
           alignment: Alignment.centerRight,
           children: [
             Hero(
-              tag: 'location',
+              tag: 'metier',
               child: Material(
                 type: MaterialType.transparency,
                 child: TextFormField(
-                  key: Key(_selectedLocation.toString()),
+                  key: Key(_selectedMetier.toString()),
                   style: TextStyles.textBaseBold,
                   decoration: _inputDecoration(),
                   readOnly: true,
-                  initialValue: _selectedLocation?.displayableLabel(),
+                  initialValue: _selectedMetier?.libelle,
                   onTap: () => Navigator.push(
                     context,
-                    _LocationAutocompletePage.materialPageRoute(
+                    _MetierAutocompletePage.materialPageRoute(
                       title: widget.title,
-                      hint: widget.hint,
-                      villesOnly: widget.villesOnly,
-                      selectedLocation: _selectedLocation,
+                      selectedMetier: _selectedMetier,
                     ),
-                  ).then((location) => _updateLocation(location)),
+                  ).then((location) => _updateMetier(location)),
                 ),
               ),
             ),
-            if (_selectedLocation != null)
+            if (_selectedMetier != null)
               IconButton(
-                onPressed: () => _updateLocation(null),
+                onPressed: () => _updateMetier(null),
                 tooltip: Strings.suppressionLabel,
                 icon: const Icon(Icons.close),
               ),
@@ -82,50 +72,44 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
     );
   }
 
-  void _updateLocation(Location? location) {
-    setState(() => _selectedLocation = location);
-    widget.onLocationSelected(location);
+  void _updateMetier(Metier? metier) {
+    setState(() => _selectedMetier = metier);
+    widget.onMetierSelected(metier);
   }
 }
 
-class _LocationAutocompletePage extends StatelessWidget {
+class _MetierAutocompletePage extends StatelessWidget {
   final String title;
-  final String hint;
-  final bool villesOnly;
-  final Location? selectedLocation;
+  final Metier? selectedMetier;
   final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
 
-  _LocationAutocompletePage({required this.title, required this.hint, required this.villesOnly, this.selectedLocation});
+  _MetierAutocompletePage({required this.title, this.selectedMetier});
 
-  static MaterialPageRoute<Location?> materialPageRoute({
+  static MaterialPageRoute<Metier?> materialPageRoute({
     required String title,
-    required String hint,
-    required bool villesOnly,
-    required Location? selectedLocation,
+    required Metier? selectedMetier,
   }) {
     return MaterialPageRoute(
       fullscreenDialog: true,
-      builder: (context) => _LocationAutocompletePage(
+      builder: (context) => _MetierAutocompletePage(
         title: title,
-        hint: hint,
-        villesOnly: villesOnly,
-        selectedLocation: selectedLocation,
+        selectedMetier: selectedMetier,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, LocationViewModel>(
-      converter: (store) => LocationViewModel.create(store),
-      onInitialBuild: (viewModel) => viewModel.onInputLocation(selectedLocation?.libelle, villesOnly),
+    return StoreConnector<AppState, MetierViewModel>(
+      converter: (store) => MetierViewModel.create(store),
+      onInitialBuild: (viewModel) => viewModel.onInputMetier(selectedMetier?.libelle),
       onDispose: (store) => store.dispatch(SearchLocationResetAction()),
       builder: _builder,
       distinct: true,
     );
   }
 
-  Widget _builder(BuildContext context, LocationViewModel viewModel) {
+  Widget _builder(BuildContext context, MetierViewModel viewModel) {
     const backgroundColor = Colors.white;
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -134,11 +118,11 @@ class _LocationAutocompletePage extends StatelessWidget {
       appBar: AppBar(toolbarHeight: 0, scrolledUnderElevation: 0),
       body: Column(
         children: [
-          _FakeAppBar(title: title, hint: hint, onCloseButtonPressed: () => Navigator.pop(context, selectedLocation)),
+          _FakeAppBar(title: title, onCloseButtonPressed: () => Navigator.pop(context, selectedMetier)),
           Padding(
             padding: const EdgeInsets.all(Margins.spacing_base),
             child: Hero(
-              tag: 'location',
+              tag: 'metier',
               child: Material(
                 type: MaterialType.transparency,
                 child: TextFormField(
@@ -146,11 +130,11 @@ class _LocationAutocompletePage extends StatelessWidget {
                   keyboardType: TextInputType.name,
                   textCapitalization: TextCapitalization.words,
                   textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) => Navigator.pop(context, viewModel.locations.firstOrNull),
-                  initialValue: selectedLocation?.displayableLabel(),
+                  onFieldSubmitted: (_) => Navigator.pop(context, viewModel.metiers.firstOrNull),
+                  initialValue: selectedMetier?.libelle,
                   decoration: _inputDecoration(),
                   autofocus: true,
-                  onChanged: (value) => _debouncer.run(() => viewModel.onInputLocation(value, villesOnly)),
+                  onChanged: (value) => _debouncer.run(() => viewModel.onInputMetier(value)),
                 ),
               ),
             ),
@@ -159,14 +143,14 @@ class _LocationAutocompletePage extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) {
-                final location = viewModel.locations[index];
-                return _LocationListTile(
-                  location: location,
-                  onLocationTap: (location) => Navigator.pop(context, location),
+                final metier = viewModel.metiers[index];
+                return _MetierListTile(
+                  metier: metier,
+                  onMetierTap: (location) => Navigator.pop(context, location),
                 );
               },
               separatorBuilder: (context, index) => Container(color: AppColors.grey100, height: 1),
-              itemCount: viewModel.locations.length,
+              itemCount: viewModel.metiers.length,
             ),
           ),
         ],
@@ -177,10 +161,9 @@ class _LocationAutocompletePage extends StatelessWidget {
 
 class _FakeAppBar extends StatelessWidget {
   final String title;
-  final String hint;
   final VoidCallback onCloseButtonPressed;
 
-  const _FakeAppBar({required this.title, required this.hint, required this.onCloseButtonPressed});
+  const _FakeAppBar({required this.title, required this.onCloseButtonPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -198,10 +181,7 @@ class _FakeAppBar extends StatelessWidget {
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: TextStyles.textBaseBold),
-              Text(hint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-            ],
+            children: [Text(title, style: TextStyles.textBaseBold)],
           ),
         )
       ],
@@ -209,27 +189,18 @@ class _FakeAppBar extends StatelessWidget {
   }
 }
 
-class _LocationListTile extends StatelessWidget {
-  final Location location;
-  final Function(Location) onLocationTap;
+class _MetierListTile extends StatelessWidget {
+  final Metier metier;
+  final Function(Metier) onMetierTap;
 
-  const _LocationListTile({required this.location, required this.onLocationTap});
+  const _MetierListTile({required this.metier, required this.onMetierTap});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
-      title: RichText(
-        text: TextSpan(
-          text: location.libelle,
-          style: TextStyles.textBaseBold,
-          children: [
-            TextSpan(text: ' '),
-            TextSpan(text: location.displayableCode(), style: TextStyles.textBaseRegular),
-          ],
-        ),
-      ),
-      onTap: () => onLocationTap(location),
+      title: Text(metier.libelle, style: TextStyles.textBaseBold),
+      onTap: () => onMetierTap(metier),
     );
   }
 }
