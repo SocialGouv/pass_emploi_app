@@ -33,9 +33,8 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<ServiceCivique> {
   @override
   String appBarTitle() => Strings.rechercheOffresImmersionTitle;
 
-  //TODO(1356)
   @override
-  RechercheState rechercheState(AppState appState) => appState.rechercheServiceCiviqueState;
+  RechercheState rechercheState(AppState appState) => appState.rechercheImmersionState;
 
   //TODO(1356)
   @override
