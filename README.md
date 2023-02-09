@@ -76,14 +76,14 @@ Une fois la montée de version de Flutter effectuée, mettre à jour :
 
 # Utiliser des icônes personnalisées
 
-- Se demander si les icônes personnalisés peuvent être remplacés par un icône Material similaire
+- Se demander si les icônes personnaliseés peuvent être remplaceés par un icône Material similaire
 - Si il n'existe pas d'équivalent, télécharger les icônes souhaitées au format SVG
-- Se rendre sur FlutterIcon.com
-- Charger les fichiers SVG
-- Donner le nom à la bibliothèque d'icônes "AppIconsAdditional"
+- Se rendre sur FlutterIcon.com et ouvrir le fichier présent dans docs/flutterIcons/config.json
+- Ajouter les fichiers SVG souhaités
 - Cliquer sur "Télécharger" et extraire les fichiers
 - Remplacer le fichier TTF dans fonts/AppIconsAdditional.ttf
 - Remplacer le fichier Dart dans lib/ui/app_icons_additional_icons.dart
+- Remplacer le fichier json dans docs/flutterIcons/config.json
 - Exécuter `flutter pub get`
 - Exécuter "flutter run" pour vérifier que le projet compile et que l'application démarre comme prévu
 
