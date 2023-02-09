@@ -5,10 +5,10 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/autocomplete/keyword_text_form_field.dart';
-import 'package:pass_emploi_app/widgets/autocomplete/location_autocomplete.dart';
-import 'package:pass_emploi_app/widgets/autocomplete/metier_autocomplete.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/keyword_text_form_field.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/location_autocomplete.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/metier_autocomplete.dart';
 
 class TemporaryPage extends StatefulWidget {
   @override
