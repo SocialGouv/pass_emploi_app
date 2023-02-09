@@ -38,21 +38,21 @@ class RechercheHomePage extends StatelessWidget {
               _BlocSolution(
                 title: Strings.rechercheHomeOffresAlternanceTitle,
                 subtitle: Strings.rechercheHomeOffresAlternanceSubtitle,
-                icon: AppIcons.description_rounded,
+                icon: AppIcons.signpost_rounded,
                 onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: true)),
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(
                 title: Strings.rechercheHomeOffresImmersionTitle,
                 subtitle: Strings.rechercheHomeOffresImmersionSubtitle,
-                drawable: Drawables.icOffresEmploi, //TODO(1356) quand Adrien aura mis les ic material
+                icon: AppIcons.rocket_launch_rounded,
                 onTap: () => Navigator.push(context, RechercheOffreImmersionPage.materialPageRoute()),
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(
                 title: Strings.rechercheHomeOffresServiceCiviqueTitle,
                 subtitle: Strings.rechercheHomeOffresServiceCiviqueSubtitle,
-                icon: AppIcons.description_rounded,
+                icon: AppIcons.account_balance_rounded,
                 onTap: () => Navigator.push(context, RechercheOffreServiceCiviquePage.materialPageRoute()),
               ),
             ],
