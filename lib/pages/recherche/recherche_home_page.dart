@@ -16,37 +16,39 @@ class RechercheHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.rechercheV2Home,
-      child: Padding(
-        padding: const EdgeInsets.all(Margins.spacing_base),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              Strings.rechercheHomeNosOffres,
-              style: TextStyles.textLBold(color: AppColors.primary),
-            ),
-            SizedBox(height: Margins.spacing_base),
-            _BlocSolution(
-              title: Strings.rechercheHomeOffresEmploiTitle,
-              subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
-              drawable: Drawables.icOffresEmploi,
-              onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(isAlternance: false)),
-            ),
-            SizedBox(height: Margins.spacing_base),
-            _BlocSolution(
-              title: Strings.rechercheHomeOffresAlternanceTitle,
-              subtitle: Strings.rechercheHomeOffresAlternanceSubtitle,
-              drawable: Drawables.icOffresEmploi, //TODO(1354) quand Adrien aura mis les ic material
-              onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(isAlternance: true)),
-            ),
-            SizedBox(height: Margins.spacing_base),
-            _BlocSolution(
-              title: Strings.rechercheHomeOffresServiceCiviqueTitle,
-              subtitle: Strings.rechercheHomeOffresServiceCiviqueSubtitle,
-              drawable: Drawables.icOffresEmploi, //TODO(1355) quand Adrien aura mis les ic material
-              onTap: () => Navigator.push(context, RechercheOffreServiceCiviquePage.materialPageRoute()),
-            ),
-          ],
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_base),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                Strings.rechercheHomeNosOffres,
+                style: TextStyles.textLBold(color: AppColors.primary),
+              ),
+              SizedBox(height: Margins.spacing_base),
+              _BlocSolution(
+                title: Strings.rechercheHomeOffresEmploiTitle,
+                subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
+                drawable: Drawables.icOffresEmploi,
+                onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(isAlternance: false)),
+              ),
+              SizedBox(height: Margins.spacing_base),
+              _BlocSolution(
+                title: Strings.rechercheHomeOffresAlternanceTitle,
+                subtitle: Strings.rechercheHomeOffresAlternanceSubtitle,
+                drawable: Drawables.icOffresEmploi, //TODO(1354) quand Adrien aura mis les ic material
+                onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(isAlternance: true)),
+              ),
+              SizedBox(height: Margins.spacing_base),
+              _BlocSolution(
+                title: Strings.rechercheHomeOffresServiceCiviqueTitle,
+                subtitle: Strings.rechercheHomeOffresServiceCiviqueSubtitle,
+                drawable: Drawables.icOffresEmploi, //TODO(1355) quand Adrien aura mis les ic material
+                onTap: () => Navigator.push(context, RechercheOffreServiceCiviquePage.materialPageRoute()),
+              ),
+            ],
+          ),
         ),
       ),
     );
