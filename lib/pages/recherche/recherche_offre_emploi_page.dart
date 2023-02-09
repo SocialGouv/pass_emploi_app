@@ -35,7 +35,9 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   }
 
   @override
-  String appBarTitle() => Strings.rechercheOffresEmploiTitle;
+  String appBarTitle() {
+    return isAlternance ? Strings.rechercheOffresAlternanceTitle : Strings.rechercheOffresEmploiTitle;
+  }
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;

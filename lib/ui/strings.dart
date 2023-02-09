@@ -322,6 +322,7 @@ class Strings {
   static String rechercheHomeOffresServiceCiviqueTitle = "Offres de service civique";
   static String rechercheHomeOffresServiceCiviqueSubtitle = "Engagez-vous dans un projet d’intérêt général !";
   static String rechercheOffresEmploiTitle = "offres d’emploi";
+  static String rechercheOffresAlternanceTitle = "offres d’alternance";
   static String rechercheOffresServiceCiviqueTitle = "offres de service civique";
   static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondants";
 
