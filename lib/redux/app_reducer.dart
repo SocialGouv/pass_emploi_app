@@ -34,6 +34,7 @@ import 'package:pass_emploi_app/features/partage_activite/partage_activite_reduc
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
 import 'package:pass_emploi_app/features/rating/rating_reducer.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_reducer.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
@@ -55,6 +56,7 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_r
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_reducer.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -145,6 +147,10 @@ AppState reducer(AppState current, dynamic action) {
     deviceInfoState: deviceInfoReducer(current.deviceInfoState, action),
     rechercheEmploiState: rechercheReducer<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi>(
       current.rechercheEmploiState,
+      action,
+    ),
+    rechercheImmersionState: rechercheReducer<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres, Immersion>(
+      current.rechercheImmersionState,
       action,
     ),
     rechercheServiceCiviqueState:
