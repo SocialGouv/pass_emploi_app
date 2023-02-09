@@ -77,7 +77,8 @@ class ServiceCiviqueViewModel extends Equatable {
 int? _filtersCount(ServiceCiviqueSearchResultState state) {
   if (state is ServiceCiviqueSearchResultDataState) {
     final SearchServiceCiviqueRequest lastRequest = state.lastRequest;
-    final int distanceCount = lastRequest.distance != null && lastRequest.distance != defaultDistanceValue ? 1 : 0;
+    final int distanceCount =
+        lastRequest.distance != null && lastRequest.distance != defaultDistanceValueOnServiceCiviqueFiltre ? 1 : 0;
     final int startDateCount = lastRequest.startDate != null ? 1 : 0;
     final int domainCount = lastRequest.domain != null && lastRequest.domain != Domaine.all.tag ? 1 : 0;
     return distanceCount + startDateCount + domainCount;

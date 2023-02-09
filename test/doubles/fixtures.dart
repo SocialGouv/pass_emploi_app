@@ -7,6 +7,8 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
@@ -208,6 +210,8 @@ ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
       domain: 'Informatique',
       location: "77 - LOGNES",
     );
+
+List<ServiceCivique> mockOffresServiceCivique10() => List.generate(10, (index) => mockServiceCivique());
 
 SearchServiceCiviqueRequest mockServiceCiviqueRequest({String id = "123DXPM"}) => SearchServiceCiviqueRequest(
       location: mockLocation(),
@@ -534,6 +538,15 @@ RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> in
   return RechercheRequest(
     EmploiCriteresRecherche(keywords: "chevalier", location: null, onlyAlternance: false),
     OffreEmploiSearchParametersFiltres.noFiltres(),
+    1,
+  );
+}
+
+RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>
+    initialRechercheServiceCiviqueRequest() {
+  return RechercheRequest(
+    ServiceCiviqueCriteresRecherche(location: null),
+    ServiceCiviqueFiltresRecherche.noFiltre(),
     1,
   );
 }

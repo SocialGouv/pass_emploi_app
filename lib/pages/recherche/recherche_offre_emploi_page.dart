@@ -61,13 +61,13 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
       lieu: viewModel.location,
       id: viewModel.id,
       dataTag: [viewModel.contractType, viewModel.duration ?? ''],
-      onTap: () => _showOffreEmploiDetailsPage(context, viewModel.id),
+      onTap: () => _showOffreDetailsPage(context, viewModel.id),
       from: OffrePage.emploiResults, // TODO: 1353 - only alternance
       //from: widget.onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
     );
   }
 
-  void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
+  void _showOffreDetailsPage(BuildContext context, String offreId) {
     Navigator.push(
       context,
       // TODO: 1353 - only alternance

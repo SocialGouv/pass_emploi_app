@@ -16,6 +16,8 @@ import 'package:pass_emploi_app/features/partage_activite/update/partage_activit
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
@@ -34,6 +36,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/tutorial.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -364,13 +367,65 @@ extension AppStateDSL on AppState {
     EmploiCriteresRecherche? criteres,
     OffreEmploiSearchParametersFiltres? filtres,
   }) {
-    return successRechercheEmploiState().copyWith(
-      rechercheEmploiState: RechercheEmploiState.initial().copyWith(
-        request: () => RechercheRequest(
-          criteres ?? EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
-          filtres ?? OffreEmploiSearchParametersFiltres.noFiltres(),
-          1,
-        ),
+    return successRechercheEmploiState(
+      request: RechercheRequest(
+        criteres ?? EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
+        filtres ?? OffreEmploiSearchParametersFiltres.noFiltres(),
+        1,
+      ),
+    );
+  }
+
+  AppState initialRechercheServiceCiviqueState() {
+    return copyWith(rechercheServiceCiviqueState: RechercheState.initial());
+  }
+
+  AppState initialLoadingRechercheServiceCiviqueState() {
+    return copyWith(
+      rechercheServiceCiviqueState:
+          RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.initialLoading),
+    );
+  }
+
+  AppState updateLoadingRechercheServiceCiviqueState() {
+    return copyWith(
+      rechercheServiceCiviqueState:
+          RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.updateLoading),
+    );
+  }
+
+  AppState failureRechercheServiceCiviqueState() {
+    return copyWith(
+      rechercheServiceCiviqueState: RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.failure),
+    );
+  }
+
+  AppState successRechercheServiceCiviqueState({
+    List<ServiceCivique>? results,
+    RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>? request,
+    bool canLoadMore = true,
+  }) {
+    final _results = results ?? mockOffresServiceCivique10();
+    final _request = request ?? initialRechercheServiceCiviqueRequest();
+    return copyWith(
+      rechercheServiceCiviqueState: RechercheServiceCiviqueState.initial().copyWith(
+        status: RechercheStatus.success,
+        request: () => _request,
+        results: () => _results,
+        canLoadMore: canLoadMore,
+      ),
+    );
+  }
+
+  AppState successRechercheServiceCiviqueStateWithRequest({
+    ServiceCiviqueCriteresRecherche? criteres,
+    ServiceCiviqueFiltresRecherche? filtres,
+  }) {
+    return successRechercheServiceCiviqueState(
+      request: RechercheRequest(
+        criteres ?? ServiceCiviqueCriteresRecherche(location: null),
+        filtres ?? ServiceCiviqueFiltresRecherche.noFiltre(),
+        1,
       ),
     );
   }

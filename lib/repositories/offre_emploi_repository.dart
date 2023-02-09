@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/network/filtres_request.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
-//TODO: 1353 peut-être à suppr.
+//TODO(1353) peut-être à suppr.
 class SearchOffreEmploiRequest extends Equatable {
   final String keywords;
   final Location? location;
@@ -63,7 +63,7 @@ class OffreEmploiRepository
     return null;
   }
 
-  //TODO: temp
+  //TODO(1353) temp
   String _createQueryNew(RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> request) {
     return _createQuery(SearchOffreEmploiRequest(
       keywords: request.criteres.keywords,
@@ -74,7 +74,7 @@ class OffreEmploiRepository
     ));
   }
 
-  //TODO: remove
+  //TODO(1353) remove
   Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
     final url = Uri.parse(_baseUrl + "/offres-emploi").replace(
       query: _createQuery(request),

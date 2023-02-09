@@ -12,6 +12,7 @@ class OffreEmploiDataFromIdExtractor extends DataFromIdExtractor<OffreEmploi> {
   @override
   OffreEmploi extractFromId(Store<AppState> store, String favoriId) {
     if (store.state.offreEmploiListState is OffreEmploiListSuccessState) {
+      //TODO(1353): encore utile ce if ou à virer après nettoyage ?
       final state = store.state.offreEmploiListState as OffreEmploiListSuccessState;
       return state.offres.firstWhere((element) => element.id == favoriId);
     }
@@ -32,7 +33,12 @@ class ImmersionDataFromIdExtractor extends DataFromIdExtractor<Immersion> {
 class ServiceCiviqueDataFromIdExtractor extends DataFromIdExtractor<ServiceCivique> {
   @override
   ServiceCivique extractFromId(Store<AppState> store, String favoriId) {
-    final state = store.state.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState;
-    return state.offres.firstWhere((element) => element.id == favoriId);
+    if (store.state.serviceCiviqueSearchResultState is ServiceCiviqueSearchResultDataState) {
+      //TODO(1355): encore utile ce if ou à virer après nettoyage ?
+      final state = store.state.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState;
+      return state.offres.firstWhere((element) => element.id == favoriId);
+    }
+    // TODO : 1355 - Test later when offreEmploiListState would be removed
+    return store.state.rechercheServiceCiviqueState.results!.firstWhere((element) => element.id == favoriId);
   }
 }

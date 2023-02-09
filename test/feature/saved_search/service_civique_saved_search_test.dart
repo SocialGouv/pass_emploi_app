@@ -1,21 +1,22 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
-import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
-import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
+import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
@@ -73,20 +74,12 @@ void main() {
 
   test("SaveSearchInitializeAction should update store with rights information", () async {
     // Given
-    final AppState initialState = AppState.initialState().copyWith(
-      serviceCiviqueSearchResultState: ServiceCiviqueSearchResultDataState(
-          offres: [],
-          lastRequest: SearchServiceCiviqueRequest(
-            distance: 10,
-            page: 1,
-            domain: null,
-            location: mockLocation(),
-            startDate: null,
-            endDate: null,
-          ),
-          isMoreDataAvailable: false),
-      loginState: successMiloUserState(),
-    );
+    final initialState = givenState() //
+        .loggedInUser() //
+        .successRechercheServiceCiviqueStateWithRequest(
+          criteres: ServiceCiviqueCriteresRecherche(location: mockLocation()),
+          filtres: ServiceCiviqueFiltresRecherche(distance: 10, startDate: null, domain: null),
+        );
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.authenticator = AuthenticatorLoggedInStub();
     final store = testStoreFactory.initializeReduxStore(initialState: initialState);

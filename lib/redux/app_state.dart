@@ -119,6 +119,7 @@ class AppState extends Equatable {
   final EventListState eventListState;
   final DeviceInfoState deviceInfoState;
   final RechercheEmploiState rechercheEmploiState;
+  final RechercheServiceCiviqueState rechercheServiceCiviqueState;
 
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
@@ -180,6 +181,7 @@ class AppState extends Equatable {
     required this.eventListState,
     required this.deviceInfoState,
     required this.rechercheEmploiState,
+    required this.rechercheServiceCiviqueState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -241,6 +243,7 @@ class AppState extends Equatable {
     final EventListState? eventListState,
     final DeviceInfoState? deviceInfoState,
     final RechercheEmploiState? rechercheEmploiState,
+    final RechercheServiceCiviqueState? rechercheServiceCiviqueState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -302,6 +305,7 @@ class AppState extends Equatable {
       eventListState: eventListState ?? this.eventListState,
       deviceInfoState: deviceInfoState ?? this.deviceInfoState,
       rechercheEmploiState: rechercheEmploiState ?? this.rechercheEmploiState,
+      rechercheServiceCiviqueState: rechercheServiceCiviqueState ?? this.rechercheServiceCiviqueState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -365,6 +369,7 @@ class AppState extends Equatable {
       eventListState: EventListNotInitializedState(),
       deviceInfoState: DeviceInfoNotInitializedState(),
       rechercheEmploiState: RechercheState.initial(),
+      rechercheServiceCiviqueState: RechercheState.initial(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -421,6 +426,7 @@ class AppState extends Equatable {
         eventListState,
         deviceInfoState,
         rechercheEmploiState,
+        rechercheServiceCiviqueState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

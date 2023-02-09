@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -30,6 +31,13 @@ class RechercheHomePage extends StatelessWidget {
               subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
               drawable: Drawables.icOffresEmploi,
               onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute()),
+            ),
+            SizedBox(height: Margins.spacing_base),
+            _BlocSolution(
+              title: Strings.rechercheHomeOffresServiceCiviqueTitle,
+              subtitle: Strings.rechercheHomeOffresServiceCiviqueSubtitle,
+              drawable: Drawables.icOffresEmploi, //TODO(1355) quand Adrien aura mis les ic material
+              onTap: () => Navigator.push(context, RechercheOffreServiceCiviquePage.materialPageRoute()),
             ),
           ],
         ),
