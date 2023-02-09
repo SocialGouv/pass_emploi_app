@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/autocomplete/keyword_text_form_field.dart';
 import 'package:pass_emploi_app/widgets/autocomplete/location_autocomplete.dart';
 import 'package:pass_emploi_app/widgets/autocomplete/metier_autocomplete.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -15,6 +16,7 @@ class TemporaryPage extends StatefulWidget {
 }
 
 class _TemporaryPageState extends State<TemporaryPage> {
+  String? _selectedKeyword;
   Metier? _selectedMetier;
   Location? _selectedLocation;
 
@@ -23,6 +25,7 @@ class _TemporaryPageState extends State<TemporaryPage> {
     const backgroundColor = AppColors.grey100;
     return Scaffold(
       backgroundColor: backgroundColor,
+      resizeToAvoidBottomInset: false,
       appBar: PrimaryAppBar(title: 'Autocompletion', backgroundColor: backgroundColor),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -37,6 +40,12 @@ class _TemporaryPageState extends State<TemporaryPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                KeywordTextFormField(
+                  title: Strings.keywordTitle,
+                  hint: Strings.keywordHint,
+                  onKeywordSelected: (keyword) => {setState(() => _selectedKeyword = keyword)},
+                ),
+                SizedBox(height: 16),
                 MetierAutocomplete(
                   title: Strings.metierCompulsoryLabel,
                   onMetierSelected: (metier) => {setState(() => _selectedMetier = metier)},
@@ -48,6 +57,7 @@ class _TemporaryPageState extends State<TemporaryPage> {
                   onLocationSelected: (location) => {setState(() => _selectedLocation = location)},
                 ),
                 SizedBox(height: 16),
+                Text('Selected keyword: ${_selectedKeyword}', style: TextStyles.textSRegular()),
                 Text('Selected metier: ${_selectedMetier?.libelle}', style: TextStyles.textSRegular()),
                 Text('Selected location: ${_selectedLocation?.libelle}', style: TextStyles.textSRegular()),
               ],

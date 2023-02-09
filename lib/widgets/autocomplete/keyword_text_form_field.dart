@@ -1,36 +1,26 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/features/location/search_location_actions.dart';
-import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/presentation/autocomplete/location_displayable_extension.dart';
-import 'package:pass_emploi_app/presentation/autocomplete/location_view_model.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/debouncer.dart';
 
-class LocationAutocomplete extends StatefulWidget {
+class KeywordTextFormField extends StatefulWidget {
   final String title;
   final String hint;
-  final Function(Location? location) onLocationSelected;
-  final bool villesOnly;
+  final Function(String? keyword) onKeywordSelected;
 
-  const LocationAutocomplete({
+  const KeywordTextFormField({
     required this.title,
     required this.hint,
-    required this.onLocationSelected,
-    this.villesOnly = false,
+    required this.onKeywordSelected,
   });
 
   @override
-  State<LocationAutocomplete> createState() => _LocationAutocompleteState();
+  State<KeywordTextFormField> createState() => _KeywordTextFormFieldState();
 }
 
-class _LocationAutocompleteState extends State<LocationAutocomplete> {
-  Location? _selectedLocation;
+class _KeywordTextFormFieldState extends State<KeywordTextFormField> {
+  String? _selectedKeyword;
 
   @override
   Widget build(BuildContext context) {
@@ -49,30 +39,29 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
           alignment: Alignment.centerRight,
           children: [
             Hero(
-              tag: 'location',
+              tag: 'keyword',
               child: Material(
                 type: MaterialType.transparency,
                 child: TextFormField(
-                  key: Key(_selectedLocation.toString()),
+                  key: Key(_selectedKeyword.toString()),
                   style: TextStyles.textBaseBold,
                   decoration: _inputDecoration(),
                   readOnly: true,
-                  initialValue: _selectedLocation?.displayableLabel(),
+                  initialValue: _selectedKeyword,
                   onTap: () => Navigator.push(
                     context,
-                    _LocationAutocompletePage.materialPageRoute(
+                    _KeywordTextFormFieldPage.materialPageRoute(
                       title: widget.title,
                       hint: widget.hint,
-                      villesOnly: widget.villesOnly,
-                      selectedLocation: _selectedLocation,
+                      selectedKeyword: _selectedKeyword,
                     ),
-                  ).then((location) => _updateLocation(location)),
+                  ).then((location) => _updateKeyword(location)),
                 ),
               ),
             ),
-            if (_selectedLocation != null)
+            if (_selectedKeyword != null)
               IconButton(
-                onPressed: () => _updateLocation(null),
+                onPressed: () => _updateKeyword(null),
                 tooltip: Strings.suppressionLabel,
                 icon: const Icon(Icons.close),
               ),
@@ -82,50 +71,40 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
     );
   }
 
-  void _updateLocation(Location? location) {
-    setState(() => _selectedLocation = location);
-    widget.onLocationSelected(location);
+  void _updateKeyword(String? keyword) {
+    setState(() => _selectedKeyword = keyword);
+    widget.onKeywordSelected(keyword);
   }
 }
 
-class _LocationAutocompletePage extends StatelessWidget {
+class _KeywordTextFormFieldPage extends StatelessWidget {
   final String title;
   final String hint;
-  final bool villesOnly;
-  final Location? selectedLocation;
-  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
+  final String? selectedKeyword;
 
-  _LocationAutocompletePage({required this.title, required this.hint, required this.villesOnly, this.selectedLocation});
+  _KeywordTextFormFieldPage({required this.title, required this.hint, this.selectedKeyword});
 
-  static MaterialPageRoute<Location?> materialPageRoute({
+  static MaterialPageRoute<String?> materialPageRoute({
     required String title,
     required String hint,
-    required bool villesOnly,
-    required Location? selectedLocation,
+    required String? selectedKeyword,
   }) {
     return MaterialPageRoute(
       fullscreenDialog: true,
-      builder: (context) => _LocationAutocompletePage(
+      builder: (context) => _KeywordTextFormFieldPage(
         title: title,
         hint: hint,
-        villesOnly: villesOnly,
-        selectedLocation: selectedLocation,
+        selectedKeyword: selectedKeyword,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, LocationViewModel>(
-      converter: (store) => LocationViewModel.create(store),
-      onInitialBuild: (viewModel) => viewModel.onInputLocation(selectedLocation?.libelle, villesOnly),
-      onDispose: (store) => store.dispatch(SearchLocationResetAction()),
-      builder: _builder,
-      distinct: true,
-    );
+    return _builder(context);
   }
 
-  Widget _builder(BuildContext context, LocationViewModel viewModel) {
+  Widget _builder(BuildContext context) {
     const backgroundColor = Colors.white;
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -134,11 +113,11 @@ class _LocationAutocompletePage extends StatelessWidget {
       appBar: AppBar(toolbarHeight: 0, scrolledUnderElevation: 0),
       body: Column(
         children: [
-          _FakeAppBar(title: title, hint: hint, onCloseButtonPressed: () => Navigator.pop(context, selectedLocation)),
+          _FakeAppBar(title: title, hint: hint, onCloseButtonPressed: () => Navigator.pop(context, selectedKeyword)),
           Padding(
             padding: const EdgeInsets.all(Margins.spacing_base),
             child: Hero(
-              tag: 'location',
+              tag: 'keyword',
               child: Material(
                 type: MaterialType.transparency,
                 child: TextFormField(
@@ -146,27 +125,12 @@ class _LocationAutocompletePage extends StatelessWidget {
                   keyboardType: TextInputType.name,
                   textCapitalization: TextCapitalization.words,
                   textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) => Navigator.pop(context, viewModel.locations.firstOrNull),
-                  initialValue: selectedLocation?.displayableLabel(),
+                  onFieldSubmitted: (keyword) => Navigator.pop(context, keyword),
+                  initialValue: selectedKeyword,
                   decoration: _inputDecoration(),
                   autofocus: true,
-                  onChanged: (value) => _debouncer.run(() => viewModel.onInputLocation(value, villesOnly)),
                 ),
               ),
-            ),
-          ),
-          Container(color: AppColors.grey100, height: 1),
-          Expanded(
-            child: ListView.separated(
-              itemBuilder: (context, index) {
-                final location = viewModel.locations[index];
-                return _LocationListTile(
-                  location: location,
-                  onLocationTap: (location) => Navigator.pop(context, location),
-                );
-              },
-              separatorBuilder: (context, index) => Container(color: AppColors.grey100, height: 1),
-              itemCount: viewModel.locations.length,
             ),
           ),
         ],
@@ -205,31 +169,6 @@ class _FakeAppBar extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-}
-
-class _LocationListTile extends StatelessWidget {
-  final Location location;
-  final Function(Location) onLocationTap;
-
-  const _LocationListTile({required this.location, required this.onLocationTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
-      title: RichText(
-        text: TextSpan(
-          text: location.libelle,
-          style: TextStyles.textBaseBold,
-          children: [
-            TextSpan(text: ' '),
-            TextSpan(text: location.displayableCode(), style: TextStyles.textBaseRegular),
-          ],
-        ),
-      ),
-      onTap: () => onLocationTap(location),
     );
   }
 }

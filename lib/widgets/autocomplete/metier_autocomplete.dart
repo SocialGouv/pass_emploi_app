@@ -207,7 +207,12 @@ class _MetierListTile extends StatelessWidget {
 
 InputDecoration _inputDecoration() {
   return InputDecoration(
-    contentPadding: const EdgeInsets.all(Margins.spacing_base),
+    contentPadding: const EdgeInsets.only(
+      left: Margins.spacing_base,
+      right: Margins.spacing_xl,
+      top: Margins.spacing_base,
+      bottom: Margins.spacing_base,
+    ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.0),
       borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),

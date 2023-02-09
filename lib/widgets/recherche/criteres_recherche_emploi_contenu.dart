@@ -44,8 +44,8 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(Strings.keyWordsTitle, style: TextStyles.textBaseBold),
-          Text(Strings.keyWordsTextHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+          Text(Strings.keywordTitle, style: TextStyles.textBaseBold),
+          Text(Strings.keywordHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
           SizedBox(height: Margins.spacing_base),
           _keywordTextFormField(),
           const SizedBox(height: Margins.spacing_m),

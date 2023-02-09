@@ -332,8 +332,8 @@ class Strings {
 
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
-  static String keyWordsTitle = "Mots clés";
-  static String keyWordsTextHint = "Saisissez un métier, une compétence...";
+  static String keywordTitle = "Mots clés";
+  static String keywordHint = "Saisissez un métier, une compétence...";
   static String jobLocationTitle = "Lieu de travail";
   static String jobLocationHint = "Saisissez une ville, un département ou une région";
   static String searchButton = "Rechercher";
