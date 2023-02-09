@@ -17,14 +17,14 @@ import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_emploi_cont
 import 'package:redux/redux.dart';
 
 class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
-  final bool isAlternance;
+  final bool onlyAlternance;
 
-  RechercheOffreEmploiPage({required this.isAlternance});
+  RechercheOffreEmploiPage({required this.onlyAlternance});
 
-  static MaterialPageRoute<void> materialPageRoute({required bool isAlternance}) {
+  static MaterialPageRoute<void> materialPageRoute({required bool onlyAlternance}) {
     return MaterialPageRoute(
       builder: (context) => RechercheOffreEmploiPage(
-        isAlternance: isAlternance,
+        onlyAlternance: onlyAlternance,
       ),
     );
   }
@@ -36,7 +36,7 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
 
   @override
   String appBarTitle() {
-    return isAlternance ? Strings.rechercheOffresAlternanceTitle : Strings.rechercheOffresEmploiTitle;
+    return onlyAlternance ? Strings.rechercheOffresAlternanceTitle : Strings.rechercheOffresEmploiTitle;
   }
 
   @override
@@ -47,18 +47,18 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
 
   @override
   Widget buildAlertBottomSheet() {
-    return OffreEmploiSavedSearchBottomSheet(onlyAlternance: isAlternance);
+    return OffreEmploiSavedSearchBottomSheet(onlyAlternance: onlyAlternance);
   }
 
   @override
   Route<bool> buildFiltresMaterialPageRoute() {
-    return OffreEmploiFiltresPage.materialPageRoute(isAlternance);
+    return OffreEmploiFiltresPage.materialPageRoute(onlyAlternance);
   }
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {
     return CriteresRechercheEmploiContenu(
-      isAlternance: isAlternance,
+      onlyAlternance: onlyAlternance,
       onNumberOfCriteresChanged: onNumberOfCriteresChanged,
     );
   }
@@ -73,11 +73,11 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
       id: viewModel.id,
       dataTag: [viewModel.contractType, viewModel.duration ?? ''],
       onTap: () => _showOffreDetailsPage(context, viewModel.id),
-      from: isAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
+      from: onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
     );
   }
 
   void _showOffreDetailsPage(BuildContext context, String offreId) {
-    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: isAlternance));
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: onlyAlternance));
   }
 }

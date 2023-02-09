@@ -31,14 +31,14 @@ class RechercheHomePage extends StatelessWidget {
                 title: Strings.rechercheHomeOffresEmploiTitle,
                 subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
                 drawable: Drawables.icOffresEmploi,
-                onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(isAlternance: false)),
+                onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: false)),
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(
                 title: Strings.rechercheHomeOffresAlternanceTitle,
                 subtitle: Strings.rechercheHomeOffresAlternanceSubtitle,
                 drawable: Drawables.icOffresEmploi, //TODO(1354) quand Adrien aura mis les ic material
-                onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(isAlternance: true)),
+                onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: true)),
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(

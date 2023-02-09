@@ -13,11 +13,11 @@ import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
 class CriteresRechercheEmploiContenu extends StatefulWidget {
-  final bool isAlternance;
+  final bool onlyAlternance;
   final Function(int) onNumberOfCriteresChanged;
 
   const CriteresRechercheEmploiContenu({
-    required this.isAlternance,
+    required this.onlyAlternance,
     required this.onNumberOfCriteresChanged,
   });
 
@@ -112,7 +112,7 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
   }
 
   void _search(CriteresRechercheEmploiContenuViewModel viewModel) {
-    viewModel.onSearchingRequest(_keyword, _selectedLocationViewModel?.location, widget.isAlternance);
+    viewModel.onSearchingRequest(_keyword, _selectedLocationViewModel?.location, widget.onlyAlternance);
     Keyboard.dismiss(context);
   }
 }
