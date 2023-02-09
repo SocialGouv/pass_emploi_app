@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
@@ -8,7 +7,7 @@ import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_pag
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -140,7 +139,7 @@ class _SeeSharedDetails extends StatelessWidget {
           padding: const EdgeInsets.only(right: 4.0),
           child: Text(_title(), style: TextStyles.textSRegular()),
         ),
-        SvgPicture.asset(Drawables.icChevronRight, color: AppColors.grey800)
+        Icon(AppIcons.chevron_right_rounded, color: AppColors.grey800)
       ],
     );
   }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -105,7 +104,7 @@ class _Date extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: Row(
         children: [
-          SvgPicture.asset(Drawables.icClock, color: AppColors.primary),
+          Icon(AppIcons.schedule_rounded, color: AppColors.primary),
           SizedBox(width: Margins.spacing_s),
           Text(date, style: TextStyles.textSRegularWithColor(AppColors.primary)),
         ],
@@ -155,7 +154,7 @@ class _Link extends StatelessWidget {
           Expanded(child: Container()),
           Text(Strings.linkDetailsRendezVous, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
           SizedBox(width: Margins.spacing_s),
-          SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
+          Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor),
         ],
       ),
     );
@@ -193,7 +192,7 @@ class _InscritTag extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SvgPicture.asset(Drawables.icCalendar, color: AppColors.accent1),
+        child: Icon(AppIcons.today_rounded, color: AppColors.accent1),
       ),
     );
   }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -29,7 +28,7 @@ class NotUpToDateMessage extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SvgPicture.asset(Drawables.icActualisation, color: contentColor),
+              Icon(AppIcons.event_repeat_rounded, color: contentColor),
               SizedBox(width: Margins.spacing_base),
               Expanded(child: Text(message, style: TextStyles.textBaseRegular.copyWith(color: contentColor))),
             ],
@@ -41,7 +40,7 @@ class NotUpToDateMessage extends StatelessWidget {
               child: SecondaryButton(
                 label: Strings.reloadPage,
                 onPressed: onRefresh,
-                drawableRes: Drawables.icRefresh,
+                icon: AppIcons.refresh_rounded,
                 backgroundColor: Colors.white,
               ),
             ),

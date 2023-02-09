@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -53,7 +52,7 @@ class SavedSearchCard extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Text(Strings.savedSearchSeeResults, style: TextStyles.textSRegular()),
               ),
-              SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor)
+              Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor)
             ],
           )
         ],
@@ -68,7 +67,10 @@ class SavedSearchCard extends StatelessWidget {
       onTap: onDeleteTap ?? () {},
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: SvgPicture.asset(Drawables.icTrash),
+        child: Icon(
+          AppIcons.delete_rounded,
+          color: AppColors.contentColor,
+        ),
       ),
     );
   }
@@ -78,7 +80,7 @@ class SavedSearchCard extends StatelessWidget {
     if (lieu != null) {
       list.add(DataTag(
         label: lieu,
-        drawableRes: Drawables.icPlace,
+        icon: AppIcons.location_on_rounded,
       ));
     }
     return Padding(

@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:redux/redux.dart';
 
@@ -306,7 +306,7 @@ void main() {
             'Envoyer un e-mail',
             Uri.parse("mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
             EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
-            drawableRes: Drawables.icMail,
+            icon: AppIcons.outgoing_mail,
           )
         ]);
       });

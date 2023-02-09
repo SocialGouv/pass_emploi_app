@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
@@ -31,7 +30,7 @@ class StandaloneProfilCard extends StatelessWidget {
                   children: [
                     Expanded(child: Text(text, style: TextStyles.textBaseRegular)),
                     SizedBox(width: Margins.spacing_s),
-                    SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
+                    Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor),
                   ],
                 ),
               ],

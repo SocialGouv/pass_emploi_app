@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/presentation/voir_suggestions_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -64,7 +64,7 @@ class _Icon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 10),
-      child: SvgPicture.asset(Drawables.icAlertSuggestions, color: AppColors.accent1, height: 20),
+      child: Icon(AppIcons.notifications_rounded, color: AppColors.accent1, size: Dimens.icon_size_m),
     );
   }
 }
@@ -83,7 +83,7 @@ class _Chevron extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
+      child: Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor),
     );
   }
 }

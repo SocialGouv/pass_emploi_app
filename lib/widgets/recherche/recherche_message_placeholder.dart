@@ -15,7 +15,7 @@ class RechercheMessagePlaceholder extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          SvgPicture.asset(Drawables.icEmptyOffres),
+          SvgPicture.asset(Drawables.emptyOffresIllustration),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
             child: Text(message, style: TextStyles.textBaseMedium, textAlign: TextAlign.center),

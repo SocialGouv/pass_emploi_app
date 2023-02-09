@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
@@ -51,7 +51,7 @@ class ActionsRecherche extends StatelessWidget {
           if (viewModel.withAlertButton)
             PrimaryActionButton(
               label: Strings.createAlert,
-              drawableRes: Drawables.icAlert,
+              icon: AppIcons.notifications_rounded,
               rippleColor: AppColors.primaryDarken,
               heightPadding: 6,
               widthPadding: 6,

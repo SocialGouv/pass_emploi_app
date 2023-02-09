@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/suppression_compte_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
@@ -46,7 +47,7 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Center(child: SvgPicture.asset(Drawables.icDelete)),
+              Center(child: SvgPicture.asset(Drawables.deleteIllustration)),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
@@ -115,8 +116,8 @@ class _DeleteAlertCrossButton extends StatelessWidget {
       child: IconButton(
         onPressed: () => Navigator.pop(context),
         tooltip: Strings.close,
-        icon: SvgPicture.asset(
-          Drawables.icClose,
+        icon: Icon(
+          AppIcons.close_rounded,
           color: AppColors.contentColor,
         ),
       ),

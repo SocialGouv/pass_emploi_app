@@ -68,6 +68,9 @@ flutter:
     - env/
 
   fonts:
+    - family: AppIconsAdditional
+      fonts:
+        - asset: fonts/AppIconsAdditional.ttf
     - family: Marianne
       fonts:
         - asset: fonts/Marianne-Regular.otf

@@ -19,7 +19,7 @@ class EmptyOffreWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
+          Flexible(child: SvgPicture.asset(Drawables.emptyOffresIllustration)),
           Padding(
             padding: const EdgeInsets.only(bottom: Margins.spacing_base),
             child: Text(Strings.noContentError, style: TextStyles.textSBold, textAlign: TextAlign.center),

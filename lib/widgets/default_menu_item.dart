@@ -7,13 +7,13 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class DefaultMenuItem extends StatelessWidget {
-  final String drawableRes;
+  final IconData icon;
   final String label;
   final bool isActive;
   final bool withBadge;
 
   const DefaultMenuItem({
-    required this.drawableRes,
+    required this.icon,
     required this.label,
     required this.isActive,
     required this.withBadge,
@@ -30,9 +30,9 @@ class DefaultMenuItem extends StatelessWidget {
           children: [
             SizedBox(
               height: Dimens.bottomNavigationBarItemHeight,
-              child: SvgPicture.asset(drawableRes, color: color),
+              child: Icon(icon, color: color),
             ),
-            if (withBadge) Positioned(top: -1, left: 12, child: SvgPicture.asset(Drawables.icBadge)),
+            if (withBadge) Positioned(top: -1, left: 12, child: SvgPicture.asset(Drawables.badge)),
           ],
         ),
         SizedBox(height: Margins.spacing_s),

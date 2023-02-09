@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CarouselButton extends StatelessWidget {
@@ -30,7 +30,7 @@ class CarouselButton extends StatelessWidget {
         child: Row(
           children: [
             if (isActive) ...[
-              SvgPicture.asset(Drawables.icDone, width: 16, height: 16),
+              Icon(AppIcons.check_rounded, size: Dimens.icon_size_base),
               SizedBox(width: 8),
             ],
             Text(label, style: TextStyles.textSBold.copyWith(color: isActive ? AppColors.primary : AppColors.grey800)),

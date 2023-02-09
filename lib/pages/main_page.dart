@@ -11,7 +11,8 @@ import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -116,30 +117,30 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           showUnselectedLabels: false,
           items: <BottomNavigationBarItem>[
             menu.MenuItem(
-              drawableRes: Drawables.icNavMonSuiviActive,
-              inactiveDrawableRes: Drawables.icNavMonSuiviInactive,
+              defaultIcon: AppIcons.checklist_rounded,
+              inactiveIcon: AppIcons.rule_rounded,
               label: Strings.menuMonSuivi,
             ),
             menu.MenuItem(
-              drawableRes: Drawables.icNavMessagesActive,
-              inactiveDrawableRes: Drawables.icNavMessagesInactive,
+              defaultIcon: AppIcons.chat_rounded,
+              inactiveIcon: AppIcons.chat_outlined,
               label: Strings.menuChat,
               withBadge: viewModel.withChatBadge,
             ),
             menu.MenuItem(
-              drawableRes: Drawables.icRechercheActive,
-              inactiveDrawableRes: Drawables.icRechercheInactive,
+              defaultIcon: AppIcons.pageview_rounded,
+              inactiveIcon: AppIcons.pageview_outlined,
               label: Strings.menuSolutions,
             ),
             menu.MenuItem(
-              drawableRes: Drawables.icHeartFull,
-              inactiveDrawableRes: Drawables.icHeart,
+              defaultIcon: AppIcons.favorite_rounded,
+              inactiveIcon: AppIcons.favorite_outline_rounded,
               label: Strings.menuFavoris,
             ),
             if (viewModel.withEvenements)
               menu.MenuItem(
-                drawableRes: Drawables.icEvenementsActive,
-                inactiveDrawableRes: Drawables.icEvenementsInactive,
+                defaultIcon: AppIcons.today_rounded,
+                inactiveIcon: AppIcons.today_outlined,
                 label: Strings.menuEvenements,
               ),
           ],
@@ -253,9 +254,9 @@ class _PopUpActualisationPe extends StatelessWidget {
           SizedBox(height: Margins.spacing_l),
           PrimaryActionButton(
             label: Strings.actualisationPePopUpPrimaryButton,
-            drawableRes: Drawables.icLaunch,
+            icon: AppIcons.open_in_new_rounded,
             heightPadding: 8,
-            iconSize: 16.0,
+            iconSize: Dimens.icon_size_base,
             fontSize: fontSize,
             onPressed: () => _onActualisationPressed(context),
           ),

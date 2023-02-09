@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -7,14 +6,14 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class DataTag extends StatelessWidget {
   final String label;
-  final String? drawableRes;
+  final IconData? icon;
   final Color contentColor;
   final Color backgroundColor;
 
   const DataTag({
     Key? key,
     required this.label,
-    this.drawableRes,
+    this.icon,
     this.contentColor = AppColors.primary,
     this.backgroundColor = AppColors.primaryLighten,
   }) : super(key: key);
@@ -31,10 +30,10 @@ class DataTag extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (drawableRes != null)
+            if (icon != null)
               Padding(
                 padding: const EdgeInsets.only(right: 6),
-                child: SvgPicture.asset(drawableRes!, color: contentColor),
+                child: Icon(icon, color: contentColor, size: Dimens.icon_size_base),
               ),
             Flexible(child: Text(label, style: TextStyles.textSMedium(color: contentColor))),
           ],

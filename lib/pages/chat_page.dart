@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_actions.dart';
@@ -12,7 +11,7 @@ import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -168,7 +167,10 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                 SizedBox(width: Margins.spacing_s),
                 FloatingActionButton(
                   backgroundColor: AppColors.primary,
-                  child: SvgPicture.asset(Drawables.icPaperPlane),
+                  child: Icon(
+                    AppIcons.send_rounded,
+                    color: Colors.white,
+                  ),
                   onPressed: () {
                     if (_controller?.value.text == "Je suis malade. Complètement malade.") {
                       _controller!.clear();
