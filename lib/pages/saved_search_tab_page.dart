@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
+import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
@@ -23,7 +24,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/carousel_button.dart';
-import 'package:pass_emploi_app/widgets/cards/saved_search_card.dart';
+import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/dialogs/saved_search_delete_dialog.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -205,14 +206,13 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
 
   Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi, SavedSearchListViewModel viewModel) {
     final type = offreEmploi.isAlternance ? SavedSearchType.ALTERNANCE : SavedSearchType.EMPLOI;
-    return SavedSearchCard(
+    return FavoriCard.deletable(
+      solutionType: offreEmploi.isAlternance ? SolutionType.Alternance : SolutionType.OffreEmploi,
       onTap: () => viewModel.offreEmploiSelected(offreEmploi),
-      onDeleteTap: () => _showDeleteDialog(viewModel, offreEmploi.id, type),
+      onDelete: () => _showDeleteDialog(viewModel, offreEmploi.id, type),
       title: offreEmploi.title,
-      lieu: offreEmploi.location?.libelle,
-      dataTag: [
-        if (offreEmploi.metier != null) offreEmploi.metier!,
-      ],
+      place: offreEmploi.location?.libelle,
+      bottomTip: Strings.voirResultatsSuggestion,
     );
   }
 
@@ -280,12 +280,13 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     ImmersionSavedSearch savedSearchsImmersion,
     SavedSearchListViewModel viewModel,
   ) {
-    return SavedSearchCard(
+    return FavoriCard.deletable(
+      solutionType: SolutionType.Immersion,
       onTap: () => viewModel.offreImmersionSelected(savedSearchsImmersion),
-      onDeleteTap: () => _showDeleteDialog(viewModel, savedSearchsImmersion.id, SavedSearchType.IMMERSION),
+      onDelete: () => _showDeleteDialog(viewModel, savedSearchsImmersion.id, SavedSearchType.IMMERSION),
       title: savedSearchsImmersion.title,
-      lieu: savedSearchsImmersion.ville,
-      dataTag: [savedSearchsImmersion.metier],
+      place: savedSearchsImmersion.ville,
+      bottomTip: Strings.voirResultatsSuggestion,
     );
   }
 
@@ -294,15 +295,13 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     ServiceCiviqueSavedSearch savedSearchsServiceCivique,
     SavedSearchListViewModel viewModel,
   ) {
-    final domaine = savedSearchsServiceCivique.domaine?.titre;
-    return SavedSearchCard(
+    return FavoriCard.deletable(
+      solutionType: SolutionType.ServiceCivique,
       onTap: () => viewModel.offreServiceCiviqueSelected(savedSearchsServiceCivique),
-      onDeleteTap: () => _showDeleteDialog(viewModel, savedSearchsServiceCivique.id, SavedSearchType.SERVICE_CIVIQUE),
+      onDelete: () => _showDeleteDialog(viewModel, savedSearchsServiceCivique.id, SavedSearchType.SERVICE_CIVIQUE),
       title: savedSearchsServiceCivique.titre,
-      lieu: savedSearchsServiceCivique.ville?.isNotEmpty == true ? savedSearchsServiceCivique.ville : null,
-      dataTag: [
-        if (domaine != null) domaine,
-      ],
+      place: savedSearchsServiceCivique.ville?.isNotEmpty == true ? savedSearchsServiceCivique.ville : null,
+      bottomTip: Strings.voirResultatsSuggestion,
     );
   }
 
