@@ -57,11 +57,8 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
             onInputMetier: (newMetierQuery) => viewModel.onInputMetier(newMetierQuery),
             metiers: viewModel.metiers,
             onSelectMetier: (selectedMetier) {
-              setState(() {
-                //TODO(1356): utile le setState ?
-                _selectedMetier = selectedMetier;
-                _updateCriteresActifsCount();
-              });
+              _selectedMetier = selectedMetier;
+              _updateCriteresActifsCount();
             },
             formKey: _metierFormKey,
             getPreviouslySelectedTitle: () => _selectedMetier?.libelle,
