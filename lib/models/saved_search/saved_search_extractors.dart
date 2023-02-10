@@ -23,6 +23,7 @@ abstract class AbstractSearchExtractor<SAVED_SEARCH_MODEL> {
 class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSavedSearch> {
   @override
   OffreEmploiSavedSearch getSearchFilters(Store<AppState> store) {
+    //TODO(1353): peut-être cassé / crash si on clique sur "filtres" depuis une recherche sauvegardée parce que c'est un ancien écran qui n'utilise pas le state
     final state = store.state.rechercheEmploiState;
     final request = state.request!;
     final metier = request.criteres.keywords;
@@ -68,17 +69,37 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
 class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSearch> {
   @override
   ImmersionSavedSearch getSearchFilters(Store<AppState> store) {
-    final parametersState = store.state.immersionSearchParametersState as ImmersionSearchParametersInitializedState;
-    final String metier = _metier(store) ?? "";
-    final ville = parametersState.location?.libelle ?? "";
+    //TODO(1356): IF parce que la page des résultats d'une recherche sauvegardée n'utilise pas notre nouveau state/page
+    // MAIS ça crash quand même quand quand on applique le filtre (la page FILTRE est maintenant basée sur le nouveau state)
+    // DONC à discuter lundi :)
+
+    //TODO(1356): en fonction du comment on adapte, refaire les tests ou en ajouter à côté
+
+    if (store.state.immersionSearchParametersState is ImmersionSearchParametersInitializedState) {
+      final parametersState = store.state.immersionSearchParametersState as ImmersionSearchParametersInitializedState;
+      final String metier = _metier(store) ?? "";
+      final ville = parametersState.location?.libelle ?? "";
+      return ImmersionSavedSearch(
+        id: "",
+        title: Strings.savedSearchTitleField(metier, ville),
+        metier: metier,
+        location: parametersState.location,
+        ville: ville,
+        codeRome: parametersState.codeRome,
+        filtres: parametersState.filtres,
+      );
+    }
+    final state = store.state.rechercheImmersionState;
+    final String metier = state.request!.criteres.metier.libelle;
+    final ville = state.request!.criteres.location.libelle;
     return ImmersionSavedSearch(
       id: "",
       title: Strings.savedSearchTitleField(metier, ville),
       metier: metier,
-      location: parametersState.location,
+      location: state.request!.criteres.location,
       ville: ville,
-      codeRome: parametersState.codeRome,
-      filtres: parametersState.filtres,
+      codeRome: state.request!.criteres.metier.codeRome,
+      filtres: state.request!.filtres,
     );
   }
 

@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_mo
 import 'package:pass_emploi_app/presentation/recherche/immersion/actions_recherche_immersion_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/service_civique_saved_search_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/immersion_saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_immersion_contenu.dart';
 import 'package:pass_emploi_app/widgets/tags/entreprise_accueillante_tag.dart';
@@ -35,9 +35,8 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   @override
   FavoriListState<Immersion> favorisState(AppState appState) => appState.immersionFavorisState;
 
-  //TODO(1356)
   @override
-  Widget buildAlertBottomSheet() => ServiceCiviqueSavedSearchBottomSheet();
+  Widget buildAlertBottomSheet() => ImmersionSavedSearchBottomSheet();
 
   @override
   Route<bool> buildFiltresMaterialPageRoute() => ImmersionFiltresPage.materialPageRoute();
