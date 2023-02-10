@@ -15,7 +15,7 @@ class FavoriCard<T> extends StatelessWidget {
   final Widget? specialAction;
   final String title;
   final String? company;
-  final String place;
+  final String? place;
   final String? date;
   final String bottomTip;
   final void Function()? onTap;
@@ -97,8 +97,10 @@ class FavoriCard<T> extends StatelessWidget {
             _Company(company!),
             SizedBox(height: Margins.spacing_xs),
           ],
-          _Place(place),
-          SizedBox(height: Margins.spacing_base),
+          if (place != null) ...[
+            _Place(place!),
+            SizedBox(height: Margins.spacing_base),
+          ],
           if (date != null) ...[
             _Date(date!),
             SizedBox(height: Margins.spacing_base),
