@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
@@ -13,7 +12,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/service_civique_saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
-import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_service_civique_contenu.dart';
+import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_immersion_contenu.dart';
 import 'package:pass_emploi_app/widgets/tags/entreprise_accueillante_tag.dart';
 import 'package:redux/redux.dart';
 
@@ -45,10 +44,9 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   @override
   Route<bool> buildFiltresMaterialPageRoute() => ServiceCiviqueFiltresPage.materialPageRoute();
 
-  //TODO(1356)
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {
-    return CriteresRechercheServiceCiviqueContenu(onNumberOfCriteresChanged: onNumberOfCriteresChanged);
+    return CriteresRechercheImmersionContenu(onNumberOfCriteresChanged: onNumberOfCriteresChanged);
   }
 
   @override

@@ -54,6 +54,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
           }
         },
         onDispose: (store) {
+          //TODO(1356): dispose à faire pour immersion ? et pour les autres ?
           store.dispatch(SearchLocationResetAction());
           store.dispatch(SearchMetierResetAction());
           store.dispatch(ImmersionListResetAction());

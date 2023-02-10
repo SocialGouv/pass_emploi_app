@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/models/location.dart';
 
 class ImmersionCriteresRecherche extends Equatable {
   final String codeRome;
-  final Location? location;
+  final Location location;
 
   ImmersionCriteresRecherche({
     required this.codeRome,
