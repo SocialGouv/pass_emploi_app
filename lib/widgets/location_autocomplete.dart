@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/utils/keyboard.dart';
 
 const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
 
-@Deprecated('TODO-1391 Delete')
+//TODO-1391 Delete
 class LocationAutocomplete extends StatelessWidget {
   final Function(String newLocationQuery) onInputLocation;
   final Function(LocationViewModel? locationViewModel) onSelectLocationViewModel;

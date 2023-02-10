@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/debouncer.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
 
-@Deprecated('TODO-1391 Delete')
+//TODO-1391 Delete
 class MetierAutocomplete extends StatelessWidget {
   final Function(String newMetierQuery) onInputMetier;
   final Function(Metier? selectedMetier) onSelectMetier;
