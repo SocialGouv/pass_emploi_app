@@ -16,9 +16,7 @@ class MetierViewModel extends Equatable {
   factory MetierViewModel.create(Store<AppState> store) {
     return MetierViewModel._(
       metiers: store.state.searchMetierState.metiers,
-      onInputMetier: (input) {
-        return store.dispatch(SearchMetierRequestAction(input));
-      },
+      onInputMetier: (input) => store.dispatch(SearchMetierRequestAction(input)),
     );
   }
 

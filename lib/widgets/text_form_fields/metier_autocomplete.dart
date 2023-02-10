@@ -44,7 +44,7 @@ class _MetierAutocompleteState extends State<MetierAutocomplete> {
           title: widget.title,
           selectedMetier: _selectedMetier,
         ),
-      ).then((location) => _updateMetier(location)),
+      ).then((metier) => _updateMetier(metier)),
       onDeleteTap: () => _updateMetier(null),
       initialValue: _selectedMetier?.libelle,
     );

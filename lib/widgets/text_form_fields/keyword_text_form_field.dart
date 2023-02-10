@@ -39,7 +39,7 @@ class _KeywordTextFormFieldState extends State<KeywordTextFormField> {
           hint: widget.hint,
           selectedKeyword: _selectedKeyword,
         ),
-      ).then((location) => _updateKeyword(location)),
+      ).then((keyword) => _updateKeyword(keyword)),
       onDeleteTap: () => _updateKeyword(null),
       initialValue: _selectedKeyword,
     );
