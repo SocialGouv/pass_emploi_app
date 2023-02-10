@@ -1,87 +1,54 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
-import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_actions.dart';
-import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_filtres_view_model.dart';
-import 'package:pass_emploi_app/redux/app_reducer.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  test("create when search state is success should display success", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        immersionListState: ImmersionListSuccessState([mockImmersion()]),
-      ),
-    );
+  group("displayState", () {
+    test("create when search state is success should display success", () {
+      // Given
+      final store = givenState().successRechercheImmersionState().store();
 
-    // When
-    final viewModel = ImmersionFiltresViewModel.create(store);
+      // When
+      final viewModel = ImmersionFiltresViewModel.create(store);
 
-    // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
-  });
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+    });
 
-  test("create when search state is loading should display loading", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        immersionListState: ImmersionListLoadingState(),
-      ),
-    );
+    test("create when search state is loading should display loading", () {
+      // Given
+      final store = givenState().updateLoadingRechercheImmersionState().store();
 
-    // When
-    final viewModel = ImmersionFiltresViewModel.create(store);
+      // When
+      final viewModel = ImmersionFiltresViewModel.create(store);
 
-    // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
-  });
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
+    });
 
-  test("create when search state is failure should display failure", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        immersionListState: ImmersionListFailureState(),
-      ),
-    );
+    test("create when search state is failure should display failure", () {
+      // Given
+      final store = givenState().failureRechercheImmersionState().store();
 
-    // When
-    final viewModel = ImmersionFiltresViewModel.create(store);
+      // When
+      final viewModel = ImmersionFiltresViewModel.create(store);
 
-    // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
-    expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
-  });
-
-  test(
-      "create when search state is success but empty should display content (empty content is directly handled by result page)",
-      () {
-    // Given
-    final store = Store<AppState>(reducer,
-        initialState: AppState.initialState().copyWith(
-          immersionListState: ImmersionListSuccessState([]),
-        ));
-
-    // When
-    final viewModel = ImmersionFiltresViewModel.create(store);
-
-    // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.errorMessage, '');
+      // Then
+      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
+    });
   });
 
   test("create when state has no filtre should set distance to 10km", () {
     // Given
-    final store = _storeWithNoFiltres();
+    final store = givenState().successRechercheImmersionState().store();
 
     // When
     final viewModel = ImmersionFiltresViewModel.create(store);
@@ -92,16 +59,13 @@ void main() {
 
   test("create when state distance filtre set should set distance", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        immersionSearchParametersState: ImmersionSearchParametersInitializedState(
-          codeRome: "ROME",
-          location: mockCommuneLocation(),
+
+    final store = givenState()
+        .successRechercheImmersionStateWithRequest(
+          criteres: ImmersionCriteresRecherche(metier: mockMetier(), location: mockLocation()),
           filtres: ImmersionSearchParametersFiltres.distance(20),
-        ),
-      ),
-    );
+        )
+        .store();
 
     // When
     final viewModel = ImmersionFiltresViewModel.create(store);
@@ -122,21 +86,8 @@ void main() {
     );
 
     // Then
-    final ImmersionSearchUpdateFiltresRequestAction action =
-        store.dispatchedAction as ImmersionSearchUpdateFiltresRequestAction;
-    expect(action.updatedFiltres.distance, 20);
+    expect(store.dispatchedAction, isA<RechercheUpdateFiltresAction<ImmersionSearchParametersFiltres>>());
+    final action = store.dispatchedAction as RechercheUpdateFiltresAction<ImmersionSearchParametersFiltres>;
+    expect(action.filtres.distance, 20);
   });
-}
-
-Store<AppState> _storeWithNoFiltres({Reducer<AppState> customReducer = reducer}) {
-  return Store<AppState>(
-    customReducer,
-    initialState: AppState.initialState().copyWith(
-      immersionSearchParametersState: ImmersionSearchParametersInitializedState(
-        codeRome: "ROME",
-        location: mockCommuneLocation(),
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
-      ),
-    ),
-  );
 }
