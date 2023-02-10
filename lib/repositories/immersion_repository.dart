@@ -59,7 +59,7 @@ class ImmersionRepository
     try {
       final response = await _httpClient.get(url, queryParameters: _queryParameters(request));
       final immersions = (response.data as List).map((offre) => Immersion.fromJson(offre)).toList();
-      return RechercheResponse(results: immersions, canLoadMore: false); //TODO(1356): jamais de laodmore ?
+      return RechercheResponse(results: immersions, canLoadMore: false); //TODO(1356): jamais de load more ?
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
@@ -70,9 +70,9 @@ class ImmersionRepository
     RechercheRequest<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres> request,
   ) {
     return {
-      'rome': request.criteres.codeRome,
-      if (request.criteres.location != null) 'lat': request.criteres.location!.latitude.toString(),
-      if (request.criteres.location != null) 'lon': request.criteres.location!.longitude.toString(),
+      'rome': request.criteres.metier.codeRome,
+      'lat': request.criteres.location.latitude.toString(),
+      'lon': request.criteres.location.longitude.toString(),
       if (request.filtres.distance != null) 'distance': request.filtres.distance.toString(),
     };
   }

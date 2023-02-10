@@ -22,8 +22,7 @@ class CriteresRechercheImmersionContenuViewModel extends Equatable {
   final List<Metier> metiers;
   final Function(String? input) onInputLocation;
   final Function(String? input) onInputMetier;
-  //TODO(1356): avant il y avait aussi title envoyé, utile ? => refactor pour retenir le metier dans le critere
-  final Function(String codeRome, Location location) onSearchingRequest;
+  final Function(Metier metier, Location location) onSearchingRequest;
 
   CriteresRechercheImmersionContenuViewModel({
     required this.displayState,
@@ -43,11 +42,11 @@ class CriteresRechercheImmersionContenuViewModel extends Equatable {
       metiers: store.state.searchMetierState.metiers,
       onInputLocation: (input) => store.dispatch(SearchLocationRequestAction(input, villesOnly: true)),
       onInputMetier: (input) => store.dispatch(SearchMetierRequestAction(input)),
-      onSearchingRequest: (codeRome, location) {
+      onSearchingRequest: (metier, location) {
         store.dispatch(
           RechercheRequestAction<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres>(
             RechercheRequest(
-              ImmersionCriteresRecherche(codeRome: codeRome, location: location),
+              ImmersionCriteresRecherche(metier: metier, location: location),
               ImmersionSearchParametersFiltres.noFiltres(),
               1,
             ),

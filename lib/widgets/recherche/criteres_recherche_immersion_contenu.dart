@@ -120,7 +120,7 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
 
   void _search(CriteresRechercheImmersionContenuViewModel viewModel) {
     if (_selectedMetier == null || _selectedLocationViewModel == null) return;
-    viewModel.onSearchingRequest(_selectedMetier!.codeRome, _selectedLocationViewModel!.location);
+    viewModel.onSearchingRequest(_selectedMetier!, _selectedLocationViewModel!.location);
     Keyboard.dismiss(context);
   }
 }
