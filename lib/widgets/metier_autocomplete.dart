@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/debouncer.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
 
+@Deprecated('TODO-1391 Delete')
 class MetierAutocomplete extends StatelessWidget {
   final Function(String newMetierQuery) onInputMetier;
   final Function(Metier? selectedMetier) onSelectMetier;
@@ -49,11 +50,9 @@ class MetierAutocomplete extends StatelessWidget {
     );
   }
 
-  Widget _fieldView(
-    TextEditingController textEditingController,
-    FocusNode focusNode,
-    VoidCallback onFieldSubmitted,
-  ) {
+  Widget _fieldView(TextEditingController textEditingController,
+      FocusNode focusNode,
+      VoidCallback onFieldSubmitted,) {
     return Focus(
       onFocusChange: (hasFocus) => _putBackLastLocationSetOnFocusLost(hasFocus, textEditingController),
       child: Form(
@@ -74,10 +73,8 @@ class MetierAutocomplete extends StatelessWidget {
     );
   }
 
-  Widget _optionsView(
-    BoxConstraints constraints,
-    AutocompleteOnSelected<Metier> onSelected,
-  ) {
+  Widget _optionsView(BoxConstraints constraints,
+      AutocompleteOnSelected<Metier> onSelected,) {
     return Align(
         alignment: Alignment.topLeft,
         child: Material(
