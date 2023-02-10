@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/autocomplete/metier_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -80,7 +80,7 @@ class _MetierAutocompletePage extends StatelessWidget {
     return StoreConnector<AppState, MetierViewModel>(
       converter: (store) => MetierViewModel.create(store),
       onInitialBuild: (viewModel) => viewModel.onInputMetier(selectedMetier?.libelle),
-      onDispose: (store) => store.dispatch(SearchLocationResetAction()),
+      onDispose: (store) => store.dispatch(SearchMetierResetAction()),
       builder: _builder,
       distinct: true,
     );
