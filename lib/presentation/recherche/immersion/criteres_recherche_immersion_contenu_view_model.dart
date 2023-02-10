@@ -14,7 +14,6 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 //TODO(1356): store vers status ou state générique (pour display state)
-//TODO(1356): tests
 
 class CriteresRechercheImmersionContenuViewModel extends Equatable {
   final DisplayState displayState;

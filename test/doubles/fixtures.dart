@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
@@ -16,6 +17,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -201,6 +203,8 @@ Immersion mockImmersion({String id = "", bool fromEntrepriseAccueillante = false
     fromEntrepriseAccueillante: fromEntrepriseAccueillante,
   );
 }
+
+List<Immersion> mockOffresImmersion10() => List.generate(10, (index) => mockImmersion());
 
 ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
       id: id,
@@ -526,6 +530,8 @@ SavedOffreEmploiSearchRequestAction savedOffreEmploiSearchRequestAction() => Sav
       filtres: offreEmploiSavedSearch().filters,
     );
 
+Metier mockMetier() => Metier(codeRome: "A1410", libelle: "Chevrier / Chevrière");
+
 List<Metier> mockAutocompleteMetiers() {
   return [
     Metier(codeRome: "A1410", libelle: "Chevrier / Chevrière"),
@@ -538,6 +544,14 @@ RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> in
   return RechercheRequest(
     EmploiCriteresRecherche(keywords: "chevalier", location: null, onlyAlternance: false),
     OffreEmploiSearchParametersFiltres.noFiltres(),
+    1,
+  );
+}
+
+RechercheRequest<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres> initialRechercheImmersionRequest() {
+  return RechercheRequest(
+    ImmersionCriteresRecherche(location: mockLocation(), metier: mockMetier()),
+    ImmersionSearchParametersFiltres.noFiltres(),
     1,
   );
 }
