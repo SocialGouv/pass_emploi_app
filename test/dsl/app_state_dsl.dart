@@ -346,7 +346,8 @@ extension AppStateDSL on AppState {
     );
   }
 
-  AppState successRechercheEmploiState({
+  AppState rechercheEmploiState({
+    RechercheStatus status = RechercheStatus.nouvelleRecherche,
     List<OffreEmploi>? results,
     RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>? request,
     bool canLoadMore = true,
@@ -355,7 +356,7 @@ extension AppStateDSL on AppState {
     final _request = request ?? initialRechercheEmploiRequest();
     return copyWith(
       rechercheEmploiState: RechercheEmploiState.initial().copyWith(
-        status: RechercheStatus.success,
+        status: status,
         request: () => _request,
         results: () => _results,
         canLoadMore: canLoadMore,
@@ -363,16 +364,42 @@ extension AppStateDSL on AppState {
     );
   }
 
-  AppState successRechercheEmploiStateWithRequest({
+  AppState rechercheEmploiStateWithRequest({
+    RechercheStatus status = RechercheStatus.nouvelleRecherche,
     EmploiCriteresRecherche? criteres,
     OffreEmploiSearchParametersFiltres? filtres,
   }) {
-    return successRechercheEmploiState(
+    return rechercheEmploiState(
+      status: status,
       request: RechercheRequest(
         criteres ?? EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
         filtres ?? OffreEmploiSearchParametersFiltres.noFiltres(),
         1,
       ),
+    );
+  }
+
+  AppState successRechercheEmploiState({
+    List<OffreEmploi>? results,
+    RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>? request,
+    bool canLoadMore = true,
+  }) {
+    return rechercheEmploiState(
+      status: RechercheStatus.success,
+      results: results,
+      request: request,
+      canLoadMore: canLoadMore,
+    );
+  }
+
+  AppState successRechercheEmploiStateWithRequest({
+    EmploiCriteresRecherche? criteres,
+    OffreEmploiSearchParametersFiltres? filtres,
+  }) {
+    return rechercheEmploiStateWithRequest(
+      status: RechercheStatus.success,
+      criteres: criteres,
+      filtres: filtres,
     );
   }
 

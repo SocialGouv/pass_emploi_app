@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
 
@@ -76,64 +77,12 @@ void main() {
       expect(viewModel.withFiltreButton, isFalse);
     });
 
-    test('when recherche status is success should return true', () {
-      // Given
-      final store = givenState().successRechercheEmploiState().store();
-
-      // When
-      final viewModel = ActionsRechercheEmploiViewModel.create(store);
-
-      // Then
-      expect(viewModel.withFiltreButton, isTrue);
-    });
-
-    test('when recherche status is update loading should return true', () {
-      // Given
-      final store = givenState().updateLoadingRechercheEmploiState().store();
-
-      // When
-      final viewModel = ActionsRechercheEmploiViewModel.create(store);
-
-      // Then
-      expect(viewModel.withFiltreButton, isTrue);
-    });
-
-    group('when recherche status is success and request is only alterance', () {
-      test('if location is null should return false', () {
+    group('when request is not only alternance', () {
+      test('and recherche status is success should return true', () {
         // Given
         final store = givenState()
             .successRechercheEmploiStateWithRequest(
-              criteres: EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: true),
-            )
-            .store();
-
-        // When
-        final viewModel = ActionsRechercheEmploiViewModel.create(store);
-
-        // Then
-        expect(viewModel.withFiltreButton, isFalse);
-      });
-
-      test('if location is not of type COMMUNE return false', () {
-        // Given
-        final store = givenState()
-            .successRechercheEmploiStateWithRequest(
-              criteres: EmploiCriteresRecherche(location: mockLocation(), keywords: '', onlyAlternance: true),
-            )
-            .store();
-
-        // When
-        final viewModel = ActionsRechercheEmploiViewModel.create(store);
-
-        // Then
-        expect(viewModel.withFiltreButton, isFalse);
-      });
-
-      test('if location is of type COMMUNE return true', () {
-        // Given
-        final store = givenState()
-            .successRechercheEmploiStateWithRequest(
-              criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keywords: '', onlyAlternance: true),
+              criteres: EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
             )
             .store();
 
@@ -142,6 +91,121 @@ void main() {
 
         // Then
         expect(viewModel.withFiltreButton, isTrue);
+      });
+
+      test('and recherche status is update loading should return true', () {
+        // Given
+        final store = givenState()
+            .rechercheEmploiStateWithRequest(
+              status: RechercheStatus.updateLoading,
+              criteres: EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
+            )
+            .store();
+
+        // When
+        final viewModel = ActionsRechercheEmploiViewModel.create(store);
+
+        // Then
+        expect(viewModel.withFiltreButton, isTrue);
+      });
+    });
+
+    group('when request is only alternance', () {
+      group('and recherche status is success', () {
+        test('if location is null should return false', () {
+          // Given
+          final store = givenState()
+              .successRechercheEmploiStateWithRequest(
+                criteres: EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: true),
+              )
+              .store();
+
+          // When
+          final viewModel = ActionsRechercheEmploiViewModel.create(store);
+
+          // Then
+          expect(viewModel.withFiltreButton, isFalse);
+        });
+
+        test('if location is not of type COMMUNE return false', () {
+          // Given
+          final store = givenState()
+              .successRechercheEmploiStateWithRequest(
+                criteres: EmploiCriteresRecherche(location: mockLocation(), keywords: '', onlyAlternance: true),
+              )
+              .store();
+
+          // When
+          final viewModel = ActionsRechercheEmploiViewModel.create(store);
+
+          // Then
+          expect(viewModel.withFiltreButton, isFalse);
+        });
+
+        test('if location is of type COMMUNE return true', () {
+          // Given
+          final store = givenState()
+              .successRechercheEmploiStateWithRequest(
+                criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keywords: '', onlyAlternance: true),
+              )
+              .store();
+
+          // When
+          final viewModel = ActionsRechercheEmploiViewModel.create(store);
+
+          // Then
+          expect(viewModel.withFiltreButton, isTrue);
+        });
+      });
+
+      group('and recherche status is update loading', () {
+        test('if location is null should return false', () {
+          // Given
+          final store = givenState()
+              .rechercheEmploiStateWithRequest(
+                status: RechercheStatus.updateLoading,
+                criteres: EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: true),
+              )
+              .store();
+
+          // When
+          final viewModel = ActionsRechercheEmploiViewModel.create(store);
+
+          // Then
+          expect(viewModel.withFiltreButton, isFalse);
+        });
+
+        test('if location is not of type COMMUNE return false', () {
+          // Given
+          final store = givenState()
+              .rechercheEmploiStateWithRequest(
+                status: RechercheStatus.updateLoading,
+                criteres: EmploiCriteresRecherche(location: mockLocation(), keywords: '', onlyAlternance: true),
+              )
+              .store();
+
+          // When
+          final viewModel = ActionsRechercheEmploiViewModel.create(store);
+
+          // Then
+          expect(viewModel.withFiltreButton, isFalse);
+        });
+
+        test('if location is of type COMMUNE return true', () {
+          // Given
+          final store = givenState()
+              .rechercheEmploiStateWithRequest(
+                status: RechercheStatus.updateLoading,
+                criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keywords: '', onlyAlternance: true),
+              )
+              .store();
+
+          // When
+          final viewModel = ActionsRechercheEmploiViewModel.create(store);
+
+          // Then
+          expect(viewModel.withFiltreButton, isTrue);
+        });
       });
     });
   });

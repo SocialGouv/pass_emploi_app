@@ -39,10 +39,12 @@ bool _withAlertButton(RechercheState state) {
 }
 
 bool _withFiltreButton(RechercheState<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi> state) {
+  final withFiltreButton = [RechercheStatus.success, RechercheStatus.updateLoading].contains(state.status);
   if (state.request?.criteres.onlyAlternance == true) {
-    return state.request?.criteres.location?.type == LocationType.COMMUNE;
+    return withFiltreButton && state.request?.criteres.location?.type == LocationType.COMMUNE;
+  } else {
+    return withFiltreButton;
   }
-  return [RechercheStatus.success, RechercheStatus.updateLoading].contains(state.status);
 }
 
 int? _filtresCount(OffreEmploiSearchParametersFiltres? filtres) {
