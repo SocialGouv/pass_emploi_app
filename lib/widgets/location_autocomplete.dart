@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/utils/keyboard.dart';
 
 const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
 
+//TODO-1391 Delete
 class LocationAutocomplete extends StatelessWidget {
   final Function(String newLocationQuery) onInputLocation;
   final Function(LocationViewModel? locationViewModel) onSelectLocationViewModel;
@@ -46,11 +47,9 @@ class LocationAutocomplete extends StatelessWidget {
           Keyboard.dismiss(context);
           onSelectLocationViewModel(locationViewModel);
         },
-        optionsViewBuilder: (
-          BuildContext _,
-          AutocompleteOnSelected<LocationViewModel> onSelected,
-          Iterable<LocationViewModel> __,
-        ) {
+        optionsViewBuilder: (BuildContext _,
+            AutocompleteOnSelected<LocationViewModel> onSelected,
+            Iterable<LocationViewModel> __,) {
           return Align(
               alignment: Alignment.topLeft,
               child: Material(
@@ -70,12 +69,10 @@ class LocationAutocomplete extends StatelessWidget {
                 ),
               ));
         },
-        fieldViewBuilder: (
-          BuildContext context,
-          TextEditingController textEditingController,
-          FocusNode focusNode,
-          VoidCallback onFieldSubmitted,
-        ) {
+        fieldViewBuilder: (BuildContext context,
+            TextEditingController textEditingController,
+            FocusNode focusNode,
+            VoidCallback onFieldSubmitted,) {
           return Focus(
             onFocusChange: (hasFocus) => _putBackLastLocationSetOnFocusLost(hasFocus, textEditingController),
             child: Form(
