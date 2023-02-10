@@ -6,11 +6,15 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/autocomplete/location_displayable_extension.dart';
 import 'package:pass_emploi_app/presentation/autocomplete/location_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/debouncer.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_form_field.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/full_screen_text_form_field_scaffold.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/multiline_app_bar.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/read_only_text_form_field.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/text_form_field_sep_line.dart';
+
+const _heroTag = 'location';
 
 class LocationAutocomplete extends StatefulWidget {
   final String title;
@@ -34,51 +38,23 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.title, style: TextStyles.textBaseBold),
-            Text(widget.hint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-          ],
+    return ReadOnlyTextFormField(
+      title: widget.title,
+      hint: widget.hint,
+      heroTag: _heroTag,
+      textFormFieldKey: Key(_selectedLocation.toString()),
+      withDeleteButton: _selectedLocation != null,
+      onTextTap: () => Navigator.push(
+        context,
+        _LocationAutocompletePage.materialPageRoute(
+          title: widget.title,
+          hint: widget.hint,
+          villesOnly: widget.villesOnly,
+          selectedLocation: _selectedLocation,
         ),
-        SizedBox(height: Margins.spacing_base),
-        Stack(
-          alignment: Alignment.centerRight,
-          children: [
-            Hero(
-              tag: 'location',
-              child: Material(
-                type: MaterialType.transparency,
-                child: TextFormField(
-                  key: Key(_selectedLocation.toString()),
-                  style: TextStyles.textBaseBold,
-                  decoration: _inputDecoration(),
-                  readOnly: true,
-                  initialValue: _selectedLocation?.displayableLabel(),
-                  onTap: () => Navigator.push(
-                    context,
-                    _LocationAutocompletePage.materialPageRoute(
-                      title: widget.title,
-                      hint: widget.hint,
-                      villesOnly: widget.villesOnly,
-                      selectedLocation: _selectedLocation,
-                    ),
-                  ).then((location) => _updateLocation(location)),
-                ),
-              ),
-            ),
-            if (_selectedLocation != null)
-              IconButton(
-                onPressed: () => _updateLocation(null),
-                tooltip: Strings.suppressionLabel,
-                icon: const Icon(Icons.close),
-              ),
-          ],
-        ),
-      ],
+      ).then((location) => _updateLocation(location)),
+      onDeleteTap: () => _updateLocation(null),
+      initialValue: _selectedLocation?.displayableLabel(),
     );
   }
 
@@ -93,7 +69,6 @@ class _LocationAutocompletePage extends StatelessWidget {
   final String hint;
   final bool villesOnly;
   final Location? selectedLocation;
-  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
 
   _LocationAutocompletePage({required this.title, required this.hint, required this.villesOnly, this.selectedLocation});
 
@@ -126,36 +101,21 @@ class _LocationAutocompletePage extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, LocationViewModel viewModel) {
-    const backgroundColor = Colors.white;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      resizeToAvoidBottomInset: true,
-      // Required to delegate top padding to system
-      appBar: AppBar(toolbarHeight: 0, scrolledUnderElevation: 0),
+    return FullScreenTextFormFieldScaffold(
       body: Column(
         children: [
-          _FakeAppBar(title: title, hint: hint, onCloseButtonPressed: () => Navigator.pop(context, selectedLocation)),
-          Padding(
-            padding: const EdgeInsets.all(Margins.spacing_base),
-            child: Hero(
-              tag: 'location',
-              child: Material(
-                type: MaterialType.transparency,
-                child: TextFormField(
-                  style: TextStyles.textBaseBold,
-                  keyboardType: TextInputType.name,
-                  textCapitalization: TextCapitalization.words,
-                  textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) => Navigator.pop(context, viewModel.locations.firstOrNull),
-                  initialValue: selectedLocation?.displayableLabel(),
-                  decoration: _inputDecoration(),
-                  autofocus: true,
-                  onChanged: (value) => _debouncer.run(() => viewModel.onInputLocation(value, villesOnly)),
-                ),
-              ),
-            ),
+          MultilineAppBar(
+            title: title,
+            hint: hint,
+            onCloseButtonPressed: () => Navigator.pop(context, selectedLocation),
           ),
-          Container(color: AppColors.grey100, height: 1),
+          DebounceTextFormField(
+            heroTag: _heroTag,
+            initialValue: selectedLocation?.displayableLabel(),
+            onFieldSubmitted: (_) => Navigator.pop(context, viewModel.locations.firstOrNull),
+            onChanged: (value) => viewModel.onInputLocation(value, villesOnly),
+          ),
+          TextFormFieldSepLine(),
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) {
@@ -165,46 +125,12 @@ class _LocationAutocompletePage extends StatelessWidget {
                   onLocationTap: (location) => Navigator.pop(context, location),
                 );
               },
-              separatorBuilder: (context, index) => Container(color: AppColors.grey100, height: 1),
+              separatorBuilder: (context, index) => TextFormFieldSepLine(),
               itemCount: viewModel.locations.length,
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _FakeAppBar extends StatelessWidget {
-  final String title;
-  final String hint;
-  final VoidCallback onCloseButtonPressed;
-
-  const _FakeAppBar({required this.title, required this.hint, required this.onCloseButtonPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ConstrainedBox(
-          constraints: BoxConstraints.tightFor(width: kToolbarHeight, height: kToolbarHeight),
-          child: IconButton(
-            onPressed: onCloseButtonPressed,
-            tooltip: Strings.close,
-            icon: const Icon(Icons.close),
-          ),
-        ),
-        SizedBox(width: Margins.spacing_base),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: TextStyles.textBaseBold),
-              Text(hint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-            ],
-          ),
-        )
-      ],
     );
   }
 }
@@ -232,23 +158,4 @@ class _LocationListTile extends StatelessWidget {
       onTap: () => onLocationTap(location),
     );
   }
-}
-
-InputDecoration _inputDecoration() {
-  return InputDecoration(
-    contentPadding: const EdgeInsets.only(
-      left: Margins.spacing_base,
-      right: Margins.spacing_xl,
-      top: Margins.spacing_base,
-      bottom: Margins.spacing_base,
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8.0),
-      borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8.0),
-      borderSide: BorderSide(color: AppColors.primary, width: 1.0),
-    ),
-  );
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_form_field.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/full_screen_text_form_field_scaffold.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/multiline_app_bar.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/read_only_text_form_field.dart';
+
+const _heroTag = 'keyword';
 
 class KeywordTextFormField extends StatefulWidget {
   final String title;
@@ -24,50 +26,22 @@ class _KeywordTextFormFieldState extends State<KeywordTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.title, style: TextStyles.textBaseBold),
-            Text(widget.hint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-          ],
+    return ReadOnlyTextFormField(
+      title: widget.title,
+      hint: widget.hint,
+      heroTag: _heroTag,
+      textFormFieldKey: Key(_selectedKeyword.toString()),
+      withDeleteButton: _selectedKeyword != null,
+      onTextTap: () => Navigator.push(
+        context,
+        _KeywordTextFormFieldPage.materialPageRoute(
+          title: widget.title,
+          hint: widget.hint,
+          selectedKeyword: _selectedKeyword,
         ),
-        SizedBox(height: Margins.spacing_base),
-        Stack(
-          alignment: Alignment.centerRight,
-          children: [
-            Hero(
-              tag: 'keyword',
-              child: Material(
-                type: MaterialType.transparency,
-                child: TextFormField(
-                  key: Key(_selectedKeyword.toString()),
-                  style: TextStyles.textBaseBold,
-                  decoration: _inputDecoration(),
-                  readOnly: true,
-                  initialValue: _selectedKeyword,
-                  onTap: () => Navigator.push(
-                    context,
-                    _KeywordTextFormFieldPage.materialPageRoute(
-                      title: widget.title,
-                      hint: widget.hint,
-                      selectedKeyword: _selectedKeyword,
-                    ),
-                  ).then((location) => _updateKeyword(location)),
-                ),
-              ),
-            ),
-            if (_selectedKeyword != null)
-              IconButton(
-                onPressed: () => _updateKeyword(null),
-                tooltip: Strings.suppressionLabel,
-                icon: const Icon(Icons.close),
-              ),
-          ],
-        ),
-      ],
+      ).then((location) => _updateKeyword(location)),
+      onDeleteTap: () => _updateKeyword(null),
+      initialValue: _selectedKeyword,
     );
   }
 
@@ -101,93 +75,21 @@ class _KeywordTextFormFieldPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _builder(context);
-  }
-
-  Widget _builder(BuildContext context) {
-    const backgroundColor = Colors.white;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      resizeToAvoidBottomInset: true,
-      // Required to delegate top padding to system
-      appBar: AppBar(toolbarHeight: 0, scrolledUnderElevation: 0),
+    return FullScreenTextFormFieldScaffold(
       body: Column(
         children: [
-          _FakeAppBar(title: title, hint: hint, onCloseButtonPressed: () => Navigator.pop(context, selectedKeyword)),
-          Padding(
-            padding: const EdgeInsets.all(Margins.spacing_base),
-            child: Hero(
-              tag: 'keyword',
-              child: Material(
-                type: MaterialType.transparency,
-                child: TextFormField(
-                  style: TextStyles.textBaseBold,
-                  keyboardType: TextInputType.name,
-                  textCapitalization: TextCapitalization.words,
-                  textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (keyword) => Navigator.pop(context, keyword),
-                  initialValue: selectedKeyword,
-                  decoration: _inputDecoration(),
-                  autofocus: true,
-                ),
-              ),
-            ),
+          MultilineAppBar(
+            title: title,
+            hint: hint,
+            onCloseButtonPressed: () => Navigator.pop(context, selectedKeyword),
+          ),
+          DebounceTextFormField(
+            heroTag: _heroTag,
+            initialValue: selectedKeyword,
+            onFieldSubmitted: (keyword) => Navigator.pop(context, keyword),
           ),
         ],
       ),
     );
   }
-}
-
-class _FakeAppBar extends StatelessWidget {
-  final String title;
-  final String hint;
-  final VoidCallback onCloseButtonPressed;
-
-  const _FakeAppBar({required this.title, required this.hint, required this.onCloseButtonPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ConstrainedBox(
-          constraints: BoxConstraints.tightFor(width: kToolbarHeight, height: kToolbarHeight),
-          child: IconButton(
-            onPressed: onCloseButtonPressed,
-            tooltip: Strings.close,
-            icon: const Icon(Icons.close),
-          ),
-        ),
-        SizedBox(width: Margins.spacing_base),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: TextStyles.textBaseBold),
-              Text(hint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-}
-
-InputDecoration _inputDecoration() {
-  return InputDecoration(
-    contentPadding: const EdgeInsets.only(
-      left: Margins.spacing_base,
-      right: Margins.spacing_xl,
-      top: Margins.spacing_base,
-      bottom: Margins.spacing_base,
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8.0),
-      borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8.0),
-      borderSide: BorderSide(color: AppColors.primary, width: 1.0),
-    ),
-  );
 }

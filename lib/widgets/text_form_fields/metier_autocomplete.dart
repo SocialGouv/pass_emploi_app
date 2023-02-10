@@ -5,11 +5,15 @@ import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/autocomplete/metier_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/debouncer.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_form_field.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/full_screen_text_form_field_scaffold.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/multiline_app_bar.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/read_only_text_form_field.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/text_form_field_sep_line.dart';
+
+const _heroTag = 'metier';
 
 class MetierAutocomplete extends StatefulWidget {
   final String title;
@@ -29,46 +33,20 @@ class _MetierAutocompleteState extends State<MetierAutocomplete> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text(widget.title, style: TextStyles.textBaseBold)],
+    return ReadOnlyTextFormField(
+      title: widget.title,
+      heroTag: _heroTag,
+      textFormFieldKey: Key(_selectedMetier.toString()),
+      withDeleteButton: _selectedMetier != null,
+      onTextTap: () => Navigator.push(
+        context,
+        _MetierAutocompletePage.materialPageRoute(
+          title: widget.title,
+          selectedMetier: _selectedMetier,
         ),
-        SizedBox(height: Margins.spacing_base),
-        Stack(
-          alignment: Alignment.centerRight,
-          children: [
-            Hero(
-              tag: 'metier',
-              child: Material(
-                type: MaterialType.transparency,
-                child: TextFormField(
-                  key: Key(_selectedMetier.toString()),
-                  style: TextStyles.textBaseBold,
-                  decoration: _inputDecoration(),
-                  readOnly: true,
-                  initialValue: _selectedMetier?.libelle,
-                  onTap: () => Navigator.push(
-                    context,
-                    _MetierAutocompletePage.materialPageRoute(
-                      title: widget.title,
-                      selectedMetier: _selectedMetier,
-                    ),
-                  ).then((location) => _updateMetier(location)),
-                ),
-              ),
-            ),
-            if (_selectedMetier != null)
-              IconButton(
-                onPressed: () => _updateMetier(null),
-                tooltip: Strings.suppressionLabel,
-                icon: const Icon(Icons.close),
-              ),
-          ],
-        ),
-      ],
+      ).then((location) => _updateMetier(location)),
+      onDeleteTap: () => _updateMetier(null),
+      initialValue: _selectedMetier?.libelle,
     );
   }
 
@@ -81,7 +59,6 @@ class _MetierAutocompleteState extends State<MetierAutocomplete> {
 class _MetierAutocompletePage extends StatelessWidget {
   final String title;
   final Metier? selectedMetier;
-  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
 
   _MetierAutocompletePage({required this.title, this.selectedMetier});
 
@@ -110,81 +87,34 @@ class _MetierAutocompletePage extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, MetierViewModel viewModel) {
-    const backgroundColor = Colors.white;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      resizeToAvoidBottomInset: true,
-      // Required to delegate top padding to system
-      appBar: AppBar(toolbarHeight: 0, scrolledUnderElevation: 0),
+    return FullScreenTextFormFieldScaffold(
       body: Column(
         children: [
-          _FakeAppBar(title: title, onCloseButtonPressed: () => Navigator.pop(context, selectedMetier)),
-          Padding(
-            padding: const EdgeInsets.all(Margins.spacing_base),
-            child: Hero(
-              tag: 'metier',
-              child: Material(
-                type: MaterialType.transparency,
-                child: TextFormField(
-                  style: TextStyles.textBaseBold,
-                  keyboardType: TextInputType.name,
-                  textCapitalization: TextCapitalization.words,
-                  textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) => Navigator.pop(context, viewModel.metiers.firstOrNull),
-                  initialValue: selectedMetier?.libelle,
-                  decoration: _inputDecoration(),
-                  autofocus: true,
-                  onChanged: (value) => _debouncer.run(() => viewModel.onInputMetier(value)),
-                ),
-              ),
-            ),
+          MultilineAppBar(
+            title: title,
+            onCloseButtonPressed: () => Navigator.pop(context, selectedMetier),
           ),
-          Container(color: AppColors.grey100, height: 1),
+          DebounceTextFormField(
+            heroTag: _heroTag,
+            initialValue: selectedMetier?.libelle,
+            onFieldSubmitted: (_) => Navigator.pop(context, viewModel.metiers.firstOrNull),
+            onChanged: (value) => viewModel.onInputMetier(value),
+          ),
+          TextFormFieldSepLine(),
           Expanded(
             child: ListView.separated(
+              itemCount: viewModel.metiers.length,
+              separatorBuilder: (context, index) => TextFormFieldSepLine(),
               itemBuilder: (context, index) {
-                final metier = viewModel.metiers[index];
                 return _MetierListTile(
-                  metier: metier,
-                  onMetierTap: (location) => Navigator.pop(context, location),
+                  metier: viewModel.metiers[index],
+                  onMetierTap: (metier) => Navigator.pop(context, metier),
                 );
               },
-              separatorBuilder: (context, index) => Container(color: AppColors.grey100, height: 1),
-              itemCount: viewModel.metiers.length,
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _FakeAppBar extends StatelessWidget {
-  final String title;
-  final VoidCallback onCloseButtonPressed;
-
-  const _FakeAppBar({required this.title, required this.onCloseButtonPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ConstrainedBox(
-          constraints: BoxConstraints.tightFor(width: kToolbarHeight, height: kToolbarHeight),
-          child: IconButton(
-            onPressed: onCloseButtonPressed,
-            tooltip: Strings.close,
-            icon: const Icon(Icons.close),
-          ),
-        ),
-        SizedBox(width: Margins.spacing_base),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text(title, style: TextStyles.textBaseBold)],
-          ),
-        )
-      ],
     );
   }
 }
@@ -199,27 +129,8 @@ class _MetierListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
-      title: Text(metier.libelle, style: TextStyles.textBaseBold),
+      title: Text(metier.libelle, style: TextStyles.textBaseRegular),
       onTap: () => onMetierTap(metier),
     );
   }
-}
-
-InputDecoration _inputDecoration() {
-  return InputDecoration(
-    contentPadding: const EdgeInsets.only(
-      left: Margins.spacing_base,
-      right: Margins.spacing_xl,
-      top: Margins.spacing_base,
-      bottom: Margins.spacing_base,
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8.0),
-      borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8.0),
-      borderSide: BorderSide(color: AppColors.primary, width: 1.0),
-    ),
-  );
 }
