@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/presentation/recherche/service_civique/criteres_recherche_service_civique_contenu_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -30,6 +31,7 @@ class _CriteresRechercheServiceCiviqueContenuState extends State<CriteresRecherc
       converter: (store) => CriteresRechercheServiceCiviqueContenuViewModel.create(store),
       builder: _builder,
       distinct: true,
+      onDispose: (store) => store.dispatch(SearchLocationResetAction()),
     );
   }
 

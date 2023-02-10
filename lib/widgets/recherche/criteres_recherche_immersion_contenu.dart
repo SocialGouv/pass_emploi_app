@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/immersion/criteres_recherche_immersion_contenu_view_model.dart';
@@ -36,6 +38,10 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
       converter: (store) => CriteresRechercheImmersionContenuViewModel.create(store),
       builder: _builder,
       distinct: true,
+      onDispose: (store) {
+        store.dispatch(SearchLocationResetAction());
+        store.dispatch(SearchMetierResetAction());
+      },
     );
   }
 
