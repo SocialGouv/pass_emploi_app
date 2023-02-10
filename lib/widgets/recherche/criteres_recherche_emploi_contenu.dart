@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/criteres_recherche_emploi_contenu_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -35,7 +34,6 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
       converter: (store) => CriteresRechercheEmploiContenuViewModel.create(store),
       builder: _builder,
       distinct: true,
-      onDispose: (store) => store.dispatch(SearchLocationResetAction()),
     );
   }
 
