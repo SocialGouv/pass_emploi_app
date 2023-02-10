@@ -327,7 +327,7 @@ class Strings {
   static String rechercheOffresAlternanceTitle = "offres d’alternance";
   static String rechercheOffresImmersionTitle = "offres d’immersion";
   static String rechercheOffresServiceCiviqueTitle = "offres de service civique";
-  static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondants";
+  static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
 
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
 
