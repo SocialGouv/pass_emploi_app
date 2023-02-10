@@ -37,7 +37,7 @@ class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmplo
       company: itemViewModel.companyName,
       place: itemViewModel.location,
       bottomTip: Strings.voirLeDetail,
-      solutionType: SolutionType.OffreEmploi,
+      solutionType: onlyAlternance ? SolutionType.Alternance : SolutionType.OffreEmploi,
       from: onlyAlternance ? OffrePage.alternanceFavoris : OffrePage.emploiFavoris,
       id: itemViewModel.id,
       dataTags: _buildTags(itemViewModel),
