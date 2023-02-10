@@ -18,13 +18,13 @@ const _heroTag = 'location';
 
 class LocationAutocomplete extends StatefulWidget {
   final String title;
-  final String hint;
+  final String? hint;
   final Function(Location? location) onLocationSelected;
   final bool villesOnly;
 
   const LocationAutocomplete({
     required this.title,
-    required this.hint,
+    this.hint,
     required this.onLocationSelected,
     this.villesOnly = false,
   });
@@ -66,7 +66,7 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
 
 class _LocationAutocompletePage extends StatelessWidget {
   final String title;
-  final String hint;
+  final String? hint;
   final bool villesOnly;
   final Location? selectedLocation;
 
@@ -74,7 +74,7 @@ class _LocationAutocompletePage extends StatelessWidget {
 
   static MaterialPageRoute<Location?> materialPageRoute({
     required String title,
-    required String hint,
+    required String? hint,
     required bool villesOnly,
     required Location? selectedLocation,
   }) {
