@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 
 class SearchImmersionRequest {
   final String codeRome;
-  final Location? location;
+  final Location location;
   final ImmersionSearchParametersFiltres filtres;
 
   SearchImmersionRequest({
@@ -44,8 +44,8 @@ class ImmersionRepository
   Map<String, String> _queryParametersOld(SearchImmersionRequest request) {
     return {
       'rome': request.codeRome,
-      if (request.location != null) 'lat': request.location!.latitude.toString(),
-      if (request.location != null) 'lon': request.location!.longitude.toString(),
+      'lat': request.location.latitude.toString(),
+      'lon': request.location.longitude.toString(),
       if (request.filtres.distance != null) 'distance': request.filtres.distance.toString(),
     };
   }

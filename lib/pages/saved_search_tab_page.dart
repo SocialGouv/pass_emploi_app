@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
@@ -10,8 +9,8 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/solution_type.dart';
-import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -74,8 +73,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
         _goToPage(IndexOf.ALTERNANCE, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
-        _goToPage(IndexOf.IMMERSION, ImmersionListPage(true))
-            .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
+        _goToPage(IndexOf.IMMERSION, RechercheOffreImmersionPage());
         break;
       case SavedSearchNavigationState.SERVICE_CIVIQUE:
         _goToPage(IndexOf.SERVICE_CIVIQUE, RechercheOffreServiceCiviquePage());

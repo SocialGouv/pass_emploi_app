@@ -1,11 +1,13 @@
 import 'package:collection/collection.dart';
-import 'package:pass_emploi_app/features/immersion/saved_search/immersion_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -28,17 +30,40 @@ class SavedSearchGetMiddleware extends MiddlewareClass<AppState> {
           ?.where((e) => e.getId() == action.savedSearchId)
           .firstOrNull;
       if (search == null) return;
-      if (search is ImmersionSavedSearch) store.dispatch(ImmersionSavedSearchRequestAction.fromSearch(search));
+      if (search is ImmersionSavedSearch) _handleImmersionSavedSearch(search, store);
       if (search is OffreEmploiSavedSearch) store.dispatch(SavedOffreEmploiSearchRequestAction.fromSearch(search));
-      if (search is ServiceCiviqueSavedSearch) {
-        final criteres = ServiceCiviqueCriteresRecherche(location: search.location);
-        final filtres = ServiceCiviqueFiltresRecherche(
-          distance: search.filtres.distance,
-          startDate: search.dateDeDebut,
-          domain: search.domaine,
-        );
-        store.dispatch(RechercheRequestAction(RechercheRequest(criteres, filtres, 1)));
-      }
+      if (search is ServiceCiviqueSavedSearch) _handleServiceCiviqueSavedSearch(search, store);
     }
+  }
+
+  void _handleServiceCiviqueSavedSearch(ServiceCiviqueSavedSearch search, Store<AppState> store) {
+    store.dispatch(
+      RechercheRequestAction(
+        RechercheRequest(
+          ServiceCiviqueCriteresRecherche(location: search.location),
+          ServiceCiviqueFiltresRecherche(
+            distance: search.filtres.distance,
+            startDate: search.dateDeDebut,
+            domain: search.domaine,
+          ),
+          1,
+        ),
+      ),
+    );
+  }
+
+  void _handleImmersionSavedSearch(ImmersionSavedSearch search, Store<AppState> store) {
+    store.dispatch(
+      RechercheRequestAction(
+        RechercheRequest(
+          ImmersionCriteresRecherche(
+            location: search.location,
+            metier: Metier(codeRome: search.codeRome, libelle: search.metier),
+          ),
+          ImmersionSearchParametersFiltres.distance(search.filtres.distance),
+          1,
+        ),
+      ),
+    );
   }
 }
