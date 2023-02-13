@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
+import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 import 'package:pass_emploi_app/widgets/tags/solution_tag.dart';
 
 class FavoriCard<T> extends StatelessWidget {
@@ -109,7 +110,7 @@ class FavoriCard<T> extends StatelessWidget {
             Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_base, children: dataTags),
             SizedBox(height: Margins.spacing_base),
           ],
-          _PressedTip(bottomTip),
+          PressedTip(bottomTip),
         ],
       ),
     );
@@ -161,27 +162,5 @@ class _Date extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(date, style: TextStyles.textSRegular(color: Colors.black));
-  }
-}
-
-class _PressedTip extends StatelessWidget {
-  final String tip;
-  const _PressedTip(this.tip);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            tip,
-            style: TextStyles.textSMedium(color: Colors.black),
-            textAlign: TextAlign.end,
-          ),
-        ),
-        SizedBox(width: Margins.spacing_xs),
-        Icon(AppIcons.chevron_right_rounded, color: Colors.black, size: Dimens.icon_size_m),
-      ],
-    );
   }
 }

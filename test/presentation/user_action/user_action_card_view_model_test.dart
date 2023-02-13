@@ -126,7 +126,7 @@ void main() {
         viewModel.dateEcheanceViewModel,
         UserActionDateEcheanceViewModel(
           formattedTexts: [FormattedText("À réaliser pour le jeudi 2 janvier")],
-          color: AppColors.primary,
+          color: AppColors.contentColor,
         ),
       );
     });
@@ -151,7 +151,7 @@ void main() {
           viewModel.dateEcheanceViewModel,
           UserActionDateEcheanceViewModel(
             formattedTexts: [FormattedText("À réaliser pour le dimanche 2 janvier")],
-            color: AppColors.primary,
+            color: AppColors.contentColor,
           ),
         );
       });

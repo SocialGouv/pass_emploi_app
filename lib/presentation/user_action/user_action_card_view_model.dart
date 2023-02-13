@@ -96,7 +96,7 @@ UserActionDateEcheanceViewModel? _dateEcheanceViewModel(UserAction userAction, b
   if ([UserActionStatus.DONE, UserActionStatus.CANCELED].contains(userAction.status)) return null;
   return UserActionDateEcheanceViewModel(
     formattedTexts: _dateEcheanceFormattedTexts(userAction, isLate),
-    color: isLate ? AppColors.warning : AppColors.primary,
+    color: isLate ? AppColors.warning : AppColors.contentColor,
   );
 }
 
