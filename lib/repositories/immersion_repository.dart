@@ -59,7 +59,7 @@ class ImmersionRepository
     try {
       final response = await _httpClient.get(url, queryParameters: _queryParameters(request));
       final immersions = (response.data as List).map((offre) => Immersion.fromJson(offre)).toList();
-      return RechercheResponse(results: immersions, canLoadMore: false); //TODO(1356): jamais de load more ?
+      return RechercheResponse(results: immersions, canLoadMore: false);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
