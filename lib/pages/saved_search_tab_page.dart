@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
@@ -10,9 +9,9 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/solution_type.dart';
-import 'package:pass_emploi_app/pages/immersion_list_page.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
-import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
@@ -68,17 +67,16 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     if (!_shouldNavigate || newViewModel == null) return;
     switch (newViewModel.searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
-        _goToPage(IndexOf.OFFRES_EMPLOI, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
+        _goToPage(IndexOf.OFFRES_EMPLOI, RechercheOffreEmploiPage(onlyAlternance: false));
         break;
       case SavedSearchNavigationState.OFFRE_ALTERNANCE:
-        _goToPage(IndexOf.ALTERNANCE, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
+        _goToPage(IndexOf.ALTERNANCE, RechercheOffreEmploiPage(onlyAlternance: true));
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
-        _goToPage(IndexOf.IMMERSION, ImmersionListPage(true))
-            .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
+        _goToPage(IndexOf.IMMERSION, RechercheOffreImmersionPage());
         break;
       case SavedSearchNavigationState.SERVICE_CIVIQUE:
-        _goToPage(IndexOf.SERVICE_CIVIQUE, ServiceCiviqueListPage(true));
+        _goToPage(IndexOf.SERVICE_CIVIQUE, RechercheOffreServiceCiviquePage());
         break;
       case SavedSearchNavigationState.NONE:
         break;
@@ -205,9 +203,9 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi, SavedSearchListViewModel viewModel) {
-    final type = offreEmploi.isAlternance ? SavedSearchType.ALTERNANCE : SavedSearchType.EMPLOI;
+    final type = offreEmploi.onlyAlternance ? SavedSearchType.ALTERNANCE : SavedSearchType.EMPLOI;
     return FavoriCard.deletable(
-      solutionType: offreEmploi.isAlternance ? SolutionType.Alternance : SolutionType.OffreEmploi,
+      solutionType: offreEmploi.onlyAlternance ? SolutionType.Alternance : SolutionType.OffreEmploi,
       onTap: () => viewModel.offreEmploiSelected(offreEmploi),
       onDelete: () => _showDeleteDialog(viewModel, offreEmploi.id, type),
       title: offreEmploi.title,

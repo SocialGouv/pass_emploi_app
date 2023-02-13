@@ -51,8 +51,8 @@ List<Equatable> _getMockedSavedSearch() {
       title: "Boulangerie",
       metier: "Boulangerie",
       location: null,
-      keywords: "Boulangerie",
-      isAlternance: false,
+      keyword: "Boulangerie",
+      onlyAlternance: false,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: null,
         debutantOnly: true,
@@ -66,8 +66,8 @@ List<Equatable> _getMockedSavedSearch() {
       title: "Boulangerie - NANTES",
       metier: "Boulangerie",
       location: Location(libelle: "NANTES", code: "44109", type: LocationType.COMMUNE),
-      keywords: "Boulangerie",
-      isAlternance: false,
+      keyword: "Boulangerie",
+      onlyAlternance: false,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: null,
         experience: [],
@@ -80,8 +80,8 @@ List<Equatable> _getMockedSavedSearch() {
       title: "Flutter",
       metier: "Flutter",
       location: null,
-      keywords: "Flutter",
-      isAlternance: true,
+      keyword: "Flutter",
+      onlyAlternance: true,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: null,
         experience: [],

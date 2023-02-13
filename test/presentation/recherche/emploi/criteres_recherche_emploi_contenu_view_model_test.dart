@@ -63,7 +63,7 @@ void main() {
     expect(
       (dispatchedAction as RechercheRequestAction<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>).request,
       RechercheRequest(
-        EmploiCriteresRecherche(keywords: 'keywords', location: mockLocation(), onlyAlternance: false),
+        EmploiCriteresRecherche(keyword: 'keywords', location: mockLocation(), onlyAlternance: false),
         OffreEmploiSearchParametersFiltres.noFiltres(),
         1,
       ),

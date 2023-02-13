@@ -11,16 +11,19 @@ import 'package:redux/redux.dart';
 
 class CriteresRechercheServiceCiviqueContenuViewModel extends Equatable {
   final DisplayState displayState;
+  final Location? initialLocation;
   final Function(Location? location) onSearchingRequest;
 
   CriteresRechercheServiceCiviqueContenuViewModel({
     required this.displayState,
+    required this.initialLocation,
     required this.onSearchingRequest,
   });
 
   factory CriteresRechercheServiceCiviqueContenuViewModel.create(Store<AppState> store) {
     return CriteresRechercheServiceCiviqueContenuViewModel(
       displayState: _displayState(store),
+      initialLocation: store.state.rechercheServiceCiviqueState.request?.criteres.location,
       onSearchingRequest: (location) {
         store.dispatch(
           RechercheRequestAction<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>(

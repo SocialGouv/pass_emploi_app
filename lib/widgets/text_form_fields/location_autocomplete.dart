@@ -21,12 +21,14 @@ class LocationAutocomplete extends StatefulWidget {
   final String? hint;
   final Function(Location? location) onLocationSelected;
   final bool villesOnly;
+  final Location? initialValue;
 
   const LocationAutocomplete({
     required this.title,
     this.hint,
     required this.onLocationSelected,
     this.villesOnly = false,
+    this.initialValue,
   });
 
   @override
@@ -35,6 +37,12 @@ class LocationAutocomplete extends StatefulWidget {
 
 class _LocationAutocompleteState extends State<LocationAutocomplete> {
   Location? _selectedLocation;
+
+  @override
+  void initState() {
+    _selectedLocation = widget.initialValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

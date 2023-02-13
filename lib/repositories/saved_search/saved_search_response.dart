@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/network/filtres_request.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class SavedSearchResponse {
   final String id;
@@ -101,8 +102,8 @@ class SavedSearchEmploiExtractor {
       title: savedSearch.titre,
       metier: savedSearch.metier,
       location: _getLocation(savedSearch),
-      keywords: savedSearch.criteres.q,
-      isAlternance: savedSearch.criteres.alternance ?? (savedSearch.type == "OFFRES_ALTERNANCE"),
+      keyword: savedSearch.criteres.q,
+      onlyAlternance: savedSearch.criteres.alternance ?? (savedSearch.type == "OFFRES_ALTERNANCE"),
       filters: _getFilters(savedSearch.criteres),
     );
   }
@@ -151,19 +152,15 @@ class SavedSearchImmersionExtractor {
     return ImmersionSearchParametersFiltres.distance(criteres.rayon);
   }
 
-  Location? _getLocation(SavedSearchResponse savedSearch) {
-    if (savedSearch.localisation != null) {
-      return Location(
-        type: LocationType.COMMUNE,
-        code: savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "",
-        libelle: savedSearch.localisation ?? "",
-        codePostal: null,
-        longitude: savedSearch.criteres.lon,
-        latitude: savedSearch.criteres.lat,
-      );
-    } else {
-      return null;
-    }
+  Location _getLocation(SavedSearchResponse savedSearch) {
+    return Location(
+      type: LocationType.COMMUNE,
+      code: savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "",
+      libelle: savedSearch.localisation ?? "",
+      codePostal: null,
+      longitude: savedSearch.criteres.lon,
+      latitude: savedSearch.criteres.lat,
+    );
   }
 }
 
@@ -175,7 +172,7 @@ class SavedSearchServiceCiviqueExtractor {
       domaine: Domaine.fromTag(savedSearch.criteres.domaine),
       ville: savedSearch.localisation,
       filtres: ServiceCiviqueFiltresParameters.distance(savedSearch.criteres.distance),
-      dateDeDebut: savedSearch.criteres.dateDeDebutMinimum,
+      dateDeDebut: savedSearch.criteres.dateDeDebutMinimum?.toDateTimeUtcOnLocalTimeZone(),
       location: _getLocation(savedSearch),
     );
   }

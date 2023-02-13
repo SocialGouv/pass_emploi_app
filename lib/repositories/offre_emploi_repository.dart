@@ -66,7 +66,7 @@ class OffreEmploiRepository
   //TODO(1353) temp
   String _createQueryNew(RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> request) {
     return _createQuery(SearchOffreEmploiRequest(
-      keywords: request.criteres.keywords,
+      keywords: request.criteres.keyword,
       location: request.criteres.location,
       onlyAlternance: request.criteres.onlyAlternance,
       page: request.page,

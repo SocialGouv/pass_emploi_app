@@ -518,15 +518,15 @@ OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
       title: "Maître-chien / Maîtresse-chien d'avalanche",
       metier: "Sécurité civile et secours",
       location: Location(type: LocationType.DEPARTMENT, libelle: "Gironde", code: "33"),
-      keywords: "Maître-chien / Maîtresse-chien d'avalanche",
-      isAlternance: false,
+      keyword: "Maître-chien / Maîtresse-chien d'avalanche",
+      onlyAlternance: false,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(distance: 0),
     );
 
 SavedOffreEmploiSearchRequestAction savedOffreEmploiSearchRequestAction() => SavedOffreEmploiSearchRequestAction(
-      keywords: offreEmploiSavedSearch().keywords ?? "",
+      keywords: offreEmploiSavedSearch().keyword ?? "",
       location: offreEmploiSavedSearch().location,
-      onlyAlternance: offreEmploiSavedSearch().isAlternance,
+      onlyAlternance: offreEmploiSavedSearch().onlyAlternance,
       filtres: offreEmploiSavedSearch().filters,
     );
 
@@ -542,7 +542,7 @@ List<Metier> mockAutocompleteMetiers() {
 
 RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> initialRechercheEmploiRequest() {
   return RechercheRequest(
-    EmploiCriteresRecherche(keywords: "chevalier", location: null, onlyAlternance: false),
+    EmploiCriteresRecherche(keyword: "chevalier", location: null, onlyAlternance: false),
     OffreEmploiSearchParametersFiltres.noFiltres(),
     1,
   );

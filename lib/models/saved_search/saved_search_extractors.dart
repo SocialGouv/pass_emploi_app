@@ -26,7 +26,7 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
     //TODO(1353): peut-être cassé / crash si on clique sur "filtres" depuis une recherche sauvegardée parce que c'est un ancien écran qui n'utilise pas le state
     final state = store.state.rechercheEmploiState;
     final request = state.request!;
-    final metier = request.criteres.keywords;
+    final metier = request.criteres.keyword;
     final location = request.criteres.location;
     final String _title = _setTitleForOffer(metier, location?.libelle);
     return OffreEmploiSavedSearch(
@@ -34,8 +34,8 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
       title: _title,
       metier: metier,
       location: location,
-      keywords: metier,
-      isAlternance: request.criteres.onlyAlternance,
+      keyword: metier,
+      onlyAlternance: request.criteres.onlyAlternance,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: request.filtres.distance,
         debutantOnly: request.filtres.debutantOnly,
@@ -78,7 +78,7 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
     if (store.state.immersionSearchParametersState is ImmersionSearchParametersInitializedState) {
       final parametersState = store.state.immersionSearchParametersState as ImmersionSearchParametersInitializedState;
       final String metier = _metier(store) ?? "";
-      final ville = parametersState.location?.libelle ?? "";
+      final ville = parametersState.location.libelle;
       return ImmersionSavedSearch(
         id: "",
         title: Strings.savedSearchTitleField(metier, ville),
@@ -129,7 +129,7 @@ class ServiceCiviqueSearchExtractor extends AbstractSearchExtractor<ServiceCiviq
       filtres: ServiceCiviqueFiltresParameters.distance(lastRequest?.filtres.distance),
       ville: lastRequest?.criteres.location?.libelle ?? "",
       domaine: lastRequest?.filtres.domain,
-      dateDeDebut: lastRequest?.filtres.startDate?.toIso8601String(),
+      dateDeDebut: lastRequest?.filtres.startDate,
     );
   }
 

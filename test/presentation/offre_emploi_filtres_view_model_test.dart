@@ -63,7 +63,7 @@ void main() {
     // Given
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
-          criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keywords: '', onlyAlternance: true),
+          criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keyword: '', onlyAlternance: true),
         )
         .store();
 
@@ -78,7 +78,7 @@ void main() {
     // Given
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
-          criteres: EmploiCriteresRecherche(keywords: '', location: mockCommuneLocation(), onlyAlternance: false),
+          criteres: EmploiCriteresRecherche(keyword: '', location: mockCommuneLocation(), onlyAlternance: false),
           filtres: OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
         )
         .store();
@@ -94,7 +94,7 @@ void main() {
     // Given
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
-          criteres: EmploiCriteresRecherche(keywords: '', location: mockLocation(), onlyAlternance: false),
+          criteres: EmploiCriteresRecherche(keyword: '', location: mockLocation(), onlyAlternance: false),
         )
         .store();
 
@@ -109,7 +109,7 @@ void main() {
     // Given
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
-          criteres: EmploiCriteresRecherche(keywords: '', location: mockCommuneLocation(), onlyAlternance: false),
+          criteres: EmploiCriteresRecherche(keyword: '', location: mockCommuneLocation(), onlyAlternance: false),
           filtres: OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
         )
         .store();
@@ -257,8 +257,7 @@ List<CheckboxValueViewModel<ContratFiltre>> _allContratsInitiallyUnchecked() {
 Store<AppState> _store({required bool onlyAlternance}) {
   return givenState()
       .successRechercheEmploiStateWithRequest(
-        criteres:
-            EmploiCriteresRecherche(keywords: '', location: mockCommuneLocation(), onlyAlternance: onlyAlternance),
+        criteres: EmploiCriteresRecherche(keyword: '', location: mockCommuneLocation(), onlyAlternance: onlyAlternance),
       )
       .store();
 }

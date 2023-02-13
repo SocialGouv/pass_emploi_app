@@ -1,22 +1,30 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
+import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
@@ -144,6 +152,32 @@ void main() {
       expect(appState.savedSearchListState is SavedSearchListFailureState, isTrue);
     });
   });
+
+  group("when user request a specific saved search", () {
+    final sut = StoreSut();
+    sut.when(() => SavedSearchGetAction('id'));
+
+    test('should retrieve results coming from same criteres and filtres', () {
+      sut.givenStore = givenState().loggedInUser().store((factory) {
+        factory.getSavedSearchRepository = SavedSearchRepositorySuccessStub();
+        factory.serviceCiviqueRepository = ServiceCiviqueRepositorySuccessStub();
+      });
+
+      sut.thenExpectChangingStatesThroughOrder([_shouldInitialLoad(), _shouldSucceedWithSameCriteresAndFiltres()]);
+    });
+  });
+}
+
+class ServiceCiviqueRepositorySuccessStub extends ServiceCiviqueRepository {
+  ServiceCiviqueRepositorySuccessStub() : super('', DummyHttpClient());
+
+  @override
+  Future<RechercheResponse<ServiceCivique>?> rechercher({
+    required String userId,
+    required RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche> request,
+  }) async {
+    return RechercheResponse(results: mockOffresServiceCivique10(), canLoadMore: false);
+  }
 }
 
 class ServiceCiviqueSavedSearchRepositorySuccessStub extends ServiceCiviqueSavedSearchRepository {
@@ -187,8 +221,29 @@ List<ServiceCiviqueSavedSearch> _getServiceCiviqueSavedSearchList() {
     ServiceCiviqueSavedSearch(
       id: "id",
       titre: "Je suis un titre",
-      location: null,
-      filtres: ServiceCiviqueFiltresParameters.distance(10),
+      location: mockCommuneLocation(),
+      filtres: ServiceCiviqueFiltresParameters.distance(50),
     )
   ];
+}
+
+Matcher _shouldInitialLoad() {
+  return StateMatch((state) => state.rechercheServiceCiviqueState.status == RechercheStatus.initialLoading);
+}
+
+Matcher _shouldSucceedWithSameCriteresAndFiltres() {
+  return StateMatch(
+    (state) => state.rechercheServiceCiviqueState.status == RechercheStatus.success,
+    (state) {
+      expect(
+        state.rechercheServiceCiviqueState.request!.criteres,
+        ServiceCiviqueCriteresRecherche(location: mockCommuneLocation()),
+      );
+      expect(
+        state.rechercheServiceCiviqueState.request!.filtres,
+        ServiceCiviqueFiltresRecherche(distance: 50, startDate: null, domain: null),
+      );
+      expect(state.rechercheServiceCiviqueState.results?.length, 10);
+    },
+  );
 }
