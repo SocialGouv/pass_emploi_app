@@ -12,6 +12,7 @@ class Strings {
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
   static String seeDetail = "Voir le détail >";
+  static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
 
   // Menu
@@ -503,7 +504,6 @@ class Strings {
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
-  static String voirLeDetail = "Voir le détail";
 
   // Empty Content (actions & rdv)
   static String rendezvous = "rendez-vous";
