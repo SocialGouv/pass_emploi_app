@@ -82,6 +82,6 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
 
   bool _shouldAddEntreprisesAccueillantesHeader(int index, BlocResultatRechercheViewModel<Immersion> resultViewModel) {
     if (index != 0) return false;
-    return resultViewModel.items.indexWhere((immersion) => immersion.fromEntrepriseAccueillante) != -1;
+    return resultViewModel.items.any((immersion) => immersion.fromEntrepriseAccueillante);
   }
 }
