@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class ApparitonAnimation extends StatefulWidget {
-  const ApparitonAnimation({
+class ApparitionAnimation extends StatefulWidget {
+  const ApparitionAnimation({
     Key? key,
     required this.child,
   }) : super(key: key);
   final Widget child;
 
   @override
-  State<ApparitonAnimation> createState() => _ApparitonAnimationState();
+  State<ApparitionAnimation> createState() => _ApparitionAnimationState();
 }
 
-class _ApparitonAnimationState extends State<ApparitonAnimation> {
+class _ApparitionAnimationState extends State<ApparitionAnimation> {
   bool animationStarted = false;
 
   @override
