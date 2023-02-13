@@ -41,8 +41,8 @@ void main() {
       title: "titreOffreEmploi1",
       metier: "metierOffreEmploi1",
       location: mockLocation(),
-      keywords: "keywords",
-      isAlternance: false,
+      keyword: "keywords",
+      onlyAlternance: false,
       filters: OffreEmploiSearchParametersFiltres.noFiltres(),
     ),
     OffreEmploiSavedSearch(
@@ -50,8 +50,8 @@ void main() {
       id: "id",
       metier: "metierOffreEmploi2",
       location: mockLocation(),
-      keywords: "keywords",
-      isAlternance: false,
+      keyword: "keywords",
+      onlyAlternance: false,
       filters: OffreEmploiSearchParametersFiltres.noFiltres(),
     ),
     OffreEmploiSavedSearch(
@@ -59,8 +59,8 @@ void main() {
       title: "titreAlternance1",
       metier: "metierAlternance1",
       location: mockLocation(),
-      keywords: "keywords",
-      isAlternance: true,
+      keyword: "keywords",
+      onlyAlternance: true,
       filters: OffreEmploiSearchParametersFiltres.noFiltres(),
     ),
     OffreEmploiSavedSearch(
@@ -68,8 +68,8 @@ void main() {
       title: "titreAlternance2",
       metier: "metierAlternance2",
       location: mockLocation(),
-      keywords: "keywords",
-      isAlternance: true,
+      keyword: "keywords",
+      onlyAlternance: true,
       filters: OffreEmploiSearchParametersFiltres.noFiltres(),
     ),
   ];
@@ -158,8 +158,8 @@ void main() {
         title: "titreOffreEmploi1",
         metier: "metierOffreEmploi1",
         location: mockLocation(),
-        keywords: "keywords",
-        isAlternance: false,
+        keyword: "keywords",
+        onlyAlternance: false,
         filters: OffreEmploiSearchParametersFiltres.noFiltres(),
       ),
       OffreEmploiSavedSearch(
@@ -167,8 +167,8 @@ void main() {
         title: "titreOffreEmploi2",
         metier: "metierOffreEmploi2",
         location: mockLocation(),
-        keywords: "keywords",
-        isAlternance: false,
+        keyword: "keywords",
+        onlyAlternance: false,
         filters: OffreEmploiSearchParametersFiltres.noFiltres(),
       ),
     ]);
@@ -193,8 +193,8 @@ void main() {
         title: "titreAlternance1",
         metier: "metierAlternance1",
         location: mockLocation(),
-        keywords: "keywords",
-        isAlternance: true,
+        keyword: "keywords",
+        onlyAlternance: true,
         filters: OffreEmploiSearchParametersFiltres.noFiltres(),
       ),
       OffreEmploiSavedSearch(
@@ -202,8 +202,8 @@ void main() {
         title: "titreAlternance2",
         metier: "metierAlternance2",
         location: mockLocation(),
-        keywords: "keywords",
-        isAlternance: true,
+        keyword: "keywords",
+        onlyAlternance: true,
         filters: OffreEmploiSearchParametersFiltres.noFiltres(),
       ),
     ]);
@@ -250,7 +250,7 @@ void main() {
       "ViewModel MUST create a copy and not just a reference of state's saved searches to ensure StoreConnector.distinct properly works",
       () {
     // Given
-        final store = TestStoreFactory().initializeReduxStore(
+    final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
         savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),

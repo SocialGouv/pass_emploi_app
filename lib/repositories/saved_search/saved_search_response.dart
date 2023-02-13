@@ -102,8 +102,8 @@ class SavedSearchEmploiExtractor {
       title: savedSearch.titre,
       metier: savedSearch.metier,
       location: _getLocation(savedSearch),
-      keywords: savedSearch.criteres.q,
-      isAlternance: savedSearch.criteres.alternance ?? (savedSearch.type == "OFFRES_ALTERNANCE"),
+      keyword: savedSearch.criteres.q,
+      onlyAlternance: savedSearch.criteres.alternance ?? (savedSearch.type == "OFFRES_ALTERNANCE"),
       filters: _getFilters(savedSearch.criteres),
     );
   }

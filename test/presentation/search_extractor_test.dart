@@ -42,8 +42,8 @@ void main() {
       title: "Je suis un keyword",
       metier: "Je suis un keyword",
       location: location,
-      keywords: "Je suis un keyword",
-      isAlternance: false,
+      keyword: "Je suis un keyword",
+      onlyAlternance: false,
       filters: filtres,
     );
     expect(result, expected);

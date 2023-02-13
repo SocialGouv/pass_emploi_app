@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
@@ -67,10 +68,10 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     if (!_shouldNavigate || newViewModel == null) return;
     switch (newViewModel.searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
-        _goToPage(IndexOf.OFFRES_EMPLOI, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
+        _goToPage(IndexOf.OFFRES_EMPLOI, RechercheOffreEmploiPage(onlyAlternance: false));
         break;
       case SavedSearchNavigationState.OFFRE_ALTERNANCE:
-        _goToPage(IndexOf.ALTERNANCE, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
+        _goToPage(IndexOf.ALTERNANCE, RechercheOffreEmploiPage(onlyAlternance: true));
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
         _goToPage(IndexOf.IMMERSION, RechercheOffreImmersionPage());
@@ -203,9 +204,9 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi, SavedSearchListViewModel viewModel) {
-    final type = offreEmploi.isAlternance ? SavedSearchType.ALTERNANCE : SavedSearchType.EMPLOI;
+    final type = offreEmploi.onlyAlternance ? SavedSearchType.ALTERNANCE : SavedSearchType.EMPLOI;
     return FavoriCard.deletable(
-      solutionType: offreEmploi.isAlternance ? SolutionType.Alternance : SolutionType.OffreEmploi,
+      solutionType: offreEmploi.onlyAlternance ? SolutionType.Alternance : SolutionType.OffreEmploi,
       onTap: () => viewModel.offreEmploiSelected(offreEmploi),
       onDelete: () => _showDeleteDialog(viewModel, offreEmploi.id, type),
       title: offreEmploi.title,

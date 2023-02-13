@@ -21,8 +21,8 @@ void main() {
         id: "id",
         title: "Boulanger",
         filters: OffreEmploiSearchParametersFiltres.noFiltres(),
-        keywords: "Boulanger",
-        isAlternance: false,
+        keyword: "Boulanger",
+        onlyAlternance: false,
         location: mockLocation(),
         metier: "Boulanger");
 
@@ -152,8 +152,8 @@ List<OffreEmploiSavedSearch> _getOffreEmploiSavedSearchList() {
       title: "Boulangerie - NANTES",
       metier: "Boulangerie",
       location: Location(libelle: "NANTES", code: "44109", type: LocationType.COMMUNE),
-      keywords: "Boulangerie",
-      isAlternance: false,
+      keyword: "Boulangerie",
+      onlyAlternance: false,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: null,
         experience: [],
@@ -166,8 +166,8 @@ List<OffreEmploiSavedSearch> _getOffreEmploiSavedSearchList() {
       title: "Flutter",
       metier: "Flutter",
       location: null,
-      keywords: "Flutter",
-      isAlternance: true,
+      keyword: "Flutter",
+      onlyAlternance: true,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: null,
         experience: [],

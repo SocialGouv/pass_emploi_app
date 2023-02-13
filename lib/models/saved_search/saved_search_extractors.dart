@@ -34,8 +34,8 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
       title: _title,
       metier: metier,
       location: location,
-      keywords: metier,
-      isAlternance: request.criteres.onlyAlternance,
+      keyword: metier,
+      onlyAlternance: request.criteres.onlyAlternance,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: request.filtres.distance,
         debutantOnly: request.filtres.debutantOnly,

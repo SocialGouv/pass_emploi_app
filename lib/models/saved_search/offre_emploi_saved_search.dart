@@ -9,8 +9,8 @@ class OffreEmploiSavedSearch extends Equatable implements SavedSearch {
   final String title;
   final String? metier;
   final Location? location;
-  final String? keywords;
-  final bool isAlternance;
+  final String? keyword;
+  final bool onlyAlternance;
   final OffreEmploiSearchParametersFiltres filters;
 
   OffreEmploiSavedSearch({
@@ -18,13 +18,13 @@ class OffreEmploiSavedSearch extends Equatable implements SavedSearch {
     required this.title,
     required this.metier,
     required this.location,
-    required this.keywords,
-    required this.isAlternance,
+    required this.keyword,
+    required this.onlyAlternance,
     required this.filters,
   });
 
   String getSavedSearchTagLabel() {
-    return isAlternance ? Strings.savedSearchAlternanceTag : Strings.savedSearchEmploiTag;
+    return onlyAlternance ? Strings.savedSearchAlternanceTag : Strings.savedSearchEmploiTag;
   }
 
   OffreEmploiSavedSearch copyWithTitle(String title) {
@@ -33,8 +33,8 @@ class OffreEmploiSavedSearch extends Equatable implements SavedSearch {
       title: title,
       metier: metier,
       location: location,
-      keywords: keywords,
-      isAlternance: isAlternance,
+      keyword: keyword,
+      onlyAlternance: onlyAlternance,
       filters: filters,
     );
   }
@@ -46,5 +46,5 @@ class OffreEmploiSavedSearch extends Equatable implements SavedSearch {
   String getTitle() => title;
 
   @override
-  List<Object?> get props => [id, title, metier, location, keywords, isAlternance, filters];
+  List<Object?> get props => [id, title, metier, location, keyword, onlyAlternance, filters];
 }

@@ -18,9 +18,9 @@ class SavedOffreEmploiSearchRequestAction extends Equatable {
 
   factory SavedOffreEmploiSearchRequestAction.fromSearch(OffreEmploiSavedSearch search) {
     return SavedOffreEmploiSearchRequestAction(
-      keywords: search.keywords ?? "",
+      keywords: search.keyword ?? "",
       location: search.location,
-      onlyAlternance: search.isAlternance,
+      onlyAlternance: search.onlyAlternance,
       filtres: search.filters,
     );
   }
