@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search
 import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
-import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
@@ -78,7 +78,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
             .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
         break;
       case SavedSearchNavigationState.SERVICE_CIVIQUE:
-        _goToPage(IndexOf.SERVICE_CIVIQUE, ServiceCiviqueListPage(true));
+        _goToPage(IndexOf.SERVICE_CIVIQUE, RechercheOffreServiceCiviquePage());
         break;
       case SavedSearchNavigationState.NONE:
         break;

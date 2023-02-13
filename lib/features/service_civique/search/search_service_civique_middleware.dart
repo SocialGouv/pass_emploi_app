@@ -46,7 +46,8 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
           domain: savedSearch.domaine?.tag,
           location: savedSearch.location,
           distance: savedSearch.filtres.distance,
-          startDate: savedSearch.dateDeDebut,
+          startDate: null,
+          // TODO - 1356 obsolete, à supprimer
           endDate: null,
           page: 1,
         );
