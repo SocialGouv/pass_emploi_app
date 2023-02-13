@@ -10,11 +10,13 @@ class KeywordTextFormField extends StatefulWidget {
   final String title;
   final String hint;
   final Function(String? keyword) onKeywordSelected;
+  final String? initialValue;
 
   const KeywordTextFormField({
     required this.title,
     required this.hint,
     required this.onKeywordSelected,
+    this.initialValue,
   });
 
   @override
@@ -23,6 +25,12 @@ class KeywordTextFormField extends StatefulWidget {
 
 class _KeywordTextFormFieldState extends State<KeywordTextFormField> {
   String? _selectedKeyword;
+
+  @override
+  void initState() {
+    _selectedKeyword = widget.initialValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

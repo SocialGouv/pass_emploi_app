@@ -542,7 +542,7 @@ List<Metier> mockAutocompleteMetiers() {
 
 RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> initialRechercheEmploiRequest() {
   return RechercheRequest(
-    EmploiCriteresRecherche(keywords: "chevalier", location: null, onlyAlternance: false),
+    EmploiCriteresRecherche(keyword: "chevalier", location: null, onlyAlternance: false),
     OffreEmploiSearchParametersFiltres.noFiltres(),
     1,
   );

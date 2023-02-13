@@ -31,10 +31,19 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CriteresRechercheEmploiContenuViewModel>(
+      onInitialBuild: _onInitialBuild,
       converter: (store) => CriteresRechercheEmploiContenuViewModel.create(store),
       builder: _builder,
       distinct: true,
     );
+  }
+
+  void _onInitialBuild(CriteresRechercheEmploiContenuViewModel viewModel) {
+    if (viewModel.initialLocation != null || viewModel.initiaKeyword != null) {
+      _selectedLocation = viewModel.initialLocation;
+      _keyword = viewModel.initiaKeyword;
+      _updateCriteresActifsCount();
+    }
   }
 
   Widget _builder(BuildContext context, CriteresRechercheEmploiContenuViewModel viewModel) {
@@ -46,6 +55,7 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
           KeywordTextFormField(
             title: Strings.keywordTitle,
             hint: Strings.keywordHint,
+            initialValue: _keyword,
             onKeywordSelected: (keyword) {
               _keyword = keyword;
               _updateCriteresActifsCount();
@@ -55,6 +65,7 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
           LocationAutocomplete(
             title: Strings.jobLocationTitle,
             hint: Strings.jobLocationHint,
+            initialValue: _selectedLocation,
             onLocationSelected: (location) {
               _selectedLocation = location;
               _updateCriteresActifsCount();

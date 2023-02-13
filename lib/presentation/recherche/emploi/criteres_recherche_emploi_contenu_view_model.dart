@@ -12,21 +12,27 @@ import 'package:redux/redux.dart';
 //TODO: 1353 - 4T: store vers status ou state générique (pour display state)
 class CriteresRechercheEmploiContenuViewModel extends Equatable {
   final DisplayState displayState;
-  final Function(String keywords, Location? location, bool onlyAlternance) onSearchingRequest;
+  final String? initiaKeyword;
+  final Location? initialLocation;
+  final Function(String keyword, Location? location, bool onlyAlternance) onSearchingRequest;
 
   CriteresRechercheEmploiContenuViewModel({
     required this.displayState,
+    required this.initiaKeyword,
+    required this.initialLocation,
     required this.onSearchingRequest,
   });
 
   factory CriteresRechercheEmploiContenuViewModel.create(Store<AppState> store) {
     return CriteresRechercheEmploiContenuViewModel(
       displayState: _displayState(store),
-      onSearchingRequest: (keywords, location, onlyAlternance) {
+      initiaKeyword: store.state.rechercheEmploiState.request?.criteres.keyword,
+      initialLocation: store.state.rechercheEmploiState.request?.criteres.location,
+      onSearchingRequest: (keyword, location, onlyAlternance) {
         store.dispatch(
           RechercheRequestAction<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>(
             RechercheRequest(
-              EmploiCriteresRecherche(keywords: keywords, location: location, onlyAlternance: onlyAlternance),
+              EmploiCriteresRecherche(keyword: keyword, location: location, onlyAlternance: onlyAlternance),
               OffreEmploiSearchParametersFiltres.noFiltres(),
               1,
             ),

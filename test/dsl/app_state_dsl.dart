@@ -375,7 +375,7 @@ extension AppStateDSL on AppState {
     return rechercheEmploiState(
       status: status,
       request: RechercheRequest(
-        criteres ?? EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
+        criteres ?? EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: false),
         filtres ?? OffreEmploiSearchParametersFiltres.noFiltres(),
         1,
       ),
