@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -265,46 +264,36 @@ void main() {
 
   test("ViewModel should set navigation to offres emploi when search results are ready", () {
     // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
-        offreEmploiListState: OffreEmploiListSuccessState([], 2, true),
-        offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-          keywords: "",
-          onlyAlternance: true,
-          location: mockLocation(),
-          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
-        ),
-      ),
-    );
-
-    // When
-    final viewModel = SavedSearchListViewModel.createFromStore(store);
-
-    // Then
-    expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_ALTERNANCE);
-  });
-
-  test("ViewModel should set navigation to offres alternances when search results are ready", () {
-    // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
-        offreEmploiListState: OffreEmploiListSuccessState([], 2, true),
-        offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-          keywords: "",
-          onlyAlternance: false,
-          location: mockLocation(),
-          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
-        ),
-      ),
-    );
+    final store = givenState()
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .successRechercheEmploiState()
+        .store();
 
     // When
     final viewModel = SavedSearchListViewModel.createFromStore(store);
 
     // Then
     expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_EMPLOI);
+  });
+
+  test("ViewModel should set navigation to offres alternances when search results are ready", () {
+    // Given
+    final store = givenState()
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .successRechercheEmploiStateWithRequest(
+          criteres: EmploiCriteresRecherche(
+            keyword: "keyword",
+            location: null,
+            onlyAlternance: true,
+          ),
+        )
+        .store();
+
+    // When
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
+
+    // Then
+    expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_ALTERNANCE);
   });
 
   test("ViewModel should set navigation to offres immersions when search results are ready", () {
