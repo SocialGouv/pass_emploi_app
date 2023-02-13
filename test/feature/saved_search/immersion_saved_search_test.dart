@@ -2,21 +2,32 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/immersion/saved_search/immersion_saved_search_actions.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
+import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/metier.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 
+import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 import '../../utils/test_setup.dart';
 import '../immersion/immersion_list_test.dart';
 
@@ -309,6 +320,32 @@ void main() {
           filtres: ImmersionSearchParametersFiltres.distance(70),
         ));
   });
+
+  group("when user request a specific saved search", () {
+    final sut = StoreSut();
+    sut.when(() => SavedSearchGetAction('id'));
+
+    test('should retrieve results coming from same criteres and filtres', () {
+      sut.givenStore = givenState().loggedInUser().store((factory) {
+        factory.getSavedSearchRepository = SavedSearchRepositorySuccessStub();
+        factory.immersionRepository = ImmersionSuccessStub();
+      });
+
+      sut.thenExpectChangingStatesThroughOrder([_shouldInitialLoad(), _shouldSucceedWithSameCriteresAndFiltres()]);
+    });
+  });
+}
+
+class ImmersionSuccessStub extends ImmersionRepository {
+  ImmersionSuccessStub() : super(DioMock());
+
+  @override
+  Future<RechercheResponse<Immersion>?> rechercher({
+    required String userId,
+    required RechercheRequest<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres> request,
+  }) async {
+    return RechercheResponse(results: mockOffresImmersion10(), canLoadMore: false);
+  }
 }
 
 class ImmersionSavedSearchRepositorySuccessStub extends ImmersionSavedSearchRepository {
@@ -359,4 +396,28 @@ List<ImmersionSavedSearch> _getImmersionSavedSearchList() {
       filtres: ImmersionSearchParametersFiltres.noFiltres(),
     )
   ];
+}
+
+Matcher _shouldInitialLoad() {
+  return StateMatch((state) => state.rechercheImmersionState.status == RechercheStatus.initialLoading);
+}
+
+Matcher _shouldSucceedWithSameCriteresAndFiltres() {
+  return StateMatch(
+    (state) => state.rechercheImmersionState.status == RechercheStatus.success,
+    (state) {
+      expect(
+        state.rechercheImmersionState.request!.criteres,
+        ImmersionCriteresRecherche(
+          metier: Metier(codeRome: "D1102", libelle: "Boulangerie - viennoiserie"),
+          location: mockCommuneLocation(label: "PARIS-14", lat: 48.830108, lon: 2.323026),
+        ),
+      );
+      expect(
+        state.rechercheImmersionState.request!.filtres,
+        ImmersionSearchParametersFiltres.noFiltres(),
+      );
+      expect(state.rechercheImmersionState.results?.length, 10);
+    },
+  );
 }

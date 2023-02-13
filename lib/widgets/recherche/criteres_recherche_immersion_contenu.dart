@@ -30,10 +30,19 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CriteresRechercheImmersionContenuViewModel>(
+      onInitialBuild: _onInitialBuild,
       converter: (store) => CriteresRechercheImmersionContenuViewModel.create(store),
       builder: _builder,
       distinct: true,
     );
+  }
+
+  void _onInitialBuild(CriteresRechercheImmersionContenuViewModel viewModel) {
+    if (viewModel.initialLocation != null || viewModel.initialMetier != null) {
+      _selectedLocation = viewModel.initialLocation;
+      _selectedMetier = viewModel.initialMetier;
+      _updateCriteresActifsCount();
+    }
   }
 
   Widget _builder(BuildContext context, CriteresRechercheImmersionContenuViewModel viewModel) {
@@ -44,6 +53,7 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
         children: [
           MetierAutocomplete(
             title: Strings.metierCompulsoryLabel,
+            initialValue: viewModel.initialMetier,
             onMetierSelected: (metier) {
               _selectedMetier = metier;
               _updateCriteresActifsCount();
@@ -53,6 +63,7 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
           LocationAutocomplete(
             title: Strings.villeCompulsoryLabel,
             villesOnly: true,
+            initialValue: viewModel.initialLocation,
             onLocationSelected: (location) {
               _selectedLocation = location;
               _updateCriteresActifsCount();

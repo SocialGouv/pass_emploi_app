@@ -152,19 +152,15 @@ class SavedSearchImmersionExtractor {
     return ImmersionSearchParametersFiltres.distance(criteres.rayon);
   }
 
-  Location? _getLocation(SavedSearchResponse savedSearch) {
-    if (savedSearch.localisation != null) {
-      return Location(
-        type: LocationType.COMMUNE,
-        code: savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "",
-        libelle: savedSearch.localisation ?? "",
-        codePostal: null,
-        longitude: savedSearch.criteres.lon,
-        latitude: savedSearch.criteres.lat,
-      );
-    } else {
-      return null;
-    }
+  Location _getLocation(SavedSearchResponse savedSearch) {
+    return Location(
+      type: LocationType.COMMUNE,
+      code: savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "",
+      libelle: savedSearch.localisation ?? "",
+      codePostal: null,
+      longitude: savedSearch.criteres.lon,
+      latitude: savedSearch.criteres.lat,
+    );
   }
 }
 

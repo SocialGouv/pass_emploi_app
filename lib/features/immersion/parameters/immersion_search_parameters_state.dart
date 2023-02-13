@@ -8,7 +8,7 @@ abstract class ImmersionSearchParametersState extends Equatable {
 
 class ImmersionSearchParametersInitializedState extends ImmersionSearchParametersState {
   final String codeRome;
-  final Location? location;
+  final Location location;
   final ImmersionSearchParametersFiltres filtres;
   final String? title;
 

@@ -18,10 +18,12 @@ const _heroTag = 'metier';
 class MetierAutocomplete extends StatefulWidget {
   final String title;
   final Function(Metier? location) onMetierSelected;
+  final Metier? initialValue;
 
   const MetierAutocomplete({
     required this.title,
     required this.onMetierSelected,
+    this.initialValue,
   });
 
   @override
@@ -30,6 +32,12 @@ class MetierAutocomplete extends StatefulWidget {
 
 class _MetierAutocompleteState extends State<MetierAutocomplete> {
   Metier? _selectedMetier;
+
+  @override
+  void initState() {
+    _selectedMetier = widget.initialValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

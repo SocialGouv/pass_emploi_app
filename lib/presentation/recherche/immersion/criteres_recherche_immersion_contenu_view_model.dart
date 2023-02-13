@@ -12,16 +12,22 @@ import 'package:redux/redux.dart';
 
 class CriteresRechercheImmersionContenuViewModel extends Equatable {
   final DisplayState displayState;
+  final Metier? initialMetier;
+  final Location? initialLocation;
   final Function(Metier metier, Location location) onSearchingRequest;
 
   CriteresRechercheImmersionContenuViewModel({
     required this.displayState,
+    required this.initialMetier,
+    required this.initialLocation,
     required this.onSearchingRequest,
   });
 
   factory CriteresRechercheImmersionContenuViewModel.create(Store<AppState> store) {
     return CriteresRechercheImmersionContenuViewModel(
       displayState: _displayState(store),
+      initialMetier: store.state.rechercheImmersionState.request?.criteres.metier,
+      initialLocation: store.state.rechercheImmersionState.request?.criteres.location,
       onSearchingRequest: (metier, location) {
         store.dispatch(
           RechercheRequestAction<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres>(

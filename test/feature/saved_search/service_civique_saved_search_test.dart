@@ -176,10 +176,7 @@ class ServiceCiviqueRepositorySuccessStub extends ServiceCiviqueRepository {
     required String userId,
     required RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche> request,
   }) async {
-    return RechercheResponse<ServiceCivique>(
-      results: mockOffresServiceCivique10(),
-      canLoadMore: false,
-    );
+    return RechercheResponse(results: mockOffresServiceCivique10(), canLoadMore: false);
   }
 }
 
