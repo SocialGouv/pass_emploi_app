@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
@@ -14,6 +13,7 @@ import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigatio
 import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
@@ -250,15 +250,14 @@ void main() {
       "ViewModel MUST create a copy and not just a reference of state's saved searches to ensure StoreConnector.distinct properly works",
       () {
     // Given
-    final store = TestStoreFactory().initializeReduxStore(
+        final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
         savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
-    final viewModel = SavedSearchListViewModel.createFromStore(store);
 
     // When
-    _savedSearches.clear();
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
 
     // Then
     expect(viewModel.savedSearches, isNotEmpty);
@@ -278,10 +277,9 @@ void main() {
         ),
       ),
     );
-    final viewModel = SavedSearchListViewModel.createFromStore(store);
 
     // When
-    _savedSearches.clear();
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
 
     // Then
     expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_ALTERNANCE);
@@ -301,10 +299,9 @@ void main() {
         ),
       ),
     );
-    final viewModel = SavedSearchListViewModel.createFromStore(store);
 
     // When
-    _savedSearches.clear();
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
 
     // Then
     expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_EMPLOI);
@@ -312,18 +309,29 @@ void main() {
 
   test("ViewModel should set navigation to offres immersions when search results are ready", () {
     // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
-        immersionListState: ImmersionListSuccessState([]),
-      ),
-    );
-    final viewModel = SavedSearchListViewModel.createFromStore(store);
+    final store = givenState()
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .successRechercheImmersionState()
+        .store();
 
     // When
-    _savedSearches.clear();
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
 
     // Then
     expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_IMMERSION);
+  });
+
+  test("ViewModel should set navigation to service civique when search results are ready", () {
+    // Given
+    final store = givenState()
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .successRechercheServiceCiviqueState()
+        .store();
+
+    // When
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
+
+    // Then
+    expect(viewModel.searchNavigationState, SavedSearchNavigationState.SERVICE_CIVIQUE);
   });
 }

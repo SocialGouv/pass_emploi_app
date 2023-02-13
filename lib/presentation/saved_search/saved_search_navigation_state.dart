@@ -13,16 +13,14 @@ enum SavedSearchNavigationState {
   static SavedSearchNavigationState fromAppState(AppState state) {
     final offreEmploiListState = state.offreEmploiListState;
     final searchParamsState = state.offreEmploiSearchParametersState;
-    final immersionState = state.rechercheImmersionState;
-    final serviceCiviqueState = state.rechercheServiceCiviqueState;
     if ((offreEmploiListState is OffreEmploiListSuccessState &&
         searchParamsState is OffreEmploiSearchParametersInitializedState)) {
       return searchParamsState.onlyAlternance
           ? SavedSearchNavigationState.OFFRE_ALTERNANCE
           : SavedSearchNavigationState.OFFRE_EMPLOI;
-    } else if (immersionState.status == RechercheStatus.success) {
+    } else if (state.rechercheImmersionState.status == RechercheStatus.success) {
       return SavedSearchNavigationState.OFFRE_IMMERSION;
-    } else if (serviceCiviqueState.status == RechercheStatus.success) {
+    } else if (state.rechercheServiceCiviqueState.status == RechercheStatus.success) {
       return SavedSearchNavigationState.SERVICE_CIVIQUE;
     } else {
       return SavedSearchNavigationState.NONE;
