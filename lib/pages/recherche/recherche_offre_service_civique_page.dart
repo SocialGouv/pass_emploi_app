@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_filtres_page.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/service_civique/actions_recherche_service_civique_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -49,7 +50,12 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
   }
 
   @override
-  Widget buildResultItem(BuildContext context, ServiceCivique item) {
+  Widget buildResultItem(
+    BuildContext context,
+    ServiceCivique item,
+    int index,
+    BlocResultatRechercheViewModel<ServiceCivique> resultViewModel,
+  ) {
     return DataCard<ServiceCivique>(
       titre: item.title,
       category: Domaine.fromTag(item.domain)?.titre,

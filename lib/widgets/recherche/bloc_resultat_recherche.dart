@@ -12,7 +12,7 @@ class BlocResultatRecherche<Result> extends StatelessWidget {
   final Key listResultatKey;
   final RechercheState Function(AppState) rechercheState;
   final FavoriListState<Result> Function(AppState) favorisState;
-  final Widget Function(BuildContext, Result) buildResultItem;
+  final Widget Function(BuildContext, Result, int, BlocResultatRechercheViewModel<Result>) buildResultItem;
 
   BlocResultatRecherche({
     required this.listResultatKey,

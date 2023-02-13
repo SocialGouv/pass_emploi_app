@@ -25,8 +25,13 @@ class OffreEmploiDataFromIdExtractor extends DataFromIdExtractor<OffreEmploi> {
 class ImmersionDataFromIdExtractor extends DataFromIdExtractor<Immersion> {
   @override
   Immersion extractFromId(Store<AppState> store, String favoriId) {
-    final state = store.state.immersionListState as ImmersionListSuccessState;
-    return state.immersions.firstWhere((element) => element.id == favoriId);
+    if (store.state.immersionListState is ImmersionListSuccessState) {
+      //TODO(1356): encore utile ce if ou à virer après nettoyage ?
+      final state = store.state.immersionListState as ImmersionListSuccessState;
+      return state.immersions.firstWhere((element) => element.id == favoriId);
+    }
+    // TODO : 1356 - Test later when offreEmploiListState would be removed
+    return store.state.rechercheImmersionState.results!.firstWhere((element) => element.id == favoriId);
   }
 }
 

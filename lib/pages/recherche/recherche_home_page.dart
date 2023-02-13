@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -37,14 +38,21 @@ class RechercheHomePage extends StatelessWidget {
               _BlocSolution(
                 title: Strings.rechercheHomeOffresAlternanceTitle,
                 subtitle: Strings.rechercheHomeOffresAlternanceSubtitle,
-                icon: AppIcons.description_rounded,
+                icon: AppIcons.signpost_rounded,
                 onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: true)),
+              ),
+              SizedBox(height: Margins.spacing_base),
+              _BlocSolution(
+                title: Strings.rechercheHomeOffresImmersionTitle,
+                subtitle: Strings.rechercheHomeOffresImmersionSubtitle,
+                icon: AppIcons.rocket_launch_rounded,
+                onTap: () => Navigator.push(context, RechercheOffreImmersionPage.materialPageRoute()),
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(
                 title: Strings.rechercheHomeOffresServiceCiviqueTitle,
                 subtitle: Strings.rechercheHomeOffresServiceCiviqueSubtitle,
-                icon: AppIcons.description_rounded,
+                icon: AppIcons.account_balance_rounded,
                 onTap: () => Navigator.push(context, RechercheOffreServiceCiviquePage.materialPageRoute()),
               ),
             ],

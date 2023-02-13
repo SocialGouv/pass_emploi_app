@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
-import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_actions.dart';
-import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -23,15 +22,14 @@ class ImmersionFiltresViewModel extends Equatable {
   });
 
   factory ImmersionFiltresViewModel.create(Store<AppState> store) {
-    final parametersState = store.state.immersionSearchParametersState;
-    final searchState = store.state.immersionListState;
+    final state = store.state.rechercheImmersionState;
     return ImmersionFiltresViewModel._(
-      displayState: _displayState(searchState),
-      initialDistanceValue: _distance(parametersState),
+      displayState: _displayState(state),
+      initialDistanceValue: _distance(state),
       updateFiltres: (updatedDistanceValue) {
         _dispatchUpdateFiltresAction(store, updatedDistanceValue);
       },
-      errorMessage: _errorMessage(searchState),
+      errorMessage: _errorMessage(state),
     );
   }
 
@@ -43,29 +41,25 @@ class ImmersionFiltresViewModel extends Equatable {
       ];
 }
 
-String _errorMessage(ImmersionListState searchState) {
-  return searchState is ImmersionListFailureState ? Strings.genericError : "";
+String _errorMessage(RechercheImmersionState state) {
+  return state.status == RechercheStatus.failure ? Strings.genericError : "";
 }
 
-DisplayState _displayState(ImmersionListState searchState) {
-  if (searchState is ImmersionListSuccessState) {
-    return DisplayState.CONTENT;
-  } else if (searchState is ImmersionListLoadingState) {
-    return DisplayState.LOADING;
-  } else {
-    return DisplayState.FAILURE;
+DisplayState _displayState(RechercheImmersionState state) {
+  switch (state.status) {
+    case RechercheStatus.updateLoading:
+      return DisplayState.LOADING;
+    case RechercheStatus.success:
+      return DisplayState.CONTENT;
+    default:
+      return DisplayState.FAILURE;
   }
 }
 
-int _distance(ImmersionSearchParametersState parametersState) {
-  if (parametersState is ImmersionSearchParametersInitializedState) {
-    return parametersState.filtres.distance ?? ImmersionSearchParametersFiltres.defaultDistanceValue;
-  } else {
-    return ImmersionSearchParametersFiltres.defaultDistanceValue;
-  }
+int _distance(RechercheImmersionState state) {
+  return state.request?.filtres.distance ?? ImmersionSearchParametersFiltres.defaultDistanceValue;
 }
 
 void _dispatchUpdateFiltresAction(Store<AppState> store, int? updatedDistanceValue) {
-  store.dispatch(
-      ImmersionSearchUpdateFiltresRequestAction(ImmersionSearchParametersFiltres.distance(updatedDistanceValue)));
+  store.dispatch(RechercheUpdateFiltresAction(ImmersionSearchParametersFiltres.distance(updatedDistanceValue)));
 }

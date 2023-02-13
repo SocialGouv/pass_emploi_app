@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/features/partage_activite/partage_activites_stat
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
@@ -31,6 +32,8 @@ import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -452,6 +455,58 @@ extension AppStateDSL on AppState {
       request: RechercheRequest(
         criteres ?? ServiceCiviqueCriteresRecherche(location: null),
         filtres ?? ServiceCiviqueFiltresRecherche.noFiltre(),
+        1,
+      ),
+    );
+  }
+
+  AppState initialRechercheImmersionState() {
+    return copyWith(rechercheImmersionState: RechercheState.initial());
+  }
+
+  AppState initialLoadingRechercheImmersionState() {
+    return copyWith(
+      rechercheImmersionState: RechercheImmersionState.initial().copyWith(status: RechercheStatus.initialLoading),
+    );
+  }
+
+  AppState updateLoadingRechercheImmersionState() {
+    return copyWith(
+      rechercheImmersionState: RechercheImmersionState.initial().copyWith(status: RechercheStatus.updateLoading),
+    );
+  }
+
+  AppState failureRechercheImmersionState() {
+    return copyWith(
+      rechercheImmersionState: RechercheImmersionState.initial().copyWith(status: RechercheStatus.failure),
+    );
+  }
+
+  AppState successRechercheImmersionState({
+    List<Immersion>? results,
+    RechercheRequest<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres>? request,
+    bool canLoadMore = true,
+  }) {
+    final _results = results ?? mockOffresImmersion10();
+    final _request = request ?? initialRechercheImmersionRequest();
+    return copyWith(
+      rechercheImmersionState: RechercheImmersionState.initial().copyWith(
+        status: RechercheStatus.success,
+        request: () => _request,
+        results: () => _results,
+        canLoadMore: canLoadMore,
+      ),
+    );
+  }
+
+  AppState successRechercheImmersionStateWithRequest({
+    ImmersionCriteresRecherche? criteres,
+    ImmersionSearchParametersFiltres? filtres,
+  }) {
+    return successRechercheImmersionState(
+      request: RechercheRequest(
+        criteres ?? ImmersionCriteresRecherche(location: mockLocation(), metier: mockMetier()),
+        filtres ?? ImmersionSearchParametersFiltres.noFiltres(),
         1,
       ),
     );

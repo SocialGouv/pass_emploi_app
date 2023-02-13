@@ -119,6 +119,7 @@ class AppState extends Equatable {
   final EventListState eventListState;
   final DeviceInfoState deviceInfoState;
   final RechercheEmploiState rechercheEmploiState;
+  final RechercheImmersionState rechercheImmersionState;
   final RechercheServiceCiviqueState rechercheServiceCiviqueState;
 
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
@@ -181,6 +182,7 @@ class AppState extends Equatable {
     required this.eventListState,
     required this.deviceInfoState,
     required this.rechercheEmploiState,
+    required this.rechercheImmersionState,
     required this.rechercheServiceCiviqueState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
@@ -243,6 +245,7 @@ class AppState extends Equatable {
     final EventListState? eventListState,
     final DeviceInfoState? deviceInfoState,
     final RechercheEmploiState? rechercheEmploiState,
+    final RechercheImmersionState? rechercheImmersionState,
     final RechercheServiceCiviqueState? rechercheServiceCiviqueState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
@@ -305,6 +308,7 @@ class AppState extends Equatable {
       eventListState: eventListState ?? this.eventListState,
       deviceInfoState: deviceInfoState ?? this.deviceInfoState,
       rechercheEmploiState: rechercheEmploiState ?? this.rechercheEmploiState,
+      rechercheImmersionState: rechercheImmersionState ?? this.rechercheImmersionState,
       rechercheServiceCiviqueState: rechercheServiceCiviqueState ?? this.rechercheServiceCiviqueState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
@@ -369,6 +373,7 @@ class AppState extends Equatable {
       eventListState: EventListNotInitializedState(),
       deviceInfoState: DeviceInfoNotInitializedState(),
       rechercheEmploiState: RechercheState.initial(),
+      rechercheImmersionState: RechercheState.initial(),
       rechercheServiceCiviqueState: RechercheState.initial(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
@@ -426,6 +431,7 @@ class AppState extends Equatable {
         eventListState,
         deviceInfoState,
         rechercheEmploiState,
+        rechercheImmersionState,
         rechercheServiceCiviqueState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];

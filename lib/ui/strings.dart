@@ -319,12 +319,15 @@ class Strings {
   static String rechercheHomeOffresEmploiSubtitle = "Découvrez toutes les offres d’emploi de votre métier";
   static String rechercheHomeOffresAlternanceTitle = "Offres d’alternance";
   static String rechercheHomeOffresAlternanceSubtitle = "Trouvez une entreprise pour accompagner votre formation";
+  static String rechercheHomeOffresImmersionTitle = "Offres d’immersion";
+  static String rechercheHomeOffresImmersionSubtitle = "Découvrez un métier en immersion dans une entreprise";
   static String rechercheHomeOffresServiceCiviqueTitle = "Offres de service civique";
   static String rechercheHomeOffresServiceCiviqueSubtitle = "Engagez-vous dans un projet d’intérêt général !";
   static String rechercheOffresEmploiTitle = "offres d’emploi";
   static String rechercheOffresAlternanceTitle = "offres d’alternance";
+  static String rechercheOffresImmersionTitle = "offres d’immersion";
   static String rechercheOffresServiceCiviqueTitle = "offres de service civique";
-  static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondants";
+  static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
 
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
 

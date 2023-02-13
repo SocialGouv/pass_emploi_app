@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 
 class ImmersionFiltresPage extends StatefulWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
+  static MaterialPageRoute<bool> materialPageRoute() {
     return MaterialPageRoute(builder: (_) => ImmersionFiltresPage());
   }
 
@@ -33,7 +33,7 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
         distinct: true,
         onWillChange: (previousVM, newVM) {
           if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
-            Navigator.pop(context);
+            Navigator.pop(context, true);
           }
         },
       ),
