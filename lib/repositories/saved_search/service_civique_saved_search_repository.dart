@@ -29,7 +29,7 @@ class ServiceCiviqueSavedSearchRepository extends SavedSearchRepository<ServiceC
             lat: savedSearch.location?.latitude,
             lon: savedSearch.location?.longitude,
             distance: savedSearch.filtres.distance,
-            dateDeDebutMinimum: savedSearch.dateDeDebut,
+            dateDeDebutMinimum: savedSearch.dateDeDebut?.toIso8601String(),
             domaine: savedSearch.domaine?.tag,
           ),
         ),

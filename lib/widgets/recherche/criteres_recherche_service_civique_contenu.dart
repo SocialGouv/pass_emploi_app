@@ -28,9 +28,17 @@ class _CriteresRechercheServiceCiviqueContenuState extends State<CriteresRecherc
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CriteresRechercheServiceCiviqueContenuViewModel>(
       converter: (store) => CriteresRechercheServiceCiviqueContenuViewModel.create(store),
+      onInitialBuild: _onInitialBuild,
       builder: _builder,
       distinct: true,
     );
+  }
+
+  void _onInitialBuild(CriteresRechercheServiceCiviqueContenuViewModel viewModel) {
+    if (viewModel.initialLocation != null) {
+      _selectedLocation = viewModel.initialLocation;
+      _updateCriteresActifsCount();
+    }
   }
 
   Widget _builder(BuildContext context, CriteresRechercheServiceCiviqueContenuViewModel viewModel) {
@@ -43,6 +51,7 @@ class _CriteresRechercheServiceCiviqueContenuState extends State<CriteresRecherc
             title: Strings.jobLocationTitle,
             hint: Strings.jobLocationHint,
             villesOnly: true,
+            initialValue: viewModel.initialLocation,
             onLocationSelected: (location) {
               _selectedLocation = location;
               _updateCriteresActifsCount();

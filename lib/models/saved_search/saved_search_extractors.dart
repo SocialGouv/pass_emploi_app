@@ -129,7 +129,7 @@ class ServiceCiviqueSearchExtractor extends AbstractSearchExtractor<ServiceCiviq
       filtres: ServiceCiviqueFiltresParameters.distance(lastRequest?.filtres.distance),
       ville: lastRequest?.criteres.location?.libelle ?? "",
       domaine: lastRequest?.filtres.domain,
-      dateDeDebut: lastRequest?.filtres.startDate?.toIso8601String(),
+      dateDeDebut: lastRequest?.filtres.startDate,
     );
   }
 
