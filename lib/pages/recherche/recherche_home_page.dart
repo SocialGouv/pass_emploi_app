@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
+import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -11,6 +12,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
+import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
 class RechercheHomePage extends StatelessWidget {
   @override
@@ -26,6 +28,10 @@ class RechercheHomePage extends StatelessWidget {
               Text(
                 Strings.rechercheHomeNosOffres,
                 style: TextStyles.textLBold(color: AppColors.primary),
+              ),
+              SizedBox(height: Margins.spacing_base),
+              VoirSuggestionsRechercheBandeau(
+                onTapShowSuggestions: () => Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute()),
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(
