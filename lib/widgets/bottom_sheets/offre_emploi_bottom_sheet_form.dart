@@ -151,7 +151,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
 
   Widget _savedSearchFilters(OffreEmploiSavedSearch searchViewModel) {
     final List<TagInfo> _tags = [TagInfo(searchViewModel.getSavedSearchTagLabel(), false)];
-    final String? _keyWords = searchViewModel.keywords;
+    final String? _keyWords = searchViewModel.keyword;
     final String? _location = searchViewModel.location?.libelle;
     if (_keyWords != null && _keyWords.isNotEmpty) _tags.add(TagInfo(_keyWords, false));
     if (_location != null && _location.isNotEmpty) _tags.add(TagInfo(_location, true));

@@ -1,18 +1,28 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
+import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
@@ -21,8 +31,8 @@ void main() {
         id: "id",
         title: "Boulanger",
         filters: OffreEmploiSearchParametersFiltres.noFiltres(),
-        keywords: "Boulanger",
-        isAlternance: false,
+        keyword: "Boulanger",
+        onlyAlternance: false,
         location: mockLocation(),
         metier: "Boulanger");
 
@@ -106,7 +116,33 @@ void main() {
       final appState = await failureAppState;
       expect(appState.savedSearchListState is SavedSearchListFailureState, isTrue);
     });
+
+    group("when user request a specific saved search", () {
+      final sut = StoreSut();
+      sut.when(() => SavedSearchGetAction('id'));
+
+      test('should retrieve results coming from same criteres and filtres', () {
+        sut.givenStore = givenState().loggedInUser().store((factory) {
+          factory.getSavedSearchRepository = SavedSearchRepositorySuccessStub();
+          factory.offreEmploiRepository = OffreEmploiRepositorySuccessStub();
+        });
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldInitialLoad(), _shouldSucceedWithSameCriteresAndFiltres()]);
+      });
+    });
   });
+}
+
+class OffreEmploiRepositorySuccessStub extends OffreEmploiRepository {
+  OffreEmploiRepositorySuccessStub() : super("", DummyHttpClient());
+
+  @override
+  Future<RechercheResponse<OffreEmploi>?> rechercher({
+    required String userId,
+    required RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> request,
+  }) async {
+    return RechercheResponse(results: mockOffresEmploi10(), canLoadMore: false);
+  }
 }
 
 class OffreEmploiSavedSearchRepositorySuccessStub extends OffreEmploiSavedSearchRepository {
@@ -152,8 +188,8 @@ List<OffreEmploiSavedSearch> _getOffreEmploiSavedSearchList() {
       title: "Boulangerie - NANTES",
       metier: "Boulangerie",
       location: Location(libelle: "NANTES", code: "44109", type: LocationType.COMMUNE),
-      keywords: "Boulangerie",
-      isAlternance: false,
+      keyword: "Boulangerie",
+      onlyAlternance: false,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: null,
         experience: [],
@@ -162,12 +198,12 @@ List<OffreEmploiSavedSearch> _getOffreEmploiSavedSearchList() {
       ),
     ),
     OffreEmploiSavedSearch(
-      id: "id",
+      id: "id2",
       title: "Flutter",
       metier: "Flutter",
       location: null,
-      keywords: "Flutter",
-      isAlternance: true,
+      keyword: "Flutter",
+      onlyAlternance: true,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: null,
         experience: [],
@@ -176,4 +212,34 @@ List<OffreEmploiSavedSearch> _getOffreEmploiSavedSearchList() {
       ),
     ),
   ];
+}
+
+Matcher _shouldInitialLoad() {
+  return StateMatch((state) => state.rechercheEmploiState.status == RechercheStatus.initialLoading);
+}
+
+Matcher _shouldSucceedWithSameCriteresAndFiltres() {
+  return StateMatch(
+    (state) => state.rechercheEmploiState.status == RechercheStatus.success,
+    (state) {
+      expect(
+        state.rechercheEmploiState.request!.criteres,
+        EmploiCriteresRecherche(
+          keyword: "Boulangerie",
+          location: Location(libelle: "NANTES", code: "44109", type: LocationType.COMMUNE),
+          onlyAlternance: false,
+        ),
+      );
+      expect(
+        state.rechercheEmploiState.request!.filtres,
+        OffreEmploiSearchParametersFiltres.withFiltres(
+          distance: null,
+          experience: [],
+          contrat: [],
+          duree: [],
+        ),
+      );
+      expect(state.rechercheEmploiState.results?.length, 10);
+    },
+  );
 }

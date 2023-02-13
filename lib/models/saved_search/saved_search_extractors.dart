@@ -26,7 +26,7 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
     //TODO(1353): peut-être cassé / crash si on clique sur "filtres" depuis une recherche sauvegardée parce que c'est un ancien écran qui n'utilise pas le state
     final state = store.state.rechercheEmploiState;
     final request = state.request!;
-    final metier = request.criteres.keywords;
+    final metier = request.criteres.keyword;
     final location = request.criteres.location;
     final String _title = _setTitleForOffer(metier, location?.libelle);
     return OffreEmploiSavedSearch(
@@ -34,8 +34,8 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
       title: _title,
       metier: metier,
       location: location,
-      keywords: metier,
-      isAlternance: request.criteres.onlyAlternance,
+      keyword: metier,
+      onlyAlternance: request.criteres.onlyAlternance,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: request.filtres.distance,
         debutantOnly: request.filtres.debutantOnly,

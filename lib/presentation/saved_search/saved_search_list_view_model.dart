@@ -74,7 +74,7 @@ class SavedSearchListViewModel extends Equatable {
   List<OffreEmploiSavedSearch> getOffresEmploi(bool withAlternance) {
     return savedSearches
         .whereType<OffreEmploiSavedSearch>()
-        .where((element) => element.isAlternance == withAlternance)
+        .where((element) => element.onlyAlternance == withAlternance)
         .toList();
   }
 

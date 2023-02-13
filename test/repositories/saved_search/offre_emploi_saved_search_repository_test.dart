@@ -112,8 +112,8 @@ OffreEmploiSavedSearch _savedSearchWithoutFilters() {
     title: "title",
     metier: null,
     location: null,
-    keywords: null,
-    isAlternance: false,
+    keyword: null,
+    onlyAlternance: false,
     filters: OffreEmploiSearchParametersFiltres.noFiltres(),
   );
 }
@@ -124,8 +124,8 @@ OffreEmploiSavedSearch _savedSearchWithFilters({required bool isAlternance}) {
     title: "title",
     metier: "plombier",
     location: Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT),
-    keywords: "secteur privé",
-    isAlternance: isAlternance,
+    keyword: "secteur privé",
+    onlyAlternance: isAlternance,
     filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: 40,
         contrat: [ContratFiltre.cdi],

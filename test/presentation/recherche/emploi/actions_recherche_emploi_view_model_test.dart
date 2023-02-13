@@ -82,7 +82,7 @@ void main() {
         // Given
         final store = givenState()
             .successRechercheEmploiStateWithRequest(
-              criteres: EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
+              criteres: EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: false),
             )
             .store();
 
@@ -98,7 +98,7 @@ void main() {
         final store = givenState()
             .rechercheEmploiStateWithRequest(
               status: RechercheStatus.updateLoading,
-              criteres: EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: false),
+              criteres: EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: false),
             )
             .store();
 
@@ -116,7 +116,7 @@ void main() {
           // Given
           final store = givenState()
               .successRechercheEmploiStateWithRequest(
-                criteres: EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: true),
               )
               .store();
 
@@ -131,7 +131,7 @@ void main() {
           // Given
           final store = givenState()
               .successRechercheEmploiStateWithRequest(
-                criteres: EmploiCriteresRecherche(location: mockLocation(), keywords: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(location: mockLocation(), keyword: '', onlyAlternance: true),
               )
               .store();
 
@@ -146,7 +146,7 @@ void main() {
           // Given
           final store = givenState()
               .successRechercheEmploiStateWithRequest(
-                criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keywords: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keyword: '', onlyAlternance: true),
               )
               .store();
 
@@ -164,7 +164,7 @@ void main() {
           final store = givenState()
               .rechercheEmploiStateWithRequest(
                 status: RechercheStatus.updateLoading,
-                criteres: EmploiCriteresRecherche(location: null, keywords: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: true),
               )
               .store();
 
@@ -180,7 +180,7 @@ void main() {
           final store = givenState()
               .rechercheEmploiStateWithRequest(
                 status: RechercheStatus.updateLoading,
-                criteres: EmploiCriteresRecherche(location: mockLocation(), keywords: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(location: mockLocation(), keyword: '', onlyAlternance: true),
               )
               .store();
 
@@ -196,7 +196,7 @@ void main() {
           final store = givenState()
               .rechercheEmploiStateWithRequest(
                 status: RechercheStatus.updateLoading,
-                criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keywords: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keyword: '', onlyAlternance: true),
               )
               .store();
 
