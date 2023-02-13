@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -29,7 +30,12 @@ abstract class RechercheOffrePage<Result> extends StatefulWidget {
 
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged});
 
-  Widget buildResultItem(BuildContext context, Result item);
+  Widget buildResultItem(
+    BuildContext context,
+    Result item,
+    int index,
+    BlocResultatRechercheViewModel<Result> resultViewModel,
+  );
 
   @override
   State<RechercheOffrePage<Result>> createState() => _RechercheOffrePageState();

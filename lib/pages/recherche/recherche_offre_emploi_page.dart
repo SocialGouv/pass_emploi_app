@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -64,7 +65,12 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   }
 
   @override
-  Widget buildResultItem(BuildContext context, OffreEmploi item) {
+  Widget buildResultItem(
+    BuildContext context,
+    OffreEmploi item,
+    int index,
+    BlocResultatRechercheViewModel<OffreEmploi> resultViewModel,
+  ) {
     final viewModel = OffreEmploiItemViewModel.create(item);
     return DataCard<OffreEmploi>(
       titre: viewModel.title,

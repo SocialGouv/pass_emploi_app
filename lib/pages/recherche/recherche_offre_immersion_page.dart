@@ -7,11 +7,14 @@ import 'package:pass_emploi_app/pages/immersion_filtres_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/immersion/actions_recherche_immersion_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/immersion_saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
+import 'package:pass_emploi_app/widgets/entreprises_accueillantes_header.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_immersion_contenu.dart';
 import 'package:pass_emploi_app/widgets/tags/entreprise_accueillante_tag.dart';
 import 'package:redux/redux.dart';
@@ -47,8 +50,13 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   }
 
   @override
-  Widget buildResultItem(BuildContext context, Immersion item) {
-    return DataCard<Immersion>(
+  Widget buildResultItem(
+    BuildContext context,
+    Immersion item,
+    int index,
+    BlocResultatRechercheViewModel<Immersion> resultViewModel,
+  ) {
+    final card = DataCard<Immersion>(
       titre: item.metier,
       sousTitre: item.nomEtablissement,
       lieu: item.ville,
@@ -58,11 +66,11 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
       id: item.id,
       additionalChild: item.fromEntrepriseAccueillante ? EntrepriseAccueillanteTag() : null,
     );
-
-    //TODO(1356): entreprise accueillante
-    // return index == 0 && viewModel.withEntreprisesAccueillantesHeader
-    //     ? Column(children: [_EntreprisesAccueillantesHeader(), SizedBox(height: Margins.spacing_base), dataCard])
-    //     : dataCard;
+    if (_shouldAddEntreprisesAccueillantesHeader(index, resultViewModel)) {
+      return Column(children: [EntreprisesAccueillantesHeader(), SizedBox(height: Margins.spacing_base), card]);
+    } else {
+      return card;
+    }
   }
 
   void _showOffreDetailsPage(BuildContext context, String offreId) {
@@ -70,5 +78,10 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
       context,
       ImmersionDetailsPage.materialPageRoute(offreId),
     );
+  }
+
+  bool _shouldAddEntreprisesAccueillantesHeader(int index, BlocResultatRechercheViewModel<Immersion> resultViewModel) {
+    if (index != 0) return false;
+    return resultViewModel.items.indexWhere((immersion) => immersion.fromEntrepriseAccueillante) != -1;
   }
 }

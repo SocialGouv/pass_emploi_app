@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
+import 'package:pass_emploi_app/widgets/entreprises_accueillantes_header.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/tags/entreprise_accueillante_tag.dart';
 
@@ -135,7 +136,7 @@ class ImmersionListPage extends StatelessWidget {
       additionalChild: immersion.fromEntrepriseAccueillante ? EntrepriseAccueillanteTag() : null,
     );
     return index == 0 && viewModel.withEntreprisesAccueillantesHeader
-        ? Column(children: [_EntreprisesAccueillantesHeader(), SizedBox(height: Margins.spacing_base), dataCard])
+        ? Column(children: [EntreprisesAccueillantesHeader(), SizedBox(height: Margins.spacing_base), dataCard])
         : dataCard;
   }
 
@@ -198,28 +199,5 @@ class ImmersionListPage extends StatelessWidget {
 
   void _trackEmptyResult(BuildContext context) {
     PassEmploiMatomoTracker.instance.trackScreen(context, eventName: AnalyticsScreenNames.immersionNoResults);
-  }
-}
-
-class _EntreprisesAccueillantesHeader extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.primaryLighten,
-      padding: EdgeInsets.all(Margins.spacing_m),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(AppIcons.info_rounded, color: AppColors.primary),
-          SizedBox(width: Margins.spacing_s),
-          Flexible(
-            child: Text(
-              Strings.entreprisesAccueillantesHeader,
-              style: TextStyles.textBaseBoldWithColor(AppColors.primary),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
