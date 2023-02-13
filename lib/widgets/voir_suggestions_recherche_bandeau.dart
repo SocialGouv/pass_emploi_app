@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/appariton_animation.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class VoirSuggestionsRechercheBandeau extends StatelessWidget {
@@ -39,17 +40,19 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (viewModel.hasSuggestionsRecherche) {
-      return Padding(
-        padding: padding ?? const EdgeInsets.all(0),
-        child: _Bandeau(
-          onTapShowSuggestions: onTapShowSuggestions,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              _Icon(),
-              _Text(),
-              _Chevron(),
-            ],
+      return ApparitonAnimation(
+        child: Padding(
+          padding: padding ?? EdgeInsets.zero,
+          child: _Bandeau(
+            onTapShowSuggestions: onTapShowSuggestions,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                _Icon(),
+                _Text(),
+                _Chevron(),
+              ],
+            ),
           ),
         ),
       );
