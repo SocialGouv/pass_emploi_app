@@ -36,7 +36,6 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../utils/test_datetime.dart';
 
@@ -216,15 +215,6 @@ ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
     );
 
 List<ServiceCivique> mockOffresServiceCivique10() => List.generate(10, (index) => mockServiceCivique());
-
-SearchServiceCiviqueRequest mockServiceCiviqueRequest({String id = "123DXPM"}) => SearchServiceCiviqueRequest(
-      location: mockLocation(),
-      endDate: '17/05/2022',
-      page: 1,
-      distance: null,
-      startDate: '17/02/2022',
-      domain: 'Informatique',
-    );
 
 ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
       dateDeDebut: '17/02/2022',
