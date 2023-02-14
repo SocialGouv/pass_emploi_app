@@ -341,7 +341,7 @@ class Strings {
   static String jobLocationTitle = "Lieu de travail";
   static String jobLocationHint = "Saisissez une ville, un département ou une région";
   static String searchButton = "Rechercher";
-  static String offresEmploiTitle = "Offres d'emploi";
+  static String offresEmploiTitle = "Offres d'emploi";//TODO(1418): à supprimer ?
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
   static String eventsTabTitle = "Événements";
@@ -362,7 +362,7 @@ class Strings {
 
   // Alternance
   static String alternanceButton = "Alternance";
-  static String alternanceTitle = "Offres d'alternance";
+  static String alternanceTitle = "Offres d'alternance";//TODO(1418): à supprimer ?
   static String partagerOffreAlternance = "Partager l’offre d’alternance";
   static String partageOffreAlternanceNavTitle = "Partage de l’offre d’alternance";
 

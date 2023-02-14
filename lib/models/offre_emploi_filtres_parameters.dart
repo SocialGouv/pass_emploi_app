@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-
+//TODO(1418): à renommer et déplacer à côté de la class Critères
 class OffreEmploiSearchParametersFiltres extends Equatable {
   static const defaultDistanceValue = 10;
 

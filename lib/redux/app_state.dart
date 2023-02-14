@@ -76,15 +76,15 @@ class AppState extends Equatable {
   final DetailsJeuneState detailsJeuneState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
-  final OffreEmploiSearchState offreEmploiSearchState;
+  final OffreEmploiSearchState offreEmploiSearchState;//TODO(1418): à supprimer ?
   final OffreEmploiDetailsState offreEmploiDetailsState;
-  final OffreEmploiListState offreEmploiListState;
-  final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
+  final OffreEmploiListState offreEmploiListState;//TODO(1418): à supprimer ?
+  final OffreEmploiSearchParametersState offreEmploiSearchParametersState;//TODO(1418): à supprimer ?
   final FavoriListState<OffreEmploi> offreEmploiFavorisState;
   final FavoriListState<Immersion> immersionFavorisState;
   final FavoriListState<ServiceCivique> serviceCiviqueFavorisState;
   final FavoriUpdateState favoriUpdateState;
-  final SearchLocationState searchLocationState;
+  final SearchLocationState searchLocationState;//TODO(1418): à supprimer ?
   final SearchMetierState searchMetierState;
   final RendezvousListState rendezvousListState;
   final RendezvousDetailsState rendezvousDetailsState;

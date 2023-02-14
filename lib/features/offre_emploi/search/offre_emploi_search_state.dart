@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-
+//TODO(1418): à supprimer ?
 abstract class OffreEmploiSearchState extends Equatable {
   OffreEmploiSearchState._();
 

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-
+//TODO(1418): à supprimer ?
 abstract class OffreEmploiListState extends Equatable {
   OffreEmploiListState._();
 

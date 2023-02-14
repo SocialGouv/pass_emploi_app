@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
-
+//TODO(1418): à supprimer ?
 abstract class OffreEmploiSearchParametersState {
   OffreEmploiSearchParametersState._();
 

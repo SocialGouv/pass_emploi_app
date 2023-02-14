@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
@@ -50,17 +50,18 @@ class SuggestionsRechercheListPage extends StatelessWidget {
   void _navigateToSearch(BuildContext context, SavedSearchNavigationState searchNavigationState) {
     switch (searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
-        _goToPage(context, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
+        //_goToPage(context, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true)); //TODO(1418): à adapter
         break;
       case SavedSearchNavigationState.OFFRE_ALTERNANCE:
-        _goToPage(context, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
+        //_goToPage(context, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true)); //TODO(1418): à adapter
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
-      //TODO(1418): à adapter
+        //TODO(1418): à adapter
         // _goToPage(context, ImmersionListPage(true))
         //     .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
         break;
       case SavedSearchNavigationState.SERVICE_CIVIQUE:
+        _goToPage(context, RechercheOffreServiceCiviquePage());
         //_goToPage(context, ServiceCiviqueListPage(true)); //TODO(1418): à adapter
         break;
       case SavedSearchNavigationState.NONE:

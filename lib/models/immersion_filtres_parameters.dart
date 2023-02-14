@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-
+//TODO(1418): à renommer et déplacer à côté de la class Critères
 class ImmersionSearchParametersFiltres extends Equatable {
   static const defaultDistanceValue = 10;
 

@@ -42,8 +42,8 @@ class AnalyticsScreenNames {
   // Recherche V2
   static const rechercheV2Home = "recherche";
 
-  static const emploiResearch = "recherche/emploi/search";
-  static const emploiResults = "recherche/emploi/search_results";
+  static const emploiResearch = "recherche/emploi/search";//TODO(1418): à supprimer ?
+  static const emploiResults = "recherche/emploi/search_results";//TODO(1418): à supprimer ?
   static const emploiNoResults = "recherche/emploi/search_no_results";
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
@@ -51,8 +51,8 @@ class AnalyticsScreenNames {
   static const emploiPartagePage = "/recherche/emploi/detail/partage-conseiller";
   static const emploiPartagePageSuccess = "/recherche/emploi/detail?partage-conseiller=true";
 
-  static const alternanceResearch = "recherche/alternance/search";
-  static const alternanceResults = "recherche/alternance/search_results";
+  static const alternanceResearch = "recherche/alternance/search";//TODO(1418): à supprimer ?
+  static const alternanceResults = "recherche/alternance/search_results";//TODO(1418): à supprimer ?
   static const alternanceNoResults = "recherche/alternance/search_no_results";
   static const alternanceDetails = "recherche/alternance/detail";
   static const alternanceFiltres = "recherche/alternance/search_results/filters";
