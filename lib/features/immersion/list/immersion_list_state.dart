@@ -1,5 +1,5 @@
 import 'package:pass_emploi_app/models/immersion.dart';
-
+//TODO(1418): à supprimer ?
 abstract class ImmersionListState {}
 
 class ImmersionListNotInitializedState extends ImmersionListState {}

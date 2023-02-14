@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-
+//TODO(1418): à supprimer ?
 class EmptyOffreWidget extends StatelessWidget {
   final Widget? additional;
   final bool withModifyButton;

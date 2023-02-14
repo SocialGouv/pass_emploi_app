@@ -60,7 +60,7 @@ class AnalyticsScreenNames {
 
   static const immersionResearch = "recherche/immersion/search";
   static const immersionResults = "recherche/immersion/search_results";
-  static const immersionNoResults = "recherche/immersion/search_no_results";
+  static const immersionNoResults = "recherche/immersion/search_no_results";//TODO(1418): à supprimer ?
   static const immersionDetails = "recherche/immersion/detail";
   static const immersionFiltres = "/recherche/immersion/search_results/filters";
   static const immersionCreateAlert = "/saved_search/immersion/create";

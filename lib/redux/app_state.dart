@@ -88,12 +88,12 @@ class AppState extends Equatable {
   final SearchMetierState searchMetierState;
   final RendezvousListState rendezvousListState;
   final RendezvousDetailsState rendezvousDetailsState;
-  final ImmersionListState immersionListState;
+  final ImmersionListState immersionListState; //TODO(1418): à supprimer
   final ImmersionDetailsState immersionDetailsState;
   final SavedSearchCreateState<OffreEmploiSavedSearch> offreEmploiSavedSearchCreateState;
   final SavedSearchCreateState<ImmersionSavedSearch> immersionSavedSearchCreateState;
   final SavedSearchCreateState<ServiceCiviqueSavedSearch> serviceCiviqueSavedSearchCreateState;
-  final ImmersionSearchParametersState immersionSearchParametersState;
+  final ImmersionSearchParametersState immersionSearchParametersState; //TODO(1418): à supprimer
   final SavedSearchListState savedSearchListState;
   final SavedSearchDeleteState savedSearchDeleteState;
   final ServiceCiviqueSearchResultState serviceCiviqueSearchResultState; //TODO(1418): à supprimer

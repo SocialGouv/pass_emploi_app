@@ -383,17 +383,17 @@ class Strings {
   static String villeCompulsoryLabel = "* Localisation";
   static String villeNonCompulsoryLabel = "Localisation";
   static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";
-  static String immersionObjectifTitle = "Objectif poursuivi ?";
+  static String immersionObjectifTitle = "Objectif poursuivi ?";//TODO(1418): à supprimer ?
   static String immersionObjectifContent =
-      "Passer quelques jours dans une entreprise pour découvrir un métier, en conditions réelles. Ainsi, vous pouvez vérifier que ce métier vous plaît et que vous vous sentirez à l'aise pour le pratiquer. Le professionnel qui vous guidera pendant cette immersion pourra vous dire si vous avez besoin d'une formation avant de pouvoir être recruté.";
-  static String immersionDemarchesTitle = "Quelles démarches ?";
+      "Passer quelques jours dans une entreprise pour découvrir un métier, en conditions réelles. Ainsi, vous pouvez vérifier que ce métier vous plaît et que vous vous sentirez à l'aise pour le pratiquer. Le professionnel qui vous guidera pendant cette immersion pourra vous dire si vous avez besoin d'une formation avant de pouvoir être recruté."; //TODO(1418): à supprimer ?
+  static String immersionDemarchesTitle = "Quelles démarches ?";//TODO(1418): à supprimer ?
   static String immersionDemarchesContent =
-      "Une fois que vous avez trouvé une entreprise pour vous accueillir, prévenez votre conseiller et complétez la convention qu'il vous transmettra. Cette convention devra être validée par vous, par l'entreprise d'accueil et par votre conseiller.";
-  static String immersionStatutTitle = "Quel statut ?";
+      "Une fois que vous avez trouvé une entreprise pour vous accueillir, prévenez votre conseiller et complétez la convention qu'il vous transmettra. Cette convention devra être validée par vous, par l'entreprise d'accueil et par votre conseiller.";//TODO(1418): à supprimer ?
+  static String immersionStatutTitle = "Quel statut ?";//TODO(1418): à supprimer ?
   static String immersionStatutContent =
-      "Votre statut ne change pas. Si vous êtes inscrit à Pôle emploi, actualisez-vous comme d'habitude !";
+      "Votre statut ne change pas. Si vous êtes inscrit à Pôle emploi, actualisez-vous comme d'habitude !";//TODO(1418): à supprimer ?
   static String immersionFieldHint = "Rechercher";
-  static String immersionsTitle = "Offres d'immersion";
+  static String immersionsTitle = "Offres d'immersion";//TODO(1418): à supprimer ?
   static String immersionError = "Erreur lors de la récupération de l'offre d'immersion. Veuillez réessayer";
   static String immersionNonAccueillanteExplanation =
       "Cette entreprise peut recruter sur ce métier et être intéressée pour vous recevoir en immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.";

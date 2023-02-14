@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/location.dart';
-
+//TODO(1418): à supprimer ?
 abstract class ImmersionSearchParametersState extends Equatable {
   ImmersionSearchParametersState._();
 }
