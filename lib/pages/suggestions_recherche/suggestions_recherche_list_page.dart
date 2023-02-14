@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
-import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
@@ -63,7 +62,7 @@ class SuggestionsRechercheListPage extends StatelessWidget {
             .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
         break;
       case SavedSearchNavigationState.SERVICE_CIVIQUE:
-        _goToPage(context, ServiceCiviqueListPage(true));
+        //_goToPage(context, ServiceCiviqueListPage(true)); //TODO(1418): à adapter
         break;
       case SavedSearchNavigationState.NONE:
         break;

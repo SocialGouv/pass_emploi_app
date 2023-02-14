@@ -96,7 +96,7 @@ class AppState extends Equatable {
   final ImmersionSearchParametersState immersionSearchParametersState;
   final SavedSearchListState savedSearchListState;
   final SavedSearchDeleteState savedSearchDeleteState;
-  final ServiceCiviqueSearchResultState serviceCiviqueSearchResultState;
+  final ServiceCiviqueSearchResultState serviceCiviqueSearchResultState; //TODO(1418): à supprimer
   final ServiceCiviqueDetailState serviceCiviqueDetailState;
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;

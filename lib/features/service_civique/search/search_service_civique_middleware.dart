@@ -7,6 +7,8 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:redux/redux.dart';
 
+//TODO(1418): à supprimer
+
 class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
   final ServiceCiviqueRepository _repository;
 

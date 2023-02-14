@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
+//TODO(1418): à supprimer
+
 abstract class ServiceCiviqueSearchResultState extends Equatable {
   ServiceCiviqueSearchResultState._();
 

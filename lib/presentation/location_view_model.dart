@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/location.dart';
 
+//TODO(1418): à supprimer
+
 class LocationViewModel extends Equatable {
   final String title;
   final Location location;

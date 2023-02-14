@@ -1,6 +1,8 @@
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 
+//TODO(1418): à supprimer
+
 ServiceCiviqueSearchResultState serviceCiviqueReducer(ServiceCiviqueSearchResultState current, dynamic action) {
   if (action is SearchServiceCiviqueAction) {
     return ServiceCiviqueSearchResultLoadingState();

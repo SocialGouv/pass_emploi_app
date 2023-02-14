@@ -65,9 +65,9 @@ class AnalyticsScreenNames {
   static const immersionFiltres = "/recherche/immersion/search_results/filters";
   static const immersionCreateAlert = "/saved_search/immersion/create";
 
-  static const serviceCiviqueResearch = "recherche/service_civique/search";
-  static const serviceCiviqueResults = "/recherche/service_civique/search_results";
-  static const serviceCiviqueNoResults = "/recherche/service_civique/search_no_results";
+  static const serviceCiviqueResearch = "recherche/service_civique/search"; //TODO(1418): à supprimer ?
+  static const serviceCiviqueResults = "/recherche/service_civique/search_results"; //TODO(1418): à supprimer ?
+  static const serviceCiviqueNoResults = "/recherche/service_civique/search_no_results"; //TODO(1418): à supprimer ?
   static const serviceCiviqueDetail = "/recherche/service_civique/detail";
   static const serviceCiviqueFavoris = "/favoris/list/service_civique";
   static const serviceCiviqueFiltres = "/recherche/service_civique/search_results/filters";

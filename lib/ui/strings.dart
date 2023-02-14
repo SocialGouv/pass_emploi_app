@@ -436,7 +436,7 @@ class Strings {
       "580 € d’indemnisation par mois dont 473,04 € pris en charge par l’État et 107,58 € par l’organisme d’accueil. ";
   static String knowMoreAboutServiceCiviqueLastTitle =
       "Vous souhaitez en savoir plus ? Envoyez un message à votre conseiller.";
-  static String serviceCiviqueListTitle = "Offres de service civique";
+  static String serviceCiviqueListTitle = "Offres de service civique"; //TODO(1418): à supprimer ?
   static String asSoonAs = "Dès le ";
   static String serviceCiviqueDetailTitle = "Détails de l’offre de service civique";
   static String serviceCiviqueMissionTitle = "Mission";

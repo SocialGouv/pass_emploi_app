@@ -4,6 +4,8 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
+//TODO(1418): à supprimer
+
 class SearchServiceCiviqueAction {
   final Location? location;
 
