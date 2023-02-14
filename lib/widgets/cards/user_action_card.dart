@@ -48,14 +48,13 @@ class UserActionCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: _Title(viewModel.title)),
-              SizedBox(width: Margins.spacing_base),
-              if (viewModel.tag != null) _StatusTags(viewModel.tag!),
-            ],
-          ),
+          if (viewModel.tag != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: _StatusTags(viewModel.tag!),
+            ),
+          SizedBox(height: Margins.spacing_base),
+          _Title(viewModel.title),
           SizedBox(height: Margins.spacing_base),
           if (viewModel.withSubtitle) ...[
             _Subtitle(viewModel.subtitle),
