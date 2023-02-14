@@ -29,8 +29,6 @@ import 'package:pass_emploi_app/features/login/login_middleware.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_middleware.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_middleware.dart';
-import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_middleware.dart';
-import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_middleware.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_middleware.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_middleware.dart';
 import 'package:pass_emploi_app/features/push/register_push_notification_token_middleware.dart';
@@ -231,9 +229,7 @@ class StoreFactory {
         RendezvousListMiddleware(rendezvousRepository),
         RendezvousDetailsMiddleware(rendezvousRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository, configuration),
-        OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
-        OffreEmploiSavedSearchMiddleware(offreEmploiRepository),
         FavoriIdsMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
         FavoriListMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
         FavoriUpdateMiddleware<OffreEmploi>(offreEmploiFavorisRepository, OffreEmploiDataFromIdExtractor()),

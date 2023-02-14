@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
@@ -20,7 +19,6 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
-import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
@@ -330,15 +328,6 @@ class ServiceCiviqueDetailRepositoryWithErrorStub extends ServiceCiviqueDetailRe
   @override
   Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
     return FailedServiceCiviqueDetailResponse();
-  }
-}
-
-class ImmersionRepositoryFailureStub extends ImmersionRepository {
-  ImmersionRepositoryFailureStub() : super(DioMock());
-
-  @override
-  Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
-    return null;
   }
 }
 

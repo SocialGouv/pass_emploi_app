@@ -25,9 +25,6 @@ import 'package:pass_emploi_app/features/login/login_reducer.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_reducer.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
-import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_reducer.dart';
-import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_reducer.dart';
-import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
 import 'package:pass_emploi_app/features/rating/rating_reducer.dart';
@@ -80,13 +77,7 @@ AppState reducer(AppState current, dynamic action) {
     detailsJeuneState: detailsJeuneReducer(current.detailsJeuneState, action),
     chatStatusState: chatStatusReducer(current.chatStatusState, action),
     chatState: chatReducer(current.chatState, action),
-    offreEmploiSearchState: offreEmploiSearchReducer(current.offreEmploiSearchState, action),
     deepLinkState: deepLinkReducer(current.deepLinkState, action),
-    offreEmploiListState: offreEmploiListReducer(current.offreEmploiListState, action),
-    offreEmploiSearchParametersState: offreEmploiSearchParametersReducer(
-      current.offreEmploiSearchParametersState,
-      action,
-    ),
     offreEmploiDetailsState: offreEmploiDetailsReducer(current.offreEmploiDetailsState, action),
     offreEmploiFavorisState: FavoriListReducer<OffreEmploi>().reduceFavorisState(
       current.offreEmploiFavorisState,
