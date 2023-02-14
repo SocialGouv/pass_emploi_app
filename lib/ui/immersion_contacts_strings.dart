@@ -2,13 +2,13 @@ class ImmersionContactStrings {
   static const String title = "Nos conseils pour cette première prise de contact !";
   static const String subtitle1 = "Comment présenter votre demande ?";
   static const String body1_1 = "Soyez ";
-  static const String body1_2bold = "direct, concret et courtois.";
+  static const String body1_2bold = "direct, concret et courtois. ";
   static const String body1_3 =
       "Présentez-vous, présentez simplement votre projet et l’objectif que vous recherchez en effectuant une immersion.\n\n";
   static const String body1_4bold = "Par exemple : ";
   static const String body1_5 =
       "“Je souhaite devenir mécanicien auto et je voudrais découvrir comment ce métier se pratique dans un garage comme le vôtre. Ça me permettra de vérifier que cela me plaît vraiment. La personne qui m’accueillera et me présentera le métier pourra aussi vérifier si ce métier est fait pour moi.\n\n”";
-  static const String body1_6 = "Vous pouvez indiquer à votre interlocutrice ou interlocuteur que";
+  static const String body1_6 = "Vous pouvez indiquer à votre interlocutrice ou interlocuteur que ";
   static const String body1_7bold =
       "cette immersion sera encadrée par une convention signée par l'organisme qui vous suit.\n\n";
   static const String body1_8 =
