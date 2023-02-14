@@ -19,7 +19,6 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
@@ -141,32 +140,6 @@ class PageDemarcheRepositoryFailureStub extends PageDemarcheRepository {
 
   @override
   Future<PageDemarches?> getPageDemarches(String userId) async {
-    return null;
-  }
-}
-
-class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository {
-  bool? _onlyAlternance;
-  int callCount = 0;
-
-  OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient());
-
-  void withOnlyAlternanceResolves(bool onlyAlternance) => _onlyAlternance = onlyAlternance;
-
-  @override
-  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
-    callCount = callCount + 1;
-    final response = OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
-    if (_onlyAlternance == null) return response;
-    return request.onlyAlternance == _onlyAlternance ? response : null;
-  }
-}
-
-class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
-  OffreEmploiRepositoryFailureStub() : super("", DummyHttpClient());
-
-  @override
-  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
     return null;
   }
 }

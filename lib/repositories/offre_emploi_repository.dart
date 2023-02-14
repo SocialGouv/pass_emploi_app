@@ -1,35 +1,14 @@
-import 'package:equatable/equatable.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/network/filtres_request.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
-
-//TODO(1353) peut-être à suppr.
-class SearchOffreEmploiRequest extends Equatable {
-  final String keywords;
-  final Location? location;
-  final bool onlyAlternance;
-  final int page;
-  final EmploiFiltresRecherche filtres;
-
-  SearchOffreEmploiRequest({
-    required this.keywords,
-    required this.location,
-    required this.onlyAlternance,
-    required this.page,
-    required this.filtres,
-  });
-
-  @override
-  List<Object?> get props => [keywords, location, onlyAlternance, page, filtres];
-}
 
 class OffreEmploiRepository extends RechercheRepository<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi> {
   static const PAGE_SIZE = 50;
@@ -47,7 +26,7 @@ class OffreEmploiRepository extends RechercheRepository<EmploiCriteresRecherche,
     required RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request,
   }) async {
     final url = Uri.parse(_baseUrl + "/offres-emploi").replace(
-      query: _createQueryNew(request),
+      query: _createQuery(request),
     );
     try {
       final response = await _httpClient.get(url);
@@ -62,36 +41,7 @@ class OffreEmploiRepository extends RechercheRepository<EmploiCriteresRecherche,
     return null;
   }
 
-  //TODO(1353) temp
-  String _createQueryNew(RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request) {
-    return _createQuery(SearchOffreEmploiRequest(
-      keywords: request.criteres.keyword,
-      location: request.criteres.location,
-      onlyAlternance: request.criteres.onlyAlternance,
-      page: request.page,
-      filtres: request.filtres,
-    ));
-  }
-
-  //TODO(1353) remove
-  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
-    final url = Uri.parse(_baseUrl + "/offres-emploi").replace(
-      query: _createQuery(request),
-    );
-    try {
-      final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes);
-        final list = (json["results"] as List).map((offre) => OffreEmploi.fromJson(offre)).toList();
-        return OffreEmploiSearchResponse(isMoreDataAvailable: list.length == PAGE_SIZE, offres: list);
-      }
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
-    }
-    return null;
-  }
-
-  String _createQuery(SearchOffreEmploiRequest request) {
+  String _createQuery(RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request) {
     final result = StringBuffer();
     var separator = "";
 
@@ -103,19 +53,19 @@ class OffreEmploiRepository extends RechercheRepository<EmploiCriteresRecherche,
       result.write(Uri.encodeQueryComponent(value));
     }
 
-    if (request.onlyAlternance) {
+    if (request.criteres.onlyAlternance) {
       writeParameter("alternance", true.toString());
     }
     writeParameter("page", request.page.toString());
     writeParameter("limit", PAGE_SIZE.toString());
-    if (request.keywords.isNotEmpty) {
-      writeParameter("q", request.keywords);
+    if (request.criteres.keyword.isNotEmpty) {
+      writeParameter("q", request.criteres.keyword);
     }
-    if (request.location?.type == LocationType.DEPARTMENT) {
-      writeParameter("departement", request.location!.code);
+    if (request.criteres.location?.type == LocationType.DEPARTMENT) {
+      writeParameter("departement", request.criteres.location!.code);
     }
-    if (request.location?.type == LocationType.COMMUNE) {
-      writeParameter("commune", request.location!.code);
+    if (request.criteres.location?.type == LocationType.COMMUNE) {
+      writeParameter("commune", request.criteres.location!.code);
     }
     if (request.filtres.distance != null) {
       writeParameter("rayon", request.filtres.distance.toString());

@@ -7,8 +7,6 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 
-//TODO(1356) migrer tests vers la nouvelle fonction après nettoyage
-
 class SearchImmersionRequest {
   final String codeRome;
   final Location location;
