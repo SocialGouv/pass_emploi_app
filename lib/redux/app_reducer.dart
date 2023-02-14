@@ -44,7 +44,6 @@ import 'package:pass_emploi_app/features/saved_search/create/saved_search_create
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_reducer.dart';
-import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_reducer.dart';
@@ -123,7 +122,6 @@ AppState reducer(AppState current, dynamic action) {
     ),
     savedSearchListState: savedSearchListReducer(current.savedSearchListState, action),
     savedSearchDeleteState: savedSearchDeleteReducer(current.savedSearchDeleteState, action),
-    serviceCiviqueSearchResultState: serviceCiviqueReducer(current.serviceCiviqueSearchResultState, action),
     serviceCiviqueDetailState: serviceCiviqueDetailReducer(current.serviceCiviqueDetailState, action),
     suppressionCompteState: suppressionCompteReducer(current.suppressionCompteState, action),
     demoState: modeDemoReducer(current, action),

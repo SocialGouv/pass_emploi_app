@@ -1,13 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/immersion/saved_search/immersion_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
-import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -63,5 +62,7 @@ void _seeOffreResults(Store<AppState> store) {
   final search = traiterState.savedSearch;
   if (search is ImmersionSavedSearch) store.dispatch(ImmersionSavedSearchRequestAction.fromSearch(search));
   if (search is OffreEmploiSavedSearch) store.dispatch(SavedOffreEmploiSearchRequestAction.fromSearch(search));
-  if (search is ServiceCiviqueSavedSearch) store.dispatch(ServiceCiviqueSavedSearchRequestAction(search));
+  //TODO(1418): ok comme adaptation ? et c'est pareil pour tous non ?
+  // if (search is ServiceCiviqueSavedSearch) store.dispatch(ServiceCiviqueSavedSearchRequestAction(search));
+  store.dispatch(SavedSearchGetAction(search.getId()));
 }

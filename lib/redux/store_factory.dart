@@ -50,7 +50,6 @@ import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_middl
 import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
-import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_middleware.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_middleware.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_middleware.dart';
@@ -261,7 +260,6 @@ class StoreFactory {
         SavedSearchListMiddleware(getSavedSearchRepository),
         SavedSearchGetMiddleware(getSavedSearchRepository),
         SavedSearchDeleteMiddleware(savedSearchDeleteRepository),
-        SearchServiceCiviqueMiddleware(serviceCiviqueRepository),
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),
         SuppressionCompteMiddleware(suppressionCompteRepository),
         CampagneMiddleware(campagneRepository),

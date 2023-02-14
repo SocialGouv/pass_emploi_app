@@ -3,16 +3,15 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
-import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:redux/src/store.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
+import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
@@ -143,17 +142,17 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
   testStoreFactory.serviceCiviqueFavorisRepository = ServiceCiviqueFavorisRepositorySuccessStub();
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState().copyWith(
+    initialState: AppState.initialState()
+        .copyWith(
       loginState: successMiloUserState(),
       serviceCiviqueFavorisState: FavoriListState<ServiceCivique>.withMap(
         {"1", "2", "4"},
         {"1": mockServiceCivique(), "2": mockServiceCivique(), "4": mockServiceCivique()},
       ),
-      serviceCiviqueSearchResultState: ServiceCiviqueSearchResultDataState(
-        isMoreDataAvailable: false,
-        offres: [mockServiceCivique(id: '1'), mockServiceCivique(id: '17')],
-        lastRequest: _mockSearchServiceCiviqueRequest(),
-      ),
+    )
+        .successRechercheServiceCiviqueState(
+      results: [mockServiceCivique(id: '1'), mockServiceCivique(id: '17')],
+      canLoadMore: false,
     ),
   );
   return store;
@@ -193,31 +192,20 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
   testStoreFactory.serviceCiviqueFavorisRepository = ServiceCiviqueFavorisRepositoryFailureStub();
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState().copyWith(
+    initialState: AppState.initialState()
+        .copyWith(
       loginState: successMiloUserState(),
       serviceCiviqueFavorisState: FavoriListState<ServiceCivique>.withMap(
         {"1", "2", "4"},
         {"1": mockServiceCivique(), "2": mockServiceCivique(), "4": mockServiceCivique()},
       ),
-      serviceCiviqueSearchResultState: ServiceCiviqueSearchResultDataState(
-        isMoreDataAvailable: false,
-        offres: [mockServiceCivique(id: '1'), mockServiceCivique(id: '17')],
-        lastRequest: _mockSearchServiceCiviqueRequest(),
-      ),
+    )
+        .successRechercheServiceCiviqueState(
+      results: [mockServiceCivique(id: '1'), mockServiceCivique(id: '17')],
+      canLoadMore: false,
     ),
   );
   return store;
-}
-
-SearchServiceCiviqueRequest _mockSearchServiceCiviqueRequest() {
-  return SearchServiceCiviqueRequest(
-    location: mockLocation(),
-    domain: null,
-    page: 1,
-    endDate: null,
-    startDate: null,
-    distance: 100,
-  );
 }
 
 class ServiceCiviqueFavorisRepositorySuccessStub extends ServiceCiviqueFavorisRepository {

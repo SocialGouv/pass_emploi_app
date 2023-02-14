@@ -41,7 +41,6 @@ import 'package:pass_emploi_app/features/saved_search/create/saved_search_create
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
-import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_state.dart';
@@ -96,7 +95,6 @@ class AppState extends Equatable {
   final ImmersionSearchParametersState immersionSearchParametersState; //TODO(1418): à supprimer
   final SavedSearchListState savedSearchListState;
   final SavedSearchDeleteState savedSearchDeleteState;
-  final ServiceCiviqueSearchResultState serviceCiviqueSearchResultState; //TODO(1418): à supprimer
   final ServiceCiviqueDetailState serviceCiviqueDetailState;
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
@@ -159,7 +157,6 @@ class AppState extends Equatable {
     required this.immersionSearchParametersState,
     required this.savedSearchListState,
     required this.savedSearchDeleteState,
-    required this.serviceCiviqueSearchResultState,
     required this.serviceCiviqueDetailState,
     required this.suppressionCompteState,
     required this.demoState,
@@ -222,7 +219,6 @@ class AppState extends Equatable {
     final ImmersionSearchParametersState? immersionSearchParametersState,
     final SavedSearchListState? savedSearchListState,
     final SavedSearchDeleteState? savedSearchDeleteState,
-    final ServiceCiviqueSearchResultState? serviceCiviqueSearchResultState,
     final ServiceCiviqueDetailState? serviceCiviqueDetailState,
     final SuppressionCompteState? suppressionCompteState,
     final bool? demoState,
@@ -285,7 +281,6 @@ class AppState extends Equatable {
       immersionSearchParametersState: immersionSearchParametersState ?? this.immersionSearchParametersState,
       savedSearchListState: savedSearchListState ?? this.savedSearchListState,
       savedSearchDeleteState: savedSearchDeleteState ?? this.savedSearchDeleteState,
-      serviceCiviqueSearchResultState: serviceCiviqueSearchResultState ?? this.serviceCiviqueSearchResultState,
       serviceCiviqueDetailState: serviceCiviqueDetailState ?? this.serviceCiviqueDetailState,
       suppressionCompteState: suppressionCompteState ?? this.suppressionCompteState,
       demoState: demoState ?? this.demoState,
@@ -350,7 +345,6 @@ class AppState extends Equatable {
       immersionSearchParametersState: ImmersionSearchParametersNotInitializedState(),
       savedSearchListState: SavedSearchListNotInitializedState(),
       savedSearchDeleteState: SavedSearchDeleteNotInitializedState(),
-      serviceCiviqueSearchResultState: ServiceCiviqueSearchResultNotInitializedState(),
       serviceCiviqueDetailState: ServiceCiviqueDetailNotInitializedState(),
       demoState: false,
       suppressionCompteState: SuppressionCompteNotInitializedState(),
