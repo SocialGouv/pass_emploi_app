@@ -5,9 +5,10 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
@@ -17,12 +18,10 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
-import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -504,20 +503,13 @@ List<SuggestionRecherche> mockSuggestionsRecherche() {
 }
 
 OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
-      id: "890d8195-fd09-4e25-bfd0-f94f64d18192",
+  id: "id",
       title: "Maître-chien / Maîtresse-chien d'avalanche",
       metier: "Sécurité civile et secours",
       location: Location(type: LocationType.DEPARTMENT, libelle: "Gironde", code: "33"),
       keyword: "Maître-chien / Maîtresse-chien d'avalanche",
       onlyAlternance: false,
       filters: EmploiFiltresRecherche.withFiltres(distance: 0),
-    );
-
-SavedOffreEmploiSearchRequestAction savedOffreEmploiSearchRequestAction() => SavedOffreEmploiSearchRequestAction(
-      keywords: offreEmploiSavedSearch().keyword ?? "",
-      location: offreEmploiSavedSearch().location,
-      onlyAlternance: offreEmploiSavedSearch().onlyAlternance,
-      filtres: offreEmploiSavedSearch().filters,
     );
 
 Metier mockMetier() => Metier(codeRome: "A1410", libelle: "Chevrier / Chevrière");

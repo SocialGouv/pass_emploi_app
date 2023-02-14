@@ -1,7 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/metier.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
 import '../dsl/sut_repository2.dart';
@@ -11,8 +15,8 @@ void main() {
     final sut = RepositorySut2<ImmersionRepository>();
     sut.givenRepository((client) => ImmersionRepository(client));
 
-    group('search', () {
-      sut.when((repository) => repository.search(userId: "ID", request: _requestWithoutFiltres()));
+    group('rechercher', () {
+      sut.when((repository) => repository.rechercher(userId: "ID", request: _requestWithoutFiltres2()));
 
       group('when response is valid', () {
         sut.givenJsonResponse(fromJson: "immersions.json");
@@ -26,11 +30,11 @@ void main() {
         });
 
         test('result should be valid', () {
-          sut.expectResult<List<Immersion>?>((result) {
-            expect(result, isNotNull);
-            expect(result!.length, 13);
+          sut.expectResult<RechercheResponse<Immersion>?>((response) {
+            expect(response, isNotNull);
+            expect(response!.results.length, 13);
             expect(
-              result.first,
+              response.results.first,
               Immersion(
                 id: "036383f3-85ca-4dbd-b636-ae2657164439",
                 metier: "xxxx",
@@ -61,14 +65,14 @@ void main() {
       });
     });
 
-    group('search when filtres are applied', () {
+    group('rechercher when filtres are applied', () {
       sut.givenJsonResponse(fromJson: "immersions.json");
 
       group('when distance is 70', () {
         sut.when(
-          (repository) => repository.search(
+          (repository) => repository.rechercher(
             userId: "ID",
-            request: _requestWithFiltres(ImmersionFiltresRecherche.distance(70)),
+            request: _requestWithFiltres2(ImmersionFiltresRecherche.distance(70)),
           ),
         );
         test('query parameters should be properly built', () {
@@ -82,9 +86,9 @@ void main() {
 
       group('when no distance is set', () {
         sut.when(
-          (repository) => repository.search(
+              (repository) => repository.rechercher(
             userId: "ID",
-            request: _requestWithFiltres(ImmersionFiltresRecherche.noFiltre()),
+            request: _requestWithFiltres2(ImmersionFiltresRecherche.noFiltre()),
           ),
         );
         test('query parameters should be properly built', () {
@@ -99,12 +103,24 @@ void main() {
   });
 }
 
-SearchImmersionRequest _requestWithFiltres(ImmersionFiltresRecherche filtres) {
-  return SearchImmersionRequest(
-    codeRome: "J1301",
-    location: Location(libelle: "Paris", code: "75", type: LocationType.COMMUNE, latitude: 48.7, longitude: 7.7),
-    filtres: filtres,
+RechercheRequest<ImmersionCriteresRecherche, ImmersionFiltresRecherche> _requestWithFiltres2(
+    ImmersionFiltresRecherche filtres) {
+  return RechercheRequest(
+    ImmersionCriteresRecherche(
+      metier: Metier(codeRome: "J1301", libelle: "xxxx"),
+      location: Location(
+        libelle: "Paris",
+        code: "75",
+        type: LocationType.COMMUNE,
+        latitude: 48.7,
+        longitude: 7.7,
+      ),
+    ),
+    filtres,
+    1,
   );
 }
 
-SearchImmersionRequest _requestWithoutFiltres() => _requestWithFiltres(ImmersionFiltresRecherche.noFiltre());
+RechercheRequest<ImmersionCriteresRecherche, ImmersionFiltresRecherche> _requestWithoutFiltres2() {
+  return _requestWithFiltres2(ImmersionFiltresRecherche.noFiltre());
+}

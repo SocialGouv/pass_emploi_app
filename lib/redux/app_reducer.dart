@@ -19,8 +19,6 @@ import 'package:pass_emploi_app/features/events/list/event_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_reducer.dart';
-import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_reducer.dart';
 import 'package:pass_emploi_app/features/location/search_location_reducer.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
@@ -34,7 +32,9 @@ import 'package:pass_emploi_app/features/partage_activite/partage_activite_reduc
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
 import 'package:pass_emploi_app/features/rating/rating_reducer.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_reducer.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
@@ -55,9 +55,7 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_r
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_reducer.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
@@ -105,8 +103,6 @@ AppState reducer(AppState current, dynamic action) {
     loginState: loginReducer(current.loginState, action),
     rendezvousListState: rendezvousListReducer(current.rendezvousListState, action),
     rendezvousDetailsState: rendezvousDetailsReducer(current.rendezvousDetailsState, action),
-    immersionSearchParametersState: immersionSearchParametersState(current.immersionSearchParametersState, action),
-    immersionListState: immersionListReducer(current.immersionListState, action),
     immersionDetailsState: immersionDetailsReducer(current.immersionDetailsState, action),
     offreEmploiSavedSearchCreateState: savedSearchCreateReducer<OffreEmploiSavedSearch>(
       current.offreEmploiSavedSearchCreateState,

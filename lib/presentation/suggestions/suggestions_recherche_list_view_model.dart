@@ -53,8 +53,7 @@ DisplayState _displayState(Store<AppState> store) {
 }
 
 void _seeOffreResults(Store<AppState> store) {
-  final traiterState = store.state.traiterSuggestionRechercheState;
-  if (traiterState is! AccepterSuggestionRechercheSuccessState) return;
-  final search = traiterState.savedSearch;
-  store.dispatch(SavedSearchGetAction(search.getId()));
+  final state = store.state.traiterSuggestionRechercheState;
+  if (state is! AccepterSuggestionRechercheSuccessState) return;
+  store.dispatch(SavedSearchGetAction(state.savedSearch.getId()));
 }
