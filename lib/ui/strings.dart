@@ -448,11 +448,11 @@ class Strings {
 
   // Solutions Errors
   static String noContentError =
-      "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";
+      "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";//TODO(1418): à supprimer ?
   static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
   static String genericCreationError = "Erreur lors de la création. Veuillez réessayer";
   static String loadMoreOffresError = "Erreur lors du chargement des offres";
-  static String updateCriteria = "Modifier les critères de recherche";
+  static String updateCriteria = "Modifier les critères de recherche";//TODO(1418): à supprimer ?
 
   // Offre emploi filtres
   static String filtrer = "Filtrer";
