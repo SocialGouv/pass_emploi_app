@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_sta
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/src/store.dart';
@@ -28,8 +28,8 @@ void main() {
         store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchSuccessState);
 
     // When
-    store.dispatch(OffreEmploiSearchParametersUpdateFiltresRequestAction(
-        OffreEmploiSearchParametersFiltres.withFiltres(distance: 40)));
+    store.dispatch(
+        OffreEmploiSearchParametersUpdateFiltresRequestAction(EmploiFiltresRecherche.withFiltres(distance: 40)));
 
     // Then
     expect(await displayedLoading, true);
@@ -60,7 +60,7 @@ void main() {
     // When
     store.dispatch(
       OffreEmploiSearchParametersUpdateFiltresRequestAction(
-        OffreEmploiSearchParametersFiltres.withFiltres(
+        EmploiFiltresRecherche.withFiltres(
           distance: 40,
           duree: [DureeFiltre.temps_plein],
           contrat: [ContratFiltre.cdi],
@@ -90,7 +90,7 @@ Store<AppState> _initializeReduxStore(TestStoreFactory testStoreFactory) {
         keywords: "boulanger patissier",
         location: null,
         onlyAlternance: false,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filtres: EmploiFiltresRecherche.noFiltre(),
       ),
     ),
   );

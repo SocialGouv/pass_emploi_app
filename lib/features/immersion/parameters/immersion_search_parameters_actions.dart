@@ -1,8 +1,8 @@
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 
 class ImmersionSearchUpdateFiltresRequestAction {
-  final ImmersionSearchParametersFiltres updatedFiltres;
+  final ImmersionFiltresRecherche updatedFiltres;
 
   ImmersionSearchUpdateFiltresRequestAction(this.updatedFiltres);
 }

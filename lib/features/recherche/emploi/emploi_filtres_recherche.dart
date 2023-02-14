@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-//TODO(1418): à renommer et déplacer à côté de la class Critères
-class OffreEmploiSearchParametersFiltres extends Equatable {
+
+class EmploiFiltresRecherche extends Equatable {
   static const defaultDistanceValue = 10;
 
   final int? distance;
@@ -10,7 +10,7 @@ class OffreEmploiSearchParametersFiltres extends Equatable {
   final List<ContratFiltre>? contrat;
   final List<DureeFiltre>? duree;
 
-  OffreEmploiSearchParametersFiltres._({
+  EmploiFiltresRecherche._({
     this.distance,
     this.debutantOnly,
     this.experience,
@@ -18,14 +18,14 @@ class OffreEmploiSearchParametersFiltres extends Equatable {
     this.duree,
   });
 
-  factory OffreEmploiSearchParametersFiltres.withFiltres({
+  factory EmploiFiltresRecherche.withFiltres({
     int? distance,
     bool? debutantOnly,
     List<ExperienceFiltre>? experience,
     List<ContratFiltre>? contrat,
     List<DureeFiltre>? duree,
   }) {
-    return OffreEmploiSearchParametersFiltres._(
+    return EmploiFiltresRecherche._(
       distance: distance,
       debutantOnly: debutantOnly,
       experience: experience,
@@ -34,8 +34,8 @@ class OffreEmploiSearchParametersFiltres extends Equatable {
     );
   }
 
-  factory OffreEmploiSearchParametersFiltres.noFiltres() {
-    return OffreEmploiSearchParametersFiltres._(
+  factory EmploiFiltresRecherche.noFiltre() {
+    return EmploiFiltresRecherche._(
       distance: null,
       debutantOnly: null,
       experience: null,
@@ -48,7 +48,9 @@ class OffreEmploiSearchParametersFiltres extends Equatable {
 }
 
 enum ExperienceFiltre { de_zero_a_un_an, de_un_a_trois_ans, trois_ans_et_plus }
+
 enum ContratFiltre { cdi, cdd_interim_saisonnier, autre }
+
 enum DureeFiltre { temps_plein, temps_partiel }
 
 class FiltresLabels {

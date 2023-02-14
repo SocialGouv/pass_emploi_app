@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -34,7 +34,7 @@ void main() {
         location: location,
         onlyAlternance: false,
         page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filtres: EmploiFiltresRecherche.noFiltre(),
       ),
     );
 
@@ -91,7 +91,7 @@ void main() {
         location: location,
         onlyAlternance: false,
         page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filtres: EmploiFiltresRecherche.noFiltre(),
       ),
     );
 
@@ -121,7 +121,7 @@ void main() {
         location: null,
         onlyAlternance: false,
         page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filtres: EmploiFiltresRecherche.noFiltre(),
       ),
     );
 
@@ -151,7 +151,7 @@ void main() {
         location: null,
         onlyAlternance: true,
         page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filtres: EmploiFiltresRecherche.noFiltre(),
       ),
     );
 
@@ -181,7 +181,7 @@ void main() {
         location: location,
         onlyAlternance: false,
         page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filtres: EmploiFiltresRecherche.noFiltre(),
       ),
     );
 
@@ -206,7 +206,7 @@ void main() {
   group("search when filtres are applied ...", () {
     void assertFiltres(
       String title,
-      OffreEmploiSearchParametersFiltres filtres,
+      EmploiFiltresRecherche filtres,
       bool Function(String query) assertion,
     ) {
       test(title, () async {
@@ -239,19 +239,19 @@ void main() {
     group(("when distance is applied should set proper rayon"), () {
       assertFiltres(
         "when distance is 70",
-        OffreEmploiSearchParametersFiltres.withFiltres(distance: 70),
+        EmploiFiltresRecherche.withFiltres(distance: 70),
         (query) => query.contains("rayon=70"),
       );
 
       assertFiltres(
         "when distance is 32",
-        OffreEmploiSearchParametersFiltres.withFiltres(distance: 32),
+        EmploiFiltresRecherche.withFiltres(distance: 32),
         (query) => query.contains("rayon=32"),
       );
 
       assertFiltres(
         "when not filter is set should not set rayon",
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        EmploiFiltresRecherche.noFiltre(),
         (query) => !query.contains("rayon"),
       );
     });
@@ -259,19 +259,19 @@ void main() {
     group(("when debutantAccepte is applied should set parameter"), () {
       assertFiltres(
         "when debutantAccepte is true",
-        OffreEmploiSearchParametersFiltres.withFiltres(debutantOnly: true),
+        EmploiFiltresRecherche.withFiltres(debutantOnly: true),
         (query) => query.contains("debutantAccepte=true"),
       );
 
       assertFiltres(
         "when debutantAccepte is false",
-        OffreEmploiSearchParametersFiltres.withFiltres(debutantOnly: false),
+        EmploiFiltresRecherche.withFiltres(debutantOnly: false),
         (query) => query.contains("debutantAccepte=false"),
       );
 
       assertFiltres(
         "when no filter is set should not set debutantAccepte",
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        EmploiFiltresRecherche.noFiltre(),
         (query) => !query.contains("debutantAccepte"),
       );
     });
@@ -281,32 +281,32 @@ void main() {
         () {
       assertFiltres(
         "when experience is De 0 à 1 an",
-        OffreEmploiSearchParametersFiltres.withFiltres(experience: [ExperienceFiltre.de_zero_a_un_an]),
+        EmploiFiltresRecherche.withFiltres(experience: [ExperienceFiltre.de_zero_a_un_an]),
         (query) => query.contains("experience=1"),
       );
 
       assertFiltres(
         "when experience is De 1 an à 3 ans",
-        OffreEmploiSearchParametersFiltres.withFiltres(experience: [ExperienceFiltre.de_un_a_trois_ans]),
+        EmploiFiltresRecherche.withFiltres(experience: [ExperienceFiltre.de_un_a_trois_ans]),
         (query) => query.contains("experience=2"),
       );
 
       assertFiltres(
         "when experience is 3 ans et +",
-        OffreEmploiSearchParametersFiltres.withFiltres(experience: [ExperienceFiltre.trois_ans_et_plus]),
+        EmploiFiltresRecherche.withFiltres(experience: [ExperienceFiltre.trois_ans_et_plus]),
         (query) => query.contains("experience=3"),
       );
 
       assertFiltres(
         "when experience is De 0 à 1 an and De 1 an à 3 ans",
-        OffreEmploiSearchParametersFiltres.withFiltres(
+        EmploiFiltresRecherche.withFiltres(
             experience: [ExperienceFiltre.de_zero_a_un_an, ExperienceFiltre.de_un_a_trois_ans]),
         (query) => query.contains("experience=1") && query.contains("experience=2"),
       );
 
       assertFiltres(
         "when all three experience values are selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(experience: [
+        EmploiFiltresRecherche.withFiltres(experience: [
           ExperienceFiltre.de_zero_a_un_an,
           ExperienceFiltre.de_un_a_trois_ans,
           ExperienceFiltre.trois_ans_et_plus
@@ -316,12 +316,12 @@ void main() {
 
       assertFiltres(
         "when no experience is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(experience: []),
+        EmploiFiltresRecherche.withFiltres(experience: []),
         (query) => !query.contains("experience"),
       );
       assertFiltres(
         "when no experience is selected - null",
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        EmploiFiltresRecherche.noFiltre(),
         (query) => !query.contains("experience"),
       );
     });
@@ -329,31 +329,31 @@ void main() {
     group(("when contrat filtre is applied should set proper values"), () {
       assertFiltres(
         "when cdi is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(contrat: [ContratFiltre.cdi]),
+        EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdi]),
         (query) => query.contains("contrat=CDI"),
       );
 
       assertFiltres(
         "when cdd is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(contrat: [ContratFiltre.cdd_interim_saisonnier]),
+        EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdd_interim_saisonnier]),
         (query) => query.contains("contrat=CDD-interim-saisonnier"),
       );
 
       assertFiltres(
         "when autre is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(contrat: [ContratFiltre.autre]),
+        EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.autre]),
         (query) => query.contains("contrat=autre"),
       );
 
       assertFiltres(
         "when cdi and autre are selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(contrat: [ContratFiltre.cdi, ContratFiltre.autre]),
+        EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdi, ContratFiltre.autre]),
         (query) => query.contains("contrat=CDI") && query.contains("contrat=autre"),
       );
 
       assertFiltres(
         "when all three options are selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(
+        EmploiFiltresRecherche.withFiltres(
           contrat: [ContratFiltre.cdi, ContratFiltre.cdd_interim_saisonnier, ContratFiltre.autre],
         ),
         (query) =>
@@ -364,13 +364,13 @@ void main() {
 
       assertFiltres(
         "when no contrat is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(contrat: []),
+        EmploiFiltresRecherche.withFiltres(contrat: []),
         (query) => !query.contains("contrat"),
       );
 
       assertFiltres(
         "when no contrat is selected - null",
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        EmploiFiltresRecherche.noFiltre(),
         (query) => !query.contains("contrat"),
       );
     });
@@ -378,31 +378,31 @@ void main() {
     group("when duree filtre is applied should set proper values", () {
       assertFiltres(
         "when duree is temps plein",
-        OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_plein]),
+        EmploiFiltresRecherche.withFiltres(duree: [DureeFiltre.temps_plein]),
         (query) => query.contains("duree=1"),
       );
 
       assertFiltres(
         "when duree is temps partiel",
-        OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_partiel]),
+        EmploiFiltresRecherche.withFiltres(duree: [DureeFiltre.temps_partiel]),
         (query) => query.contains("duree=2"),
       );
 
       assertFiltres(
         "when duree is both",
-        OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel]),
+        EmploiFiltresRecherche.withFiltres(duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel]),
         (query) => query.contains("duree=1") && query.contains("duree=2"),
       );
 
       assertFiltres(
         "when no duree is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(duree: []),
+        EmploiFiltresRecherche.withFiltres(duree: []),
         (query) => !query.contains("duree"),
       );
 
       assertFiltres(
         "when no duree is selected - null",
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        EmploiFiltresRecherche.noFiltre(),
         (query) => !query.contains("duree"),
       );
     });
@@ -421,7 +421,7 @@ void main() {
         location: null,
         onlyAlternance: false,
         page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filtres: EmploiFiltresRecherche.noFiltre(),
       ),
     );
 

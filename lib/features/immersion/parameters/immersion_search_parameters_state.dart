@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
+
 //TODO(1418): à supprimer ?
 abstract class ImmersionSearchParametersState extends Equatable {
   ImmersionSearchParametersState._();
@@ -9,7 +10,7 @@ abstract class ImmersionSearchParametersState extends Equatable {
 class ImmersionSearchParametersInitializedState extends ImmersionSearchParametersState {
   final String codeRome;
   final Location location;
-  final ImmersionSearchParametersFiltres filtres;
+  final ImmersionFiltresRecherche filtres;
   final String? title;
 
   ImmersionSearchParametersInitializedState({

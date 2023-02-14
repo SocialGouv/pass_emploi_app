@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_se
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/redux.dart';
@@ -32,7 +32,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
             location: action.location,
             onlyAlternance: action.onlyAlternance,
             page: 1,
-            filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+            filtres: EmploiFiltresRecherche.noFiltre(),
           ),
         );
       } else if (action is OffreEmploiSearchRequestMoreResultsAction &&

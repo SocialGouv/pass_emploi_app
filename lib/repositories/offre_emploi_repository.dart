@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/network/filtres_request.dart';
@@ -17,7 +17,7 @@ class SearchOffreEmploiRequest extends Equatable {
   final Location? location;
   final bool onlyAlternance;
   final int page;
-  final OffreEmploiSearchParametersFiltres filtres;
+  final EmploiFiltresRecherche filtres;
 
   SearchOffreEmploiRequest({
     required this.keywords,
@@ -31,8 +31,7 @@ class SearchOffreEmploiRequest extends Equatable {
   List<Object?> get props => [keywords, location, onlyAlternance, page, filtres];
 }
 
-class OffreEmploiRepository
-    extends RechercheRepository<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi> {
+class OffreEmploiRepository extends RechercheRepository<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi> {
   static const PAGE_SIZE = 50;
 
   final String _baseUrl;
@@ -45,7 +44,7 @@ class OffreEmploiRepository
   @override
   Future<RechercheResponse<OffreEmploi>?> rechercher({
     required String userId,
-    required RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> request,
+    required RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request,
   }) async {
     final url = Uri.parse(_baseUrl + "/offres-emploi").replace(
       query: _createQueryNew(request),
@@ -64,7 +63,7 @@ class OffreEmploiRepository
   }
 
   //TODO(1353) temp
-  String _createQueryNew(RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> request) {
+  String _createQueryNew(RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request) {
     return _createQuery(SearchOffreEmploiRequest(
       keywords: request.criteres.keyword,
       location: request.criteres.location,

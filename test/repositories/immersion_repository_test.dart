@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
@@ -68,7 +68,7 @@ void main() {
         sut.when(
           (repository) => repository.search(
             userId: "ID",
-            request: _requestWithFiltres(ImmersionSearchParametersFiltres.distance(70)),
+            request: _requestWithFiltres(ImmersionFiltresRecherche.distance(70)),
           ),
         );
         test('query parameters should be properly built', () {
@@ -84,7 +84,7 @@ void main() {
         sut.when(
           (repository) => repository.search(
             userId: "ID",
-            request: _requestWithFiltres(ImmersionSearchParametersFiltres.noFiltres()),
+            request: _requestWithFiltres(ImmersionFiltresRecherche.noFiltre()),
           ),
         );
         test('query parameters should be properly built', () {
@@ -99,7 +99,7 @@ void main() {
   });
 }
 
-SearchImmersionRequest _requestWithFiltres(ImmersionSearchParametersFiltres filtres) {
+SearchImmersionRequest _requestWithFiltres(ImmersionFiltresRecherche filtres) {
   return SearchImmersionRequest(
     codeRome: "J1301",
     location: Location(libelle: "Paris", code: "75", type: LocationType.COMMUNE, latitude: 48.7, longitude: 7.7),
@@ -107,4 +107,4 @@ SearchImmersionRequest _requestWithFiltres(ImmersionSearchParametersFiltres filt
   );
 }
 
-SearchImmersionRequest _requestWithoutFiltres() => _requestWithFiltres(ImmersionSearchParametersFiltres.noFiltres());
+SearchImmersionRequest _requestWithoutFiltres() => _requestWithFiltres(ImmersionFiltresRecherche.noFiltre());

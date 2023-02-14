@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -53,7 +53,7 @@ List<Equatable> _getMockedSavedSearch() {
       location: null,
       keyword: "Boulangerie",
       onlyAlternance: false,
-      filters: OffreEmploiSearchParametersFiltres.withFiltres(
+      filters: EmploiFiltresRecherche.withFiltres(
         distance: null,
         debutantOnly: true,
         experience: [],
@@ -68,7 +68,7 @@ List<Equatable> _getMockedSavedSearch() {
       location: Location(libelle: "NANTES", code: "44109", type: LocationType.COMMUNE),
       keyword: "Boulangerie",
       onlyAlternance: false,
-      filters: OffreEmploiSearchParametersFiltres.withFiltres(
+      filters: EmploiFiltresRecherche.withFiltres(
         distance: null,
         experience: [],
         contrat: [],
@@ -82,7 +82,7 @@ List<Equatable> _getMockedSavedSearch() {
       location: null,
       keyword: "Flutter",
       onlyAlternance: true,
-      filters: OffreEmploiSearchParametersFiltres.withFiltres(
+      filters: EmploiFiltresRecherche.withFiltres(
         distance: null,
         experience: [],
         contrat: [],
@@ -103,7 +103,7 @@ List<Equatable> _getMockedSavedSearch() {
         longitude: 2.323026,
         type: LocationType.COMMUNE,
       ),
-      filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      filtres: ImmersionFiltresRecherche.noFiltre(),
     ),
   ];
 }

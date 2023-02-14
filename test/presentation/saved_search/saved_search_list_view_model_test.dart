@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
@@ -24,7 +24,7 @@ void main() {
       codeRome: "rome",
       location: mockLocation(),
       ville: "ville",
-      filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      filtres: ImmersionFiltresRecherche.noFiltre(),
     ),
     ImmersionSavedSearch(
       id: "id",
@@ -33,7 +33,7 @@ void main() {
       codeRome: "rome",
       location: mockLocation(),
       ville: "ville",
-      filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      filtres: ImmersionFiltresRecherche.noFiltre(),
     ),
     OffreEmploiSavedSearch(
       id: "id",
@@ -42,7 +42,7 @@ void main() {
       location: mockLocation(),
       keyword: "keywords",
       onlyAlternance: false,
-      filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+      filters: EmploiFiltresRecherche.noFiltre(),
     ),
     OffreEmploiSavedSearch(
       title: "titreOffreEmploi2",
@@ -51,7 +51,7 @@ void main() {
       location: mockLocation(),
       keyword: "keywords",
       onlyAlternance: false,
-      filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+      filters: EmploiFiltresRecherche.noFiltre(),
     ),
     OffreEmploiSavedSearch(
       id: "id",
@@ -60,7 +60,7 @@ void main() {
       location: mockLocation(),
       keyword: "keywords",
       onlyAlternance: true,
-      filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+      filters: EmploiFiltresRecherche.noFiltre(),
     ),
     OffreEmploiSavedSearch(
       id: "id",
@@ -69,7 +69,7 @@ void main() {
       location: mockLocation(),
       keyword: "keywords",
       onlyAlternance: true,
-      filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+      filters: EmploiFiltresRecherche.noFiltre(),
     ),
   ];
 
@@ -124,7 +124,7 @@ void main() {
         codeRome: "rome",
         location: mockLocation(),
         ville: "ville",
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        filtres: ImmersionFiltresRecherche.noFiltre(),
       ),
       ImmersionSavedSearch(
         id: "id",
@@ -133,7 +133,7 @@ void main() {
         codeRome: "rome",
         location: mockLocation(),
         ville: "ville",
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        filtres: ImmersionFiltresRecherche.noFiltre(),
       ),
     ]);
   });
@@ -159,7 +159,7 @@ void main() {
         location: mockLocation(),
         keyword: "keywords",
         onlyAlternance: false,
-        filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filters: EmploiFiltresRecherche.noFiltre(),
       ),
       OffreEmploiSavedSearch(
         id: "id",
@@ -168,7 +168,7 @@ void main() {
         location: mockLocation(),
         keyword: "keywords",
         onlyAlternance: false,
-        filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filters: EmploiFiltresRecherche.noFiltre(),
       ),
     ]);
   });
@@ -194,7 +194,7 @@ void main() {
         location: mockLocation(),
         keyword: "keywords",
         onlyAlternance: true,
-        filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filters: EmploiFiltresRecherche.noFiltre(),
       ),
       OffreEmploiSavedSearch(
         id: "id",
@@ -203,7 +203,7 @@ void main() {
         location: mockLocation(),
         keyword: "keywords",
         onlyAlternance: true,
-        filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filters: EmploiFiltresRecherche.noFiltre(),
       ),
     ]);
   });

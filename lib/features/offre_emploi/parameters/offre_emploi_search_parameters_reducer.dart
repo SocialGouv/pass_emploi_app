@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_se
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 
 OffreEmploiSearchParametersState offreEmploiSearchParametersReducer(
   OffreEmploiSearchParametersState current,
@@ -20,7 +20,7 @@ OffreEmploiSearchParametersState offreEmploiSearchParametersReducer(
       keywords: action.keywords,
       location: action.location,
       onlyAlternance: action.onlyAlternance,
-      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      filtres: EmploiFiltresRecherche.noFiltre(),
     );
   } else if (action is OffreEmploiSearchParametersUpdateFiltresRequestAction) {
     if (current is OffreEmploiSearchParametersInitializedState) {
@@ -39,7 +39,7 @@ OffreEmploiSearchParametersState offreEmploiSearchParametersReducer(
         keywords: current.keywords,
         location: current.location,
         onlyAlternance: current.onlyAlternance,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filtres: EmploiFiltresRecherche.noFiltre(),
       );
     } else {
       return current;

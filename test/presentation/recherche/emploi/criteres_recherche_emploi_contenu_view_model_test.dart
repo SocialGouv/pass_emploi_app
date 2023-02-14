@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/criteres_recherche_emploi_contenu_view_model.dart';
@@ -58,13 +58,13 @@ void main() {
     final dispatchedAction = store.dispatchedAction;
     expect(
       dispatchedAction,
-      isA<RechercheRequestAction<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>>(),
+      isA<RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>>(),
     );
     expect(
-      (dispatchedAction as RechercheRequestAction<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>).request,
+      (dispatchedAction as RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>).request,
       RechercheRequest(
         EmploiCriteresRecherche(keyword: 'keywords', location: mockLocation(), onlyAlternance: false),
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        EmploiFiltresRecherche.noFiltre(),
         1,
       ),
     );

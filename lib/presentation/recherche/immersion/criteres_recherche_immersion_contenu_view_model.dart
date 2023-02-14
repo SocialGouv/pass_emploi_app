@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
@@ -30,10 +30,10 @@ class CriteresRechercheImmersionContenuViewModel extends Equatable {
       initialLocation: store.state.rechercheImmersionState.request?.criteres.location,
       onSearchingRequest: (metier, location) {
         store.dispatch(
-          RechercheRequestAction<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres>(
+          RechercheRequestAction<ImmersionCriteresRecherche, ImmersionFiltresRecherche>(
             RechercheRequest(
               ImmersionCriteresRecherche(metier: metier, location: location),
-              ImmersionSearchParametersFiltres.noFiltres(),
+              ImmersionFiltresRecherche.noFiltre(),
               1,
             ),
           ),

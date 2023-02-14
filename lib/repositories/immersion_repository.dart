@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 class SearchImmersionRequest {
   final String codeRome;
   final Location location;
-  final ImmersionSearchParametersFiltres filtres;
+  final ImmersionFiltresRecherche filtres;
 
   SearchImmersionRequest({
     required this.codeRome,
@@ -22,7 +22,7 @@ class SearchImmersionRequest {
 }
 
 class ImmersionRepository
-    extends RechercheRepository<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres, Immersion> {
+    extends RechercheRepository<ImmersionCriteresRecherche, ImmersionFiltresRecherche, Immersion> {
   final Dio _httpClient;
   final Crashlytics? _crashlytics;
 
@@ -53,7 +53,7 @@ class ImmersionRepository
   @override
   Future<RechercheResponse<Immersion>?> rechercher({
     required String userId,
-    required RechercheRequest<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres> request,
+    required RechercheRequest<ImmersionCriteresRecherche, ImmersionFiltresRecherche> request,
   }) async {
     const url = "/offres-immersion";
     try {
@@ -67,7 +67,7 @@ class ImmersionRepository
   }
 
   Map<String, String> _queryParameters(
-    RechercheRequest<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres> request,
+    RechercheRequest<ImmersionCriteresRecherche, ImmersionFiltresRecherche> request,
   ) {
     return {
       'rome': request.criteres.metier.codeRome,

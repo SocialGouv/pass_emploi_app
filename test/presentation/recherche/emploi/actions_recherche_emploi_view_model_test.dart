@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
 
 import '../../../doubles/fixtures.dart';
@@ -213,9 +213,8 @@ void main() {
   group('filtresCount', () {
     test('when state has no active filtre it should not display a filtre number', () {
       // Given
-      final store = givenState()
-          .successRechercheEmploiStateWithRequest(filtres: OffreEmploiSearchParametersFiltres.noFiltres())
-          .store();
+      final store =
+          givenState().successRechercheEmploiStateWithRequest(filtres: EmploiFiltresRecherche.noFiltre()).store();
 
       // When
       final viewModel = ActionsRechercheEmploiViewModel.create(store);
@@ -227,7 +226,7 @@ void main() {
     test('when state has active distance filtre it should display 1 as filtre number', () {
       // Given
       final store = givenState()
-          .successRechercheEmploiStateWithRequest(filtres: OffreEmploiSearchParametersFiltres.withFiltres(distance: 40))
+          .successRechercheEmploiStateWithRequest(filtres: EmploiFiltresRecherche.withFiltres(distance: 40))
           .store();
 
       // When
@@ -240,7 +239,7 @@ void main() {
     test('when state has active distance filtre but value is default it should not display a filtre number', () {
       // Given
       final store = givenState()
-          .successRechercheEmploiStateWithRequest(filtres: OffreEmploiSearchParametersFiltres.withFiltres(distance: 10))
+          .successRechercheEmploiStateWithRequest(filtres: EmploiFiltresRecherche.withFiltres(distance: 10))
           .store();
 
       // When
@@ -254,7 +253,7 @@ void main() {
       // Given
       final store = givenState()
           .successRechercheEmploiStateWithRequest(
-            filtres: OffreEmploiSearchParametersFiltres.withFiltres(experience: [ExperienceFiltre.trois_ans_et_plus]),
+            filtres: EmploiFiltresRecherche.withFiltres(experience: [ExperienceFiltre.trois_ans_et_plus]),
           )
           .store();
 
@@ -269,7 +268,7 @@ void main() {
       // Given
       final store = givenState()
           .successRechercheEmploiStateWithRequest(
-            filtres: OffreEmploiSearchParametersFiltres.withFiltres(
+            filtres: EmploiFiltresRecherche.withFiltres(
               experience: [ExperienceFiltre.de_un_a_trois_ans, ExperienceFiltre.trois_ans_et_plus],
             ),
           )
@@ -286,7 +285,7 @@ void main() {
       // Given
       final store = givenState()
           .successRechercheEmploiStateWithRequest(
-            filtres: OffreEmploiSearchParametersFiltres.withFiltres(experience: []),
+            filtres: EmploiFiltresRecherche.withFiltres(experience: []),
           )
           .store();
 
@@ -301,7 +300,7 @@ void main() {
       // Given
       final store = givenState()
           .successRechercheEmploiStateWithRequest(
-            filtres: OffreEmploiSearchParametersFiltres.withFiltres(contrat: [ContratFiltre.autre]),
+            filtres: EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.autre]),
           )
           .store();
 
@@ -316,7 +315,7 @@ void main() {
       // Given
       final store = givenState()
           .successRechercheEmploiStateWithRequest(
-            filtres: OffreEmploiSearchParametersFiltres.withFiltres(contrat: [
+            filtres: EmploiFiltresRecherche.withFiltres(contrat: [
               ContratFiltre.autre,
               ContratFiltre.cdd_interim_saisonnier,
               ContratFiltre.cdi,
@@ -335,7 +334,7 @@ void main() {
       // Given
       final store = givenState()
           .successRechercheEmploiStateWithRequest(
-            filtres: OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_plein]),
+            filtres: EmploiFiltresRecherche.withFiltres(duree: [DureeFiltre.temps_plein]),
           )
           .store();
 
@@ -350,7 +349,7 @@ void main() {
       // Given
       final store = givenState()
           .successRechercheEmploiStateWithRequest(
-            filtres: OffreEmploiSearchParametersFiltres.withFiltres(
+            filtres: EmploiFiltresRecherche.withFiltres(
               duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel],
             ),
           )
@@ -369,7 +368,7 @@ void main() {
       // Given
       final store = givenState()
           .successRechercheEmploiStateWithRequest(
-            filtres: OffreEmploiSearchParametersFiltres.withFiltres(
+            filtres: EmploiFiltresRecherche.withFiltres(
               distance: 40,
               debutantOnly: true,
               contrat: [

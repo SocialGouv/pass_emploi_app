@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_act
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -30,7 +30,7 @@ void main() {
     final offreEmploiSavedSearch = OffreEmploiSavedSearch(
         id: "id",
         title: "Boulanger",
-        filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+        filters: EmploiFiltresRecherche.noFiltre(),
         keyword: "Boulanger",
         onlyAlternance: false,
         location: mockLocation(),
@@ -139,7 +139,7 @@ class OffreEmploiRepositorySuccessStub extends OffreEmploiRepository {
   @override
   Future<RechercheResponse<OffreEmploi>?> rechercher({
     required String userId,
-    required RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> request,
+    required RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request,
   }) async {
     return RechercheResponse(results: mockOffresEmploi10(), canLoadMore: false);
   }
@@ -190,7 +190,7 @@ List<OffreEmploiSavedSearch> _getOffreEmploiSavedSearchList() {
       location: Location(libelle: "NANTES", code: "44109", type: LocationType.COMMUNE),
       keyword: "Boulangerie",
       onlyAlternance: false,
-      filters: OffreEmploiSearchParametersFiltres.withFiltres(
+      filters: EmploiFiltresRecherche.withFiltres(
         distance: null,
         experience: [],
         contrat: [],
@@ -204,7 +204,7 @@ List<OffreEmploiSavedSearch> _getOffreEmploiSavedSearchList() {
       location: null,
       keyword: "Flutter",
       onlyAlternance: true,
-      filters: OffreEmploiSearchParametersFiltres.withFiltres(
+      filters: EmploiFiltresRecherche.withFiltres(
         distance: null,
         experience: [],
         contrat: [],
@@ -232,7 +232,7 @@ Matcher _shouldSucceedWithSameCriteresAndFiltres() {
       );
       expect(
         state.rechercheEmploiState.request!.filtres,
-        OffreEmploiSearchParametersFiltres.withFiltres(
+        EmploiFiltresRecherche.withFiltres(
           distance: null,
           experience: [],
           contrat: [],

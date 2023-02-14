@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_p
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -36,7 +36,7 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
       location: location,
       keyword: metier,
       onlyAlternance: request.criteres.onlyAlternance,
-      filters: OffreEmploiSearchParametersFiltres.withFiltres(
+      filters: EmploiFiltresRecherche.withFiltres(
         distance: request.filtres.distance,
         debutantOnly: request.filtres.debutantOnly,
         experience: request.filtres.experience,

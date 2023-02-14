@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.d
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_actions.dart';
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/immersion/saved_search/immersion_saved_search_actions.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 
 ImmersionSearchParametersState immersionSearchParametersState(
   ImmersionSearchParametersState current,
@@ -11,7 +11,7 @@ ImmersionSearchParametersState immersionSearchParametersState(
   if (action is ImmersionListRequestAction) {
     return ImmersionSearchParametersInitializedState(
       location: action.location,
-      filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      filtres: ImmersionFiltresRecherche.noFiltre(),
       codeRome: action.codeRome,
       title: action.title,
     );
@@ -29,7 +29,7 @@ ImmersionSearchParametersState immersionSearchParametersState(
     if (current is ImmersionSearchParametersInitializedState) {
       return ImmersionSearchParametersInitializedState(
         location: current.location,
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        filtres: ImmersionFiltresRecherche.noFiltre(),
         codeRome: current.codeRome,
       );
     } else {

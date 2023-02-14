@@ -17,12 +17,12 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -520,7 +520,7 @@ OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
       location: Location(type: LocationType.DEPARTMENT, libelle: "Gironde", code: "33"),
       keyword: "Maître-chien / Maîtresse-chien d'avalanche",
       onlyAlternance: false,
-      filters: OffreEmploiSearchParametersFiltres.withFiltres(distance: 0),
+      filters: EmploiFiltresRecherche.withFiltres(distance: 0),
     );
 
 SavedOffreEmploiSearchRequestAction savedOffreEmploiSearchRequestAction() => SavedOffreEmploiSearchRequestAction(
@@ -540,18 +540,18 @@ List<Metier> mockAutocompleteMetiers() {
   ];
 }
 
-RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> initialRechercheEmploiRequest() {
+RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> initialRechercheEmploiRequest() {
   return RechercheRequest(
     EmploiCriteresRecherche(keyword: "chevalier", location: null, onlyAlternance: false),
-    OffreEmploiSearchParametersFiltres.noFiltres(),
+    EmploiFiltresRecherche.noFiltre(),
     1,
   );
 }
 
-RechercheRequest<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres> initialRechercheImmersionRequest() {
+RechercheRequest<ImmersionCriteresRecherche, ImmersionFiltresRecherche> initialRechercheImmersionRequest() {
   return RechercheRequest(
     ImmersionCriteresRecherche(location: mockLocation(), metier: mockMetier()),
-    ImmersionSearchParametersFiltres.noFiltres(),
+    ImmersionFiltresRecherche.noFiltre(),
     1,
   );
 }
@@ -565,14 +565,12 @@ RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche
   );
 }
 
-RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres> secondRechercheEmploiRequest() {
+RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> secondRechercheEmploiRequest() {
   return initialRechercheEmploiRequest().copyWith(page: 2);
 }
 
-RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>
-    rechercheEmploiRequestWithZeroDistanceFiltre() {
+RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> rechercheEmploiRequestWithZeroDistanceFiltre() {
   return initialRechercheEmploiRequest().copyWith(filtres: mockEmploiFiltreZeroDistance());
 }
 
-OffreEmploiSearchParametersFiltres mockEmploiFiltreZeroDistance() =>
-    OffreEmploiSearchParametersFiltres.withFiltres(distance: 0);
+EmploiFiltresRecherche mockEmploiFiltreZeroDistance() => EmploiFiltresRecherche.withFiltres(distance: 0);

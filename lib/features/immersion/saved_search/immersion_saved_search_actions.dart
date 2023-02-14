@@ -1,11 +1,11 @@
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 
 class ImmersionSavedSearchRequestAction {
   final String codeRome;
   final Location location;
-  final ImmersionSearchParametersFiltres filtres;
+  final ImmersionFiltresRecherche filtres;
 
   ImmersionSavedSearchRequestAction({
     required this.codeRome,

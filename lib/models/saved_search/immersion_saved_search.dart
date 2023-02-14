@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 
@@ -10,7 +10,7 @@ class ImmersionSavedSearch extends Equatable implements SavedSearch {
   final String metier;
   final Location location;
   final String ville;
-  final ImmersionSearchParametersFiltres filtres;
+  final ImmersionFiltresRecherche filtres;
 
   ImmersionSavedSearch({
     required this.id,

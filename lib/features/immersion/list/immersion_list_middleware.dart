@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.d
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_actions.dart';
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:redux/redux.dart';
@@ -25,7 +25,7 @@ class ImmersionListMiddleware extends MiddlewareClass<AppState> {
           request: SearchImmersionRequest(
             codeRome: action.codeRome,
             location: action.location,
-            filtres: ImmersionSearchParametersFiltres.noFiltres(),
+            filtres: ImmersionFiltresRecherche.noFiltre(),
           ),
         );
         store.dispatch(immersions != null ? ImmersionListSuccessAction(immersions) : ImmersionListFailureAction());

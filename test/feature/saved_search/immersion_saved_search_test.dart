@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/features/saved_search/init/saved_search_initiali
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
@@ -36,7 +36,7 @@ void main() {
     final immersionSavedSearch = ImmersionSavedSearch(
       id: "id",
       title: "Boulanger - Paris",
-      filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      filtres: ImmersionFiltresRecherche.noFiltre(),
       location: mockLocation(),
       metier: "Boulanger",
       ville: "Paris",
@@ -98,7 +98,7 @@ void main() {
         immersionSearchParametersState: ImmersionSearchParametersInitializedState(
           codeRome: "codeRome",
           location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
-          filtres: ImmersionSearchParametersFiltres.noFiltres(),
+          filtres: ImmersionFiltresRecherche.noFiltre(),
         ),
         loginState: successMiloUserState(),
       );
@@ -124,7 +124,7 @@ void main() {
             metier: "metier",
             location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
             ville: "ville",
-            filtres: ImmersionSearchParametersFiltres.noFiltres(),
+            filtres: ImmersionFiltresRecherche.noFiltre(),
           ));
     });
 
@@ -143,7 +143,7 @@ void main() {
         immersionSearchParametersState: ImmersionSearchParametersInitializedState(
           codeRome: "codeRome",
           location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
-          filtres: ImmersionSearchParametersFiltres.distance(27),
+          filtres: ImmersionFiltresRecherche.distance(27),
         ),
         loginState: successMiloUserState(),
       );
@@ -169,7 +169,7 @@ void main() {
             metier: "metier",
             location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
             ville: "ville",
-            filtres: ImmersionSearchParametersFiltres.distance(27),
+            filtres: ImmersionFiltresRecherche.distance(27),
           ));
     });
 
@@ -180,7 +180,7 @@ void main() {
         immersionSearchParametersState: ImmersionSearchParametersInitializedState(
           codeRome: "codeRome",
           location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
-          filtres: ImmersionSearchParametersFiltres.distance(34),
+          filtres: ImmersionFiltresRecherche.distance(34),
         ),
         loginState: successMiloUserState(),
       );
@@ -206,7 +206,7 @@ void main() {
             metier: "",
             location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
             ville: "ville",
-            filtres: ImmersionSearchParametersFiltres.distance(34),
+            filtres: ImmersionFiltresRecherche.distance(34),
           ));
     });
   });
@@ -267,7 +267,7 @@ void main() {
       ImmersionSavedSearchRequestAction(
         codeRome: "code-rome",
         location: mockCommuneLocation(label: "Marseille"),
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        filtres: ImmersionFiltresRecherche.noFiltre(),
       ),
     );
 
@@ -283,7 +283,7 @@ void main() {
         ImmersionSearchParametersInitializedState(
           codeRome: "code-rome",
           location: mockCommuneLocation(label: "Marseille"),
-          filtres: ImmersionSearchParametersFiltres.noFiltres(),
+          filtres: ImmersionFiltresRecherche.noFiltre(),
         ));
   });
 
@@ -301,7 +301,7 @@ void main() {
       ImmersionSavedSearchRequestAction(
         codeRome: "code-rome",
         location: mockCommuneLocation(label: "Strasbourg"),
-        filtres: ImmersionSearchParametersFiltres.distance(70),
+        filtres: ImmersionFiltresRecherche.distance(70),
       ),
     );
 
@@ -317,7 +317,7 @@ void main() {
         ImmersionSearchParametersInitializedState(
           codeRome: "code-rome",
           location: mockCommuneLocation(label: "Strasbourg"),
-          filtres: ImmersionSearchParametersFiltres.distance(70),
+          filtres: ImmersionFiltresRecherche.distance(70),
         ));
   });
 
@@ -342,7 +342,7 @@ class ImmersionSuccessStub extends ImmersionRepository {
   @override
   Future<RechercheResponse<Immersion>?> rechercher({
     required String userId,
-    required RechercheRequest<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres> request,
+    required RechercheRequest<ImmersionCriteresRecherche, ImmersionFiltresRecherche> request,
   }) async {
     return RechercheResponse(results: mockOffresImmersion10(), canLoadMore: false);
   }
@@ -393,7 +393,7 @@ List<ImmersionSavedSearch> _getImmersionSavedSearchList() {
       metier: "Boulangerie - viennoiserie",
       location: mockCommuneLocation(label: "PARIS-14", lat: 48.830108, lon: 2.323026),
       ville: "PARIS-14",
-      filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      filtres: ImmersionFiltresRecherche.noFiltre(),
     )
   ];
 }
@@ -415,7 +415,7 @@ Matcher _shouldSucceedWithSameCriteresAndFiltres() {
       );
       expect(
         state.rechercheImmersionState.request!.filtres,
-        ImmersionSearchParametersFiltres.noFiltres(),
+        ImmersionFiltresRecherche.noFiltre(),
       );
       expect(state.rechercheImmersionState.results?.length, 10);
     },

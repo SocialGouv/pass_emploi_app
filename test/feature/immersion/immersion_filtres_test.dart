@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dar
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_actions.dart';
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:redux/src/store.dart';
@@ -27,7 +27,7 @@ void main() {
         store.onChange.firstWhere((element) => element.immersionListState is ImmersionListSuccessState);
 
     // When
-    store.dispatch(ImmersionSearchUpdateFiltresRequestAction(ImmersionSearchParametersFiltres.distance(40)));
+    store.dispatch(ImmersionSearchUpdateFiltresRequestAction(ImmersionFiltresRecherche.distance(40)));
 
     // Then
     expect(await displayedLoading, true);
@@ -53,7 +53,7 @@ void main() {
     // When
     store.dispatch(
       ImmersionSearchUpdateFiltresRequestAction(
-        ImmersionSearchParametersFiltres.distance(40),
+        ImmersionFiltresRecherche.distance(40),
       ),
     );
 
@@ -71,7 +71,7 @@ Store<AppState> _initializeReduxStore(TestStoreFactory testStoreFactory) {
   return testStoreFactory.initializeReduxStore(
     initialState: loggedInState().copyWith(
       immersionSearchParametersState: ImmersionSearchParametersInitializedState(
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        filtres: ImmersionFiltresRecherche.noFiltre(),
         codeRome: "ROME",
         location: mockLocation(lat: 12, lon: 34),
       ),

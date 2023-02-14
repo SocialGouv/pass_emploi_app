@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recher
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -30,10 +30,10 @@ class CriteresRechercheEmploiContenuViewModel extends Equatable {
       initialLocation: store.state.rechercheEmploiState.request?.criteres.location,
       onSearchingRequest: (keyword, location, onlyAlternance) {
         store.dispatch(
-          RechercheRequestAction<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>(
+          RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>(
             RechercheRequest(
               EmploiCriteresRecherche(keyword: keyword, location: location, onlyAlternance: onlyAlternance),
-              OffreEmploiSearchParametersFiltres.noFiltres(),
+              EmploiFiltresRecherche.noFiltre(),
               1,
             ),
           ),

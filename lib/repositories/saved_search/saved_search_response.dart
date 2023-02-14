@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
@@ -124,8 +124,8 @@ class SavedSearchEmploiExtractor {
     }
   }
 
-  OffreEmploiSearchParametersFiltres _getFilters(SavedSearchResponseCriteres criteres) {
-    return OffreEmploiSearchParametersFiltres.withFiltres(
+  EmploiFiltresRecherche _getFilters(SavedSearchResponseCriteres criteres) {
+    return EmploiFiltresRecherche.withFiltres(
       distance: criteres.rayon,
       debutantOnly: criteres.debutantAccepte,
       experience: criteres.experience?.map((e) => FiltresRequest.experienceFromUrlParameter(e)).whereNotNull().toList(),
@@ -148,8 +148,8 @@ class SavedSearchImmersionExtractor {
     );
   }
 
-  ImmersionSearchParametersFiltres _getFiltres(SavedSearchResponseCriteres criteres) {
-    return ImmersionSearchParametersFiltres.distance(criteres.rayon);
+  ImmersionFiltresRecherche _getFiltres(SavedSearchResponseCriteres criteres) {
+    return ImmersionFiltresRecherche.distance(criteres.rayon);
   }
 
   Location _getLocation(SavedSearchResponse savedSearch) {

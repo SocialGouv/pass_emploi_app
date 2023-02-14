@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+
 //TODO(1418): à supprimer ?
 abstract class OffreEmploiSearchParametersState {
   OffreEmploiSearchParametersState._();
@@ -8,7 +9,7 @@ abstract class OffreEmploiSearchParametersState {
     required String keywords,
     required Location? location,
     required bool onlyAlternance,
-    required OffreEmploiSearchParametersFiltres filtres,
+    required EmploiFiltresRecherche filtres,
   }) {
     return OffreEmploiSearchParametersInitializedState(
       keywords: keywords,
@@ -25,7 +26,7 @@ class OffreEmploiSearchParametersInitializedState extends OffreEmploiSearchParam
   final String keywords;
   final Location? location;
   final bool onlyAlternance;
-  final OffreEmploiSearchParametersFiltres filtres;
+  final EmploiFiltresRecherche filtres;
 
   OffreEmploiSearchParametersInitializedState({
     required this.keywords,

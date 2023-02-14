@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_filtres_view_model.dart';
 
@@ -63,7 +63,7 @@ void main() {
     final store = givenState()
         .successRechercheImmersionStateWithRequest(
           criteres: ImmersionCriteresRecherche(metier: mockMetier(), location: mockLocation()),
-          filtres: ImmersionSearchParametersFiltres.distance(20),
+          filtres: ImmersionFiltresRecherche.distance(20),
         )
         .store();
 
@@ -86,8 +86,8 @@ void main() {
     );
 
     // Then
-    expect(store.dispatchedAction, isA<RechercheUpdateFiltresAction<ImmersionSearchParametersFiltres>>());
-    final action = store.dispatchedAction as RechercheUpdateFiltresAction<ImmersionSearchParametersFiltres>;
+    expect(store.dispatchedAction, isA<RechercheUpdateFiltresAction<ImmersionFiltresRecherche>>());
+    final action = store.dispatchedAction as RechercheUpdateFiltresAction<ImmersionFiltresRecherche>;
     expect(action.filtres.distance, 20);
   });
 }

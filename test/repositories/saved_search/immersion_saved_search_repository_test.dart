@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
@@ -28,7 +28,7 @@ void main() {
         "successfully send request when all fields are full without filters and return TRUE if response is valid (201)",
         () async {
       // Given
-          final httpClient = _mockClientforFulllDataWithoutFilters();
+      final httpClient = _mockClientforFulllDataWithoutFilters();
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
       // When
@@ -97,7 +97,7 @@ ImmersionSavedSearch _savedSearchWithoutFiltres() {
     ville: "Paris",
     codeRome: "F1104",
     location: mockLocation(lat: 48.830108, lon: 2.323026),
-    filtres: ImmersionSearchParametersFiltres.noFiltres(),
+    filtres: ImmersionFiltresRecherche.noFiltre(),
   );
 }
 
@@ -109,6 +109,6 @@ ImmersionSavedSearch _savedSearchWithFiltres() {
     ville: "Paris",
     codeRome: "F1104",
     location: mockLocation(lat: 48.830108, lon: 2.323026),
-    filtres: ImmersionSearchParametersFiltres.distance(30),
+    filtres: ImmersionFiltresRecherche.distance(30),
   );
 }

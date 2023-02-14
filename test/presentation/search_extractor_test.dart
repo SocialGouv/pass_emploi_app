@@ -4,8 +4,8 @@ import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_p
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search_extractors.dart';
@@ -18,7 +18,7 @@ import '../utils/test_setup.dart';
 void main() {
   test("tests offre emploi search extractor", () {
     // Given
-    final filtres = OffreEmploiSearchParametersFiltres.withFiltres(
+    final filtres = EmploiFiltresRecherche.withFiltres(
       distance: 12,
       experience: [ExperienceFiltre.de_un_a_trois_ans],
       duree: [DureeFiltre.temps_partiel],
@@ -68,7 +68,7 @@ void main() {
       immersionSearchParametersState: ImmersionSearchParametersInitializedState(
         codeRome: searchedMetier.codeRome,
         location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        filtres: ImmersionFiltresRecherche.noFiltre(),
       ),
     );
     final store = testStoreFactory.initializeReduxStore(initialState: state);
@@ -86,7 +86,7 @@ void main() {
         codeRome: searchedMetier.codeRome,
         location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
         ville: "ville",
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        filtres: ImmersionFiltresRecherche.noFiltre(),
       ),
     );
   });
@@ -109,7 +109,7 @@ void main() {
       immersionSearchParametersState: ImmersionSearchParametersInitializedState(
         codeRome: searchedMetier.codeRome,
         location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        filtres: ImmersionFiltresRecherche.noFiltre(),
       ),
     );
     final store = testStoreFactory.initializeReduxStore(initialState: state);
@@ -127,7 +127,7 @@ void main() {
         ville: "ville",
         codeRome: searchedMetier.codeRome,
         location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        filtres: ImmersionFiltresRecherche.noFiltre(),
       ),
     );
   });
