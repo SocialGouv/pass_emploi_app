@@ -1,6 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
@@ -30,23 +33,20 @@ void main() {
       latitude: 47.239367,
       longitude: 1.555335,
     );
-    final search = await repository.search(
+    final search = await repository.rechercher(
       userId: "ID",
-      request: SearchServiceCiviqueRequest(
-        location: location,
-        startDate: '',
-        domain: '',
-        endDate: '',
-        page: 1,
-        distance: null,
+      request: RechercheRequest(
+        ServiceCiviqueCriteresRecherche(location: location),
+        ServiceCiviqueFiltresRecherche(distance: null, startDate: null, domain: null),
+        1,
       ),
-      previousOffers: [],
     );
 
     // Then
-    expect(search?.isMoreDataAvailable, false);
-    expect(search?.offres.length, 2);
-    final offre = search?.offres[0];
+    expect(search, isNotNull);
+    expect(search!.canLoadMore, false);
+    expect(search.results.length, 2);
+    final offre = search.results[0];
     expect(
       offre,
       ServiceCivique(
@@ -66,17 +66,13 @@ void main() {
     final repository = ServiceCiviqueRepository("BASE_URL", httpClient);
 
     // When
-    final search = await repository.search(
+    final search = await repository.rechercher(
       userId: "ID",
-      request: SearchServiceCiviqueRequest(
-        location: mockLocation(),
-        startDate: '',
-        domain: '',
-        endDate: '',
-        page: 1,
-        distance: null,
+      request: RechercheRequest(
+        ServiceCiviqueCriteresRecherche(location: mockLocation()),
+        ServiceCiviqueFiltresRecherche(distance: null, startDate: null, domain: null),
+        1,
       ),
-      previousOffers: [],
     );
 
     // Then

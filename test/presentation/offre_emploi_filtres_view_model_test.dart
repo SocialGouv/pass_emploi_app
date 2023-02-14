@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
@@ -79,7 +79,7 @@ void main() {
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
           criteres: EmploiCriteresRecherche(keyword: '', location: mockCommuneLocation(), onlyAlternance: false),
-          filtres: OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
+          filtres: EmploiFiltresRecherche.withFiltres(distance: 20),
         )
         .store();
 
@@ -110,7 +110,7 @@ void main() {
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
           criteres: EmploiCriteresRecherche(keyword: '', location: mockCommuneLocation(), onlyAlternance: false),
-          filtres: OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
+          filtres: EmploiFiltresRecherche.withFiltres(distance: 20),
         )
         .store();
 
@@ -145,9 +145,8 @@ void main() {
 
   test("create when state has no filtre set should not pre-check any filtre", () {
     // Given
-    final store = givenState()
-        .successRechercheEmploiStateWithRequest(filtres: OffreEmploiSearchParametersFiltres.noFiltres())
-        .store();
+    final store =
+        givenState().successRechercheEmploiStateWithRequest(filtres: EmploiFiltresRecherche.noFiltre()).store();
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -162,7 +161,7 @@ void main() {
     // Given
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
-          filtres: OffreEmploiSearchParametersFiltres.withFiltres(
+          filtres: EmploiFiltresRecherche.withFiltres(
             debutantOnly: true,
             experience: [
               ExperienceFiltre.de_zero_a_un_an,
@@ -213,7 +212,7 @@ void main() {
     );
 
     // Then
-    final action = store.dispatchedAction as RechercheUpdateFiltresAction<OffreEmploiSearchParametersFiltres>;
+    final action = store.dispatchedAction as RechercheUpdateFiltresAction<EmploiFiltresRecherche>;
     expect(action.filtres.distance, 20);
     expect(action.filtres.debutantOnly, true);
     expect(action.filtres.contrat, [

@@ -1,15 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/recherche/recherche_state_to_display_state_extension.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-//TODO: 1353 - 4T: store vers status ou state générique (pour display state)
 class CriteresRechercheEmploiContenuViewModel extends Equatable {
   final DisplayState displayState;
   final String? initiaKeyword;
@@ -25,15 +24,15 @@ class CriteresRechercheEmploiContenuViewModel extends Equatable {
 
   factory CriteresRechercheEmploiContenuViewModel.create(Store<AppState> store) {
     return CriteresRechercheEmploiContenuViewModel(
-      displayState: _displayState(store),
+      displayState: store.state.rechercheEmploiState.displayState(),
       initiaKeyword: store.state.rechercheEmploiState.request?.criteres.keyword,
       initialLocation: store.state.rechercheEmploiState.request?.criteres.location,
       onSearchingRequest: (keyword, location, onlyAlternance) {
         store.dispatch(
-          RechercheRequestAction<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>(
+          RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>(
             RechercheRequest(
               EmploiCriteresRecherche(keyword: keyword, location: location, onlyAlternance: onlyAlternance),
-              OffreEmploiSearchParametersFiltres.noFiltres(),
+              EmploiFiltresRecherche.noFiltre(),
               1,
             ),
           ),
@@ -44,11 +43,4 @@ class CriteresRechercheEmploiContenuViewModel extends Equatable {
 
   @override
   List<Object?> get props => [displayState];
-}
-
-DisplayState _displayState(Store<AppState> store) {
-  final status = store.state.rechercheEmploiState.status;
-  if (status == RechercheStatus.initialLoading) return DisplayState.LOADING;
-  if (status == RechercheStatus.failure) return DisplayState.FAILURE;
-  return DisplayState.CONTENT;
 }

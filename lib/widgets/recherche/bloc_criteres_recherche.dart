@@ -42,7 +42,7 @@ class _BlocCriteresRechercheState<Result> extends State<BlocCriteresRecherche<Re
 
   Widget _builder(BuildContext context, BlocCriteresRechercheViewModel<Result> viewModel) {
     return Material(
-      elevation: 16, //TODO Real box shadow ?
+      elevation: 16,
       borderRadius: BorderRadius.circular(Dimens.radius_base),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(Dimens.radius_base),

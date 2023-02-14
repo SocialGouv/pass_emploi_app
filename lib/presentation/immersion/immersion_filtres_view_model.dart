@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -57,9 +57,9 @@ DisplayState _displayState(RechercheImmersionState state) {
 }
 
 int _distance(RechercheImmersionState state) {
-  return state.request?.filtres.distance ?? ImmersionSearchParametersFiltres.defaultDistanceValue;
+  return state.request?.filtres.distance ?? ImmersionFiltresRecherche.defaultDistanceValue;
 }
 
 void _dispatchUpdateFiltresAction(Store<AppState> store, int? updatedDistanceValue) {
-  store.dispatch(RechercheUpdateFiltresAction(ImmersionSearchParametersFiltres.distance(updatedDistanceValue)));
+  store.dispatch(RechercheUpdateFiltresAction(ImmersionFiltresRecherche.distance(updatedDistanceValue)));
 }

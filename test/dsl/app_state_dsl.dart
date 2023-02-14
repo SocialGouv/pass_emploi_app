@@ -33,10 +33,10 @@ import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -352,7 +352,7 @@ extension AppStateDSL on AppState {
   AppState rechercheEmploiState({
     RechercheStatus status = RechercheStatus.nouvelleRecherche,
     List<OffreEmploi>? results,
-    RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>? request,
+    RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>? request,
     bool canLoadMore = true,
   }) {
     final _results = results ?? mockOffresEmploi10();
@@ -370,13 +370,13 @@ extension AppStateDSL on AppState {
   AppState rechercheEmploiStateWithRequest({
     RechercheStatus status = RechercheStatus.nouvelleRecherche,
     EmploiCriteresRecherche? criteres,
-    OffreEmploiSearchParametersFiltres? filtres,
+    EmploiFiltresRecherche? filtres,
   }) {
     return rechercheEmploiState(
       status: status,
       request: RechercheRequest(
         criteres ?? EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: false),
-        filtres ?? OffreEmploiSearchParametersFiltres.noFiltres(),
+        filtres ?? EmploiFiltresRecherche.noFiltre(),
         1,
       ),
     );
@@ -384,7 +384,7 @@ extension AppStateDSL on AppState {
 
   AppState successRechercheEmploiState({
     List<OffreEmploi>? results,
-    RechercheRequest<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres>? request,
+    RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>? request,
     bool canLoadMore = true,
   }) {
     return rechercheEmploiState(
@@ -397,7 +397,7 @@ extension AppStateDSL on AppState {
 
   AppState successRechercheEmploiStateWithRequest({
     EmploiCriteresRecherche? criteres,
-    OffreEmploiSearchParametersFiltres? filtres,
+    EmploiFiltresRecherche? filtres,
   }) {
     return rechercheEmploiStateWithRequest(
       status: RechercheStatus.success,
@@ -484,7 +484,7 @@ extension AppStateDSL on AppState {
 
   AppState successRechercheImmersionState({
     List<Immersion>? results,
-    RechercheRequest<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres>? request,
+    RechercheRequest<ImmersionCriteresRecherche, ImmersionFiltresRecherche>? request,
     bool canLoadMore = true,
   }) {
     final _results = results ?? mockOffresImmersion10();
@@ -501,12 +501,12 @@ extension AppStateDSL on AppState {
 
   AppState successRechercheImmersionStateWithRequest({
     ImmersionCriteresRecherche? criteres,
-    ImmersionSearchParametersFiltres? filtres,
+    ImmersionFiltresRecherche? filtres,
   }) {
     return successRechercheImmersionState(
       request: RechercheRequest(
         criteres ?? ImmersionCriteresRecherche(location: mockLocation(), metier: mockMetier()),
-        filtres ?? ImmersionSearchParametersFiltres.noFiltres(),
+        filtres ?? ImmersionFiltresRecherche.noFiltre(),
         1,
       ),
     );

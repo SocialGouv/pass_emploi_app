@@ -7,5 +7,5 @@ class SearchLocationState extends Equatable {
   SearchLocationState(this.locations);
 
   @override
-  List<Object?> get props =>[locations];
+  List<Object?> get props => [locations];
 }

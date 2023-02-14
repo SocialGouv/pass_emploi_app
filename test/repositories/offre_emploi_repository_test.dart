@@ -1,23 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
-//TODO(1353) migrer tests vers la nouvelle fonction après nettoyage
-
 void main() {
-  test('search when response is valid with keywords and a department location should return offres', () async {
+  test('response when response is valid with keyword and a department location should return offres', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/offres-emploi")) return invalidHttpResponse();
-      if (request.url.queryParameters["q"] != "keywords") return invalidHttpResponse();
+      if (request.url.queryParameters["q"] != "keyword") return invalidHttpResponse();
       if (request.url.queryParameters["departement"] != "75") return invalidHttpResponse();
       if (request.url.queryParameters["page"] != "1") return invalidHttpResponse();
       if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
@@ -27,22 +27,20 @@ void main() {
 
     // When
     final location = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
-    final search = await repository.search(
+    final response = await repository.rechercher(
       userId: "ID",
-      request: SearchOffreEmploiRequest(
-        keywords: "keywords",
-        location: location,
-        onlyAlternance: false,
-        page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
+        EmploiCriteresRecherche(keyword: "keyword", location: location, onlyAlternance: false),
+        EmploiFiltresRecherche.noFiltre(),
+        1,
       ),
     );
 
     // Then
-    expect(search!, isNotNull);
-    expect(search.isMoreDataAvailable, false);
-    expect(search.offres.length, 4);
-    final offre = search.offres[0];
+    expect(response!, isNotNull);
+    expect(response.canLoadMore, false);
+    expect(response.results.length, 4);
+    final offre = response.results.first;
     expect(
       offre,
       OffreEmploi(
@@ -55,7 +53,7 @@ void main() {
         duration: "Temps plein",
       ),
     );
-    final offreWithoutLocation = search.offres[3];
+    final offreWithoutLocation = response.results[3];
     expect(
         offreWithoutLocation,
         OffreEmploi(
@@ -69,12 +67,12 @@ void main() {
         ));
   });
 
-  test('search when response is valid with keywords and a commune location should return offres', () async {
+  test('response when response is valid with keyword and a commune location should return offres', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/offres-emploi")) return invalidHttpResponse();
-      if (request.url.queryParameters["q"] != "keywords") return invalidHttpResponse();
+      if (request.url.queryParameters["q"] != "keyword") return invalidHttpResponse();
       if (request.url.queryParameters["commune"] != "13202") return invalidHttpResponse();
       if (request.url.queryParameters["page"] != "1") return invalidHttpResponse();
       if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
@@ -84,22 +82,20 @@ void main() {
 
     // When
     final location = Location(libelle: "Marseille 02", code: "13202", codePostal: "13002", type: LocationType.COMMUNE);
-    final search = await repository.search(
+    final response = await repository.rechercher(
       userId: "ID",
-      request: SearchOffreEmploiRequest(
-        keywords: "keywords",
-        location: location,
-        onlyAlternance: false,
-        page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
+        EmploiCriteresRecherche(keyword: "keyword", location: location, onlyAlternance: false),
+        EmploiFiltresRecherche.noFiltre(),
+        1,
       ),
     );
 
     // Then
-    expect(search!, isNotNull);
+    expect(response, isNotNull);
   });
 
-  test('search when response is valid with empty keyword and department parameters should return offres', () async {
+  test('response when response is valid with empty keyword and department parameters should return offres', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
@@ -113,23 +109,20 @@ void main() {
     final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
     // When
-
-    final search = await repository.search(
+    final response = await repository.rechercher(
       userId: "ID",
-      request: SearchOffreEmploiRequest(
-        keywords: "",
-        location: null,
-        onlyAlternance: false,
-        page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
+        EmploiCriteresRecherche(keyword: "", location: null, onlyAlternance: false),
+        EmploiFiltresRecherche.noFiltre(),
+        1,
       ),
     );
 
     // Then
-    expect(search!, isNotNull);
+    expect(response, isNotNull);
   });
 
-  test('search when response is valid with only alternance should return offres', () async {
+  test('response when response is valid with only alternance should return offres', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
@@ -144,27 +137,25 @@ void main() {
     final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
     // When
-    final search = await repository.search(
+    final response = await repository.rechercher(
       userId: "ID",
-      request: SearchOffreEmploiRequest(
-        keywords: "",
-        location: null,
-        onlyAlternance: true,
-        page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
+        EmploiCriteresRecherche(keyword: "", location: null, onlyAlternance: true),
+        EmploiFiltresRecherche.noFiltre(),
+        1,
       ),
     );
 
     // Then
-    expect(search!, isNotNull);
+    expect(response, isNotNull);
   });
 
-  test('search when response is valid with keywords and a department location should return offres', () async {
+  test('response when response is valid with keyword and a department location should return offres', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/offres-emploi")) return invalidHttpResponse();
-      if (request.url.queryParameters["q"] != "keywords") return invalidHttpResponse();
+      if (request.url.queryParameters["q"] != "keyword") return invalidHttpResponse();
       if (request.url.queryParameters["departement"] != "75") return invalidHttpResponse();
       if (request.url.queryParameters["page"] != "1") return invalidHttpResponse();
       if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
@@ -174,22 +165,20 @@ void main() {
 
     // When
     final location = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
-    final search = await repository.search(
+    final response = await repository.rechercher(
       userId: "ID",
-      request: SearchOffreEmploiRequest(
-        keywords: "keywords",
-        location: location,
-        onlyAlternance: false,
-        page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
+        EmploiCriteresRecherche(keyword: "keyword", location: location, onlyAlternance: false),
+        EmploiFiltresRecherche.noFiltre(),
+        1,
       ),
     );
 
     // Then
-    expect(search!, isNotNull);
-    expect(search.isMoreDataAvailable, false);
-    expect(search.offres.length, 4);
-    final offre = search.offres[0];
+    expect(response!, isNotNull);
+    expect(response.canLoadMore, false);
+    expect(response.results.length, 4);
+    final offre = response.results.first;
     expect(
         offre,
         OffreEmploi(
@@ -203,10 +192,10 @@ void main() {
         ));
   });
 
-  group("search when filtres are applied ...", () {
+  group("response when filtres are applied ...", () {
     void assertFiltres(
       String title,
-      OffreEmploiSearchParametersFiltres filtres,
+      EmploiFiltresRecherche filtres,
       bool Function(String query) assertion,
     ) {
       test(title, () async {
@@ -218,40 +207,37 @@ void main() {
         final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
         // When
-        final location =
-            Location(libelle: "Issy-les-Moulineaux", code: "03129", codePostal: "92130", type: LocationType.COMMUNE);
-        final search = await repository.search(
+        final location = Location(libelle: "Issy", code: "03129", codePostal: "92130", type: LocationType.COMMUNE);
+        final response = await repository.rechercher(
           userId: "ID",
-          request: SearchOffreEmploiRequest(
-            keywords: "keywords",
-            location: location,
-            onlyAlternance: false,
-            page: 1,
-            filtres: filtres,
+          request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
+            EmploiCriteresRecherche(keyword: "keyword", location: location, onlyAlternance: false),
+            filtres,
+            1,
           ),
         );
 
         // Then
-        expect(search, isNotNull);
+        expect(response, isNotNull);
       });
     }
 
     group(("when distance is applied should set proper rayon"), () {
       assertFiltres(
         "when distance is 70",
-        OffreEmploiSearchParametersFiltres.withFiltres(distance: 70),
+        EmploiFiltresRecherche.withFiltres(distance: 70),
         (query) => query.contains("rayon=70"),
       );
 
       assertFiltres(
         "when distance is 32",
-        OffreEmploiSearchParametersFiltres.withFiltres(distance: 32),
+        EmploiFiltresRecherche.withFiltres(distance: 32),
         (query) => query.contains("rayon=32"),
       );
 
       assertFiltres(
         "when not filter is set should not set rayon",
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        EmploiFiltresRecherche.noFiltre(),
         (query) => !query.contains("rayon"),
       );
     });
@@ -259,19 +245,19 @@ void main() {
     group(("when debutantAccepte is applied should set parameter"), () {
       assertFiltres(
         "when debutantAccepte is true",
-        OffreEmploiSearchParametersFiltres.withFiltres(debutantOnly: true),
+        EmploiFiltresRecherche.withFiltres(debutantOnly: true),
         (query) => query.contains("debutantAccepte=true"),
       );
 
       assertFiltres(
         "when debutantAccepte is false",
-        OffreEmploiSearchParametersFiltres.withFiltres(debutantOnly: false),
+        EmploiFiltresRecherche.withFiltres(debutantOnly: false),
         (query) => query.contains("debutantAccepte=false"),
       );
 
       assertFiltres(
         "when no filter is set should not set debutantAccepte",
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        EmploiFiltresRecherche.noFiltre(),
         (query) => !query.contains("debutantAccepte"),
       );
     });
@@ -281,32 +267,32 @@ void main() {
         () {
       assertFiltres(
         "when experience is De 0 à 1 an",
-        OffreEmploiSearchParametersFiltres.withFiltres(experience: [ExperienceFiltre.de_zero_a_un_an]),
+        EmploiFiltresRecherche.withFiltres(experience: [ExperienceFiltre.de_zero_a_un_an]),
         (query) => query.contains("experience=1"),
       );
 
       assertFiltres(
         "when experience is De 1 an à 3 ans",
-        OffreEmploiSearchParametersFiltres.withFiltres(experience: [ExperienceFiltre.de_un_a_trois_ans]),
+        EmploiFiltresRecherche.withFiltres(experience: [ExperienceFiltre.de_un_a_trois_ans]),
         (query) => query.contains("experience=2"),
       );
 
       assertFiltres(
         "when experience is 3 ans et +",
-        OffreEmploiSearchParametersFiltres.withFiltres(experience: [ExperienceFiltre.trois_ans_et_plus]),
+        EmploiFiltresRecherche.withFiltres(experience: [ExperienceFiltre.trois_ans_et_plus]),
         (query) => query.contains("experience=3"),
       );
 
       assertFiltres(
         "when experience is De 0 à 1 an and De 1 an à 3 ans",
-        OffreEmploiSearchParametersFiltres.withFiltres(
+        EmploiFiltresRecherche.withFiltres(
             experience: [ExperienceFiltre.de_zero_a_un_an, ExperienceFiltre.de_un_a_trois_ans]),
         (query) => query.contains("experience=1") && query.contains("experience=2"),
       );
 
       assertFiltres(
         "when all three experience values are selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(experience: [
+        EmploiFiltresRecherche.withFiltres(experience: [
           ExperienceFiltre.de_zero_a_un_an,
           ExperienceFiltre.de_un_a_trois_ans,
           ExperienceFiltre.trois_ans_et_plus
@@ -316,12 +302,12 @@ void main() {
 
       assertFiltres(
         "when no experience is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(experience: []),
+        EmploiFiltresRecherche.withFiltres(experience: []),
         (query) => !query.contains("experience"),
       );
       assertFiltres(
         "when no experience is selected - null",
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        EmploiFiltresRecherche.noFiltre(),
         (query) => !query.contains("experience"),
       );
     });
@@ -329,31 +315,31 @@ void main() {
     group(("when contrat filtre is applied should set proper values"), () {
       assertFiltres(
         "when cdi is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(contrat: [ContratFiltre.cdi]),
+        EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdi]),
         (query) => query.contains("contrat=CDI"),
       );
 
       assertFiltres(
         "when cdd is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(contrat: [ContratFiltre.cdd_interim_saisonnier]),
+        EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdd_interim_saisonnier]),
         (query) => query.contains("contrat=CDD-interim-saisonnier"),
       );
 
       assertFiltres(
         "when autre is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(contrat: [ContratFiltre.autre]),
+        EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.autre]),
         (query) => query.contains("contrat=autre"),
       );
 
       assertFiltres(
         "when cdi and autre are selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(contrat: [ContratFiltre.cdi, ContratFiltre.autre]),
+        EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdi, ContratFiltre.autre]),
         (query) => query.contains("contrat=CDI") && query.contains("contrat=autre"),
       );
 
       assertFiltres(
         "when all three options are selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(
+        EmploiFiltresRecherche.withFiltres(
           contrat: [ContratFiltre.cdi, ContratFiltre.cdd_interim_saisonnier, ContratFiltre.autre],
         ),
         (query) =>
@@ -364,13 +350,13 @@ void main() {
 
       assertFiltres(
         "when no contrat is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(contrat: []),
+        EmploiFiltresRecherche.withFiltres(contrat: []),
         (query) => !query.contains("contrat"),
       );
 
       assertFiltres(
         "when no contrat is selected - null",
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        EmploiFiltresRecherche.noFiltre(),
         (query) => !query.contains("contrat"),
       );
     });
@@ -378,54 +364,52 @@ void main() {
     group("when duree filtre is applied should set proper values", () {
       assertFiltres(
         "when duree is temps plein",
-        OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_plein]),
+        EmploiFiltresRecherche.withFiltres(duree: [DureeFiltre.temps_plein]),
         (query) => query.contains("duree=1"),
       );
 
       assertFiltres(
         "when duree is temps partiel",
-        OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_partiel]),
+        EmploiFiltresRecherche.withFiltres(duree: [DureeFiltre.temps_partiel]),
         (query) => query.contains("duree=2"),
       );
 
       assertFiltres(
         "when duree is both",
-        OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel]),
+        EmploiFiltresRecherche.withFiltres(duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel]),
         (query) => query.contains("duree=1") && query.contains("duree=2"),
       );
 
       assertFiltres(
         "when no duree is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(duree: []),
+        EmploiFiltresRecherche.withFiltres(duree: []),
         (query) => !query.contains("duree"),
       );
 
       assertFiltres(
         "when no duree is selected - null",
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        EmploiFiltresRecherche.noFiltre(),
         (query) => !query.contains("duree"),
       );
     });
   });
 
-  test('search when response is invalid should return null', () async {
+  test('response when response is invalid should return null', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
     // When
-    final search = await repository.search(
+    final response = await repository.rechercher(
       userId: "ID",
-      request: SearchOffreEmploiRequest(
-        keywords: "keywords",
-        location: null,
-        onlyAlternance: false,
-        page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
+        EmploiCriteresRecherche(keyword: "keyword", location: null, onlyAlternance: false),
+        EmploiFiltresRecherche.noFiltre(),
+        1,
       ),
     );
 
     // Then
-    expect(search, isNull);
+    expect(response, isNull);
   });
 }

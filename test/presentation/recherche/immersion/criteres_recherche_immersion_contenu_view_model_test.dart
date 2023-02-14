@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/immersion/criteres_recherche_immersion_contenu_view_model.dart';
@@ -58,14 +58,13 @@ void main() {
     final dispatchedAction = store.dispatchedAction;
     expect(
       dispatchedAction,
-      isA<RechercheRequestAction<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres>>(),
+      isA<RechercheRequestAction<ImmersionCriteresRecherche, ImmersionFiltresRecherche>>(),
     );
     expect(
-      (dispatchedAction as RechercheRequestAction<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres>)
-          .request,
+      (dispatchedAction as RechercheRequestAction<ImmersionCriteresRecherche, ImmersionFiltresRecherche>).request,
       RechercheRequest(
         ImmersionCriteresRecherche(metier: mockMetier(), location: mockLocation()),
-        ImmersionSearchParametersFiltres.noFiltres(),
+        ImmersionFiltresRecherche.noFiltre(),
         1,
       ),
     );

@@ -1,5 +1,5 @@
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -21,7 +21,7 @@ class ActionsRechercheImmersionViewModel extends ActionsRechercheViewModel {
   factory ActionsRechercheImmersionViewModel.create(Store<AppState> store) {
     final state = store.state.rechercheImmersionState;
     return ActionsRechercheImmersionViewModel(
-      withAlertButton: _withAlertButton(state),
+      withAlertButton: state.withAlertButton(),
       withFiltreButton: _withFiltreButton(state),
       filtresCount: _filtresCount(state.request?.filtres),
     );
@@ -31,18 +31,13 @@ class ActionsRechercheImmersionViewModel extends ActionsRechercheViewModel {
   List<Object?> get props => [withAlertButton, withFiltreButton, filtresCount];
 }
 
-bool _withAlertButton(RechercheState state) {
-  return [RechercheStatus.success, RechercheStatus.updateLoading].contains(state.status);
-}
-
 bool _withFiltreButton(RechercheState state) {
   return [RechercheStatus.success, RechercheStatus.updateLoading].contains(state.status);
 }
 
-int? _filtresCount(ImmersionSearchParametersFiltres? filtres) {
+int? _filtresCount(ImmersionFiltresRecherche? filtres) {
   if (filtres == null) return null;
   var count = 0;
-  count +=
-      filtres.distance != null && filtres.distance != ImmersionSearchParametersFiltres.defaultDistanceValue ? 1 : 0;
+  count += filtres.distance != null && filtres.distance != ImmersionFiltresRecherche.defaultDistanceValue ? 1 : 0;
   return count > 0 ? count : null;
 }

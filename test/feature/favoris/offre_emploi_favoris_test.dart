@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -12,6 +11,7 @@ import 'package:redux/src/store.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
+import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
@@ -142,17 +142,14 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        offreEmploiFavorisState: FavoriListState<OffreEmploi>.withMap(
-          {"1", "2", "4"},
-          {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
-        ),
-        offreEmploiListState: OffreEmploiListState.data(
-          offres: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')],
-          loadedPage: 1,
-          isMoreDataAvailable: false,
-        )),
+    initialState: AppState.initialState()
+        .copyWith(
+            loginState: successMiloUserState(),
+            offreEmploiFavorisState: FavoriListState<OffreEmploi>.withMap(
+              {"1", "2", "4"},
+              {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
+            ))
+        .successRechercheEmploiState(results: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')]),
   );
   return store;
 }
@@ -191,17 +188,14 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositoryFailureStub();
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        offreEmploiFavorisState: FavoriListState<OffreEmploi>.withMap(
-          {"1", "2", "4"},
-          {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
-        ),
-        offreEmploiListState: OffreEmploiListState.data(
-          offres: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')],
-          loadedPage: 1,
-          isMoreDataAvailable: false,
-        )),
+    initialState: AppState.initialState()
+        .copyWith(
+            loginState: successMiloUserState(),
+            offreEmploiFavorisState: FavoriListState<OffreEmploi>.withMap(
+              {"1", "2", "4"},
+              {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
+            ))
+        .successRechercheEmploiState(results: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')]),
   );
   return store;
 }

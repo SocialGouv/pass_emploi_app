@@ -22,15 +22,10 @@ import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
-import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
@@ -41,7 +36,6 @@ import 'package:pass_emploi_app/features/saved_search/create/saved_search_create
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
-import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_state.dart';
@@ -76,10 +70,7 @@ class AppState extends Equatable {
   final DetailsJeuneState detailsJeuneState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
-  final OffreEmploiSearchState offreEmploiSearchState;
   final OffreEmploiDetailsState offreEmploiDetailsState;
-  final OffreEmploiListState offreEmploiListState;
-  final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
   final FavoriListState<OffreEmploi> offreEmploiFavorisState;
   final FavoriListState<Immersion> immersionFavorisState;
   final FavoriListState<ServiceCivique> serviceCiviqueFavorisState;
@@ -88,15 +79,12 @@ class AppState extends Equatable {
   final SearchMetierState searchMetierState;
   final RendezvousListState rendezvousListState;
   final RendezvousDetailsState rendezvousDetailsState;
-  final ImmersionListState immersionListState;
   final ImmersionDetailsState immersionDetailsState;
   final SavedSearchCreateState<OffreEmploiSavedSearch> offreEmploiSavedSearchCreateState;
   final SavedSearchCreateState<ImmersionSavedSearch> immersionSavedSearchCreateState;
   final SavedSearchCreateState<ServiceCiviqueSavedSearch> serviceCiviqueSavedSearchCreateState;
-  final ImmersionSearchParametersState immersionSearchParametersState;
   final SavedSearchListState savedSearchListState;
   final SavedSearchDeleteState savedSearchDeleteState;
-  final ServiceCiviqueSearchResultState serviceCiviqueSearchResultState;
   final ServiceCiviqueDetailState serviceCiviqueDetailState;
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
@@ -139,10 +127,7 @@ class AppState extends Equatable {
     required this.detailsJeuneState,
     required this.chatStatusState,
     required this.chatState,
-    required this.offreEmploiSearchState,
     required this.offreEmploiDetailsState,
-    required this.offreEmploiListState,
-    required this.offreEmploiSearchParametersState,
     required this.offreEmploiFavorisState,
     required this.immersionFavorisState,
     required this.serviceCiviqueFavorisState,
@@ -151,15 +136,12 @@ class AppState extends Equatable {
     required this.searchMetierState,
     required this.rendezvousListState,
     required this.rendezvousDetailsState,
-    required this.immersionListState,
     required this.immersionDetailsState,
     required this.offreEmploiSavedSearchCreateState,
     required this.immersionSavedSearchCreateState,
     required this.serviceCiviqueSavedSearchCreateState,
-    required this.immersionSearchParametersState,
     required this.savedSearchListState,
     required this.savedSearchDeleteState,
-    required this.serviceCiviqueSearchResultState,
     required this.serviceCiviqueDetailState,
     required this.suppressionCompteState,
     required this.demoState,
@@ -200,10 +182,7 @@ class AppState extends Equatable {
     final DetailsJeuneState? detailsJeuneState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
-    final OffreEmploiSearchState? offreEmploiSearchState,
     final DeepLinkState? deepLinkState,
-    final OffreEmploiListState? offreEmploiListState,
-    final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
     final FavoriListState<OffreEmploi>? offreEmploiFavorisState,
     final FavoriListState<Immersion>? immersionFavorisState,
     final FavoriListState<ServiceCivique>? serviceCiviqueFavorisState,
@@ -213,16 +192,13 @@ class AppState extends Equatable {
     final RendezvousListState? rendezvousListState,
     final RendezvousDetailsState? rendezvousDetailsState,
     final OffreEmploiDetailsState? offreEmploiDetailsState,
-    final ImmersionListState? immersionListState,
     final ImmersionDetailsState? immersionDetailsState,
     final SavedSearchCreateState<OffreEmploiSavedSearch>? offreEmploiSavedSearchCreateState,
     final SavedSearchCreateState<ImmersionSavedSearch>? immersionSavedSearchCreateState,
     final SavedSearchCreateState<ServiceCiviqueSavedSearch>? serviceCiviqueSavedSearchCreateState,
     final ConfigurationState? configurationState,
-    final ImmersionSearchParametersState? immersionSearchParametersState,
     final SavedSearchListState? savedSearchListState,
     final SavedSearchDeleteState? savedSearchDeleteState,
-    final ServiceCiviqueSearchResultState? serviceCiviqueSearchResultState,
     final ServiceCiviqueDetailState? serviceCiviqueDetailState,
     final SuppressionCompteState? suppressionCompteState,
     final bool? demoState,
@@ -263,10 +239,7 @@ class AppState extends Equatable {
       detailsJeuneState: detailsJeuneState ?? this.detailsJeuneState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
-      offreEmploiSearchState: offreEmploiSearchState ?? this.offreEmploiSearchState,
       offreEmploiDetailsState: offreEmploiDetailsState ?? this.offreEmploiDetailsState,
-      offreEmploiListState: offreEmploiListState ?? this.offreEmploiListState,
-      offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
       offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
       immersionFavorisState: immersionFavorisState ?? this.immersionFavorisState,
       serviceCiviqueFavorisState: serviceCiviqueFavorisState ?? this.serviceCiviqueFavorisState,
@@ -275,17 +248,14 @@ class AppState extends Equatable {
       searchMetierState: searchMetierState ?? this.searchMetierState,
       rendezvousListState: rendezvousListState ?? this.rendezvousListState,
       rendezvousDetailsState: rendezvousDetailsState ?? this.rendezvousDetailsState,
-      immersionListState: immersionListState ?? this.immersionListState,
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
       offreEmploiSavedSearchCreateState: offreEmploiSavedSearchCreateState ?? this.offreEmploiSavedSearchCreateState,
       immersionSavedSearchCreateState: immersionSavedSearchCreateState ?? this.immersionSavedSearchCreateState,
       serviceCiviqueSavedSearchCreateState:
           serviceCiviqueSavedSearchCreateState ?? this.serviceCiviqueSavedSearchCreateState,
       configurationState: configurationState ?? this.configurationState,
-      immersionSearchParametersState: immersionSearchParametersState ?? this.immersionSearchParametersState,
       savedSearchListState: savedSearchListState ?? this.savedSearchListState,
       savedSearchDeleteState: savedSearchDeleteState ?? this.savedSearchDeleteState,
-      serviceCiviqueSearchResultState: serviceCiviqueSearchResultState ?? this.serviceCiviqueSearchResultState,
       serviceCiviqueDetailState: serviceCiviqueDetailState ?? this.serviceCiviqueDetailState,
       suppressionCompteState: suppressionCompteState ?? this.suppressionCompteState,
       demoState: demoState ?? this.demoState,
@@ -329,10 +299,7 @@ class AppState extends Equatable {
       updateDemarcheState: UpdateDemarcheNotInitializedState(),
       chatStatusState: ChatStatusNotInitializedState(),
       chatState: ChatNotInitializedState(),
-      offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
       offreEmploiDetailsState: OffreEmploiDetailsNotInitializedState(),
-      offreEmploiListState: OffreEmploiListState.notInitialized(),
-      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
       offreEmploiFavorisState: FavoriListState<OffreEmploi>.notInitialized(),
       immersionFavorisState: FavoriListState<Immersion>.notInitialized(),
       serviceCiviqueFavorisState: FavoriListState<ServiceCivique>.notInitialized(),
@@ -341,16 +308,13 @@ class AppState extends Equatable {
       searchMetierState: SearchMetierState([]),
       rendezvousListState: RendezvousListState.notInitialized(),
       rendezvousDetailsState: RendezvousDetailsNotInitializedState(),
-      immersionListState: ImmersionListNotInitializedState(),
       immersionDetailsState: ImmersionDetailsNotInitializedState(),
       offreEmploiSavedSearchCreateState: SavedSearchCreateState<OffreEmploiSavedSearch>.notInitialized(),
       immersionSavedSearchCreateState: SavedSearchCreateState<ImmersionSavedSearch>.notInitialized(),
       serviceCiviqueSavedSearchCreateState: SavedSearchCreateState<ServiceCiviqueSavedSearch>.notInitialized(),
       configurationState: ConfigurationState(configuration),
-      immersionSearchParametersState: ImmersionSearchParametersNotInitializedState(),
       savedSearchListState: SavedSearchListNotInitializedState(),
       savedSearchDeleteState: SavedSearchDeleteNotInitializedState(),
-      serviceCiviqueSearchResultState: ServiceCiviqueSearchResultNotInitializedState(),
       serviceCiviqueDetailState: ServiceCiviqueDetailNotInitializedState(),
       demoState: false,
       suppressionCompteState: SuppressionCompteNotInitializedState(),
@@ -392,10 +356,7 @@ class AppState extends Equatable {
         detailsJeuneState,
         chatStatusState,
         chatState,
-        offreEmploiSearchState,
         offreEmploiDetailsState,
-        offreEmploiListState,
-        offreEmploiSearchParametersState,
         offreEmploiFavorisState,
         favoriUpdateState,
         searchLocationState,
@@ -404,11 +365,9 @@ class AppState extends Equatable {
         userActionListState,
         rendezvousListState,
         rendezvousDetailsState,
-        immersionListState,
         immersionDetailsState,
         offreEmploiSavedSearchCreateState,
         immersionSavedSearchCreateState,
-        immersionSearchParametersState,
         savedSearchListState,
         savedSearchDeleteState,
         serviceCiviqueDetailState,

@@ -6,8 +6,6 @@ import 'package:pass_emploi_app/presentation/service_civique/service_civique_fil
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-//TODO(1355): c'est peut-être tout le temps la même chose sur les 2 bool. juste sortir le count pour éviter de répéter et créer des fichiers ?
-
 class ActionsRechercheServiceCiviqueViewModel extends ActionsRechercheViewModel {
   @override
   final bool withAlertButton;
@@ -25,7 +23,7 @@ class ActionsRechercheServiceCiviqueViewModel extends ActionsRechercheViewModel 
   factory ActionsRechercheServiceCiviqueViewModel.create(Store<AppState> store) {
     final state = store.state.rechercheServiceCiviqueState;
     return ActionsRechercheServiceCiviqueViewModel(
-      withAlertButton: _withAlertButton(state),
+      withAlertButton: state.withAlertButton(),
       withFiltreButton: _withFiltreButton(state),
       filtresCount: _filtresCount(state.request?.filtres),
     );
@@ -35,17 +33,12 @@ class ActionsRechercheServiceCiviqueViewModel extends ActionsRechercheViewModel 
   List<Object?> get props => [withAlertButton, withFiltreButton, filtresCount];
 }
 
-bool _withAlertButton(RechercheState state) {
-  return [RechercheStatus.success, RechercheStatus.updateLoading].contains(state.status);
-}
-
 bool _withFiltreButton(RechercheState state) {
   return [RechercheStatus.success, RechercheStatus.updateLoading].contains(state.status);
 }
 
 int? _filtresCount(ServiceCiviqueFiltresRecherche? filtres) {
   if (filtres == null) return null;
-
   final int distanceCount =
       filtres.distance != null && filtres.distance != defaultDistanceValueOnServiceCiviqueFiltre ? 1 : 0;
   final int startDateCount = filtres.startDate != null ? 1 : 0;

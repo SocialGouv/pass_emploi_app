@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -43,7 +43,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
       displayState: _displayState(state),
       shouldDisplayDistanceFiltre: criteres?.location?.type == LocationType.COMMUNE,
       shouldDisplayNonDistanceFiltres: criteres != null ? !criteres.onlyAlternance : true,
-      initialDistanceValue: filtres?.distance ?? OffreEmploiSearchParametersFiltres.defaultDistanceValue,
+      initialDistanceValue: filtres?.distance ?? EmploiFiltresRecherche.defaultDistanceValue,
       initialDebutantOnlyFiltre: filtres?.debutantOnly,
       contratFiltres: _contrat(filtres),
       dureeFiltres: _duree(filtres),
@@ -65,7 +65,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
       ];
 }
 
-List<CheckboxValueViewModel<DureeFiltre>> _duree(OffreEmploiSearchParametersFiltres? filtres) {
+List<CheckboxValueViewModel<DureeFiltre>> _duree(EmploiFiltresRecherche? filtres) {
   return [
     CheckboxValueViewModel(
       label: Strings.dureeTempsPleinLabel,
@@ -80,7 +80,7 @@ List<CheckboxValueViewModel<DureeFiltre>> _duree(OffreEmploiSearchParametersFilt
   ];
 }
 
-List<CheckboxValueViewModel<ContratFiltre>> _contrat(OffreEmploiSearchParametersFiltres? filtres) {
+List<CheckboxValueViewModel<ContratFiltre>> _contrat(EmploiFiltresRecherche? filtres) {
   return [
     CheckboxValueViewModel(
       label: Strings.contratCdiLabel,
@@ -120,8 +120,8 @@ void _dispatchUpdateFiltresAction(
     List<CheckboxValueViewModel<ContratFiltre>>? contratFiltres,
     List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres) {
   store.dispatch(
-    RechercheUpdateFiltresAction<OffreEmploiSearchParametersFiltres>(
-      OffreEmploiSearchParametersFiltres.withFiltres(
+    RechercheUpdateFiltresAction<EmploiFiltresRecherche>(
+      EmploiFiltresRecherche.withFiltres(
         distance: updatedDistanceValue,
         debutantOnly: debutantOnlyFiltre,
         contrat: contratFiltres?.map((e) => e.value).toList(),

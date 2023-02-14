@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
-import 'package:pass_emploi_app/pages/immersion_list_page.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
-import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
@@ -53,17 +52,16 @@ class SuggestionsRechercheListPage extends StatelessWidget {
   void _navigateToSearch(BuildContext context, SavedSearchNavigationState searchNavigationState) {
     switch (searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
-        _goToPage(context, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
+        _goToPage(context, RechercheOffreEmploiPage(onlyAlternance: false));
         break;
       case SavedSearchNavigationState.OFFRE_ALTERNANCE:
-        _goToPage(context, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
+        _goToPage(context, RechercheOffreEmploiPage(onlyAlternance: true));
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
-        _goToPage(context, ImmersionListPage(true))
-            .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
+        _goToPage(context, RechercheOffreImmersionPage());
         break;
       case SavedSearchNavigationState.SERVICE_CIVIQUE:
-        _goToPage(context, ServiceCiviqueListPage(true));
+        _goToPage(context, RechercheOffreServiceCiviquePage());
         break;
       case SavedSearchNavigationState.NONE:
         break;

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/presentation/recherche/immersion/actions_recherche_immersion_view_model.dart';
 
 import '../../../dsl/app_state_dsl.dart';
@@ -100,9 +100,8 @@ void main() {
   group('filtresCount', () {
     test('when state has no active filtre it should not display a filtre number', () {
       // Given
-      final store = givenState()
-          .successRechercheImmersionStateWithRequest(filtres: ImmersionSearchParametersFiltres.noFiltres())
-          .store();
+      final store =
+          givenState().successRechercheImmersionStateWithRequest(filtres: ImmersionFiltresRecherche.noFiltre()).store();
 
       // When
       final viewModel = ActionsRechercheImmersionViewModel.create(store);
@@ -117,7 +116,7 @@ void main() {
       // Given
       final store = givenState()
           .successRechercheImmersionStateWithRequest(
-            filtres: ImmersionSearchParametersFiltres.distance(50),
+            filtres: ImmersionFiltresRecherche.distance(50),
           )
           .store();
 

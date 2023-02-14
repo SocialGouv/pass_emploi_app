@@ -4,15 +4,14 @@ import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 
-typedef RechercheEmploiState = RechercheState<EmploiCriteresRecherche, OffreEmploiSearchParametersFiltres, OffreEmploi>;
-typedef RechercheImmersionState
-    = RechercheState<ImmersionCriteresRecherche, ImmersionSearchParametersFiltres, Immersion>;
+typedef RechercheEmploiState = RechercheState<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi>;
+typedef RechercheImmersionState = RechercheState<ImmersionCriteresRecherche, ImmersionFiltresRecherche, Immersion>;
 typedef RechercheServiceCiviqueState
     = RechercheState<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche, ServiceCivique>;
 
