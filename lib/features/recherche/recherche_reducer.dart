@@ -12,7 +12,7 @@ RechercheState<Criteres, Filtres, Result>
   if (action is RechercheRequestAction<Criteres, Filtres>) {
     return current.copyWith(
       status: RechercheStatus.initialLoading,
-      request: () => action.request, //TODO: utile ?
+      request: () => action.request,
     );
   }
   if (action is RechercheSuccessAction<Criteres, Filtres, Result>) {

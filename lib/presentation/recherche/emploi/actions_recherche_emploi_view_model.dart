@@ -1,8 +1,8 @@
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -24,7 +24,7 @@ class ActionsRechercheEmploiViewModel extends ActionsRechercheViewModel {
   factory ActionsRechercheEmploiViewModel.create(Store<AppState> store) {
     final state = store.state.rechercheEmploiState;
     return ActionsRechercheEmploiViewModel(
-      withAlertButton: _withAlertButton(state),
+      withAlertButton: state.withAlertButton(),
       withFiltreButton: _withFiltreButton(state),
       filtresCount: _filtresCount(state.request?.filtres),
     );
@@ -32,10 +32,6 @@ class ActionsRechercheEmploiViewModel extends ActionsRechercheViewModel {
 
   @override
   List<Object?> get props => [withAlertButton, withFiltreButton, filtresCount];
-}
-
-bool _withAlertButton(RechercheState state) {
-  return [RechercheStatus.success, RechercheStatus.updateLoading].contains(state.status);
 }
 
 bool _withFiltreButton(RechercheState<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi> state) {

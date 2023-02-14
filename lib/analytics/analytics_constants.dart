@@ -42,32 +42,24 @@ class AnalyticsScreenNames {
   // Recherche V2
   static const rechercheV2Home = "recherche";
 
-  static const emploiResearch = "recherche/emploi/search";//TODO(1418): à supprimer ?
-  static const emploiResults = "recherche/emploi/search_results";//TODO(1418): à supprimer ?
-  static const emploiNoResults = "recherche/emploi/search_no_results";
+  static const emploiResults = "recherche/emploi/search_results";
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
   static const emploiCreateAlert = "/saved_search/emploi/create";
   static const emploiPartagePage = "/recherche/emploi/detail/partage-conseiller";
   static const emploiPartagePageSuccess = "/recherche/emploi/detail?partage-conseiller=true";
 
-  static const alternanceResearch = "recherche/alternance/search";//TODO(1418): à supprimer ?
-  static const alternanceResults = "recherche/alternance/search_results";//TODO(1418): à supprimer ?
-  static const alternanceNoResults = "recherche/alternance/search_no_results";
+  static const alternanceResults = "recherche/alternance/search_results";
   static const alternanceDetails = "recherche/alternance/detail";
   static const alternanceFiltres = "recherche/alternance/search_results/filters";
   static const alternanceCreateAlert = "/saved_search/alternance/create";
 
-  static const immersionResearch = "recherche/immersion/search";
   static const immersionResults = "recherche/immersion/search_results";
-  static const immersionNoResults = "recherche/immersion/search_no_results";//TODO(1418): à supprimer ?
   static const immersionDetails = "recherche/immersion/detail";
   static const immersionFiltres = "/recherche/immersion/search_results/filters";
   static const immersionCreateAlert = "/saved_search/immersion/create";
 
-  static const serviceCiviqueResearch = "recherche/service_civique/search"; //TODO(1418): à supprimer ?
-  static const serviceCiviqueResults = "/recherche/service_civique/search_results"; //TODO(1418): à supprimer ?
-  static const serviceCiviqueNoResults = "/recherche/service_civique/search_no_results"; //TODO(1418): à supprimer ?
+  static const serviceCiviqueResults = "/recherche/service_civique/search_results";
   static const serviceCiviqueDetail = "/recherche/service_civique/detail";
   static const serviceCiviqueFavoris = "/favoris/list/service_civique";
   static const serviceCiviqueFiltres = "/recherche/service_civique/search_results/filters";

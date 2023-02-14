@@ -20,7 +20,6 @@ abstract class AbstractSearchExtractor<SAVED_SEARCH_MODEL> {
 class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSavedSearch> {
   @override
   OffreEmploiSavedSearch getSearchFilters(Store<AppState> store) {
-    //TODO(1353): peut-être cassé / crash si on clique sur "filtres" depuis une recherche sauvegardée parce que c'est un ancien écran qui n'utilise pas le state
     final state = store.state.rechercheEmploiState;
     final request = state.request!;
     final metier = request.criteres.keyword;

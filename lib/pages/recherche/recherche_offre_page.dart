@@ -65,7 +65,6 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
         onFiltreApplied: _onFiltreApplied,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      //TODO: 1353 - jusqu'à ce que la complétion se fasse sur un écran à part
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.only(

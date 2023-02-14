@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/recherche/recherche_state_to_display_state_extension.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -25,7 +25,7 @@ class CriteresRechercheImmersionContenuViewModel extends Equatable {
 
   factory CriteresRechercheImmersionContenuViewModel.create(Store<AppState> store) {
     return CriteresRechercheImmersionContenuViewModel(
-      displayState: _displayState(store),
+      displayState: store.state.rechercheImmersionState.displayState(),
       initialMetier: store.state.rechercheImmersionState.request?.criteres.metier,
       initialLocation: store.state.rechercheImmersionState.request?.criteres.location,
       onSearchingRequest: (metier, location) {
@@ -44,11 +44,4 @@ class CriteresRechercheImmersionContenuViewModel extends Equatable {
 
   @override
   List<Object?> get props => [displayState];
-}
-
-DisplayState _displayState(Store<AppState> store) {
-  final status = store.state.rechercheImmersionState.status;
-  if (status == RechercheStatus.initialLoading) return DisplayState.LOADING;
-  if (status == RechercheStatus.failure) return DisplayState.FAILURE;
-  return DisplayState.CONTENT;
 }

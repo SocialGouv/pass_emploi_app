@@ -335,16 +335,13 @@ class Strings {
   static String rechercheCriteresActifsPlural(int count) => "($count) critères actifs";
 
   // Solutions
-  static String searchingPageTitle = "Recherche de solutions";
   static String keywordTitle = "Mots clés";
   static String keywordHint = "Saisissez un métier, une compétence...";
   static String jobLocationTitle = "Lieu de travail";
   static String jobLocationHint = "Saisissez une ville, un département ou une région";
   static String searchButton = "Rechercher";
-  static String offresEmploiTitle = "Offres d'emploi";//TODO(1418): à supprimer ?
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
-  static String eventsTabTitle = "Événements";
   static String boiteAOutilsTabTitle = "Boîte à outils";
   static String solutionsAppBarTitle = "Recherche";
   static String immersionButton = "Immersion";
@@ -362,7 +359,6 @@ class Strings {
 
   // Alternance
   static String alternanceButton = "Alternance";
-  static String alternanceTitle = "Offres d'alternance";//TODO(1418): à supprimer ?
   static String partagerOffreAlternance = "Partager l’offre d’alternance";
   static String partageOffreAlternanceNavTitle = "Partage de l’offre d’alternance";
 
@@ -375,7 +371,6 @@ class Strings {
   static String partageEventSuccess = "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
 
   // Immersion
-  static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
   static String entrepriseAccueillante = 'Entreprise accueillante';
   static String entreprisesAccueillantesHeader =
       'Les entreprises accueillantes facilitent vos immersions professionnelles';
@@ -383,18 +378,6 @@ class Strings {
   static String villeCompulsoryLabel = "* Localisation";
   static String villeNonCompulsoryLabel = "Localisation";
   static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";
-  static String immersionObjectifTitle = "Objectif poursuivi ?";//TODO(1418): à supprimer ?
-  static String immersionObjectifContent =
-      "Passer quelques jours dans une entreprise pour découvrir un métier, en conditions réelles. Ainsi, vous pouvez vérifier que ce métier vous plaît et que vous vous sentirez à l'aise pour le pratiquer. Le professionnel qui vous guidera pendant cette immersion pourra vous dire si vous avez besoin d'une formation avant de pouvoir être recruté."; //TODO(1418): à supprimer ?
-  static String immersionDemarchesTitle = "Quelles démarches ?";//TODO(1418): à supprimer ?
-  static String immersionDemarchesContent =
-      "Une fois que vous avez trouvé une entreprise pour vous accueillir, prévenez votre conseiller et complétez la convention qu'il vous transmettra. Cette convention devra être validée par vous, par l'entreprise d'accueil et par votre conseiller.";//TODO(1418): à supprimer ?
-  static String immersionStatutTitle = "Quel statut ?";//TODO(1418): à supprimer ?
-  static String immersionStatutContent =
-      "Votre statut ne change pas. Si vous êtes inscrit à Pôle emploi, actualisez-vous comme d'habitude !";//TODO(1418): à supprimer ?
-  static String immersionFieldHint = "Rechercher";
-  static String immersionsTitle = "Offres d'immersion";//TODO(1418): à supprimer ?
-  static String immersionError = "Erreur lors de la récupération de l'offre d'immersion. Veuillez réessayer";
   static String immersionNonAccueillanteExplanation =
       "Cette entreprise peut recruter sur ce métier et être intéressée pour vous recevoir en immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.";
   static String immersionAccueillanteExplanation =
@@ -408,51 +391,21 @@ class Strings {
   static String immersionEmailButton = "Envoyer un e-mail";
   static String immersionEmailSubject = "Candidature pour une période d'immersion";
 
-  // Civic Service
-  static String serviceCiviqueTitle = "Qu’est-ce que le service civique ?";
-  static String serviceCiviqueContent =
-      "Le service civique est un engagement volontaire au service de l'intérêt général, accessible sans condition de diplôme. Il est indemnisé et s'effectue en France ou à l'étranger.";
-  static String serviceCiviqueButtonAction = "Rechercher un service civique";
-  static String serviceCiviqueUrl = "https://www.service-civique.gouv.fr/missions/";
-  static String serviceCiviquePresentation =
-      "Engagez-vous dans un projet d’intérêt général et découvrez de nouveaux horizons";
+  // Service Civique
   static String serviceCiviqueFiltresTitle = "Filtrer les missions";
   static String startDateFiltreTitle = "Date de début";
   static String startDate = "Dès le";
   static String domainFiltreTitle = "Domaine";
-  static String selectACity = "Sélectionner une ville";
-  static String knowMoreAboutServiceCivique = "En savoir plus sur le service civique";
-  static String knowMoreAboutServiceCiviqueFirstTitle = "De 16 à 25 ans";
-  static String knowMoreAboutServiceCiviqueFirstText =
-      "Les missions sont ouvertes à tous les jeunes de 16 à 25 ans, sans conditions de diplôme et jusqu’à 30 ans pour les jeunes en situation de handicap";
-  static String knowMoreAboutServiceCiviqueSecondTitle = "De 6 à 12 mois";
-  static String knowMoreAboutServiceCiviqueSecondText =
-      "Tous les organismes proposant des missions de Service Civique sont certifiés d’intérêt général et œuvrent dans 9 domaines différents";
-  static String knowMoreAboutServiceCiviqueThirdTitle = "En France et à l’étranger";
-  static String knowMoreAboutServiceCiviqueThirdText =
-      "Découvrir de nouvelles expériences, acquérir de nouvelles compétences tout en étant indemnisé et en bénéficiant de nombreux avantages";
-  static String knowMoreAboutServiceCiviqueFourthTitle = "Une indemnisation";
-  static String knowMoreAboutServiceCiviqueFourthText =
-      "580 € d’indemnisation par mois dont 473,04 € pris en charge par l’État et 107,58 € par l’organisme d’accueil. ";
-  static String knowMoreAboutServiceCiviqueLastTitle =
-      "Vous souhaitez en savoir plus ? Envoyez un message à votre conseiller.";
-  static String serviceCiviqueListTitle = "Offres de service civique"; //TODO(1418): à supprimer ?
   static String asSoonAs = "Dès le ";
   static String serviceCiviqueDetailTitle = "Détails de l’offre de service civique";
   static String serviceCiviqueMissionTitle = "Mission";
   static String serviceCiviqueOrganisationTitle = "Organisation";
 
-  // Immersion Errors
-  static String immersionMetierError = "Renseignez un secteur d'activité de la liste";
-  static String immersionVilleError = "Renseignez une ville de la liste";
-
   // Solutions Errors
   static String noContentError =
-      "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";//TODO(1418): à supprimer ?
+      "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";
   static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
   static String genericCreationError = "Erreur lors de la création. Veuillez réessayer";
-  static String loadMoreOffresError = "Erreur lors du chargement des offres";
-  static String updateCriteria = "Modifier les critères de recherche";//TODO(1418): à supprimer ?
 
   // Offre emploi filtres
   static String filtrer = "Filtrer";
