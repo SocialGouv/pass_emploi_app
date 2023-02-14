@@ -20,6 +20,8 @@ import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
+//TODO(1418): à supprimer
+
 class OffreEmploiSearchPage extends StatefulWidget {
   final bool onlyAlternance;
 

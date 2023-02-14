@@ -31,6 +31,8 @@ import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
+//TODO(1418): à supprimer
+
 class ServiceCiviqueListPage extends StatefulWidget {
   final bool fromSavedSearch;
 

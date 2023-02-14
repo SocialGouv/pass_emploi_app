@@ -22,6 +22,8 @@ import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 import 'package:pass_emploi_app/widgets/metier_autocomplete.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
+//TODO(1418): à supprimer
+
 class ImmersionSearchPage extends StatefulWidget {
   @override
   State<ImmersionSearchPage> createState() => _ImmersionSearchPageState();

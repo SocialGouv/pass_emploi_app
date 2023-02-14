@@ -12,6 +12,8 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:redux/redux.dart';
 
+//TODO(1418): à supprimer
+
 class ServiceCiviqueViewModel extends Equatable {
   final List<LocationViewModel> locations;
   final Function(Location? location) onSearchRequest;
