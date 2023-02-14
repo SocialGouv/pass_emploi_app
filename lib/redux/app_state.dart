@@ -84,7 +84,7 @@ class AppState extends Equatable {
   final FavoriListState<Immersion> immersionFavorisState;
   final FavoriListState<ServiceCivique> serviceCiviqueFavorisState;
   final FavoriUpdateState favoriUpdateState;
-  final SearchLocationState searchLocationState;//TODO(1418): à supprimer ?
+  final SearchLocationState searchLocationState;
   final SearchMetierState searchMetierState;
   final RendezvousListState rendezvousListState;
   final RendezvousDetailsState rendezvousDetailsState;
