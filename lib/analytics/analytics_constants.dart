@@ -56,6 +56,7 @@ class AnalyticsScreenNames {
 
   static const immersionResults = "recherche/immersion/search_results";
   static const immersionDetails = "recherche/immersion/detail";
+  static const immersionContact = "recherche/immersion/detail/contact";
   static const immersionFiltres = "/recherche/immersion/search_results/filters";
   static const immersionCreateAlert = "/saved_search/immersion/create";
 
