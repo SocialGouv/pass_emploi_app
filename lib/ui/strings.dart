@@ -338,7 +338,8 @@ class Strings {
   static String keywordTitle = "Mots clés";
   static String keywordHint = "Saisissez un métier, une compétence...";
   static String jobLocationTitle = "Lieu de travail";
-  static String jobLocationHint = "Saisissez une ville, un département ou une région";
+  static String jobLocationVilleDepartementHint = "Saisissez une ville ou un département";
+  static String jobLocationVilleHint = "Saisissez une ville";
   static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
