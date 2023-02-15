@@ -11,14 +11,14 @@ import '../dsl/app_state_dsl.dart';
 void main() {
   group('ImmersionContactViewModel', () {
     group('create', () {
-      test('create when state is not success should throws an error', () {
+      test('when state is not success should throws an error', () {
         expect(
           () => ImmersionContactViewModel.create(store: givenState().store(), platform: Platform.ANDROID),
           throwsException,
         );
       });
 
-      test("create when state is success should return a view model with a call to action 'phone'", () {
+      test("when state is success should return a view model with a call to action 'phone'", () {
         // Given
         final store = givenState().withImmersionDetailsSuccess().store();
 
@@ -137,39 +137,30 @@ void main() {
 
           // Then
           expect(
-              viewModel.callToAction,
-              CallToAction(
-                'Appeler',
-                Uri.parse("tel:0701020304"),
-                EventType.OFFRE_IMMERSION_APPEL,
-              ));
-        });
-      });
-
-      group('when contact mode is MAIL', () {
-        test(' have adress CTA', () {
-          // Given
-          final store = givenState()
-              .withImmersionDetailsSuccess(
-                  immersionDetails: _mockImmersionWithContact(
-                _mockContact(mode: ImmersionContactMode.MAIL, phone: 'phone', mail: 'mail'),
-                address: "Address 1",
-              ))
-              .store();
-
-          // When
-          final viewModel = ImmersionContactViewModel.create(store: store, platform: Platform.ANDROID);
-
-          // Then
-          expect(
             viewModel.callToAction,
             CallToAction(
-              'Localiser l\'entreprise',
-              Uri.parse("geo:0,0?q=Address%201"),
-              EventType.OFFRE_IMMERSION_LOCALISATION,
+              'Appeler',
+              Uri.parse("tel:0701020304"),
+              EventType.OFFRE_IMMERSION_APPEL,
             ),
           );
         });
+      });
+
+      test('when contact mode is MAIL, should throws an exeption', () {
+        final store = givenState()
+            .withImmersionDetailsSuccess(
+                immersionDetails: _mockImmersionWithContact(
+              _mockContact(mode: ImmersionContactMode.MAIL, phone: 'phone', mail: 'mail'),
+              address: "Address 1",
+            ))
+            .store();
+
+        // When - Then
+        expect(
+          () => ImmersionContactViewModel.create(store: store, platform: Platform.ANDROID),
+          throwsException,
+        );
       });
 
       group('when contact mode is PHONE', () {
@@ -187,14 +178,14 @@ void main() {
           final viewModel = ImmersionContactViewModel.create(store: store, platform: Platform.ANDROID);
 
           // Then
-
           expect(
-              viewModel.callToAction,
-              CallToAction(
-                'Appeler',
-                Uri.parse("tel:0701020304"),
-                EventType.OFFRE_IMMERSION_APPEL,
-              ));
+            viewModel.callToAction,
+            CallToAction(
+              'Appeler',
+              Uri.parse("tel:0701020304"),
+              EventType.OFFRE_IMMERSION_APPEL,
+            ),
+          );
         });
       });
 
@@ -213,14 +204,14 @@ void main() {
           final viewModel = ImmersionContactViewModel.create(store: store, platform: Platform.ANDROID);
 
           // Then
-
           expect(
-              viewModel.callToAction,
-              CallToAction(
-                'Localiser l\'entreprise',
-                Uri.parse("geo:0,0?q=Address%201"),
-                EventType.OFFRE_IMMERSION_LOCALISATION,
-              ));
+            viewModel.callToAction,
+            CallToAction(
+              'Localiser l\'entreprise',
+              Uri.parse("geo:0,0?q=Address%201"),
+              EventType.OFFRE_IMMERSION_LOCALISATION,
+            ),
+          );
         });
       });
     });

@@ -40,16 +40,16 @@ ImmersionDetails _getImmersionFromState(Store<AppState> store) {
 
 CallToAction _callToAction(ImmersionDetails immersion, Platform platform) {
   final contact = immersion.contact;
-  if (contact != null && contact.mode == ImmersionContactMode.INCONNU && contact.phone.isNotEmpty) {
+  final contactIsMail = contact?.mode == ImmersionContactMode.MAIL;
+  final contactModeIsInconnuWithPhone =
+      contact?.mode == ImmersionContactMode.INCONNU && contact?.phone.isNotEmpty == true;
+  final contactModeIsPhone = contact?.mode == ImmersionContactMode.PHONE;
+  if (contactIsMail) {
+    throw Exception('Invalid contact mode.');
+  } else if (contactModeIsInconnuWithPhone || contactModeIsPhone) {
     return CallToAction(
       Strings.immersionPhoneButton,
-      UriHandler().phoneUri(contact.phone),
-      EventType.OFFRE_IMMERSION_APPEL,
-    );
-  } else if (contact != null && contact.mode == ImmersionContactMode.PHONE) {
-    return CallToAction(
-      Strings.immersionPhoneButton,
-      UriHandler().phoneUri(contact.phone),
+      UriHandler().phoneUri(contact!.phone),
       EventType.OFFRE_IMMERSION_APPEL,
     );
   } else {
