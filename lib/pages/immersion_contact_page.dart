@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/presentation/immersion_contact_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -32,7 +33,7 @@ class ImmersionContactPage extends StatelessWidget {
       child: StoreConnector<AppState, ImmersionContactViewModel>(
         onInitialBuild: (_) => context.trackEvent(EventType.OFFRE_IMMERSION_CONTACT_AFFICHEE),
         converter: (store) => ImmersionContactViewModel.create(store: store, platform: platform),
-        builder: (context, viewModel) => _Content(viewModel),
+        builder: (context, viewModel) => _Content(viewModel.callToAction),
         distinct: true,
       ),
     );
@@ -40,8 +41,8 @@ class ImmersionContactPage extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content(this.viewModel);
-  final ImmersionContactViewModel viewModel;
+  const _Content(this.callToAction);
+  final CallToAction callToAction;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class _Content extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: _ContactButton(viewModel),
+      floatingActionButton: _ContactButton(callToAction),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
@@ -173,17 +174,17 @@ class _Subtitle extends StatelessWidget {
 }
 
 class _ContactButton extends StatelessWidget {
-  const _ContactButton(this.viewModel);
-  final ImmersionContactViewModel viewModel;
+  const _ContactButton(this.callToAction);
+  final CallToAction callToAction;
 
   @override
   Widget build(BuildContext context) {
     return PrimaryActionButton(
       onPressed: () {
-        context.trackEvent(viewModel.callToAction.eventType);
-        launchExternalUrl(viewModel.callToAction.uri.toString());
+        context.trackEvent(callToAction.eventType);
+        launchExternalUrl(callToAction.uri.toString());
       },
-      label: viewModel.callToAction.label,
+      label: callToAction.label,
     );
   }
 }
