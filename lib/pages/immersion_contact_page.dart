@@ -30,9 +30,7 @@ class ImmersionContactPage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.immersionContact,
       child: StoreConnector<AppState, ImmersionContactViewModel>(
-        onInitialBuild: (_) {
-          context.trackEvent(EventType.OFFRE_IMMERSION_CONTACT_AFFICHEE);
-        },
+        onInitialBuild: (_) => context.trackEvent(EventType.OFFRE_IMMERSION_CONTACT_AFFICHEE),
         converter: (store) => ImmersionContactViewModel.create(store: store, platform: platform),
         builder: (context, viewModel) => _Content(viewModel),
         distinct: true,
@@ -159,7 +157,7 @@ class _Subtitle extends StatelessWidget {
               width: 8,
               height: 8,
               decoration: BoxDecoration(
-                color: AppColors.nightBlue,
+                color: AppColors.primary,
                 shape: BoxShape.circle,
               ),
             ),
