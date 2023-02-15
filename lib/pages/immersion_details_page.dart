@@ -179,12 +179,20 @@ class ImmersionDetailsPage extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: PrimaryActionButton(
-              onPressed: () {
-                Navigator.push(context, ImmersionContactPage.materialPageRoute());
-              },
-              label: Strings.immersionContact,
-            ),
+            child: viewModel.withContactPage
+                ? PrimaryActionButton(
+                    onPressed: () {
+                      Navigator.push(context, ImmersionContactPage.materialPageRoute());
+                    },
+                    label: Strings.immersionContact,
+                  )
+                : PrimaryActionButton(
+                    onPressed: () {
+                      context.trackEvent(viewModel.mainCallToAction!.eventType);
+                      launchExternalUrl(viewModel.mainCallToAction!.uri.toString());
+                    },
+                    label: viewModel.mainCallToAction!.label,
+                  ),
           ),
           SizedBox(width: 16),
           FavoriHeart<Immersion>(
