@@ -52,12 +52,24 @@ class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Re
       case BlocResultatRechercheDisplayState.empty:
         return RechercheMessagePlaceholder(Strings.noContentError);
       case BlocResultatRechercheDisplayState.results:
-        return ResultatRechercheContenu<Result>(
-          key: widget.listResultatKey,
-          viewModel: viewModel,
-          favorisState: widget.favorisState,
-          buildResultItem: widget.buildResultItem,
-        );
+      case BlocResultatRechercheDisplayState.results_with_opacity:
+      final bool withOpacity = viewModel.displayState == BlocResultatRechercheDisplayState.results_with_opacity;
+        return GestureDetector(
+          onTapDown: (_) => viewModel.onListWithOpacityTouch(),
+          child: AnimatedOpacity(
+            opacity: withOpacity ? 0.2 : 1,
+            duration: Duration(milliseconds: 200),
+            child: AbsorbPointer(
+              absorbing: withOpacity,
+              child: ResultatRechercheContenu<Result>(
+                key: widget.listResultatKey,
+                viewModel: viewModel,
+                favorisState: widget.favorisState,
+                buildResultItem: widget.buildResultItem,
+              ),
+            ),
+          ),
+      );
     }
   }
 

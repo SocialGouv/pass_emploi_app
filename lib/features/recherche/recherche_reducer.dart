@@ -8,7 +8,6 @@ RechercheState<Criteres, Filtres, Result>
   dynamic action,
 ) {
   if (action is RechercheResetAction<Result>) return RechercheState.initial();
-  if (action is RechercheNewAction<Result>) return current.copyWith(status: RechercheStatus.nouvelleRecherche);
   if (action is RechercheRequestAction<Criteres, Filtres>) {
     return current.copyWith(
       status: RechercheStatus.initialLoading,
@@ -22,6 +21,11 @@ RechercheState<Criteres, Filtres, Result>
       results: () => action.results,
       canLoadMore: action.canLoadMore,
     );
+  }
+  if (action is RechercheOpenCriteresAction<Result>) return current.copyWith(status: RechercheStatus.nouvelleRecherche);
+  if (action is RechercheCloseCriteresAction<Result>) {
+    return current.copyWith(
+      status: current.results != null ? RechercheStatus.success : RechercheStatus.nouvelleRecherche);
   }
   if (action is RechercheUpdateFiltresAction<Filtres>) return current.copyWith(status: RechercheStatus.updateLoading);
   if (action is RechercheLoadMoreAction<Result>) return current.copyWith(status: RechercheStatus.updateLoading);

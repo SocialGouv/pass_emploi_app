@@ -25,6 +25,8 @@ class RechercheUpdateFiltresAction<Filtres> {
 
 class RechercheLoadMoreAction<Result> {}
 
-class RechercheNewAction<Result> {}
+class RechercheOpenCriteresAction<Result> {}
+
+class RechercheCloseCriteresAction<Result> {}
 
 class RechercheResetAction<Result> {}
