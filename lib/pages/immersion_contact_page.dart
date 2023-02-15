@@ -5,7 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
+import 'package:pass_emploi_app/presentation/immersion_contact_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -16,7 +16,6 @@ import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/retry.dart';
 
 class ImmersionContactPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -30,58 +29,21 @@ class ImmersionContactPage extends StatelessWidget {
     final platform = io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS;
     return Tracker(
       tracking: AnalyticsScreenNames.immersionContact,
-      child: StoreConnector<AppState, ImmersionDetailsViewModel>(
+      child: StoreConnector<AppState, ImmersionContactViewModel>(
         onInitialBuild: (_) {
           context.trackEvent(EventType.OFFRE_IMMERSION_CONTACT_AFFICHEE);
         },
-        converter: (store) => ImmersionDetailsViewModel.create(store, platform),
-        builder: (context, viewModel) => _Body(viewModel),
+        converter: (store) => ImmersionContactViewModel.create(store: store, platform: platform),
+        builder: (context, viewModel) => _Content(viewModel),
         distinct: true,
       ),
     );
   }
 }
 
-class _Body extends StatelessWidget {
-  const _Body(this.viewModel);
-  final ImmersionDetailsViewModel viewModel;
-
-  @override
-  Widget build(BuildContext context) {
-    switch (viewModel.displayState) {
-      case ImmersionDetailsPageDisplayState.SHOW_DETAILS:
-      case ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS:
-        return _Content(viewModel);
-      case ImmersionDetailsPageDisplayState.SHOW_LOADER:
-        return _Loading();
-      case ImmersionDetailsPageDisplayState.SHOW_ERROR:
-        return _Retry(viewModel);
-    }
-  }
-}
-
-class _Loading extends StatelessWidget {
-  const _Loading();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
-  }
-}
-
-class _Retry extends StatelessWidget {
-  final ImmersionDetailsViewModel viewModel;
-  const _Retry(this.viewModel);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Retry(Strings.offreDetailsError, () => viewModel.onRetry(viewModel.id)));
-  }
-}
-
 class _Content extends StatelessWidget {
   const _Content(this.viewModel);
-  final ImmersionDetailsViewModel viewModel;
+  final ImmersionContactViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -214,16 +176,16 @@ class _Subtitle extends StatelessWidget {
 
 class _ContactButton extends StatelessWidget {
   const _ContactButton(this.viewModel);
-  final ImmersionDetailsViewModel viewModel;
+  final ImmersionContactViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
     return PrimaryActionButton(
       onPressed: () {
-        context.trackEvent(viewModel.mainCallToAction!.eventType);
-        launchExternalUrl(viewModel.mainCallToAction!.uri.toString());
+        context.trackEvent(viewModel.callToAction.eventType);
+        launchExternalUrl(viewModel.callToAction.uri.toString());
       },
-      label: viewModel.mainCallToAction!.label,
+      label: viewModel.callToAction.label,
     );
   }
 }
