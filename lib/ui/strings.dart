@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
+
 class Strings {
   Strings._();
 
@@ -386,11 +388,32 @@ class Strings {
   static String immersionDescriptionLabel = "Si l’entreprise est d’accord pour vous accueillir :\n\n"
       "· Prévenez votre conseiller\n"
       "· Remplissez une convention d’immersion avec lui";
-  static String immersionContactTitle = "Contact";
+  static String immersionContactBlocTitle = "Contact";
   static String immersionPhoneButton = "Appeler";
   static String immersionLocationButton = "Localiser l'entreprise";
   static String immersionEmailButton = "Envoyer un e-mail";
   static String immersionEmailSubject = "Candidature pour une période d'immersion";
+  static String immersionContact = "Contacter";
+  static String immersionContactTitle = ImmersionContactStrings.title;
+  static String immersionContactSubtitle1 = ImmersionContactStrings.subtitle1;
+  static String immersionContactBody1_1 = ImmersionContactStrings.body1_1;
+  static String immersionContactBody1_2bold = ImmersionContactStrings.body1_2bold;
+  static String immersionContactBody1_3 = ImmersionContactStrings.body1_3;
+  static String immersionContactBody1_4bold = ImmersionContactStrings.body1_4bold;
+  static String immersionContactBody1_5 = ImmersionContactStrings.body1_5;
+  static String immersionContactBody1_6 = ImmersionContactStrings.body1_6;
+  static String immersionContactBody1_7bold = ImmersionContactStrings.body1_7bold;
+  static String immersionContactBody1_8 = ImmersionContactStrings.body1_8;
+  static String immersionContactBody1_9bold = ImmersionContactStrings.body1_9bold;
+  static String immersionContactBody1_10 = ImmersionContactStrings.body1_10;
+  static String immersionContactBody1_11 = ImmersionContactStrings.body1_11;
+  static String immersionContactBody1_12 = ImmersionContactStrings.body1_12;
+  static String immersionContactSubtitle2 = ImmersionContactStrings.subtitle2;
+  static String immersionContactBody2 = ImmersionContactStrings.body2;
+  static String immersionContactSubtitle3 = ImmersionContactStrings.subtitle3;
+  static String immersionContactBody3 = ImmersionContactStrings.body3;
+  static String immersionContactSubtitle4 = ImmersionContactStrings.subtitle4;
+  static String immersionContactBody4 = ImmersionContactStrings.body4;
 
   // Service Civique
   static String serviceCiviqueFiltresTitle = "Filtrer les missions";
