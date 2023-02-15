@@ -95,13 +95,13 @@ class _Content extends StatelessWidget {
           child: Column(
             children: [
               _InstructionsText(),
-              SizedBox(height: Margins.spacing_base),
-              _ContactButton(viewModel),
-              SizedBox(height: MediaQuery.of(context).padding.bottom)
+              SizedBox(height: 160),
             ],
           ),
         ),
       ),
+      floatingActionButton: _ContactButton(viewModel),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
@@ -115,7 +115,7 @@ class _InstructionsText extends StatelessWidget {
       children: [
         Text(Strings.immersionContactTitle, style: TextStyles.textLBold()),
         SizedBox(height: Margins.spacing_base),
-        _subtitle(Strings.immersionContactSubtitle1),
+        _Subtitle(text: Strings.immersionContactSubtitle1),
         SizedBox(height: Margins.spacing_base),
         RichText(
           text: TextSpan(
@@ -163,22 +163,32 @@ class _InstructionsText extends StatelessWidget {
           ),
         ),
         SizedBox(height: Margins.spacing_base),
-        _subtitle(Strings.immersionContactSubtitle2),
+        _Subtitle(text: Strings.immersionContactSubtitle2),
         SizedBox(height: Margins.spacing_base),
         Text(Strings.immersionContactBody2, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_base),
-        _subtitle(Strings.immersionContactSubtitle3),
+        _Subtitle(text: Strings.immersionContactSubtitle3),
         SizedBox(height: Margins.spacing_base),
         Text(Strings.immersionContactBody3, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_base),
-        _subtitle(Strings.immersionContactSubtitle4),
+        _Subtitle(text: Strings.immersionContactSubtitle4),
         SizedBox(height: Margins.spacing_base),
         Text(Strings.immersionContactBody4, style: TextStyles.textBaseRegular),
       ],
     );
   }
+}
 
-  Widget _subtitle(String text) {
+class _Subtitle extends StatelessWidget {
+  const _Subtitle({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
