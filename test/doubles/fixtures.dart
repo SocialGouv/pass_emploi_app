@@ -18,6 +18,8 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/immersion_contact.dart';
+import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -203,6 +205,26 @@ Immersion mockImmersion({String id = "", bool fromEntrepriseAccueillante = false
 }
 
 List<Immersion> mockOffresImmersion10() => List.generate(10, (index) => mockImmersion());
+
+ImmersionDetails mockImmersionDetails() {
+  return ImmersionDetails(
+    id: '',
+    metier: '',
+    companyName: '',
+    secteurActivite: '',
+    ville: '',
+    address: '',
+    fromEntrepriseAccueillante: true,
+    contact: ImmersionContact(
+      firstName: '',
+      lastName: '',
+      phone: '',
+      mail: '',
+      role: '',
+      mode: ImmersionContactMode.INCONNU,
+    ),
+  );
+}
 
 ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
       id: id,
@@ -503,7 +525,7 @@ List<SuggestionRecherche> mockSuggestionsRecherche() {
 }
 
 OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
-  id: "id",
+      id: "id",
       title: "Maître-chien / Maîtresse-chien d'avalanche",
       metier: "Sécurité civile et secours",
       location: Location(type: LocationType.DEPARTMENT, libelle: "Gironde", code: "33"),
