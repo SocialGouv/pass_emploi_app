@@ -21,6 +21,7 @@ class BoiteAOutilsCard extends StatelessWidget {
     final roundedCornerShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
     return Card(
       color: Colors.white,
+      surfaceTintColor: Colors.white,
       elevation: 2,
       shape: roundedCornerShape,
       child: InkWell(
