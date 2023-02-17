@@ -37,28 +37,33 @@ class RechercheHomePage extends StatelessWidget {
               _BlocSolution(
                 title: Strings.rechercheHomeOffresEmploiTitle,
                 subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
-                icon: AppIcons.description_rounded,
+                icon: Icon(AppIcons.description_rounded, color: AppColors.additional4, size: Dimens.icon_size_m),
                 onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: false)),
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(
                 title: Strings.rechercheHomeOffresAlternanceTitle,
                 subtitle: Strings.rechercheHomeOffresAlternanceSubtitle,
-                icon: AppIcons.signpost_rounded,
+                icon: Icon(AppIcons.signpost_rounded, color: AppColors.additional3, size: Dimens.icon_size_m),
                 onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: true)),
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(
                 title: Strings.rechercheHomeOffresImmersionTitle,
                 subtitle: Strings.rechercheHomeOffresImmersionSubtitle,
-                icon: AppIcons.rocket_launch_rounded,
+                icon: Icon(AppIcons.immersion, color: AppColors.additional1, size: Dimens.icon_size_m),
                 onTap: () => Navigator.push(context, RechercheOffreImmersionPage.materialPageRoute()),
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(
                 title: Strings.rechercheHomeOffresServiceCiviqueTitle,
                 subtitle: Strings.rechercheHomeOffresServiceCiviqueSubtitle,
-                icon: AppIcons.account_balance_rounded,
+                icon: Row(
+                  children: [
+                    Icon(AppIcons.service_civique, color: AppColors.additional2, size: Dimens.icon_size_base),
+                    SizedBox(width: Margins.spacing_s), // due to icon not having the same width as the other icons
+                  ],
+                ),
                 onTap: () => Navigator.push(context, RechercheOffreServiceCiviquePage.materialPageRoute()),
               ),
             ],
@@ -72,7 +77,7 @@ class RechercheHomePage extends StatelessWidget {
 class _BlocSolution extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData icon;
+  final Widget icon;
   final void Function() onTap;
 
   const _BlocSolution({
@@ -86,33 +91,30 @@ class _BlocSolution extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardContainer(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.only(top: Margins.spacing_base),
-        child: Column(
-          children: [
-            Row(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              icon,
+              SizedBox(width: Margins.spacing_base),
+              Expanded(child: Text(title, style: TextStyles.textMBold)),
+            ],
+          ),
+          SizedBox(height: Margins.spacing_base),
+          Text(subtitle, style: TextStyles.textBaseRegular),
+          SizedBox(height: Margins.spacing_base),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Icon(icon, color: AppColors.primary),
-                SizedBox(width: Margins.spacing_base),
-                Text(title, style: TextStyles.textMBold),
+                Text(Strings.rechercheHomeCardLink, style: TextStyles.textBaseRegular),
+                Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor, size: Dimens.icon_size_base),
               ],
             ),
-            SizedBox(height: Margins.spacing_base),
-            Text(subtitle, style: TextStyles.textBaseRegular),
-            SizedBox(height: Margins.spacing_m),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(Strings.rechercheHomeVoirLaListe, style: TextStyles.textBaseRegular),
-                  Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor, size: Dimens.icon_size_base),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

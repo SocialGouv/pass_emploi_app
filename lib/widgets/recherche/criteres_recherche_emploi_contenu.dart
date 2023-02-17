@@ -54,7 +54,7 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
         children: [
           KeywordTextFormField(
             title: Strings.keywordTitle,
-            hint: Strings.keywordHint,
+            hint: widget.onlyAlternance ? Strings.keywordAlternanceHint : Strings.keywordEmploiHint,
             initialValue: _keyword,
             onKeywordSelected: (keyword) {
               _keyword = keyword;
@@ -64,7 +64,7 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
           const SizedBox(height: Margins.spacing_m),
           LocationAutocomplete(
             title: Strings.jobLocationTitle,
-            hint: Strings.jobLocationVilleDepartementHint,
+            hint: widget.onlyAlternance ? Strings.jobLocationAlternanceHint : Strings.jobLocationEmploiHint,
             initialValue: _selectedLocation,
             onLocationSelected: (location) {
               _selectedLocation = location;

@@ -315,21 +315,23 @@ class Strings {
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";
 
-  // Recherche (V2)
+  // Recherche
   static String rechercheHomeNosOffres = "Nos offres";
-  static String rechercheHomeVoirLaListe = "Voir la liste";
+  static String rechercheHomeCardLink = "Rechercher";
   static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
-  static String rechercheHomeOffresEmploiSubtitle = "Découvrez toutes les offres d’emploi de votre métier";
+  static String rechercheHomeOffresEmploiSubtitle = "Trouvez un emploi qui vous correspond.";
   static String rechercheHomeOffresAlternanceTitle = "Offres d’alternance";
-  static String rechercheHomeOffresAlternanceSubtitle = "Trouvez une entreprise pour accompagner votre formation";
+  static String rechercheHomeOffresAlternanceSubtitle =
+      "Professionnalisez-vous en associant travail en entreprise et formation.";
   static String rechercheHomeOffresImmersionTitle = "Offres d’immersion";
-  static String rechercheHomeOffresImmersionSubtitle = "Découvrez un métier en immersion dans une entreprise";
+  static String rechercheHomeOffresImmersionSubtitle = "Découvrez un métier au sein d’une entreprise.";
   static String rechercheHomeOffresServiceCiviqueTitle = "Offres de service civique";
-  static String rechercheHomeOffresServiceCiviqueSubtitle = "Engagez-vous dans un projet d’intérêt général !";
-  static String rechercheOffresEmploiTitle = "offres d’emploi";
-  static String rechercheOffresAlternanceTitle = "offres d’alternance";
-  static String rechercheOffresImmersionTitle = "offres d’immersion";
-  static String rechercheOffresServiceCiviqueTitle = "offres de service civique";
+  static String rechercheHomeOffresServiceCiviqueSubtitle =
+      "Engagez-vous dans une mission d’intérêt général pour aider les autres.";
+  static String rechercheOffresEmploiTitle = "Offres d’emploi";
+  static String rechercheOffresAlternanceTitle = "Offres d’alternance";
+  static String rechercheOffresImmersionTitle = "Offres d’immersion";
+  static String rechercheOffresServiceCiviqueTitle = "Offres de service civique";
   static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
 
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
@@ -337,11 +339,19 @@ class Strings {
   static String rechercheCriteresActifsPlural(int count) => "($count) critères actifs";
 
   // Solutions
-  static String keywordTitle = "Mots clés";
-  static String keywordHint = "Saisissez un métier, une compétence...";
-  static String jobLocationTitle = "Lieu de travail";
-  static String jobLocationVilleDepartementHint = "Saisissez une ville ou un département";
-  static String jobLocationVilleHint = "Saisissez une ville";
+  static String keywordTitle = "Mot clé";
+  static String keywordEmploiHint = "Saisissez un métier, une compétence, un secteur d'activité…";
+  static String keywordAlternanceHint = "Saisissez un métier, une compétence, un secteur d'activité…";
+  static String metierMandatoryLabel = "*Métier";
+  static String metierImmersionHint = "Renseignez le métier pour lequel vous souhaitez faire une immersion.";
+  static String jobLocationTitle = "Localisation";
+  static String jobLocationMandatoryTitle = "*Localisation";
+  static String jobLocationEmploiHint = "Sélectionnez une ville ou un département dans lequel vous cherchez un emploi.";
+  static String jobLocationAlternanceHint =
+      "Sélectionnez une ville ou un département dans lequel vous cherchez une alternance.";
+  static String jobLocationImmersionHint = "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
+  static String jobLocationServiceCiviqueHint =
+      "Sélectionnez une ville dans laquelle vous cherchez un service civique.";
   static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
@@ -377,9 +387,6 @@ class Strings {
   static String entrepriseAccueillante = 'Entreprise accueillante';
   static String entreprisesAccueillantesHeader =
       'Les entreprises accueillantes facilitent vos immersions professionnelles';
-  static String metierCompulsoryLabel = "* Métier";
-  static String villeCompulsoryLabel = "* Localisation";
-  static String villeNonCompulsoryLabel = "Localisation";
   static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";
   static String immersionNonAccueillanteExplanation =
       "Cette entreprise peut recruter sur ce métier et être intéressée pour vous recevoir en immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.";
@@ -656,6 +663,8 @@ class Strings {
   static String agendaUpToDate = "Vos rendez-vous et démarches sont à jour";
   static String agendaNotUpToDate =
       "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
+
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
+
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";
 }

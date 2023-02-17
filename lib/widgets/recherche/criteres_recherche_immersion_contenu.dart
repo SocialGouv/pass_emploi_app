@@ -52,7 +52,8 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           MetierAutocomplete(
-            title: Strings.metierCompulsoryLabel,
+            title: Strings.metierMandatoryLabel,
+            hint: Strings.metierImmersionHint,
             initialValue: viewModel.initialMetier,
             onMetierSelected: (metier) {
               _selectedMetier = metier;
@@ -61,7 +62,8 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
           ),
           SizedBox(height: Margins.spacing_m),
           LocationAutocomplete(
-            title: Strings.villeCompulsoryLabel,
+            title: Strings.jobLocationMandatoryTitle,
+            hint: Strings.jobLocationImmersionHint,
             villesOnly: true,
             initialValue: viewModel.initialLocation,
             onLocationSelected: (location) {

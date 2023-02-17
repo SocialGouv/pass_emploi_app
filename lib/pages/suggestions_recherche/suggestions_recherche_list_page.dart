@@ -277,7 +277,7 @@ class _Supprimer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 12),
                 child: Icon(
-                  AppIcons.delete_rounded,
+                  AppIcons.delete,
                   color: AppColors.primary,
                   size: Dimens.icon_size_base,
                 ),
