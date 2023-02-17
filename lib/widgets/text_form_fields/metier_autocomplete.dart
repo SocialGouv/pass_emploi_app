@@ -17,11 +17,13 @@ const _heroTag = 'metier';
 
 class MetierAutocomplete extends StatefulWidget {
   final String title;
+  final String? hint;
   final Function(Metier? location) onMetierSelected;
   final Metier? initialValue;
 
   const MetierAutocomplete({
     required this.title,
+    this.hint,
     required this.onMetierSelected,
     this.initialValue,
   });
@@ -43,6 +45,7 @@ class _MetierAutocompleteState extends State<MetierAutocomplete> {
   Widget build(BuildContext context) {
     return ReadOnlyTextFormField(
       title: widget.title,
+      hint: widget.hint,
       heroTag: _heroTag,
       textFormFieldKey: Key(_selectedMetier.toString()),
       withDeleteButton: _selectedMetier != null,
@@ -50,6 +53,7 @@ class _MetierAutocompleteState extends State<MetierAutocomplete> {
         context,
         _MetierAutocompletePage.materialPageRoute(
           title: widget.title,
+          hint: widget.hint,
           selectedMetier: _selectedMetier,
         ),
       ).then((metier) => _updateMetier(metier)),
@@ -66,18 +70,21 @@ class _MetierAutocompleteState extends State<MetierAutocomplete> {
 
 class _MetierAutocompletePage extends StatelessWidget {
   final String title;
+  final String? hint;
   final Metier? selectedMetier;
 
-  _MetierAutocompletePage({required this.title, this.selectedMetier});
+  _MetierAutocompletePage({required this.title, required this.hint, this.selectedMetier});
 
   static MaterialPageRoute<Metier?> materialPageRoute({
     required String title,
+    required String? hint,
     required Metier? selectedMetier,
   }) {
     return MaterialPageRoute(
       fullscreenDialog: true,
       builder: (context) => _MetierAutocompletePage(
         title: title,
+        hint: hint,
         selectedMetier: selectedMetier,
       ),
     );
@@ -100,6 +107,7 @@ class _MetierAutocompletePage extends StatelessWidget {
         children: [
           MultilineAppBar(
             title: title,
+            hint: hint,
             onCloseButtonPressed: () => Navigator.pop(context, selectedMetier),
           ),
           DebounceTextFormField(
