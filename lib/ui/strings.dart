@@ -315,17 +315,19 @@ class Strings {
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";
 
-  // Recherche (V2)
+  // Recherche
   static String rechercheHomeNosOffres = "Nos offres";
-  static String rechercheHomeVoirLaListe = "Voir la liste";
+  static String rechercheHomeCardLink = "Rechercher";
   static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
-  static String rechercheHomeOffresEmploiSubtitle = "Découvrez toutes les offres d’emploi de votre métier";
+  static String rechercheHomeOffresEmploiSubtitle = "Trouvez un emploi qui vous correspond.";
   static String rechercheHomeOffresAlternanceTitle = "Offres d’alternance";
-  static String rechercheHomeOffresAlternanceSubtitle = "Trouvez une entreprise pour accompagner votre formation";
+  static String rechercheHomeOffresAlternanceSubtitle =
+      "Professionnalisez-vous en associant travail en entreprise et formation.";
   static String rechercheHomeOffresImmersionTitle = "Offres d’immersion";
-  static String rechercheHomeOffresImmersionSubtitle = "Découvrez un métier en immersion dans une entreprise";
+  static String rechercheHomeOffresImmersionSubtitle = "Découvrez un métier au sein d’une entreprise.";
   static String rechercheHomeOffresServiceCiviqueTitle = "Offres de service civique";
-  static String rechercheHomeOffresServiceCiviqueSubtitle = "Engagez-vous dans un projet d’intérêt général !";
+  static String rechercheHomeOffresServiceCiviqueSubtitle =
+      "Engagez-vous dans une mission d’intérêt général pour aider les autres.";
   static String rechercheOffresEmploiTitle = "offres d’emploi";
   static String rechercheOffresAlternanceTitle = "offres d’alternance";
   static String rechercheOffresImmersionTitle = "offres d’immersion";
@@ -656,6 +658,8 @@ class Strings {
   static String agendaUpToDate = "Vos rendez-vous et démarches sont à jour";
   static String agendaNotUpToDate =
       "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
+
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
+
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";
 }

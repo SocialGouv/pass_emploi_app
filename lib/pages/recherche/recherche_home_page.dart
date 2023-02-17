@@ -86,33 +86,30 @@ class _BlocSolution extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardContainer(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.only(top: Margins.spacing_base),
-        child: Column(
-          children: [
-            Row(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: AppColors.primary),
+              SizedBox(width: Margins.spacing_base),
+              Text(title, style: TextStyles.textMBold),
+            ],
+          ),
+          SizedBox(height: Margins.spacing_base),
+          Text(subtitle, style: TextStyles.textBaseRegular),
+          SizedBox(height: Margins.spacing_base),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Icon(icon, color: AppColors.primary),
-                SizedBox(width: Margins.spacing_base),
-                Text(title, style: TextStyles.textMBold),
+                Text(Strings.rechercheHomeCardLink, style: TextStyles.textBaseRegular),
+                Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor, size: Dimens.icon_size_base),
               ],
             ),
-            SizedBox(height: Margins.spacing_base),
-            Text(subtitle, style: TextStyles.textBaseRegular),
-            SizedBox(height: Margins.spacing_m),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(Strings.rechercheHomeVoirLaListe, style: TextStyles.textBaseRegular),
-                  Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor, size: Dimens.icon_size_base),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
