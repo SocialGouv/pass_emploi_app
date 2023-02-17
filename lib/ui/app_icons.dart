@@ -17,6 +17,7 @@ class AppIcons {
   static const IconData close_rounded = Icons.close_rounded;
   static const IconData chevron_right_rounded = Icons.chevron_right_rounded;
   static const IconData chevron_left_rounded = Icons.chevron_left_rounded;
+
   // Action
   static const IconData outgoing_mail = Icons.outgoing_mail;
   static const IconData notifications_rounded = Icons.notifications_rounded;
@@ -24,13 +25,14 @@ class AppIcons {
   static const IconData refresh_rounded = Icons.refresh_rounded;
   static const IconData download_rounded = Icons.download_rounded;
   static const IconData attach_file_rounded = Icons.attach_file_rounded;
-  static const IconData delete_rounded = Icons.delete_rounded;
+  static const IconData delete = AppIconsAdditional.delete;
   static const IconData send_rounded = Icons.send_rounded;
   static const IconData tune_rounded = Icons.tune_rounded;
   static const IconData add_rounded = Icons.add_rounded;
   static const IconData share_rounded = Icons.share_rounded;
   static const IconData bookmark_rounded = Icons.bookmark_rounded;
   static const IconData bookmark_outline_rounded = Icons.bookmark_outline_rounded;
+
   // Information
   static const IconData videocam_rounded = Icons.videocam_rounded;
   static const IconData signpost_rounded = Icons.signpost_rounded;
