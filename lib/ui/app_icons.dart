@@ -36,8 +36,6 @@ class AppIcons {
   // Information
   static const IconData videocam_rounded = Icons.videocam_rounded;
   static const IconData signpost_rounded = Icons.signpost_rounded;
-  static const IconData groups_rounded = Icons.groups_rounded; // In replacement of Diversity3
-  static const IconData account_balance_rounded = Icons.account_balance_rounded;
   static const IconData rocket_launch_rounded = Icons.rocket_launch_rounded;
   static const IconData timer_rounded = Icons.timer_rounded;
   static const IconData lock_rounded = Icons.lock_rounded;
@@ -83,4 +81,8 @@ class AppIcons {
   static const IconData edit_rounded = Icons.edit_rounded;
   static const IconData search_rounded = Icons.search_rounded;
   static const IconData check_rounded = Icons.check_rounded;
+
+  // Solution
+  static const IconData immersion = AppIconsAdditional.immersion;
+  static const IconData service_civique = AppIconsAdditional.service_civique;
 }

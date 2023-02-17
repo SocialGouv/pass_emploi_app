@@ -339,11 +339,11 @@ class Strings {
   static String rechercheCriteresActifsPlural(int count) => "($count) critères actifs";
 
   // Solutions
-  static String keywordTitle = "Recherche par mot clef";
-  static String keywordEmploiHint = "Renseignez les mots clés dans lequel vous souhaitez chercher un emploi.";
-  static String keywordAlternanceHint = "Renseignez les mots clés dans lequel vous souhaitez faire une alternance.";
+  static String keywordTitle = "Mot clé";
+  static String keywordEmploiHint = "Saisissez un métier, une compétence, un secteur d'activité…";
+  static String keywordAlternanceHint = "Saisissez un métier, une compétence, un secteur d'activité…";
   static String metierMandatoryLabel = "*Métier";
-  static String metierImmersionHint = "Renseignez le métier dans lequel vous souhaitez faire une immersion.";
+  static String metierImmersionHint = "Renseignez le métier pour lequel vous souhaitez faire une immersion.";
   static String jobLocationTitle = "Localisation";
   static String jobLocationMandatoryTitle = "*Localisation";
   static String jobLocationEmploiHint = "Sélectionnez une ville ou un département dans lequel vous cherchez un emploi.";
