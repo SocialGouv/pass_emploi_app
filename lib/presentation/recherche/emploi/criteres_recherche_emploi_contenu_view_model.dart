@@ -27,20 +27,40 @@ class CriteresRechercheEmploiContenuViewModel extends Equatable {
       displayState: store.state.rechercheEmploiState.displayState(),
       initiaKeyword: store.state.rechercheEmploiState.request?.criteres.keyword,
       initialLocation: store.state.rechercheEmploiState.request?.criteres.location,
-      onSearchingRequest: (keyword, location, onlyAlternance) {
-        store.dispatch(
-          RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>(
-            RechercheRequest(
-              EmploiCriteresRecherche(keyword: keyword, location: location, onlyAlternance: onlyAlternance),
-              EmploiFiltresRecherche.noFiltre(),
-              1,
-            ),
-          ),
-        );
-      },
+      onSearchingRequest: (keyword, loc, onlyAlternance) => _onSearchingRequest(store, keyword, loc, onlyAlternance),
     );
   }
 
   @override
   List<Object?> get props => [displayState];
+}
+
+void _onSearchingRequest(Store<AppState> store, String keyword, Location? location, bool onlyAlternance) {
+  final previousRequest = store.state.rechercheEmploiState.request;
+  final initialRecherche = previousRequest == null;
+  store.dispatch(
+    RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>(
+      RechercheRequest(
+        EmploiCriteresRecherche(keyword: keyword, location: location, onlyAlternance: onlyAlternance),
+        initialRecherche
+            ? EmploiFiltresRecherche.noFiltre()
+            : _previousFiltresUpdated(previousRequest.filtres, location),
+        1,
+      ),
+    ),
+  );
+}
+
+EmploiFiltresRecherche _previousFiltresUpdated(EmploiFiltresRecherche currentFiltres, Location? location) {
+  if (location == null || location.type == LocationType.DEPARTMENT) {
+    return EmploiFiltresRecherche.withFiltres(
+      distance: null,
+      debutantOnly: currentFiltres.debutantOnly,
+      experience: currentFiltres.experience,
+      contrat: currentFiltres.contrat,
+      duree: currentFiltres.duree,
+    );
+  } else {
+    return currentFiltres;
+  }
 }

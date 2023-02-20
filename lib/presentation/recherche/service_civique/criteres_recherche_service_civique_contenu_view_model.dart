@@ -24,20 +24,41 @@ class CriteresRechercheServiceCiviqueContenuViewModel extends Equatable {
     return CriteresRechercheServiceCiviqueContenuViewModel(
       displayState: store.state.rechercheServiceCiviqueState.displayState(),
       initialLocation: store.state.rechercheServiceCiviqueState.request?.criteres.location,
-      onSearchingRequest: (location) {
-        store.dispatch(
-          RechercheRequestAction<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>(
-            RechercheRequest(
-              ServiceCiviqueCriteresRecherche(location: location),
-              ServiceCiviqueFiltresRecherche.noFiltre(),
-              1,
-            ),
-          ),
-        );
-      },
+      onSearchingRequest: (location) => _onSearchingRequest(store, location),
     );
   }
 
   @override
   List<Object?> get props => [displayState];
+}
+
+void _onSearchingRequest(Store<AppState> store, Location? location) {
+  final previousRequest = store.state.rechercheServiceCiviqueState.request;
+  final initialRecherche = previousRequest == null;
+  store.dispatch(
+    RechercheRequestAction<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>(
+      RechercheRequest(
+        ServiceCiviqueCriteresRecherche(location: location),
+        initialRecherche
+            ? ServiceCiviqueFiltresRecherche.noFiltre()
+            : _previousFiltresUpdated(previousRequest.filtres, location),
+        1,
+      ),
+    ),
+  );
+}
+
+ServiceCiviqueFiltresRecherche _previousFiltresUpdated(
+  ServiceCiviqueFiltresRecherche currentFiltres,
+  Location? location,
+) {
+  if (location == null) {
+    return ServiceCiviqueFiltresRecherche(
+      distance: null,
+      startDate: currentFiltres.startDate,
+      domain: currentFiltres.domain,
+    );
+  } else {
+    return currentFiltres;
+  }
 }
