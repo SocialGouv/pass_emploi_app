@@ -11,17 +11,15 @@ class RechercheMessagePlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SvgPicture.asset(Drawables.emptyOffresIllustration),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-            child: Text(message, style: TextStyles.textBaseMedium, textAlign: TextAlign.center),
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        SvgPicture.asset(Drawables.emptyOffresIllustration),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+          child: Text(message, style: TextStyles.textBaseMedium, textAlign: TextAlign.center),
+        ),
+      ],
     );
   }
 }

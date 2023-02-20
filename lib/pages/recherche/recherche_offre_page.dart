@@ -85,12 +85,14 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
                 rechercheState: widget.rechercheState,
                 buildCriteresContentWidget: widget.buildCriteresContentWidget,
               ),
-              BlocResultatRecherche<Result>(
-                listResultatKey: _listResultatKey,
-                rechercheState: widget.rechercheState,
-                favorisState: widget.favorisState,
-                buildResultItem: widget.buildResultItem,
-                analyticsType: widget.analyticsType(),
+              Expanded(
+                child: BlocResultatRecherche<Result>(
+                  listResultatKey: _listResultatKey,
+                  rechercheState: widget.rechercheState,
+                  favorisState: widget.favorisState,
+                  buildResultItem: widget.buildResultItem,
+                  analyticsType: widget.analyticsType(),
+                ),
               ),
             ],
           ),

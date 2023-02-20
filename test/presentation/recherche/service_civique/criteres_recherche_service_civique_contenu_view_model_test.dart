@@ -46,28 +46,78 @@ void main() {
     });
   });
 
-  test('onSearchingRequest should dispatch proper action', () {
-    // Given
-    final store = StoreSpy();
-    final viewModel = CriteresRechercheServiceCiviqueContenuViewModel.create(store);
+  group('onSearchingRequest', () {
+    test('on initial request should dispatch proper action without filtres', () {
+      // Given
+      final store = StoreSpy();
+      final viewModel = CriteresRechercheServiceCiviqueContenuViewModel.create(store);
 
-    // When
-    viewModel.onSearchingRequest(mockLocation());
+      // When
+      viewModel.onSearchingRequest(mockLocation());
 
-    // Then
-    final dispatchedAction = store.dispatchedAction;
-    expect(
-      dispatchedAction,
-      isA<RechercheRequestAction<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>>(),
-    );
-    expect(
-      (dispatchedAction as RechercheRequestAction<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>)
-          .request,
-      RechercheRequest(
-        ServiceCiviqueCriteresRecherche(location: mockLocation()),
-        ServiceCiviqueFiltresRecherche.noFiltre(),
-        1,
-      ),
-    );
+      // Then
+      final dispatchedAction = store.dispatchedAction;
+      expect(
+        dispatchedAction,
+        isA<RechercheRequestAction<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>>(),
+      );
+      expect(
+        (dispatchedAction as RechercheRequestAction<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>)
+            .request,
+        RechercheRequest(
+          ServiceCiviqueCriteresRecherche(location: mockLocation()),
+          ServiceCiviqueFiltresRecherche.noFiltre(),
+          1,
+        ),
+      );
+    });
+
+    group('on updated request', () {
+      test('should dispatch proper action with previous filtres', () {
+        // Given
+        final startDate = DateTime(2022);
+        final previousFiltres = ServiceCiviqueFiltresRecherche(distance: null, startDate: startDate, domain: null);
+        final store = givenState().successRechercheServiceCiviqueStateWithRequest(filtres: previousFiltres).spyStore();
+        final viewModel = CriteresRechercheServiceCiviqueContenuViewModel.create(store);
+
+        // When
+        viewModel.onSearchingRequest(mockLocation());
+
+        // Then
+        final dispatchedAction = store.dispatchedAction;
+        expect(
+          (dispatchedAction as RechercheRequestAction<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>)
+              .request,
+          RechercheRequest(
+            ServiceCiviqueCriteresRecherche(location: mockLocation()),
+            previousFiltres,
+            1,
+          ),
+        );
+      });
+
+      test('if new location is null should dispatch proper action with previous filtres excluding distance', () {
+        // Given
+        final startDate = DateTime(2022);
+        final previousFiltres = ServiceCiviqueFiltresRecherche(distance: 50, startDate: startDate, domain: null);
+        final store = givenState().successRechercheServiceCiviqueStateWithRequest(filtres: previousFiltres).spyStore();
+        final viewModel = CriteresRechercheServiceCiviqueContenuViewModel.create(store);
+
+        // When
+        viewModel.onSearchingRequest(null);
+
+        // Then
+        final dispatchedAction = store.dispatchedAction;
+        expect(
+          (dispatchedAction as RechercheRequestAction<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>)
+              .request,
+          RechercheRequest(
+            ServiceCiviqueCriteresRecherche(location: null),
+            ServiceCiviqueFiltresRecherche(distance: null, startDate: startDate, domain: null),
+            1,
+          ),
+        );
+      });
+    });
   });
 }

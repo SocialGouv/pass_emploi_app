@@ -1,9 +1,9 @@
-import 'package:redux/redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_criteres_cherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:redux/redux.dart';
 
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -76,10 +76,10 @@ void main() {
       viewModel.onExpansionChanged(true);
 
       // Then
-      expect(store.dispatchedAction, isA<RechercheNewAction<OffreEmploi>>());
+      expect(store.dispatchedAction, isA<RechercheOpenCriteresAction<OffreEmploi>>());
     });
 
-    test('called with false should not dispatch action', () {
+    test('called with false should dispatch proper action', () {
       // Given
       final store = StoreSpy();
       final viewModel = createViewModel(store);
@@ -88,7 +88,7 @@ void main() {
       viewModel.onExpansionChanged(false);
 
       // Then
-      expect(store.dispatchedAction, isNull);
+      expect(store.dispatchedAction, isA<RechercheCloseCriteresAction<OffreEmploi>>());
     });
   });
 }

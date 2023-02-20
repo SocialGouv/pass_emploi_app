@@ -351,7 +351,7 @@ extension AppStateDSL on AppState {
     );
   }
 
-  AppState rechercheEmploiState({
+  AppState withRechercheEmploiState({
     RechercheStatus status = RechercheStatus.nouvelleRecherche,
     List<OffreEmploi>? results,
     RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>? request,
@@ -374,7 +374,7 @@ extension AppStateDSL on AppState {
     EmploiCriteresRecherche? criteres,
     EmploiFiltresRecherche? filtres,
   }) {
-    return rechercheEmploiState(
+    return withRechercheEmploiState(
       status: status,
       request: RechercheRequest(
         criteres ?? EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: false),
@@ -389,7 +389,7 @@ extension AppStateDSL on AppState {
     RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>? request,
     bool canLoadMore = true,
   }) {
-    return rechercheEmploiState(
+    return withRechercheEmploiState(
       status: RechercheStatus.success,
       results: results,
       request: request,

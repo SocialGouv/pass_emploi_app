@@ -1,9 +1,10 @@
-import 'package:redux/redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -11,17 +12,6 @@ import '../../dsl/app_state_dsl.dart';
 
 void main() {
   group('displayState', () {
-    test('when recherche status is nouvelle recherche should display recherche', () {
-      // Given
-      final store = givenState().initialRechercheEmploiState().store();
-
-      // When
-      final viewModel = _makeViewModel(store);
-
-      // Then
-      expect(viewModel.displayState, BlocResultatRechercheDisplayState.recherche);
-    });
-
     test('when recherche status is update loading should display results', () {
       // Given
       final store = givenState().updateLoadingRechercheEmploiState().store();
@@ -33,30 +23,72 @@ void main() {
       expect(viewModel.displayState, BlocResultatRechercheDisplayState.results);
     });
 
-    test('when recherche status is success without result should display empty', () {
-      // Given
-      final store = givenState().successRechercheEmploiState(results: []).store();
+    group('when recherche status is nouvelle recherche', () {
+      test('and result is null should display recherche', () {
+        // Given
+        final store = givenState().initialRechercheEmploiState().store();
 
-      // When
-      final viewModel = _makeViewModel(store);
+        // When
+        final viewModel = _makeViewModel(store);
 
-      // Then
-      expect(viewModel.displayState, BlocResultatRechercheDisplayState.empty);
+        // Then
+        expect(viewModel.displayState, BlocResultatRechercheDisplayState.recherche);
+      });
+
+      test('and result is empty should display empty', () {
+        // Given
+        final store = givenState().initialRechercheEmploiState().store();
+
+        // When
+        final viewModel = _makeViewModel(store);
+
+        // Then
+        expect(viewModel.displayState, BlocResultatRechercheDisplayState.recherche);
+      });
+
+      test('and result is not empty should display edit recherche', () {
+        // Given
+        final store = givenState()
+            .withRechercheEmploiState(
+              status: RechercheStatus.nouvelleRecherche,
+              results: mockOffresEmploi10(),
+            )
+            .store();
+
+        // When
+        final viewModel = _makeViewModel(store);
+
+        // Then
+        expect(viewModel.displayState, BlocResultatRechercheDisplayState.editRecherche);
+      });
     });
 
-    test('when recherche status is success without result should display results', () {
-      // Given
-      final store = givenState().successRechercheEmploiState(results: [mockOffreEmploi()]).store();
+    group('when recherche status is success', () {
+      test('and result is empty should display empty', () {
+        // Given
+        final store = givenState().successRechercheEmploiState(results: []).store();
 
-      // When
-      final viewModel = _makeViewModel(store);
+        // When
+        final viewModel = _makeViewModel(store);
 
-      // Then
-      expect(viewModel.displayState, BlocResultatRechercheDisplayState.results);
+        // Then
+        expect(viewModel.displayState, BlocResultatRechercheDisplayState.empty);
+      });
+
+      test('and result is not empty should display results', () {
+        // Given
+        final store = givenState().successRechercheEmploiState(results: [mockOffreEmploi()]).store();
+
+        // When
+        final viewModel = _makeViewModel(store);
+
+        // Then
+        expect(viewModel.displayState, BlocResultatRechercheDisplayState.results);
+      });
     });
   });
 
-  group('displayState', () {
+  group('withLoadMore', () {
     test('when state can load more should return true', () {
       // Given
       final store = givenState().successRechercheEmploiState(canLoadMore: true).store();

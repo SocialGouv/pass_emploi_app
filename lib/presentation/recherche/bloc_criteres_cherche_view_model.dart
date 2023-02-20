@@ -20,7 +20,7 @@ class BlocCriteresRechercheViewModel<Result> extends Equatable {
     return BlocCriteresRechercheViewModel(
       isOpen: _isOpen(rechercheState(store.state)),
       onExpansionChanged: (isOpen) {
-        if (isOpen) store.dispatch(RechercheNewAction<Result>());
+        store.dispatch(isOpen ? RechercheOpenCriteresAction<Result>() : RechercheCloseCriteresAction<Result>());
       },
     );
   }

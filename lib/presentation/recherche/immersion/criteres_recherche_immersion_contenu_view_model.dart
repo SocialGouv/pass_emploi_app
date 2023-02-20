@@ -28,20 +28,24 @@ class CriteresRechercheImmersionContenuViewModel extends Equatable {
       displayState: store.state.rechercheImmersionState.displayState(),
       initialMetier: store.state.rechercheImmersionState.request?.criteres.metier,
       initialLocation: store.state.rechercheImmersionState.request?.criteres.location,
-      onSearchingRequest: (metier, location) {
-        store.dispatch(
-          RechercheRequestAction<ImmersionCriteresRecherche, ImmersionFiltresRecherche>(
-            RechercheRequest(
-              ImmersionCriteresRecherche(metier: metier, location: location),
-              ImmersionFiltresRecherche.noFiltre(),
-              1,
-            ),
-          ),
-        );
-      },
+      onSearchingRequest: (metier, location) => _onSearchingRequest(store, metier, location),
     );
   }
 
   @override
   List<Object?> get props => [displayState];
+}
+
+void _onSearchingRequest(Store<AppState> store, Metier metier, Location location) {
+  final previousRequest = store.state.rechercheImmersionState.request;
+  final initialRecherche = previousRequest == null;
+  store.dispatch(
+    RechercheRequestAction<ImmersionCriteresRecherche, ImmersionFiltresRecherche>(
+      RechercheRequest(
+        ImmersionCriteresRecherche(metier: metier, location: location),
+        initialRecherche ? ImmersionFiltresRecherche.noFiltre() : previousRequest.filtres,
+        1,
+      ),
+    ),
+  );
 }

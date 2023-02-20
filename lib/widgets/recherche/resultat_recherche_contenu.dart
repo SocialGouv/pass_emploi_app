@@ -48,19 +48,17 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
   Widget build(BuildContext context) {
     return FavorisStateContext<Result>(
       selectState: (store) => widget.favorisState(store.state),
-      child: Expanded(
-        child: ListView.separated(
-          padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
-          controller: _scrollController,
-          itemBuilder: (context, index) => widget.buildResultItem(
-            context,
-            widget.viewModel.items[index],
-            index,
-            widget.viewModel,
-          ),
-          separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
-          itemCount: widget.viewModel.items.length,
+      child: ListView.separated(
+        padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
+        controller: _scrollController,
+        itemBuilder: (context, index) => widget.buildResultItem(
+          context,
+          widget.viewModel.items[index],
+          index,
+          widget.viewModel,
         ),
+        separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
+        itemCount: widget.viewModel.items.length,
       ),
     );
   }
