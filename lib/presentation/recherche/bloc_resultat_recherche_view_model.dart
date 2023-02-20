@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-enum BlocResultatRechercheDisplayState { recherche, empty, results, results_with_opacity }
+enum BlocResultatRechercheDisplayState { recherche, empty, results, editRecherche }
 
 class BlocResultatRechercheViewModel<Result> extends Equatable {
   final BlocResultatRechercheDisplayState displayState;
@@ -52,7 +52,7 @@ BlocResultatRechercheDisplayState _displayState(RechercheState state) {
     } else {
       return state.results?.isEmpty == true
           ? BlocResultatRechercheDisplayState.empty
-          : BlocResultatRechercheDisplayState.results_with_opacity;
+          : BlocResultatRechercheDisplayState.editRecherche;
     }
   } else {
     return BlocResultatRechercheDisplayState.recherche;

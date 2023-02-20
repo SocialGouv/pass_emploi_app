@@ -52,8 +52,8 @@ class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Re
       case BlocResultatRechercheDisplayState.empty:
         return RechercheMessagePlaceholder(Strings.noContentError);
       case BlocResultatRechercheDisplayState.results:
-      case BlocResultatRechercheDisplayState.results_with_opacity:
-      final bool withOpacity = viewModel.displayState == BlocResultatRechercheDisplayState.results_with_opacity;
+      case BlocResultatRechercheDisplayState.editRecherche:
+        final bool withOpacity = viewModel.displayState == BlocResultatRechercheDisplayState.editRecherche;
         return GestureDetector(
           onTapDown: (_) => viewModel.onListWithOpacityTouch(),
           child: AnimatedOpacity(

@@ -67,7 +67,7 @@ class _CriteresRechercheBandeau extends StatelessWidget {
   Widget build(BuildContext context) {
     final iconColor = isOpen ? AppColors.primary : Colors.white;
     return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(Dimens.radius_base),
       child: GestureDetector(
         onTap: onTap,
         child: Padding(

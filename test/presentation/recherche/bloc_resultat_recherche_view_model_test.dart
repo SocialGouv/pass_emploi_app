@@ -26,10 +26,6 @@ void main() {
     group('when recherche status is nouvelle recherche', () {
       test('and result is null should display recherche', () {
         // Given
-        givenState().withRechercheEmploiState(
-          status: RechercheStatus.nouvelleRecherche,
-          results: null,
-        );
         final store = givenState().initialRechercheEmploiState().store();
 
         // When
@@ -48,6 +44,22 @@ void main() {
 
         // Then
         expect(viewModel.displayState, BlocResultatRechercheDisplayState.recherche);
+      });
+
+      test('and result is not empty should display edit recherche', () {
+        // Given
+        final store = givenState()
+            .withRechercheEmploiState(
+              status: RechercheStatus.nouvelleRecherche,
+              results: mockOffresEmploi10(),
+            )
+            .store();
+
+        // When
+        final viewModel = _makeViewModel(store);
+
+        // Then
+        expect(viewModel.displayState, BlocResultatRechercheDisplayState.editRecherche);
       });
     });
 
