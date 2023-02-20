@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/recherche/recherche_message_placeholder.dart';
 import 'package:pass_emploi_app/widgets/recherche/resultat_recherche_contenu.dart';
 
-class BlocResultatRecherche<Result> extends StatelessWidget {
+class BlocResultatRecherche<Result> extends StatefulWidget {
   final Key listResultatKey;
   final RechercheState Function(AppState) rechercheState;
   final FavoriListState<Result> Function(AppState) favorisState;
@@ -26,12 +26,20 @@ class BlocResultatRecherche<Result> extends StatelessWidget {
   });
 
   @override
+  State<BlocResultatRecherche<Result>> createState() => _BlocResultatRechercheState<Result>();
+}
+
+class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Result>> {
+  var _numberOfSearchSent = 0;
+  int? _lastNumberSearchAnalyticSent;
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BlocResultatRechercheViewModel<Result>>(
       builder: _builder,
-      converter: (store) => BlocResultatRechercheViewModel.create(store, rechercheState),
+      converter: (store) => BlocResultatRechercheViewModel.create(store, widget.rechercheState),
       onDidChange: (previousViewModel, viewModel) {
-        _trackInitialSearchResults(viewModel, previousViewModel, context);
+        _trackSearchResults(viewModel, previousViewModel, context);
       },
       distinct: true,
     );
@@ -45,26 +53,30 @@ class BlocResultatRecherche<Result> extends StatelessWidget {
         return RechercheMessagePlaceholder(Strings.noContentError);
       case BlocResultatRechercheDisplayState.results:
         return ResultatRechercheContenu<Result>(
-          key: listResultatKey,
+          key: widget.listResultatKey,
           viewModel: viewModel,
-          favorisState: favorisState,
-          buildResultItem: buildResultItem,
+          favorisState: widget.favorisState,
+          buildResultItem: widget.buildResultItem,
         );
     }
   }
 
-  void _trackInitialSearchResults(
+  void _trackSearchResults(
     BlocResultatRechercheViewModel<Result> viewModel,
     BlocResultatRechercheViewModel<Result>? previousViewModel,
     BuildContext context,
   ) {
+    if (viewModel.displayState == BlocResultatRechercheDisplayState.recherche) _numberOfSearchSent += 1;
     if (viewModel.displayState == BlocResultatRechercheDisplayState.results) {
-      if (previousViewModel == null || previousViewModel.items.isEmpty == true) {
-        PassEmploiMatomoTracker.instance.trackScreen(
-          context,
-          eventName: AnalyticsScreenNames.rechercheInitialeResultats(analyticsType),
-        );
-      }
+      if (_lastNumberSearchAnalyticSent == _numberOfSearchSent) return;
+      _lastNumberSearchAnalyticSent = _numberOfSearchSent;
+
+      PassEmploiMatomoTracker.instance.trackScreen(
+        context,
+        eventName: _numberOfSearchSent == 0
+            ? AnalyticsScreenNames.rechercheInitialeResultats(widget.analyticsType)
+            : AnalyticsScreenNames.rechercheModifieeResultats(widget.analyticsType),
+      );
     }
   }
 }

@@ -44,6 +44,7 @@ class AnalyticsScreenNames {
   static const rechercheSuggestionsListe = "recherche/suggested_list";
   static String rechercheInitiale(String type) => "recherche/$type/search";
   static String rechercheInitialeResultats(String type) => "recherche/$type/search_results";
+  static String rechercheModifieeResultats(String type) => "recherche/$type/search_results?update=true";
 
   static const emploiResults = "recherche/emploi/search_results";
   static const emploiDetails = "recherche/emploi/detail";
