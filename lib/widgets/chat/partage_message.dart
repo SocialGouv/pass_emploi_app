@@ -92,13 +92,13 @@ class _PartageCard extends StatelessWidget {
       case OffreType.emploi:
         Navigator.push(
           context,
-          OffreEmploiDetailsPage.materialPageRoute(offreItem.idPartage, fromAlternance: false, showFavori: false),
+          OffreEmploiDetailsPage.materialPageRoute(offreItem.idPartage, fromAlternance: false),
         );
         break;
       case OffreType.alternance:
         Navigator.push(
           context,
-          OffreEmploiDetailsPage.materialPageRoute(offreItem.idPartage, fromAlternance: true, showFavori: false),
+          OffreEmploiDetailsPage.materialPageRoute(offreItem.idPartage, fromAlternance: true),
         );
         break;
       case OffreType.immersion:

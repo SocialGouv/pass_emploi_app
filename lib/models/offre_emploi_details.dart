@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class OffreEmploiDetails extends Equatable {
@@ -6,7 +7,7 @@ class OffreEmploiDetails extends Equatable {
   final String title;
   final String urlRedirectPourPostulation;
   final String? description;
-  final String? contractType;
+  final String contractType;
   final String? duration;
   final String? location;
   final String? salary;
@@ -15,6 +16,7 @@ class OffreEmploiDetails extends Equatable {
   final String? companyUrl;
   final bool companyAdapted;
   final bool companyAccessibility;
+  final bool isAlternance;
   final String? experience;
   final String? requiredExperience;
   final DateTime? lastUpdate;
@@ -45,6 +47,7 @@ class OffreEmploiDetails extends Equatable {
     required this.softSkills,
     required this.companyAdapted,
     required this.companyAccessibility,
+    required this.isAlternance,
     required this.requiredExperience,
   });
 
@@ -54,7 +57,7 @@ class OffreEmploiDetails extends Equatable {
       title: json["intitule"] as String,
       urlRedirectPourPostulation: urlRedirectPourPostulation,
       description: json["description"] as String?,
-      contractType: json["typeContratLibelle"] as String?,
+      contractType: json["typeContratLibelle"] as String,
       duration: json["dureeTravailLibelle"] as String?,
       location: json["lieuTravail"]?["libelle"] as String?,
       salary: json["salaire"]?["libelle"] as String?,
@@ -71,6 +74,7 @@ class OffreEmploiDetails extends Equatable {
       softSkills: _extractSoftSkills(json).map((soft) => soft.description).whereType<String>().toList(),
       companyAdapted: json["entreprise"]?["entrepriseAdaptee"] as bool,
       companyAccessibility: json["accessibleTH"] as bool,
+      isAlternance: json["alternance"] as bool? ?? false,
     );
   }
 
@@ -240,4 +244,16 @@ DateTime? _extractLastUpdate(Map<String, dynamic> json) {
   return (json["dateActualisation"] is String)
       ? (json["dateActualisation"] as String).toDateTimeUtcOnLocalTimeZone()
       : null;
+}
+
+extension OffreEmploiDetailsExt on OffreEmploiDetails {
+  OffreEmploi get toOffreEmploi => OffreEmploi(
+        id: id,
+        title: title,
+        companyName: companyName,
+        contractType: contractType,
+        isAlternance: isAlternance,
+        location: location,
+        duration: duration,
+      );
 }
