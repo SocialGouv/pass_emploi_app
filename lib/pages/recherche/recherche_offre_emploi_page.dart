@@ -41,6 +41,9 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   }
 
   @override
+  String analyticsType() => onlyAlternance ? "alternance" : "emploi";
+
+  @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
 
   @override

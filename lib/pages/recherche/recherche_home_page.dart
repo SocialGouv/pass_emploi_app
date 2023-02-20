@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
@@ -31,7 +32,13 @@ class RechercheHomePage extends StatelessWidget {
               ),
               SizedBox(height: Margins.spacing_base),
               VoirSuggestionsRechercheBandeau(
-                onTapShowSuggestions: () => Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute()),
+                onTapShowSuggestions: () {
+                  PassEmploiMatomoTracker.instance.trackScreen(
+                    context,
+                    eventName: AnalyticsScreenNames.rechercheSuggestionsListe,
+                  );
+                  Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
+                },
               ),
               SizedBox(height: Margins.spacing_base),
               _BlocSolution(

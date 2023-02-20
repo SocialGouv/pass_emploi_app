@@ -40,7 +40,10 @@ class AnalyticsScreenNames {
   static const rendezvousAutre = "rdv/autre";
 
   // Recherche V2
-  static const rechercheV2Home = "recherche";
+  static const rechercheV2Home = "recherche/home";
+  static const rechercheSuggestionsListe = "recherche/suggested_list";
+  static String rechercheInitiale(String type) => "recherche/$type/search";
+  static String rechercheInitialeResultats(String type) => "recherche/$type/search_results";
 
   static const emploiResults = "recherche/emploi/search_results";
   static const emploiDetails = "recherche/emploi/detail";

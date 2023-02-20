@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/recherche/recherche_message_placeholder.dart';
 import 'package:pass_emploi_app/widgets/recherche/resultat_recherche_contenu.dart';
 
@@ -13,12 +15,14 @@ class BlocResultatRecherche<Result> extends StatelessWidget {
   final RechercheState Function(AppState) rechercheState;
   final FavoriListState<Result> Function(AppState) favorisState;
   final Widget Function(BuildContext, Result, int, BlocResultatRechercheViewModel<Result>) buildResultItem;
+  final String analyticsType;
 
   BlocResultatRecherche({
     required this.listResultatKey,
     required this.rechercheState,
     required this.favorisState,
     required this.buildResultItem,
+    required this.analyticsType,
   });
 
   @override
@@ -26,6 +30,9 @@ class BlocResultatRecherche<Result> extends StatelessWidget {
     return StoreConnector<AppState, BlocResultatRechercheViewModel<Result>>(
       builder: _builder,
       converter: (store) => BlocResultatRechercheViewModel.create(store, rechercheState),
+      onDidChange: (previousViewModel, viewModel) {
+        _trackInitialSearchResults(viewModel, previousViewModel, context);
+      },
       distinct: true,
     );
   }
@@ -43,6 +50,21 @@ class BlocResultatRecherche<Result> extends StatelessWidget {
           favorisState: favorisState,
           buildResultItem: buildResultItem,
         );
+    }
+  }
+
+  void _trackInitialSearchResults(
+    BlocResultatRechercheViewModel<Result> viewModel,
+    BlocResultatRechercheViewModel<Result>? previousViewModel,
+    BuildContext context,
+  ) {
+    if (viewModel.displayState == BlocResultatRechercheDisplayState.results) {
+      if (previousViewModel == null || previousViewModel.items.isEmpty == true) {
+        PassEmploiMatomoTracker.instance.trackScreen(
+          context,
+          eventName: AnalyticsScreenNames.rechercheInitialeResultats(analyticsType),
+        );
+      }
     }
   }
 }

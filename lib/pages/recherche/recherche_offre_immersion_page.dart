@@ -33,6 +33,9 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   String appBarTitle() => Strings.rechercheOffresImmersionTitle;
 
   @override
+  String analyticsType() => "immersion";
+
+  @override
   RechercheState rechercheState(AppState appState) => appState.rechercheImmersionState;
 
   @override
