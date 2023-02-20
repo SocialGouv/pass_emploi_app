@@ -33,6 +33,9 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
   String appBarTitle() => Strings.rechercheOffresServiceCiviqueTitle;
 
   @override
+  String analyticsType() => "service_civique";
+
+  @override
   RechercheState rechercheState(AppState appState) => appState.rechercheServiceCiviqueState;
 
   @override
