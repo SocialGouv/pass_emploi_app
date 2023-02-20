@@ -3,6 +3,8 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -75,6 +77,29 @@ void main() {
     expect(
       favorisState.data,
       {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
+    );
+  });
+
+  test("favori id list should be updated when favori is added and recheche result is null", () async {
+    // Given
+    final Store<AppState> store = _successStoreWithFavorisAndOffreEmploiDetailsSuccessState();
+
+    final loadingState =
+        store.onChange.any((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.LOADING);
+    final successState = store.onChange
+        .firstWhere((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.SUCCESS);
+
+    // When
+    store.dispatch(FavoriUpdateRequestAction<OffreEmploi>("17", true));
+
+    // Then
+    expect(await loadingState, true);
+    final updatedFavoris = await successState;
+    final favorisState = (updatedFavoris.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>);
+    expect(favorisState.favoriIds, {"2", "4", "17"});
+    expect(
+      favorisState.data,
+      {"2": mockOffreEmploi(), "4": mockOffreEmploi()},
     );
   });
 
@@ -151,6 +176,22 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
             ))
         .successRechercheEmploiState(results: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')]),
   );
+  return store;
+}
+
+Store<AppState> _successStoreWithFavorisAndOffreEmploiDetailsSuccessState() {
+  final testStoreFactory = TestStoreFactory();
+  testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
+  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+  final store = testStoreFactory.initializeReduxStore(
+      initialState: AppState.initialState().copyWith(
+          rechercheEmploiState: RechercheEmploiState.initial(),
+          offreEmploiDetailsState: OffreEmploiDetailsSuccessState(mockOffreEmploiDetails()),
+          loginState: successMiloUserState(),
+          offreEmploiFavorisState: FavoriListState<OffreEmploi>.withMap(
+            {"2", "4"},
+            {"2": mockOffreEmploi(), "4": mockOffreEmploi()},
+          )));
   return store;
 }
 
