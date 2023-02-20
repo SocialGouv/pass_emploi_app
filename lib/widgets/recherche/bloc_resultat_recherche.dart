@@ -30,7 +30,7 @@ class BlocResultatRecherche<Result> extends StatefulWidget {
 }
 
 class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Result>> {
-  var _numberOfSearchSent = 0;
+  int _numberOfSearchSent = 0;
   int? _lastNumberSearchAnalyticSent;
 
   @override
