@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/autocomplete/metier_view_model.dart';
@@ -50,7 +51,7 @@ class _MetierAutocompleteState extends State<MetierAutocomplete> {
       textFormFieldKey: Key(_selectedMetier.toString()),
       withDeleteButton: _selectedMetier != null,
       onTextTap: () => Navigator.push(
-        context,
+        IgnoreTrackingContext.of(context).nonTrackingContext,
         _MetierAutocompletePage.materialPageRoute(
           title: widget.title,
           hint: widget.hint,
