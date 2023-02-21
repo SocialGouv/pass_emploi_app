@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 
 class ImmersionDetails extends Equatable {
@@ -46,4 +47,15 @@ class ImmersionDetails extends Equatable {
         fromEntrepriseAccueillante,
         contact,
       ];
+}
+
+extension ImmersionDetailsExt on ImmersionDetails {
+  Immersion get toImmersion => Immersion(
+        id: id,
+        metier: metier,
+        nomEtablissement: companyName,
+        secteurActivite: secteurActivite,
+        ville: ville,
+        fromEntrepriseAccueillante: fromEntrepriseAccueillante,
+      );
 }
