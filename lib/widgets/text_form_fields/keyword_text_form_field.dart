@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_form_field.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/full_screen_text_form_field_scaffold.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/multiline_app_bar.dart';
@@ -41,7 +42,7 @@ class _KeywordTextFormFieldState extends State<KeywordTextFormField> {
       textFormFieldKey: Key(_selectedKeyword.toString()),
       withDeleteButton: _selectedKeyword != null,
       onTextTap: () => Navigator.push(
-        context,
+        IgnoreTrackingContext.of(context).nonTrackingContext,
         _KeywordTextFormFieldPage.materialPageRoute(
           title: widget.title,
           hint: widget.hint,
