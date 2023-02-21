@@ -239,6 +239,7 @@ ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
 List<ServiceCivique> mockOffresServiceCivique10() => List.generate(10, (index) => mockServiceCivique());
 
 ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
+      id: "123DXPM",
       dateDeDebut: '17/02/2022',
       dateDeFin: '17/02/2022',
       titre: "Technicien / Technicienne en froid et climatisation",

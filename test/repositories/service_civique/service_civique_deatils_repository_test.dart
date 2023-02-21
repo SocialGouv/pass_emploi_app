@@ -25,6 +25,7 @@ void main() {
     expect(
       (result as SuccessfullServiceCiviqueDetailResponse).detail,
       ServiceCiviqueDetail(
+        id: "je_suis_un_id",
         titre: "Accompagner la mise en place d'actions culturelles en milieu carcéral",
         dateDeDebut: "15 février 2022",
         dateDeFin: "14 octobre 2022",

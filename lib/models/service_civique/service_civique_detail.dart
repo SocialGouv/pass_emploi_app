@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class ServiceCiviqueDetail extends Equatable {
+  final String id;
   final String titre;
   final String dateDeDebut;
   final String domaine;
@@ -19,6 +21,7 @@ class ServiceCiviqueDetail extends Equatable {
   final String? codePostal;
 
   ServiceCiviqueDetail({
+    required this.id,
     required this.titre,
     required this.dateDeDebut,
     required this.dateDeFin,
@@ -35,10 +38,11 @@ class ServiceCiviqueDetail extends Equatable {
     required this.codePostal,
   });
 
-  factory ServiceCiviqueDetail.fromJson(dynamic json) {
+  factory ServiceCiviqueDetail.fromJson(dynamic json, String id) {
     final String? stringDateDebut = (json["dateDeDebut"] as String?);
     final String? stringDateFin = (json["dateDeFin"] as String?);
     return ServiceCiviqueDetail(
+      id: id,
       titre: json["titre"] as String,
       dateDeDebut: stringDateDebut!.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),
       dateDeFin: stringDateFin?.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),
@@ -73,4 +77,17 @@ class ServiceCiviqueDetail extends Equatable {
         descriptionOrganisation,
         codePostal,
       ];
+}
+
+extension ServiceCiviqueDetailExtensions on ServiceCiviqueDetail {
+  ServiceCivique get toServiceCivique {
+    return ServiceCivique(
+      id: id,
+      title: titre,
+      domain: domaine,
+      companyName: organisation,
+      location: ville,
+      startDate: dateDeDebut,
+    );
+  }
 }
