@@ -687,4 +687,7 @@ class Strings {
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";
+
+  // Diagoriente
+  static String diagorienteEntryPageTitle = "Préférences métiers";
 }

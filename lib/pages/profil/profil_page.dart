@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/pages/diagoriente/diagoriente_entry_page.dart';
 import 'package:pass_emploi_app/pages/partage_activite_page.dart';
 import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
 import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
@@ -19,6 +20,7 @@ import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/rating_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/mon_conseiller_card.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
@@ -61,6 +63,11 @@ class ProfilPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
+              SizedBox(height: Margins.spacing_m),
+              PrimaryActionButton(
+                label: 'TODO Diagorente',
+                onPressed: () => Navigator.push(context, DiagorienteEntryPage.materialPageRoute()),
+              ),
               SizedBox(height: Margins.spacing_m),
               _ProfileCard(userEmail: viewModel.userEmail),
               SizedBox(height: Margins.spacing_m),

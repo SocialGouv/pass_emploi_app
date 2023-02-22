@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
+import 'package:pass_emploi_app/models/diagoriente_urls.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
@@ -580,3 +581,11 @@ RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> rechercheEmplo
 }
 
 EmploiFiltresRecherche mockEmploiFiltreZeroDistance() => EmploiFiltresRecherche.withFiltres(distance: 0);
+
+DiagorienteUrls mockDiagorienteUrls() {
+  return DiagorienteUrls(
+    chatBotUrl: 'chatBotUrl',
+    metiersFavorisUrl: 'metiersFavorisUrl',
+    metiersRecommandesUrl: 'metiersRecommandesUrl',
+  );
+}
