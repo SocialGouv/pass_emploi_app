@@ -88,6 +88,8 @@ import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
+late Dio appDio;
+
 class AppInitializer {
   Future<Widget> initializeApp() async {
     await Firebase.initializeApp();
@@ -187,6 +189,7 @@ class AppInitializer {
       authAccessChecker,
       monitoringDioInterceptor,
     );
+    appDio = dioClient;
     final chatCrypto = ChatCrypto();
     final reduxStore = StoreFactory(
       authenticator,

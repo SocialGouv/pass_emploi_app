@@ -30,6 +30,7 @@ extension UrlExtensions on String {
   bool isSupposedToBeMocked() {
     return !contains("referentiels/communes-et-departements") &&
         !contains("fichiers") &&
+        !contains("diagoriente") &&
         !contains("referentiels/metiers");
   }
 

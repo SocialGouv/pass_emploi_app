@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/pages/profil/profil_page.dart';
+import 'package:pass_emploi_app/pages/diagoriente_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
@@ -19,7 +19,9 @@ class ProfileButton extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: IconButton(
-        onPressed: () => Navigator.of(context).push(ProfilPage.materialPageRoute()),
+        // TODO GAD
+        //onPressed: () => Navigator.of(context).push(ProfilPage.materialPageRoute()),
+        onPressed: () => Navigator.of(context).push(DiagorientePage.materialPageRoute()),
         padding: const EdgeInsets.all(0),
         icon: SizedBox.expand(
           child: DecoratedBox(
