@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
 class ResultatRechercheContenu<Result> extends StatefulWidget {
+  final String analyticsType;
   final BlocResultatRechercheViewModel<Result> viewModel;
   final FavoriListState<Result> Function(AppState) favorisState;
   final Widget Function(BuildContext, Result, int, BlocResultatRechercheViewModel<Result>) buildResultItem;
 
   const ResultatRechercheContenu({
     super.key,
+    required this.analyticsType,
     required this.viewModel,
     required this.favorisState,
     required this.buildResultItem,
@@ -23,18 +29,10 @@ class ResultatRechercheContenu<Result> extends StatefulWidget {
 
 class ResultatRechercheContenuState<Result> extends State<ResultatRechercheContenu<Result>> {
   late ScrollController _scrollController;
-  double _offsetBeforeLoading = 0;
 
   @override
   void initState() {
     _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (widget.viewModel.withLoadMore && _scrollController.offset >= _scrollController.position.maxScrollExtent) {
-        _offsetBeforeLoading = _scrollController.offset;
-        widget.viewModel.onLoadMore();
-      }
-    });
-    WidgetsBinding.instance.addPostFrameCallback((_) => _onDidBuild);
     super.initState();
   }
 
@@ -51,24 +49,77 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
       child: ListView.separated(
         padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
         controller: _scrollController,
-        itemBuilder: (context, index) => widget.buildResultItem(
-          context,
-          widget.viewModel.items[index],
-          index,
-          widget.viewModel,
-        ),
-        separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
         itemCount: widget.viewModel.items.length,
+        itemBuilder: (context, index) {
+          final isLastItem = index == widget.viewModel.items.length - 1;
+          return Column(
+            children: [
+              widget.buildResultItem(
+                context,
+                widget.viewModel.items[index],
+                index,
+                widget.viewModel,
+              ),
+              if (widget.viewModel.withLoadMore && isLastItem) ...[
+                SizedBox(height: Margins.spacing_base),
+                _LoadMoreButton(onPressed: () => _onLoadMorePressed(context)),
+                SizedBox(height: Margins.spacing_huge),
+              ]
+            ],
+          );
+        },
+        separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
       ),
     );
   }
 
-  void _onDidBuild() {
-    if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
+  void _onLoadMorePressed(BuildContext context) {
+    widget.viewModel.onLoadMore();
+    PassEmploiMatomoTracker.instance.trackScreen(
+      context,
+      eventName: AnalyticsScreenNames.rechercheAfficherPlusOffres(widget.analyticsType),
+    );
   }
 
   void scrollToTop() {
-    _offsetBeforeLoading = 0;
     if (_scrollController.hasClients) _scrollController.jumpTo(0);
+  }
+}
+
+class _LoadMoreButton extends StatefulWidget {
+  final VoidCallback onPressed;
+
+  const _LoadMoreButton({required this.onPressed});
+
+  @override
+  State<_LoadMoreButton> createState() => _LoadMoreButtonState();
+}
+
+class _LoadMoreButtonState extends State<_LoadMoreButton> {
+  CrossFadeState crossFadeState = CrossFadeState.showFirst;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedCrossFade(
+      crossFadeState: crossFadeState,
+      sizeCurve: Curves.ease,
+      duration: Duration(milliseconds: 200),
+      firstChild: SizedBox(
+        width: double.infinity,
+        child: SecondaryButton(
+          label: Strings.rechercheAfficherPlus,
+          onPressed: () {
+            widget.onPressed();
+            setState(() => crossFadeState = CrossFadeState.showSecond);
+          },
+        ),
+      ),
+      secondChild: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_base),
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
   }
 }

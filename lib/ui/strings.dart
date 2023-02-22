@@ -333,6 +333,7 @@ class Strings {
   static String rechercheOffresImmersionTitle = "Offres d’immersion";
   static String rechercheOffresServiceCiviqueTitle = "Offres de service civique";
   static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
+  static String rechercheAfficherPlus = "Afficher plus d'offres";
 
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
 
