@@ -99,6 +99,8 @@ class AnalyticsScreenNames {
   static const ratingPage = "/notation";
 
   static const actionCommentsPage = "/actions/detail/comments/view";
+
+  static const diagorienteEntryPage = "/diagoriente";
 }
 
 class AnalyticsActionNames {

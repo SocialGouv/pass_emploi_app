@@ -690,4 +690,10 @@ class Strings {
 
   // Diagoriente
   static String diagorienteEntryPageTitle = "Préférences métiers";
+  static String diagorienteMetiersCardTitle = "Découvrez de nouveaux métiers";
+  static String diagorienteMetiersCardSubtitle =
+      "Explorez les métiers qui correspondent à vos centres d'intérêt en répondant à quelques questions.";
+  static String diagorienteMetiersCardButton = "Commencer";
+  static String diagorienteMetiersCardError =
+      "Une erreur est survenue. Vérifiez votre connexion ou réessayez plus tard.";
 }
