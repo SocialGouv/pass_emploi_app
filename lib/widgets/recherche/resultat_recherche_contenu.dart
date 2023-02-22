@@ -24,7 +24,6 @@ class ResultatRechercheContenu<Result> extends StatefulWidget {
 
 class ResultatRechercheContenuState<Result> extends State<ResultatRechercheContenu<Result>> {
   late ScrollController _scrollController;
-  double _offsetBeforeLoading = 0;
 
   @override
   void initState() {
@@ -56,9 +55,7 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
               ),
               if (widget.viewModel.withLoadMore && index == widget.viewModel.items.length - 1) ...[
                 SizedBox(height: Margins.spacing_base),
-                SizedBox(
-                    width: double.infinity,
-                    child: SecondaryButton(label: "Afficher plus d'offres", onPressed: widget.viewModel.onLoadMore)),
+                _LoadMoreButton(onPressed: widget.viewModel.onLoadMore),
                 SizedBox(height: Margins.spacing_huge),
               ]
             ],
@@ -71,7 +68,44 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
   }
 
   void scrollToTop() {
-    _offsetBeforeLoading = 0;
     if (_scrollController.hasClients) _scrollController.jumpTo(0);
+  }
+}
+
+class _LoadMoreButton extends StatefulWidget {
+  final VoidCallback onPressed;
+
+  const _LoadMoreButton({required this.onPressed});
+
+  @override
+  State<_LoadMoreButton> createState() => _LoadMoreButtonState();
+}
+
+class _LoadMoreButtonState extends State<_LoadMoreButton> {
+  CrossFadeState crossFadeState = CrossFadeState.showFirst;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedCrossFade(
+      crossFadeState: crossFadeState,
+      sizeCurve: Curves.ease,
+      duration: Duration(milliseconds: 200),
+      firstChild: SizedBox(
+        width: double.infinity,
+        child: SecondaryButton(
+          label: "Afficher plus d'offres",
+          onPressed: () {
+            widget.onPressed;
+            setState(() => crossFadeState = CrossFadeState.showSecond);
+          },
+        ),
+      ),
+      secondChild: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_base),
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
   }
 }
