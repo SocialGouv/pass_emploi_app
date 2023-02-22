@@ -49,7 +49,9 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
       child: ListView.separated(
         padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
         controller: _scrollController,
+        itemCount: widget.viewModel.items.length,
         itemBuilder: (context, index) {
+          final isLastItem = index == widget.viewModel.items.length - 1;
           return Column(
             children: [
               widget.buildResultItem(
@@ -58,7 +60,7 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
                 index,
                 widget.viewModel,
               ),
-              if (widget.viewModel.withLoadMore && index == widget.viewModel.items.length - 1) ...[
+              if (widget.viewModel.withLoadMore && isLastItem) ...[
                 SizedBox(height: Margins.spacing_base),
                 _LoadMoreButton(onPressed: () => _onLoadMorePressed(context)),
                 SizedBox(height: Margins.spacing_huge),
@@ -67,7 +69,6 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
           );
         },
         separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
-        itemCount: widget.viewModel.items.length,
       ),
     );
   }
