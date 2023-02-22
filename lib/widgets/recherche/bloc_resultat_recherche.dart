@@ -63,13 +63,14 @@ class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Re
               absorbing: withOpacity,
               child: ResultatRechercheContenu<Result>(
                 key: widget.listResultatKey,
+                analyticsType: widget.analyticsType,
                 viewModel: viewModel,
                 favorisState: widget.favorisState,
                 buildResultItem: widget.buildResultItem,
               ),
             ),
           ),
-      );
+        );
     }
   }
 

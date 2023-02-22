@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
 class ResultatRechercheContenu<Result> extends StatefulWidget {
+  final String analyticsType;
   final BlocResultatRechercheViewModel<Result> viewModel;
   final FavoriListState<Result> Function(AppState) favorisState;
   final Widget Function(BuildContext, Result, int, BlocResultatRechercheViewModel<Result>) buildResultItem;
 
   const ResultatRechercheContenu({
     super.key,
+    required this.analyticsType,
     required this.viewModel,
     required this.favorisState,
     required this.buildResultItem,
@@ -55,7 +60,7 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
               ),
               if (widget.viewModel.withLoadMore && index == widget.viewModel.items.length - 1) ...[
                 SizedBox(height: Margins.spacing_base),
-                _LoadMoreButton(onPressed: widget.viewModel.onLoadMore),
+                _LoadMoreButton(onPressed: () => _onLoadMorePressed(context)),
                 SizedBox(height: Margins.spacing_huge),
               ]
             ],
@@ -64,6 +69,14 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
         separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
         itemCount: widget.viewModel.items.length,
       ),
+    );
+  }
+
+  void _onLoadMorePressed(BuildContext context) {
+    widget.viewModel.onLoadMore();
+    PassEmploiMatomoTracker.instance.trackScreen(
+      context,
+      eventName: AnalyticsScreenNames.rechercheAfficherPlusOffres(widget.analyticsType),
     );
   }
 
@@ -93,9 +106,9 @@ class _LoadMoreButtonState extends State<_LoadMoreButton> {
       firstChild: SizedBox(
         width: double.infinity,
         child: SecondaryButton(
-          label: "Afficher plus d'offres",
+          label: Strings.rechercheAfficherPlus,
           onPressed: () {
-            widget.onPressed;
+            widget.onPressed();
             setState(() => crossFadeState = CrossFadeState.showSecond);
           },
         ),
