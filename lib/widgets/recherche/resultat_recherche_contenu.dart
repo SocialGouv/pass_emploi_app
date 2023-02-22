@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
 class ResultatRechercheContenu<Result> extends StatefulWidget {
@@ -28,13 +29,6 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
   @override
   void initState() {
     _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (widget.viewModel.withLoadMore && _scrollController.offset >= _scrollController.position.maxScrollExtent) {
-        _offsetBeforeLoading = _scrollController.offset;
-        widget.viewModel.onLoadMore();
-      }
-    });
-    WidgetsBinding.instance.addPostFrameCallback((_) => _onDidBuild);
     super.initState();
   }
 
@@ -51,20 +45,29 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
       child: ListView.separated(
         padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
         controller: _scrollController,
-        itemBuilder: (context, index) => widget.buildResultItem(
-          context,
-          widget.viewModel.items[index],
-          index,
-          widget.viewModel,
-        ),
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              widget.buildResultItem(
+                context,
+                widget.viewModel.items[index],
+                index,
+                widget.viewModel,
+              ),
+              if (widget.viewModel.withLoadMore && index == widget.viewModel.items.length - 1) ...[
+                SizedBox(height: Margins.spacing_base),
+                SizedBox(
+                    width: double.infinity,
+                    child: SecondaryButton(label: "Afficher plus d'offres", onPressed: widget.viewModel.onLoadMore)),
+                SizedBox(height: Margins.spacing_huge),
+              ]
+            ],
+          );
+        },
         separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
         itemCount: widget.viewModel.items.length,
       ),
     );
-  }
-
-  void _onDidBuild() {
-    if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
   }
 
   void scrollToTop() {
