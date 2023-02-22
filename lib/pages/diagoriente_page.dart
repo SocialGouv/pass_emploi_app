@@ -12,12 +12,6 @@ class DiagorientePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: PrimaryActionButton(
-        label: 'clic',
-        onPressed: () => controller.runJavaScript(
-          'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: view_top_jobs_full } }));',
-        ),
-      ),
       body: FutureBuilder<String?>(
         future: DiagorienteRepository(appDio).getChatBotUrl('ZKBAC'),
         builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
@@ -25,20 +19,38 @@ class DiagorientePage extends StatelessWidget {
             controller
               ..setJavaScriptMode(JavaScriptMode.unrestricted)
               ..addJavaScriptChannel(
-                'messageHandler',
+                'cejHandler',
                 onMessageReceived: (JavaScriptMessage message) {
                   print("####### message from the web view=\"${message.message}\"");
                 },
               )
               ..loadRequest(Uri.parse(snapshot.data!))
               ..runJavaScript(
-                'window.addEventListener("INCA_ChatbotStateChange_Inf", (evt) => { messageHandler.postMessage(evt); });',
+                'window.addEventListener("INCA_ChatbotStateChange_Inf", (evt) => { cejHandler.postMessage(evt); });',
               );
             return WebViewWidget(controller: controller);
           } else {
             return Center(child: CircularProgressIndicator());
           }
         },
+      ),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PrimaryActionButton(
+            label: 'Voir tous les résultats',
+            onPressed: () => controller.runJavaScript(
+              'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "view_top_jobs_full" } }));',
+            ),
+          ),
+          SizedBox(height: 8),
+          PrimaryActionButton(
+            label: 'Fermer le déroulé des métiers',
+            onPressed: () => controller.runJavaScript(
+              'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "close_jobs_drawer" } }));',
+            ),
+          ),
+        ],
       ),
     );
   }
