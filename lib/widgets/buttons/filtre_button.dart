@@ -11,9 +11,9 @@ class FiltreButton extends StatelessWidget {
   final int? filtresCount;
   final bool primary;
 
-  FiltreButton.primary({Key? key, this.onPressed, this.filtresCount, this.primary = true});
+  FiltreButton.primary({Key? key, this.onPressed, this.filtresCount}) : primary = true;
 
-  FiltreButton.secondary({Key? key, this.onPressed, this.filtresCount, this.primary = false});
+  FiltreButton.secondary({Key? key, this.onPressed, this.filtresCount}) : primary = false;
 
   @override
   Widget build(BuildContext context) => primary ? _buildAsPrimary() : _buildAsSecondary();
