@@ -7,8 +7,10 @@ import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_act
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/pages/offre_filters_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
@@ -22,14 +24,12 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/widgets/buttons/carousel_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/dialogs/saved_search_delete_dialog.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_card.dart';
-
-enum IndexOf { OFFRES_EMPLOI, ALTERNANCE, SERVICE_CIVIQUE, IMMERSION }
 
 class SavedSearchTabPage extends StatefulWidget {
   @override
@@ -37,15 +37,8 @@ class SavedSearchTabPage extends StatefulWidget {
 }
 
 class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
-  IndexOf _selectedIndex = IndexOf.OFFRES_EMPLOI;
+  OffreFilter _selectedFilter = OffreFilter.tous;
   bool _shouldNavigate = true;
-  late ScrollController _scrollController;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +50,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
         if (state is SavedSearchDeepLinkState) store.dispatch(SavedSearchGetAction(state.idSavedSearch));
       },
       onWillChange: (_, newVM) => _onWillChange(_, newVM),
-      builder: (context, viewModel) => _scrollView(viewModel),
+      builder: (context, viewModel) => _body(viewModel),
       converter: (store) => SavedSearchListViewModel.createFromStore(store),
       distinct: true,
     );
@@ -67,72 +60,75 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     if (!_shouldNavigate || newViewModel == null) return;
     switch (newViewModel.searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
-        _goToPage(IndexOf.OFFRES_EMPLOI, RechercheOffreEmploiPage(onlyAlternance: false));
+        _goToPage(RechercheOffreEmploiPage(onlyAlternance: false));
         break;
       case SavedSearchNavigationState.OFFRE_ALTERNANCE:
-        _goToPage(IndexOf.ALTERNANCE, RechercheOffreEmploiPage(onlyAlternance: true));
+        _goToPage(RechercheOffreEmploiPage(onlyAlternance: true));
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
-        _goToPage(IndexOf.IMMERSION, RechercheOffreImmersionPage());
+        _goToPage(RechercheOffreImmersionPage());
         break;
       case SavedSearchNavigationState.SERVICE_CIVIQUE:
-        _goToPage(IndexOf.SERVICE_CIVIQUE, RechercheOffreServiceCiviquePage());
+        _goToPage(RechercheOffreServiceCiviquePage());
         break;
       case SavedSearchNavigationState.NONE:
         break;
     }
   }
 
-  Future<bool> _goToPage(IndexOf newIndex, Widget page) {
+  Future<bool> _goToPage(Widget page) {
     _shouldNavigate = false;
-    _updateIndex(newIndex, true);
     return Navigator.push(context, MaterialPageRoute(builder: (_) => page)).then((_) => _shouldNavigate = true);
   }
 
-  Widget _scrollView(SavedSearchListViewModel viewModel) {
-    return Column(
-      children: [
-        SizedBox(height: Margins.spacing_m),
-        _carousel(),
-        Expanded(child: _content(viewModel)),
-      ],
+  Widget _body(SavedSearchListViewModel viewModel) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(child: _content(viewModel)),
+        ],
+      ),
+      floatingActionButton: FiltreButton.primary(
+        onPressed: () async {
+          final result =
+              await Navigator.push(context, OffreFiltersPage.materialPageRoute(initialFilter: _selectedFilter));
+          if (result != null) _filterSelected(result);
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  Widget _carousel() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      controller: _scrollController,
-      child: Row(
-        children: [
-          SizedBox(width: Margins.spacing_base),
-          CarouselButton(
-            isActive: _selectedIndex == IndexOf.OFFRES_EMPLOI,
-            onPressed: () => _updateIndex(IndexOf.OFFRES_EMPLOI),
-            label: Strings.offresEmploiButton,
-          ),
-          SizedBox(width: Margins.spacing_base),
-          CarouselButton(
-            isActive: _selectedIndex == IndexOf.ALTERNANCE,
-            onPressed: () => _updateIndex(IndexOf.ALTERNANCE),
-            label: Strings.alternanceButton,
-          ),
-          SizedBox(width: Margins.spacing_base),
-          CarouselButton(
-            isActive: _selectedIndex == IndexOf.SERVICE_CIVIQUE,
-            onPressed: () => _updateIndex(IndexOf.SERVICE_CIVIQUE),
-            label: Strings.serviceCiviqueButton,
-          ),
-          SizedBox(width: Margins.spacing_base),
-          CarouselButton(
-            isActive: _selectedIndex == IndexOf.IMMERSION,
-            onPressed: () => _updateIndex(IndexOf.IMMERSION),
-            label: Strings.immersionButton,
-          ),
-          SizedBox(width: 12),
-        ],
-      ),
-    );
+  void _filterSelected(OffreFilter filter) {
+    setState(() => _selectedFilter = filter);
+    switch (filter) {
+      case OffreFilter.immersion:
+        PassEmploiMatomoTracker.instance.trackScreenWithName(
+          widgetName: AnalyticsScreenNames.savedSearchImmersionList,
+          eventName: AnalyticsScreenNames.savedSearchImmersionList,
+        );
+        break;
+      case OffreFilter.serviceCivique:
+        PassEmploiMatomoTracker.instance.trackScreenWithName(
+          widgetName: AnalyticsScreenNames.savedSearchServiceCiviqueList,
+          eventName: AnalyticsScreenNames.savedSearchServiceCiviqueList,
+        );
+        break;
+      case OffreFilter.emploi:
+        PassEmploiMatomoTracker.instance.trackScreenWithName(
+          widgetName: AnalyticsScreenNames.savedSearchEmploiList,
+          eventName: AnalyticsScreenNames.savedSearchEmploiList,
+        );
+        break;
+      case OffreFilter.alternance:
+        PassEmploiMatomoTracker.instance.trackScreenWithName(
+          widgetName: AnalyticsScreenNames.savedSearchAlternanceList,
+          eventName: AnalyticsScreenNames.savedSearchAlternanceList,
+        );
+        break;
+      default:
+        break;
+    }
   }
 
   Widget _content(SavedSearchListViewModel viewModel) {
@@ -142,64 +138,23 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     if (viewModel.displayState == DisplayState.FAILURE) {
       return Center(child: Retry(Strings.savedSearchGetError, () => viewModel.onRetry()));
     }
-    switch (_selectedIndex) {
-      case IndexOf.SERVICE_CIVIQUE:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchServiceCiviqueList,
-          eventName: AnalyticsScreenNames.savedSearchServiceCiviqueList,
-        );
-        return _getSavedSearchServiceCivique(viewModel);
-      case IndexOf.OFFRES_EMPLOI:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchEmploiList,
-          eventName: AnalyticsScreenNames.savedSearchEmploiList,
-        );
-        return _getSavedSearchOffreEmploi(viewModel, false);
-      case IndexOf.ALTERNANCE:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchAlternanceList,
-          eventName: AnalyticsScreenNames.savedSearchAlternanceList,
-        );
-        return _getSavedSearchOffreEmploi(viewModel, true);
+    final List<SavedSearch> savedSearches = _getSavedSearches(viewModel);
+    return _getSavedSearch(savedSearches, viewModel);
+  }
+
+  List<SavedSearch> _getSavedSearches(SavedSearchListViewModel viewModel) {
+    switch (_selectedFilter) {
+      case OffreFilter.immersion:
+        return viewModel.getImmersions();
+      case OffreFilter.serviceCivique:
+        return viewModel.getServiceCivique();
+      case OffreFilter.emploi:
+        return viewModel.getOffresEmploi(false);
+      case OffreFilter.alternance:
+        return viewModel.getOffresEmploi(true);
       default:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchEmploiList,
-          eventName: AnalyticsScreenNames.savedSearchEmploiList,
-        );
-        return _getSavedSearchImmersions(viewModel);
+        return viewModel.savedSearches;
     }
-  }
-
-  void _updateIndex(IndexOf index, [bool withScroll = false]) {
-    if (_selectedIndex != index) {
-      setState(() {
-        _selectedIndex = index;
-        if (withScroll) {
-          _scrollController.jumpTo(_selectedIndex.index * 100);
-        }
-      });
-    }
-  }
-
-  final int _oneMoreIndexForSuggestionsRechercheCard = 1;
-
-  Widget _getSavedSearchOffreEmploi(SavedSearchListViewModel viewModel, bool isAlternance) {
-    final offreEmplois = viewModel.getOffresEmploi(isAlternance);
-    if (offreEmplois.isEmpty) return _noSavedSearch();
-
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: offreEmplois.length + _oneMoreIndexForSuggestionsRechercheCard,
-      itemBuilder: (context, position) {
-        if (position == 0) return _suggestionsRechercheCard();
-        position -= 1;
-        final double topPadding = (position == 0) ? Margins.spacing_m : 0;
-        return Padding(
-          padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
-          child: _buildCard(context, offreEmplois[position], viewModel),
-        );
-      },
-    );
   }
 
   Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi, SavedSearchListViewModel viewModel) {
@@ -214,42 +169,32 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     );
   }
 
-  Widget _getSavedSearchImmersions(SavedSearchListViewModel viewModel) {
-    final savedSearchsImmersion = viewModel.getImmersions();
-    if (savedSearchsImmersion.isEmpty) return _noSavedSearch();
-
+  Widget _getSavedSearch(List<SavedSearch> savedSearches, SavedSearchListViewModel viewModel) {
+    if (savedSearches.isEmpty) return _noSavedSearch();
     return ListView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: savedSearchsImmersion.length + _oneMoreIndexForSuggestionsRechercheCard,
-      itemBuilder: (context, position) {
-        if (position == 0) return _suggestionsRechercheCard();
-        position -= 1;
-        final double topPadding = (position == 0) ? Margins.spacing_m : 0;
-        return Padding(
-          padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
-          child: _buildImmersionCard(context, savedSearchsImmersion[position], viewModel),
-        );
-      },
-    );
-  }
-
-  Widget _getSavedSearchServiceCivique(SavedSearchListViewModel viewModel) {
-    final savedSearchsServiceCivique = viewModel.getServiceCivique();
-    if (savedSearchsServiceCivique.isEmpty) return _noSavedSearch();
-
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: savedSearchsServiceCivique.length + _oneMoreIndexForSuggestionsRechercheCard,
-      itemBuilder: (context, position) {
-        if (position == 0) return _suggestionsRechercheCard();
-        position -= 1;
-        final double topPadding = (position == 0) ? Margins.spacing_m : 0;
-        return Padding(
-          padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
-          child: _buildServiceCiviqueCard(context, savedSearchsServiceCivique[position], viewModel),
-        );
-      },
-    );
+        itemCount: savedSearches.length,
+        itemBuilder: (context, index) {
+          final savedSearch = savedSearches[index];
+          return Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_s),
+                child: Builder(builder: (context) {
+                  if (savedSearch is OffreEmploiSavedSearch) {
+                    return _buildCard(context, savedSearch, viewModel);
+                  } else if (savedSearch is ImmersionSavedSearch) {
+                    return _buildImmersionCard(context, savedSearch, viewModel);
+                  } else if (savedSearch is ServiceCiviqueSavedSearch) {
+                    return _buildServiceCiviqueCard(context, savedSearch, viewModel);
+                  } else {
+                    return Container();
+                  }
+                }),
+              ),
+              if (index == savedSearches.length - 1) SizedBox(height: Margins.spacing_huge),
+            ],
+          );
+        });
   }
 
   Widget _noSavedSearch() {
