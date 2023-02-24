@@ -613,9 +613,16 @@ class Strings {
   static String developerOptionMatomoPage = 'Matomo';
 
   // Tutorial
-  static String tutoTitrePageUne = "Consultez la liste des ateliers et animations organisés dans votre Mission locale";
-  static String tutoDescriptionPageUne =
-      "Partagez un de ces événements avec votre conseiller pour qu'il vous y inscrive !";
+  static String tutoMiloTitrePageUne = "Ajout du profil dans le Header";
+  static String tutoMiloDescriptionPageUne = "Vos informations de profil désormais disponibles en haut à droite";
+  static String tutoMiloTitrePageDeux = "Affichage de l’onglet Événements dans la navigation";
+  static String tutoMiloDescriptionPageDeux = "Consultez les évènements de votre mission locale ! ";
+  static String tutoMiloTitrePageTrois = "Recherche d’offre";
+  static String tutoMiloDescriptionPageTrois = "Effectuer vos recherches d'offres plus facilement";
+  static String tutoEmploiTitrePageUne = "Ajout du profil dans le Header";
+  static String tutoEmploiDescriptionPageUne = "Vos informations de profil désormais disponibles en haut à droite";
+  static String tutoEmploiTitrePageDeux = "Recherche d’offre";
+  static String tutoEmploiDescriptionPageDeux = "Effectuer vos recherches d'offres plus facilement";
 
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";
