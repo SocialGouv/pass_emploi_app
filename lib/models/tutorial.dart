@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 class Tutorial extends Equatable {
-  static const String version = '6';
+  static const String version = '7';
 
   static List<Tutorial> milo = [
     Tutorial(
@@ -32,7 +32,7 @@ class Tutorial extends Equatable {
     Tutorial(
       title: Strings.tutoEmploiTitrePageDeux,
       description: Strings.tutoEmploiDescriptionPageDeux,
-      image: Drawables.tutoNewEventPe,
+      image: Drawables.tutoNewSearchPe,
     ),
   ];
 

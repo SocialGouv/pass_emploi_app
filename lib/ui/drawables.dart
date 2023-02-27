@@ -24,8 +24,8 @@ class Drawables {
 
   static String badge = _assets + "ic_badge" + _svg;
 
-  static String tutoNewEventSearchMilo = _tuto + "img_new_event_Milo_search" + _svg;
+  static String tutoNewEventSearchMilo = _tuto + "img_new_search_Milo" + _svg;
   static String tutoNewEventMilo = _tuto + "img_new_event_Milo" + _svg;
-  static String tutoNewEventPe = _tuto + "img_new_event_PE" + _svg;
-  static String tutoProfilHeader = _tuto + "img_new_profil_PE-Milo" + _svg;
+  static String tutoNewSearchPe = _tuto + "img_new_search_PE" + _svg;
+  static String tutoProfilHeader = _tuto + "img_new_profil" + _svg;
 }
