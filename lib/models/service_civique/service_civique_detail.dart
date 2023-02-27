@@ -79,7 +79,7 @@ class ServiceCiviqueDetail extends Equatable {
       ];
 }
 
-extension ServiceCiviqueDetailExtensions on ServiceCiviqueDetail {
+extension ServiceCiviqueDetailExt on ServiceCiviqueDetail {
   ServiceCivique get toServiceCivique {
     return ServiceCivique(
       id: id,

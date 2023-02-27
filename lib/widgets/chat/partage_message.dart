@@ -90,15 +90,11 @@ class _PartageCard extends StatelessWidget {
   void _showOffreDetailsPage(BuildContext context, OffreMessageItem offreItem) {
     switch (offreItem.type) {
       case OffreType.emploi:
-        Navigator.push(
-          context,
-          OffreEmploiDetailsPage.materialPageRoute(offreItem.idPartage, fromAlternance: false),
-        );
-        break;
       case OffreType.alternance:
         Navigator.push(
           context,
-          OffreEmploiDetailsPage.materialPageRoute(offreItem.idPartage, fromAlternance: true),
+          OffreEmploiDetailsPage.materialPageRoute(offreItem.idPartage,
+              fromAlternance: offreItem.type == OffreType.alternance),
         );
         break;
       case OffreType.immersion:
