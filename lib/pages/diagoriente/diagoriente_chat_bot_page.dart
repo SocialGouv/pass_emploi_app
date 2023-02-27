@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class DiagorienteChatBotPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -26,8 +27,14 @@ class DiagorienteChatBotPage extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, DiagorienteChatBotPageViewModel viewModel) {
+    const backgroundColor = AppColors.grey100;
+    final controller = WebViewController()
+      ..setBackgroundColor(backgroundColor)
+      ..loadRequest(Uri.parse(viewModel.chatBotUrl));
+
     return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.diagorienteChatBotPageTitle, backgroundColor: AppColors.grey100),
+      appBar: SecondaryAppBar(title: Strings.diagorienteChatBotPageTitle, backgroundColor: backgroundColor),
+      body: WebViewWidget(controller: controller),
     );
   }
 }

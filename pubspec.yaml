@@ -29,6 +29,7 @@ dependencies:
   path_provider: "2.0.11"
   smooth_page_indicator: "1.0.0+2"
   in_app_review: "2.0.4"
+  webview_flutter: "4.0.5"
   # Dart
   dio: "4.0.6"
   http: "0.13.5"
@@ -49,7 +50,7 @@ dependencies:
   firebase_auth: "3.3.17"
   cloud_firestore: "3.1.14"
   flutterfire_installations: "0.1.0"
-  flutter_native_timezone: ^2.0.0
+  flutter_native_timezone: "2.0.0"
 
 dev_dependencies:
   flutter_test:
