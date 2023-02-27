@@ -83,6 +83,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
 
   Widget _body(SavedSearchListViewModel viewModel) {
     return Scaffold(
+      backgroundColor: AppColors.grey100,
       body: Column(
         children: [
           Expanded(child: _content(viewModel)),
