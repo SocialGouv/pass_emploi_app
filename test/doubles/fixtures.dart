@@ -127,6 +127,7 @@ OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       ],
       softSkills: ["Autonomie", "Capacité de décision", "Persévérance"],
       lastUpdate: parseDateTimeUtcWithCurrentTimeZone("2021-11-22T14:47:29.000Z"),
+      isAlternance: false,
     );
 
 OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false}) => OffreEmploi(
@@ -238,6 +239,7 @@ ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
 List<ServiceCivique> mockOffresServiceCivique10() => List.generate(10, (index) => mockServiceCivique());
 
 ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
+      id: "123DXPM",
       dateDeDebut: '17/02/2022',
       dateDeFin: '17/02/2022',
       titre: "Technicien / Technicienne en froid et climatisation",
