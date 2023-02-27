@@ -696,4 +696,5 @@ class Strings {
   static String diagorienteMetiersCardButton = "Commencer";
   static String diagorienteMetiersCardError =
       "Une erreur est survenue. Vérifiez votre connexion ou réessayez plus tard.";
+  static String diagorienteChatBotPageTitle = "Découvrir des métiers";
 }
