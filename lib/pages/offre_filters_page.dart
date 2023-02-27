@@ -43,9 +43,7 @@ class _OffreFiltersPageState extends State<OffreFiltersPage> {
     return Scaffold(
       appBar: SecondaryAppBar(title: Strings.filterList),
       body: _Body(onFilterSelected: _onFilterSelected, offreFilter: _selectedFilter),
-      floatingActionButton: _ApplyFiltersButton(onPressed: () {
-        Navigator.pop(context, _selectedFilter);
-      }),
+      floatingActionButton: _ApplyFiltersButton(onPressed: () => Navigator.pop(context, _selectedFilter)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

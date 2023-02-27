@@ -39,6 +39,7 @@ class SavedSearchTabPage extends StatefulWidget {
 class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   OffreFilter _selectedFilter = OffreFilter.tous;
   bool _shouldNavigate = true;
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +102,10 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   void _filterSelected(OffreFilter filter) {
-    setState(() => _selectedFilter = filter);
+    setState(
+      () => _selectedFilter = filter,
+    );
+    _scrollController.jumpTo(0);
     switch (filter) {
       case OffreFilter.immersion:
         PassEmploiMatomoTracker.instance.trackScreenWithName(
@@ -174,10 +178,15 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     if (savedSearches.isEmpty) return _noSavedSearch();
     return ListView.builder(
         itemCount: savedSearches.length,
+        controller: _scrollController,
         itemBuilder: (context, index) {
           final savedSearch = savedSearches[index];
           return Column(
             children: [
+              if (index == 0) ...[
+                _suggestionsRechercheCard(),
+                SizedBox(height: Margins.spacing_base),
+              ],
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_s),
                 child: Builder(builder: (context) {
