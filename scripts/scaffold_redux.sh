@@ -40,7 +40,7 @@ dart_max_char_in_line=120
 
 feature_camel_case=$1
 feature_snake_case=$(echo $feature_camel_case \
-     | sed 's/\(.\)\([A-Z]\)/\1-\2/g' \
+     | sed 's/\(.\)\([A-Z]\)/\1_\2/g' \
      | tr '[:upper:]' '[:lower:]')
 feature_first_char_lower_case="$(tr '[:upper:]' '[:lower:]' <<< ${feature_camel_case:0:1})${feature_camel_case:1}"
 
