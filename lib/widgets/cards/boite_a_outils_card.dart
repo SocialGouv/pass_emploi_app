@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
@@ -20,6 +21,7 @@ class BoiteAOutilsCard extends StatelessWidget {
     final roundedCornerShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
     return Card(
       color: Colors.white,
+      surfaceTintColor: Colors.white,
       elevation: 2,
       shape: roundedCornerShape,
       child: InkWell(
@@ -35,7 +37,7 @@ class BoiteAOutilsCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(Dimens.radius_base),
                   child: Image.asset(
                     "assets/${outil.imagePath!}",
                     fit: BoxFit.fitWidth,

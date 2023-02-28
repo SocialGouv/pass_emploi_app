@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -25,7 +24,7 @@ void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetail
         vertical: onSeeDetailTap != null ? Margins.spacing_s : Margins.spacing_base,
       ),
       duration: Duration(days: 365),
-      backgroundColor: success ? AppColors.secondaryLighten : AppColors.warningLight,
+      backgroundColor: success ? AppColors.secondaryLighten : AppColors.warningLighten,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -33,8 +32,8 @@ void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetail
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              SvgPicture.asset(
-                success ? Drawables.icDoneCircle : Drawables.icImportant,
+              Icon(
+                success ? AppIcons.check_circle_rounded : AppIcons.error_rounded,
                 color: success ? AppColors.secondary : AppColors.warning,
               ),
               SizedBox(width: Margins.spacing_s),
@@ -44,14 +43,10 @@ void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetail
                 height: 30,
                 child: IconButton(
                   onPressed: () => _clearAllSnackBars(),
-                  icon: OverflowBox(
-                    maxHeight: 50,
-                    maxWidth: 50,
-                    child: Icon(
-                      Icons.close_rounded,
-                      size: 24,
-                      color: success ? AppColors.secondary : AppColors.warning,
-                    ),
+                  icon: Icon(
+                    Icons.close_rounded,
+                    size: 24,
+                    color: success ? AppColors.secondary : AppColors.warning,
                   ),
                 ),
               )

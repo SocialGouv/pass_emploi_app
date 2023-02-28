@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/service_civique/service_civique_detail_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -62,9 +62,10 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
   }
 
   Scaffold _scaffold(Widget body, BuildContext context) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.serviceCiviqueDetailTitle, context: context, withBackButton: true),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.serviceCiviqueDetailTitle, backgroundColor: backgroundColor),
       body: body,
     );
   }
@@ -148,16 +149,16 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
           child: DataTag(
               label: detail.codeDepartement != null ? "${detail.codeDepartement} - ${detail.ville}" : detail.ville,
-              drawableRes: Drawables.icPlace),
+              icon: AppIcons.location_on_rounded),
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: "Commence le ${detail.dateDeDebut}", drawableRes: Drawables.icCalendar),
+          child: DataTag(label: "Commence le ${detail.dateDeDebut}", icon: AppIcons.today_rounded),
         ),
         if (detail.dateDeFin != null)
           Padding(
             padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-            child: DataTag(label: "Termine le ${detail.dateDeFin}", drawableRes: Drawables.icCalendar),
+            child: DataTag(label: "Termine le ${detail.dateDeFin}", icon: AppIcons.today_rounded),
           ),
       ],
     );

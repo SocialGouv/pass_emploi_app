@@ -50,7 +50,7 @@ abstract class AbstractFavorisPage<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends St
       case DisplayState.FAILURE:
         return _centeredLike(Retry(Strings.favorisError, () => viewModel.onRetry()));
       case DisplayState.EMPTY:
-        return _centeredLike(Text(Strings.noFavoris, style: TextStyles.textSmRegular()));
+        return _centeredLike(Text(Strings.noFavoris, style: TextStyles.textSRegular()));
     }
   }
 

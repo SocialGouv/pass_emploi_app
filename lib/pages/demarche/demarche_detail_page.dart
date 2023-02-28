@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
@@ -10,7 +9,8 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -35,7 +35,7 @@ class DemarcheDetailPage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.userActionDetails,
       child: Scaffold(
-        appBar: passEmploiAppBar(label: Strings.demarcheDetails, context: context),
+        appBar: SecondaryAppBar(title: Strings.demarcheDetails),
         body: StoreConnector<AppState, DemarcheDetailViewModel>(
           converter: (store) => DemarcheDetailViewModel.create(store, source, id),
           onDidChange: (oldViewModel, newViewModel) async {
@@ -197,10 +197,10 @@ class _AttributItem extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          SvgPicture.asset(
-            Drawables.icPlace,
+          Icon(
+            AppIcons.location_on_rounded,
             color: AppColors.grey700,
-            height: Margins.spacing_m,
+            size: Dimens.icon_size_m,
           ),
           SizedBox(width: 12),
           Expanded(child: Text(label, style: TextStyles.textBaseBold)),
@@ -287,11 +287,10 @@ class _StatutItem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (statut.isSelected)
-                    SvgPicture.asset(
-                      Drawables.icDone,
+                    Icon(
+                      AppIcons.check_rounded,
                       color: statut.textColor,
-                      height: 14,
-                      width: 14,
+                      size: Dimens.icon_size_base,
                     ),
                   if (statut.isSelected) SizedBox(width: 10),
                   Text(

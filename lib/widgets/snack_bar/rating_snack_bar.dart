@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/rating_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
@@ -46,7 +45,7 @@ class _DismissSnackBar extends StatelessWidget {
       onTap: () => _onDismiss(context, viewModel),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 15, 5, 0),
-        child: SvgPicture.asset(Drawables.icClose, color: AppColors.contentColor),
+        child: Icon(AppIcons.close_rounded, color: AppColors.contentColor),
       ),
     );
   }
@@ -86,7 +85,7 @@ class _OnRatingTap extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 50, 35, 0),
-        child: SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
+        child: Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor),
       ),
     );
   }

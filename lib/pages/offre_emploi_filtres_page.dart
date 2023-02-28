@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
@@ -51,9 +51,10 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   }
 
   Widget _scaffold(OffreEmploiFiltresViewModel viewModel) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offresEmploiFiltresTitle, context: context, withBackButton: true),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.offresEmploiFiltresTitle, backgroundColor: backgroundColor),
       body: _Content(viewModel: viewModel),
     );
   }
@@ -137,8 +138,7 @@ class _ContentState extends State<_Content> {
   double _sliderValueToDisplay(double initialDistanceValue) =>
       _currentSliderValue != null ? _currentSliderValue! : initialDistanceValue;
 
-  bool _isButtonEnabled(DisplayState viewModelDisplayState) =>
-      _hasFormChanged && viewModelDisplayState != DisplayState.LOADING;
+  bool _isButtonEnabled(DisplayState displayState) => _hasFormChanged && displayState != DisplayState.LOADING;
 
   void _onButtonClick(OffreEmploiFiltresViewModel viewModel) {
     viewModel.updateFiltres(
@@ -211,15 +211,11 @@ class _FiltersState extends State<_Filters> {
               ),
             ),
           ],
-          if (_isError(widget.viewModel.displayState)) ErrorText(widget.viewModel.errorMessage),
+          if (widget.viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
           SizedBox(height: 100),
         ],
       ),
     );
-  }
-
-  bool _isError(DisplayState viewModeDisplayState) {
-    return viewModeDisplayState == DisplayState.FAILURE || viewModeDisplayState == DisplayState.EMPTY;
   }
 }
 
@@ -266,7 +262,7 @@ class _FiltreDebutantState extends State<_FiltreDebutant> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(16)),
-              boxShadow: [Shadows.boxShadow],
+              boxShadow: [Shadows.radius_base],
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_m),

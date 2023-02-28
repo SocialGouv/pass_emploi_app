@@ -33,7 +33,7 @@ class SuppressionComptePage extends StatelessWidget {
 
   Widget _scaffold(BuildContext context, SuppressionCompteViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(context: context, label: Strings.suppressionPageTitle, withBackButton: true),
+      appBar: SecondaryAppBar(title: Strings.suppressionPageTitle),
       body: _body(viewModel),
     );
   }
@@ -105,8 +105,8 @@ class _DeleteAccountButton extends StatelessWidget {
       textColor: AppColors.warning,
       fontSize: FontSizes.normal,
       backgroundColor: AppColors.warningLighten,
-      disabledBackgroundColor: AppColors.warningLight,
-      rippleColor: AppColors.warningLight,
+      disabledBackgroundColor: AppColors.warningLighten,
+      rippleColor: AppColors.warningLighten,
       withShadow: false,
     );
   }

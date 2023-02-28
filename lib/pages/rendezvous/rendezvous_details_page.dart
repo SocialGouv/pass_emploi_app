@@ -2,7 +2,6 @@ import 'dart:io' as io;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/pages/chat_partage_page.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
@@ -11,7 +10,8 @@ import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -22,9 +22,9 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
-import 'package:pass_emploi_app/widgets/rendezvous_tag.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:redux/redux.dart';
 
@@ -74,9 +74,10 @@ class RendezvousDetailsPage extends StatelessWidget {
   }
 
   Widget _scaffold(BuildContext context, RendezvousDetailsViewModel viewModel) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: viewModel.navbarTitle, context: context, withBackButton: true),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: viewModel.navbarTitle, backgroundColor: backgroundColor),
       body: _body(context, viewModel),
     );
   }
@@ -107,7 +108,10 @@ class RendezvousDetailsPage extends StatelessWidget {
               _InscritTag(),
               SizedBox(height: Margins.spacing_base),
             ],
-            RendezvousTag(viewModel.tag, viewModel.greenTag),
+            JobTag(
+              label: viewModel.tag,
+              backgroundColor: viewModel.greenTag ? AppColors.accent3Lighten : AppColors.accent2Lighten,
+            ),
             SizedBox(height: Margins.spacing_base),
             _Header(viewModel),
             if (viewModel.withModalityPart) _Modality(viewModel),
@@ -138,11 +142,11 @@ class _Header extends StatelessWidget {
         SizedBox(height: Margins.spacing_m),
         Row(
           children: [
-            SvgPicture.asset(Drawables.icCalendar),
+            Icon(AppIcons.today_rounded, color: AppColors.grey800),
             SizedBox(width: Margins.spacing_s),
             Text(viewModel.date, style: TextStyles.textBaseBold),
             Expanded(child: SizedBox()),
-            SvgPicture.asset(Drawables.icClock),
+            Icon(AppIcons.schedule_rounded, color: AppColors.grey800),
             SizedBox(width: Margins.spacing_s),
             Text(viewModel.hourAndDuration, style: TextStyles.textBaseBold),
           ],
@@ -220,7 +224,7 @@ class _Modality extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: Margins.spacing_xs),
-                  child: SvgPicture.asset(Drawables.icPlace),
+                  child: Icon(AppIcons.location_on_rounded, color: AppColors.grey800),
                 ),
                 SizedBox(width: Margins.spacing_s),
                 Expanded(child: Text(viewModel.address!, style: TextStyles.textBaseRegular)),
@@ -333,7 +337,7 @@ class _Annule extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(40)),
-          color: AppColors.warningLight,
+          color: AppColors.warningLighten,
           border: Border.all(color: AppColors.warning),
         ),
         padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
@@ -358,7 +362,7 @@ class _Createur extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: Margins.spacing_s),
       decoration: BoxDecoration(
         color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
       ),
       child: Padding(
         padding: const EdgeInsets.all(Margins.spacing_m),
@@ -367,7 +371,7 @@ class _Createur extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(Margins.spacing_xs),
-              child: SvgPicture.asset(Drawables.icInfo, color: AppColors.primary),
+              child: Icon(AppIcons.info_rounded, color: AppColors.primary),
             ),
             SizedBox(width: Margins.spacing_s),
             Flexible(child: Text(label, style: TextStyles.textBaseRegularWithColor(AppColors.primary))),
@@ -410,14 +414,14 @@ class _InscritTag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(Dimens.radius_l),
         border: Border.all(color: AppColors.accent1),
       ),
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(Drawables.icCalendar, color: AppColors.accent1),
+          Icon(AppIcons.today_rounded, color: AppColors.accent1),
           SizedBox(width: Margins.spacing_s),
           Text(Strings.eventVousEtesDejaInscrit, style: TextStyles.textSRegularWithColor(AppColors.accent1)),
         ],

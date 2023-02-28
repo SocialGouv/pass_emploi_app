@@ -39,32 +39,33 @@ class AnalyticsScreenNames {
   static const rendezvousPrestation = "rdv/prestation";
   static const rendezvousAutre = "rdv/autre";
 
-  static const emploiResearch = "recherche/emploi/search";
+  // Recherche V2
+  static const rechercheV2Home = "recherche/home";
+  static const rechercheSuggestionsListe = "recherche/suggested_list";
+  static String rechercheInitiale(String type) => "recherche/$type/search";
+  static String rechercheInitialeResultats(String type) => "recherche/$type/search_results";
+  static String rechercheAfficherPlusOffres(String type) => "recherche/$type/search_results?view_more=true";
+  static String rechercheModifieeResultats(String type) => "recherche/$type/search_results?update=true";
+
   static const emploiResults = "recherche/emploi/search_results";
-  static const emploiNoResults = "recherche/emploi/search_no_results";
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
   static const emploiCreateAlert = "/saved_search/emploi/create";
   static const emploiPartagePage = "/recherche/emploi/detail/partage-conseiller";
   static const emploiPartagePageSuccess = "/recherche/emploi/detail?partage-conseiller=true";
 
-  static const alternanceResearch = "recherche/alternance/search";
   static const alternanceResults = "recherche/alternance/search_results";
-  static const alternanceNoResults = "recherche/alternance/search_no_results";
   static const alternanceDetails = "recherche/alternance/detail";
   static const alternanceFiltres = "recherche/alternance/search_results/filters";
   static const alternanceCreateAlert = "/saved_search/alternance/create";
 
-  static const immersionResearch = "recherche/immersion/search";
   static const immersionResults = "recherche/immersion/search_results";
-  static const immersionNoResults = "recherche/immersion/search_no_results";
   static const immersionDetails = "recherche/immersion/detail";
+  static const immersionContact = "recherche/immersion/detail/contact";
   static const immersionFiltres = "/recherche/immersion/search_results/filters";
   static const immersionCreateAlert = "/saved_search/immersion/create";
 
-  static const serviceCiviqueResearch = "recherche/service_civique/search";
   static const serviceCiviqueResults = "/recherche/service_civique/search_results";
-  static const serviceCiviqueNoResults = "/recherche/service_civique/search_no_results";
   static const serviceCiviqueDetail = "/recherche/service_civique/detail";
   static const serviceCiviqueFavoris = "/favoris/list/service_civique";
   static const serviceCiviqueFiltres = "/recherche/service_civique/search_results/filters";

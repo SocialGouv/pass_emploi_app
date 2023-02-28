@@ -11,7 +11,7 @@ class ServiceCiviqueSavedSearch extends Equatable implements SavedSearch {
   final ServiceCiviqueFiltresParameters filtres;
   final Location? location;
   final Domaine? domaine;
-  final String? dateDeDebut;
+  final DateTime? dateDeDebut;
 
   ServiceCiviqueSavedSearch({
     required this.id,

@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
@@ -23,7 +23,7 @@ class DemarcheDetailViewModel extends Equatable {
   final List<FormattedText> dateFormattedTexts;
   final Color dateTextColor;
   final Color dateBackgroundColor;
-  final List<String> dateIcons;
+  final List<IconData> dateIcons;
   final String? label;
   final String? titreDetail;
   final String? sousTitre;
@@ -68,7 +68,7 @@ class DemarcheDetailViewModel extends Equatable {
       dateFormattedTexts: _formattedDate(demarche),
       dateBackgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
       dateTextColor: isLate ? AppColors.warning : AppColors.accent2,
-      dateIcons: [if (isLate) Drawables.icImportantOutlined, Drawables.icClock],
+      dateIcons: [if (isLate) AppIcons.error_rounded, AppIcons.schedule_rounded],
       label: demarche.label,
       titreDetail: demarche.titre,
       sousTitre: demarche.sousTitre,

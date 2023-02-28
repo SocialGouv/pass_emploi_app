@@ -20,7 +20,7 @@ class ServiceCiviqueDetailRepository {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final Map<dynamic, dynamic> json = jsonUtf8Decode(response.bodyBytes) as Map<dynamic, dynamic>;
-        return SuccessfullServiceCiviqueDetailResponse(ServiceCiviqueDetail.fromJson(json));
+        return SuccessfullServiceCiviqueDetailResponse(ServiceCiviqueDetail.fromJson(json, idOffre));
       } else {
         return NotFoundServiceCiviqueDetailResponse();
       }
@@ -28,7 +28,7 @@ class ServiceCiviqueDetailRepository {
       if (e is HttpExceptionWithStatus && e.statusCode == 404) {
         return NotFoundServiceCiviqueDetailResponse();
       }
-        _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return FailedServiceCiviqueDetailResponse();
   }

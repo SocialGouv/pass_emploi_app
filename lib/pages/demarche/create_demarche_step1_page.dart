@@ -7,7 +7,8 @@ import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -43,7 +44,7 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
 
   Widget _buildBody(BuildContext context, CreateDemarcheStep1ViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: Strings.createDemarcheTitle, context: context),
+      appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
       body: Padding(
         padding: const EdgeInsets.all(Margins.spacing_base),
         child: Column(
@@ -63,7 +64,7 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 PrimaryActionButton(
-                  drawableRes: Drawables.icSearch,
+                  icon: AppIcons.search_rounded,
                   label: Strings.searchDemarcheButton,
                   onPressed: _buttonIsActive(viewModel) ? () => viewModel.onSearchDemarche(_query) : null,
                 ),
@@ -124,7 +125,7 @@ class _ChampRecherche extends StatelessWidget {
 class _Border extends OutlineInputBorder {
   _Border(Color color)
       : super(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
           borderSide: BorderSide(color: color, width: 1.0),
         );
 }

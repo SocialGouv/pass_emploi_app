@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
@@ -112,9 +112,9 @@ OffreEmploiSavedSearch _savedSearchWithoutFilters() {
     title: "title",
     metier: null,
     location: null,
-    keywords: null,
-    isAlternance: false,
-    filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+    keyword: null,
+    onlyAlternance: false,
+    filters: EmploiFiltresRecherche.noFiltre(),
   );
 }
 
@@ -124,9 +124,9 @@ OffreEmploiSavedSearch _savedSearchWithFilters({required bool isAlternance}) {
     title: "title",
     metier: "plombier",
     location: Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT),
-    keywords: "secteur privé",
-    isAlternance: isAlternance,
-    filters: OffreEmploiSearchParametersFiltres.withFiltres(
+    keyword: "secteur privé",
+    onlyAlternance: isAlternance,
+    filters: EmploiFiltresRecherche.withFiltres(
         distance: 40,
         contrat: [ContratFiltre.cdi],
         debutantOnly: true,

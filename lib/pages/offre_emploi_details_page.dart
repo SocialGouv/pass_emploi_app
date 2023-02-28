@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -36,27 +36,23 @@ class OffreEmploiDetailsPage extends StatelessWidget {
   final String _offreId;
   final bool _fromAlternance;
   final bool popPageWhenFavoriIsRemoved;
-  final bool showFavori;
 
   OffreEmploiDetailsPage._(
     this._offreId,
     this._fromAlternance, {
     this.popPageWhenFavoriIsRemoved = false,
-    this.showFavori = true,
   });
 
   static MaterialPageRoute<void> materialPageRoute(
     String id, {
     required bool fromAlternance,
     bool popPageWhenFavoriIsRemoved = false,
-    bool showFavori = true,
   }) {
     return MaterialPageRoute(builder: (context) {
       return OffreEmploiDetailsPage._(
         id,
         fromAlternance,
         popPageWhenFavoriIsRemoved: popPageWhenFavoriIsRemoved,
-        showFavori: showFavori,
       );
     });
   }
@@ -92,9 +88,10 @@ class OffreEmploiDetailsPage extends StatelessWidget {
   }
 
   Scaffold _scaffold(Widget body, BuildContext context) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offreDetails, context: context, withBackButton: true),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.offreDetails, backgroundColor: backgroundColor),
       body: body,
     );
   }
@@ -176,22 +173,22 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       if (location != null)
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: location, drawableRes: Drawables.icPlace),
+          child: DataTag(label: location, icon: AppIcons.location_on_rounded),
         ),
       if (contractType != null)
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: contractType, drawableRes: Drawables.icContract),
+          child: DataTag(label: contractType, icon: AppIcons.description_rounded),
         ),
       if (salary != null)
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: salary, drawableRes: Drawables.icSalary),
+          child: DataTag(label: salary, icon: AppIcons.euro_rounded),
         ),
       if (duration != null)
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: duration, drawableRes: Drawables.icTime),
+          child: DataTag(label: duration, icon: AppIcons.schedule_rounded),
         ),
       _spacer(Margins.spacing_m)
     ]);
@@ -369,7 +366,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
           Flexible(child: _listItem(requiredText)),
           Padding(
             padding: const EdgeInsets.only(left: Margins.spacing_s, bottom: Margins.spacing_base),
-            child: HelpTooltip(message: Strings.requiredIcon, iconRes: Drawables.icImportant),
+            child: HelpTooltip(message: Strings.requiredIcon, icon: AppIcons.error_rounded),
           ),
         ],
       ),
@@ -403,13 +400,12 @@ class OffreEmploiDetailsPage extends StatelessWidget {
             ),
           ),
           SizedBox(width: Margins.spacing_base),
-          if (showFavori)
-            FavoriHeart<OffreEmploi>(
-              offreId: offreId,
-              withBorder: true,
-              from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
-              onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
-            ),
+          FavoriHeart<OffreEmploi>(
+            offreId: offreId,
+            withBorder: true,
+            from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
+            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+          ),
           SizedBox(width: Margins.spacing_base),
           ShareButton(url, title, () => _shareOffer(context)),
         ],

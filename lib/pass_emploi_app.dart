@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
 import 'package:pass_emploi_app/pages/router_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -18,21 +19,23 @@ class PassEmploiApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
       store: _store,
-      child: MaterialApp(
-        scaffoldMessengerKey: snackbarKey,
-        title: Strings.appName,
-        theme: PassEmploiTheme.data,
-        home: RouterPage(),
-        navigatorObservers: [routeObserver],
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: [
-          Locale('en'),
-          Locale('fr'),
-        ],
+      child: IgnoreTrackingContextProvider(
+        child: MaterialApp(
+          scaffoldMessengerKey: snackbarKey,
+          title: Strings.appName,
+          theme: PassEmploiTheme.data,
+          home: RouterPage(),
+          navigatorObservers: [routeObserver],
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale('en'),
+            Locale('fr'),
+          ],
+        ),
       ),
     );
   }

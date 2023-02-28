@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/immersion_contact_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -81,9 +82,10 @@ class ImmersionDetailsPage extends StatelessWidget {
   }
 
   Scaffold _scaffold(Widget body, BuildContext context) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offreDetails, context: context, withBackButton: true),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.offreDetails, backgroundColor: backgroundColor),
       body: DefaultAnimatedSwitcher(child: body),
     );
   }
@@ -154,7 +156,7 @@ class ImmersionDetailsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleSection(label: Strings.immersionContactTitle),
+        TitleSection(label: Strings.immersionContactBlocTitle),
         if (viewModel.contactLabel!.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: Margins.spacing_m),
@@ -177,13 +179,20 @@ class ImmersionDetailsPage extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: PrimaryActionButton(
-              onPressed: () {
-                context.trackEvent(viewModel.mainCallToAction!.eventType);
-                launchExternalUrl(viewModel.mainCallToAction!.uri.toString());
-              },
-              label: viewModel.mainCallToAction!.label,
-            ),
+            child: viewModel.withContactPage
+                ? PrimaryActionButton(
+                    onPressed: () {
+                      Navigator.push(context, ImmersionContactPage.materialPageRoute());
+                    },
+                    label: Strings.immersionContact,
+                  )
+                : PrimaryActionButton(
+                    onPressed: () {
+                      context.trackEvent(viewModel.mainCallToAction!.eventType);
+                      launchExternalUrl(viewModel.mainCallToAction!.uri.toString());
+                    },
+                    label: viewModel.mainCallToAction!.label,
+                  ),
           ),
           SizedBox(width: 16),
           FavoriHeart<Immersion>(
@@ -205,7 +214,7 @@ class ImmersionDetailsPage extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: double.infinity),
           child: SecondaryButton(
             label: cta.label,
-            drawableRes: cta.drawableRes,
+            icon: cta.icon,
             onPressed: () {
               context.trackEvent(cta.eventType);
               launchExternalUrl(cta.uri.toString());

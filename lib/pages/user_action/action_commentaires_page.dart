@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_actions.dart';
@@ -9,7 +8,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -42,7 +41,7 @@ class _ActionCommentairesPageState extends State<ActionCommentairesPage> {
     return Tracker(
       tracking: AnalyticsScreenNames.actionCommentsPage,
       child: Scaffold(
-        appBar: passEmploiAppBar(label: Strings.actionCommentsTitle, context: context),
+        appBar: SecondaryAppBar(title: Strings.actionCommentsTitle),
         body: StoreConnector<AppState, ActionCommentairePageViewModel>(
           converter: (store) => ActionCommentairePageViewModel.create(store, widget.actionId),
           builder: (context, viewModel) => _body(context, viewModel),
@@ -194,7 +193,7 @@ class _CreateCommentaireWidgetState extends State<_CreateCommentaireWidget> {
             SizedBox(width: Margins.spacing_s),
             FloatingActionButton(
               backgroundColor: AppColors.primary,
-              child: SvgPicture.asset(Drawables.icPaperPlane),
+              child: Icon(AppIcons.send_rounded),
               onPressed: () {
                 if (_controller.value.text.isNotEmpty && !_loading()) {
                   widget.viewModel.onSend(_controller.value.text);

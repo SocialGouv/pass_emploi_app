@@ -18,12 +18,13 @@ class FavorisTabsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const backgroundColor = AppColors.grey100;
     return DefaultTabController(
       length: _favorisTabs.length,
       initialIndex: initialTab,
       child: Scaffold(
-        backgroundColor: AppColors.grey100,
-        appBar: passEmploiAppBar(label: Strings.menuFavoris, context: context),
+        backgroundColor: backgroundColor,
+        appBar: PrimaryAppBar(title: Strings.menuFavoris, backgroundColor: backgroundColor),
         body: _buildTabBarView(),
       ),
     );

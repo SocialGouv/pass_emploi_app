@@ -38,9 +38,10 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
   }
 
   Widget _scaffold(BuildContext context, ServiceCiviqueFiltresViewModel viewModel) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.serviceCiviqueFiltresTitle, context: context, withBackButton: true),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.serviceCiviqueFiltresTitle, backgroundColor: backgroundColor),
       body: _Content(viewModel: viewModel),
     );
   }

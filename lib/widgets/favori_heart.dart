@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/debounced_button.dart';
@@ -52,7 +52,7 @@ class FavoriHeart<T> extends StatelessWidget {
   Widget _buildHeart(BuildContext context, FavoriHeartViewModel<T> viewModel) {
     return DebouncedButton(
       childBuilder: (onTapDebounced) => SecondaryIconButton(
-        drawableRes: viewModel.isFavori ? Drawables.icHeartFull : Drawables.icHeart,
+        icon: viewModel.isFavori ? AppIcons.favorite_rounded : AppIcons.favorite_outline_rounded,
         iconColor: AppColors.favoriteHeartColor,
         borderColor: withBorder ? AppColors.primary : Colors.transparent,
         onTap: onTapDebounced,

@@ -17,7 +17,7 @@ class SepLine extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: spaceBefore),
-        Container(height: 1, color: AppColors.primaryLighten),
+        Container(height: 1, color: color),
         SizedBox(height: spaceAfter),
       ],
     );

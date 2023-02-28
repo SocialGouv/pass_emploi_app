@@ -1,31 +1,38 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
-import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
-import 'package:pass_emploi_app/features/immersion/saved_search/immersion_saved_search_actions.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
+import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/metier.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 
+import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 import '../../utils/test_setup.dart';
-import '../immersion/immersion_list_test.dart';
 
 void main() {
   group("When user tries to save an offer search ...", () {
     final immersionSavedSearch = ImmersionSavedSearch(
       id: "id",
       title: "Boulanger - Paris",
-      filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      filtres: ImmersionFiltresRecherche.noFiltre(),
       location: mockLocation(),
       metier: "Boulanger",
       ville: "Paris",
@@ -75,21 +82,24 @@ void main() {
 
     test("SaveSearchInitializeAction should update store with rights information", () async {
       // Given
-      final AppState initialState = AppState.initialState().copyWith(
-        immersionListState: ImmersionListSuccessState([
+      final AppState initialState = AppState.initialState().loggedInMiloUser().successRechercheImmersionState(
+        results: [
           Immersion(
-              id: "id",
-              metier: "metier",
-              nomEtablissement: "nomEtablissement",
-              secteurActivite: "secteurActivite",
-              ville: "ville")
-        ]),
-        immersionSearchParametersState: ImmersionSearchParametersInitializedState(
-          codeRome: "codeRome",
-          location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
-          filtres: ImmersionSearchParametersFiltres.noFiltres(),
+            id: "id",
+            metier: "metier",
+            nomEtablissement: "nomEtablissement",
+            secteurActivite: "secteurActivite",
+            ville: "ville",
+          )
+        ],
+        request: RechercheRequest(
+          ImmersionCriteresRecherche(
+            metier: Metier(codeRome: 'codeRome', libelle: 'metier'),
+            location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
+          ),
+          ImmersionFiltresRecherche.noFiltre(),
+          1,
         ),
-        loginState: successMiloUserState(),
       );
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.authenticator = AuthenticatorLoggedInStub();
@@ -113,14 +123,14 @@ void main() {
             metier: "metier",
             location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
             ville: "ville",
-            filtres: ImmersionSearchParametersFiltres.noFiltres(),
+            filtres: ImmersionFiltresRecherche.noFiltre(),
           ));
     });
 
     test("SaveSearchInitializeAction should update store with rights information when search has filtres", () async {
       // Given
-      final AppState initialState = AppState.initialState().copyWith(
-        immersionListState: ImmersionListSuccessState([
+      final AppState initialState = AppState.initialState().loggedInMiloUser().successRechercheImmersionState(
+        results: [
           Immersion(
             id: "id",
             metier: "metier",
@@ -128,13 +138,15 @@ void main() {
             secteurActivite: "secteurActivite",
             ville: "ville",
           )
-        ]),
-        immersionSearchParametersState: ImmersionSearchParametersInitializedState(
-          codeRome: "codeRome",
-          location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
-          filtres: ImmersionSearchParametersFiltres.distance(27),
+        ],
+        request: RechercheRequest(
+          ImmersionCriteresRecherche(
+            metier: Metier(codeRome: 'codeRome', libelle: 'metier'),
+            location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
+          ),
+          ImmersionFiltresRecherche.distance(27),
+          1,
         ),
-        loginState: successMiloUserState(),
       );
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.authenticator = AuthenticatorLoggedInStub();
@@ -158,20 +170,22 @@ void main() {
             metier: "metier",
             location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
             ville: "ville",
-            filtres: ImmersionSearchParametersFiltres.distance(27),
+            filtres: ImmersionFiltresRecherche.distance(27),
           ));
     });
 
     test("SaveSearchInitializeAction should update store with right information when search has no result", () async {
       // Given
-      final AppState initialState = AppState.initialState().copyWith(
-        immersionListState: ImmersionListSuccessState([]),
-        immersionSearchParametersState: ImmersionSearchParametersInitializedState(
-          codeRome: "codeRome",
-          location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
-          filtres: ImmersionSearchParametersFiltres.distance(34),
+      final AppState initialState = AppState.initialState().loggedInMiloUser().successRechercheImmersionState(
+        results: [],
+        request: RechercheRequest(
+          ImmersionCriteresRecherche(
+            metier: Metier(codeRome: 'codeRome', libelle: ''),
+            location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
+          ),
+          ImmersionFiltresRecherche.distance(34),
+          1,
         ),
-        loginState: successMiloUserState(),
       );
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.authenticator = AuthenticatorLoggedInStub();
@@ -195,7 +209,7 @@ void main() {
             metier: "",
             location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
             ville: "ville",
-            filtres: ImmersionSearchParametersFiltres.distance(34),
+            filtres: ImmersionFiltresRecherche.distance(34),
           ));
     });
   });
@@ -240,75 +254,31 @@ void main() {
     });
   });
 
-  test(
-      "when user launches a search from a saved search with no filtres should display loading and fetch immersions and properly set parameters state",
-      () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.immersionRepository = ImmersionRepositorySuccessStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
+  group("when user request a specific saved search", () {
+    final sut = StoreSut();
+    sut.when(() => SavedSearchGetAction('id'));
 
-    final displayedLoading = store.onChange.any((e) => e.immersionListState is ImmersionListLoadingState);
-    final successAppState = store.onChange.firstWhere((e) => e.immersionListState is ImmersionListSuccessState);
+    test('should retrieve results coming from same criteres and filtres', () {
+      sut.givenStore = givenState().loggedInUser().store((factory) {
+        factory.getSavedSearchRepository = SavedSearchRepositorySuccessStub();
+        factory.immersionRepository = ImmersionSuccessStub();
+      });
 
-    // When
-    store.dispatch(
-      ImmersionSavedSearchRequestAction(
-        codeRome: "code-rome",
-        location: mockCommuneLocation(label: "Marseille"),
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
-      ),
-    );
-
-    // Then
-    expect(await displayedLoading, true);
-    final appState = await successAppState;
-    final immersionListState = (appState.immersionListState as ImmersionListSuccessState);
-    final immersionParameterState =
-        (appState.immersionSearchParametersState as ImmersionSearchParametersInitializedState);
-    expect(immersionListState.immersions, isNotEmpty);
-    expect(
-        immersionParameterState,
-        ImmersionSearchParametersInitializedState(
-          codeRome: "code-rome",
-          location: mockCommuneLocation(label: "Marseille"),
-          filtres: ImmersionSearchParametersFiltres.noFiltres(),
-        ));
+      sut.thenExpectChangingStatesThroughOrder([_shouldInitialLoad(), _shouldSucceedWithSameCriteresAndFiltres()]);
+    });
   });
+}
 
-  test("when user launches a search from a saved search with distance filtre", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.immersionRepository = ImmersionRepositorySuccessStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
+class ImmersionSuccessStub extends ImmersionRepository {
+  ImmersionSuccessStub() : super(DioMock());
 
-    final displayedLoading = store.onChange.any((e) => e.immersionListState is ImmersionListLoadingState);
-    final successAppState = store.onChange.firstWhere((e) => e.immersionListState is ImmersionListSuccessState);
-
-    // When
-    store.dispatch(
-      ImmersionSavedSearchRequestAction(
-        codeRome: "code-rome",
-        location: mockCommuneLocation(label: "Strasbourg"),
-        filtres: ImmersionSearchParametersFiltres.distance(70),
-      ),
-    );
-
-    // Then
-    expect(await displayedLoading, true);
-    final appState = await successAppState;
-    final immersionListState = (appState.immersionListState as ImmersionListSuccessState);
-    final immersionParameterState =
-        (appState.immersionSearchParametersState as ImmersionSearchParametersInitializedState);
-    expect(immersionListState.immersions, isNotEmpty);
-    expect(
-        immersionParameterState,
-        ImmersionSearchParametersInitializedState(
-          codeRome: "code-rome",
-          location: mockCommuneLocation(label: "Strasbourg"),
-          filtres: ImmersionSearchParametersFiltres.distance(70),
-        ));
-  });
+  @override
+  Future<RechercheResponse<Immersion>?> rechercher({
+    required String userId,
+    required RechercheRequest<ImmersionCriteresRecherche, ImmersionFiltresRecherche> request,
+  }) async {
+    return RechercheResponse(results: mockOffresImmersion10(), canLoadMore: false);
+  }
 }
 
 class ImmersionSavedSearchRepositorySuccessStub extends ImmersionSavedSearchRepository {
@@ -356,7 +326,31 @@ List<ImmersionSavedSearch> _getImmersionSavedSearchList() {
       metier: "Boulangerie - viennoiserie",
       location: mockCommuneLocation(label: "PARIS-14", lat: 48.830108, lon: 2.323026),
       ville: "PARIS-14",
-      filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      filtres: ImmersionFiltresRecherche.noFiltre(),
     )
   ];
+}
+
+Matcher _shouldInitialLoad() {
+  return StateMatch((state) => state.rechercheImmersionState.status == RechercheStatus.initialLoading);
+}
+
+Matcher _shouldSucceedWithSameCriteresAndFiltres() {
+  return StateMatch(
+    (state) => state.rechercheImmersionState.status == RechercheStatus.success,
+    (state) {
+      expect(
+        state.rechercheImmersionState.request!.criteres,
+        ImmersionCriteresRecherche(
+          metier: Metier(codeRome: "D1102", libelle: "Boulangerie - viennoiserie"),
+          location: mockCommuneLocation(label: "PARIS-14", lat: 48.830108, lon: 2.323026),
+        ),
+      );
+      expect(
+        state.rechercheImmersionState.request!.filtres,
+        ImmersionFiltresRecherche.noFiltre(),
+      );
+      expect(state.rechercheImmersionState.results?.length, 10);
+    },
+  );
 }

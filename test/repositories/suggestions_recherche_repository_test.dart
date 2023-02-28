@@ -59,9 +59,9 @@ void main() {
       });
 
       test('response should be valid', () async {
-        await sut.expectResult<OffreEmploiSavedSearch?>((truc) {
-          expect(truc, isNotNull);
-          expect(truc, offreEmploiSavedSearch());
+        await sut.expectResult<OffreEmploiSavedSearch?>((response) {
+          expect(response, isNotNull);
+          expect(response, offreEmploiSavedSearch());
         });
       });
 

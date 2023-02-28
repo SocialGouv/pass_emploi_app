@@ -1,69 +1,57 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/service_civique/service_civique_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
-import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  test("create when state is loading should set display loading", () {
-    // Given
-    final ServiceCiviqueSearchResultState resultState = ServiceCiviqueSearchResultLoadingState();
-    final state = AppState.initialState().copyWith(
-      serviceCiviqueSearchResultState: resultState,
-    );
-    final store = Store<AppState>(reducer, initialState: state);
+  group("displayState", () {
+    test("create when search state is success should display success", () {
+      // Given
+      final store = givenState().successRechercheServiceCiviqueState().store();
 
-    // When
-    final viewModel = ServiceCiviqueFiltresViewModel.create(store);
+      // When
+      final viewModel = ServiceCiviqueFiltresViewModel.create(store);
 
-    // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
-  });
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+    });
 
-  test("create when state is failure should set display failure", () {
-    // Given
-    final ServiceCiviqueSearchResultState resultState = ServiceCiviqueSearchResultErrorState(
-      SearchServiceCiviqueRequest(
-          page: 1, endDate: null, startDate: null, domain: null, location: mockLocation(), distance: null),
-      [],
-    );
-    final state = AppState.initialState().copyWith(
-      serviceCiviqueSearchResultState: resultState,
-    );
-    final store = Store<AppState>(reducer, initialState: state);
+    test("create when search state is loading should display loading", () {
+      // Given
+      final store = givenState().updateLoadingRechercheServiceCiviqueState().store();
 
-    // When
-    final viewModel = ServiceCiviqueFiltresViewModel.create(store);
+      // When
+      final viewModel = ServiceCiviqueFiltresViewModel.create(store);
 
-    // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
+    });
+
+    test("create when search state is failure should display failure", () {
+      // Given
+      final store = givenState().failureRechercheServiceCiviqueState().store();
+
+      // When
+      final viewModel = ServiceCiviqueFiltresViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.FAILURE);
+    });
   });
 
   test("create when state is result should set display to result with default distance, domain and date", () {
     // Given
-    final ServiceCiviqueSearchResultState resultState = ServiceCiviqueSearchResultDataState(
-      lastRequest: SearchServiceCiviqueRequest(
-        page: 1,
-        endDate: null,
-        startDate: null,
-        domain: null,
-        location: mockLocation(),
-        distance: null,
-      ),
-      isMoreDataAvailable: false,
-      offres: [
-        mockServiceCivique(),
-      ],
-    );
-    final state = AppState.initialState().copyWith(
-      serviceCiviqueSearchResultState: resultState,
+    final state = givenState().successRechercheServiceCiviqueStateWithRequest(
+      criteres: ServiceCiviqueCriteresRecherche(location: mockLocation()),
+      filtres: ServiceCiviqueFiltresRecherche.noFiltre(),
     );
     final store = Store<AppState>(reducer, initialState: state);
 
@@ -79,22 +67,13 @@ void main() {
 
   test("create when state is result should set display to result with custom distance, domain and date", () {
     // Given
-    final ServiceCiviqueSearchResultState resultState = ServiceCiviqueSearchResultDataState(
-      lastRequest: SearchServiceCiviqueRequest(
-        page: 1,
-        endDate: null,
-        startDate: "2022-04-11T12:07:60.000z",
-        domain: "solidarite-insertion",
-        location: mockCommuneLocation(lat: 12, lon: 12),
+    final state = givenState().successRechercheServiceCiviqueStateWithRequest(
+      criteres: ServiceCiviqueCriteresRecherche(location: mockCommuneLocation(lat: 12, lon: 12)),
+      filtres: ServiceCiviqueFiltresRecherche(
         distance: 30,
+        domain: Domaine.fromTag("solidarite-insertion"),
+        startDate: DateTime(2023),
       ),
-      isMoreDataAvailable: false,
-      offres: [
-        mockServiceCivique(),
-      ],
-    );
-    final state = AppState.initialState().copyWith(
-      serviceCiviqueSearchResultState: resultState,
     );
     final store = Store<AppState>(reducer, initialState: state);
 
@@ -106,27 +85,18 @@ void main() {
     expect(viewModel.initialDistanceValue, 30);
     expect(viewModel.shouldDisplayDistanceFiltre, true);
     expect(viewModel.initialDomainValue, Domaine.values[2]);
-    expect(viewModel.initialStartDateValue, "2022-04-11T12:07:60.000z".toDateTimeUtcOnLocalTimeZone());
+    expect(viewModel.initialStartDateValue, DateTime(2023));
   });
 
   test("create should not display filter if lat is missing", () {
     // Given
-    final ServiceCiviqueSearchResultState resultState = ServiceCiviqueSearchResultDataState(
-      lastRequest: SearchServiceCiviqueRequest(
-        page: 1,
-        endDate: null,
-        startDate: "2022-04-11T12:07:60.000z",
-        domain: "solidarite-insertion",
-        location: mockCommuneLocation(lon: 12),
+    final state = givenState().successRechercheServiceCiviqueStateWithRequest(
+      criteres: ServiceCiviqueCriteresRecherche(location: mockCommuneLocation(lon: 12)),
+      filtres: ServiceCiviqueFiltresRecherche(
         distance: 30,
+        domain: Domaine.fromTag("solidarite-insertion"),
+        startDate: DateTime(2023),
       ),
-      isMoreDataAvailable: false,
-      offres: [
-        mockServiceCivique(),
-      ],
-    );
-    final state = AppState.initialState().copyWith(
-      serviceCiviqueSearchResultState: resultState,
     );
     final store = Store<AppState>(reducer, initialState: state);
 
@@ -139,22 +109,13 @@ void main() {
 
   test("create should not display filter if lon is missing", () {
     // Given
-    final ServiceCiviqueSearchResultState resultState = ServiceCiviqueSearchResultDataState(
-      lastRequest: SearchServiceCiviqueRequest(
-        page: 1,
-        endDate: null,
-        startDate: "2022-04-11T12:07:60.000z",
-        domain: "solidarite-insertion",
-        location: mockCommuneLocation(lat: 12),
+    final state = givenState().successRechercheServiceCiviqueStateWithRequest(
+      criteres: ServiceCiviqueCriteresRecherche(location: mockCommuneLocation(lat: 12)),
+      filtres: ServiceCiviqueFiltresRecherche(
         distance: 30,
+        domain: Domaine.fromTag("solidarite-insertion"),
+        startDate: DateTime(2023),
       ),
-      isMoreDataAvailable: false,
-      offres: [
-        mockServiceCivique(),
-      ],
-    );
-    final state = AppState.initialState().copyWith(
-      serviceCiviqueSearchResultState: resultState,
     );
     final store = Store<AppState>(reducer, initialState: state);
 

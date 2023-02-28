@@ -43,8 +43,8 @@ Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déj
    .
 2. Les déplacer respectivement dans les dossiers suivants (à créer) :
 
-* Android : `/android/app/src/staging/google-services.json`
-* iOS : `/ios/firebase-config/staging/GoogleService-Info.plist`
+- Android : `/android/app/src/staging/google-services.json`
+- iOS : `/ios/firebase-config/staging/GoogleService-Info.plist`
 
 # Pour l'environnement de prod
 
@@ -53,8 +53,8 @@ Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déj
    .
 2. Les déplacer respectivement dans les dossiers suivants (à créer) :
 
-* Android : `/android/app/src/prod/google-services.json`
-* iOS : `/ios/firebase-config/prod/GoogleService-Info.plist`
+- Android : `/android/app/src/prod/google-services.json`
+- iOS : `/ios/firebase-config/prod/GoogleService-Info.plist`
 
 ## Spécificité Firestore iOS
 
@@ -69,17 +69,30 @@ besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 
 Une fois la montée de version de Flutter effectuée, mettre à jour :
 
-* le fichier `pubspec.yaml` :
+- le fichier `pubspec.yaml` :
   ** La variable `flutter` pour le Framework
   ** la variable `sdk` pour la version de Dart correspondante
-* dans tous les fichiers liées au Github Actions dans le repertoire '.github/workflows'
+- dans tous les fichiers liées au Github Actions dans le repertoire '.github/workflows'
+
+# Utiliser des icônes personnalisées
+
+- Se demander si les icônes personnaliseés peuvent être remplaceés par un icône Material similaire
+- Si il n'existe pas d'équivalent, télécharger les icônes souhaitées au format SVG
+- Se rendre sur FlutterIcon.com et ouvrir le fichier présent dans docs/flutterIcons/config.json
+- Ajouter les fichiers SVG souhaités
+- Cliquer sur "Télécharger" et extraire les fichiers
+- Remplacer le fichier TTF dans fonts/AppIconsAdditional.ttf
+- Remplacer le fichier Dart dans lib/ui/app_icons_additional_icons.dart
+- Remplacer le fichier json dans docs/flutterIcons/config.json
+- Exécuter `flutter pub get`
+- Exécuter "flutter run" pour vérifier que le projet compile et que l'application démarre comme prévu
 
 # Dépendances
 
-* Lancer la commande `$flutter pub outdated`.
-* A la main, mettre à jour les versions remontées dans les sorties `direct dependencies`
+- Lancer la commande `$flutter pub outdated`.
+- A la main, mettre à jour les versions remontées dans les sorties `direct dependencies`
   et `dev_dependencies`.
-* Vérifier que le projet compile bien en lançant la commande `$flutter pub get`.
+- Vérifier que le projet compile bien en lançant la commande `$flutter pub get`.
 
 ## Déployer une app sur Firebase App Distribution avec les Github actions
 
@@ -103,7 +116,7 @@ ou `[APP MOBILE] .env.prod`).
    local `env/.env.staging` et `env/.env.prod` et dans Dashlane (pour la postérité).
 2. Lancer le script `bash scripts/generate_env_ci.sh`
 3. Récupérer les valeurs de `STAGING_RUNTIME_ENV_B64` et de `PROD_RUNTIME_ENV_B64` dans le
-   fichier  `ci/env.ci`.
+   fichier `ci/env.ci`.
 4. Mettre à jour le secret de Github action 'STAGING_RUNTIME_ENV_B64' (Github > Settings > Secrets).
 
 ## Déployer une nouvelle version de l'app en bêta test sur les stores publics
@@ -111,15 +124,15 @@ ou `[APP MOBILE] .env.prod`).
 Lancer le script `release.sh` avec le numéro de version en paramètre :
 
 ```shell script
-$ ./scripts/release.sh <major.minor.patch> 
+$ ./scripts/release.sh <major.minor.patch>
 ```
 
 La pipeline de production se lancera automatiquement dans la foulée. À la fin du job, le build de
 l'appli se retrouve disponible :
 
-* Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
+- Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
   avant que les utilisateurs internes puissent le voir dans le Play Store.
-* Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
+- Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
   groupe de testeurs internes "Équipe projet".
 
 ## Déployer un hotfix de l'app en bêta test sur les stores publics
@@ -128,15 +141,15 @@ l'appli se retrouve disponible :
 2. Lancer le script `hotfix.sh` avec le numéro de version en paramètre :
 
 ```shell script
-$ ./scripts/hotfix.sh <major.minor.patch> 
+$ ./scripts/hotfix.sh <major.minor.patch>
 ```
 
 La pipeline de production se lancera automatiquement dans la foulée. À la fin du job, le build de
 l'appli se retrouve disponible :
 
-* Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
+- Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
   avant que les utilisateurs internes puissent le voir dans le Play Store.
-* Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
+- Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
   groupe de testeurs internes "Équipe projet".
 
 ## Promouvoir la version pour tous les utilisateurs
@@ -145,10 +158,10 @@ l'appli se retrouve disponible :
 
 1. Aller sur la console Google Play de l'application.
 2. Dans le pannel de gauche, aller sur `Tests internes`, puis `Promouvoir la release`.
-3. La validation peut prendre *jusqu'à 48h*.
+3. La validation peut prendre _jusqu'à 48h_.
 
 ### Pour iOS
 
 1. Aller sur [App Store Connect](https://appstoreconnect.apple.com/apps).
 2. Créer une version sur l'onglet App Store à partir du build idoine.
-3. La vérification peut prendre *jusqu'à 72h*.
+3. La vérification peut prendre _jusqu'à 72h_.

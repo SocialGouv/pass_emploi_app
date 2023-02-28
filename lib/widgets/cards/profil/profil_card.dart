@@ -22,7 +22,7 @@ class ProfilCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [Shadows.boxShadow],
+          boxShadow: [Shadows.radius_base],
         ),
         child: Padding(padding: padding, child: child),
       ),

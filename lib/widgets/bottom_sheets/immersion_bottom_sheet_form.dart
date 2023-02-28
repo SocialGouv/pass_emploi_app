@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -63,11 +63,11 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
         children: [
           PrimaryActionButton(
             label: Strings.createSavedSearchButton,
-            drawableRes: Drawables.icAlert,
-            iconSize: 18,
+            icon: AppIcons.notifications_rounded,
+            iconSize: Dimens.icon_size_base,
             onPressed: (_isFormValid())
                 ? () {
-              viewModel.createSavedSearch(searchTitle!);
+                    viewModel.createSavedSearch(searchTitle!);
                     PassEmploiMatomoTracker.instance.trackScreenWithName(
                       widgetName: AnalyticsScreenNames.immersionCreateAlert,
                       eventName: AnalyticsActionNames.createSavedSearchImmersion,
@@ -128,7 +128,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
           contentPadding: const EdgeInsets.all(16),
           errorText: (searchTitle != null && searchTitle!.isEmpty) ? mandatoryError : null,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(Dimens.radius_base),
             borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
           )),
       keyboardType: TextInputType.multiline,
@@ -172,7 +172,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
   Widget _buildTag(TagInfo tagInfo) {
     return DataTag(
       label: tagInfo.label,
-      drawableRes: tagInfo.withIcon ? Drawables.icPlace : null,
+      icon: tagInfo.withIcon ? AppIcons.location_on_rounded : null,
     );
   }
 
@@ -200,10 +200,9 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
             padding: const EdgeInsets.only(right: 10),
             child: Padding(
               padding: const EdgeInsets.all(4),
-              child: SvgPicture.asset(
-                Drawables.icInfo,
-                height: 18,
-                width: 18,
+              child: Icon(
+                AppIcons.info_rounded,
+                size: Dimens.icon_size_base,
                 color: AppColors.primary,
               ),
             )),

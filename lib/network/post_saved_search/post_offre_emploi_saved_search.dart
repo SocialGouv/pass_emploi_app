@@ -1,5 +1,5 @@
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/network/filtres_request.dart';
 import 'package:pass_emploi_app/network/json_serializable.dart';
 

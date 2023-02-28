@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
@@ -37,7 +38,7 @@ class EntreePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: 16),
-                  SvgPicture.asset(Drawables.icUnJeuneUneSolution, width: screenWidth * 0.25),
+                  SvgPicture.asset(Drawables.unJeuneUneSolutionIllustration, width: screenWidth * 0.25),
                   SizedBox(height: 32),
                   HiddenMenuGesture(
                     child: SvgPicture.asset(Drawables.cejAppLogo, width: screenWidth * 0.6),
@@ -64,7 +65,7 @@ class EntreePage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      boxShadow: [Shadows.boxShadow],
+                      boxShadow: [Shadows.radius_base],
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -146,7 +147,7 @@ class Link extends StatelessWidget {
             SizedBox(width: Margins.spacing_s),
             Padding(
               padding: const EdgeInsets.only(bottom: 3),
-              child: SvgPicture.asset(Drawables.icRedirection, color: AppColors.primary),
+              child: Icon(AppIcons.open_in_new_rounded, color: AppColors.primary),
             )
           ],
         ),

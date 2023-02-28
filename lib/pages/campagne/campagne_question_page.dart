@@ -38,9 +38,10 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
   }
 
   Widget _scaffold(BuildContext context, QuestionPageViewModel viewModel) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: viewModel.titre, context: context),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: viewModel.titre, backgroundColor: backgroundColor),
       body: _content(viewModel),
     );
   }
@@ -52,7 +53,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(Strings.mandatory, style: TextStyles.textSmRegular(color: AppColors.contentColor)),
+            Text(Strings.mandatory, style: TextStyles.textSRegular(color: AppColors.contentColor)),
             SizedBox(height: Margins.spacing_m),
             Text(viewModel.question, style: TextStyles.textBaseRegular),
             SizedBox(height: Margins.spacing_m),

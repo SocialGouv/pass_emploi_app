@@ -5,7 +5,12 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
@@ -13,12 +18,14 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/immersion_contact.dart';
+import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -30,7 +37,6 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../utils/test_datetime.dart';
 
@@ -121,6 +127,7 @@ OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       ],
       softSkills: ["Autonomie", "Capacité de décision", "Persévérance"],
       lastUpdate: parseDateTimeUtcWithCurrentTimeZone("2021-11-22T14:47:29.000Z"),
+      isAlternance: false,
     );
 
 OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false}) => OffreEmploi(
@@ -132,6 +139,8 @@ OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false}) 
       location: "77 - LOGNES",
       duration: "Temps plein",
     );
+
+List<OffreEmploi> mockOffresEmploi10() => List.generate(10, (index) => mockOffreEmploi());
 
 OffreEmploiItemViewModel mockOffreEmploiItemViewModel({String id = '123DXPM'}) {
   return OffreEmploiItemViewModel(
@@ -196,6 +205,28 @@ Immersion mockImmersion({String id = "", bool fromEntrepriseAccueillante = false
   );
 }
 
+List<Immersion> mockOffresImmersion10() => List.generate(10, (index) => mockImmersion());
+
+ImmersionDetails mockImmersionDetails() {
+  return ImmersionDetails(
+    id: '',
+    metier: '',
+    companyName: '',
+    secteurActivite: '',
+    ville: '',
+    address: '',
+    fromEntrepriseAccueillante: true,
+    contact: ImmersionContact(
+      firstName: '',
+      lastName: '',
+      phone: '',
+      mail: '',
+      role: '',
+      mode: ImmersionContactMode.INCONNU,
+    ),
+  );
+}
+
 ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
       id: id,
       startDate: '17/02/2022',
@@ -205,16 +236,10 @@ ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
       location: "77 - LOGNES",
     );
 
-SearchServiceCiviqueRequest mockServiceCiviqueRequest({String id = "123DXPM"}) => SearchServiceCiviqueRequest(
-      location: mockLocation(),
-      endDate: '17/05/2022',
-      page: 1,
-      distance: null,
-      startDate: '17/02/2022',
-      domain: 'Informatique',
-    );
+List<ServiceCivique> mockOffresServiceCivique10() => List.generate(10, (index) => mockServiceCivique());
 
 ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
+      id: "123DXPM",
       dateDeDebut: '17/02/2022',
       dateDeFin: '17/02/2022',
       titre: "Technicien / Technicienne en froid et climatisation",
@@ -502,21 +527,16 @@ List<SuggestionRecherche> mockSuggestionsRecherche() {
 }
 
 OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
-      id: "890d8195-fd09-4e25-bfd0-f94f64d18192",
+      id: "id",
       title: "Maître-chien / Maîtresse-chien d'avalanche",
       metier: "Sécurité civile et secours",
       location: Location(type: LocationType.DEPARTMENT, libelle: "Gironde", code: "33"),
-      keywords: "Maître-chien / Maîtresse-chien d'avalanche",
-      isAlternance: false,
-      filters: OffreEmploiSearchParametersFiltres.withFiltres(distance: 0),
+      keyword: "Maître-chien / Maîtresse-chien d'avalanche",
+      onlyAlternance: false,
+      filters: EmploiFiltresRecherche.withFiltres(distance: 0),
     );
 
-SavedOffreEmploiSearchRequestAction savedOffreEmploiSearchRequestAction() => SavedOffreEmploiSearchRequestAction(
-      keywords: offreEmploiSavedSearch().keywords ?? "",
-      location: offreEmploiSavedSearch().location,
-      onlyAlternance: offreEmploiSavedSearch().isAlternance,
-      filtres: offreEmploiSavedSearch().filters,
-    );
+Metier mockMetier() => Metier(codeRome: "A1410", libelle: "Chevrier / Chevrière");
 
 List<Metier> mockAutocompleteMetiers() {
   return [
@@ -525,3 +545,38 @@ List<Metier> mockAutocompleteMetiers() {
     Metier(codeRome: "L1401", libelle: "Cavalier dresseur / Cavalière dresseuse de chevaux"),
   ];
 }
+
+RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> initialRechercheEmploiRequest() {
+  return RechercheRequest(
+    EmploiCriteresRecherche(keyword: "chevalier", location: null, onlyAlternance: false),
+    EmploiFiltresRecherche.noFiltre(),
+    1,
+  );
+}
+
+RechercheRequest<ImmersionCriteresRecherche, ImmersionFiltresRecherche> initialRechercheImmersionRequest() {
+  return RechercheRequest(
+    ImmersionCriteresRecherche(location: mockLocation(), metier: mockMetier()),
+    ImmersionFiltresRecherche.noFiltre(),
+    1,
+  );
+}
+
+RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>
+    initialRechercheServiceCiviqueRequest() {
+  return RechercheRequest(
+    ServiceCiviqueCriteresRecherche(location: null),
+    ServiceCiviqueFiltresRecherche.noFiltre(),
+    1,
+  );
+}
+
+RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> secondRechercheEmploiRequest() {
+  return initialRechercheEmploiRequest().copyWith(page: 2);
+}
+
+RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> rechercheEmploiRequestWithZeroDistanceFiltre() {
+  return initialRechercheEmploiRequest().copyWith(filtres: mockEmploiFiltreZeroDistance());
+}
+
+EmploiFiltresRecherche mockEmploiFiltreZeroDistance() => EmploiFiltresRecherche.withFiltres(distance: 0);

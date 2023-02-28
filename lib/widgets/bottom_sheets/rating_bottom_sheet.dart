@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/rating_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/mail_handler.dart';
@@ -104,7 +103,7 @@ class _RatingHeader extends StatelessWidget {
             Navigator.pop(context);
           },
           tooltip: Strings.close,
-          icon: SvgPicture.asset(Drawables.icClose, color: AppColors.contentColor),
+          icon: Icon(AppIcons.close_rounded, color: AppColors.contentColor),
         ),
         Padding(
           padding: const EdgeInsets.all(30),

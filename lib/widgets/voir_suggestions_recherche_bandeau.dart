@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/presentation/voir_suggestions_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/apparition_animation.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class VoirSuggestionsRechercheBandeau extends StatelessWidget {
@@ -19,6 +21,7 @@ class VoirSuggestionsRechercheBandeau extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, VoirSuggestionsRechercheViewModel>(
       converter: (store) => VoirSuggestionsRechercheViewModel.create(store),
+      onInit: (store) => store.dispatch(SuggestionsRechercheRequestAction()),
       builder: (context, viewModel) => _Body(
         viewModel: viewModel,
         onTapShowSuggestions: onTapShowSuggestions,
@@ -39,22 +42,24 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (viewModel.hasSuggestionsRecherche) {
-      return Padding(
-        padding: padding ?? const EdgeInsets.all(0),
-        child: _Bandeau(
-          onTapShowSuggestions: onTapShowSuggestions,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              _Icon(),
-              _Text(),
-              _Chevron(),
-            ],
+      return ApparitionAnimation(
+        child: Padding(
+          padding: padding ?? EdgeInsets.zero,
+          child: _Bandeau(
+            onTapShowSuggestions: onTapShowSuggestions,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                _Icon(),
+                _Text(),
+                _Chevron(),
+              ],
+            ),
           ),
         ),
       );
     } else {
-      return SizedBox(height: 0);
+      return SizedBox.shrink();
     }
   }
 }
@@ -64,7 +69,7 @@ class _Icon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 10),
-      child: SvgPicture.asset(Drawables.icAlertSuggestions, color: AppColors.accent1, height: 20),
+      child: Icon(AppIcons.notifications_rounded, color: AppColors.accent1, size: Dimens.icon_size_m),
     );
   }
 }
@@ -83,7 +88,7 @@ class _Chevron extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
+      child: Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
+
 class Strings {
   Strings._();
 
@@ -12,6 +14,7 @@ class Strings {
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
   static String seeDetail = "Voir le détail >";
+  static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
 
   // Menu
@@ -20,7 +23,8 @@ class Strings {
   static String menuSolutions = "Recherche";
   static String menuFavoris = "Favoris";
   static String menuRendezvous = "Rendez-vous";
-  static String menuProfil = "Profil";
+  static String menuProfil = "Mon profil";
+  static String menuEvenements = "Événements";
 
   // Chat
   static String yourMessage = "Votre message…";
@@ -311,17 +315,47 @@ class Strings {
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";
 
+  // Recherche
+  static String rechercheHomeNosOffres = "Nos offres";
+  static String rechercheHomeCardLink = "Rechercher";
+  static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
+  static String rechercheHomeOffresEmploiSubtitle = "Trouvez un emploi qui vous correspond.";
+  static String rechercheHomeOffresAlternanceTitle = "Offres d’alternance";
+  static String rechercheHomeOffresAlternanceSubtitle =
+      "Professionnalisez-vous en associant travail en entreprise et formation.";
+  static String rechercheHomeOffresImmersionTitle = "Offres d’immersion";
+  static String rechercheHomeOffresImmersionSubtitle = "Découvrez un métier au sein d’une entreprise.";
+  static String rechercheHomeOffresServiceCiviqueTitle = "Offres de service civique";
+  static String rechercheHomeOffresServiceCiviqueSubtitle =
+      "Engagez-vous dans une mission d’intérêt général pour aider les autres.";
+  static String rechercheOffresEmploiTitle = "Offres d’emploi";
+  static String rechercheOffresAlternanceTitle = "Offres d’alternance";
+  static String rechercheOffresImmersionTitle = "Offres d’immersion";
+  static String rechercheOffresServiceCiviqueTitle = "Offres de service civique";
+  static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
+  static String rechercheAfficherPlus = "Afficher plus d'offres";
+
+  static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
+
+  static String rechercheCriteresActifsPlural(int count) => "($count) critères actifs";
+
   // Solutions
-  static String searchingPageTitle = "Recherche de solutions";
-  static String keyWordsTitle = "Mots clés";
-  static String keyWordsTextHint = "Saisissez un métier, une compétence...";
-  static String jobLocationTitle = "Lieu de travail";
-  static String jobLocationHint = "Saisissez une ville, un département ou une région";
+  static String keywordTitle = "Mot clé";
+  static String keywordEmploiHint = "Saisissez un métier, une compétence, un secteur d'activité…";
+  static String keywordAlternanceHint = "Saisissez un métier, une compétence, un secteur d'activité…";
+  static String metierMandatoryLabel = "*Métier";
+  static String metierImmersionHint = "Renseignez le métier pour lequel vous souhaitez faire une immersion.";
+  static String jobLocationTitle = "Localisation";
+  static String jobLocationMandatoryTitle = "*Localisation";
+  static String jobLocationEmploiHint = "Sélectionnez une ville ou un département dans lequel vous cherchez un emploi.";
+  static String jobLocationAlternanceHint =
+      "Sélectionnez une ville ou un département dans lequel vous cherchez une alternance.";
+  static String jobLocationImmersionHint = "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
+  static String jobLocationServiceCiviqueHint =
+      "Sélectionnez une ville dans laquelle vous cherchez un service civique.";
   static String searchButton = "Rechercher";
-  static String offresEmploiTitle = "Offres d'emploi";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
-  static String eventsTabTitle = "Évènements";
   static String boiteAOutilsTabTitle = "Boîte à outils";
   static String solutionsAppBarTitle = "Recherche";
   static String immersionButton = "Immersion";
@@ -339,7 +373,6 @@ class Strings {
 
   // Alternance
   static String alternanceButton = "Alternance";
-  static String alternanceTitle = "Offres d'alternance";
   static String partagerOffreAlternance = "Partager l’offre d’alternance";
   static String partageOffreAlternanceNavTitle = "Partage de l’offre d’alternance";
 
@@ -352,26 +385,10 @@ class Strings {
   static String partageEventSuccess = "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
 
   // Immersion
-  static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
   static String entrepriseAccueillante = 'Entreprise accueillante';
   static String entreprisesAccueillantesHeader =
       'Les entreprises accueillantes facilitent vos immersions professionnelles';
-  static String metierCompulsoryLabel = "* Métier";
-  static String villeCompulsoryLabel = "* Localisation";
-  static String villeNonCompulsoryLabel = "Localisation";
   static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";
-  static String immersionObjectifTitle = "Objectif poursuivi ?";
-  static String immersionObjectifContent =
-      "Passer quelques jours dans une entreprise pour découvrir un métier, en conditions réelles. Ainsi, vous pouvez vérifier que ce métier vous plaît et que vous vous sentirez à l'aise pour le pratiquer. Le professionnel qui vous guidera pendant cette immersion pourra vous dire si vous avez besoin d'une formation avant de pouvoir être recruté.";
-  static String immersionDemarchesTitle = "Quelles démarches ?";
-  static String immersionDemarchesContent =
-      "Une fois que vous avez trouvé une entreprise pour vous accueillir, prévenez votre conseiller et complétez la convention qu'il vous transmettra. Cette convention devra être validée par vous, par l'entreprise d'accueil et par votre conseiller.";
-  static String immersionStatutTitle = "Quel statut ?";
-  static String immersionStatutContent =
-      "Votre statut ne change pas. Si vous êtes inscrit à Pôle emploi, actualisez-vous comme d'habitude !";
-  static String immersionFieldHint = "Rechercher";
-  static String immersionsTitle = "Offres d'immersion";
-  static String immersionError = "Erreur lors de la récupération de l'offre d'immersion. Veuillez réessayer";
   static String immersionNonAccueillanteExplanation =
       "Cette entreprise peut recruter sur ce métier et être intéressée pour vous recevoir en immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.";
   static String immersionAccueillanteExplanation =
@@ -379,57 +396,48 @@ class Strings {
   static String immersionDescriptionLabel = "Si l’entreprise est d’accord pour vous accueillir :\n\n"
       "· Prévenez votre conseiller\n"
       "· Remplissez une convention d’immersion avec lui";
-  static String immersionContactTitle = "Contact";
+  static String immersionContactBlocTitle = "Contact";
   static String immersionPhoneButton = "Appeler";
   static String immersionLocationButton = "Localiser l'entreprise";
   static String immersionEmailButton = "Envoyer un e-mail";
   static String immersionEmailSubject = "Candidature pour une période d'immersion";
+  static String immersionContact = "Contacter";
+  static String immersionContactTitle = ImmersionContactStrings.title;
+  static String immersionContactSubtitle1 = ImmersionContactStrings.subtitle1;
+  static String immersionContactBody1_1 = ImmersionContactStrings.body1_1;
+  static String immersionContactBody1_2bold = ImmersionContactStrings.body1_2bold;
+  static String immersionContactBody1_3 = ImmersionContactStrings.body1_3;
+  static String immersionContactBody1_4bold = ImmersionContactStrings.body1_4bold;
+  static String immersionContactBody1_5 = ImmersionContactStrings.body1_5;
+  static String immersionContactBody1_6 = ImmersionContactStrings.body1_6;
+  static String immersionContactBody1_7bold = ImmersionContactStrings.body1_7bold;
+  static String immersionContactBody1_8 = ImmersionContactStrings.body1_8;
+  static String immersionContactBody1_9bold = ImmersionContactStrings.body1_9bold;
+  static String immersionContactBody1_10 = ImmersionContactStrings.body1_10;
+  static String immersionContactBody1_11 = ImmersionContactStrings.body1_11;
+  static String immersionContactBody1_12 = ImmersionContactStrings.body1_12;
+  static String immersionContactSubtitle2 = ImmersionContactStrings.subtitle2;
+  static String immersionContactBody2 = ImmersionContactStrings.body2;
+  static String immersionContactSubtitle3 = ImmersionContactStrings.subtitle3;
+  static String immersionContactBody3 = ImmersionContactStrings.body3;
+  static String immersionContactSubtitle4 = ImmersionContactStrings.subtitle4;
+  static String immersionContactBody4 = ImmersionContactStrings.body4;
 
-  // Civic Service
-  static String serviceCiviqueTitle = "Qu’est-ce que le service civique ?";
-  static String serviceCiviqueContent =
-      "Le service civique est un engagement volontaire au service de l'intérêt général, accessible sans condition de diplôme. Il est indemnisé et s'effectue en France ou à l'étranger.";
-  static String serviceCiviqueButtonAction = "Rechercher un service civique";
-  static String serviceCiviqueUrl = "https://www.service-civique.gouv.fr/missions/";
-  static String serviceCiviquePresentation =
-      "Engagez-vous dans un projet d’intérêt général et découvrez de nouveaux horizons";
+  // Service Civique
   static String serviceCiviqueFiltresTitle = "Filtrer les missions";
   static String startDateFiltreTitle = "Date de début";
   static String startDate = "Dès le";
   static String domainFiltreTitle = "Domaine";
-  static String selectACity = "Sélectionner une ville";
-  static String knowMoreAboutServiceCivique = "En savoir plus sur le service civique";
-  static String knowMoreAboutServiceCiviqueFirstTitle = "De 16 à 25 ans";
-  static String knowMoreAboutServiceCiviqueFirstText =
-      "Les missions sont ouvertes à tous les jeunes de 16 à 25 ans, sans conditions de diplôme et jusqu’à 30 ans pour les jeunes en situation de handicap";
-  static String knowMoreAboutServiceCiviqueSecondTitle = "De 6 à 12 mois";
-  static String knowMoreAboutServiceCiviqueSecondText =
-      "Tous les organismes proposant des missions de Service Civique sont certifiés d’intérêt général et œuvrent dans 9 domaines différents";
-  static String knowMoreAboutServiceCiviqueThirdTitle = "En France et à l’étranger";
-  static String knowMoreAboutServiceCiviqueThirdText =
-      "Découvrir de nouvelles expériences, acquérir de nouvelles compétences tout en étant indemnisé et en bénéficiant de nombreux avantages";
-  static String knowMoreAboutServiceCiviqueFourthTitle = "Une indemnisation";
-  static String knowMoreAboutServiceCiviqueFourthText =
-      "580 € d’indemnisation par mois dont 473,04 € pris en charge par l’État et 107,58 € par l’organisme d’accueil. ";
-  static String knowMoreAboutServiceCiviqueLastTitle =
-      "Vous souhaitez en savoir plus ? Envoyez un message à votre conseiller.";
-  static String serviceCiviqueListTitle = "Offres de service civique";
   static String asSoonAs = "Dès le ";
   static String serviceCiviqueDetailTitle = "Détails de l’offre de service civique";
   static String serviceCiviqueMissionTitle = "Mission";
   static String serviceCiviqueOrganisationTitle = "Organisation";
-
-  // Immersion Errors
-  static String immersionMetierError = "Renseignez un secteur d'activité de la liste";
-  static String immersionVilleError = "Renseignez une ville de la liste";
 
   // Solutions Errors
   static String noContentError =
       "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";
   static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
   static String genericCreationError = "Erreur lors de la création. Veuillez réessayer";
-  static String loadMoreOffresError = "Erreur lors du chargement des offres";
-  static String updateCriteria = "Modifier les critères de recherche";
 
   // Offre emploi filtres
   static String filtrer = "Filtrer";
@@ -605,9 +613,19 @@ class Strings {
   static String developerOptionMatomoPage = 'Matomo';
 
   // Tutorial
-  static String tutoTitrePageUne = "Consultez la liste des ateliers et animations organisés dans votre Mission locale";
-  static String tutoDescriptionPageUne =
-      "Partagez un de ces évènements avec votre conseiller pour qu'il vous y inscrive !";
+  static String tutoMiloTitrePageUne = "Vos informations de profil désormais disponibles en haut à droite";
+  static String tutoMiloDescriptionPageUne = "";
+  static String tutoMiloTitrePageDeux = "Consultez les événements de votre Mission Locale ! ";
+  static String tutoMiloDescriptionPageDeux =
+      "Retrouvez désormais tous les événements de votre Mission Locale directement dans l'onglet \"Événements\" de votre barre de navigation ";
+  static String tutoMiloTitrePageTrois = "Effectuer vos recherches d'offres plus facilement";
+  static String tutoMiloDescriptionPageTrois =
+      "Vous pouvez désormais rechercher des offres d'emploi d'alternance d'immersion et de service civique plus facilement ";
+  static String tutoEmploiTitrePageUne = "Vos informations de profil désormais disponibles en haut à droite";
+  static String tutoEmploiDescriptionPageUne = "";
+  static String tutoEmploiTitrePageDeux = "Effectuer vos recherches d'offres plus facilement";
+  static String tutoEmploiDescriptionPageDeux =
+      "Vous pouvez désormais rechercher des offres d'emploi d'alternance d'immersion et de service civique plus facilement";
 
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";
@@ -643,6 +661,7 @@ class Strings {
   static String eventListEmpty = "Il n'y a actuellement aucun événement";
   static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
+  static String eventAppBarTitle = "Événements";
 
   // Mode dégradé Pôle Emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
@@ -655,6 +674,8 @@ class Strings {
   static String agendaUpToDate = "Vos rendez-vous et démarches sont à jour";
   static String agendaNotUpToDate =
       "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
+
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
+
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";
 }

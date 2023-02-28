@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_v
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -117,7 +117,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget _createUserActionButton(UserActionListPageViewModel viewModel) {
     return PrimaryActionButton(
       label: Strings.addAnAction,
-      drawableRes: Drawables.icAdd,
+      icon: AppIcons.add_rounded,
       rippleColor: AppColors.primaryDarken,
       onPressed: () => showPassEmploiBottomSheet(
         context: context,

@@ -1,10 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
@@ -14,6 +12,7 @@ import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigatio
 import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
@@ -25,7 +24,7 @@ void main() {
       codeRome: "rome",
       location: mockLocation(),
       ville: "ville",
-      filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      filtres: ImmersionFiltresRecherche.noFiltre(),
     ),
     ImmersionSavedSearch(
       id: "id",
@@ -34,43 +33,43 @@ void main() {
       codeRome: "rome",
       location: mockLocation(),
       ville: "ville",
-      filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      filtres: ImmersionFiltresRecherche.noFiltre(),
     ),
     OffreEmploiSavedSearch(
       id: "id",
       title: "titreOffreEmploi1",
       metier: "metierOffreEmploi1",
       location: mockLocation(),
-      keywords: "keywords",
-      isAlternance: false,
-      filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+      keyword: "keywords",
+      onlyAlternance: false,
+      filters: EmploiFiltresRecherche.noFiltre(),
     ),
     OffreEmploiSavedSearch(
       title: "titreOffreEmploi2",
       id: "id",
       metier: "metierOffreEmploi2",
       location: mockLocation(),
-      keywords: "keywords",
-      isAlternance: false,
-      filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+      keyword: "keywords",
+      onlyAlternance: false,
+      filters: EmploiFiltresRecherche.noFiltre(),
     ),
     OffreEmploiSavedSearch(
       id: "id",
       title: "titreAlternance1",
       metier: "metierAlternance1",
       location: mockLocation(),
-      keywords: "keywords",
-      isAlternance: true,
-      filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+      keyword: "keywords",
+      onlyAlternance: true,
+      filters: EmploiFiltresRecherche.noFiltre(),
     ),
     OffreEmploiSavedSearch(
       id: "id",
       title: "titreAlternance2",
       metier: "metierAlternance2",
       location: mockLocation(),
-      keywords: "keywords",
-      isAlternance: true,
-      filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+      keyword: "keywords",
+      onlyAlternance: true,
+      filters: EmploiFiltresRecherche.noFiltre(),
     ),
   ];
 
@@ -125,7 +124,7 @@ void main() {
         codeRome: "rome",
         location: mockLocation(),
         ville: "ville",
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        filtres: ImmersionFiltresRecherche.noFiltre(),
       ),
       ImmersionSavedSearch(
         id: "id",
@@ -134,7 +133,7 @@ void main() {
         codeRome: "rome",
         location: mockLocation(),
         ville: "ville",
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        filtres: ImmersionFiltresRecherche.noFiltre(),
       ),
     ]);
   });
@@ -158,18 +157,18 @@ void main() {
         title: "titreOffreEmploi1",
         metier: "metierOffreEmploi1",
         location: mockLocation(),
-        keywords: "keywords",
-        isAlternance: false,
-        filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+        keyword: "keywords",
+        onlyAlternance: false,
+        filters: EmploiFiltresRecherche.noFiltre(),
       ),
       OffreEmploiSavedSearch(
         id: "id",
         title: "titreOffreEmploi2",
         metier: "metierOffreEmploi2",
         location: mockLocation(),
-        keywords: "keywords",
-        isAlternance: false,
-        filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+        keyword: "keywords",
+        onlyAlternance: false,
+        filters: EmploiFiltresRecherche.noFiltre(),
       ),
     ]);
   });
@@ -193,18 +192,18 @@ void main() {
         title: "titreAlternance1",
         metier: "metierAlternance1",
         location: mockLocation(),
-        keywords: "keywords",
-        isAlternance: true,
-        filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+        keyword: "keywords",
+        onlyAlternance: true,
+        filters: EmploiFiltresRecherche.noFiltre(),
       ),
       OffreEmploiSavedSearch(
         id: "id",
         title: "titreAlternance2",
         metier: "metierAlternance2",
         location: mockLocation(),
-        keywords: "keywords",
-        isAlternance: true,
-        filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+        keyword: "keywords",
+        onlyAlternance: true,
+        filters: EmploiFiltresRecherche.noFiltre(),
       ),
     ]);
   });
@@ -255,10 +254,9 @@ void main() {
         savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
-    final viewModel = SavedSearchListViewModel.createFromStore(store);
 
     // When
-    _savedSearches.clear();
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
 
     // Then
     expect(viewModel.savedSearches, isNotEmpty);
@@ -266,64 +264,63 @@ void main() {
 
   test("ViewModel should set navigation to offres emploi when search results are ready", () {
     // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
-        offreEmploiListState: OffreEmploiListSuccessState([], 2, true),
-        offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-          keywords: "",
-          onlyAlternance: true,
-          location: mockLocation(),
-          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
-        ),
-      ),
-    );
-    final viewModel = SavedSearchListViewModel.createFromStore(store);
+    final store = givenState()
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .successRechercheEmploiState()
+        .store();
 
     // When
-    _savedSearches.clear();
-
-    // Then
-    expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_ALTERNANCE);
-  });
-
-  test("ViewModel should set navigation to offres alternances when search results are ready", () {
-    // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
-        offreEmploiListState: OffreEmploiListSuccessState([], 2, true),
-        offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-          keywords: "",
-          onlyAlternance: false,
-          location: mockLocation(),
-          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
-        ),
-      ),
-    );
     final viewModel = SavedSearchListViewModel.createFromStore(store);
-
-    // When
-    _savedSearches.clear();
 
     // Then
     expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_EMPLOI);
   });
 
-  test("ViewModel should set navigation to offres immersions when search results are ready", () {
+  test("ViewModel should set navigation to offres alternances when search results are ready", () {
     // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
-        immersionListState: ImmersionListSuccessState([]),
-      ),
-    );
-    final viewModel = SavedSearchListViewModel.createFromStore(store);
+    final store = givenState()
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .successRechercheEmploiStateWithRequest(
+          criteres: EmploiCriteresRecherche(
+            keyword: "keyword",
+            location: null,
+            onlyAlternance: true,
+          ),
+        )
+        .store();
 
     // When
-    _savedSearches.clear();
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
+
+    // Then
+    expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_ALTERNANCE);
+  });
+
+  test("ViewModel should set navigation to offres immersions when search results are ready", () {
+    // Given
+    final store = givenState()
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .successRechercheImmersionState()
+        .store();
+
+    // When
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
 
     // Then
     expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_IMMERSION);
+  });
+
+  test("ViewModel should set navigation to service civique when search results are ready", () {
+    // Given
+    final store = givenState()
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .successRechercheServiceCiviqueState()
+        .store();
+
+    // When
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
+
+    // Then
+    expect(viewModel.searchNavigationState, SavedSearchNavigationState.SERVICE_CIVIQUE);
   });
 }

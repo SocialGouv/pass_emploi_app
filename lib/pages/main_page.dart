@@ -3,16 +3,16 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
+import 'package:pass_emploi_app/pages/event_list_page.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
-import 'package:pass_emploi_app/pages/profil/profil_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
-import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
 import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
 
@@ -29,7 +30,7 @@ const int _indexOfMonSuiviPage = 0;
 const int _indexOfChatPage = 1;
 const int _indexOfSolutionsPage = 2;
 const int _indexOfFavorisPage = 3;
-const int _indexOfPlusPage = 4;
+const int _indexOfEvenementsPage = 4;
 
 class MainPage extends StatefulWidget {
   final MainPageDisplayState displayState;
@@ -98,29 +99,54 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   Widget _body(MainPageViewModel viewModel, BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: AppColors.grey100,
-        child: _content(_selectedIndex, viewModel),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        // Required to avoid having a disproportionate NavBar height
-        selectedFontSize: FontSizes.extraSmall,
-        unselectedFontSize: FontSizes.extraSmall,
-        backgroundColor: Colors.white,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: AppColors.secondary,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: <BottomNavigationBarItem>[
-          menu.MenuItem(drawableRes: Drawables.icMenuAction, label: Strings.menuMonSuivi),
-          menu.MenuItem(drawableRes: Drawables.icMenuChat, label: Strings.menuChat, withBadge: viewModel.withChatBadge),
-          menu.MenuItem(drawableRes: Drawables.icSearchingBar, label: Strings.menuSolutions),
-          menu.MenuItem(drawableRes: Drawables.icHeart, label: Strings.menuFavoris),
-          menu.MenuItem(drawableRes: Drawables.icMenuPlus, label: Strings.menuProfil),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: (index) => _onItemTapped(index, context),
+    return _ModeDemoWrapper(
+      child: Scaffold(
+        body: Container(
+          color: AppColors.grey100,
+          child: _content(_selectedIndex, viewModel),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          // Required to avoid having a disproportionate NavBar height
+          selectedFontSize: FontSizes.extraSmall,
+          unselectedFontSize: FontSizes.extraSmall,
+          backgroundColor: Colors.white,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: AppColors.primary,
+          unselectedItemColor: AppColors.grey800,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          items: <BottomNavigationBarItem>[
+            menu.MenuItem(
+              defaultIcon: AppIcons.checklist_rounded,
+              inactiveIcon: AppIcons.rule_rounded,
+              label: Strings.menuMonSuivi,
+            ),
+            menu.MenuItem(
+              defaultIcon: AppIcons.chat_rounded,
+              inactiveIcon: AppIcons.chat_outlined,
+              label: Strings.menuChat,
+              withBadge: viewModel.withChatBadge,
+            ),
+            menu.MenuItem(
+              defaultIcon: AppIcons.pageview_rounded,
+              inactiveIcon: AppIcons.pageview_outlined,
+              label: Strings.menuSolutions,
+            ),
+            menu.MenuItem(
+              defaultIcon: AppIcons.favorite_rounded,
+              inactiveIcon: AppIcons.favorite_outline_rounded,
+              label: Strings.menuFavoris,
+            ),
+            if (viewModel.withEvenements)
+              menu.MenuItem(
+                defaultIcon: AppIcons.today_rounded,
+                inactiveIcon: AppIcons.today_outlined,
+                label: Strings.menuEvenements,
+              ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: (index) => _onItemTapped(index, context),
+        ),
       ),
     );
   }
@@ -141,13 +167,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
-        final initialTab = !_deepLinkHandled ? _initialSolutionTab(viewModel) : null;
         _deepLinkHandled = true;
-        return SolutionsTabPage(initialTab);
+        return SolutionsTabPage();
       case _indexOfFavorisPage:
         return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
-      case _indexOfPlusPage:
-        return ProfilPage();
+      case _indexOfEvenementsPage:
+        return EventListPage();
       default:
         return MonSuiviTabPage();
     }
@@ -164,16 +189,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
-  SolutionsTab? _initialSolutionTab(MainPageViewModel viewModel) {
-    switch (widget.displayState) {
-      case MainPageDisplayState.EVENT_LIST:
-        viewModel.resetDeeplink();
-        return SolutionsTab.events;
-      default:
-        return null;
-    }
-  }
-
   int _setInitIndexPage() {
     switch (widget.displayState) {
       case MainPageDisplayState.CHAT:
@@ -183,10 +198,37 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case MainPageDisplayState.SAVED_SEARCH:
         return _indexOfFavorisPage;
       case MainPageDisplayState.EVENT_LIST:
-        return _indexOfSolutionsPage;
+        return _indexOfEvenementsPage;
       default:
         return _indexOfMonSuiviPage;
     }
+  }
+}
+
+class _ModeDemoWrapper extends StatelessWidget {
+  final Widget child;
+  const _ModeDemoWrapper({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final store = StoreProvider.of<AppState>(context);
+    final isDemo = store.state.demoState;
+    if (!isDemo) return child;
+    return Scaffold(
+      appBar: ModeDemoAppBar(),
+      body: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        builder: (context, materialAppChild) => MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: materialAppChild ?? Container(),
+        ),
+        home: child,
+      ),
+    );
   }
 }
 
@@ -212,9 +254,9 @@ class _PopUpActualisationPe extends StatelessWidget {
           SizedBox(height: Margins.spacing_l),
           PrimaryActionButton(
             label: Strings.actualisationPePopUpPrimaryButton,
-            drawableRes: Drawables.icLaunch,
+            icon: AppIcons.open_in_new_rounded,
             heightPadding: 8,
-            iconSize: 16.0,
+            iconSize: Dimens.icon_size_base,
             fontSize: fontSize,
             onPressed: () => _onActualisationPressed(context),
           ),

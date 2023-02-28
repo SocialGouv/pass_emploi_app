@@ -7,13 +7,13 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class DefaultMenuItem extends StatelessWidget {
-  final String drawableRes;
+  final IconData icon;
   final String label;
   final bool isActive;
   final bool withBadge;
 
   const DefaultMenuItem({
-    required this.drawableRes,
+    required this.icon,
     required this.label,
     required this.isActive,
     required this.withBadge,
@@ -23,62 +23,25 @@ class DefaultMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color color = _itemColor(isActive);
 
-    return Stack(
-      alignment: Alignment.center,
-      clipBehavior: Clip.none,
+    return Column(
       children: [
-        Column(
+        Stack(
+          clipBehavior: Clip.none,
           children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                SizedBox(
-                  height: Dimens.bottomNavigationBarItemHeight,
-                  child: SvgPicture.asset(drawableRes, color: color),
-                ),
-                if (withBadge) Positioned(top: -1, left: 12, child: SvgPicture.asset(Drawables.icBadge)),
-              ],
+            SizedBox(
+              height: Dimens.bottomNavigationBarItemHeight,
+              child: Icon(icon, color: color),
             ),
-            SizedBox(height: Margins.spacing_s),
-            Text(label, style: TextStyles.textMenuRegular(color)),
+            if (withBadge) Positioned(top: -1, left: 12, child: SvgPicture.asset(Drawables.badge)),
           ],
         ),
-        Builder(builder: (BuildContext context) {
-          return _ActiveIndicator(
-            isActive: isActive,
-          );
-        })
+        SizedBox(height: Margins.spacing_s),
+        Text(label, style: TextStyles.textMenuRegular(color).copyWith(fontWeight: isActive ? FontWeight.bold : null)),
       ],
     );
   }
 }
 
-class _ActiveIndicator extends StatelessWidget {
-  const _ActiveIndicator({required this.isActive});
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    final bottomPosition = isActive ? -6.0 : -20.0;
-    final opacity = isActive ? 1.0 : 0.0;
-    final animationDuration = Duration(milliseconds: 800);
-    return AnimatedPositioned(
-      curve: Curves.fastLinearToSlowEaseIn,
-      bottom: bottomPosition,
-      duration: animationDuration,
-      child: AnimatedOpacity(
-        opacity: opacity,
-        duration: animationDuration,
-        curve: Curves.fastLinearToSlowEaseIn,
-        child: SvgPicture.asset(
-          Drawables.icMenuSelectedBullet,
-          color: _itemColor(isActive),
-        ),
-      ),
-    );
-  }
-}
-
 Color _itemColor(bool isActive) {
-  return isActive ? AppColors.secondary : AppColors.grey800;
+  return isActive ? AppColors.primary : AppColors.grey800;
 }

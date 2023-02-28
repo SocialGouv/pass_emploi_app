@@ -3,7 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_question_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -27,9 +28,10 @@ class CampagneDetailsPage extends StatelessWidget {
   }
 
   Widget _content(BuildContext context, Campagne? campagne) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.actionDetails, context: context),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.actionDetails, backgroundColor: backgroundColor),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         child: Column(
@@ -44,8 +46,8 @@ class CampagneDetailsPage extends StatelessWidget {
               child: PrimaryActionButton(
                 onPressed: () => Navigator.push(context, CampagneQuestionPage.materialPageRoute(0)),
                 label: Strings.evalButton,
-                drawableRes: Drawables.icPencil,
-                iconSize: 14,
+                icon: AppIcons.edit_rounded,
+                iconSize: Dimens.icon_size_base,
               ),
             ),
           ],

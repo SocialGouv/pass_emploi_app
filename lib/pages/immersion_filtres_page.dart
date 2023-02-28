@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 
 class ImmersionFiltresPage extends StatefulWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
+  static MaterialPageRoute<bool> materialPageRoute() {
     return MaterialPageRoute(builder: (_) => ImmersionFiltresPage());
   }
 
@@ -33,7 +33,7 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
         distinct: true,
         onWillChange: (previousVM, newVM) {
           if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
-            Navigator.pop(context);
+            Navigator.pop(context, true);
           }
         },
       ),
@@ -41,9 +41,10 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
   }
 
   Widget _scaffold(ImmersionFiltresViewModel viewModel) {
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offresEmploiFiltresTitle, context: context, withBackButton: true),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.offresEmploiFiltresTitle, backgroundColor: backgroundColor),
       body: _Content(viewModel: viewModel),
     );
   }

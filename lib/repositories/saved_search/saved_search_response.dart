@@ -1,13 +1,14 @@
 import 'package:collection/collection.dart';
-import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/network/filtres_request.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class SavedSearchResponse {
   final String id;
@@ -101,8 +102,8 @@ class SavedSearchEmploiExtractor {
       title: savedSearch.titre,
       metier: savedSearch.metier,
       location: _getLocation(savedSearch),
-      keywords: savedSearch.criteres.q,
-      isAlternance: savedSearch.criteres.alternance ?? (savedSearch.type == "OFFRES_ALTERNANCE"),
+      keyword: savedSearch.criteres.q,
+      onlyAlternance: savedSearch.criteres.alternance ?? (savedSearch.type == "OFFRES_ALTERNANCE"),
       filters: _getFilters(savedSearch.criteres),
     );
   }
@@ -123,8 +124,8 @@ class SavedSearchEmploiExtractor {
     }
   }
 
-  OffreEmploiSearchParametersFiltres _getFilters(SavedSearchResponseCriteres criteres) {
-    return OffreEmploiSearchParametersFiltres.withFiltres(
+  EmploiFiltresRecherche _getFilters(SavedSearchResponseCriteres criteres) {
+    return EmploiFiltresRecherche.withFiltres(
       distance: criteres.rayon,
       debutantOnly: criteres.debutantAccepte,
       experience: criteres.experience?.map((e) => FiltresRequest.experienceFromUrlParameter(e)).whereNotNull().toList(),
@@ -147,23 +148,19 @@ class SavedSearchImmersionExtractor {
     );
   }
 
-  ImmersionSearchParametersFiltres _getFiltres(SavedSearchResponseCriteres criteres) {
-    return ImmersionSearchParametersFiltres.distance(criteres.rayon);
+  ImmersionFiltresRecherche _getFiltres(SavedSearchResponseCriteres criteres) {
+    return ImmersionFiltresRecherche.distance(criteres.rayon);
   }
 
-  Location? _getLocation(SavedSearchResponse savedSearch) {
-    if (savedSearch.localisation != null) {
-      return Location(
-        type: LocationType.COMMUNE,
-        code: savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "",
-        libelle: savedSearch.localisation ?? "",
-        codePostal: null,
-        longitude: savedSearch.criteres.lon,
-        latitude: savedSearch.criteres.lat,
-      );
-    } else {
-      return null;
-    }
+  Location _getLocation(SavedSearchResponse savedSearch) {
+    return Location(
+      type: LocationType.COMMUNE,
+      code: savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "",
+      libelle: savedSearch.localisation ?? "",
+      codePostal: null,
+      longitude: savedSearch.criteres.lon,
+      latitude: savedSearch.criteres.lat,
+    );
   }
 }
 
@@ -175,7 +172,7 @@ class SavedSearchServiceCiviqueExtractor {
       domaine: Domaine.fromTag(savedSearch.criteres.domaine),
       ville: savedSearch.localisation,
       filtres: ServiceCiviqueFiltresParameters.distance(savedSearch.criteres.distance),
-      dateDeDebut: savedSearch.criteres.dateDeDebutMinimum,
+      dateDeDebut: savedSearch.criteres.dateDeDebutMinimum?.toDateTimeUtcOnLocalTimeZone(),
       location: _getLocation(savedSearch),
     );
   }

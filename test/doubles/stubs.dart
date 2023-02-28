@@ -9,25 +9,20 @@ import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
-import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
-import 'package:pass_emploi_app/repositories/immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
-import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -145,32 +140,6 @@ class PageDemarcheRepositoryFailureStub extends PageDemarcheRepository {
 
   @override
   Future<PageDemarches?> getPageDemarches(String userId) async {
-    return null;
-  }
-}
-
-class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository {
-  bool? _onlyAlternance;
-  int callCount = 0;
-
-  OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient());
-
-  void withOnlyAlternanceResolves(bool onlyAlternance) => _onlyAlternance = onlyAlternance;
-
-  @override
-  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
-    callCount = callCount + 1;
-    final response = OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
-    if (_onlyAlternance == null) return response;
-    return request.onlyAlternance == _onlyAlternance ? response : null;
-  }
-}
-
-class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
-  OffreEmploiRepositoryFailureStub() : super("", DummyHttpClient());
-
-  @override
-  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
     return null;
   }
 }
@@ -317,40 +286,6 @@ class ChatRepositoryStub extends ChatRepository {
   }
 }
 
-class ServiceCiviqueRepositorySuccessWithMoreDataStub extends ServiceCiviqueRepository {
-  int callCount = 0;
-
-  ServiceCiviqueRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient());
-
-  @override
-  Future<ServiceCiviqueSearchResponse?> search({
-    required String userId,
-    required SearchServiceCiviqueRequest request,
-    required List<ServiceCivique> previousOffers,
-  }) async {
-    callCount = callCount + 1;
-    final response = ServiceCiviqueSearchResponse(
-        isMoreDataAvailable: true,
-        offres: List.from(previousOffers)..add(mockServiceCivique()),
-        lastRequest: SearchServiceCiviqueRequest(
-            domain: null, location: null, distance: null, startDate: null, endDate: null, page: request.page));
-    return response;
-  }
-}
-
-class ServiceCiviqueRepositoryFailureStub extends ServiceCiviqueRepository {
-  ServiceCiviqueRepositoryFailureStub() : super("", DummyHttpClient());
-
-  @override
-  Future<ServiceCiviqueSearchResponse?> search({
-    required String userId,
-    required SearchServiceCiviqueRequest request,
-    required List<ServiceCivique> previousOffers,
-  }) async {
-    return null;
-  }
-}
-
 class ServiceCiviqueDetailRepositoryWithDataStub extends ServiceCiviqueDetailRepository {
   ServiceCiviqueDetailRepositoryWithDataStub() : super("", DummyHttpClient());
 
@@ -366,15 +301,6 @@ class ServiceCiviqueDetailRepositoryWithErrorStub extends ServiceCiviqueDetailRe
   @override
   Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
     return FailedServiceCiviqueDetailResponse();
-  }
-}
-
-class ImmersionRepositoryFailureStub extends ImmersionRepository {
-  ImmersionRepositoryFailureStub() : super(DioMock());
-
-  @override
-  Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
-    return null;
   }
 }
 

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class DateEcheanceInCard extends StatelessWidget {
   final List<FormattedText> formattedTexts;
@@ -14,17 +13,11 @@ class DateEcheanceInCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
-        SepLine(Margins.spacing_base, Margins.spacing_base),
-        Row(
-          children: [
-            SvgPicture.asset(Drawables.icClock, color: color),
-            SizedBox(width: Margins.spacing_s),
-            _DateTitle(formattedTexts: formattedTexts, color: color),
-          ],
-        ),
+        Icon(AppIcons.today_outlined, color: color, size: Dimens.icon_size_base),
+        SizedBox(width: Margins.spacing_s),
+        Expanded(child: _DateTitle(formattedTexts: formattedTexts, color: color)),
       ],
     );
   }
@@ -38,17 +31,7 @@ class _DateTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: RichText(
-        text: TextSpan(
-          children: formattedTexts.map((text) {
-            return TextSpan(
-              text: text.value,
-              style: text.bold ? TextStyles.textBaseBoldWithColor(color) : TextStyles.textSRegularWithColor(color),
-            );
-          }).toList(),
-        ),
-      ),
-    );
+    final text = formattedTexts.map((text) => text.value).join();
+    return Text(text, style: TextStyles.textSRegularWithColor(color));
   }
 }

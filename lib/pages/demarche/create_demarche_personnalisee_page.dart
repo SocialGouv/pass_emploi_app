@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
@@ -9,7 +8,8 @@ import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.da
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -46,7 +46,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
 
   Widget _buildBody(BuildContext context, CreateDemarchePersonnaliseeViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: Strings.createDemarcheTitle, context: context),
+      appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -278,7 +278,7 @@ class _ChampCommentaire extends StatelessWidget {
         height: 90,
         decoration: BoxDecoration(
           border: Border.all(color: borderColor),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
@@ -305,10 +305,10 @@ class _MessageError extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          SvgPicture.asset(
-            Drawables.icImportantOutlined,
-            height: 20,
-            width: 20,
+          Icon(
+            AppIcons.error_rounded,
+            size: Dimens.icon_size_m,
+            color: AppColors.warning,
           ),
           Expanded(
             child: Padding(

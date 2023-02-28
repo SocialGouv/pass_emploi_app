@@ -67,6 +67,26 @@ void main() {
     });
   });
 
+  group('Create MainPageViewModel when user is...', () {
+    test('not from milo should not display evenement', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().store();
+      // When
+      final viewModel = MainPageViewModel.create(store);
+      // Then
+      expect(viewModel.withEvenements, false);
+    });
+
+    test('not from milo should display evenement', () {
+      // Given
+      final store = givenState().loggedInMiloUser().store();
+      // When
+      final viewModel = MainPageViewModel.create(store);
+      // Then
+      expect(viewModel.withEvenements, true);
+    });
+  });
+
   group('Create MainPageViewModel when rating app state is…', () {
     test('not initialized should not show rating banner', () {
       // Given
@@ -90,7 +110,6 @@ void main() {
       expect(viewModel.showRating, isTrue);
     });
   });
-
 
   test('resetDeeplink should trigger ResetDeeplinkAction', () {
     // Given

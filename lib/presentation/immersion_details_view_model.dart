@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/utils/uri_handler.dart';
@@ -27,6 +27,7 @@ class ImmersionDetailsViewModel extends Equatable {
   final String? contactLabel;
   final String? contactInformation;
   final bool? withSecondaryCallToActions;
+  final bool withContactPage;
   final CallToAction? mainCallToAction;
   final List<CallToAction>? secondaryCallToActions;
   final Function(String immersionId) onRetry;
@@ -43,6 +44,7 @@ class ImmersionDetailsViewModel extends Equatable {
     this.contactLabel,
     this.contactInformation,
     this.withSecondaryCallToActions,
+    required this.withContactPage,
     this.mainCallToAction,
     this.secondaryCallToActions,
     required this.onRetry,
@@ -54,7 +56,15 @@ class ImmersionDetailsViewModel extends Equatable {
       final immersionDetails = state.immersion;
       final mainCallToAction = _mainCallToAction(immersionDetails, platform);
       final secondaryCallToActions = _secondaryCallToActions(immersionDetails, platform);
-      return _successViewModel(state, immersionDetails, mainCallToAction, secondaryCallToActions, store);
+      final withContactPage = _withContactPage(immersionDetails, platform);
+      return _successViewModel(
+        state,
+        immersionDetails,
+        mainCallToAction,
+        secondaryCallToActions,
+        store,
+        withContactPage,
+      );
     } else if (state is ImmersionDetailsIncompleteDataState) {
       final immersion = state.immersion;
       return _incompleteViewModel(immersion, store);
@@ -74,6 +84,7 @@ class ImmersionDetailsViewModel extends Equatable {
         address,
         contactLabel,
         contactInformation,
+        withContactPage,
       ];
 }
 
@@ -87,8 +98,14 @@ ImmersionDetailsPageDisplayState _displayState(ImmersionDetailsState state) {
   }
 }
 
-ImmersionDetailsViewModel _successViewModel(ImmersionDetailsState state, ImmersionDetails immersionDetails,
-    CallToAction? mainCallToAction, List<CallToAction> secondaryCallToActions, Store<AppState> store) {
+ImmersionDetailsViewModel _successViewModel(
+  ImmersionDetailsState state,
+  ImmersionDetails immersionDetails,
+  CallToAction? mainCallToAction,
+  List<CallToAction> secondaryCallToActions,
+  Store<AppState> store,
+  bool withContactPage,
+) {
   return ImmersionDetailsViewModel._(
     displayState: _displayState(state),
     id: immersionDetails.id,
@@ -101,6 +118,7 @@ ImmersionDetailsViewModel _successViewModel(ImmersionDetailsState state, Immersi
     contactLabel: _contactLabel(immersionDetails),
     contactInformation: _contactInformation(immersionDetails),
     withSecondaryCallToActions: secondaryCallToActions.isNotEmpty,
+    withContactPage: withContactPage,
     mainCallToAction: mainCallToAction,
     secondaryCallToActions: secondaryCallToActions,
     onRetry: (immersionId) => _retry(store, immersionId),
@@ -116,6 +134,7 @@ ImmersionDetailsViewModel _incompleteViewModel(Immersion immersion, Store<AppSta
     secteurActivite: immersion.secteurActivite,
     fromEntrepriseAccueillante: immersion.fromEntrepriseAccueillante,
     ville: immersion.ville,
+    withContactPage: false,
     onRetry: (immersionId) => _retry(store, immersionId),
   );
 }
@@ -129,6 +148,7 @@ ImmersionDetailsViewModel _otherCasesViewModel(ImmersionDetailsState state, Stor
     secteurActivite: "",
     fromEntrepriseAccueillante: false,
     ville: "",
+    withContactPage: false,
     onRetry: (immersionId) => _retry(store, immersionId),
   );
 }
@@ -155,32 +175,24 @@ String _contactInformation(ImmersionDetails immersion) {
   return contactInformation;
 }
 
-CallToAction _mainCallToAction(ImmersionDetails immersion, Platform platform) {
+CallToAction? _mainCallToAction(ImmersionDetails immersion, Platform platform) {
   final contact = immersion.contact;
-  if (contact != null && contact.mode == ImmersionContactMode.INCONNU && contact.phone.isNotEmpty) {
-    return CallToAction(
-      Strings.immersionPhoneButton,
-      UriHandler().phoneUri(contact.phone),
-      EventType.OFFRE_IMMERSION_APPEL,
-    );
-  } else if (contact != null && contact.mode == ImmersionContactMode.PHONE) {
-    return CallToAction(
-      Strings.immersionPhoneButton,
-      UriHandler().phoneUri(contact.phone),
-      EventType.OFFRE_IMMERSION_APPEL,
-    );
-  } else if (contact != null && contact.mode == ImmersionContactMode.MAIL) {
+  if (contact != null && contact.mode == ImmersionContactMode.MAIL) {
     return CallToAction(
       Strings.immersionEmailButton,
       UriHandler().mailUri(to: contact.mail, subject: Strings.immersionEmailSubject),
       EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
     );
+  }
+  return null;
+}
+
+bool _withContactPage(ImmersionDetails immersion, Platform platform) {
+  final contact = immersion.contact;
+  if (contact != null && contact.mode == ImmersionContactMode.MAIL) {
+    return false;
   } else {
-    return CallToAction(
-      Strings.immersionLocationButton,
-      UriHandler().mapsUri(immersion.address, platform),
-      EventType.OFFRE_IMMERSION_LOCALISATION,
-    );
+    return true;
   }
 }
 
@@ -195,7 +207,7 @@ List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform 
           Strings.immersionEmailButton,
           UriHandler().mailUri(to: mail, subject: Strings.immersionEmailSubject),
           EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
-          drawableRes: Drawables.icMail,
+          icon: AppIcons.outgoing_mail,
         ),
       if (phone != null && phone.isNotEmpty)
         CallToAction(

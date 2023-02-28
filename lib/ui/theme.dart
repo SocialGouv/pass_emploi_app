@@ -3,14 +3,8 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 
 class PassEmploiTheme {
   static final data = ThemeData(
+    useMaterial3: true,
     toggleableActiveColor: AppColors.nightBlue,
-    primarySwatch: Colors.indigo,
-    pageTransitionsTheme: PageTransitionsTheme(
-      builders: {
-        TargetPlatform.android: ZoomPageTransitionsBuilder(),
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-      },
-    ),
     checkboxTheme: _checkboxes(),
     sliderTheme: _sliders(),
     progressIndicatorTheme: _progress(),

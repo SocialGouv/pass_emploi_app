@@ -1,5 +1,10 @@
 #! /bin/bash
 
+### USAGE
+# > sh scripts/scaffold_redux.sh MaNouvelleFeature
+
+
+
 # Script stops if any command fails
 set -e
 set -o pipefail
@@ -33,8 +38,10 @@ generateImport () {
 
 dart_max_char_in_line=120
 
-feature_snake_case=$1
-feature_camel_case=$2
+feature_camel_case=$1
+feature_snake_case=$(echo $feature_camel_case \
+     | sed 's/\(.\)\([A-Z]\)/\1-\2/g' \
+     | tr '[:upper:]' '[:lower:]')
 feature_first_char_lower_case="$(tr '[:upper:]' '[:lower:]' <<< ${feature_camel_case:0:1})${feature_camel_case:1}"
 
 repositoryClass="${feature_camel_case}Repository"

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
@@ -9,22 +9,22 @@ class OffreEmploiSavedSearch extends Equatable implements SavedSearch {
   final String title;
   final String? metier;
   final Location? location;
-  final String? keywords;
-  final bool isAlternance;
-  final OffreEmploiSearchParametersFiltres filters;
+  final String? keyword;
+  final bool onlyAlternance;
+  final EmploiFiltresRecherche filters;
 
   OffreEmploiSavedSearch({
     required this.id,
     required this.title,
     required this.metier,
     required this.location,
-    required this.keywords,
-    required this.isAlternance,
+    required this.keyword,
+    required this.onlyAlternance,
     required this.filters,
   });
 
   String getSavedSearchTagLabel() {
-    return isAlternance ? Strings.savedSearchAlternanceTag : Strings.savedSearchEmploiTag;
+    return onlyAlternance ? Strings.savedSearchAlternanceTag : Strings.savedSearchEmploiTag;
   }
 
   OffreEmploiSavedSearch copyWithTitle(String title) {
@@ -33,8 +33,8 @@ class OffreEmploiSavedSearch extends Equatable implements SavedSearch {
       title: title,
       metier: metier,
       location: location,
-      keywords: keywords,
-      isAlternance: isAlternance,
+      keyword: keyword,
+      onlyAlternance: onlyAlternance,
       filters: filters,
     );
   }
@@ -46,5 +46,5 @@ class OffreEmploiSavedSearch extends Equatable implements SavedSearch {
   String getTitle() => title;
 
   @override
-  List<Object?> get props => [id, title, metier, location, keywords, isAlternance, filters];
+  List<Object?> get props => [id, title, metier, location, keyword, onlyAlternance, filters];
 }

@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:redux/redux.dart';
 
@@ -219,7 +219,7 @@ void main() {
 
   group('Call to actions…', () {
     group('when contact is null…', () {
-      test('only have main address CTA (on Android), no secondary CTAs', () {
+      test('only have contact page CTA, no main CTA (on Android), no secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(null, address: "Address 1"));
 
@@ -227,18 +227,12 @@ void main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(
-          viewModel.mainCallToAction,
-          CallToAction(
-            'Localiser l\'entreprise',
-            Uri.parse("geo:0,0?q=Address%201"),
-            EventType.OFFRE_IMMERSION_LOCALISATION,
-          ),
-        );
+        expect(viewModel.mainCallToAction, null);
+        expect(viewModel.withContactPage, isTrue);
         expect(viewModel.withSecondaryCallToActions, isFalse);
       });
 
-      test('only have main address CTA (on iOS), no secondary CTAs', () {
+      test('only have contact page CTA, no main CTA (on iOS), no secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(null, address: "Address 1"));
 
@@ -246,20 +240,15 @@ void main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.IOS);
 
         // Then
-        expect(
-          viewModel.mainCallToAction,
-          CallToAction(
-            'Localiser l\'entreprise',
-            Uri.parse("https://maps.apple.com/maps?q=Address+1"),
-            EventType.OFFRE_IMMERSION_LOCALISATION,
-          ),
-        );
+        expect(viewModel.mainCallToAction, null);
+        expect(viewModel.withContactPage, isTrue);
         expect(viewModel.withSecondaryCallToActions, isFalse);
       });
     });
 
     group('when contact mode is INCONNU…', () {
-      test('but neither phone nor mail is set > only have main address CTA, no secondary CTAs', () {
+      test('but neither phone nor mail is set > only have contact page CTA, no main address CTA, no secondary CTAs',
+          () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.INCONNU, phone: '', mail: ''),
@@ -270,18 +259,14 @@ void main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(
-          viewModel.mainCallToAction,
-          CallToAction(
-            'Localiser l\'entreprise',
-            Uri.parse("geo:0,0?q=Address%201"),
-            EventType.OFFRE_IMMERSION_LOCALISATION,
-          ),
-        );
+        expect(viewModel.mainCallToAction, null);
+        expect(viewModel.withContactPage, isTrue);
         expect(viewModel.withSecondaryCallToActions, isFalse);
       });
 
-      test('but phone is unset > does have main address CTA and secondary mail CTA', () {
+      test(
+          'but phone is unset > only have contact page CTA, does not have main address CTA, does have secondary mail CTA',
+          () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.INCONNU, phone: '', mail: 'mail'),
@@ -292,26 +277,20 @@ void main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(
-          viewModel.mainCallToAction,
-          CallToAction(
-            'Localiser l\'entreprise',
-            Uri.parse("geo:0,0?q=Address%201"),
-            EventType.OFFRE_IMMERSION_LOCALISATION,
-          ),
-        );
+        expect(viewModel.mainCallToAction, null);
+        expect(viewModel.withContactPage, isTrue);
         expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(viewModel.secondaryCallToActions, [
           CallToAction(
             'Envoyer un e-mail',
             Uri.parse("mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
             EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
-            drawableRes: Drawables.icMail,
+            icon: AppIcons.outgoing_mail,
           )
         ]);
       });
 
-      test('but phone is set > does have a main phone CTA, and secondary CTAs', () {
+      test('but phone is set > does have contact page CTA, does not have main CTA, does have secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.INCONNU, phone: '0701020304', mail: 'mail'),
@@ -322,20 +301,15 @@ void main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(
-            viewModel.mainCallToAction,
-            CallToAction(
-              'Appeler',
-              Uri.parse("tel:0701020304"),
-              EventType.OFFRE_IMMERSION_APPEL,
-            ));
+        expect(viewModel.mainCallToAction, null);
+        expect(viewModel.withContactPage, isTrue);
         expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(viewModel.secondaryCallToActions!.length, 2);
       });
     });
 
     group('when contact mode is MAIL', () {
-      test('does have a main mail CTA, but no secondary CTAs', () {
+      test('does have a main mail CTA, but no secondary CTAs and no contact page', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.MAIL, phone: 'phone', mail: 'mail'),
@@ -354,12 +328,13 @@ void main() {
             EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
           ),
         );
+        expect(viewModel.withContactPage, isFalse);
         expect(viewModel.withSecondaryCallToActions, isFalse);
       });
     });
 
     group('when contact mode is PHONE', () {
-      test('does have a main phone CTA, but secondary CTAs', () {
+      test('does have contact page, does not have main CTA but secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.PHONE, phone: '0701020304', mail: 'mail'),
@@ -371,18 +346,13 @@ void main() {
 
         // Then
         expect(viewModel.withSecondaryCallToActions, isFalse);
-        expect(
-            viewModel.mainCallToAction,
-            CallToAction(
-              'Appeler',
-              Uri.parse("tel:0701020304"),
-              EventType.OFFRE_IMMERSION_APPEL,
-            ));
+        expect(viewModel.mainCallToAction, null);
+        expect(viewModel.withContactPage, isTrue);
       });
     });
 
     group('when contact mode is IN PERSON', () {
-      test('does have a main location CTA, but secondary CTAs', () {
+      test('does have contact page, does not have a main location CTA, but secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.PRESENTIEL, phone: '0701020304', mail: 'mail'),
@@ -394,13 +364,8 @@ void main() {
 
         // Then
         expect(viewModel.withSecondaryCallToActions, isFalse);
-        expect(
-            viewModel.mainCallToAction,
-            CallToAction(
-              'Localiser l\'entreprise',
-              Uri.parse("geo:0,0?q=Address%201"),
-              EventType.OFFRE_IMMERSION_LOCALISATION,
-            ));
+        expect(viewModel.mainCallToAction, null);
+        expect(viewModel.withContactPage, isTrue);
       });
     });
   });

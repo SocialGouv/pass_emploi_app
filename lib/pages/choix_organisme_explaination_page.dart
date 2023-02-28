@@ -5,6 +5,8 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/choix_organisme_explaination_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -45,7 +47,8 @@ class ChoixOrganismeExplainationPage extends StatelessWidget {
                               padding:
                                   const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 0),
                               child: DecoratedBox(
-                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                                decoration: BoxDecoration(
+                                    color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_base)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(Margins.spacing_m),
                                   child: Column(
@@ -88,10 +91,10 @@ class ChoixOrganismeExplainationPage extends StatelessWidget {
 
   Widget _backButton(BuildContext context) {
     return IconButton(
-      icon: SvgPicture.asset(
-        Drawables.icChevronLeft,
+      icon: Icon(
+        AppIcons.chevron_left_rounded,
+        size: Dimens.icon_size_m,
         color: Colors.white,
-        height: Margins.spacing_xl,
       ),
       onPressed: () {
         Navigator.of(context).pop();

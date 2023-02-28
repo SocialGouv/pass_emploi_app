@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
-import 'package:pass_emploi_app/pages/immersion_list_page.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
-import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
@@ -12,7 +10,8 @@ import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_l
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -53,17 +52,16 @@ class SuggestionsRechercheListPage extends StatelessWidget {
   void _navigateToSearch(BuildContext context, SavedSearchNavigationState searchNavigationState) {
     switch (searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
-        _goToPage(context, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
+        _goToPage(context, RechercheOffreEmploiPage(onlyAlternance: false));
         break;
       case SavedSearchNavigationState.OFFRE_ALTERNANCE:
-        _goToPage(context, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
+        _goToPage(context, RechercheOffreEmploiPage(onlyAlternance: true));
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
-        _goToPage(context, ImmersionListPage(true))
-            .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
+        _goToPage(context, RechercheOffreImmersionPage());
         break;
       case SavedSearchNavigationState.SERVICE_CIVIQUE:
-        _goToPage(context, ServiceCiviqueListPage(true));
+        _goToPage(context, RechercheOffreServiceCiviquePage());
         break;
       case SavedSearchNavigationState.NONE:
         break;
@@ -82,13 +80,10 @@ class _Scaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const backgroundColor = AppColors.grey100;
     return Scaffold(
-      backgroundColor: AppColors.grey100,
-      appBar: passEmploiAppBar(
-        label: Strings.suggestionsDeRechercheTitlePage,
-        context: context,
-        withBackButton: true,
-      ),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: Strings.suggestionsDeRechercheTitlePage, backgroundColor: backgroundColor),
       body: Stack(
         children: [
           ListView.separated(
@@ -163,7 +158,7 @@ class _Type extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.accent2),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(Dimens.radius_l),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -194,7 +189,7 @@ class _Metier extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(Dimens.radius_l),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -214,7 +209,7 @@ class _Localisation extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(Dimens.radius_l),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -223,10 +218,10 @@ class _Localisation extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 6),
-              child: SvgPicture.asset(
-                Drawables.icPlace,
+              child: Icon(
+                AppIcons.location_on_rounded,
                 color: AppColors.primary,
-                height: 16,
+                size: Dimens.icon_size_base,
               ),
             ),
             Text(text, style: TextStyles.textSRegular(color: AppColors.primary)),
@@ -281,10 +276,10 @@ class _Supprimer extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 12),
-                child: SvgPicture.asset(
-                  Drawables.icTrash,
+                child: Icon(
+                  AppIcons.delete,
                   color: AppColors.primary,
-                  height: 12,
+                  size: Dimens.icon_size_base,
                 ),
               ),
               Text(Strings.suppressionLabel, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
@@ -308,7 +303,7 @@ class _Ajouter extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: PrimaryActionButton(
             label: Strings.ajouter,
-            drawableRes: Drawables.icAdd,
+            icon: AppIcons.add_rounded,
             withShadow: false,
             heightPadding: 6,
             onPressed: onTapAjouter,
@@ -342,8 +337,8 @@ void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewM
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
-                  child: SvgPicture.asset(
-                    Drawables.icDone,
+                  child: Icon(
+                    AppIcons.check_rounded,
                     color: Colors.white,
                   ),
                 ),
@@ -384,8 +379,8 @@ class _CloseSnackbar extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
-        child: SvgPicture.asset(
-          Drawables.icClose,
+        child: Icon(
+          AppIcons.close_rounded,
           color: AppColors.secondary,
         ),
       ),
@@ -412,8 +407,8 @@ class _SeeResults extends StatelessWidget {
             Strings.voirResultatsSuggestion,
             style: TextStyles.textBaseBoldWithColor(AppColors.secondary).copyWith(decoration: TextDecoration.underline),
           ),
-          SvgPicture.asset(
-            Drawables.icChevronRight,
+          Icon(
+            AppIcons.chevron_right_rounded,
             color: AppColors.secondary,
           ),
         ],

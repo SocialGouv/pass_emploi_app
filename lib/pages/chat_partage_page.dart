@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -53,13 +54,10 @@ class _ChatPartagePageState extends State<ChatPartagePage> {
 
   Scaffold _scaffold(BuildContext context, ChatPartagePageViewModel viewModel) {
     _controller = TextEditingController(text: viewModel.defaultMessage);
+    const backgroundColor = Colors.white;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(
-        label: viewModel.pageTitle,
-        context: context,
-        withBackButton: true,
-      ),
+      backgroundColor: backgroundColor,
+      appBar: SecondaryAppBar(title: viewModel.pageTitle, backgroundColor: backgroundColor),
       body: _body(context, viewModel),
     );
   }
@@ -109,7 +107,7 @@ class _ChatPartagePageState extends State<ChatPartagePage> {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(16),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
           borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
         ),
       ),

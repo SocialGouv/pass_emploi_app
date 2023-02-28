@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
@@ -15,7 +14,8 @@ import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -154,7 +154,7 @@ class _CreateButton extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 24),
         child: PrimaryActionButton(
           label: label,
-          drawableRes: Drawables.icAdd,
+          icon: AppIcons.add_rounded,
           rippleColor: AppColors.primaryDarken,
           onPressed: onPressed,
         ),
@@ -284,7 +284,7 @@ class _WarningIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 10),
-      child: SvgPicture.asset(Drawables.icImportantOutlined, color: AppColors.warning, height: 20),
+      child: Icon(AppIcons.error_rounded, color: AppColors.warning, size: Dimens.icon_size_m),
     );
   }
 }
@@ -294,7 +294,7 @@ class _ChevronIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
+      child: Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor),
     );
   }
 }
@@ -353,7 +353,7 @@ class _CurrentWeekEmptyMiloCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 10),
-                  SvgPicture.asset(Drawables.icChevronRight, color: AppColors.primary),
+                  Icon(AppIcons.chevron_right_rounded, color: AppColors.primary)
                 ],
               ))
         ],

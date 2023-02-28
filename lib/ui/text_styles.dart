@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 
@@ -45,8 +44,8 @@ class TextStyles {
   static TextStyle textMenuRegular(Color color) {
     return TextStyle(
       color: color,
-      fontSize: FontSizes.extraSmall,
-      fontWeight: FontWeight.w700,
+      fontSize: FontSizes.xs,
+      fontWeight: FontWeight.normal,
       fontFamily: 'Marianne',
     );
   }
@@ -119,12 +118,14 @@ class TextStyles {
     fontWeight: FontWeight.w500,
   );
 
-  static final textBaseMediumBold = TextStyle(
-    color: AppColors.contentColor,
-    fontFamily: 'Marianne',
-    fontSize: FontSizes.medium,
-    fontWeight: FontWeight.w600,
-  );
+  static TextStyle textBaseMediumBold({Color? color = AppColors.contentColor}) {
+    return TextStyle(
+      color: color,
+      fontFamily: 'Marianne',
+      fontSize: FontSizes.medium,
+      fontWeight: FontWeight.w600,
+    );
+  }
 
   static final textMRegular = TextStyle(
     color: AppColors.contentColor,
@@ -156,28 +157,19 @@ class TextStyles {
     );
   }
 
-  static final textAppBar = TextStyle(
+  static final secondaryAppBar = TextStyle(
     color: AppColors.primary,
     fontFamily: 'Marianne',
-    fontSize: FontSizes.semi,
+    fontSize: FontSizes.huge,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle textSmMedium({Color color = AppColors.nightBlue}) {
-    return GoogleFonts.rubik(
-      color: color,
-      fontSize: FontSizes.normal,
-      fontWeight: FontWeight.w500,
-    );
-  }
-
-  static TextStyle textSmRegular({Color color = AppColors.nightBlue}) {
-    return GoogleFonts.rubik(
-      color: color,
-      fontSize: FontSizes.normal,
-      fontWeight: FontWeight.w400,
-    );
-  }
+  static TextStyle primaryAppBar = TextStyle(
+    color: AppColors.primary,
+    fontFamily: 'Marianne',
+    fontSize: FontSizes.xl,
+    fontWeight: FontWeight.w700,
+  );
 
   static TextStyle textBaseMediumWithColor(Color color) {
     return TextStyle(

@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -149,7 +150,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(16),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
           borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
         ),
       ),

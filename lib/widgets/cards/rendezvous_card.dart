@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
-import 'package:pass_emploi_app/widgets/rendezvous_tag.dart';
+import 'package:pass_emploi_app/widgets/pressed_tip.dart';
+import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
+import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousCard extends StatelessWidget {
@@ -32,17 +34,17 @@ class RendezvousCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousCardViewModel>(
       converter: converter,
-      builder: (context, viewModel) => _Container(viewModel, onTap, simpleCard),
+      builder: (context, viewModel) => _Content(viewModel, onTap, simpleCard),
     );
   }
 }
 
-class _Container extends StatelessWidget {
+class _Content extends StatelessWidget {
   final RendezvousCardViewModel viewModel;
   final VoidCallback onTap;
   final bool simpleCard;
 
-  const _Container(this.viewModel, this.onTap, this.simpleCard, {Key? key}) : super(key: key);
+  const _Content(this.viewModel, this.onTap, this.simpleCard, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,18 +54,38 @@ class _Container extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (viewModel.isAnnule && simpleCard == false) _Annule(),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RendezvousTag(viewModel.tag, viewModel.greenTag),
-              Spacer(),
+              Expanded(
+                child: Wrap(
+                  spacing: Margins.spacing_s,
+                  runSpacing: Margins.spacing_s,
+                  children: [
+                    if (viewModel.isAnnule && simpleCard == false) _Annule(),
+                    JobTag(
+                      label: viewModel.tag,
+                      backgroundColor: viewModel.greenTag ? AppColors.accent3Lighten : AppColors.accent2Lighten,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: Margins.spacing_base),
               if (viewModel.isInscrit) _InscritTag(),
             ],
           ),
+          SizedBox(height: Margins.spacing_base),
+          if (viewModel.title != null && simpleCard == false) ...[
+            _Titre(viewModel.title!),
+            SizedBox(height: Margins.spacing_base)
+          ],
+          if (viewModel.subtitle != null && simpleCard == false) ...[
+            _SousTitre(viewModel.subtitle!),
+            SizedBox(height: Margins.spacing_base)
+          ],
           _Date(viewModel.date),
-          if (viewModel.title != null && simpleCard == false) _Titre(viewModel.title!),
-          if (viewModel.subtitle != null && simpleCard == false) _SousTitre(viewModel.subtitle!),
-          if (simpleCard == false) _Link(),
+          SizedBox(height: Margins.spacing_base),
+          PressedTip(Strings.voirLeDetail),
         ],
       ),
     );
@@ -75,21 +97,11 @@ class _Annule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(40)),
-          color: AppColors.warningLight,
-          border: Border.all(color: AppColors.warning),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
-        child: Text(
-          Strings.rendezvousCardAnnule,
-          style: TextStyles.textSRegularWithColor(AppColors.warning),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
+    return StatutTag.icon(
+      icon: AppIcons.close_rounded,
+      backgroundColor: AppColors.accent2Lighten,
+      textColor: AppColors.accent2,
+      title: Strings.rendezvousCardAnnule,
     );
   }
 }
@@ -101,15 +113,12 @@ class _Date extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Row(
-        children: [
-          SvgPicture.asset(Drawables.icClock, color: AppColors.primary),
-          SizedBox(width: Margins.spacing_s),
-          Text(date, style: TextStyles.textSRegularWithColor(AppColors.primary)),
-        ],
-      ),
+    return Row(
+      children: [
+        Icon(AppIcons.today_outlined, color: AppColors.primary, size: Dimens.icon_size_base),
+        SizedBox(width: Margins.spacing_xs),
+        Text(date, style: TextStyles.textSMedium(color: AppColors.contentColor)),
+      ],
     );
   }
 }
@@ -121,10 +130,7 @@ class _Titre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Text(titre, style: TextStyles.textBaseBold),
-    );
+    return Text(titre, style: TextStyles.textMBold);
   }
 }
 
@@ -135,30 +141,7 @@ class _SousTitre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Text(sousTitre, style: TextStyles.textSRegular(color: AppColors.grey800)),
-    );
-  }
-}
-
-class _Link extends StatelessWidget {
-  const _Link({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: Margins.spacing_base),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(child: Container()),
-          Text(Strings.linkDetailsRendezVous, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-          SizedBox(width: Margins.spacing_s),
-          SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
-        ],
-      ),
-    );
+    return Text(sousTitre, style: TextStyles.textSRegular(color: AppColors.grey800));
   }
 }
 
@@ -193,7 +176,7 @@ class _InscritTag extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SvgPicture.asset(Drawables.icCalendar, color: AppColors.accent1),
+        child: Icon(AppIcons.today_rounded, color: AppColors.accent1),
       ),
     );
   }

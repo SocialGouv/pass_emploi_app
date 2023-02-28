@@ -54,7 +54,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
     return Tracker(
       tracking: AnalyticsScreenNames.userActionDetails,
       child: Scaffold(
-        appBar: passEmploiAppBar(label: Strings.actionDetails, context: context),
+        appBar: SecondaryAppBar(title: Strings.actionDetails),
         body: StoreConnector<AppState, UserActionDetailsViewModel>(
           onInit: (store) {
             store.dispatch(UserActionUpdateResetAction());
@@ -221,7 +221,7 @@ class _SuccessBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       userActionBottomSheetHeader(context, title: ""),
-      SvgPicture.asset(Drawables.icCongratulations),
+      SvgPicture.asset(Drawables.congratulationsIllustration),
       Padding(
         padding: const EdgeInsets.all(24),
         child: Text(
@@ -318,8 +318,8 @@ class _DeleteAction extends StatelessWidget {
             textColor: AppColors.warning,
             fontSize: FontSizes.normal,
             backgroundColor: AppColors.warningLighten,
-            disabledBackgroundColor: AppColors.warningLight,
-            rippleColor: AppColors.warningLight,
+            disabledBackgroundColor: AppColors.warningLighten,
+            rippleColor: AppColors.warningLighten,
             withShadow: false,
           ),
           if (viewModel.deleteDisplayState == DeleteDisplayState.SHOW_DELETE_ERROR)
