@@ -1,11 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_actions.dart';
+import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_state.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_entry_page_view_model.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  test('onStartPressed should dispatch DiagorienteUrlsRequestAction', () {
+  test('navigatingTo should dispatch DiagorienteUrlsRequestAction', () {
     // Given
     final store = givenState().spyStore();
     final viewModel = DiagorienteEntryPageViewModel.create(store);
@@ -17,49 +19,63 @@ void main() {
     expect(store.dispatchedAction, isA<DiagorienteUrlsRequestAction>());
   });
 
-  group('displayState', () {
-    test('when diagoriente urls state is not initialized should return initial', () {
-      // Given
-      final store = givenState().loggedInUser().store();
+  group('showError', () {
+    expectShowError(DiagorienteUrlsFailureState(), true);
+    expectShowError(DiagorienteUrlsLoadingState(), false);
+    expectShowError(DiagorienteUrlsSuccessState(mockDiagorienteUrls()), false);
+    expectShowError(DiagorienteUrlsNotInitializedState(), false);
+  });
 
-      // When
-      final viewModel = DiagorienteEntryPageViewModel.create(store);
+  group('shouldDisableButtons', () {
+    expectShouldDisableButtons(DiagorienteUrlsFailureState(), false);
+    expectShouldDisableButtons(DiagorienteUrlsLoadingState(), true);
+    expectShouldDisableButtons(DiagorienteUrlsSuccessState(mockDiagorienteUrls()), false);
+    expectShouldDisableButtons(DiagorienteUrlsNotInitializedState(), false);
+  });
 
-      // Then
-      expect(viewModel.displayState, DiagorienteEntryPageDisplayState.initial);
-    });
+  group('navigatingTo', () {
+    expectNavigatingTo(DiagorienteUrlsFailureState(), null);
+    expectNavigatingTo(DiagorienteUrlsLoadingState(), null);
+    expectNavigatingTo(DiagorienteUrlsSuccessState(mockDiagorienteUrls()), DiagorienteNavigatingTo.chatBotPage);
+    expectNavigatingTo(DiagorienteUrlsNotInitializedState(), null);
+  });
+}
 
-    test('when diagoriente urls state is loading should display loading', () {
-      // Given
-      final store = givenState().loggedInUser().diagorienteUrlsLoadingState().store();
+void expectShowError(DiagorienteUrlsState state, bool expected) {
+  test('when state is $state show error should be $expected', () {
+    // Given
+    final store = givenState().loggedInUser().copyWith(diagorienteUrlsState: state).store();
 
-      // When
-      final viewModel = DiagorienteEntryPageViewModel.create(store);
+    // When
+    final viewModel = DiagorienteEntryPageViewModel.create(store);
 
-      // Then
-      expect(viewModel.displayState, DiagorienteEntryPageDisplayState.loading);
-    });
+    // Then
+    expect(viewModel.showError, expected);
+  });
+}
 
-    test('when diagoriente urls state is failure should display failure', () {
-      // Given
-      final store = givenState().loggedInUser().diagorienteUrlsFailureState().store();
+void expectShouldDisableButtons(DiagorienteUrlsState state, bool expected) {
+  test('when state is $state shouldDisableButtons should be $expected', () {
+    // Given
+    final store = givenState().loggedInUser().copyWith(diagorienteUrlsState: state).store();
 
-      // When
-      final viewModel = DiagorienteEntryPageViewModel.create(store);
+    // When
+    final viewModel = DiagorienteEntryPageViewModel.create(store);
 
-      // Then
-      expect(viewModel.displayState, DiagorienteEntryPageDisplayState.failure);
-    });
+    // Then
+    expect(viewModel.shouldDisableButtons, expected);
+  });
+}
 
-    test('when diagoriente urls state is success should display chat bot page', () {
-      // Given
-      final store = givenState().loggedInUser().diagorienteUrlsSuccessState().store();
+void expectNavigatingTo(DiagorienteUrlsState state, DiagorienteNavigatingTo? expected) {
+  test('when state is $state navigatingTo should be $expected', () {
+    // Given
+    final store = givenState().loggedInUser().copyWith(diagorienteUrlsState: state).store();
 
-      // When
-      final viewModel = DiagorienteEntryPageViewModel.create(store);
+    // When
+    final viewModel = DiagorienteEntryPageViewModel.create(store);
 
-      // Then
-      expect(viewModel.displayState, DiagorienteEntryPageDisplayState.chatBotPage);
-    });
+    // Then
+    expect(viewModel.navigatingTo, expected);
   });
 }

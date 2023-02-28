@@ -4,32 +4,34 @@ import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_state
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-enum DiagorienteEntryPageDisplayState { initial, loading, failure, chatBotPage }
+enum DiagorienteNavigatingTo { chatBotPage }
 
 class DiagorienteEntryPageViewModel extends Equatable {
-  final DiagorienteEntryPageDisplayState displayState;
   final Function requestUrls;
+  final bool showError;
+  final bool shouldDisableButtons;
+  final DiagorienteNavigatingTo? navigatingTo;
 
   DiagorienteEntryPageViewModel({
-    required this.displayState,
     required this.requestUrls,
+    required this.showError,
+    required this.shouldDisableButtons,
+    this.navigatingTo,
   });
 
   factory DiagorienteEntryPageViewModel.create(Store<AppState> store) {
+    final urlState = store.state.diagorienteUrlsState;
+    final shouldDisableButton = urlState is DiagorienteUrlsLoadingState;
+    final showError = urlState is DiagorienteUrlsFailureState;
+    final navigationTo = urlState is DiagorienteUrlsSuccessState ? DiagorienteNavigatingTo.chatBotPage : null;
     return DiagorienteEntryPageViewModel(
-      displayState: _displayState(store),
+      shouldDisableButtons: shouldDisableButton,
+      showError: showError,
+      navigatingTo: navigationTo,
       requestUrls: () => store.dispatch(DiagorienteUrlsRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState];
-}
-
-DiagorienteEntryPageDisplayState _displayState(Store<AppState> store) {
-  final state = store.state.diagorienteUrlsState;
-  if (state is DiagorienteUrlsLoadingState) return DiagorienteEntryPageDisplayState.loading;
-  if (state is DiagorienteUrlsFailureState) return DiagorienteEntryPageDisplayState.failure;
-  if (state is DiagorienteUrlsSuccessState) return DiagorienteEntryPageDisplayState.chatBotPage;
-  return DiagorienteEntryPageDisplayState.initial;
+  List<Object?> get props => [showError, shouldDisableButtons, navigatingTo];
 }

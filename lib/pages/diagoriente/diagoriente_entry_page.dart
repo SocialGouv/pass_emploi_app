@@ -50,8 +50,12 @@ class DiagorienteEntryPage extends StatelessWidget {
   }
 
   void _onDidChange(BuildContext context, DiagorienteEntryPageViewModel viewModel) {
-    if (viewModel.displayState == DiagorienteEntryPageDisplayState.chatBotPage) {
-      Navigator.push(context, DiagorienteChatBotPage.materialPageRoute());
+    switch (viewModel.navigatingTo) {
+      case DiagorienteNavigatingTo.chatBotPage:
+        Navigator.push(context, DiagorienteChatBotPage.materialPageRoute());
+        break;
+      default:
+        break;
     }
   }
 }
@@ -63,8 +67,8 @@ class _DecouvrirLesMetiersCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final withLoading = viewModel.displayState == DiagorienteEntryPageDisplayState.loading;
-    final withFailure = viewModel.displayState == DiagorienteEntryPageDisplayState.failure;
+    final withLoading = viewModel.shouldDisableButtons;
+    final withFailure = viewModel.showError;
     return CardContainer(
       child: Column(
         mainAxisSize: MainAxisSize.min,
