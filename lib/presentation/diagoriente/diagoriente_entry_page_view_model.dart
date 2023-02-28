@@ -8,17 +8,17 @@ enum DiagorienteEntryPageDisplayState { initial, loading, failure, chatBotPage }
 
 class DiagorienteEntryPageViewModel extends Equatable {
   final DiagorienteEntryPageDisplayState displayState;
-  final Function onStartPressed;
+  final Function requestUrls;
 
   DiagorienteEntryPageViewModel({
     required this.displayState,
-    required this.onStartPressed,
+    required this.requestUrls,
   });
 
   factory DiagorienteEntryPageViewModel.create(Store<AppState> store) {
     return DiagorienteEntryPageViewModel(
       displayState: _displayState(store),
-      onStartPressed: () => store.dispatch(DiagorienteUrlsRequestAction()),
+      requestUrls: () => store.dispatch(DiagorienteUrlsRequestAction()),
     );
   }
 

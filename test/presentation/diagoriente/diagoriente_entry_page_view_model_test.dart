@@ -11,7 +11,7 @@ void main() {
     final viewModel = DiagorienteEntryPageViewModel.create(store);
 
     // When
-    viewModel.onStartPressed();
+    viewModel.requestUrls();
 
     // Then
     expect(store.dispatchedAction, isA<DiagorienteUrlsRequestAction>());

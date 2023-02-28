@@ -39,33 +39,12 @@ class DiagorienteEntryPage extends StatelessWidget {
 
   Widget _builder(BuildContext context, DiagorienteEntryPageViewModel viewModel) {
     const backgroundColor = AppColors.grey100;
-    final withLoading = viewModel.displayState == DiagorienteEntryPageDisplayState.loading;
-    final withFailure = viewModel.displayState == DiagorienteEntryPageDisplayState.failure;
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: SecondaryAppBar(title: Strings.diagorienteEntryPageTitle, backgroundColor: backgroundColor),
       body: Padding(
         padding: const EdgeInsets.all(Margins.spacing_base),
-        child: CardContainer(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(Strings.diagorienteMetiersCardTitle, style: TextStyles.textMBold),
-              SizedBox(height: Margins.spacing_m),
-              Text(Strings.diagorienteMetiersCardSubtitle, style: TextStyles.textBaseRegular),
-              SizedBox(height: Margins.spacing_m),
-              if (withFailure) ...[
-                _FailureMessage(),
-                SizedBox(height: Margins.spacing_m),
-              ],
-              PrimaryActionButton(
-                label: Strings.diagorienteMetiersCardButton,
-                onPressed: withLoading ? null : () => viewModel.onStartPressed(),
-              ),
-            ],
-          ),
-        ),
+        child: _DecouvrirLesMetiersCard(viewModel),
       ),
     );
   }
@@ -74,6 +53,38 @@ class DiagorienteEntryPage extends StatelessWidget {
     if (viewModel.displayState == DiagorienteEntryPageDisplayState.chatBotPage) {
       Navigator.push(context, DiagorienteChatBotPage.materialPageRoute());
     }
+  }
+}
+
+class _DecouvrirLesMetiersCard extends StatelessWidget {
+  const _DecouvrirLesMetiersCard(this.viewModel);
+
+  final DiagorienteEntryPageViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    final withLoading = viewModel.displayState == DiagorienteEntryPageDisplayState.loading;
+    final withFailure = viewModel.displayState == DiagorienteEntryPageDisplayState.failure;
+    return CardContainer(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(Strings.diagorienteMetiersCardTitle, style: TextStyles.textMBold),
+          SizedBox(height: Margins.spacing_m),
+          Text(Strings.diagorienteMetiersCardSubtitle, style: TextStyles.textBaseRegular),
+          SizedBox(height: Margins.spacing_m),
+          if (withFailure) ...[
+            _FailureMessage(),
+            SizedBox(height: Margins.spacing_m),
+          ],
+          PrimaryActionButton(
+            label: Strings.diagorienteMetiersCardButton,
+            onPressed: withLoading ? null : () => viewModel.requestUrls(),
+          ),
+        ],
+      ),
+    );
   }
 }
 
