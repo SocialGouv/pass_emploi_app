@@ -490,6 +490,15 @@ class Strings {
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
 
+  // Offre Filter Page
+  static String filterList = "Filtrer la liste";
+  static String filterByType = "Filtrer par type";
+  static String filterAll = "Tous";
+  static String filterEmploi = "Emploi";
+  static String filterImmersion = "Immersion";
+  static String filterAlternance = "Alternance";
+  static String filterServiceCivique = "Service civique";
+
   // Empty Content (actions & rdv)
   static String rendezvous = "rendez-vous";
   static String actions = "actions";
