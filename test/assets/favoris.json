@@ -1,0 +1,28 @@
+[
+  {
+    "idOffre": "1",
+    "titre": "titre-1",
+    "type": "OFFRE_EMPLOI",
+    "organisation": "organisation-1",
+    "localisation": "localisation-1"
+  },
+  {
+    "idOffre": "2",
+    "titre": "titre-2",
+    "type": "OFFRE_ALTERNANCE",
+    "organisation": "organisation-2",
+    "localisation": "localisation-2"
+  },
+  {
+    "idOffre": "3",
+    "titre": "titre-3",
+    "type": "OFFRE_IMMERSION",
+    "localisation": "localisation-3"
+  },
+  {
+    "idOffre": "4",
+    "titre": "titre-4",
+    "type": "OFFRE_SERVICE_CIVIQUE",
+    "organisation": "organisation-4"
+  }
+]
