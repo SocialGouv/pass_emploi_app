@@ -21,10 +21,15 @@ void main() {
   });
 
   group('showError', () {
-    expectShowError(DiagorienteUrlsFailureState(), true);
-    expectShowError(DiagorienteUrlsLoadingState(), false);
-    expectShowError(DiagorienteUrlsSuccessState(mockDiagorienteUrls()), false);
-    expectShowError(DiagorienteUrlsNotInitializedState(), false);
+    expectShowError(urlState: DiagorienteUrlsFailureState(), expected: true);
+    expectShowError(urlState: DiagorienteUrlsLoadingState(), expected: false);
+    expectShowError(urlState: DiagorienteUrlsSuccessState(mockDiagorienteUrls()), expected: false);
+    expectShowError(urlState: DiagorienteUrlsNotInitializedState(), expected: false);
+
+    expectShowError(favorisState: DiagorienteMetiersFavorisFailureState(), expected: true);
+    expectShowError(favorisState: DiagorienteMetiersFavorisLoadingState(), expected: false);
+    expectShowError(favorisState: DiagorienteMetiersFavorisSuccessState(true), expected: false);
+    expectShowError(favorisState: DiagorienteMetiersFavorisNotInitializedState(), expected: false);
   });
 
   group('shouldDisableButtons', () {
@@ -49,10 +54,20 @@ void main() {
   });
 }
 
-void expectShowError(DiagorienteUrlsState state, bool expected) {
-  test('when state is $state show error should be $expected', () {
+void expectShowError({
+  DiagorienteUrlsState? urlState,
+  DiagorienteMetiersFavorisState? favorisState,
+  required bool expected,
+}) {
+  test('when state is $urlState show error should be $expected', () {
     // Given
-    final store = givenState().loggedInUser().copyWith(diagorienteUrlsState: state).store();
+    final store = givenState()
+        .loggedInUser()
+        .copyWith(
+          diagorienteUrlsState: urlState,
+          diagorienteMetiersFavorisState: favorisState,
+        )
+        .store();
 
     // When
     final viewModel = DiagorienteEntryPageViewModel.create(store);

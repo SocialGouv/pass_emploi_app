@@ -24,8 +24,9 @@ class DiagorienteEntryPageViewModel extends Equatable {
 
   factory DiagorienteEntryPageViewModel.create(Store<AppState> store) {
     final urlState = store.state.diagorienteUrlsState;
+    final favorisState = store.state.diagorienteMetiersFavorisState;
     final shouldDisableButton = urlState is DiagorienteUrlsLoadingState;
-    final showError = urlState is DiagorienteUrlsFailureState;
+    final showError = urlState is DiagorienteUrlsFailureState || favorisState is DiagorienteMetiersFavorisFailureState;
     final navigationTo = urlState is DiagorienteUrlsSuccessState ? DiagorienteNavigatingTo.chatBotPage : null;
     final metiersFavorisState = store.state.diagorienteMetiersFavorisState;
     final showMetiersFavoris = metiersFavorisState is DiagorienteMetiersFavorisSuccessState;
