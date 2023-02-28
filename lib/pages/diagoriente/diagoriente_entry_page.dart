@@ -12,9 +12,11 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/apparition_animation.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class DiagorienteEntryPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => DiagorienteEntryPage());
@@ -39,12 +41,26 @@ class DiagorienteEntryPage extends StatelessWidget {
 
   Widget _builder(BuildContext context, DiagorienteEntryPageViewModel viewModel) {
     const backgroundColor = AppColors.grey100;
+    final withFailure = viewModel.showError;
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: SecondaryAppBar(title: Strings.diagorienteEntryPageTitle, backgroundColor: backgroundColor),
       body: Padding(
         padding: const EdgeInsets.all(Margins.spacing_base),
-        child: _DecouvrirLesMetiersCard(viewModel),
+        child: Column(
+          children: [
+            if (withFailure) ...[
+              _FailureMessage(),
+              SizedBox(height: Margins.spacing_m),
+            ],
+            if (viewModel.showMetiersFavoris) ...[
+              _DiagorienteMetiersFavorisCard(viewModel),
+              SizedBox(height: Margins.spacing_base),
+            ],
+            _DecouvrirLesMetiersCard(viewModel),
+          ],
+        ),
       ),
     );
   }
@@ -60,6 +76,34 @@ class DiagorienteEntryPage extends StatelessWidget {
   }
 }
 
+class _DiagorienteMetiersFavorisCard extends StatelessWidget {
+  const _DiagorienteMetiersFavorisCard(this.viewModel);
+
+  final DiagorienteEntryPageViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    final withLoading = viewModel.shouldDisableButtons;
+
+    return ApparitionAnimation(
+      child: CardContainer(
+        onTap: withLoading ? null : () => viewModel.requestUrls(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(Strings.diagorienteMetiersFavorisCardTitle, style: TextStyles.textMBold),
+            SizedBox(height: Margins.spacing_m),
+            Text(Strings.diagorienteMetiersFavorisCardSubtitle, style: TextStyles.textBaseRegular),
+            SizedBox(height: Margins.spacing_m),
+            PressedTip(Strings.diagorienteMetiersFavorisCardPressedTip),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _DecouvrirLesMetiersCard extends StatelessWidget {
   const _DecouvrirLesMetiersCard(this.viewModel);
 
@@ -68,7 +112,6 @@ class _DecouvrirLesMetiersCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final withLoading = viewModel.shouldDisableButtons;
-    final withFailure = viewModel.showError;
     return CardContainer(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -78,10 +121,6 @@ class _DecouvrirLesMetiersCard extends StatelessWidget {
           SizedBox(height: Margins.spacing_m),
           Text(Strings.diagorienteMetiersCardSubtitle, style: TextStyles.textBaseRegular),
           SizedBox(height: Margins.spacing_m),
-          if (withFailure) ...[
-            _FailureMessage(),
-            SizedBox(height: Margins.spacing_m),
-          ],
           PrimaryActionButton(
             label: Strings.diagorienteMetiersCardButton,
             onPressed: withLoading ? null : () => viewModel.requestUrls(),

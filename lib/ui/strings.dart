@@ -698,4 +698,7 @@ class Strings {
   static String diagorienteDiscoverCardTitle = "Découvrez de nouveaux métiers et retrouvez vos métiers favoris !";
   static String diagorienteDiscoverCardSubtitle = "Explorez les métiers qui correspondent à vos centres d’intérêt.";
   static String diagorienteDiscoverCardPressedTip = "En savoir plus";
+  static String diagorienteMetiersFavorisCardTitle = "Retrouvez vos métiers favoris";
+  static String diagorienteMetiersFavorisCardSubtitle = "Mes métiers favoris";
+  static String diagorienteMetiersFavorisCardPressedTip = "Voir";
 }
