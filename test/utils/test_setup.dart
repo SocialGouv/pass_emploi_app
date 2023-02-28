@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
+import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
@@ -102,8 +103,8 @@ class TestStoreFactory {
   EventListRepository eventListRepository = DummyEventListRepository();
   InstallationIdRepository installationIdRepository = DummyInstallationIdRepository();
   DiagorienteUrlsRepository diagorienteUrlsRepository = DummyDiagorienteUrlsRepository();
+  DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository = DummyDiagorienteMetiersFavorisRepository();
   GetFavorisRepository getFavorisRepository = MockGetFavorisRepository();
-
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -154,6 +155,7 @@ class TestStoreFactory {
       eventListRepository,
       installationIdRepository,
       diagorienteUrlsRepository,
+      diagorienteMetiersFavorisRepository,
       getFavorisRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);

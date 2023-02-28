@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_middleware.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_middleware.dart';
+import 'package:pass_emploi_app/features/diagoriente_metiers_favoris/diagoriente_metiers_favoris_middleware.dart';
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_middleware.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
@@ -78,6 +79,7 @@ import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
+import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
@@ -159,8 +161,8 @@ class StoreFactory {
   final EventListRepository eventListRepository;
   final InstallationIdRepository installationIdRepository;
   final DiagorienteUrlsRepository diagorienteUrlsRepository;
+  final DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository;
   final GetFavorisRepository getFavorisRepository;
-
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -210,6 +212,7 @@ class StoreFactory {
     this.eventListRepository,
     this.installationIdRepository,
     this.diagorienteUrlsRepository,
+    this.diagorienteMetiersFavorisRepository,
     this.getFavorisRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
@@ -275,6 +278,7 @@ class StoreFactory {
         RechercheImmersionMiddleware(immersionRepository),
         RechercheServiceCiviqueMiddleware(serviceCiviqueRepository),
         DiagorienteUrlsMiddleware(diagorienteUrlsRepository),
+        DiagorienteMetiersFavorisMiddleware(diagorienteMetiersFavorisRepository),
         FavoriListMiddleware(getFavorisRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),

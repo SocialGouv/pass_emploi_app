@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart'
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_state.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_state.dart';
+import 'package:pass_emploi_app/features/diagoriente_metiers_favoris/diagoriente_metiers_favoris_state.dart';
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
@@ -113,7 +114,7 @@ class AppState extends Equatable {
   final RechercheImmersionState rechercheImmersionState;
   final RechercheServiceCiviqueState rechercheServiceCiviqueState;
   final DiagorienteUrlsState diagorienteUrlsState;
-
+  final DiagorienteMetiersFavorisState diagorienteMetiersFavorisState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -172,6 +173,7 @@ class AppState extends Equatable {
     required this.rechercheImmersionState,
     required this.rechercheServiceCiviqueState,
     required this.diagorienteUrlsState,
+    required this.diagorienteMetiersFavorisState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -231,6 +233,7 @@ class AppState extends Equatable {
     final RechercheImmersionState? rechercheImmersionState,
     final RechercheServiceCiviqueState? rechercheServiceCiviqueState,
     final DiagorienteUrlsState? diagorienteUrlsState,
+    final DiagorienteMetiersFavorisState? diagorienteMetiersFavorisState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -290,6 +293,7 @@ class AppState extends Equatable {
       rechercheImmersionState: rechercheImmersionState ?? this.rechercheImmersionState,
       rechercheServiceCiviqueState: rechercheServiceCiviqueState ?? this.rechercheServiceCiviqueState,
       diagorienteUrlsState: diagorienteUrlsState ?? this.diagorienteUrlsState,
+      diagorienteMetiersFavorisState: diagorienteMetiersFavorisState ?? this.diagorienteMetiersFavorisState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -351,6 +355,7 @@ class AppState extends Equatable {
       rechercheImmersionState: RechercheState.initial(),
       rechercheServiceCiviqueState: RechercheState.initial(),
       diagorienteUrlsState: DiagorienteUrlsNotInitializedState(),
+      diagorienteMetiersFavorisState: DiagorienteMetiersFavorisNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -405,6 +410,7 @@ class AppState extends Equatable {
         rechercheImmersionState,
         rechercheServiceCiviqueState,
         diagorienteUrlsState,
+        diagorienteMetiersFavorisState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 
