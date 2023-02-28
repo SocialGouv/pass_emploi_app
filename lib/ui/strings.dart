@@ -687,4 +687,17 @@ class Strings {
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";
+
+  // Diagoriente
+  static String diagorienteEntryPageTitle = "Préférences métiers";
+  static String diagorienteMetiersCardTitle = "Découvrez de nouveaux métiers";
+  static String diagorienteMetiersCardSubtitle =
+      "Explorez les métiers qui correspondent à vos centres d'intérêt en répondant à quelques questions.";
+  static String diagorienteMetiersCardButton = "Commencer";
+  static String diagorienteMetiersCardError =
+      "Une erreur est survenue. Vérifiez votre connexion ou réessayez plus tard.";
+  static String diagorienteChatBotPageTitle = "Découvrir des métiers";
+  static String diagorienteDiscoverCardTitle = "Découvrez de nouveaux métiers et retrouvez vos métiers favoris !";
+  static String diagorienteDiscoverCardSubtitle = "Explorez les métiers qui correspondent à vos centres d’intérêt.";
+  static String diagorienteDiscoverCardPressedTip = "En savoir plus";
 }

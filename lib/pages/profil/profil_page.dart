@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/pages/diagoriente/diagoriente_entry_page.dart';
 import 'package:pass_emploi_app/pages/partage_activite_page.dart';
 import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
 import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
@@ -20,11 +21,13 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/rating_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/mon_conseiller_card.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/standalone_profil_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/label_value_row.dart';
+import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class ProfilPage extends StatelessWidget {
@@ -62,6 +65,8 @@ class ProfilPage extends StatelessWidget {
             children: [
               _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
               SizedBox(height: Margins.spacing_m),
+              _DiscoverDiagorienteCard(),
+              SizedBox(height: Margins.spacing_m),
               _ProfileCard(userEmail: viewModel.userEmail),
               SizedBox(height: Margins.spacing_m),
               if (viewModel.displayMonConseiller) MonConseillerCard(),
@@ -91,6 +96,26 @@ class ProfilPage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _DiscoverDiagorienteCard extends StatelessWidget {
+  const _DiscoverDiagorienteCard();
+
+  @override
+  Widget build(BuildContext context) {
+    const Color textColor = Colors.white;
+    return CardContainer(
+        backgroundColor: AppColors.primary,
+        onTap: () => Navigator.push(context, DiagorienteEntryPage.materialPageRoute()),
+        child: Column(
+          children: [
+            Text(Strings.diagorienteDiscoverCardTitle, style: TextStyles.textMBold.copyWith(color: textColor)),
+            SizedBox(height: Margins.spacing_m),
+            Text(Strings.diagorienteDiscoverCardSubtitle, style: TextStyles.textBaseRegularWithColor(textColor)),
+            PressedTip(Strings.diagorienteDiscoverCardPressedTip, textColor: textColor),
+          ],
+        ));
   }
 }
 

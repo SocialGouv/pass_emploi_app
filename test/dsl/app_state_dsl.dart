@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
+import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
@@ -522,5 +523,13 @@ extension AppStateDSL on AppState {
 
   AppState withImmersionDetailsLoading() {
     return copyWith(immersionDetailsState: ImmersionDetailsLoadingState());
+  }
+
+  AppState diagorienteUrlsLoadingState() => copyWith(diagorienteUrlsState: DiagorienteUrlsLoadingState());
+
+  AppState diagorienteUrlsFailureState() => copyWith(diagorienteUrlsState: DiagorienteUrlsFailureState());
+
+  AppState diagorienteUrlsSuccessState() {
+    return copyWith(diagorienteUrlsState: DiagorienteUrlsSuccessState(mockDiagorienteUrls()));
   }
 }
