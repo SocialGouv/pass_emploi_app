@@ -24,6 +24,7 @@ class DiagorienteEntryPage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.diagorienteEntryPage,
       child: StoreConnector<AppState, DiagorienteEntryPageViewModel>(
+        onInit: (store) => store.dispatch(DiagorienteMetiersFavorisRequestAction()),
         converter: (store) => DiagorienteEntryPageViewModel.create(store),
         builder: _builder,
         onDispose: (store) {
