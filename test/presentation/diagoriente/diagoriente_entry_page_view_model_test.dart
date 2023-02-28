@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/diagoriente_metiers_favoris/diagoriente_metiers_favoris_state.dart';
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_actions.dart';
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_state.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_entry_page_view_model.dart';
@@ -39,6 +40,13 @@ void main() {
     expectNavigatingTo(DiagorienteUrlsSuccessState(mockDiagorienteUrls()), DiagorienteNavigatingTo.chatBotPage);
     expectNavigatingTo(DiagorienteUrlsNotInitializedState(), null);
   });
+
+  group("showMetiersFavoris", () {
+    expectShowMetiersFavoris(DiagorienteMetiersFavorisSuccessState(true), true);
+    expectShowMetiersFavoris(DiagorienteMetiersFavorisFailureState(), false);
+    expectShowMetiersFavoris(DiagorienteMetiersFavorisLoadingState(), false);
+    expectShowMetiersFavoris(DiagorienteMetiersFavorisNotInitializedState(), false);
+  });
 }
 
 void expectShowError(DiagorienteUrlsState state, bool expected) {
@@ -77,5 +85,18 @@ void expectNavigatingTo(DiagorienteUrlsState state, DiagorienteNavigatingTo? exp
 
     // Then
     expect(viewModel.navigatingTo, expected);
+  });
+}
+
+void expectShowMetiersFavoris(DiagorienteMetiersFavorisState state, bool expected) {
+  test('when state is $state showMetiersFavoris should be $expected', () {
+    // Given
+    final store = givenState().loggedInUser().copyWith(diagorienteMetiersFavorisState: state).store();
+
+    // When
+    final viewModel = DiagorienteEntryPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.showMetiersFavoris, expected);
   });
 }
