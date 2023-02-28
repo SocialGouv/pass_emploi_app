@@ -14,7 +14,7 @@ upgrade_version() {
 update_master_and_tag() {
   git checkout master
   git pull --rebase
-  git merge --no-ff --no-edit develop
+  git merge --no-ff --no-edit -Xtheirs develop
   git push
   git tag -a $new_version -m "$new_version"
   git push --tags
