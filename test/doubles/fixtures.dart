@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/diagoriente_urls.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
@@ -589,3 +590,5 @@ DiagorienteUrls mockDiagorienteUrls() {
     metiersRecommandesUrl: 'metiersRecommandesUrl',
   );
 }
+
+Favori mockFavori() => Favori(id: 'id', type: FavoriType.emploi, titre: 't', organisation: null, localisation: null);

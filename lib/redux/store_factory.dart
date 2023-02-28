@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_middl
 import 'package:pass_emploi_app/features/events/list/event_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
+import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_middleware.dart';
 import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_middleware.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_middleware.dart';
@@ -80,6 +81,7 @@ import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -112,6 +114,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:redux/redux.dart' as redux;
 
 class StoreFactory {
+  final Configuration configuration;
   final Authenticator authenticator;
   final Crashlytics crashlytics;
   final ChatCrypto chatCrypto;
@@ -156,13 +159,13 @@ class StoreFactory {
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
   final EventListRepository eventListRepository;
   final InstallationIdRepository installationIdRepository;
-  final Configuration configuration;
-
   final DiagorienteUrlsRepository diagorienteUrlsRepository;
+  final GetFavorisRepository getFavorisRepository;
 
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
+    this.configuration,
     this.authenticator,
     this.crashlytics,
     this.chatCrypto,
@@ -174,30 +177,30 @@ class StoreFactory {
     this.registerTokenRepository,
     this.offreEmploiDetailsRepository,
     this.offreEmploiFavorisRepository,
-    this.immersionFavorisRepository,
-    this.serviceCiviqueFavorisRepository,
-    this.searchLocationRepository,
-    this.metierRepository,
-    this.immersionRepository,
-    this.immersionDetailsRepository,
-    this.firebaseAuthRepository,
-    this.firebaseAuthWrapper,
-    this.trackingEventRepository,
-    this.offreEmploiSavedSearchRepository,
-    this.immersionSavedSearchRepository,
-    this.serviceCiviqueSavedSearchRepository,
-    this.getSavedSearchRepository,
-    this.savedSearchDeleteRepository,
-    this.serviceCiviqueRepository,
-    this.serviceCiviqueDetailRepository,
-    this.detailsJeuneRepository,
-    this.suppressionCompteRepository,
-    this.modeDemoRepository,
-    this.campagneRepository,
-    this.matomoTracker,
-    this.updateDemarcheRepository,
-    this.createDemarcheRepository,
-    this.demarcheDuReferentielRepository,
+      this.immersionFavorisRepository,
+      this.serviceCiviqueFavorisRepository,
+      this.searchLocationRepository,
+      this.metierRepository,
+      this.immersionRepository,
+      this.immersionDetailsRepository,
+      this.firebaseAuthRepository,
+      this.firebaseAuthWrapper,
+      this.trackingEventRepository,
+      this.offreEmploiSavedSearchRepository,
+      this.immersionSavedSearchRepository,
+      this.serviceCiviqueSavedSearchRepository,
+      this.getSavedSearchRepository,
+      this.savedSearchDeleteRepository,
+      this.serviceCiviqueRepository,
+      this.serviceCiviqueDetailRepository,
+      this.detailsJeuneRepository,
+      this.suppressionCompteRepository,
+      this.modeDemoRepository,
+      this.campagneRepository,
+      this.matomoTracker,
+      this.updateDemarcheRepository,
+      this.createDemarcheRepository,
+      this.demarcheDuReferentielRepository,
     this.pieceJointeRepository,
     this.tutorialRepository,
     this.partageActiviteRepository,
@@ -207,8 +210,8 @@ class StoreFactory {
     this.suggestionsRechercheRepository,
     this.eventListRepository,
     this.installationIdRepository,
-    this.configuration,
     this.diagorienteUrlsRepository,
+    this.getFavorisRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -276,6 +279,7 @@ class StoreFactory {
         RechercheImmersionMiddleware(immersionRepository),
         RechercheServiceCiviqueMiddleware(serviceCiviqueRepository),
         DiagorienteUrlsMiddleware(diagorienteUrlsRepository),
+        FavoriListV2Middleware(getFavorisRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
