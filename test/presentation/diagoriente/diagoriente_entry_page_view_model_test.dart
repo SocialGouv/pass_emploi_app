@@ -33,10 +33,15 @@ void main() {
   });
 
   group('shouldDisableButtons', () {
-    expectShouldDisableButtons(DiagorienteUrlsFailureState(), false);
-    expectShouldDisableButtons(DiagorienteUrlsLoadingState(), true);
-    expectShouldDisableButtons(DiagorienteUrlsSuccessState(mockDiagorienteUrls()), false);
-    expectShouldDisableButtons(DiagorienteUrlsNotInitializedState(), false);
+    expectShouldDisableButtons(urlState: DiagorienteUrlsLoadingState(), expected: true);
+    expectShouldDisableButtons(urlState: DiagorienteUrlsFailureState(), expected: false);
+    expectShouldDisableButtons(urlState: DiagorienteUrlsSuccessState(mockDiagorienteUrls()), expected: false);
+    expectShouldDisableButtons(urlState: DiagorienteUrlsNotInitializedState(), expected: false);
+
+    expectShouldDisableButtons(favorisState: DiagorienteMetiersFavorisLoadingState(), expected: true);
+    expectShouldDisableButtons(favorisState: DiagorienteMetiersFavorisFailureState(), expected: false);
+    expectShouldDisableButtons(favorisState: DiagorienteMetiersFavorisSuccessState(true), expected: false);
+    expectShouldDisableButtons(favorisState: DiagorienteMetiersFavorisNotInitializedState(), expected: false);
   });
 
   group('navigatingTo', () {
@@ -59,7 +64,7 @@ void expectShowError({
   DiagorienteMetiersFavorisState? favorisState,
   required bool expected,
 }) {
-  test('when state is $urlState show error should be $expected', () {
+  test('when state is $urlState + $favorisState then error should be $expected', () {
     // Given
     final store = givenState()
         .loggedInUser()
@@ -77,10 +82,20 @@ void expectShowError({
   });
 }
 
-void expectShouldDisableButtons(DiagorienteUrlsState state, bool expected) {
-  test('when state is $state shouldDisableButtons should be $expected', () {
+void expectShouldDisableButtons({
+  DiagorienteUrlsState? urlState,
+  DiagorienteMetiersFavorisState? favorisState,
+  required bool expected,
+}) {
+  test('when state is $urlState + $favorisState then shouldDisableButtons should be $expected', () {
     // Given
-    final store = givenState().loggedInUser().copyWith(diagorienteUrlsState: state).store();
+    final store = givenState()
+        .loggedInUser()
+        .copyWith(
+          diagorienteUrlsState: urlState,
+          diagorienteMetiersFavorisState: favorisState,
+        )
+        .store();
 
     // When
     final viewModel = DiagorienteEntryPageViewModel.create(store);
