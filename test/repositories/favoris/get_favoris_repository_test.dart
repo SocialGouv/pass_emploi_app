@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/favori.dart';
+import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 
 import '../../dsl/sut_repository2.dart';
@@ -30,15 +31,15 @@ void main() {
               result[0],
               Favori(
                 id: '1',
-                type: FavoriType.emploi,
+                type: SolutionType.OffreEmploi,
                 titre: 'titre-1',
                 organisation: 'organisation-1',
                 localisation: 'localisation-1',
               ),
             );
-            expect(result[1].type, FavoriType.alternance);
-            expect(result[2].type, FavoriType.immersion);
-            expect(result[3].type, FavoriType.civique);
+            expect(result[1].type, SolutionType.Alternance);
+            expect(result[2].type, SolutionType.Immersion);
+            expect(result[3].type, SolutionType.ServiceCivique);
           });
         });
       });

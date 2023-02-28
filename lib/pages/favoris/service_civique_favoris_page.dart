@@ -19,7 +19,7 @@ class ServiceCiviqueFavorisPage extends AbstractFavorisPage<ServiceCivique, Serv
   ServiceCiviqueFavorisPage()
       : super(
           selectState: (store) => store.state.serviceCiviqueFavorisState,
-          analyticsScreenName: AnalyticsScreenNames.immersionFavoris,
+          analyticsScreenName: AnalyticsScreenNames.immersionDetails, //TODO-1434 Delete
         );
 
   @override
@@ -40,7 +40,8 @@ class ServiceCiviqueFavorisPage extends AbstractFavorisPage<ServiceCivique, Serv
       place: itemViewModel.location,
       bottomTip: Strings.voirLeDetail,
       solutionType: SolutionType.ServiceCivique,
-      from: OffrePage.serviceCiviqueFavoris,
+      from: OffrePage.serviceCiviqueDetails,
+      //TODO-1434 Delete
       id: itemViewModel.id,
       dataTags: [dataTag],
       onTap: () {

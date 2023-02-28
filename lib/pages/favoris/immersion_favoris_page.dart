@@ -16,7 +16,7 @@ class ImmersionFavorisPage extends AbstractFavorisPage<Immersion, Immersion> {
   ImmersionFavorisPage()
       : super(
           selectState: (store) => store.state.immersionFavorisState,
-          analyticsScreenName: AnalyticsScreenNames.immersionFavoris,
+          analyticsScreenName: AnalyticsScreenNames.immersionDetails, //TODO-1434 Delete
         );
 
   @override
@@ -32,7 +32,8 @@ class ImmersionFavorisPage extends AbstractFavorisPage<Immersion, Immersion> {
       place: itemViewModel.ville,
       bottomTip: Strings.voirLeDetail,
       solutionType: SolutionType.Immersion,
-      from: OffrePage.immersionFavoris,
+      from: OffrePage.immersionDetails,
+      //TODO-1434 Delete
       id: itemViewModel.id,
       dataTags: [dataTag],
       onTap: () => Navigator.push(

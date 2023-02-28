@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
-
-enum FavoriType { emploi, alternance, immersion, civique }
+import 'package:pass_emploi_app/models/solution_type.dart';
 
 class Favori extends Equatable {
   final String id;
-  final FavoriType type;
+  final SolutionType type;
   final String titre;
   final String? organisation;
   final String? localisation;
@@ -33,10 +32,10 @@ class Favori extends Equatable {
   List<Object?> get props => [id, type, titre, organisation, localisation];
 }
 
-FavoriType? _typeFromString(String typeString) {
-  if (typeString == "OFFRE_EMPLOI") return FavoriType.emploi;
-  if (typeString == "OFFRE_ALTERNANCE") return FavoriType.alternance;
-  if (typeString == "OFFRE_IMMERSION") return FavoriType.immersion;
-  if (typeString == "OFFRE_SERVICE_CIVIQUE") return FavoriType.civique;
+SolutionType? _typeFromString(String typeString) {
+  if (typeString == "OFFRE_EMPLOI") return SolutionType.OffreEmploi;
+  if (typeString == "OFFRE_ALTERNANCE") return SolutionType.Alternance;
+  if (typeString == "OFFRE_IMMERSION") return SolutionType.Immersion;
+  if (typeString == "OFFRE_SERVICE_CIVIQUE") return SolutionType.ServiceCivique;
   return null;
 }

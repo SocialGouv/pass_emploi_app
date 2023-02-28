@@ -20,8 +20,7 @@ class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmplo
   OffreEmploiFavorisPage({required this.onlyAlternance})
       : super(
           selectState: (store) => store.state.offreEmploiFavorisState,
-          analyticsScreenName:
-              onlyAlternance ? AnalyticsScreenNames.alternanceFavoris : AnalyticsScreenNames.emploiFavoris,
+          analyticsScreenName: AnalyticsScreenNames.alternanceDetails, //TODO-1434 Delete
           key: ValueKey(onlyAlternance),
         );
 
@@ -38,7 +37,8 @@ class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmplo
       place: itemViewModel.location,
       bottomTip: Strings.voirLeDetail,
       solutionType: onlyAlternance ? SolutionType.Alternance : SolutionType.OffreEmploi,
-      from: onlyAlternance ? OffrePage.alternanceFavoris : OffrePage.emploiFavoris,
+      from: OffrePage.alternanceDetails,
+      //TODO-1434 Delete
       id: itemViewModel.id,
       dataTags: _buildTags(itemViewModel),
       onTap: () => Navigator.push(

@@ -240,7 +240,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
           FavoriHeart<ServiceCivique>(
             offreId: idOffre,
             withBorder: true,
-            from: OffrePage.serviceCiviqueDetail,
+            from: OffrePage.serviceCiviqueDetails,
             onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
           SizedBox(width: Margins.spacing_base),
@@ -267,7 +267,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Expanded(child: DeleteFavoriButton<ServiceCivique>(offreId: idOffre, from: OffrePage.serviceCiviqueDetail)),
+          Expanded(child: DeleteFavoriButton<ServiceCivique>(offreId: idOffre, from: OffrePage.serviceCiviqueDetails)),
         ],
       ),
     );

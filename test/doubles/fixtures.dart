@@ -32,6 +32,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
+import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -591,4 +592,6 @@ DiagorienteUrls mockDiagorienteUrls() {
   );
 }
 
-Favori mockFavori() => Favori(id: 'id', type: FavoriType.emploi, titre: 't', organisation: null, localisation: null);
+Favori mockFavori() {
+  return Favori(id: 'id', type: SolutionType.Immersion, titre: 't', organisation: null, localisation: null);
+}
