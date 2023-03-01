@@ -61,7 +61,7 @@ class OffreFavorisTabPage extends StatelessWidget {
         switch (favori.type) {
           case SolutionType.OffreEmploi:
           case SolutionType.Alternance:
-          return _buildOffreEmploiItem(context, favori);
+            return _buildOffreEmploiItem(context, favori);
           case SolutionType.Immersion:
             return _buildImmersionItem(context, favori);
           case SolutionType.ServiceCivique:
