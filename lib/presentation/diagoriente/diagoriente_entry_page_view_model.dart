@@ -1,45 +1,35 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/diagoriente_metiers_favoris/diagoriente_metiers_favoris_state.dart';
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_actions.dart';
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-enum DiagorienteNavigatingTo { chatBotPage }
+enum DiagorienteEntryPageDisplayState { initial, loading, failure, chatBotPage }
 
 class DiagorienteEntryPageViewModel extends Equatable {
+  final DiagorienteEntryPageDisplayState displayState;
   final Function requestUrls;
-  final bool showError;
-  final bool shouldDisableButtons;
-  final bool showMetiersFavoris;
-  final DiagorienteNavigatingTo? navigatingTo;
 
   DiagorienteEntryPageViewModel({
+    required this.displayState,
     required this.requestUrls,
-    required this.showError,
-    required this.shouldDisableButtons,
-    required this.showMetiersFavoris,
-    this.navigatingTo,
   });
 
   factory DiagorienteEntryPageViewModel.create(Store<AppState> store) {
-    final urlState = store.state.diagorienteUrlsState;
-    final favorisState = store.state.diagorienteMetiersFavorisState;
-    final shouldDisableButton =
-        urlState is DiagorienteUrlsLoadingState || favorisState is DiagorienteMetiersFavorisLoadingState;
-    final showError = urlState is DiagorienteUrlsFailureState || favorisState is DiagorienteMetiersFavorisFailureState;
-    final navigationTo = urlState is DiagorienteUrlsSuccessState ? DiagorienteNavigatingTo.chatBotPage : null;
-    final metiersFavorisState = store.state.diagorienteMetiersFavorisState;
-    final showMetiersFavoris = metiersFavorisState is DiagorienteMetiersFavorisSuccessState;
     return DiagorienteEntryPageViewModel(
-      shouldDisableButtons: shouldDisableButton,
-      showError: showError,
-      navigatingTo: navigationTo,
-      showMetiersFavoris: showMetiersFavoris,
+      displayState: _displayState(store),
       requestUrls: () => store.dispatch(DiagorienteUrlsRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [showError, shouldDisableButtons, navigatingTo];
+  List<Object?> get props => [displayState];
+}
+
+DiagorienteEntryPageDisplayState _displayState(Store<AppState> store) {
+  final state = store.state.diagorienteUrlsState;
+  if (state is DiagorienteUrlsLoadingState) return DiagorienteEntryPageDisplayState.loading;
+  if (state is DiagorienteUrlsFailureState) return DiagorienteEntryPageDisplayState.failure;
+  if (state is DiagorienteUrlsSuccessState) return DiagorienteEntryPageDisplayState.chatBotPage;
+  return DiagorienteEntryPageDisplayState.initial;
 }
