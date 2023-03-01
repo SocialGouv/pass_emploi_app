@@ -26,7 +26,7 @@ class DiagorienteEntryPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState];
+  List<Object?> get props => [displayState, withMetiersFavoris];
 }
 
 bool _withMetiersFavoris(Store<AppState> store) {
