@@ -37,7 +37,7 @@ class DiagorienteChatBotPage extends StatelessWidget {
       ..loadRequest(Uri.parse(viewModel.url));
 
     return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.diagorienteChatBotPageTitle, backgroundColor: backgroundColor),
+      appBar: SecondaryAppBar(title: viewModel.appBarTitle, backgroundColor: backgroundColor),
       body: WebViewWidget(controller: controller),
     );
   }

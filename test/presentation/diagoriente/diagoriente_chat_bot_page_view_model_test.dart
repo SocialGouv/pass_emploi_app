@@ -35,4 +35,28 @@ void main() {
       expect(viewModel.url, 'metiersFavorisUrl');
     });
   });
+
+  group('appBarTitle', () {
+    test("on chatbot mode", () {
+      // Given
+      final store = givenState().diagorientePreferencesMetierSuccessState().store();
+
+      // When
+      final viewModel = DiagorienteChatBotPageViewModel.create(store, DiagorienteChatBotPageMode.chatbot);
+
+      // When /Then
+      expect(viewModel.appBarTitle, 'Découvrir des métiers');
+    });
+
+    test("on favoris mode", () {
+      // Given
+      final store = givenState().diagorientePreferencesMetierSuccessState().store();
+
+      // When
+      final viewModel = DiagorienteChatBotPageViewModel.create(store, DiagorienteChatBotPageMode.favoris);
+
+      // When /Then
+      expect(viewModel.appBarTitle, 'Mes métiers favoris');
+    });
+  });
 }
