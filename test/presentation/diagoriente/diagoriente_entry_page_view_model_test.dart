@@ -1,10 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_entry_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
+  test('onRetry should dispatch DiagorienteUrlsRequestAction', () {
+    // Given
+    final store = givenState().spyStore();
+    final viewModel = DiagorienteEntryPageViewModel.create(store);
+
+    // When
+    viewModel.onRetry();
+
+    // Then
+    expect(store.dispatchedAction, isA<DiagorientePreferencesMetierRequestAction>());
+  });
+
   group('displayState', () {
     test('when diagoriente preferences metier state is not initialized should return initial', () {
       // Given

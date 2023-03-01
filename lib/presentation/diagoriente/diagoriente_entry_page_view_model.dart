@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -19,9 +20,7 @@ class DiagorienteEntryPageViewModel extends Equatable {
   factory DiagorienteEntryPageViewModel.create(Store<AppState> store) {
     return DiagorienteEntryPageViewModel(
       displayState: _displayState(store),
-      onRetry: () {
-        // TODO:
-      },
+      onRetry: () => store.dispatch(DiagorientePreferencesMetierRequestAction()),
     );
   }
 
