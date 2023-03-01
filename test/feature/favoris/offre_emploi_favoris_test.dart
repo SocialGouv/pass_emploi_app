@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
@@ -126,44 +125,6 @@ void main() {
     expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()});
   });
-
-  test("favori state should be updated with offres details when retrieved", () async {
-    // Given
-    final store = _successStoreWithFavorisIdLoaded();
-
-    // Skip first state, because it is initially in this OffreEmploiFavorisLoadedState.
-    final successState = store.onChange
-        .where((element) => element.offreEmploiFavorisState is FavoriListLoadedState<OffreEmploi>)
-        .skip(1)
-        .first;
-
-    // When
-    store.dispatch(FavoriListRequestAction<OffreEmploi>());
-
-    // Then
-    final loadedFavoris = await successState;
-    final favorisState = (loadedFavoris.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>);
-    expect(favorisState.favoriIds, {"1", "2", "4"});
-    expect(favorisState.data, {
-      "1": mockOffreEmploi(id: "1"),
-      "2": mockOffreEmploi(id: "2"),
-      "4": mockOffreEmploi(id: "4"),
-    });
-  });
-
-  test("favori state should be reset when offres details fetching fails", () async {
-    // Given
-    final store = _failureStoreWithFavorisIdLoaded();
-
-    final failureState =
-        store.onChange.any((element) => element.offreEmploiFavorisState is FavoriListNotInitialized<OffreEmploi>);
-
-    // When
-    store.dispatch(FavoriListRequestAction<OffreEmploi>());
-
-    // Then
-    expect(await failureState, true);
-  });
 }
 
 Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
@@ -178,7 +139,8 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
               {"1", "2", "4"},
               {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
             ))
-        .favoriListV2SuccessState([mockFavori('1'), mockFavori('2'), mockFavori('4')]).successRechercheEmploiState(results: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')]),
+        .favoriListV2SuccessState([mockFavori('1'), mockFavori('2'), mockFavori('4')]).successRechercheEmploiState(
+            results: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')]),
   );
   return store;
 }
@@ -196,35 +158,6 @@ Store<AppState> _successStoreWithFavorisAndOffreEmploiDetailsSuccessState() {
             {"2", "4"},
             {"2": mockOffreEmploi(), "4": mockOffreEmploi()},
           )));
-  return store;
-}
-
-Store<AppState> _successStoreWithFavorisIdLoaded() {
-  final testStoreFactory = TestStoreFactory();
-  testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
-  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
-  final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState().copyWith(
-      loginState: successMiloUserState(),
-      offreEmploiFavorisState: FavoriListState<OffreEmploi>.idsLoaded({"1", "2", "4"}),
-    ),
-  );
-  return store;
-}
-
-Store<AppState> _failureStoreWithFavorisIdLoaded() {
-  final testStoreFactory = TestStoreFactory();
-  testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositoryFailureStub();
-  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
-  final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState().copyWith(
-      loginState: successMiloUserState(),
-      offreEmploiFavorisState: FavoriListState<OffreEmploi>.withMap(
-        {"1", "2", "4"},
-        {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
-      ),
-    ),
-  );
   return store;
 }
 
@@ -254,15 +187,6 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
   }
 
   @override
-  Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
-    return {
-      "1": mockOffreEmploi(id: "1"),
-      "2": mockOffreEmploi(id: "2"),
-      "4": mockOffreEmploi(id: "4"),
-    };
-  }
-
-  @override
   Future<bool> postFavori(String userId, OffreEmploi offre) async {
     return true;
   }
@@ -279,11 +203,6 @@ class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisReposito
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
     return {"1", "2", "4"};
-  }
-
-  @override
-  Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
-    return null;
   }
 
   @override

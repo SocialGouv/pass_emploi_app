@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
@@ -126,44 +125,6 @@ void main() {
     expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()});
   });
-
-  test("favori state should be updated with offres details when retrieved", () async {
-    // Given
-    final store = _successStoreWithFavorisIdLoaded();
-
-    // Skip first state, because it is initially in this ImmersionFavorisLoadedState.
-    final successState = store.onChange
-        .where((element) => element.immersionFavorisState is FavoriListLoadedState<Immersion>)
-        .skip(1)
-        .first;
-
-    // When
-    store.dispatch(FavoriListRequestAction<Immersion>());
-
-    // Then
-    final loadedFavoris = await successState;
-    final favorisState = (loadedFavoris.immersionFavorisState as FavoriListLoadedState<Immersion>);
-    expect(favorisState.favoriIds, {"1", "2", "4"});
-    expect(favorisState.data, {
-      "1": mockImmersion(id: "1"),
-      "2": mockImmersion(id: "2"),
-      "4": mockImmersion(id: "4"),
-    });
-  });
-
-  test("favori state should be reset when offres details fetching fails", () async {
-    // Given
-    final store = _failureStoreWithFavorisIdLoaded();
-
-    final failureState =
-        store.onChange.any((element) => element.immersionFavorisState is FavoriListNotInitialized<Immersion>);
-
-    // When
-    store.dispatch(FavoriListRequestAction<Immersion>());
-
-    // Then
-    expect(await failureState, true);
-  });
 }
 
 Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
@@ -178,7 +139,8 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
               {"1", "2", "4"},
               {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()},
             ))
-        .favoriListV2SuccessState([mockFavori('1'), mockFavori('2'), mockFavori('4')]).successRechercheImmersionState(results: [mockImmersion(id: '1'), mockImmersion(id: '17')]),
+        .favoriListV2SuccessState([mockFavori('1'), mockFavori('2'), mockFavori('4')]).successRechercheImmersionState(
+            results: [mockImmersion(id: '1'), mockImmersion(id: '17')]),
   );
   return store;
 }
@@ -196,35 +158,6 @@ Store<AppState> _successStoreWithFavorisAndImmersionDetailsSuccessState() {
             {"2", "4"},
             {"2": mockImmersion(), "4": mockImmersion()},
           )));
-  return store;
-}
-
-Store<AppState> _successStoreWithFavorisIdLoaded() {
-  final testStoreFactory = TestStoreFactory();
-  testStoreFactory.immersionFavorisRepository = ImmersionFavorisRepositorySuccessStub();
-  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
-  final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState().copyWith(
-      loginState: successMiloUserState(),
-      immersionFavorisState: FavoriListState<Immersion>.idsLoaded({"1", "2", "4"}),
-    ),
-  );
-  return store;
-}
-
-Store<AppState> _failureStoreWithFavorisIdLoaded() {
-  final testStoreFactory = TestStoreFactory();
-  testStoreFactory.immersionFavorisRepository = ImmersionFavorisRepositoryFailureStub();
-  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
-  final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState().copyWith(
-      loginState: successMiloUserState(),
-      immersionFavorisState: FavoriListState<Immersion>.withMap(
-        {"1", "2", "4"},
-        {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()},
-      ),
-    ),
-  );
   return store;
 }
 
@@ -254,15 +187,6 @@ class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
   }
 
   @override
-  Future<Map<String, Immersion>?> getFavoris(String userId) async {
-    return {
-      "1": mockImmersion(id: "1"),
-      "2": mockImmersion(id: "2"),
-      "4": mockImmersion(id: "4"),
-    };
-  }
-
-  @override
   Future<bool> postFavori(String userId, Immersion favori) async {
     return true;
   }
@@ -279,11 +203,6 @@ class ImmersionFavorisRepositoryFailureStub extends ImmersionFavorisRepository {
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
     return {"1", "2", "4"};
-  }
-
-  @override
-  Future<Map<String, Immersion>?> getFavoris(String userId) async {
-    return null;
   }
 
   @override

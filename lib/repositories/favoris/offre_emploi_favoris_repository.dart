@@ -41,21 +41,6 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
   }
 
   @override
-  Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
-    final url = getFavorisUri(baseUrl: _baseUrl, userId: userId);
-    try {
-      final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes) as List;
-        return {for (var element in json) element["id"] as String: OffreEmploi.fromJson(element)};
-      }
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
-    }
-    return null;
-  }
-
-  @override
   Future<bool> postFavori(String userId, OffreEmploi favori) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi");
     try {

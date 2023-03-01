@@ -21,7 +21,6 @@ import 'package:pass_emploi_app/features/device_info/device_info_middleware.dart
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_middleware.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_middleware.dart';
 import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_middleware.dart';
@@ -239,13 +238,10 @@ class StoreFactory {
         RegisterPushNotificationTokenMiddleware(registerTokenRepository, configuration),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
         FavoriIdsMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
-        FavoriListMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
         FavoriUpdateMiddleware<OffreEmploi>(offreEmploiFavorisRepository, OffreEmploiDataFromIdExtractor()),
         FavoriIdsMiddleware<Immersion>(immersionFavorisRepository),
-        FavoriListMiddleware<Immersion>(immersionFavorisRepository),
         FavoriUpdateMiddleware<Immersion>(immersionFavorisRepository, ImmersionDataFromIdExtractor()),
         FavoriIdsMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
-        FavoriListMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
         FavoriUpdateMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository, ServiceCiviqueDataFromIdExtractor()),
         CrashlyticsMiddleware(crashlytics, installationIdRepository),
         SearchLocationMiddleware(searchLocationRepository),

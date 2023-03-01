@@ -40,21 +40,6 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
   }
 
   @override
-  Future<Map<String, ServiceCivique>?> getFavoris(String userId) async {
-    final url = getFavorisUri(baseUrl: _baseUrl, userId: userId);
-    try {
-      final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes) as List;
-        return {for (var element in json) element["id"] as String: ServiceCivique.fromJson(element)};
-      }
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
-    }
-    return null;
-  }
-
-  @override
   Future<Set<String>?> getFavorisId(String userId) async {
     final url = getFavorisIdUri(baseUrl: _baseUrl, userId: userId);
     try {

@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
@@ -126,44 +125,6 @@ void main() {
     expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {"1": mockServiceCivique(), "2": mockServiceCivique(), "4": mockServiceCivique()});
   });
-
-  test("favori state should be updated with offres details when retrieved", () async {
-    // Given
-    final store = _successStoreWithFavorisIdLoaded();
-
-    // Skip first state, because it is initially in this ImmersionFavorisLoadedState.
-    final successState = store.onChange
-        .where((element) => element.serviceCiviqueFavorisState is FavoriListLoadedState<ServiceCivique>)
-        .skip(1)
-        .first;
-
-    // When
-    store.dispatch(FavoriListRequestAction<ServiceCivique>());
-
-    // Then
-    final loadedFavoris = await successState;
-    final favorisState = (loadedFavoris.serviceCiviqueFavorisState as FavoriListLoadedState<ServiceCivique>);
-    expect(favorisState.favoriIds, {"1", "2", "4"});
-    expect(favorisState.data, {
-      "1": mockServiceCivique(id: "1"),
-      "2": mockServiceCivique(id: "2"),
-      "4": mockServiceCivique(id: "4"),
-    });
-  });
-
-  test("favori state should be reset when offres details fetching fails", () async {
-    // Given
-    final store = _failureStoreWithFavorisIdLoaded();
-
-    final failureState =
-        store.onChange.any((element) => element.serviceCiviqueFavorisState is FavoriListNotInitialized<ServiceCivique>);
-
-    // When
-    store.dispatch(FavoriListRequestAction<ServiceCivique>());
-
-    // Then
-    expect(await failureState, true);
-  });
 }
 
 Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
@@ -203,35 +164,6 @@ Store<AppState> _successStoreWithFavorisAndServiceCiviqueDetailsSuccessState() {
   return store;
 }
 
-Store<AppState> _successStoreWithFavorisIdLoaded() {
-  final testStoreFactory = TestStoreFactory();
-  testStoreFactory.serviceCiviqueFavorisRepository = ServiceCiviqueFavorisRepositorySuccessStub();
-  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
-  final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState().copyWith(
-      loginState: successMiloUserState(),
-      serviceCiviqueFavorisState: FavoriListState<ServiceCivique>.idsLoaded({"1", "2", "4"}),
-    ),
-  );
-  return store;
-}
-
-Store<AppState> _failureStoreWithFavorisIdLoaded() {
-  final testStoreFactory = TestStoreFactory();
-  testStoreFactory.serviceCiviqueFavorisRepository = ServiceCiviqueFavorisRepositoryFailureStub();
-  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
-  final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState().copyWith(
-      loginState: successMiloUserState(),
-      serviceCiviqueFavorisState: FavoriListState<ServiceCivique>.withMap(
-        {"1", "2", "4"},
-        {"1": mockServiceCivique(), "2": mockServiceCivique(), "4": mockServiceCivique()},
-      ),
-    ),
-  );
-  return store;
-}
-
 Store<AppState> _failureStoreWithFavorisLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.serviceCiviqueFavorisRepository = ServiceCiviqueFavorisRepositoryFailureStub();
@@ -262,15 +194,6 @@ class ServiceCiviqueFavorisRepositorySuccessStub extends ServiceCiviqueFavorisRe
   }
 
   @override
-  Future<Map<String, ServiceCivique>?> getFavoris(String userId) async {
-    return {
-      "1": mockServiceCivique(id: "1"),
-      "2": mockServiceCivique(id: "2"),
-      "4": mockServiceCivique(id: "4"),
-    };
-  }
-
-  @override
   Future<bool> postFavori(String userId, ServiceCivique favori) async {
     return true;
   }
@@ -287,11 +210,6 @@ class ServiceCiviqueFavorisRepositoryFailureStub extends ServiceCiviqueFavorisRe
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
     return {"1", "2", "4"};
-  }
-
-  @override
-  Future<Map<String, ServiceCivique>?> getFavoris(String userId) async {
-    return null;
   }
 
   @override
