@@ -3,17 +3,17 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
+import 'package:pass_emploi_app/pages/diagoriente/diagoriente_chat_bot_page.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_entry_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 class DiagorienteEntryPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => DiagorienteEntryPage());
@@ -24,6 +24,7 @@ class DiagorienteEntryPage extends StatelessWidget {
       tracking: AnalyticsScreenNames.diagorienteEntryPage,
       child: StoreConnector<AppState, DiagorienteEntryPageViewModel>(
         converter: (store) => DiagorienteEntryPageViewModel.create(store),
+        onInit: (store) => store.dispatch(DiagorientePreferencesMetierRequestAction()),
         builder: _builder,
         onDispose: (store) => store.dispatch(DiagorientePreferencesMetierResetAction()),
         distinct: true,
@@ -32,37 +33,40 @@ class DiagorienteEntryPage extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, DiagorienteEntryPageViewModel viewModel) {
-    const backgroundColor = AppColors.grey100;
-    final withFailure = viewModel.displayState.isFailure();
+    switch (viewModel.displayState) {
+      case DisplayState.FAILURE:
+        return Center(child: Retry(Strings.diagorienteMetiersCardError, () => viewModel.onRetry()));
+      case DisplayState.CONTENT:
+        return _Content(viewModel.withMetiersFavoris);
+      default:
+        return Center(child: CircularProgressIndicator());
+    }
+  }
+}
 
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: Strings.diagorienteEntryPageTitle, backgroundColor: backgroundColor),
-      body: Padding(
-        padding: const EdgeInsets.all(Margins.spacing_base),
-        child: Column(
-          children: [
-            if (withFailure) ...[
-              _FailureMessage(),
-              SizedBox(height: Margins.spacing_m),
-            ],
-            if (true) ...[
-              _DiagorienteMetiersFavorisCard(viewModel),
-              SizedBox(height: Margins.spacing_base),
-            ],
-            _DecouvrirLesMetiersCard(viewModel),
+class _Content extends StatelessWidget {
+  const _Content(this.withMetiersFavoris);
+
+  final bool withMetiersFavoris;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(Margins.spacing_base),
+      child: Column(
+        children: [
+          if (withMetiersFavoris) ...[
+            _DiagorienteMetiersFavorisCard(),
+            SizedBox(height: Margins.spacing_base),
           ],
-        ),
+          _DecouvrirLesMetiersCard(),
+        ],
       ),
     );
   }
 }
 
 class _DiagorienteMetiersFavorisCard extends StatelessWidget {
-  const _DiagorienteMetiersFavorisCard(this.viewModel);
-
-  final DiagorienteEntryPageViewModel viewModel;
-
   @override
   Widget build(BuildContext context) {
     return CardContainer(
@@ -83,10 +87,6 @@ class _DiagorienteMetiersFavorisCard extends StatelessWidget {
 }
 
 class _DecouvrirLesMetiersCard extends StatelessWidget {
-  const _DecouvrirLesMetiersCard(this.viewModel);
-
-  final DiagorienteEntryPageViewModel viewModel;
-
   @override
   Widget build(BuildContext context) {
     return CardContainer(
@@ -100,28 +100,10 @@ class _DecouvrirLesMetiersCard extends StatelessWidget {
           SizedBox(height: Margins.spacing_m),
           PrimaryActionButton(
             label: Strings.diagorienteMetiersCardButton,
-            onPressed: null, // TODO:
+            onPressed: () => Navigator.push(context, DiagorienteChatBotPage.materialPageRoute()),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _FailureMessage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(AppIcons.error_rounded, color: AppColors.warning),
-        SizedBox(width: Margins.spacing_base),
-        Expanded(
-          child: Text(
-            Strings.diagorienteMetiersCardError,
-            style: TextStyles.textSRegular(color: AppColors.warning),
-          ),
-        ),
-      ],
     );
   }
 }
