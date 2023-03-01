@@ -358,9 +358,6 @@ class Strings {
   static String offresTabTitle = "Offres";
   static String boiteAOutilsTabTitle = "Boîte à outils";
   static String solutionsAppBarTitle = "Recherche";
-  static String immersionButton = "Immersion";
-  static String offresEmploiButton = "Emploi";
-  static String serviceCiviqueButton = "Service civique";
   static String partagerOffreConseiller = "Partager l’offre à mon conseiller";
   static String partageOffreNavTitle = "Partage de l’offre d’emploi";
   static String souhaitDePartagerOffre = "L’offre que vous souhaitez partager";
@@ -372,7 +369,6 @@ class Strings {
   static String partagerOffreEmploi = "Partager l’offre d’emploi";
 
   // Alternance
-  static String alternanceButton = "Alternance";
   static String partagerOffreAlternance = "Partager l’offre d’alternance";
   static String partageOffreAlternanceNavTitle = "Partage de l’offre d’alternance";
 
