@@ -66,7 +66,7 @@ class _Body extends StatelessWidget {
       case DisplayState.FAILURE:
         return Center(child: Retry(Strings.diagorienteMetiersCardError, () => viewModel.onRetry()));
       case DisplayState.CONTENT:
-        return _Content(viewModel.withMetiersFavoris);
+        return _Content(viewModel);
       default:
         return Center(child: CircularProgressIndicator());
     }
@@ -74,31 +74,37 @@ class _Body extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content(this.withMetiersFavoris);
+  const _Content(this.viewModel);
 
-  final bool withMetiersFavoris;
+  final DiagorienteEntryPageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (withMetiersFavoris) ...[
-          _DiagorienteMetiersFavorisCard(),
+        if (viewModel.withMetiersFavoris) ...[
+          _DiagorienteMetiersFavorisCard(viewModel),
           SizedBox(height: Margins.spacing_base),
         ],
-        _DecouvrirLesMetiersCard(),
+        _DecouvrirLesMetiersCard(viewModel),
       ],
     );
   }
 }
 
 class _DiagorienteMetiersFavorisCard extends StatelessWidget {
+  const _DiagorienteMetiersFavorisCard(this.viewModel);
+
+  final DiagorienteEntryPageViewModel viewModel;
+
   @override
   Widget build(BuildContext context) {
     return CardContainer(
       onTap: () => Navigator.push(
         context,
         DiagorienteChatBotPage.materialPageRoute(DiagorienteChatBotPageMode.favoris),
+      ).then(
+        (_) => viewModel.onRetry(),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -116,6 +122,10 @@ class _DiagorienteMetiersFavorisCard extends StatelessWidget {
 }
 
 class _DecouvrirLesMetiersCard extends StatelessWidget {
+  const _DecouvrirLesMetiersCard(this.viewModel);
+
+  final DiagorienteEntryPageViewModel viewModel;
+
   @override
   Widget build(BuildContext context) {
     return CardContainer(
@@ -132,7 +142,7 @@ class _DecouvrirLesMetiersCard extends StatelessWidget {
             onPressed: () => Navigator.push(
               context,
               DiagorienteChatBotPage.materialPageRoute(DiagorienteChatBotPageMode.chatbot),
-            ),
+            ).then((_) => viewModel.onRetry()),
           ),
         ],
       ),

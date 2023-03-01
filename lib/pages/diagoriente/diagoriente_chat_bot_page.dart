@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_chat_bot_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -25,7 +24,7 @@ class DiagorienteChatBotPage extends StatelessWidget {
       child: StoreConnector<AppState, DiagorienteChatBotPageViewModel>(
         converter: (store) => DiagorienteChatBotPageViewModel.create(store, mode),
         builder: _builder,
-        distinct: true,
+        rebuildOnChange: false,
       ),
     );
   }
