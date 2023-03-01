@@ -276,7 +276,7 @@ class StoreFactory {
         RechercheEmploiMiddleware(offreEmploiRepository),
         RechercheImmersionMiddleware(immersionRepository),
         RechercheServiceCiviqueMiddleware(serviceCiviqueRepository),
-        DiagorientePreferencesMetierMiddleware(diagorienteUrlsRepository),
+        DiagorientePreferencesMetierMiddleware(diagorienteUrlsRepository, diagorienteMetiersFavorisRepository),
         FavoriListMiddleware(getFavorisRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),

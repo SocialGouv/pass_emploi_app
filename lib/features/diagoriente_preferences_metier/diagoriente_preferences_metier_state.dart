@@ -13,10 +13,11 @@ class DiagorientePreferencesMetierLoadingState extends DiagorientePreferencesMet
 class DiagorientePreferencesMetierFailureState extends DiagorientePreferencesMetierState {}
 
 class DiagorientePreferencesMetierSuccessState extends DiagorientePreferencesMetierState {
-  final DiagorienteUrls result;
+  final DiagorienteUrls urls;
+  final bool aDesMetiersFavoris;
 
-  DiagorientePreferencesMetierSuccessState(this.result);
+  DiagorientePreferencesMetierSuccessState(this.urls, this.aDesMetiersFavoris);
 
   @override
-  List<Object?> get props => [result];
+  List<Object?> get props => [urls, aDesMetiersFavoris];
 }

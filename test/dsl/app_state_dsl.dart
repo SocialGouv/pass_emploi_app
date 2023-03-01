@@ -534,7 +534,12 @@ extension AppStateDSL on AppState {
       copyWith(diagorientePreferencesMetierState: DiagorientePreferencesMetierFailureState());
 
   AppState diagorientePreferencesMetierSuccessState() {
-    return copyWith(diagorientePreferencesMetierState: DiagorientePreferencesMetierSuccessState(mockDiagorienteUrls()));
+    return copyWith(
+      diagorientePreferencesMetierState: DiagorientePreferencesMetierSuccessState(
+        mockDiagorienteUrls(),
+        true,
+      ),
+    );
   }
 
   AppState favoriListLoadingState() => copyWith(favoriListState: FavoriListLoadingState());

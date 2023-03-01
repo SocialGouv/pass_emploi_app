@@ -5,9 +5,10 @@ class DiagorientePreferencesMetierRequestAction {}
 class DiagorientePreferencesMetierLoadingAction {}
 
 class DiagorientePreferencesMetierSuccessAction {
-  final DiagorienteUrls result;
+  final DiagorienteUrls urls;
+  final bool aDesMetiersFavoris;
 
-  DiagorientePreferencesMetierSuccessAction(this.result);
+  DiagorientePreferencesMetierSuccessAction(this.urls, this.aDesMetiersFavoris);
 }
 
 class DiagorientePreferencesMetierFailureAction {}

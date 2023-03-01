@@ -13,7 +13,7 @@ class DiagorienteChatBotPageViewModel extends Equatable {
     if (state is! DiagorientePreferencesMetierSuccessState) {
       throw Exception('DiagorientePreferencesMetierState must be successful when calling create method');
     }
-    return DiagorienteChatBotPageViewModel(chatBotUrl: state.result.chatBotUrl);
+    return DiagorienteChatBotPageViewModel(chatBotUrl: state.urls.chatBotUrl);
   }
 
   @override
