@@ -112,9 +112,13 @@ class _DiagorienteMetiersFavorisCard extends StatelessWidget {
         children: [
           Text(Strings.diagorienteMetiersFavorisCardTitle, style: TextStyles.textMBold),
           SizedBox(height: Margins.spacing_m),
-          Text(Strings.diagorienteMetiersFavorisCardSubtitle, style: TextStyles.textBaseRegular),
-          SizedBox(height: Margins.spacing_m),
-          PressedTip(Strings.diagorienteMetiersFavorisCardPressedTip),
+          Row(
+            children: [
+              Text(Strings.diagorienteMetiersFavorisCardSubtitle, style: TextStyles.textBaseRegular),
+              SizedBox(height: Margins.spacing_m),
+              Expanded(child: PressedTip(Strings.diagorienteMetiersFavorisCardPressedTip)),
+            ],
+          ),
         ],
       ),
     );
