@@ -29,13 +29,38 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
       });
 
-      // test('should load then fail when request fail', () {
-      //   sut.givenStore = givenState() //
-      //       .loggedInUser()
-      //       .store((f) => {f.diagorienteUrlsRepository = DiagorientePreferencesMetierRepositoryErrorStub()});
+      test('should load then fail when url request fail', () {
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) {
+          f.diagorienteMetiersFavorisRepository = DiagorienteMetiersFavorisRepositorySuccessStub();
+          f.diagorienteUrlsRepository = DiagorientePreferencesMetierRepositoryErrorStub();
+        });
 
-      //   sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
-      // });
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+      });
+
+      test('should load then fail when metiers favoris request fail', () {
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) {
+          f.diagorienteMetiersFavorisRepository = DiagorienteMetiersFavorisRepositoryErrorStub();
+          f.diagorienteUrlsRepository = DiagorientePreferencesMetierRepositorySuccessStub();
+        });
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+      });
+
+      test('should load then fail when both request fail', () {
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) {
+          f.diagorienteMetiersFavorisRepository = DiagorienteMetiersFavorisRepositoryErrorStub();
+          f.diagorienteUrlsRepository = DiagorientePreferencesMetierRepositoryErrorStub();
+        });
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+      });
     });
   });
 }
@@ -43,8 +68,8 @@ void main() {
 Matcher _shouldLoad() =>
     StateIs<DiagorientePreferencesMetierLoadingState>((state) => state.diagorientePreferencesMetierState);
 
-// Matcher _shouldFail() =>
-//     StateIs<DiagorientePreferencesMetierFailureState>((state) => state.diagorientePreferencesMetierState);
+Matcher _shouldFail() =>
+    StateIs<DiagorientePreferencesMetierFailureState>((state) => state.diagorientePreferencesMetierState);
 
 Matcher _shouldSucceed() {
   return StateIs<DiagorientePreferencesMetierSuccessState>(
