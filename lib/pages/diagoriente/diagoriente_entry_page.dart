@@ -33,7 +33,7 @@ class DiagorienteEntryPage extends StatelessWidget {
 
   Widget _builder(BuildContext context, DiagorienteEntryPageViewModel viewModel) {
     const backgroundColor = AppColors.grey100;
-    final withFailure = viewModel.displayState == DiagorienteEntryPageDisplayState.failure;
+    final withFailure = viewModel.displayState.isFailure();
 
     return Scaffold(
       backgroundColor: backgroundColor,
