@@ -18,6 +18,36 @@ void main() {
     expect(store.dispatchedAction, isA<DiagorientePreferencesMetierRequestAction>());
   });
 
+  group('withMetiersFavoris', () {
+    test('should be true when success state has favoris', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser()
+          .diagorientePreferencesMetierSuccessState(aDesMetiersFavoris: true)
+          .store();
+
+      // When
+      final viewModel = DiagorienteEntryPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.withMetiersFavoris, true);
+    });
+
+    test('should be false when success state does not have favoris', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser()
+          .diagorientePreferencesMetierSuccessState(aDesMetiersFavoris: false)
+          .store();
+
+      // When
+      final viewModel = DiagorienteEntryPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.withMetiersFavoris, false);
+    });
+  });
+
   group('displayState', () {
     test('when diagoriente preferences metier state is not initialized should return initial', () {
       // Given

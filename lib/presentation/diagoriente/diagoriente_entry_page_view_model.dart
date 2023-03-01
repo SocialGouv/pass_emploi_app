@@ -13,19 +13,26 @@ class DiagorienteEntryPageViewModel extends Equatable {
 
   DiagorienteEntryPageViewModel({
     required this.displayState,
-    this.withMetiersFavoris = false,
+    required this.withMetiersFavoris,
     required this.onRetry,
   });
 
   factory DiagorienteEntryPageViewModel.create(Store<AppState> store) {
     return DiagorienteEntryPageViewModel(
       displayState: _displayState(store),
+      withMetiersFavoris: _withMetiersFavoris(store),
       onRetry: () => store.dispatch(DiagorientePreferencesMetierRequestAction()),
     );
   }
 
   @override
   List<Object?> get props => [displayState];
+}
+
+bool _withMetiersFavoris(Store<AppState> store) {
+  final state = store.state.diagorientePreferencesMetierState;
+  if (state is! DiagorientePreferencesMetierSuccessState) return false;
+  return state.aDesMetiersFavoris;
 }
 
 DisplayState _displayState(Store<AppState> store) {

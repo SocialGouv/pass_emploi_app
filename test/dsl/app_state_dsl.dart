@@ -533,11 +533,11 @@ extension AppStateDSL on AppState {
   AppState diagorientePreferencesMetierFailureState() =>
       copyWith(diagorientePreferencesMetierState: DiagorientePreferencesMetierFailureState());
 
-  AppState diagorientePreferencesMetierSuccessState() {
+  AppState diagorientePreferencesMetierSuccessState({bool aDesMetiersFavoris = true}) {
     return copyWith(
       diagorientePreferencesMetierState: DiagorientePreferencesMetierSuccessState(
         mockDiagorienteUrls(),
-        true,
+        aDesMetiersFavoris,
       ),
     );
   }
