@@ -14,7 +14,7 @@ void main() {
 
   test('chatBotUrl when diagoriente url state is successful should return proper URL', () {
     // Given
-    final store = givenState().diagorienteUrlsSuccessState().store();
+    final store = givenState().diagorientePreferencesMetierSuccessState().store();
 
     // When
     final viewModel = DiagorienteChatBotPageViewModel.create(store);

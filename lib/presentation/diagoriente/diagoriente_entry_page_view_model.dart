@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_actions.dart';
-import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_state.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -18,7 +18,7 @@ class DiagorienteEntryPageViewModel extends Equatable {
   factory DiagorienteEntryPageViewModel.create(Store<AppState> store) {
     return DiagorienteEntryPageViewModel(
       displayState: _displayState(store),
-      requestUrls: () => store.dispatch(DiagorienteUrlsRequestAction()),
+      requestUrls: () => store.dispatch(DiagorientePreferencesMetierRequestAction()),
     );
   }
 
@@ -27,9 +27,9 @@ class DiagorienteEntryPageViewModel extends Equatable {
 }
 
 DiagorienteEntryPageDisplayState _displayState(Store<AppState> store) {
-  final state = store.state.diagorienteUrlsState;
-  if (state is DiagorienteUrlsLoadingState) return DiagorienteEntryPageDisplayState.loading;
-  if (state is DiagorienteUrlsFailureState) return DiagorienteEntryPageDisplayState.failure;
-  if (state is DiagorienteUrlsSuccessState) return DiagorienteEntryPageDisplayState.chatBotPage;
+  final state = store.state.diagorientePreferencesMetierState;
+  if (state is DiagorientePreferencesMetierLoadingState) return DiagorienteEntryPageDisplayState.loading;
+  if (state is DiagorientePreferencesMetierFailureState) return DiagorienteEntryPageDisplayState.failure;
+  if (state is DiagorientePreferencesMetierSuccessState) return DiagorienteEntryPageDisplayState.chatBotPage;
   return DiagorienteEntryPageDisplayState.initial;
 }

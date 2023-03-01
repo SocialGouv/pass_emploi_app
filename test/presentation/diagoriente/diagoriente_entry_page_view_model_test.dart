@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_actions.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_entry_page_view_model.dart';
 
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  test('onStartPressed should dispatch DiagorienteUrlsRequestAction', () {
+  test('onStartPressed should dispatch DiagorientePreferencesMetierRequestAction', () {
     // Given
     final store = givenState().spyStore();
     final viewModel = DiagorienteEntryPageViewModel.create(store);
@@ -14,7 +14,7 @@ void main() {
     viewModel.requestUrls();
 
     // Then
-    expect(store.dispatchedAction, isA<DiagorienteUrlsRequestAction>());
+    expect(store.dispatchedAction, isA<DiagorientePreferencesMetierRequestAction>());
   });
 
   group('displayState', () {
@@ -31,7 +31,7 @@ void main() {
 
     test('when diagoriente urls state is loading should display loading', () {
       // Given
-      final store = givenState().loggedInUser().diagorienteUrlsLoadingState().store();
+      final store = givenState().loggedInUser().diagorientePreferencesMetierLoadingState().store();
 
       // When
       final viewModel = DiagorienteEntryPageViewModel.create(store);
@@ -42,7 +42,7 @@ void main() {
 
     test('when diagoriente urls state is failure should display failure', () {
       // Given
-      final store = givenState().loggedInUser().diagorienteUrlsFailureState().store();
+      final store = givenState().loggedInUser().diagorientePreferencesMetierFailureState().store();
 
       // When
       final viewModel = DiagorienteEntryPageViewModel.create(store);
@@ -53,7 +53,7 @@ void main() {
 
     test('when diagoriente urls state is success should display chat bot page', () {
       // Given
-      final store = givenState().loggedInUser().diagorienteUrlsSuccessState().store();
+      final store = givenState().loggedInUser().diagorientePreferencesMetierSuccessState().store();
 
       // When
       final viewModel = DiagorienteEntryPageViewModel.create(store);

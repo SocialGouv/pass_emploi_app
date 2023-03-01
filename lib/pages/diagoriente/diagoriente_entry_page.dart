@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_actions.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_entry_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -25,7 +25,7 @@ class DiagorienteEntryPage extends StatelessWidget {
       child: StoreConnector<AppState, DiagorienteEntryPageViewModel>(
         converter: (store) => DiagorienteEntryPageViewModel.create(store),
         builder: _builder,
-        onDispose: (store) => store.dispatch(DiagorienteUrlsResetAction()),
+        onDispose: (store) => store.dispatch(DiagorientePreferencesMetierResetAction()),
         distinct: true,
       ),
     );

@@ -18,7 +18,7 @@ import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_middleware.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_middleware.dart';
-import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_middleware.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_middleware.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
@@ -276,7 +276,7 @@ class StoreFactory {
         RechercheEmploiMiddleware(offreEmploiRepository),
         RechercheImmersionMiddleware(immersionRepository),
         RechercheServiceCiviqueMiddleware(serviceCiviqueRepository),
-        DiagorienteUrlsMiddleware(diagorienteUrlsRepository),
+        DiagorientePreferencesMetierMiddleware(diagorienteUrlsRepository),
         FavoriListMiddleware(getFavorisRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
