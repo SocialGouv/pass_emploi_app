@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
 import 'package:pass_emploi_app/pages/diagoriente/diagoriente_chat_bot_page.dart';
+import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_chat_bot_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_entry_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -23,8 +24,8 @@ class DiagorienteEntryPage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.diagorienteEntryPage,
       child: StoreConnector<AppState, DiagorienteEntryPageViewModel>(
-        converter: (store) => DiagorienteEntryPageViewModel.create(store),
         onInit: (store) => store.dispatch(DiagorientePreferencesMetierRequestAction()),
+        converter: (store) => DiagorienteEntryPageViewModel.create(store),
         builder: _builder,
         onDispose: (store) => store.dispatch(DiagorientePreferencesMetierResetAction()),
         distinct: true,
@@ -70,7 +71,10 @@ class _DiagorienteMetiersFavorisCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardContainer(
-      onTap: null, // TODO:
+      onTap: () => Navigator.push(
+        context,
+        DiagorienteChatBotPage.materialPageRoute(DiagorienteChatBotPageMode.favoris),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -100,7 +104,10 @@ class _DecouvrirLesMetiersCard extends StatelessWidget {
           SizedBox(height: Margins.spacing_m),
           PrimaryActionButton(
             label: Strings.diagorienteMetiersCardButton,
-            onPressed: () => Navigator.push(context, DiagorienteChatBotPage.materialPageRoute()),
+            onPressed: () => Navigator.push(
+              context,
+              DiagorienteChatBotPage.materialPageRoute(DiagorienteChatBotPageMode.chatbot),
+            ),
           ),
         ],
       ),

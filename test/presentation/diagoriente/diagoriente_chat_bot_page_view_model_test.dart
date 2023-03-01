@@ -9,17 +9,30 @@ void main() {
     final store = givenState().store();
 
     // When /Then
-    expect(() => DiagorienteChatBotPageViewModel.create(store), throwsException);
+    expect(() => DiagorienteChatBotPageViewModel.create(store, DiagorienteChatBotPageMode.chatbot), throwsException);
   });
 
-  test('chatBotUrl when diagoriente url state is successful should return proper URL', () {
-    // Given
-    final store = givenState().diagorientePreferencesMetierSuccessState().store();
+  group('chatBotUrl when diagoriente url state is successful should return proper URL', () {
+    test("on chatbot mode", () {
+      // Given
+      final store = givenState().diagorientePreferencesMetierSuccessState().store();
 
-    // When
-    final viewModel = DiagorienteChatBotPageViewModel.create(store);
+      // When
+      final viewModel = DiagorienteChatBotPageViewModel.create(store, DiagorienteChatBotPageMode.chatbot);
 
-    // When /Then
-    expect(viewModel.chatBotUrl, 'chatBotUrl');
+      // When /Then
+      expect(viewModel.url, 'chatBotUrl');
+    });
+
+    test("on favoris mode", () {
+      // Given
+      final store = givenState().diagorientePreferencesMetierSuccessState().store();
+
+      // When
+      final viewModel = DiagorienteChatBotPageViewModel.create(store, DiagorienteChatBotPageMode.favoris);
+
+      // When /Then
+      expect(viewModel.url, 'metiersFavorisUrl');
+    });
   });
 }

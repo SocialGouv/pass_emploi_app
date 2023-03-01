@@ -10,8 +10,12 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DiagorienteChatBotPage extends StatelessWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(fullscreenDialog: true, builder: (context) => DiagorienteChatBotPage());
+  final DiagorienteChatBotPageMode mode;
+
+  const DiagorienteChatBotPage(this.mode);
+
+  static MaterialPageRoute<void> materialPageRoute(DiagorienteChatBotPageMode mode) {
+    return MaterialPageRoute(fullscreenDialog: true, builder: (context) => DiagorienteChatBotPage(mode));
   }
 
   @override
@@ -19,7 +23,7 @@ class DiagorienteChatBotPage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.diagorienteChatBot,
       child: StoreConnector<AppState, DiagorienteChatBotPageViewModel>(
-        converter: (store) => DiagorienteChatBotPageViewModel.create(store),
+        converter: (store) => DiagorienteChatBotPageViewModel.create(store, mode),
         builder: _builder,
         distinct: true,
       ),
@@ -30,7 +34,7 @@ class DiagorienteChatBotPage extends StatelessWidget {
     const backgroundColor = AppColors.grey100;
     final controller = WebViewController()
       ..setBackgroundColor(backgroundColor)
-      ..loadRequest(Uri.parse(viewModel.chatBotUrl));
+      ..loadRequest(Uri.parse(viewModel.url));
 
     return Scaffold(
       appBar: SecondaryAppBar(title: Strings.diagorienteChatBotPageTitle, backgroundColor: backgroundColor),
