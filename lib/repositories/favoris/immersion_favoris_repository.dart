@@ -20,10 +20,6 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
     return Uri.parse(baseUrl + "/jeunes/$userId/favoris/offres-immersion");
   }
 
-  static Uri getFavorisUri({required String baseUrl, required String userId}) {
-    return getFavorisIdUri(baseUrl: baseUrl, userId: userId).replace(queryParameters: {"detail": "true"});
-  }
-
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
     final url = getFavorisIdUri(baseUrl: _baseUrl, userId: userId);

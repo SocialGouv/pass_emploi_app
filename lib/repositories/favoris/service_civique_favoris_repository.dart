@@ -20,10 +20,6 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
     return Uri.parse(baseUrl + "/jeunes/$userId/favoris/services-civique");
   }
 
-  static Uri getFavorisUri({required String baseUrl, required String userId}) {
-    return getFavorisIdUri(baseUrl: baseUrl, userId: userId).replace(queryParameters: {"detail": "true"});
-  }
-
   @override
   Future<bool> deleteFavori(String userId, String favoriId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/services-civique/$favoriId");
