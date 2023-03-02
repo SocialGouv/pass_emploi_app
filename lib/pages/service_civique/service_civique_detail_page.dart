@@ -54,7 +54,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
         builder: (context, viewModel) {
           return FavorisStateContext(
             child: _scaffold(_body(context, viewModel), context),
-            selectState: (store) => store.state.serviceCiviqueFavorisState,
+            selectState: (store) => store.state.serviceCiviqueFavorisIdsState,
           );
         },
       ),

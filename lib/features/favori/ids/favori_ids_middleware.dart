@@ -14,7 +14,7 @@ class FavoriIdsMiddleware<T> extends MiddlewareClass<AppState> {
     next(action);
     if (action is LoginSuccessAction) {
       final ids = await _repository.getFavorisId(action.user.id);
-      if (ids != null) store.dispatch(FavoriIdsLoadedAction<T>(ids));
+      store.dispatch(FavoriIdsSuccessAction<T>(ids ?? <String>{}));
     }
   }
 }

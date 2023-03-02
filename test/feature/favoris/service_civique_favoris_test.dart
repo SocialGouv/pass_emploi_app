@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
@@ -32,9 +32,8 @@ void main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await successState;
-    final civiqueFavorisState = (updatedFavoris.serviceCiviqueFavorisState as FavoriListLoadedState<ServiceCivique>);
+    final civiqueFavorisState = (updatedFavoris.serviceCiviqueFavorisIdsState as FavoriIdsSuccessState<ServiceCivique>);
     expect(civiqueFavorisState.favoriIds, {"2", "4"});
-    expect(civiqueFavorisState.data, {"2": mockServiceCivique(), "4": mockServiceCivique()});
 
     final favoriListV2State = (updatedFavoris.favoriListV2State as FavoriListV2SuccessState);
     expect(favoriListV2State.results, [mockFavori('2'), mockFavori('4')]);
@@ -55,9 +54,8 @@ void main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
-    final favorisState = (updatedFavoris.serviceCiviqueFavorisState as FavoriListLoadedState<ServiceCivique>);
+    final favorisState = (updatedFavoris.serviceCiviqueFavorisIdsState as FavoriIdsSuccessState<ServiceCivique>);
     expect(favorisState.favoriIds, {"1", "2", "4"});
-    expect(favorisState.data, {"1": mockServiceCivique(), "2": mockServiceCivique(), "4": mockServiceCivique()});
   });
 
   test("favori id list should be updated when favori is added and api call succeeds", () async {
@@ -75,12 +73,8 @@ void main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await successState;
-    final favorisState = (updatedFavoris.serviceCiviqueFavorisState as FavoriListLoadedState<ServiceCivique>);
+    final favorisState = (updatedFavoris.serviceCiviqueFavorisIdsState as FavoriIdsSuccessState<ServiceCivique>);
     expect(favorisState.favoriIds, {"1", "2", "4", "17"});
-    expect(
-      favorisState.data,
-      {"1": mockServiceCivique(), "2": mockServiceCivique(), "4": mockServiceCivique()},
-    );
   });
 
   test("favori id list should be updated when favori is added and recheche result is null", () async {
@@ -98,12 +92,8 @@ void main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await successState;
-    final favorisState = (updatedFavoris.serviceCiviqueFavorisState as FavoriListLoadedState<ServiceCivique>);
+    final favorisState = (updatedFavoris.serviceCiviqueFavorisIdsState as FavoriIdsSuccessState<ServiceCivique>);
     expect(favorisState.favoriIds, {"2", "4", "17"});
-    expect(
-      favorisState.data,
-      {"2": mockServiceCivique(), "4": mockServiceCivique()},
-    );
   });
 
   test("favori state should not be updated when favori is added and api call fails", () async {
@@ -121,9 +111,8 @@ void main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
-    final favorisState = (updatedFavoris.serviceCiviqueFavorisState as FavoriListLoadedState<ServiceCivique>);
+    final favorisState = (updatedFavoris.serviceCiviqueFavorisIdsState as FavoriIdsSuccessState<ServiceCivique>);
     expect(favorisState.favoriIds, {"1", "2", "4"});
-    expect(favorisState.data, {"1": mockServiceCivique(), "2": mockServiceCivique(), "4": mockServiceCivique()});
   });
 }
 
@@ -132,19 +121,14 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
   testStoreFactory.serviceCiviqueFavorisRepository = ServiceCiviqueFavorisRepositorySuccessStub();
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState()
-        .copyWith(
-      loginState: successMiloUserState(),
-      serviceCiviqueFavorisState: FavoriListState<ServiceCivique>.withMap(
-        {"1", "2", "4"},
-        {"1": mockServiceCivique(), "2": mockServiceCivique(), "4": mockServiceCivique()},
-      ),
-    )
-        .successRechercheServiceCiviqueState(
-      results: [mockServiceCivique(id: '1'), mockServiceCivique(id: '17')],
-      canLoadMore: false,
-    ).favoriListV2SuccessState([mockFavori('1'), mockFavori('2'), mockFavori('4')]),
-  );
+      initialState: AppState.initialState()
+          .copyWith(
+              loginState: successMiloUserState(),
+              serviceCiviqueFavorisIdsState: FavoriIdsState<ServiceCivique>.success({"1", "2", "4"}))
+          .successRechercheServiceCiviqueState(
+    results: [mockServiceCivique(id: '1'), mockServiceCivique(id: '17')],
+    canLoadMore: false,
+  ).favoriListV2SuccessState([mockFavori('1'), mockFavori('2'), mockFavori('4')]));
   return store;
 }
 
@@ -157,10 +141,7 @@ Store<AppState> _successStoreWithFavorisAndServiceCiviqueDetailsSuccessState() {
           rechercheServiceCiviqueState: RechercheServiceCiviqueState.initial(),
           serviceCiviqueDetailState: ServiceCiviqueDetailSuccessState(mockServiceCiviqueDetail()),
           loginState: successMiloUserState(),
-          serviceCiviqueFavorisState: FavoriListState<ServiceCivique>.withMap(
-            {"2", "4"},
-            {"2": mockServiceCivique(), "4": mockServiceCivique()},
-          )));
+          serviceCiviqueFavorisIdsState: FavoriIdsState<ServiceCivique>.success({"2", "4"})));
   return store;
 }
 
@@ -171,12 +152,8 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState()
         .copyWith(
-      loginState: successMiloUserState(),
-      serviceCiviqueFavorisState: FavoriListState<ServiceCivique>.withMap(
-        {"1", "2", "4"},
-        {"1": mockServiceCivique(), "2": mockServiceCivique(), "4": mockServiceCivique()},
-      ),
-    )
+            loginState: successMiloUserState(),
+            serviceCiviqueFavorisIdsState: FavoriIdsState<ServiceCivique>.success({"1", "2", "4"}))
         .successRechercheServiceCiviqueState(
       results: [mockServiceCivique(id: '1'), mockServiceCivique(id: '17')],
       canLoadMore: false,

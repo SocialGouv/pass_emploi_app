@@ -17,7 +17,7 @@ import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_
 import 'package:pass_emploi_app/features/device_info/device_info_reducer.dart';
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_reducer.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_reducer.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
@@ -82,13 +82,14 @@ AppState reducer(AppState current, dynamic action) {
     deepLinkState: deepLinkReducer(current.deepLinkState, action),
     offreEmploiDetailsState: offreEmploiDetailsReducer(current.offreEmploiDetailsState, action),
     favoriListV2State: favoriListV2Reducer(current.favoriListV2State, action),
-    offreEmploiFavorisState: FavoriListReducer<OffreEmploi>().reduceFavorisState(
-      current.offreEmploiFavorisState,
+    offreEmploiFavorisIdsState: FavoriIdsReducer<OffreEmploi>().reduceFavorisState(
+      current.offreEmploiFavorisIdsState,
       action,
     ),
-    immersionFavorisState: FavoriListReducer<Immersion>().reduceFavorisState(current.immersionFavorisState, action),
-    serviceCiviqueFavorisState: FavoriListReducer<ServiceCivique>().reduceFavorisState(
-      current.serviceCiviqueFavorisState,
+    immersionFavorisIdsState:
+        FavoriIdsReducer<Immersion>().reduceFavorisState(current.immersionFavorisIdsState, action),
+    serviceCiviqueFavorisIdsState: FavoriIdsReducer<ServiceCivique>().reduceFavorisState(
+      current.serviceCiviqueFavorisIdsState,
       action,
     ),
     favoriUpdateState: favoriUpdateReducer(current.favoriUpdateState, action),

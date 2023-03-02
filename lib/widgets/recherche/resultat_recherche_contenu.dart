@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 class ResultatRechercheContenu<Result> extends StatefulWidget {
   final String analyticsType;
   final BlocResultatRechercheViewModel<Result> viewModel;
-  final FavoriListState<Result> Function(AppState) favorisState;
+  final FavoriIdsState<Result> Function(AppState) favorisState;
   final Widget Function(BuildContext, Result, int, BlocResultatRechercheViewModel<Result>) buildResultItem;
 
   const ResultatRechercheContenu({

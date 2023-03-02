@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
@@ -39,7 +39,7 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   RechercheState rechercheState(AppState appState) => appState.rechercheImmersionState;
 
   @override
-  FavoriListState<Immersion> favorisState(AppState appState) => appState.immersionFavorisState;
+  FavoriIdsState<Immersion> favorisState(AppState appState) => appState.immersionFavorisIdsState;
 
   @override
   Widget buildAlertBottomSheet() => ImmersionSavedSearchBottomSheet();

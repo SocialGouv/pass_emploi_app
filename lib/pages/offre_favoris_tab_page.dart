@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_actions.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -76,7 +76,7 @@ class OffreFavorisTabPage extends StatelessWidget {
     return _buildItem<OffreEmploi>(
       context: context,
       favori: favori,
-      selectState: (store) => store.state.offreEmploiFavorisState,
+      selectState: (store) => store.state.offreEmploiFavorisIdsState,
       onTap: () => Navigator.push(
         context,
         OffreEmploiDetailsPage.materialPageRoute(
@@ -92,7 +92,7 @@ class OffreFavorisTabPage extends StatelessWidget {
     return _buildItem<Immersion>(
       context: context,
       favori: favori,
-      selectState: (store) => store.state.immersionFavorisState,
+      selectState: (store) => store.state.immersionFavorisIdsState,
       onTap: () => Navigator.push(
         context,
         ImmersionDetailsPage.materialPageRoute(favori.id, popPageWhenFavoriIsRemoved: true),
@@ -104,7 +104,7 @@ class OffreFavorisTabPage extends StatelessWidget {
     return _buildItem<ServiceCivique>(
       context: context,
       favori: favori,
-      selectState: (store) => store.state.serviceCiviqueFavorisState,
+      selectState: (store) => store.state.serviceCiviqueFavorisIdsState,
       onTap: () {
         Navigator.push(
           context,
@@ -117,7 +117,7 @@ class OffreFavorisTabPage extends StatelessWidget {
   Widget _buildItem<T>({
     required BuildContext context,
     required Favori favori,
-    required FavoriListState<T> Function(Store<AppState> store) selectState,
+    required FavoriIdsState<T> Function(Store<AppState> store) selectState,
     required Function() onTap,
   }) {
     return FavorisStateContext<T>(

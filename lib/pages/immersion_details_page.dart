@@ -61,7 +61,7 @@ class ImmersionDetailsPage extends StatelessWidget {
         onDispose: (store) => store.dispatch(ImmersionDetailsResetAction()),
         converter: (store) => ImmersionDetailsViewModel.create(store, platform),
         builder: (context, viewModel) => FavorisStateContext(
-          selectState: (store) => store.state.immersionFavorisState,
+          selectState: (store) => store.state.immersionFavorisIdsState,
           child: _scaffold(_body(context, viewModel), context),
         ),
         distinct: true,

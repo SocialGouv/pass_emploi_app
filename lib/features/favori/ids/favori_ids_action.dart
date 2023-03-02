@@ -1,5 +1,5 @@
-class FavoriIdsLoadedAction<T> {
+class FavoriIdsSuccessAction<T> {
   final Set<String> favoriIds;
 
-  FavoriIdsLoadedAction(this.favoriIds);
+  FavoriIdsSuccessAction(this.favoriIds);
 }
