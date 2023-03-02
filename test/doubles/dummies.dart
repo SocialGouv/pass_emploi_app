@@ -272,13 +272,13 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
   DummyPassEmploiCacheManager() : super(DummyConfig());
 
   @override
-  void removeRessource(CachedRessource ressourceToRemove, String userId, String baseUrl) {}
+  void removeResource(CachedResource resourceToRemove, String userId, String baseUrl) {}
 
   @override
-  void removeActionCommentaireRessource(String actionId, String baseUrl) {}
+  void removeActionCommentaireResource(String actionId, String baseUrl) {}
 
   @override
-  void removeSuggestionsRechercheRessource({required String baseUrl, required String userId}) {}
+  void removeSuggestionsRechercheResource({required String baseUrl, required String userId}) {}
 
   @override
   Future<void> emptyCache() => Future<void>.value();

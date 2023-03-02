@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
@@ -47,7 +47,7 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
 
   @override
-  FavoriListState<OffreEmploi> favorisState(AppState appState) => appState.offreEmploiFavorisState;
+  FavoriIdsState<OffreEmploi> favorisState(AppState appState) => appState.offreEmploiFavorisIdsState;
 
   @override
   Widget buildAlertBottomSheet() {

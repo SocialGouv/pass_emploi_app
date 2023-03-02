@@ -1,8 +1,6 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
-import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
@@ -20,42 +18,31 @@ class PassEmploiCacheManager extends CacheManager {
     ));
   }
 
-  void removeRessource(CachedRessource ressourceToRemove, String userId, String baseUrl) {
-    switch (ressourceToRemove) {
-      case CachedRessource.IMMERSION_FAVORIS:
-        removeFile(ImmersionFavorisRepository.getFavorisUri(baseUrl: baseUrl, userId: userId).toString());
-        removeFile(ImmersionFavorisRepository.getFavorisIdUri(baseUrl: baseUrl, userId: userId).toString());
+  void removeResource(CachedResource resourceToRemove, String userId, String baseUrl) {
+    switch (resourceToRemove) {
+      case CachedResource.FAVORIS:
+        removeFile(GetFavorisRepository.getFavorisUri(baseUrl: baseUrl, userId: userId).toString());
         break;
-      case CachedRessource.OFFRE_EMPLOI_FAVORIS:
-        removeFile(OffreEmploiFavorisRepository.getFavorisUri(baseUrl: baseUrl, userId: userId).toString());
-        removeFile(OffreEmploiFavorisRepository.getFavorisIdUri(baseUrl: baseUrl, userId: userId).toString());
-        break;
-      case CachedRessource.SERVICE_CIVIQUE_FAVORIS:
-        removeFile(ServiceCiviqueFavorisRepository.getFavorisUri(baseUrl: baseUrl, userId: userId).toString());
-        removeFile(ServiceCiviqueFavorisRepository.getFavorisIdUri(baseUrl: baseUrl, userId: userId).toString());
-        break;
-      case CachedRessource.SAVED_SEARCH:
+      case CachedResource.SAVED_SEARCH:
         removeFile(GetSavedSearchRepository.getSavedSearchUri(baseUrl: baseUrl, userId: userId).toString());
         break;
-      case CachedRessource.UPDATE_PARTAGE_ACTIVITE:
+      case CachedResource.UPDATE_PARTAGE_ACTIVITE:
         removeFile(PartageActiviteRepository.getPartageActiviteUri(baseUrl: baseUrl, userId: userId).toString());
         break;
     }
   }
 
-  void removeActionCommentaireRessource(String actionId, String baseUrl) {
+  void removeActionCommentaireResource(String actionId, String baseUrl) {
     removeFile(ActionCommentaireRepository.getCommentairesUri(baseUrl: baseUrl, actionId: actionId).toString());
   }
 
-  void removeSuggestionsRechercheRessource({required String baseUrl, required String userId}) {
+  void removeSuggestionsRechercheResource({required String baseUrl, required String userId}) {
     removeFile(SuggestionsRechercheRepository.getSuggestionsUri(baseUrl: baseUrl, userId: userId).toString());
   }
 }
 
-enum CachedRessource {
-  IMMERSION_FAVORIS,
-  OFFRE_EMPLOI_FAVORIS,
-  SERVICE_CIVIQUE_FAVORIS,
+enum CachedResource {
+  FAVORIS,
   SAVED_SEARCH,
   UPDATE_PARTAGE_ACTIVITE,
 }

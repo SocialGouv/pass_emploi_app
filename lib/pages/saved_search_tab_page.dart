@@ -15,7 +15,6 @@ import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -137,10 +136,8 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   Widget _content(SavedSearchListViewModel viewModel) {
-    if (viewModel.displayState == DisplayState.LOADING) {
-      return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
-    }
-    if (viewModel.displayState == DisplayState.FAILURE) {
+    if (viewModel.displayState.isLoading()) return Center(child: CircularProgressIndicator());
+    if (viewModel.displayState.isFailure()) {
       return Center(child: Retry(Strings.savedSearchGetError, () => viewModel.onRetry()));
     }
     final List<SavedSearch> savedSearches = _getSavedSearches(viewModel);

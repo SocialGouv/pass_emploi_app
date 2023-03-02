@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
@@ -39,7 +39,7 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
   RechercheState rechercheState(AppState appState) => appState.rechercheServiceCiviqueState;
 
   @override
-  FavoriListState<ServiceCivique> favorisState(AppState appState) => appState.serviceCiviqueFavorisState;
+  FavoriIdsState<ServiceCivique> favorisState(AppState appState) => appState.serviceCiviqueFavorisIdsState;
 
   @override
   Widget buildAlertBottomSheet() => ServiceCiviqueSavedSearchBottomSheet();

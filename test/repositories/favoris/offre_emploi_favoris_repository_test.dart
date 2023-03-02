@@ -155,35 +155,6 @@ void main() {
       });
     });
   });
-
-  group("getFavoris", () {
-    sut.when((repository) => repository.getFavoris("jeuneId"));
-
-    group('when response is valid', () {
-      sut.givenJsonResponse(fromJson: "offre_emploi_favoris_data.json");
-
-      test('request should be valid', () async {
-        await sut.expectRequestBody(
-          method: "GET",
-          url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi?detail=true",
-        );
-      });
-
-      test('response should be valid', () async {
-        await sut.expectResult<Map<String, OffreEmploi>?>((result) {
-          expect(result, _expectedFavoriList());
-        });
-      });
-    });
-
-    group('when response is invalid', () {
-      sut.givenResponseCode(500);
-
-      test('response should be null', () async {
-        await sut.expectNullResult();
-      });
-    });
-  });
 }
 
 OffreEmploi _offreWithPartialData() {
@@ -208,54 +179,4 @@ OffreEmploi _offreWithFullData({required bool isAlternance}) {
     location: "Marseille",
     title: "otherTitle",
   );
-}
-
-Map<String, OffreEmploi> _expectedFavoriList() {
-  return {
-    "124PSHL": OffreEmploi(
-      id: "124PSHL",
-      duration: "Temps partiel",
-      location: "974 - STE MARIE",
-      contractType: "CDD",
-      isAlternance: false,
-      companyName: "SARL HAYA",
-      title: "Cuisinier / Cuisinière",
-    ),
-    "124PSJW": OffreEmploi(
-      id: "124PSJW",
-      duration: "Temps partiel",
-      location: "07 - LEMPS",
-      contractType: "CDD",
-      isAlternance: true,
-      companyName: "ATALIAN PROPRETE",
-      title: "Agent de nettoyage chez un particulier H/F",
-    ),
-    "124PSJS": OffreEmploi(
-      id: "124PSJS",
-      duration: "Temps partiel",
-      location: "80 - AMIENS",
-      contractType: "CDI",
-      isAlternance: false,
-      companyName: "CHARPENTE MENUISERIE ROUSSEAU",
-      title: "Vendeur / Vendeuse de fruits et légumes",
-    ),
-    "124PSJR": OffreEmploi(
-      id: "124PSJR",
-      duration: "Temps plein",
-      location: "63 - ISSOIRE",
-      contractType: "CDI",
-      isAlternance: false,
-      companyName: "SERVICES MAINTENANCE INDUSTRIELLE",
-      title: "Serrurier(ère) métallier(ère) industriel(le)                (H/F)",
-    ),
-    "123ZZZN1": OffreEmploi(
-      id: "123ZZZN1",
-      duration: "Temps plein",
-      location: null,
-      contractType: "CDI",
-      companyName: "SUPER TAXI",
-      title: "Chauffeur / Chauffeuse de taxi (H/F)",
-      isAlternance: false,
-    )
-  };
 }

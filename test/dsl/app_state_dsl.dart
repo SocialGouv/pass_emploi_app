@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.da
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
@@ -36,6 +37,7 @@ import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/message.dart';
@@ -532,4 +534,10 @@ extension AppStateDSL on AppState {
   AppState diagorienteUrlsSuccessState() {
     return copyWith(diagorienteUrlsState: DiagorienteUrlsSuccessState(mockDiagorienteUrls()));
   }
+
+  AppState favoriListLoadingState() => copyWith(favoriListState: FavoriListLoadingState());
+
+  AppState favoriListFailureState() => copyWith(favoriListState: FavoriListFailureState());
+
+  AppState favoriListSuccessState(List<Favori> favoris) => copyWith(favoriListState: FavoriListSuccessState(favoris));
 }

@@ -66,20 +66,17 @@ class AnalyticsScreenNames {
   static const immersionResults = "recherche/immersion/search_results";
   static const immersionDetails = "recherche/immersion/detail";
   static const immersionContact = "recherche/immersion/detail/contact";
-  static const immersionFiltres = "/recherche/immersion/search_results/filters";
+  static const immersionFiltres = "recherche/immersion/search_results/filters";
   static const immersionCreateAlert = "/saved_search/immersion/create";
 
-  static const serviceCiviqueResults = "/recherche/service_civique/search_results";
-  static const serviceCiviqueDetail = "/recherche/service_civique/detail";
-  static const serviceCiviqueFavoris = "/favoris/list/service_civique";
-  static const serviceCiviqueFiltres = "/recherche/service_civique/search_results/filters";
+  static const serviceCiviqueResults = "recherche/service_civique/search_results";
+  static const serviceCiviqueDetail = "recherche/service_civique/detail";
+  static const serviceCiviqueFiltres = "recherche/service_civique/search_results/filters";
   static const serviceCiviqueCreateAlert = "/saved_search/service_civique/create";
 
   static const eventList = "events/list";
   static const toolbox = "recherche/boite_a_outils";
-  static const emploiFavoris = "favoris/list/emploi";
-  static const alternanceFavoris = "favoris/list/alternance";
-  static const immersionFavoris = "favoris/list/immersion";
+  static const offreFavoris = "favoris/list";
   static const profil = "profil";
 
   static const eventPartagePageSuccess = "events/detail?partage-conseiller=true";
@@ -111,30 +108,24 @@ class AnalyticsScreenNames {
 class AnalyticsActionNames {
   AnalyticsActionNames._();
 
-  static String emploiResultUpdateFavori(bool added) => "recherche/emploi/search_results?favori=$added";
+  static String emploiResultUpdateFavori(bool added) => "/solutions/emploi/search_results?favori=$added";
 
-  static String emploiDetailUpdateFavori(bool added) => "recherche/emploi/detail?favori=$added";
+  static String emploiDetailUpdateFavori(bool added) => "/solutions/emploi/detail?favori=$added";
 
-  static String? emploiFavoriUpdateFavori(bool added) => added ? null : "favoris/list/emploi?favori=false";
+  static String alternanceResultUpdateFavori(bool added) => "/solutions/alternance/search_results?favori=$added";
 
-  static String alternanceResultUpdateFavori(bool added) => "recherche/alternance/search_results?favori=$added";
-
-  static String alternanceDetailUpdateFavori(bool added) => "recherche/alternance/detail?favori=$added";
-
-  static String? alternanceFavoriUpdateFavori(bool added) => added ? null : "favoris/list/alternance?favori=false";
+  static String alternanceDetailUpdateFavori(bool added) => "/solutions/alternance/detail?favori=$added";
 
   static String immersionResultUpdateFavori(bool added) => "/solutions/immersion/search_results?favori=$added";
 
   static String immersionDetailUpdateFavori(bool added) => "/solutions/immersion/detail?favori=$added";
-
-  static String immersionFavoriUpdateFavori(bool added) => "/favoris/list/immersion?favori=$added";
 
   static String serviceCiviqueResultUpdateFavori(bool added) =>
       "/solutions/service_civique/search_results?favori=$added";
 
   static String serviceCiviqueDetailUpdateFavori(bool added) => "/solutions/service_civique/detail?favori=$added";
 
-  static String serviceCiviqueFavoriUpdateFavori(bool added) => "/favoris/list/service_civique?favori=$added";
+  static String? offreFavoriUpdateFavori(bool added) => added ? null : "favoris/list?favori=$added";
 
   static const deleteUserAction = "actions/list?deleteSuccess=true";
 

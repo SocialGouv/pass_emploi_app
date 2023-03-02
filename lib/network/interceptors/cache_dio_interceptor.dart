@@ -25,8 +25,11 @@ class CacheDioInterceptor extends Interceptor {
     } else {
       Log.i("Intercepting cache request for ${options.uri.path} : return fresh data.");
       final headers = options.headers.map((key, value) => MapEntry(key, value.toString()));
-      final downloadedFile = await cacheManager.downloadFile(stringUrl, key: stringUrl, authHeaders: headers);
-      handler.resolve(await _response(options, downloadedFile.file));
+      await cacheManager
+          .downloadFile(stringUrl, key: stringUrl, authHeaders: headers)
+          .then((downloadedFile) => _response(options, downloadedFile.file))
+          .then((response) => handler.resolve(response))
+          .catchError((e) => handler.reject(DioError(requestOptions: options, error: e)));
     }
   }
 }

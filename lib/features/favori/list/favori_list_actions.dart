@@ -1,9 +1,13 @@
-class FavoriListRequestAction<T> {}
+import 'package:pass_emploi_app/models/favori.dart';
 
-class FavoriListLoadedAction<T> {
-  final Map<String, T> favoris;
+class FavoriListRequestAction {}
 
-  FavoriListLoadedAction(this.favoris);
+class FavoriListSuccessAction {
+  final List<Favori> results;
+
+  FavoriListSuccessAction(this.results);
 }
 
-class FavoriListFailureAction<T> {}
+class FavoriListFailureAction {}
+
+class FavoriListResetAction {}

@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -52,8 +53,10 @@ import 'package:redux/redux.dart';
 import '../doubles/dummies.dart';
 import '../doubles/dummy_matomo_tracker.dart';
 import '../doubles/fixtures.dart';
+import '../doubles/mocks.dart';
 
 class TestStoreFactory {
+  final Configuration _configuration = configuration();
   Authenticator authenticator = DummyAuthenticator();
   PageActionRepository pageActionRepository = DummyPageActionRepository();
   PageDemarcheRepository pageDemarcheRepository = DummyPageDemarcheRepository();
@@ -98,13 +101,14 @@ class TestStoreFactory {
   SuggestionsRechercheRepository suggestionsRechercheRepository = DummySuggestionsRechercheRepository();
   EventListRepository eventListRepository = DummyEventListRepository();
   InstallationIdRepository installationIdRepository = DummyInstallationIdRepository();
-  final Configuration _configuration = configuration();
   DiagorienteUrlsRepository diagorienteUrlsRepository = DummyDiagorienteUrlsRepository();
+  GetFavorisRepository getFavorisRepository = MockGetFavorisRepository();
 
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
+      _configuration,
       authenticator,
       crashlytics,
       chatCrypto,
@@ -149,8 +153,8 @@ class TestStoreFactory {
       suggestionsRechercheRepository,
       eventListRepository,
       installationIdRepository,
-      _configuration,
       diagorienteUrlsRepository,
+      getFavorisRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }

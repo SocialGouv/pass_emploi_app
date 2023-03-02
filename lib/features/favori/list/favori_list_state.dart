@@ -1,22 +1,22 @@
-abstract class FavoriListState<T> {
-  FavoriListState._();
+import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 
-  factory FavoriListState.notInitialized() = FavoriListNotInitialized;
-
-  factory FavoriListState.idsLoaded(Set<String> favorisListId) => FavoriListLoadedState._(null, favorisListId);
-
-  factory FavoriListState.withMap(Set<String> favorisListId, Map<String, T>? favoris) {
-    return FavoriListLoadedState._(favoris, favorisListId);
-  }
+abstract class FavoriListState extends Equatable {
+  @override
+  List<Object?> get props => [];
 }
 
-class FavoriListLoadedState<T> extends FavoriListState<T> {
-  final Map<String, T>? data;
-  final Set<String> favoriIds;
+class FavoriListNotInitializedState extends FavoriListState {}
 
-  FavoriListLoadedState._(this.data, this.favoriIds) : super._();
-}
+class FavoriListLoadingState extends FavoriListState {}
 
-class FavoriListNotInitialized<T> extends FavoriListState<T> {
-  FavoriListNotInitialized() : super._();
+class FavoriListFailureState extends FavoriListState {}
+
+class FavoriListSuccessState extends FavoriListState {
+  final List<Favori> results;
+
+  FavoriListSuccessState(this.results);
+
+  @override
+  List<Object?> get props => [results];
 }

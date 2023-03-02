@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
@@ -26,7 +26,7 @@ abstract class RechercheOffrePage<Result> extends StatefulWidget {
 
   RechercheState rechercheState(AppState appState);
 
-  FavoriListState<Result> favorisState(AppState appState);
+  FavoriIdsState<Result> favorisState(AppState appState);
 
   Widget buildAlertBottomSheet();
 

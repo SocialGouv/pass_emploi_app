@@ -62,7 +62,7 @@ void main() {
   test("deleteFavori when removing favori should delete with correct id and return true when response is valid",
       () async {
     // Given
-        final httpClient = _successfulClientForDelete();
+    final httpClient = _successfulClientForDelete();
     final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
@@ -118,63 +118,6 @@ void main() {
 
     // Then
     expect(result, isTrue);
-  });
-
-  test('getFavoris when response is valid with all parameters should return offres', () async {
-    // Given
-    final httpClient = _successfulClientForQuery();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final favoris = await repository.getFavoris("jeuneId");
-
-    // Then
-    expect(favoris, {
-      "4f44d3ec-6568-41f0-b66e-e53a9e1fe904": Immersion(
-        id: "4f44d3ec-6568-41f0-b66e-e53a9e1fe904",
-        metier: "xxxx",
-        nomEtablissement: "EPSAN",
-        secteurActivite: "xxxx",
-        ville: "xxxx",
-      ),
-      "4277d7b7-3d86-453d-9375-14aee8fde94d": Immersion(
-        id: "4277d7b7-3d86-453d-9375-14aee8fde94d",
-        metier: "xxxx",
-        nomEtablissement: "LES FOURMIS DE L AJPA",
-        secteurActivite: "xxxx",
-        ville: "xxxx",
-      ),
-      "b2d70bb3-ba69-4dd8-880a-62171b48ecbc": Immersion(
-        id: "b2d70bb3-ba69-4dd8-880a-62171b48ecbc",
-        metier: "xxxx",
-        nomEtablissement: "CENTRE SERVICES",
-        secteurActivite: "xxxx",
-        ville: "xxxx",
-      ),
-    });
-  });
-
-  test('getFavoris when response is invalid should return null', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final favoris = await repository.getFavoris("jeuneId");
-
-    // Then
-    expect(favoris, isNull);
-  });
-}
-
-BaseClient _successfulClientForQuery() {
-  return PassEmploiMockClient((request) async {
-    if (request.method != "GET") return invalidHttpResponse();
-    if (request.url.queryParameters["detail"] != "true") return invalidHttpResponse(message: "query KO");
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion")) {
-      return invalidHttpResponse();
-    }
-    return Response.bytes(loadTestAssetsAsBytes("immersion_favoris_data.json"), 200);
   });
 }
 

@@ -1,48 +1,89 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
+import 'package:pass_emploi_app/models/favori.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
-import '../../utils/test_setup.dart';
+import '../../doubles/mocks.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 
 void main() {
-  test("service civique detail should be loaded when asked", () async {
-    final factory = TestStoreFactory();
-    factory.serviceCiviqueDetailRepository = ServiceCiviqueDetailRepositoryWithDataStub();
-    final store = factory.initializeReduxStore(initialState: loggedInState());
+  group('Service Civique details', () {
+    final sut = StoreSut();
+    final repository = MockServiceCiviqueDetailRepository();
 
-    final displayedLoading = store.onChange.any((e) => e.serviceCiviqueDetailState is ServiceCiviqueDetailLoadingState);
-    final successState =
-        store.onChange.firstWhere((e) => e.serviceCiviqueDetailState is ServiceCiviqueDetailSuccessState);
+    group("when requesting", () {
+      sut.when(() => GetServiceCiviqueDetailAction("id"));
 
-    // When
-    store.dispatch(GetServiceCiviqueDetailAction("id"));
+      test('should load then succeed when request succeed', () {
+        when(() => repository.getServiceCiviqueDetail('id'))
+            .thenAnswer((_) async => SuccessfullServiceCiviqueDetailResponse(mockServiceCiviqueDetail()));
 
-    // Then
-    expect(await displayedLoading, true);
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.serviceCiviqueDetailRepository = repository});
 
-    final successAppState = await successState;
-    final dataState = (successAppState.serviceCiviqueDetailState as ServiceCiviqueDetailSuccessState);
-    expect(dataState.detail, mockServiceCiviqueDetail());
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+      });
+
+      test('should load then fail when request fail', () {
+        when(() => repository.getServiceCiviqueDetail('id'))
+            .thenAnswer((_) async => FailedServiceCiviqueDetailResponse());
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.serviceCiviqueDetailRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+      });
+
+      test('should load then display incomplete data when request fail but favori is present', () {
+        when(() => repository.getServiceCiviqueDetail('id'))
+            .thenAnswer((_) async => NotFoundServiceCiviqueDetailResponse());
+
+        final f = Favori(id: 'id', type: SolutionType.ServiceCivique, titre: 't', organisation: 'o', localisation: 'l');
+        sut.givenStore = givenState() //
+            .loggedInUser() //
+            .favoriListSuccessState([f]) //
+            .store((factory) => {factory.serviceCiviqueDetailRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedWithIncompleteData()]);
+      });
+    });
   });
+}
 
-  test("service civique detail should be error when fail occur", () async {
-    final factory = TestStoreFactory();
-    factory.serviceCiviqueDetailRepository = ServiceCiviqueDetailRepositoryWithErrorStub();
-    final store = factory.initializeReduxStore(initialState: loggedInState());
+Matcher _shouldLoad() => StateIs<ServiceCiviqueDetailLoadingState>((state) => state.serviceCiviqueDetailState);
 
-    final displayedLoading = store.onChange.any((e) => e.serviceCiviqueDetailState is ServiceCiviqueDetailLoadingState);
-    final errorState =
-        store.onChange.firstWhere((e) => e.serviceCiviqueDetailState is ServiceCiviqueDetailFailureState);
+Matcher _shouldFail() => StateIs<ServiceCiviqueDetailFailureState>((state) => state.serviceCiviqueDetailState);
 
-    // When
-    store.dispatch(GetServiceCiviqueDetailAction("id"));
+Matcher _shouldSucceed() {
+  return StateIs<ServiceCiviqueDetailSuccessState>(
+    (state) => state.serviceCiviqueDetailState,
+    (state) => expect(state.detail, mockServiceCiviqueDetail()),
+  );
+}
 
-    // Then
-    expect(await displayedLoading, true);
+Matcher _shouldSucceedWithIncompleteData() {
+  return StateIs<ServiceCiviqueDetailNotFoundState>(
+    (state) => state.serviceCiviqueDetailState,
+    (state) => expect(state.serviceCivique, _incompleteServiceCivique()),
+  );
+}
 
-    final errorAppState = await errorState;
-    expect(errorAppState.serviceCiviqueDetailState, ServiceCiviqueDetailFailureState());
-  });
+ServiceCivique _incompleteServiceCivique() {
+  return ServiceCivique(
+    id: 'id',
+    title: 't',
+    companyName: 'o',
+    location: 'l',
+    domain: null,
+    startDate: null,
+  );
 }

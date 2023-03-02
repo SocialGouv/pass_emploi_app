@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
-import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:redux/redux.dart';
@@ -27,13 +27,10 @@ class ServiceCiviqueDetailMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _handleNotFound(Store<AppState> store, GetServiceCiviqueDetailAction action) {
-    final FavoriListState<ServiceCivique> favorisState = store.state.serviceCiviqueFavorisState;
-    if (favorisState is FavoriListLoadedState<ServiceCivique>) {
-      if (favorisState.data?[action.id] != null) {
-        store.dispatch(ServiceCiviqueDetailNotFoundAction(favorisState.data![action.id]!));
-      } else {
-        store.dispatch(ServiceCiviqueDetailFailureAction());
-      }
+    final favorisState = store.state.favoriListState;
+    if (favorisState is FavoriListSuccessState && favorisState.results.any((element) => element.id == action.id)) {
+      final favori = favorisState.results.firstWhere((element) => element.id == action.id);
+      store.dispatch(ServiceCiviqueDetailNotFoundAction(favori.toServiceCivique));
     } else {
       store.dispatch(ServiceCiviqueDetailFailureAction());
     }

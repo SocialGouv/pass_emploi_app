@@ -20,10 +20,6 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
     return Uri.parse(baseUrl + "/jeunes/$userId/favoris/offres-emploi");
   }
 
-  static Uri getFavorisUri({required String baseUrl, required String userId}) {
-    return getFavorisIdUri(baseUrl: baseUrl, userId: userId).replace(queryParameters: {"detail": "true"});
-  }
-
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
     final url = getFavorisIdUri(baseUrl: _baseUrl, userId: userId);
@@ -33,21 +29,6 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes) as List;
         return json.map((favori) => favori["id"] as String).toSet();
-      }
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
-    }
-    return null;
-  }
-
-  @override
-  Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
-    final url = getFavorisUri(baseUrl: _baseUrl, userId: userId);
-    try {
-      final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes) as List;
-        return {for (var element in json) element["id"] as String: OffreEmploi.fromJson(element)};
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
@@ -74,7 +55,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
-        _cacheManager.removeRessource(CachedRessource.OFFRE_EMPLOI_FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {
@@ -89,7 +70,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
     try {
       final response = await _httpClient.delete(url);
       if (response.statusCode.isValid() || response.statusCode == 404) {
-        _cacheManager.removeRessource(CachedRessource.OFFRE_EMPLOI_FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

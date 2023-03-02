@@ -80,6 +80,7 @@ import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -112,6 +113,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:redux/redux.dart' as redux;
 
 class StoreFactory {
+  final Configuration configuration;
   final Authenticator authenticator;
   final Crashlytics crashlytics;
   final ChatCrypto chatCrypto;
@@ -156,13 +158,13 @@ class StoreFactory {
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
   final EventListRepository eventListRepository;
   final InstallationIdRepository installationIdRepository;
-  final Configuration configuration;
-
   final DiagorienteUrlsRepository diagorienteUrlsRepository;
+  final GetFavorisRepository getFavorisRepository;
 
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
+    this.configuration,
     this.authenticator,
     this.crashlytics,
     this.chatCrypto,
@@ -207,8 +209,8 @@ class StoreFactory {
     this.suggestionsRechercheRepository,
     this.eventListRepository,
     this.installationIdRepository,
-    this.configuration,
     this.diagorienteUrlsRepository,
+    this.getFavorisRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -236,13 +238,10 @@ class StoreFactory {
         RegisterPushNotificationTokenMiddleware(registerTokenRepository, configuration),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
         FavoriIdsMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
-        FavoriListMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
         FavoriUpdateMiddleware<OffreEmploi>(offreEmploiFavorisRepository, OffreEmploiDataFromIdExtractor()),
         FavoriIdsMiddleware<Immersion>(immersionFavorisRepository),
-        FavoriListMiddleware<Immersion>(immersionFavorisRepository),
         FavoriUpdateMiddleware<Immersion>(immersionFavorisRepository, ImmersionDataFromIdExtractor()),
         FavoriIdsMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
-        FavoriListMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
         FavoriUpdateMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository, ServiceCiviqueDataFromIdExtractor()),
         CrashlyticsMiddleware(crashlytics, installationIdRepository),
         SearchLocationMiddleware(searchLocationRepository),
@@ -276,6 +275,7 @@ class StoreFactory {
         RechercheImmersionMiddleware(immersionRepository),
         RechercheServiceCiviqueMiddleware(serviceCiviqueRepository),
         DiagorienteUrlsMiddleware(diagorienteUrlsRepository),
+        FavoriListMiddleware(getFavorisRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

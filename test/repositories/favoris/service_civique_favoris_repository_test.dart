@@ -62,7 +62,7 @@ void main() {
   test("deleteFavori when removing favori should delete with correct id and return true when response is valid",
       () async {
     // Given
-        final httpClient = _successfulClientForDelete();
+    final httpClient = _successfulClientForDelete();
     final repository = ServiceCiviqueFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
@@ -118,56 +118,6 @@ void main() {
 
     // Then
     expect(result, isTrue);
-  });
-
-  test('getFavoris when response is valid with all parameters should return offres', () async {
-    // Given
-    final httpClient = _successfulClientForQuery();
-    final repository = ServiceCiviqueFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final favoris = await repository.getFavoris("jeuneId");
-
-    // Then
-    expect(favoris, {
-      "61dd6f4cd016777c442bd8c7": ServiceCivique(
-          id: "61dd6f4cd016777c442bd8c7",
-          title: "Accompagnement des publics individuels",
-          startDate: "2021-12-01T00:00:00.000Z",
-          domain: "solidarite-insertion",
-          location: "Valençay",
-          companyName: "SYNDICAT MIXTE DU CHATEAU DE VALENCAY"),
-      "61dd6f4ad016777c442bd8c5": ServiceCivique(
-          id: "61dd6f4ad016777c442bd8c5",
-          title: "Accompagnement des publics groupes",
-          startDate: "2021-12-01T00:00:00.000Z",
-          domain: "solidarite-insertion",
-          location: "Valençay",
-          companyName: "SYNDICAT MIXTE DU CHATEAU DE VALENCAY"),
-    });
-  });
-
-  test('getFavoris when response is invalid should return null', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = ServiceCiviqueFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final favoris = await repository.getFavoris("jeuneId");
-
-    // Then
-    expect(favoris, isNull);
-  });
-}
-
-BaseClient _successfulClientForQuery() {
-  return PassEmploiMockClient((request) async {
-    if (request.method != "GET") return invalidHttpResponse();
-    if (request.url.queryParameters["detail"] != "true") return invalidHttpResponse(message: "query KO");
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/services-civique")) {
-      return invalidHttpResponse();
-    }
-    return Response.bytes(loadTestAssetsAsBytes("service_civique_favoris_data.json"), 200);
   });
 }
 

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -18,7 +18,7 @@ void main() {
     testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
     final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
     final successState = store.onChange.firstWhere(
-      (e) => e.offreEmploiFavorisState is FavoriListLoadedState<OffreEmploi>,
+      (e) => e.offreEmploiFavorisIdsState is FavoriIdsSuccessState<OffreEmploi>,
     );
 
     // When
@@ -26,8 +26,7 @@ void main() {
 
     // Then
     final loadedFavoris = await successState;
-    final favorisState = (loadedFavoris.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>);
+    final favorisState = (loadedFavoris.offreEmploiFavorisIdsState as FavoriIdsSuccessState<OffreEmploi>);
     expect(favorisState.favoriIds, {"1", "2", "4"});
-    expect(favorisState.data, null);
   });
 }

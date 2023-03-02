@@ -20,38 +20,19 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
     return Uri.parse(baseUrl + "/jeunes/$userId/favoris/services-civique");
   }
 
-  static Uri getFavorisUri({required String baseUrl, required String userId}) {
-    return getFavorisIdUri(baseUrl: baseUrl, userId: userId).replace(queryParameters: {"detail": "true"});
-  }
-
   @override
   Future<bool> deleteFavori(String userId, String favoriId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/services-civique/$favoriId");
     try {
       final response = await _httpClient.delete(url);
       if (response.statusCode.isValid() || response.statusCode == 404) {
-        _cacheManager.removeRessource(CachedRessource.SERVICE_CIVIQUE_FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return false;
-  }
-
-  @override
-  Future<Map<String, ServiceCivique>?> getFavoris(String userId) async {
-    final url = getFavorisUri(baseUrl: _baseUrl, userId: userId);
-    try {
-      final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes) as List;
-        return {for (var element in json) element["id"] as String: ServiceCivique.fromJson(element)};
-      }
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
-    }
-    return null;
   }
 
   @override
@@ -87,7 +68,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
-        _cacheManager.removeRessource(CachedRessource.SERVICE_CIVIQUE_FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

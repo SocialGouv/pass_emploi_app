@@ -35,7 +35,7 @@ class ServiceCiviqueSavedSearchRepository extends SavedSearchRepository<ServiceC
         ),
       );
       if (response.statusCode.isValid()) {
-        _cacheManager.removeRessource(CachedRessource.SAVED_SEARCH, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.SAVED_SEARCH, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

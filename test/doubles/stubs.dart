@@ -22,7 +22,6 @@ import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
-import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -283,24 +282,6 @@ class ChatRepositoryStub extends ChatRepository {
   @override
   Future<bool> sendOffrePartagee(String userId, OffrePartagee offrePartagee) async {
     return true;
-  }
-}
-
-class ServiceCiviqueDetailRepositoryWithDataStub extends ServiceCiviqueDetailRepository {
-  ServiceCiviqueDetailRepositoryWithDataStub() : super("", DummyHttpClient());
-
-  @override
-  Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
-    return SuccessfullServiceCiviqueDetailResponse(mockServiceCiviqueDetail());
-  }
-}
-
-class ServiceCiviqueDetailRepositoryWithErrorStub extends ServiceCiviqueDetailRepository {
-  ServiceCiviqueDetailRepositoryWithErrorStub() : super("", DummyHttpClient());
-
-  @override
-  Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
-    return FailedServiceCiviqueDetailResponse();
   }
 }
 

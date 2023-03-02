@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/diagoriente_urls.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
@@ -31,6 +32,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
+import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -588,4 +590,8 @@ DiagorienteUrls mockDiagorienteUrls() {
     metiersFavorisUrl: 'metiersFavorisUrl',
     metiersRecommandesUrl: 'metiersRecommandesUrl',
   );
+}
+
+Favori mockFavori([String id = 'id']) {
+  return Favori(id: id, type: SolutionType.Immersion, titre: 't', organisation: null, localisation: null);
 }

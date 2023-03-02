@@ -41,7 +41,7 @@ class PartageActiviteRepository {
         body: customJsonEncode(PutPartageActiviteRequest(favoris: isShare)),
       );
       if (response.statusCode.isValid()) {
-        _cacheManager.removeRessource(CachedRessource.UPDATE_PARTAGE_ACTIVITE, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.UPDATE_PARTAGE_ACTIVITE, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

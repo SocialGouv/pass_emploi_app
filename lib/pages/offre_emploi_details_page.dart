@@ -68,7 +68,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
         },
         converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
         builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
-          selectState: (store) => store.state.offreEmploiFavorisState,
+          selectState: (store) => store.state.offreEmploiFavorisIdsState,
           child: _scaffold(_body(context, viewModel), context),
         ),
       ),

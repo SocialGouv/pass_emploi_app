@@ -1,118 +1,101 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
-import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/offre_emploi_details.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
-import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../utils/test_setup.dart';
+import '../../doubles/mocks.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 
 void main() {
-  test("detailed offer should be fetched and displayed when screen loads", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.detailedOfferRepository = OffreEmploiDetailsRepositorySuccessStub();
-    final store = testStoreFactory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(loginState: LoginFailureState()),
-    );
+  group('Offre Emploi details', () {
+    final sut = StoreSut();
+    final repository = MockOffreEmploiDetailsRepository();
 
-    final displayedLoading = store.onChange.any((e) => e.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
-    final successState = store.onChange.firstWhere((e) => e.offreEmploiDetailsState is OffreEmploiDetailsSuccessState);
+    group('when requesting', () {
+      sut.when(() => OffreEmploiDetailsRequestAction("id"));
 
-    // When
-    store.dispatch(OffreEmploiDetailsRequestAction("offerId"));
+      test('should load then succeed when request succeed', () {
+        when(() => repository.getOffreEmploiDetails(offreId: 'id')).thenAnswer((_) async {
+          return OffreDetailsResponse(
+            isGenericFailure: false,
+            isOffreNotFound: false,
+            details: mockOffreEmploiDetails(),
+          );
+        });
 
-    // Then
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.detailedOfferRepository = repository});
 
-    expect(await displayedLoading, true);
-    final appState = await successState;
-    expect((appState.offreEmploiDetailsState as OffreEmploiDetailsSuccessState).offre.id, "123TZKB");
-  });
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+      });
 
-  test("detailed offer should be fetched and an error must be displayed if something wrong happens", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.detailedOfferRepository = OffreEmploiDetailsRepositoryGenericFailureStub();
-    final store = testStoreFactory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(loginState: LoginFailureState()),
-    );
+      test('should load then fail when request fail', () {
+        when(() => repository.getOffreEmploiDetails(offreId: 'id')).thenAnswer((_) async {
+          return OffreDetailsResponse(isGenericFailure: true, isOffreNotFound: false, details: null);
+        });
 
-    final displayedLoading = store.onChange.any((e) => e.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
-    final displayedError = store.onChange.any((e) => e.offreEmploiDetailsState is OffreEmploiDetailsFailureState);
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.detailedOfferRepository = repository});
 
-    // When
-    store.dispatch(OffreEmploiDetailsRequestAction("offerId"));
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+      });
 
-    // Then
-    expect(await displayedLoading, true);
-    expect(await displayedError, true);
-  });
+      test('should load then display incomplete data when request fail but favori is present', () {
+        when(() => repository.getOffreEmploiDetails(offreId: 'id')).thenAnswer((_) async {
+          return OffreDetailsResponse(isGenericFailure: false, isOffreNotFound: true, details: null);
+        });
 
-  test("offre details should be displayed as incomplete data when 404 error but offre is in favoris", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.detailedOfferRepository = OffreEmploiDetailsRepositoryNotFoundFailureStub();
-    final store = testStoreFactory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
-          loginState: LoginSuccessState(mockUser()),
-          offreEmploiFavorisState: FavoriListState<OffreEmploi>.withMap({"offerId"}, {"offerId": mockOffreEmploi()})),
-    );
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.detailedOfferRepository = repository});
 
-    final displayedLoading = store.onChange.any((e) => e.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
-    final displayedIncompleteData =
-        store.onChange.firstWhere((e) => e.offreEmploiDetailsState is OffreEmploiDetailsIncompleteDataState);
+        final f = Favori(id: 'id', type: SolutionType.Immersion, titre: 't', organisation: 'o', localisation: 'l');
+        sut.givenStore = givenState() //
+            .loggedInUser() //
+            .favoriListSuccessState([f]) //
+            .store((factory) => {factory.detailedOfferRepository = repository});
 
-    // When
-    store.dispatch(OffreEmploiDetailsRequestAction("offerId"));
-
-    // Then
-    expect(await displayedLoading, true);
-    final appState = await displayedIncompleteData;
-    final detailsState = (appState.offreEmploiDetailsState as OffreEmploiDetailsIncompleteDataState);
-    expect(detailsState.offre, mockOffreEmploi());
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedWithIncompleteData()]);
+      });
+    });
   });
 }
 
-class OffreEmploiDetailsRepositorySuccessStub extends OffreEmploiDetailsRepository {
-  OffreEmploiDetailsRepositorySuccessStub() : super("", DummyHttpClient());
+Matcher _shouldLoad() => StateIs<OffreEmploiDetailsLoadingState>((state) => state.offreEmploiDetailsState);
 
-  @override
-  Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
-    return OffreDetailsResponse(
-      isGenericFailure: false,
-      isOffreNotFound: false,
-      details: mockOffreEmploiDetails(),
-    );
-  }
+Matcher _shouldFail() => StateIs<OffreEmploiDetailsFailureState>((state) => state.offreEmploiDetailsState);
+
+Matcher _shouldSucceed() {
+  return StateIs<OffreEmploiDetailsSuccessState>(
+    (state) => state.offreEmploiDetailsState,
+    (state) => expect(state.offre.id, '123TZKB'),
+  );
 }
 
-class OffreEmploiDetailsRepositoryGenericFailureStub extends OffreEmploiDetailsRepository {
-  OffreEmploiDetailsRepositoryGenericFailureStub() : super("", DummyHttpClient());
-
-  @override
-  Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
-    return OffreDetailsResponse(
-      isGenericFailure: true,
-      isOffreNotFound: false,
-      details: null,
-    );
-  }
+Matcher _shouldSucceedWithIncompleteData() {
+  return StateIs<OffreEmploiDetailsIncompleteDataState>(
+    (state) => state.offreEmploiDetailsState,
+    (state) => expect(state.offre, _incompleteOffre()),
+  );
 }
 
-class OffreEmploiDetailsRepositoryNotFoundFailureStub extends OffreEmploiDetailsRepository {
-  OffreEmploiDetailsRepositoryNotFoundFailureStub() : super("", DummyHttpClient());
-
-  @override
-  Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
-    return OffreDetailsResponse(
-      isGenericFailure: false,
-      isOffreNotFound: true,
-      details: null,
-    );
-  }
+OffreEmploi _incompleteOffre() {
+  return OffreEmploi(
+    id: 'id',
+    title: 't',
+    companyName: 'o',
+    contractType: 'Type de contrat inconnu',
+    isAlternance: false,
+    location: 'l',
+    duration: null,
+  );
 }

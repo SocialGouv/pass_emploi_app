@@ -7,4 +7,6 @@ enum DisplayState {
   bool isLoading() => this == DisplayState.LOADING;
 
   bool isFailure() => this == DisplayState.FAILURE;
+
+  bool isEmpty() => this == DisplayState.EMPTY;
 }

@@ -56,6 +56,7 @@ import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -190,6 +191,7 @@ class AppInitializer {
     );
     final chatCrypto = ChatCrypto();
     final reduxStore = StoreFactory(
+      configuration,
       authenticator,
       crashlytics,
       chatCrypto,
@@ -234,8 +236,8 @@ class AppInitializer {
       SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       EventListRepository(baseUrl, httpClient, crashlytics),
       installationIdRepository,
-      configuration,
       DiagorienteUrlsRepository(dioClient, crashlytics),
+      GetFavorisRepository(dioClient, crashlytics),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
