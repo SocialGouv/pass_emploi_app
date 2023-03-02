@@ -1,5 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 
 class Favori extends Equatable {
   final String id;
@@ -38,4 +42,33 @@ SolutionType? _typeFromString(String typeString) {
   if (typeString == "OFFRE_IMMERSION") return SolutionType.Immersion;
   if (typeString == "OFFRE_SERVICE_CIVIQUE") return SolutionType.ServiceCivique;
   return null;
+}
+
+extension FavoriExt on Favori {
+  OffreEmploi get toOffreEmploi => OffreEmploi(
+        id: id,
+        title: titre,
+        companyName: organisation,
+        contractType: Strings.favorisUnknownContractType,
+        isAlternance: false,
+        location: localisation,
+        duration: null,
+      );
+
+  Immersion get toImmersion => Immersion(
+        id: id,
+        metier: titre,
+        nomEtablissement: organisation ?? '',
+        secteurActivite: Strings.favorisUnknownSecteur,
+        ville: localisation ?? '',
+      );
+
+  ServiceCivique get toServiceCivique => ServiceCivique(
+        id: id,
+        title: titre,
+        location: localisation,
+        domain: null,
+        companyName: organisation,
+        startDate: null,
+      );
 }

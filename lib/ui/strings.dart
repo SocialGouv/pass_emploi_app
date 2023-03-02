@@ -485,6 +485,8 @@ class Strings {
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
+  static String favorisUnknownContractType = 'Type de contrat inconnu';
+  static String favorisUnknownSecteur = 'Secteur d\'activité inconnu';
 
   // Offre Filter Page
   static String filterList = "Filtrer la liste";
