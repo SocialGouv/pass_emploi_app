@@ -66,7 +66,7 @@ class SuggestionsRechercheRepository {
 
 extension _CacheExt on PassEmploiCacheManager {
   void invalidateSuggestionsAndSavedSearch({required String baseUrl, required String userId}) {
-    removeSuggestionsRechercheRessource(baseUrl: baseUrl, userId: userId);
-    removeRessource(CachedRessource.SAVED_SEARCH, userId, baseUrl);
+    removeSuggestionsRechercheResource(baseUrl: baseUrl, userId: userId);
+    removeResource(CachedResource.SAVED_SEARCH, userId, baseUrl);
   }
 }

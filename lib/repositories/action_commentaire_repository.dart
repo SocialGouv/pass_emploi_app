@@ -25,7 +25,7 @@ class ActionCommentaireRepository {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
-        _cacheManager.removeActionCommentaireRessource(actionId, _baseUrl);
+        _cacheManager.removeActionCommentaireResource(actionId, _baseUrl);
         return (json as List).map((comment) => Commentaire.fromJson(comment)).toList();
       }
     } catch (e, stack) {

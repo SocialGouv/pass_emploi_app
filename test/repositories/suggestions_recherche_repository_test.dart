@@ -67,8 +67,8 @@ void main() {
 
       test('cache for saved search and suggestions should be reset', () async {
         await sut.expectResult<dynamic>((result) {
-          expect(cacheManager.removeRessourceParams, CachedRessource.SAVED_SEARCH);
-          expect(cacheManager.removeSuggestionsRechercheRessourceWasCalled, true);
+          expect(cacheManager.removeResourceParams, CachedResource.SAVED_SEARCH);
+          expect(cacheManager.removeSuggestionsRechercheResourceWasCalled, true);
         });
       });
     });
@@ -101,8 +101,8 @@ void main() {
 
       test('cache for saved search and suggestions should be reset', () async {
         await sut.expectResult<dynamic>((result) {
-          expect(cacheManager.removeRessourceParams, CachedRessource.SAVED_SEARCH);
-          expect(cacheManager.removeSuggestionsRechercheRessourceWasCalled, true);
+          expect(cacheManager.removeResourceParams, CachedResource.SAVED_SEARCH);
+          expect(cacheManager.removeSuggestionsRechercheResourceWasCalled, true);
         });
       });
     });

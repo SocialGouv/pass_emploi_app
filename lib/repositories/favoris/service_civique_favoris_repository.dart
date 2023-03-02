@@ -30,7 +30,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
     try {
       final response = await _httpClient.delete(url);
       if (response.statusCode.isValid() || response.statusCode == 404) {
-        _cacheManager.removeRessource(CachedRessource.SERVICE_CIVIQUE_FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {
@@ -72,7 +72,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
-        _cacheManager.removeRessource(CachedRessource.SERVICE_CIVIQUE_FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

@@ -57,7 +57,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
-        _cacheManager.removeRessource(CachedRessource.IMMERSION_FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {
@@ -72,7 +72,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
     try {
       final response = await _httpClient.delete(url);
       if (response.statusCode.isValid() || response.statusCode == 404) {
-        _cacheManager.removeRessource(CachedRessource.IMMERSION_FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

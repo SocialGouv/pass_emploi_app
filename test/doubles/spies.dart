@@ -86,20 +86,20 @@ class SharedPreferencesSpy extends FlutterSecureStorage {
 class SpyPassEmploiCacheManager extends PassEmploiCacheManager {
   SpyPassEmploiCacheManager() : super(DummyConfig());
 
-  CachedRessource? removeRessourceParams;
-  bool removeSuggestionsRechercheRessourceWasCalled = false;
+  CachedResource? removeResourceParams;
+  bool removeSuggestionsRechercheResourceWasCalled = false;
 
   @override
-  void removeRessource(CachedRessource ressourceToRemove, String userId, String baseUrl) {
-    removeRessourceParams = ressourceToRemove;
+  void removeResource(CachedResource resourceToRemove, String userId, String baseUrl) {
+    removeResourceParams = resourceToRemove;
   }
 
   @override
-  void removeActionCommentaireRessource(String actionId, String baseUrl) {}
+  void removeActionCommentaireResource(String actionId, String baseUrl) {}
 
   @override
-  void removeSuggestionsRechercheRessource({required String baseUrl, required String userId}) {
-    removeSuggestionsRechercheRessourceWasCalled = true;
+  void removeSuggestionsRechercheResource({required String baseUrl, required String userId}) {
+    removeSuggestionsRechercheResourceWasCalled = true;
   }
 
   @override

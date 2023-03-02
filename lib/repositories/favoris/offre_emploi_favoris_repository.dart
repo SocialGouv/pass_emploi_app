@@ -59,7 +59,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
-        _cacheManager.removeRessource(CachedRessource.OFFRE_EMPLOI_FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {
@@ -74,7 +74,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
     try {
       final response = await _httpClient.delete(url);
       if (response.statusCode.isValid() || response.statusCode == 404) {
-        _cacheManager.removeRessource(CachedRessource.OFFRE_EMPLOI_FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {
