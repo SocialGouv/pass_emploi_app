@@ -29,7 +29,7 @@ class CacheDioInterceptor extends Interceptor {
           .downloadFile(stringUrl, key: stringUrl, authHeaders: headers)
           .then((downloadedFile) => _response(options, downloadedFile.file))
           .then((response) => handler.resolve(response))
-          .catchError((e) => handler.next(options));
+          .catchError((e) => handler.reject(DioError(requestOptions: options, error: e)));
     }
   }
 }
