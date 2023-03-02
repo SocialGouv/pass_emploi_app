@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
-import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_actions.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
-import 'package:pass_emploi_app/presentation/favori_list_v2_view_model.dart';
+import 'package:pass_emploi_app/presentation/favori_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -29,23 +29,23 @@ class OffreFavorisTabPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.offreFavoris,
-      child: StoreConnector<AppState, FavoriListV2ViewModel>(
-        onInit: (store) => store.dispatch(FavoriListV2RequestAction()),
-        converter: (store) => FavoriListV2ViewModel.create(store),
+      child: StoreConnector<AppState, FavoriListViewModel>(
+        onInit: (store) => store.dispatch(FavoriListRequestAction()),
+        converter: (store) => FavoriListViewModel.create(store),
         builder: _builder,
         distinct: true,
       ),
     );
   }
 
-  Widget _builder(BuildContext context, FavoriListV2ViewModel viewModel) {
+  Widget _builder(BuildContext context, FavoriListViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       body: Center(child: _content(viewModel)),
     );
   }
 
-  Widget _content(FavoriListV2ViewModel viewModel) {
+  Widget _content(FavoriListViewModel viewModel) {
     if (viewModel.displayState.isLoading()) return CircularProgressIndicator();
     if (viewModel.displayState.isFailure()) return Retry(Strings.favorisError, () => viewModel.onRetry());
     if (viewModel.displayState.isEmpty()) return Text(Strings.noFavoris, style: TextStyles.textSRegular());

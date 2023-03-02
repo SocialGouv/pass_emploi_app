@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
-import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_state.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
@@ -35,8 +35,8 @@ void main() {
     final immersionFavoriState = (updatedFavoris.immersionFavorisIdsState as FavoriIdsSuccessState<Immersion>);
     expect(immersionFavoriState.favoriIds, {"2", "4"});
 
-    final favoriListV2State = (updatedFavoris.favoriListV2State as FavoriListV2SuccessState);
-    expect(favoriListV2State.results, [mockFavori('2'), mockFavori('4')]);
+    final favoriListState = (updatedFavoris.favoriListState as FavoriListSuccessState);
+    expect(favoriListState.results, [mockFavori('2'), mockFavori('4')]);
   });
 
   test("favori state should not be updated when favori is removed and api call fails", () async {
@@ -125,7 +125,7 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
         .copyWith(
             loginState: successMiloUserState(),
             immersionFavorisIdsState: FavoriIdsState<Immersion>.success({"1", "2", "4"}))
-        .favoriListV2SuccessState([mockFavori('1'), mockFavori('2'), mockFavori('4')]) //
+        .favoriListSuccessState([mockFavori('1'), mockFavori('2'), mockFavori('4')]) //
         .successRechercheImmersionState(results: [mockImmersion(id: '1'), mockImmersion(id: '17')]),
   );
   return store;

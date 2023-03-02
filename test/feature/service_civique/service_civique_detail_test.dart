@@ -50,7 +50,7 @@ void main() {
         final f = Favori(id: 'id', type: SolutionType.ServiceCivique, titre: 't', organisation: 'o', localisation: 'l');
         sut.givenStore = givenState() //
             .loggedInUser() //
-            .favoriListV2SuccessState([f]) //
+            .favoriListSuccessState([f]) //
             .store((factory) => {factory.serviceCiviqueDetailRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedWithIncompleteData()]);

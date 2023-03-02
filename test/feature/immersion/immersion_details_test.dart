@@ -57,7 +57,7 @@ void main() {
         final f = Favori(id: 'id', type: SolutionType.Immersion, titre: 't', organisation: 'o', localisation: 'l');
         sut.givenStore = givenState() //
             .loggedInUser() //
-            .favoriListV2SuccessState([f]) //
+            .favoriListSuccessState([f]) //
             .store((factory) => {factory.immersionDetailsRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedWithIncompleteData()]);

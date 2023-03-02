@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_state.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -27,8 +27,8 @@ class ServiceCiviqueDetailMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _handleNotFound(Store<AppState> store, GetServiceCiviqueDetailAction action) {
-    final favorisState = store.state.favoriListV2State;
-    if (favorisState is FavoriListV2SuccessState && favorisState.results.any((element) => element.id == action.id)) {
+    final favorisState = store.state.favoriListState;
+    if (favorisState is FavoriListSuccessState && favorisState.results.any((element) => element.id == action.id)) {
       final favori = favorisState.results.firstWhere((element) => element.id == action.id);
       store.dispatch(ServiceCiviqueDetailNotFoundAction(favori.toServiceCivique));
     } else {

@@ -21,7 +21,7 @@ import 'package:pass_emploi_app/features/device_info/device_info_state.dart';
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
-import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_state.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
@@ -73,7 +73,7 @@ class AppState extends Equatable {
   final ChatStatusState chatStatusState;
   final ChatState chatState;
   final OffreEmploiDetailsState offreEmploiDetailsState;
-  final FavoriListV2State favoriListV2State;
+  final FavoriListState favoriListState;
   final FavoriIdsState<OffreEmploi> offreEmploiFavorisIdsState;
   final FavoriIdsState<Immersion> immersionFavorisIdsState;
   final FavoriIdsState<ServiceCivique> serviceCiviqueFavorisIdsState;
@@ -132,7 +132,7 @@ class AppState extends Equatable {
     required this.chatStatusState,
     required this.chatState,
     required this.offreEmploiDetailsState,
-    required this.favoriListV2State,
+    required this.favoriListState,
     required this.offreEmploiFavorisIdsState,
     required this.immersionFavorisIdsState,
     required this.serviceCiviqueFavorisIdsState,
@@ -189,7 +189,7 @@ class AppState extends Equatable {
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
     final DeepLinkState? deepLinkState,
-    final FavoriListV2State? favoriListV2State,
+    final FavoriListState? favoriListState,
     final FavoriIdsState<OffreEmploi>? offreEmploiFavorisIdsState,
     final FavoriIdsState<Immersion>? immersionFavorisIdsState,
     final FavoriIdsState<ServiceCivique>? serviceCiviqueFavorisIdsState,
@@ -248,7 +248,7 @@ class AppState extends Equatable {
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
       offreEmploiDetailsState: offreEmploiDetailsState ?? this.offreEmploiDetailsState,
-      favoriListV2State: favoriListV2State ?? this.favoriListV2State,
+      favoriListState: favoriListState ?? this.favoriListState,
       offreEmploiFavorisIdsState: offreEmploiFavorisIdsState ?? this.offreEmploiFavorisIdsState,
       immersionFavorisIdsState: immersionFavorisIdsState ?? this.immersionFavorisIdsState,
       serviceCiviqueFavorisIdsState: serviceCiviqueFavorisIdsState ?? this.serviceCiviqueFavorisIdsState,
@@ -310,7 +310,7 @@ class AppState extends Equatable {
       chatStatusState: ChatStatusNotInitializedState(),
       chatState: ChatNotInitializedState(),
       offreEmploiDetailsState: OffreEmploiDetailsNotInitializedState(),
-      favoriListV2State: FavoriListV2NotInitializedState(),
+      favoriListState: FavoriListNotInitializedState(),
       offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.notInitialized(),
       immersionFavorisIdsState: FavoriIdsState<Immersion>.notInitialized(),
       serviceCiviqueFavorisIdsState: FavoriIdsState<ServiceCivique>.notInitialized(),

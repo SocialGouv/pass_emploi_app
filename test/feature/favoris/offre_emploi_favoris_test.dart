@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
-import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_state.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
@@ -35,8 +35,8 @@ void main() {
     final emploiFavorisState = (updatedFavoris.offreEmploiFavorisIdsState as FavoriIdsSuccessState<OffreEmploi>);
     expect(emploiFavorisState.favoriIds, {"2", "4"});
 
-    final favoriListV2State = (updatedFavoris.favoriListV2State as FavoriListV2SuccessState);
-    expect(favoriListV2State.results, [mockFavori('2'), mockFavori('4')]);
+    final favoriListState = (updatedFavoris.favoriListState as FavoriListSuccessState);
+    expect(favoriListState.results, [mockFavori('2'), mockFavori('4')]);
   });
 
   test("favori state should not be updated when favori is removed and api call fails", () async {
@@ -125,7 +125,7 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
         .copyWith(
             loginState: successMiloUserState(),
             offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({"1", "2", "4"}))
-        .favoriListV2SuccessState([mockFavori('1'), mockFavori('2'), mockFavori('4')]) //
+        .favoriListSuccessState([mockFavori('1'), mockFavori('2'), mockFavori('4')]) //
         .successRechercheEmploiState(results: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')]),
   );
   return store;

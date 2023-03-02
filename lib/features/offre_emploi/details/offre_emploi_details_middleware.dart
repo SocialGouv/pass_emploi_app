@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_state.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -25,9 +25,9 @@ class OffreEmploiDetailsMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _dispatchIncompleteDataOrError<T>(Store<AppState> store, OffreDetailsResponse<T> result, String offreId) {
-    final favorisState = store.state.favoriListV2State;
+    final favorisState = store.state.favoriListState;
     if (result.isOffreNotFound &&
-        favorisState is FavoriListV2SuccessState &&
+        favorisState is FavoriListSuccessState &&
         favorisState.results.any((element) => element.id == offreId)) {
       final favori = favorisState.results.firstWhere((element) => element.id == offreId);
       store.dispatch(OffreEmploiDetailsIncompleteDataAction(favori.toOffreEmploi));

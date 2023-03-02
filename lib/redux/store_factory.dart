@@ -21,7 +21,7 @@ import 'package:pass_emploi_app/features/device_info/device_info_middleware.dart
 import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_middleware.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
-import 'package:pass_emploi_app/features/favori/list_v2/favori_list_v2_middleware.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_middleware.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_middleware.dart';
@@ -275,7 +275,7 @@ class StoreFactory {
         RechercheImmersionMiddleware(immersionRepository),
         RechercheServiceCiviqueMiddleware(serviceCiviqueRepository),
         DiagorienteUrlsMiddleware(diagorienteUrlsRepository),
-        FavoriListV2Middleware(getFavorisRepository),
+        FavoriListMiddleware(getFavorisRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
