@@ -15,7 +15,7 @@ import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dar
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_reducer.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_reducer.dart';
-import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_reducer.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_reducer.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
@@ -147,7 +147,8 @@ AppState reducer(AppState current, dynamic action) {
       current.rechercheServiceCiviqueState,
       action,
     ),
-    diagorienteUrlsState: diagorienteUrlsReducer(current.diagorienteUrlsState, action),
+    diagorientePreferencesMetierState:
+        diagorientePreferencesMetierReducer(current.diagorientePreferencesMetierState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

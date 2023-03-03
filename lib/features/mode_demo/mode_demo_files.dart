@@ -25,6 +25,7 @@ String? getDemoFileName(String url, String query) {
   if (url.removeLastPath().endsWith("/rendezvous")) return "rendez_vous_detail";
   if (url.contains("/animations-collectives")) return "event_list";
   if (url.contains("/diagoriente/urls")) return "diagoriente_urls";
+  if (url.contains("/diagoriente/metiers-favoris")) return "diagoriente_metiers_favoris";
   return null;
 }
 

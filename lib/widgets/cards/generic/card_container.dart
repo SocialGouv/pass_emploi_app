@@ -8,8 +8,15 @@ class CardContainer extends StatelessWidget {
   final Widget child;
   final void Function()? onTap;
   final Color backgroundColor;
+  final Color splashColor;
 
-  const CardContainer({super.key, required this.child, this.onTap, this.backgroundColor = Colors.white});
+  const CardContainer({
+    super.key,
+    required this.child,
+    this.onTap,
+    this.backgroundColor = Colors.white,
+    this.splashColor = AppColors.primaryLighten,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,7 @@ class CardContainer extends StatelessWidget {
           child: InkWell(
             borderRadius: cardBorderRadius,
             onTap: onTap,
-            splashColor: AppColors.primaryLighten,
+            splashColor: splashColor,
             child: Padding(
               padding: EdgeInsets.all(Margins.spacing_base),
               child: child,

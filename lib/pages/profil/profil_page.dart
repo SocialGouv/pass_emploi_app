@@ -107,6 +107,7 @@ class _DiscoverDiagorienteCard extends StatelessWidget {
     const Color textColor = Colors.white;
     return CardContainer(
         backgroundColor: AppColors.primary,
+        splashColor: AppColors.primaryDarken,
         onTap: () => Navigator.push(context, DiagorienteEntryPage.materialPageRoute()),
         child: Column(
           children: [

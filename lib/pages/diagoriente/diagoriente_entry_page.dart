@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_actions.dart';
-import 'package:pass_emploi_app/pages/diagoriente/diagoriente_chat_bot_page.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
+import 'package:pass_emploi_app/pages/diagoriente/diagoriente_webview_page.dart';
+import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_webview_view_model.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_entry_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/pressed_tip.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 class DiagorienteEntryPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => DiagorienteEntryPage());
@@ -23,69 +26,130 @@ class DiagorienteEntryPage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.diagorienteEntryPage,
       child: StoreConnector<AppState, DiagorienteEntryPageViewModel>(
+        onInit: (store) => store.dispatch(DiagorientePreferencesMetierRequestAction()),
         converter: (store) => DiagorienteEntryPageViewModel.create(store),
-        builder: _builder,
-        onDispose: (store) => store.dispatch(DiagorienteUrlsResetAction()),
-        onDidChange: (_, currentViewModel) => _onDidChange(context, currentViewModel),
+        builder: (context, vm) => _Scaffold(vm),
+        onDispose: (store) => store.dispatch(DiagorientePreferencesMetierResetAction()),
         distinct: true,
       ),
     );
   }
+}
 
-  Widget _builder(BuildContext context, DiagorienteEntryPageViewModel viewModel) {
+class _Scaffold extends StatelessWidget {
+  final DiagorienteEntryPageViewModel viewModel;
+
+  const _Scaffold(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
     const backgroundColor = AppColors.grey100;
-    final withLoading = viewModel.displayState == DiagorienteEntryPageDisplayState.loading;
-    final withFailure = viewModel.displayState == DiagorienteEntryPageDisplayState.failure;
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: SecondaryAppBar(title: Strings.diagorienteEntryPageTitle, backgroundColor: backgroundColor),
       body: Padding(
         padding: const EdgeInsets.all(Margins.spacing_base),
-        child: CardContainer(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(Strings.diagorienteMetiersCardTitle, style: TextStyles.textMBold),
-              SizedBox(height: Margins.spacing_m),
-              Text(Strings.diagorienteMetiersCardSubtitle, style: TextStyles.textBaseRegular),
-              SizedBox(height: Margins.spacing_m),
-              if (withFailure) ...[
-                _FailureMessage(),
-                SizedBox(height: Margins.spacing_m),
-              ],
-              PrimaryActionButton(
-                label: Strings.diagorienteMetiersCardButton,
-                onPressed: withLoading ? null : () => viewModel.onStartPressed(),
-              ),
-            ],
-          ),
-        ),
+        child: _Body(viewModel),
       ),
     );
   }
+}
 
-  void _onDidChange(BuildContext context, DiagorienteEntryPageViewModel viewModel) {
-    if (viewModel.displayState == DiagorienteEntryPageDisplayState.chatBotPage) {
-      Navigator.push(context, DiagorienteChatBotPage.materialPageRoute());
+class _Body extends StatelessWidget {
+  final DiagorienteEntryPageViewModel viewModel;
+
+  const _Body(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (viewModel.displayState) {
+      case DisplayState.FAILURE:
+        return Center(child: Retry(Strings.diagorienteMetiersCardError, () => viewModel.onRetry()));
+      case DisplayState.CONTENT:
+        return _Content(viewModel);
+      default:
+        return Center(child: CircularProgressIndicator());
     }
   }
 }
 
-class _FailureMessage extends StatelessWidget {
+class _Content extends StatelessWidget {
+  const _Content(this.viewModel);
+
+  final DiagorienteEntryPageViewModel viewModel;
+
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        Icon(AppIcons.error_rounded, color: AppColors.warning),
-        SizedBox(width: Margins.spacing_base),
-        Expanded(
-          child: Text(
-            Strings.diagorienteMetiersCardError,
-            style: TextStyles.textSRegular(color: AppColors.warning),
-          ),
-        ),
+        if (viewModel.withMetiersFavoris) ...[
+          _DiagorienteMetiersFavorisCard(viewModel),
+          SizedBox(height: Margins.spacing_base),
+        ],
+        _DecouvrirLesMetiersCard(viewModel),
       ],
+    );
+  }
+}
+
+class _DiagorienteMetiersFavorisCard extends StatelessWidget {
+  const _DiagorienteMetiersFavorisCard(this.viewModel);
+
+  final DiagorienteEntryPageViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return CardContainer(
+      onTap: () => Navigator.push(
+        context,
+        DiagorienteWebviewPage.materialPageRoute(DiagorienteWebviewMode.favoris),
+      ).then(
+        (_) => viewModel.onRetry(),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(Strings.diagorienteMetiersFavorisCardTitle, style: TextStyles.textMBold),
+          SizedBox(height: Margins.spacing_m),
+          Row(
+            children: [
+              Text(Strings.diagorienteMetiersFavorisCardSubtitle, style: TextStyles.textBaseRegular),
+              SizedBox(height: Margins.spacing_m),
+              Expanded(child: PressedTip(Strings.diagorienteMetiersFavorisCardPressedTip)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DecouvrirLesMetiersCard extends StatelessWidget {
+  const _DecouvrirLesMetiersCard(this.viewModel);
+
+  final DiagorienteEntryPageViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return CardContainer(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(Strings.diagorienteMetiersCardTitle, style: TextStyles.textMBold),
+          SizedBox(height: Margins.spacing_m),
+          Text(Strings.diagorienteMetiersCardSubtitle, style: TextStyles.textBaseRegular),
+          SizedBox(height: Margins.spacing_m),
+          PrimaryActionButton(
+            label: Strings.diagorienteMetiersCardButton,
+            onPressed: () => Navigator.push(
+              context,
+              DiagorienteWebviewPage.materialPageRoute(DiagorienteWebviewMode.chatbot),
+            ).then((_) => viewModel.onRetry()),
+          ),
+        ],
+      ),
     );
   }
 }

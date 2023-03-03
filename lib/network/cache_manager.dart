@@ -54,6 +54,7 @@ const _blacklistedRoutes = [
   '/home/actions',
   '/home/demarches',
   '/fichiers',
+  'diagoriente/metiers-favoris',
 ];
 
 extension Whiteliste on String {

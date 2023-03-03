@@ -1,35 +1,43 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_actions.dart';
-import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_state.dart';
+import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-enum DiagorienteEntryPageDisplayState { initial, loading, failure, chatBotPage }
-
 class DiagorienteEntryPageViewModel extends Equatable {
-  final DiagorienteEntryPageDisplayState displayState;
-  final Function onStartPressed;
+  final DisplayState displayState;
+  final bool withMetiersFavoris;
+  final VoidCallback onRetry;
 
   DiagorienteEntryPageViewModel({
     required this.displayState,
-    required this.onStartPressed,
+    required this.withMetiersFavoris,
+    required this.onRetry,
   });
 
   factory DiagorienteEntryPageViewModel.create(Store<AppState> store) {
     return DiagorienteEntryPageViewModel(
       displayState: _displayState(store),
-      onStartPressed: () => store.dispatch(DiagorienteUrlsRequestAction()),
+      withMetiersFavoris: _withMetiersFavoris(store),
+      onRetry: () => store.dispatch(DiagorientePreferencesMetierRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState];
+  List<Object?> get props => [displayState, withMetiersFavoris];
 }
 
-DiagorienteEntryPageDisplayState _displayState(Store<AppState> store) {
-  final state = store.state.diagorienteUrlsState;
-  if (state is DiagorienteUrlsLoadingState) return DiagorienteEntryPageDisplayState.loading;
-  if (state is DiagorienteUrlsFailureState) return DiagorienteEntryPageDisplayState.failure;
-  if (state is DiagorienteUrlsSuccessState) return DiagorienteEntryPageDisplayState.chatBotPage;
-  return DiagorienteEntryPageDisplayState.initial;
+bool _withMetiersFavoris(Store<AppState> store) {
+  final state = store.state.diagorientePreferencesMetierState;
+  if (state is! DiagorientePreferencesMetierSuccessState) return false;
+  return state.aDesMetiersFavoris;
+}
+
+DisplayState _displayState(Store<AppState> store) {
+  final state = store.state.diagorientePreferencesMetierState;
+  if (state is DiagorientePreferencesMetierFailureState) return DisplayState.FAILURE;
+  if (state is DiagorientePreferencesMetierSuccessState) return DisplayState.CONTENT;
+  return DisplayState.LOADING;
 }

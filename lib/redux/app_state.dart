@@ -18,7 +18,7 @@ import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart'
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_state.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_state.dart';
-import 'package:pass_emploi_app/features/diagoriente_urls/diagoriente_urls_state.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
@@ -112,8 +112,7 @@ class AppState extends Equatable {
   final RechercheEmploiState rechercheEmploiState;
   final RechercheImmersionState rechercheImmersionState;
   final RechercheServiceCiviqueState rechercheServiceCiviqueState;
-  final DiagorienteUrlsState diagorienteUrlsState;
-
+  final DiagorientePreferencesMetierState diagorientePreferencesMetierState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -171,7 +170,7 @@ class AppState extends Equatable {
     required this.rechercheEmploiState,
     required this.rechercheImmersionState,
     required this.rechercheServiceCiviqueState,
-    required this.diagorienteUrlsState,
+    required this.diagorientePreferencesMetierState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -230,7 +229,7 @@ class AppState extends Equatable {
     final RechercheEmploiState? rechercheEmploiState,
     final RechercheImmersionState? rechercheImmersionState,
     final RechercheServiceCiviqueState? rechercheServiceCiviqueState,
-    final DiagorienteUrlsState? diagorienteUrlsState,
+    final DiagorientePreferencesMetierState? diagorientePreferencesMetierState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -289,7 +288,7 @@ class AppState extends Equatable {
       rechercheEmploiState: rechercheEmploiState ?? this.rechercheEmploiState,
       rechercheImmersionState: rechercheImmersionState ?? this.rechercheImmersionState,
       rechercheServiceCiviqueState: rechercheServiceCiviqueState ?? this.rechercheServiceCiviqueState,
-      diagorienteUrlsState: diagorienteUrlsState ?? this.diagorienteUrlsState,
+      diagorientePreferencesMetierState: diagorientePreferencesMetierState ?? this.diagorientePreferencesMetierState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -350,7 +349,7 @@ class AppState extends Equatable {
       rechercheEmploiState: RechercheState.initial(),
       rechercheImmersionState: RechercheState.initial(),
       rechercheServiceCiviqueState: RechercheState.initial(),
-      diagorienteUrlsState: DiagorienteUrlsNotInitializedState(),
+      diagorientePreferencesMetierState: DiagorientePreferencesMetierNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -404,7 +403,7 @@ class AppState extends Equatable {
         rechercheEmploiState,
         rechercheImmersionState,
         rechercheServiceCiviqueState,
-        diagorienteUrlsState,
+        diagorientePreferencesMetierState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 
