@@ -42,84 +42,74 @@ class DiagorienteWebviewPage extends StatelessWidget {
       ..addJavaScriptChannel(
         'cejHandler',
         onMessageReceived: (JavaScriptMessage message) {
-          print("@@@ isJobsDrawerOpen=\"${message.message}\"");
           diagorienteDrawer.changed(
               message.message == "true" ? DiagorienteBottomButtonsState.chatbot : DiagorienteBottomButtonsState.hidden);
         },
       );
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: SecondaryAppBar(title: viewModel.appBarTitle, backgroundColor: backgroundColor),
-      body: Column(
-        children: [
-          Expanded(child: WebViewWidget(controller: controller)),
-          _Boutons(controller, diagorienteDrawer),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(child: WebViewWidget(controller: controller)),
+            _Boutons(controller, diagorienteDrawer),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _Boutons extends StatefulWidget {
+class _Boutons extends StatelessWidget {
   final WebViewController _controller;
   final DiagorienteBottomButtonsNotifier diagorienteBottomButtonsNotifier;
 
   const _Boutons(this._controller, this.diagorienteBottomButtonsNotifier);
 
   @override
-  State<_Boutons> createState() => _BoutonsState();
-}
-
-class _BoutonsState extends State<_Boutons> {
-  // TODO: stateless ?
-  DiagorienteBottomButtonsState state = DiagorienteBottomButtonsState.hidden;
-
-  @override
-  void initState() {
-    widget.diagorienteBottomButtonsNotifier.addListener(() {
-      setState(() => state = widget.diagorienteBottomButtonsNotifier.state);
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    switch (state) {
-      case DiagorienteBottomButtonsState.hidden:
-        return SizedBox.shrink();
-      case DiagorienteBottomButtonsState.chatbot:
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            PrimaryActionButton(
-              label: 'Voir tous les résultats',
-              onPressed: () async {
-                await widget._controller.runJavaScript(
-                  'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "view_top_jobs_full" } }));',
-                );
-                widget.diagorienteBottomButtonsNotifier.changed(DiagorienteBottomButtonsState.metiers);
-              },
-            ),
-            SizedBox(height: 8),
-            PrimaryActionButton(
-              label: 'Fermer le déroulé des métiers',
-              onPressed: () async {
-                await widget._controller.runJavaScript(
-                  'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "close_jobs_drawer" } }));',
-                );
-              },
-            ),
-            SizedBox(height: 8),
-          ],
-        );
-      case DiagorienteBottomButtonsState.metiers:
-        return PrimaryActionButton(
-          label: 'Terminer et retourner au profil',
-          onPressed: () async {
-            Navigator.pop(context);
-          },
-        );
-    }
+    return AnimatedBuilder(
+        animation: diagorienteBottomButtonsNotifier,
+        builder: (context, child) {
+          switch (diagorienteBottomButtonsNotifier.state) {
+            case DiagorienteBottomButtonsState.hidden:
+              return SizedBox.shrink();
+            case DiagorienteBottomButtonsState.chatbot:
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  PrimaryActionButton(
+                    label: 'Voir tous les résultats',
+                    onPressed: () async {
+                      await _controller.runJavaScript(
+                        'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "view_top_jobs_full" } }));',
+                      );
+                      diagorienteBottomButtonsNotifier.changed(DiagorienteBottomButtonsState.metiers);
+                    },
+                  ),
+                  SizedBox(height: 8),
+                  PrimaryActionButton(
+                    label: 'Fermer le déroulé des métiers',
+                    onPressed: () async {
+                      await _controller.runJavaScript(
+                        'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "close_jobs_drawer" } }));',
+                      );
+                    },
+                  ),
+                  SizedBox(height: 8),
+                ],
+              );
+            case DiagorienteBottomButtonsState.metiers:
+              return PrimaryActionButton(
+                label: 'Terminer et retourner au profil',
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+              );
+          }
+        });
   }
 }
 
