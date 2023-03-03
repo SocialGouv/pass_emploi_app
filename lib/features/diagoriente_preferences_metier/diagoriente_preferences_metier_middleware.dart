@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
+import 'package:pass_emploi_app/models/diagoriente_urls.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
@@ -16,8 +17,14 @@ class DiagorientePreferencesMetierMiddleware extends MiddlewareClass<AppState> {
     final userId = store.state.userId();
     if (userId != null && action is DiagorientePreferencesMetierRequestAction) {
       store.dispatch(DiagorientePreferencesMetierLoadingAction());
-      final urls = await _diagorienteUrlRepository.getUrls(userId);
-      final aDesMetiersFavoris = await _diagorienteMetiersFavorisRepository.get(userId);
+
+      final results = await Future.wait([
+        _diagorienteUrlRepository.getUrls(userId),
+        _diagorienteMetiersFavorisRepository.get(userId),
+      ]);
+      final urls = results[0] as DiagorienteUrls?;
+      final aDesMetiersFavoris = results[1] as bool?;
+
       if (urls != null && aDesMetiersFavoris != null) {
         store.dispatch(DiagorientePreferencesMetierSuccessAction(urls, aDesMetiersFavoris));
       } else {
