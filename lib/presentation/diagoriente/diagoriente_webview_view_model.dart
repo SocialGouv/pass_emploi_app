@@ -25,7 +25,7 @@ class DiagorienteWebviewViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [url];
+  List<Object?> get props => [url, appBarTitle];
 }
 
 String _appBarTitleFromMode(DiagorienteWebviewMode mode) {
