@@ -3,8 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
-import 'package:pass_emploi_app/pages/diagoriente/diagoriente_chat_bot_page.dart';
-import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_chat_bot_page_view_model.dart';
+import 'package:pass_emploi_app/pages/diagoriente/diagoriente_webview_page.dart';
+import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_webview_view_model.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_entry_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -102,7 +102,7 @@ class _DiagorienteMetiersFavorisCard extends StatelessWidget {
     return CardContainer(
       onTap: () => Navigator.push(
         context,
-        DiagorienteChatBotPage.materialPageRoute(DiagorienteChatBotPageMode.favoris),
+        DiagorienteWebviewPage.materialPageRoute(DiagorienteWebviewMode.favoris),
       ).then(
         (_) => viewModel.onRetry(),
       ),
@@ -145,7 +145,7 @@ class _DecouvrirLesMetiersCard extends StatelessWidget {
             label: Strings.diagorienteMetiersCardButton,
             onPressed: () => Navigator.push(
               context,
-              DiagorienteChatBotPage.materialPageRoute(DiagorienteChatBotPageMode.chatbot),
+              DiagorienteWebviewPage.materialPageRoute(DiagorienteWebviewMode.chatbot),
             ).then((_) => viewModel.onRetry()),
           ),
         ],

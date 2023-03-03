@@ -5,20 +5,20 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
-enum DiagorienteChatBotPageMode { chatbot, favoris }
+enum DiagorienteWebviewMode { chatbot, favoris }
 
-class DiagorienteChatBotPageViewModel extends Equatable {
+class DiagorienteWebviewViewModel extends Equatable {
   final String url;
   final String appBarTitle;
 
-  DiagorienteChatBotPageViewModel({required this.url, required this.appBarTitle});
+  DiagorienteWebviewViewModel({required this.url, required this.appBarTitle});
 
-  factory DiagorienteChatBotPageViewModel.create(Store<AppState> store, DiagorienteChatBotPageMode mode) {
+  factory DiagorienteWebviewViewModel.create(Store<AppState> store, DiagorienteWebviewMode mode) {
     final state = store.state.diagorientePreferencesMetierState;
     if (state is! DiagorientePreferencesMetierSuccessState) {
       throw Exception('DiagorientePreferencesMetierState must be successful when calling create method');
     }
-    return DiagorienteChatBotPageViewModel(
+    return DiagorienteWebviewViewModel(
       url: _url(state.urls, mode),
       appBarTitle: _appBarTitleFromMode(mode),
     );
@@ -28,20 +28,20 @@ class DiagorienteChatBotPageViewModel extends Equatable {
   List<Object?> get props => [url];
 }
 
-String _appBarTitleFromMode(DiagorienteChatBotPageMode mode) {
+String _appBarTitleFromMode(DiagorienteWebviewMode mode) {
   switch (mode) {
-    case DiagorienteChatBotPageMode.chatbot:
+    case DiagorienteWebviewMode.chatbot:
       return Strings.diagorienteChatBotPageTitle;
-    case DiagorienteChatBotPageMode.favoris:
+    case DiagorienteWebviewMode.favoris:
       return Strings.diagorienteMetiersFavorisPageTitle;
   }
 }
 
-String _url(DiagorienteUrls urls, DiagorienteChatBotPageMode mode) {
+String _url(DiagorienteUrls urls, DiagorienteWebviewMode mode) {
   switch (mode) {
-    case DiagorienteChatBotPageMode.chatbot:
+    case DiagorienteWebviewMode.chatbot:
       return urls.chatBotUrl;
-    case DiagorienteChatBotPageMode.favoris:
+    case DiagorienteWebviewMode.favoris:
       return urls.metiersFavorisUrl;
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_chat_bot_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_webview_view_model.dart';
 
 import '../../dsl/app_state_dsl.dart';
 
@@ -9,7 +9,7 @@ void main() {
     final store = givenState().store();
 
     // When /Then
-    expect(() => DiagorienteChatBotPageViewModel.create(store, DiagorienteChatBotPageMode.chatbot), throwsException);
+    expect(() => DiagorienteWebviewViewModel.create(store, DiagorienteWebviewMode.chatbot), throwsException);
   });
 
   group('chatBotUrl when diagoriente url state is successful should return proper URL', () {
@@ -18,7 +18,7 @@ void main() {
       final store = givenState().diagorientePreferencesMetierSuccessState().store();
 
       // When
-      final viewModel = DiagorienteChatBotPageViewModel.create(store, DiagorienteChatBotPageMode.chatbot);
+      final viewModel = DiagorienteWebviewViewModel.create(store, DiagorienteWebviewMode.chatbot);
 
       // When /Then
       expect(viewModel.url, 'chatBotUrl');
@@ -29,7 +29,7 @@ void main() {
       final store = givenState().diagorientePreferencesMetierSuccessState().store();
 
       // When
-      final viewModel = DiagorienteChatBotPageViewModel.create(store, DiagorienteChatBotPageMode.favoris);
+      final viewModel = DiagorienteWebviewViewModel.create(store, DiagorienteWebviewMode.favoris);
 
       // When /Then
       expect(viewModel.url, 'metiersFavorisUrl');
@@ -42,7 +42,7 @@ void main() {
       final store = givenState().diagorientePreferencesMetierSuccessState().store();
 
       // When
-      final viewModel = DiagorienteChatBotPageViewModel.create(store, DiagorienteChatBotPageMode.chatbot);
+      final viewModel = DiagorienteWebviewViewModel.create(store, DiagorienteWebviewMode.chatbot);
 
       // When /Then
       expect(viewModel.appBarTitle, 'Découvrir des métiers');
@@ -53,7 +53,7 @@ void main() {
       final store = givenState().diagorientePreferencesMetierSuccessState().store();
 
       // When
-      final viewModel = DiagorienteChatBotPageViewModel.create(store, DiagorienteChatBotPageMode.favoris);
+      final viewModel = DiagorienteWebviewViewModel.create(store, DiagorienteWebviewMode.favoris);
 
       // When /Then
       expect(viewModel.appBarTitle, 'Mes métiers favoris');
