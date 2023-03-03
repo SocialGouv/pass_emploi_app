@@ -5,7 +5,11 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_webview_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/apparition_animation.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -70,46 +74,83 @@ class _Boutons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: diagorienteBottomButtonsNotifier,
-        builder: (context, child) {
-          switch (diagorienteBottomButtonsNotifier.state) {
-            case DiagorienteBottomButtonsState.hidden:
-              return SizedBox.shrink();
-            case DiagorienteBottomButtonsState.chatbot:
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  PrimaryActionButton(
-                    label: 'Voir tous les résultats',
-                    onPressed: () async {
-                      await _controller.runJavaScript(
-                        'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "view_top_jobs_full" } }));',
-                      );
-                      diagorienteBottomButtonsNotifier.changed(DiagorienteBottomButtonsState.metiers);
-                    },
-                  ),
-                  SizedBox(height: 8),
-                  PrimaryActionButton(
-                    label: 'Fermer le déroulé des métiers',
-                    onPressed: () async {
-                      await _controller.runJavaScript(
-                        'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "close_jobs_drawer" } }));',
-                      );
-                    },
-                  ),
-                  SizedBox(height: 8),
-                ],
-              );
-            case DiagorienteBottomButtonsState.metiers:
-              return PrimaryActionButton(
-                label: 'Terminer et retourner au profil',
-                onPressed: () async {
-                  Navigator.pop(context);
-                },
-              );
-          }
-        });
+    return ApparitionAnimation(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_s),
+        child: AnimatedBuilder(
+            animation: diagorienteBottomButtonsNotifier,
+            builder: (context, child) {
+              switch (diagorienteBottomButtonsNotifier.state) {
+                case DiagorienteBottomButtonsState.hidden:
+                  return SizedBox.shrink();
+                case DiagorienteBottomButtonsState.chatbot:
+                  return _ChatBotButtons(
+                      controller: _controller, diagorienteBottomButtonsNotifier: diagorienteBottomButtonsNotifier);
+                case DiagorienteBottomButtonsState.metiers:
+                  return _MetiersButton();
+              }
+            }),
+      ),
+    );
+  }
+}
+
+class _ChatBotButtons extends StatelessWidget {
+  const _ChatBotButtons({
+    Key? key,
+    required WebViewController controller,
+    required this.diagorienteBottomButtonsNotifier,
+  })  : _controller = controller,
+        super(key: key);
+
+  final WebViewController _controller;
+  final DiagorienteBottomButtonsNotifier diagorienteBottomButtonsNotifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        PrimaryActionButton(
+          label: Strings.diagorienteVoirplus,
+          onPressed: () async {
+            await _controller.runJavaScript(
+              'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "view_top_jobs_full" } }));',
+            );
+            diagorienteBottomButtonsNotifier.changed(DiagorienteBottomButtonsState.metiers);
+          },
+        ),
+        SizedBox(height: 8),
+        SecondaryButton(
+          label: Strings.diagorienteAffinerMesResultats,
+          onPressed: () async {
+            await _controller.runJavaScript(
+              'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "close_jobs_drawer" } }));',
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _MetiersButton extends StatelessWidget {
+  const _MetiersButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: PrimaryActionButton(
+        label: Strings.diagorienteTerminerEtRetournerAuProfil,
+        onPressed: () async {
+          Navigator.pop(context);
+        },
+      ),
+    );
   }
 }
 

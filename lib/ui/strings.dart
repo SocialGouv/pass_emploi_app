@@ -702,4 +702,7 @@ class Strings {
   static String diagorienteMetiersFavorisCardTitle = "Retrouvez vos métiers favoris";
   static String diagorienteMetiersFavorisCardSubtitle = "Mes métiers favoris";
   static String diagorienteMetiersFavorisCardPressedTip = "Voir";
+  static String diagorienteVoirplus = "Voir plus";
+  static String diagorienteAffinerMesResultats = "Affiner mes résultats";
+  static String diagorienteTerminerEtRetournerAuProfil = "Terminer et retourner au profil";
 }
