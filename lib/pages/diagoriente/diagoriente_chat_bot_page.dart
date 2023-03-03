@@ -33,6 +33,7 @@ class DiagorienteChatBotPage extends StatelessWidget {
     const backgroundColor = AppColors.grey100;
     final controller = WebViewController()
       ..setBackgroundColor(backgroundColor)
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..loadRequest(Uri.parse(viewModel.url));
 
     return Scaffold(
