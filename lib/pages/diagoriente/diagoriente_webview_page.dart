@@ -31,7 +31,7 @@ class DiagorienteWebviewPage extends StatelessWidget {
 
   Widget _builder(BuildContext context, DiagorienteWebviewViewModel viewModel) {
     const backgroundColor = AppColors.grey100;
-    final DiagorienteDrawer diagorienteDrawer = DiagorienteDrawer();
+    final DiagorienteBottomButtonsNotifier diagorienteDrawer = DiagorienteBottomButtonsNotifier();
     final controller = WebViewController();
     final delegate = NavigationDelegate(onPageFinished: (_) => controller.addChatbotListener());
     controller
@@ -43,7 +43,8 @@ class DiagorienteWebviewPage extends StatelessWidget {
         'cejHandler',
         onMessageReceived: (JavaScriptMessage message) {
           print("@@@ isJobsDrawerOpen=\"${message.message}\"");
-          diagorienteDrawer.changed(message.message == "true");
+          diagorienteDrawer.changed(
+              message.message == "true" ? DiagorienteBottomButtonsState.chatbot : DiagorienteBottomButtonsState.hidden);
         },
       );
 
@@ -61,51 +62,64 @@ class DiagorienteWebviewPage extends StatelessWidget {
 
 class _Boutons extends StatefulWidget {
   final WebViewController _controller;
-  final DiagorienteDrawer diagorienteDrawer;
+  final DiagorienteBottomButtonsNotifier diagorienteBottomButtonsNotifier;
 
-  const _Boutons(this._controller, this.diagorienteDrawer);
+  const _Boutons(this._controller, this.diagorienteBottomButtonsNotifier);
 
   @override
   State<_Boutons> createState() => _BoutonsState();
 }
 
 class _BoutonsState extends State<_Boutons> {
-  bool showButtons = false;
+  // TODO: stateless ?
+  DiagorienteBottomButtonsState state = DiagorienteBottomButtonsState.hidden;
 
   @override
   void initState() {
-    widget.diagorienteDrawer.addListener(() {
-      setState(() => showButtons = widget.diagorienteDrawer.open);
+    widget.diagorienteBottomButtonsNotifier.addListener(() {
+      setState(() => state = widget.diagorienteBottomButtonsNotifier.state);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!showButtons) return SizedBox.shrink();
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        PrimaryActionButton(
-          label: 'Voir tous les résultats',
+    switch (state) {
+      case DiagorienteBottomButtonsState.hidden:
+        return SizedBox.shrink();
+      case DiagorienteBottomButtonsState.chatbot:
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            PrimaryActionButton(
+              label: 'Voir tous les résultats',
+              onPressed: () async {
+                await widget._controller.runJavaScript(
+                  'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "view_top_jobs_full" } }));',
+                );
+                widget.diagorienteBottomButtonsNotifier.changed(DiagorienteBottomButtonsState.metiers);
+              },
+            ),
+            SizedBox(height: 8),
+            PrimaryActionButton(
+              label: 'Fermer le déroulé des métiers',
+              onPressed: () async {
+                await widget._controller.runJavaScript(
+                  'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "close_jobs_drawer" } }));',
+                );
+              },
+            ),
+            SizedBox(height: 8),
+          ],
+        );
+      case DiagorienteBottomButtonsState.metiers:
+        return PrimaryActionButton(
+          label: 'Terminer et retourner au profil',
           onPressed: () async {
-            await widget._controller.runJavaScript(
-              'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "view_top_jobs_full" } }));',
-            );
+            Navigator.pop(context);
           },
-        ),
-        SizedBox(height: 8),
-        PrimaryActionButton(
-          label: 'Fermer le déroulé des métiers',
-          onPressed: () async {
-            await widget._controller.runJavaScript(
-              'window.dispatchEvent(new CustomEvent("INCA_ChatbotInteract_Req", { detail: { target: "close_jobs_drawer" } }));',
-            );
-          },
-        ),
-        SizedBox(height: 8),
-      ],
-    );
+        );
+    }
   }
 }
 
@@ -117,11 +131,13 @@ extension _WebViewController on WebViewController {
   }
 }
 
-class DiagorienteDrawer extends ChangeNotifier {
-  bool open = false;
+enum DiagorienteBottomButtonsState { hidden, chatbot, metiers }
 
-  void changed(bool value) {
-    open = value;
+class DiagorienteBottomButtonsNotifier extends ChangeNotifier {
+  DiagorienteBottomButtonsState state = DiagorienteBottomButtonsState.hidden;
+
+  void changed(DiagorienteBottomButtonsState value) {
+    state = value;
     notifyListeners();
   }
 }
