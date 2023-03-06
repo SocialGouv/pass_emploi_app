@@ -1,21 +1,23 @@
-import 'package:dio/dio.dart';
-import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'dart:convert';
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_json_extractor.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_response.dart';
 
 class RecherchesRecentesRepository {
-  final Dio _httpClient;
-  final Crashlytics? _crashlytics;
+  static const recentSearchesKey = 'recent_searches';
+  final FlutterSecureStorage _preferences;
 
-  RecherchesRecentesRepository(this._httpClient, [this._crashlytics]);
+  RecherchesRecentesRepository(this._preferences);
 
-  Future<List<SavedSearch>?> get() async {
-    const url = "/jeunes/todo";
-    try {
-      final response = await _httpClient.get(url);
+  Future<List<SavedSearch>> get() async {
+    final String? recentSearchesJsonString = await _preferences.read(key: recentSearchesKey);
+    if (recentSearchesJsonString == null) {
       return [];
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
-    return null;
+    final json = jsonDecode(recentSearchesJsonString);
+    final list = (json as List).map((search) => SavedSearchResponse.fromJson(search)).toList();
+    return list.map((e) => SavedSearchJsonExtractor().extract(e)).whereType<SavedSearch>().toList();
   }
 }

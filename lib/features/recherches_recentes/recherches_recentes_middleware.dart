@@ -15,11 +15,7 @@ class RecherchesRecentesMiddleware extends MiddlewareClass<AppState> {
     if (userId != null && action is RecherchesRecentesRequestAction) {
       store.dispatch(RecherchesRecentesLoadingAction());
       final result = await _repository.get();
-      if (result != null) {
-        store.dispatch(RecherchesRecentesSuccessAction(result));
-      } else {
-        store.dispatch(RecherchesRecentesFailureAction());
-      }
+      store.dispatch(RecherchesRecentesSuccessAction(result));
     }
   }
 }

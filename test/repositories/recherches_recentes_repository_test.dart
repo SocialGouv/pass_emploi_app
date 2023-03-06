@@ -1,38 +1,37 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 
-import '../dsl/sut_repository2.dart';
+import '../doubles/fixtures.dart';
+import '../doubles/spies.dart';
+import '../utils/test_assets.dart';
 
 void main() {
+  late SharedPreferencesSpy prefs;
+  late RecherchesRecentesRepository repository;
+
+  setUp(() {
+    prefs = SharedPreferencesSpy();
+    repository = RecherchesRecentesRepository(prefs);
+  });
+
   group('RecherchesRecentesRepository', () {
-    final sut = RepositorySut2<RecherchesRecentesRepository>();
-    sut.givenRepository((client) => RecherchesRecentesRepository(client));
+    test('should return empty list when no data', () async {
+      // When
+      final result = await repository.get();
 
-    group('get', () {
-      sut.when((repository) => repository.get());
+      // Then
+      expect(result, []);
+    });
 
-      group('when response is valid', () {
-        sut.givenResponseCode(200);
+    test('should return saved searches when data exist', () async {
+      // Given
+      prefs.write(key: 'recent_searches', value: loadTestAssets("saved_search_data.json"));
 
-        test('request should be valid', () async {
-          await sut.expectRequestBody(
-            method: HttpMethod.get,
-            url: "/jeunes/todo",
-          );
-        });
+      // When
+      final result = await repository.get();
 
-        test('response should be valid', () async {
-          await sut.expectTrueAsResult();
-        });
-      });
-
-      group('when response is invalid', () {
-        sut.givenResponseCode(500);
-
-        test('response should be null', () async {
-          await sut.expectNullResult();
-        });
-      });
+      // Then
+      expect(result, getMockedSavedSearch());
     });
   });
 }

@@ -10,8 +10,6 @@ class RecherchesRecentesNotInitializedState extends RecherchesRecentesState {}
 
 class RecherchesRecentesLoadingState extends RecherchesRecentesState {}
 
-class RecherchesRecentesFailureState extends RecherchesRecentesState {}
-
 class RecherchesRecentesSuccessState extends RecherchesRecentesState {
   final List<SavedSearch> recentSearches;
 

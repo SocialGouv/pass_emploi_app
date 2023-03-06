@@ -43,6 +43,7 @@ import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
+import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
@@ -56,7 +57,6 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
-import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -375,6 +375,6 @@ class DummyDiagorienteMetiersFavorisRepository extends DiagorienteMetiersFavoris
 }
 
 class DummyRecherchesRecentesRepository extends RecherchesRecentesRepository {
-  DummyRecherchesRecentesRepository() : super(DioMock());
+  DummyRecherchesRecentesRepository() : super(DummySharedPreferences());
 }
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

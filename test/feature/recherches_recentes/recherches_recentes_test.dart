@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 
-import '../../doubles/dio_mock.dart';
+import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -17,20 +17,20 @@ void main() {
     group("when requesting", () {
       sut.when(() => RecherchesRecentesRequestAction());
 
-      test('should load then succeed when request succeed', () {
+      test('should load then retreive recent searches when data exist', () {
         sut.givenStore = givenState() //
             .loggedInUser()
             .store((f) => {f.recherchesRecentesRepository = RecherchesRecentesRepositorySuccessStub()});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldRetreiveRecentSearches()]);
       });
 
-      test('should load then fail when request fail', () {
+      test('should load then return empty list when data does not exist', () {
         sut.givenStore = givenState() //
             .loggedInUser()
-            .store((f) => {f.recherchesRecentesRepository = RecherchesRecentesRepositoryErrorStub()});
+            .store((f) => {f.recherchesRecentesRepository = RecherchesRecentesRepositoryEmptyStub()});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeEmpty()]);
       });
     });
   });
@@ -38,9 +38,16 @@ void main() {
 
 Matcher _shouldLoad() => StateIs<RecherchesRecentesLoadingState>((state) => state.recherchesRecentesState);
 
-Matcher _shouldFail() => StateIs<RecherchesRecentesFailureState>((state) => state.recherchesRecentesState);
+Matcher _shouldBeEmpty() {
+  return StateIs<RecherchesRecentesSuccessState>(
+    (state) => state.recherchesRecentesState,
+    (state) {
+      expect(state.recentSearches, []);
+    },
+  );
+}
 
-Matcher _shouldSucceed() {
+Matcher _shouldRetreiveRecentSearches() {
   return StateIs<RecherchesRecentesSuccessState>(
     (state) => state.recherchesRecentesState,
     (state) {
@@ -50,19 +57,19 @@ Matcher _shouldSucceed() {
 }
 
 class RecherchesRecentesRepositorySuccessStub extends RecherchesRecentesRepository {
-  RecherchesRecentesRepositorySuccessStub() : super(DioMock());
+  RecherchesRecentesRepositorySuccessStub() : super(DummySharedPreferences());
 
   @override
-  Future<List<SavedSearch>?> get() async {
+  Future<List<SavedSearch>> get() async {
     return [offreEmploiSavedSearch()];
   }
 }
 
-class RecherchesRecentesRepositoryErrorStub extends RecherchesRecentesRepository {
-  RecherchesRecentesRepositoryErrorStub() : super(DioMock());
+class RecherchesRecentesRepositoryEmptyStub extends RecherchesRecentesRepository {
+  RecherchesRecentesRepositoryEmptyStub() : super(DummySharedPreferences());
 
   @override
-  Future<List<SavedSearch>?> get() async {
-    return null;
+  Future<List<SavedSearch>> get() async {
+    return [];
   }
 }

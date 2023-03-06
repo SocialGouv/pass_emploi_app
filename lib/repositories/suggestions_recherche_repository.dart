@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_json_extractor.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_response.dart';
 
 class SuggestionsRechercheRepository {

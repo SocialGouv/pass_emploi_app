@@ -10,6 +10,4 @@ class RecherchesRecentesSuccessAction {
   RecherchesRecentesSuccessAction(this.recentSearches);
 }
 
-class RecherchesRecentesFailureAction {}
-
 class RecherchesRecentesResetAction {}
