@@ -316,6 +316,7 @@ class Strings {
   static String createByAdvisor = "Créé par votre conseiller";
 
   // Recherche
+  static String derniereRecherche = "Dernière recherche";
   static String rechercheHomeNosOffres = "Nos offres";
   static String rechercheHomeCardLink = "Rechercher";
   static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
