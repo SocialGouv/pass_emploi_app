@@ -24,7 +24,7 @@ class DiagorienteWebviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: AnalyticsScreenNames.diagorienteChatBot,
+      tracking: mode.tracking(),
       child: StoreConnector<AppState, DiagorienteWebviewViewModel>(
         converter: (store) => DiagorienteWebviewViewModel.create(store, mode),
         builder: _builder,
@@ -170,5 +170,16 @@ class DiagorienteBottomButtonsNotifier extends ChangeNotifier {
   void changed(DiagorienteBottomButtonsState value) {
     state = value;
     notifyListeners();
+  }
+}
+
+extension _DiagorienteWebviewMode on DiagorienteWebviewMode {
+  String tracking() {
+    switch (this) {
+      case DiagorienteWebviewMode.chatbot:
+        return AnalyticsScreenNames.diagorienteChatBot;
+      case DiagorienteWebviewMode.favoris:
+        return AnalyticsScreenNames.diagorienteFavoris;
+    }
   }
 }
