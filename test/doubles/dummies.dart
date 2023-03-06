@@ -56,6 +56,7 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -371,5 +372,9 @@ class DummyDiagorienteUrlsRepository extends DiagorienteUrlsRepository {
 
 class DummyDiagorienteMetiersFavorisRepository extends DiagorienteMetiersFavorisRepository {
   DummyDiagorienteMetiersFavorisRepository() : super(DioMock());
+}
+
+class DummyRecherchesRecentesRepository extends RecherchesRecentesRepository {
+  DummyRecherchesRecentesRepository() : super(DioMock());
 }
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

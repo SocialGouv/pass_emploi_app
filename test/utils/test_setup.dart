@@ -48,6 +48,7 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -105,6 +106,7 @@ class TestStoreFactory {
   DiagorienteUrlsRepository diagorienteUrlsRepository = DummyDiagorienteUrlsRepository();
   DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository = DummyDiagorienteMetiersFavorisRepository();
   GetFavorisRepository getFavorisRepository = MockGetFavorisRepository();
+  RecherchesRecentesRepository recherchesRecentesRepository = DummyRecherchesRecentesRepository();
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -157,6 +159,7 @@ class TestStoreFactory {
       diagorienteUrlsRepository,
       diagorienteMetiersFavorisRepository,
       getFavorisRepository,
+      recherchesRecentesRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }
