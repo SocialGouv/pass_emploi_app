@@ -9,7 +9,7 @@ class GetFavorisRepository {
   GetFavorisRepository(this._httpClient, [this._crashlytics]);
 
   static Uri getFavorisUri({required String baseUrl, required String userId}) {
-    return Uri.parse('$baseUrl/jeunes/$userId/recherches');
+    return Uri.parse('$baseUrl/jeunes/$userId/favoris');
   }
 
   Future<List<Favori>?> getFavoris(String userId) async {
