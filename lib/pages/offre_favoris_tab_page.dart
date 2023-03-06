@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
+import 'package:pass_emploi_app/pages/offre_filters_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/presentation/favori_list_view_model.dart';
@@ -19,16 +20,26 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:redux/redux.dart';
 
-class OffreFavorisTabPage extends StatelessWidget {
+class OffreFavorisTabPage extends StatefulWidget {
+  @override
+  State<OffreFavorisTabPage> createState() => _OffreFavorisTabPageState();
+}
+
+class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
+  OffreFilter _selectedFilter = OffreFilter.tous;
+  final _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: AnalyticsScreenNames.offreFavoris,
+      tracking: AnalyticsScreenNames.offreFavorisList,
       child: StoreConnector<AppState, FavoriListViewModel>(
         onInit: (store) => store.dispatch(FavoriListRequestAction()),
         converter: (store) => FavoriListViewModel.create(store),
@@ -42,19 +53,34 @@ class OffreFavorisTabPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       body: Center(child: _content(viewModel)),
+      floatingActionButton: FiltreButton.primary(
+        onPressed: () async {
+          Navigator.push(context, OffreFiltersPage.materialPageRoute(initialFilter: _selectedFilter)).then((result) {
+            if (result != null) _filterSelected(result);
+          });
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
   Widget _content(FavoriListViewModel viewModel) {
     if (viewModel.displayState.isLoading()) return CircularProgressIndicator();
     if (viewModel.displayState.isFailure()) return Retry(Strings.favorisError, () => viewModel.onRetry());
-    if (viewModel.displayState.isEmpty()) return Text(Strings.noFavoris, style: TextStyles.textSRegular());
-    return _favoris(viewModel.favoris);
+    if (viewModel.displayState.isEmpty()) return _Empty();
+    return _favoris(viewModel);
   }
 
-  Widget _favoris(List<Favori> favoris) {
+  Widget _favoris(FavoriListViewModel viewModel) {
+    final favoris = _getFavorisFiltered(viewModel);
+    if (favoris.isEmpty) return _Empty();
     return ListView.separated(
-      padding: const EdgeInsets.all(Margins.spacing_base),
+      padding: const EdgeInsets.only(
+        left: Margins.spacing_base,
+        top: Margins.spacing_base,
+        right: Margins.spacing_base,
+        bottom: Margins.spacing_huge,
+      ),
       itemCount: favoris.length,
       itemBuilder: (context, index) {
         final favori = favoris[index];
@@ -69,6 +95,7 @@ class OffreFavorisTabPage extends StatelessWidget {
         }
       },
       separatorBuilder: (_, __) => SizedBox(height: Margins.spacing_base),
+      controller: _scrollController,
     );
   }
 
@@ -134,4 +161,48 @@ class OffreFavorisTabPage extends StatelessWidget {
       ),
     );
   }
+
+  List<Favori> _getFavorisFiltered(FavoriListViewModel viewModel) {
+    switch (_selectedFilter) {
+      case OffreFilter.immersion:
+        return viewModel.getOffresImmersion();
+      case OffreFilter.serviceCivique:
+        return viewModel.getOffresServiceCivique();
+      case OffreFilter.emploi:
+        return viewModel.getOffresEmploi();
+      case OffreFilter.alternance:
+        return viewModel.getOffresAlternance();
+      default:
+        return viewModel.favoris;
+    }
+  }
+
+  void _filterSelected(OffreFilter filter) {
+    setState(() => _selectedFilter = filter);
+    _scrollController.jumpTo(0);
+    final String tracking;
+    switch (filter) {
+      case OffreFilter.tous:
+        tracking = AnalyticsScreenNames.offreFavorisList;
+        break;
+      case OffreFilter.emploi:
+        tracking = AnalyticsScreenNames.offreFavorisListFilterEmploi;
+        break;
+      case OffreFilter.alternance:
+        tracking = AnalyticsScreenNames.offreFavorisListFilterAlternance;
+        break;
+      case OffreFilter.immersion:
+        tracking = AnalyticsScreenNames.offreFavorisListFilterImmersion;
+        break;
+      case OffreFilter.serviceCivique:
+        tracking = AnalyticsScreenNames.offreFavorisListFilterServiceCivique;
+        break;
+    }
+    PassEmploiMatomoTracker.instance.trackScreen(context, eventName: tracking);
+  }
+}
+
+class _Empty extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Text(Strings.noFavoris, style: TextStyles.textSRegular());
 }

@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -9,7 +10,7 @@ class FavoriHeartViewModel<T> extends Equatable {
   final bool isFavori;
   final bool withError;
   final bool withLoading;
-  final Function(bool newStatus) update;
+  final Function(FavoriStatus newStatus) update;
 
   FavoriHeartViewModel._({
     required this.isFavori,

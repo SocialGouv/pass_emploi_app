@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -24,7 +25,7 @@ class DeleteFavoriButton<T> extends StatelessWidget {
           onPressed: vm.withLoading
               ? null
               : () {
-                  vm.update(false);
+            vm.update(FavoriStatus.removed);
                   _tracking();
                 },
         );

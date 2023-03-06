@@ -76,15 +76,21 @@ class AnalyticsScreenNames {
 
   static const eventList = "events/list";
   static const toolbox = "recherche/boite_a_outils";
-  static const offreFavoris = "favoris/list";
   static const profil = "profil";
 
   static const eventPartagePageSuccess = "events/detail?partage-conseiller=true";
 
-  static const savedSearchEmploiList = "/saved_searches/emploi/list";
-  static const savedSearchAlternanceList = "/saved_searches/alternance/list";
-  static const savedSearchImmersionList = "/saved_searches/immersion/list";
-  static const savedSearchServiceCiviqueList = "/saved_searches/service_civique/list";
+  static const offreFavorisList = "favoris/list";
+  static const offreFavorisListFilterEmploi = "favoris/list?filtre=emploi";
+  static const offreFavorisListFilterAlternance = "favoris/list?filtre=alternance";
+  static const offreFavorisListFilterImmersion = "favoris/list?filtre=immersion";
+  static const offreFavorisListFilterServiceCivique = "favoris/list?filtre=service_civique";
+
+  static const savedSearchList = "saved_searches/list";
+  static const savedSearchListFilterEmploi = "saved_searches/list?filtre=emploi";
+  static const savedSearchListFilterAlternance = "saved_searches/list?filtre=alternance";
+  static const savedSearchListFilterImmersion = "saved_searches/list?filtre=immersion";
+  static const savedSearchListFilterServiceCivique = "saved_searches/list?filtre=service_civique";
 
   static const savedSearchEmploiDelete = "/saved_search/emploi/delete";
   static const savedSearchAlternanceDelete = "/saved_search/alternance/delete";

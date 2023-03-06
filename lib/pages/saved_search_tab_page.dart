@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
@@ -42,17 +43,20 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, SavedSearchListViewModel>(
-      onInit: (store) {
-        store.dispatch(SavedSearchListRequestAction());
-        store.dispatch(SuggestionsRechercheRequestAction());
-        final DeepLinkState state = store.state.deepLinkState;
-        if (state is SavedSearchDeepLinkState) store.dispatch(SavedSearchGetAction(state.idSavedSearch));
-      },
-      onWillChange: (_, newVM) => _onWillChange(_, newVM),
-      builder: (context, viewModel) => _body(viewModel),
-      converter: (store) => SavedSearchListViewModel.createFromStore(store),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.savedSearchList,
+      child: StoreConnector<AppState, SavedSearchListViewModel>(
+        onInit: (store) {
+          store.dispatch(SavedSearchListRequestAction());
+          store.dispatch(SuggestionsRechercheRequestAction());
+          final DeepLinkState state = store.state.deepLinkState;
+          if (state is SavedSearchDeepLinkState) store.dispatch(SavedSearchGetAction(state.idSavedSearch));
+        },
+        onWillChange: (_, newVM) => _onWillChange(_, newVM),
+        builder: (context, viewModel) => _body(viewModel),
+        converter: (store) => SavedSearchListViewModel.createFromStore(store),
+        distinct: true,
+      ),
     );
   }
 
@@ -91,48 +95,13 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       ),
       floatingActionButton: FiltreButton.primary(
         onPressed: () async {
-          final result =
-              await Navigator.push(context, OffreFiltersPage.materialPageRoute(initialFilter: _selectedFilter));
-          if (result != null) _filterSelected(result);
+          Navigator.push(context, OffreFiltersPage.materialPageRoute(initialFilter: _selectedFilter)).then((result) {
+            if (result != null) _filterSelected(result);
+          });
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
-  }
-
-  void _filterSelected(OffreFilter filter) {
-    setState(
-      () => _selectedFilter = filter,
-    );
-    _scrollController.jumpTo(0);
-    switch (filter) {
-      case OffreFilter.immersion:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchImmersionList,
-          eventName: AnalyticsScreenNames.savedSearchImmersionList,
-        );
-        break;
-      case OffreFilter.serviceCivique:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchServiceCiviqueList,
-          eventName: AnalyticsScreenNames.savedSearchServiceCiviqueList,
-        );
-        break;
-      case OffreFilter.emploi:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchEmploiList,
-          eventName: AnalyticsScreenNames.savedSearchEmploiList,
-        );
-        break;
-      case OffreFilter.alternance:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchAlternanceList,
-          eventName: AnalyticsScreenNames.savedSearchAlternanceList,
-        );
-        break;
-      default:
-        break;
-    }
   }
 
   Widget _content(SavedSearchListViewModel viewModel) {
@@ -140,23 +109,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     if (viewModel.displayState.isFailure()) {
       return Center(child: Retry(Strings.savedSearchGetError, () => viewModel.onRetry()));
     }
-    final List<SavedSearch> savedSearches = _getSavedSearches(viewModel);
-    return _getSavedSearch(savedSearches, viewModel);
-  }
-
-  List<SavedSearch> _getSavedSearches(SavedSearchListViewModel viewModel) {
-    switch (_selectedFilter) {
-      case OffreFilter.immersion:
-        return viewModel.getImmersions();
-      case OffreFilter.serviceCivique:
-        return viewModel.getServiceCivique();
-      case OffreFilter.emploi:
-        return viewModel.getOffresEmploi(false);
-      case OffreFilter.alternance:
-        return viewModel.getOffresEmploi(true);
-      default:
-        return viewModel.savedSearches;
-    }
+    return _savedSearches(viewModel);
   }
 
   Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi, SavedSearchListViewModel viewModel) {
@@ -171,7 +124,8 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     );
   }
 
-  Widget _getSavedSearch(List<SavedSearch> savedSearches, SavedSearchListViewModel viewModel) {
+  Widget _savedSearches(SavedSearchListViewModel viewModel) {
+    final List<SavedSearch> savedSearches = _getSavedSearchesFiltered(viewModel);
     if (savedSearches.isEmpty) return _noSavedSearch();
     return ListView.builder(
         itemCount: savedSearches.length,
@@ -202,6 +156,21 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
             ],
           );
         });
+  }
+
+  List<SavedSearch> _getSavedSearchesFiltered(SavedSearchListViewModel viewModel) {
+    switch (_selectedFilter) {
+      case OffreFilter.immersion:
+        return viewModel.getImmersions();
+      case OffreFilter.serviceCivique:
+        return viewModel.getServiceCivique();
+      case OffreFilter.emploi:
+        return viewModel.getOffresEmploi();
+      case OffreFilter.alternance:
+        return viewModel.getAlternance();
+      default:
+        return viewModel.savedSearches;
+    }
   }
 
   Widget _noSavedSearch() {
@@ -262,5 +231,29 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     ).then((result) {
       if (result == true) showSuccessfulSnackBar(context, Strings.savedSearchDeleteSuccess);
     });
+  }
+
+  void _filterSelected(OffreFilter filter) {
+    setState(() => _selectedFilter = filter);
+    _scrollController.jumpTo(0);
+    final String tracking;
+    switch (filter) {
+      case OffreFilter.tous:
+        tracking = AnalyticsScreenNames.savedSearchList;
+        break;
+      case OffreFilter.emploi:
+        tracking = AnalyticsScreenNames.savedSearchListFilterEmploi;
+        break;
+      case OffreFilter.alternance:
+        tracking = AnalyticsScreenNames.savedSearchListFilterAlternance;
+        break;
+      case OffreFilter.immersion:
+        tracking = AnalyticsScreenNames.savedSearchListFilterImmersion;
+        break;
+      case OffreFilter.serviceCivique:
+        tracking = AnalyticsScreenNames.savedSearchListFilterServiceCivique;
+        break;
+    }
+    PassEmploiMatomoTracker.instance.trackScreen(context, eventName: tracking);
   }
 }
