@@ -1,14 +1,13 @@
 import 'package:collection/collection.dart';
-import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
-import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/metier.dart';
-import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -25,12 +24,18 @@ class SavedSearchGetMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    final loginState = store.state.loginState;
-    if (action is SavedSearchGetAction && loginState is LoginSuccessState) {
-      final search = (await _repository.getSavedSearch(loginState.user.id))
-          ?.where((e) => e.getId() == action.savedSearchId)
-          .firstOrNull;
+    final userId = store.state.userId();
+    if (userId == null) return;
+
+    if (action is SavedSearchGetFromIdAction) {
+      final search =
+          (await _repository.getSavedSearch(userId))?.where((e) => e.getId() == action.savedSearchId).firstOrNull;
       if (search == null) return;
+      if (search is ImmersionSavedSearch) _handleImmersionSavedSearch(search, store);
+      if (search is OffreEmploiSavedSearch) _handleEmploiSavedSearch(search, store);
+      if (search is ServiceCiviqueSavedSearch) _handleServiceCiviqueSavedSearch(search, store);
+    } else if (action is FetchRechercheRecenteAction) {
+      final search = action.savedSearch;
       if (search is ImmersionSavedSearch) _handleImmersionSavedSearch(search, store);
       if (search is OffreEmploiSavedSearch) _handleEmploiSavedSearch(search, store);
       if (search is ServiceCiviqueSavedSearch) _handleServiceCiviqueSavedSearch(search, store);

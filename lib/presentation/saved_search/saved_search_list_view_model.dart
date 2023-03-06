@@ -51,9 +51,9 @@ class SavedSearchListViewModel extends Equatable {
         savedSearches: state.savedSearches.toList(),
         searchNavigationState: SavedSearchNavigationState.fromAppState(store.state),
         immersionsResults: store.state.rechercheImmersionState.results ?? [],
-        offreEmploiSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),
-        offreImmersionSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),
-        offreServiceCiviqueSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),
+        offreEmploiSelected: (savedSearch) => store.dispatch(SavedSearchGetFromIdAction(savedSearch.id)),
+        offreImmersionSelected: (savedSearch) => store.dispatch(SavedSearchGetFromIdAction(savedSearch.id)),
+        offreServiceCiviqueSelected: (savedSearch) => store.dispatch(SavedSearchGetFromIdAction(savedSearch.id)),
         onRetry: () => store.dispatch(SavedSearchListRequestAction()),
       );
     }
