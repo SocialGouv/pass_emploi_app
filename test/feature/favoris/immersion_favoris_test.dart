@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dar
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
@@ -27,7 +28,7 @@ void main() {
         .firstWhere((element) => element.favoriUpdateState.requestStatus["1"] == FavoriUpdateStatus.SUCCESS);
 
     // When
-    store.dispatch(FavoriUpdateRequestAction<Immersion>("1", false));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("1", FavoriStatus.removed));
 
     // Then
     expect(await loadingState, true);
@@ -49,7 +50,7 @@ void main() {
         .firstWhere((element) => element.favoriUpdateState.requestStatus["1"] == FavoriUpdateStatus.ERROR);
 
     // When
-    store.dispatch(FavoriUpdateRequestAction<Immersion>("1", false));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("1", FavoriStatus.removed));
 
     // Then
     expect(await loadingState, true);
@@ -68,7 +69,7 @@ void main() {
         .firstWhere((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.SUCCESS);
 
     // When
-    store.dispatch(FavoriUpdateRequestAction<Immersion>("17", true));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("17", FavoriStatus.added));
 
     // Then
     expect(await loadingState, true);
@@ -87,7 +88,7 @@ void main() {
         .firstWhere((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.SUCCESS);
 
     // When
-    store.dispatch(FavoriUpdateRequestAction<Immersion>("17", true));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("17", FavoriStatus.added));
 
     // Then
     expect(await loadingState, true);
@@ -106,7 +107,7 @@ void main() {
         .firstWhere((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.ERROR);
 
     // When
-    store.dispatch(FavoriUpdateRequestAction<Immersion>("17", true));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("17", FavoriStatus.added));
 
     // Then
     expect(await loadingState, true);

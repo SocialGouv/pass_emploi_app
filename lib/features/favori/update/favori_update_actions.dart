@@ -1,6 +1,8 @@
+import 'package:pass_emploi_app/models/favori.dart';
+
 class FavoriUpdateRequestAction<T> {
   final String favoriId;
-  final bool newStatus;
+  final FavoriStatus newStatus;
 
   FavoriUpdateRequestAction(this.favoriId, this.newStatus);
 }
@@ -13,7 +15,7 @@ class FavoriUpdateLoadingAction<T> {
 
 class FavoriUpdateSuccessAction<T> {
   final String favoriId;
-  final bool confirmedNewStatus;
+  final FavoriStatus confirmedNewStatus;
 
   FavoriUpdateSuccessAction(this.favoriId, this.confirmedNewStatus);
 }

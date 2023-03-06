@@ -5,6 +5,8 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
+enum FavoriStatus { added, removed }
+
 class Favori extends Equatable {
   final String id;
   final SolutionType type;

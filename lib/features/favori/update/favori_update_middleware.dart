@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 import 'package:redux/redux.dart';
@@ -15,11 +16,8 @@ class FavoriUpdateMiddleware<T> extends MiddlewareClass<AppState> {
     next(action);
     final loginState = store.state.loginState;
     if (action is FavoriUpdateRequestAction<T> && loginState is LoginSuccessState) {
-      if (action.newStatus) {
-        await _addFavori(store, action, loginState.user.id);
-      } else {
-        await _removeFavori(store, action, loginState.user.id);
-      }
+      if (action.newStatus == FavoriStatus.added) await _addFavori(store, action, loginState.user.id);
+      if (action.newStatus == FavoriStatus.removed) await _removeFavori(store, action, loginState.user.id);
     }
   }
 

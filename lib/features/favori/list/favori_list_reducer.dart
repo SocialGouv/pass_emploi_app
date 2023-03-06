@@ -13,7 +13,7 @@ FavoriListState favoriListReducer(FavoriListState current, dynamic action) {
 }
 
 bool _favoriIsRemoved(FavoriListState current, dynamic action) {
-  return action is FavoriUpdateRequestAction && action.newStatus == false;
+  return action is FavoriUpdateRequestAction && action.newStatus == FavoriStatus.removed;
 }
 
 FavoriListState _successStateWithoutRemovedFavori(FavoriListState current, dynamic action) {
