@@ -117,7 +117,7 @@ class FavoriHeartAnalyticsHelper {
       case OffrePage.serviceCiviqueDetails:
         return AnalyticsScreenNames.serviceCiviqueDetail;
       case OffrePage.offreFavoris:
-        return AnalyticsScreenNames.offreFavoris;
+        return AnalyticsScreenNames.offreFavorisList;
     }
   }
 }

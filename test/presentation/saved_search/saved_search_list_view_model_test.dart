@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
-import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
-import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
@@ -151,7 +151,7 @@ void main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.getOffresEmploi(false), [
+    expect(viewModel.getOffresEmploi(), [
       OffreEmploiSavedSearch(
         id: "id",
         title: "titreOffreEmploi1",
@@ -186,7 +186,7 @@ void main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.getOffresEmploi(true), [
+    expect(viewModel.getAlternance(), [
       OffreEmploiSavedSearch(
         id: "id",
         title: "titreAlternance1",

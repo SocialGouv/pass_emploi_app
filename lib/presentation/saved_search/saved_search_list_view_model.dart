@@ -69,18 +69,16 @@ class SavedSearchListViewModel extends Equatable {
         immersionsResults,
       ];
 
-  List<OffreEmploiSavedSearch> getOffresEmploi(bool withAlternance) {
+  List<OffreEmploiSavedSearch> getOffresEmploi() => savedSearches.whereType<OffreEmploiSavedSearch>().toList();
+
+  List<OffreEmploiSavedSearch> getAlternance() {
     return savedSearches
         .whereType<OffreEmploiSavedSearch>()
-        .where((element) => element.onlyAlternance == withAlternance)
+        .where((element) => element.onlyAlternance == true)
         .toList();
   }
 
-  List<ImmersionSavedSearch> getImmersions() {
-    return savedSearches.whereType<ImmersionSavedSearch>().toList();
-  }
+  List<ImmersionSavedSearch> getImmersions() => savedSearches.whereType<ImmersionSavedSearch>().toList();
 
-  List<ServiceCiviqueSavedSearch> getServiceCivique() {
-    return savedSearches.whereType<ServiceCiviqueSavedSearch>().toList();
-  }
+  List<ServiceCiviqueSavedSearch> getServiceCivique() => savedSearches.whereType<ServiceCiviqueSavedSearch>().toList();
 }

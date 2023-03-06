@@ -592,6 +592,6 @@ DiagorienteUrls mockDiagorienteUrls() {
   );
 }
 
-Favori mockFavori([String id = 'id']) {
-  return Favori(id: id, type: SolutionType.Immersion, titre: 't', organisation: null, localisation: null);
+Favori mockFavori([String id = 'id', SolutionType type = SolutionType.Immersion]) {
+  return Favori(id: id, type: type, titre: 't', organisation: null, localisation: null);
 }
