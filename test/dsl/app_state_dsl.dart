@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_r
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
@@ -44,6 +45,7 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/tutorial.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -547,4 +549,8 @@ extension AppStateDSL on AppState {
   AppState favoriListFailureState() => copyWith(favoriListState: FavoriListFailureState());
 
   AppState favoriListSuccessState(List<Favori> favoris) => copyWith(favoriListState: FavoriListSuccessState(favoris));
+
+  AppState withRecentsSearches(List<SavedSearch> recherchesRecentes) {
+    return copyWith(recherchesRecentesState: RecherchesRecentesSuccessState(recherchesRecentes));
+  }
 }
