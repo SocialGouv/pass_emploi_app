@@ -30,7 +30,7 @@ class RecherchesRecentesViewModel extends Equatable {
     return RecherchesRecentesViewModel(
       searchNavigationState: SavedSearchNavigationState.fromAppState(store.state),
       rechercheRecente: state.recentSearches.firstOrNull,
-      fetchSavedSearchResult: (savedSearch) => store.dispatch(FetchRechercheRecenteAction(savedSearch)),
+      fetchSavedSearchResult: (savedSearch) => store.dispatch(FetchSavedSearchResultsAction(savedSearch)),
     );
   }
 

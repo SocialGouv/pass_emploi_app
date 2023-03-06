@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -27,19 +28,21 @@ class SavedSearchGetMiddleware extends MiddlewareClass<AppState> {
     final userId = store.state.userId();
     if (userId == null) return;
 
-    if (action is SavedSearchGetFromIdAction) {
-      final search =
-          (await _repository.getSavedSearch(userId))?.where((e) => e.getId() == action.savedSearchId).firstOrNull;
+    if (action is FetchSavedSearchResultsFromIdAction) {
+      final search = (await _repository.getSavedSearch(userId)) //
+          ?.where((e) => e.getId() == action.savedSearchId)
+          .firstOrNull;
       if (search == null) return;
-      if (search is ImmersionSavedSearch) _handleImmersionSavedSearch(search, store);
-      if (search is OffreEmploiSavedSearch) _handleEmploiSavedSearch(search, store);
-      if (search is ServiceCiviqueSavedSearch) _handleServiceCiviqueSavedSearch(search, store);
-    } else if (action is FetchRechercheRecenteAction) {
-      final search = action.savedSearch;
-      if (search is ImmersionSavedSearch) _handleImmersionSavedSearch(search, store);
-      if (search is OffreEmploiSavedSearch) _handleEmploiSavedSearch(search, store);
-      if (search is ServiceCiviqueSavedSearch) _handleServiceCiviqueSavedSearch(search, store);
+      _handleSavedSearch(search, store);
+    } else if (action is FetchSavedSearchResultsAction) {
+      _handleSavedSearch(action.savedSearch, store);
     }
+  }
+
+  void _handleSavedSearch(SavedSearch search, Store<AppState> store) {
+    if (search is ImmersionSavedSearch) _handleImmersionSavedSearch(search, store);
+    if (search is OffreEmploiSavedSearch) _handleEmploiSavedSearch(search, store);
+    if (search is ServiceCiviqueSavedSearch) _handleServiceCiviqueSavedSearch(search, store);
   }
 
   void _handleEmploiSavedSearch(OffreEmploiSavedSearch search, Store<AppState> store) {

@@ -97,7 +97,7 @@ void main() {
         UsedDeepLinkState(),
       );
       assertState(
-        SavedSearchGetFromIdAction(''),
+        FetchSavedSearchResultsFromIdAction(''),
         UsedDeepLinkState(),
       );
     });

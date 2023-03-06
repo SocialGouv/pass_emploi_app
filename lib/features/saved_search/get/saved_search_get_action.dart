@@ -1,13 +1,13 @@
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 
-class SavedSearchGetFromIdAction {
+class FetchSavedSearchResultsFromIdAction {
   final String savedSearchId;
 
-  SavedSearchGetFromIdAction(this.savedSearchId);
+  FetchSavedSearchResultsFromIdAction(this.savedSearchId);
 }
 
-class FetchRechercheRecenteAction {
+class FetchSavedSearchResultsAction {
   final SavedSearch savedSearch;
 
-  FetchRechercheRecenteAction(this.savedSearch);
+  FetchSavedSearchResultsAction(this.savedSearch);
 }
