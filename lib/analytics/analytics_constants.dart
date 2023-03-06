@@ -103,6 +103,7 @@ class AnalyticsScreenNames {
 
   static const diagorienteEntryPage = "/diagoriente";
   static const diagorienteChatBot = "/diagoriente/chatbot";
+  static const diagorienteFavoris = "/diagoriente/favoris";
 }
 
 class AnalyticsActionNames {
