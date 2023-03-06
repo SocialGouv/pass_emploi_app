@@ -24,6 +24,7 @@ class CriteresRechercheImmersionContenu extends StatefulWidget {
 }
 
 class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImmersionContenu> {
+  bool initialBuild = true;
   Location? _selectedLocation;
   Metier? _selectedMetier;
 
@@ -38,14 +39,16 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
   }
 
   void _onInitialBuild(CriteresRechercheImmersionContenuViewModel viewModel) {
-    if (viewModel.initialLocation != null || viewModel.initialMetier != null) {
-      _selectedLocation = viewModel.initialLocation;
-      _selectedMetier = viewModel.initialMetier;
-      _updateCriteresActifsCount();
-    }
+    if (viewModel.initialLocation != null || viewModel.initialMetier != null) _updateCriteresActifsCount();
+    initialBuild = false;
   }
 
   Widget _builder(BuildContext context, CriteresRechercheImmersionContenuViewModel viewModel) {
+    // onInitialBuild is called AFTER the first build, so we need to do it here
+    if (initialBuild) {
+      _selectedLocation = viewModel.initialLocation;
+      _selectedMetier = viewModel.initialMetier;
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: Column(

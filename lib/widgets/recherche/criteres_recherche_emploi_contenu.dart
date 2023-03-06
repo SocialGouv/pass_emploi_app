@@ -25,6 +25,7 @@ class CriteresRechercheEmploiContenu extends StatefulWidget {
 }
 
 class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploiContenu> {
+  bool initialBuild = true;
   Location? _selectedLocation;
   String? _keyword;
 
@@ -39,14 +40,16 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
   }
 
   void _onInitialBuild(CriteresRechercheEmploiContenuViewModel viewModel) {
-    if (viewModel.initialLocation != null || viewModel.initiaKeyword != null) {
-      _selectedLocation = viewModel.initialLocation;
-      _keyword = viewModel.initiaKeyword;
-      _updateCriteresActifsCount();
-    }
+    if (viewModel.initialLocation != null || viewModel.initiaKeyword != null) _updateCriteresActifsCount();
+    initialBuild = false;
   }
 
   Widget _builder(BuildContext context, CriteresRechercheEmploiContenuViewModel viewModel) {
+    // onInitialBuild is called AFTER the first build, so we need to do it here
+    if (initialBuild) {
+      _selectedLocation = viewModel.initialLocation;
+      _keyword = viewModel.initiaKeyword;
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: Column(

@@ -22,6 +22,7 @@ class CriteresRechercheServiceCiviqueContenu extends StatefulWidget {
 }
 
 class _CriteresRechercheServiceCiviqueContenuState extends State<CriteresRechercheServiceCiviqueContenu> {
+  bool initialBuild = true;
   Location? _selectedLocation;
 
   @override
@@ -35,13 +36,13 @@ class _CriteresRechercheServiceCiviqueContenuState extends State<CriteresRecherc
   }
 
   void _onInitialBuild(CriteresRechercheServiceCiviqueContenuViewModel viewModel) {
-    if (viewModel.initialLocation != null) {
-      _selectedLocation = viewModel.initialLocation;
-      _updateCriteresActifsCount();
-    }
+    if (viewModel.initialLocation != null) _updateCriteresActifsCount();
+    initialBuild = false;
   }
 
   Widget _builder(BuildContext context, CriteresRechercheServiceCiviqueContenuViewModel viewModel) {
+    // onInitialBuild is called AFTER the first build, so we need to do it here
+    if (initialBuild) _selectedLocation = viewModel.initialLocation;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: Column(
