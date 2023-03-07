@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_actions.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
@@ -14,7 +15,7 @@ void main() {
   group('RecherchesRecentes', () {
     final sut = StoreSut();
 
-    group("when requesting", () {
+    group("when retrieving last search", () {
       sut.when(() => RecherchesRecentesRequestAction());
 
       test('should load then retreive recent searches when data exist', () {
@@ -31,6 +32,18 @@ void main() {
             .store((f) => {f.recherchesRecentesRepository = RecherchesRecentesRepositoryEmptyStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeEmpty()]);
+      });
+    });
+
+    group("when requesting a new search", () {
+      sut.when(() => RechercheRequestAction(rechercheEmploiChevalierValenceCDI()));
+
+      test('should add it in recent searches', () {
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store();
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldAddRecentSearch()]);
       });
     });
   });
@@ -52,6 +65,15 @@ Matcher _shouldRetreiveRecentSearches() {
     (state) => state.recherchesRecentesState,
     (state) {
       expect(state.recentSearches, [offreEmploiSavedSearch()]);
+    },
+  );
+}
+
+Matcher _shouldAddRecentSearch() {
+  return StateIs<RecherchesRecentesSuccessState>(
+    (state) => state.recherchesRecentesState,
+    (state) {
+      expect(state.recentSearches, [rechercheEmploiSauvegardeeChevalierValenceCDI()]);
     },
   );
 }

@@ -551,6 +551,28 @@ List<Metier> mockAutocompleteMetiers() {
   ];
 }
 
+OffreEmploiSavedSearch rechercheEmploiSauvegardeeChevalierValenceCDI() => OffreEmploiSavedSearch(
+      id: "recherche-recente-id",
+      title: "chevalier - Valence",
+      metier: null,
+      keyword: "chevalier",
+      location: Location(type: LocationType.COMMUNE, libelle: "Valence", code: "26000"),
+      onlyAlternance: false,
+      filters: EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdi]),
+    );
+
+RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> rechercheEmploiChevalierValenceCDI() {
+  return RechercheRequest(
+    EmploiCriteresRecherche(
+      keyword: "chevalier",
+      location: Location(type: LocationType.COMMUNE, libelle: "Valence", code: "26000"),
+      onlyAlternance: false,
+    ),
+    EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdi]),
+    1,
+  );
+}
+
 RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> initialRechercheEmploiRequest() {
   return RechercheRequest(
     EmploiCriteresRecherche(keyword: "chevalier", location: null, onlyAlternance: false),
