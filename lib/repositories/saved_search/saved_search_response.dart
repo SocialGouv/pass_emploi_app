@@ -224,9 +224,6 @@ class SavedSearchServiceCiviqueExtractor {
   }
 }
 
-// OffreEmploiSavedSearch
-// ImmersionSavedSearch
-// ServiceCiviqueSavedSearch
 extension OffreEmploiSavedSearchExt on OffreEmploiSavedSearch {
   SavedSearchResponse toSavedSearchResponse() {
     return SavedSearchResponse(
@@ -251,6 +248,64 @@ extension OffreEmploiSavedSearchExt on OffreEmploiSavedSearch {
         domaine: null,
         distance: null,
         dateDeDebutMinimum: null,
+      ),
+    );
+  }
+}
+
+extension ImmersionSavedSearchExt on ImmersionSavedSearch {
+  SavedSearchResponse toSavedSearchResponse() {
+    return SavedSearchResponse(
+      id: id,
+      titre: title,
+      metier: metier,
+      localisation: location.libelle,
+      type: "OFFRES_IMMERSION",
+      criteres: SavedSearchResponseCriteres(
+        q: null,
+        departement: location.type == LocationType.DEPARTMENT ? location.code : null,
+        alternance: null,
+        debutantAccepte: null,
+        experience: null,
+        contrat: null,
+        duree: null,
+        commune: location.type == LocationType.COMMUNE ? location.code : null,
+        rayon: null,
+        lat: location.latitude,
+        lon: location.longitude,
+        rome: codeRome,
+        domaine: null,
+        distance: filtres.distance,
+        dateDeDebutMinimum: null,
+      ),
+    );
+  }
+}
+
+extension ServiceCiviqueSavedSearchExt on ServiceCiviqueSavedSearch {
+  SavedSearchResponse toSavedSearchResponse() {
+    return SavedSearchResponse(
+      id: id,
+      titre: titre,
+      metier: null,
+      localisation: ville,
+      type: "OFFRES_SERVICE_CIVIQUE",
+      criteres: SavedSearchResponseCriteres(
+        q: null,
+        departement: null,
+        alternance: null,
+        debutantAccepte: null,
+        experience: null,
+        contrat: null,
+        duree: null,
+        commune: null,
+        rayon: null,
+        lat: location?.latitude,
+        lon: location?.longitude,
+        rome: null,
+        domaine: domaine?.tag,
+        distance: filtres.distance,
+        dateDeDebutMinimum: dateDeDebut?.toIso8601String(),
       ),
     );
   }

@@ -36,9 +36,7 @@ class RecherchesRecentesMiddleware extends MiddlewareClass<AppState> {
       //TODO: attention on ne capte que un lancement de recherche, mais pas un update filtre (voire aussi criteres ?)
       final search = foo(action.request);
       if (search == null) return;
-
-      //TODO: sauvegarde la SavedSearch dans le repo
-
+      await _repository.save([search]);
       store.dispatch(RecherchesRecentesSuccessAction([search]));
     }
   }
