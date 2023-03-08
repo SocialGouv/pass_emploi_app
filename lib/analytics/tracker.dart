@@ -45,6 +45,6 @@ class _TrackerState extends State<Tracker> with RouteAware {
   }
 
   void _track() {
-    PassEmploiMatomoTracker.instance.trackScreen(context, eventName: widget.tracking);
+    PassEmploiMatomoTracker.instance.trackScreen(widget.tracking);
   }
 }

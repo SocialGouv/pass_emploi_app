@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,57 +41,27 @@ class PassEmploiMatomoTracker {
     _dimensions = dimensions.map((key, value) => MapEntry('dimension$key', Uri.encodeComponent(value)));
   }
 
-  void trackEvent({
-    required String eventCategory,
-    required String action,
-    String? eventName,
-    int? eventValue,
-    Map<String, String>? dimensions,
-  }) {
+  void trackScreen(String widgetName) {
+    _decorated.trackScreenWithName(
+      widgetName: widgetName,
+      eventName: widgetName,
+      path: widgetName,
+      dimensions: _dimensions,
+    );
+    onTrackScreen?.call(widgetName);
+  }
+
+  void trackEvent({required String eventCategory, required String action, String? eventName, int? eventValue}) {
     _decorated.trackEvent(
       eventCategory: eventCategory,
       action: action,
       eventName: eventName,
       eventValue: eventValue,
-      dimensions: dimensions ?? _dimensions,
+      dimensions: _dimensions,
     );
   }
 
-  void trackOutlink(String? link, {Map<String, String>? dimensions}) {
-    _decorated.trackOutlink(link, dimensions: dimensions);
-  }
-
-  void trackScreen(
-    BuildContext context, {
-    required String eventName,
-    String? currentScreenId,
-    String? path,
-    Map<String, String>? dimensions,
-  }) {
-    _decorated.trackScreen(
-      context,
-      eventName: eventName,
-      currentScreenId: currentScreenId,
-      path: path,
-      dimensions: dimensions ?? _dimensions,
-    );
-    onTrackScreen?.call(eventName);
-  }
-
-  void trackScreenWithName({
-    required String widgetName,
-    required String eventName,
-    String? currentScreenId,
-    String? path,
-    Map<String, String>? dimensions,
-  }) {
-    _decorated.trackScreenWithName(
-      widgetName: widgetName,
-      eventName: eventName,
-      currentScreenId: currentScreenId,
-      path: path,
-      dimensions: dimensions ?? _dimensions,
-    );
-    onTrackScreen?.call('$eventName in $widgetName');
+  void trackOutlink(String? link) {
+    _decorated.trackOutlink(link, dimensions: _dimensions);
   }
 }

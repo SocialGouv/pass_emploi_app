@@ -59,8 +59,7 @@ class SavedSearchDeleteDialog extends StatelessWidget {
         builder: (context, viewModel) => _alertDialog(context, viewModel),
         onWillChange: (_, viewModel) {
           if (viewModel.displayState == SavedSearchDeleteDisplayState.SUCCESS) {
-            PassEmploiMatomoTracker.instance
-                .trackScreenWithName(widgetName: _screenName(type), eventName: _actionName(type));
+            PassEmploiMatomoTracker.instance.trackScreen(_actionName(type));
             Navigator.pop(context, true);
           }
         },

@@ -115,19 +115,13 @@ class _DeleteAccountButton extends StatelessWidget {
     await showDialog(
       context: context,
       builder: (_) {
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.suppressionAccount,
-          eventName: AnalyticsActionNames.suppressionAccountConfirmation,
-        );
+        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.suppressionAccountConfirmation);
         return DeleteAlertDialog();
       },
     ).then((result) {
       if (result == true) {
         showSuccessfulSnackBar(context, Strings.accountDeletionSuccess);
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.suppressionAccount,
-          eventName: AnalyticsActionNames.suppressionAccountSucceded,
-        );
+        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.suppressionAccountSucceded);
       } else if (result == false) {
         showFailedSnackBar(context, Strings.savedSearchDeleteError);
       }

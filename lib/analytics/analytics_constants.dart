@@ -51,7 +51,6 @@ class AnalyticsScreenNames {
 
   static String rechercheModifieeResultats(String type) => "recherche/$type/search_results?update=true";
 
-  static const emploiResults = "recherche/emploi/search_results";
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
   static const emploiCreateAlert = "/saved_search/emploi/create";
@@ -63,13 +62,11 @@ class AnalyticsScreenNames {
   static const alternanceFiltres = "recherche/alternance/search_results/filters";
   static const alternanceCreateAlert = "/saved_search/alternance/create";
 
-  static const immersionResults = "recherche/immersion/search_results";
   static const immersionDetails = "recherche/immersion/detail";
   static const immersionContact = "recherche/immersion/detail/contact";
   static const immersionFiltres = "recherche/immersion/search_results/filters";
   static const immersionCreateAlert = "/saved_search/immersion/create";
 
-  static const serviceCiviqueResults = "recherche/service_civique/search_results";
   static const serviceCiviqueDetail = "recherche/service_civique/detail";
   static const serviceCiviqueFiltres = "recherche/service_civique/search_results/filters";
   static const serviceCiviqueCreateAlert = "/saved_search/service_civique/create";

@@ -53,10 +53,7 @@ class _DismissSnackBar extends StatelessWidget {
   void _onDismiss(BuildContext context, RatingViewModel viewModel) {
     viewModel.onDone();
     snackbarKey.currentState?.hideCurrentSnackBar();
-    PassEmploiMatomoTracker.instance.trackScreenWithName(
-      widgetName: AnalyticsScreenNames.ratingPage,
-      eventName: AnalyticsActionNames.skipRating,
-    );
+    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipRating);
   }
 }
 

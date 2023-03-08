@@ -70,11 +70,8 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
             onPressed: (_isFormValid())
                 ? () {
                     viewModel.createSavedSearch(searchTitle!);
-                    PassEmploiMatomoTracker.instance.trackScreenWithName(
-                      eventName: widget.onlyAlternance
-                          ? AnalyticsScreenNames.alternanceCreateAlert
-                          : AnalyticsScreenNames.emploiCreateAlert,
-                      widgetName: widget.onlyAlternance
+                    PassEmploiMatomoTracker.instance.trackScreen(
+                      widget.onlyAlternance
                           ? AnalyticsActionNames.createSavedSearchAlternance
                           : AnalyticsActionNames.createSavedSearchEmploi,
                     );

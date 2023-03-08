@@ -254,6 +254,6 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
         tracking = AnalyticsScreenNames.savedSearchListFilterServiceCivique;
         break;
     }
-    PassEmploiMatomoTracker.instance.trackScreen(context, eventName: tracking);
+    PassEmploiMatomoTracker.instance.trackScreen(tracking);
   }
 }

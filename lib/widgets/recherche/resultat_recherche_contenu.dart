@@ -76,8 +76,7 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
   void _onLoadMorePressed(BuildContext context) {
     widget.viewModel.onLoadMore();
     PassEmploiMatomoTracker.instance.trackScreen(
-      context,
-      eventName: AnalyticsScreenNames.rechercheAfficherPlusOffres(widget.analyticsType),
+      AnalyticsScreenNames.rechercheAfficherPlusOffres(widget.analyticsType),
     );
   }
 
