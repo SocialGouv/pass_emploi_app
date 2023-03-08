@@ -151,10 +151,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   void _onDeleteAction(UserActionDetailsViewModel viewModel) {
     if (viewModel.deleteDisplayState != DeleteDisplayState.SHOW_LOADING) {
       viewModel.onDelete(viewModel.id);
-      PassEmploiMatomoTracker.instance.trackScreenWithName(
-        widgetName: AnalyticsScreenNames.userActionDetails,
-        eventName: AnalyticsActionNames.deleteUserAction,
-      );
+      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.deleteUserAction);
     }
   }
 
@@ -202,10 +199,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   }
 
   void _trackSuccessfulUpdate() {
-    PassEmploiMatomoTracker.instance.trackScreenWithName(
-      widgetName: AnalyticsScreenNames.userActionDetails,
-      eventName: AnalyticsScreenNames.updateUserAction,
-    );
+    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.updateUserAction);
   }
 }
 
@@ -383,10 +377,7 @@ class _CommentCard extends StatelessWidget {
   }
 
   void _onCommentClick(BuildContext context, String actionId, String actionTitle) {
-    PassEmploiMatomoTracker.instance.trackScreenWithName(
-      widgetName: AnalyticsScreenNames.userActionDetails,
-      eventName: AnalyticsActionNames.accessToActionComments,
-    );
+    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.accessToActionComments);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ActionCommentairesPage(actionId: actionId, actionTitle: actionTitle)),

@@ -63,7 +63,7 @@ class RendezvousDetailsPage extends StatelessWidget {
       builder: _scaffold,
       onInitialBuild: (viewModel) {
         if (viewModel.trackingPageName != null) {
-          PassEmploiMatomoTracker.instance.trackScreen(context, eventName: viewModel.trackingPageName!);
+          PassEmploiMatomoTracker.instance.trackScreen(viewModel.trackingPageName!);
         }
       },
       onDispose: (store) {

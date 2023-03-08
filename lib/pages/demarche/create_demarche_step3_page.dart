@@ -104,7 +104,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
   void _onDidChange(CreateDemarcheStep3ViewModel? oldVm, CreateDemarcheStep3ViewModel newVm) {
     final creationState = newVm.demarcheCreationState;
     if (creationState is DemarcheCreationSuccessState) {
-      PassEmploiMatomoTracker.instance.trackScreen(context, eventName: AnalyticsScreenNames.searchDemarcheStep3Success);
+      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.searchDemarcheStep3Success);
       Navigator.pop(context, creationState.demarcheCreatedId);
     }
   }

@@ -198,7 +198,7 @@ class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
         tracking = AnalyticsScreenNames.offreFavorisListFilterServiceCivique;
         break;
     }
-    PassEmploiMatomoTracker.instance.trackScreen(context, eventName: tracking);
+    PassEmploiMatomoTracker.instance.trackScreen(tracking);
   }
 }
 

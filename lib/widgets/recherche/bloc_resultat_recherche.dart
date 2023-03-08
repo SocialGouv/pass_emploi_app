@@ -85,8 +85,7 @@ class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Re
       _lastNumberSearchAnalyticSent = _numberOfSearchSent;
 
       PassEmploiMatomoTracker.instance.trackScreen(
-        context,
-        eventName: _numberOfSearchSent == 0
+        _numberOfSearchSent == 0
             ? AnalyticsScreenNames.rechercheInitialeResultats(widget.analyticsType)
             : AnalyticsScreenNames.rechercheModifieeResultats(widget.analyticsType),
       );

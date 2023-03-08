@@ -33,10 +33,7 @@ class RechercheHomePage extends StatelessWidget {
               SizedBox(height: Margins.spacing_base),
               VoirSuggestionsRechercheBandeau(
                 onTapShowSuggestions: () {
-                  PassEmploiMatomoTracker.instance.trackScreen(
-                    context,
-                    eventName: AnalyticsScreenNames.rechercheSuggestionsListe,
-                  );
+                  PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.rechercheSuggestionsListe);
                   Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
                 },
               ),

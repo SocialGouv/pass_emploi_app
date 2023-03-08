@@ -149,7 +149,7 @@ class _ChatPartagePageState extends State<ChatPartagePage> {
       case DisplayState.LOADING:
         return;
       case DisplayState.CONTENT:
-        PassEmploiMatomoTracker.instance.trackScreen(context, eventName: viewModel.snackbarSuccessTracking);
+        PassEmploiMatomoTracker.instance.trackScreen(viewModel.snackbarSuccessTracking);
         showSuccessfulSnackBar(context, viewModel.snackbarSuccessText);
         viewModel.snackbarDisplayed();
         Navigator.pop(context);

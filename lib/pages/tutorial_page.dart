@@ -94,16 +94,10 @@ class _TutorialPageState extends State<TutorialPage> {
                           duration: Duration(milliseconds: 600),
                           curve: Curves.linearToEaseOut,
                         );
-                        PassEmploiMatomoTracker.instance.trackScreenWithName(
-                          widgetName: AnalyticsScreenNames.tutorialPage,
-                          eventName: AnalyticsActionNames.continueTutorial,
-                        );
+                        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.continueTutorial);
                       } else {
                         viewModel.onDone();
-                        PassEmploiMatomoTracker.instance.trackScreenWithName(
-                          widgetName: AnalyticsScreenNames.tutorialPage,
-                          eventName: AnalyticsActionNames.doneTutorial,
-                        );
+                        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.doneTutorial);
                       }
                     },
                   ),
@@ -155,11 +149,8 @@ class _SkipButton extends StatelessWidget {
           InkWell(
             onTap: active
                 ? () {
-                    viewModel.onDone();
-                    PassEmploiMatomoTracker.instance.trackScreenWithName(
-                      widgetName: AnalyticsScreenNames.tutorialPage,
-                      eventName: AnalyticsActionNames.skipTutorial,
-                    );
+              viewModel.onDone();
+                    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipTutorial);
                   }
                 : null,
             child: Padding(
@@ -295,10 +286,7 @@ class _DelayedButton extends StatelessWidget {
           child: InkWell(
             onTap: () {
               viewModel.onDelay();
-              PassEmploiMatomoTracker.instance.trackScreenWithName(
-                widgetName: AnalyticsScreenNames.tutorialPage,
-                eventName: AnalyticsActionNames.delayedTutorial,
-              );
+              PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.delayedTutorial);
             },
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.end,
