@@ -55,5 +55,5 @@ DisplayState _displayState(Store<AppState> store) {
 void _seeOffreResults(Store<AppState> store) {
   final state = store.state.traiterSuggestionRechercheState;
   if (state is! AccepterSuggestionRechercheSuccessState) return;
-  store.dispatch(SavedSearchGetAction(state.savedSearch.getId()));
+  store.dispatch(FetchSavedSearchResultsFromIdAction(state.savedSearch.getId()));
 }

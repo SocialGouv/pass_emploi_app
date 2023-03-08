@@ -29,7 +29,9 @@ import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/solution_type.dart';
@@ -549,6 +551,28 @@ List<Metier> mockAutocompleteMetiers() {
   ];
 }
 
+OffreEmploiSavedSearch rechercheEmploiSauvegardeeChevalierValenceCDI() => OffreEmploiSavedSearch(
+      id: "recherche-recente-id",
+      title: "chevalier - Valence",
+      metier: null,
+      keyword: "chevalier",
+      location: Location(type: LocationType.COMMUNE, libelle: "Valence", code: "26000"),
+      onlyAlternance: false,
+      filters: EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdi]),
+    );
+
+RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> rechercheEmploiChevalierValenceCDI() {
+  return RechercheRequest(
+    EmploiCriteresRecherche(
+      keyword: "chevalier",
+      location: Location(type: LocationType.COMMUNE, libelle: "Valence", code: "26000"),
+      onlyAlternance: false,
+    ),
+    EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdi]),
+    1,
+  );
+}
+
 RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> initialRechercheEmploiRequest() {
   return RechercheRequest(
     EmploiCriteresRecherche(keyword: "chevalier", location: null, onlyAlternance: false),
@@ -594,4 +618,68 @@ DiagorienteUrls mockDiagorienteUrls() {
 
 Favori mockFavori([String id = 'id', SolutionType type = SolutionType.Immersion]) {
   return Favori(id: id, type: type, titre: 't', organisation: null, localisation: null);
+}
+
+List<SavedSearch> getMockedSavedSearch() {
+  return [
+    OffreEmploiSavedSearch(
+      id: "9ea85cc4-c92f-4f91-b5a3-b600f364faf1",
+      title: "Boulangerie",
+      metier: "Boulangerie",
+      location: null,
+      keyword: "Boulangerie",
+      onlyAlternance: false,
+      filters: EmploiFiltresRecherche.withFiltres(
+        distance: null,
+        debutantOnly: true,
+        experience: [],
+        contrat: [],
+        duree: [],
+      ),
+    ),
+    OffreEmploiSavedSearch(
+      id: "25f317c7-f28a-4f50-a629-013bb960484d",
+      title: "Boulangerie - NANTES",
+      metier: "Boulangerie",
+      location: Location(libelle: "NANTES", code: "44109", type: LocationType.COMMUNE),
+      keyword: "Boulangerie",
+      onlyAlternance: false,
+      filters: EmploiFiltresRecherche.withFiltres(
+        distance: null,
+        experience: [],
+        contrat: [],
+        duree: [],
+      ),
+    ),
+    OffreEmploiSavedSearch(
+      id: "6b51e128-000b-4125-a09a-c38a32a8b886",
+      title: "Flutter",
+      metier: "Flutter",
+      location: null,
+      keyword: "Flutter",
+      onlyAlternance: true,
+      filters: EmploiFiltresRecherche.withFiltres(
+        distance: null,
+        experience: [],
+        contrat: [],
+        duree: [],
+      ),
+    ),
+    ImmersionSavedSearch(
+      id: "670c413e-b669-4228-850a-9a7307fe79ea",
+      title: "Boulangerie - viennoiserie - PARIS-14",
+      metier: "Boulangerie - viennoiserie",
+      ville: "PARIS-14",
+      codeRome: "D1102",
+      location: Location(
+        libelle: "PARIS-14",
+        code: "",
+        codePostal: null,
+        latitude: 48.830108,
+        longitude: 2.323026,
+        type: LocationType.COMMUNE,
+      ),
+      filtres: ImmersionFiltresRecherche.noFiltre(),
+    ),
+  ];
 }

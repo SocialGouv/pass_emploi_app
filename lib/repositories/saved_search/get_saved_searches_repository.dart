@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_json_extractor.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_response.dart';
 
 class GetSavedSearchRepository {
@@ -29,19 +30,5 @@ class GetSavedSearchRepository {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return null;
-  }
-}
-
-class SavedSearchJsonExtractor {
-  SavedSearch? extract(SavedSearchResponse savedSearch) {
-    if (savedSearch.type == "OFFRES_IMMERSION") {
-      return SavedSearchImmersionExtractor().extract(savedSearch);
-    } else if (savedSearch.type == "OFFRES_SERVICES_CIVIQUE") {
-      return SavedSearchServiceCiviqueExtractor().extract(savedSearch);
-    } else if (savedSearch.type == "OFFRES_EMPLOI" || savedSearch.type == "OFFRES_ALTERNANCE") {
-      return SavedSearchEmploiExtractor().extract(savedSearch);
-    } else {
-      return null;
-    }
   }
 }

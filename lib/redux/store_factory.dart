@@ -61,6 +61,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
+import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -110,6 +111,7 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -162,6 +164,7 @@ class StoreFactory {
   final DiagorienteUrlsRepository diagorienteUrlsRepository;
   final DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository;
   final GetFavorisRepository getFavorisRepository;
+  final RecherchesRecentesRepository recherchesRecentesRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -213,6 +216,7 @@ class StoreFactory {
     this.diagorienteUrlsRepository,
     this.diagorienteMetiersFavorisRepository,
     this.getFavorisRepository,
+    this.recherchesRecentesRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -278,6 +282,7 @@ class StoreFactory {
         RechercheServiceCiviqueMiddleware(serviceCiviqueRepository),
         DiagorientePreferencesMetierMiddleware(diagorienteUrlsRepository, diagorienteMetiersFavorisRepository),
         FavoriListMiddleware(getFavorisRepository),
+        RecherchesRecentesMiddleware(recherchesRecentesRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

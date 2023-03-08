@@ -50,7 +50,9 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
           store.dispatch(SavedSearchListRequestAction());
           store.dispatch(SuggestionsRechercheRequestAction());
           final DeepLinkState state = store.state.deepLinkState;
-          if (state is SavedSearchDeepLinkState) store.dispatch(SavedSearchGetAction(state.idSavedSearch));
+          if (state is SavedSearchDeepLinkState) {
+            store.dispatch(FetchSavedSearchResultsFromIdAction(state.idSavedSearch));
+          }
         },
         onWillChange: (_, newVM) => _onWillChange(_, newVM),
         builder: (context, viewModel) => _body(viewModel),

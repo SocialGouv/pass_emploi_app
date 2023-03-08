@@ -99,7 +99,7 @@ void main() {
     viewModel.seeOffreResults();
 
     // Then
-    expect(store.dispatchedAction, isA<SavedSearchGetAction>());
-    expect((store.dispatchedAction as SavedSearchGetAction).savedSearchId, 'id');
+    expect(store.dispatchedAction, isA<FetchSavedSearchResultsFromIdAction>());
+    expect((store.dispatchedAction as FetchSavedSearchResultsFromIdAction).savedSearchId, 'id');
   });
 }

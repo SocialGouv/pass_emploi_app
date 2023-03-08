@@ -72,6 +72,7 @@ import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
+import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
@@ -240,6 +241,7 @@ class AppInitializer {
       DiagorienteUrlsRepository(dioClient, crashlytics),
       DiagorienteMetiersFavorisRepository(dioClient, crashlytics),
       GetFavorisRepository(dioClient, crashlytics),
+      RecherchesRecentesRepository(securedPreferences),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

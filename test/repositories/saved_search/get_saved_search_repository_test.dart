@@ -1,11 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
-import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 
 import '../../doubles/fixtures.dart';
@@ -27,7 +21,7 @@ void main() {
       final savedSearch = await repository.getSavedSearch("jeuneId");
 
       // Then
-      expect(savedSearch, _getMockedSavedSearch());
+      expect(savedSearch, getMockedSavedSearch());
     });
 
     test('return null when response is invalid should return null', () async {
@@ -42,68 +36,4 @@ void main() {
       expect(savedSearch, isNull);
     });
   });
-}
-
-List<Equatable> _getMockedSavedSearch() {
-  return [
-    OffreEmploiSavedSearch(
-      id: "9ea85cc4-c92f-4f91-b5a3-b600f364faf1",
-      title: "Boulangerie",
-      metier: "Boulangerie",
-      location: null,
-      keyword: "Boulangerie",
-      onlyAlternance: false,
-      filters: EmploiFiltresRecherche.withFiltres(
-        distance: null,
-        debutantOnly: true,
-        experience: [],
-        contrat: [],
-        duree: [],
-      ),
-    ),
-    OffreEmploiSavedSearch(
-      id: "25f317c7-f28a-4f50-a629-013bb960484d",
-      title: "Boulangerie - NANTES",
-      metier: "Boulangerie",
-      location: Location(libelle: "NANTES", code: "44109", type: LocationType.COMMUNE),
-      keyword: "Boulangerie",
-      onlyAlternance: false,
-      filters: EmploiFiltresRecherche.withFiltres(
-        distance: null,
-        experience: [],
-        contrat: [],
-        duree: [],
-      ),
-    ),
-    OffreEmploiSavedSearch(
-      id: "6b51e128-000b-4125-a09a-c38a32a8b886",
-      title: "Flutter",
-      metier: "Flutter",
-      location: null,
-      keyword: "Flutter",
-      onlyAlternance: true,
-      filters: EmploiFiltresRecherche.withFiltres(
-        distance: null,
-        experience: [],
-        contrat: [],
-        duree: [],
-      ),
-    ),
-    ImmersionSavedSearch(
-      id: "670c413e-b669-4228-850a-9a7307fe79ea",
-      title: "Boulangerie - viennoiserie - PARIS-14",
-      metier: "Boulangerie - viennoiserie",
-      ville: "PARIS-14",
-      codeRome: "D1102",
-      location: Location(
-        libelle: "PARIS-14",
-        code: "",
-        codePostal: null,
-        latitude: 48.830108,
-        longitude: 2.323026,
-        type: LocationType.COMMUNE,
-      ),
-      filtres: ImmersionFiltresRecherche.noFiltre(),
-    ),
-  ];
 }

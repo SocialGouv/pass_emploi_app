@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
@@ -8,7 +9,6 @@ import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_act
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -119,7 +119,7 @@ void main() {
 
     group("when user request a specific saved search", () {
       final sut = StoreSut();
-      sut.when(() => SavedSearchGetAction('id'));
+      sut.when(() => FetchSavedSearchResultsFromIdAction('id'));
 
       test('should retrieve results coming from same criteres and filtres', () {
         sut.givenStore = givenState().loggedInUser().store((factory) {
