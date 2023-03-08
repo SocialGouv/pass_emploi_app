@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
@@ -36,6 +36,17 @@ class SavedSearchResponse {
       localisation: json["localisation"] as String?,
       criteres: SavedSearchResponseCriteres.fromJson(json["criteres"]),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "titre": titre,
+      "type": type,
+      "metier": metier,
+      "localisation": localisation,
+      "criteres": criteres.toJson(),
+    };
   }
 }
 
@@ -92,6 +103,26 @@ class SavedSearchResponseCriteres {
       distance: (json["distance"] as num?)?.toInt(),
       dateDeDebutMinimum: json["dateDeDebutMinimum"] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "q": q,
+      "departement": departement,
+      "alternance": alternance,
+      "debutantAccepte": debutantAccepte,
+      "experience": experience,
+      "contrat": contrat,
+      "duree": duree,
+      "commune": commune,
+      "rayon": rayon,
+      "lat": lat,
+      "lon": lon,
+      "rome": rome,
+      "domaine": domaine,
+      "distance": distance,
+      "dateDeDebutMinimum": dateDeDebutMinimum,
+    };
   }
 }
 
@@ -190,5 +221,37 @@ class SavedSearchServiceCiviqueExtractor {
     } else {
       return null;
     }
+  }
+}
+
+// OffreEmploiSavedSearch
+// ImmersionSavedSearch
+// ServiceCiviqueSavedSearch
+extension OffreEmploiSavedSearchExt on OffreEmploiSavedSearch {
+  SavedSearchResponse toSavedSearchResponse() {
+    return SavedSearchResponse(
+      id: id,
+      titre: title,
+      metier: metier,
+      localisation: location?.libelle,
+      type: onlyAlternance ? "OFFRES_ALTERNANCE" : "OFFRES_EMPLOI",
+      criteres: SavedSearchResponseCriteres(
+        q: keyword,
+        departement: location?.type == LocationType.DEPARTMENT ? location!.code : null,
+        alternance: onlyAlternance,
+        debutantAccepte: filters.debutantOnly,
+        experience: filters.experience?.map((e) => FiltresRequest.experienceToUrlParameter(e)).toList(),
+        contrat: filters.contrat?.map((e) => FiltresRequest.contratToUrlParameter(e)).toList(),
+        duree: filters.duree?.map((e) => FiltresRequest.dureeToUrlParameter(e)).toList(),
+        commune: location?.type == LocationType.COMMUNE ? location!.code : null,
+        rayon: filters.distance,
+        lat: location?.latitude,
+        lon: location?.longitude,
+        rome: null,
+        domaine: null,
+        distance: null,
+        dateDeDebutMinimum: null,
+      ),
+    );
   }
 }

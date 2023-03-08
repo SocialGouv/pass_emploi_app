@@ -33,6 +33,7 @@ class RecherchesRecentesMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(RecherchesRecentesSuccessAction(result));
     }
     if (action is RechercheRequestAction) {
+      //TODO: attention on ne capte que un lancement de recherche, mais pas un update filtre (voire aussi criteres ?)
       final search = foo(action.request);
       if (search == null) return;
 
