@@ -15,23 +15,39 @@ void main() {
   });
 
   group('RecherchesRecentesRepository', () {
-    test('should return empty list when no data', () async {
-      // When
-      final result = await repository.get();
+    group('get', () {
+      test('should return empty list when no data', () async {
+        // When
+        final result = await repository.get();
 
-      // Then
-      expect(result, []);
+        // Then
+        expect(result, []);
+      });
+
+      test('should return saved searches when data exist', () async {
+        // Given
+        prefs.write(key: 'recent_searches', value: loadTestAssets("saved_search_data.json"));
+
+        // When
+        final result = await repository.get();
+
+        // Then
+        expect(result, getMockedSavedSearch());
+      });
     });
 
-    test('should return saved searches when data exist', () async {
-      // Given
-      prefs.write(key: 'recent_searches', value: loadTestAssets("saved_search_data.json"));
+    group('save', () {
+      test('should save searches', () async {
+        // Given
+        final searches = getMockedSavedSearch();
 
-      // When
-      final result = await repository.get();
+        // When
+        await repository.save(searches);
 
-      // Then
-      expect(result, getMockedSavedSearch());
+        // Then
+        final result = await repository.get();
+        expect(result, searches);
+      });
     });
   });
 }
