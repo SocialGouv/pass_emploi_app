@@ -32,8 +32,7 @@ class RecherchesRecentesMiddleware extends MiddlewareClass<AppState> {
       final result = await _repository.get();
       store.dispatch(RecherchesRecentesSuccessAction(result));
     }
-    if (action is RechercheRequestAction) {
-      //TODO: attention on ne capte que un lancement de recherche, mais pas un update filtre (voire aussi criteres ?)
+    if (action is RechercheSuccessAction) {
       final search = foo(action.request);
       if (search == null) return;
       await _repository.save([search]);

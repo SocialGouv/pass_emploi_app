@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_actions.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 
@@ -35,8 +36,8 @@ void main() {
       });
     });
 
-    group("when requesting a new search", () {
-      sut.when(() => RechercheRequestAction(rechercheEmploiChevalierValenceCDI()));
+    group("when a search succeed", () {
+      sut.when(() => RechercheSuccessAction(rechercheEmploiChevalierValenceCDI(), <OffreEmploi>[], true));
 
       test('should add it in recent searches', () {
         sut.givenStore = givenState() //
