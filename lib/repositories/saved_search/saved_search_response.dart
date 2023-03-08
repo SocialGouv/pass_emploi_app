@@ -289,7 +289,7 @@ extension ServiceCiviqueSavedSearchExt on ServiceCiviqueSavedSearch {
       titre: titre,
       metier: null,
       localisation: ville,
-      type: "OFFRES_SERVICE_CIVIQUE",
+      type: "OFFRES_SERVICES_CIVIQUE",
       criteres: SavedSearchResponseCriteres(
         q: null,
         departement: null,

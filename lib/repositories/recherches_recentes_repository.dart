@@ -22,7 +22,7 @@ class RecherchesRecentesRepository {
     }
     final json = jsonDecode(recentSearchesJsonString);
     final list = (json as List).map((search) => SavedSearchResponse.fromJson(search)).toList();
-    return list.map((e) => SavedSearchJsonExtractor().extract(e)).whereType<SavedSearch>().toList();
+    return list.map((e) => SavedSearchJsonExtractor().extract(e)).whereNotNull().toList();
   }
 
   Future<void> save(List<SavedSearch> savedSearches) async {

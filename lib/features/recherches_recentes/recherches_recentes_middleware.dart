@@ -33,7 +33,7 @@ class RecherchesRecentesMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(RecherchesRecentesSuccessAction(result));
     }
     if (action is RechercheSuccessAction) {
-      final search = foo(action.request);
+      final search = createSavedSearchFromRequest(action.request);
       if (search == null) return;
       await _repository.save([search]);
       store.dispatch(RecherchesRecentesSuccessAction([search]));
@@ -41,7 +41,7 @@ class RecherchesRecentesMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-SavedSearch? foo(RechercheRequest request) {
+SavedSearch? createSavedSearchFromRequest(RechercheRequest request) {
   const id = "recherche-recente-id";
   if (request is RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>) {
     return OffreEmploiSavedSearch(
@@ -78,9 +78,3 @@ SavedSearch? foo(RechercheRequest request) {
   }
   return null;
 }
-
-
-// typedef RechercheEmploiState = RechercheState<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi>;
-// typedef RechercheImmersionState = RechercheState<ImmersionCriteresRecherche, ImmersionFiltresRecherche, Immersion>;
-// typedef RechercheServiceCiviqueState
-//     = RechercheState<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche, ServiceCivique>;

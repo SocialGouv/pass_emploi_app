@@ -37,8 +37,6 @@ class RechercheHomePage extends StatelessWidget {
 }
 
 class _NosOffres extends StatelessWidget {
-  const _NosOffres();
-
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -17,8 +17,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 
 class RecherchesRecentes extends StatefulWidget {
-  const RecherchesRecentes({super.key});
-
   @override
   State<RecherchesRecentes> createState() => _RecherchesRecentesState();
 }
@@ -70,7 +68,7 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (viewModel.rechercheRecente == null) return Container();
+    if (viewModel.rechercheRecente == null) return SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
