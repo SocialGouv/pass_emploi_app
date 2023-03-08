@@ -66,7 +66,7 @@ class Authenticator {
 
   Future<String?> accessToken() async => _preferences.read(key: _accessTokenKey);
 
-  Future<RefreshTokenStatus> refreshToken() async {
+  Future<RefreshTokenStatus> performRefreshToken() async {
     final String? refreshToken = await _preferences.read(key: _refreshTokenKey);
     if (refreshToken == null) return RefreshTokenStatus.USER_NOT_LOGGED_IN;
 

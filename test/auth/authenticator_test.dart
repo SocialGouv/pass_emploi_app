@@ -132,7 +132,7 @@ void main() {
       await authenticator.login(AuthenticationMode.GENERIC);
 
       // When
-      final result = await authenticator.refreshToken();
+      final result = await authenticator.performRefreshToken();
 
       // Then
       expect(result, RefreshTokenStatus.SUCCESSFUL);
@@ -149,7 +149,7 @@ void main() {
       await authenticator.login(AuthenticationMode.GENERIC);
 
       // When
-      final result = await authenticator.refreshToken();
+      final result = await authenticator.performRefreshToken();
 
       // Then
       expect(result, RefreshTokenStatus.NETWORK_UNREACHABLE);
@@ -159,13 +159,13 @@ void main() {
         'refresh token returns EXPIRED_REFRESH_TOKEN and delete tokens when user is logged in but refresh token is expired',
         () async {
       // Given
-      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+          authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
       authWrapperStub.withRefreshArgsThrowsExpired();
 
       await authenticator.login(AuthenticationMode.GENERIC);
 
       // When
-      final result = await authenticator.refreshToken();
+      final result = await authenticator.performRefreshToken();
 
       // Then
       expect(result, RefreshTokenStatus.EXPIRED_REFRESH_TOKEN);
@@ -175,13 +175,13 @@ void main() {
     test('refresh token returns GENERIC_ERROR when user is logged in but refresh token fails on generic exception',
         () async {
       // Given
-      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+          authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
       authWrapperStub.withRefreshArgsThrowsGeneric();
 
       await authenticator.login(AuthenticationMode.GENERIC);
 
       // When
-      final result = await authenticator.refreshToken();
+      final result = await authenticator.performRefreshToken();
 
       // Then
       expect(result, RefreshTokenStatus.GENERIC_ERROR);
@@ -191,7 +191,7 @@ void main() {
       // Given user not logged in
 
       // When
-      final result = await authenticator.refreshToken();
+      final result = await authenticator.performRefreshToken();
 
       // Then
       expect(result, RefreshTokenStatus.USER_NOT_LOGGED_IN);
