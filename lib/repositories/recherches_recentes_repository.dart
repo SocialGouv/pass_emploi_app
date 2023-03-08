@@ -27,22 +27,26 @@ class RecherchesRecentesRepository {
 
   Future<void> save(List<SavedSearch> savedSearches) async {
     final json = savedSearches
-        .map((savedSearch) {
-          if (savedSearch is OffreEmploiSavedSearch) {
-            return savedSearch.toSavedSearchResponse();
-          }
-          if (savedSearch is ImmersionSavedSearch) {
-            return savedSearch.toSavedSearchResponse();
-          }
-          if (savedSearch is ServiceCiviqueSavedSearch) {
-            return savedSearch.toSavedSearchResponse();
-          }
-          //TODO: peut-être creer un extension / extraire pour avec le map en une ligne
-          return null;
-        })
+        .map((savedSearch) => savedSearch.toSavedSearchResponse())
         .whereNotNull()
         .map((response) => response.toJson())
         .toList();
     await _preferences.write(key: recentSearchesKey, value: jsonEncode(json));
+  }
+}
+
+extension _SavedSearchExt on SavedSearch {
+  SavedSearchResponse? toSavedSearchResponse() {
+    final savedSearch = this;
+    if (savedSearch is OffreEmploiSavedSearch) {
+      return savedSearch.toSavedSearchResponse();
+    }
+    if (savedSearch is ImmersionSavedSearch) {
+      return savedSearch.toSavedSearchResponse();
+    }
+    if (savedSearch is ServiceCiviqueSavedSearch) {
+      return savedSearch.toSavedSearchResponse();
+    }
+    return null;
   }
 }
