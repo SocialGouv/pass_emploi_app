@@ -1,10 +1,10 @@
 import 'dart:collection';
 
-class LastInFirstOutQueue<E> {
+class FirstInFirstOutQueue<E> {
   final int _capacity;
   late ListQueue<E> _queue;
 
-  LastInFirstOutQueue(this._capacity) {
+  FirstInFirstOutQueue(this._capacity) {
     _queue = ListQueue<E>(_capacity);
   }
 

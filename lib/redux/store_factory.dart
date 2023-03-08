@@ -225,6 +225,7 @@ class StoreFactory {
       reducer,
       initialState: initialState,
       middleware: [
+        CrashlyticsMiddleware(crashlytics, installationIdRepository),
         BootstrapMiddleware(),
         LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker),
         UserActionListMiddleware(pageActionRepository),
@@ -249,7 +250,6 @@ class StoreFactory {
         FavoriUpdateMiddleware<Immersion>(immersionFavorisRepository, ImmersionDataFromIdExtractor()),
         FavoriIdsMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
         FavoriUpdateMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository, ServiceCiviqueDataFromIdExtractor()),
-        CrashlyticsMiddleware(crashlytics, installationIdRepository),
         SearchLocationMiddleware(searchLocationRepository),
         SearchMetierMiddleware(metierRepository),
         TrackingEventMiddleware(trackingEventRepository),
