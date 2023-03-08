@@ -197,10 +197,7 @@ class _CreateCommentaireWidgetState extends State<_CreateCommentaireWidget> {
               onPressed: () {
                 if (_controller.value.text.isNotEmpty && !_loading()) {
                   widget.viewModel.onSend(_controller.value.text);
-                  PassEmploiMatomoTracker.instance.trackScreenWithName(
-                    widgetName: AnalyticsScreenNames.actionCommentsPage,
-                    eventName: AnalyticsActionNames.sendComment,
-                  );
+                  PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.sendComment);
                   _controller.clear();
                 }
               },

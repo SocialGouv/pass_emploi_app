@@ -67,10 +67,7 @@ class FavoriHeart<T> extends StatelessWidget {
   void _sendTracking(bool isFavori) {
     final newFavoriStatus = !isFavori;
     final widgetName = FavoriHeartAnalyticsHelper().getAnalyticsWidgetName(from, newFavoriStatus);
-    final eventName = FavoriHeartAnalyticsHelper().getAnalyticsEventName(from);
-    if (widgetName != null && eventName != null) {
-      PassEmploiMatomoTracker.instance.trackScreenWithName(widgetName: widgetName, eventName: eventName);
-    }
+    if (widgetName != null) PassEmploiMatomoTracker.instance.trackScreen(widgetName);
   }
 }
 
@@ -101,35 +98,6 @@ class FavoriHeartAnalyticsHelper {
         return AnalyticsActionNames.serviceCiviqueFavoriUpdateFavori(isFavori);
       case OffrePage.serviceCiviqueDetail:
         return AnalyticsActionNames.serviceCiviqueDetailUpdateFavori(isFavori);
-    }
-  }
-
-  String? getAnalyticsEventName(OffrePage from) {
-    switch (from) {
-      case OffrePage.emploiResults:
-        return AnalyticsScreenNames.emploiResults;
-      case OffrePage.emploiDetails:
-        return AnalyticsScreenNames.emploiDetails;
-      case OffrePage.emploiFavoris:
-        return AnalyticsScreenNames.emploiFavoris;
-      case OffrePage.alternanceResults:
-        return AnalyticsScreenNames.alternanceResults;
-      case OffrePage.alternanceDetails:
-        return AnalyticsScreenNames.alternanceDetails;
-      case OffrePage.alternanceFavoris:
-        return AnalyticsScreenNames.alternanceFavoris;
-      case OffrePage.immersionResults:
-        return AnalyticsScreenNames.immersionResults;
-      case OffrePage.immersionDetails:
-        return AnalyticsScreenNames.immersionDetails;
-      case OffrePage.immersionFavoris:
-        return AnalyticsScreenNames.immersionFavoris;
-      case OffrePage.serviceCiviqueResults:
-        return AnalyticsScreenNames.serviceCiviqueResults;
-      case OffrePage.serviceCiviqueFavoris:
-        return AnalyticsScreenNames.serviceCiviqueFavoris;
-      case OffrePage.serviceCiviqueDetail:
-        return AnalyticsScreenNames.serviceCiviqueDetail;
     }
   }
 }

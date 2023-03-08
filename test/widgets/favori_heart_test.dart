@@ -22,32 +22,27 @@ void main() {
     assertAnalyticsWidgetName(OffrePage.emploiFavoris, false, "favoris/list/emploi?favori=false");
     assertAnalyticsWidgetName(OffrePage.emploiFavoris, true, null); // Cannot add favori from favori page
 
-    assertAnalyticsWidgetName(OffrePage.alternanceResults, true, "recherche/alternance/search_results?favori=true");
-    assertAnalyticsWidgetName(OffrePage.alternanceResults, false, "recherche/alternance/search_results?favori=false");
-    assertAnalyticsWidgetName(OffrePage.alternanceDetails, true, "recherche/alternance/detail?favori=true");
-    assertAnalyticsWidgetName(OffrePage.alternanceDetails, false, "recherche/alternance/detail?favori=false");
-    assertAnalyticsWidgetName(OffrePage.alternanceFavoris, false, "favoris/list/alternance?favori=false");
-    assertAnalyticsWidgetName(OffrePage.alternanceFavoris, true, null); // Cannot add favori from favori page
-  });
+    assertAnalyticsWidgetName(OffrePage.alternanceResults, true, "/solutions/alternance/search_results?favori=true");
+    assertAnalyticsWidgetName(OffrePage.alternanceResults, false, "/solutions/alternance/search_results?favori=false");
+    assertAnalyticsWidgetName(OffrePage.alternanceDetails, true, "/solutions/alternance/detail?favori=true");
+    assertAnalyticsWidgetName(OffrePage.alternanceDetails, false, "/solutions/alternance/detail?favori=false");
 
-  group("getAnalyticsEventName with from", () {
-    void assertAnalyticsEventName(OffrePage from, String? expected) {
-      test("AppPage: $from -> $expected", () {
-        // Given
-        final helper = FavoriHeartAnalyticsHelper();
-        // When
-        final result = helper.getAnalyticsEventName(from);
-        // Then
-        expect(result, expected);
-      });
-    }
+    assertAnalyticsWidgetName(
+      OffrePage.serviceCiviqueResults,
+      true,
+      "/solutions/service_civique/search_results?favori=true",
+    );
+    assertAnalyticsWidgetName(
+      OffrePage.serviceCiviqueResults,
+      false,
+      "/solutions/service_civique/search_results?favori=false",
+    );
+    assertAnalyticsWidgetName(OffrePage.serviceCiviqueDetail, true, "/solutions/service_civique/detail?favori=true");
+    assertAnalyticsWidgetName(OffrePage.serviceCiviqueDetail, false, "/solutions/service_civique/detail?favori=false");
 
-    assertAnalyticsEventName(OffrePage.emploiResults, "recherche/emploi/search_results");
-    assertAnalyticsEventName(OffrePage.emploiDetails, "recherche/emploi/detail");
-    assertAnalyticsEventName(OffrePage.emploiFavoris, "favoris/list/emploi");
-
-    assertAnalyticsEventName(OffrePage.alternanceResults, "recherche/alternance/search_results");
-    assertAnalyticsEventName(OffrePage.alternanceDetails, "recherche/alternance/detail");
-    assertAnalyticsEventName(OffrePage.alternanceFavoris, "favoris/list/alternance");
+    assertAnalyticsWidgetName(OffrePage.immersionResults, true, "/solutions/immersion/search_results?favori=true");
+    assertAnalyticsWidgetName(OffrePage.immersionResults, false, "/solutions/immersion/search_results?favori=false");
+    assertAnalyticsWidgetName(OffrePage.immersionDetails, true, "/solutions/immersion/detail?favori=true");
+    assertAnalyticsWidgetName(OffrePage.immersionDetails, false, "/solutions/immersion/detail?favori=false");
   });
 }

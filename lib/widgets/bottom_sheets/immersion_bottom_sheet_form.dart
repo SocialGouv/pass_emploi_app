@@ -68,10 +68,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
             onPressed: (_isFormValid())
                 ? () {
                     viewModel.createSavedSearch(searchTitle!);
-                    PassEmploiMatomoTracker.instance.trackScreenWithName(
-                      widgetName: AnalyticsScreenNames.immersionCreateAlert,
-                      eventName: AnalyticsActionNames.createSavedSearchImmersion,
-                    );
+                    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.createSavedSearchImmersion);
                   }
                 : null,
           ),

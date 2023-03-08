@@ -68,10 +68,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
             onPressed: (_isFormValid())
                 ? () {
                     viewModel.createSavedSearch(searchTitle!);
-                    PassEmploiMatomoTracker.instance.trackScreenWithName(
-                      widgetName: AnalyticsScreenNames.serviceCiviqueCreateAlert,
-                      eventName: AnalyticsActionNames.createSavedSearchServiceCivique,
-                    );
+                    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.createSavedSearchServiceCivique);
                   }
                 : null,
           ),

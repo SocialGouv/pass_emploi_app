@@ -144,28 +144,16 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     }
     switch (_selectedIndex) {
       case IndexOf.SERVICE_CIVIQUE:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchServiceCiviqueList,
-          eventName: AnalyticsScreenNames.savedSearchServiceCiviqueList,
-        );
+        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.savedSearchServiceCiviqueList);
         return _getSavedSearchServiceCivique(viewModel);
       case IndexOf.OFFRES_EMPLOI:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchEmploiList,
-          eventName: AnalyticsScreenNames.savedSearchEmploiList,
-        );
+        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.savedSearchEmploiList);
         return _getSavedSearchOffreEmploi(viewModel, false);
       case IndexOf.ALTERNANCE:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchAlternanceList,
-          eventName: AnalyticsScreenNames.savedSearchAlternanceList,
-        );
+        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.savedSearchAlternanceList);
         return _getSavedSearchOffreEmploi(viewModel, true);
       default:
-        PassEmploiMatomoTracker.instance.trackScreenWithName(
-          widgetName: AnalyticsScreenNames.savedSearchEmploiList,
-          eventName: AnalyticsScreenNames.savedSearchEmploiList,
-        );
+        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.savedSearchEmploiList);
         return _getSavedSearchImmersions(viewModel);
     }
   }

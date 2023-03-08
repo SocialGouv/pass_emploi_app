@@ -45,9 +45,6 @@ class DeleteFavoriButton<T> extends StatelessWidget {
 
   void _tracking() {
     final widgetName = FavoriHeartAnalyticsHelper().getAnalyticsWidgetName(from, false);
-    final eventName = FavoriHeartAnalyticsHelper().getAnalyticsEventName(from);
-    if (widgetName != null && eventName != null) {
-      PassEmploiMatomoTracker.instance.trackScreenWithName(widgetName: widgetName, eventName: eventName);
-    }
+    if (widgetName != null) PassEmploiMatomoTracker.instance.trackScreen(widgetName);
   }
 }

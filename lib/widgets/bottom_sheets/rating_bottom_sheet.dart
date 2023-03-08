@@ -82,7 +82,9 @@ class RatingBottomSheet extends StatelessWidget {
   void _ratingDone(BuildContext context, RatingViewModel viewModel, bool isPositive) {
     viewModel.onDone();
     Navigator.pop(context);
-    _matomoTracking(isPositive ? AnalyticsActionNames.positiveRating : AnalyticsActionNames.negativeRating);
+    PassEmploiMatomoTracker.instance.trackScreen(
+      isPositive ? AnalyticsActionNames.positiveRating : AnalyticsActionNames.negativeRating,
+    );
   }
 }
 
@@ -99,7 +101,7 @@ class _RatingHeader extends StatelessWidget {
         IconButton(
           onPressed: () {
             onDismiss();
-            _matomoTracking(AnalyticsActionNames.skipRating);
+            PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipRating);
             Navigator.pop(context);
           },
           tooltip: Strings.close,
@@ -114,8 +116,4 @@ class _RatingHeader extends StatelessWidget {
       ],
     );
   }
-}
-
-void _matomoTracking(String action) {
-  PassEmploiMatomoTracker.instance.trackScreenWithName(widgetName: AnalyticsScreenNames.ratingPage, eventName: action);
 }

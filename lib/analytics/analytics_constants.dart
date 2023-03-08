@@ -47,7 +47,6 @@ class AnalyticsScreenNames {
   static String rechercheAfficherPlusOffres(String type) => "recherche/$type/search_results?view_more=true";
   static String rechercheModifieeResultats(String type) => "recherche/$type/search_results?update=true";
 
-  static const emploiResults = "recherche/emploi/search_results";
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
   static const emploiCreateAlert = "/saved_search/emploi/create";
@@ -59,7 +58,6 @@ class AnalyticsScreenNames {
   static const alternanceFiltres = "recherche/alternance/search_results/filters";
   static const alternanceCreateAlert = "/saved_search/alternance/create";
 
-  static const immersionResults = "recherche/immersion/search_results";
   static const immersionDetails = "recherche/immersion/detail";
   static const immersionContact = "recherche/immersion/detail/contact";
   static const immersionFiltres = "/recherche/immersion/search_results/filters";
@@ -110,9 +108,9 @@ class AnalyticsActionNames {
 
   static String? emploiFavoriUpdateFavori(bool added) => added ? null : "favoris/list/emploi?favori=false";
 
-  static String alternanceResultUpdateFavori(bool added) => "recherche/alternance/search_results?favori=$added";
+  static String alternanceResultUpdateFavori(bool added) => "/solutions/alternance/search_results?favori=$added";
 
-  static String alternanceDetailUpdateFavori(bool added) => "recherche/alternance/detail?favori=$added";
+  static String alternanceDetailUpdateFavori(bool added) => "/solutions/alternance/detail?favori=$added";
 
   static String? alternanceFavoriUpdateFavori(bool added) => added ? null : "favoris/list/alternance?favori=false";
 
