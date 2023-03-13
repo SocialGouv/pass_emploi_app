@@ -1,6 +1,9 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
@@ -22,6 +25,9 @@ class PassEmploiCacheManager extends CacheManager {
     switch (resourceToRemove) {
       case CachedResource.FAVORIS:
         removeFile(GetFavorisRepository.getFavorisUri(baseUrl: baseUrl, userId: userId).toString());
+        removeFile(ImmersionFavorisRepository.getFavorisIdUri(baseUrl: baseUrl, userId: userId).toString());
+        removeFile(OffreEmploiFavorisRepository.getFavorisIdUri(baseUrl: baseUrl, userId: userId).toString());
+        removeFile(ServiceCiviqueFavorisRepository.getFavorisIdUri(baseUrl: baseUrl, userId: userId).toString());
         break;
       case CachedResource.SAVED_SEARCH:
         removeFile(GetSavedSearchRepository.getSavedSearchUri(baseUrl: baseUrl, userId: userId).toString());
