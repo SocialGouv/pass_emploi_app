@@ -13,23 +13,36 @@ void main() {
   });
 
   group('DerniersMotsClesRepository', () {
-    test('should return empty list when no data', () async {
-      // When
-      final result = await repository.getDerniersMotsCles();
+    group('getDerniersMotsCles', () {
+      test('should return empty list when no data', () async {
+        // When
+        final result = await repository.getDerniersMotsCles();
 
-      // Then
-      expect(result, []);
+        // Then
+        expect(result, []);
+      });
+
+      test('should return derniers mots cles', () async {
+        // Given
+        prefs.write(key: DerniersMotsClesRepository.derniersMotsClesKey, value: '["Boulanger", "Chevalier"]');
+
+        // When
+        final result = await repository.getDerniersMotsCles();
+
+        // Then
+        expect(result, ['Boulanger', 'Chevalier']);
+      });
     });
 
-    test('should return derniers mots cles', () async {
-      // Given
-      prefs.write(key: DerniersMotsClesRepository.derniersMotsClesKey, value: '["Boulanger", "Chevalier"]');
+    group('saveDernierMotsCles', () {
+      test('should save derniers mots cles', () async {
+        // When
+        await repository.saveDernierMotsCles(["Chercheur d'Or"]);
 
-      // When
-      final result = await repository.getDerniersMotsCles();
-
-      // Then
-      expect(result, ['Boulanger', 'Chevalier']);
+        // Then
+        final result = await repository.getDerniersMotsCles();
+        expect(result, ["Chercheur d'Or"]);
+      });
     });
   });
 }
