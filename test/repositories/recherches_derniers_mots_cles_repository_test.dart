@@ -1,15 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/repositories/derniers_mots_cles_repository.dart';
+import 'package:pass_emploi_app/repositories/recherches_derniers_mots_cles_repository.dart';
 
 import '../doubles/spies.dart';
 
 void main() {
   late SharedPreferencesSpy prefs;
-  late DerniersMotsClesRepository repository;
+  late RecherchesDerniersMotsClesRepository repository;
 
   setUp(() {
     prefs = SharedPreferencesSpy();
-    repository = DerniersMotsClesRepository(prefs);
+    repository = RecherchesDerniersMotsClesRepository(prefs);
   });
 
   group('DerniersMotsClesRepository', () {
@@ -24,7 +24,7 @@ void main() {
 
       test('should return derniers mots cles', () async {
         // Given
-        prefs.write(key: DerniersMotsClesRepository.derniersMotsClesKey, value: '["Boulanger", "Chevalier"]');
+        prefs.write(key: RecherchesDerniersMotsClesRepository.derniersMotsClesKey, value: '["Boulanger", "Chevalier"]');
 
         // When
         final result = await repository.getDerniersMotsCles();

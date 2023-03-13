@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class DerniersMotsClesRepository {
+class RecherchesDerniersMotsClesRepository {
   static const derniersMotsClesKey = 'derniers_mots_cles';
   final FlutterSecureStorage _preferences;
-  DerniersMotsClesRepository(this._preferences);
+  RecherchesDerniersMotsClesRepository(this._preferences);
 
   Future<List<String>> getDerniersMotsCles() async {
     final String? motsClesString = await _preferences.read(key: derniersMotsClesKey);

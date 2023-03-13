@@ -61,6 +61,7 @@ import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_reducer.dart';
+import 'package:pass_emploi_app/features/recherches_derniers_mots_cles/recherches_derniers_mots_cles_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -151,6 +152,7 @@ AppState reducer(AppState current, dynamic action) {
     diagorientePreferencesMetierState:
         diagorientePreferencesMetierReducer(current.diagorientePreferencesMetierState, action),
     recherchesRecentesState: recherchesRecentesReducer(current.recherchesRecentesState, action),
+    recherchesDerniersMotsClesState: recherchesDerniersMotsClesReducer(current.recherchesDerniersMotsClesState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }
