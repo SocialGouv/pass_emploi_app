@@ -3,6 +3,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/recherches_derniers_mots_cles/recherches_derniers_mots_cles_actions.dart';
 import 'package:pass_emploi_app/presentation/derniers_mots_cles_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_form_field.dart';
@@ -143,7 +146,13 @@ class _MotCleListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
-      title: Text(motCle, style: TextStyles.textBaseRegular),
+      title: Row(
+        children: [
+          Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
+          SizedBox(width: Margins.spacing_s),
+          Text(motCle, style: TextStyles.textBaseRegular),
+        ],
+      ),
       onTap: () => onTap(motCle),
     );
   }
