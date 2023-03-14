@@ -8,8 +8,8 @@ import 'package:pass_emploi_app/utils/iterable_extensions.dart';
 import 'package:redux/redux.dart';
 
 class MetierViewModel extends Equatable {
-  final List<Metier> metiers;
-  final List<DerniersMetiersAutocompleteItem> derniersMetiers;
+  final List<MetiersAutocompleteItem> metiers;
+  final List<MetiersAutocompleteItem> derniersMetiers;
   final Function(String? input) onInputMetier;
 
   MetierViewModel._({
@@ -20,46 +20,52 @@ class MetierViewModel extends Equatable {
 
   factory MetierViewModel.create(Store<AppState> store) {
     return MetierViewModel._(
-      metiers: store.state.searchMetierState.metiers,
-      derniersMetiers: _derniersMetiers(_metiers(store)),
+      metiers: _metiersAutocompleteItems(store),
+      derniersMetiers: _derniersMetiersAutocompleteItems(_derniersMetiers(store)),
       onInputMetier: (input) => store.dispatch(SearchMetierRequestAction(input)),
     );
   }
+
+  List<MetiersAutocompleteItem> getAutocompleteItems(bool emptyInput) => emptyInput ? derniersMetiers : metiers;
 
   @override
   List<Object?> get props => [metiers, derniersMetiers];
 }
 
-abstract class DerniersMetiersAutocompleteItem extends Equatable {}
+abstract class MetiersAutocompleteItem extends Equatable {}
 
-class DerniersMetiersAutocompleteTitleItem extends DerniersMetiersAutocompleteItem {
+class MetiersAutocompleteTitleItem extends MetiersAutocompleteItem {
   final String title;
 
-  DerniersMetiersAutocompleteTitleItem(this.title);
+  MetiersAutocompleteTitleItem(this.title);
 
   @override
   List<Object?> get props => [title];
 }
 
-class DerniersMetiersAutocompleteSuggestionItem extends DerniersMetiersAutocompleteItem {
+class MetiersAutocompleteSuggestionItem extends MetiersAutocompleteItem {
   final Metier metier;
 
-  DerniersMetiersAutocompleteSuggestionItem(this.metier);
+  MetiersAutocompleteSuggestionItem(this.metier);
 
   @override
   List<Object?> get props => [metier];
 }
 
-List<DerniersMetiersAutocompleteItem> _derniersMetiers(List<Metier> metiers) {
+List<MetiersAutocompleteItem> _metiersAutocompleteItems(Store<AppState> store) {
+  return store.state.searchMetierState.metiers.map((e) => MetiersAutocompleteSuggestionItem(e)).toList();
+}
+
+List<MetiersAutocompleteItem> _derniersMetiersAutocompleteItems(List<Metier> metiers) {
   if (metiers.isEmpty) return [];
   final title = metiers.length == 1 ? Strings.derniereRecherche : Strings.dernieresRecherches;
   return [
-    DerniersMetiersAutocompleteTitleItem(title),
-    ...metiers.map((e) => DerniersMetiersAutocompleteSuggestionItem(e)),
+    MetiersAutocompleteTitleItem(title),
+    ...metiers.map((e) => MetiersAutocompleteSuggestionItem(e)),
   ];
 }
 
-List<Metier> _metiers(Store<AppState> store) {
+List<Metier> _derniersMetiers(Store<AppState> store) {
   return store.state.recherchesRecentesState.recentSearches
       .whereType<ImmersionSavedSearch>()
       .map((offre) => Metier(codeRome: offre.codeRome, libelle: offre.metier))

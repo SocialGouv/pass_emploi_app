@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_for
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/full_screen_text_form_field_scaffold.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/multiline_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/text_form_field_sep_line.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/title_tile.dart';
 
 class KeywordTextFormFieldPage extends StatelessWidget {
   final String title;
@@ -78,7 +79,7 @@ class _Body extends StatefulWidget {
 }
 
 class _BodyState extends State<_Body> {
-  String _userInput = "";
+  bool emptyInput = true;
 
   @override
   Widget build(BuildContext context) {
@@ -92,16 +93,18 @@ class _BodyState extends State<_Body> {
         DebounceTextFormField(
           heroTag: widget.heroTag,
           initialValue: widget.selectedKeyword,
-          onChanged: (text) => setState(() => _userInput = text),
+          onChanged: (text) {
+            if (text.isEmpty != emptyInput) setState(() => emptyInput = text.isEmpty);
+          },
           onFieldSubmitted: (keyword) => Navigator.pop(context, keyword),
         ),
         TextFormFieldSepLine(),
-        if (_userInput.isEmpty)
+        if (emptyInput)
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) {
                 final item = widget.viewModel.derniersMotsCles[index];
-                if (item is DerniersMotsClesAutocompleteTitleItem) return _TitleTile(title: item.title);
+                if (item is DerniersMotsClesAutocompleteTitleItem) return TitleTile(title: item.title);
 
                 if (item is DerniersMotsClesAutocompleteSuggestionItem) {
                   return _MotCleListTile(
@@ -116,20 +119,6 @@ class _BodyState extends State<_Body> {
             ),
           ),
       ],
-    );
-  }
-}
-
-class _TitleTile extends StatelessWidget {
-  final String title;
-
-  const _TitleTile({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
-      title: Text(title, style: TextStyles.textBaseBold),
     );
   }
 }
