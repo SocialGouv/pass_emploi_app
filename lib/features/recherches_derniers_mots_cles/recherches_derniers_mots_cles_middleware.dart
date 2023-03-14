@@ -32,5 +32,10 @@ class RecherchesDerniersMotsClesMiddleware extends MiddlewareClass<AppState> {
       await _repository.saveDernierMotsCles(derniersMotsCles);
       store.dispatch(RecherchesDerniersMotsClesSuccessAction(derniersMotsCles));
     }
+
+    if (action is RecherchesDerniersMotsClesRequestAction) {
+      final motsCles = await _repository.getDerniersMotsCles();
+      store.dispatch(RecherchesDerniersMotsClesSuccessAction(motsCles));
+    }
   }
 }
