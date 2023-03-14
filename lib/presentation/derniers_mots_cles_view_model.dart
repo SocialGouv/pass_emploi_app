@@ -19,6 +19,7 @@ class DerniersMotsClesAutocompleteTitleItem extends DerniersMotsClesAutocomplete
 
 class DerniersMotsClesAutocompleteSuggestionItem extends DerniersMotsClesAutocompleteItem {
   final String text;
+
   DerniersMotsClesAutocompleteSuggestionItem(this.text);
 
   @override
@@ -41,8 +42,7 @@ class DerniersMotsClesViewModel extends Equatable {
 }
 
 List<String> _mots(Store<AppState> store) {
-  final state = store.state.recherchesRecentesState;
-  return state.recentSearches //
+  return store.state.recherchesRecentesState.recentSearches
       .whereType<OffreEmploiSavedSearch>()
       .map((offre) => offre.keyword)
       .whereNotNull()
@@ -62,5 +62,4 @@ List<DerniersMotsClesAutocompleteItem> _derniersMotsCles(List<String> motCles) {
 }
 
 //TODO: adapter les tests de recherches recentes
-//TODO: adapter les tests de VM des derniers mots
 //TODO: supprimer l'ancienne boucle redux "mots clés"
