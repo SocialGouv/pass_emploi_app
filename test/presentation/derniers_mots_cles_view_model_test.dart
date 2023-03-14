@@ -13,12 +13,28 @@ void main() {
     expect(result.derniersMotsCles, []);
   });
 
+  test('create view model with 1 mot clé', () {
+    // Given
+    final store = givenState().loggedInUser().withRecherchesDerniersMotsCles(["chevalier"]).store();
+    // When
+    final result = DerniersMotsClesViewModel.create(store);
+    // Then
+    expect(result.derniersMotsCles, [
+      DerniersMotsClesAutocompleteTitleItem("Dernière recherche"),
+      DerniersMotsClesAutocompleteSuggestionItem("chevalier"),
+    ]);
+  });
+
   test('create view model with mots cles', () {
     // Given
     final store = givenState().loggedInUser().withRecherchesDerniersMotsCles(["chevalier", "roi"]).store();
     // When
     final result = DerniersMotsClesViewModel.create(store);
     // Then
-    expect(result.derniersMotsCles, ["chevalier", "roi"]);
+    expect(result.derniersMotsCles, [
+      DerniersMotsClesAutocompleteTitleItem("Dernières recherches"),
+      DerniersMotsClesAutocompleteSuggestionItem("chevalier"),
+      DerniersMotsClesAutocompleteSuggestionItem("roi"),
+    ]);
   });
 }

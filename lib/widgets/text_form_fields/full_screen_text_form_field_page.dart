@@ -50,6 +50,7 @@ class KeywordTextFormFieldPage extends StatelessWidget {
             heroTag: heroTag,
           );
         },
+        distinct: true,
       ),
     );
   }
@@ -98,17 +99,36 @@ class _BodyState extends State<_Body> {
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) {
-                final motCle = widget.viewModel.derniersMotsCles[index];
-                return _MotCleListTile(
-                  motCle: motCle,
-                  onTap: (selectedMotCle) => Navigator.pop(context, selectedMotCle),
-                );
+                final item = widget.viewModel.derniersMotsCles[index];
+                if (item is DerniersMotsClesAutocompleteTitleItem) return _TitleTile(title: item.title);
+
+                if (item is DerniersMotsClesAutocompleteSuggestionItem) {
+                  return _MotCleListTile(
+                    motCle: item.text,
+                    onTap: (selectedMotCle) => Navigator.pop(context, selectedMotCle),
+                  );
+                }
+                return SizedBox.shrink();
               },
               separatorBuilder: (context, index) => TextFormFieldSepLine(),
               itemCount: widget.viewModel.derniersMotsCles.length,
             ),
           ),
       ],
+    );
+  }
+}
+
+class _TitleTile extends StatelessWidget {
+  final String title;
+
+  const _TitleTile({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
+      title: Text(title, style: TextStyles.textBaseBold),
     );
   }
 }
@@ -128,7 +148,3 @@ class _MotCleListTile extends StatelessWidget {
     );
   }
 }
-
-//TODO: icon avec le mot clé
-//TODO: titre "dernières recherches"
-//TODO: est-ce qu'on cache les résultats quand il y a des lettres saisies dans le textfield ?
