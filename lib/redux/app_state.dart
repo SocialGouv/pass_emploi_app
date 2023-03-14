@@ -32,6 +32,8 @@ import 'package:pass_emploi_app/features/partage_activite/partage_activites_stat
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
+import 'package:pass_emploi_app/features/recherches_derniers_mots_cles/recherches_derniers_mots_cles_state.dart';
+import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
@@ -55,7 +57,6 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -115,6 +116,7 @@ class AppState extends Equatable {
   final RechercheServiceCiviqueState rechercheServiceCiviqueState;
   final DiagorientePreferencesMetierState diagorientePreferencesMetierState;
   final RecherchesRecentesState recherchesRecentesState;
+  final RecherchesDerniersMotsClesState recherchesDerniersMotsClesState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -174,6 +176,7 @@ class AppState extends Equatable {
     required this.rechercheServiceCiviqueState,
     required this.diagorientePreferencesMetierState,
     required this.recherchesRecentesState,
+    required this.recherchesDerniersMotsClesState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -234,6 +237,7 @@ class AppState extends Equatable {
     final RechercheServiceCiviqueState? rechercheServiceCiviqueState,
     final DiagorientePreferencesMetierState? diagorientePreferencesMetierState,
     final RecherchesRecentesState? recherchesRecentesState,
+    final RecherchesDerniersMotsClesState? recherchesDerniersMotsClesState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -294,6 +298,7 @@ class AppState extends Equatable {
       rechercheServiceCiviqueState: rechercheServiceCiviqueState ?? this.rechercheServiceCiviqueState,
       diagorientePreferencesMetierState: diagorientePreferencesMetierState ?? this.diagorientePreferencesMetierState,
       recherchesRecentesState: recherchesRecentesState ?? this.recherchesRecentesState,
+      recherchesDerniersMotsClesState: recherchesDerniersMotsClesState ?? this.recherchesDerniersMotsClesState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -356,6 +361,7 @@ class AppState extends Equatable {
       rechercheServiceCiviqueState: RechercheState.initial(),
       diagorientePreferencesMetierState: DiagorientePreferencesMetierNotInitializedState(),
       recherchesRecentesState: RecherchesRecentesNotInitializedState(),
+      recherchesDerniersMotsClesState: RecherchesDerniersMotsClesState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -411,6 +417,7 @@ class AppState extends Equatable {
         rechercheServiceCiviqueState,
         diagorientePreferencesMetierState,
         recherchesRecentesState,
+        recherchesDerniersMotsClesState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

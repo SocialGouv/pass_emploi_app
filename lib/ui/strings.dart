@@ -317,6 +317,7 @@ class Strings {
 
   // Recherche
   static String derniereRecherche = "Dernière recherche";
+  static String dernieresRecherches = "Dernières recherches";
   static String rechercheHomeNosOffres = "Nos offres";
   static String rechercheHomeCardLink = "Rechercher";
   static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
@@ -335,9 +336,7 @@ class Strings {
   static String rechercheOffresServiceCiviqueTitle = "Offres de service civique";
   static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
   static String rechercheAfficherPlus = "Afficher plus d'offres";
-
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
-
   static String rechercheCriteresActifsPlural(int count) => "($count) critères actifs";
 
   // Solutions
