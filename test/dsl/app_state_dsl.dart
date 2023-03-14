@@ -552,7 +552,7 @@ extension AppStateDSL on AppState {
   AppState favoriListSuccessState(List<Favori> favoris) => copyWith(favoriListState: FavoriListSuccessState(favoris));
 
   AppState withRecentsSearches(List<SavedSearch> recherchesRecentes) {
-    return copyWith(recherchesRecentesState: RecherchesRecentesSuccessState(recherchesRecentes));
+    return copyWith(recherchesRecentesState: RecherchesRecentesState(recherchesRecentes));
   }
 
   AppState withRecherchesDerniersMotsCles(List<String> motsCles) {

@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_actions.dart';
-import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
@@ -19,20 +18,20 @@ void main() {
     group("when retrieving last search", () {
       sut.when(() => RecherchesRecentesRequestAction());
 
-      test('should load then retreive recent searches when data exist', () {
+      test('should return recent searches when data exist', () {
         sut.givenStore = givenState() //
             .loggedInUser()
             .store((f) => {f.recherchesRecentesRepository = RecherchesRecentesRepositorySuccessStub()});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldRetreiveRecentSearches()]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldRetreiveRecentSearches()]);
       });
 
-      test('should load then return empty list when data does not exist', () {
+      test('should return empty list when data does not exist', () {
         sut.givenStore = givenState() //
             .loggedInUser()
             .store((f) => {f.recherchesRecentesRepository = RecherchesRecentesRepositoryEmptyStub()});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeEmpty()]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldBeEmpty()]);
       });
     });
 
@@ -50,31 +49,26 @@ void main() {
   });
 }
 
-Matcher _shouldLoad() => StateIs<RecherchesRecentesLoadingState>((state) => state.recherchesRecentesState);
-
 Matcher _shouldBeEmpty() {
-  return StateIs<RecherchesRecentesSuccessState>(
-    (state) => state.recherchesRecentesState,
-    (state) {
-      expect(state.recentSearches, []);
-    },
+  return StateMatch(
+    (state) => state.recherchesRecentesState.recentSearches.isEmpty,
   );
 }
 
 Matcher _shouldRetreiveRecentSearches() {
-  return StateIs<RecherchesRecentesSuccessState>(
-    (state) => state.recherchesRecentesState,
+  return StateMatch(
+    (state) => state.recherchesRecentesState.recentSearches.isNotEmpty,
     (state) {
-      expect(state.recentSearches, [offreEmploiSavedSearch()]);
+      expect(state.recherchesRecentesState.recentSearches, [offreEmploiSavedSearch()]);
     },
   );
 }
 
 Matcher _shouldAddRecentSearch() {
-  return StateIs<RecherchesRecentesSuccessState>(
-    (state) => state.recherchesRecentesState,
+  return StateMatch(
+    (state) => state.recherchesRecentesState.recentSearches.isNotEmpty,
     (state) {
-      expect(state.recentSearches, [rechercheEmploiSauvegardeeChevalierValenceCDI()]);
+      expect(state.recherchesRecentesState.recentSearches, [rechercheEmploiSauvegardeeChevalierValenceCDI()]);
     },
   );
 }
