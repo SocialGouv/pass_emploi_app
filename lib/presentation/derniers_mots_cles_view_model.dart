@@ -6,6 +6,21 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/iterable_extensions.dart';
 import 'package:redux/redux.dart';
 
+class DerniersMotsClesViewModel extends Equatable {
+  final List<DerniersMotsClesAutocompleteItem> derniersMotsCles;
+
+  DerniersMotsClesViewModel({required this.derniersMotsCles});
+
+  factory DerniersMotsClesViewModel.create(Store<AppState> store) {
+    return DerniersMotsClesViewModel(
+      derniersMotsCles: _derniersMotsCles(_mots(store)),
+    );
+  }
+
+  @override
+  List<Object?> get props => [derniersMotsCles];
+}
+
 abstract class DerniersMotsClesAutocompleteItem extends Equatable {}
 
 class DerniersMotsClesAutocompleteTitleItem extends DerniersMotsClesAutocompleteItem {
@@ -26,32 +41,6 @@ class DerniersMotsClesAutocompleteSuggestionItem extends DerniersMotsClesAutocom
   List<Object?> get props => [text];
 }
 
-class DerniersMotsClesViewModel extends Equatable {
-  final List<DerniersMotsClesAutocompleteItem> derniersMotsCles;
-
-  DerniersMotsClesViewModel({required this.derniersMotsCles});
-
-  factory DerniersMotsClesViewModel.create(Store<AppState> store) {
-    return DerniersMotsClesViewModel(
-      derniersMotsCles: _derniersMotsCles(_mots(store)),
-    );
-  }
-
-  @override
-  List<Object?> get props => [derniersMotsCles];
-}
-
-List<String> _mots(Store<AppState> store) {
-  return store.state.recherchesRecentesState.recentSearches
-      .whereType<OffreEmploiSavedSearch>()
-      .map((offre) => offre.keyword)
-      .whereNotNull()
-      .whereNot((offre) => offre.isEmpty)
-      .distinct()
-      .take(3)
-      .toList();
-}
-
 List<DerniersMotsClesAutocompleteItem> _derniersMotsCles(List<String> motCles) {
   if (motCles.isEmpty) return [];
   final title = motCles.length == 1 ? Strings.derniereRecherche : Strings.dernieresRecherches;
@@ -59,4 +48,15 @@ List<DerniersMotsClesAutocompleteItem> _derniersMotsCles(List<String> motCles) {
     DerniersMotsClesAutocompleteTitleItem(title),
     ...motCles.map((e) => DerniersMotsClesAutocompleteSuggestionItem(e)),
   ];
+}
+
+List<String> _mots(Store<AppState> store) {
+  return store.state.recherchesRecentesState.recentSearches
+      .whereType<OffreEmploiSavedSearch>()
+      .map((offre) => offre.keyword)
+      .whereNotNull()
+      .whereNot((keyword) => keyword.isEmpty)
+      .distinct()
+      .take(3)
+      .toList();
 }

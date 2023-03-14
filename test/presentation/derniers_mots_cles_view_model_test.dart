@@ -64,7 +64,7 @@ void main() {
     ]);
   });
 
-  test('create view model with duplicate keyword in dernières recherches should remove them', () {
+  test('create view model with null keyword in dernières recherches should remove them', () {
     // Given
     final store = givenState().loggedInUser().withRecentsSearches([
       mockOffreEmploiSavedSearch(keyword: "1"),

@@ -561,6 +561,16 @@ SavedSearch mockOffreEmploiSavedSearch({String? keyword = 'keyword'}) => OffreEm
       filters: EmploiFiltresRecherche.noFiltre(),
     );
 
+SavedSearch mockImmersionSavedSearch({String metier = 'metier', String codeRome = 'codeRome'}) => ImmersionSavedSearch(
+      id: 'id',
+      title: 'title',
+      metier: metier,
+      codeRome: codeRome,
+      filtres: ImmersionFiltresRecherche.noFiltre(),
+      location: mockLocation(),
+      ville: '',
+    );
+
 OffreEmploiSavedSearch rechercheEmploiSauvegardeeChevalierValenceCDI() => OffreEmploiSavedSearch(
       id: "recherche-recente-id",
       title: "chevalier - Valence",
