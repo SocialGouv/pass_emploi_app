@@ -3,9 +3,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/recherches_derniers_mots_cles/recherches_derniers_mots_cles_actions.dart';
 import 'package:pass_emploi_app/presentation/derniers_mots_cles_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_form_field.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/full_screen_text_form_field_scaffold.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/multiline_app_bar.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/text_form_field_sep_line.dart';
 
 class KeywordTextFormFieldPage extends StatelessWidget {
   final String title;
@@ -40,6 +43,7 @@ class KeywordTextFormFieldPage extends StatelessWidget {
         converter: (store) => DerniersMotsClesViewModel.create(store),
         builder: (context, viewModel) {
           return _Body(
+            viewModel: viewModel,
             title: title,
             hint: hint,
             selectedKeyword: selectedKeyword,
@@ -52,18 +56,20 @@ class KeywordTextFormFieldPage extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
+  final DerniersMotsClesViewModel viewModel;
+  final String title;
+  final String hint;
+  final String? selectedKeyword;
+  final String heroTag;
+
   const _Body({
     Key? key,
+    required this.viewModel,
     required this.title,
     required this.hint,
     required this.selectedKeyword,
     required this.heroTag,
   }) : super(key: key);
-
-  final String title;
-  final String hint;
-  final String? selectedKeyword;
-  final String heroTag;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +85,41 @@ class _Body extends StatelessWidget {
           initialValue: selectedKeyword,
           onFieldSubmitted: (keyword) => Navigator.pop(context, keyword),
         ),
+        TextFormFieldSepLine(),
+        Expanded(
+          child: ListView.separated(
+            itemBuilder: (context, index) {
+              final motCle = viewModel.derniersMotsCles[index];
+              return _MotCleListTile(
+                motCle: motCle,
+                onTap: (selectedMotCle) => Navigator.pop(context, selectedMotCle),
+              );
+            },
+            separatorBuilder: (context, index) => TextFormFieldSepLine(),
+            itemCount: viewModel.derniersMotsCles.length,
+          ),
+        ),
       ],
     );
   }
 }
+
+class _MotCleListTile extends StatelessWidget {
+  final String motCle;
+  final Function(String) onTap;
+
+  const _MotCleListTile({required this.motCle, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
+      title: Text(motCle, style: TextStyles.textBaseRegular),
+      onTap: () => onTap(motCle),
+    );
+  }
+}
+
+//TODO: icon avec le mot clé
+//TODO: titre "dernières recherches"
+//TODO: est-ce qu'on cache les résultats quand il y a des lettres saisies dans le textfield ?
