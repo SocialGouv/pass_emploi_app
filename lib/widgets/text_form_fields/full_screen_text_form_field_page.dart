@@ -55,7 +55,7 @@ class KeywordTextFormFieldPage extends StatelessWidget {
   }
 }
 
-class _Body extends StatelessWidget {
+class _Body extends StatefulWidget {
   final DerniersMotsClesViewModel viewModel;
   final String title;
   final String hint;
@@ -72,33 +72,42 @@ class _Body extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<_Body> {
+  String _userInput = "";
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         MultilineAppBar(
-          title: title,
-          hint: hint,
-          onCloseButtonPressed: () => Navigator.pop(context, selectedKeyword),
+          title: widget.title,
+          hint: widget.hint,
+          onCloseButtonPressed: () => Navigator.pop(context, widget.selectedKeyword),
         ),
         DebounceTextFormField(
-          heroTag: heroTag,
-          initialValue: selectedKeyword,
+          heroTag: widget.heroTag,
+          initialValue: widget.selectedKeyword,
+          onChanged: (text) => setState(() => _userInput = text),
           onFieldSubmitted: (keyword) => Navigator.pop(context, keyword),
         ),
         TextFormFieldSepLine(),
-        Expanded(
-          child: ListView.separated(
-            itemBuilder: (context, index) {
-              final motCle = viewModel.derniersMotsCles[index];
-              return _MotCleListTile(
-                motCle: motCle,
-                onTap: (selectedMotCle) => Navigator.pop(context, selectedMotCle),
-              );
-            },
-            separatorBuilder: (context, index) => TextFormFieldSepLine(),
-            itemCount: viewModel.derniersMotsCles.length,
+        if (_userInput.isEmpty)
+          Expanded(
+            child: ListView.separated(
+              itemBuilder: (context, index) {
+                final motCle = widget.viewModel.derniersMotsCles[index];
+                return _MotCleListTile(
+                  motCle: motCle,
+                  onTap: (selectedMotCle) => Navigator.pop(context, selectedMotCle),
+                );
+              },
+              separatorBuilder: (context, index) => TextFormFieldSepLine(),
+              itemCount: widget.viewModel.derniersMotsCles.length,
+            ),
           ),
-        ),
       ],
     );
   }
