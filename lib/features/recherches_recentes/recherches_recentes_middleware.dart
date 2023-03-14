@@ -1,4 +1,4 @@
-import 'package:equatable/src/equatable.dart';
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';

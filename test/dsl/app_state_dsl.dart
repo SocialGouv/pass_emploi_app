@@ -24,7 +24,6 @@ import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_r
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
-import 'package:pass_emploi_app/features/recherches_derniers_mots_cles/recherches_derniers_mots_cles_state.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
@@ -553,9 +552,5 @@ extension AppStateDSL on AppState {
 
   AppState withRecentsSearches(List<SavedSearch> recherchesRecentes) {
     return copyWith(recherchesRecentesState: RecherchesRecentesState(recherchesRecentes));
-  }
-
-  AppState withRecherchesDerniersMotsCles(List<String> motsCles) {
-    return copyWith(recherchesDerniersMotsClesState: RecherchesDerniersMotsClesState(motsCles: motsCles));
   }
 }

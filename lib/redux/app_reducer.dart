@@ -37,6 +37,7 @@ import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_r
 import 'package:pass_emploi_app/features/recherche/recherche_reducer.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_reducer.dart';
@@ -60,8 +61,6 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_reducer.dart';
-import 'package:pass_emploi_app/features/recherches_derniers_mots_cles/recherches_derniers_mots_cles_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -152,7 +151,6 @@ AppState reducer(AppState current, dynamic action) {
     diagorientePreferencesMetierState:
         diagorientePreferencesMetierReducer(current.diagorientePreferencesMetierState, action),
     recherchesRecentesState: recherchesRecentesReducer(current.recherchesRecentesState, action),
-    recherchesDerniersMotsClesState: recherchesDerniersMotsClesReducer(current.recherchesDerniersMotsClesState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

@@ -551,6 +551,16 @@ List<Metier> mockAutocompleteMetiers() {
   ];
 }
 
+SavedSearch mockOffreEmploiSavedSearch({String? keyword = 'keyword'}) => OffreEmploiSavedSearch(
+      id: 'id',
+      title: 'title',
+      metier: 'metier',
+      location: null,
+      keyword: keyword,
+      onlyAlternance: false,
+      filters: EmploiFiltresRecherche.noFiltre(),
+    );
+
 OffreEmploiSavedSearch rechercheEmploiSauvegardeeChevalierValenceCDI() => OffreEmploiSavedSearch(
       id: "recherche-recente-id",
       title: "chevalier - Valence",
@@ -618,18 +628,6 @@ DiagorienteUrls mockDiagorienteUrls() {
 
 Favori mockFavori([String id = 'id', SolutionType type = SolutionType.Immersion]) {
   return Favori(id: id, type: type, titre: 't', organisation: null, localisation: null);
-}
-
-SavedSearch mockOffreEmploiSavedSearch({String? keyword = 'keyword'}) {
-  return OffreEmploiSavedSearch(
-    id: 'id',
-    title: 'title',
-    metier: 'metier',
-    location: null,
-    keyword: keyword,
-    onlyAlternance: false,
-    filters: EmploiFiltresRecherche.noFiltre(),
-  );
 }
 
 List<SavedSearch> getMockedSavedSearch() {

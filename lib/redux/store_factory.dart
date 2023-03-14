@@ -37,6 +37,7 @@ import 'package:pass_emploi_app/features/rating/rating_middleware.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/recherche_emploi_middleware.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/recherche_immersion_middleware.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/recherche_service_civique_middleware.dart';
+import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/immersion_saved_search_create_middleware.dart';
@@ -61,8 +62,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_middleware.dart';
-import 'package:pass_emploi_app/features/recherches_derniers_mots_cles/recherches_derniers_mots_cles_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -98,6 +97,7 @@ import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
+import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
@@ -112,8 +112,6 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
-import 'package:pass_emploi_app/repositories/recherches_derniers_mots_cles_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -167,7 +165,6 @@ class StoreFactory {
   final DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository;
   final GetFavorisRepository getFavorisRepository;
   final RecherchesRecentesRepository recherchesRecentesRepository;
-  final RecherchesDerniersMotsClesRepository recherchesDerniersMotsClesRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -220,7 +217,6 @@ class StoreFactory {
     this.diagorienteMetiersFavorisRepository,
     this.getFavorisRepository,
     this.recherchesRecentesRepository,
-    this.recherchesDerniersMotsClesRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -287,7 +283,6 @@ class StoreFactory {
         DiagorientePreferencesMetierMiddleware(diagorienteUrlsRepository, diagorienteMetiersFavorisRepository),
         FavoriListMiddleware(getFavorisRepository),
         RecherchesRecentesMiddleware(recherchesRecentesRepository),
-        RecherchesDerniersMotsClesMiddleware(recherchesDerniersMotsClesRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

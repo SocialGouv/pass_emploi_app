@@ -60,6 +60,3 @@ List<DerniersMotsClesAutocompleteItem> _derniersMotsCles(List<String> motCles) {
     ...motCles.map((e) => DerniersMotsClesAutocompleteSuggestionItem(e)),
   ];
 }
-
-//TODO: adapter les tests de recherches recentes
-//TODO: supprimer l'ancienne boucle redux "mots clés"
