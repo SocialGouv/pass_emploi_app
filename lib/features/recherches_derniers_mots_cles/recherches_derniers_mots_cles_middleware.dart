@@ -16,26 +16,36 @@ class RecherchesDerniersMotsClesMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is RechercheSuccessAction<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi>) {
-      final keyword = action.request.criteres.keyword;
-      final derniersMotsCles = List<String>.from(store.state.recherchesDerniersMotsClesState.motsCles);
-
-      if (derniersMotsCles.contains(keyword)) {
-        derniersMotsCles.remove(keyword);
-      }
-
-      derniersMotsCles.insert(0, keyword);
-
-      if (derniersMotsCles.length > 3) {
-        derniersMotsCles.removeRange(3, derniersMotsCles.length);
-      }
-
-      await _repository.saveDernierMotsCles(derniersMotsCles);
-      store.dispatch(RecherchesDerniersMotsClesSuccessAction(derniersMotsCles));
+      await _saveLastMotCle(action, store);
     }
 
     if (action is RecherchesDerniersMotsClesRequestAction) {
-      final motsCles = await _repository.getDerniersMotsCles();
-      store.dispatch(RecherchesDerniersMotsClesSuccessAction(motsCles));
+      await _loadDerniersMotsCles(store);
     }
+  }
+
+  Future<void> _loadDerniersMotsCles(Store<AppState> store) async {
+    final motsCles = await _repository.getDerniersMotsCles();
+    store.dispatch(RecherchesDerniersMotsClesSuccessAction(motsCles));
+  }
+
+  Future<void> _saveLastMotCle(
+      RechercheSuccessAction<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi> action,
+      Store<AppState> store) async {
+    final motCle = action.request.criteres.keyword;
+    final derniersMotsCles = List<String>.from(store.state.recherchesDerniersMotsClesState.motsCles);
+
+    if (derniersMotsCles.contains(motCle)) {
+      derniersMotsCles.remove(motCle);
+    }
+
+    derniersMotsCles.insert(0, motCle);
+
+    if (derniersMotsCles.length > 3) {
+      derniersMotsCles.removeRange(3, derniersMotsCles.length);
+    }
+
+    await _repository.saveDernierMotsCles(derniersMotsCles);
+    store.dispatch(RecherchesDerniersMotsClesSuccessAction(derniersMotsCles));
   }
 }
