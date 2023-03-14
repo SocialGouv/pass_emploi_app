@@ -1,8 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:redux/redux.dart';
-
+import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/iterable_extensions.dart';
+import 'package:redux/redux.dart';
 
 abstract class DerniersMotsClesAutocompleteItem extends Equatable {}
 
@@ -30,12 +32,24 @@ class DerniersMotsClesViewModel extends Equatable {
 
   factory DerniersMotsClesViewModel.create(Store<AppState> store) {
     return DerniersMotsClesViewModel(
-      derniersMotsCles: _derniersMotsCles(store.state.recherchesDerniersMotsClesState.motsCles),
+      derniersMotsCles: _derniersMotsCles(_mots(store)),
     );
   }
 
   @override
   List<Object?> get props => [derniersMotsCles];
+}
+
+List<String> _mots(Store<AppState> store) {
+  final state = store.state.recherchesRecentesState;
+  return state.recentSearches //
+      .whereType<OffreEmploiSavedSearch>()
+      .map((offre) => offre.keyword)
+      .whereNotNull()
+      .whereNot((offre) => offre.isEmpty)
+      .distinct()
+      .take(3)
+      .toList();
 }
 
 List<DerniersMotsClesAutocompleteItem> _derniersMotsCles(List<String> motCles) {
@@ -46,3 +60,7 @@ List<DerniersMotsClesAutocompleteItem> _derniersMotsCles(List<String> motCles) {
     ...motCles.map((e) => DerniersMotsClesAutocompleteSuggestionItem(e)),
   ];
 }
+
+//TODO: adapter les tests de recherches recentes
+//TODO: adapter les tests de VM des derniers mots
+//TODO: supprimer l'ancienne boucle redux "mots clés"

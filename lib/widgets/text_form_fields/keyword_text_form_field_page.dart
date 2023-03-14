@@ -42,7 +42,7 @@ class KeywordTextFormFieldPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return FullScreenTextFormFieldScaffold(
       body: StoreConnector<AppState, DerniersMotsClesViewModel>(
-        onInit: (store) => store.dispatch(RecherchesDerniersMotsClesRequestAction()),
+        // onInit: (store) => store.dispatch(RecherchesDerniersMotsClesRequestAction()), //TODO: suppr
         converter: (store) => DerniersMotsClesViewModel.create(store),
         builder: (context, viewModel) {
           return _Body(

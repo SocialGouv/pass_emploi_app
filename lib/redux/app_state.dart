@@ -360,7 +360,7 @@ class AppState extends Equatable {
       rechercheImmersionState: RechercheState.initial(),
       rechercheServiceCiviqueState: RechercheState.initial(),
       diagorientePreferencesMetierState: DiagorientePreferencesMetierNotInitializedState(),
-      recherchesRecentesState: RecherchesRecentesNotInitializedState(),
+      recherchesRecentesState: RecherchesRecentesState([]),
       recherchesDerniersMotsClesState: RecherchesDerniersMotsClesState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );

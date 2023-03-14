@@ -28,15 +28,21 @@ class RecherchesRecentesMiddleware extends MiddlewareClass<AppState> {
     if (userId == null) return;
 
     if (action is RecherchesRecentesRequestAction) {
-      store.dispatch(RecherchesRecentesLoadingAction());
       final result = await _repository.get();
       store.dispatch(RecherchesRecentesSuccessAction(result));
     }
+
     if (action is RechercheSuccessAction) {
       final search = createSavedSearchFromRequest(action.request);
       if (search == null) return;
-      await _repository.save([search]);
-      store.dispatch(RecherchesRecentesSuccessAction([search]));
+
+      var newList = List<SavedSearch>.from(store.state.recherchesRecentesState.recentSearches);
+      newList.insert(0, search);
+
+      newList = newList.take(50).toList();
+
+      await _repository.save(newList);
+      store.dispatch(RecherchesRecentesSuccessAction(newList));
     }
   }
 }
