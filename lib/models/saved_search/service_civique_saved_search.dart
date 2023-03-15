@@ -36,14 +36,13 @@ class ServiceCiviqueSavedSearch extends Equatable implements SavedSearch {
   }
 
   @override
-  String getId() {
-    return id;
-  }
+  String getId() => id;
 
   @override
-  String getTitle() {
-    return titre;
-  }
+  String getTitle() => titre;
+
+  @override
+  Location? getLocation() => location;
 
   @override
   List<Object?> get props => [id, titre, ville, filtres, location, domaine, dateDeDebut];

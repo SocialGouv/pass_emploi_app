@@ -169,6 +169,10 @@ class AnalyticsEventNames {
   static const lastRechercheMetierEventCategory = "Dernières recherches métiers";
   static const lastRechercheMetierDisplayAction = "Affichage dernières recherches métiers";
   static const lastRechercheMetierClickAction = "Clic dernières recherches métiers";
+
+  static const lastRechercheLocationEventCategory = "Dernières recherches localisation";
+  static const lastRechercheLocationDisplayAction = "Affichage dernières recherches localisation";
+  static const lastRechercheLocationClickAction = "Clic dernières recherches localisation";
 }
 
 class AnalyticsCustomDimensions {

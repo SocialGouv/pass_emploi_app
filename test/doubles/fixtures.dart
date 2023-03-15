@@ -551,11 +551,11 @@ List<Metier> mockAutocompleteMetiers() {
   ];
 }
 
-SavedSearch mockOffreEmploiSavedSearch({String? keyword = 'keyword'}) => OffreEmploiSavedSearch(
+SavedSearch mockOffreEmploiSavedSearch({String? keyword = 'keyword', Location? location}) => OffreEmploiSavedSearch(
       id: 'id',
       title: 'title',
       metier: 'metier',
-      location: null,
+      location: location,
       keyword: keyword,
       onlyAlternance: false,
       filters: EmploiFiltresRecherche.noFiltre(),

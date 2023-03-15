@@ -1,19 +1,25 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/autocomplete/location_displayable_extension.dart';
 import 'package:pass_emploi_app/presentation/autocomplete/location_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_form_field.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/full_screen_text_form_field_scaffold.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/multiline_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/read_only_text_form_field.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/text_form_field_sep_line.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/title_tile.dart';
 
 const _heroTag = 'location';
 
@@ -73,7 +79,7 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
   }
 }
 
-class _LocationAutocompletePage extends StatelessWidget {
+class _LocationAutocompletePage extends StatefulWidget {
   final String title;
   final String? hint;
   final bool villesOnly;
@@ -99,43 +105,69 @@ class _LocationAutocompletePage extends StatelessWidget {
   }
 
   @override
+  State<_LocationAutocompletePage> createState() => _LocationAutocompletePageState();
+}
+
+class _LocationAutocompletePageState extends State<_LocationAutocompletePage> {
+  bool emptyInput = true;
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LocationViewModel>(
-      converter: (store) => LocationViewModel.create(store),
-      onInitialBuild: (viewModel) => viewModel.onInputLocation(selectedLocation?.libelle, villesOnly),
+      converter: (store) => LocationViewModel.create(store, villesOnly: widget.villesOnly),
+      onInitialBuild: _onInitialBuild,
       onDispose: (store) => store.dispatch(SearchLocationResetAction()),
       builder: _builder,
       distinct: true,
     );
   }
 
+  void _onInitialBuild(LocationViewModel viewModel) {
+    if (viewModel.dernieresLocations.isNotEmpty) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.lastRechercheLocationEventCategory,
+        action: AnalyticsEventNames.lastRechercheLocationDisplayAction,
+      );
+    }
+    viewModel.onInputLocation(widget.selectedLocation?.libelle);
+  }
+
   Widget _builder(BuildContext context, LocationViewModel viewModel) {
+    final autocompleteItems = viewModel.getAutocompleteItems(emptyInput);
     return FullScreenTextFormFieldScaffold(
       body: Column(
         children: [
           MultilineAppBar(
-            title: title,
-            hint: hint,
-            onCloseButtonPressed: () => Navigator.pop(context, selectedLocation),
+            title: widget.title,
+            hint: widget.hint,
+            onCloseButtonPressed: () => Navigator.pop(context, widget.selectedLocation),
           ),
           DebounceTextFormField(
             heroTag: _heroTag,
-            initialValue: selectedLocation?.displayableLabel(),
+            initialValue: widget.selectedLocation?.displayableLabel(),
             onFieldSubmitted: (_) => Navigator.pop(context, viewModel.locations.firstOrNull),
-            onChanged: (value) => viewModel.onInputLocation(value, villesOnly),
+            onChanged: (text) {
+              if (text.isEmpty != emptyInput) setState(() => emptyInput = text.isEmpty);
+              viewModel.onInputLocation(text);
+            },
           ),
           TextFormFieldSepLine(),
           Expanded(
             child: ListView.separated(
-              itemBuilder: (context, index) {
-                final location = viewModel.locations[index];
-                return _LocationListTile(
-                  location: location,
-                  onLocationTap: (location) => Navigator.pop(context, location),
-                );
-              },
+              itemCount: autocompleteItems.length,
               separatorBuilder: (context, index) => TextFormFieldSepLine(),
-              itemCount: viewModel.locations.length,
+              itemBuilder: (context, index) {
+                final item = autocompleteItems[index];
+                if (item is LocationTitleItem) return TitleTile(title: item.title);
+                if (item is LocationSuggestionItem) {
+                  return _LocationListTile(
+                    location: item.location,
+                    source: item.source,
+                    onLocationTap: (location) => Navigator.pop(context, location),
+                  );
+                }
+                return SizedBox.shrink();
+              },
             ),
           ),
         ],
@@ -146,25 +178,42 @@ class _LocationAutocompletePage extends StatelessWidget {
 
 class _LocationListTile extends StatelessWidget {
   final Location location;
+  final LocationSource source;
   final Function(Location) onLocationTap;
 
-  const _LocationListTile({required this.location, required this.onLocationTap});
+  const _LocationListTile({required this.location, required this.source, required this.onLocationTap});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
-      title: RichText(
-        text: TextSpan(
-          text: location.libelle,
-          style: TextStyles.textBaseBold,
-          children: [
-            TextSpan(text: ' '),
-            TextSpan(text: location.displayableCode(), style: TextStyles.textBaseRegular),
+      title: Row(
+        children: [
+          if (source == LocationSource.dernieresRecherches) ...[
+            Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
+            SizedBox(width: Margins.spacing_s),
           ],
-        ),
+          RichText(
+            text: TextSpan(
+              text: location.libelle,
+              style: TextStyles.textBaseBold,
+              children: [
+                TextSpan(text: ' '),
+                TextSpan(text: location.displayableCode(), style: TextStyles.textBaseRegular),
+              ],
+            ),
+          ),
+        ],
       ),
-      onTap: () => onLocationTap(location),
+      onTap: () {
+        if (source == LocationSource.dernieresRecherches) {
+          PassEmploiMatomoTracker.instance.trackEvent(
+            eventCategory: AnalyticsEventNames.lastRechercheLocationEventCategory,
+            action: AnalyticsEventNames.lastRechercheLocationClickAction,
+          );
+        }
+        onLocationTap(location);
+      },
     );
   }
 }
