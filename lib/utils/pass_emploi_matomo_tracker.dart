@@ -5,6 +5,10 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PassEmploiMatomoTracker {
+  static const String pageLogPrefix = '#page#';
+  static const String eventLogPrefix = '#event#';
+  static const String outLinkLogPrefix = '#outlink#';
+
   final MatomoTracker _decorated = MatomoTracker.instance;
   Map<String, String>? _dimensions;
   Function(String)? onTrackScreen;
@@ -48,7 +52,7 @@ class PassEmploiMatomoTracker {
       path: widgetName,
       dimensions: _dimensions,
     );
-    onTrackScreen?.call(widgetName);
+    onTrackScreen?.call('$pageLogPrefix $widgetName');
   }
 
   void trackEvent({required String eventCategory, required String action, String? eventName, int? eventValue}) {
@@ -59,9 +63,11 @@ class PassEmploiMatomoTracker {
       eventValue: eventValue,
       dimensions: _dimensions,
     );
+    onTrackScreen?.call("$eventLogPrefix - category: $eventCategory \n- action:  $action");
   }
 
   void trackOutlink(String? link) {
     _decorated.trackOutlink(link, dimensions: _dimensions);
+    onTrackScreen?.call('$outLinkLogPrefix $link');
   }
 }
