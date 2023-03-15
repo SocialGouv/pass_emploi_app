@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/widgets/text_form_fields/utils/full_screen_text_
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/multiline_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/read_only_text_form_field.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/text_form_field_sep_line.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/utils/title_tile.dart';
 
 const _heroTag = 'metier';
 
@@ -69,7 +70,7 @@ class _MetierAutocompleteState extends State<MetierAutocomplete> {
   }
 }
 
-class _MetierAutocompletePage extends StatelessWidget {
+class _MetierAutocompletePage extends StatefulWidget {
   final String title;
   final String? hint;
   final Metier? selectedMetier;
@@ -92,10 +93,17 @@ class _MetierAutocompletePage extends StatelessWidget {
   }
 
   @override
+  State<_MetierAutocompletePage> createState() => _MetierAutocompletePageState();
+}
+
+class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
+  bool emptyInput = true;
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MetierViewModel>(
       converter: (store) => MetierViewModel.create(store),
-      onInitialBuild: (viewModel) => viewModel.onInputMetier(selectedMetier?.libelle),
+      onInitialBuild: (viewModel) => viewModel.onInputMetier(widget.selectedMetier?.libelle),
       onDispose: (store) => store.dispatch(SearchMetierResetAction()),
       builder: _builder,
       distinct: true,
@@ -103,30 +111,40 @@ class _MetierAutocompletePage extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, MetierViewModel viewModel) {
+    final autocompleteItems = viewModel.getAutocompleteItems(emptyInput);
     return FullScreenTextFormFieldScaffold(
       body: Column(
         children: [
           MultilineAppBar(
-            title: title,
-            hint: hint,
-            onCloseButtonPressed: () => Navigator.pop(context, selectedMetier),
+            title: widget.title,
+            hint: widget.hint,
+            onCloseButtonPressed: () => Navigator.pop(context, widget.selectedMetier),
           ),
           DebounceTextFormField(
             heroTag: _heroTag,
-            initialValue: selectedMetier?.libelle,
-            onFieldSubmitted: (_) => Navigator.pop(context, viewModel.metiers.firstOrNull),
-            onChanged: (value) => viewModel.onInputMetier(value),
+            initialValue: widget.selectedMetier?.libelle,
+            onFieldSubmitted: (_) => Navigator.pop(context, autocompleteItems.firstOrNull),
+            onChanged: (text) {
+              if (text.isEmpty != emptyInput) setState(() => emptyInput = text.isEmpty);
+              viewModel.onInputMetier(text);
+            },
           ),
           TextFormFieldSepLine(),
           Expanded(
             child: ListView.separated(
-              itemCount: viewModel.metiers.length,
+              itemCount: autocompleteItems.length,
               separatorBuilder: (context, index) => TextFormFieldSepLine(),
               itemBuilder: (context, index) {
-                return _MetierListTile(
-                  metier: viewModel.metiers[index],
-                  onMetierTap: (metier) => Navigator.pop(context, metier),
-                );
+                final item = autocompleteItems[index];
+                if (item is MetiersAutocompleteTitleItem) return TitleTile(title: item.title);
+
+                if (item is MetiersAutocompleteSuggestionItem) {
+                  return _MetierListTile(
+                    metier: item.metier,
+                    onMetierTap: (metier) => Navigator.pop(context, metier),
+                  );
+                }
+                return SizedBox.shrink();
               },
             ),
           ),

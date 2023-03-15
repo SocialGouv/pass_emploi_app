@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
@@ -24,20 +26,28 @@ class RecherchesRecentesMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    final userId = store.state.userId();
-    if (userId == null) return;
 
-    if (action is RecherchesRecentesRequestAction) {
-      store.dispatch(RecherchesRecentesLoadingAction());
+    if (action is LoginSuccessAction) {
       final result = await _repository.get();
       store.dispatch(RecherchesRecentesSuccessAction(result));
+    } else if (action is RechercheSuccessAction) {
+      await addToRecentSearch(action, store);
     }
-    if (action is RechercheSuccessAction) {
-      final search = createSavedSearchFromRequest(action.request);
-      if (search == null) return;
-      await _repository.save([search]);
-      store.dispatch(RecherchesRecentesSuccessAction([search]));
-    }
+  }
+
+  Future<void> addToRecentSearch(
+    RechercheSuccessAction<Equatable, Equatable, dynamic> action,
+    Store<AppState> store,
+  ) async {
+    final search = createSavedSearchFromRequest(action.request);
+    if (search == null) return;
+
+    var newList = List<SavedSearch>.from(store.state.recherchesRecentesState.recentSearches);
+    newList.insert(0, search);
+    newList = newList.take(50).toList();
+
+    await _repository.save(newList);
+    store.dispatch(RecherchesRecentesSuccessAction(newList));
   }
 }
 

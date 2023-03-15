@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
-import 'package:pass_emploi_app/widgets/text_form_fields/full_screen_text_form_field_page.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/keyword_text_form_field_page.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/read_only_text_form_field.dart';
 
 const _heroTag = 'keyword';

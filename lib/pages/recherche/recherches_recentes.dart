@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_actions.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
@@ -27,7 +26,6 @@ class _RecherchesRecentesState extends State<RecherchesRecentes> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RecherchesRecentesViewModel>(
-      onInit: (store) => store.dispatch(RecherchesRecentesRequestAction()),
       converter: (store) => RecherchesRecentesViewModel.create(store),
       builder: (context, viewModel) => _Body(viewModel),
       onWillChange: _onWillChange,
