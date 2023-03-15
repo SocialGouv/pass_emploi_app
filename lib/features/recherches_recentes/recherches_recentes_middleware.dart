@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
@@ -25,10 +26,8 @@ class RecherchesRecentesMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    final userId = store.state.userId();
-    if (userId == null) return;
 
-    if (action is RecherchesRecentesRequestAction) {
+    if (action is LoginSuccessAction) {
       final result = await _repository.get();
       store.dispatch(RecherchesRecentesSuccessAction(result));
     } else if (action is RechercheSuccessAction) {

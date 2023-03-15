@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
-import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
@@ -16,11 +16,10 @@ void main() {
     final sut = StoreSut();
 
     group("when retrieving last search", () {
-      sut.when(() => RecherchesRecentesRequestAction());
+      sut.when(() => LoginSuccessAction(mockUser()));
 
       test('should return recent searches when data exist', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
             .store((f) => {f.recherchesRecentesRepository = RecherchesRecentesRepositorySuccessStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldRetreiveRecentSearches()]);
@@ -28,7 +27,6 @@ void main() {
 
       test('should return empty list when data does not exist', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
             .store((f) => {f.recherchesRecentesRepository = RecherchesRecentesRepositoryEmptyStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldBeEmpty()]);
