@@ -151,9 +151,8 @@ class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
               separatorBuilder: (context, index) => TextFormFieldSepLine(),
               itemBuilder: (context, index) {
                 final item = autocompleteItems[index];
-                if (item is MetiersTitleItem) return TitleTile(title: item.title);
-
-                if (item is MetiersSuggestionItem) {
+                if (item is MetierTitleItem) return TitleTile(title: item.title);
+                if (item is MetierSuggestionItem) {
                   return _MetierListTile(
                     metier: item.metier,
                     source: item.source,
@@ -183,7 +182,7 @@ class _MetierListTile extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
       title: Row(
         children: [
-          if (source == MetierSource.derniersMetiers) ...[
+          if (source == MetierSource.dernieresRecherches) ...[
             Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
             SizedBox(width: Margins.spacing_s),
           ],
@@ -191,7 +190,7 @@ class _MetierListTile extends StatelessWidget {
         ],
       ),
       onTap: () {
-        if (source == MetierSource.derniersMetiers) {
+        if (source == MetierSource.dernieresRecherches) {
           PassEmploiMatomoTracker.instance.trackEvent(
             eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
             action: AnalyticsEventNames.lastRechercheMetierClickAction,

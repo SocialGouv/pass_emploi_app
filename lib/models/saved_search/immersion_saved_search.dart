@@ -41,5 +41,8 @@ class ImmersionSavedSearch extends Equatable implements SavedSearch {
   String getTitle() => title;
 
   @override
+  Location? getLocation() => location;
+
+  @override
   List<Object?> get props => [id, title, codeRome, metier, location, ville, filtres];
 }

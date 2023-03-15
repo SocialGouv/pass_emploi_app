@@ -19,9 +19,9 @@ void main() {
 
     // Then
     expect(viewModel.metiers, [
-      MetiersSuggestionItem(metiers[0], MetierSource.autocomplete),
-      MetiersSuggestionItem(metiers[1], MetierSource.autocomplete),
-      MetiersSuggestionItem(metiers[2], MetierSource.autocomplete),
+      MetierSuggestionItem(metiers[0], MetierSource.autocomplete),
+      MetierSuggestionItem(metiers[1], MetierSource.autocomplete),
+      MetierSuggestionItem(metiers[2], MetierSource.autocomplete),
     ]);
   });
 
@@ -44,12 +44,12 @@ void main() {
       final viewModel = MetierViewModel.create(store);
       // Then
       expect(viewModel.derniersMetiers, [
-        MetiersTitleItem("Dernière recherche"),
-        MetiersSuggestionItem(Metier(libelle: 'chevalier', codeRome: '1'), MetierSource.derniersMetiers),
+        MetierTitleItem("Dernière recherche"),
+        MetierSuggestionItem(Metier(libelle: 'chevalier', codeRome: '1'), MetierSource.dernieresRecherches),
       ]);
     });
 
-    test('with many recherche recente should only take 3', () {
+    test('with many recherches recentes should only take 3', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
         mockImmersionSavedSearch(metier: '1', codeRome: '1'),
@@ -61,14 +61,14 @@ void main() {
       final viewModel = MetierViewModel.create(store);
       // Then
       expect(viewModel.derniersMetiers, [
-        MetiersTitleItem("Dernières recherches"),
-        MetiersSuggestionItem(Metier(libelle: '1', codeRome: '1'), MetierSource.derniersMetiers),
-        MetiersSuggestionItem(Metier(libelle: '2', codeRome: '2'), MetierSource.derniersMetiers),
-        MetiersSuggestionItem(Metier(libelle: '3', codeRome: '3'), MetierSource.derniersMetiers),
+        MetierTitleItem("Dernières recherches"),
+        MetierSuggestionItem(Metier(libelle: '1', codeRome: '1'), MetierSource.dernieresRecherches),
+        MetierSuggestionItem(Metier(libelle: '2', codeRome: '2'), MetierSource.dernieresRecherches),
+        MetierSuggestionItem(Metier(libelle: '3', codeRome: '3'), MetierSource.dernieresRecherches),
       ]);
     });
 
-    test('with duplicated metiers in dernières recherches should remove them', () {
+    test('with duplicated metiers in recherches recentes should remove them', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
         mockImmersionSavedSearch(metier: '1', codeRome: '1'),
@@ -79,9 +79,9 @@ void main() {
       final viewModel = MetierViewModel.create(store);
       // Then
       expect(viewModel.derniersMetiers, [
-        MetiersTitleItem("Dernières recherches"),
-        MetiersSuggestionItem(Metier(libelle: '1', codeRome: '1'), MetierSource.derniersMetiers),
-        MetiersSuggestionItem(Metier(libelle: '2', codeRome: '2'), MetierSource.derniersMetiers),
+        MetierTitleItem("Dernières recherches"),
+        MetierSuggestionItem(Metier(libelle: '1', codeRome: '1'), MetierSource.dernieresRecherches),
+        MetierSuggestionItem(Metier(libelle: '2', codeRome: '2'), MetierSource.dernieresRecherches),
       ]);
     });
   });
