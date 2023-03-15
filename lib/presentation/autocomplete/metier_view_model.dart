@@ -45,11 +45,12 @@ class MetiersAutocompleteTitleItem extends MetiersAutocompleteItem {
 
 class MetiersAutocompleteSuggestionItem extends MetiersAutocompleteItem {
   final Metier metier;
+  final bool fromDerniersMetiers;
 
-  MetiersAutocompleteSuggestionItem(this.metier);
+  MetiersAutocompleteSuggestionItem(this.metier, {this.fromDerniersMetiers = false});
 
   @override
-  List<Object?> get props => [metier];
+  List<Object?> get props => [metier, fromDerniersMetiers];
 }
 
 List<MetiersAutocompleteItem> _metiersAutocompleteItems(Store<AppState> store) {
@@ -61,7 +62,7 @@ List<MetiersAutocompleteItem> _derniersMetiersAutocompleteItems(List<Metier> met
   final title = metiers.length == 1 ? Strings.derniereRecherche : Strings.dernieresRecherches;
   return [
     MetiersAutocompleteTitleItem(title),
-    ...metiers.map((e) => MetiersAutocompleteSuggestionItem(e)),
+    ...metiers.map((e) => MetiersAutocompleteSuggestionItem(e, fromDerniersMetiers: true)),
   ];
 }
 
