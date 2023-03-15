@@ -42,6 +42,7 @@ import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -535,11 +536,11 @@ extension AppStateDSL on AppState {
   AppState diagorientePreferencesMetierFailureState() =>
       copyWith(diagorientePreferencesMetierState: DiagorientePreferencesMetierFailureState());
 
-  AppState diagorientePreferencesMetierSuccessState({bool aDesMetiersFavoris = true}) {
+  AppState diagorientePreferencesMetierSuccessState({List<Metier> metiersFavoris = const []}) {
     return copyWith(
       diagorientePreferencesMetierState: DiagorientePreferencesMetierSuccessState(
         mockDiagorienteUrls(),
-        aDesMetiersFavoris,
+        metiersFavoris,
       ),
     );
   }

@@ -6,7 +6,7 @@ DiagorientePreferencesMetierState diagorientePreferencesMetierReducer(
   if (action is DiagorientePreferencesMetierLoadingAction) return DiagorientePreferencesMetierLoadingState();
   if (action is DiagorientePreferencesMetierFailureAction) return DiagorientePreferencesMetierFailureState();
   if (action is DiagorientePreferencesMetierSuccessAction) {
-    return DiagorientePreferencesMetierSuccessState(action.urls, action.aDesMetiersFavoris);
+    return DiagorientePreferencesMetierSuccessState(action.urls, action.metiersFavoris);
   }
   if (action is DiagorientePreferencesMetierResetAction) return DiagorientePreferencesMetierNotInitializedState();
   return current;

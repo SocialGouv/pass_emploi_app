@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
 import 'package:pass_emploi_app/models/diagoriente_urls.dart';
+import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 
@@ -76,7 +77,7 @@ Matcher _shouldSucceed() {
     (state) => state.diagorientePreferencesMetierState,
     (state) {
       expect(state.urls, mockDiagorienteUrls());
-      expect(state.aDesMetiersFavoris, true);
+      expect(state.metiersFavoris, mockAutocompleteMetiers());
     },
   );
 }
@@ -99,8 +100,8 @@ class DiagorienteMetiersFavorisRepositorySuccessStub extends DiagorienteMetiersF
   DiagorienteMetiersFavorisRepositorySuccessStub() : super(DioMock());
 
   @override
-  Future<bool?> get(String userId) async {
-    return true;
+  Future<List<Metier>?> get(String userId) async {
+    return mockAutocompleteMetiers();
   }
 }
 
@@ -108,7 +109,7 @@ class DiagorienteMetiersFavorisRepositoryErrorStub extends DiagorienteMetiersFav
   DiagorienteMetiersFavorisRepositoryErrorStub() : super(DioMock());
 
   @override
-  Future<bool?> get(String userId) async {
+  Future<List<Metier>?> get(String userId) async {
     return null;
   }
 }

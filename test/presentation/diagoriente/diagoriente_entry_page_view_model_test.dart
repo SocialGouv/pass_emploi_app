@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagorie
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_entry_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
@@ -23,7 +24,7 @@ void main() {
       // Given
       final store = givenState() //
           .loggedInUser()
-          .diagorientePreferencesMetierSuccessState(aDesMetiersFavoris: true)
+          .diagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers())
           .store();
 
       // When
@@ -37,7 +38,7 @@ void main() {
       // Given
       final store = givenState() //
           .loggedInUser()
-          .diagorientePreferencesMetierSuccessState(aDesMetiersFavoris: false)
+          .diagorientePreferencesMetierSuccessState(metiersFavoris: [])
           .store();
 
       // When

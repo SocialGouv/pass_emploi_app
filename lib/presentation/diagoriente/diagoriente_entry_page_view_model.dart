@@ -32,7 +32,7 @@ class DiagorienteEntryPageViewModel extends Equatable {
 bool _withMetiersFavoris(Store<AppState> store) {
   final state = store.state.diagorientePreferencesMetierState;
   if (state is! DiagorientePreferencesMetierSuccessState) return false;
-  return state.aDesMetiersFavoris;
+  return state.metiersFavoris.isNotEmpty;
 }
 
 DisplayState _displayState(Store<AppState> store) {

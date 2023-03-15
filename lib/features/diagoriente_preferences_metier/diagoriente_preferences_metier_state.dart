@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/diagoriente_urls.dart';
+import 'package:pass_emploi_app/models/metier.dart';
 
 abstract class DiagorientePreferencesMetierState extends Equatable {
   @override
@@ -14,10 +15,10 @@ class DiagorientePreferencesMetierFailureState extends DiagorientePreferencesMet
 
 class DiagorientePreferencesMetierSuccessState extends DiagorientePreferencesMetierState {
   final DiagorienteUrls urls;
-  final bool aDesMetiersFavoris;
+  final List<Metier> metiersFavoris;
 
-  DiagorientePreferencesMetierSuccessState(this.urls, this.aDesMetiersFavoris);
+  DiagorientePreferencesMetierSuccessState(this.urls, this.metiersFavoris);
 
   @override
-  List<Object?> get props => [urls, aDesMetiersFavoris];
+  List<Object?> get props => [urls, metiersFavoris];
 }
