@@ -7,6 +7,9 @@ import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/autocomplete/metier_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
@@ -148,20 +151,13 @@ class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
               separatorBuilder: (context, index) => TextFormFieldSepLine(),
               itemBuilder: (context, index) {
                 final item = autocompleteItems[index];
-                if (item is MetiersAutocompleteTitleItem) return TitleTile(title: item.title);
+                if (item is MetiersTitleItem) return TitleTile(title: item.title);
 
-                if (item is MetiersAutocompleteSuggestionItem) {
+                if (item is MetiersSuggestionItem) {
                   return _MetierListTile(
                     metier: item.metier,
-                    onMetierTap: (metier) {
-                      if (item.fromDerniersMetiers) {
-                        PassEmploiMatomoTracker.instance.trackEvent(
-                          eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
-                          action: AnalyticsEventNames.lastRechercheMetierClickAction,
-                        );
-                      }
-                      Navigator.pop(context, metier);
-                    },
+                    source: item.source,
+                    onMetierTap: (metier) => Navigator.pop(context, metier),
                   );
                 }
                 return SizedBox.shrink();
@@ -176,16 +172,33 @@ class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
 
 class _MetierListTile extends StatelessWidget {
   final Metier metier;
+  final MetierSource source;
   final Function(Metier) onMetierTap;
 
-  const _MetierListTile({required this.metier, required this.onMetierTap});
+  const _MetierListTile({required this.metier, required this.source, required this.onMetierTap});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
-      title: Text(metier.libelle, style: TextStyles.textBaseRegular),
-      onTap: () => onMetierTap(metier),
+      title: Row(
+        children: [
+          if (source == MetierSource.derniersMetiers) ...[
+            Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
+            SizedBox(width: Margins.spacing_s),
+          ],
+          Text(metier.libelle, style: TextStyles.textBaseRegular),
+        ],
+      ),
+      onTap: () {
+        if (source == MetierSource.derniersMetiers) {
+          PassEmploiMatomoTracker.instance.trackEvent(
+            eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
+            action: AnalyticsEventNames.lastRechercheMetierClickAction,
+          );
+        }
+        onMetierTap(metier);
+      },
     );
   }
 }
