@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/derniers_mots_cles_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -7,6 +8,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_form_field.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/full_screen_text_form_field_scaffold.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/multiline_app_bar.dart';
@@ -83,6 +85,12 @@ class _BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
+    if (emptyInput) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
+        action: AnalyticsEventNames.lastRechercheMetierDisplayAction,
+      );
+    }
     return Column(
       children: [
         MultilineAppBar(
@@ -109,7 +117,15 @@ class _BodyState extends State<_Body> {
                 if (item is DerniersMotsClesAutocompleteSuggestionItem) {
                   return _MotCleListTile(
                     motCle: item.text,
-                    onTap: (selectedMotCle) => Navigator.pop(context, selectedMotCle),
+                    onTap: (selectedMotCle) {
+                      if (emptyInput) {
+                        PassEmploiMatomoTracker.instance.trackEvent(
+                          eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
+                          action: AnalyticsEventNames.lastRechercheMetierClickAction,
+                        );
+                      }
+                      Navigator.pop(context, selectedMotCle);
+                    },
                   );
                 }
                 return SizedBox.shrink();

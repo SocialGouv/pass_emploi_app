@@ -165,6 +165,10 @@ class AnalyticsEventNames {
   static const createActionEventCategory = "Création action/démarche";
   static const createActionDisplaySnackBarAction = "Affichage SnackBar succès";
   static const createActionClickOnSnackBarAction = "Clic détail action/démarche";
+
+  static const lastRechercheMetierEventCategory = "Dernières recherches métiers";
+  static const lastRechercheMetierDisplayAction = "Affichage dernières recherches métiers";
+  static const lastRechercheMetierClickAction = "Clic dernières recherches métiers";
 }
 
 class AnalyticsCustomDimensions {
