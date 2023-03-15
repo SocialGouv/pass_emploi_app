@@ -18,7 +18,6 @@ void main() {
     final viewModel = MetierViewModel.create(store);
 
     // Then
-    expect(viewModel.metiers, metiers);
     expect(viewModel.metiers, [
       MetiersAutocompleteSuggestionItem(metiers[0]),
       MetiersAutocompleteSuggestionItem(metiers[1]),
