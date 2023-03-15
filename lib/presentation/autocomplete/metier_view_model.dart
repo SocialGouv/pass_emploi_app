@@ -8,8 +8,8 @@ import 'package:pass_emploi_app/utils/iterable_extensions.dart';
 import 'package:redux/redux.dart';
 
 class MetierViewModel extends Equatable {
-  final List<MetiersAutocompleteItem> metiers;
-  final List<MetiersAutocompleteItem> derniersMetiers;
+  final List<MetiersItem> metiers;
+  final List<MetiersItem> derniersMetiers;
   final Function(String? input) onInputMetier;
 
   MetierViewModel._({
@@ -20,49 +20,51 @@ class MetierViewModel extends Equatable {
 
   factory MetierViewModel.create(Store<AppState> store) {
     return MetierViewModel._(
-      metiers: _metiersAutocompleteItems(store),
-      derniersMetiers: _derniersMetiersAutocompleteItems(_derniersMetiers(store)),
+      metiers: _metiersItems(store),
+      derniersMetiers: _derniersMetiersItems(_derniersMetiers(store)),
       onInputMetier: (input) => store.dispatch(SearchMetierRequestAction(input)),
     );
   }
 
-  List<MetiersAutocompleteItem> getAutocompleteItems(bool emptyInput) => emptyInput ? derniersMetiers : metiers;
+  List<MetiersItem> getAutocompleteItems(bool emptyInput) => emptyInput ? derniersMetiers : metiers;
 
   @override
   List<Object?> get props => [metiers, derniersMetiers];
 }
 
-abstract class MetiersAutocompleteItem extends Equatable {}
+abstract class MetiersItem extends Equatable {}
 
-class MetiersAutocompleteTitleItem extends MetiersAutocompleteItem {
+enum MetierSource { autocomplete, derniersMetiers }
+
+class MetiersTitleItem extends MetiersItem {
   final String title;
 
-  MetiersAutocompleteTitleItem(this.title);
+  MetiersTitleItem(this.title);
 
   @override
   List<Object?> get props => [title];
 }
 
-class MetiersAutocompleteSuggestionItem extends MetiersAutocompleteItem {
+class MetiersSuggestionItem extends MetiersItem {
   final Metier metier;
-  final bool fromDerniersMetiers;
+  final MetierSource source;
 
-  MetiersAutocompleteSuggestionItem(this.metier, {this.fromDerniersMetiers = false});
+  MetiersSuggestionItem(this.metier, this.source);
 
   @override
-  List<Object?> get props => [metier, fromDerniersMetiers];
+  List<Object?> get props => [metier, source];
 }
 
-List<MetiersAutocompleteItem> _metiersAutocompleteItems(Store<AppState> store) {
-  return store.state.searchMetierState.metiers.map((e) => MetiersAutocompleteSuggestionItem(e)).toList();
+List<MetiersItem> _metiersItems(Store<AppState> store) {
+  return store.state.searchMetierState.metiers.map((e) => MetiersSuggestionItem(e, MetierSource.autocomplete)).toList();
 }
 
-List<MetiersAutocompleteItem> _derniersMetiersAutocompleteItems(List<Metier> metiers) {
+List<MetiersItem> _derniersMetiersItems(List<Metier> metiers) {
   if (metiers.isEmpty) return [];
   final title = metiers.length == 1 ? Strings.derniereRecherche : Strings.dernieresRecherches;
   return [
-    MetiersAutocompleteTitleItem(title),
-    ...metiers.map((e) => MetiersAutocompleteSuggestionItem(e, fromDerniersMetiers: true)),
+    MetiersTitleItem(title),
+    ...metiers.map((e) => MetiersSuggestionItem(e, MetierSource.derniersMetiers)),
   ];
 }
 

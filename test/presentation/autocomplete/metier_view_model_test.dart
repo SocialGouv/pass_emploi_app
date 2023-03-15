@@ -19,9 +19,9 @@ void main() {
 
     // Then
     expect(viewModel.metiers, [
-      MetiersAutocompleteSuggestionItem(metiers[0]),
-      MetiersAutocompleteSuggestionItem(metiers[1]),
-      MetiersAutocompleteSuggestionItem(metiers[2]),
+      MetiersSuggestionItem(metiers[0], MetierSource.autocomplete),
+      MetiersSuggestionItem(metiers[1], MetierSource.autocomplete),
+      MetiersSuggestionItem(metiers[2], MetierSource.autocomplete),
     ]);
   });
 
@@ -44,8 +44,8 @@ void main() {
       final viewModel = MetierViewModel.create(store);
       // Then
       expect(viewModel.derniersMetiers, [
-        MetiersAutocompleteTitleItem("Dernière recherche"),
-        MetiersAutocompleteSuggestionItem(Metier(libelle: 'chevalier', codeRome: '1')),
+        MetiersTitleItem("Dernière recherche"),
+        MetiersSuggestionItem(Metier(libelle: 'chevalier', codeRome: '1'), MetierSource.derniersMetiers),
       ]);
     });
 
@@ -61,10 +61,10 @@ void main() {
       final viewModel = MetierViewModel.create(store);
       // Then
       expect(viewModel.derniersMetiers, [
-        MetiersAutocompleteTitleItem("Dernières recherches"),
-        MetiersAutocompleteSuggestionItem(Metier(libelle: '1', codeRome: '1')),
-        MetiersAutocompleteSuggestionItem(Metier(libelle: '2', codeRome: '2')),
-        MetiersAutocompleteSuggestionItem(Metier(libelle: '3', codeRome: '3')),
+        MetiersTitleItem("Dernières recherches"),
+        MetiersSuggestionItem(Metier(libelle: '1', codeRome: '1'), MetierSource.derniersMetiers),
+        MetiersSuggestionItem(Metier(libelle: '2', codeRome: '2'), MetierSource.derniersMetiers),
+        MetiersSuggestionItem(Metier(libelle: '3', codeRome: '3'), MetierSource.derniersMetiers),
       ]);
     });
 
@@ -79,9 +79,9 @@ void main() {
       final viewModel = MetierViewModel.create(store);
       // Then
       expect(viewModel.derniersMetiers, [
-        MetiersAutocompleteTitleItem("Dernières recherches"),
-        MetiersAutocompleteSuggestionItem(Metier(libelle: '1', codeRome: '1')),
-        MetiersAutocompleteSuggestionItem(Metier(libelle: '2', codeRome: '2')),
+        MetiersTitleItem("Dernières recherches"),
+        MetiersSuggestionItem(Metier(libelle: '1', codeRome: '1'), MetierSource.derniersMetiers),
+        MetiersSuggestionItem(Metier(libelle: '2', codeRome: '2'), MetierSource.derniersMetiers),
       ]);
     });
   });
