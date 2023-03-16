@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
@@ -88,8 +89,11 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
       onError: (Object error) {
         if (error is ChatNotInitializedError) {
           store.dispatch(TryConnectChatAgainAction());
+        } else if (error is FirebaseException && error.code == "permission-denied") {
+          store.dispatch(TryConnectChatAgainAction());
+        } else {
+          store.dispatch(ChatFailureAction());
         }
-        return store.dispatch(ChatFailureAction());
       },
     );
   }

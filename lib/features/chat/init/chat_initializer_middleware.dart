@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
@@ -10,12 +12,15 @@ import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart'
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:redux/redux.dart';
 
+const _maxRetryCount = 3;
+
 class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
   final FirebaseAuthRepository _repository;
   final FirebaseAuthWrapper _firebaseAuthWrapper;
   final ChatCrypto _chatCrypto;
   final ModeDemoRepository _demoRepository;
-  DateTime lastTry = DateTime.now();
+  Timer? retryOnChatInitialization;
+  int retryCount = 0;
 
   ChatInitializerMiddleware(this._repository, this._firebaseAuthWrapper, this._chatCrypto, this._demoRepository);
 
@@ -29,14 +34,9 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  Future<void> _handleChatInitialization(
-      action, LoginState loginState, Store<AppState> store, NextDispatcher next) async {
+  Future<void> _handleChatInitialization(action, LoginState loginState, Store<AppState> store, NextDispatcher next) async {
     if (action is TryConnectChatAgainAction && loginState is LoginSuccessState) {
-      if (DateTime.now().isAfter(lastTry.add(Duration(seconds: 10)))) {
-        lastTry = DateTime.now();
-        await _initializeChatAndSubscribeToChatStatus(loginState.user.id);
-        store.dispatch(SubscribeToChatAction());
-      }
+      _retryChatInitialization(store, loginState.user.id);
     } else if (action is LoginSuccessAction) {
       if (store.state.deepLinkState is NouveauMessageDeepLinkState) {
         await _initializeChatFirstThenDispatchLogin(action, next, store);
@@ -46,6 +46,20 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
     } else {
       next(action);
     }
+  }
+
+  void _retryChatInitialization(Store<AppState> store, String userId) {
+    retryCount++;
+    if (retryCount > _maxRetryCount) {
+      store.dispatch(ChatFailureAction());
+      retryCount = 0;
+      return;
+    }
+    retryOnChatInitialization?.cancel();
+    retryOnChatInitialization = Timer(Duration(seconds: 1), () async {
+      await _initializeChatAndSubscribeToChatStatus(userId);
+      store.dispatch(SubscribeToChatAction());
+    });
   }
 
   Future<void> _initializeChatFirstThenDispatchLogin(
@@ -58,11 +72,9 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SubscribeToChatStatusAction());
   }
 
-  Future<void> _dispatchLoginFirstThenInitializeChat(
-    LoginSuccessAction action,
-    NextDispatcher next,
-    Store<AppState> store,
-  ) async {
+  Future<void> _dispatchLoginFirstThenInitializeChat(LoginSuccessAction action,
+      NextDispatcher next,
+      Store<AppState> store,) async {
     next(action);
     await _initializeChatAndSubscribeToChatStatus(action.user.id);
     store.dispatch(SubscribeToChatStatusAction());
