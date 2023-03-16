@@ -530,13 +530,13 @@ extension AppStateDSL on AppState {
     return copyWith(immersionDetailsState: ImmersionDetailsLoadingState());
   }
 
-  AppState diagorientePreferencesMetierLoadingState() =>
+  AppState withDiagorientePreferencesMetierLoadingState() =>
       copyWith(diagorientePreferencesMetierState: DiagorientePreferencesMetierLoadingState());
 
-  AppState diagorientePreferencesMetierFailureState() =>
+  AppState withDiagorientePreferencesMetierFailureState() =>
       copyWith(diagorientePreferencesMetierState: DiagorientePreferencesMetierFailureState());
 
-  AppState diagorientePreferencesMetierSuccessState({List<Metier> metiersFavoris = const []}) {
+  AppState withDiagorientePreferencesMetierSuccessState({List<Metier> metiersFavoris = const []}) {
     return copyWith(
       diagorientePreferencesMetierState: DiagorientePreferencesMetierSuccessState(
         mockDiagorienteUrls(),

@@ -24,7 +24,7 @@ void main() {
       // Given
       final store = givenState() //
           .loggedInUser()
-          .diagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers())
+          .withDiagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers())
           .store();
 
       // When
@@ -38,8 +38,7 @@ void main() {
       // Given
       final store = givenState() //
           .loggedInUser()
-          .diagorientePreferencesMetierSuccessState(metiersFavoris: [])
-          .store();
+          .withDiagorientePreferencesMetierSuccessState(metiersFavoris: []).store();
 
       // When
       final viewModel = DiagorienteEntryPageViewModel.create(store);
@@ -63,7 +62,7 @@ void main() {
 
     test('when diagoriente preferences metier state is loading should display loading', () {
       // Given
-      final store = givenState().loggedInUser().diagorientePreferencesMetierLoadingState().store();
+      final store = givenState().loggedInUser().withDiagorientePreferencesMetierLoadingState().store();
 
       // When
       final viewModel = DiagorienteEntryPageViewModel.create(store);
@@ -74,7 +73,7 @@ void main() {
 
     test('when diagoriente preferences metier state is failure should display failure', () {
       // Given
-      final store = givenState().loggedInUser().diagorientePreferencesMetierFailureState().store();
+      final store = givenState().loggedInUser().withDiagorientePreferencesMetierFailureState().store();
 
       // When
       final viewModel = DiagorienteEntryPageViewModel.create(store);
@@ -85,7 +84,7 @@ void main() {
 
     test('when diagoriente preferences metier state is success should display chat bot page', () {
       // Given
-      final store = givenState().loggedInUser().diagorientePreferencesMetierSuccessState().store();
+      final store = givenState().loggedInUser().withDiagorientePreferencesMetierSuccessState().store();
 
       // When
       final viewModel = DiagorienteEntryPageViewModel.create(store);
