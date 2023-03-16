@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/presentation/derniers_mots_cles_view_model.dart';
+import 'package:pass_emploi_app/presentation/mots_cles_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -43,8 +43,8 @@ class KeywordTextFormFieldPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FullScreenTextFormFieldScaffold(
-      body: StoreConnector<AppState, DerniersMotsClesViewModel>(
-        converter: (store) => DerniersMotsClesViewModel.create(store),
+      body: StoreConnector<AppState, MotsClesViewModel>(
+        converter: (store) => MotsClesViewModel.create(store),
         builder: (context, viewModel) {
           return _Body(
             viewModel: viewModel,
@@ -61,7 +61,7 @@ class KeywordTextFormFieldPage extends StatelessWidget {
 }
 
 class _Body extends StatefulWidget {
-  final DerniersMotsClesViewModel viewModel;
+  final MotsClesViewModel viewModel;
   final String title;
   final String hint;
   final String? selectedKeyword;
@@ -111,10 +111,9 @@ class _BodyState extends State<_Body> {
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) {
-                final item = widget.viewModel.derniersMotsCles[index];
-                if (item is DerniersMotsClesAutocompleteTitleItem) return TitleTile(title: item.title);
-
-                if (item is DerniersMotsClesAutocompleteSuggestionItem) {
+                final item = widget.viewModel.motsCles[index];
+                if (item is MotsClesTitleItem) return TitleTile(title: item.title);
+                if (item is MotsClesSuggestionItem) {
                   return _MotCleListTile(
                     motCle: item.text,
                     onTap: (selectedMotCle) {
@@ -131,7 +130,7 @@ class _BodyState extends State<_Body> {
                 return SizedBox.shrink();
               },
               separatorBuilder: (context, index) => TextFormFieldSepLine(),
-              itemCount: widget.viewModel.derniersMotsCles.length,
+              itemCount: widget.viewModel.motsCles.length,
             ),
           ),
       ],

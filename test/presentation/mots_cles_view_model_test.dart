@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/presentation/derniers_mots_cles_view_model.dart';
+import 'package:pass_emploi_app/presentation/mots_cles_view_model.dart';
 
 import '../doubles/fixtures.dart';
 import '../dsl/app_state_dsl.dart';
@@ -9,9 +9,9 @@ void main() {
     // Given
     final store = givenState().loggedInUser().withRecentsSearches([]).store();
     // When
-    final result = DerniersMotsClesViewModel.create(store);
+    final result = MotsClesViewModel.create(store);
     // Then
-    expect(result.derniersMotsCles, []);
+    expect(result.motsCles, []);
   });
 
   test('create view model with 1 recherche recente', () {
@@ -20,11 +20,11 @@ void main() {
       mockOffreEmploiSavedSearch(keyword: "chevalier"),
     ]).store();
     // When
-    final result = DerniersMotsClesViewModel.create(store);
+    final result = MotsClesViewModel.create(store);
     // Then
-    expect(result.derniersMotsCles, [
-      DerniersMotsClesAutocompleteTitleItem("Dernière recherche"),
-      DerniersMotsClesAutocompleteSuggestionItem("chevalier"),
+    expect(result.motsCles, [
+      MotsClesTitleItem("Dernière recherche"),
+      MotsClesSuggestionItem("chevalier"),
     ]);
   });
 
@@ -37,13 +37,13 @@ void main() {
       mockOffreEmploiSavedSearch(keyword: "4"),
     ]).store();
     // When
-    final result = DerniersMotsClesViewModel.create(store);
+    final result = MotsClesViewModel.create(store);
     // Then
-    expect(result.derniersMotsCles, [
-      DerniersMotsClesAutocompleteTitleItem("Dernières recherches"),
-      DerniersMotsClesAutocompleteSuggestionItem("1"),
-      DerniersMotsClesAutocompleteSuggestionItem("2"),
-      DerniersMotsClesAutocompleteSuggestionItem("3"),
+    expect(result.motsCles, [
+      MotsClesTitleItem("Dernières recherches"),
+      MotsClesSuggestionItem("1"),
+      MotsClesSuggestionItem("2"),
+      MotsClesSuggestionItem("3"),
     ]);
   });
 
@@ -55,12 +55,12 @@ void main() {
       mockOffreEmploiSavedSearch(keyword: "1"),
     ]).store();
     // When
-    final result = DerniersMotsClesViewModel.create(store);
+    final result = MotsClesViewModel.create(store);
     // Then
-    expect(result.derniersMotsCles, [
-      DerniersMotsClesAutocompleteTitleItem("Dernières recherches"),
-      DerniersMotsClesAutocompleteSuggestionItem("1"),
-      DerniersMotsClesAutocompleteSuggestionItem("2"),
+    expect(result.motsCles, [
+      MotsClesTitleItem("Dernières recherches"),
+      MotsClesSuggestionItem("1"),
+      MotsClesSuggestionItem("2"),
     ]);
   });
 
@@ -72,12 +72,12 @@ void main() {
       mockOffreEmploiSavedSearch(keyword: "2"),
     ]).store();
     // When
-    final result = DerniersMotsClesViewModel.create(store);
+    final result = MotsClesViewModel.create(store);
     // Then
-    expect(result.derniersMotsCles, [
-      DerniersMotsClesAutocompleteTitleItem("Dernières recherches"),
-      DerniersMotsClesAutocompleteSuggestionItem("1"),
-      DerniersMotsClesAutocompleteSuggestionItem("2"),
+    expect(result.motsCles, [
+      MotsClesTitleItem("Dernières recherches"),
+      MotsClesSuggestionItem("1"),
+      MotsClesSuggestionItem("2"),
     ]);
   });
 }

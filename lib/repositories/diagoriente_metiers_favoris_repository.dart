@@ -12,8 +12,8 @@ class DiagorienteMetiersFavorisRepository {
     final url = "/jeunes/$userId/diagoriente/metiers-favoris";
     try {
       final response = await _httpClient.get(url);
-      final aaa = response.data["metiersFavoris"];
-      return (aaa as List).map(Metier.fromJson).toList();
+      final metiers = response.data["metiersFavoris"];
+      return (metiers as List).map(Metier.fromJson).toList();
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
