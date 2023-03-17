@@ -18,7 +18,7 @@ void main() {
     expect(result.motsCles, []);
   });
 
-  test('create view model with metiers favoris', () {
+  test('create view model with metiers favoris in alphabetic order', () {
     // Given
     final store = givenState() //
         .loggedInUser() //
@@ -30,9 +30,9 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Vos préférences métiers"),
-      MotsClesSuggestionItem("Chevrier / Chevrière"),
-      MotsClesSuggestionItem("Céréalier / Céréalière"),
       MotsClesSuggestionItem("Cavalier dresseur / Cavalière dresseuse de chevaux"),
+      MotsClesSuggestionItem("Céréalier / Céréalière"),
+      MotsClesSuggestionItem("Chevrier / Chevrière"),
     ]);
   });
 
@@ -48,9 +48,9 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Vos préférences métiers"),
-      MotsClesSuggestionItem("Chevrier / Chevrière"),
-      MotsClesSuggestionItem("Céréalier / Céréalière"),
       MotsClesSuggestionItem("Cavalier dresseur / Cavalière dresseuse de chevaux"),
+      MotsClesSuggestionItem("Céréalier / Céréalière"),
+      MotsClesSuggestionItem("Chevrier / Chevrière"),
       MotsClesTitleItem("Dernières recherches"),
       MotsClesSuggestionItem("Boulangerie"),
       MotsClesSuggestionItem("Flutter"),

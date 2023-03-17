@@ -5,10 +5,10 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/iterable_extensions.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
 
 //TODO: fetch métiers favoris
-//TODO: ordre alphabétique
 //TODO: modifier backend pour avoir le champs codeRome sur la route diagoriente (àlaplace de "rome" tout court)
 
 class MotsClesViewModel extends Equatable {
@@ -55,7 +55,11 @@ List<MotsClesItem> _motsClesFavorisItems(Store<AppState> store) {
   if (state is! DiagorientePreferencesMetierSuccessState || state.metiersFavoris.isEmpty) return [];
   return [
     MotsClesTitleItem(Strings.vosPreferencesMetiers),
-    ...state.metiersFavoris.map((e) => MotsClesSuggestionItem(e.libelle)),
+    ...state.metiersFavoris //
+        .map((e) => e.libelle)
+        .toList()
+        .sortedAlphabetically()
+        .map((e) => MotsClesSuggestionItem(e)),
   ];
 }
 
