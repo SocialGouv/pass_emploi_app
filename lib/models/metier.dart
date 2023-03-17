@@ -8,7 +8,8 @@ class Metier extends Equatable {
 
   factory Metier.fromJson(dynamic json) {
     return Metier(
-      codeRome: json["code"] as String,
+      //TODO: modifier backend pour avoir le champs "code" sur la route diagoriente plutôt que "rome"
+      codeRome: "toto",
       libelle: json["libelle"] as String,
     );
   }

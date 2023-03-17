@@ -8,9 +8,6 @@ import 'package:pass_emploi_app/utils/iterable_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
 
-//TODO: fetch métiers favoris
-//TODO: modifier backend pour avoir le champs codeRome sur la route diagoriente (àlaplace de "rome" tout court)
-
 class MotsClesViewModel extends Equatable {
   final List<MotsClesItem> motsCles;
 

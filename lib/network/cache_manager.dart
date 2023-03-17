@@ -60,7 +60,7 @@ const _blacklistedRoutes = [
   '/home/actions',
   '/home/demarches',
   '/fichiers',
-  'diagoriente/metiers-favoris',
+  'diagoriente/metiers-favoris', //TODO: embêtant maintenant pour les pages autocomplete
 ];
 
 extension Whiteliste on String {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
 import 'package:pass_emploi_app/presentation/mots_cles_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -44,6 +45,7 @@ class KeywordTextFormFieldPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return FullScreenTextFormFieldScaffold(
       body: StoreConnector<AppState, MotsClesViewModel>(
+        onInit: (store) => store.dispatch(DiagorientePreferencesMetierRequestAction()),
         converter: (store) => MotsClesViewModel.create(store),
         builder: (context, viewModel) {
           return _Body(
@@ -137,6 +139,8 @@ class _BodyState extends State<_Body> {
     );
   }
 }
+
+//TODO: problème text overflow quand trop long
 
 class _MotCleListTile extends StatelessWidget {
   final String motCle;
