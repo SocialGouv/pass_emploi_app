@@ -38,15 +38,9 @@ class RecherchesRecentesRepository {
 extension _SavedSearchExt on SavedSearch {
   SavedSearchResponse? toSavedSearchResponse() {
     final savedSearch = this;
-    if (savedSearch is OffreEmploiSavedSearch) {
-      return savedSearch.toSavedSearchResponse();
-    }
-    if (savedSearch is ImmersionSavedSearch) {
-      return savedSearch.toSavedSearchResponse();
-    }
-    if (savedSearch is ServiceCiviqueSavedSearch) {
-      return savedSearch.toSavedSearchResponse();
-    }
+    if (savedSearch is OffreEmploiSavedSearch) return savedSearch.toSavedSearchResponse();
+    if (savedSearch is ImmersionSavedSearch) return savedSearch.toSavedSearchResponse();
+    if (savedSearch is ServiceCiviqueSavedSearch) return savedSearch.toSavedSearchResponse();
     return null;
   }
 }

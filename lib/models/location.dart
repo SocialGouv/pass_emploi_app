@@ -23,17 +23,23 @@ class Location extends Equatable {
     return Location(
       libelle: json['libelle'] as String,
       code: json['code'] as String,
-      type: _extractLocationType(json),
+      type: json["type"] == "DEPARTEMENT" ? LocationType.DEPARTMENT : LocationType.COMMUNE,
       codePostal: json['codePostal'] as String?,
       latitude: json['latitude'] != null ? json['latitude'] as double : null,
       longitude: json['longitude'] != null ? json['longitude'] as double : null,
     );
   }
 
+  Map<String, dynamic> toJson() => {
+        'libelle': libelle,
+        'code': code,
+        'type': type == LocationType.DEPARTMENT ? "DEPARTEMENT" : "COMMUNE",
+        if (codePostal != null) 'codePostal': codePostal,
+        if (latitude != null) 'latitude': latitude,
+        if (longitude != null) 'longitude': longitude,
+      };
+
   @override
   List<Object?> get props => [libelle, code, type, codePostal, latitude, longitude];
 }
 
-LocationType _extractLocationType(json) {
-  return (json["type"]) == "DEPARTEMENT" ? LocationType.DEPARTMENT : LocationType.COMMUNE;
-}
