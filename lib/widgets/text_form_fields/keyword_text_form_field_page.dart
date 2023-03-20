@@ -140,8 +140,6 @@ class _BodyState extends State<_Body> {
   }
 }
 
-//TODO: problème text overflow quand trop long
-
 class _MotCleListTile extends StatelessWidget {
   final String motCle;
   final Function(String) onTap;
@@ -156,7 +154,7 @@ class _MotCleListTile extends StatelessWidget {
         children: [
           Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
           SizedBox(width: Margins.spacing_s),
-          Text(motCle, style: TextStyles.textBaseRegular),
+          Expanded(child: Text(motCle, style: TextStyles.textBaseRegular)),
         ],
       ),
       onTap: () => onTap(motCle),
