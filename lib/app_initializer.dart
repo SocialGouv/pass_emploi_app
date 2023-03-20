@@ -239,7 +239,7 @@ class AppInitializer {
       EventListRepository(baseUrl, httpClient, crashlytics),
       installationIdRepository,
       DiagorienteUrlsRepository(dioClient, crashlytics),
-      DiagorienteMetiersFavorisRepository(dioClient, crashlytics),
+      DiagorienteMetiersFavorisRepository(dioClient, requestCacheManager, crashlytics),
       GetFavorisRepository(dioClient, crashlytics),
       RecherchesRecentesRepository(securedPreferences),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/

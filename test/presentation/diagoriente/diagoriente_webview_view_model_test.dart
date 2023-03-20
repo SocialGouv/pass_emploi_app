@@ -15,7 +15,7 @@ void main() {
   group('chatBotUrl when diagoriente url state is successful should return proper URL', () {
     test("on chatbot mode", () {
       // Given
-      final store = givenState().diagorientePreferencesMetierSuccessState().store();
+      final store = givenState().withDiagorientePreferencesMetierSuccessState().store();
 
       // When
       final viewModel = DiagorienteWebviewViewModel.create(store, DiagorienteWebviewMode.chatbot);
@@ -26,7 +26,7 @@ void main() {
 
     test("on favoris mode", () {
       // Given
-      final store = givenState().diagorientePreferencesMetierSuccessState().store();
+      final store = givenState().withDiagorientePreferencesMetierSuccessState().store();
 
       // When
       final viewModel = DiagorienteWebviewViewModel.create(store, DiagorienteWebviewMode.favoris);
@@ -39,7 +39,7 @@ void main() {
   group('appBarTitle', () {
     test("on chatbot mode", () {
       // Given
-      final store = givenState().diagorientePreferencesMetierSuccessState().store();
+      final store = givenState().withDiagorientePreferencesMetierSuccessState().store();
 
       // When
       final viewModel = DiagorienteWebviewViewModel.create(store, DiagorienteWebviewMode.chatbot);
@@ -50,7 +50,7 @@ void main() {
 
     test("on favoris mode", () {
       // Given
-      final store = givenState().diagorientePreferencesMetierSuccessState().store();
+      final store = givenState().withDiagorientePreferencesMetierSuccessState().store();
 
       // When
       final viewModel = DiagorienteWebviewViewModel.create(store, DiagorienteWebviewMode.favoris);

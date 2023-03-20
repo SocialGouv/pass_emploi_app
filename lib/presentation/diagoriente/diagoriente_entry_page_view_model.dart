@@ -21,7 +21,7 @@ class DiagorienteEntryPageViewModel extends Equatable {
     return DiagorienteEntryPageViewModel(
       displayState: _displayState(store),
       withMetiersFavoris: _withMetiersFavoris(store),
-      onRetry: () => store.dispatch(DiagorientePreferencesMetierRequestAction()),
+      onRetry: () => store.dispatch(DiagorientePreferencesMetierRequestAction(forceNoCacheOnFavoris: true)),
     );
   }
 
@@ -32,7 +32,7 @@ class DiagorienteEntryPageViewModel extends Equatable {
 bool _withMetiersFavoris(Store<AppState> store) {
   final state = store.state.diagorientePreferencesMetierState;
   if (state is! DiagorientePreferencesMetierSuccessState) return false;
-  return state.aDesMetiersFavoris;
+  return state.metiersFavoris.isNotEmpty;
 }
 
 DisplayState _displayState(Store<AppState> store) {

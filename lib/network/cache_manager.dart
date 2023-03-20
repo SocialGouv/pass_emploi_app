@@ -1,5 +1,6 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
+import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -45,6 +46,11 @@ class PassEmploiCacheManager extends CacheManager {
   void removeSuggestionsRechercheResource({required String baseUrl, required String userId}) {
     removeFile(SuggestionsRechercheRepository.getSuggestionsUri(baseUrl: baseUrl, userId: userId).toString());
   }
+
+  void removeDiagorienteFavorisResource({required String baseUrl, required String userId}) {
+    final url = baseUrl + DiagorienteMetiersFavorisRepository.getUrl(userId: userId);
+    removeFile(url);
+  }
 }
 
 enum CachedResource {
@@ -60,7 +66,6 @@ const _blacklistedRoutes = [
   '/home/actions',
   '/home/demarches',
   '/fichiers',
-  'diagoriente/metiers-favoris',
 ];
 
 extension Whiteliste on String {

@@ -1,3 +1,13 @@
-{
-  "aDesMetiersFavoris": true
+{ 
+  "metiersFavoris": 
+  [
+    {
+      "libelle": "Chevrier / Chevrière",
+      "code": "A1410"
+    },
+    {
+      "libelle": "Céréalier / Céréalière",
+      "code": "A1416"
+    }
+  ]
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/presentation/derniers_mots_cles_view_model.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
+import 'package:pass_emploi_app/presentation/mots_cles_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -43,8 +44,9 @@ class KeywordTextFormFieldPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FullScreenTextFormFieldScaffold(
-      body: StoreConnector<AppState, DerniersMotsClesViewModel>(
-        converter: (store) => DerniersMotsClesViewModel.create(store),
+      body: StoreConnector<AppState, MotsClesViewModel>(
+        onInit: (store) => store.dispatch(DiagorientePreferencesMetierRequestAction()),
+        converter: (store) => MotsClesViewModel.create(store),
         builder: (context, viewModel) {
           return _Body(
             viewModel: viewModel,
@@ -61,7 +63,7 @@ class KeywordTextFormFieldPage extends StatelessWidget {
 }
 
 class _Body extends StatefulWidget {
-  final DerniersMotsClesViewModel viewModel;
+  final MotsClesViewModel viewModel;
   final String title;
   final String hint;
   final String? selectedKeyword;
@@ -85,10 +87,16 @@ class _BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
-    if (emptyInput) {
+    if (emptyInput && widget.viewModel.containsMotsClesRecents) {
       PassEmploiMatomoTracker.instance.trackEvent(
-        eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
-        action: AnalyticsEventNames.lastRechercheMetierDisplayAction,
+        eventCategory: AnalyticsEventNames.lastRechercheMotsClesEventCategory,
+        action: AnalyticsEventNames.lastRechercheMotsClesDisplayAction,
+      );
+    }
+    if (emptyInput && widget.viewModel.containsDiagorienteFavoris) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisEventCategory,
+        action: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisDisplayAction,
       );
     }
     return Column(
@@ -111,17 +119,21 @@ class _BodyState extends State<_Body> {
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) {
-                final item = widget.viewModel.derniersMotsCles[index];
-                if (item is DerniersMotsClesAutocompleteTitleItem) return TitleTile(title: item.title);
-
-                if (item is DerniersMotsClesAutocompleteSuggestionItem) {
+                final item = widget.viewModel.motsCles[index];
+                if (item is MotsClesTitleItem) return TitleTile(title: item.title);
+                if (item is MotsClesSuggestionItem) {
                   return _MotCleListTile(
                     motCle: item.text,
                     onTap: (selectedMotCle) {
-                      if (emptyInput) {
+                      if (item.source == MotCleSource.recherchesRecentes) {
                         PassEmploiMatomoTracker.instance.trackEvent(
-                          eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
-                          action: AnalyticsEventNames.lastRechercheMetierClickAction,
+                          eventCategory: AnalyticsEventNames.lastRechercheMotsClesEventCategory,
+                          action: AnalyticsEventNames.lastRechercheMotsClesClickAction,
+                        );
+                      } else if (item.source == MotCleSource.diagorienteMetiersFavoris) {
+                        PassEmploiMatomoTracker.instance.trackEvent(
+                          eventCategory: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisEventCategory,
+                          action: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisClickAction,
                         );
                       }
                       Navigator.pop(context, selectedMotCle);
@@ -131,7 +143,7 @@ class _BodyState extends State<_Body> {
                 return SizedBox.shrink();
               },
               separatorBuilder: (context, index) => TextFormFieldSepLine(),
-              itemCount: widget.viewModel.derniersMotsCles.length,
+              itemCount: widget.viewModel.motsCles.length,
             ),
           ),
       ],
@@ -153,7 +165,7 @@ class _MotCleListTile extends StatelessWidget {
         children: [
           Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
           SizedBox(width: Margins.spacing_s),
-          Text(motCle, style: TextStyles.textBaseRegular),
+          Expanded(child: Text(motCle, style: TextStyles.textBaseRegular)),
         ],
       ),
       onTap: () => onTap(motCle),

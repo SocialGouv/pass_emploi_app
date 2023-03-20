@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:intl/intl.dart';
 
 /// By default, DateTime are not TimeZone aware. Parsing to UTC then converting to local time zone is required to
@@ -16,4 +17,21 @@ extension StringExtensions on String {
   String firstLetterUpperCased() => length > 1 ? substring(0, 1).toUpperCase() + substring(1) : this;
 
   String firstLetterLowerCased() => length > 1 ? substring(0, 1).toLowerCase() + substring(1) : this;
+
+  String removeAccents() {
+    const withDia = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+    const withoutDia = 'AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz';
+
+    var str = this;
+    for (int i = 0; i < withDia.length; i++) {
+      str = str.replaceAll(withDia[i], withoutDia[i]);
+    }
+    return str;
+  }
+}
+
+extension StringList on List<String> {
+  List<String> sortedAlphabetically() {
+    return sorted((a, b) => a.toUpperCase().removeAccents().compareTo(b.toUpperCase().removeAccents()));
+  }
 }

@@ -371,7 +371,7 @@ class DummyDiagorienteUrlsRepository extends DiagorienteUrlsRepository {
 }
 
 class DummyDiagorienteMetiersFavorisRepository extends DiagorienteMetiersFavorisRepository {
-  DummyDiagorienteMetiersFavorisRepository() : super(DioMock());
+  DummyDiagorienteMetiersFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
 }
 
 class DummyRecherchesRecentesRepository extends RecherchesRecentesRepository {

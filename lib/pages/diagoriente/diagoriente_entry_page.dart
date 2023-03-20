@@ -29,7 +29,6 @@ class DiagorienteEntryPage extends StatelessWidget {
         onInit: (store) => store.dispatch(DiagorientePreferencesMetierRequestAction()),
         converter: (store) => DiagorienteEntryPageViewModel.create(store),
         builder: (context, vm) => _Scaffold(vm),
-        onDispose: (store) => store.dispatch(DiagorientePreferencesMetierResetAction()),
         distinct: true,
       ),
     );

@@ -2,10 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
 import 'package:pass_emploi_app/models/diagoriente_urls.dart';
+import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 
 import '../../doubles/dio_mock.dart';
+import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -76,7 +78,7 @@ Matcher _shouldSucceed() {
     (state) => state.diagorientePreferencesMetierState,
     (state) {
       expect(state.urls, mockDiagorienteUrls());
-      expect(state.aDesMetiersFavoris, true);
+      expect(state.metiersFavoris, mockAutocompleteMetiers());
     },
   );
 }
@@ -96,19 +98,19 @@ class DiagorientePreferencesMetierRepositoryErrorStub extends DiagorienteUrlsRep
 }
 
 class DiagorienteMetiersFavorisRepositorySuccessStub extends DiagorienteMetiersFavorisRepository {
-  DiagorienteMetiersFavorisRepositorySuccessStub() : super(DioMock());
+  DiagorienteMetiersFavorisRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
-  Future<bool?> get(String userId) async {
-    return true;
+  Future<List<Metier>?> get(String userId, bool forceNoCache) async {
+    return mockAutocompleteMetiers();
   }
 }
 
 class DiagorienteMetiersFavorisRepositoryErrorStub extends DiagorienteMetiersFavorisRepository {
-  DiagorienteMetiersFavorisRepositoryErrorStub() : super(DioMock());
+  DiagorienteMetiersFavorisRepositoryErrorStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
-  Future<bool?> get(String userId) async {
+  Future<List<Metier>?> get(String userId, bool forceNoCache) async {
     return null;
   }
 }

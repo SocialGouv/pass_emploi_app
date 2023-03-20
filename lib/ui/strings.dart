@@ -318,6 +318,7 @@ class Strings {
   // Recherche
   static String derniereRecherche = "Dernière recherche";
   static String dernieresRecherches = "Dernières recherches";
+  static String vosPreferencesMetiers = "Vos préférences métiers";
   static String rechercheHomeNosOffres = "Nos offres";
   static String rechercheHomeCardLink = "Rechercher";
   static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
