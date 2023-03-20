@@ -15,7 +15,8 @@ class SavedSearchResponse {
   final String titre;
   final String type;
   final String? metier;
-  final String? localisation;
+  final String? locationLabel;
+  final Location? location;
   final SavedSearchResponseCriteres criteres;
 
   SavedSearchResponse({
@@ -23,7 +24,8 @@ class SavedSearchResponse {
     required this.titre,
     required this.type,
     this.metier,
-    this.localisation,
+    this.locationLabel,
+    this.location,
     required this.criteres,
   });
 
@@ -33,7 +35,8 @@ class SavedSearchResponse {
       titre: json["titre"] as String,
       type: json["type"] as String,
       metier: json["metier"] as String?,
-      localisation: json["localisation"] as String?,
+      locationLabel: json["localisation"] as String?,
+      location: json["realLocation"] != null ? Location.fromJson(json["realLocation"]) : null,
       criteres: SavedSearchResponseCriteres.fromJson(json["criteres"]),
     );
   }
@@ -44,7 +47,8 @@ class SavedSearchResponse {
       "titre": titre,
       "type": type,
       "metier": metier,
-      "localisation": localisation,
+      "localisation": locationLabel,
+      if (location != null) "realLocation": location!.toJson(),
       "criteres": criteres.toJson(),
     };
   }
@@ -140,12 +144,14 @@ class SavedSearchEmploiExtractor {
   }
 
   Location? _getLocation(SavedSearchResponse savedSearch) {
-    if (savedSearch.localisation != null) {
+    if (savedSearch.location != null) {
+      return savedSearch.location;
+    } else if (savedSearch.locationLabel != null) {
       final type = savedSearch.criteres.commune == null ? LocationType.DEPARTMENT : LocationType.COMMUNE;
       return Location(
         type: type,
         code: savedSearch.criteres.commune ?? savedSearch.criteres.departement!,
-        libelle: savedSearch.localisation ?? "",
+        libelle: savedSearch.locationLabel ?? "",
         codePostal: null,
         longitude: null,
         latitude: null,
@@ -174,7 +180,7 @@ class SavedSearchImmersionExtractor {
       metier: savedSearch.metier ?? "",
       location: _getLocation(savedSearch),
       filtres: _getFiltres(savedSearch.criteres),
-      ville: savedSearch.localisation ?? "",
+      ville: savedSearch.locationLabel ?? "",
       codeRome: savedSearch.criteres.rome!,
     );
   }
@@ -184,14 +190,18 @@ class SavedSearchImmersionExtractor {
   }
 
   Location _getLocation(SavedSearchResponse savedSearch) {
-    return Location(
-      type: LocationType.COMMUNE,
-      code: savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "",
-      libelle: savedSearch.localisation ?? "",
-      codePostal: null,
-      longitude: savedSearch.criteres.lon,
-      latitude: savedSearch.criteres.lat,
-    );
+    if (savedSearch.location != null) {
+      return savedSearch.location!;
+    } else {
+      return Location(
+        type: LocationType.COMMUNE,
+        code: savedSearch.criteres.commune ?? "",
+        libelle: savedSearch.locationLabel ?? "",
+        codePostal: null,
+        longitude: savedSearch.criteres.lon,
+        latitude: savedSearch.criteres.lat,
+      );
+    }
   }
 }
 
@@ -201,7 +211,7 @@ class SavedSearchServiceCiviqueExtractor {
       id: savedSearch.id,
       titre: savedSearch.titre,
       domaine: Domaine.fromTag(savedSearch.criteres.domaine),
-      ville: savedSearch.localisation,
+      ville: savedSearch.locationLabel,
       filtres: ServiceCiviqueFiltresParameters.distance(savedSearch.criteres.distance),
       dateDeDebut: savedSearch.criteres.dateDeDebutMinimum?.toDateTimeUtcOnLocalTimeZone(),
       location: _getLocation(savedSearch),
@@ -209,11 +219,13 @@ class SavedSearchServiceCiviqueExtractor {
   }
 
   Location? _getLocation(SavedSearchResponse savedSearch) {
-    if (savedSearch.localisation != null) {
+    if (savedSearch.location != null) {
+      return savedSearch.location!;
+    } else if (savedSearch.locationLabel != null) {
       return Location(
         type: LocationType.COMMUNE,
-        code: savedSearch.localisation!,
-        libelle: savedSearch.localisation ?? "",
+        code: savedSearch.locationLabel!,
+        libelle: savedSearch.locationLabel ?? "",
         codePostal: null,
         longitude: savedSearch.criteres.lon,
         latitude: savedSearch.criteres.lat,
@@ -230,7 +242,8 @@ extension OffreEmploiSavedSearchExt on OffreEmploiSavedSearch {
       id: id,
       titre: title,
       metier: metier,
-      localisation: location?.libelle,
+      locationLabel: location?.libelle,
+      location: location,
       type: onlyAlternance ? "OFFRES_ALTERNANCE" : "OFFRES_EMPLOI",
       criteres: SavedSearchResponseCriteres(
         q: keyword,
@@ -259,7 +272,8 @@ extension ImmersionSavedSearchExt on ImmersionSavedSearch {
       id: id,
       titre: title,
       metier: metier,
-      localisation: location.libelle,
+      locationLabel: location.libelle,
+      location: location,
       type: "OFFRES_IMMERSION",
       criteres: SavedSearchResponseCriteres(
         q: null,
@@ -288,7 +302,8 @@ extension ServiceCiviqueSavedSearchExt on ServiceCiviqueSavedSearch {
       id: id,
       titre: titre,
       metier: null,
-      localisation: ville,
+      locationLabel: ville,
+      location: location,
       type: "OFFRES_SERVICES_CIVIQUE",
       criteres: SavedSearchResponseCriteres(
         q: null,
