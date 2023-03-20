@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_reposit
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 
 import '../../doubles/dio_mock.dart';
+import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -97,19 +98,19 @@ class DiagorientePreferencesMetierRepositoryErrorStub extends DiagorienteUrlsRep
 }
 
 class DiagorienteMetiersFavorisRepositorySuccessStub extends DiagorienteMetiersFavorisRepository {
-  DiagorienteMetiersFavorisRepositorySuccessStub() : super(DioMock());
+  DiagorienteMetiersFavorisRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
-  Future<List<Metier>?> get(String userId) async {
+  Future<List<Metier>?> get(String userId, bool forceNoCache) async {
     return mockAutocompleteMetiers();
   }
 }
 
 class DiagorienteMetiersFavorisRepositoryErrorStub extends DiagorienteMetiersFavorisRepository {
-  DiagorienteMetiersFavorisRepositoryErrorStub() : super(DioMock());
+  DiagorienteMetiersFavorisRepositoryErrorStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
-  Future<List<Metier>?> get(String userId) async {
+  Future<List<Metier>?> get(String userId, bool forceNoCache) async {
     return null;
   }
 }

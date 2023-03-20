@@ -21,7 +21,7 @@ class DiagorienteEntryPageViewModel extends Equatable {
     return DiagorienteEntryPageViewModel(
       displayState: _displayState(store),
       withMetiersFavoris: _withMetiersFavoris(store),
-      onRetry: () => store.dispatch(DiagorientePreferencesMetierRequestAction()),
+      onRetry: () => store.dispatch(DiagorientePreferencesMetierRequestAction(forceNoCacheOnFavoris: true)),
     );
   }
 

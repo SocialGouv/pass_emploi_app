@@ -7,7 +7,7 @@ import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  test('onRetry should dispatch DiagorienteUrlsRequestAction', () {
+  test('onRetry should dispatch DiagorienteUrlsRequestAction and force no cache', () {
     // Given
     final store = givenState().spyStore();
     final viewModel = DiagorienteEntryPageViewModel.create(store);
@@ -17,6 +17,8 @@ void main() {
 
     // Then
     expect(store.dispatchedAction, isA<DiagorientePreferencesMetierRequestAction>());
+    final action = store.dispatchedAction as DiagorientePreferencesMetierRequestAction;
+    expect(action.forceNoCacheOnFavoris, true);
   });
 
   group('withMetiersFavoris', () {

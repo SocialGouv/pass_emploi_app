@@ -21,7 +21,7 @@ class DiagorientePreferencesMetierMiddleware extends MiddlewareClass<AppState> {
 
       final results = await Future.wait([
         _diagorienteUrlRepository.getUrls(userId),
-        _diagorienteMetiersFavorisRepository.get(userId),
+        _diagorienteMetiersFavorisRepository.get(userId, action.forceNoCacheOnFavoris),
       ]);
       final urls = results[0] as DiagorienteUrls?;
       final metiersFavoris = results[1] as List<Metier>?;

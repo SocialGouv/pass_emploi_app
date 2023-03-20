@@ -2,15 +2,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 
+import '../doubles/dummies.dart';
 import '../dsl/sut_repository2.dart';
 
 void main() {
   group('DiagorienteMetiersFavorisRepository', () {
     final sut = RepositorySut2<DiagorienteMetiersFavorisRepository>();
-    sut.givenRepository((client) => DiagorienteMetiersFavorisRepository(client));
+    sut.givenRepository((client) => DiagorienteMetiersFavorisRepository(client, DummyPassEmploiCacheManager()));
 
     group('get', () {
-      sut.when((repository) => repository.get("UID"));
+      sut.when((repository) => repository.get("UID", false));
 
       group('when response is valid', () {
         sut.givenJsonResponse(fromJson: "diagoriente_metiers_favoris.json");
