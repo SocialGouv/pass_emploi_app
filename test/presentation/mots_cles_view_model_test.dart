@@ -16,6 +16,8 @@ void main() {
     final result = MotsClesViewModel.create(store);
     // Then
     expect(result.motsCles, []);
+    expect(result.containsDiagorienteFavoris, false);
+    expect(result.containsMotsClesRecents, false);
   });
 
   test('create view model with metiers favoris in alphabetic order', () {
@@ -30,10 +32,13 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Vos préférences métiers"),
-      MotsClesSuggestionItem("Cavalier dresseur / Cavalière dresseuse de chevaux"),
-      MotsClesSuggestionItem("Céréalier / Céréalière"),
-      MotsClesSuggestionItem("Chevrier / Chevrière"),
+      MotsClesSuggestionItem(
+          "Cavalier dresseur / Cavalière dresseuse de chevaux", MotCleSource.diagorienteMetiersFavoris),
+      MotsClesSuggestionItem("Céréalier / Céréalière", MotCleSource.diagorienteMetiersFavoris),
+      MotsClesSuggestionItem("Chevrier / Chevrière", MotCleSource.diagorienteMetiersFavoris),
     ]);
+    expect(result.containsDiagorienteFavoris, true);
+    expect(result.containsMotsClesRecents, false);
   });
 
   test('create view model with both metiers favoris and recherches recentes', () {
@@ -48,13 +53,16 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Vos préférences métiers"),
-      MotsClesSuggestionItem("Cavalier dresseur / Cavalière dresseuse de chevaux"),
-      MotsClesSuggestionItem("Céréalier / Céréalière"),
-      MotsClesSuggestionItem("Chevrier / Chevrière"),
+      MotsClesSuggestionItem(
+          "Cavalier dresseur / Cavalière dresseuse de chevaux", MotCleSource.diagorienteMetiersFavoris),
+      MotsClesSuggestionItem("Céréalier / Céréalière", MotCleSource.diagorienteMetiersFavoris),
+      MotsClesSuggestionItem("Chevrier / Chevrière", MotCleSource.diagorienteMetiersFavoris),
       MotsClesTitleItem("Dernières recherches"),
-      MotsClesSuggestionItem("Boulangerie"),
-      MotsClesSuggestionItem("Flutter"),
+      MotsClesSuggestionItem("Boulangerie", MotCleSource.recherchesRecentes),
+      MotsClesSuggestionItem("Flutter", MotCleSource.recherchesRecentes),
     ]);
+    expect(result.containsDiagorienteFavoris, true);
+    expect(result.containsMotsClesRecents, true);
   });
 
   test('create view model with 1 recherche recente', () {
@@ -67,8 +75,10 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Dernière recherche"),
-      MotsClesSuggestionItem("chevalier"),
+      MotsClesSuggestionItem("chevalier", MotCleSource.recherchesRecentes),
     ]);
+    expect(result.containsDiagorienteFavoris, false);
+    expect(result.containsMotsClesRecents, true);
   });
 
   test('create view model with many recherche recente should only take 3', () {
@@ -84,9 +94,9 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Dernières recherches"),
-      MotsClesSuggestionItem("1"),
-      MotsClesSuggestionItem("2"),
-      MotsClesSuggestionItem("3"),
+      MotsClesSuggestionItem("1", MotCleSource.recherchesRecentes),
+      MotsClesSuggestionItem("2", MotCleSource.recherchesRecentes),
+      MotsClesSuggestionItem("3", MotCleSource.recherchesRecentes),
     ]);
   });
 
@@ -102,8 +112,8 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Dernières recherches"),
-      MotsClesSuggestionItem("1"),
-      MotsClesSuggestionItem("2"),
+      MotsClesSuggestionItem("1", MotCleSource.recherchesRecentes),
+      MotsClesSuggestionItem("2", MotCleSource.recherchesRecentes),
     ]);
   });
 
@@ -119,8 +129,8 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Dernières recherches"),
-      MotsClesSuggestionItem("1"),
-      MotsClesSuggestionItem("2"),
+      MotsClesSuggestionItem("1", MotCleSource.recherchesRecentes),
+      MotsClesSuggestionItem("2", MotCleSource.recherchesRecentes),
     ]);
   });
 }

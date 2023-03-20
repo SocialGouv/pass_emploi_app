@@ -166,6 +166,14 @@ class AnalyticsEventNames {
   static const createActionDisplaySnackBarAction = "Affichage SnackBar succès";
   static const createActionClickOnSnackBarAction = "Clic détail action/démarche";
 
+  static const autocompleteMotCleDiagorienteMetiersFavorisEventCategory = "Préférences métiers dans les mots clés";
+  static const autocompleteMotCleDiagorienteMetiersFavorisDisplayAction = "Affichage des préférences métiers";
+  static const autocompleteMotCleDiagorienteMetiersFavorisClickAction = "Clic préférences métiers";
+
+  static const lastRechercheMotsClesEventCategory = "Dernières recherches mots clés";
+  static const lastRechercheMotsClesDisplayAction = "Affichage dernières recherches mots clés";
+  static const lastRechercheMotsClesClickAction = "Clic dernières recherches mots clés";
+
   static const lastRechercheMetierEventCategory = "Dernières recherches métiers";
   static const lastRechercheMetierDisplayAction = "Affichage dernières recherches métiers";
   static const lastRechercheMetierClickAction = "Clic dernières recherches métiers";

@@ -10,12 +10,23 @@ import 'package:redux/redux.dart';
 
 class MotsClesViewModel extends Equatable {
   final List<MotsClesItem> motsCles;
+  final bool containsDiagorienteFavoris;
+  final bool containsMotsClesRecents;
 
-  MotsClesViewModel({required this.motsCles});
+  MotsClesViewModel({
+    required this.motsCles,
+    required this.containsDiagorienteFavoris,
+    required this.containsMotsClesRecents,
+  });
 
   factory MotsClesViewModel.create(Store<AppState> store) {
+    final motsClesFromDiagoriente = _motsClesFromDiagoriente(store);
+    final motsClesFromRechercheRecentes = _motsClesFromRechercheRecentes(store);
+    final motsCles = motsClesFromDiagoriente + motsClesFromRechercheRecentes;
     return MotsClesViewModel(
-      motsCles: _motsClesItems(store),
+      motsCles: motsCles,
+      containsDiagorienteFavoris: motsClesFromDiagoriente.isNotEmpty,
+      containsMotsClesRecents: motsClesFromRechercheRecentes.isNotEmpty,
     );
   }
 
@@ -36,18 +47,17 @@ class MotsClesTitleItem extends MotsClesItem {
 
 class MotsClesSuggestionItem extends MotsClesItem {
   final String text;
+  final MotCleSource source;
 
-  MotsClesSuggestionItem(this.text);
+  MotsClesSuggestionItem(this.text, this.source);
 
   @override
-  List<Object?> get props => [text];
+  List<Object?> get props => [text, source];
 }
 
-List<MotsClesItem> _motsClesItems(Store<AppState> store) {
-  return _motsClesFavorisItems(store) + _derniersMotsClesItems(store);
-}
+enum MotCleSource { recherchesRecentes, diagorienteMetiersFavoris }
 
-List<MotsClesItem> _motsClesFavorisItems(Store<AppState> store) {
+List<MotsClesItem> _motsClesFromDiagoriente(Store<AppState> store) {
   final state = store.state.diagorientePreferencesMetierState;
   if (state is! DiagorientePreferencesMetierSuccessState || state.metiersFavoris.isEmpty) return [];
   return [
@@ -56,17 +66,17 @@ List<MotsClesItem> _motsClesFavorisItems(Store<AppState> store) {
         .map((e) => e.libelle)
         .toList()
         .sortedAlphabetically()
-        .map((e) => MotsClesSuggestionItem(e)),
+        .map((e) => MotsClesSuggestionItem(e, MotCleSource.diagorienteMetiersFavoris)),
   ];
 }
 
-List<MotsClesItem> _derniersMotsClesItems(Store<AppState> store) {
+List<MotsClesItem> _motsClesFromRechercheRecentes(Store<AppState> store) {
   final motCles = _derniersMotsCles(store);
   if (motCles.isEmpty) return [];
   final title = motCles.length == 1 ? Strings.derniereRecherche : Strings.dernieresRecherches;
   return [
     MotsClesTitleItem(title),
-    ...motCles.map((e) => MotsClesSuggestionItem(e)),
+    ...motCles.map((e) => MotsClesSuggestionItem(e, MotCleSource.recherchesRecentes)),
   ];
 }
 

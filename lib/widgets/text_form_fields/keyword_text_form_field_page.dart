@@ -87,10 +87,16 @@ class _BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
-    if (emptyInput) {
+    if (emptyInput && widget.viewModel.containsMotsClesRecents) {
       PassEmploiMatomoTracker.instance.trackEvent(
-        eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
-        action: AnalyticsEventNames.lastRechercheMetierDisplayAction,
+        eventCategory: AnalyticsEventNames.lastRechercheMotsClesEventCategory,
+        action: AnalyticsEventNames.lastRechercheMotsClesDisplayAction,
+      );
+    }
+    if (emptyInput && widget.viewModel.containsDiagorienteFavoris) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisEventCategory,
+        action: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisDisplayAction,
       );
     }
     return Column(
@@ -119,10 +125,15 @@ class _BodyState extends State<_Body> {
                   return _MotCleListTile(
                     motCle: item.text,
                     onTap: (selectedMotCle) {
-                      if (emptyInput) {
+                      if (item.source == MotCleSource.recherchesRecentes) {
                         PassEmploiMatomoTracker.instance.trackEvent(
-                          eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
-                          action: AnalyticsEventNames.lastRechercheMetierClickAction,
+                          eventCategory: AnalyticsEventNames.lastRechercheMotsClesEventCategory,
+                          action: AnalyticsEventNames.lastRechercheMotsClesClickAction,
+                        );
+                      } else if (item.source == MotCleSource.diagorienteMetiersFavoris) {
+                        PassEmploiMatomoTracker.instance.trackEvent(
+                          eventCategory: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisEventCategory,
+                          action: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisClickAction,
                         );
                       }
                       Navigator.pop(context, selectedMotCle);
