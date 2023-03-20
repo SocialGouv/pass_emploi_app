@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
-import 'package:synchronized/synchronized.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
@@ -13,14 +12,14 @@ import '../doubles/stubs.dart';
 void main() {
   test("Throws an exception when id token is null", () async {
     // Given
-    final tokenRetriever = AuthAccessTokenRetriever(AuthenticatorNotLoggedInStub(), Lock());
+    final tokenRetriever = AuthAccessTokenRetriever(AuthenticatorNotLoggedInStub());
     // When-Then
     expect(() async => await tokenRetriever.accessToken(), throwsException);
   });
 
   test("Returns access token when id token is valid", () async {
     // Given
-    final tokenRetriever = AuthAccessTokenRetriever(AuthenticatorLoggedInAndValidIdTokenStub(), Lock());
+    final tokenRetriever = AuthAccessTokenRetriever(AuthenticatorLoggedInAndValidIdTokenStub());
     // When-Then
     expect(await tokenRetriever.accessToken(), "Access token");
   });
@@ -28,7 +27,7 @@ void main() {
   test("Returns access token when id token is invalid but refresh token is SUCCESSFUL", () async {
     // Given
     final authenticator = AuthenticatorLoggedInAndInvalidIdTokenStub(RefreshTokenStatus.SUCCESSFUL);
-    final tokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
+    final tokenRetriever = AuthAccessTokenRetriever(authenticator);
 
     // When-Then
     expect(await tokenRetriever.accessToken(), "Access token");
@@ -37,7 +36,7 @@ void main() {
   test("Throws an exception when id token is invalid and refresh token returns GENERIC_ERROR", () async {
     // Given
     final authenticator = AuthenticatorLoggedInAndInvalidIdTokenStub(RefreshTokenStatus.GENERIC_ERROR);
-    final tokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
+    final tokenRetriever = AuthAccessTokenRetriever(authenticator);
 
     // When-Then
     expect(() async => await tokenRetriever.accessToken(), throwsException);
@@ -46,7 +45,7 @@ void main() {
   test("Throws an exception when id token is invalid and refresh token returns USER_NOT_LOGGED_IN", () async {
     // Given
     final authenticator = AuthenticatorLoggedInAndInvalidIdTokenStub(RefreshTokenStatus.USER_NOT_LOGGED_IN);
-    final tokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
+    final tokenRetriever = AuthAccessTokenRetriever(authenticator);
 
     // When-Then
     expect(() async => await tokenRetriever.accessToken(), throwsException);
@@ -55,7 +54,7 @@ void main() {
   test("Throws an exception when id token is invalid and refresh token returns NETWORK_UNREACHABLE", () async {
     // Given
     final authenticator = AuthenticatorLoggedInAndInvalidIdTokenStub(RefreshTokenStatus.NETWORK_UNREACHABLE);
-    final tokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
+    final tokenRetriever = AuthAccessTokenRetriever(authenticator);
 
     // When-Then
     expect(() async => await tokenRetriever.accessToken(), throwsException);
@@ -65,7 +64,7 @@ void main() {
     // Given
     final store = StoreSpy();
     final authenticator = AuthenticatorLoggedInAndInvalidIdTokenStub(RefreshTokenStatus.EXPIRED_REFRESH_TOKEN);
-    final tokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
+    final tokenRetriever = AuthAccessTokenRetriever(authenticator);
     tokenRetriever.setStore(store);
 
     // When-Then
@@ -76,7 +75,7 @@ void main() {
     // Given
     final store = StoreSpy();
     final authenticator = AuthenticatorLoggedInAndInvalidIdTokenStub(RefreshTokenStatus.EXPIRED_REFRESH_TOKEN);
-    final tokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
+    final tokenRetriever = AuthAccessTokenRetriever(authenticator);
     tokenRetriever.setStore(store);
 
     // When
@@ -115,7 +114,7 @@ class AuthenticatorLoggedInAndInvalidIdTokenStub extends Authenticator {
 
   @override
   Future<AuthIdToken?> idToken() async => AuthIdToken(
-    userId: "id",
+        userId: "id",
         firstName: "F",
         lastName: "L",
         email: "email@email.com",

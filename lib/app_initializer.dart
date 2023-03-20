@@ -164,7 +164,7 @@ class AppInitializer {
       securedPreferences,
       crashlytics,
     );
-    final accessTokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
+    final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
     final authAccessChecker = AuthAccessChecker();
     final requestCacheManager = PassEmploiCacheManager.requestCache();
     final modeDemoRepository = ModeDemoRepository();
