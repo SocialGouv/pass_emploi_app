@@ -22,7 +22,7 @@ class MotsClesViewModel extends Equatable {
   factory MotsClesViewModel.create(Store<AppState> store) {
     final motsClesFromDiagoriente = _motsClesFromDiagoriente(store);
     final motsClesFromRechercheRecentes = _motsClesFromRechercheRecentes(store);
-    final motsCles = motsClesFromDiagoriente + motsClesFromRechercheRecentes;
+    final motsCles = motsClesFromRechercheRecentes + motsClesFromDiagoriente;
     return MotsClesViewModel(
       motsCles: motsCles,
       containsDiagorienteFavoris: motsClesFromDiagoriente.isNotEmpty,

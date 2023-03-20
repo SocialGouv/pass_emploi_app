@@ -52,14 +52,14 @@ void main() {
     final result = MotsClesViewModel.create(store);
     // Then
     expect(result.motsCles, [
+      MotsClesTitleItem("Dernières recherches"),
+      MotsClesSuggestionItem("Boulangerie", MotCleSource.recherchesRecentes),
+      MotsClesSuggestionItem("Flutter", MotCleSource.recherchesRecentes),
       MotsClesTitleItem("Vos préférences métiers"),
       MotsClesSuggestionItem(
           "Cavalier dresseur / Cavalière dresseuse de chevaux", MotCleSource.diagorienteMetiersFavoris),
       MotsClesSuggestionItem("Céréalier / Céréalière", MotCleSource.diagorienteMetiersFavoris),
       MotsClesSuggestionItem("Chevrier / Chevrière", MotCleSource.diagorienteMetiersFavoris),
-      MotsClesTitleItem("Dernières recherches"),
-      MotsClesSuggestionItem("Boulangerie", MotCleSource.recherchesRecentes),
-      MotsClesSuggestionItem("Flutter", MotCleSource.recherchesRecentes),
     ]);
     expect(result.containsDiagorienteFavoris, true);
     expect(result.containsMotsClesRecents, true);
