@@ -31,7 +31,13 @@ void main() {
 class _RegisterTokenRepositorySpy extends ConfigurationApplicationRepository {
   bool wasCalled = false;
 
-  _RegisterTokenRepositorySpy() : super("", DummyHttpClient(), DummyPushNotificationManager());
+  _RegisterTokenRepositorySpy()
+      : super(
+          "",
+          DummyHttpClient(),
+          DummyFirebaseInstanceIdGetter(),
+          DummyPushNotificationManager(),
+        );
 
   @override
   Future<void> configureApplication(String userId, String fuseauHoraire) async {

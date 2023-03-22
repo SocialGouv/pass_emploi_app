@@ -192,6 +192,7 @@ class AppInitializer {
       monitoringDioInterceptor,
     );
     final chatCrypto = ChatCrypto();
+    final firebaseInstanceIdGetter = FirebaseInstanceIdGetter();
     final reduxStore = StoreFactory(
       configuration,
       authenticator,
@@ -202,7 +203,13 @@ class AppInitializer {
       RendezvousRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, crashlytics),
       ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
-      ConfigurationApplicationRepository(baseUrl, httpClient, pushNotificationManager, crashlytics),
+      ConfigurationApplicationRepository(
+        baseUrl,
+        httpClient,
+        firebaseInstanceIdGetter,
+        pushNotificationManager,
+        crashlytics,
+      ),
       OffreEmploiDetailsRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ImmersionFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
