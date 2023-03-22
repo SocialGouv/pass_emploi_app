@@ -79,7 +79,13 @@ class DummyPushNotificationManager extends PushNotificationManager {
 }
 
 class DummyRegisterTokenRepository extends ConfigurationApplicationRepository {
-  DummyRegisterTokenRepository() : super("", DummyHttpClient(), DummyPushNotificationManager());
+  DummyRegisterTokenRepository()
+      : super(
+          "",
+          DummyHttpClient(),
+          DummyFirebaseInstanceIdGetter(),
+          DummyPushNotificationManager(),
+        );
 
   @override
   Future<void> configureApplication(String userId, String fuseauHoraire) async {}
@@ -376,5 +382,9 @@ class DummyDiagorienteMetiersFavorisRepository extends DiagorienteMetiersFavoris
 
 class DummyRecherchesRecentesRepository extends RecherchesRecentesRepository {
   DummyRecherchesRecentesRepository() : super(DummySharedPreferences());
+}
+
+class DummyFirebaseInstanceIdGetter extends FirebaseInstanceIdGetter {
+  DummyFirebaseInstanceIdGetter() : super();
 }
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

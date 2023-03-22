@@ -851,9 +851,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 76GBKHVK25;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 76GBKHVK25;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -864,6 +866,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fr.fabrique.social.gouv.passemploi.staging;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = fr.fabrique.social.gouv.passemploi.staging;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Pass Emploi Staging Dev Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
