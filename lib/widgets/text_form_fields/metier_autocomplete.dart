@@ -102,7 +102,6 @@ class _MetierAutocompletePage extends StatefulWidget {
   State<_MetierAutocompletePage> createState() => _MetierAutocompletePageState();
 }
 
-//TODO tracking
 //TODO icon
 
 class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
@@ -121,12 +120,19 @@ class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
   }
 
   void _onInitialBuild(MetierViewModel viewModel) {
-    if (viewModel.metiersSuggestions.isNotEmpty) {
+    if (viewModel.containsMetiersRecents) {
       PassEmploiMatomoTracker.instance.trackEvent(
         eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
         action: AnalyticsEventNames.lastRechercheMetierDisplayAction,
       );
     }
+    if (viewModel.containsDiagorienteFavoris) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisEventCategory,
+        action: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisDisplayAction,
+      );
+    }
+
     viewModel.onInputMetier(widget.selectedMetier?.libelle);
   }
 
@@ -199,6 +205,12 @@ class _MetierListTile extends StatelessWidget {
           PassEmploiMatomoTracker.instance.trackEvent(
             eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
             action: AnalyticsEventNames.lastRechercheMetierClickAction,
+          );
+        }
+        if (source == MetierSource.diagorienteMetiersFavoris) {
+          PassEmploiMatomoTracker.instance.trackEvent(
+            eventCategory: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisEventCategory,
+            action: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisClickAction,
           );
         }
         onMetierTap(metier);
