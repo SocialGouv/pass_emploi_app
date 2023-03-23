@@ -46,6 +46,7 @@ class KeywordTextFormFieldPage extends StatelessWidget {
     return FullScreenTextFormFieldScaffold(
       body: StoreConnector<AppState, MotsClesViewModel>(
         onInit: (store) => store.dispatch(DiagorientePreferencesMetierRequestAction()),
+        onInitialBuild: _onInitialBuild,
         converter: (store) => MotsClesViewModel.create(store),
         builder: (context, viewModel) {
           return _Body(
@@ -59,6 +60,21 @@ class KeywordTextFormFieldPage extends StatelessWidget {
         distinct: true,
       ),
     );
+  }
+
+  void _onInitialBuild(MotsClesViewModel viewModel) {
+    if (viewModel.containsMotsClesRecents) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.lastRechercheMotsClesEventCategory,
+        action: AnalyticsEventNames.lastRechercheMotsClesDisplayAction,
+      );
+    }
+    if (viewModel.containsDiagorienteFavoris) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisEventCategory,
+        action: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisDisplayAction,
+      );
+    }
   }
 }
 
@@ -87,18 +103,6 @@ class _BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
-    if (emptyInput && widget.viewModel.containsMotsClesRecents) {
-      PassEmploiMatomoTracker.instance.trackEvent(
-        eventCategory: AnalyticsEventNames.lastRechercheMotsClesEventCategory,
-        action: AnalyticsEventNames.lastRechercheMotsClesDisplayAction,
-      );
-    }
-    if (emptyInput && widget.viewModel.containsDiagorienteFavoris) {
-      PassEmploiMatomoTracker.instance.trackEvent(
-        eventCategory: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisEventCategory,
-        action: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisDisplayAction,
-      );
-    }
     return Column(
       children: [
         MultilineAppBar(
