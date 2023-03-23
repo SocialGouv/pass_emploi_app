@@ -102,8 +102,6 @@ class _MetierAutocompletePage extends StatefulWidget {
   State<_MetierAutocompletePage> createState() => _MetierAutocompletePageState();
 }
 
-//TODO icon
-
 class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
   bool emptyInput = true;
 

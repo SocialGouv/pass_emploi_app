@@ -128,6 +128,7 @@ class _BodyState extends State<_Body> {
                 if (item is MotsClesSuggestionItem) {
                   return _MotCleListTile(
                     motCle: item.text,
+                    source: item.source,
                     onTap: (selectedMotCle) {
                       if (item.source == MotCleSource.recherchesRecentes) {
                         PassEmploiMatomoTracker.instance.trackEvent(
@@ -157,9 +158,10 @@ class _BodyState extends State<_Body> {
 
 class _MotCleListTile extends StatelessWidget {
   final String motCle;
+  final MotCleSource source;
   final Function(String) onTap;
 
-  const _MotCleListTile({required this.motCle, required this.onTap});
+  const _MotCleListTile({required this.motCle, required this.source, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -167,8 +169,10 @@ class _MotCleListTile extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
       title: Row(
         children: [
-          Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800), //TODO
-          SizedBox(width: Margins.spacing_s),
+          if (source == MotCleSource.recherchesRecentes) ...[
+            Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
+            SizedBox(width: Margins.spacing_s),
+          ],
           Expanded(child: Text(motCle, style: TextStyles.textBaseRegular)),
         ],
       ),
