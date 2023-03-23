@@ -163,7 +163,7 @@ class _MotCleListTile extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
       title: Row(
         children: [
-          Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
+          Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800), //TODO
           SizedBox(width: Margins.spacing_s),
           Expanded(child: Text(motCle, style: TextStyles.textBaseRegular)),
         ],

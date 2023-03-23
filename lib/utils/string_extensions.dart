@@ -31,7 +31,9 @@ extension StringExtensions on String {
 }
 
 extension StringList on List<String> {
-  List<String> sortedAlphabetically() {
-    return sorted((a, b) => a.toUpperCase().removeAccents().compareTo(b.toUpperCase().removeAccents()));
-  }
+  List<String> sortedAlphabetically() => sorted(compareStringSortedAlphabetically);
+}
+
+int compareStringSortedAlphabetically(String a, String b) {
+  return a.toUpperCase().removeAccents().compareTo(b.toUpperCase().removeAccents());
 }

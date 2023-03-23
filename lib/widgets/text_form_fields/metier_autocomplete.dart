@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/autocomplete/metier_view_model.dart';
@@ -101,14 +102,18 @@ class _MetierAutocompletePage extends StatefulWidget {
   State<_MetierAutocompletePage> createState() => _MetierAutocompletePageState();
 }
 
+//TODO tracking
+//TODO icon
+
 class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
   bool emptyInput = true;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MetierViewModel>(
-      converter: (store) => MetierViewModel.create(store),
+      onInit: (store) => store.dispatch(DiagorientePreferencesMetierRequestAction()),
       onInitialBuild: _onInitialBuild,
+      converter: (store) => MetierViewModel.create(store),
       onDispose: (store) => store.dispatch(SearchMetierResetAction()),
       builder: _builder,
       distinct: true,
@@ -116,7 +121,7 @@ class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
   }
 
   void _onInitialBuild(MetierViewModel viewModel) {
-    if (viewModel.derniersMetiers.isNotEmpty) {
+    if (viewModel.metiersSuggestions.isNotEmpty) {
       PassEmploiMatomoTracker.instance.trackEvent(
         eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
         action: AnalyticsEventNames.lastRechercheMetierDisplayAction,

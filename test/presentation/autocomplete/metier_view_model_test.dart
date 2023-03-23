@@ -18,21 +18,86 @@ void main() {
     final viewModel = MetierViewModel.create(store);
 
     // Then
-    expect(viewModel.metiers, [
+    expect(viewModel.metiersAutocomplete, [
       MetierSuggestionItem(metiers[0], MetierSource.autocomplete),
       MetierSuggestionItem(metiers[1], MetierSource.autocomplete),
       MetierSuggestionItem(metiers[2], MetierSource.autocomplete),
     ]);
   });
 
-  group('derniers métiers', () {
+  group('suggestions métiers', () {
+    test('with both metiers favoris and recherches recentes', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser() //
+          .withRecentsSearches(getMockedSavedSearch()) //
+          .withDiagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers()) //
+          .store();
+      // When
+      final result = MetierViewModel.create(store);
+      // Then
+      expect(result.metiersSuggestions, [
+        MetierTitleItem("Dernière recherche"),
+        MetierSuggestionItem(
+          Metier(libelle: 'Boulangerie - viennoiserie', codeRome: 'D1102'),
+          MetierSource.dernieresRecherches,
+        ),
+        MetierTitleItem("Vos préférences métiers"),
+        MetierSuggestionItem(
+          Metier(codeRome: "L1401", libelle: "Cavalier dresseur / Cavalière dresseuse de chevaux"),
+          MetierSource.diagorienteMetiersFavoris,
+        ),
+        MetierSuggestionItem(
+          Metier(codeRome: "A1416", libelle: "Céréalier / Céréalière"),
+          MetierSource.diagorienteMetiersFavoris,
+        ),
+        MetierSuggestionItem(
+          Metier(codeRome: "A1410", libelle: "Chevrier / Chevrière"),
+          MetierSource.diagorienteMetiersFavoris,
+        ),
+      ]);
+      expect(result.containsDiagorienteFavoris, true);
+      expect(result.containsMetiersRecents, true);
+    });
+
+    test('with metiers favoris in alphabetic order', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser() //
+          .withRecentsSearches([]) //
+          .withDiagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers()) //
+          .store();
+      // When
+      final result = MetierViewModel.create(store);
+      // Then
+      expect(result.metiersSuggestions, [
+        MetierTitleItem("Vos préférences métiers"),
+        MetierSuggestionItem(
+          Metier(codeRome: "L1401", libelle: "Cavalier dresseur / Cavalière dresseuse de chevaux"),
+          MetierSource.diagorienteMetiersFavoris,
+        ),
+        MetierSuggestionItem(
+          Metier(codeRome: "A1416", libelle: "Céréalier / Céréalière"),
+          MetierSource.diagorienteMetiersFavoris,
+        ),
+        MetierSuggestionItem(
+          Metier(codeRome: "A1410", libelle: "Chevrier / Chevrière"),
+          MetierSource.diagorienteMetiersFavoris,
+        ),
+      ]);
+      expect(result.containsDiagorienteFavoris, true);
+      expect(result.containsMetiersRecents, false);
+    });
+
     test('with empty recherches recentes', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([]).store();
       // When
       final viewModel = MetierViewModel.create(store);
       // Then
-      expect(viewModel.derniersMetiers, []);
+      expect(viewModel.metiersSuggestions, []);
+      expect(viewModel.containsDiagorienteFavoris, false);
+      expect(viewModel.containsMetiersRecents, false);
     });
 
     test('with 1 recherche recente', () {
@@ -43,10 +108,12 @@ void main() {
       // When
       final viewModel = MetierViewModel.create(store);
       // Then
-      expect(viewModel.derniersMetiers, [
+      expect(viewModel.metiersSuggestions, [
         MetierTitleItem("Dernière recherche"),
         MetierSuggestionItem(Metier(libelle: 'chevalier', codeRome: '1'), MetierSource.dernieresRecherches),
       ]);
+      expect(viewModel.containsDiagorienteFavoris, false);
+      expect(viewModel.containsMetiersRecents, true);
     });
 
     test('with many recherches recentes should only take 3', () {
@@ -60,7 +127,7 @@ void main() {
       // When
       final viewModel = MetierViewModel.create(store);
       // Then
-      expect(viewModel.derniersMetiers, [
+      expect(viewModel.metiersSuggestions, [
         MetierTitleItem("Dernières recherches"),
         MetierSuggestionItem(Metier(libelle: '1', codeRome: '1'), MetierSource.dernieresRecherches),
         MetierSuggestionItem(Metier(libelle: '2', codeRome: '2'), MetierSource.dernieresRecherches),
@@ -78,7 +145,7 @@ void main() {
       // When
       final viewModel = MetierViewModel.create(store);
       // Then
-      expect(viewModel.derniersMetiers, [
+      expect(viewModel.metiersSuggestions, [
         MetierTitleItem("Dernières recherches"),
         MetierSuggestionItem(Metier(libelle: '1', codeRome: '1'), MetierSource.dernieresRecherches),
         MetierSuggestionItem(Metier(libelle: '2', codeRome: '2'), MetierSource.dernieresRecherches),
