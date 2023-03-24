@@ -37,20 +37,32 @@ class _Content extends StatefulWidget {
 }
 
 class _ContentState extends State<_Content> {
-  late TextEditingController _userEmail;
-  late TextEditingController _userFirstName;
-  late TextEditingController _userLastName;
-  late TextEditingController _message;
   bool _isFormValid = false;
+
+  late final TextEditingController _userEmailController;
+  late final TextEditingController _userFirstNameController;
+  late final TextEditingController _userLastNameController;
+  late final TextEditingController _messageController;
+
+  late final FocusNode _userEmailFocus;
+  late final FocusNode _userFirstNameFocus;
+  late final FocusNode _userLastNameFocus;
+  late final FocusNode _messageFocus;
 
   @override
   void initState() {
-    _userEmail = TextEditingController(text: widget.viewModel.userEmailInitialValue)..addListener(_onAnyFieldChanged);
-    _userFirstName = TextEditingController(text: widget.viewModel.userFirstNameInitialValue)
+    _userEmailController = TextEditingController(text: widget.viewModel.userEmailInitialValue)
       ..addListener(_onAnyFieldChanged);
-    _userLastName = TextEditingController(text: widget.viewModel.userLastNameInitialValue)
+    _userFirstNameController = TextEditingController(text: widget.viewModel.userFirstNameInitialValue)
       ..addListener(_onAnyFieldChanged);
-    _message = TextEditingController(text: widget.viewModel.messageInitialValue)..addListener(_onAnyFieldChanged);
+    _userLastNameController = TextEditingController(text: widget.viewModel.userLastNameInitialValue)
+      ..addListener(_onAnyFieldChanged);
+    _messageController = TextEditingController(text: widget.viewModel.messageInitialValue)
+      ..addListener(_onAnyFieldChanged);
+    _userEmailFocus = FocusNode()..addListener(_onFocusChanged);
+    _userFirstNameFocus = FocusNode()..addListener(_onFocusChanged);
+    _userLastNameFocus = FocusNode()..addListener(_onFocusChanged);
+    _messageFocus = FocusNode()..addListener(_onFocusChanged);
     _isFormValid = _isFormFieldsValid();
     super.initState();
   }
@@ -61,30 +73,34 @@ class _ContentState extends State<_Content> {
 
   bool _isEmailValid() {
     final emailRegex = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    final value = _userEmail.text;
+    final value = _userEmailController.text;
     return emailRegex.hasMatch(value) && !_isEmailEmpty();
   }
 
   bool _isEmailEmpty() {
-    return _userEmail.text.isEmpty;
+    return _userEmailController.text.isEmpty;
   }
 
   bool _isFirstNameValid() {
-    return _userFirstName.text.isNotEmpty;
+    return _userFirstNameController.text.isNotEmpty;
   }
 
   bool _isLastNameValid() {
-    return _userLastName.text.isNotEmpty;
+    return _userLastNameController.text.isNotEmpty;
   }
 
   bool _isMessageValid() {
-    return _message.text.isNotEmpty;
+    return _messageController.text.isNotEmpty;
   }
 
   void _onAnyFieldChanged() {
     setState(() {
       _isFormValid = _isFormFieldsValid();
     });
+  }
+
+  void _onFocusChanged() {
+    setState(() {});
   }
 
   @override
@@ -125,23 +141,26 @@ class _ContentState extends State<_Content> {
                   mandatoryError: _isEmailValid()
                       ? null
                       : _isEmailEmpty()
-                          ? "Champ obligatoire"
-                          : "Email invalide",
-                  controller: _userEmail,
+                          ? "Renseignez votre adresse email"
+                          : "Veuillez renseigner une adresse email valide au format exemple@email.com",
+                  controller: _userEmailController,
+                  focusNode: _userEmailFocus,
                   label: Strings.immersitionContactFormEmailHint,
                 ),
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
-                  mandatoryError: _isFirstNameValid() ? null : "Champ obligatoire",
-                  controller: _userFirstName,
+                  mandatoryError: _isFirstNameValid() ? null : "Renseignez votre prénom",
+                  controller: _userFirstNameController,
+                  focusNode: _userFirstNameFocus,
                   label: Strings.immersitionContactFormSurnameHint,
                 ),
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
-                  mandatoryError: _isLastNameValid() ? null : "Champ obligatoire",
-                  controller: _userLastName,
+                  mandatoryError: _isLastNameValid() ? null : "Renseignez votre nom",
+                  controller: _userLastNameController,
+                  focusNode: _userLastNameFocus,
                   label: Strings.immersitionContactFormNameHint,
                 ),
                 SizedBox(height: Margins.spacing_m),
@@ -149,7 +168,8 @@ class _ContentState extends State<_Content> {
                   isMandatory: true,
                   mandatoryError: _isMessageValid() ? null : "Champ obligatoire",
                   maxLines: 10,
-                  controller: _message,
+                  controller: _messageController,
+                  focusNode: _messageFocus,
                   label: Strings.immersitionContactFormMessageHint,
                 ),
                 SizedBox(height: Margins.spacing_huge * 2),
@@ -166,16 +186,19 @@ class ImmersionTextFormField extends StatelessWidget {
   final String? mandatoryError;
   final ValueChanged<String>? onChanged;
   final int maxLines;
-  final TextEditingController? controller;
+  final TextEditingController controller;
+  final FocusNode focusNode;
 
   const ImmersionTextFormField({
+    Key? key,
     required this.isMandatory,
     this.mandatoryError,
     this.onChanged,
     required this.label,
     this.maxLines = 1,
-    this.controller,
-  }) : super();
+    required this.controller,
+    required this.focusNode,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -185,12 +208,14 @@ class ImmersionTextFormField extends StatelessWidget {
         Text("${isMandatory ? "*" : null}$label", style: TextStyles.textBaseMedium),
         SizedBox(height: Margins.spacing_base),
         TextFormField(
+          focusNode: focusNode,
           minLines: 1,
           maxLines: maxLines,
           controller: controller,
           decoration: InputDecoration(
               contentPadding: const EdgeInsets.all(Dimens.radius_base),
-              errorText: mandatoryError,
+              errorText: focusNode.hasFocus ? null : mandatoryError,
+              errorMaxLines: 3,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(Dimens.radius_base),
                 borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
