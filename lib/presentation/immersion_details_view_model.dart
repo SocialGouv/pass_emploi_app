@@ -28,7 +28,7 @@ class ImmersionDetailsViewModel extends Equatable {
   final String? contactInformation;
   final bool? withSecondaryCallToActions;
   final bool withContactForm;
-  final List<CallToAction>? secondaryCallToActions; // TODO: Remove ?
+  final List<CallToAction>? secondaryCallToActions;
   final Function(String immersionId) onRetry;
 
   ImmersionDetailsViewModel._({

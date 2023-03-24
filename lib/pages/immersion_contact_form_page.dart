@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/presentation/immersion_contact_form_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -17,12 +20,17 @@ class ImmersionContactFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Content();
+    return StoreConnector<AppState, ImmersionContactFormViewModel>(
+      converter: (store) => ImmersionContactFormViewModel.create(store),
+      builder: (context, viewModel) => _Content(viewModel),
+      distinct: true,
+    );
   }
 }
 
 class _Content extends StatelessWidget {
-  const _Content();
+  final ImmersionContactFormViewModel viewModel;
+  const _Content(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -59,27 +67,29 @@ class _Content extends StatelessWidget {
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
+                  initialValue: viewModel.userEmailInitialValue,
                   label: Strings.immersitionContactFormEmailHint,
                 ),
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
+                  initialValue: viewModel.userFirstNameInitialValue,
                   label: Strings.immersitionContactFormSurnameHint,
                 ),
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
+                  initialValue: viewModel.userLastNameInitialValue,
                   label: Strings.immersitionContactFormNameHint,
                 ),
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
                   maxLines: 10,
-                  initialValue: Strings.immersitionContactFormMessageDefault,
+                  initialValue: viewModel.messageInitialValue,
                   label: Strings.immersitionContactFormMessageHint,
                 ),
-                SizedBox(height: Margins.spacing_huge),
-                SizedBox(height: Margins.spacing_huge),
+                SizedBox(height: Margins.spacing_huge * 2),
               ],
             ),
           ),
@@ -109,7 +119,7 @@ class ImmersionTextFormField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("* " + label, style: TextStyles.textBaseMedium),
+        Text("${isMandatory ? "*" : null}$label", style: TextStyles.textBaseMedium),
         SizedBox(height: Margins.spacing_base),
         TextFormField(
           initialValue: initialValue,

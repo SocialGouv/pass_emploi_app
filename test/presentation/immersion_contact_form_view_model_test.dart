@@ -24,8 +24,8 @@ void main() {
     final viewModel = ImmersionContactFormViewModel.create(sut.givenStore);
 
     // Then
-    expect(viewModel.userEmail, "some.user@example.com");
-    expect(viewModel.userFirstName, "John");
-    expect(viewModel.userLastName, "Doe");
+    expect(viewModel.userEmailInitialValue, "some.user@example.com");
+    expect(viewModel.userFirstNameInitialValue, "John");
+    expect(viewModel.userLastNameInitialValue, "Doe");
   });
 }
