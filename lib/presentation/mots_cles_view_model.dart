@@ -55,7 +55,7 @@ class MotsClesSuggestionItem extends MotsClesItem {
   List<Object?> get props => [text, source];
 }
 
-enum MotCleSource { recherchesRecentes, diagorienteMetiersFavoris }
+enum MotCleSource { dernieresRecherches, diagorienteMetiersFavoris }
 
 List<MotsClesItem> _motsClesFromDiagoriente(Store<AppState> store) {
   final state = store.state.diagorientePreferencesMetierState;
@@ -76,7 +76,7 @@ List<MotsClesItem> _motsClesFromRechercheRecentes(Store<AppState> store) {
   final title = motCles.length == 1 ? Strings.derniereRecherche : Strings.dernieresRecherches;
   return [
     MotsClesTitleItem(title),
-    ...motCles.map((e) => MotsClesSuggestionItem(e, MotCleSource.recherchesRecentes)),
+    ...motCles.map((e) => MotsClesSuggestionItem(e, MotCleSource.dernieresRecherches)),
   ];
 }
 

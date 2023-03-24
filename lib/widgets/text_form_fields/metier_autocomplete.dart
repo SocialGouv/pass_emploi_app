@@ -191,10 +191,12 @@ class _MetierListTile extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
       title: Row(
         children: [
-          if (source == MetierSource.dernieresRecherches) ...[
-            Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
-            SizedBox(width: Margins.spacing_s),
-          ],
+          Icon(
+            source == MetierSource.dernieresRecherches ? AppIcons.schedule_rounded : AppIcons.bolt_rounded,
+            size: Dimens.icon_size_base,
+            color: AppColors.grey800,
+          ),
+          SizedBox(width: Margins.spacing_s),
           Text(metier.libelle, style: TextStyles.textBaseRegular),
         ],
       ),

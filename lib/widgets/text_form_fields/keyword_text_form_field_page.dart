@@ -130,7 +130,7 @@ class _BodyState extends State<_Body> {
                     motCle: item.text,
                     source: item.source,
                     onTap: (selectedMotCle) {
-                      if (item.source == MotCleSource.recherchesRecentes) {
+                      if (item.source == MotCleSource.dernieresRecherches) {
                         PassEmploiMatomoTracker.instance.trackEvent(
                           eventCategory: AnalyticsEventNames.lastRechercheMotsClesEventCategory,
                           action: AnalyticsEventNames.lastRechercheMotsClesClickAction,
@@ -169,10 +169,12 @@ class _MotCleListTile extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
       title: Row(
         children: [
-          if (source == MotCleSource.recherchesRecentes) ...[
-            Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
-            SizedBox(width: Margins.spacing_s),
-          ],
+          Icon(
+            source == MotCleSource.dernieresRecherches ? AppIcons.schedule_rounded : AppIcons.bolt_rounded,
+            size: Dimens.icon_size_base,
+            color: AppColors.grey800,
+          ),
+          SizedBox(width: Margins.spacing_s),
           Expanded(child: Text(motCle, style: TextStyles.textBaseRegular)),
         ],
       ),
