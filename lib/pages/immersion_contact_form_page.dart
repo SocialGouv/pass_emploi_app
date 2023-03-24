@@ -37,70 +37,17 @@ class _Content extends StatefulWidget {
 }
 
 class _ContentState extends State<_Content> {
-  bool _isFormValid = false;
-
-  late final TextEditingController _userEmailController;
-  late final TextEditingController _userFirstNameController;
-  late final TextEditingController _userLastNameController;
-  late final TextEditingController _messageController;
-
-  late final FocusNode _userEmailFocus;
-  late final FocusNode _userFirstNameFocus;
-  late final FocusNode _userLastNameFocus;
-  late final FocusNode _messageFocus;
+  late final ImmersionContactFormChangeNotifier state;
 
   @override
   void initState() {
-    _userEmailController = TextEditingController(text: widget.viewModel.userEmailInitialValue)
-      ..addListener(_onAnyFieldChanged);
-    _userFirstNameController = TextEditingController(text: widget.viewModel.userFirstNameInitialValue)
-      ..addListener(_onAnyFieldChanged);
-    _userLastNameController = TextEditingController(text: widget.viewModel.userLastNameInitialValue)
-      ..addListener(_onAnyFieldChanged);
-    _messageController = TextEditingController(text: widget.viewModel.messageInitialValue)
-      ..addListener(_onAnyFieldChanged);
-    _userEmailFocus = FocusNode()..addListener(_onFocusChanged);
-    _userFirstNameFocus = FocusNode()..addListener(_onFocusChanged);
-    _userLastNameFocus = FocusNode()..addListener(_onFocusChanged);
-    _messageFocus = FocusNode()..addListener(_onFocusChanged);
-    _isFormValid = _isFormFieldsValid();
+    state = ImmersionContactFormChangeNotifier(
+      userEmailInitialValue: widget.viewModel.userEmailInitialValue,
+      userFirstNameInitialValue: widget.viewModel.userFirstNameInitialValue,
+      userLastNameInitialValue: widget.viewModel.userLastNameInitialValue,
+      messageInitialValue: widget.viewModel.messageInitialValue,
+    )..addListener(() => setState(() {}));
     super.initState();
-  }
-
-  bool _isFormFieldsValid() {
-    return _isEmailValid() && _isFirstNameValid() && _isLastNameValid() && _isMessageValid();
-  }
-
-  bool _isEmailValid() {
-    final emailRegex = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    final value = _userEmailController.text;
-    return emailRegex.hasMatch(value) && !_isEmailEmpty();
-  }
-
-  bool _isEmailEmpty() {
-    return _userEmailController.text.isEmpty;
-  }
-
-  bool _isFirstNameValid() {
-    return _userFirstNameController.text.isNotEmpty;
-  }
-
-  bool _isLastNameValid() {
-    return _userLastNameController.text.isNotEmpty;
-  }
-
-  bool _isMessageValid() {
-    return _messageController.text.isNotEmpty;
-  }
-
-  void _onAnyFieldChanged() {
-    setState(() {
-      _isFormValid = _isFormFieldsValid();
-    });
-  }
-
-  void _onFocusChanged() {
-    setState(() {});
   }
 
   @override
@@ -114,7 +61,7 @@ class _ContentState extends State<_Content> {
             child: PrimaryActionButton(
               label: Strings.immersionContactFormButton,
               icon: AppIcons.outgoing_mail,
-              onPressed: _isFormValid ? () {} : null,
+              onPressed: state.isFormValid ? () {} : null,
             ),
           ),
         ),
@@ -138,39 +85,39 @@ class _ContentState extends State<_Content> {
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
-                  mandatoryError: _isEmailValid()
+                  mandatoryError: state.isEmailValid()
                       ? null
-                      : _isEmailEmpty()
+                      : state.isEmailEmpty()
                           ? Strings.immersionContactFormEmailEmpty
                           : Strings.immersionContactFormEmailInvalid,
-                  controller: _userEmailController,
-                  focusNode: _userEmailFocus,
+                  controller: state.userEmailController,
+                  focusNode: state.userEmailFocus,
                   label: Strings.immersitionContactFormEmailHint,
                 ),
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
-                  mandatoryError: _isFirstNameValid() ? null : Strings.immersionContactFormFirstNameInvalid,
-                  controller: _userFirstNameController,
-                  focusNode: _userFirstNameFocus,
+                  mandatoryError: state.isFirstNameValid() ? null : Strings.immersionContactFormFirstNameInvalid,
+                  controller: state.userFirstNameController,
+                  focusNode: state.userFirstNameFocus,
                   label: Strings.immersitionContactFormSurnameHint,
                 ),
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
-                  mandatoryError: _isLastNameValid() ? null : Strings.immersionContactFormLastNameInvalid,
-                  controller: _userLastNameController,
-                  focusNode: _userLastNameFocus,
+                  mandatoryError: state.isLastNameValid() ? null : Strings.immersionContactFormLastNameInvalid,
+                  controller: state.userLastNameController,
+                  focusNode: state.userLastNameFocus,
                   label: Strings.immersitionContactFormNameHint,
                 ),
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
-                  mandatoryError: _isMessageValid() ? null : Strings.immersionContactFormMessageInvalid,
+                  mandatoryError: state.isMessageValid() ? null : Strings.immersionContactFormMessageInvalid,
                   maxLength: 512,
                   maxLines: 10,
-                  controller: _messageController,
-                  focusNode: _messageFocus,
+                  controller: state.messageController,
+                  focusNode: state.messageFocus,
                   label: Strings.immersitionContactFormMessageHint,
                 ),
                 SizedBox(height: Margins.spacing_huge * 2),
@@ -231,5 +178,73 @@ class ImmersionTextFormField extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class ImmersionContactFormChangeNotifier extends ChangeNotifier {
+  ImmersionContactFormChangeNotifier({
+    required String userEmailInitialValue,
+    required String userFirstNameInitialValue,
+    required String userLastNameInitialValue,
+    required String messageInitialValue,
+  }) {
+    userEmailController = TextEditingController(text: userEmailInitialValue)..addListener(onAnyFieldChanged);
+    userFirstNameController = TextEditingController(text: userFirstNameInitialValue)..addListener(onAnyFieldChanged);
+    userLastNameController = TextEditingController(text: userLastNameInitialValue)..addListener(onAnyFieldChanged);
+    messageController = TextEditingController(text: messageInitialValue)..addListener(onAnyFieldChanged);
+
+    userEmailFocus = FocusNode()..addListener(onFocusChanged);
+    userFirstNameFocus = FocusNode()..addListener(onFocusChanged);
+    userLastNameFocus = FocusNode()..addListener(onFocusChanged);
+    messageFocus = FocusNode()..addListener(onFocusChanged);
+
+    isFormValid = _isFormFieldsValid();
+  }
+
+  bool isFormValid = false;
+
+  late final TextEditingController userEmailController;
+  late final TextEditingController userFirstNameController;
+  late final TextEditingController userLastNameController;
+  late final TextEditingController messageController;
+
+  late final FocusNode userEmailFocus;
+  late final FocusNode userFirstNameFocus;
+  late final FocusNode userLastNameFocus;
+  late final FocusNode messageFocus;
+
+  bool _isFormFieldsValid() {
+    return isEmailValid() && isFirstNameValid() && isLastNameValid() && isMessageValid();
+  }
+
+  bool isEmailValid() {
+    final emailRegex = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    final value = userEmailController.text;
+    return emailRegex.hasMatch(value) && !isEmailEmpty();
+  }
+
+  bool isEmailEmpty() {
+    return userEmailController.text.isEmpty;
+  }
+
+  bool isFirstNameValid() {
+    return userFirstNameController.text.isNotEmpty;
+  }
+
+  bool isLastNameValid() {
+    return userLastNameController.text.isNotEmpty;
+  }
+
+  bool isMessageValid() {
+    return messageController.text.isNotEmpty;
+  }
+
+  void onAnyFieldChanged() {
+    isFormValid = _isFormFieldsValid();
+    notifyListeners();
+  }
+
+  void onFocusChanged() {
+    notifyListeners();
   }
 }
