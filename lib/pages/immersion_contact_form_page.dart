@@ -141,8 +141,8 @@ class _ContentState extends State<_Content> {
                   mandatoryError: _isEmailValid()
                       ? null
                       : _isEmailEmpty()
-                          ? "Renseignez votre adresse email"
-                          : "Veuillez renseigner une adresse email valide au format exemple@email.com",
+                          ? Strings.immersionContactFormEmailEmpty
+                          : Strings.immersionContactFormEmailInvalid,
                   controller: _userEmailController,
                   focusNode: _userEmailFocus,
                   label: Strings.immersitionContactFormEmailHint,
@@ -150,7 +150,7 @@ class _ContentState extends State<_Content> {
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
-                  mandatoryError: _isFirstNameValid() ? null : "Renseignez votre prénom",
+                  mandatoryError: _isFirstNameValid() ? null : Strings.immersionContactFormFirstNameInvalid,
                   controller: _userFirstNameController,
                   focusNode: _userFirstNameFocus,
                   label: Strings.immersitionContactFormSurnameHint,
@@ -158,7 +158,7 @@ class _ContentState extends State<_Content> {
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
-                  mandatoryError: _isLastNameValid() ? null : "Renseignez votre nom",
+                  mandatoryError: _isLastNameValid() ? null : Strings.immersionContactFormLastNameInvalid,
                   controller: _userLastNameController,
                   focusNode: _userLastNameFocus,
                   label: Strings.immersitionContactFormNameHint,
@@ -166,7 +166,8 @@ class _ContentState extends State<_Content> {
                 SizedBox(height: Margins.spacing_m),
                 ImmersionTextFormField(
                   isMandatory: true,
-                  mandatoryError: _isMessageValid() ? null : "Champ obligatoire",
+                  mandatoryError: _isMessageValid() ? null : Strings.immersionContactFormMessageInvalid,
+                  maxLength: 512,
                   maxLines: 10,
                   controller: _messageController,
                   focusNode: _messageFocus,
@@ -188,6 +189,7 @@ class ImmersionTextFormField extends StatelessWidget {
   final int maxLines;
   final TextEditingController controller;
   final FocusNode focusNode;
+  final int? maxLength;
 
   const ImmersionTextFormField({
     Key? key,
@@ -198,6 +200,7 @@ class ImmersionTextFormField extends StatelessWidget {
     this.maxLines = 1,
     required this.controller,
     required this.focusNode,
+    this.maxLength,
   }) : super(key: key);
 
   @override
@@ -210,6 +213,7 @@ class ImmersionTextFormField extends StatelessWidget {
         TextFormField(
           focusNode: focusNode,
           minLines: 1,
+          maxLength: maxLength,
           maxLines: maxLines,
           controller: controller,
           decoration: InputDecoration(
