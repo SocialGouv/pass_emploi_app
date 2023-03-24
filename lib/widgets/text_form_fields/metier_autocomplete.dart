@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
+import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/autocomplete/metier_view_model.dart';
@@ -107,8 +108,9 @@ class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MetierViewModel>(
-      converter: (store) => MetierViewModel.create(store),
+      onInit: (store) => store.dispatch(DiagorientePreferencesMetierRequestAction()),
       onInitialBuild: _onInitialBuild,
+      converter: (store) => MetierViewModel.create(store),
       onDispose: (store) => store.dispatch(SearchMetierResetAction()),
       builder: _builder,
       distinct: true,
@@ -116,12 +118,19 @@ class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
   }
 
   void _onInitialBuild(MetierViewModel viewModel) {
-    if (viewModel.derniersMetiers.isNotEmpty) {
+    if (viewModel.containsMetiersRecents) {
       PassEmploiMatomoTracker.instance.trackEvent(
         eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
         action: AnalyticsEventNames.lastRechercheMetierDisplayAction,
       );
     }
+    if (viewModel.containsDiagorienteFavoris) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisEventCategory,
+        action: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisDisplayAction,
+      );
+    }
+
     viewModel.onInputMetier(widget.selectedMetier?.libelle);
   }
 
@@ -182,11 +191,13 @@ class _MetierListTile extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
       title: Row(
         children: [
-          if (source == MetierSource.dernieresRecherches) ...[
-            Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
-            SizedBox(width: Margins.spacing_s),
-          ],
-          Text(metier.libelle, style: TextStyles.textBaseRegular),
+          Icon(
+            source == MetierSource.dernieresRecherches ? AppIcons.schedule_rounded : AppIcons.bolt_rounded,
+            size: Dimens.icon_size_base,
+            color: AppColors.grey800,
+          ),
+          SizedBox(width: Margins.spacing_s),
+          Expanded(child: Text(metier.libelle, style: TextStyles.textBaseRegular)),
         ],
       ),
       onTap: () {
@@ -194,6 +205,12 @@ class _MetierListTile extends StatelessWidget {
           PassEmploiMatomoTracker.instance.trackEvent(
             eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
             action: AnalyticsEventNames.lastRechercheMetierClickAction,
+          );
+        }
+        if (source == MetierSource.diagorienteMetiersFavoris) {
+          PassEmploiMatomoTracker.instance.trackEvent(
+            eventCategory: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisEventCategory,
+            action: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisClickAction,
           );
         }
         onMetierTap(metier);

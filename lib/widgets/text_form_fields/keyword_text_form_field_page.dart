@@ -46,6 +46,7 @@ class KeywordTextFormFieldPage extends StatelessWidget {
     return FullScreenTextFormFieldScaffold(
       body: StoreConnector<AppState, MotsClesViewModel>(
         onInit: (store) => store.dispatch(DiagorientePreferencesMetierRequestAction()),
+        onInitialBuild: _onInitialBuild,
         converter: (store) => MotsClesViewModel.create(store),
         builder: (context, viewModel) {
           return _Body(
@@ -59,6 +60,21 @@ class KeywordTextFormFieldPage extends StatelessWidget {
         distinct: true,
       ),
     );
+  }
+
+  void _onInitialBuild(MotsClesViewModel viewModel) {
+    if (viewModel.containsMotsClesRecents) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.lastRechercheMotsClesEventCategory,
+        action: AnalyticsEventNames.lastRechercheMotsClesDisplayAction,
+      );
+    }
+    if (viewModel.containsDiagorienteFavoris) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisEventCategory,
+        action: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisDisplayAction,
+      );
+    }
   }
 }
 
@@ -87,18 +103,6 @@ class _BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
-    if (emptyInput && widget.viewModel.containsMotsClesRecents) {
-      PassEmploiMatomoTracker.instance.trackEvent(
-        eventCategory: AnalyticsEventNames.lastRechercheMotsClesEventCategory,
-        action: AnalyticsEventNames.lastRechercheMotsClesDisplayAction,
-      );
-    }
-    if (emptyInput && widget.viewModel.containsDiagorienteFavoris) {
-      PassEmploiMatomoTracker.instance.trackEvent(
-        eventCategory: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisEventCategory,
-        action: AnalyticsEventNames.autocompleteMotCleDiagorienteMetiersFavorisDisplayAction,
-      );
-    }
     return Column(
       children: [
         MultilineAppBar(
@@ -124,8 +128,9 @@ class _BodyState extends State<_Body> {
                 if (item is MotsClesSuggestionItem) {
                   return _MotCleListTile(
                     motCle: item.text,
+                    source: item.source,
                     onTap: (selectedMotCle) {
-                      if (item.source == MotCleSource.recherchesRecentes) {
+                      if (item.source == MotCleSource.dernieresRecherches) {
                         PassEmploiMatomoTracker.instance.trackEvent(
                           eventCategory: AnalyticsEventNames.lastRechercheMotsClesEventCategory,
                           action: AnalyticsEventNames.lastRechercheMotsClesClickAction,
@@ -153,9 +158,10 @@ class _BodyState extends State<_Body> {
 
 class _MotCleListTile extends StatelessWidget {
   final String motCle;
+  final MotCleSource source;
   final Function(String) onTap;
 
-  const _MotCleListTile({required this.motCle, required this.onTap});
+  const _MotCleListTile({required this.motCle, required this.source, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +169,11 @@ class _MotCleListTile extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
       title: Row(
         children: [
-          Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
+          Icon(
+            source == MotCleSource.dernieresRecherches ? AppIcons.schedule_rounded : AppIcons.bolt_rounded,
+            size: Dimens.icon_size_base,
+            color: AppColors.grey800,
+          ),
           SizedBox(width: Margins.spacing_s),
           Expanded(child: Text(motCle, style: TextStyles.textBaseRegular)),
         ],

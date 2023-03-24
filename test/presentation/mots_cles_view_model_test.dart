@@ -53,8 +53,8 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Dernières recherches"),
-      MotsClesSuggestionItem("Boulangerie", MotCleSource.recherchesRecentes),
-      MotsClesSuggestionItem("Flutter", MotCleSource.recherchesRecentes),
+      MotsClesSuggestionItem("Boulangerie", MotCleSource.dernieresRecherches),
+      MotsClesSuggestionItem("Flutter", MotCleSource.dernieresRecherches),
       MotsClesTitleItem("Vos préférences métiers"),
       MotsClesSuggestionItem(
           "Cavalier dresseur / Cavalière dresseuse de chevaux", MotCleSource.diagorienteMetiersFavoris),
@@ -75,7 +75,7 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Dernière recherche"),
-      MotsClesSuggestionItem("chevalier", MotCleSource.recherchesRecentes),
+      MotsClesSuggestionItem("chevalier", MotCleSource.dernieresRecherches),
     ]);
     expect(result.containsDiagorienteFavoris, false);
     expect(result.containsMotsClesRecents, true);
@@ -94,9 +94,9 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Dernières recherches"),
-      MotsClesSuggestionItem("1", MotCleSource.recherchesRecentes),
-      MotsClesSuggestionItem("2", MotCleSource.recherchesRecentes),
-      MotsClesSuggestionItem("3", MotCleSource.recherchesRecentes),
+      MotsClesSuggestionItem("1", MotCleSource.dernieresRecherches),
+      MotsClesSuggestionItem("2", MotCleSource.dernieresRecherches),
+      MotsClesSuggestionItem("3", MotCleSource.dernieresRecherches),
     ]);
   });
 
@@ -112,8 +112,8 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Dernières recherches"),
-      MotsClesSuggestionItem("1", MotCleSource.recherchesRecentes),
-      MotsClesSuggestionItem("2", MotCleSource.recherchesRecentes),
+      MotsClesSuggestionItem("1", MotCleSource.dernieresRecherches),
+      MotsClesSuggestionItem("2", MotCleSource.dernieresRecherches),
     ]);
   });
 
@@ -129,8 +129,8 @@ void main() {
     // Then
     expect(result.motsCles, [
       MotsClesTitleItem("Dernières recherches"),
-      MotsClesSuggestionItem("1", MotCleSource.recherchesRecentes),
-      MotsClesSuggestionItem("2", MotCleSource.recherchesRecentes),
+      MotsClesSuggestionItem("1", MotCleSource.dernieresRecherches),
+      MotsClesSuggestionItem("2", MotCleSource.dernieresRecherches),
     ]);
   });
 }

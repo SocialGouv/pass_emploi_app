@@ -170,6 +170,10 @@ class AnalyticsEventNames {
   static const autocompleteMotCleDiagorienteMetiersFavorisDisplayAction = "Affichage des préférences métiers";
   static const autocompleteMotCleDiagorienteMetiersFavorisClickAction = "Clic préférences métiers";
 
+  static const autocompleteMetierDiagorienteMetiersFavorisEventCategory = "Préférences métiers dans métier";
+  static const autocompleteMetierDiagorienteMetiersFavorisDisplayAction = "Affichage des préférences métiers";
+  static const autocompleteMetierDiagorienteMetiersFavorisClickAction = "Clic préférences métiers";
+
   static const lastRechercheMotsClesEventCategory = "Dernières recherches mots clés";
   static const lastRechercheMotsClesDisplayAction = "Affichage dernières recherches mots clés";
   static const lastRechercheMotsClesClickAction = "Clic dernières recherches mots clés";
