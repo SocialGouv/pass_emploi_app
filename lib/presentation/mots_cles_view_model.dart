@@ -31,7 +31,7 @@ class MotsClesViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [motsCles];
+  List<Object?> get props => [motsCles, containsDiagorienteFavoris, containsMotsClesRecents];
 }
 
 abstract class MotsClesItem extends Equatable {}

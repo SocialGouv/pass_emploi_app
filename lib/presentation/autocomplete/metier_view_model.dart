@@ -40,7 +40,12 @@ class MetierViewModel extends Equatable {
   List<MetierItem> getAutocompleteItems(bool emptyInput) => emptyInput ? metiersSuggestions : metiersAutocomplete;
 
   @override
-  List<Object?> get props => [metiersAutocomplete, metiersSuggestions];
+  List<Object?> get props => [
+        metiersAutocomplete,
+        metiersSuggestions,
+        containsDiagorienteFavoris,
+        containsMetiersRecents,
+      ];
 }
 
 abstract class MetierItem extends Equatable {}
