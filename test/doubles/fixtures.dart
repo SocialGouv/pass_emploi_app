@@ -53,7 +53,7 @@ User mockUser({String id = "", LoginMode loginMode = LoginMode.MILO}) => User(
       loginMode: loginMode,
     );
 
-LoginState successMiloUserState() => LoginSuccessState(mockedMiloUser());
+LoginState successMiloUserState({User? user}) => LoginSuccessState(user ?? mockedMiloUser());
 
 User mockedMiloUser() {
   return User(
