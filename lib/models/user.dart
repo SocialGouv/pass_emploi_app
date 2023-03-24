@@ -18,4 +18,20 @@ class User extends Equatable {
 
   @override
   List<Object?> get props => [id, firstName, lastName, email, loginMode];
+
+  User copyWith({
+    String? id,
+    String? firstName,
+    String? lastName,
+    String? email,
+    LoginMode? loginMode,
+  }) {
+    return User(
+      id: id ?? this.id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      email: email ?? this.email,
+      loginMode: loginMode ?? this.loginMode,
+    );
+  }
 }
