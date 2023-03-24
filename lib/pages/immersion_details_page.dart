@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/immersion_contact_form_page.dart';
 import 'package:pass_emploi_app/pages/immersion_contact_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
@@ -179,21 +180,14 @@ class ImmersionDetailsPage extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: viewModel.withContactPage
-                ? PrimaryActionButton(
-                    onPressed: () {
-                      Navigator.push(context, ImmersionContactPage.materialPageRoute());
-                    },
-                    label: Strings.immersionContact,
-                  )
-                : PrimaryActionButton(
-                    onPressed: () {
-                      context.trackEvent(viewModel.mainCallToAction!.eventType);
-                      launchExternalUrl(viewModel.mainCallToAction!.uri.toString());
-                    },
-                    label: viewModel.mainCallToAction!.label,
-                  ),
-          ),
+              child: PrimaryActionButton(
+            onPressed: () {
+              viewModel.withContactForm
+                  ? Navigator.push(context, ImmersionContactFormPage.materialPageRoute())
+                  : Navigator.push(context, ImmersionContactPage.materialPageRoute());
+            },
+            label: Strings.immersionContact,
+          )),
           SizedBox(width: 16),
           FavoriHeart<Immersion>(
             offreId: viewModel.id,

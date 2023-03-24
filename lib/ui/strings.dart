@@ -403,6 +403,16 @@ class Strings {
   static String immersionEmailButton = "Envoyer un e-mail";
   static String immersionEmailSubject = "Candidature pour une période d'immersion";
   static String immersionContact = "Contacter";
+  static String immersitionContactFormTitle = "Contacter l’entreprise";
+  static String immersitionContactFormSubtitle = "Veuillez compléter ce formulaire qui sera transmis à l'entreprise.";
+  static String immersitionContactFormHint = "Tous les champs avec * sont obligatoires";
+  static String immersitionContactFormEmailHint = "Email";
+  static String immersitionContactFormSurnameHint = "Prénom";
+  static String immersitionContactFormNameHint = "Nom";
+  static String immersitionContactFormMessageHint = "Message";
+  static String immersitionContactFormMessageDefault =
+      "Bonjour, Je souhaiterais passer quelques jours dans votre entreprise en immersion professionnelle auprès de vos salariés pour découvrir ce métier.\nPourriez-vous me proposer un rendez-vous ? \nJe pourrais alors vous expliquer directement mon projet.";
+  static String immersionContactFormButton = "Envoyer";
   static String immersionContactTitle = ImmersionContactStrings.title;
   static String immersionContactSubtitle1 = ImmersionContactStrings.subtitle1;
   static String immersionContactBody1_1 = ImmersionContactStrings.body1_1;
