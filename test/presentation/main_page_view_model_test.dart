@@ -68,22 +68,35 @@ void main() {
   });
 
   group('Create MainPageViewModel when user is...', () {
-    test('not from milo should not display evenement', () {
+    test('pole emploi', () {
       // Given
       final store = givenState().loggedInPoleEmploiUser().store();
       // When
       final viewModel = MainPageViewModel.create(store);
       // Then
-      expect(viewModel.withEvenements, false);
+      expect(viewModel.tabs, [
+        MainTab.accueil,
+        MainTab.monSuivi,
+        MainTab.chat,
+        MainTab.solutions,
+        MainTab.favoris,
+      ]);
     });
 
-    test('not from milo should display evenement', () {
+    test('milo', () {
       // Given
       final store = givenState().loggedInMiloUser().store();
       // When
       final viewModel = MainPageViewModel.create(store);
       // Then
-      expect(viewModel.withEvenements, true);
+      expect(viewModel.tabs, [
+        MainTab.accueil,
+        MainTab.monSuivi,
+        MainTab.chat,
+        MainTab.solutions,
+        MainTab.favoris,
+        MainTab.evenements,
+      ]);
     });
   });
 

@@ -7,6 +7,8 @@ import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
+enum MainTab { accueil, monSuivi, chat, solutions, favoris, evenements }
+
 enum MainPageDisplayState {
   DEFAULT,
   ACTIONS_TAB,
@@ -19,16 +21,16 @@ enum MainPageDisplayState {
 }
 
 class MainPageViewModel extends Equatable {
+  final List<MainTab> tabs;
   final bool withChatBadge;
   final bool showRating;
-  final bool withEvenements;
   final Function resetDeeplink;
   final String actualisationPoleEmploiUrl;
 
   MainPageViewModel({
+    required this.tabs,
     required this.withChatBadge,
     required this.showRating,
-    required this.withEvenements,
     required this.resetDeeplink,
     required this.actualisationPoleEmploiUrl,
   });
@@ -38,16 +40,22 @@ class MainPageViewModel extends Equatable {
     final ratingState = store.state.ratingState;
     final loginState = store.state.loginState;
     final loginMode = loginState is LoginSuccessState ? loginState.user.loginMode : null;
-    final bool withEvenements = loginMode.isMiLo();
     return MainPageViewModel(
+      tabs: [
+        MainTab.accueil,
+        MainTab.monSuivi,
+        MainTab.chat,
+        MainTab.solutions,
+        MainTab.favoris,
+        if (loginMode.isMiLo()) MainTab.evenements,
+      ],
       withChatBadge: (chatStatusState is ChatStatusSuccessState) && (chatStatusState.unreadMessageCount > 0),
       showRating: ratingState is ShowRatingState,
-      withEvenements: withEvenements,
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       actualisationPoleEmploiUrl: store.state.configurationState.configuration?.actualisationPoleEmploiUrl ?? "",
     );
   }
 
   @override
-  List<Object?> get props => [withChatBadge, showRating];
+  List<Object?> get props => [tabs, withChatBadge, showRating];
 }

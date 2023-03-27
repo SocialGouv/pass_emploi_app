@@ -18,6 +18,7 @@ class Strings {
   static String copie = "Copié";
 
   // Menu
+  static String menuAccueil = "Accueil";
   static String menuMonSuivi = "Mon suivi";
   static String menuChat = "Messages";
   static String menuSolutions = "Recherche";
@@ -115,6 +116,9 @@ class Strings {
   static String loginMissionLocale = "Mission Locale";
   static String loginAction = "Se connecter";
   static String logoutAction = "Se déconnecter";
+
+  // Accueil
+  static String accueilAppBarTitle = "Bienvenue";
 
   // Mon Suivi
   static String monSuiviAppBarTitle = "Mon suivi";

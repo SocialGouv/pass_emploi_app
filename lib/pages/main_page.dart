@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/accueil_page.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/event_list_page.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
@@ -26,12 +27,6 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
 import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
 
-const int _indexOfMonSuiviPage = 0;
-const int _indexOfChatPage = 1;
-const int _indexOfSolutionsPage = 2;
-const int _indexOfFavorisPage = 3;
-const int _indexOfEvenementsPage = 4;
-
 class MainPage extends StatefulWidget {
   final MainPageDisplayState displayState;
   final int deepLinkKey;
@@ -44,14 +39,15 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
+  static const _indexNotInitialized = -1;
+
   bool _deepLinkHandled = false;
-  late int _selectedIndex;
+  int _selectedIndex = _indexNotInitialized;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _selectedIndex = _setInitIndexPage();
   }
 
   @override
@@ -99,6 +95,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   Widget _body(MainPageViewModel viewModel, BuildContext context) {
+    _setInitIndexPage(viewModel);
     return _ModeDemoWrapper(
       child: Scaffold(
         body: Container(
@@ -115,63 +112,37 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           unselectedItemColor: AppColors.grey800,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          items: <BottomNavigationBarItem>[
-            menu.MenuItem(
-              defaultIcon: AppIcons.checklist_rounded,
-              inactiveIcon: AppIcons.rule_rounded,
-              label: Strings.menuMonSuivi,
-            ),
-            menu.MenuItem(
-              defaultIcon: AppIcons.chat_rounded,
-              inactiveIcon: AppIcons.chat_outlined,
-              label: Strings.menuChat,
-              withBadge: viewModel.withChatBadge,
-            ),
-            menu.MenuItem(
-              defaultIcon: AppIcons.pageview_rounded,
-              inactiveIcon: AppIcons.pageview_outlined,
-              label: Strings.menuSolutions,
-            ),
-            menu.MenuItem(
-              defaultIcon: AppIcons.favorite_rounded,
-              inactiveIcon: AppIcons.favorite_outline_rounded,
-              label: Strings.menuFavoris,
-            ),
-            if (viewModel.withEvenements)
-              menu.MenuItem(
-                defaultIcon: AppIcons.today_rounded,
-                inactiveIcon: AppIcons.today_outlined,
-                label: Strings.menuEvenements,
-              ),
-          ],
+          items: viewModel.tabs.map((e) => e.asMenuItem(viewModel)).toList(),
           currentIndex: _selectedIndex,
-          onTap: (index) => _onItemTapped(index, context),
+          onTap: (index) => _onItemTapped(index, viewModel),
         ),
       ),
     );
   }
 
-  void _onItemTapped(int index, BuildContext context) {
-    if (index == _indexOfMonSuiviPage) {
+  void _onItemTapped(int index, MainPageViewModel viewModel) {
+    if (viewModel.tabs[index] == MainTab.monSuivi) {
       context.trackEvent(EventType.ACTION_LISTE);
     }
     setState(() => _selectedIndex = index);
   }
 
   Widget _content(int index, MainPageViewModel viewModel) {
-    switch (index) {
-      case _indexOfMonSuiviPage:
+    switch (viewModel.tabs[index]) {
+      case MainTab.accueil:
+        return AccueilPage();
+      case MainTab.monSuivi:
         final initialTab = !_deepLinkHandled ? _initialMonSuiviTab() : null;
         _deepLinkHandled = true;
         return MonSuiviTabPage(initialTab);
-      case _indexOfChatPage:
+      case MainTab.chat:
         return ChatPage();
-      case _indexOfSolutionsPage:
+      case MainTab.solutions:
         _deepLinkHandled = true;
         return SolutionsTabPage();
-      case _indexOfFavorisPage:
+      case MainTab.favoris:
         return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
-      case _indexOfEvenementsPage:
+      case MainTab.evenements:
         return EventListPage();
       default:
         return MonSuiviTabPage();
@@ -189,19 +160,32 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
-  int _setInitIndexPage() {
+  void _setInitIndexPage(MainPageViewModel viewModel) {
+    if (_selectedIndex != _indexNotInitialized) return;
+    late int initialIndex;
     switch (widget.displayState) {
+      case MainPageDisplayState.DEFAULT:
+      case MainPageDisplayState.ACTUALISATION_PE:
+        initialIndex = viewModel.tabs.indexOf(MainTab.accueil);
+        break;
+      case MainPageDisplayState.ACTIONS_TAB:
+      case MainPageDisplayState.RENDEZVOUS_TAB:
+        initialIndex = viewModel.tabs.indexOf(MainTab.monSuivi);
+        break;
       case MainPageDisplayState.CHAT:
-        return _indexOfChatPage;
+        initialIndex = viewModel.tabs.indexOf(MainTab.chat);
+        break;
       case MainPageDisplayState.SEARCH:
-        return _indexOfSolutionsPage;
+        initialIndex = viewModel.tabs.indexOf(MainTab.solutions);
+        break;
       case MainPageDisplayState.SAVED_SEARCH:
-        return _indexOfFavorisPage;
+        initialIndex = viewModel.tabs.indexOf(MainTab.favoris);
+        break;
       case MainPageDisplayState.EVENT_LIST:
-        return _indexOfEvenementsPage;
-      default:
-        return _indexOfMonSuiviPage;
+        initialIndex = viewModel.tabs.indexOf(MainTab.evenements);
+        break;
     }
+    _selectedIndex = initialIndex != -1 ? initialIndex : 0;
   }
 }
 
@@ -275,5 +259,49 @@ class _PopUpActualisationPe extends StatelessWidget {
     Navigator.pop(context);
     PassEmploiMatomoTracker.instance.trackOutlink(actualisationPoleEmploiUrl);
     launchExternalUrl(actualisationPoleEmploiUrl);
+  }
+}
+
+extension _MainTab on MainTab {
+  menu.MenuItem asMenuItem(MainPageViewModel viewModel) {
+    switch (this) {
+      case MainTab.accueil:
+        return menu.MenuItem(
+          defaultIcon: AppIcons.home_rounded,
+          inactiveIcon: AppIcons.home_outlined,
+          label: Strings.menuAccueil,
+        );
+      case MainTab.monSuivi:
+        return menu.MenuItem(
+          defaultIcon: AppIcons.checklist_rounded,
+          inactiveIcon: AppIcons.rule_rounded,
+          label: Strings.menuMonSuivi,
+        );
+      case MainTab.chat:
+        return menu.MenuItem(
+          defaultIcon: AppIcons.chat_rounded,
+          inactiveIcon: AppIcons.chat_outlined,
+          label: Strings.menuChat,
+          withBadge: viewModel.withChatBadge,
+        );
+      case MainTab.solutions:
+        return menu.MenuItem(
+          defaultIcon: AppIcons.pageview_rounded,
+          inactiveIcon: AppIcons.pageview_outlined,
+          label: Strings.menuSolutions,
+        );
+      case MainTab.favoris:
+        return menu.MenuItem(
+          defaultIcon: AppIcons.favorite_rounded,
+          inactiveIcon: AppIcons.favorite_outline_rounded,
+          label: Strings.menuFavoris,
+        );
+      case MainTab.evenements:
+        return menu.MenuItem(
+          defaultIcon: AppIcons.today_rounded,
+          inactiveIcon: AppIcons.today_outlined,
+          label: Strings.menuEvenements,
+        );
+    }
   }
 }
