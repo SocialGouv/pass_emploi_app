@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-enum MainTab { monSuivi, chat, solutions, favoris, evenements }
+enum MainTab { accueil, monSuivi, chat, solutions, favoris, evenements }
 
 enum MainPageDisplayState {
   DEFAULT,
@@ -42,6 +42,7 @@ class MainPageViewModel extends Equatable {
     final loginMode = loginState is LoginSuccessState ? loginState.user.loginMode : null;
     return MainPageViewModel(
       tabs: [
+        MainTab.accueil,
         MainTab.monSuivi,
         MainTab.chat,
         MainTab.solutions,

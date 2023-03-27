@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/accueil_page.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/event_list_page.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
@@ -128,6 +129,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   Widget _content(int index, MainPageViewModel viewModel) {
     switch (viewModel.tabs[index]) {
+      case MainTab.accueil:
+        return AccueilPage();
       case MainTab.monSuivi:
         final initialTab = !_deepLinkHandled ? _initialMonSuiviTab() : null;
         _deepLinkHandled = true;
@@ -161,6 +164,14 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     if (_selectedIndex != _indexNotInitialized) return;
     late int initialIndex;
     switch (widget.displayState) {
+      case MainPageDisplayState.DEFAULT:
+      case MainPageDisplayState.ACTUALISATION_PE:
+        initialIndex = viewModel.tabs.indexOf(MainTab.accueil);
+        break;
+      case MainPageDisplayState.ACTIONS_TAB:
+      case MainPageDisplayState.RENDEZVOUS_TAB:
+        initialIndex = viewModel.tabs.indexOf(MainTab.monSuivi);
+        break;
       case MainPageDisplayState.CHAT:
         initialIndex = viewModel.tabs.indexOf(MainTab.chat);
         break;
@@ -172,9 +183,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         break;
       case MainPageDisplayState.EVENT_LIST:
         initialIndex = viewModel.tabs.indexOf(MainTab.evenements);
-        break;
-      default:
-        initialIndex = viewModel.tabs.indexOf(MainTab.monSuivi);
         break;
     }
     _selectedIndex = initialIndex != -1 ? initialIndex : 0;
@@ -257,6 +265,12 @@ class _PopUpActualisationPe extends StatelessWidget {
 extension _MainTab on MainTab {
   menu.MenuItem asMenuItem(MainPageViewModel viewModel) {
     switch (this) {
+      case MainTab.accueil:
+        return menu.MenuItem(
+          defaultIcon: AppIcons.home_rounded,
+          inactiveIcon: AppIcons.home_outlined,
+          label: Strings.menuAccueil,
+        );
       case MainTab.monSuivi:
         return menu.MenuItem(
           defaultIcon: AppIcons.checklist_rounded,
