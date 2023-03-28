@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_actions.dart';
 import 'package:pass_emploi_app/presentation/immersion_contact_form_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -25,22 +26,25 @@ class ImmersionContactFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ImmersionContactFormViewModel>(
-      converter: (store) => ImmersionContactFormViewModel.create(store),
-      builder: (context, viewModel) => _Content(viewModel),
-      onDidChange: (previousVm, newVm) => _pageNavigationHandling(newVm, context),
-      distinct: true,
-      onDispose: ((store) => store.dispatch(ContactImmersionResetAction())),
+    return Tracker(
+      tracking: AnalyticsScreenNames.immersionForm,
+      child: StoreConnector<AppState, ImmersionContactFormViewModel>(
+        converter: (store) => ImmersionContactFormViewModel.create(store),
+        builder: (context, viewModel) => _Content(viewModel),
+        onDidChange: (previousVm, newVm) => _pageNavigationHandling(newVm, context),
+        distinct: true,
+        onDispose: ((store) => store.dispatch(ContactImmersionResetAction())),
+      ),
     );
   }
 
   void _pageNavigationHandling(ImmersionContactFormViewModel viewModel, BuildContext context) {
     if (viewModel.sendingState.isFailure()) {
-      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.immersionContactSent(false));
+      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.immersionFormSent(false));
       showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
       viewModel.resetSendingState();
     } else if (viewModel.sendingState.isSuccess()) {
-      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.immersionContactSent(true));
+      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.immersionFormSent(true));
       Navigator.pop(context);
       showSuccessfulSnackBar(context, Strings.immersionContactSucceed);
     }
