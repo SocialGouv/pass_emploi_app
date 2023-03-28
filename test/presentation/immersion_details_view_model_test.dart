@@ -24,8 +24,7 @@ void main() {
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
     // Then
-    expect(
-        viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_LOADER);
+    expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_LOADER);
   });
 
   test('create when state is failure should set display state properly', () {
@@ -39,9 +38,7 @@ void main() {
     expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_ERROR);
   });
 
-  test(
-      'create when state is success should set display state properly and fill generic immersion info',
-      () {
+  test('create when state is success should set display state properly and fill generic immersion info', () {
     // Given
     final store = _store(ImmersionDetailsSuccessState(_mockImmersion()));
 
@@ -49,8 +46,7 @@ void main() {
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
     // Then
-    expect(
-        viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_DETAILS);
+    expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_DETAILS);
     expect(viewModel.id, '12345');
     expect(viewModel.title, 'Métier');
     expect(viewModel.companyName, 'Nom établissement');
@@ -59,9 +55,7 @@ void main() {
     expect(viewModel.address, 'Adresse');
   });
 
-  test(
-      "getDetails when state is incomplete data should set display state properly and convert data to view model",
-      () {
+  test("getDetails when state is incomplete data should set display state properly and convert data to view model", () {
     // Given
     final store = Store<AppState>(
       reducer,
@@ -80,8 +74,7 @@ void main() {
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
     // Then
-    expect(viewModel.displayState,
-        ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS);
+    expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS);
     expect(viewModel.id, "10298");
     expect(viewModel.title, "incomplete-metier");
     expect(viewModel.companyName, "incomplete-nom");
@@ -99,12 +92,10 @@ void main() {
   group('from entreprise accueillante', () {
     test('when entreprise is accueillante should return true', () {
       // Given
-      final store =
-          _successStore(_mockImmersion(fromEntrepriseAccueillante: true));
+      final store = _successStore(_mockImmersion(fromEntrepriseAccueillante: true));
 
       // When
-      final viewModel =
-          ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
       expect(viewModel.fromEntrepriseAccueillante, isTrue);
@@ -112,12 +103,10 @@ void main() {
 
     test('when entreprise is not accueillante should return false', () {
       // Given
-      final store =
-          _successStore(_mockImmersion(fromEntrepriseAccueillante: false));
+      final store = _successStore(_mockImmersion(fromEntrepriseAccueillante: false));
 
       // When
-      final viewModel =
-          ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
       expect(viewModel.fromEntrepriseAccueillante, isFalse);
@@ -127,12 +116,10 @@ void main() {
   group('Contact label…', () {
     test('when contact is not set', () {
       // Given
-      final store = _successStore(_mockImmersionWithContact(
-          _mockContact(firstName: '', lastName: '', role: '')));
+      final store = _successStore(_mockImmersionWithContact(_mockContact(firstName: '', lastName: '', role: '')));
 
       // When
-      final viewModel =
-          ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
       expect(viewModel.contactLabel, '');
@@ -140,12 +127,10 @@ void main() {
 
     test('when contact is set with first name and last name', () {
       // Given
-      final store = _successStore(_mockImmersionWithContact(
-          _mockContact(firstName: 'F', lastName: 'L', role: '')));
+      final store = _successStore(_mockImmersionWithContact(_mockContact(firstName: 'F', lastName: 'L', role: '')));
 
       // When
-      final viewModel =
-          ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
       expect(viewModel.contactLabel, 'F L');
@@ -153,12 +138,10 @@ void main() {
 
     test('when contact is set with first name, last name and role', () {
       // Given
-      final store = _successStore(_mockImmersionWithContact(
-          _mockContact(firstName: 'F', lastName: 'L', role: 'R')));
+      final store = _successStore(_mockImmersionWithContact(_mockContact(firstName: 'F', lastName: 'L', role: 'R')));
 
       // When
-      final viewModel =
-          ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
       expect(viewModel.contactLabel, 'F L\nR');
@@ -168,12 +151,10 @@ void main() {
   group('Contact information…', () {
     test('when contact is not set', () {
       // Given
-      final store =
-          _successStore(_mockImmersionWithContact(null, address: "Address"));
+      final store = _successStore(_mockImmersionWithContact(null, address: "Address"));
 
       // When
-      final viewModel =
-          ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
       expect(viewModel.contactInformation, 'Address');
@@ -182,14 +163,12 @@ void main() {
     test('when contact mode is INCONNU should display all info', () {
       // Given
       final store = _successStore(_mockImmersionWithContact(
-        _mockContact(
-            mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.INCONNU),
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.INCONNU),
         address: "Address",
       ));
 
       // When
-      final viewModel =
-          ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
       expect(viewModel.contactInformation, 'Address\n\nMail\n\nPhone');
@@ -198,14 +177,12 @@ void main() {
     test('when contact mode is MAIL should only display address + mail', () {
       // Given
       final store = _successStore(_mockImmersionWithContact(
-        _mockContact(
-            mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.MAIL),
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.MAIL),
         address: "Address",
       ));
 
       // When
-      final viewModel =
-          ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
       expect(viewModel.contactInformation, 'Address\n\nMail');
@@ -214,14 +191,12 @@ void main() {
     test('when contact mode is PHONE should only display address + phone', () {
       // Given
       final store = _successStore(_mockImmersionWithContact(
-        _mockContact(
-            mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.PHONE),
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.PHONE),
         address: "Address",
       ));
 
       // When
-      final viewModel =
-          ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
       expect(viewModel.contactInformation, 'Address\n\nPhone');
@@ -230,16 +205,12 @@ void main() {
     test('when contact mode is PRESENTIEL should only display address', () {
       // Given
       final store = _successStore(_mockImmersionWithContact(
-        _mockContact(
-            mail: 'Mail',
-            phone: 'Phone',
-            mode: ImmersionContactMode.PRESENTIEL),
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.PRESENTIEL),
         address: "Address",
       ));
 
       // When
-      final viewModel =
-          ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
       // Then
       expect(viewModel.contactInformation, 'Address');
@@ -248,16 +219,12 @@ void main() {
 
   group('Call to actions…', () {
     group('when contact is null…', () {
-      test(
-          'only have contact page CTA, no main CTA (on Android), no secondary CTAs',
-          () {
+      test('only have contact page CTA, no main CTA (on Android), no secondary CTAs', () {
         // Given
-        final store = _successStore(
-            _mockImmersionWithContact(null, address: "Address 1"));
+        final store = _successStore(_mockImmersionWithContact(null, address: "Address 1"));
 
         // When
-        final viewModel =
-            ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
         expect(viewModel.mainCallToAction, null);
@@ -265,12 +232,9 @@ void main() {
         expect(viewModel.withSecondaryCallToActions, isFalse);
       });
 
-      test(
-          'only have contact page CTA, no main CTA (on iOS), no secondary CTAs',
-          () {
+      test('only have contact page CTA, no main CTA (on iOS), no secondary CTAs', () {
         // Given
-        final store = _successStore(
-            _mockImmersionWithContact(null, address: "Address 1"));
+        final store = _successStore(_mockImmersionWithContact(null, address: "Address 1"));
 
         // When
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.IOS);
@@ -283,8 +247,7 @@ void main() {
     });
 
     group('when contact mode is INCONNU…', () {
-      test(
-          'but neither phone nor mail is set > only have contact page CTA, no main address CTA, no secondary CTAs',
+      test('but neither phone nor mail is set > only have contact page CTA, no main address CTA, no secondary CTAs',
           () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
@@ -293,8 +256,7 @@ void main() {
         ));
 
         // When
-        final viewModel =
-            ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
         expect(viewModel.mainCallToAction, null);
@@ -307,14 +269,12 @@ void main() {
           () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
-          _mockContact(
-              mode: ImmersionContactMode.INCONNU, phone: '', mail: 'mail'),
+          _mockContact(mode: ImmersionContactMode.INCONNU, phone: '', mail: 'mail'),
           address: "Address 1",
         ));
 
         // When
-        final viewModel =
-            ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
         expect(viewModel.mainCallToAction, null);
@@ -323,29 +283,22 @@ void main() {
         expect(viewModel.secondaryCallToActions, [
           CallToAction(
             'Envoyer un e-mail',
-            Uri.parse(
-                "mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
+            Uri.parse("mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
             EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
             icon: AppIcons.outgoing_mail,
           )
         ]);
       });
 
-      test(
-          'but phone is set > does have contact page CTA, does not have main CTA, does have secondary CTAs',
-          () {
+      test('but phone is set > does have contact page CTA, does not have main CTA, does have secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
-          _mockContact(
-              mode: ImmersionContactMode.INCONNU,
-              phone: '0701020304',
-              mail: 'mail'),
+          _mockContact(mode: ImmersionContactMode.INCONNU, phone: '0701020304', mail: 'mail'),
           address: "Address 1",
         ));
 
         // When
-        final viewModel =
-            ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
         expect(viewModel.mainCallToAction, null);
@@ -356,27 +309,22 @@ void main() {
     });
 
     group('when contact mode is MAIL', () {
-      test(
-          'does have a main mail CTA, but no secondary CTAs and no contact page',
-          () {
+      test('does have a main mail CTA, but no secondary CTAs and no contact page', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
-          _mockContact(
-              mode: ImmersionContactMode.MAIL, phone: 'phone', mail: 'mail'),
+          _mockContact(mode: ImmersionContactMode.MAIL, phone: 'phone', mail: 'mail'),
           address: "Address 1",
         ));
 
         // When
-        final viewModel =
-            ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
         expect(
           viewModel.mainCallToAction,
           CallToAction(
             'Envoyer un e-mail',
-            Uri.parse(
-                "mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
+            Uri.parse("mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
             EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
           ),
         );
@@ -386,20 +334,15 @@ void main() {
     });
 
     group('when contact mode is PHONE', () {
-      test('does have contact page, does not have main CTA but secondary CTAs',
-          () {
+      test('does have contact page, does not have main CTA but secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
-          _mockContact(
-              mode: ImmersionContactMode.PHONE,
-              phone: '0701020304',
-              mail: 'mail'),
+          _mockContact(mode: ImmersionContactMode.PHONE, phone: '0701020304', mail: 'mail'),
           address: "Address 1",
         ));
 
         // When
-        final viewModel =
-            ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
         expect(viewModel.withSecondaryCallToActions, isFalse);
@@ -409,21 +352,15 @@ void main() {
     });
 
     group('when contact mode is IN PERSON', () {
-      test(
-          'does have contact page, does not have a main location CTA, but secondary CTAs',
-          () {
+      test('does have contact page, does not have a main location CTA, but secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
-          _mockContact(
-              mode: ImmersionContactMode.PRESENTIEL,
-              phone: '0701020304',
-              mail: 'mail'),
+          _mockContact(mode: ImmersionContactMode.PRESENTIEL, phone: '0701020304', mail: 'mail'),
           address: "Address 1",
         ));
 
         // When
-        final viewModel =
-            ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+        final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
         expect(viewModel.withSecondaryCallToActions, isFalse);
@@ -433,31 +370,25 @@ void main() {
     });
   });
 
-  test(
-      'View model triggers ImmersionDetailsAction.request() when onRetry is performed',
-      () {
+  test('View model triggers ImmersionDetailsAction.request() when onRetry is performed', () {
     final store = StoreSpy();
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
     viewModel.onRetry("immersion-id");
 
     expect(store.dispatchedAction, isA<ImmersionDetailsRequestAction>());
-    expect(
-        (store.dispatchedAction as ImmersionDetailsRequestAction).immersionId,
-        "immersion-id");
+    expect((store.dispatchedAction as ImmersionDetailsRequestAction).immersionId, "immersion-id");
   });
 }
 
 Store<AppState> _store(ImmersionDetailsState immersionDetailsState) {
   return Store<AppState>(
     reducer,
-    initialState: AppState.initialState()
-        .copyWith(immersionDetailsState: immersionDetailsState),
+    initialState: AppState.initialState().copyWith(immersionDetailsState: immersionDetailsState),
   );
 }
 
-Store<AppState> _successStore(ImmersionDetails immersion) =>
-    _store(ImmersionDetailsSuccessState(immersion));
+Store<AppState> _successStore(ImmersionDetails immersion) => _store(ImmersionDetailsSuccessState(immersion));
 
 ImmersionDetails _mockImmersion({
   bool fromEntrepriseAccueillante = false,
@@ -484,8 +415,7 @@ ImmersionDetails _mockImmersion({
   );
 }
 
-ImmersionDetails _mockImmersionWithContact(ImmersionContact? contact,
-    {String? address}) {
+ImmersionDetails _mockImmersionWithContact(ImmersionContact? contact, {String? address}) {
   return ImmersionDetails(
     id: '',
     metier: '',
