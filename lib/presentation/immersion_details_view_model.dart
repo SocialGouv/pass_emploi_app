@@ -53,7 +53,7 @@ class ImmersionDetailsViewModel extends Equatable {
     if (state is ImmersionDetailsSuccessState) {
       final immersionDetails = state.immersion;
       final secondaryCallToActions = _secondaryCallToActions(immersionDetails, platform);
-      final withContactForm = _withContactForm(immersionDetails, platform);
+      final withContactForm = _withContactForm(immersionDetails);
       return _successViewModel(
         state,
         immersionDetails,
@@ -169,15 +169,7 @@ String _contactInformation(ImmersionDetails immersion) {
   return contactInformation;
 }
 
-// TODO: refactor this to remove platform
-bool _withContactForm(ImmersionDetails immersion, Platform platform) {
-  final contact = immersion.contact;
-  if (contact != null && contact.mode == ImmersionContactMode.MAIL) {
-    return true;
-  } else {
-    return false;
-  }
-}
+bool _withContactForm(ImmersionDetails immersion) => immersion.contact?.mode == ImmersionContactMode.MAIL;
 
 List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform platform) {
   final mode = immersion.contact?.mode;
