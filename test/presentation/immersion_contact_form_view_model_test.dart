@@ -36,4 +36,19 @@ void main() {
     expect(action!.request.immersionDetails, mockImmersionDetails());
     expect(action.request.userInput, mockImmersionContactUserInput());
   });
+
+  test('should send reset', () {
+    // Given
+    final store = givenState()
+        .loggedInMiloUser()
+        .withImmersionDetailsSuccess(immersionDetails: mockImmersionDetails())
+        .spyStore();
+    final viewModel = ImmersionContactFormViewModel.create(store);
+
+    // When
+    viewModel.resetSendingState();
+
+    // Then
+    expect(store.dispatchedAction, isA<ContactImmersionResetAction>());
+  });
 }

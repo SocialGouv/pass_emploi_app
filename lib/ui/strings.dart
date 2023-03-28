@@ -402,6 +402,7 @@ class Strings {
   static String immersionLocationButton = "Localiser l'entreprise";
   static String immersionEmailButton = "Envoyer un e-mail";
   static String immersionEmailSubject = "Candidature pour une période d'immersion";
+  static String immersionContactSucceed = "Votre message a bien été transmis à l'entreprise.";
   static String immersionContact = "Contacter";
   static String immersitionContactFormTitle = "Contacter l’entreprise";
   static String immersitionContactFormSubtitle = "Veuillez compléter ce formulaire qui sera transmis à l'entreprise.";

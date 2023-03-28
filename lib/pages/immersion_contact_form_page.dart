@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class ImmersionContactFormPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -25,9 +26,20 @@ class ImmersionContactFormPage extends StatelessWidget {
     return StoreConnector<AppState, ImmersionContactFormViewModel>(
       converter: (store) => ImmersionContactFormViewModel.create(store),
       builder: (context, viewModel) => _Content(viewModel),
+      onDidChange: (previousVm, newVm) => _pageNavigationHandling(newVm, context),
       distinct: true,
       onDispose: ((store) => store.dispatch(ContactImmersionResetAction())),
     );
+  }
+
+  void _pageNavigationHandling(ImmersionContactFormViewModel viewModel, BuildContext context) {
+    if (viewModel.sendingState.isFailure()) {
+      showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
+      viewModel.resetSendingState();
+    } else if (viewModel.sendingState.isSuccess()) {
+      Navigator.pop(context);
+      showSuccessfulSnackBar(context, Strings.immersionContactSucceed);
+    }
   }
 }
 

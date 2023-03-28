@@ -16,6 +16,7 @@ class ImmersionContactFormViewModel extends Equatable {
   final String userLastNameInitialValue;
   final String messageInitialValue;
   final Function(ImmersionContactUserInput) onFormSubmitted;
+  final Function resetSendingState;
 
   ImmersionContactFormViewModel._({
     required this.sendingState,
@@ -24,6 +25,7 @@ class ImmersionContactFormViewModel extends Equatable {
     required this.userLastNameInitialValue,
     required this.messageInitialValue,
     required this.onFormSubmitted,
+    required this.resetSendingState,
   });
 
   factory ImmersionContactFormViewModel.create(Store<AppState> store) {
@@ -43,6 +45,7 @@ class ImmersionContactFormViewModel extends Equatable {
           ),
         ),
       ),
+      resetSendingState: () => store.dispatch(ContactImmersionResetAction()),
     );
   }
 
