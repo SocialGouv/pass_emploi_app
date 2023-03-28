@@ -1,11 +1,9 @@
 import 'package:pass_emploi_app/models/immersion_details.dart';
+import 'package:pass_emploi_app/presentation/immersion_contact_form_view_model.dart';
 
 class ContactImmersionRequest {
   final ImmersionDetails immersionDetails;
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String message;
+  final ImmersionContactUserInput userInput;
 
-  ContactImmersionRequest(this.immersionDetails, this.firstName, this.lastName, this.email, this.message);
+  ContactImmersionRequest(this.immersionDetails, this.userInput);
 }

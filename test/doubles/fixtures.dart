@@ -41,6 +41,7 @@ import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/version.dart';
+import 'package:pass_emploi_app/presentation/immersion_contact_form_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
@@ -235,14 +236,17 @@ ImmersionDetails mockImmersionDetails() {
   );
 }
 
-ContactImmersionRequest mockContactImmersionRequest() {
-  return ContactImmersionRequest(
-    mockImmersionDetails(),
-    "Philippe",
-    "Flopflip",
-    "philippe.flopflip@magiciens.com",
-    "Bonjour, j'aimerai faire une immersion dans votre salon de magie.",
+ImmersionContactUserInput mockImmersionContactUserInput() {
+  return ImmersionContactUserInput(
+    firstName: "Philippe",
+    lastName: "Flopflip",
+    email: "philippe.flopflip@magiciens.com",
+    message: "Bonjour, j'aimerai faire une immersion dans votre salon de magie.",
   );
+}
+
+ContactImmersionRequest mockContactImmersionRequest() {
+  return ContactImmersionRequest(mockImmersionDetails(), mockImmersionContactUserInput());
 }
 
 ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(

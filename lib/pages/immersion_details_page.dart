@@ -182,8 +182,7 @@ class ImmersionDetailsPage extends StatelessWidget {
           Expanded(
               child: PrimaryActionButton(
             onPressed: () {
-              // TODO: remove this when the contact form is ready
-              viewModel.withContactForm || 1 == 1
+              viewModel.withContactForm
                   ? Navigator.push(context, ImmersionContactFormPage.materialPageRoute())
                   : Navigator.push(context, ImmersionContactPage.materialPageRoute());
             },

@@ -1,31 +1,39 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_actions.dart';
 import 'package:pass_emploi_app/presentation/immersion_contact_form_view_model.dart';
 
 import '../doubles/fixtures.dart';
 import '../dsl/app_state_dsl.dart';
-import '../dsl/sut_redux.dart';
 
 void main() {
-  final sut = StoreSut();
-
   test('test should create a form with user email, first name and last name', () {
     // Given
-    sut.givenStore = givenState()
-        .copyWith(
-            loginState: successMiloUserState(
-                user: mockedMiloUser().copyWith(
-          email: "some.user@example.com",
-          firstName: "John",
-          lastName: "Doe",
-        )))
-        .store();
+    final store = givenState().loggedInMiloUser().store();
 
     // When
-    final viewModel = ImmersionContactFormViewModel.create(sut.givenStore);
+    final viewModel = ImmersionContactFormViewModel.create(store);
 
     // Then
-    expect(viewModel.userEmailInitialValue, "some.user@example.com");
-    expect(viewModel.userFirstNameInitialValue, "John");
-    expect(viewModel.userLastNameInitialValue, "Doe");
+    expect(viewModel.userEmailInitialValue, "first.last@milo.fr");
+    expect(viewModel.userFirstNameInitialValue, "F");
+    expect(viewModel.userLastNameInitialValue, "L");
+  });
+
+  test('should send form', () {
+    // Given
+    final store = givenState()
+        .loggedInMiloUser()
+        .withImmersionDetailsSuccess(immersionDetails: mockImmersionDetails())
+        .spyStore();
+    final viewModel = ImmersionContactFormViewModel.create(store);
+
+    // When
+    viewModel.onFormSubmitted(mockImmersionContactUserInput());
+
+    // Then
+    final action = store.dispatchedAction as ContactImmersionRequestAction?;
+    expect(action, isNotNull);
+    expect(action!.request.immersionDetails, mockImmersionDetails());
+    expect(action.request.userInput, mockImmersionContactUserInput());
   });
 }

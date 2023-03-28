@@ -11,10 +11,10 @@ class PostContactImmersionRequest implements JsonSerializable {
         "codeRome": request.immersionDetails.codeRome,
         "labelRome": request.immersionDetails.metier,
         "siret": request.immersionDetails.siret,
-        "prenom": request.firstName,
-        "nom": request.lastName,
-        "email": request.email,
-        "message": request.message,
+        "prenom": request.userInput.firstName,
+        "nom": request.userInput.lastName,
+        "email": request.userInput.email,
+        "message": request.userInput.message,
         "contactMode": "EMAIL",
       };
 }

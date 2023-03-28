@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
-// TODO: Envoyer l'action au clic
 class ImmersionContactFormPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(
@@ -51,6 +50,20 @@ class _ContentState extends State<_Content> {
     super.initState();
   }
 
+  void _submitForm() {
+    final email = state.userEmailController.text;
+    final firstName = state.userFirstNameController.text;
+    final lastName = state.userLastNameController.text;
+    final message = state.messageController.text;
+    final userInput = ImmersionContactUserInput(
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      message: message,
+    );
+    widget.viewModel.onFormSubmitted(userInput);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +75,7 @@ class _ContentState extends State<_Content> {
             child: PrimaryActionButton(
               label: Strings.immersionContactFormButton,
               icon: AppIcons.outgoing_mail,
-              onPressed: state.isFormValid ? () {} : null,
+              onPressed: state.isFormValid ? _submitForm : null,
             ),
           ),
         ),
@@ -183,6 +196,18 @@ class ImmersionTextFormField extends StatelessWidget {
 }
 
 class ImmersionContactFormChangeNotifier extends ChangeNotifier {
+  bool isFormValid = false;
+
+  late final TextEditingController userEmailController;
+  late final TextEditingController userFirstNameController;
+  late final TextEditingController userLastNameController;
+  late final TextEditingController messageController;
+
+  late final FocusNode userEmailFocus;
+  late final FocusNode userFirstNameFocus;
+  late final FocusNode userLastNameFocus;
+  late final FocusNode messageFocus;
+
   ImmersionContactFormChangeNotifier({
     required String userEmailInitialValue,
     required String userFirstNameInitialValue,
@@ -201,18 +226,6 @@ class ImmersionContactFormChangeNotifier extends ChangeNotifier {
 
     isFormValid = _isFormFieldsValid();
   }
-
-  bool isFormValid = false;
-
-  late final TextEditingController userEmailController;
-  late final TextEditingController userFirstNameController;
-  late final TextEditingController userLastNameController;
-  late final TextEditingController messageController;
-
-  late final FocusNode userEmailFocus;
-  late final FocusNode userFirstNameFocus;
-  late final FocusNode userLastNameFocus;
-  late final FocusNode messageFocus;
 
   bool _isFormFieldsValid() {
     return isEmailValid() && isFirstNameValid() && isLastNameValid() && isMessageValid();
