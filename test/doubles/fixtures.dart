@@ -220,6 +220,8 @@ ImmersionDetails mockImmersionDetails() {
     secteurActivite: '',
     ville: '',
     address: '',
+    codeRome: '',
+    siret: '',
     fromEntrepriseAccueillante: true,
     contact: ImmersionContact(
       firstName: '',

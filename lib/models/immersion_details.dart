@@ -9,6 +9,8 @@ class ImmersionDetails extends Equatable {
   final String secteurActivite;
   final String ville;
   final String address;
+  final String codeRome;
+  final String siret;
   final bool fromEntrepriseAccueillante;
   final ImmersionContact? contact;
 
@@ -19,6 +21,8 @@ class ImmersionDetails extends Equatable {
     required this.secteurActivite,
     required this.ville,
     required this.address,
+    required this.codeRome,
+    required this.siret,
     required this.fromEntrepriseAccueillante,
     required this.contact,
   });
@@ -31,6 +35,8 @@ class ImmersionDetails extends Equatable {
       secteurActivite: json['secteurActivite'] as String,
       ville: json['ville'] as String,
       address: json['adresse'] as String,
+      codeRome: json['codeRome'] as String,
+      siret: json['siret'] as String,
       fromEntrepriseAccueillante: json['estVolontaire'] as bool,
       contact: json['contact'] != null ? ImmersionContact.fromJson(json['contact']) : null,
     );
@@ -44,6 +50,8 @@ class ImmersionDetails extends Equatable {
         secteurActivite,
         ville,
         address,
+        codeRome,
+        siret,
         fromEntrepriseAccueillante,
         contact,
       ];

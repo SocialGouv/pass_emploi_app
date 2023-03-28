@@ -5,6 +5,8 @@
   "secteurActivite": "xxxx",
   "ville": "xxxx",
   "adresse": "4 RUE DES FRERES LUMIERE 67170 BRUMATH",
+  "codeRome": "G1102",
+  "siret": "12345678901234",
   "estVolontaire": true,
   "contact": {
     "id": "9c6ca7f3-9598-479c-a745-c227691b0cb3",

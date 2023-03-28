@@ -226,6 +226,8 @@ ImmersionDetails _mockImmersionWithContact(ImmersionContact? contact, {String? a
     secteurActivite: '',
     ville: '',
     address: address ?? '',
+    codeRome: '',
+    siret: '',
     fromEntrepriseAccueillante: true,
     contact: contact,
   );
