@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_actions.dart';
 import 'package:pass_emploi_app/presentation/immersion_contact_form_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -10,6 +11,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 
 class ImmersionContactFormPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -24,6 +26,7 @@ class ImmersionContactFormPage extends StatelessWidget {
       converter: (store) => ImmersionContactFormViewModel.create(store),
       builder: (context, viewModel) => _Content(viewModel),
       distinct: true,
+      onDispose: ((store) => store.dispatch(ContactImmersionResetAction())),
     );
   }
 }
@@ -67,78 +70,84 @@ class _ContentState extends State<_Content> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SecondaryAppBar(title: Strings.immersitionContactFormTitle),
-        floatingActionButton: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-          child: SizedBox(
-            width: double.infinity,
-            child: PrimaryActionButton(
-              label: Strings.immersionContactFormButton,
-              icon: AppIcons.outgoing_mail,
-              onPressed: state.isFormValid ? _submitForm : null,
-            ),
+      appBar: SecondaryAppBar(title: Strings.immersitionContactFormTitle),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: SizedBox(
+          width: double.infinity,
+          child: PrimaryActionButton(
+            label: Strings.immersionContactFormButton,
+            icon: AppIcons.outgoing_mail,
+            onPressed: state.isFormValid && widget.viewModel.sendingState.isLoading() == false ? _submitForm : null,
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: Margins.spacing_base),
-                Text(
-                  Strings.immersitionContactFormSubtitle,
-                  style: TextStyles.textBaseRegular,
-                ),
-                SizedBox(height: Margins.spacing_m),
-                Text(
-                  Strings.immersitionContactFormHint,
-                  style: TextStyles.textBaseBold,
-                ),
-                SizedBox(height: Margins.spacing_m),
-                ImmersionTextFormField(
-                  isMandatory: true,
-                  mandatoryError: state.isEmailValid()
-                      ? null
-                      : state.isEmailEmpty()
-                          ? Strings.immersionContactFormEmailEmpty
-                          : Strings.immersionContactFormEmailInvalid,
-                  controller: state.userEmailController,
-                  focusNode: state.userEmailFocus,
-                  label: Strings.immersitionContactFormEmailHint,
-                ),
-                SizedBox(height: Margins.spacing_m),
-                ImmersionTextFormField(
-                  isMandatory: true,
-                  mandatoryError: state.isFirstNameValid() ? null : Strings.immersionContactFormFirstNameInvalid,
-                  controller: state.userFirstNameController,
-                  focusNode: state.userFirstNameFocus,
-                  label: Strings.immersitionContactFormSurnameHint,
-                ),
-                SizedBox(height: Margins.spacing_m),
-                ImmersionTextFormField(
-                  isMandatory: true,
-                  mandatoryError: state.isLastNameValid() ? null : Strings.immersionContactFormLastNameInvalid,
-                  controller: state.userLastNameController,
-                  focusNode: state.userLastNameFocus,
-                  label: Strings.immersitionContactFormNameHint,
-                ),
-                SizedBox(height: Margins.spacing_m),
-                ImmersionTextFormField(
-                  isMandatory: true,
-                  mandatoryError: state.isMessageValid() ? null : Strings.immersionContactFormMessageInvalid,
-                  maxLength: 512,
-                  maxLines: 10,
-                  controller: state.messageController,
-                  focusNode: state.messageFocus,
-                  label: Strings.immersitionContactFormMessageHint,
-                ),
-                SizedBox(height: Margins.spacing_huge * 2),
-              ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: Margins.spacing_base),
+                  Text(
+                    Strings.immersitionContactFormSubtitle,
+                    style: TextStyles.textBaseRegular,
+                  ),
+                  SizedBox(height: Margins.spacing_m),
+                  Text(
+                    Strings.immersitionContactFormHint,
+                    style: TextStyles.textBaseBold,
+                  ),
+                  SizedBox(height: Margins.spacing_m),
+                  ImmersionTextFormField(
+                    isMandatory: true,
+                    mandatoryError: state.isEmailValid()
+                        ? null
+                        : state.isEmailEmpty()
+                            ? Strings.immersionContactFormEmailEmpty
+                            : Strings.immersionContactFormEmailInvalid,
+                    controller: state.userEmailController,
+                    focusNode: state.userEmailFocus,
+                    label: Strings.immersitionContactFormEmailHint,
+                  ),
+                  SizedBox(height: Margins.spacing_m),
+                  ImmersionTextFormField(
+                    isMandatory: true,
+                    mandatoryError: state.isFirstNameValid() ? null : Strings.immersionContactFormFirstNameInvalid,
+                    controller: state.userFirstNameController,
+                    focusNode: state.userFirstNameFocus,
+                    label: Strings.immersitionContactFormSurnameHint,
+                  ),
+                  SizedBox(height: Margins.spacing_m),
+                  ImmersionTextFormField(
+                    isMandatory: true,
+                    mandatoryError: state.isLastNameValid() ? null : Strings.immersionContactFormLastNameInvalid,
+                    controller: state.userLastNameController,
+                    focusNode: state.userLastNameFocus,
+                    label: Strings.immersitionContactFormNameHint,
+                  ),
+                  SizedBox(height: Margins.spacing_m),
+                  ImmersionTextFormField(
+                    isMandatory: true,
+                    mandatoryError: state.isMessageValid() ? null : Strings.immersionContactFormMessageInvalid,
+                    maxLength: 512,
+                    maxLines: 10,
+                    controller: state.messageController,
+                    focusNode: state.messageFocus,
+                    label: Strings.immersitionContactFormMessageHint,
+                  ),
+                  SizedBox(height: Margins.spacing_huge * 2),
+                ],
+              ),
             ),
           ),
-        ));
+          if (widget.viewModel.sendingState.isLoading()) LoadingOverlay(),
+        ],
+      ),
+    );
   }
 }
 
