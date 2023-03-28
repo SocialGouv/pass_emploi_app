@@ -5,5 +5,7 @@
   "secteurActivite": "xxxx",
   "ville": "xxxx",
   "adresse": "Service des ressources humaines, 40 RUE DU DEPUTE HALLEZ, 67500 HAGUENAU",
+  "codeRome": "G1102",
+  "siret": "12345678901234",
   "estVolontaire": false
 }

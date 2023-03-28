@@ -34,6 +34,8 @@ void main() {
         secteurActivite: "xxxx",
         ville: "xxxx",
         address: "Service des ressources humaines, 40 RUE DU DEPUTE HALLEZ, 67500 HAGUENAU",
+        codeRome: "G1102",
+        siret: "12345678901234",
         fromEntrepriseAccueillante: false,
         contact: null,
       ),
@@ -65,6 +67,8 @@ void main() {
         secteurActivite: "xxxx",
         ville: "xxxx",
         address: "4 RUE DES FRERES LUMIERE 67170 BRUMATH",
+        codeRome: "G1102",
+        siret: "12345678901234",
         fromEntrepriseAccueillante: true,
         contact: ImmersionContact(
           lastName: "PHILIPPE",
