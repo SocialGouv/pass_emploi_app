@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
+// TODO: onFormSubmitted => dispatch ContactImmersionRequestAction
 class ImmersionContactFormViewModel extends Equatable {
   final String userEmailInitialValue;
   final String userFirstNameInitialValue;

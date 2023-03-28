@@ -15,6 +15,7 @@ import 'package:redux/redux.dart';
 
 enum ImmersionDetailsPageDisplayState { SHOW_DETAILS, SHOW_INCOMPLETE_DETAILS, SHOW_LOADER, SHOW_ERROR }
 
+// TODO: Peut-être ici pour vérifier la rétrocompatibilité
 class ImmersionDetailsViewModel extends Equatable {
   final ImmersionDetailsPageDisplayState displayState;
   final String id;
@@ -169,6 +170,7 @@ String _contactInformation(ImmersionDetails immersion) {
   return contactInformation;
 }
 
+// TODO: refactor this to remove platform
 bool _withContactForm(ImmersionDetails immersion, Platform platform) {
   final contact = immersion.contact;
   if (contact != null && contact.mode == ImmersionContactMode.MAIL) {

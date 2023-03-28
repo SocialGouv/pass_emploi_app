@@ -56,6 +56,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -115,6 +116,7 @@ class AppState extends Equatable {
   final RechercheServiceCiviqueState rechercheServiceCiviqueState;
   final DiagorientePreferencesMetierState diagorientePreferencesMetierState;
   final RecherchesRecentesState recherchesRecentesState;
+  final ContactImmersionState contactImmersionState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -174,6 +176,7 @@ class AppState extends Equatable {
     required this.rechercheServiceCiviqueState,
     required this.diagorientePreferencesMetierState,
     required this.recherchesRecentesState,
+    required this.contactImmersionState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -234,6 +237,7 @@ class AppState extends Equatable {
     final RechercheServiceCiviqueState? rechercheServiceCiviqueState,
     final DiagorientePreferencesMetierState? diagorientePreferencesMetierState,
     final RecherchesRecentesState? recherchesRecentesState,
+    final ContactImmersionState? contactImmersionState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -294,6 +298,7 @@ class AppState extends Equatable {
       rechercheServiceCiviqueState: rechercheServiceCiviqueState ?? this.rechercheServiceCiviqueState,
       diagorientePreferencesMetierState: diagorientePreferencesMetierState ?? this.diagorientePreferencesMetierState,
       recherchesRecentesState: recherchesRecentesState ?? this.recherchesRecentesState,
+      contactImmersionState: contactImmersionState ?? this.contactImmersionState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -356,6 +361,7 @@ class AppState extends Equatable {
       rechercheServiceCiviqueState: RechercheState.initial(),
       diagorientePreferencesMetierState: DiagorientePreferencesMetierNotInitializedState(),
       recherchesRecentesState: RecherchesRecentesState([]),
+      contactImmersionState: ContactImmersionNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -411,6 +417,7 @@ class AppState extends Equatable {
         rechercheServiceCiviqueState,
         diagorientePreferencesMetierState,
         recherchesRecentesState,
+        contactImmersionState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

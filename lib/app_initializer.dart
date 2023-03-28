@@ -87,6 +87,7 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:redux/redux.dart';
@@ -249,6 +250,7 @@ class AppInitializer {
       DiagorienteMetiersFavorisRepository(dioClient, requestCacheManager, crashlytics),
       GetFavorisRepository(dioClient, crashlytics),
       RecherchesRecentesRepository(securedPreferences),
+      ContactImmersionRepository(dioClient, crashlytics),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

@@ -61,6 +61,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -151,6 +152,7 @@ AppState reducer(AppState current, dynamic action) {
     diagorientePreferencesMetierState:
         diagorientePreferencesMetierReducer(current.diagorientePreferencesMetierState, action),
     recherchesRecentesState: recherchesRecentesReducer(current.recherchesRecentesState, action),
+    contactImmersionState: contactImmersionReducer(current.contactImmersionState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }
