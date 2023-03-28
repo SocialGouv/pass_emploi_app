@@ -27,8 +27,7 @@ class ImmersionDetailsViewModel extends Equatable {
   final String? contactLabel;
   final String? contactInformation;
   final bool? withSecondaryCallToActions;
-  final bool withContactPage;
-  final CallToAction? mainCallToAction;
+  final bool withContactForm;
   final List<CallToAction>? secondaryCallToActions;
   final Function(String immersionId) onRetry;
 
@@ -44,8 +43,7 @@ class ImmersionDetailsViewModel extends Equatable {
     this.contactLabel,
     this.contactInformation,
     this.withSecondaryCallToActions,
-    required this.withContactPage,
-    this.mainCallToAction,
+    required this.withContactForm,
     this.secondaryCallToActions,
     required this.onRetry,
   });
@@ -54,16 +52,14 @@ class ImmersionDetailsViewModel extends Equatable {
     final state = store.state.immersionDetailsState;
     if (state is ImmersionDetailsSuccessState) {
       final immersionDetails = state.immersion;
-      final mainCallToAction = _mainCallToAction(immersionDetails, platform);
       final secondaryCallToActions = _secondaryCallToActions(immersionDetails, platform);
-      final withContactPage = _withContactPage(immersionDetails, platform);
+      final withContactForm = _withContactForm(immersionDetails);
       return _successViewModel(
         state,
         immersionDetails,
-        mainCallToAction,
         secondaryCallToActions,
         store,
-        withContactPage,
+        withContactForm,
       );
     } else if (state is ImmersionDetailsIncompleteDataState) {
       final immersion = state.immersion;
@@ -84,7 +80,7 @@ class ImmersionDetailsViewModel extends Equatable {
         address,
         contactLabel,
         contactInformation,
-        withContactPage,
+        withContactForm,
       ];
 }
 
@@ -101,10 +97,9 @@ ImmersionDetailsPageDisplayState _displayState(ImmersionDetailsState state) {
 ImmersionDetailsViewModel _successViewModel(
   ImmersionDetailsState state,
   ImmersionDetails immersionDetails,
-  CallToAction? mainCallToAction,
   List<CallToAction> secondaryCallToActions,
   Store<AppState> store,
-  bool withContactPage,
+  bool withContactForm,
 ) {
   return ImmersionDetailsViewModel._(
     displayState: _displayState(state),
@@ -118,8 +113,7 @@ ImmersionDetailsViewModel _successViewModel(
     contactLabel: _contactLabel(immersionDetails),
     contactInformation: _contactInformation(immersionDetails),
     withSecondaryCallToActions: secondaryCallToActions.isNotEmpty,
-    withContactPage: withContactPage,
-    mainCallToAction: mainCallToAction,
+    withContactForm: withContactForm,
     secondaryCallToActions: secondaryCallToActions,
     onRetry: (immersionId) => _retry(store, immersionId),
   );
@@ -134,7 +128,7 @@ ImmersionDetailsViewModel _incompleteViewModel(Immersion immersion, Store<AppSta
     secteurActivite: immersion.secteurActivite,
     fromEntrepriseAccueillante: immersion.fromEntrepriseAccueillante,
     ville: immersion.ville,
-    withContactPage: false,
+    withContactForm: false,
     onRetry: (immersionId) => _retry(store, immersionId),
   );
 }
@@ -148,7 +142,7 @@ ImmersionDetailsViewModel _otherCasesViewModel(ImmersionDetailsState state, Stor
     secteurActivite: "",
     fromEntrepriseAccueillante: false,
     ville: "",
-    withContactPage: false,
+    withContactForm: false,
     onRetry: (immersionId) => _retry(store, immersionId),
   );
 }
@@ -175,26 +169,7 @@ String _contactInformation(ImmersionDetails immersion) {
   return contactInformation;
 }
 
-CallToAction? _mainCallToAction(ImmersionDetails immersion, Platform platform) {
-  final contact = immersion.contact;
-  if (contact != null && contact.mode == ImmersionContactMode.MAIL) {
-    return CallToAction(
-      Strings.immersionEmailButton,
-      UriHandler().mailUri(to: contact.mail, subject: Strings.immersionEmailSubject),
-      EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
-    );
-  }
-  return null;
-}
-
-bool _withContactPage(ImmersionDetails immersion, Platform platform) {
-  final contact = immersion.contact;
-  if (contact != null && contact.mode == ImmersionContactMode.MAIL) {
-    return false;
-  } else {
-    return true;
-  }
-}
+bool _withContactForm(ImmersionDetails immersion) => immersion.contact?.mode == ImmersionContactMode.MAIL;
 
 List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform platform) {
   final mode = immersion.contact?.mode;

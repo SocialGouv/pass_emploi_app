@@ -85,7 +85,6 @@ void main() {
     expect(viewModel.contactLabel, isNull);
     expect(viewModel.contactInformation, isNull);
     expect(viewModel.withSecondaryCallToActions, isNull);
-    expect(viewModel.mainCallToAction, isNull);
     expect(viewModel.secondaryCallToActions, isNull);
   });
 
@@ -219,7 +218,7 @@ void main() {
 
   group('Call to actions…', () {
     group('when contact is null…', () {
-      test('only have contact page CTA, no main CTA (on Android), no secondary CTAs', () {
+      test('only have contact page CTA and no secondary CTAs on Android', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(null, address: "Address 1"));
 
@@ -227,12 +226,11 @@ void main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(viewModel.mainCallToAction, null);
-        expect(viewModel.withContactPage, isTrue);
+        expect(viewModel.withContactForm, isFalse);
         expect(viewModel.withSecondaryCallToActions, isFalse);
       });
 
-      test('only have contact page CTA, no main CTA (on iOS), no secondary CTAs', () {
+      test('only have contact page CTA and no secondary CTAs on IOS', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(null, address: "Address 1"));
 
@@ -240,15 +238,13 @@ void main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.IOS);
 
         // Then
-        expect(viewModel.mainCallToAction, null);
-        expect(viewModel.withContactPage, isTrue);
+        expect(viewModel.withContactForm, isFalse);
         expect(viewModel.withSecondaryCallToActions, isFalse);
       });
     });
 
     group('when contact mode is INCONNU…', () {
-      test('but neither phone nor mail is set > only have contact page CTA, no main address CTA, no secondary CTAs',
-          () {
+      test('but neither phone nor mail is set > only have contact page CTA, no secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.INCONNU, phone: '', mail: ''),
@@ -259,14 +255,11 @@ void main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(viewModel.mainCallToAction, null);
-        expect(viewModel.withContactPage, isTrue);
+        expect(viewModel.withContactForm, isFalse);
         expect(viewModel.withSecondaryCallToActions, isFalse);
       });
 
-      test(
-          'but phone is unset > only have contact page CTA, does not have main address CTA, does have secondary mail CTA',
-          () {
+      test('but phone is unset > only have contact page CTA, does have secondary mail CTA', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.INCONNU, phone: '', mail: 'mail'),
@@ -277,8 +270,7 @@ void main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(viewModel.mainCallToAction, null);
-        expect(viewModel.withContactPage, isTrue);
+        expect(viewModel.withContactForm, isFalse);
         expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(viewModel.secondaryCallToActions, [
           CallToAction(
@@ -290,7 +282,7 @@ void main() {
         ]);
       });
 
-      test('but phone is set > does have contact page CTA, does not have main CTA, does have secondary CTAs', () {
+      test('but phone is set > does have contact page CTA, does have secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.INCONNU, phone: '0701020304', mail: 'mail'),
@@ -301,15 +293,14 @@ void main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(viewModel.mainCallToAction, null);
-        expect(viewModel.withContactPage, isTrue);
+        expect(viewModel.withContactForm, isFalse);
         expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(viewModel.secondaryCallToActions!.length, 2);
       });
     });
 
     group('when contact mode is MAIL', () {
-      test('does have a main mail CTA, but no secondary CTAs and no contact page', () {
+      test('does have a contact form CTA, but no secondary CTAs and no contact page', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.MAIL, phone: 'phone', mail: 'mail'),
@@ -320,21 +311,13 @@ void main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(
-          viewModel.mainCallToAction,
-          CallToAction(
-            'Envoyer un e-mail',
-            Uri.parse("mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
-            EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
-          ),
-        );
-        expect(viewModel.withContactPage, isFalse);
+        expect(viewModel.withContactForm, isTrue);
         expect(viewModel.withSecondaryCallToActions, isFalse);
       });
     });
 
     group('when contact mode is PHONE', () {
-      test('does have contact page, does not have main CTA but secondary CTAs', () {
+      test('does have contact page and secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.PHONE, phone: '0701020304', mail: 'mail'),
@@ -346,13 +329,12 @@ void main() {
 
         // Then
         expect(viewModel.withSecondaryCallToActions, isFalse);
-        expect(viewModel.mainCallToAction, null);
-        expect(viewModel.withContactPage, isTrue);
+        expect(viewModel.withContactForm, isFalse);
       });
     });
 
     group('when contact mode is IN PERSON', () {
-      test('does have contact page, does not have a main location CTA, but secondary CTAs', () {
+      test('does have contact page, but secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.PRESENTIEL, phone: '0701020304', mail: 'mail'),
@@ -364,8 +346,7 @@ void main() {
 
         // Then
         expect(viewModel.withSecondaryCallToActions, isFalse);
-        expect(viewModel.mainCallToAction, null);
-        expect(viewModel.withContactPage, isTrue);
+        expect(viewModel.withContactForm, isFalse);
       });
     });
   });

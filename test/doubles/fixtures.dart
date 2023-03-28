@@ -29,6 +29,7 @@ import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/requests/contact_immersion_request.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
@@ -40,6 +41,7 @@ import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/version.dart';
+import 'package:pass_emploi_app/presentation/immersion_contact_form_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
@@ -53,7 +55,7 @@ User mockUser({String id = "", LoginMode loginMode = LoginMode.MILO}) => User(
       loginMode: loginMode,
     );
 
-LoginState successMiloUserState() => LoginSuccessState(mockedMiloUser());
+LoginState successMiloUserState({User? user}) => LoginSuccessState(user ?? mockedMiloUser());
 
 User mockedMiloUser() {
   return User(
@@ -214,14 +216,14 @@ List<Immersion> mockOffresImmersion10() => List.generate(10, (index) => mockImme
 
 ImmersionDetails mockImmersionDetails() {
   return ImmersionDetails(
-    id: '',
-    metier: '',
-    companyName: '',
-    secteurActivite: '',
-    ville: '',
-    address: '',
-    codeRome: '',
-    siret: '',
+    id: 'id',
+    metier: 'metier',
+    companyName: 'companyName',
+    secteurActivite: 'secteurActivite',
+    ville: 'ville',
+    address: 'address',
+    codeRome: 'codeRome',
+    siret: 'siret',
     fromEntrepriseAccueillante: true,
     contact: ImmersionContact(
       firstName: '',
@@ -232,6 +234,19 @@ ImmersionDetails mockImmersionDetails() {
       mode: ImmersionContactMode.INCONNU,
     ),
   );
+}
+
+ImmersionContactUserInput mockImmersionContactUserInput() {
+  return ImmersionContactUserInput(
+    firstName: "Philippe",
+    lastName: "Flopflip",
+    email: "philippe.flopflip@magiciens.com",
+    message: "Bonjour, j'aimerai faire une immersion dans votre salon de magie.",
+  );
+}
+
+ContactImmersionRequest mockContactImmersionRequest() {
+  return ContactImmersionRequest(mockImmersionDetails(), mockImmersionContactUserInput());
 }
 
 ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
