@@ -15,17 +15,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting", () {
-      sut.when(
-        () => ContactImmersionRequestAction(
-          ContactImmersionRequest(
-            mockImmersionDetails(),
-            "Philippe",
-            "Flopflip",
-            "philippe.flopflip@magiciens.com",
-            "Bonjour, j'aimerai faire une immersion dans votre salon de magie.",
-          ),
-        ),
-      );
+      sut.when(() => ContactImmersionRequestAction(mockContactImmersionRequest()));
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState() //
@@ -60,7 +50,7 @@ class ContactImmersionRepositorySuccessStub extends ContactImmersionRepository {
   ContactImmersionRepositorySuccessStub() : super(DioMock());
 
   @override
-  Future<bool?> post(details) async {
+  Future<bool?> post(String userId, ContactImmersionRequest request) async {
     return true;
   }
 }
@@ -69,7 +59,7 @@ class ContactImmersionRepositoryErrorStub extends ContactImmersionRepository {
   ContactImmersionRepositoryErrorStub() : super(DioMock());
 
   @override
-  Future<bool?> post(details) async {
+  Future<bool?> post(String userId, ContactImmersionRequest request) async {
     return null;
   }
 }

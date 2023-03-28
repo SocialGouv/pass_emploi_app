@@ -29,6 +29,7 @@ import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/requests/contact_immersion_request.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
@@ -214,14 +215,14 @@ List<Immersion> mockOffresImmersion10() => List.generate(10, (index) => mockImme
 
 ImmersionDetails mockImmersionDetails() {
   return ImmersionDetails(
-    id: '',
-    metier: '',
-    companyName: '',
-    secteurActivite: '',
-    ville: '',
-    address: '',
-    codeRome: '',
-    siret: '',
+    id: 'id',
+    metier: 'metier',
+    companyName: 'companyName',
+    secteurActivite: 'secteurActivite',
+    ville: 'ville',
+    address: 'address',
+    codeRome: 'codeRome',
+    siret: 'siret',
     fromEntrepriseAccueillante: true,
     contact: ImmersionContact(
       firstName: '',
@@ -231,6 +232,16 @@ ImmersionDetails mockImmersionDetails() {
       role: '',
       mode: ImmersionContactMode.INCONNU,
     ),
+  );
+}
+
+ContactImmersionRequest mockContactImmersionRequest() {
+  return ContactImmersionRequest(
+    mockImmersionDetails(),
+    "Philippe",
+    "Flopflip",
+    "philippe.flopflip@magiciens.com",
+    "Bonjour, j'aimerai faire une immersion dans votre salon de magie.",
   );
 }
 

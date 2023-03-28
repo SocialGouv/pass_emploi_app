@@ -5,16 +5,16 @@ class PostContactImmersionRequest implements JsonSerializable {
   final ContactImmersionRequest request;
 
   PostContactImmersionRequest(this.request);
-  // TODO: brancher les champs
+
   @override
   Map<String, dynamic> toJson() => {
-        "codeRome": "",
-        "labelRome": "",
-        "siret": "",
+        "codeRome": request.immersionDetails.codeRome,
+        "labelRome": request.immersionDetails.metier,
+        "siret": request.immersionDetails.siret,
         "prenom": request.firstName,
         "nom": request.lastName,
         "email": request.email,
-        "contactMode": "EMAIL",
         "message": request.message,
+        "contactMode": "EMAIL",
       };
 }

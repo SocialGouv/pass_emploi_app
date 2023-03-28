@@ -14,8 +14,7 @@ class ContactImmersionMiddleware extends MiddlewareClass<AppState> {
     final userId = store.state.userId();
     if (userId != null && action is ContactImmersionRequestAction) {
       store.dispatch(ContactImmersionLoadingAction());
-      // TODO: ajouter l'id de l'utilisateur
-      final result = await _repository.post(action.request);
+      final result = await _repository.post(userId, action.request);
       if (result != null) {
         store.dispatch(ContactImmersionSuccessAction());
       } else {

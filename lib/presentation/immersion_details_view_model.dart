@@ -15,7 +15,6 @@ import 'package:redux/redux.dart';
 
 enum ImmersionDetailsPageDisplayState { SHOW_DETAILS, SHOW_INCOMPLETE_DETAILS, SHOW_LOADER, SHOW_ERROR }
 
-// TODO: Peut-être ici pour vérifier la rétrocompatibilité
 class ImmersionDetailsViewModel extends Equatable {
   final ImmersionDetailsPageDisplayState displayState;
   final String id;
