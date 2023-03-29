@@ -168,7 +168,7 @@ class ImmersionDetailsPage extends StatelessWidget {
         SizedBox(height: Margins.spacing_m),
         Text(viewModel.contactInformation!, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_base),
-        if (viewModel.withDataWarningMessage) _DataWarningMessag(),
+        if (viewModel.withDataWarningMessage) _DataWarningMessage(),
       ],
     );
   }
@@ -241,8 +241,8 @@ class _EntrepriseAccueillanteCard extends StatelessWidget {
   }
 }
 
-class _DataWarningMessag extends StatelessWidget {
-  const _DataWarningMessag();
+class _DataWarningMessage extends StatelessWidget {
+  const _DataWarningMessage();
 
   @override
   Widget build(BuildContext context) {
