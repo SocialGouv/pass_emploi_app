@@ -1,11 +1,13 @@
+import 'package:pass_emploi_app/models/accueil/accueil.dart';
+
 class AccueilRequestAction {}
 
 class AccueilLoadingAction {}
 
 class AccueilSuccessAction {
-  final bool result;
+  final Accueil accueil;
 
-  AccueilSuccessAction(this.result);
+  AccueilSuccessAction(this.accueil);
 }
 
 class AccueilFailureAction {}

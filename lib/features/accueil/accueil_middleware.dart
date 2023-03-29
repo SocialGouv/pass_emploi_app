@@ -14,7 +14,7 @@ class AccueilMiddleware extends MiddlewareClass<AppState> {
     final userId = store.state.userId();
     if (userId != null && action is AccueilRequestAction) {
       store.dispatch(AccueilLoadingAction());
-      final result = await _repository.get();
+      final result = await _repository.getAccueilMissionLocale(userId, DateTime.now());
       if (result != null) {
         store.dispatch(AccueilSuccessAction(result));
       } else {

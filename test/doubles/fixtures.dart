@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
+import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
@@ -719,4 +720,10 @@ List<SavedSearch> getMockedSavedSearch() {
       filtres: ImmersionFiltresRecherche.noFiltre(),
     ),
   ];
+}
+
+Accueil mockAccueilMilo() {
+  return Accueil(
+    dateDerniereMiseAJour: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
+  );
 }
