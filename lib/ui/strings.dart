@@ -420,6 +420,8 @@ class Strings {
   static String immersionContactFormFirstNameInvalid = "Renseignez votre prénom";
   static String immersionContactFormLastNameInvalid = "Renseignez votre nom";
   static String immersionContactFormMessageInvalid = "Renseignez votre message";
+  static const immersionDataWarningMessage =
+      "Veuillez utiliser les coordonnées de l'entreprise uniquement pour votre usage personnel";
   static String immersionContactTitle = ImmersionContactStrings.title;
   static String immersionContactSubtitle1 = ImmersionContactStrings.subtitle1;
   static String immersionContactBody1_1 = ImmersionContactStrings.body1_1;
