@@ -166,7 +166,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     switch (widget.displayState) {
       case MainPageDisplayState.DEFAULT:
       case MainPageDisplayState.ACTUALISATION_PE:
-        initialIndex = viewModel.tabs.indexOf(MainTab.accueil);
+        initialIndex = 0;
         break;
       case MainPageDisplayState.ACTIONS_TAB:
       case MainPageDisplayState.RENDEZVOUS_TAB:
