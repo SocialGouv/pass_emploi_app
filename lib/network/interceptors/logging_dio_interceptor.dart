@@ -6,6 +6,7 @@ class LoggingNetworkDioInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     Log.i("""Dio Request 
     - ${options.method} ${options.uri.toString()}
+    - queryParams: ${options.queryParameters}
     - headers: ${options.headers}
     """);
     handler.next(options);
@@ -15,6 +16,7 @@ class LoggingNetworkDioInterceptor extends Interceptor {
   void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
     Log.i("""Dio Response 
     - ${response.requestOptions.method} ${response.realUri.toString()}:
+    - queryParams: ${response.requestOptions.queryParameters}
     - code: ${response.statusCode}
     - response: ${response.toString()}
     """);
@@ -25,6 +27,7 @@ class LoggingNetworkDioInterceptor extends Interceptor {
   void onError(DioError err, ErrorInterceptorHandler handler) {
     Log.i("""Dio Error 
     - ${err.requestOptions.method} ${err.requestOptions.uri.toString()}:
+    - queryParams: ${err.requestOptions.queryParameters}
     - code: ${err.response?.statusCode}
     - response: ${err.response.toString()}
     """);

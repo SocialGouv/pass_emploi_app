@@ -20,10 +20,18 @@ class CacheDioInterceptor extends Interceptor {
 
     final fileFromCache = await cacheManager.getFileFromCache(stringUrl);
     if (fileFromCache != null && await fileFromCache.file.exists() && isCacheStillUpToDate(fileFromCache)) {
-      Log.i("Intercepting cache request for ${options.uri.path} : return cached data.");
+      Log.i("""Dio Request - cache interceptor - return cached data
+      - ${options.method} ${options.uri.toString()}
+      - queryParams: ${options.queryParameters}
+      - headers: ${options.headers}
+      """);
       handler.resolve(await _response(options, fileFromCache.file));
     } else {
-      Log.i("Intercepting cache request for ${options.uri.path} : return fresh data.");
+      Log.i("""Dio Request - cache interceptor - return fresh data
+      - ${options.method} ${options.uri.toString()}
+      - queryParams: ${options.queryParameters}
+      - headers: ${options.headers}
+      """);
       final headers = options.headers.map((key, value) => MapEntry(key, value.toString()));
       await cacheManager
           .downloadFile(stringUrl, key: stringUrl, authHeaders: headers)
