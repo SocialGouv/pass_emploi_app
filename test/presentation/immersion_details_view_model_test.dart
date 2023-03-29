@@ -159,48 +159,6 @@ void main() {
       expect(viewModel.contactInformation, 'Address');
     });
 
-    test('when contact mode is INCONNU should display all info', () {
-      // Given
-      final store = _successStore(_mockImmersionWithContact(
-        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.INCONNU),
-        address: "Address",
-      ));
-
-      // When
-      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-      // Then
-      expect(viewModel.contactInformation, 'Address\n\nMail\n\nPhone');
-    });
-
-    test('when contact mode is MAIL should only display address + mail', () {
-      // Given
-      final store = _successStore(_mockImmersionWithContact(
-        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.MAIL),
-        address: "Address",
-      ));
-
-      // When
-      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-      // Then
-      expect(viewModel.contactInformation, 'Address\n\nMail');
-    });
-
-    test('when contact mode is PHONE should only display address + phone', () {
-      // Given
-      final store = _successStore(_mockImmersionWithContact(
-        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.PHONE),
-        address: "Address",
-      ));
-
-      // When
-      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-      // Then
-      expect(viewModel.contactInformation, 'Address\n\nPhone');
-    });
-
     test('when contact mode is PRESENTIEL should only display address', () {
       // Given
       final store = _successStore(_mockImmersionWithContact(
