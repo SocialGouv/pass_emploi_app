@@ -112,6 +112,44 @@ void main() {
     });
   });
 
+  group('data warning message', () {
+    test('should display a data warning message when contact mode is phone', () {
+      // Given
+      final store = _successStore(_mockImmersionWithContact(
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.PHONE),
+      ));
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+
+      // Then
+      expect(viewModel.withDataWarningMessage, isTrue);
+    });
+
+    test('should display a data warning message when contact mode is mail', () {
+      // Given
+      final store = _successStore(_mockImmersionWithContact(
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.MAIL),
+      ));
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+
+      // Then
+      expect(viewModel.withDataWarningMessage, isTrue);
+    });
+
+    test('should not display a data warning message when contact mode is presentiel', () {
+      // Given
+      final store = _successStore(_mockImmersionWithContact(
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.PRESENTIEL),
+      ));
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+
+      // Then
+      expect(viewModel.withDataWarningMessage, isFalse);
+    });
+  });
+
   group('Contact label…', () {
     test('when contact is not set', () {
       // Given

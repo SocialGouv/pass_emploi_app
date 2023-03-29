@@ -28,6 +28,7 @@ class ImmersionDetailsViewModel extends Equatable {
   final String? contactInformation;
   final bool? withSecondaryCallToActions;
   final bool withContactForm;
+  final bool withDataWarningMessage;
   final List<CallToAction>? secondaryCallToActions;
   final Function(String immersionId) onRetry;
 
@@ -44,6 +45,7 @@ class ImmersionDetailsViewModel extends Equatable {
     this.contactInformation,
     this.withSecondaryCallToActions,
     required this.withContactForm,
+    required this.withDataWarningMessage,
     this.secondaryCallToActions,
     required this.onRetry,
   });
@@ -80,6 +82,7 @@ class ImmersionDetailsViewModel extends Equatable {
         address,
         contactLabel,
         contactInformation,
+        withDataWarningMessage,
         withContactForm,
       ];
 }
@@ -114,6 +117,7 @@ ImmersionDetailsViewModel _successViewModel(
     contactInformation: _contactInformation(immersionDetails),
     withSecondaryCallToActions: secondaryCallToActions.isNotEmpty,
     withContactForm: withContactForm,
+    withDataWarningMessage: _withDataWarningMessage(immersionDetails),
     secondaryCallToActions: secondaryCallToActions,
     onRetry: (immersionId) => _retry(store, immersionId),
   );
@@ -129,6 +133,7 @@ ImmersionDetailsViewModel _incompleteViewModel(Immersion immersion, Store<AppSta
     fromEntrepriseAccueillante: immersion.fromEntrepriseAccueillante,
     ville: immersion.ville,
     withContactForm: false,
+    withDataWarningMessage: false,
     onRetry: (immersionId) => _retry(store, immersionId),
   );
 }
@@ -143,6 +148,7 @@ ImmersionDetailsViewModel _otherCasesViewModel(ImmersionDetailsState state, Stor
     fromEntrepriseAccueillante: false,
     ville: "",
     withContactForm: false,
+    withDataWarningMessage: false,
     onRetry: (immersionId) => _retry(store, immersionId),
   );
 }
@@ -170,6 +176,10 @@ String _contactInformation(ImmersionDetails immersion) {
 }
 
 bool _withContactForm(ImmersionDetails immersion) => immersion.contact?.mode == ImmersionContactMode.MAIL;
+
+bool _withDataWarningMessage(ImmersionDetails immersion) {
+  return immersion.contact?.mode == ImmersionContactMode.MAIL || immersion.contact?.mode == ImmersionContactMode.PHONE;
+}
 
 List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform platform) {
   final mode = immersion.contact?.mode;
