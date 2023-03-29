@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  test('init', () {
+  test('should have zero item', () {
     // Given
     final store = givenState().loggedInUser().store();
 
@@ -12,6 +12,6 @@ void main() {
     final viewModel = AccueilViewModel.create(store);
 
     // Then
-    expect(viewModel, isNotNull);
+    expect(viewModel.items, []);
   });
 }
