@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
@@ -553,5 +554,9 @@ extension AppStateDSL on AppState {
 
   AppState withRecentsSearches(List<SavedSearch> recherchesRecentes) {
     return copyWith(recherchesRecentesState: RecherchesRecentesState(recherchesRecentes));
+  }
+
+  AppState withAccueilMiloSuccess() {
+    return copyWith(accueilState: AccueilSuccessState(mockAccueilMilo()));
   }
 }
