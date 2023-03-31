@@ -16,9 +16,9 @@ void main() {
       viewModel.items,
       [
         AccueilCetteSemaineItem(
-          nombreRendezVous: 3,
-          nombreActionsDemarchesEnRetard: 2,
-          nombreActionsDemarchesARealiser: 1,
+          rendezVous: "3 rendez-vous",
+          actionsDemarchesEnRetard: "2 actions en retard",
+          actionsDemarchesARealiser: "1 action à réaliser",
         ),
       ],
     );

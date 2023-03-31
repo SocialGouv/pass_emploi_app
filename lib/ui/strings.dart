@@ -1,7 +1,25 @@
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
 
 class Strings {
   Strings._();
+
+  static String according({
+    required LoginMode loginMode,
+    required int count,
+    required String singularPoleEmploi,
+    required String severalPoleEmploi,
+    required String singularMissionLocale,
+    required String severalMissionLocale,
+  }) {
+    return loginMode == LoginMode.POLE_EMPLOI
+        ? count == 1
+            ? singularPoleEmploi
+            : severalPoleEmploi
+        : count == 1
+            ? singularMissionLocale
+            : severalMissionLocale;
+  }
 
   // Common
   static String appName = "CEJ";
@@ -119,6 +137,15 @@ class Strings {
 
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
+  static String rendezvousEnCours(int count) => "$count rendez-vous";
+  static String singularDemarcheToDo(int count) => "$count démarche à réaliser";
+  static String severalDemarchesToDo(int count) => "$count démarches à réaliser";
+  static String singularActionToDo(int count) => "$count action à réaliser";
+  static String severalActionsToDo(int count) => "$count actions à réaliser";
+  static String singularDemarcheLate(int count) => "$count démarche en retard";
+  static String severalDemarchesLate(int count) => "$count démarches en retard";
+  static String singularActionLate(int count) => "$count action en retard";
+  static String severalActionsLate(int count) => "$count actions en retard";
 
   // Mon Suivi
   static String monSuiviAppBarTitle = "Mon suivi";

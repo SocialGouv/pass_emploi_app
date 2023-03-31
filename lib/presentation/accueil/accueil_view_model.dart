@@ -1,7 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 class AccueilViewModel extends Equatable {
@@ -23,10 +25,11 @@ class AccueilViewModel extends Equatable {
 
 List<AccueilItem> _items(Store<AppState> store) {
   final accueilState = store.state.accueilState;
-  if (accueilState is! AccueilSuccessState) return [];
+  final user = store.state.user();
+  if (accueilState is! AccueilSuccessState || user == null) return [];
 
   return [
-    _cetteSemaineItem(accueilState),
+    _cetteSemaineItem(user.loginMode, accueilState),
     _prochainRendezvousItem(accueilState),
     _evenementsItem(accueilState),
     _alertesItem(accueilState),
@@ -35,11 +38,12 @@ List<AccueilItem> _items(Store<AppState> store) {
   ].whereNotNull().toList();
 }
 
-AccueilItem? _cetteSemaineItem(AccueilSuccessState successState) {
+AccueilItem? _cetteSemaineItem(LoginMode loginMode, AccueilSuccessState successState) {
   final cetteSemaine = successState.accueil.cetteSemaine;
   if (cetteSemaine == null) return null;
 
-  return AccueilCetteSemaineItem(
+  return AccueilCetteSemaineItem.from(
+    loginMode: loginMode,
     nombreRendezVous: cetteSemaine.nombreRendezVous,
     nombreActionsDemarchesEnRetard: cetteSemaine.nombreActionsDemarchesEnRetard,
     nombreActionsDemarchesARealiser: cetteSemaine.nombreActionsDemarchesARealiser,
@@ -74,18 +78,45 @@ abstract class AccueilItem extends Equatable {
 //TODO: move: 1 file / item
 
 class AccueilCetteSemaineItem extends AccueilItem {
-  final int nombreRendezVous;
-  final int nombreActionsDemarchesEnRetard;
-  final int nombreActionsDemarchesARealiser;
+  final String rendezVous;
+  final String actionsDemarchesEnRetard;
+  final String actionsDemarchesARealiser;
 
   AccueilCetteSemaineItem({
-    required this.nombreRendezVous,
-    required this.nombreActionsDemarchesEnRetard,
-    required this.nombreActionsDemarchesARealiser,
+    required this.rendezVous,
+    required this.actionsDemarchesEnRetard,
+    required this.actionsDemarchesARealiser,
   });
 
+  factory AccueilCetteSemaineItem.from({
+    required LoginMode loginMode,
+    required int nombreRendezVous,
+    required int nombreActionsDemarchesEnRetard,
+    required int nombreActionsDemarchesARealiser,
+  }) {
+    return AccueilCetteSemaineItem(
+      rendezVous: Strings.rendezvousEnCours(nombreRendezVous),
+      actionsDemarchesEnRetard: Strings.according(
+        loginMode: loginMode,
+        count: nombreActionsDemarchesEnRetard,
+        singularPoleEmploi: Strings.singularDemarcheLate(nombreActionsDemarchesEnRetard),
+        severalPoleEmploi: Strings.severalDemarchesLate(nombreActionsDemarchesEnRetard),
+        singularMissionLocale: Strings.singularActionLate(nombreActionsDemarchesEnRetard),
+        severalMissionLocale: Strings.severalActionsLate(nombreActionsDemarchesEnRetard),
+      ),
+      actionsDemarchesARealiser: Strings.according(
+        loginMode: loginMode,
+        count: nombreActionsDemarchesARealiser,
+        singularPoleEmploi: Strings.singularDemarcheToDo(nombreActionsDemarchesARealiser),
+        severalPoleEmploi: Strings.severalDemarchesToDo(nombreActionsDemarchesARealiser),
+        singularMissionLocale: Strings.singularActionToDo(nombreActionsDemarchesARealiser),
+        severalMissionLocale: Strings.severalActionsToDo(nombreActionsDemarchesARealiser),
+      ),
+    );
+  }
+
   @override
-  List<Object?> get props => [nombreRendezVous, nombreActionsDemarchesEnRetard, nombreActionsDemarchesARealiser];
+  List<Object?> get props => [rendezVous, actionsDemarchesEnRetard, actionsDemarchesARealiser];
 }
 
 class AccueilProchainRendezvousItem extends AccueilItem {}
