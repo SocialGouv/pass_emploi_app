@@ -261,7 +261,10 @@ class ImmersionContactFormChangeNotifier extends ChangeNotifier {
   }
 
   bool isEmailValid() {
-    final emailRegex = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    // simplified RFC 5322 standard
+    final RegExp emailRegex = RegExp(
+      r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
+    );
     final value = userEmailController.text;
     return emailRegex.hasMatch(value) && !isEmailEmpty();
   }
