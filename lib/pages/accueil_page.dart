@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -82,20 +83,26 @@ class _CetteSemaine extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _CetteSemaineRow(
-                Icon(AppIcons.today_rounded, color: AppColors.primary),
-                item.rendezVous,
+                icon: Icon(AppIcons.today_rounded, color: AppColors.primary),
+                text: item.rendezVous,
+                addBorderRadius: true,
+                onTap: () => {},
               ),
               SepLine(0, 0),
               _CetteSemaineRow(
-                Icon(AppIcons.error_rounded, color: AppColors.warning),
-                item.actionsDemarchesEnRetard,
+                icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
+                text: item.actionsDemarchesEnRetard,
+                onTap: () => {},
               ),
               SepLine(0, 0),
               _CetteSemaineRow(
-                Icon(AppIcons.description_rounded, color: AppColors.accent1),
-                item.actionsDemarchesARealiser,
+                icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
+                text: item.actionsDemarchesARealiser,
+                onTap: () => {},
               ),
-              _CetteSemaineVoirDetails(),
+              _CetteSemaineVoirDetails(
+                onTap: () => {},
+              ),
             ],
           ),
         ),
@@ -107,38 +114,57 @@ class _CetteSemaine extends StatelessWidget {
 class _CetteSemaineRow extends StatelessWidget {
   final Icon icon;
   final String text;
+  final bool addBorderRadius;
+  final Function() onTap;
 
-  const _CetteSemaineRow(this.icon, this.text);
+  const _CetteSemaineRow({required this.icon, required this.text, required this.onTap, this.addBorderRadius = false});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(Margins.spacing_base),
-      child: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: Margins.spacing_xs, right: Margins.spacing_base),
-            child: icon,
+    final borderRadius = addBorderRadius
+        ? BorderRadius.only(
+            topLeft: Radius.circular(Dimens.radius_base),
+            topRight: Radius.circular(Dimens.radius_base),
+          )
+        : BorderRadius.zero;
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: Material(
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(Margins.spacing_base),
+            child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: Margins.spacing_xs, right: Margins.spacing_base),
+                  child: icon,
+                ),
+                Expanded(
+                  child: Text(text, style: TextStyles.textBaseBold),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_xs),
+                  child: Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor),
+                ),
+              ],
+            ),
           ),
-          Expanded(
-            child: Text(text, style: TextStyles.textBaseBold),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_xs),
-            child: Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor),
-          ),
-        ],
+        ),
       ),
     );
   }
 }
 
 class _CetteSemaineVoirDetails extends StatelessWidget {
+  final Function() onTap;
+
+  const _CetteSemaineVoirDetails({required this.onTap});
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_m, horizontal: Margins.spacing_base),
-      child: SecondaryButton(label: Strings.accueilVoirDetailsCetteSemaine, onPressed: () => {}),
+      child: SecondaryButton(label: Strings.accueilVoirDetailsCetteSemaine, onPressed: onTap),
     );
   }
 }
