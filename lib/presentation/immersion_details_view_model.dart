@@ -111,7 +111,7 @@ ImmersionDetailsViewModel _successViewModel(
     ville: immersionDetails.ville,
     address: immersionDetails.address,
     contactLabel: _contactLabel(immersionDetails),
-    contactInformation: _contactInformation(immersionDetails),
+    contactInformation: immersionDetails.address,
     withSecondaryCallToActions: secondaryCallToActions.isNotEmpty,
     withContactForm: withContactForm,
     secondaryCallToActions: secondaryCallToActions,
@@ -153,20 +153,6 @@ String _contactLabel(ImmersionDetails immersion) {
   final nameLabel = (contact.firstName + ' ' + contact.lastName).trim();
   if (contact.role.isEmpty) return nameLabel;
   return nameLabel + '\n' + contact.role;
-}
-
-String _contactInformation(ImmersionDetails immersion) {
-  var contactInformation = immersion.address;
-  final mode = immersion.contact?.mode;
-  final mail = immersion.contact != null ? immersion.contact!.mail : '';
-  final phone = immersion.contact != null ? immersion.contact!.phone : '';
-  if (mail.isNotEmpty && ([ImmersionContactMode.INCONNU, ImmersionContactMode.MAIL].contains(mode))) {
-    contactInformation += "\n\n" + mail;
-  }
-  if (phone.isNotEmpty && ([ImmersionContactMode.INCONNU, ImmersionContactMode.PHONE].contains(mode))) {
-    contactInformation += "\n\n" + phone;
-  }
-  return contactInformation;
 }
 
 bool _withContactForm(ImmersionDetails immersion) => immersion.contact?.mode == ImmersionContactMode.MAIL;
