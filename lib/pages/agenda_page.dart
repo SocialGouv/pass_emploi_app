@@ -30,6 +30,7 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/reloadable_page.dart';
@@ -40,6 +41,15 @@ class AgendaPage extends StatelessWidget {
   final Function() onActionDelayedTap;
 
   AgendaPage(this.onActionDelayedTap);
+
+  //TODO: PoC navigation
+  static MaterialPageRoute<void> materialPageRoute(Function() onActionDelayedTap) {
+    return MaterialPageRoute(
+      builder: (context) {
+        return Scaffold(appBar: SecondaryAppBar(title: Strings.agendaTabTitle), body: AgendaPage(onActionDelayedTap));
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

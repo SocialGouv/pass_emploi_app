@@ -22,11 +22,21 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class UserActionListPage extends StatefulWidget {
+  //TODO: PoC navigation
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(
+      builder: (context) {
+        return Scaffold(appBar: SecondaryAppBar(title: Strings.actionsTabTitle), body: UserActionListPage());
+      },
+    );
+  }
+
   @override
   State<UserActionListPage> createState() => _UserActionListPageState();
 }

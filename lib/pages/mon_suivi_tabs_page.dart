@@ -36,6 +36,7 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
+    //TODO: tracking page 'Mon Suivi' si on navigue sans changer d'onglet
     return StoreConnector<AppState, MonSuiviViewModel>(
       converter: (store) => MonSuiviViewModel.create(store, widget.initialTab),
       builder: (context, viewModel) => _scaffold(viewModel),

@@ -33,6 +33,7 @@ extension UrlExtensions on String {
   bool isSupposedToBeMocked() {
     return !contains("referentiels/communes-et-departements") &&
         !contains("fichiers") &&
+        !contains("accueil") && //TODO: mode démo accueil
         !contains("referentiels/metiers");
   }
 
