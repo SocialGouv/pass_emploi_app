@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 class AccueilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //TODO: tracking page 'Accueil'
     return StoreConnector<AppState, AccueilViewModel>(
       onInit: (store) => store.dispatch(AccueilRequestAction()),
       converter: (store) => AccueilViewModel.create(store),
@@ -29,6 +30,7 @@ class AccueilPage extends StatelessWidget {
   }
 
   Scaffold _scaffold(AccueilViewModel viewModel) {
+    //TODO: loading/failure/success
     const backgroundColor = AppColors.grey100;
     return Scaffold(
       backgroundColor: backgroundColor,
