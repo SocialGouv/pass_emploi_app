@@ -9,6 +9,7 @@ class CardContainer extends StatelessWidget {
   final void Function()? onTap;
   final Color backgroundColor;
   final Color splashColor;
+  final EdgeInsets padding;
 
   const CardContainer({
     super.key,
@@ -16,6 +17,7 @@ class CardContainer extends StatelessWidget {
     this.onTap,
     this.backgroundColor = Colors.white,
     this.splashColor = AppColors.primaryLighten,
+    this.padding = const EdgeInsets.all(Margins.spacing_base),
   });
 
   @override
@@ -35,7 +37,7 @@ class CardContainer extends StatelessWidget {
             onTap: onTap,
             splashColor: splashColor,
             child: Padding(
-              padding: EdgeInsets.all(Margins.spacing_base),
+              padding: padding,
               child: child,
             ),
           )),

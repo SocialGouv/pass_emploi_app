@@ -13,10 +13,10 @@ class Strings {
     required String severalMissionLocale,
   }) {
     return loginMode == LoginMode.POLE_EMPLOI
-        ? count == 1
+        ? count <= 1
             ? singularPoleEmploi
             : severalPoleEmploi
-        : count == 1
+        : count <= 1
             ? singularMissionLocale
             : severalMissionLocale;
   }
@@ -137,6 +137,8 @@ class Strings {
 
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
+  static String accueilCetteSemaineSection = "Cette semaine";
+  static String accueilVoirDetailsCetteSemaine = "Voir le détail de ma semaine";
   static String rendezvousEnCours(int count) => "$count rendez-vous";
   static String singularDemarcheToDo(int count) => "$count démarche à réaliser";
   static String severalDemarchesToDo(int count) => "$count démarches à réaliser";
