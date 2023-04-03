@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/pages/agenda_page.dart';
+import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -86,22 +89,32 @@ class _CetteSemaine extends StatelessWidget {
                 icon: Icon(AppIcons.today_rounded, color: AppColors.primary),
                 text: item.rendezVous,
                 addBorderRadius: true,
-                onTap: () => {},
+                onTap: () => StoreProvider.of<AppState>(context)
+                    .dispatch(LocalDeeplinkAction({"type": "DETAIL_RENDEZVOUS"})), //TODO: PoC navigation
               ),
               SepLine(0, 0),
               _CetteSemaineRow(
                 icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
                 text: item.actionsDemarchesEnRetard,
-                onTap: () => {},
+                onTap: () => StoreProvider.of<AppState>(context)
+                    .dispatch(LocalDeeplinkAction({"type": "DETAIL_ACTION"})), //TODO: PoC navigation
               ),
               SepLine(0, 0),
               _CetteSemaineRow(
                 icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
                 text: item.actionsDemarchesARealiser,
-                onTap: () => {},
+                onTap: () => StoreProvider.of<AppState>(context)
+                    .dispatch(LocalDeeplinkAction({"type": "DETAIL_ACTION"})), //TODO: PoC navigation
               ),
               _CetteSemaineVoirDetails(
-                onTap: () => {},
+                onTap: () {
+                  //TODO: PoC navigation
+                  Navigator.of(context).push(
+                    AgendaPage.materialPageRoute((() {
+                      Navigator.of(context).push(UserActionListPage.materialPageRoute());
+                    })),
+                  );
+                },
               ),
             ],
           ),
