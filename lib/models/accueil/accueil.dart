@@ -66,8 +66,7 @@ DateTime? _dateDerniereMiseAJour(dynamic json) {
 
 AccueilCetteSemaine? _cetteSemaine(dynamic json) {
   final cetteSemaineJson = json["cetteSemaine"];
-  if (cetteSemaineJson == null) return null;
-  return AccueilCetteSemaine.fromJson(cetteSemaineJson);
+  return cetteSemaineJson != null ? AccueilCetteSemaine.fromJson(cetteSemaineJson) : null;
 }
 
 Rendezvous? _prochainRendezVous(dynamic json) {
