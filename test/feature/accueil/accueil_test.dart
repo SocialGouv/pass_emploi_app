@@ -22,12 +22,28 @@ void main() {
             .loggedInMiloUser()
             .store((f) => {f.accueilRepository = AccueilRepositorySuccessStub()});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedMilo()]);
       });
 
       test('should load then fail when request fail for milo', () {
         sut.givenStore = givenState() //
             .loggedInMiloUser()
+            .store((f) => {f.accueilRepository = AccueilRepositoryErrorStub()});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+      });
+
+      test('should load then succeed when request succeed for PoleEmploi', () {
+        sut.givenStore = givenState() //
+            .loggedInPoleEmploiUser()
+            .store((f) => {f.accueilRepository = AccueilRepositorySuccessStub()});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedPoleEmploi()]);
+      });
+
+      test('should load then fail when request fail for PoleEmploi', () {
+        sut.givenStore = givenState() //
+            .loggedInPoleEmploiUser()
             .store((f) => {f.accueilRepository = AccueilRepositoryErrorStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
@@ -40,11 +56,20 @@ Matcher _shouldLoad() => StateIs<AccueilLoadingState>((state) => state.accueilSt
 
 Matcher _shouldFail() => StateIs<AccueilFailureState>((state) => state.accueilState);
 
-Matcher _shouldSucceed() {
+Matcher _shouldSucceedMilo() {
   return StateIs<AccueilSuccessState>(
     (state) => state.accueilState,
     (state) {
       expect(state.accueil, mockAccueilMilo());
+    },
+  );
+}
+
+Matcher _shouldSucceedPoleEmploi() {
+  return StateIs<AccueilSuccessState>(
+    (state) => state.accueilState,
+    (state) {
+      expect(state.accueil, mockAccueilPoleEmploi());
     },
   );
 }
@@ -56,6 +81,11 @@ class AccueilRepositorySuccessStub extends AccueilRepository {
   Future<Accueil?> getAccueilMissionLocale(String userId, DateTime maintenant) async {
     return mockAccueilMilo();
   }
+
+  @override
+  Future<Accueil?> getAccueilPoleEmploi(String userId, DateTime maintenant) async {
+    return mockAccueilPoleEmploi();
+  }
 }
 
 class AccueilRepositoryErrorStub extends AccueilRepository {
@@ -63,6 +93,11 @@ class AccueilRepositoryErrorStub extends AccueilRepository {
 
   @override
   Future<Accueil?> getAccueilMissionLocale(String userId, DateTime maintenant) async {
+    return null;
+  }
+
+  @override
+  Future<Accueil?> getAccueilPoleEmploi(String userId, DateTime maintenant) async {
     return null;
   }
 }
