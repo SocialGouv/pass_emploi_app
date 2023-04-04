@@ -732,3 +732,14 @@ Accueil mockAccueilMilo() {
     ),
   );
 }
+
+Accueil mockAccueilPoleEmploi() {
+  return Accueil(
+    dateDerniereMiseAJour: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
+    cetteSemaine: AccueilCetteSemaine(
+      nombreRendezVous: 3,
+      nombreActionsDemarchesEnRetard: 2,
+      nombreActionsDemarchesARealiser: 1,
+    ),
+  );
+}
