@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/pages/agenda_page.dart';
@@ -20,12 +22,14 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 class AccueilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //TODO: tracking page 'Accueil'
-    return StoreConnector<AppState, AccueilViewModel>(
-      onInit: (store) => store.dispatch(AccueilRequestAction()),
-      converter: (store) => AccueilViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(viewModel),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.accueil,
+      child: StoreConnector<AppState, AccueilViewModel>(
+        onInit: (store) => store.dispatch(AccueilRequestAction()),
+        converter: (store) => AccueilViewModel.create(store),
+        builder: (context, viewModel) => _scaffold(viewModel),
+        distinct: true,
+      ),
     );
   }
 
