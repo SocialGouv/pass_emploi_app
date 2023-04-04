@@ -559,4 +559,12 @@ extension AppStateDSL on AppState {
   AppState withAccueilMiloSuccess() {
     return copyWith(accueilState: AccueilSuccessState(mockAccueilMilo()));
   }
+
+  AppState withAccueilFailure() {
+    return copyWith(accueilState: AccueilFailureState());
+  }
+
+  AppState withAccueilLoading() {
+    return copyWith(accueilState: AccueilLoadingState());
+  }
 }

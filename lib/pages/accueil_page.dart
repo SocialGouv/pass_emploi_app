@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/pages/agenda_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -17,6 +18,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class AccueilPage extends StatelessWidget {
@@ -34,15 +36,33 @@ class AccueilPage extends StatelessWidget {
   }
 
   Scaffold _scaffold(AccueilViewModel viewModel) {
-    //TODO: loading/failure/success
     const backgroundColor = AppColors.grey100;
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PrimaryAppBar(title: Strings.accueilAppBarTitle, backgroundColor: backgroundColor),
       body: SafeArea(
-        child: _Blocs(viewModel),
+        child: _Body(viewModel),
       ),
     );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final AccueilViewModel viewModel;
+
+  const _Body(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (viewModel.displayState) {
+      case DisplayState.LOADING:
+        return Center(child: CircularProgressIndicator());
+      case DisplayState.CONTENT:
+        return _Blocs(viewModel);
+      case DisplayState.EMPTY:
+      case DisplayState.FAILURE:
+        return _Retry(viewModel: viewModel);
+    }
   }
 }
 
@@ -240,5 +260,20 @@ class _Outils extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text("Outils");
+  }
+}
+
+class _Retry extends StatelessWidget {
+  final AccueilViewModel viewModel;
+
+  const _Retry({Key? key, required this.viewModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Retry(Strings.agendaError, () => viewModel.retry()),
+    ));
   }
 }

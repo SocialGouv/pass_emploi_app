@@ -1,26 +1,41 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 class AccueilViewModel extends Equatable {
+  final DisplayState displayState;
   final List<AccueilItem> items;
+  final Function() retry;
 
   AccueilViewModel({
+    required this.displayState,
     required this.items,
+    required this.retry,
   });
 
   factory AccueilViewModel.create(Store<AppState> store) {
     return AccueilViewModel(
+      displayState: _displayState(store),
       items: _items(store),
+      retry: () => store.dispatch(AccueilRequestAction()),
     );
   }
 
   @override
   List<Object?> get props => [items];
+}
+
+DisplayState _displayState(Store<AppState> store) {
+  final accueilState = store.state.accueilState;
+  if (accueilState is AccueilSuccessState) return DisplayState.CONTENT;
+  if (accueilState is AccueilFailureState) return DisplayState.FAILURE;
+  return DisplayState.LOADING;
 }
 
 List<AccueilItem> _items(Store<AppState> store) {
