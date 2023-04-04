@@ -77,33 +77,28 @@ android {
         }
     }
 
-    flavorDimensions "cej", "brsa"
+    flavorDimensions "version"
 
-    // cej
     productFlavors {
-        staging {
-            dimension "cej"
+        cejStaging {
+            dimension "version"
             versionNameSuffix "-staging"
             applicationId "fr.fabrique.social.gouv.passemploi.staging"
             resValue "string", "app_name", "CEJ Staging"
         }
-        prod {
-            dimension "cej"
+        cejProd {
+            dimension "version"
             applicationId "fr.fabrique.social.gouv.passemploi"
             resValue "string", "app_name", "CEJ"
         }
-    }
-    
-    // brsa
-    productFlavors {
-        staging {
-            dimension "brsa"
+        brsaStaging {
+            dimension "version"
             versionNameSuffix "-staging"
             applicationId "fr.fabrique.social.gouv.passemploi.rsa.staging"
             resValue "string", "app_name", "BRSA Staging"
         }
-        prod {
-            dimension "brsa"
+        brsaProd {
+            dimension "version"
             applicationId "fr.fabrique.social.gouv.passemploi.rsa"
             resValue "string", "app_name", "BRSA"
         }
