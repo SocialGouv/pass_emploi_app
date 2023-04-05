@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/reloadable_page.dart';
@@ -26,6 +27,14 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class DemarcheListPage extends StatelessWidget {
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(
+      builder: (context) {
+        return Scaffold(appBar: SecondaryAppBar(title: Strings.demarcheTabTitle), body: DemarcheListPage());
+      },
+    );
+  }
+
   final ScrollController _scrollController = ScrollController();
 
   @override

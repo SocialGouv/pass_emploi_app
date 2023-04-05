@@ -2,6 +2,8 @@
 // La variable _currentTab est utilisée pour ne pas tracker plusieurs fois un même changement d'onglet
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/agenda_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
@@ -36,11 +38,13 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    //TODO: tracking page 'Mon Suivi' si on navigue sans changer d'onglet
-    return StoreConnector<AppState, MonSuiviViewModel>(
-      converter: (store) => MonSuiviViewModel.create(store, widget.initialTab),
-      builder: (context, viewModel) => _scaffold(viewModel),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.monSuivi,
+      child: StoreConnector<AppState, MonSuiviViewModel>(
+        converter: (store) => MonSuiviViewModel.create(store, widget.initialTab),
+        builder: (context, viewModel) => _scaffold(viewModel),
+        distinct: true,
+      ),
     );
   }
 

@@ -70,6 +70,19 @@ void main() {
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.DEFAULT);
     });
 
+    test('…and deep link is set to rendezvous should display main page with agenda display state', () {
+      final state = AppState.initialState().copyWith(
+        loginState: successMiloUserState(),
+        deepLinkState: AgendaDeepLinkState(),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.AGENDA_TAB);
+    });
+
     test('…and deep link is set to rendezvous should display main page with rendezvous display state', () {
       final state = AppState.initialState().copyWith(
         loginState: successMiloUserState(),

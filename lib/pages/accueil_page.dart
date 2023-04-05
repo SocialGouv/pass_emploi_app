@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
-import 'package:pass_emploi_app/pages/agenda_page.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
+import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -12,33 +15,55 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class AccueilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //TODO: tracking page 'Accueil'
-    return StoreConnector<AppState, AccueilViewModel>(
-      onInit: (store) => store.dispatch(AccueilRequestAction()),
-      converter: (store) => AccueilViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(viewModel),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.accueil,
+      child: StoreConnector<AppState, AccueilViewModel>(
+        onInit: (store) => store.dispatch(AccueilRequestAction()),
+        converter: (store) => AccueilViewModel.create(store),
+        builder: (context, viewModel) => _scaffold(viewModel),
+        distinct: true,
+      ),
     );
   }
 
   Scaffold _scaffold(AccueilViewModel viewModel) {
-    //TODO: loading/failure/success
     const backgroundColor = AppColors.grey100;
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PrimaryAppBar(title: Strings.accueilAppBarTitle, backgroundColor: backgroundColor),
       body: SafeArea(
-        child: _Blocs(viewModel),
+        child: _Body(viewModel),
       ),
     );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final AccueilViewModel viewModel;
+
+  const _Body(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (viewModel.displayState) {
+      case DisplayState.LOADING:
+        return Center(child: CircularProgressIndicator());
+      case DisplayState.CONTENT:
+        return _Blocs(viewModel);
+      case DisplayState.EMPTY:
+      case DisplayState.FAILURE:
+        return _Retry(viewModel: viewModel);
+    }
   }
 }
 
@@ -77,6 +102,9 @@ class _CetteSemaine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final actionsDemarchesRoute = item.monSuiviType == MonSuiviType.actions
+        ? UserActionListPage.materialPageRoute()
+        : DemarcheListPage.materialPageRoute();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -91,32 +119,22 @@ class _CetteSemaine extends StatelessWidget {
                 icon: Icon(AppIcons.today_rounded, color: AppColors.primary),
                 text: item.rendezVous,
                 addBorderRadius: true,
-                onTap: () => StoreProvider.of<AppState>(context)
-                    .dispatch(LocalDeeplinkAction({"type": "DETAIL_RENDEZVOUS"})), //TODO: PoC navigation
+                onTap: () => Navigator.of(context).push(RendezvousListPage.materialPageRoute()),
               ),
               SepLine(0, 0),
               _CetteSemaineRow(
                 icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
                 text: item.actionsDemarchesEnRetard,
-                onTap: () => StoreProvider.of<AppState>(context)
-                    .dispatch(LocalDeeplinkAction({"type": "DETAIL_ACTION"})), //TODO: PoC navigation
+                onTap: () => Navigator.of(context).push(actionsDemarchesRoute),
               ),
               SepLine(0, 0),
               _CetteSemaineRow(
                 icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
                 text: item.actionsDemarchesARealiser,
-                onTap: () => StoreProvider.of<AppState>(context)
-                    .dispatch(LocalDeeplinkAction({"type": "DETAIL_ACTION"})), //TODO: PoC navigation
+                onTap: () => Navigator.of(context).push(actionsDemarchesRoute),
               ),
               _CetteSemaineVoirDetails(
-                onTap: () {
-                  //TODO: PoC navigation
-                  Navigator.of(context).push(
-                    AgendaPage.materialPageRoute((() {
-                      Navigator.of(context).push(UserActionListPage.materialPageRoute());
-                    })),
-                  );
-                },
+                onTap: () => StoreProvider.of<AppState>(context).dispatchAgendaDeeplink(),
               ),
             ],
           ),
@@ -236,5 +254,20 @@ class _Outils extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text("Outils");
+  }
+}
+
+class _Retry extends StatelessWidget {
+  final AccueilViewModel viewModel;
+
+  const _Retry({Key? key, required this.viewModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Retry(Strings.agendaError, () => viewModel.retry()),
+    ));
   }
 }

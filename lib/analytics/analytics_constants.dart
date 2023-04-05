@@ -13,6 +13,9 @@ class AnalyticsScreenNames {
 
   static const evaluationDetails = "actions/tuile-evaluation";
 
+  static const accueil = "accueil";
+
+  static const monSuivi = "mon_suivi";
   static const agenda = "agenda";
 
   static const userActionList = "actions/list";

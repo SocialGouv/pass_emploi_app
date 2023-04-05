@@ -11,6 +11,7 @@ enum MainTab { accueil, monSuivi, chat, solutions, favoris, evenements }
 
 enum MainPageDisplayState {
   DEFAULT,
+  AGENDA_TAB,
   ACTIONS_TAB,
   RENDEZVOUS_TAB,
   CHAT,

@@ -1,0 +1,26 @@
+{
+    "dateDerniereMiseAJour": "2023-01-01T00:00:00.000Z",
+    "cetteSemaine": {
+      "nombreRendezVous": 3,
+      "nombreActionsDemarchesEnRetard": 2,
+      "nombreActionsDemarchesARealiser": 1
+    },
+    "prochainRendezVous": {
+      "id": "string"
+    },
+    "evenementsAVenir": [
+      {
+        "id": "string"
+      }
+    ],
+    "mesAlertes": [
+      {
+        "id": "string"
+      }
+    ],
+    "mesFavoris": [
+      {
+        "idOffre": "string"
+      }
+    ]
+  }

@@ -28,7 +28,6 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class UserActionListPage extends StatefulWidget {
-  //TODO: PoC navigation
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(
       builder: (context) {

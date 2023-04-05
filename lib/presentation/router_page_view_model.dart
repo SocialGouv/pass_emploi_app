@@ -72,6 +72,7 @@ MainPageDisplayState _toMainPageDisplayState(DeepLinkState deepLinkState, Store<
 }
 
 MainPageDisplayState _toMainPageDisplayStateByDeepLink(DeepLinkState state) {
+  if (state is AgendaDeepLinkState) return MainPageDisplayState.AGENDA_TAB;
   if (state is DetailActionDeepLinkState) return MainPageDisplayState.ACTIONS_TAB;
   if (state is DetailRendezvousDeepLinkState) return MainPageDisplayState.RENDEZVOUS_TAB;
   if (state is NouveauMessageDeepLinkState) return MainPageDisplayState.CHAT;

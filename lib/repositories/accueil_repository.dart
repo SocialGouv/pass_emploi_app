@@ -20,4 +20,16 @@ class AccueilRepository {
     }
     return null;
   }
+
+  Future<Accueil?> getAccueilPoleEmploi(String userId, DateTime maintenant) async {
+    final date = Uri.encodeComponent(maintenant.toIso8601WithOffsetDateTime());
+    final url = "/jeunes/$userId/pole-emploi/accueil?maintenant=$date";
+    try {
+      final response = await _httpClient.get(url);
+      return Accueil.fromJson(response.data);
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
+    }
+    return null;
+  }
 }
