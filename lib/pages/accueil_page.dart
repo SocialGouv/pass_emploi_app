@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/pages/agenda_page.dart';
+import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -15,6 +16,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -115,32 +117,22 @@ class _CetteSemaine extends StatelessWidget {
                 icon: Icon(AppIcons.today_rounded, color: AppColors.primary),
                 text: item.rendezVous,
                 addBorderRadius: true,
-                onTap: () => StoreProvider.of<AppState>(context)
-                    .dispatch(LocalDeeplinkAction({"type": "DETAIL_RENDEZVOUS"})), //TODO: PoC navigation
+                onTap: () => Navigator.of(context).push(RendezvousListPage.materialPageRoute()),
               ),
               SepLine(0, 0),
               _CetteSemaineRow(
                 icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
                 text: item.actionsDemarchesEnRetard,
-                onTap: () => StoreProvider.of<AppState>(context)
-                    .dispatch(LocalDeeplinkAction({"type": "DETAIL_ACTION"})), //TODO: PoC navigation
+                onTap: () => Navigator.of(context).push(UserActionListPage.materialPageRoute()), //TODO if PE démarches
               ),
               SepLine(0, 0),
               _CetteSemaineRow(
                 icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
                 text: item.actionsDemarchesARealiser,
-                onTap: () => StoreProvider.of<AppState>(context)
-                    .dispatch(LocalDeeplinkAction({"type": "DETAIL_ACTION"})), //TODO: PoC navigation
+                onTap: () => Navigator.of(context).push(UserActionListPage.materialPageRoute()), //TODO if PE démarches
               ),
               _CetteSemaineVoirDetails(
-                onTap: () {
-                  //TODO: PoC navigation
-                  Navigator.of(context).push(
-                    AgendaPage.materialPageRoute((() {
-                      Navigator.of(context).push(UserActionListPage.materialPageRoute());
-                    })),
-                  );
-                },
+                onTap: () => StoreProvider.of<AppState>(context).dispatchAgendaDeeplink(),
               ),
             ],
           ),

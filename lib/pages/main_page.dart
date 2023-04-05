@@ -151,6 +151,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   MonSuiviTab? _initialMonSuiviTab() {
     switch (widget.displayState) {
+      case MainPageDisplayState.AGENDA_TAB:
+        return MonSuiviTab.AGENDA;
       case MainPageDisplayState.ACTIONS_TAB:
         return MonSuiviTab.ACTIONS;
       case MainPageDisplayState.RENDEZVOUS_TAB:
@@ -168,6 +170,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case MainPageDisplayState.ACTUALISATION_PE:
         initialIndex = 0;
         break;
+      case MainPageDisplayState.AGENDA_TAB:
       case MainPageDisplayState.ACTIONS_TAB:
       case MainPageDisplayState.RENDEZVOUS_TAB:
         initialIndex = viewModel.tabs.indexOf(MainTab.monSuivi);

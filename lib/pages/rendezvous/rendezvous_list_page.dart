@@ -20,12 +20,21 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class RendezvousListPage extends StatefulWidget {
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(
+      builder: (context) {
+        return Scaffold(appBar: SecondaryAppBar(title: Strings.rendezvousTabTitle), body: RendezvousListPage());
+      },
+    );
+  }
+
   @override
   State<RendezvousListPage> createState() => _RendezvousListPageState();
 }
