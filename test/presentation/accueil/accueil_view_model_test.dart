@@ -54,6 +54,7 @@ void main() {
       viewModel.items,
       [
         AccueilCetteSemaineItem(
+          monSuiviType: MonSuiviType.actions,
           rendezVous: "3 rendez-vous",
           actionsDemarchesEnRetard: "2 actions en retard",
           actionsDemarchesARealiser: "1 action à réaliser",

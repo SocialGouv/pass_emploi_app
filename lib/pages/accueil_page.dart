@@ -3,8 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
-import 'package:pass_emploi_app/pages/agenda_page.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
@@ -103,6 +102,9 @@ class _CetteSemaine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final actionsDemarchesRoute = item.monSuiviType == MonSuiviType.actions
+        ? UserActionListPage.materialPageRoute()
+        : DemarcheListPage.materialPageRoute();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -123,13 +125,13 @@ class _CetteSemaine extends StatelessWidget {
               _CetteSemaineRow(
                 icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
                 text: item.actionsDemarchesEnRetard,
-                onTap: () => Navigator.of(context).push(UserActionListPage.materialPageRoute()), //TODO if PE démarches
+                onTap: () => Navigator.of(context).push(actionsDemarchesRoute),
               ),
               SepLine(0, 0),
               _CetteSemaineRow(
                 icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
                 text: item.actionsDemarchesARealiser,
-                onTap: () => Navigator.of(context).push(UserActionListPage.materialPageRoute()), //TODO if PE démarches
+                onTap: () => Navigator.of(context).push(actionsDemarchesRoute),
               ),
               _CetteSemaineVoirDetails(
                 onTap: () => StoreProvider.of<AppState>(context).dispatchAgendaDeeplink(),

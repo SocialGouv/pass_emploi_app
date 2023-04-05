@@ -92,12 +92,16 @@ abstract class AccueilItem extends Equatable {
 
 //TODO: move: 1 file / item
 
+enum MonSuiviType { actions, demarches }
+
 class AccueilCetteSemaineItem extends AccueilItem {
+  final MonSuiviType monSuiviType;
   final String rendezVous;
   final String actionsDemarchesEnRetard;
   final String actionsDemarchesARealiser;
 
   AccueilCetteSemaineItem({
+    required this.monSuiviType,
     required this.rendezVous,
     required this.actionsDemarchesEnRetard,
     required this.actionsDemarchesARealiser,
@@ -110,6 +114,7 @@ class AccueilCetteSemaineItem extends AccueilItem {
     required int nombreActionsDemarchesARealiser,
   }) {
     return AccueilCetteSemaineItem(
+      monSuiviType: loginMode.isPe() ? MonSuiviType.demarches : MonSuiviType.actions,
       rendezVous: Strings.rendezvousEnCours(nombreRendezVous),
       actionsDemarchesEnRetard: Strings.according(
         loginMode: loginMode,
@@ -131,7 +136,7 @@ class AccueilCetteSemaineItem extends AccueilItem {
   }
 
   @override
-  List<Object?> get props => [rendezVous, actionsDemarchesEnRetard, actionsDemarchesARealiser];
+  List<Object?> get props => [monSuiviType, rendezVous, actionsDemarchesEnRetard, actionsDemarchesARealiser];
 }
 
 class AccueilProchainRendezvousItem extends AccueilItem {}
