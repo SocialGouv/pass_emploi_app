@@ -12,7 +12,7 @@ class Strings {
     required String singularMissionLocale,
     required String severalMissionLocale,
   }) {
-    return loginMode == LoginMode.POLE_EMPLOI
+    return loginMode.isPe()
         ? count <= 1
             ? singularPoleEmploi
             : severalPoleEmploi
