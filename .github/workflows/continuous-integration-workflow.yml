@@ -2,7 +2,7 @@ name: PR Continuous Integration - Mobile App
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request:
   workflow_dispatch:
 
@@ -40,7 +40,7 @@ jobs:
     outputs:
       date: ${{ steps.getCurrentTimestamp.outputs.date }}
 
-  build-android-staging:
+  build-android-cej-staging:
     if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     needs: pre-build
@@ -59,8 +59,7 @@ jobs:
       - name: Write Google configuration for Android
         shell: bash
         run: |
-          mkdir android/app/src/staging
-          echo "$STAGING_GOOGLE_SERVICE_B64" | base64 --decode > android/app/src/staging/google-services.json
+          echo "$STAGING_GOOGLE_SERVICE_B64" | base64 --decode > android/app/google-services.json
         env:
           STAGING_GOOGLE_SERVICE_B64: ${{ secrets.STAGING_GOOGLE_SERVICE_B64 }}
 
@@ -90,23 +89,24 @@ jobs:
         run: |
           flutter pub get
           flutter build apk \
-          --flavor staging \
+          --flavor cejStaging \
+          --release \
           --build-number=${{ needs.pre-build.outputs.date }}
 
       - uses: actions/upload-artifact@v3
         with:
-          path: build/app/outputs/flutter-apk/app-staging-release.apk
+          path: build/app/outputs/flutter-apk/app-cejstaging-release.apk
 
       - name: Deploy Android apk
         run: |
           curl -sL https://firebase.tools | bash
-          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-staging-release.apk \
+          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-cejstaging-release.apk \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
-            --app "$STAGING_ANDROID_APP_ID" \
+            --app "$CEJ_STAGING_ANDROID_APP_ID" \
             --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
         env:
           STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
-          STAGING_ANDROID_APP_ID: ${{ secrets.STAGING_ANDROID_APP_ID }}
+          CEJ_STAGING_ANDROID_APP_ID: ${{ secrets.CEJ_STAGING_ANDROID_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
 
   build-ios-staging:
