@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -68,7 +67,7 @@ AccueilItem? _cetteSemaineItem(LoginMode loginMode, AccueilSuccessState successS
 
 AccueilItem? _prochainRendezvousItem(AccueilSuccessState successState) {
   final prochainRendezVous = successState.accueil.prochainRendezVous;
-  return prochainRendezVous != null ? AccueilProchainRendezvousItem(prochainRendezVous) : null;
+  return prochainRendezVous != null ? AccueilProchainRendezvousItem(prochainRendezVous.id) : null;
 }
 
 AccueilItem? _evenementsItem(AccueilSuccessState successState) {
@@ -142,12 +141,12 @@ class AccueilCetteSemaineItem extends AccueilItem {
 }
 
 class AccueilProchainRendezvousItem extends AccueilItem {
-  final Rendezvous rendezVous;
+  final String rendezVousId;
 
-  AccueilProchainRendezvousItem(this.rendezVous);
+  AccueilProchainRendezvousItem(this.rendezVousId);
 
   @override
-  List<Object?> get props => [rendezVous];
+  List<Object?> get props => [rendezVousId];
 }
 
 class AccueilEvenementsItem extends AccueilItem {}

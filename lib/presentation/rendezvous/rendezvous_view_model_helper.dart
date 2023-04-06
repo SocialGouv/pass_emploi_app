@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
@@ -19,6 +20,8 @@ bool isRendezvousGreenTag(Rendezvous rdv) {
 
 Rendezvous getRendezvous(Store<AppState> store, RendezvousStateSource source, String rdvId) {
   switch (source) {
+    case RendezvousStateSource.accueil:
+      return _getRendezvousFromAccueilState(store, rdvId);
     case RendezvousStateSource.agenda:
       return _getRendezvousFromAgendaState(store, rdvId);
     case RendezvousStateSource.rendezvousList:
@@ -50,6 +53,14 @@ Rendezvous _getRendezvousFromAgendaState(Store<AppState> store, String rdvId) {
   if (state is! AgendaSuccessState) throw Exception('Invalid state.');
   final rendezvous = state.agenda.rendezvous.where((e) => e.id == rdvId).firstOrNull;
   if (rendezvous == null) throw Exception('No Rendezvous matching id $rdvId');
+  return rendezvous;
+}
+
+Rendezvous _getRendezvousFromAccueilState(Store<AppState> store, String rdvId) {
+  final state = store.state.accueilState;
+  if (state is! AccueilSuccessState) throw Exception('Invalid state.');
+  final rendezvous = state.accueil.prochainRendezVous;
+  if (rendezvous == null) throw Exception('No prochain rendezvous');
   return rendezvous;
 }
 

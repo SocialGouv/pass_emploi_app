@@ -61,7 +61,7 @@ void main() {
             actionsDemarchesEnRetard: "2 actions en retard",
             actionsDemarchesARealiser: "1 action à réaliser",
           ),
-          AccueilProchainRendezvousItem(mockRendezvousMiloCV()),
+          AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
         ],
       );
     });
