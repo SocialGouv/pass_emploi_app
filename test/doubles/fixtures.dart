@@ -342,6 +342,45 @@ Rendezvous mockRendezvous({
   );
 }
 
+Rendezvous mockRendezvousMiloCV() {
+  return Rendezvous(
+    id: '2d663392-b9ff-4b20-81ca-70a3c779e299',
+    source: RendezvousSource.milo,
+    date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
+    modality: 'en présentiel : Misson locale / Permanence',
+    isInVisio: false,
+    duration: 23,
+    withConseiller: true,
+    isAnnule: false,
+    type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, 'Entretien individuel conseiller'),
+    title: 'super entretien',
+    comment: 'Amener votre CV',
+    conseiller: Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'),
+    createur: Conseiller(id: '2', firstName: 'Joe', lastName: 'Pesci'),
+  );
+}
+
+Rendezvous mockRendezvousPoleEmploi() {
+  return Rendezvous(
+    id: '4995ea8a-4f6a-48be-925e-f45593c481f6',
+    source: RendezvousSource.passEmploi,
+    date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
+    title: 'Super titre',
+    modality: 'par visio',
+    withConseiller: null,
+    isAnnule: true,
+    isInVisio: true,
+    type: RendezvousType(RendezvousTypeCode.PRESTATION, 'Prestation'),
+    duration: null,
+    address: '11 RUE Paul Vimereu  80142 ABBEVILLE',
+    organism: 'Agence Pôle Emploi',
+    phone: '01.02.03.04.05',
+    theme: 'Activ\'Projet',
+    description: 'J\'explore des pistes professionnelles.',
+    visioRedirectUrl: 'http://www.visio.fr',
+  );
+}
+
 DetailsJeune detailsJeune() {
   return DetailsJeune(
     conseiller: DetailsJeuneConseiller(firstname: "Perceval", lastname: "de Galles", sinceDate: DateTime(2005, 1, 3)),
@@ -730,6 +769,7 @@ Accueil mockAccueilMilo() {
       nombreActionsDemarchesEnRetard: 2,
       nombreActionsDemarchesARealiser: 1,
     ),
+    prochainRendezVous: mockRendezvousMiloCV(),
   );
 }
 
@@ -741,5 +781,6 @@ Accueil mockAccueilPoleEmploi() {
       nombreActionsDemarchesEnRetard: 2,
       nombreActionsDemarchesARealiser: 1,
     ),
+    prochainRendezVous: mockRendezvousPoleEmploi(),
   );
 }

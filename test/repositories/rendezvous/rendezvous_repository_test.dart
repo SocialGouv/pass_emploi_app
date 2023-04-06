@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../dsl/sut_repository.dart';
 import '../../utils/test_datetime.dart';
 
@@ -30,25 +31,7 @@ void main() {
           await sut.expectResult<RendezvousListResult?>((result) {
             expect(result, isNotNull);
             expect(result!.rendezvous.length, 3);
-            expect(
-              result.rendezvous[0],
-              Rendezvous(
-                id: '2d663392-b9ff-4b20-81ca-70a3c779e299',
-                source: RendezvousSource.milo,
-                date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
-                modality: 'en présentiel : Misson locale / Permanence',
-                isInVisio: false,
-                duration: 23,
-                withConseiller: true,
-                isAnnule: false,
-                type: RendezvousType(
-                    RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, 'Entretien individuel conseiller'),
-                title: 'super entretien',
-                comment: 'Amener votre CV',
-                conseiller: Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'),
-                createur: Conseiller(id: '2', firstName: 'Joe', lastName: 'Pesci'),
-              ),
-            );
+            expect(result.rendezvous[0], mockRendezvousMiloCV());
             expect(
               result.rendezvous[1],
               Rendezvous(

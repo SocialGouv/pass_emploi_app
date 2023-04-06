@@ -5,7 +5,31 @@
       "nombreActionsDemarchesARealiser": 1
     },
     "prochainRendezVous": {
-      "id": "string"
+      "id": "4995ea8a-4f6a-48be-925e-f45593c481f6",
+      "source": "PASS_EMPLOI",
+      "title": "Super titre",
+      "idStable": "8456f048-0c76-4538-bce8-225d36608f38",
+      "type": {
+        "code": "PRESTATION",
+        "label": "Prestation"
+      },
+      "date": "2021-11-28T13:34:00.000Z",
+      "isLocaleDate": false,
+      "jeune": {
+        "id": "28b6a7cf-e023-4cd8-a498-7d8ba9d703f8",
+        "nom": "test",
+        "prenom": "test"
+      },
+      "modality": "par visio",
+      "duration": 0,
+      "description": "J'explore des pistes professionnelles.",
+      "adresse": "11 RUE Paul Vimereu  80142 ABBEVILLE",
+      "agencePE": true,
+      "theme": "Activ'Projet",
+      "annule": true,
+      "visio": true,
+      "telephone": "01.02.03.04.05",
+      "lienVisio": "http://www.visio.fr"
     },
     "evenementsAVenir": [
       {
