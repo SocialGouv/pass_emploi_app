@@ -71,7 +71,8 @@ AccueilCetteSemaine? _cetteSemaine(dynamic json) {
 }
 
 Rendezvous? _prochainRendezVous(dynamic json) {
-  return JsonRendezvous.fromJson(json["prochainRendezVous"]).toRendezvous();
+  final rendezvous = json["prochainRendezVous"];
+  return rendezvous != null ? JsonRendezvous.fromJson(rendezvous).toRendezvous() : null;
 }
 
 List<Rendezvous>? _evenements(dynamic json) {
