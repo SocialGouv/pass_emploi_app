@@ -43,7 +43,6 @@ class MainPageViewModel extends Equatable {
     final loginMode = loginState is LoginSuccessState ? loginState.user.loginMode : null;
     return MainPageViewModel(
       tabs: [
-        MainTab.accueil,
         MainTab.monSuivi,
         MainTab.chat,
         MainTab.solutions,
