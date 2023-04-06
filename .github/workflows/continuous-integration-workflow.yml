@@ -109,7 +109,7 @@ jobs:
           CEJ_STAGING_ANDROID_APP_ID: ${{ secrets.CEJ_STAGING_ANDROID_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
 
-  build-ios-staging:
+  build-ios-cej-staging:
     if: github.ref == 'refs/heads/develop'
     runs-on: macos-11
     needs: pre-build
@@ -168,7 +168,7 @@ jobs:
           export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
           export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
           export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
-          app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
+          app-store-connect fetch-signing-files fr.fabrique.social.gouv.passemploi.staging \
             --platform IOS \
             --type IOS_APP_ADHOC \
             --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
@@ -186,8 +186,8 @@ jobs:
       - name: Write Google configuration for ios
         shell: bash
         run: |
-          mkdir -p ios/firebase-config/staging
-          echo "$STAGING_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/staging/GoogleService-Info.plist
+          mkdir -p ios/firebase-config/cejStaging
+          echo "$STAGING_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/cejStaging/GoogleService-Info.plist
         env:
           STAGING_GOOGLE_SERVICE_IOS_B64: ${{ secrets.STAGING_GOOGLE_SERVICE_IOS_B64 }}
 
@@ -217,7 +217,8 @@ jobs:
         shell: bash
         run: |
           flutter build ipa \
-          --flavor staging \
+          --flavor cejStaging \
+          --release \
           --build-number=${{ needs.pre-build.outputs.date }} \
           --export-options-plist=ios/staging_export_options.plist \
           --no-pub \
@@ -228,9 +229,9 @@ jobs:
           curl -sL https://firebase.tools | bash
           firebase appdistribution:distribute $(find $(pwd) -name "*.ipa") \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
-            --app "$STAGING_IOS_APP_ID" \
+            --app "$CEJ_STAGING_IOS_APP_ID" \
             --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
         env:
           STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
-          STAGING_IOS_APP_ID: ${{ secrets.STAGING_IOS_APP_ID }}
+          CEJ_STAGING_IOS_APP_ID: ${{ secrets.CEJ_STAGING_IOS_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}

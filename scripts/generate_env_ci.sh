@@ -16,7 +16,7 @@ echo -e "\nSTAGING_RUNTIME_ENV_B64=" >> ci/env.ci
 cat env/.env.staging | base64 >> ci/env.ci
 
 echo -e "\nSTAGING_GOOGLE_SERVICE_IOS_B64=" >> ci/env.ci
-cat ios/firebase-config/staging/GoogleService-Info.plist | base64 >> ci/env.ci
+cat ios/firebase-config/cejStaging/GoogleService-Info.plist | base64 >> ci/env.ci
 
 echo -e "\nP12_B64=" >> ci/env.ci
 cat ios/cert.p12 | base64 >> ci/env.ci
