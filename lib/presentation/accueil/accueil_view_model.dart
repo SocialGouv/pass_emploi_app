@@ -28,7 +28,7 @@ class AccueilViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [items];
+  List<Object?> get props => [displayState, items];
 }
 
 DisplayState _displayState(Store<AppState> store) {
