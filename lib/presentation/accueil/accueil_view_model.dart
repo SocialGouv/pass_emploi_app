@@ -66,7 +66,8 @@ AccueilItem? _cetteSemaineItem(LoginMode loginMode, AccueilSuccessState successS
 }
 
 AccueilItem? _prochainRendezvousItem(AccueilSuccessState successState) {
-  return null;
+  final prochainRendezVous = successState.accueil.prochainRendezVous;
+  return prochainRendezVous != null ? AccueilProchainRendezvousItem(prochainRendezVous.id) : null;
 }
 
 AccueilItem? _evenementsItem(AccueilSuccessState successState) {
@@ -139,7 +140,14 @@ class AccueilCetteSemaineItem extends AccueilItem {
   List<Object?> get props => [monSuiviType, rendezVous, actionsDemarchesEnRetard, actionsDemarchesARealiser];
 }
 
-class AccueilProchainRendezvousItem extends AccueilItem {}
+class AccueilProchainRendezvousItem extends AccueilItem {
+  final String rendezVousId;
+
+  AccueilProchainRendezvousItem(this.rendezVousId);
+
+  @override
+  List<Object?> get props => [rendezVousId];
+}
 
 class AccueilEvenementsItem extends AccueilItem {}
 

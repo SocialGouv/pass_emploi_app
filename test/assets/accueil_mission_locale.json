@@ -6,7 +6,34 @@
       "nombreActionsDemarchesARealiser": 1
     },
     "prochainRendezVous": {
-      "id": "string"
+      "id": "2d663392-b9ff-4b20-81ca-70a3c779e299",
+      "source": "MILO",
+      "title": "super entretien",
+      "comment": "Amener votre CV",
+      "date": "2021-11-28T13:34:00.000Z",
+      "isLocaleDate": false,
+      "modality": "en présentiel : Misson locale / Permanence",
+      "duration": 23,
+      "jeune": {
+        "id": "FLHPT",
+        "prenom": "Gabriel",
+        "nom": "Android"
+      },
+      "type": {
+        "code": "ENTRETIEN_INDIVIDUEL_CONSEILLER",
+        "label": "Entretien individuel conseiller"
+      },
+      "presenceConseiller": true,
+      "conseiller": {
+        "id": "1",
+        "prenom": "Nils",
+        "nom": "Tavernier"
+      },
+      "createur": {
+        "id": "2",
+        "prenom": "Joe",
+        "nom": "Pesci"
+      }
     },
     "evenementsAVenir": [
       {

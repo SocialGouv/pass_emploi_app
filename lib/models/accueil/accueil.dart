@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class Accueil extends Equatable {
@@ -70,7 +71,8 @@ AccueilCetteSemaine? _cetteSemaine(dynamic json) {
 }
 
 Rendezvous? _prochainRendezVous(dynamic json) {
-  return null;
+  final rendezvous = json["prochainRendezVous"];
+  return rendezvous != null ? JsonRendezvous.fromJson(rendezvous).toRendezvous() : null;
 }
 
 List<Rendezvous>? _evenements(dynamic json) {

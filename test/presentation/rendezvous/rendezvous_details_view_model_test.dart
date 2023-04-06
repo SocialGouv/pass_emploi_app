@@ -851,6 +851,22 @@ void main() {
         // Then
         expect(viewModel.description, 'description');
       });
+
+      test('when source is accueil should get rendezvous from accueil state', () {
+        // Given
+        final store = givenState().withAccueilMiloSuccess().store();
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(
+          store: store,
+          source: RendezvousStateSource.accueil,
+          rdvId: mockRendezvousMiloCV().id,
+          platform: Platform.IOS,
+        );
+
+        // Then
+        expect(viewModel.id, mockRendezvousMiloCV().id);
+      });
     });
   });
 
