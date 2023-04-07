@@ -3,23 +3,28 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 class Tutorial extends Equatable {
-  static const String version = '7';
+  static const String version = '8';
 
   static List<Tutorial> milo = [
     Tutorial(
       title: Strings.tutoMiloTitrePageUne,
       description: Strings.tutoMiloDescriptionPageUne,
-      image: Drawables.tutoProfilHeader,
+      image: Drawables.tutoImgNewImmersionMilo,
     ),
     Tutorial(
       title: Strings.tutoMiloTitrePageDeux,
       description: Strings.tutoMiloDescriptionPageDeux,
-      image: Drawables.tutoNewEventMilo,
+      image: Drawables.tutoImgProfilDiagoMilo,
     ),
     Tutorial(
       title: Strings.tutoMiloTitrePageTrois,
       description: Strings.tutoMiloDescriptionPageTrois,
-      image: Drawables.tutoNewEventSearchMilo,
+      image: Drawables.tutoImgNewSearchDiagoMilo,
+    ),
+    Tutorial(
+      title: Strings.tutoMiloTitrePageQuatre,
+      description: Strings.tutoMiloDescriptionPageQuatre,
+      image: Drawables.tutoImgNewLastSearchMilo,
     ),
   ];
 
@@ -27,12 +32,22 @@ class Tutorial extends Equatable {
     Tutorial(
       title: Strings.tutoEmploiTitrePageUne,
       description: Strings.tutoEmploiDescriptionPageUne,
-      image: Drawables.tutoProfilHeader,
+      image: Drawables.tutoImgNewImmersionPE,
     ),
     Tutorial(
       title: Strings.tutoEmploiTitrePageDeux,
       description: Strings.tutoEmploiDescriptionPageDeux,
-      image: Drawables.tutoNewSearchPe,
+      image: Drawables.tutoImgProfilDiagoMilo,
+    ),
+    Tutorial(
+      title: Strings.tutoEmploiTitrePageTrois,
+      description: Strings.tutoEmploiDescriptionPageTrois,
+      image: Drawables.tutoImgNewSearchDiagoPE,
+    ),
+    Tutorial(
+      title: Strings.tutoEmploiTitrePageQuatre,
+      description: Strings.tutoEmploiDescriptionPageQuatre,
+      image: Drawables.tutoImgNewLastSearchMilo,
     ),
   ];
 

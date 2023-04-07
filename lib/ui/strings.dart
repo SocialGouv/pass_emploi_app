@@ -673,19 +673,31 @@ class Strings {
   static String developerOptionMatomoPage = 'Matomo';
 
   // Tutorial
-  static String tutoMiloTitrePageUne = "Vos informations de profil désormais disponibles en haut à droite";
-  static String tutoMiloDescriptionPageUne = "";
-  static String tutoMiloTitrePageDeux = "Consultez les événements de votre Mission Locale ! ";
+  static String tutoMiloTitrePageUne = "Candidatez plus facilement à des offres d'immersion";
+  static String tutoMiloDescriptionPageUne =
+      "Vous pouvez désormais candidater plus facilement à des offres d’immersion grâce à un formulaire pré-rempli et modifiable qui sera envoyé directement à l’entreprise !";
+  static String tutoMiloTitrePageDeux = "Découvrez les métiers qui correspondent à vos centres d'intérêt";
   static String tutoMiloDescriptionPageDeux =
-      "Retrouvez désormais tous les événements de votre Mission Locale directement dans l'onglet \"Événements\" de votre barre de navigation ";
-  static String tutoMiloTitrePageTrois = "Effectuer vos recherches d'offres plus facilement";
+      "Dans votre profil, trouvez les métiers faits pour vous grâce à un questionnaire qui prend en compte vos centres d'intérêt et vous donne accès à des informations pratiques sur chaque métier !";
+  static String tutoMiloTitrePageTrois = "Retrouvez les métiers qui correspondent à vos centres d'intérêt";
   static String tutoMiloDescriptionPageTrois =
-      "Vous pouvez désormais rechercher des offres d'emploi d'alternance d'immersion et de service civique plus facilement ";
-  static String tutoEmploiTitrePageUne = "Vos informations de profil désormais disponibles en haut à droite";
-  static String tutoEmploiDescriptionPageUne = "";
-  static String tutoEmploiTitrePageDeux = "Effectuer vos recherches d'offres plus facilement";
+      "Identifiez des métiers correspondant à vos centres d'intérêts grâce au questionnaire se trouvant dans votre profil et retrouverez-les dans l'onglet recherche. ";
+  static String tutoMiloTitrePageQuatre = "Retrouvez votre historique de mots clés utilisés pour vos recherches";
+  static String tutoMiloDescriptionPageQuatre =
+      "Retrouvez désormais les mots clés utilisés lors de vos dernières recherches. Il vous suffit d'appuyer dessus pour les utiliser de nouveau !  ";
+
+  static String tutoEmploiTitrePageUne = "Candidatez plus facilement à des offres d'immersion";
+  static String tutoEmploiDescriptionPageUne =
+      "Vous pouvez désormais candidater plus facilement à des offres d’immersion grâce à un formulaire pré-rempli et modifiable qui sera envoyé directement à l’entreprise !";
+  static String tutoEmploiTitrePageDeux = "Découvrez les métiers qui correspondent à vos centres d'intérêt";
   static String tutoEmploiDescriptionPageDeux =
-      "Vous pouvez désormais rechercher des offres d'emploi d'alternance d'immersion et de service civique plus facilement";
+      "Dans votre profil, trouvez les métiers faits pour vous grâce à un questionnaire qui prend en compte vos centres d'intérêt et vous donne accès à des informations pratiques sur chaque métier !";
+  static String tutoEmploiTitrePageTrois = "Retrouvez les métiers qui correspondent à vos centres d'intérêt";
+  static String tutoEmploiDescriptionPageTrois =
+      "Identifiez des métiers correspondant à vos centres d'intérêts grâce au questionnaire se trouvant dans votre profil et retrouverez-les dans l'onglet recherche. ";
+  static String tutoEmploiTitrePageQuatre = "Retrouvez votre historique de mots clés utilisés pour vos recherches";
+  static String tutoEmploiDescriptionPageQuatre =
+      "Retrouvez désormais les mots clés utilisés lors de vos dernières recherches. Il vous suffit d'appuyer dessus pour les utiliser de nouveau !  ";
 
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";
