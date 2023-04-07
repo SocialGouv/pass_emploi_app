@@ -3,7 +3,7 @@ name: Release - Mobile App
 on:
   push:
     tags:
-      - '*'
+      - "*"
 
 jobs:
   test:
@@ -38,8 +38,7 @@ jobs:
     outputs:
       date: ${{ steps.getCurrentTimestamp.outputs.date }}
 
-
-  build-android-prod:
+  build-android-cej-prod:
     runs-on: ubuntu-latest
     needs: pre-build
     steps:
@@ -57,8 +56,7 @@ jobs:
       - name: Write Google configuration for Android
         shell: bash
         run: |
-          mkdir android/app/src/prod
-          echo "$PROD_GOOGLE_SERVICE_B64" | base64 --decode > android/app/src/prod/google-services.json
+          echo "$PROD_GOOGLE_SERVICE_B64" | base64 --decode > android/app/google-services.json
         env:
           PROD_GOOGLE_SERVICE_B64: ${{ secrets.PROD_GOOGLE_SERVICE_B64 }}
 
@@ -88,23 +86,23 @@ jobs:
         run: |
           flutter pub get
           flutter build appbundle \
-          --flavor prod \
+          --flavor cejProd \
           --build-number=${{ needs.pre-build.outputs.date }}
 
       - uses: actions/upload-artifact@v3
         with:
-          path: build/app/outputs/bundle/prodRelease/app-prod-release.aab
+          path: build/app/outputs/bundle/prodRelease/app-cejprod-release.aab
 
       - name: Deploy Android appbundle
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PROD_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: fr.fabrique.social.gouv.passemploi
-          releaseFiles: build/app/outputs/bundle/prodRelease/app-prod-release.aab
+          releaseFiles: build/app/outputs/bundle/prodRelease/app-cejprod-release.aab
           track: internal
           status: completed
 
-  build-ios-prod:
+  build-ios-cej-prod:
     runs-on: macos-11
     needs: pre-build
     steps:
@@ -162,7 +160,7 @@ jobs:
           export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
           export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
           export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
-          app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
+          app-store-connect fetch-signing-files $(fr.fabrique.social.gouv.passemploi) \
             --platform IOS \
             --type IOS_APP_STORE \
             --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
@@ -180,8 +178,8 @@ jobs:
       - name: Write Google configuration for ios
         shell: bash
         run: |
-          mkdir -p ios/firebase-config/prod
-          echo "$PROD_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/prod/GoogleService-Info.plist
+          mkdir -p ios/firebase-config/cejProd
+          echo "$PROD_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/cejProd/GoogleService-Info.plist
         env:
           PROD_GOOGLE_SERVICE_IOS_B64: ${{ secrets.PROD_GOOGLE_SERVICE_IOS_B64 }}
 
@@ -211,7 +209,7 @@ jobs:
         shell: bash
         run: |
           flutter build ipa \
-          --flavor prod \
+          --flavor cejProd \
           --build-number=${{ needs.pre-build.outputs.date }} \
           --export-options-plist=ios/prod_export_options.plist \
           --no-pub \
