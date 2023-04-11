@@ -1,7 +1,10 @@
 name: Static analysis of Dart and Flutter code
 
 on:
-  pull_request:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:
+
 
 jobs:
   analysis:

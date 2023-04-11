@@ -88,4 +88,5 @@ jobs:
           flutter pub get
           flutter build appbundle \
           --flavor cejStaging \
-          --build-number=${{ needs.pre-build.outputs.date }}
+          --build-number=${{ needs.pre-build.outputs.date }} \
+          -v
