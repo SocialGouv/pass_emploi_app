@@ -127,6 +127,19 @@ android {
             }
         }
     }
+
+    task copyAndRenameAabCejStagingRelease(type: Copy) {
+        dependsOn 'bundleCejStagingRelease'
+        doLast {
+            project.logger.lifecycle("#GAD# Starting copyAndRenameAabCejStagingRelease")
+            def bundleBuildDir = "${buildDir}/outputs/bundle"
+            def originalDirPath = "${variant.productFlavors.name.join()}${variant.buildType.name}"
+            def originalFileName = "${project.archivesBaseName}-${variant.productFlavors.name.join('-')}-${variant.buildType.name}.aab"
+            from "${bundleBuildDir}/${originalDirPath}/${originalFileName}"
+            into "${bundleBuildDir}/${variant.buildType.name}/"
+            rename("${originalFileName}", "app.aab")
+        }
+    }
 }
 
 flutter {
