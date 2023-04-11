@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/profil/profil_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -26,9 +27,10 @@ class ProfileButton extends StatelessWidget {
             decoration: BoxDecoration(
               boxShadow: [Shadows.radius_base],
               shape: BoxShape.circle,
-              color: AppColors.primary,
+              color: Brand.brand == Brand.CEJ ? AppColors.primary : AppColors.grey100,
             ),
-            child: Icon(Icons.person_outline_rounded, size: 24, color: Colors.white),
+            child: Icon(Icons.person_outline_rounded,
+                size: 24, color: Brand.brand == Brand.CEJ ? AppColors.grey100 : AppColors.primary),
           ),
         ),
       ),

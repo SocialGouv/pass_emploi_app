@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -21,10 +22,11 @@ class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
         color: Colors.black,
       ),
       scrolledUnderElevation: 0,
-      backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Brand.brand == Brand.CEJ ? AppColors.grey100 : AppColors.primary,
       title: Text(
         title,
-        style: TextStyles.primaryAppBar,
+        style:
+            TextStyles.primaryAppBar.copyWith(color: Brand.brand == Brand.CEJ ? AppColors.primary : AppColors.grey100),
         overflow: TextOverflow.fade,
       ),
       elevation: 0,
