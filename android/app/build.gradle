@@ -112,11 +112,15 @@ android {
             def bundleTaskName = "bundle${taskSuffix}"
             if (tasks.findByName(bundleTaskName)) {
                 def copyAABTask = tasks.create(name: "copyAndRenameAab${taskSuffix}", type: Copy) {
+                    project.logger.lifecycle("#GAD# Starting task copyAndRenameAab${taskSuffix}")
                     def bundleBuildDir = "${buildDir}/outputs/bundle"
+                    project.logger.lifecycle("#GAD# bundleBuildDir: ${bundleBuildDir}")
                     def originalDirPath = "${variant.productFlavors.name.join()}${variant.buildType.name}"
                     def originalFileName = "${project.archivesBaseName}-${variant.productFlavors.name.join('-')}-${variant.buildType.name}.aab"
                     from "${bundleBuildDir}/${originalDirPath}/${originalFileName}"
+                    project.logger.lifecycle("#GAD# from: ${bundleBuildDir}/${originalDirPath}/${originalFileName}")
                     into "${bundleBuildDir}/${variant.buildType.name}/"
+                    project.logger.lifecycle("#GAD# into: ${bundleBuildDir}/${variant.buildType.name}/")
                     rename("${originalFileName}", "app.aab")
                 }
                 tasks[bundleTaskName].finalizedBy = [copyAABTask]
