@@ -87,6 +87,28 @@ Une fois la montée de version de Flutter effectuée, mettre à jour :
 - Exécuter `flutter pub get`
 - Exécuter "flutter run" pour vérifier que le projet compile et que l'application démarre comme prévu
 
+# Modifier l'icône de l'app
+
+En se basant sur https://pub.dev/packages/flutter_launcher_icons
+
+- Remplacez les images dans `assets/icon/` par les nouvelles icônes d'app souhaitées.
+- Exécutez dans un terminal : `sh scripts/generate_icons.sh`
+
+# Modifier le splash screen de l'app
+
+En se basant sur https://pub.dev/packages/flutter_native_splash
+
+- Remplacez les images dans `assets/splash_screen/` par les nouvelles illustrations de splash screen souhaitées.
+- Exécutez à la racine du projet :
+  - `flutter pub run flutter_native_splash:create --flavor brsa --path=assets_generation/flutter_native_splash-brsa.yaml`
+  - `flutter pub run flutter_native_splash:create --flavor cej --path=assets_generation/flutter_native_splash-cej.yaml`
+- [Étapes supplémentaires pour iOS]
+  - Ouvrez Finder à `ios/Base.lproj/`. Vous verrez deux fichiers : `LaunchScreenBrsa.storyboard` et `LaunchScreenCej.storyboard`.
+  - Ouvrez Xcode.
+  - Dans l'explorateur de fichiers d'Xcode, ouvrez le dossier `Runner/Runner/`.
+  - Glissez les fichiers générés depuis la fenêtre Finder dans l'explorateur de fichiers d'Xcode.
+  - [ATTENTION] Pour voir les modifications, il faut lancer l'app, la fermer, puis la relancer depuis la page d'accueil du téléphone.
+
 # Dépendances
 
 - Lancer la commande `$flutter pub outdated`.
