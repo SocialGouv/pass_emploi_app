@@ -87,19 +87,18 @@ jobs:
           flutter pub get
           flutter build appbundle \
           --flavor cejProd \
-          --release \
           --build-number=${{ needs.pre-build.outputs.date }}
 
       - uses: actions/upload-artifact@v3
         with:
-          path: build/app/outputs/bundle/prodRelease/app-cejprod-release.aab
+          path: build/app/outputs/bundle/release/app.aab
 
       - name: Deploy Android appbundle
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PROD_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: fr.fabrique.social.gouv.passemploi
-          releaseFiles: build/app/outputs/bundle/prodRelease/app-cejprod-release.aab
+          releaseFiles: build/app/outputs/bundle/release/app.aab
           track: internal
           status: completed
 
