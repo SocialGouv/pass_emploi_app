@@ -29,7 +29,6 @@ jobs:
         run: flutter --version
 
   pre-build:
-    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     needs: test
     name: pre-build
