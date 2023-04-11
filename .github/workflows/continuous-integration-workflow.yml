@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  version:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,5 +25,68 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      - name: Flutter version
+      - name: Version
         run: flutter --version
+
+  pre-build:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    needs: test
+    name: pre-build
+    steps:
+      - name: Get current timestamp
+        id: getCurrentTimestamp
+        run: echo "::set-output name=date::$(date +%s)"
+    outputs:
+      date: ${{ steps.getCurrentTimestamp.outputs.date }}
+
+  build-android-cej-staging:
+    runs-on: ubuntu-latest
+    needs: pre-build
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Write Google configuration for Android
+        shell: bash
+        run: |
+          echo "$STAGING_GOOGLE_SERVICE_B64" | base64 --decode > android/app/google-services.json
+        env:
+          STAGING_GOOGLE_SERVICE_B64: ${{ secrets.STAGING_GOOGLE_SERVICE_B64 }}
+
+      - name: Write key properties
+        shell: bash
+        run: |
+          echo "$STAGING_KEY_PROPERTIES_B64" | base64 --decode > android/key.properties
+        env:
+          STAGING_KEY_PROPERTIES_B64: ${{ secrets.STAGING_KEY_PROPERTIES_B64 }}
+
+      - name: Write key store
+        shell: bash
+        run: |
+          mkdir android/keystore
+          echo "$STAGING_KEYSTORE_B64" | base64 --decode > android/keystore/passemploi.jks
+        env:
+          STAGING_KEYSTORE_B64: ${{ secrets.STAGING_KEYSTORE_B64 }}
+
+      - name: Write env
+        shell: bash
+        run: |
+          echo "$STAGING_RUNTIME_ENV_B64" | base64 --decode > env/.env.staging
+        env:
+          STAGING_RUNTIME_ENV_B64: ${{ secrets.STAGING_RUNTIME_ENV_B64 }}
+
+      - name: Build Android AAB test
+        run: |
+          flutter pub get
+          flutter build appbundle \
+          --flavor cejStaging \
+          --build-number=${{ needs.pre-build.outputs.date }}
