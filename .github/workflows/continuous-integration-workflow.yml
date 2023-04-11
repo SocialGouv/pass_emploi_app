@@ -239,7 +239,7 @@ jobs:
   build-android-brsa-staging:
     if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
-    needs: build-android-cej-staging
+    needs: [pre-build, build-android-cej-staging]
     steps:
       - uses: actions/checkout@v3
 
@@ -308,7 +308,7 @@ jobs:
   build-ios-brsa-staging:
     if: github.ref == 'refs/heads/develop'
     runs-on: macos-11
-    needs: build-ios-cej-staging
+    needs: [pre-build, build-ios-cej-staging]
     steps:
       - uses: actions/checkout@v3
 
