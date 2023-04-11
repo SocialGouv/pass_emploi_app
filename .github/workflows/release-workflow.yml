@@ -87,6 +87,7 @@ jobs:
           flutter pub get
           flutter build appbundle \
           --flavor cejProd \
+          --release \
           --build-number=${{ needs.pre-build.outputs.date }}
 
       - uses: actions/upload-artifact@v3
@@ -160,7 +161,7 @@ jobs:
           export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
           export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
           export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
-          app-store-connect fetch-signing-files $(fr.fabrique.social.gouv.passemploi) \
+          app-store-connect fetch-signing-files fr.fabrique.social.gouv.passemploi \
             --platform IOS \
             --type IOS_APP_STORE \
             --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
@@ -210,6 +211,7 @@ jobs:
         run: |
           flutter build ipa \
           --flavor cejProd \
+          --release \
           --build-number=${{ needs.pre-build.outputs.date }} \
           --export-options-plist=ios/prod_export_options.plist \
           --no-pub \
