@@ -1,8 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_json_extractor.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_response.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class Accueil extends Equatable {
@@ -80,7 +83,14 @@ List<Rendezvous>? _evenements(dynamic json) {
 }
 
 List<SavedSearch>? _alertes(dynamic json) {
-  return null;
+  final alertes = json["mesAlertes"] as List?;
+  if (alertes == null) return null;
+
+  return alertes
+      .map((search) => SavedSearchResponse.fromJson(search))
+      .map((e) => SavedSearchJsonExtractor().extract(e))
+      .whereNotNull()
+      .toList();
 }
 
 List<Favori>? _favoris(dynamic json) {
