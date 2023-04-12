@@ -41,7 +41,7 @@ class EntreePage extends StatelessWidget {
                   SvgPicture.asset(Drawables.unJeuneUneSolutionIllustration, width: screenWidth * 0.25),
                   SizedBox(height: 32),
                   HiddenMenuGesture(
-                    child: SvgPicture.asset(Drawables.cejAppLogo, width: screenWidth * 0.6),
+                    child: SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6),
                   ),
                   SizedBox(height: 16),
                   Expanded(

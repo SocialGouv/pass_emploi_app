@@ -43,7 +43,7 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 32),
-                  SvgPicture.asset(Drawables.cejAppLogo, width: 200),
+                  SvgPicture.asset(Drawables.appLogo, width: 200),
                   SizedBox(height: 32),
                   Container(
                     width: double.infinity,
