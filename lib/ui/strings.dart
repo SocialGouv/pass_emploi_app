@@ -149,6 +149,7 @@ class Strings {
   static String singularActionLate(int count) => "$count action en retard";
   static String severalActionsLate(int count) => "$count actions en retard";
   static String accueilMesAlertesSection = "Mes alertes";
+  static String accueilVoirMesAbonnements = "Voir tous mes abonnements";
 
   // Mon Suivi
   static String monSuiviAppBarTitle = "Mon suivi";
