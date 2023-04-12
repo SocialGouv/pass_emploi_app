@@ -62,6 +62,7 @@ void main() {
             actionsDemarchesARealiser: "1 action à réaliser",
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
+          AccueilAlertesItem(getMockedSavedSearch()),
         ],
       );
     });
