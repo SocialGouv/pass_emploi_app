@@ -86,6 +86,7 @@ jobs:
         run: |
           flutter pub get
           flutter build appbundle \
+          -t lib/cej_main.dart \
           --flavor cejProd \
           --build-number=${{ needs.pre-build.outputs.date }}
 
@@ -209,6 +210,7 @@ jobs:
         shell: bash
         run: |
           flutter build ipa \
+          -t lib/brsa_main.dart \
           --flavor cejProd \
           --release \
           --build-number=${{ needs.pre-build.outputs.date }} \

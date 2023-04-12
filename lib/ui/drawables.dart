@@ -10,7 +10,7 @@ class Drawables {
 
   static String puzzle = _assets + "puzzle" + _svg;
 
-  static String appLogo = Brand.brand == Brand.CEJ ? _assets + "logo_app_cej" + _svg : _assets + "logo_app_brsa" + _svg;
+  static String appLogo = Brand.isCej() ? _assets + "logo_app_cej" + _svg : _assets + "logo_app_brsa" + _svg;
 
   static String jeuneEntree = _assets + "jeune_home" + _png;
   static String conversation = _assets + "conversation" + _svg;

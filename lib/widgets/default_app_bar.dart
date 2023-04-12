@@ -16,15 +16,15 @@ class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isCej = Brand.brand == Brand.CEJ;
+    final iconColor = Brand.isCej() ? Colors.black : AppColors.grey100;
     return AppBar(
       toolbarHeight: toolBarHeight,
-      leading: Navigator.canPop(context) ? BackButton(color: isCej ? Colors.black : AppColors.grey100) : null,
+      leading: Navigator.canPop(context) ? BackButton(color: iconColor) : null,
       scrolledUnderElevation: 0,
-      backgroundColor: isCej ? AppColors.grey100 : AppColors.primary,
+      backgroundColor: Brand.isCej() ? AppColors.grey100 : AppColors.primary,
       title: Text(
         title,
-        style: TextStyles.primaryAppBar.copyWith(color: isCej ? AppColors.primary : AppColors.grey100),
+        style: TextStyles.primaryAppBar.copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
         overflow: TextOverflow.fade,
       ),
       elevation: 0,
