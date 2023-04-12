@@ -770,6 +770,7 @@ Accueil mockAccueilMilo() {
       nombreActionsDemarchesARealiser: 1,
     ),
     prochainRendezVous: mockRendezvousMiloCV(),
+    alertes: getMockedSavedSearch(),
   );
 }
 
@@ -782,5 +783,6 @@ Accueil mockAccueilPoleEmploi() {
       nombreActionsDemarchesARealiser: 1,
     ),
     prochainRendezVous: mockRendezvousPoleEmploi(),
+    alertes: getMockedSavedSearch(),
   );
 }

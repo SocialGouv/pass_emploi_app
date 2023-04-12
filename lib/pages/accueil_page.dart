@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
@@ -23,6 +24,7 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/saved_search_card.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class AccueilPage extends StatelessWidget {
@@ -246,7 +248,37 @@ class _Alertes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Alertes");
+    return SavedSearchNavigator(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(Strings.accueilMesAlertesSection, style: TextStyles.secondaryAppBar),
+          SizedBox(height: Margins.spacing_s),
+          ...item.savedSearches.map((search) => _AlerteCard(search)),
+          SecondaryButton(label: Strings.accueilVoirMesAbonnements, onPressed: () => goToSavedSearches(context)),
+        ],
+      ),
+    );
+  }
+
+  void goToSavedSearches(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatchSavedSearchesDeeplink();
+  }
+}
+
+class _AlerteCard extends StatelessWidget {
+  final SavedSearch savedSearch;
+
+  _AlerteCard(this.savedSearch);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SavedSearchCard(savedSearch),
+        SizedBox(height: Margins.spacing_base),
+      ],
+    );
   }
 }
 

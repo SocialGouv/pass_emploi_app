@@ -135,6 +135,19 @@ void main() {
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.EVENT_LIST);
     });
 
+    test('…and deep link is set to saved searches should display main page with saved searches display state', () {
+      final state = AppState.initialState().copyWith(
+        loginState: successMiloUserState(),
+        deepLinkState: SavedSearchesDeepLinkState(),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.SAVED_SEARCHES);
+    });
+
     test('…and deep link is set to actualisation pole emploi should display main page with actualisation pole emploi',
         () {
       final state = AppState.initialState().copyWith(
