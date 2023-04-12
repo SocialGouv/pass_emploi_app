@@ -248,14 +248,16 @@ class _Alertes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(Strings.accueilMesAlertesSection, style: TextStyles.secondaryAppBar),
-        SizedBox(height: Margins.spacing_s),
-        ...item.savedSearches.map((search) => _AlerteCard(search)),
-        SecondaryButton(label: Strings.accueilVoirMesAbonnements, onPressed: () => goToSavedSearches(context)),
-      ],
+    return SavedSearchNavigator(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(Strings.accueilMesAlertesSection, style: TextStyles.secondaryAppBar),
+          SizedBox(height: Margins.spacing_s),
+          ...item.savedSearches.map((search) => _AlerteCard(search)),
+          SecondaryButton(label: Strings.accueilVoirMesAbonnements, onPressed: () => goToSavedSearches(context)),
+        ],
+      ),
     );
   }
 

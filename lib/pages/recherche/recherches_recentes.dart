@@ -29,17 +29,19 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          Strings.derniereRecherche,
-          style: TextStyles.textMRegular,
-        ),
-        SizedBox(height: Margins.spacing_base),
-        SavedSearchCard(savedSearch),
-        SizedBox(height: Margins.spacing_base),
-      ],
+    return SavedSearchNavigator(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            Strings.derniereRecherche,
+            style: TextStyles.textMRegular,
+          ),
+          SizedBox(height: Margins.spacing_base),
+          SavedSearchCard(savedSearch),
+          SizedBox(height: Margins.spacing_base),
+        ],
+      ),
     );
   }
 }

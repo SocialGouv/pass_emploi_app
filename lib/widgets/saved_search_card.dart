@@ -10,34 +10,34 @@ import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.d
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/saved_search_navigator_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 
-class SavedSearchCard extends StatefulWidget {
-  final SavedSearch savedSearch;
+class SavedSearchNavigator extends StatefulWidget {
+  final Widget child;
 
-  SavedSearchCard(this.savedSearch);
+  SavedSearchNavigator({required this.child});
 
   @override
-  State<SavedSearchCard> createState() => _SavedSearchCardState();
+  State<SavedSearchNavigator> createState() => _SavedSearchNavigatorState();
 }
 
-class _SavedSearchCardState extends State<SavedSearchCard> {
+class _SavedSearchNavigatorState extends State<SavedSearchNavigator> {
   bool _shouldNavigate = true;
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, SavedSearchCardViewModel>(
-      converter: (store) => SavedSearchCardViewModel.create(store),
-      builder: (context, viewModel) => _Body(widget.savedSearch, viewModel),
+    return StoreConnector<AppState, SavedSearchNavigatorViewModel>(
+      converter: (store) => SavedSearchNavigatorViewModel.create(store),
+      builder: (_, __) => widget.child,
       onWillChange: _onWillChange,
       distinct: true,
     );
   }
 
-  void _onWillChange(SavedSearchCardViewModel? _, SavedSearchCardViewModel? newViewModel) {
-    //TODO: appelé autant de fois que de card. il faudrait que le VM filtre a uniquement sa recherche ?
+  void _onWillChange(SavedSearchNavigatorViewModel? _, SavedSearchNavigatorViewModel? newViewModel) {
     if (!_shouldNavigate || newViewModel == null) return;
     switch (newViewModel.searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
@@ -63,11 +63,26 @@ class _SavedSearchCardState extends State<SavedSearchCard> {
   }
 }
 
+class SavedSearchCard extends StatelessWidget {
+  final SavedSearch savedSearch;
+
+  SavedSearchCard(this.savedSearch);
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, SavedSearchCardViewModel>(
+      converter: (store) => SavedSearchCardViewModel.create(store),
+      builder: (context_, viewModel) => _Body(savedSearch, viewModel),
+      distinct: true,
+    );
+  }
+}
+
 class _Body extends StatelessWidget {
   final SavedSearch savedSearch;
   final SavedSearchCardViewModel viewModel;
 
-  const _Body(this.savedSearch, this.viewModel);
+  _Body(this.savedSearch, this.viewModel);
 
   @override
   Widget build(BuildContext context) {
