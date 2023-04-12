@@ -640,7 +640,7 @@ class Strings {
   static String creationSavedSearchError = "Erreur lors de la création de la recherche sauvegardée. Veuillez réessayer";
   static String savedSearchGetError = "Erreur lors de la récupération des recherches sauvegardées.";
   static String noSavedSearchYet = "Aucune recherche sauvegardée.";
-  static String savedSearchTabName = "Mes recherches";
+  static String savedSearchTabName = "Mes alertes";
   static String favorisTabName = "Mes offres";
   static String savedSearchSeeResults = "Voir les résultats";
 
