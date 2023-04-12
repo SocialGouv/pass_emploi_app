@@ -45,6 +45,10 @@ void main() {
         NotInitializedDeepLinkState(),
       );
       assertState(
+        DeepLinkAction(RemoteMessage(data: {"type": "SAVED_SEARCHES"})),
+        SavedSearchesDeepLinkState(),
+      );
+      assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "AGENDA"})),
         AgendaDeepLinkState(),
       );

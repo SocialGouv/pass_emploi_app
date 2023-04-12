@@ -141,7 +141,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         _deepLinkHandled = true;
         return SolutionsTabPage();
       case MainTab.favoris:
-        return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
+        final initialTab = !_deepLinkHandled ? _initialFavorisTab() : 0;
+        _deepLinkHandled = true;
+        return FavorisTabsPage(initialTab);
       case MainTab.evenements:
         return EventListPage();
       default:
@@ -159,6 +161,16 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return MonSuiviTab.RENDEZVOUS;
       default:
         return null;
+    }
+  }
+
+  int _initialFavorisTab() {
+    switch (widget.displayState) {
+      case MainPageDisplayState.SAVED_SEARCH:
+      case MainPageDisplayState.SAVED_SEARCHES:
+        return 1;
+      default:
+        return 0;
     }
   }
 
@@ -182,6 +194,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         initialIndex = viewModel.tabs.indexOf(MainTab.solutions);
         break;
       case MainPageDisplayState.SAVED_SEARCH:
+      case MainPageDisplayState.SAVED_SEARCHES:
         initialIndex = viewModel.tabs.indexOf(MainTab.favoris);
         break;
       case MainPageDisplayState.EVENT_LIST:

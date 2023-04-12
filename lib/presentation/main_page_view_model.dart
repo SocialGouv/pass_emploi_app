@@ -17,6 +17,7 @@ enum MainPageDisplayState {
   CHAT,
   SEARCH,
   SAVED_SEARCH,
+  SAVED_SEARCHES,
   EVENT_LIST,
   ACTUALISATION_PE,
 }

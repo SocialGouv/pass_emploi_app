@@ -254,12 +254,14 @@ class _Alertes extends StatelessWidget {
         Text(Strings.accueilMesAlertesSection, style: TextStyles.secondaryAppBar),
         SizedBox(height: Margins.spacing_s),
         ...item.savedSearches.map((search) => _AlerteCard(search)),
-        SecondaryButton(label: Strings.accueilVoirMesAbonnements, onPressed: goToSavedSearches),
+        SecondaryButton(label: Strings.accueilVoirMesAbonnements, onPressed: () => goToSavedSearches(context)),
       ],
     );
   }
 
-  void goToSavedSearches() {}
+  void goToSavedSearches(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatchSavedSearchesDeeplink();
+  }
 }
 
 class _AlerteCard extends StatelessWidget {
