@@ -91,17 +91,15 @@ Une fois la montée de version de Flutter effectuée, mettre à jour :
 
 En se basant sur https://pub.dev/packages/flutter_launcher_icons
 
-- Remplacez les images dans `assets/icon/` par les nouvelles icônes d'app souhaitées.
+- Remplacez les images dans `assets_generation/icon/` par les nouvelles icônes d'app souhaitées.
 - Exécutez dans un terminal : `sh scripts/generate_icons.sh`
 
 # Modifier le splash screen de l'app
 
 En se basant sur https://pub.dev/packages/flutter_native_splash
 
-- Remplacez les images dans `assets/splash_screen/` par les nouvelles illustrations de splash screen souhaitées.
-- Exécutez à la racine du projet :
-  - `flutter pub run flutter_native_splash:create --flavor brsa --path=assets_generation/flutter_native_splash-brsa.yaml`
-  - `flutter pub run flutter_native_splash:create --flavor cej --path=assets_generation/flutter_native_splash-cej.yaml`
+- Remplacez les images dans `assets_generation/splash_screen/` par les nouvelles illustrations de splash screen souhaitées.
+- Exécutez dans un terminal : `sh scripts/generate_splash_screens.sh`
 - [Étapes supplémentaires pour iOS]
   - Ouvrez Finder à `ios/Base.lproj/`. Vous verrez deux fichiers : `LaunchScreenBrsa.storyboard` et `LaunchScreenCej.storyboard`.
   - Ouvrez Xcode.
