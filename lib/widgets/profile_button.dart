@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/profil/profil_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 
 class ProfileButton extends StatelessWidget {
-  const ProfileButton({super.key});
+  const ProfileButton({super.key, this.isDarkColor = false});
+
+  final bool isDarkColor;
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +28,10 @@ class ProfileButton extends StatelessWidget {
             decoration: BoxDecoration(
               boxShadow: [Shadows.radius_base],
               shape: BoxShape.circle,
-              color: Brand.brand == Brand.CEJ ? AppColors.primary : AppColors.grey100,
+              color: isDarkColor ? AppColors.primary : AppColors.grey100,
             ),
             child: Icon(Icons.person_outline_rounded,
-                size: 24, color: Brand.brand == Brand.CEJ ? AppColors.grey100 : AppColors.primary),
+                size: 24, color: isDarkColor ? AppColors.grey100 : AppColors.primary),
           ),
         ),
       ),
