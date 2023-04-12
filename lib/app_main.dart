@@ -4,10 +4,12 @@ import 'dart:isolate';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/app_initializer.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 
-void main() async {
+void appMain(Brand brand) async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    Brand.setBrand(brand);
     final app = await AppInitializer().initializeApp();
     runApp(app);
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));

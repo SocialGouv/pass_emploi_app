@@ -89,6 +89,7 @@ jobs:
         run: |
           flutter pub get
           flutter build apk \
+          -t lib/cej_main.dart \
           --flavor cejStaging \
           --release \
           --build-number=${{ needs.pre-build.outputs.date }}
@@ -217,6 +218,7 @@ jobs:
         shell: bash
         run: |
           flutter build ipa \
+          -t lib/cej_main.dart \
           --flavor cejStaging \
           --release \
           --build-number=${{ needs.pre-build.outputs.date }} \
@@ -285,6 +287,7 @@ jobs:
         run: |
           flutter pub get
           flutter build apk \
+          -t lib/brsa_main.dart \
           --flavor brsaStaging \
           --release \
           --build-number=${{ needs.pre-build.outputs.date }}
@@ -413,6 +416,7 @@ jobs:
         shell: bash
         run: |
           flutter build ipa \
+          -t lib/brsa_main.dart \
           --flavor brsaStaging \
           --release \
           --build-number=${{ needs.pre-build.outputs.date }} \

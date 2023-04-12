@@ -8,6 +8,7 @@
             "name": "Dbg BRSA stg",
             "request": "launch",
             "type": "dart",
+            "program": "lib/brsa_main.dart",
             "args": [
                 "--flavor",
                 "brsaStaging"
@@ -18,6 +19,7 @@
             "request": "launch",
             "flutterMode": "profile",
             "type": "dart",
+            "program": "lib/brsa_main.dart",
             "args": [
                 "--flavor",
                 "brsaStaging"
@@ -27,6 +29,7 @@
             "name": "Dbg CEJ stg",
             "request": "launch",
             "type": "dart",
+            "program": "lib/cej_main.dart",
             "args": [
                 "--flavor",
                 "cejStaging"
@@ -36,6 +39,7 @@
             "name": "Run CEJ stg",
             "request": "launch",
             "type": "dart",
+            "program": "lib/cej_main.dart",
             "flutterMode": "profile",
             "args": [
                 "--flavor",

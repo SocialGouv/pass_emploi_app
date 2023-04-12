@@ -5,7 +5,9 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 
 class ProfileButton extends StatelessWidget {
-  const ProfileButton({super.key});
+  const ProfileButton({super.key, this.isDarkColor = false});
+
+  final bool isDarkColor;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +28,10 @@ class ProfileButton extends StatelessWidget {
             decoration: BoxDecoration(
               boxShadow: [Shadows.radius_base],
               shape: BoxShape.circle,
-              color: AppColors.primary,
+              color: isDarkColor ? AppColors.primary : AppColors.grey100,
             ),
-            child: Icon(Icons.person_outline_rounded, size: 24, color: Colors.white),
+            child: Icon(Icons.person_outline_rounded,
+                size: 24, color: isDarkColor ? AppColors.grey100 : AppColors.primary),
           ),
         ),
       ),
