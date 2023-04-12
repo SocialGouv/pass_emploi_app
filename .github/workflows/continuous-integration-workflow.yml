@@ -91,3 +91,9 @@ jobs:
           --flavor cejStaging \
           --build-number=${{ needs.pre-build.outputs.date }} \
           -v
+
+      - name: Scan directory
+        if: always()
+        run: |
+          ls -R build/app/outputs/bundle
+
