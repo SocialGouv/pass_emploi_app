@@ -1,0 +1,7 @@
+flutter_native_splash:
+  image: "assets_generation/splash_screen/logo_cej.png"
+  background_image: "assets_generation/splash_screen/biseau_background.png"
+  android_12:
+    color: "#3B69D1"
+    image: "assets_generation/splash_screen/logo_cej.png"
+    icon_background_color: "#FFFFFF"
