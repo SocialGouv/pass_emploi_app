@@ -37,6 +37,7 @@ class _SavedSearchCardState extends State<SavedSearchCard> {
   }
 
   void _onWillChange(SavedSearchCardViewModel? _, SavedSearchCardViewModel? newViewModel) {
+    //TODO: appelé autant de fois que de card. il faudrait que le VM filtre a uniquement sa recherche ?
     if (!_shouldNavigate || newViewModel == null) return;
     switch (newViewModel.searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:

@@ -148,6 +148,7 @@ class Strings {
   static String severalDemarchesLate(int count) => "$count démarches en retard";
   static String singularActionLate(int count) => "$count action en retard";
   static String severalActionsLate(int count) => "$count actions en retard";
+  static String accueilMesAlertesSection = "Mes alertes";
 
   // Mon Suivi
   static String monSuiviAppBarTitle = "Mon suivi";
