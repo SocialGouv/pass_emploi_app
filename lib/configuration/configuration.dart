@@ -1,16 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:package_info/package_info.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/utils/log.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 enum Flavor { STAGING, PROD }
 
 class Configuration {
   final Version? version;
   final Flavor flavor;
+  final Brand brand;
   final String serverBaseUrl;
   final String matomoBaseUrl;
   final String matomoSiteId;
@@ -27,6 +29,7 @@ class Configuration {
   Configuration(
       this.version,
       this.flavor,
+      this.brand,
       this.serverBaseUrl,
       this.matomoBaseUrl,
       this.matomoSiteId,
@@ -47,6 +50,7 @@ class Configuration {
     final flavor = packageName.contains("staging") ? Flavor.STAGING : Flavor.PROD;
     Log.i("Flavor = $flavor");
     await loadEnvironmentVariables(flavor);
+    final brand = Brand.brand;
     final serverBaseUrl = getOrThrow('SERVER_BASE_URL');
     final matomoBaseUrl = getOrThrow('MATOMO_BASE_URL');
     final matomoSiteId = getOrThrow('MATOMO_SITE_ID');
@@ -62,6 +66,7 @@ class Configuration {
     return Configuration(
         currentVersion,
         flavor,
+        brand,
         serverBaseUrl,
         matomoBaseUrl,
         matomoSiteId,

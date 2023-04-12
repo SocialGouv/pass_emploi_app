@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_r
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
@@ -167,10 +168,12 @@ AuthTokenResponse authTokenResponse() => AuthTokenResponse(
       refreshToken: 'refreshToken',
     );
 
-Configuration configuration({Version version = const Version(1, 0, 0), Flavor flavor = Flavor.STAGING}) {
+Configuration configuration(
+    {Version version = const Version(1, 0, 0), Flavor flavor = Flavor.STAGING, Brand brand = Brand.CEJ}) {
   return Configuration(
     version,
     flavor,
+    brand,
     'serverBaseUrl',
     'matomoBaseUrl',
     'matomoSiteId',
