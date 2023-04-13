@@ -85,7 +85,6 @@ jobs:
 
       - name: Build Android AAB test
         run: |
-          mkdir -p build/app/outputs/bundle/release
           flutter pub get
           flutter build appbundle \
           -t lib/cej_main.dart \
