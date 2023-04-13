@@ -180,9 +180,9 @@ jobs:
         shell: bash
         run: |
           mkdir -p ios/firebase-config/cejProd
-          echo "$PROD_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/cejProd/GoogleService-Info.plist
+          echo "$CEJ_PROD_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/cejProd/GoogleService-Info.plist
         env:
-          PROD_GOOGLE_SERVICE_IOS_B64: ${{ secrets.PROD_GOOGLE_SERVICE_IOS_B64 }}
+          CEJ_PROD_GOOGLE_SERVICE_IOS_B64: ${{ secrets.CEJ_PROD_GOOGLE_SERVICE_IOS_B64 }}
 
       - name: Write env
         shell: bash
