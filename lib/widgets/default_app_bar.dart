@@ -30,7 +30,7 @@ class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
       elevation: 0,
       centerTitle: false,
       actions: [
-        if (withProfileButton) ...[ProfileButton(), SizedBox(width: Margins.spacing_base)]
+        if (withProfileButton) ...[ProfileButton(isDarkColor: Brand.isCej()), SizedBox(width: Margins.spacing_base)]
       ],
     );
   }
