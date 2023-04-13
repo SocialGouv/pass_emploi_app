@@ -188,9 +188,9 @@ jobs:
         shell: bash
         run: |
           mkdir -p ios/firebase-config/cejStaging
-          echo "$STAGING_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/cejStaging/GoogleService-Info.plist
+          echo "$CEJ_STAGING_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/cejStaging/GoogleService-Info.plist
         env:
-          STAGING_GOOGLE_SERVICE_IOS_B64: ${{ secrets.STAGING_GOOGLE_SERVICE_IOS_B64 }}
+          CEJ_STAGING_GOOGLE_SERVICE_IOS_B64: ${{ secrets.CEJ_STAGING_GOOGLE_SERVICE_IOS_B64 }}
 
       - name: Write env
         shell: bash
@@ -386,9 +386,9 @@ jobs:
         shell: bash
         run: |
           mkdir -p ios/firebase-config/brsaStaging
-          echo "$STAGING_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/brsaStaging/GoogleService-Info.plist
+          echo "$BRSA_STAGING_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/brsaStaging/GoogleService-Info.plist
         env:
-          STAGING_GOOGLE_SERVICE_IOS_B64: ${{ secrets.STAGING_GOOGLE_SERVICE_IOS_B64 }}
+          BRSA_STAGING_GOOGLE_SERVICE_IOS_B64: ${{ secrets.BRSA_STAGING_GOOGLE_SERVICE_IOS_B64 }}
 
       - name: Write env
         shell: bash
