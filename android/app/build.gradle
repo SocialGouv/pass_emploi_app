@@ -113,10 +113,10 @@ android {
             if (tasks.findByName(bundleTaskName)) {
                 def copyAABTask = tasks.create(name: "copyAndRenameAab${taskSuffix}", type: Copy) {
                     def bundleBuildDir = "${buildDir}/outputs/bundle"
-                    def productFlavorsCapitalized = variant.productFlavors.name.withIndex().collect { element, index ->
-                        index == 0 ? element : element.capitalize()
+                    def flavorsCapitalized = variant.productFlavors.name.withIndex().collect { flavor, index ->
+                        index == 0 ? flavor : flavor.capitalize()
                     }
-                    def originalDirPath = "${productFlavorsCapitalized.name.join()}${variant.buildType.name.capitalize()}"
+                    def originalDirPath = "${flavorsCapitalized.join()}${variant.buildType.name.capitalize()}"
                     def originalFileName = "${project.archivesBaseName}-${variant.productFlavors.name.join('-')}-${variant.buildType.name}.aab"
                     from "${bundleBuildDir}/${originalDirPath}/${originalFileName}"
                     into "${bundleBuildDir}/${variant.buildType.name}/"
