@@ -112,60 +112,21 @@ android {
             def bundleTaskName = "bundle${taskSuffix}"
             if (tasks.findByName(bundleTaskName)) {
                 def copyAABTask = tasks.create(name: "copyAndRenameAab${taskSuffix}", type: Copy) {
-                    def flavorName = variant.productFlavors.name
-                    project.logger.lifecycle("#GAD# flavorName: ${flavorName}")
-                    def brand = flavorName[0]
-                    def env = flavorName[1].capitalize()
-                    def buildType = variant.buildType.name.capitalize()
-                    project.logger.lifecycle("#GAD# brand: ${brand}")
-                    project.logger.lifecycle("#GAD# env: ${env}")
-                    project.logger.lifecycle("#GAD# buildType: ${buildType}")
-                    //project.logger.lifecycle("#GAD# Starting task copyAndRenameAab${taskSuffix}")
                     def bundleBuildDir = "${buildDir}/outputs/bundle"
-                    project.logger.lifecycle("#GAD# bundleBuildDir: ${bundleBuildDir}")
-                    def originalDirPath = "${brand}${env}${buildType}"
-                    project.logger.lifecycle("#GAD# originalDirPath: ${originalDirPath}")
+                    def productFlavorsCapitalized = variant.productFlavors.name.withIndex().collect { element, index ->
+                        index == 0 ? element : element.capitalize()
+                    }
+                    def originalDirPath = "${productFlavorsCapitalized.name.join()}${variant.buildType.name.capitalize()}"
                     def originalFileName = "${project.archivesBaseName}-${variant.productFlavors.name.join('-')}-${variant.buildType.name}.aab"
-                    project.logger.lifecycle("#GAD# originalFileName: ${originalFileName}")
                     from "${bundleBuildDir}/${originalDirPath}/${originalFileName}"
-                    //project.logger.lifecycle("#GAD# from: ${bundleBuildDir}/${originalDirPath}/${originalFileName}")
                     into "${bundleBuildDir}/${variant.buildType.name}/"
-                    //project.logger.lifecycle("#GAD# into: ${bundleBuildDir}/${variant.buildType.name}/")
                     rename("${originalFileName}", "app.aab")
-                    //project.logger.lifecycle("#GAD# rename: ${originalFileName} to app.aab")
                 }
-                //copyAABTask.outputs.upToDateWhen { false }
                 tasks[bundleTaskName].finalizedBy = [copyAABTask]
             }
         }
     }
-/*
-    task copyAndRenameAabCejStagingRelease(type: Copy) {
-        dependsOn 'bundleCejStagingRelease'
-        doLast {
-            project.logger.lifecycle("#GAD# Starting copyAndRenameAabCejStagingRelease")
-            def bundleBuildDir = "${buildDir}/outputs/bundle"
-            def originalDirPath = "${variant.productFlavors.name.join()}${variant.buildType.name}"
-            def originalFileName = "${project.archivesBaseName}-${variant.productFlavors.name.join('-')}-${variant.buildType.name}.aab"
-            from "${bundleBuildDir}/${originalDirPath}/${originalFileName}"
-            into "${bundleBuildDir}/${variant.buildType.name}/"
-            rename("${originalFileName}", "app.aab")
-        }
-    }
-*/
 
-    /*task copyAndRenameAabCejStagingRelease(type: Copy) {
-        dependsOn ':app:bundleCejStagingRelease'
-        outputs.file 'app.aab'
-        inputs.file 'build/app/outputs/bundle/cejStagingRelease/app-cej-staging-release.aab'
-        doLast {
-            copy {
-                from 'build/app/outputs/bundle/cejStagingRelease/app-cej-staging-release.aab'
-                into 'build/app/outputs/bundle/release'
-                rename 'app-cej-staging-release.aab', 'app.aab'
-            }
-        }
-    }*/
 }
 
 flutter {
