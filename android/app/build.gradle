@@ -116,7 +116,7 @@ android {
                     def bundleBuildDir = "${buildDir}/outputs/bundle"
                     project.logger.lifecycle("#GAD# bundleBuildDir: ${bundleBuildDir}")
                     def originalDirPath = "${variant.productFlavors.name.join()}${variant.buildType.name}"
-                    projet.logger.lifecycle("#GAD# originalDirPath: ${originalDirPath}")
+                    project.logger.lifecycle("#GAD# originalDirPath: ${originalDirPath}")
                     def originalFileName = "${project.archivesBaseName}-${variant.productFlavors.name.join('-')}-${variant.buildType.name}.aab"
                     project.logger.lifecycle("#GAD# originalFileName: ${originalFileName}")
                     //from "${bundleBuildDir}/${originalDirPath}/${originalFileName}"
@@ -126,7 +126,7 @@ android {
                     //rename("${originalFileName}", "app.aab")
                     //project.logger.lifecycle("#GAD# rename: ${originalFileName} to app.aab")
                 }
-                copyAABTask.outputs.upToDateWhen { false }
+                //copyAABTask.outputs.upToDateWhen { false }
                 tasks[bundleTaskName].finalizedBy = [copyAABTask]
             }
         }
@@ -146,7 +146,7 @@ android {
     }
 */
 
-    task copyAndRenameAabCejStagingRelease(type: Copy) {
+    /*task copyAndRenameAabCejStagingRelease(type: Copy) {
         dependsOn ':app:bundleCejStagingRelease'
         outputs.file 'app.aab'
         inputs.file 'build/app/outputs/bundle/cejStagingRelease/app-cej-staging-release.aab'
@@ -157,7 +157,7 @@ android {
                 rename 'app-cej-staging-release.aab', 'app.aab'
             }
         }
-    }
+    }*/
 }
 
 flutter {
