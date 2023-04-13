@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
@@ -87,9 +88,42 @@ void main() {
     expect((store.dispatchedAction as RequestLoginAction).mode, RequestLoginMode.SIMILO);
   });
 
-  test("view model when build is staging should show 3 buttons : mission locale, pole emploi and pass emploi", () {
+  test("view model when brand is BRSA and flavor is prod should only display pole emploi button", () {
     // Given
-    final state = AppState.initialState(configuration: configuration(flavor: Flavor.STAGING))
+    final state = AppState.initialState(configuration: configuration(flavor: Flavor.PROD, brand: Brand.BRSA))
+        .copyWith(loginState: UserNotLoggedInState());
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = LoginViewModel.create(store);
+
+    // Then
+    expect(viewModel.loginButtons, [
+      LoginButtonViewModel(label: "Pôle emploi", backgroundColor: AppColors.poleEmploi, action: () {}),
+    ]);
+  });
+
+  test("view model when brand is BRSA and flavor is staging should display pole emploi and pass emploi buttons", () {
+    // Given
+    final state = AppState.initialState(configuration: configuration(flavor: Flavor.STAGING, brand: Brand.BRSA))
+        .copyWith(loginState: UserNotLoggedInState());
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = LoginViewModel.create(store);
+
+    // Then
+    expect(viewModel.loginButtons, [
+      LoginButtonViewModel(label: "Pôle emploi", backgroundColor: AppColors.poleEmploi, action: () {}),
+      LoginButtonViewModel(label: "pass emploi", backgroundColor: AppColors.primary, action: () {}),
+    ]);
+  });
+
+  test(
+      "view model when flavor is staging and brand CEJ should show 3 buttons : mission locale, pole emploi and pass emploi",
+      () {
+    // Given
+    final state = AppState.initialState(configuration: configuration(flavor: Flavor.STAGING, brand: Brand.CEJ))
         .copyWith(loginState: UserNotLoggedInState());
     final store = Store<AppState>(reducer, initialState: state);
 
@@ -104,9 +138,9 @@ void main() {
     ]);
   });
 
-  test("view model when build is prod should show 2 buttons : mission locale and pole emploi", () {
+  test("view model when flavor is prod and brand CEJ should show 2 buttons : mission locale and pole emploi", () {
     // Given
-    final state = AppState.initialState(configuration: configuration(flavor: Flavor.PROD))
+    final state = AppState.initialState(configuration: configuration(flavor: Flavor.PROD, brand: Brand.CEJ))
         .copyWith(loginState: UserNotLoggedInState());
     final store = Store<AppState>(reducer, initialState: state);
 
