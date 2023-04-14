@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -20,7 +21,7 @@ class AgendaPageViewModel extends Equatable {
   final bool isPoleEmploi;
   final List<AgendaItem> events;
   final String emptyMessage;
-  final CreateButton createButton;
+  final CreateButton? createButton;
   final bool isReloading;
   final Function() resetCreateAction;
   final Function(DateTime) reload;
@@ -31,7 +32,7 @@ class AgendaPageViewModel extends Equatable {
     required this.isPoleEmploi,
     required this.events,
     required this.emptyMessage,
-    required this.createButton,
+    this.createButton,
     required this.isReloading,
     required this.resetCreateAction,
     required this.reload,
@@ -41,12 +42,13 @@ class AgendaPageViewModel extends Equatable {
   factory AgendaPageViewModel.create(Store<AppState> store) {
     final loginState = store.state.loginState;
     final isPoleEmploi = loginState is LoginSuccessState && loginState.user.loginMode.isPe();
+    final isBRSA = store.state.configurationState.configuration?.brand == Brand.BRSA;
     return AgendaPageViewModel(
       displayState: _displayState(store, isPoleEmploi),
       isPoleEmploi: isPoleEmploi,
       events: _events(store, isPoleEmploi),
       emptyMessage: isPoleEmploi ? Strings.agendaEmptyPoleEmploi : Strings.agendaEmptyMilo,
-      createButton: isPoleEmploi ? CreateButton.demarche : CreateButton.userAction,
+      createButton: _createButton(isBRSA, isPoleEmploi),
       isReloading: store.state.agendaState is AgendaReloadingState,
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
       reload: (date) => store.dispatch(AgendaRequestReloadAction(date)),
@@ -56,6 +58,13 @@ class AgendaPageViewModel extends Equatable {
 
   @override
   List<Object?> get props => [displayState, isPoleEmploi, events, emptyMessage, createButton, isReloading];
+}
+
+CreateButton? _createButton(bool isBRSA, bool isPoleEmploi) {
+  if (isBRSA) {
+    return null;
+  }
+  return isPoleEmploi ? CreateButton.demarche : CreateButton.userAction;
 }
 
 DisplayState _displayState(Store<AppState> store, bool isPoleEmploi) {
