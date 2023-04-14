@@ -94,7 +94,10 @@ List<SavedSearch>? _alertes(dynamic json) {
 }
 
 List<Favori>? _favoris(dynamic json) {
-  return null;
+  final favoris = json["mesFavoris"] as List?;
+  if (favoris == null) return null;
+
+  return favoris.map((favori) => Favori.fromJson(favori)).whereType<Favori>().toList();
 }
 
 class AccueilCetteSemaine extends Equatable {

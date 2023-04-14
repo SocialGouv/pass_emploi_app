@@ -700,6 +700,32 @@ Favori mockFavori([String id = 'id', SolutionType type = SolutionType.Immersion]
   return Favori(id: id, type: type, titre: 't', organisation: null, localisation: null);
 }
 
+List<Favori> mock3Favoris() {
+  return [
+    Favori(
+      id: "1",
+      titre: "titre-1",
+      type: SolutionType.OffreEmploi,
+      organisation: "organisation-1",
+      localisation: "localisation-1",
+    ),
+    Favori(
+      id: "2",
+      titre: "titre-2",
+      type: SolutionType.Alternance,
+      organisation: "organisation-2",
+      localisation: "localisation-2",
+    ),
+    Favori(
+      id: "3",
+      titre: "titre-3",
+      type: SolutionType.Immersion,
+      organisation: null,
+      localisation: "localisation-3",
+    ),
+  ];
+}
+
 List<SavedSearch> getMockedSavedSearch() {
   return [
     OffreEmploiSavedSearch(
@@ -774,6 +800,7 @@ Accueil mockAccueilMilo() {
     ),
     prochainRendezVous: mockRendezvousMiloCV(),
     alertes: getMockedSavedSearch(),
+    favoris: mock3Favoris(),
   );
 }
 
@@ -787,5 +814,6 @@ Accueil mockAccueilPoleEmploi() {
     ),
     prochainRendezVous: mockRendezvousPoleEmploi(),
     alertes: getMockedSavedSearch(),
+    favoris: mock3Favoris(),
   );
 }
