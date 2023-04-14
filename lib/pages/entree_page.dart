@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
+import 'package:pass_emploi_app/presentation/entree_page_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -25,73 +28,81 @@ class EntreePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     return Tracker(
       tracking: AnalyticsScreenNames.entree,
-      child: Scaffold(
-        body: Stack(
-          children: [
-            const EntreeBiseauBackground(),
-            if (Brand.isCej())
-              SafeArea(
-                bottom: false,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(height: 16),
-                    SvgPicture.asset(Drawables.unJeuneUneSolutionIllustration, width: screenWidth * 0.25),
-                    SizedBox(height: 32),
-                    HiddenMenuGesture(
-                      child: SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6),
-                    ),
-                    SizedBox(height: 16),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: screenHeight >= minimum_height_to_see_jeune_face
-                            ? Image.asset(Drawables.jeuneEntree, alignment: Alignment.bottomCenter)
-                            : Container(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+      child: StoreConnector<AppState, EntreePageViewModel>(
+        converter: (store) => EntreePageViewModel.create(store),
+        distinct: true,
+        builder: (context, viewModel) => _scaffold(context, viewModel),
+      ),
+    );
+  }
+
+  Widget _scaffold(BuildContext context, EntreePageViewModel viewModel) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: Stack(
+        children: [
+          const EntreeBiseauBackground(),
+          if (Brand.isCej())
             SafeArea(
               bottom: false,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(
-                    child: Brand.isBrsa() ? SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6) : Container(),
+                  SizedBox(height: 16),
+                  SvgPicture.asset(Drawables.unJeuneUneSolutionIllustration, width: screenWidth * 0.25),
+                  SizedBox(height: 32),
+                  HiddenMenuGesture(
+                    child: SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(Margins.spacing_m),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [Shadows.radius_base],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: Margins.spacing_base,
-                          right: Margins.spacing_base,
-                          top: Margins.spacing_base,
-                        ),
-                        child: _buttonCard(context),
-                      ),
+                  SizedBox(height: 16),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: screenHeight >= minimum_height_to_see_jeune_face
+                          ? Image.asset(Drawables.jeuneEntree, alignment: Alignment.bottomCenter)
+                          : Container(),
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Brand.isBrsa() ? SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6) : Container(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(Margins.spacing_m),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [Shadows.radius_base],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: Margins.spacing_base,
+                        right: Margins.spacing_base,
+                        top: Margins.spacing_base,
+                      ),
+                      child: _buttonCard(context, viewModel),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Column _buttonCard(BuildContext context) {
+  Column _buttonCard(BuildContext context, EntreePageViewModel viewModel) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -100,11 +111,13 @@ class EntreePage extends StatelessWidget {
           label: Strings.loginAction,
           onPressed: () => Navigator.push(context, LoginPage.materialPageRoute()),
         ),
-        SizedBox(height: Margins.spacing_base),
-        SecondaryButton(
-          label: Strings.askAccount,
-          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
-        ),
+        if (viewModel.withRequestAccountButton) ...[
+          SizedBox(height: Margins.spacing_base),
+          SecondaryButton(
+            label: Strings.askAccount,
+            onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
+          ),
+        ],
         SepLine(Margins.spacing_base, 0),
         Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
