@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_s
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
@@ -48,6 +49,7 @@ class UserActionDetailsViewModel extends Equatable {
   final UserActionStatus status;
   final String creator;
   final bool withDeleteOption;
+  final bool withUpdateOption;
   final UserActionDetailDateEcheanceViewModel? dateEcheanceViewModel;
   final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
   final Function(String actionId) onDelete;
@@ -63,6 +65,7 @@ class UserActionDetailsViewModel extends Equatable {
     required this.status,
     required this.creator,
     required this.withDeleteOption,
+    required this.withUpdateOption,
     required this.dateEcheanceViewModel,
     required this.onRefreshStatus,
     required this.onDelete,
@@ -77,6 +80,7 @@ class UserActionDetailsViewModel extends Equatable {
     final deleteState = store.state.userActionDeleteState;
     final commentsState = store.state.actionCommentaireListState;
     final hasComments = commentsState is ActionCommentaireListSuccessState ? commentsState.comments.isNotEmpty : false;
+    final isBRSA = store.state.configurationState.configuration?.brand == Brand.BRSA;
     return UserActionDetailsViewModel._(
       id: userAction != null ? userAction.id : '',
       title: userAction != null ? userAction.content : '',
@@ -84,7 +88,8 @@ class UserActionDetailsViewModel extends Equatable {
       withSubtitle: userAction != null ? userAction.comment.isNotEmpty : false,
       status: userAction != null ? userAction.status : UserActionStatus.DONE,
       creator: userAction != null ? _displayName(userAction.creator) : '',
-      withDeleteOption: _withDeleteOption(userAction, hasComments),
+      withDeleteOption: _withDeleteOption(isBRSA, userAction, hasComments),
+      withUpdateOption: isBRSA ? false : true,
       dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
@@ -103,14 +108,19 @@ class UserActionDetailsViewModel extends Equatable {
         status,
         creator,
         withDeleteOption,
+        withUpdateOption,
         dateEcheanceViewModel,
         updateDisplayState,
         deleteDisplayState,
       ];
 }
 
-bool _withDeleteOption(UserAction? userAction, bool hasComments) =>
-    userAction?.creator is JeuneActionCreator && !hasComments && userAction?.status != UserActionStatus.DONE;
+bool _withDeleteOption(bool isBRSA, UserAction? userAction, bool hasComments) {
+  if (isBRSA) {
+    return false;
+  }
+  return userAction?.creator is JeuneActionCreator && !hasComments && userAction?.status != UserActionStatus.DONE;
+}
 
 UserAction? _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
   switch (stateSource) {

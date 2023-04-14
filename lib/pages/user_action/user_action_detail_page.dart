@@ -111,22 +111,26 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                       SizedBox(height: Margins.spacing_base),
                       _CommentCard(actionId: viewModel.id, actionTitle: viewModel.title),
                       SizedBox(height: Margins.spacing_l),
-                      _Separator(),
-                      SizedBox(height: Margins.spacing_base),
-                      _changeStatus(),
+                      if (viewModel.withUpdateOption) ...[
+                        _Separator(),
+                        SizedBox(height: Margins.spacing_base),
+                        _changeStatus(),
+                      ]
                     ],
                   ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: PrimaryActionButton(
-                onPressed:
-                    (viewModel.status != newStatus) ? () => viewModel.onRefreshStatus(viewModel.id, newStatus!) : null,
-                label: Strings.refreshActionStatus,
+            if (viewModel.withUpdateOption)
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: PrimaryActionButton(
+                  onPressed: (viewModel.status != newStatus)
+                      ? () => viewModel.onRefreshStatus(viewModel.id, newStatus!)
+                      : null,
+                  label: Strings.refreshActionStatus,
+                ),
               ),
-            ),
             if (viewModel.withDeleteOption)
               _DeleteAction(
                 viewModel: viewModel,
