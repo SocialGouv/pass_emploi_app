@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
@@ -20,6 +21,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -289,7 +291,39 @@ class _Favoris extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Favoris");
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(Strings.accueilMesFavorisSection, style: TextStyles.secondaryAppBar),
+        SizedBox(height: Margins.spacing_s),
+        ...item.favoris.map((favori) => _FavorisCard(favori)),
+        SecondaryButton(label: Strings.accueilVoirMesFavoris, onPressed: () => goToFavoris(context)),
+      ],
+    );
+  }
+
+  void goToFavoris(BuildContext context) {}
+}
+
+class _FavorisCard extends StatelessWidget {
+  final Favori favori;
+
+  _FavorisCard(this.favori);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        FavoriCard(
+          title: favori.titre,
+          company: favori.organisation,
+          place: favori.localisation,
+          bottomTip: Strings.voirLeDetail,
+          solutionType: favori.type,
+        ),
+        SizedBox(height: Margins.spacing_base),
+      ],
+    );
   }
 }
 
