@@ -16,6 +16,7 @@ enum MainPageDisplayState {
   RENDEZVOUS_TAB,
   CHAT,
   SEARCH,
+  FAVORIS,
   SAVED_SEARCH,
   SAVED_SEARCHES,
   EVENT_LIST,

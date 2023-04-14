@@ -306,7 +306,9 @@ class _Favoris extends StatelessWidget {
     );
   }
 
-  void _goToFavoris(BuildContext context) {}
+  void _goToFavoris(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatchFavorisDeeplink();
+  }
 }
 
 class _FavorisCard extends StatelessWidget {
