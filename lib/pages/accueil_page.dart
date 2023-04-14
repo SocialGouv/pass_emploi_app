@@ -5,9 +5,13 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
+import 'package:pass_emploi_app/pages/immersion_details_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -297,12 +301,12 @@ class _Favoris extends StatelessWidget {
         Text(Strings.accueilMesFavorisSection, style: TextStyles.secondaryAppBar),
         SizedBox(height: Margins.spacing_s),
         ...item.favoris.map((favori) => _FavorisCard(favori)),
-        SecondaryButton(label: Strings.accueilVoirMesFavoris, onPressed: () => goToFavoris(context)),
+        SecondaryButton(label: Strings.accueilVoirMesFavoris, onPressed: () => _goToFavoris(context)),
       ],
     );
   }
 
-  void goToFavoris(BuildContext context) {}
+  void _goToFavoris(BuildContext context) {}
 }
 
 class _FavorisCard extends StatelessWidget {
@@ -320,10 +324,36 @@ class _FavorisCard extends StatelessWidget {
           place: favori.localisation,
           bottomTip: Strings.voirLeDetail,
           solutionType: favori.type,
+          onTap: () => _goToFavori(context, favori),
         ),
         SizedBox(height: Margins.spacing_base),
       ],
     );
+  }
+
+  MaterialPageRoute<void> _route(Favori favori) {
+    switch (favori.type) {
+      case SolutionType.OffreEmploi:
+        return OffreEmploiDetailsPage.materialPageRoute(
+          favori.id,
+          fromAlternance: false,
+          popPageWhenFavoriIsRemoved: true,
+        );
+      case SolutionType.Alternance:
+        return OffreEmploiDetailsPage.materialPageRoute(
+          favori.id,
+          fromAlternance: true,
+          popPageWhenFavoriIsRemoved: true,
+        );
+      case SolutionType.Immersion:
+        return ImmersionDetailsPage.materialPageRoute(favori.id, popPageWhenFavoriIsRemoved: true);
+      case SolutionType.ServiceCivique:
+        return ServiceCiviqueDetailPage.materialPageRoute(favori.id, true);
+    }
+  }
+
+  void _goToFavori(BuildContext context, Favori favori) {
+    Navigator.push(context, _route(favori));
   }
 }
 
