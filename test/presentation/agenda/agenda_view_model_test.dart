@@ -284,7 +284,18 @@ void main() {
   });
 
   group('create button', () {
-    test('when user is from Mission Locale should set create button for user action', () {
+    test('when brand is BRSA should not display create button', () {
+      // Given
+      final store = givenBrsaState().agenda().store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.createButton, null);
+    });
+
+    test('when brand is CEJ and user is from Mission Locale should set create button for user action', () {
       // Given
       final store = givenState().loggedInMiloUser().agenda().store();
 
@@ -295,7 +306,7 @@ void main() {
       expect(viewModel.createButton, CreateButton.userAction);
     });
 
-    test('when user is from Pole Emploi should set create button for user action', () {
+    test('when brand is CEJ and user is from Pole Emploi should set create button for user action', () {
       // Given
       final store = givenState().loggedInPoleEmploiUser().agenda().store();
 
