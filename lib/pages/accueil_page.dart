@@ -218,7 +218,7 @@ class _ProchainRendezVous extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilCetteSemaineSection, style: TextStyles.secondaryAppBar),
+        Text(Strings.accueilRendezvousSection, style: TextStyles.secondaryAppBar),
         SizedBox(height: Margins.spacing_s),
         item.rendezVousId.rendezvousCard(
           context: context,
