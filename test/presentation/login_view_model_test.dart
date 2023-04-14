@@ -153,4 +153,30 @@ void main() {
       LoginButtonViewModel(label: "Mission Locale", backgroundColor: AppColors.missionLocale, action: () {}),
     ]);
   });
+
+  test("view model when brand is BRSA should not show ask account button", () {
+    // Given
+    final state = AppState.initialState(configuration: configuration(flavor: Flavor.PROD, brand: Brand.BRSA))
+        .copyWith(loginState: UserNotLoggedInState());
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = LoginViewModel.create(store);
+
+    // Then
+    expect(viewModel.withAskAccountButton, false);
+  });
+
+  test("view model when brand is CEJ should show ask account button", () {
+    // Given
+    final state = AppState.initialState(configuration: configuration(flavor: Flavor.PROD, brand: Brand.CEJ))
+        .copyWith(loginState: UserNotLoggedInState());
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = LoginViewModel.create(store);
+
+    // Then
+    expect(viewModel.withAskAccountButton, true);
+  });
 }

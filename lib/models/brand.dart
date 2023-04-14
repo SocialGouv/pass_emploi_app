@@ -9,3 +9,8 @@ enum Brand {
   static bool isCej() => Brand.brand == Brand.CEJ;
   static bool isBrsa() => Brand.brand == Brand.BRSA;
 }
+
+extension BrandExt on Brand? {
+  bool get isBRSA => this == Brand.BRSA;
+  bool get isCEJ => this == Brand.CEJ;
+}
