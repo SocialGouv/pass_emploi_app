@@ -13,10 +13,12 @@ import 'package:redux/redux.dart';
 class LoginViewModel extends Equatable {
   final DisplayState displayState;
   final List<LoginButtonViewModel> loginButtons;
+  final bool withAskAccountButton;
 
   LoginViewModel({
     required this.displayState,
     required this.loginButtons,
+    required this.withAskAccountButton,
   });
 
   factory LoginViewModel.create(Store<AppState> store) {
@@ -26,6 +28,7 @@ class LoginViewModel extends Equatable {
     return LoginViewModel(
       displayState: _displayState(state),
       loginButtons: _loginButtons(store, flavor, brand),
+      withAskAccountButton: brand.isCEJ,
     );
   }
 
