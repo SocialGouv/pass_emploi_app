@@ -4,6 +4,8 @@ import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
@@ -14,11 +16,12 @@ void main() {
   late AuthWrapperStub authWrapperStub;
   late SharedPreferencesSpy prefs;
   late Authenticator authenticator;
+  late LogoutRepository logoutRepository;
 
   setUp(() {
     authWrapperStub = AuthWrapperStub();
     prefs = SharedPreferencesSpy();
-    final logoutRepository = DummyLogoutRepository();
+    logoutRepository = DummyLogoutRepository();
     logoutRepository.setCacheManager(DummyPassEmploiCacheManager());
     authenticator = Authenticator(authWrapperStub, logoutRepository, configuration(), prefs);
   });
@@ -55,10 +58,29 @@ void main() {
       expect(await prefs.read(key: "refreshToken"), authTokenResponse().refreshToken);
     });
 
-    test('token is saved and returned when login in POLE_EMPLOI mode is successful', () async {
+    test('token is saved and returned when login on brand CEJ with POLE_EMPLOI mode is successful', () async {
       // Given
+      authenticator = Authenticator(authWrapperStub, logoutRepository, configuration(brand: Brand.CEJ), prefs);
       authWrapperStub.withLoginArgsResolves(
         _authTokenRequest(additionalParameters: {"kc_idp_hint": "pe-jeune"}),
+        authTokenResponse(),
+      );
+
+      // When
+      final AuthenticatorResponse result = await authenticator.login(AuthenticationMode.POLE_EMPLOI);
+
+      // Then
+      expect(result, AuthenticatorResponse.SUCCESS);
+      expect(await prefs.read(key: "idToken"), authTokenResponse().idToken);
+      expect(await prefs.read(key: "accessToken"), authTokenResponse().accessToken);
+      expect(await prefs.read(key: "refreshToken"), authTokenResponse().refreshToken);
+    });
+
+    test('token is saved and returned when login on brand BRSA with POLE_EMPLOI mode is successful', () async {
+      // Given
+      authenticator = Authenticator(authWrapperStub, logoutRepository, configuration(brand: Brand.BRSA), prefs);
+      authWrapperStub.withLoginArgsResolves(
+        _authTokenRequest(additionalParameters: {"kc_idp_hint": "pe-brsa-jeune"}),
         authTokenResponse(),
       );
 

@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
 const String _idTokenKey = "idToken";
@@ -16,8 +17,9 @@ enum RefreshTokenStatus { SUCCESSFUL, GENERIC_ERROR, USER_NOT_LOGGED_IN, NETWORK
 
 enum AuthenticationMode { GENERIC, SIMILO, POLE_EMPLOI, DEMO }
 
-const Map<String, String> similoAdditionalParameters = {"kc_idp_hint": "similo-jeune"};
-const Map<String, String> poleEmploiAdditionalParameters = {"kc_idp_hint": "pe-jeune"};
+const Map<String, String> similoAdditionalParams = {"kc_idp_hint": "similo-jeune"};
+const Map<String, String> poleEmploiCejAdditionalParams = {"kc_idp_hint": "pe-jeune"};
+const Map<String, String> poleEmploiBrsaAdditionalParams = {"kc_idp_hint": "pe-brsa-jeune"};
 
 enum AuthenticatorResponse { SUCCESS, FAILURE, CANCELLED }
 
@@ -39,7 +41,7 @@ class Authenticator {
           _configuration.authIssuer,
           _configuration.authScopes,
           _configuration.authClientSecret,
-          _additionalParameters(mode),
+          _additionalParams(mode),
         ),
       );
       _saveToken(response);
@@ -112,13 +114,10 @@ class Authenticator {
     _preferences.delete(key: _refreshTokenKey);
   }
 
-  Map<String, String>? _additionalParameters(AuthenticationMode mode) {
-    if (mode == AuthenticationMode.SIMILO) {
-      return similoAdditionalParameters;
-    } else if (mode == AuthenticationMode.POLE_EMPLOI) {
-      return poleEmploiAdditionalParameters;
-    } else {
-      return null;
-    }
+  Map<String, String>? _additionalParams(AuthenticationMode mode) {
+    if (mode == AuthenticationMode.SIMILO) return similoAdditionalParams;
+    if (mode == AuthenticationMode.POLE_EMPLOI && _configuration.brand.isCej) return poleEmploiCejAdditionalParams;
+    if (mode == AuthenticationMode.POLE_EMPLOI && _configuration.brand.isBrsa) return poleEmploiBrsaAdditionalParams;
+    return null;
   }
 }
