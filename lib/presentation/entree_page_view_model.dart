@@ -11,7 +11,7 @@ class EntreePageViewModel extends Equatable {
   factory EntreePageViewModel.create(Store<AppState> store) {
     final brand = store.state.configurationState.getBrand();
     return EntreePageViewModel(
-      withRequestAccountButton: brand.isCEJ,
+      withRequestAccountButton: brand.isCej,
     );
   }
 

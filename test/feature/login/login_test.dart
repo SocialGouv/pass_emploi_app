@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
@@ -11,24 +12,29 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
+import '../../doubles/mocks.dart';
 import '../../doubles/spies.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 import '../favoris/offre_emploi_favoris_test.dart';
 
 void main() {
-  late TestStoreFactory factory;
+  late TestStoreFactory _factory;
+  late MockMatomoTracker _matomoTracker;
 
   setUp(() {
-    factory = TestStoreFactory();
-    factory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
+    _factory = TestStoreFactory();
+    _factory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
+    _matomoTracker = MockMatomoTracker();
+    when(() => _matomoTracker.setOptOut(optout: any(named: 'optout'))).thenAnswer((_) async => true);
+    _factory.matomoTracker = _matomoTracker;
   });
 
   group('On bootstrap…', () {
     test('user is properly logged in if she was previously logged in', () async {
       // Given
-      factory.authenticator = AuthenticatorLoggedInStub();
-      final store = factory.initializeReduxStore(initialState: AppState.initialState());
+      _factory.authenticator = AuthenticatorLoggedInStub();
+      final store = _factory.initializeReduxStore(initialState: AppState.initialState());
       final result = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
       store.dispatch(BootstrapAction());
 
@@ -51,8 +57,8 @@ void main() {
 
     test('user is not logged in if she was not previously logged in', () async {
       // Given
-      factory.authenticator = AuthenticatorNotLoggedInStub();
-      final store = factory.initializeReduxStore(initialState: AppState.initialState());
+      _factory.authenticator = AuthenticatorNotLoggedInStub();
+      final store = _factory.initializeReduxStore(initialState: AppState.initialState());
       final result = store.onChange.firstWhere((e) => e.loginState is UserNotLoggedInState);
       store.dispatch(BootstrapAction());
 
@@ -66,15 +72,15 @@ void main() {
     test('user is not logged in if she was previously logged in with a corrupted ID token & token should be deleted',
         () async {
       // Given
-      final preferences = SharedPreferencesSpy();
+          final preferences = SharedPreferencesSpy();
       preferences.write(key: 'idToken', value: 'CORRUPTED ID TOKEN');
-      factory.authenticator = Authenticator(
+      _factory.authenticator = Authenticator(
         DummyAuthWrapper(),
         DummyLogoutRepository(),
         configuration(),
         preferences,
       );
-      final store = factory.initializeReduxStore(initialState: AppState.initialState());
+      final store = _factory.initializeReduxStore(initialState: AppState.initialState());
       final result = store.onChange.firstWhere((e) => e.loginState is UserNotLoggedInState);
       store.dispatch(BootstrapAction());
 
@@ -90,9 +96,9 @@ void main() {
   group('On request login…', () {
     test('user is properly logged in when login successes in GENERIC authentication mode', () async {
       // Given
-      factory.authenticator =
+      _factory.authenticator =
           AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.GENERIC, authIdTokenLoginMode: "---");
-      final store = factory.initializeReduxStore(initialState: AppState.initialState());
+      final store = _factory.initializeReduxStore(initialState: AppState.initialState());
       final displayedLoading = store.onChange.any((e) => e.loginState is LoginLoadingState);
       final result = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
       store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
@@ -116,9 +122,9 @@ void main() {
 
     test('user is properly logged in when login successes in SIMILO authentication mode', () async {
       // Given
-      factory.authenticator =
+      _factory.authenticator =
           AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.SIMILO, authIdTokenLoginMode: "MILO");
-      final store = factory.initializeReduxStore(initialState: AppState.initialState());
+      final store = _factory.initializeReduxStore(initialState: AppState.initialState());
       final displayedLoading = store.onChange.any((e) => e.loginState is LoginLoadingState);
       final result = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
       store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO));
@@ -142,9 +148,9 @@ void main() {
 
     test('user is properly logged in when login successes in POLE_EMPLOI authentication mode', () async {
       // Given
-      factory.authenticator =
+      _factory.authenticator =
           AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.POLE_EMPLOI, authIdTokenLoginMode: "POLE_EMPLOI");
-      final store = factory.initializeReduxStore(initialState: AppState.initialState());
+      final store = _factory.initializeReduxStore(initialState: AppState.initialState());
       final displayedLoading = store.onChange.any((e) => e.loginState is LoginLoadingState);
       final result = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
       store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI));
@@ -168,8 +174,8 @@ void main() {
 
     test('user is not logged in when login fails', () async {
       // Given
-      factory.authenticator = AuthenticatorNotLoggedInStub();
-      final store = factory.initializeReduxStore(initialState: AppState.initialState());
+      _factory.authenticator = AuthenticatorNotLoggedInStub();
+      final store = _factory.initializeReduxStore(initialState: AppState.initialState());
       final displayedLoading = store.onChange.any((e) => e.loginState is LoginLoadingState);
       final result = store.onChange.firstWhere((e) => e.loginState is LoginFailureState);
       store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
@@ -186,8 +192,8 @@ void main() {
   test("On logout, user is logged out from authenticator and state is fully reset except for configuration", () async {
     // Given
     final authenticatorSpy = AuthenticatorSpy();
-    factory.authenticator = authenticatorSpy;
-    final store = factory.initializeReduxStore(
+    _factory.authenticator = authenticatorSpy;
+    final store = _factory.initializeReduxStore(
       initialState: AppState.initialState(configuration: configuration(flavor: Flavor.PROD)).copyWith(
         loginState: UserNotLoggedInState(),
         rendezvousListState: RendezvousListState.loadingFuture(),

@@ -11,6 +11,7 @@ enum Brand {
 }
 
 extension BrandExt on Brand? {
-  bool get isBRSA => this == Brand.BRSA;
-  bool get isCEJ => this == Brand.CEJ;
+  bool get isBrsa => this == Brand.BRSA;
+
+  bool get isCej => this == Brand.CEJ;
 }

@@ -28,7 +28,7 @@ class LoginViewModel extends Equatable {
     return LoginViewModel(
       displayState: _displayState(state),
       loginButtons: _loginButtons(store, flavor, brand),
-      withAskAccountButton: brand.isCEJ,
+      withAskAccountButton: brand.isCej,
     );
   }
 
