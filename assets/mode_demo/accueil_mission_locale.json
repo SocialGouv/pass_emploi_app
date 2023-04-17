@@ -89,7 +89,25 @@
     ],
     "mesFavoris": [
       {
-        "idOffre": "string"
+        "idOffre": "31440616600012-D1502",
+        "titre": "Management/gestion de rayon produits alimentaires",
+        "type": "OFFRE_IMMERSION",
+        "organisation": "Commerce de détail en magasin non spécialisé à prédominance alimentaire",
+        "localisation": "LYON-02"
+      },
+      {
+        "idOffre": "132WNLT",
+        "titre": "Employé / Employée de rayon libre-service (H/F)",
+        "type": "OFFRE_EMPLOI",
+        "organisation": "AUCHAN",
+        "localisation": "69 - DARDILLY"
+      },
+      {
+        "idOffre": "132XPKY",
+        "titre": "Vendeur / Vendeuse en électroménager   (H/F)",
+        "type": "OFFRE_ALTERNANCE",
+        "organisation": "DUCRETET",
+        "localisation": "69 - LYON 01"
       }
     ]
   }

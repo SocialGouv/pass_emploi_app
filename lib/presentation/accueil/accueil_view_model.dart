@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -81,7 +82,8 @@ AccueilItem? _alertesItem(AccueilSuccessState successState) {
 }
 
 AccueilItem? _favorisItem(AccueilSuccessState successState) {
-  return null;
+  final favoris = successState.accueil.favoris;
+  return favoris != null ? AccueilFavorisItem(favoris) : null;
 }
 
 AccueilItem? _outilsItem(AccueilSuccessState successState) {
@@ -162,6 +164,13 @@ class AccueilAlertesItem extends AccueilItem {
   List<Object?> get props => [savedSearches];
 }
 
-class AccueilFavorisItem extends AccueilItem {}
+class AccueilFavorisItem extends AccueilItem {
+  final List<Favori> favoris;
+
+  AccueilFavorisItem(this.favoris);
+
+  @override
+  List<Object?> get props => [favoris];
+}
 
 class AccueilOutilsItem extends AccueilItem {}

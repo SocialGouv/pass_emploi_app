@@ -3,10 +3,15 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
+import 'package:pass_emploi_app/pages/immersion_details_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -20,6 +25,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -218,7 +224,7 @@ class _ProchainRendezVous extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilCetteSemaineSection, style: TextStyles.secondaryAppBar),
+        Text(Strings.accueilRendezvousSection, style: TextStyles.secondaryAppBar),
         SizedBox(height: Margins.spacing_s),
         item.rendezVousId.rendezvousCard(
           context: context,
@@ -289,7 +295,67 @@ class _Favoris extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Favoris");
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(Strings.accueilMesFavorisSection, style: TextStyles.secondaryAppBar),
+        SizedBox(height: Margins.spacing_s),
+        ...item.favoris.map((favori) => _FavorisCard(favori)),
+        SecondaryButton(label: Strings.accueilVoirMesFavoris, onPressed: () => _goToFavoris(context)),
+      ],
+    );
+  }
+
+  void _goToFavoris(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatchFavorisDeeplink();
+  }
+}
+
+class _FavorisCard extends StatelessWidget {
+  final Favori favori;
+
+  _FavorisCard(this.favori);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        FavoriCard(
+          title: favori.titre,
+          company: favori.organisation,
+          place: favori.localisation,
+          bottomTip: Strings.voirLeDetail,
+          solutionType: favori.type,
+          onTap: () => _goToFavori(context, favori),
+        ),
+        SizedBox(height: Margins.spacing_base),
+      ],
+    );
+  }
+
+  MaterialPageRoute<void> _route(Favori favori) {
+    switch (favori.type) {
+      case SolutionType.OffreEmploi:
+        return OffreEmploiDetailsPage.materialPageRoute(
+          favori.id,
+          fromAlternance: false,
+          popPageWhenFavoriIsRemoved: true,
+        );
+      case SolutionType.Alternance:
+        return OffreEmploiDetailsPage.materialPageRoute(
+          favori.id,
+          fromAlternance: true,
+          popPageWhenFavoriIsRemoved: true,
+        );
+      case SolutionType.Immersion:
+        return ImmersionDetailsPage.materialPageRoute(favori.id, popPageWhenFavoriIsRemoved: true);
+      case SolutionType.ServiceCivique:
+        return ServiceCiviqueDetailPage.materialPageRoute(favori.id, true);
+    }
+  }
+
+  void _goToFavori(BuildContext context, Favori favori) {
+    Navigator.push(context, _route(favori));
   }
 }
 

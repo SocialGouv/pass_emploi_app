@@ -193,6 +193,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case MainPageDisplayState.SEARCH:
         initialIndex = viewModel.tabs.indexOf(MainTab.solutions);
         break;
+      case MainPageDisplayState.FAVORIS:
       case MainPageDisplayState.SAVED_SEARCH:
       case MainPageDisplayState.SAVED_SEARCHES:
         initialIndex = viewModel.tabs.indexOf(MainTab.favoris);

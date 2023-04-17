@@ -148,8 +148,11 @@ class Strings {
   static String severalDemarchesLate(int count) => "$count démarches en retard";
   static String singularActionLate(int count) => "$count action en retard";
   static String severalActionsLate(int count) => "$count actions en retard";
+  static String accueilRendezvousSection = "Votre prochain rendez-vous";
   static String accueilMesAlertesSection = "Mes alertes";
   static String accueilVoirMesAbonnements = "Voir tous mes abonnements";
+  static String accueilMesFavorisSection = "Mes favoris";
+  static String accueilVoirMesFavoris = "Voir tous mes favoris";
 
   // Mon Suivi
   static String monSuiviAppBarTitle = "Mon suivi";

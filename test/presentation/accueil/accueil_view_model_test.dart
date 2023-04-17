@@ -63,6 +63,7 @@ void main() {
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
           AccueilAlertesItem(getMockedSavedSearch()),
+          AccueilFavorisItem(mock3Favoris()),
         ],
       );
     });
