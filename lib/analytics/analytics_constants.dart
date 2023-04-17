@@ -195,6 +195,7 @@ class AnalyticsEventNames {
 class AnalyticsCustomDimensions {
   static const userTypeId = '1';
   static const structureId = '2';
+  static const brandId = '7';
 
   static const appUserType = "jeune";
 }
