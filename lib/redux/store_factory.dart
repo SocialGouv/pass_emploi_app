@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/accueil/accueil_middleware.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_middleware.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
@@ -10,6 +11,7 @@ import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.d
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
+import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_middleware.dart';
@@ -54,7 +56,7 @@ import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_m
 import 'package:pass_emploi_app/features/tech/action_logging_middleware.dart';
 import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_middleware.dart';
-import 'package:pass_emploi_app/features/tracking/user_tracking_structure_middleware.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_setup_middleware.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_middleware.dart';
@@ -62,20 +64,20 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_middleware.dart';
-import 'package:pass_emploi_app/features/accueil/accueil_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
+import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -114,8 +116,6 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -261,7 +261,7 @@ class StoreFactory {
         SearchLocationMiddleware(searchLocationRepository),
         SearchMetierMiddleware(metierRepository),
         TrackingEventMiddleware(trackingEventRepository),
-        UserTrackingStructureMiddleware(),
+        TrackingSetupMiddleware(matomoTracker),
         ImmersionDetailsMiddleware(immersionDetailsRepository),
         OffreEmploiSavedSearchCreateMiddleware(offreEmploiSavedSearchRepository),
         ImmersionSavedSearchCreateMiddleware(immersionSavedSearchRepository),

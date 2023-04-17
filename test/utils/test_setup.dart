@@ -5,12 +5,14 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
+import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
+import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -49,13 +51,10 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
 import '../doubles/dummies.dart';
-import '../doubles/dummy_matomo_tracker.dart';
 import '../doubles/fixtures.dart';
 import '../doubles/mocks.dart';
 
@@ -92,7 +91,7 @@ class TestStoreFactory {
   SuppressionCompteRepository suppressionCompteRepository = DummySuppressionCompteRepository();
   CampagneRepository campagneRepository = DummyCampagneRepository();
   ModeDemoRepository demoRepository = ModeDemoRepository();
-  PassEmploiMatomoTracker matomoTracker = DummyMatomoTracker();
+  PassEmploiMatomoTracker matomoTracker = MockMatomoTracker();
   UpdateDemarcheRepository updateDemarcheRepository = DummyUpdateDemarcheRepository();
   CreateDemarcheRepository createDemarcheRepository = DummySuccessCreateDemarcheRepository();
   SearchDemarcheRepository searchDemarcheRepository = DummyDemarcheDuReferentielRepository();
