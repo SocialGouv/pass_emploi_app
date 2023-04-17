@@ -64,27 +64,28 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(Margins.spacing_m, 0, Margins.spacing_m, Margins.spacing_m),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Center(
-                          child: Text(
-                            Strings.dontHaveAccount,
-                            style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
+                  if (viewModel.withAskAccountButton)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(Margins.spacing_m, 0, Margins.spacing_m, Margins.spacing_m),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Center(
+                            child: Text(
+                              Strings.dontHaveAccount,
+                              style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 16),
-                        SecondaryButton(
-                          label: Strings.askAccount,
-                          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
-                          backgroundColor: Colors.white,
-                        ),
-                      ],
-                    ),
-                  )
+                          SizedBox(height: 16),
+                          SecondaryButton(
+                            label: Strings.askAccount,
+                            onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
+                            backgroundColor: Colors.white,
+                          ),
+                        ],
+                      ),
+                    )
                 ],
               ),
             ),
