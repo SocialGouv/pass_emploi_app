@@ -33,6 +33,8 @@ class DeepLinkState extends Equatable {
         return FavorisDeepLinkState();
       case "SAVED_SEARCHES":
         return SavedSearchesDeepLinkState();
+      case "RECHERCHE":
+        return RechercheDeepLinkState();
       default:
         return NotInitializedDeepLinkState();
     }
@@ -94,3 +96,5 @@ class AgendaDeepLinkState extends DeepLinkState {}
 class FavorisDeepLinkState extends DeepLinkState {}
 
 class SavedSearchesDeepLinkState extends DeepLinkState {}
+
+class RechercheDeepLinkState extends DeepLinkState {}

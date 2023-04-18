@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -254,21 +255,79 @@ class _Alertes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasContent = item.savedSearches.isNotEmpty;
     return SavedSearchNavigator(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(Strings.accueilMesAlertesSection, style: TextStyles.secondaryAppBar),
           SizedBox(height: Margins.spacing_s),
-          ...item.savedSearches.map((search) => _AlerteCard(search)),
-          SecondaryButton(label: Strings.accueilVoirMesAbonnements, onPressed: () => goToSavedSearches(context)),
+          if (hasContent) _AvecAlertes(item),
+          if (!hasContent) _SansAlerte(),
         ],
       ),
+    );
+  }
+}
+
+class _AvecAlertes extends StatelessWidget {
+  final AccueilAlertesItem item;
+
+  _AvecAlertes(this.item);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ...item.savedSearches.map((search) => _AlerteCard(search)),
+        SecondaryButton(label: Strings.accueilVoirMesAbonnements, onPressed: () => goToSavedSearches(context)),
+      ],
     );
   }
 
   void goToSavedSearches(BuildContext context) {
     StoreProvider.of<AppState>(context).dispatchSavedSearchesDeeplink();
+  }
+}
+
+class _SansAlerte extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(color: AppColors.additional1),
+      child: Padding(
+        padding: const EdgeInsets.all(Margins.spacing_m),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(
+              child: Icon(
+                AppIcons.notifications_rounded,
+                color: AppColors.accent1,
+                size: 40,
+              ),
+            ),
+            SizedBox(height: Margins.spacing_base),
+            Center(
+              child: Text(
+                Strings.accueilPasDeFavorisDescription,
+                style: TextStyles.textBaseMedium,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(height: Margins.spacing_base),
+            PrimaryActionButton(
+              label: Strings.accueilPasDeFavorisBouton,
+              onPressed: () => goToRecherche(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void goToRecherche(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatchRechercheDeeplink();
   }
 }
 

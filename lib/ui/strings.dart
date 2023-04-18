@@ -153,6 +153,9 @@ class Strings {
   static String accueilVoirMesAbonnements = "Voir tous mes abonnements";
   static String accueilMesFavorisSection = "Mes favoris";
   static String accueilVoirMesFavoris = "Voir tous mes favoris";
+  static String accueilPasDeFavorisDescription =
+      "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
+  static String accueilPasDeFavorisBouton = "Rechercher une offre";
 
   // Mon Suivi
   static String monSuiviAppBarTitle = "Mon suivi";
