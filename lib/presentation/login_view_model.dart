@@ -43,7 +43,7 @@ List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor, B
       backgroundColor: AppColors.poleEmploi,
       action: () => store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI)),
     ),
-    if (brand == Brand.CEJ)
+    if (brand == Brand.cej)
       LoginButtonViewModel(
         label: Strings.loginMissionLocale,
         backgroundColor: AppColors.missionLocale,

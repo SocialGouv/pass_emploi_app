@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:package_info/package_info.dart';
@@ -9,7 +10,7 @@ import 'package:pass_emploi_app/utils/log.dart';
 
 enum Flavor { STAGING, PROD }
 
-class Configuration {
+class Configuration extends Equatable {
   final Version? version;
   final Flavor flavor;
   final Brand brand;
@@ -25,25 +26,33 @@ class Configuration {
   final String iSRGX1CertificateForOldDevices;
   final String actualisationPoleEmploiUrl;
   final String fuseauHoraire;
+  final bool allowBrsaToUpdateDemarche;
+  final bool allowBrsaToCreateDemarche;
 
   Configuration(
-      this.version,
-      this.flavor,
-      this.brand,
-      this.serverBaseUrl,
-      this.matomoBaseUrl,
-      this.matomoSiteId,
-      this.authClientId,
-      this.authLoginRedirectUrl,
-      this.authLogoutRedirectUrl,
-      this.authIssuer,
-      this.authScopes,
-      this.authClientSecret,
-      this.iSRGX1CertificateForOldDevices,
-      this.actualisationPoleEmploiUrl,
-      this.fuseauHoraire);
+    this.version,
+    this.flavor,
+    this.brand,
+    this.serverBaseUrl,
+    this.matomoBaseUrl,
+    this.matomoSiteId,
+    this.authClientId,
+    this.authLoginRedirectUrl,
+    this.authLogoutRedirectUrl,
+    this.authIssuer,
+    this.authScopes,
+    this.authClientSecret,
+    this.iSRGX1CertificateForOldDevices,
+    this.actualisationPoleEmploiUrl,
+    this.fuseauHoraire,
+    this.allowBrsaToUpdateDemarche,
+    this.allowBrsaToCreateDemarche,
+  );
 
-  static Future<Configuration> build() async {
+  static Future<Configuration> build({
+    required bool allowBrsaToUpdateDemarche,
+    required bool allowBrsaToCreateDemarche,
+  }) async {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final currentVersion = Version.fromString(packageInfo.version);
     final packageName = packageInfo.packageName;
@@ -78,7 +87,9 @@ class Configuration {
         authClientSecret,
         iSRGX1CertificateForOldDevices,
         actualisationPoleEmploiUrl,
-        fuseauHoraire);
+        fuseauHoraire,
+        allowBrsaToUpdateDemarche,
+        allowBrsaToCreateDemarche);
   }
 
   static Future<void> loadEnvironmentVariables(Flavor flavor) async {
@@ -99,5 +110,66 @@ class Configuration {
       throw (key + " must be set in .env file");
     }
     return value.split(' ');
+  }
+
+  @override
+  List<Object?> get props => [
+        version,
+        flavor,
+        brand,
+        serverBaseUrl,
+        matomoBaseUrl,
+        matomoSiteId,
+        authClientId,
+        authLoginRedirectUrl,
+        authLogoutRedirectUrl,
+        authIssuer,
+        authScopes,
+        authClientSecret,
+        iSRGX1CertificateForOldDevices,
+        actualisationPoleEmploiUrl,
+        fuseauHoraire,
+        allowBrsaToUpdateDemarche,
+        allowBrsaToCreateDemarche,
+      ];
+
+  Configuration copyWith({
+    Version? version,
+    Flavor? flavor,
+    Brand? brand,
+    String? serverBaseUrl,
+    String? matomoBaseUrl,
+    String? matomoSiteId,
+    String? authClientId,
+    String? authLoginRedirectUrl,
+    String? authLogoutRedirectUrl,
+    String? authIssuer,
+    List<String>? authScopes,
+    String? authClientSecret,
+    String? iSRGX1CertificateForOldDevices,
+    String? actualisationPoleEmploiUrl,
+    String? fuseauHoraire,
+    bool? allowBrsaToUpdateDemarche,
+    bool? allowBrsaToCreateDemarche,
+  }) {
+    return Configuration(
+      version ?? this.version,
+      flavor ?? this.flavor,
+      brand ?? this.brand,
+      serverBaseUrl ?? this.serverBaseUrl,
+      matomoBaseUrl ?? this.matomoBaseUrl,
+      matomoSiteId ?? this.matomoSiteId,
+      authClientId ?? this.authClientId,
+      authLoginRedirectUrl ?? this.authLoginRedirectUrl,
+      authLogoutRedirectUrl ?? this.authLogoutRedirectUrl,
+      authIssuer ?? this.authIssuer,
+      authScopes ?? this.authScopes,
+      authClientSecret ?? this.authClientSecret,
+      iSRGX1CertificateForOldDevices ?? this.iSRGX1CertificateForOldDevices,
+      actualisationPoleEmploiUrl ?? this.actualisationPoleEmploiUrl,
+      fuseauHoraire ?? this.fuseauHoraire,
+      allowBrsaToUpdateDemarche ?? this.allowBrsaToUpdateDemarche,
+      allowBrsaToCreateDemarche ?? this.allowBrsaToCreateDemarche,
+    );
   }
 }

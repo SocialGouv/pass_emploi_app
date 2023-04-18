@@ -85,7 +85,7 @@ void main() {
 
   test("view model when brand is BRSA and flavor is prod should only display pole emploi button", () {
     // Given
-    final store = givenState(configuration(flavor: Flavor.PROD, brand: Brand.BRSA))
+    final store = givenState(configuration(flavor: Flavor.PROD, brand: Brand.brsa))
         .copyWith(loginState: UserNotLoggedInState())
         .store();
 
@@ -100,7 +100,7 @@ void main() {
 
   test("view model when brand is BRSA and flavor is staging should display pole emploi and pass emploi buttons", () {
     // Given
-    final store = givenState(configuration(flavor: Flavor.STAGING, brand: Brand.BRSA))
+    final store = givenState(configuration(flavor: Flavor.STAGING, brand: Brand.brsa))
         .copyWith(loginState: UserNotLoggedInState())
         .store();
 
@@ -118,7 +118,7 @@ void main() {
       "view model when flavor is staging and brand CEJ should show 3 buttons : mission locale, pole emploi and pass emploi",
       () {
     // Given
-    final store = givenState(configuration(flavor: Flavor.STAGING, brand: Brand.CEJ))
+    final store = givenState(configuration(flavor: Flavor.STAGING, brand: Brand.cej))
         .copyWith(loginState: UserNotLoggedInState())
         .store();
 
@@ -135,7 +135,7 @@ void main() {
 
   test("view model when flavor is prod and brand CEJ should show 2 buttons : mission locale and pole emploi", () {
     // Given
-    final store = givenState(configuration(flavor: Flavor.PROD, brand: Brand.CEJ))
+    final store = givenState(configuration(flavor: Flavor.PROD, brand: Brand.cej))
         .copyWith(loginState: UserNotLoggedInState())
         .store();
 

@@ -14,6 +14,6 @@ class ConfigurationState {
   }
 
   Brand getBrand() {
-    return configuration?.brand ?? Brand.CEJ;
+    return configuration?.brand ?? Brand.cej;
   }
 }
