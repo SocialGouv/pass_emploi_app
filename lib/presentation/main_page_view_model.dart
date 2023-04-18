@@ -15,12 +15,12 @@ enum MainPageDisplayState {
   ACTIONS_TAB,
   RENDEZVOUS_TAB,
   CHAT,
-  SEARCH,
   FAVORIS,
   SAVED_SEARCH,
   SAVED_SEARCHES,
   EVENT_LIST,
   ACTUALISATION_PE,
+  RECHERCHE,
 }
 
 class MainPageViewModel extends Equatable {

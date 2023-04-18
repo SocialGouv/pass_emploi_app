@@ -174,6 +174,18 @@ void main() {
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.ACTUALISATION_PE);
     });
 
+    test('…and deep link is set to recherche should display main page with recherche', () {
+      final state = AppState.initialState().copyWith(
+        loginState: successMiloUserState(),
+        deepLinkState: RechercheDeepLinkState(),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.RECHERCHE);
+    });
+
     test('should show tutorial if user didn`t read it yet', () {
       final state = AppState.initialState().copyWith(
         loginState: successMiloUserState(),
