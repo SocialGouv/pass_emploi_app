@@ -92,7 +92,7 @@ jobs:
         run: |
           flutter pub get
 
-      - name: [ CEJ ] Build Android apk
+      - name: CEJ - Build Android apk
         run: |
           flutter build apk \
           -t lib/cej_main.dart \
@@ -100,7 +100,7 @@ jobs:
           --release \
           --build-number=${{ needs.pre-build.outputs.date }}
 
-      - name: [ CEJ ] Deploy Android apk to Firebase App Distribution
+      - name: CEJ - Deploy Android apk to Firebase App Distribution
         run: |
           curl -sL https://firebase.tools | bash
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-cejstaging-release.apk \
@@ -112,7 +112,7 @@ jobs:
           CEJ_STAGING_ANDROID_APP_ID: ${{ secrets.CEJ_STAGING_ANDROID_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
 
-      - name: [ BRSA ] Build Android apk
+      - name: BRSA - Build Android apk
         run: |
           flutter build apk \
           -t lib/brsa_main.dart \
@@ -120,7 +120,7 @@ jobs:
           --release \
           --build-number=${{ needs.pre-build.outputs.date }}
 
-      - name: [ BRSA ] Deploy Android apk to Firebase App Distribution
+      - name: BRSA - Deploy Android apk to Firebase App Distribution
         run: |
           curl -sL https://firebase.tools | bash
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-brsastaging-release.apk \
@@ -209,12 +209,12 @@ jobs:
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
           APPLE_PROD_API_KEY_B64: ${{ secrets.APPLE_PROD_API_KEY_B64 }}
 
-      - name: [ CEJ ] Set up a temporary keychain for code signing
+      - name: CEJ - Set up a temporary keychain for code signing
         shell: bash
         run: |
           keychain initialize
 
-      - name: [ CEJ ] Fetch the code signing files from App Store Connect
+      - name: CEJ - Fetch the code signing files from App Store Connect
         shell: bash
         run: |
           export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
@@ -230,17 +230,17 @@ jobs:
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
           APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
 
-      - name: [ CEJ ] Add fetched certificates to keychain
+      - name: CEJ - Add fetched certificates to keychain
         shell: bash
         run: |
           keychain add-certificates
 
-      - name: [ CEJ ] Update Xcode project settings with fetched code signing profiles and create staging_export_options.plist
+      - name: CEJ - Update Xcode project settings with fetched code signing profiles and create staging_export_options.plist
         shell: bash
         run: |
           xcode-project use-profiles --export-options-plist ios/staging_export_options.plist
 
-      - name: [ CEJ ] Build IPA with generated staging_export_options.plist
+      - name: CEJ - Build IPA with generated staging_export_options.plist
         shell: bash
         run: |
           flutter build ipa \
@@ -252,7 +252,7 @@ jobs:
           --no-pub \
           --verbose
 
-      - name: [ CEJ ] Deploy IPA to Firebase App Distribution
+      - name: CEJ - Deploy IPA to Firebase App Distribution
         run: |
           curl -sL https://firebase.tools | bash
           firebase appdistribution:distribute $(find $(pwd) -name "*.ipa") \
@@ -264,12 +264,12 @@ jobs:
           CEJ_STAGING_IOS_APP_ID: ${{ secrets.CEJ_STAGING_IOS_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
 
-      - name: [ BRSA ] Set up a temporary keychain for code signing
+      - name: BRSA - Set up a temporary keychain for code signing
         shell: bash
         run: |
           keychain initialize
 
-      - name: [ BRSA ] Fetch the code signing files from App Store Connect
+      - name: BRSA - Fetch the code signing files from App Store Connect
         shell: bash
         run: |
           export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
@@ -285,18 +285,18 @@ jobs:
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
           APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
 
-      - name: [ BRSA ] Add fetched certificates to keychain
+      - name: BRSA - Add fetched certificates to keychain
         shell: bash
         run: |
           keychain add-certificates
 
-      - name: [ BRSA ] Update Xcode project settings with fetched code signing profiles and create staging_export_options.plist
+      - name: BRSA - Update Xcode project settings with fetched code signing profiles and create staging_export_options.plist
         shell: bash
         run: |
           xcode-project use-profiles --export-options-plist ios/staging_export_options.plist
 
 
-      - name: [ BRSA ] Build IPA with generated staging_export_options.plist
+      - name: BRSA - Build IPA with generated staging_export_options.plist
         shell: bash
         run: |
           flutter build ipa \
@@ -308,7 +308,7 @@ jobs:
           --no-pub \
           --verbose
 
-      - name: [ BRSA ] Deploy IPA to Firebase App Distribution
+      - name: BRSA - Deploy IPA to Firebase App Distribution
         run: |
           curl -sL https://firebase.tools | bash
           firebase appdistribution:distribute $(find $(pwd) -name "*.ipa") \
