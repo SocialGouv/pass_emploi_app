@@ -101,7 +101,9 @@ class AppInitializer {
     final allowBrsaToUpdateDemarche = _allowBrsaToUpdateDemarche(remoteConfig);
     final allowBrsaToCreateDemarche = _allowBrsaToCreateDemarche(remoteConfig);
     final configuration = await Configuration.build(
-        allowBrsaToUpdateDemarche: allowBrsaToUpdateDemarche, allowBrsaToCreateDemarche: allowBrsaToCreateDemarche);
+      allowBrsaToUpdateDemarche: allowBrsaToUpdateDemarche,
+      allowBrsaToCreateDemarche: allowBrsaToCreateDemarche,
+    );
     final matomoTracker = await _initializeMatomoTracker(configuration);
     final forceUpdate = await _shouldForceUpdate(remoteConfig);
     if (forceUpdate) {

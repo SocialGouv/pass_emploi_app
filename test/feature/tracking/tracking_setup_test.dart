@@ -17,7 +17,7 @@ void main() {
   group('on bootstrap', () {
     test('should properly set user type dimension', () async {
       // Given
-      final store = givenState(configuration(brand: Brand.CEJ)) //
+      final store = givenState(configuration(brand: Brand.cej)) //
           .store((f) => f.matomoTracker = _tracker);
 
       // When
@@ -29,7 +29,7 @@ void main() {
 
     test('in CEJ app should properly set brand dimension', () async {
       // Given
-      final store = givenState(configuration(brand: Brand.CEJ)) //
+      final store = givenState(configuration(brand: Brand.cej)) //
           .store((f) => f.matomoTracker = _tracker);
 
       // When
@@ -41,7 +41,7 @@ void main() {
 
     test('in BRSA app should properly set brand dimension', () async {
       // Given
-      final store = givenState(configuration(brand: Brand.BRSA)) //
+      final store = givenState(configuration(brand: Brand.brsa)) //
           .store((f) => f.matomoTracker = _tracker);
 
       // When

@@ -169,7 +169,7 @@ AuthTokenResponse authTokenResponse() => AuthTokenResponse(
     );
 
 Configuration configuration(
-    {Version version = const Version(1, 0, 0), Flavor flavor = Flavor.STAGING, Brand brand = Brand.CEJ}) {
+    {Version version = const Version(1, 0, 0), Flavor flavor = Flavor.STAGING, Brand brand = Brand.cej}) {
   return Configuration(
     version,
     flavor,
@@ -191,7 +191,7 @@ Configuration configuration(
   );
 }
 
-Configuration brsaConfiguration() => configuration(brand: Brand.BRSA);
+Configuration brsaConfiguration() => configuration(brand: Brand.brsa);
 
 Location mockLocation({double? lat, double? lon}) => Location(
       libelle: "",

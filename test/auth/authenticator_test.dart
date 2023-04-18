@@ -60,7 +60,7 @@ void main() {
 
     test('token is saved and returned when login on brand CEJ with POLE_EMPLOI mode is successful', () async {
       // Given
-      authenticator = Authenticator(authWrapperStub, logoutRepository, configuration(brand: Brand.CEJ), prefs);
+      authenticator = Authenticator(authWrapperStub, logoutRepository, configuration(brand: Brand.cej), prefs);
       authWrapperStub.withLoginArgsResolves(
         _authTokenRequest(additionalParameters: {"kc_idp_hint": "pe-jeune"}),
         authTokenResponse(),
@@ -78,7 +78,7 @@ void main() {
 
     test('token is saved and returned when login on brand BRSA with POLE_EMPLOI mode is successful', () async {
       // Given
-      authenticator = Authenticator(authWrapperStub, logoutRepository, configuration(brand: Brand.BRSA), prefs);
+      authenticator = Authenticator(authWrapperStub, logoutRepository, configuration(brand: Brand.brsa), prefs);
       authWrapperStub.withLoginArgsResolves(
         _authTokenRequest(additionalParameters: {"kc_idp_hint": "pe-brsa-jeune"}),
         authTokenResponse(),
@@ -181,7 +181,7 @@ void main() {
         'refresh token returns EXPIRED_REFRESH_TOKEN and delete tokens when user is logged in but refresh token is expired',
         () async {
       // Given
-          authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
       authWrapperStub.withRefreshArgsThrowsExpired();
 
       await authenticator.login(AuthenticationMode.GENERIC);
@@ -197,7 +197,7 @@ void main() {
     test('refresh token returns GENERIC_ERROR when user is logged in but refresh token fails on generic exception',
         () async {
       // Given
-          authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
       authWrapperStub.withRefreshArgsThrowsGeneric();
 
       await authenticator.login(AuthenticationMode.GENERIC);

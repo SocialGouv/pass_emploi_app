@@ -118,10 +118,13 @@ class DemarcheDetailViewModel extends Equatable {
 }
 
 bool _withEditOption(Store<AppState> store) {
-  final isBRSA = store.state.configurationState.configuration?.brand == Brand.BRSA;
+  final isBrsa = store.state.configurationState.configuration?.brand == Brand.brsa;
   final allowBrsaToUpdateDemarche = store.state.configurationState.configuration?.allowBrsaToUpdateDemarche;
 
-  return !(isBRSA && allowBrsaToUpdateDemarche == false);
+  if (isBrsa) {
+    return allowBrsaToUpdateDemarche == true;
+  }
+  return true;
 }
 
 DateTime? _getDateDerniereMiseAJour(Store<AppState> store, DemarcheStateSource stateSource) {
