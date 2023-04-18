@@ -65,7 +65,6 @@ class DemarcheDetailViewModel extends Equatable {
     demarche.possibleStatus.sort((a, b) => a.compareTo(b));
     final isLate = _isLate(demarche.status, demarche.endDate);
     final updateState = store.state.updateDemarcheState;
-    final isBRSA = store.state.configurationState.configuration?.brand == Brand.BRSA;
     return DemarcheDetailViewModel(
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
@@ -81,7 +80,7 @@ class DemarcheDetailViewModel extends Equatable {
       modificationDate: demarche.modificationDate?.toDay(),
       creationDate: demarche.creationDate?.toDay(),
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
-      withEditOption: !isBRSA,
+      withEditOption: _withEditOption(store),
       onModifyStatus: (tag) {
         final status = _getStatusFromTag(tag);
         if (!tag.isSelected && status != null) {
@@ -116,6 +115,13 @@ class DemarcheDetailViewModel extends Equatable {
         statutsPossibles,
         updateDisplayState,
       ];
+}
+
+bool _withEditOption(Store<AppState> store) {
+  final isBRSA = store.state.configurationState.configuration?.brand == Brand.BRSA;
+  final allowBrsaToUpdateDemarche = store.state.configurationState.configuration?.allowBrsaToUpdateDemarche;
+
+  return !(isBRSA && allowBrsaToUpdateDemarche == false);
 }
 
 DateTime? _getDateDerniereMiseAJour(Store<AppState> store, DemarcheStateSource stateSource) {

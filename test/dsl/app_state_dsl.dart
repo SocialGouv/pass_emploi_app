@@ -36,7 +36,6 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_s
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
-import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
@@ -61,9 +60,8 @@ import '../utils/test_setup.dart';
 
 AppState givenState([Configuration? configuration]) => AppState.initialState(configuration: configuration);
 
-AppState givenBrsaState() {
-  return AppState.initialState(configuration: configuration(flavor: Flavor.STAGING, brand: Brand.BRSA))
-      .loggedInPoleEmploiUser();
+AppState givenBrsaState({Configuration? baseConfiguration}) {
+  return AppState.initialState(configuration: baseConfiguration ?? brsaConfiguration()).loggedInPoleEmploiUser();
 }
 
 extension AppStateDSL on AppState {

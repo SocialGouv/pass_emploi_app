@@ -186,8 +186,12 @@ Configuration configuration(
     'someKey',
     'actualisationPoleEmploiUrl',
     'Europe/Paris',
+    false,
+    false,
   );
 }
+
+Configuration brsaConfiguration() => configuration(brand: Brand.BRSA);
 
 Location mockLocation({double? lat, double? lon}) => Location(
       libelle: "",
