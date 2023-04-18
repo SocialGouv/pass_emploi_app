@@ -29,6 +29,7 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
+import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/saved_search_card.dart';
@@ -293,35 +294,31 @@ class _AvecAlertes extends StatelessWidget {
 class _SansAlerte extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(color: AppColors.additional1),
-      child: Padding(
-        padding: const EdgeInsets.all(Margins.spacing_m),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(
-              child: Icon(
-                AppIcons.notifications_rounded,
-                color: AppColors.accent1,
-                size: 40,
-              ),
+    return DashedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Center(
+            child: Icon(
+              AppIcons.notifications_rounded,
+              color: AppColors.accent1,
+              size: 40,
             ),
-            SizedBox(height: Margins.spacing_base),
-            Center(
-              child: Text(
-                Strings.accueilPasDeFavorisDescription,
-                style: TextStyles.textBaseMedium,
-                textAlign: TextAlign.center,
-              ),
+          ),
+          SizedBox(height: Margins.spacing_base),
+          Center(
+            child: Text(
+              Strings.accueilPasDeFavorisDescription,
+              style: TextStyles.textBaseMedium,
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: Margins.spacing_base),
-            PrimaryActionButton(
-              label: Strings.accueilPasDeFavorisBouton,
-              onPressed: () => goToRecherche(context),
-            ),
-          ],
-        ),
+          ),
+          SizedBox(height: Margins.spacing_base),
+          PrimaryActionButton(
+            label: Strings.accueilPasDeFavorisBouton,
+            onPressed: () => goToRecherche(context),
+          ),
+        ],
       ),
     );
   }
