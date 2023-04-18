@@ -43,12 +43,13 @@ class AgendaPageViewModel extends Equatable {
     final loginState = store.state.loginState;
     final isPoleEmploi = loginState is LoginSuccessState && loginState.user.loginMode.isPe();
     final isBRSA = store.state.configurationState.configuration?.brand == Brand.BRSA;
+    final allowBrsaToCreateDemarche = store.state.configurationState.configuration?.allowBrsaToCreateDemarche == true;
     return AgendaPageViewModel(
       displayState: _displayState(store, isPoleEmploi),
       isPoleEmploi: isPoleEmploi,
       events: _events(store, isPoleEmploi),
       emptyMessage: isPoleEmploi ? Strings.agendaEmptyPoleEmploi : Strings.agendaEmptyMilo,
-      createButton: _createButton(isBRSA, isPoleEmploi),
+      createButton: _createButton(isBRSA, allowBrsaToCreateDemarche, isPoleEmploi),
       isReloading: store.state.agendaState is AgendaReloadingState,
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
       reload: (date) => store.dispatch(AgendaRequestReloadAction(date)),
@@ -60,9 +61,9 @@ class AgendaPageViewModel extends Equatable {
   List<Object?> get props => [displayState, isPoleEmploi, events, emptyMessage, createButton, isReloading];
 }
 
-CreateButton? _createButton(bool isBRSA, bool isPoleEmploi) {
+CreateButton? _createButton(bool isBRSA, bool allowBrsaToCreateDemarche, bool isPoleEmploi) {
   if (isBRSA) {
-    return null;
+    return allowBrsaToCreateDemarche ? CreateButton.demarche : null;
   }
   return isPoleEmploi ? CreateButton.demarche : CreateButton.userAction;
 }

@@ -284,15 +284,30 @@ void main() {
   });
 
   group('create button', () {
-    test('when brand is BRSA should not display create button', () {
+    test('when brand is BRSA and allowBrsaToCreateDemarche is set to false should not display create button', () {
       // Given
-      final store = givenBrsaState().agenda().store();
+      final store = givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToCreateDemarche: false))
+          .agenda()
+          .store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
       expect(viewModel.createButton, null);
+    });
+
+    test('when brand is BRSA and allowBrsaToCreateDemarche is set to true should display create button', () {
+      // Given
+      final store = givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToCreateDemarche: true))
+          .agenda()
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.createButton, CreateButton.demarche);
     });
 
     test('when brand is CEJ and user is from Mission Locale should set create button for user action', () {
