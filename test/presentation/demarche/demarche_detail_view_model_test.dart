@@ -220,4 +220,30 @@ void main() {
     expect(store.dispatchedAction, isA<UpdateDemarcheResetAction>());
     expect(viewModel.updateDisplayState, DisplayState.EMPTY);
   });
+
+  test('when brand is BRSA should not allow edition on demarche', () {
+    // Given
+    final store = StoreSpy.withState(givenBrsaState().withDemarches(mockDemarches()));
+
+    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
+
+    // When
+    viewModel.resetUpdateStatus();
+
+    // Then
+    expect(viewModel.withEditOption, false);
+  });
+
+  test('when brand is CEJ should allow edition on demarche', () {
+    // Given
+    final store = StoreSpy.withState(givenState().withDemarches(mockDemarches()));
+
+    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
+
+    // When
+    viewModel.resetUpdateStatus();
+
+    // Then
+    expect(viewModel.withEditOption, true);
+  });
 }

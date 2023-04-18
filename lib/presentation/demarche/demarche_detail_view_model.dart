@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_view_model_helper.dart';
@@ -30,6 +31,7 @@ class DemarcheDetailViewModel extends Equatable {
   final String? modificationDate;
   final String? creationDate;
   final String? withDateDerniereMiseAJour;
+  final bool withEditOption;
   final List<String> attributs;
   final List<UserActionTagViewModel> statutsPossibles;
   final Function(UserActionTagViewModel) onModifyStatus;
@@ -51,6 +53,7 @@ class DemarcheDetailViewModel extends Equatable {
     required this.modificationDate,
     required this.creationDate,
     required this.withDateDerniereMiseAJour,
+    required this.withEditOption,
     required this.onModifyStatus,
     required this.resetUpdateStatus,
     required this.updateDisplayState,
@@ -62,6 +65,7 @@ class DemarcheDetailViewModel extends Equatable {
     demarche.possibleStatus.sort((a, b) => a.compareTo(b));
     final isLate = _isLate(demarche.status, demarche.endDate);
     final updateState = store.state.updateDemarcheState;
+    final isBRSA = store.state.configurationState.configuration?.brand == Brand.BRSA;
     return DemarcheDetailViewModel(
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
@@ -77,6 +81,7 @@ class DemarcheDetailViewModel extends Equatable {
       modificationDate: demarche.modificationDate?.toDay(),
       creationDate: demarche.creationDate?.toDay(),
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
+      withEditOption: !isBRSA,
       onModifyStatus: (tag) {
         final status = _getStatusFromTag(tag);
         if (!tag.isSelected && status != null) {

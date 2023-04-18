@@ -94,15 +94,7 @@ class _Body extends StatelessWidget {
                   backgroundColor: viewModel.dateBackgroundColor,
                   textColor: viewModel.dateTextColor,
                 ),
-                if (viewModel.statutsPossibles.isNotEmpty) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  _StatutTitle(),
-                ],
-                if (viewModel.statutsPossibles.isNotEmpty) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  _StatutList(viewModel),
-                  SizedBox(height: Margins.spacing_base),
-                ],
+                if (viewModel.withEditOption) _StatusSelector(viewModel: viewModel),
                 SizedBox(height: Margins.spacing_base),
                 _HistoriqueTitle(),
                 SizedBox(height: Margins.spacing_base),
@@ -113,6 +105,28 @@ class _Body extends StatelessWidget {
           ),
         ),
         if (viewModel.updateDisplayState == DisplayState.LOADING) LoadingOverlay(),
+      ],
+    );
+  }
+}
+
+class _StatusSelector extends StatelessWidget {
+  final DemarcheDetailViewModel viewModel;
+  const _StatusSelector({Key? key, required this.viewModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        if (viewModel.statutsPossibles.isNotEmpty) ...[
+          SizedBox(height: Margins.spacing_base),
+          _StatutTitle(),
+        ],
+        if (viewModel.statutsPossibles.isNotEmpty) ...[
+          SizedBox(height: Margins.spacing_base),
+          _StatutList(viewModel),
+          SizedBox(height: Margins.spacing_base),
+        ],
       ],
     );
   }
