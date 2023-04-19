@@ -122,7 +122,6 @@ jobs:
 
       - name: BRSA - Deploy Android apk to Firebase App Distribution
         run: |
-          curl -sL https://firebase.tools | bash
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-brsastaging-release.apk \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$BRSA_STAGING_ANDROID_APP_ID" \
@@ -310,7 +309,6 @@ jobs:
 
       - name: BRSA - Deploy IPA to Firebase App Distribution
         run: |
-          curl -sL https://firebase.tools | bash
           firebase appdistribution:distribute $(find $(pwd) -name "*.ipa") \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$BRSA_STAGING_IOS_APP_ID" \
