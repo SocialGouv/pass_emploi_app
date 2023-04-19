@@ -1,11 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../dsl/sut_repository.dart';
-import '../utils/test_datetime.dart';
 
 void main() {
   group('EventListRepository', () {

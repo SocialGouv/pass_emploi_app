@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/models/favori.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
