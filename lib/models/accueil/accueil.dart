@@ -79,7 +79,10 @@ Rendezvous? _prochainRendezVous(dynamic json) {
 }
 
 List<Rendezvous>? _evenements(dynamic json) {
-  return null;
+  final events = json["evenementsAVenir"] as List?;
+  if (events == null) return null;
+
+  return events.map((event) => JsonRendezvous.fromJson(event).toRendezvous()).toList();
 }
 
 List<SavedSearch>? _alertes(dynamic json) {

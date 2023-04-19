@@ -36,7 +36,34 @@
     },
     "evenementsAVenir": [
       {
-        "id": "string"
+        "id": "1",
+        "date": "<NOW_PLUS_3>",
+        "isLocaleDate": false,
+        "modality": "",
+        "duration": 120,
+        "title": "Atelier \"Les clés pour réussir votre entretien\" ",
+        "estInscrit": true,
+        "type": {
+          "code": "ATELIER",
+          "label": "Atelier"
+        },
+        "presenceConseiller": true,
+        "invitation": false
+      },
+      {
+        "id": "2",
+        "date": "<NOW_PLUS_7>",
+        "isLocaleDate": false,
+        "modality": "",
+        "duration": 120,
+        "title": "Atelier \"Les clés pour réussir son CV\" ",
+        "estInscrit": false,
+        "type": {
+          "code": "ATELIER",
+          "label": "Atelier"
+        },
+        "presenceConseiller": true,
+        "invitation": false
       }
     ],
     "mesAlertes": [

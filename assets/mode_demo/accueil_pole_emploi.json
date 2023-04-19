@@ -31,11 +31,6 @@
       "telephone": "01.02.03.04.05",
       "lienVisio": "http://www.visio.fr"
     },
-    "evenementsAVenir": [
-      {
-        "id": "string"
-      }
-    ],
     "mesAlertes": [
       {
         "id": "9ea85cc4-c92f-4f91-b5a3-b600f364faf1",
