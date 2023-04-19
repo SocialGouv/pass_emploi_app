@@ -47,7 +47,7 @@ abstract class RendezVousListBuilder {
     if (pageOffset > 0) return true;
     if (pageOffset < 0) return false;
 
-    return (loginState is LoginSuccessState && loginState.user.loginMode != LoginMode.POLE_EMPLOI);
+    return (loginState is LoginSuccessState && loginState.user.loginMode.isPe() == false);
   }
 
   static bool hasNextPage(int pageOffset) => pageOffset < 5;
