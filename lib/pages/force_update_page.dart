@@ -33,7 +33,7 @@ class ForceUpdatePage extends StatelessWidget {
             padding: const EdgeInsets.all(Margins.spacing_base),
             child: Column(
               children: [
-                Expanded(child: SvgPicture.asset(Drawables.logoCEJ, semanticsLabel: Strings.logoTextDescription)),
+                Expanded(child: SvgPicture.asset(Drawables.appLogo, semanticsLabel: Strings.logoDescription)),
                 Text(viewModel.label, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
                 if (viewModel.withCallToAction) ExternalLink(label: Strings.updateButton, url: viewModel.storeUrl),
                 Expanded(child: SizedBox())

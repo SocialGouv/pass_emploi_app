@@ -1,5 +1,36 @@
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
+
+class _BrsaStrings {
+  static String appName = "Pass emploi";
+  static String logoDescription = "Logo Pass emploi";
+  static String shouldInformConseiller =
+      "En cas d’imprévu, il est important de prévenir votre conseiller. Vous pouvez le contacter via la messagerie de l’application Pass emploi.";
+  static String suppressionAccountLabel = "Supprimer mon compte de l’application Pass emploi";
+  static String warningInformationParagraph1 =
+      "En supprimant votre compte de l’application Pass emploi, vous perdrez définitivement toutes les données présentes sur l’application :";
+  static String warningInformationParagraph2 =
+      "La suppression de votre compte sur l’application Pass emploi n'entraîne pas la suppression de votre accompagnement.";
+  static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application Pass emploi";
+  static String modeDemoExplicationPremierPoint3 = " l’application Pass emploi utilisée par vos bénéficiaires.";
+  static String ratingLabel = "Aimez-vous l’application Pass emploi ?";
+}
+
+class _CejStrings {
+  static String appName = "CEJ";
+  static String logoDescription = "Logo CEJ";
+  static String shouldInformConseiller =
+      "En cas d’imprévu, il est important de prévenir votre conseiller. Vous pouvez le contacter via la messagerie de l’application CEJ.";
+  static String suppressionAccountLabel = "Supprimer mon compte de l’application CEJ";
+  static String warningInformationParagraph1 =
+      "En supprimant votre compte de l’application CEJ, vous perdrez définitivement toutes les données présentes sur l’application :";
+  static String warningInformationParagraph2 =
+      "La suppression de votre compte sur l’application CEJ n'entraîne pas la suppression de votre accompagnement.";
+  static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application CEJ";
+  static String modeDemoExplicationPremierPoint3 = " l’application CEJ utilisée par vos bénéficiaires.";
+  static String ratingLabel = "Aimez-vous l’application CEJ ?";
+}
 
 class Strings {
   Strings._();
@@ -22,9 +53,9 @@ class Strings {
   }
 
   // Common
-  static String appName = "CEJ";
+  static String appName = Brand.isCej() ? _CejStrings.appName : _BrsaStrings.appName;
   static String retry = "Réessayer";
-  static String logoTextDescription = "Logo CEJ";
+  static String logoDescription = Brand.isCej() ? _CejStrings.logoDescription : _BrsaStrings.logoDescription;
   static String close = "Fermer";
   static String yes = "Oui";
   static String no = "Non";
@@ -190,7 +221,7 @@ class Strings {
   static String rendezVousConseillerCommentLabel = "Commentaire de mon conseiller";
   static String cannotGoToRendezvous = "Vous ne pouvez pas vous rendre au rendez-vous ?";
   static String shouldInformConseiller =
-      "En cas d’imprévu, il est important de prévenir votre conseiller. Vous pouvez le contacter via la messagerie de l’application CEJ.";
+      Brand.isCej() ? _CejStrings.shouldInformConseiller : _BrsaStrings.shouldInformConseiller;
 
   static String noUpcomingRendezVous =
       "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
@@ -593,16 +624,17 @@ class Strings {
   // Profil: Settings & account suppression
   static String settingsLabel = "Paramètres application";
   static String suppressionPageTitle = "Suppression de compte";
-  static String suppressionAccountLabel = "Supprimer mon compte de l’application CEJ";
+  static String suppressionAccountLabel =
+      Brand.isCej() ? _CejStrings.suppressionAccountLabel : _BrsaStrings.suppressionAccountLabel;
   static String activityShareLabel = "Partage de votre activité";
   static String activityShareDescription =
       "Autorisez le partage pour permettre au conseiller d’avoir un suivi de votre activité.";
   static String warning = "Attention";
   static String suppressionButtonLabel = "Supprimer mon compte";
   static String warningInformationParagraph1 =
-      "En supprimant votre compte de l’application Contrat d’Engagement Jeune, vous perdrez définitivement toutes les données présentes sur l’application :";
+      Brand.isCej() ? _CejStrings.warningInformationParagraph1 : _BrsaStrings.warningInformationParagraph1;
   static String warningInformationParagraph2 =
-      "La suppression de votre compte sur l’application CEJ n'entraine pas la suppression de votre accompagnement dans le cadre du Contrat d'Engagement Jeune.";
+      Brand.isCej() ? _CejStrings.warningInformationParagraph2 : _BrsaStrings.warningInformationParagraph2;
   static String warningInformationPoleEmploi =
       "Vos démarches et rendez-vous seront toujours disponibles dans votre portail Pôle emploi.";
   static List<String> warningPointsMilo = [
@@ -618,7 +650,8 @@ class Strings {
   ];
   static String lastWarningBeforeSuppression = "Tapez “supprimer” pour confirmer la suppression de votre compte";
   static String mandatorySuppressionLabelError = "Vérifiez que vous avez bien tapé “supprimer”";
-  static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application CEJ";
+  static String accountDeletionSuccess =
+      Brand.isCej() ? _CejStrings.accountDeletionSuccess : _BrsaStrings.accountDeletionSuccess;
 
   static String shareFavoriteLabel = "Partager mes favoris";
 
@@ -663,7 +696,8 @@ class Strings {
   static String modeDemoExplicationTitre = "Espace démo conseiller";
   static String modeDemoExplicationPremierPoint1 = "→ Cette version vous ";
   static String modeDemoExplicationPremierPoint2 = "permet d’explorer";
-  static String modeDemoExplicationPremierPoint3 = " l’application CEJ utilisée par vos bénéficiaires.";
+  static String modeDemoExplicationPremierPoint3 =
+      Brand.isCej() ? _CejStrings.modeDemoExplicationPremierPoint3 : _BrsaStrings.modeDemoExplicationPremierPoint3;
   static String modeDemoExplicationSecondPoint1 = "→ Les données présentées ";
   static String modeDemoExplicationSecondPoint2 = "sont factices.";
   static String modeDemoExplicationTroisiemePoint1 =
@@ -711,7 +745,7 @@ class Strings {
   static String finish = "Terminer";
 
   //Appstore rating
-  static String ratingLabel = "Aimez-vous l’application Contrat Engagement Jeune ?";
+  static String ratingLabel = Brand.isCej() ? _CejStrings.ratingLabel : _BrsaStrings.ratingLabel;
   static String positiveRating = "Oui ! \nBeau boulot, j’adore l’app.";
   static String negativeRating = "Non... \nJ’ai quelques remarques.";
   static String happyEmoji = "😍";
