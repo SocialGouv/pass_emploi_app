@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/presentation/offre_filters_page_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -10,6 +14,7 @@ enum OffreFilter { tous, emploi, immersion, alternance, serviceCivique }
 
 class OffreFiltersPage extends StatefulWidget {
   final OffreFilter initialFilter;
+
   const OffreFiltersPage({required this.initialFilter});
 
   static MaterialPageRoute<OffreFilter> materialPageRoute({OffreFilter initialFilter = OffreFilter.tous}) =>
@@ -40,9 +45,21 @@ class _OffreFiltersPageState extends State<OffreFiltersPage> {
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, OffreFiltersPageViewModel>(
+      converter: (store) => OffreFiltersPageViewModel.create(store),
+      builder: _builder,
+      distinct: true,
+    );
+  }
+
+  Scaffold _builder(BuildContext context, OffreFiltersPageViewModel viewModel) {
     return Scaffold(
       appBar: SecondaryAppBar(title: Strings.filterList),
-      body: _Body(onFilterSelected: _onFilterSelected, offreFilter: _selectedFilter),
+      body: _Body(
+        onFilterSelected: _onFilterSelected,
+        offreFilter: _selectedFilter,
+        solutionTypes: viewModel.solutionTypes,
+      ),
       floatingActionButton: _ApplyFiltersButton(onPressed: () => Navigator.pop(context, _selectedFilter)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -52,7 +69,13 @@ class _OffreFiltersPageState extends State<OffreFiltersPage> {
 class _Body extends StatelessWidget {
   final void Function(OffreFilter?) onFilterSelected;
   final OffreFilter offreFilter;
-  const _Body({required this.onFilterSelected, required this.offreFilter});
+  final List<SolutionType> solutionTypes;
+
+  const _Body({
+    required this.onFilterSelected,
+    required this.offreFilter,
+    required this.solutionTypes,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +88,14 @@ class _Body extends StatelessWidget {
           _OffreFilterSubtitle(),
           SizedBox(height: Margins.spacing_base),
           _buildRadioListTile(OffreFilter.tous, Strings.filterAll),
-          _buildRadioListTile(OffreFilter.emploi, Strings.filterEmploi),
-          _buildRadioListTile(OffreFilter.immersion, Strings.filterImmersion),
-          _buildRadioListTile(OffreFilter.alternance, Strings.filterAlternance),
-          _buildRadioListTile(OffreFilter.serviceCivique, Strings.filterServiceCivique),
+          if (solutionTypes.contains(SolutionType.OffreEmploi))
+            _buildRadioListTile(OffreFilter.emploi, Strings.filterEmploi),
+          if (solutionTypes.contains(SolutionType.Alternance))
+            _buildRadioListTile(OffreFilter.alternance, Strings.filterAlternance),
+          if (solutionTypes.contains(SolutionType.Immersion))
+            _buildRadioListTile(OffreFilter.immersion, Strings.filterImmersion),
+          if (solutionTypes.contains(SolutionType.ServiceCivique))
+            _buildRadioListTile(OffreFilter.serviceCivique, Strings.filterServiceCivique),
         ],
       ),
     );
@@ -95,6 +122,7 @@ class _OffreFilterSubtitle extends StatelessWidget {
 
 class _ApplyFiltersButton extends StatelessWidget {
   final VoidCallback onPressed;
+
   const _ApplyFiltersButton({required this.onPressed});
 
   @override
