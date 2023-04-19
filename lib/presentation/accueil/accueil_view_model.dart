@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/models/favori.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -73,7 +74,8 @@ AccueilItem? _prochainRendezvousItem(AccueilSuccessState successState) {
 }
 
 AccueilItem? _evenementsItem(AccueilSuccessState successState) {
-  return null;
+  final evenements = successState.accueil.evenements;
+  return evenements != null && evenements.isNotEmpty ? AccueilEvenementsItem(evenements) : null;
 }
 
 AccueilItem? _alertesItem(AccueilSuccessState successState) {
@@ -153,7 +155,14 @@ class AccueilProchainRendezvousItem extends AccueilItem {
   List<Object?> get props => [rendezVousId];
 }
 
-class AccueilEvenementsItem extends AccueilItem {}
+class AccueilEvenementsItem extends AccueilItem {
+  final List<Rendezvous> evenements;
+
+  AccueilEvenementsItem(this.evenements);
+
+  @override
+  List<Object?> get props => [evenements];
+}
 
 class AccueilAlertesItem extends AccueilItem {
   final List<SavedSearch> savedSearches;

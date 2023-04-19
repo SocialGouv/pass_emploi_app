@@ -62,6 +62,33 @@ void main() {
             actionsDemarchesARealiser: "1 action à réaliser",
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
+          AccueilEvenementsItem([mockAnimationCollective()]),
+          AccueilAlertesItem(getMockedSavedSearch()),
+          AccueilFavorisItem(mock3Favoris()),
+        ],
+      );
+    });
+  });
+
+  group('pe', () {
+    test('should have all items', () {
+      // Given
+      final store = givenState().loggedInMiloUser().withAccueilPoleEmploiSuccess().store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items,
+        [
+          AccueilCetteSemaineItem(
+            monSuiviType: MonSuiviType.actions,
+            rendezVous: "3 rendez-vous",
+            actionsDemarchesEnRetard: "2 actions en retard",
+            actionsDemarchesARealiser: "1 action à réaliser",
+          ),
+          AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
           AccueilAlertesItem(getMockedSavedSearch()),
           AccueilFavorisItem(mock3Favoris()),
         ],
