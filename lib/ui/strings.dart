@@ -182,10 +182,12 @@ class Strings {
   static String accueilRendezvousSection = "Votre prochain rendez-vous";
   static String accueilMesAlertesSection = "Mes alertes";
   static String accueilVoirMesAbonnements = "Voir tous mes abonnements";
+  static String accueilPasDalerteDescription =
+      "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
+  static String accueilPasDalerteBouton = "Rechercher une offre";
   static String accueilMesFavorisSection = "Mes favoris";
   static String accueilVoirMesFavoris = "Voir tous mes favoris";
-  static String accueilPasDeFavorisDescription =
-      "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
+  static String accueilPasDeFavorisDescription = "Retrouvez ici les offres que vous avez enregistrées";
   static String accueilPasDeFavorisBouton = "Rechercher une offre";
 
   // Mon Suivi
