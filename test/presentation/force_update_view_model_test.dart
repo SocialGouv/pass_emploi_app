@@ -10,7 +10,7 @@ void main() {
 
   const cejPlayStoreUrl = 'market://details?id=fr.fabrique.social.gouv.passemploi';
   const cejAppleStoreUrl = 'itms-apps://itunes.apple.com/app/apple-store/id1581603519';
-  const brsaPlayStoreUrl = 'TODO: BRSA Play store url';
+  const brsaPlayStoreUrl = 'market://details?id=fr.fabrique.social.gouv.passemploi.rsa';
   const brsaAppleStoreUrl = 'TODO: BRSA Apple store url';
 
   group('ForceUpdateViewModel', () {

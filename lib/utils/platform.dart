@@ -12,7 +12,7 @@ enum Platform {
     } else if (brand.isBrsa && isIos) {
       return 'TODO: BRSA Apple store url';
     } else if (brand.isBrsa && isAndroid) {
-      return 'TODO: BRSA Play store url';
+      return 'market://details?id=fr.fabrique.social.gouv.passemploi.rsa';
     }
     return "";
   }
