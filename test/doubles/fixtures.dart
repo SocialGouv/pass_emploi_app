@@ -177,6 +177,7 @@ Configuration configuration(
     'serverBaseUrl',
     'matomoBaseUrl',
     'matomoSiteId',
+    'matomoDimensionProduitId',
     'authClientId',
     'authLoginRedirectUrl',
     'authLogoutRedirectUrl',

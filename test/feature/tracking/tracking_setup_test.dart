@@ -36,7 +36,7 @@ void main() {
       await store.dispatch(BootstrapAction());
 
       // Then
-      verify(() => _tracker.setDimension('7', 'CEJ')).called(1);
+      verify(() => _tracker.setDimension('matomoDimensionProduitId', 'CEJ')).called(1);
     });
 
     test('in BRSA app should properly set brand dimension', () async {
@@ -48,7 +48,7 @@ void main() {
       await store.dispatch(BootstrapAction());
 
       // Then
-      verify(() => _tracker.setDimension('7', 'BRSA')).called(1);
+      verify(() => _tracker.setDimension('matomoDimensionProduitId', 'BRSA')).called(1);
     });
   });
 

@@ -17,8 +17,10 @@ class TrackingSetupMiddleware extends MiddlewareClass<AppState> {
     next(action);
     if (action is BootstrapAction) {
       _tracker.setDimension(AnalyticsCustomDimensions.userTypeId, AnalyticsCustomDimensions.appUserType);
-      final brand = store.state.configurationState.getBrand();
-      _tracker.setDimension(AnalyticsCustomDimensions.brandId, brand.isCej ? 'CEJ' : 'BRSA');
+      final configuration = store.state.configurationState.configuration;
+      if (configuration != null) {
+        _tracker.setDimension(configuration.matomoDimensionProduitId, configuration.brand.isCej ? 'CEJ' : 'BRSA');
+      }
     }
     if (action is LoginSuccessAction) {
       _tracker.setDimension(AnalyticsCustomDimensions.structureId, _getStructureName(action.user.loginMode));
