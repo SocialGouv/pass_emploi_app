@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherches_recentes.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
+import 'package:pass_emploi_app/presentation/recherche/recherche_home_page_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -21,15 +25,23 @@ class RechercheHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.rechercheV2Home,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(Margins.spacing_base),
-          child: Column(
-            children: [
-              RecherchesRecentes(),
-              _NosOffres(),
-            ],
-          ),
+      child: StoreConnector<AppState, RechercheHomePageViewModel>(
+        converter: (store) => RechercheHomePageViewModel.create(store),
+        builder: _builder,
+        distinct: true,
+      ),
+    );
+  }
+
+  Widget _builder(BuildContext context, RechercheHomePageViewModel viewModel) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(Margins.spacing_base),
+        child: Column(
+          children: [
+            RecherchesRecentes(),
+            _NosOffres(solutionTypes: viewModel.solutionTypes),
+          ],
         ),
       ),
     );
@@ -37,6 +49,10 @@ class RechercheHomePage extends StatelessWidget {
 }
 
 class _NosOffres extends StatelessWidget {
+  final List<SolutionType> solutionTypes;
+
+  const _NosOffres({required this.solutionTypes});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,38 +70,46 @@ class _NosOffres extends StatelessWidget {
           },
         ),
         SizedBox(height: Margins.spacing_base),
-        _BlocSolution(
-          title: Strings.rechercheHomeOffresEmploiTitle,
-          subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
-          icon: Icon(AppIcons.description_rounded, color: AppColors.additional4, size: Dimens.icon_size_m),
-          onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: false)),
-        ),
-        SizedBox(height: Margins.spacing_base),
-        _BlocSolution(
-          title: Strings.rechercheHomeOffresAlternanceTitle,
-          subtitle: Strings.rechercheHomeOffresAlternanceSubtitle,
-          icon: Icon(AppIcons.signpost_rounded, color: AppColors.additional3, size: Dimens.icon_size_m),
-          onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: true)),
-        ),
-        SizedBox(height: Margins.spacing_base),
-        _BlocSolution(
-          title: Strings.rechercheHomeOffresImmersionTitle,
-          subtitle: Strings.rechercheHomeOffresImmersionSubtitle,
-          icon: Icon(AppIcons.immersion, color: AppColors.additional1, size: Dimens.icon_size_m),
-          onTap: () => Navigator.push(context, RechercheOffreImmersionPage.materialPageRoute()),
-        ),
-        SizedBox(height: Margins.spacing_base),
-        _BlocSolution(
-          title: Strings.rechercheHomeOffresServiceCiviqueTitle,
-          subtitle: Strings.rechercheHomeOffresServiceCiviqueSubtitle,
-          icon: Row(
-            children: [
-              Icon(AppIcons.service_civique, color: AppColors.additional2, size: Dimens.icon_size_base),
-              SizedBox(width: Margins.spacing_s), // due to icon not having the same width as the other icons
-            ],
+        if (solutionTypes.contains(SolutionType.OffreEmploi)) ...[
+          _BlocSolution(
+            title: Strings.rechercheHomeOffresEmploiTitle,
+            subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
+            icon: Icon(AppIcons.description_rounded, color: AppColors.additional4, size: Dimens.icon_size_m),
+            onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: false)),
           ),
-          onTap: () => Navigator.push(context, RechercheOffreServiceCiviquePage.materialPageRoute()),
-        ),
+          SizedBox(height: Margins.spacing_base),
+        ],
+        if (solutionTypes.contains(SolutionType.Alternance)) ...[
+          _BlocSolution(
+            title: Strings.rechercheHomeOffresAlternanceTitle,
+            subtitle: Strings.rechercheHomeOffresAlternanceSubtitle,
+            icon: Icon(AppIcons.signpost_rounded, color: AppColors.additional3, size: Dimens.icon_size_m),
+            onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: true)),
+          ),
+          SizedBox(height: Margins.spacing_base),
+        ],
+        if (solutionTypes.contains(SolutionType.Immersion)) ...[
+          _BlocSolution(
+            title: Strings.rechercheHomeOffresImmersionTitle,
+            subtitle: Strings.rechercheHomeOffresImmersionSubtitle,
+            icon: Icon(AppIcons.immersion, color: AppColors.additional1, size: Dimens.icon_size_m),
+            onTap: () => Navigator.push(context, RechercheOffreImmersionPage.materialPageRoute()),
+          ),
+          SizedBox(height: Margins.spacing_base),
+        ],
+        if (solutionTypes.contains(SolutionType.ServiceCivique)) ...[
+          _BlocSolution(
+            title: Strings.rechercheHomeOffresServiceCiviqueTitle,
+            subtitle: Strings.rechercheHomeOffresServiceCiviqueSubtitle,
+            icon: Row(
+              children: [
+                Icon(AppIcons.service_civique, color: AppColors.additional2, size: Dimens.icon_size_base),
+                SizedBox(width: Margins.spacing_s), // due to icon not having the same width as the other icons
+              ],
+            ),
+            onTap: () => Navigator.push(context, RechercheOffreServiceCiviquePage.materialPageRoute()),
+          ),
+        ],
       ],
     );
   }
