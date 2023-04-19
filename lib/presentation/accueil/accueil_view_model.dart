@@ -73,7 +73,10 @@ AccueilItem? _prochainRendezvousItem(AccueilSuccessState successState) {
 }
 
 AccueilItem? _evenementsItem(AccueilSuccessState successState) {
-  return null;
+  final evenements = successState.accueil.evenements;
+  return evenements != null && evenements.isNotEmpty
+      ? AccueilEvenementsItem(evenements.map((e) => e.id).toList())
+      : null;
 }
 
 AccueilItem? _alertesItem(AccueilSuccessState successState) {
@@ -153,7 +156,14 @@ class AccueilProchainRendezvousItem extends AccueilItem {
   List<Object?> get props => [rendezVousId];
 }
 
-class AccueilEvenementsItem extends AccueilItem {}
+class AccueilEvenementsItem extends AccueilItem {
+  final List<String> evenementIds;
+
+  AccueilEvenementsItem(this.evenementIds);
+
+  @override
+  List<Object?> get props => [evenementIds];
+}
 
 class AccueilAlertesItem extends AccueilItem {
   final List<SavedSearch> savedSearches;

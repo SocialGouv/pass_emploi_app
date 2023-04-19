@@ -287,6 +287,25 @@ ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
       codePostal: "75002",
     );
 
+Rendezvous mockAnimationCollective() {
+  return Rendezvous(
+    id: '2d663392-b9ff-4b20-81ca-70a3c779e299',
+    source: RendezvousSource.passEmploi,
+    date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
+    modality: 'en présentiel : Misson locale / Permanence',
+    isInVisio: false,
+    duration: 23,
+    withConseiller: true,
+    isAnnule: false,
+    type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, 'Entretien individuel conseiller'),
+    title: "super entretien",
+    comment: 'Amener votre CV',
+    conseiller: Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'),
+    createur: Conseiller(id: '2', firstName: 'Joe', lastName: 'Pesci'),
+    estInscrit: true,
+  );
+}
+
 Rendezvous rendezvousStub({String? id, DateTime? date}) {
   return Rendezvous(
     id: id ?? "id-1",
@@ -804,6 +823,7 @@ Accueil mockAccueilMilo() {
       nombreActionsDemarchesARealiser: 1,
     ),
     prochainRendezVous: mockRendezvousMiloCV(),
+    evenements: [mockAnimationCollective()],
     alertes: getMockedSavedSearch(),
     favoris: mock3Favoris(),
   );

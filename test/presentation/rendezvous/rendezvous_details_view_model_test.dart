@@ -859,7 +859,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.accueil,
+          source: RendezvousStateSource.accueilProchainRendezvous,
           rdvId: mockRendezvousMiloCV().id,
           platform: Platform.IOS,
         );
