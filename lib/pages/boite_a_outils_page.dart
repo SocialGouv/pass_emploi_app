@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/widgets/cards/boite_a_outils_card.dart';
 
 class BoiteAOutilsPage extends StatelessWidget {
-  final _outils = LocalOutilRepository().getOutils();
+  final _outils = LocalOutilRepository().getOutils(Brand.brand);
 
   @override
   Widget build(BuildContext context) {
