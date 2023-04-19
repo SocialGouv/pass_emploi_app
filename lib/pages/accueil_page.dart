@@ -251,9 +251,13 @@ class _Evenements extends StatelessWidget {
         Text(Strings.accueilEvenementsSection, style: TextStyles.secondaryAppBar),
         SizedBox(height: Margins.spacing_s),
         ...item.evenementIds.map((id) => _EventCard(id)),
-        SecondaryButton(label: Strings.accueilVoirLesEvenements, onPressed: () => {}), //TODO: navigate to events list
+        SecondaryButton(label: Strings.accueilVoirLesEvenements, onPressed: () => goToEventList(context)),
       ],
     );
+  }
+
+  void goToEventList(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatchEventListDeeplink();
   }
 }
 
