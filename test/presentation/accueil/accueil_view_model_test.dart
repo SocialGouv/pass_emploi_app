@@ -62,7 +62,7 @@ void main() {
             actionsDemarchesARealiser: "1 action à réaliser",
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
-          AccueilEvenementsItem([mockAnimationCollective()]),
+          AccueilEvenementsItem([mockAnimationCollective().id]),
           AccueilAlertesItem(getMockedSavedSearch()),
           AccueilFavorisItem(mock3Favoris()),
         ],

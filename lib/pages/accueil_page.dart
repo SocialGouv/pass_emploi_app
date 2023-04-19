@@ -230,7 +230,7 @@ class _ProchainRendezVous extends StatelessWidget {
         SizedBox(height: Margins.spacing_s),
         item.rendezVousId.rendezvousCard(
           context: context,
-          stateSource: RendezvousStateSource.accueil,
+          stateSource: RendezvousStateSource.accueilProchainRendezvous,
           trackedEvent: EventType.RDV_DETAIL,
         ),
       ],
@@ -245,7 +245,35 @@ class _Evenements extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Événements");
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(Strings.accueilEvenementsSection, style: TextStyles.secondaryAppBar),
+        SizedBox(height: Margins.spacing_s),
+        ...item.evenementIds.map((id) => _EventCard(id)),
+        SecondaryButton(label: Strings.accueilVoirLesEvenements, onPressed: () => {}), //TODO: navigate to events list
+      ],
+    );
+  }
+}
+
+class _EventCard extends StatelessWidget {
+  final String id;
+
+  _EventCard(this.id);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        id.rendezvousCard(
+          context: context,
+          stateSource: RendezvousStateSource.accueilLesEvenements,
+          trackedEvent: EventType.RDV_DETAIL,
+        ),
+        SizedBox(height: Margins.spacing_base),
+      ],
+    );
   }
 }
 

@@ -180,6 +180,8 @@ class Strings {
   static String singularActionLate(int count) => "$count action en retard";
   static String severalActionsLate(int count) => "$count actions en retard";
   static String accueilRendezvousSection = "Votre prochain rendez-vous";
+  static String accueilEvenementsSection = "Événements à venir";
+  static String accueilVoirLesEvenements = "Voir tous les événements";
   static String accueilMesAlertesSection = "Mes alertes";
   static String accueilVoirMesAbonnements = "Voir tous mes abonnements";
   static String accueilPasDalerteDescription =
