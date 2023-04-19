@@ -308,14 +308,14 @@ class _SansAlerte extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           Center(
             child: Text(
-              Strings.accueilPasDeFavorisDescription,
+              Strings.accueilPasDalerteDescription,
               style: TextStyles.textBaseMedium,
               textAlign: TextAlign.center,
             ),
           ),
           SizedBox(height: Margins.spacing_base),
           PrimaryActionButton(
-            label: Strings.accueilPasDeFavorisBouton,
+            label: Strings.accueilPasDalerteBouton,
             onPressed: () => goToRecherche(context),
           ),
         ],
@@ -351,11 +351,28 @@ class _Favoris extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasContent = item.favoris.isNotEmpty;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(Strings.accueilMesFavorisSection, style: TextStyles.secondaryAppBar),
         SizedBox(height: Margins.spacing_s),
+        if (hasContent) _AvecFavoris(item),
+        if (!hasContent) _SansFavori(),
+      ],
+    );
+  }
+}
+
+class _AvecFavoris extends StatelessWidget {
+  final AccueilFavorisItem item;
+
+  _AvecFavoris(this.item);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
         ...item.favoris.map((favori) => _FavorisCard(favori)),
         SecondaryButton(label: Strings.accueilVoirMesFavoris, onPressed: () => _goToFavoris(context)),
       ],
@@ -364,6 +381,43 @@ class _Favoris extends StatelessWidget {
 
   void _goToFavoris(BuildContext context) {
     StoreProvider.of<AppState>(context).dispatchFavorisDeeplink();
+  }
+}
+
+class _SansFavori extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DashedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Center(
+            child: Icon(
+              AppIcons.favorite_rounded,
+              color: AppColors.accent1,
+              size: 40,
+            ),
+          ),
+          SizedBox(height: Margins.spacing_base),
+          Center(
+            child: Text(
+              Strings.accueilPasDeFavorisDescription,
+              style: TextStyles.textBaseMedium,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(height: Margins.spacing_base),
+          PrimaryActionButton(
+            label: Strings.accueilPasDeFavorisBouton,
+            onPressed: () => goToRecherche(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void goToRecherche(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatchRechercheDeeplink();
   }
 }
 
