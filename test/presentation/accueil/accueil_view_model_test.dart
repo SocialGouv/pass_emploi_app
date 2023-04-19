@@ -73,7 +73,7 @@ void main() {
   group('pe', () {
     test('should have all items', () {
       // Given
-      final store = givenState().loggedInMiloUser().withAccueilPoleEmploiSuccess().store();
+      final store = givenState().loggedInPoleEmploiUser().withAccueilPoleEmploiSuccess().store();
 
       // When
       final viewModel = AccueilViewModel.create(store);
@@ -83,10 +83,10 @@ void main() {
         viewModel.items,
         [
           AccueilCetteSemaineItem(
-            monSuiviType: MonSuiviType.actions,
+            monSuiviType: MonSuiviType.demarches,
             rendezVous: "3 rendez-vous",
-            actionsDemarchesEnRetard: "2 actions en retard",
-            actionsDemarchesARealiser: "1 action à réaliser",
+            actionsDemarchesEnRetard: "2 démarches en retard",
+            actionsDemarchesARealiser: "1 démarche à réaliser",
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
           AccueilAlertesItem(getMockedSavedSearch()),
