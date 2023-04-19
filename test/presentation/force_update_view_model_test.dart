@@ -1,39 +1,104 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/presentation/force_update_view_model.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 
 void main() {
-  test('create when flavor is STAGING', () {
-    expect(
-      ForceUpdateViewModel.create(Flavor.STAGING, Platform.ANDROID),
-      ForceUpdateViewModel(
-        label: 'Votre application nécessite d\'être mise à jour sur Firebase pour son bon fonctionnement',
-        storeUrl: '',
-        withCallToAction: false,
-      ),
-    );
-  });
+  const stagingLabel = 'Votre application nécessite d\'être mise à jour sur Firebase pour son bon fonctionnement';
+  const prodLabel = 'Votre application nécessite d\'être mise à jour pour son bon fonctionnement';
 
-  test('create when flavor is PROD and platform is ANDROID', () {
-    expect(
-      ForceUpdateViewModel.create(Flavor.PROD, Platform.ANDROID),
-      ForceUpdateViewModel(
-        label: 'Votre application nécessite d\'être mise à jour pour son bon fonctionnement',
-        storeUrl: 'market://details?id=fr.fabrique.social.gouv.passemploi',
-        withCallToAction: true,
-      ),
-    );
-  });
+  const cejPlayStoreUrl = 'market://details?id=fr.fabrique.social.gouv.passemploi';
+  const cejAppleStoreUrl = 'itms-apps://itunes.apple.com/app/apple-store/id1581603519';
+  const brsaPlayStoreUrl = 'TODO: BRSA Play store url';
+  const brsaAppleStoreUrl = 'TODO: BRSA Apple store url';
 
-  test('create when flavor is PROD and platform is iOS', () {
-    expect(
-      ForceUpdateViewModel.create(Flavor.PROD, Platform.IOS),
-      ForceUpdateViewModel(
-        label: 'Votre application nécessite d\'être mise à jour pour son bon fonctionnement',
-        storeUrl: 'itms-apps://itunes.apple.com/app/apple-store/id1581603519',
-        withCallToAction: true,
-      ),
-    );
+  group('ForceUpdateViewModel', () {
+    const testCases = [
+      {
+        'brand': Brand.cej,
+        'platform': Platform.ANDROID,
+        'flavor': Flavor.STAGING,
+        'withCallToAction': false,
+        'expectedUrl': "",
+        'expectedMessage': stagingLabel,
+      },
+      {
+        'brand': Brand.cej,
+        'platform': Platform.IOS,
+        'flavor': Flavor.STAGING,
+        'withCallToAction': false,
+        'expectedUrl': "",
+        'expectedMessage': stagingLabel,
+      },
+      {
+        'brand': Brand.cej,
+        'platform': Platform.ANDROID,
+        'flavor': Flavor.PROD,
+        'withCallToAction': true,
+        'expectedUrl': cejPlayStoreUrl,
+        'expectedMessage': prodLabel,
+      },
+      {
+        'brand': Brand.cej,
+        'platform': Platform.IOS,
+        'flavor': Flavor.PROD,
+        'withCallToAction': true,
+        'expectedUrl': cejAppleStoreUrl,
+        'expectedMessage': prodLabel,
+      },
+      {
+        'brand': Brand.brsa,
+        'platform': Platform.ANDROID,
+        'flavor': Flavor.STAGING,
+        'withCallToAction': false,
+        'expectedUrl': "",
+        'expectedMessage': stagingLabel,
+      },
+      {
+        'brand': Brand.brsa,
+        'platform': Platform.IOS,
+        'flavor': Flavor.STAGING,
+        'withCallToAction': false,
+        'expectedUrl': "",
+        'expectedMessage': stagingLabel,
+      },
+      {
+        'brand': Brand.brsa,
+        'platform': Platform.ANDROID,
+        'flavor': Flavor.PROD,
+        'withCallToAction': true,
+        'expectedUrl': brsaPlayStoreUrl,
+        'expectedMessage': prodLabel,
+      },
+      {
+        'brand': Brand.brsa,
+        'platform': Platform.IOS,
+        'flavor': Flavor.PROD,
+        'withCallToAction': true,
+        'expectedUrl': brsaAppleStoreUrl,
+        'expectedMessage': prodLabel,
+      },
+    ];
+
+    for (var testCase in testCases) {
+      final brand = testCase['brand'] as Brand;
+      final platform = testCase['platform'] as Platform;
+      final flavor = testCase['flavor'] as Flavor;
+      final withCallToAction = testCase['withCallToAction'] as bool;
+      final expectedUrl = testCase['expectedUrl'] as String;
+      final expectedMessage = testCase['expectedMessage'] as String;
+
+      test('create when brand is $brand, flavor is $flavor and platform is $platform', () {
+        expect(
+          ForceUpdateViewModel.create(brand, flavor, platform),
+          ForceUpdateViewModel(
+            label: expectedMessage,
+            storeUrl: expectedUrl,
+            withCallToAction: withCallToAction,
+          ),
+        );
+      });
+    }
   });
 }
