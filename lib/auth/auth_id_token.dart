@@ -60,12 +60,8 @@ class AuthIdToken extends Equatable {
   List<Object?> get props => [userId, firstName, lastName, expiresAt];
 
   LoginMode getLoginMode() {
-    if (loginMode == "MILO") {
-      return LoginMode.MILO;
-    } else if (loginMode == "POLE_EMPLOI") {
-      return LoginMode.POLE_EMPLOI;
-    } else {
-      return LoginMode.PASS_EMPLOI;
-    }
+    if (loginMode == "MILO") return LoginMode.MILO;
+    if (loginMode.contains("POLE_EMPLOI")) return LoginMode.POLE_EMPLOI;
+    return LoginMode.PASS_EMPLOI;
   }
 }
