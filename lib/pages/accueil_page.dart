@@ -300,6 +300,7 @@ class _Alertes extends StatelessWidget {
           VoirSuggestionsRechercheBandeau(
             padding: EdgeInsets.only(top: Margins.spacing_base),
             onTapShowSuggestions: () {
+              PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.accueilSuggestionsListe);
               Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
             },
           ),
