@@ -14,6 +14,7 @@ class AnalyticsScreenNames {
   static const evaluationDetails = "actions/tuile-evaluation";
 
   static const accueil = "accueil";
+  static const accueilSuggestionsListe = "accueil/suggested_list";
 
   static const monSuivi = "mon_suivi";
   static const agenda = "agenda";

@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
+import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -23,6 +24,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
@@ -34,6 +36,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/saved_search_card.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
 class AccueilPage extends StatelessWidget {
   @override
@@ -123,7 +126,7 @@ class _CetteSemaine extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(Strings.accueilCetteSemaineSection, style: TextStyles.secondaryAppBar),
-        SizedBox(height: Margins.spacing_s),
+        SizedBox(height: Margins.spacing_base),
         CardContainer(
           padding: EdgeInsets.zero,
           child: Column(
@@ -227,7 +230,7 @@ class _ProchainRendezVous extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(Strings.accueilRendezvousSection, style: TextStyles.secondaryAppBar),
-        SizedBox(height: Margins.spacing_s),
+        SizedBox(height: Margins.spacing_base),
         item.rendezVousId.rendezvousCard(
           context: context,
           stateSource: RendezvousStateSource.accueilProchainRendezvous,
@@ -249,7 +252,7 @@ class _Evenements extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(Strings.accueilEvenementsSection, style: TextStyles.secondaryAppBar),
-        SizedBox(height: Margins.spacing_s),
+        SizedBox(height: Margins.spacing_base),
         ...item.evenementIds.map((id) => _EventCard(id)),
         SecondaryButton(label: Strings.accueilVoirLesEvenements, onPressed: () => goToEventList(context)),
       ],
@@ -294,7 +297,13 @@ class _Alertes extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(Strings.accueilMesAlertesSection, style: TextStyles.secondaryAppBar),
-          SizedBox(height: Margins.spacing_s),
+          VoirSuggestionsRechercheBandeau(
+            padding: EdgeInsets.only(top: Margins.spacing_base),
+            onTapShowSuggestions: () {
+              Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
+            },
+          ),
+          SizedBox(height: Margins.spacing_base),
           if (hasContent) _AvecAlertes(item),
           if (!hasContent) _SansAlerte(),
         ],
@@ -388,7 +397,7 @@ class _Favoris extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(Strings.accueilMesFavorisSection, style: TextStyles.secondaryAppBar),
-        SizedBox(height: Margins.spacing_s),
+        SizedBox(height: Margins.spacing_base),
         if (hasContent) _AvecFavoris(item),
         if (!hasContent) _SansFavori(),
       ],
