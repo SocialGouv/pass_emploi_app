@@ -192,7 +192,10 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   Widget _suggestionsRechercheCard() {
     return VoirSuggestionsRechercheCard(
       padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_m, Margins.spacing_base, 0),
-      onTapShowSuggestions: () => {Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute())},
+      onTapShowSuggestions: () {
+        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.savedSearchSuggestionsListe);
+        Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
+      },
     );
   }
 

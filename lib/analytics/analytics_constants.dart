@@ -89,6 +89,7 @@ class AnalyticsScreenNames {
   static const offreFavorisListFilterImmersion = "favoris/list?filtre=immersion";
   static const offreFavorisListFilterServiceCivique = "favoris/list?filtre=service_civique";
 
+  static const savedSearchSuggestionsListe = "saved_searches/suggested_list";
   static const savedSearchList = "saved_searches/list";
   static const savedSearchListFilterEmploi = "saved_searches/list?filtre=emploi";
   static const savedSearchListFilterAlternance = "saved_searches/list?filtre=alternance";
