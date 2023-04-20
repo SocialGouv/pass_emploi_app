@@ -58,6 +58,18 @@ jobs:
           cache: true
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
+      - name: Check Firebase App Distribution CLI cache
+        uses: actions/cache@v3
+        id: firebase-tools-cache
+        with:
+          path: /usr/local/bin
+          key: ${{ runner.os }}-firebase-tools
+
+      - name: Install Firebase App Distribution CLI
+        if: steps.firebase-tools-cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sL https://firebase.tools | bash
+
       - name: Write Google configuration for Android
         shell: bash
         run: |
@@ -91,10 +103,6 @@ jobs:
         shell: bash
         run: |
           flutter pub get
-
-      - name: Install Firebase App Distribution CLI
-        run: |
-          curl -sL https://firebase.tools | bash
 
       - name: CEJ - Build Android apk
         run: |
@@ -155,11 +163,30 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      - name: Check Codemagic CLI cache
+        uses: actions/cache@v3
+        id: codemagic-cache
+        with:
+          path: /Users/runner/hostedtoolcache/Python/${{ env.PYTHON_VERSION }}/x64
+          key: ${{ runner.os }}-codemagic
+
       - name: Install Codemagic CLI tools
+        if: steps.codemagic-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           pip3 install codemagic-cli-tools
-          xcrun xcodebuild -version
+
+      - name: Check Firebase App Distribution CLI cache
+        uses: actions/cache@v3
+        id: firebase-tools-cache
+        with:
+          path: /usr/local/bin
+          key: ${{ runner.os }}-firebase-tools
+
+      - name: Install Firebase App Distribution CLI
+        if: steps.firebase-tools-cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sL https://firebase.tools | bash
 
       - name: Write Google configuration for ios
         shell: bash
@@ -184,11 +211,15 @@ jobs:
         run: |
           flutter pub get
 
-      - name: Install Firebase App Distribution CLI
-        run: |
-          curl -sL https://firebase.tools | bash
+      - name: Check CocoaPods cache
+        uses: actions/cache@v3
+        id: cocoapods-cache
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('pubspec.lock') }}
 
       - name: Install CocoaPods dependencies
+        if: steps.cocoapods-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           find . -name "Podfile" -execdir pod install \;
@@ -299,7 +330,6 @@ jobs:
         shell: bash
         run: |
           xcode-project use-profiles --export-options-plist ios/staging_export_options.plist
-
 
       - name: BRSA - Build IPA with generated staging_export_options.plist
         shell: bash

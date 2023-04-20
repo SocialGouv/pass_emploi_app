@@ -22,6 +22,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
+          cache: true
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Launch tests
@@ -51,6 +52,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
+          cache: true
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Write Google configuration for Android
@@ -116,17 +118,25 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
+          cache: true
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      - name: Check Codemagic CLI cache
+        uses: actions/cache@v3
+        id: codemagic-cache
+        with:
+          path: /Users/runner/hostedtoolcache/Python/${{ env.PYTHON_VERSION }}/x64
+          key: ${{ runner.os }}-codemagic
+
       - name: Install Codemagic CLI tools
+        if: steps.codemagic-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           pip3 install codemagic-cli-tools
-          xcrun xcodebuild -version
 
       - name: Write p12 certificate
         shell: bash
