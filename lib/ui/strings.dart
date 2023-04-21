@@ -3,18 +3,18 @@ import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
 
 class _BrsaStrings {
-  static String appName = "Pass emploi";
-  static String logoDescription = "Logo Pass emploi";
+  static String appName = "pass emploi";
+  static String logoDescription = "Logo pass emploi";
   static String shouldInformConseiller =
-      "En cas d’imprévu, il est important de prévenir votre conseiller. Vous pouvez le contacter via la messagerie de l’application Pass emploi.";
-  static String suppressionAccountLabel = "Supprimer mon compte de l’application Pass emploi";
+      "En cas d’imprévu, il est important de prévenir votre conseiller. Vous pouvez le contacter via la messagerie de l’application pass emploi.";
+  static String suppressionAccountLabel = "Supprimer mon compte de l’application pass emploi";
   static String warningInformationParagraph1 =
-      "En supprimant votre compte de l’application Pass emploi, vous perdrez définitivement toutes les données présentes sur l’application :";
+      "En supprimant votre compte de l’application pass emploi, vous perdrez définitivement toutes les données présentes sur l’application :";
   static String warningInformationParagraph2 =
-      "La suppression de votre compte sur l’application Pass emploi n'entraîne pas la suppression de votre accompagnement.";
-  static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application Pass emploi";
-  static String modeDemoExplicationPremierPoint3 = " l’application Pass emploi utilisée par vos bénéficiaires.";
-  static String ratingLabel = "Aimez-vous l’application Pass emploi ?";
+      "La suppression de votre compte sur l’application pass emploi n'entraîne pas la suppression de votre accompagnement.";
+  static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application pass emploi";
+  static String modeDemoExplicationPremierPoint3 = " l’application pass emploi utilisée par vos bénéficiaires.";
+  static String ratingLabel = "Aimez-vous l’application pass emploi ?";
 }
 
 class _CejStrings {
