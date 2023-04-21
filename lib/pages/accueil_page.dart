@@ -254,6 +254,7 @@ class _Evenements extends StatelessWidget {
         Text(Strings.accueilEvenementsSection, style: TextStyles.secondaryAppBar),
         SizedBox(height: Margins.spacing_base),
         ...item.evenementIds.map((id) => _EventCard(id)),
+        SizedBox(height: Margins.spacing_s),
         SecondaryButton(label: Strings.accueilVoirLesEvenements, onPressed: () => goToEventList(context)),
       ],
     );
@@ -323,6 +324,7 @@ class _AvecAlertes extends StatelessWidget {
     return Column(
       children: [
         ...item.savedSearches.map((search) => _AlerteCard(search)),
+        SizedBox(height: Margins.spacing_s),
         SecondaryButton(label: Strings.accueilVoirMesAlertes, onPressed: () => goToSavedSearches(context)),
       ],
     );
@@ -416,6 +418,7 @@ class _AvecFavoris extends StatelessWidget {
     return Column(
       children: [
         ...item.favoris.map((favori) => _FavorisCard(favori)),
+        SizedBox(height: Margins.spacing_s),
         SecondaryButton(label: Strings.accueilVoirMesFavoris, onPressed: () => _goToFavoris(context)),
       ],
     );
