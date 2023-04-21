@@ -345,7 +345,7 @@ jobs:
 
       - name: BRSA - Deploy IPA to Firebase App Distribution
         run: |
-          mv "$(find $(pwd) -name "Pass Emploi.ipa")" pass-emploi.ipa
+          mv "$(find $(pwd) -name "pass emploi.ipa")" pass-emploi.ipa
           firebase appdistribution:distribute $(find $(pwd) -name "pass-emploi.ipa") \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$BRSA_STAGING_IOS_APP_ID" \
@@ -354,4 +354,3 @@ jobs:
           STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
           BRSA_STAGING_IOS_APP_ID: ${{ secrets.BRSA_STAGING_IOS_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
-
