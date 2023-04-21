@@ -323,7 +323,7 @@ class _AvecAlertes extends StatelessWidget {
     return Column(
       children: [
         ...item.savedSearches.map((search) => _AlerteCard(search)),
-        SecondaryButton(label: Strings.accueilVoirMesAbonnements, onPressed: () => goToSavedSearches(context)),
+        SecondaryButton(label: Strings.accueilVoirMesAlertes, onPressed: () => goToSavedSearches(context)),
       ],
     );
   }

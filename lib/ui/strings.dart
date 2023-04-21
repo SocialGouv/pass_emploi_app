@@ -183,7 +183,7 @@ class Strings {
   static String accueilEvenementsSection = "Événements à venir";
   static String accueilVoirLesEvenements = "Voir tous les événements";
   static String accueilMesAlertesSection = "Mes alertes";
-  static String accueilVoirMesAbonnements = "Voir tous mes abonnements";
+  static String accueilVoirMesAlertes = "Voir toutes mes alertes";
   static String accueilPasDalerteDescription =
       "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
   static String accueilPasDalerteBouton = "Rechercher une offre";
