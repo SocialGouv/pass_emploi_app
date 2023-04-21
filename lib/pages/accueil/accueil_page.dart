@@ -116,8 +116,6 @@ class _Blocs extends StatelessWidget {
   }
 }
 
-//TODO: move 1 file / item
-
 class _CetteSemaine extends StatelessWidget {
   final AccueilCetteSemaineItem item;
 
