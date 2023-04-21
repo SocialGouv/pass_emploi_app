@@ -14,8 +14,8 @@ class OffreFiltersPageViewModel extends Equatable {
     return OffreFiltersPageViewModel(
       solutionTypes: [
         SolutionType.OffreEmploi,
-        SolutionType.Alternance,
-        if (isCej) SolutionType.Immersion,
+        if (isCej) SolutionType.Alternance,
+        SolutionType.Immersion,
         if (isCej) SolutionType.ServiceCivique,
       ],
     );

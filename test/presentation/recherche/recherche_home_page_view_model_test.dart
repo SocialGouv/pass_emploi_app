@@ -31,7 +31,7 @@ void main() {
     // Then
     expect(
       viewModel.solutionTypes,
-      [SolutionType.OffreEmploi, SolutionType.Alternance],
+      [SolutionType.OffreEmploi, SolutionType.Immersion],
     );
   });
 }
