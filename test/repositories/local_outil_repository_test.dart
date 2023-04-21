@@ -10,6 +10,7 @@ void main() {
       // When
       final outilsBrsa = localOutilRepository.getOutils(Brand.brsa);
       // Then
+      expect(outilsBrsa.length, 5);
       expect(outilsBrsa[0].title, "J'accède à mes aides");
       expect(outilsBrsa[1].title, "Je m’engage bénévolement");
       expect(outilsBrsa[2].title, "Emploi-Store");
@@ -23,6 +24,7 @@ void main() {
       // When
       final outilsCej = localOutilRepository.getOutils(Brand.cej);
       // Then
+      expect(outilsCej.length, 10);
       expect(outilsCej[0].title, "Diagoriente");
       expect(outilsCej[1].title, "J'accède à mes aides");
       expect(outilsCej[2].title, "Trouver un mentor avec 1 jeune, 1 mentor");

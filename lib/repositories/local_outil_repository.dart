@@ -33,7 +33,6 @@ class LocalOutilRepository {
       _Outils.emploiStore,
       _Outils.emploiSolidaire,
       _Outils.laBonneBoite,
-      _Outils.alternance,
     ];
   }
 }
