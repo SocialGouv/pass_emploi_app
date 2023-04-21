@@ -3,11 +3,13 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
-import 'package:pass_emploi_app/models/favori.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_favoris_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_prochain_rendezvous_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 class AccueilViewModel extends Equatable {
@@ -98,89 +100,4 @@ abstract class AccueilItem extends Equatable {
   List<Object?> get props => [];
 }
 
-//TODO: move: 1 file / item
-
 enum MonSuiviType { actions, demarches }
-
-class AccueilCetteSemaineItem extends AccueilItem {
-  final MonSuiviType monSuiviType;
-  final String rendezVous;
-  final String actionsDemarchesEnRetard;
-  final String actionsDemarchesARealiser;
-
-  AccueilCetteSemaineItem({
-    required this.monSuiviType,
-    required this.rendezVous,
-    required this.actionsDemarchesEnRetard,
-    required this.actionsDemarchesARealiser,
-  });
-
-  factory AccueilCetteSemaineItem.from({
-    required LoginMode loginMode,
-    required int nombreRendezVous,
-    required int nombreActionsDemarchesEnRetard,
-    required int nombreActionsDemarchesARealiser,
-  }) {
-    return AccueilCetteSemaineItem(
-      monSuiviType: loginMode.isPe() ? MonSuiviType.demarches : MonSuiviType.actions,
-      rendezVous: Strings.rendezvousEnCours(nombreRendezVous),
-      actionsDemarchesEnRetard: Strings.according(
-        loginMode: loginMode,
-        count: nombreActionsDemarchesEnRetard,
-        singularPoleEmploi: Strings.singularDemarcheLate(nombreActionsDemarchesEnRetard),
-        severalPoleEmploi: Strings.severalDemarchesLate(nombreActionsDemarchesEnRetard),
-        singularMissionLocale: Strings.singularActionLate(nombreActionsDemarchesEnRetard),
-        severalMissionLocale: Strings.severalActionsLate(nombreActionsDemarchesEnRetard),
-      ),
-      actionsDemarchesARealiser: Strings.according(
-        loginMode: loginMode,
-        count: nombreActionsDemarchesARealiser,
-        singularPoleEmploi: Strings.singularDemarcheToDo(nombreActionsDemarchesARealiser),
-        severalPoleEmploi: Strings.severalDemarchesToDo(nombreActionsDemarchesARealiser),
-        singularMissionLocale: Strings.singularActionToDo(nombreActionsDemarchesARealiser),
-        severalMissionLocale: Strings.severalActionsToDo(nombreActionsDemarchesARealiser),
-      ),
-    );
-  }
-
-  @override
-  List<Object?> get props => [monSuiviType, rendezVous, actionsDemarchesEnRetard, actionsDemarchesARealiser];
-}
-
-class AccueilProchainRendezvousItem extends AccueilItem {
-  final String rendezVousId;
-
-  AccueilProchainRendezvousItem(this.rendezVousId);
-
-  @override
-  List<Object?> get props => [rendezVousId];
-}
-
-class AccueilEvenementsItem extends AccueilItem {
-  final List<String> evenementIds;
-
-  AccueilEvenementsItem(this.evenementIds);
-
-  @override
-  List<Object?> get props => [evenementIds];
-}
-
-class AccueilAlertesItem extends AccueilItem {
-  final List<SavedSearch> savedSearches;
-
-  AccueilAlertesItem(this.savedSearches);
-
-  @override
-  List<Object?> get props => [savedSearches];
-}
-
-class AccueilFavorisItem extends AccueilItem {
-  final List<Favori> favoris;
-
-  AccueilFavorisItem(this.favoris);
-
-  @override
-  List<Object?> get props => [favoris];
-}
-
-class AccueilOutilsItem extends AccueilItem {}
