@@ -29,7 +29,7 @@ class AccueilFavoris extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilMesFavorisSection, style: TextStyles.secondaryAppBar),
+        Text(Strings.accueilMesFavorisSection, style: TextStyles.accueilSection),
         SizedBox(height: Margins.spacing_base),
         if (hasContent) _AvecFavoris(item),
         if (!hasContent) _SansFavori(),

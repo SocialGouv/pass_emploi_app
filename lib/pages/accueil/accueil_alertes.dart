@@ -30,7 +30,7 @@ class AccueilAlertes extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(Strings.accueilMesAlertesSection, style: TextStyles.secondaryAppBar),
+          Text(Strings.accueilMesAlertesSection, style: TextStyles.accueilSection),
           VoirSuggestionsRechercheBandeau(
             padding: EdgeInsets.only(top: Margins.spacing_base),
             onTapShowSuggestions: () {

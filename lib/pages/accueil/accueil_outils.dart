@@ -20,7 +20,7 @@ class AccueilOutils extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilOutilsSection, style: TextStyles.secondaryAppBar),
+        Text(Strings.accueilOutilsSection, style: TextStyles.accueilSection),
         SizedBox(height: Margins.spacing_base),
         Text(Strings.accueilOutilsSectionDescription, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_base),
