@@ -57,6 +57,10 @@ void main() {
         RechercheDeepLinkState(),
       );
       assertState(
+        DeepLinkAction(RemoteMessage(data: {"type": "OUTILS"})),
+        OutilsDeepLinkState(),
+      );
+      assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "AGENDA"})),
         AgendaDeepLinkState(),
       );

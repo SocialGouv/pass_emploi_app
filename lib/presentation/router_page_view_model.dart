@@ -84,5 +84,6 @@ MainPageDisplayState _toMainPageDisplayStateByDeepLink(DeepLinkState state) {
   if (state is EventListDeepLinkState) return MainPageDisplayState.EVENT_LIST;
   if (state is ActualisationPeDeepLinkState) return MainPageDisplayState.ACTUALISATION_PE;
   if (state is RechercheDeepLinkState) return MainPageDisplayState.RECHERCHE;
+  if (state is OutilsDeepLinkState) return MainPageDisplayState.OUTILS;
   return MainPageDisplayState.DEFAULT;
 }

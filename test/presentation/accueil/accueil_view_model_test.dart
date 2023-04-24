@@ -4,9 +4,11 @@ import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_favoris_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_outils_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_prochain_rendezvous_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -70,6 +72,7 @@ void main() {
           AccueilEvenementsItem([mockAnimationCollective().id]),
           AccueilAlertesItem(getMockedSavedSearch()),
           AccueilFavorisItem(mock3Favoris()),
+          AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]),
         ],
       );
     });
@@ -96,6 +99,7 @@ void main() {
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
           AccueilAlertesItem(getMockedSavedSearch()),
           AccueilFavorisItem(mock3Favoris()),
+          AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]),
         ],
       );
     });

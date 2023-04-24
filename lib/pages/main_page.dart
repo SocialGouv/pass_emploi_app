@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
+import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -138,8 +139,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case MainTab.chat:
         return ChatPage();
       case MainTab.solutions:
+        final initialTab = !_deepLinkHandled ? _initialSolutionsTab() : null;
         _deepLinkHandled = true;
-        return SolutionsTabPage();
+        return SolutionsTabPage(initialTab: initialTab);
       case MainTab.favoris:
         final initialTab = !_deepLinkHandled ? _initialFavorisTab() : 0;
         _deepLinkHandled = true;
@@ -159,6 +161,15 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return MonSuiviTab.ACTIONS;
       case MainPageDisplayState.RENDEZVOUS_TAB:
         return MonSuiviTab.RENDEZVOUS;
+      default:
+        return null;
+    }
+  }
+
+  SolutionsTab? _initialSolutionsTab() {
+    switch (widget.displayState) {
+      case MainPageDisplayState.OUTILS:
+        return SolutionsTab.outils;
       default:
         return null;
     }
@@ -190,6 +201,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case MainPageDisplayState.CHAT:
         initialIndex = viewModel.tabs.indexOf(MainTab.chat);
         break;
+      case MainPageDisplayState.OUTILS:
       case MainPageDisplayState.RECHERCHE:
         initialIndex = viewModel.tabs.indexOf(MainTab.solutions);
         break;
