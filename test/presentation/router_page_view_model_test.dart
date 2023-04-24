@@ -188,6 +188,18 @@ void main() {
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.RECHERCHE);
     });
 
+    test('…and deep link is set to outils should display main page with outils', () {
+      final state = AppState.initialState().copyWith(
+        loginState: successMiloUserState(),
+        deepLinkState: OutilsDeepLinkState(),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.OUTILS);
+    });
+
     test('should show tutorial if user didn`t read it yet', () {
       final state = AppState.initialState().copyWith(
         loginState: successMiloUserState(),

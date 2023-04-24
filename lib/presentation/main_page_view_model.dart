@@ -21,6 +21,7 @@ enum MainPageDisplayState {
   EVENT_LIST,
   ACTUALISATION_PE,
   RECHERCHE,
+  OUTILS,
 }
 
 class MainPageViewModel extends Equatable {

@@ -7,9 +7,11 @@ import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_favoris_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_outils_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_prochain_rendezvous_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
 import 'package:redux/redux.dart';
 
 class AccueilViewModel extends Equatable {
@@ -92,7 +94,10 @@ AccueilItem? _favorisItem(AccueilSuccessState successState) {
 }
 
 AccueilItem? _outilsItem(AccueilSuccessState successState) {
-  return null;
+  return AccueilOutilsItem([
+    Outils.diagoriente.withoutImage(),
+    Outils.aides.withoutImage(),
+  ]);
 }
 
 abstract class AccueilItem extends Equatable {

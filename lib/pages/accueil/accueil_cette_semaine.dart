@@ -30,7 +30,7 @@ class AccueilCetteSemaine extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilCetteSemaineSection, style: TextStyles.secondaryAppBar),
+        Text(Strings.accueilCetteSemaineSection, style: TextStyles.accueilSection),
         SizedBox(height: Margins.spacing_base),
         CardContainer(
           padding: EdgeInsets.zero,

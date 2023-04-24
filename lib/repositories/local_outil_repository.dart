@@ -13,31 +13,31 @@ class LocalOutilRepository {
 
   List<Outil> _getOutilsCej() {
     return [
-      _Outils.diagoriente,
-      _Outils.aides,
-      _Outils.mentor,
-      _Outils.benevolat,
-      _Outils.formation,
-      _Outils.evenement,
-      _Outils.emploiStore,
-      _Outils.emploiSolidaire,
-      _Outils.laBonneBoite,
-      _Outils.alternance,
+      Outils.diagoriente,
+      Outils.aides,
+      Outils.mentor,
+      Outils.benevolat,
+      Outils.formation,
+      Outils.evenement,
+      Outils.emploiStore,
+      Outils.emploiSolidaire,
+      Outils.laBonneBoite,
+      Outils.alternance,
     ];
   }
 
   List<Outil> _getOutilsBrsa() {
     return [
-      _Outils.aides,
-      _Outils.benevolat,
-      _Outils.emploiStore,
-      _Outils.emploiSolidaire,
-      _Outils.laBonneBoite,
+      Outils.aides,
+      Outils.benevolat,
+      Outils.emploiStore,
+      Outils.emploiSolidaire,
+      Outils.laBonneBoite,
     ];
   }
 }
 
-class _Outils {
+class Outils {
   static Outil diagoriente = Outil(
     title: "Diagoriente",
     description:

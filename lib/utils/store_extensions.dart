@@ -7,5 +7,6 @@ extension StoreDeeplinks on Store<AppState> {
   void dispatchFavorisDeeplink() => dispatch(LocalDeeplinkAction({"type": "FAVORIS"}));
   void dispatchSavedSearchesDeeplink() => dispatch(LocalDeeplinkAction({"type": "SAVED_SEARCHES"}));
   void dispatchRechercheDeeplink() => dispatch(LocalDeeplinkAction({"type": "RECHERCHE"}));
+  void dispatchOutilsDeeplink() => dispatch(LocalDeeplinkAction({"type": "OUTILS"}));
   void dispatchEventListDeeplink() => dispatch(LocalDeeplinkAction({"type": "EVENT_LIST"}));
 }

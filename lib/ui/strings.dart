@@ -191,6 +191,9 @@ class Strings {
   static String accueilVoirMesFavoris = "Voir tous mes favoris";
   static String accueilPasDeFavorisDescription = "Retrouvez ici les offres que vous avez enregistrées";
   static String accueilPasDeFavorisBouton = "Rechercher une offre";
+  static String accueilOutilsSection = "Boîte à outils";
+  static String accueilOutilsSectionDescription = "Découvrez des outils pour vous aider dans vos projets";
+  static String accueilVoirLesOutils = "Voir tous les outils";
 
   // Mon Suivi
   static String monSuiviAppBarTitle = "Mon suivi";

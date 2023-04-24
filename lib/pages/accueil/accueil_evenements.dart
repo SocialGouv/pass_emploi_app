@@ -21,7 +21,7 @@ class AccueilEvenements extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilEvenementsSection, style: TextStyles.secondaryAppBar),
+        Text(Strings.accueilEvenementsSection, style: TextStyles.accueilSection),
         SizedBox(height: Margins.spacing_base),
         ...item.evenementIds.map((id) => _EventCard(id)),
         SizedBox(height: Margins.spacing_s),
