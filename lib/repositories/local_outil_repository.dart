@@ -41,7 +41,7 @@ class Outils {
   static Outil diagoriente = Outil(
     title: "Diagoriente",
     description:
-        "Diagoriente est une application numérique qui propose aux jeunes d'explorer leurs expériences, d'analyser leurs compétences transversales et d'identifier leurs intérêts personnels pour faciliter leur orientation.",
+        "Explorez vos expériences, analysez vos compétences transversales et identifiez vos intérêts personnels afin de faciliter votre orientation.",
     actionLabel: "Créer mon compte Diagoriente",
     urlRedirect: "https://app.diagoriente.beta.gouv.fr/register",
     imagePath: "diagoriente.png",
