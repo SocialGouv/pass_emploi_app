@@ -17,7 +17,6 @@ import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
-
 void main() {
   final sut = StoreSut();
   final authenticator = MockAuthenticator();
@@ -50,20 +49,19 @@ void main() {
     });
 
     test('user is not logged in if she was previously logged in with a corrupted ID token & token should be deleted',
-            () async {
-          // Given
-          final preferences = MockFlutterSecureStorage();
-          when(() => preferences.read(key: 'idToken')).thenAnswer((_) async => 'CORRUPTED ID TOKEN');
-          when(() => preferences.delete(key: 'idToken')).thenAnswer((_) async => true);
-          final authenticator = Authenticator(
-              DummyAuthWrapper(), DummyLogoutRepository(), configuration(), preferences);
-          sut.givenStore = givenState().store((f) => f.authenticator = authenticator);
+        () async {
+      // Given
+      final preferences = MockFlutterSecureStorage();
+      when(() => preferences.read(key: 'idToken')).thenAnswer((_) async => 'CORRUPTED ID TOKEN');
+      when(() => preferences.delete(key: 'idToken')).thenAnswer((_) async => true);
+      final authenticator = Authenticator(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), preferences);
+      sut.givenStore = givenState().store((f) => f.authenticator = authenticator);
 
-          // Then
-          sut.thenExpectChangingStatesThroughOrder([_shouldNotBeLoggedIn()]);
-          await untilCalled(() => preferences.delete(key: any(named: 'key')));
-          verify(() => preferences.delete(key: 'idToken')).called(1);
-        });
+      // Then
+      sut.thenExpectChangingStatesThroughOrder([_shouldNotBeLoggedIn()]);
+      await untilCalled(() => preferences.delete(key: any(named: 'key')));
+      verify(() => preferences.delete(key: 'idToken')).called(1);
+    });
   });
 
   group('On request login…', () {
@@ -122,26 +120,9 @@ void main() {
     });
 
     group('with mode POLE_EMPLOI in BRSA application', () {
-      sut.when(() => RequestLoginAction(RequestLoginMode.SIMILO));
-
-      test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
-        // Given
-        when(() => authenticator.login(AuthenticationMode.SIMILO))
-            .thenAnswer((_) async => AuthenticatorResponse.FAILURE);
-        sut.givenStore = givenState().store((f) {
-          f.authenticator = authenticator;
-          f.matomoTracker = matomoTracker;
-        });
-
-        // Then
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
-      });
-    });
-
-    group('when login fails', () {
       sut.when(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
 
-      test('user is not logged in', () async {
+      test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given
         when(() => authenticator.login(AuthenticationMode.POLE_EMPLOI))
             .thenAnswer((_) async => AuthenticatorResponse.SUCCESS);
@@ -155,16 +136,31 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.POLE_EMPLOI)]);
       });
     });
+
+    group('when login fails', () {
+      sut.when(() => RequestLoginAction(RequestLoginMode.SIMILO));
+
+      test('user is not logged in', () async {
+        // Given
+        when(() => authenticator.login(AuthenticationMode.SIMILO))
+            .thenAnswer((_) async => AuthenticatorResponse.FAILURE);
+        sut.givenStore = givenState().store((f) {
+          f.authenticator = authenticator;
+          f.matomoTracker = matomoTracker;
+        });
+
+        // Then
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+      });
+    });
   });
 
   group('On logout…', () {
     test('user is logged out from authenticator and state is fully reset except for configuration', () async {
       // Given
       when(() => authenticator.logout()).thenAnswer((_) async => true);
-      final Store<AppState> store = givenState(configuration(flavor: Flavor.PROD))
-          .loggedInUser()
-          .loadingFutureRendezvous()
-          .store((f) {
+      final Store<AppState> store =
+          givenState(configuration(flavor: Flavor.PROD)).loggedInUser().loadingFutureRendezvous().store((f) {
         f.authenticator = authenticator;
         f.matomoTracker = matomoTracker;
       });
@@ -183,8 +179,8 @@ void main() {
 
 Matcher _shouldBeLoggedInWithMode(LoginMode loginMode) {
   return StateIs<LoginSuccessState>(
-        (state) => state.loginState,
-        (state) => expect(state.user, user(loginMode)),
+    (state) => state.loginState,
+    (state) => expect(state.user, user(loginMode)),
   );
 }
 
@@ -194,8 +190,7 @@ Matcher _shouldLoad() => StateIs<LoginLoadingState>((state) => state.loginState)
 
 Matcher _shouldFail() => StateIs<LoginFailureState>((state) => state.loginState);
 
-AuthIdToken authIdToken(String loginMode) =>
-    AuthIdToken(
+AuthIdToken authIdToken(String loginMode) => AuthIdToken(
       userId: 'id',
       firstName: 'F',
       lastName: 'L',
@@ -204,8 +199,7 @@ AuthIdToken authIdToken(String loginMode) =>
       loginMode: loginMode,
     );
 
-User user(LoginMode loginMode) =>
-    User(
+User user(LoginMode loginMode) => User(
       id: "id",
       firstName: "F",
       lastName: "L",
