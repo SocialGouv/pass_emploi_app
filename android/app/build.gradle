@@ -83,7 +83,7 @@ android {
         brsa {
             dimension "brand"
             applicationId "fr.fabrique.social.gouv.passemploi.rsa"
-            resValue "string", "app_name", "Pass Emploi"
+            resValue "string", "app_name", "pass emploi"
         }
         cej {
             dimension "brand"
