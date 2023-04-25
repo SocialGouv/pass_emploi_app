@@ -2,6 +2,6 @@ flutter_native_splash:
   image: "assets_generation/splash_screen/logo_pass_emploi.png"
   background_image: "assets_generation/splash_screen/splash_screen_background_brsa.png"
   android_12:
-    color: "#3B69D1"
+    color: "#274996"
     image: "assets_generation/splash_screen/logo_pass_emploi.png"
-    icon_background_color: "#3B69D1"
+    icon_background_color: "#274996"
