@@ -9,14 +9,15 @@ class SecondaryIconButton extends StatelessWidget {
   final Color? borderColor;
   final double iconSize;
 
-  const SecondaryIconButton({
+  SecondaryIconButton({
     Key? key,
     required this.icon,
     required this.onTap,
-    this.iconColor = AppColors.primary,
+    Color? iconColor,
     this.borderColor,
     this.iconSize = Dimens.icon_size_m,
-  }) : super(key: key);
+  })  : iconColor = iconColor ?? AppColors.primary,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
