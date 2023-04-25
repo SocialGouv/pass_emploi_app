@@ -577,10 +577,10 @@ class Strings {
   static String deleteOffreFromFavori = "Supprimer des favoris";
 
   // Favoris
+  static String mesFavorisTabTitle = "Mes favoris";
+  static String mesAlertesTabTitle = "Mes alertes";
   static String miscellaneousErrorRetry = "Une erreur est survenue. Veuillez réessayer";
-
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
-
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";

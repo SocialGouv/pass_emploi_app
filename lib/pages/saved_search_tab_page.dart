@@ -53,7 +53,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.rendezvousTabTitle),
+      appBar: SecondaryAppBar(title: Strings.mesAlertesTabTitle),
       body: Tracker(
         tracking: AnalyticsScreenNames.savedSearchList,
         child: StoreConnector<AppState, SavedSearchListViewModel>(

@@ -48,7 +48,7 @@ class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.rendezvousTabTitle),
+      appBar: SecondaryAppBar(title: Strings.mesFavorisTabTitle),
       body: Tracker(
         tracking: AnalyticsScreenNames.offreFavorisList,
         child: StoreConnector<AppState, FavoriListViewModel>(
