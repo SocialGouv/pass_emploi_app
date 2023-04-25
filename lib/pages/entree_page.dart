@@ -102,6 +102,7 @@ class EntreePage extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (Brand.isBrsa()) Flexible(child: Container()),
               ],
             ),
           ),
