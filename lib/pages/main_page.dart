@@ -28,6 +28,8 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
 import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
 
+//TODO: gérer autrement le deeplink vers favoris et alertes
+
 class MainPage extends StatefulWidget {
   final MainPageDisplayState displayState;
   final int deepLinkKey;

@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
+//TODO: remove favoris tab
 enum MainTab { accueil, monSuivi, chat, solutions, favoris, evenements }
 
 enum MainPageDisplayState {

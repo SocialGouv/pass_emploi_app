@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/pages/saved_search_tab_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -64,7 +65,7 @@ class _AvecAlertes extends StatelessWidget {
   }
 
   void goToSavedSearches(BuildContext context) {
-    StoreProvider.of<AppState>(context).dispatchSavedSearchesDeeplink();
+    Navigator.push(context, SavedSearchTabPage.materialPageRoute());
   }
 }
 

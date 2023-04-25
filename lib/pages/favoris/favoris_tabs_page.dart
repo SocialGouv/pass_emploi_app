@@ -6,6 +6,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 
+//TODO: remove file
+
 class FavorisTabsPage extends StatelessWidget {
   final List<String> _favorisTabs = [
     Strings.favorisTabName,
