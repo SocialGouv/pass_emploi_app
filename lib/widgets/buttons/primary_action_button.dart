@@ -17,9 +17,9 @@ class PrimaryActionButton extends StatelessWidget {
   final double heightPadding;
   final double widthPadding;
 
-  const PrimaryActionButton({
+  PrimaryActionButton({
     Key? key,
-    this.backgroundColor = AppColors.primary,
+    Color? backgroundColor,
     this.disabledBackgroundColor = AppColors.primaryWithAlpha50,
     this.textColor = Colors.white,
     this.rippleColor = AppColors.primaryDarken,
@@ -31,7 +31,8 @@ class PrimaryActionButton extends StatelessWidget {
     this.iconSize = Dimens.icon_size_m,
     this.heightPadding = 12,
     this.widthPadding = 20,
-  }) : super(key: key);
+  })  : backgroundColor = backgroundColor ?? AppColors.primary,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
