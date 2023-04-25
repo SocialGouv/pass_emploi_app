@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
+import 'package:pass_emploi_app/widgets/entree_brsa_background.dart';
 import 'package:pass_emploi_app/widgets/hidden_menu.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
@@ -44,7 +45,7 @@ class EntreePage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          const EntreeBiseauBackground(),
+          Brand.isCej() ? EntreeBiseauBackground() : EntreeBrsaBackground(),
           if (Brand.isCej())
             SafeArea(
               bottom: false,
@@ -69,10 +70,17 @@ class EntreePage extends StatelessWidget {
                 ],
               ),
             ),
+          if (Brand.isBrsa())
+            SafeArea(
+                child: Padding(
+              padding: const EdgeInsets.all(Margins.spacing_m),
+              child: SvgPicture.asset(Drawables.republiqueFrancaiseLogo, width: screenWidth * 0.3),
+            )),
           SafeArea(
             bottom: false,
             child: Column(
               children: [
+                Flexible(child: Container()),
                 Expanded(
                   child: Brand.isBrsa() ? SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6) : Container(),
                 ),
