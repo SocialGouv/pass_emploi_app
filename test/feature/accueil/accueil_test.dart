@@ -1,7 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 
 import '../../doubles/dio_mock.dart';
@@ -48,6 +54,26 @@ void main() {
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
       });
+    });
+
+    group("when a user change occurs", () {
+      void expectLoadingWhen(dynamic action) {
+        sut.when(() => action);
+
+        test('should load then succeed when request succeed for milo', () {
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store((f) => {f.accueilRepository = AccueilRepositorySuccessStub()});
+
+          sut.thenExpectChangingStatesThroughOrder([_shouldLoad()]);
+        });
+      }
+
+      expectLoadingWhen(UserActionCreateSuccessAction("id"));
+      expectLoadingWhen(UserActionDeleteSuccessAction("id"));
+      expectLoadingWhen(UserActionUpdateSuccessAction(actionId: "id", newStatus: UserActionStatus.DONE));
+      expectLoadingWhen(CreateDemarcheSuccessAction("id"));
+      expectLoadingWhen(UpdateDemarcheSuccessAction(mockDemarche()));
     });
   });
 }
