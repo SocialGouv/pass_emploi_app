@@ -80,7 +80,6 @@ class EntreePage extends StatelessWidget {
             bottom: false,
             child: Column(
               children: [
-                Flexible(child: Container()),
                 Expanded(
                   child: Brand.isBrsa() ? SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6) : Container(),
                 ),
@@ -102,7 +101,6 @@ class EntreePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (Brand.isBrsa()) Flexible(child: Container()),
               ],
             ),
           ),
