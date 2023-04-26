@@ -17,8 +17,8 @@ class DemarcheListPageViewModel extends Equatable {
   DemarcheListPageViewModel({
     required this.displayState,
     required this.items,
-    this.displayCreateDemarcheButton = false,
-    this.isReloading = false,
+    required this.displayCreateDemarcheButton,
+    required this.isReloading,
     required this.onRetry,
   });
 
