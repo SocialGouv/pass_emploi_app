@@ -20,7 +20,7 @@ class AccueilViewModel extends Equatable {
   final DisplayState displayState;
   final List<AccueilItem> items;
   final DeepLinkState deepLinkState;
-  final Function resetDeeplink;
+  final Function() resetDeeplink;
   final Function() retry;
 
   AccueilViewModel({
