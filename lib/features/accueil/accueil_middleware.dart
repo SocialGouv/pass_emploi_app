@@ -51,10 +51,8 @@ bool _needFetchingAccueil(dynamic action) {
       action is UserActionDeleteSuccessAction ||
       action is UserActionUpdateSuccessAction ||
       action is CreateDemarcheSuccessAction ||
-      action is UpdateDemarcheSuccessAction;
+      action is UpdateDemarcheSuccessAction ||
+      action is FavoriUpdateSuccessAction ||
+      action is SavedSearchCreateSuccessAction ||
+      action is SavedSearchDeleteSuccessAction;
 }
-
-//TODO: after 1586
-// FavoriUpdateSuccessAction
-// SavedSearchCreateSuccessAction
-// SavedSearchDeleteSuccessAction

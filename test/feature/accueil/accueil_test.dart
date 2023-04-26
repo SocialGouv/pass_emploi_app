@@ -3,10 +3,14 @@ import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
+import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 
@@ -74,6 +78,9 @@ void main() {
       expectLoadingWhen(UserActionUpdateSuccessAction(actionId: "id", newStatus: UserActionStatus.DONE));
       expectLoadingWhen(CreateDemarcheSuccessAction("id"));
       expectLoadingWhen(UpdateDemarcheSuccessAction(mockDemarche()));
+      expectLoadingWhen(FavoriUpdateSuccessAction("id", FavoriStatus.removed));
+      expectLoadingWhen(SavedSearchCreateSuccessAction(mockOffreEmploiSavedSearch()));
+      expectLoadingWhen(SavedSearchDeleteSuccessAction("id"));
     });
   });
 }
