@@ -11,15 +11,22 @@ class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final Color? backgroundColor;
   final bool withProfileButton;
+  final bool canPop;
 
-  const PrimaryAppBar({super.key, required this.title, this.backgroundColor, this.withProfileButton = true});
+  const PrimaryAppBar({
+    super.key,
+    required this.title,
+    this.backgroundColor,
+    this.withProfileButton = true,
+    this.canPop = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     final iconColor = Brand.isCej() ? Colors.black : AppColors.grey100;
     return AppBar(
       toolbarHeight: toolBarHeight,
-      leading: Navigator.canPop(context) ? BackButton(color: iconColor) : null,
+      leading: canPop ? BackButton(color: iconColor) : null,
       scrolledUnderElevation: 0,
       backgroundColor: Brand.isCej() ? AppColors.grey100 : AppColors.primary,
       title: Text(
