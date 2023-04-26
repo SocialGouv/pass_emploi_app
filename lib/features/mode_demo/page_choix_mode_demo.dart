@@ -26,12 +26,12 @@ class ChoixModeDemoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ChoixModeDemoViewModel>(
-        converter: (store) => ChoixModeDemoViewModel.create(store),
-        builder: (context, viewModel) {
-          return Tracker(
-            tracking: AnalyticsScreenNames.explicationModeDemo,
-            child: Scaffold(
+    return Tracker(
+      tracking: AnalyticsScreenNames.explicationModeDemo,
+      child: StoreConnector<AppState, ChoixModeDemoViewModel>(
+          converter: (store) => ChoixModeDemoViewModel.create(store),
+          builder: (context, viewModel) {
+            return Scaffold(
               body: Stack(
                 children: [
                   _Background(),
@@ -50,9 +50,9 @@ class ChoixModeDemoPage extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 }
 
@@ -101,7 +101,7 @@ class _Contenu extends StatelessWidget {
                 ),
               ),
               _BoutonPE(),
-              if (viewModel.showMiloModeButton) _BoutonMILO(),
+              if (viewModel.shouldDisplayMiloMode) _BoutonMILO(),
             ],
           ),
         ),
