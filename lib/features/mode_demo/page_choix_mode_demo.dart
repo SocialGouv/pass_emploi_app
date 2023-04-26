@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/presentation/choix_mode_demo_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -25,33 +26,41 @@ class ChoixModeDemoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.explicationModeDemo,
-      child: Scaffold(
-        body: Stack(
-          children: [
-            _Background(),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _BackButton(),
-                Expanded(
-                  child: _Contenu(),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
+    return StoreConnector<AppState, ChoixModeDemoViewModel>(
+        converter: (store) => ChoixModeDemoViewModel.create(store),
+        builder: (context, viewModel) {
+          return Tracker(
+            tracking: AnalyticsScreenNames.explicationModeDemo,
+            child: Scaffold(
+              body: Stack(
+                children: [
+                  _Background(),
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _BackButton(),
+                      Expanded(
+                        child: _Contenu(viewModel),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
 
 class _Contenu extends StatelessWidget {
+  final ChoixModeDemoViewModel viewModel;
+
+  const _Contenu(this.viewModel);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -92,7 +101,7 @@ class _Contenu extends StatelessWidget {
                 ),
               ),
               _BoutonPE(),
-              _BoutonMILO(),
+              if (viewModel.showMiloModeButton) _BoutonMILO(),
             ],
           ),
         ),
