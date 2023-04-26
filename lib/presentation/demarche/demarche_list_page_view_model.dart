@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -9,13 +10,15 @@ import 'package:redux/redux.dart';
 class DemarcheListPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<DemarcheListItem> items;
+  final bool displayCreateDemarcheButton;
   final bool isReloading;
   final Function() onRetry;
 
   DemarcheListPageViewModel({
     required this.displayState,
     required this.items,
-    this.isReloading = false,
+    required this.displayCreateDemarcheButton,
+    required this.isReloading,
     required this.onRetry,
   });
 
@@ -29,13 +32,14 @@ class DemarcheListPageViewModel extends Equatable {
         inactiveIds: _inactiveItems(state: state),
         withNotUpToDateItem: state is DemarcheListSuccessState && state.dateDerniereMiseAJour != null,
       ),
+      displayCreateDemarcheButton: _displayCreateDemarcheButton(store.state),
       isReloading: state is DemarcheListReloadingState,
       onRetry: () => store.dispatch(DemarcheListRequestReloadAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items, isReloading];
+  List<Object?> get props => [displayState, items, isReloading, displayCreateDemarcheButton];
 }
 
 DisplayState _displayState(AppState state) {
@@ -91,6 +95,16 @@ List<DemarcheListItem> _listItems({
     ...activeItemIds.map((e) => IdItem(e)),
     ...inactiveIds.map((e) => IdItem(e)),
   ];
+}
+
+bool _displayCreateDemarcheButton(AppState state) {
+  final isBrsa = state.configurationState.configuration?.brand == Brand.brsa;
+  final allowBrsaToCreateDemarche = state.configurationState.configuration?.allowBrsaToCreateDemarche == true;
+
+  if (isBrsa && !allowBrsaToCreateDemarche) {
+    return false;
+  }
+  return true;
 }
 
 abstract class DemarcheListItem extends Equatable {
