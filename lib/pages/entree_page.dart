@@ -82,7 +82,9 @@ class EntreePage extends StatelessWidget {
               children: [
                 Flexible(child: Container()),
                 Expanded(
-                  child: Brand.isBrsa() ? SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6) : Container(),
+                  child: Brand.isBrsa()
+                      ? HiddenMenuGesture(child: SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6))
+                      : Container(),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(Margins.spacing_m),
