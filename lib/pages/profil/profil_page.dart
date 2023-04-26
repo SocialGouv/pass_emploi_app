@@ -56,7 +56,12 @@ class ProfilPage extends StatelessWidget {
     const backgroundColor = AppColors.grey100;
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: PrimaryAppBar(title: Strings.menuProfil, withProfileButton: false, backgroundColor: backgroundColor),
+      appBar: PrimaryAppBar(
+        title: Strings.menuProfil,
+        withProfileButton: false,
+        backgroundColor: backgroundColor,
+        canPop: true,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),

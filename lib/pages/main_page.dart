@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_page.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/event_list_page.dart';
-import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
@@ -142,10 +141,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         final initialTab = !_deepLinkHandled ? _initialSolutionsTab() : null;
         _deepLinkHandled = true;
         return SolutionsTabPage(initialTab: initialTab);
-      case MainTab.favoris:
-        final initialTab = !_deepLinkHandled ? _initialFavorisTab() : 0;
-        _deepLinkHandled = true;
-        return FavorisTabsPage(initialTab);
       case MainTab.evenements:
         return EventListPage();
       default:
@@ -175,22 +170,15 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
-  int _initialFavorisTab() {
-    switch (widget.displayState) {
-      case MainPageDisplayState.SAVED_SEARCH:
-      case MainPageDisplayState.SAVED_SEARCHES:
-        return 1;
-      default:
-        return 0;
-    }
-  }
-
   void _setInitIndexPage(MainPageViewModel viewModel) {
     if (_selectedIndex != _indexNotInitialized) return;
     late int initialIndex;
     switch (widget.displayState) {
       case MainPageDisplayState.DEFAULT:
       case MainPageDisplayState.ACTUALISATION_PE:
+      case MainPageDisplayState.FAVORIS:
+      case MainPageDisplayState.SAVED_SEARCH:
+      case MainPageDisplayState.SAVED_SEARCHES:
         initialIndex = 0;
         break;
       case MainPageDisplayState.AGENDA_TAB:
@@ -204,11 +192,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case MainPageDisplayState.OUTILS:
       case MainPageDisplayState.RECHERCHE:
         initialIndex = viewModel.tabs.indexOf(MainTab.solutions);
-        break;
-      case MainPageDisplayState.FAVORIS:
-      case MainPageDisplayState.SAVED_SEARCH:
-      case MainPageDisplayState.SAVED_SEARCHES:
-        initialIndex = viewModel.tabs.indexOf(MainTab.favoris);
         break;
       case MainPageDisplayState.EVENT_LIST:
         initialIndex = viewModel.tabs.indexOf(MainTab.evenements);
@@ -318,12 +301,6 @@ extension _MainTab on MainTab {
           defaultIcon: AppIcons.pageview_rounded,
           inactiveIcon: AppIcons.pageview_outlined,
           label: Strings.menuSolutions,
-        );
-      case MainTab.favoris:
-        return menu.MenuItem(
-          defaultIcon: AppIcons.favorite_rounded,
-          inactiveIcon: AppIcons.favorite_outline_rounded,
-          label: Strings.menuFavoris,
         );
       case MainTab.evenements:
         return menu.MenuItem(

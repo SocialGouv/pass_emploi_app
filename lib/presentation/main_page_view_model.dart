@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-enum MainTab { accueil, monSuivi, chat, solutions, favoris, evenements }
+enum MainTab { accueil, monSuivi, chat, solutions, evenements }
 
 enum MainPageDisplayState {
   DEFAULT,
@@ -50,7 +50,6 @@ class MainPageViewModel extends Equatable {
         MainTab.monSuivi,
         MainTab.chat,
         MainTab.solutions,
-        MainTab.favoris,
         if (loginMode.isMiLo()) MainTab.evenements,
       ],
       withChatBadge: (chatStatusState is ChatStatusSuccessState) && (chatStatusState.unreadMessageCount > 0),

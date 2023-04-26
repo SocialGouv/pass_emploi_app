@@ -26,12 +26,21 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/dialogs/saved_search_delete_dialog.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_card.dart';
 
 class SavedSearchTabPage extends StatefulWidget {
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(
+      builder: (context) {
+        return SavedSearchTabPage();
+      },
+    );
+  }
+
   @override
   State<SavedSearchTabPage> createState() => _SavedSearchTabPageState();
 }
@@ -43,21 +52,24 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.savedSearchList,
-      child: StoreConnector<AppState, SavedSearchListViewModel>(
-        onInit: (store) {
-          store.dispatch(SavedSearchListRequestAction());
-          store.dispatch(SuggestionsRechercheRequestAction());
-          final DeepLinkState state = store.state.deepLinkState;
-          if (state is SavedSearchDeepLinkState) {
-            store.dispatch(FetchSavedSearchResultsFromIdAction(state.idSavedSearch));
-          }
-        },
-        onWillChange: (_, newVM) => _onWillChange(_, newVM),
-        builder: (context, viewModel) => _body(viewModel),
-        converter: (store) => SavedSearchListViewModel.createFromStore(store),
-        distinct: true,
+    return Scaffold(
+      appBar: SecondaryAppBar(title: Strings.mesAlertesTabTitle),
+      body: Tracker(
+        tracking: AnalyticsScreenNames.savedSearchList,
+        child: StoreConnector<AppState, SavedSearchListViewModel>(
+          onInit: (store) {
+            store.dispatch(SavedSearchListRequestAction());
+            store.dispatch(SuggestionsRechercheRequestAction());
+            final DeepLinkState state = store.state.deepLinkState;
+            if (state is SavedSearchDeepLinkState) {
+              store.dispatch(FetchSavedSearchResultsFromIdAction(state.idSavedSearch));
+            }
+          },
+          onWillChange: (_, newVM) => _onWillChange(_, newVM),
+          builder: (context, viewModel) => _body(viewModel),
+          converter: (store) => SavedSearchListViewModel.createFromStore(store),
+          distinct: true,
+        ),
       ),
     );
   }

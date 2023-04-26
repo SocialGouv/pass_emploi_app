@@ -79,7 +79,6 @@ void main() {
         MainTab.monSuivi,
         MainTab.chat,
         MainTab.solutions,
-        MainTab.favoris,
       ]);
     });
 
@@ -94,7 +93,6 @@ void main() {
         MainTab.monSuivi,
         MainTab.chat,
         MainTab.solutions,
-        MainTab.favoris,
         MainTab.evenements,
       ]);
     });

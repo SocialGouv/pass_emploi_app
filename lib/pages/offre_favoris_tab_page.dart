@@ -23,11 +23,20 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:redux/redux.dart';
 
 class OffreFavorisTabPage extends StatefulWidget {
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(
+      builder: (context) {
+        return OffreFavorisTabPage();
+      },
+    );
+  }
+
   @override
   State<OffreFavorisTabPage> createState() => _OffreFavorisTabPageState();
 }
@@ -38,13 +47,16 @@ class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.offreFavorisList,
-      child: StoreConnector<AppState, FavoriListViewModel>(
-        onInit: (store) => store.dispatch(FavoriListRequestAction()),
-        converter: (store) => FavoriListViewModel.create(store),
-        builder: _builder,
-        distinct: true,
+    return Scaffold(
+      appBar: SecondaryAppBar(title: Strings.mesFavorisTabTitle),
+      body: Tracker(
+        tracking: AnalyticsScreenNames.offreFavorisList,
+        child: StoreConnector<AppState, FavoriListViewModel>(
+          onInit: (store) => store.dispatch(FavoriListRequestAction()),
+          converter: (store) => FavoriListViewModel.create(store),
+          builder: _builder,
+          distinct: true,
+        ),
       ),
     );
   }

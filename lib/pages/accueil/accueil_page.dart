@@ -3,12 +3,15 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_alertes.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_cette_semaine.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_evenements.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_favoris.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_outils.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
+import 'package:pass_emploi_app/pages/offre_favoris_tab_page.dart';
+import 'package:pass_emploi_app/pages/saved_search_tab_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
@@ -32,13 +35,26 @@ class AccueilPage extends StatelessWidget {
       child: StoreConnector<AppState, AccueilViewModel>(
         onInit: (store) => store.dispatch(AccueilRequestAction()),
         converter: (store) => AccueilViewModel.create(store),
-        builder: (context, viewModel) => _scaffold(viewModel),
+        builder: (context, viewModel) => _scaffold(context, viewModel),
+        onDidChange: (previousViewModel, viewModel) => _handleDeeplink(context, previousViewModel, viewModel),
         distinct: true,
       ),
     );
   }
 
-  Scaffold _scaffold(AccueilViewModel viewModel) {
+  void _handleDeeplink(BuildContext context, AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) {
+    final deepLinkState = newViewModel.deepLinkState;
+    if (deepLinkState is FavorisDeepLinkState) {
+      Navigator.push(context, OffreFavorisTabPage.materialPageRoute());
+    } else if (deepLinkState is SavedSearchesDeepLinkState) {
+      Navigator.push(context, SavedSearchTabPage.materialPageRoute());
+    } else {
+      return;
+    }
+    newViewModel.resetDeeplink();
+  }
+
+  Scaffold _scaffold(BuildContext context, AccueilViewModel viewModel) {
     const backgroundColor = AppColors.grey100;
     return Scaffold(
       backgroundColor: backgroundColor,

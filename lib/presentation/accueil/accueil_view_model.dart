@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
@@ -17,11 +19,15 @@ import 'package:redux/redux.dart';
 class AccueilViewModel extends Equatable {
   final DisplayState displayState;
   final List<AccueilItem> items;
+  final DeepLinkState deepLinkState;
+  final Function() resetDeeplink;
   final Function() retry;
 
   AccueilViewModel({
     required this.displayState,
     required this.items,
+    required this.deepLinkState,
+    required this.resetDeeplink,
     required this.retry,
   });
 
@@ -29,12 +35,14 @@ class AccueilViewModel extends Equatable {
     return AccueilViewModel(
       displayState: _displayState(store),
       items: _items(store),
+      deepLinkState: store.state.deepLinkState,
+      resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items];
+  List<Object?> get props => [displayState, items, deepLinkState];
 }
 
 DisplayState _displayState(Store<AppState> store) {
