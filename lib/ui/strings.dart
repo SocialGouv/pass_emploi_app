@@ -15,6 +15,10 @@ class _BrsaStrings {
   static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application pass emploi";
   static String modeDemoExplicationPremierPoint3 = " l’application pass emploi utilisée par vos bénéficiaires.";
   static String ratingLabel = "Aimez-vous l’application pass emploi ?";
+  static String legalNoticeUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/pass_emploi_mentions_legales";
+  static String privacyPolicyUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_pass_emploi_politique_de_confidentialite";
+  static String termsOfServiceUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_pass_emploi_conditions_generales";
+  static String accessibilityUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_pass_emploi_accessibilite_application";
 }
 
 class _CejStrings {
@@ -30,6 +34,11 @@ class _CejStrings {
   static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application CEJ";
   static String modeDemoExplicationPremierPoint3 = " l’application CEJ utilisée par vos bénéficiaires.";
   static String ratingLabel = "Aimez-vous l’application CEJ ?";
+  static String legalNoticeUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_mentions_legales";
+  static String privacyPolicyUrl =
+      "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_politique_de_confidentialite";
+  static String termsOfServiceUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_conditions_generales";
+  static String accessibilityUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_accessibilite_application";
 }
 
 class Strings {
@@ -170,14 +179,23 @@ class Strings {
   static String accueilAppBarTitle = "Bienvenue";
   static String accueilCetteSemaineSection = "Cette semaine";
   static String accueilVoirDetailsCetteSemaine = "Voir le détail de ma semaine";
+
   static String rendezvousEnCours(int count) => "$count rendez-vous";
+
   static String singularDemarcheToDo(int count) => "$count démarche à réaliser";
+
   static String severalDemarchesToDo(int count) => "$count démarches à réaliser";
+
   static String singularActionToDo(int count) => "$count action à réaliser";
+
   static String severalActionsToDo(int count) => "$count actions à réaliser";
+
   static String singularDemarcheLate(int count) => "$count démarche en retard";
+
   static String severalDemarchesLate(int count) => "$count démarches en retard";
+
   static String singularActionLate(int count) => "$count action en retard";
+
   static String severalActionsLate(int count) => "$count actions en retard";
   static String accueilRendezvousSection = "Votre prochain rendez-vous";
   static String accueilEvenementsSection = "Événements à venir";
@@ -416,7 +434,9 @@ class Strings {
   static String rechercheOffresServiceCiviqueTitle = "Offres de service civique";
   static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
   static String rechercheAfficherPlus = "Afficher plus d'offres";
+
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
+
   static String rechercheCriteresActifsPlural(int count) => "($count) critères actifs";
 
   // Solutions
@@ -623,10 +643,10 @@ class Strings {
   static String accessibilityLevelNonConforme = "Non conforme";
   static String termsOfServiceLabel = "Conditions d'Utilisation";
 
-  static const legalNoticeUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_mentions_legales";
-  static const privacyPolicyUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_politique_de_confidentialite";
-  static const termsOfServiceUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_conditions_generales";
-  static const accessibilityUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_accessibilite_application";
+  static String legalNoticeUrl = Brand.isCej() ? _CejStrings.legalNoticeUrl : _BrsaStrings.legalNoticeUrl;
+  static String privacyPolicyUrl = Brand.isCej() ? _CejStrings.privacyPolicyUrl : _BrsaStrings.privacyPolicyUrl;
+  static String termsOfServiceUrl = Brand.isCej() ? _CejStrings.termsOfServiceUrl : _BrsaStrings.termsOfServiceUrl;
+  static String accessibilityUrl = Brand.isCej() ? _CejStrings.accessibilityUrl : _BrsaStrings.accessibilityUrl;
 
   // Profil: Settings & account suppression
   static String settingsLabel = "Paramètres application";
