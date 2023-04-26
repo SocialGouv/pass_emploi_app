@@ -74,12 +74,13 @@ class EntreePage extends StatelessWidget {
             SafeArea(
                 child: Padding(
               padding: const EdgeInsets.all(Margins.spacing_m),
-              child: SvgPicture.asset(Drawables.republiqueFrancaiseLogo, width: screenWidth * 0.3),
+              child: SvgPicture.asset(Drawables.republiqueFrancaiseLogo, width: screenWidth * 0.2),
             )),
           SafeArea(
             bottom: false,
             child: Column(
               children: [
+                Flexible(child: Container()),
                 Expanded(
                   child: Brand.isBrsa() ? SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6) : Container(),
                 ),
