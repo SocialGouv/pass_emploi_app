@@ -191,4 +191,41 @@ void main() {
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
   });
+
+  test('when brand is BRSA and allowBrsaToCreateDemarche is set to false should not display create button', () {
+    // Given
+    final store = givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToCreateDemarche: false))
+        .agenda()
+        .store();
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayCreateDemarcheButton, isFalse);
+  });
+
+  test('when brand is BRSA and allowBrsaToCreateDemarche is set to true should display create button', () {
+    // Given
+    final store = givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToCreateDemarche: true))
+        .agenda()
+        .store();
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayCreateDemarcheButton, isTrue);
+  });
+
+  test('when brand is CEJ should display create button', () {
+    // Given
+    final store = givenState().loggedInPoleEmploiUser().store();
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayCreateDemarcheButton, isTrue);
+  });
 }
