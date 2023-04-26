@@ -1,5 +1,13 @@
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -18,7 +26,7 @@ class AccueilMiddleware extends MiddlewareClass<AppState> {
     final user = store.state.user();
     if (user == null) return;
 
-    if (action is AccueilRequestAction) {
+    if (_needFetchingAccueil(action)) {
       store.dispatch(AccueilLoadingAction());
       final result = await getAccueil(user);
       if (result != null) {
@@ -35,4 +43,16 @@ class AccueilMiddleware extends MiddlewareClass<AppState> {
     }
     return _repository.getAccueilMissionLocale(user.id, DateTime.now());
   }
+}
+
+bool _needFetchingAccueil(dynamic action) {
+  return action is AccueilRequestAction ||
+      action is UserActionCreateSuccessAction ||
+      action is UserActionDeleteSuccessAction ||
+      action is UserActionUpdateSuccessAction ||
+      action is CreateDemarcheSuccessAction ||
+      action is UpdateDemarcheSuccessAction ||
+      action is FavoriUpdateSuccessAction ||
+      action is SavedSearchCreateSuccessAction ||
+      action is SavedSearchDeleteSuccessAction;
 }
