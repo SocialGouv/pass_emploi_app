@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
@@ -54,5 +55,7 @@ bool _needFetchingAccueil(dynamic action) {
       action is UpdateDemarcheSuccessAction ||
       action is FavoriUpdateSuccessAction ||
       action is SavedSearchCreateSuccessAction ||
-      action is SavedSearchDeleteSuccessAction;
+      action is SavedSearchDeleteSuccessAction ||
+      action is AccepterSuggestionRechercheSuccessAction ||
+      action is RefuserSuggestionRechercheSuccessAction;
 }
