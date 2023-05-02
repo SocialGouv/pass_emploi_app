@@ -63,6 +63,8 @@ const _blacklistedRoutes = [
   '/rendezvous',
   '/home/agenda',
   '/home/agenda/pole-emploi',
+  '/milo/accueil',
+  '/pole-emploi/accueil',
   '/home/actions',
   '/home/demarches',
   '/fichiers',
