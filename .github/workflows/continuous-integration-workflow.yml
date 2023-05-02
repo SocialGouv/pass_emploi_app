@@ -144,7 +144,7 @@ jobs:
 
   build-ios-staging:
     # if: github.ref == 'refs/heads/develop'
-    runs-on: macos-11
+    runs-on: macos-12
     needs: pre-build
     steps:
       - uses: actions/checkout@v3
@@ -211,15 +211,15 @@ jobs:
         run: |
           flutter pub get
 
-      # - name: Check CocoaPods cache
-      #   uses: actions/cache@v3
-      #   id: cocoapods-cache
-      #   with:
-      #     path: ios/Pods
-      #     key: ${{ runner.os }}-pods-${{ hashFiles('pubspec.lock') }}
+      - name: Check CocoaPods cache
+        uses: actions/cache@v3
+        id: cocoapods-cache
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('pubspec.lock') }}
 
       - name: Install CocoaPods dependencies
-        # if: steps.cocoapods-cache.outputs.cache-hit != 'true'
+        if: steps.cocoapods-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           find . -name "Podfile" -execdir pod install \;
