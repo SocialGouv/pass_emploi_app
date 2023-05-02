@@ -92,7 +92,7 @@ jobs:
           --flavor cejProd \
           --build-number=${{ needs.pre-build.outputs.date }}
 
-      - name : CEJ - Save Android appbundle
+      - name: CEJ - Save Android appbundle
         uses: actions/upload-artifact@v3
         with:
           path: build/app/outputs/bundle/release/app.aab
@@ -114,7 +114,7 @@ jobs:
           --flavor brsaProd \
           --build-number=${{ needs.pre-build.outputs.date }}
 
-      - name : BRSA - Save Android appbundle
+      - name: BRSA - Save Android appbundle
         uses: actions/upload-artifact@v3
         with:
           path: build/app/outputs/bundle/release/app.aab
@@ -129,7 +129,7 @@ jobs:
           status: completed
 
   build-ios-prod:
-    runs-on: macos-11
+    runs-on: macos-12
     needs: pre-build
     steps:
       - uses: actions/checkout@v3
