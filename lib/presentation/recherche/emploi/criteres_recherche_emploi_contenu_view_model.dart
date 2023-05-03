@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -36,12 +37,17 @@ class CriteresRechercheEmploiContenuViewModel extends Equatable {
 }
 
 void _onSearchingRequest(Store<AppState> store, String keyword, Location? location, bool onlyAlternance) {
+  final brand = store.state.configurationState.getBrand();
   final previousRequest = store.state.rechercheEmploiState.request;
   final initialRecherche = previousRequest == null;
   store.dispatch(
     RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>(
       RechercheRequest(
-        EmploiCriteresRecherche(keyword: keyword, location: location, onlyAlternance: onlyAlternance),
+        EmploiCriteresRecherche(
+          keyword: keyword,
+          location: location,
+          rechercheType: brand.isBrsa ? RechercheType.onlyOffreEmploi : RechercheType.from(onlyAlternance),
+        ),
         initialRecherche
             ? EmploiFiltresRecherche.noFiltre()
             : _previousFiltresUpdated(previousRequest.filtres, location),

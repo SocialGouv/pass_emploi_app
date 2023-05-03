@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/tutorial.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
@@ -19,6 +20,7 @@ import '../dsl/app_state_dsl.dart';
 
 void main() {
   test('RouterPageViewModel.create when login not initialized should display splash screen', () {
+    Brand.setBrand(Brand.cej);
     final state = AppState.initialState().copyWith(loginState: LoginNotInitializedState());
     final store = Store<AppState>(reducer, initialState: state);
 
@@ -135,6 +137,32 @@ void main() {
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.EVENT_LIST);
     });
 
+    test('…and deep link is set to favoris should display main page with favoris display state', () {
+      final state = AppState.initialState().copyWith(
+        loginState: successMiloUserState(),
+        deepLinkState: FavorisDeepLinkState(),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.FAVORIS);
+    });
+
+    test('…and deep link is set to saved searches should display main page with saved searches display state', () {
+      final state = AppState.initialState().copyWith(
+        loginState: successMiloUserState(),
+        deepLinkState: SavedSearchesDeepLinkState(),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.SAVED_SEARCHES);
+    });
+
     test('…and deep link is set to actualisation pole emploi should display main page with actualisation pole emploi',
         () {
       final state = AppState.initialState().copyWith(
@@ -146,6 +174,30 @@ void main() {
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.ACTUALISATION_PE);
+    });
+
+    test('…and deep link is set to recherche should display main page with recherche', () {
+      final state = AppState.initialState().copyWith(
+        loginState: successMiloUserState(),
+        deepLinkState: RechercheDeepLinkState(),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.RECHERCHE);
+    });
+
+    test('…and deep link is set to outils should display main page with outils', () {
+      final state = AppState.initialState().copyWith(
+        loginState: successMiloUserState(),
+        deepLinkState: OutilsDeepLinkState(),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.OUTILS);
     });
 
     test('should show tutorial if user didn`t read it yet', () {

@@ -77,23 +77,52 @@ android {
         }
     }
 
-    flavorDimensions "app"
+    flavorDimensions "brand", "env"
 
     productFlavors {
+        brsa {
+            dimension "brand"
+            applicationId "fr.fabrique.social.gouv.passemploi.rsa"
+            resValue "string", "app_name", "pass emploi"
+        }
+        cej {
+            dimension "brand"
+            applicationId "fr.fabrique.social.gouv.passemploi"
+            resValue "string", "app_name", "CEJ"
+        }
         staging {
-            dimension "app"
+            dimension "env"
             applicationIdSuffix ".staging"
             versionNameSuffix "-staging"
-            resValue "string", "app_name", "CEJ Staging"
         }
         prod {
-            dimension "app"
-            resValue "string", "app_name", "CEJ"
+            dimension "env"
         }
     }
 
     lintOptions {
         checkReleaseBuilds false
+    }
+
+    // Required to make flutter tool not exit with an error on aab build with multiple flavors
+    // https://github.com/flutter/flutter/issues/65264#issuecomment-707013948
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def taskSuffix = variant.name.capitalize()
+            def bundleTaskName = "bundle${taskSuffix}"
+            if (tasks.findByName(bundleTaskName)) {
+                def copyAABTask = tasks.create(name: "copyAndRenameAab${taskSuffix}", type: Copy) {
+                    def bundleBuildDir = "${buildDir}/outputs/bundle"
+                    def flavorsCapitalized = variant.productFlavors.name.withIndex().collect { flavor, index -> index == 0 ? flavor : flavor.capitalize() }
+                    def originalDirPath = "${flavorsCapitalized.join()}${variant.buildType.name.capitalize()}"
+                    def originalFileName = "${project.archivesBaseName}-${variant.productFlavors.name.join('-')}-${variant.buildType.name}.aab"
+                    from "${bundleBuildDir}/${originalDirPath}/${originalFileName}"
+                    into "${bundleBuildDir}/${variant.buildType.name}/"
+                    rename("${originalFileName}", "app.aab")
+                }
+                tasks[bundleTaskName].finalizedBy = [copyAABTask]
+            }
+        }
     }
 }
 

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/pages/accueil_page.dart';
+import 'package:pass_emploi_app/pages/accueil/accueil_page.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/event_list_page.dart';
-import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
+import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -138,10 +138,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case MainTab.chat:
         return ChatPage();
       case MainTab.solutions:
+        final initialTab = !_deepLinkHandled ? _initialSolutionsTab() : null;
         _deepLinkHandled = true;
-        return SolutionsTabPage();
-      case MainTab.favoris:
-        return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
+        return SolutionsTabPage(initialTab: initialTab);
       case MainTab.evenements:
         return EventListPage();
       default:
@@ -162,12 +161,24 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     }
   }
 
+  SolutionsTab? _initialSolutionsTab() {
+    switch (widget.displayState) {
+      case MainPageDisplayState.OUTILS:
+        return SolutionsTab.outils;
+      default:
+        return null;
+    }
+  }
+
   void _setInitIndexPage(MainPageViewModel viewModel) {
     if (_selectedIndex != _indexNotInitialized) return;
     late int initialIndex;
     switch (widget.displayState) {
       case MainPageDisplayState.DEFAULT:
       case MainPageDisplayState.ACTUALISATION_PE:
+      case MainPageDisplayState.FAVORIS:
+      case MainPageDisplayState.SAVED_SEARCH:
+      case MainPageDisplayState.SAVED_SEARCHES:
         initialIndex = 0;
         break;
       case MainPageDisplayState.AGENDA_TAB:
@@ -178,11 +189,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case MainPageDisplayState.CHAT:
         initialIndex = viewModel.tabs.indexOf(MainTab.chat);
         break;
-      case MainPageDisplayState.SEARCH:
+      case MainPageDisplayState.OUTILS:
+      case MainPageDisplayState.RECHERCHE:
         initialIndex = viewModel.tabs.indexOf(MainTab.solutions);
-        break;
-      case MainPageDisplayState.SAVED_SEARCH:
-        initialIndex = viewModel.tabs.indexOf(MainTab.favoris);
         break;
       case MainPageDisplayState.EVENT_LIST:
         initialIndex = viewModel.tabs.indexOf(MainTab.evenements);
@@ -292,12 +301,6 @@ extension _MainTab on MainTab {
           defaultIcon: AppIcons.pageview_rounded,
           inactiveIcon: AppIcons.pageview_outlined,
           label: Strings.menuSolutions,
-        );
-      case MainTab.favoris:
-        return menu.MenuItem(
-          defaultIcon: AppIcons.favorite_rounded,
-          inactiveIcon: AppIcons.favorite_outline_rounded,
-          label: Strings.menuFavoris,
         );
       case MainTab.evenements:
         return menu.MenuItem(

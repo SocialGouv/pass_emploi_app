@@ -14,6 +14,7 @@ class AnalyticsScreenNames {
   static const evaluationDetails = "actions/tuile-evaluation";
 
   static const accueil = "accueil";
+  static const accueilSuggestionsListe = "accueil/suggested_list";
 
   static const monSuivi = "mon_suivi";
   static const agenda = "agenda";
@@ -88,6 +89,7 @@ class AnalyticsScreenNames {
   static const offreFavorisListFilterImmersion = "favoris/list?filtre=immersion";
   static const offreFavorisListFilterServiceCivique = "favoris/list?filtre=service_civique";
 
+  static const savedSearchSuggestionsListe = "saved_searches/suggested_list";
   static const savedSearchList = "saved_searches/list";
   static const savedSearchListFilterEmploi = "saved_searches/list?filtre=emploi";
   static const savedSearchListFilterAlternance = "saved_searches/list?filtre=alternance";

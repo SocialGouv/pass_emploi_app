@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 
@@ -14,10 +15,10 @@ class ForceUpdateViewModel extends Equatable {
     required this.withCallToAction,
   });
 
-  factory ForceUpdateViewModel.create(Flavor flavor, Platform platform) {
+  factory ForceUpdateViewModel.create(Brand brand, Flavor flavor, Platform platform) {
     return ForceUpdateViewModel(
       label: flavor == Flavor.STAGING ? Strings.forceUpdateOnFirebaseLabel : Strings.forceUpdateOnStoreLabel,
-      storeUrl: _appStoreUrl(flavor, platform),
+      storeUrl: _appStoreUrl(brand, flavor, platform),
       withCallToAction: flavor == Flavor.PROD,
     );
   }
@@ -26,4 +27,6 @@ class ForceUpdateViewModel extends Equatable {
   List<Object?> get props => [label, storeUrl, withCallToAction];
 }
 
-String _appStoreUrl(Flavor flavor, Platform platform) => flavor == Flavor.PROD ? platform.getAppStoreUrl() : '';
+String _appStoreUrl(Brand brand, Flavor flavor, Platform platform) {
+  return flavor == Flavor.PROD ? platform.getAppStoreUrl(brand) : '';
+}

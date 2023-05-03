@@ -157,19 +157,16 @@ class TextStyles {
     );
   }
 
-  static final secondaryAppBar = TextStyle(
-    color: AppColors.primary,
-    fontFamily: 'Marianne',
-    fontSize: FontSizes.huge,
-    fontWeight: FontWeight.w700,
-  );
-
   static TextStyle primaryAppBar = TextStyle(
     color: AppColors.primary,
     fontFamily: 'Marianne',
     fontSize: FontSizes.xl,
     fontWeight: FontWeight.w700,
   );
+
+  static final secondaryAppBar = TextStyles.textLBold(color: AppColors.primary);
+
+  static final accueilSection = TextStyles.textLBold(color: AppColors.primary);
 
   static TextStyle textBaseMediumWithColor(Color color) {
     return TextStyle(

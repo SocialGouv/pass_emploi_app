@@ -22,7 +22,7 @@ class SplashScreenPage extends StatelessWidget {
             body: Stack(
               children: [
                 EntreeBiseauBackground(),
-                Center(child: SvgPicture.asset(Drawables.cejAppLogo, semanticsLabel: Strings.logoTextDescription)),
+                Center(child: SvgPicture.asset(Drawables.appLogo, semanticsLabel: Strings.logoDescription)),
                 if (appVersion != null) _AppVersion(appVersion),
               ],
             ),

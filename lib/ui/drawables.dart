@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/models/brand.dart';
+
 class Drawables {
   Drawables._();
 
@@ -8,14 +10,14 @@ class Drawables {
 
   static String puzzle = _assets + "puzzle" + _svg;
 
-  static String cejAppLogo = _assets + "logo_app_cej" + _svg;
+  static String appLogo = Brand.isCej() ? _assets + "logo_app_cej" + _svg : _assets + "logo_app_brsa" + _svg;
 
   static String jeuneEntree = _assets + "jeune_home" + _png;
   static String conversation = _assets + "conversation" + _svg;
 
   static String modeDemoExplicationIllustration = _assets + "connexion" + _svg;
   static String unJeuneUneSolutionIllustration = _assets + "logo_1jeune1solution_light" + _svg;
-  static String logoCEJ = _assets + "logo_app_cej" + _svg;
+  static String republiqueFrancaiseLogo = _assets + "logo_republique_francaise" + _svg;
   static String emptyOffresIllustration = _assets + "ic_empty_offres" + _svg;
   static String congratulationsIllustration = _assets + "ic_congratulations" + _svg;
   static String trashAlertIllustration = _assets + "ic_trash_alert" + _svg;

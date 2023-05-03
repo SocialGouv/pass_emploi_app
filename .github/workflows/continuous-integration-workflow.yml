@@ -2,7 +2,7 @@ name: PR Continuous Integration - Mobile App
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request:
   workflow_dispatch:
 
@@ -23,6 +23,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
+          cache: true
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Launch tests
@@ -54,13 +55,25 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
+          cache: true
           flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Check Firebase App Distribution CLI cache
+        uses: actions/cache@v3
+        id: firebase-tools-cache
+        with:
+          path: /usr/local/bin
+          key: ${{ runner.os }}-firebase-tools
+
+      - name: Install Firebase App Distribution CLI
+        if: steps.firebase-tools-cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sL https://firebase.tools | bash
 
       - name: Write Google configuration for Android
         shell: bash
         run: |
-          mkdir android/app/src/staging
-          echo "$STAGING_GOOGLE_SERVICE_B64" | base64 --decode > android/app/src/staging/google-services.json
+          echo "$STAGING_GOOGLE_SERVICE_B64" | base64 --decode > android/app/google-services.json
         env:
           STAGING_GOOGLE_SERVICE_B64: ${{ secrets.STAGING_GOOGLE_SERVICE_B64 }}
 
@@ -86,32 +99,52 @@ jobs:
         env:
           STAGING_RUNTIME_ENV_B64: ${{ secrets.STAGING_RUNTIME_ENV_B64 }}
 
-      - name: Build Android apk
+      - name: Install Flutter dependencies
+        shell: bash
         run: |
           flutter pub get
+
+      - name: CEJ - Build Android apk
+        run: |
           flutter build apk \
-          --flavor staging \
+          -t lib/cej_main.dart \
+          --flavor cejStaging \
+          --release \
           --build-number=${{ needs.pre-build.outputs.date }}
 
-      - uses: actions/upload-artifact@v3
-        with:
-          path: build/app/outputs/flutter-apk/app-staging-release.apk
-
-      - name: Deploy Android apk
+      - name: CEJ - Deploy Android apk to Firebase App Distribution
         run: |
-          curl -sL https://firebase.tools | bash
-          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-staging-release.apk \
+          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-cejstaging-release.apk \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
-            --app "$STAGING_ANDROID_APP_ID" \
+            --app "$CEJ_STAGING_ANDROID_APP_ID" \
             --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
         env:
           STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
-          STAGING_ANDROID_APP_ID: ${{ secrets.STAGING_ANDROID_APP_ID }}
+          CEJ_STAGING_ANDROID_APP_ID: ${{ secrets.CEJ_STAGING_ANDROID_APP_ID }}
+          STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
+
+      - name: BRSA - Build Android apk
+        run: |
+          flutter build apk \
+          -t lib/brsa_main.dart \
+          --flavor brsaStaging \
+          --release \
+          --build-number=${{ needs.pre-build.outputs.date }}
+
+      - name: BRSA - Deploy Android apk to Firebase App Distribution
+        run: |
+          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-brsastaging-release.apk \
+            --token "$STAGING_FIREBASE_CI_TOKEN" \
+            --app "$BRSA_STAGING_ANDROID_APP_ID" \
+            --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
+        env:
+          STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
+          BRSA_STAGING_ANDROID_APP_ID: ${{ secrets.BRSA_STAGING_ANDROID_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
 
   build-ios-staging:
     if: github.ref == 'refs/heads/develop'
-    runs-on: macos-11
+    runs-on: macos-12
     needs: pre-build
     steps:
       - uses: actions/checkout@v3
@@ -123,17 +156,73 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
+          cache: true
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      - name: Check Codemagic CLI cache
+        uses: actions/cache@v3
+        id: codemagic-cache
+        with:
+          path: /Users/runner/hostedtoolcache/Python/${{ env.PYTHON_VERSION }}/x64
+          key: ${{ runner.os }}-codemagic
+
       - name: Install Codemagic CLI tools
+        if: steps.codemagic-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           pip3 install codemagic-cli-tools
-          xcrun xcodebuild -version
+
+      - name: Check Firebase App Distribution CLI cache
+        uses: actions/cache@v3
+        id: firebase-tools-cache
+        with:
+          path: /usr/local/bin
+          key: ${{ runner.os }}-firebase-tools
+
+      - name: Install Firebase App Distribution CLI
+        if: steps.firebase-tools-cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sL https://firebase.tools | bash
+
+      - name: Write Google configuration for ios
+        shell: bash
+        run: |
+          mkdir -p ios/firebase-config/cejStaging
+          mkdir -p ios/firebase-config/brsaStaging
+          echo "$CEJ_STAGING_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/cejStaging/GoogleService-Info.plist
+          echo "$BRSA_STAGING_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/brsaStaging/GoogleService-Info.plist
+        env:
+          CEJ_STAGING_GOOGLE_SERVICE_IOS_B64: ${{ secrets.CEJ_STAGING_GOOGLE_SERVICE_IOS_B64 }}
+          BRSA_STAGING_GOOGLE_SERVICE_IOS_B64: ${{ secrets.BRSA_STAGING_GOOGLE_SERVICE_IOS_B64 }}
+
+      - name: Write env
+        shell: bash
+        run: |
+          echo "$STAGING_RUNTIME_ENV_B64" | base64 --decode > env/.env.staging
+        env:
+          STAGING_RUNTIME_ENV_B64: ${{ secrets.STAGING_RUNTIME_ENV_B64 }}
+
+      - name: Install Flutter dependencies
+        shell: bash
+        run: |
+          flutter pub get
+
+      - name: Check CocoaPods cache
+        uses: actions/cache@v3
+        id: cocoapods-cache
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('pubspec.lock') }}
+
+      - name: Install CocoaPods dependencies
+        if: steps.cocoapods-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          find . -name "Podfile" -execdir pod install \;
 
       - name: Write p12 certificate
         shell: bash
@@ -157,18 +246,18 @@ jobs:
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
           APPLE_PROD_API_KEY_B64: ${{ secrets.APPLE_PROD_API_KEY_B64 }}
 
-      - name: Set up a temporary keychain for code signing
+      - name: CEJ - Set up a temporary keychain for code signing
         shell: bash
         run: |
           keychain initialize
 
-      - name: Fetch the code signing files from App Store Connect (TODO p12 ?)
+      - name: CEJ - Fetch the code signing files from App Store Connect
         shell: bash
         run: |
           export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
           export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
           export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
-          app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
+          app-store-connect fetch-signing-files fr.fabrique.social.gouv.passemploi.staging \
             --platform IOS \
             --type IOS_APP_ADHOC \
             --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
@@ -178,59 +267,90 @@ jobs:
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
           APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
 
-      - name: Add fetched certificates to keychain
+      - name: CEJ - Add fetched certificates to keychain
         shell: bash
         run: |
           keychain add-certificates
 
-      - name: Write Google configuration for ios
-        shell: bash
-        run: |
-          mkdir -p ios/firebase-config/staging
-          echo "$STAGING_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/staging/GoogleService-Info.plist
-        env:
-          STAGING_GOOGLE_SERVICE_IOS_B64: ${{ secrets.STAGING_GOOGLE_SERVICE_IOS_B64 }}
-
-      - name: Write env
-        shell: bash
-        run: |
-          echo "$STAGING_RUNTIME_ENV_B64" | base64 --decode > env/.env.staging
-        env:
-          STAGING_RUNTIME_ENV_B64: ${{ secrets.STAGING_RUNTIME_ENV_B64 }}
-
-      - name: Update Xcode project settings with fetched code signing profiles and create staging_export_options.plist
+      - name: CEJ - Update Xcode project settings with fetched code signing profiles and create staging_export_options.plist
         shell: bash
         run: |
           xcode-project use-profiles --export-options-plist ios/staging_export_options.plist
 
-      - name: Install Flutter dependencies
-        shell: bash
-        run: |
-          flutter pub get
-
-      - name: Install CocoaPods dependencies
-        shell: bash
-        run: |
-          find . -name "Podfile" -execdir pod install \;
-
-      - name: Build IPA with generated staging_export_options.plist
+      - name: CEJ - Build IPA with generated staging_export_options.plist
         shell: bash
         run: |
           flutter build ipa \
-          --flavor staging \
+          -t lib/cej_main.dart \
+          --flavor cejStaging \
+          --release \
           --build-number=${{ needs.pre-build.outputs.date }} \
           --export-options-plist=ios/staging_export_options.plist \
           --no-pub \
           --verbose
 
-      - name: Deploy to staging
+      - name: CEJ - Deploy IPA to Firebase App Distribution
         run: |
-          curl -sL https://firebase.tools | bash
-          firebase appdistribution:distribute $(find $(pwd) -name "*.ipa") \
+          firebase appdistribution:distribute $(find $(pwd) -name "CEJ.ipa") \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
-            --app "$STAGING_IOS_APP_ID" \
+            --app "$CEJ_STAGING_IOS_APP_ID" \
             --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
         env:
           STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
-          STAGING_IOS_APP_ID: ${{ secrets.STAGING_IOS_APP_ID }}
+          CEJ_STAGING_IOS_APP_ID: ${{ secrets.CEJ_STAGING_IOS_APP_ID }}
+          STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
+
+      - name: BRSA - Set up a temporary keychain for code signing
+        shell: bash
+        run: |
+          keychain initialize
+
+      - name: BRSA - Fetch the code signing files from App Store Connect
+        shell: bash
+        run: |
+          export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
+          export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
+          export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
+          app-store-connect fetch-signing-files fr.fabrique.social.gouv.passemploi.rsa.staging \
+            --platform IOS \
+            --type IOS_APP_ADHOC \
+            --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
+            --create
+        env:
+          APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
+          APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
+          APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
+
+      - name: BRSA - Add fetched certificates to keychain
+        shell: bash
+        run: |
+          keychain add-certificates
+
+      - name: BRSA - Update Xcode project settings with fetched code signing profiles and create staging_export_options.plist
+        shell: bash
+        run: |
+          xcode-project use-profiles --export-options-plist ios/staging_export_options.plist
+
+      - name: BRSA - Build IPA with generated staging_export_options.plist
+        shell: bash
+        run: |
+          flutter build ipa \
+          -t lib/brsa_main.dart \
+          --flavor brsaStaging \
+          --release \
+          --build-number=${{ needs.pre-build.outputs.date }} \
+          --export-options-plist=ios/staging_export_options.plist \
+          --no-pub \
+          --verbose
+
+      - name: BRSA - Deploy IPA to Firebase App Distribution
+        run: |
+          mv "$(find $(pwd) -name "pass emploi.ipa")" pass-emploi.ipa
+          firebase appdistribution:distribute $(find $(pwd) -name "pass-emploi.ipa") \
+            --token "$STAGING_FIREBASE_CI_TOKEN" \
+            --app "$BRSA_STAGING_IOS_APP_ID" \
+            --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
+        env:
+          STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
+          BRSA_STAGING_IOS_APP_ID: ${{ secrets.BRSA_STAGING_IOS_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}

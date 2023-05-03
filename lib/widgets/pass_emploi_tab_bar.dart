@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
@@ -11,8 +13,9 @@ class PassEmploiTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+      color: Brand.isCej() ? Colors.transparent : AppColors.primary,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -20,15 +23,15 @@ class PassEmploiTabBar extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: TabBar(
               controller: controller,
-              indicatorColor: AppColors.primary,
+              indicatorColor: Brand.isCej() ? AppColors.primary : AppColors.grey100,
               indicatorWeight: 4,
               labelStyle: TextStyles.textBaseBold,
-              labelColor: AppColors.contentColor,
+              labelColor: Brand.isCej() ? AppColors.contentColor : AppColors.grey100,
               indicatorSize: TabBarIndicatorSize.tab,
               isScrollable: true,
               labelPadding: const EdgeInsets.only(right: 32),
               indicatorPadding: const EdgeInsets.only(right: 32),
-              unselectedLabelColor: AppColors.grey800,
+              unselectedLabelColor: Brand.isCej() ? AppColors.grey800 : Colors.grey[350],
               tabs: _tabs(),
             ),
           ),

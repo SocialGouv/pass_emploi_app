@@ -10,7 +10,7 @@ class PassEmploiMatomoTracker {
   static const String outLinkLogPrefix = '#outlink#';
 
   final MatomoTracker _decorated = MatomoTracker.instance;
-  Map<String, String>? _dimensions;
+  final Map<String, String> _dimensions = {};
   Function(String)? onTrackScreen;
 
   static final instance = PassEmploiMatomoTracker._internal();
@@ -41,8 +41,8 @@ class PassEmploiMatomoTracker {
 
   Future<void> setOptOut({required bool optout}) => _decorated.setOptOut(optout: optout);
 
-  void setDimensions(Map<String, String> dimensions) {
-    _dimensions = dimensions.map((key, value) => MapEntry('dimension$key', Uri.encodeComponent(value)));
+  void setDimension(String dimensionKey, String dimensionValue) {
+    _dimensions['dimension$dimensionKey'] = Uri.encodeComponent(dimensionValue);
   }
 
   void trackScreen(String widgetName) {

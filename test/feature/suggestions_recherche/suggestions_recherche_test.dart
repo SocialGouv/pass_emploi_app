@@ -16,7 +16,7 @@ void main() {
   group("when requesting suggestions", () {
     sut.when(() => SuggestionsRechercheRequestAction());
 
-    test('should load then succeed when request succeed', () {
+    test('should load then succeed when request succeeds', () {
       sut.givenStore = givenState()
           .loggedInUser() //
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositorySuccessStub()});
@@ -24,7 +24,7 @@ void main() {
       sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
     });
 
-    test('should load then fail when request fail', () {
+    test('should load then fail when request fails', () {
       sut.givenStore = givenState()
           .loggedInPoleEmploiUser() //
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryErrorStub()});

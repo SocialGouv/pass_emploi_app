@@ -29,6 +29,14 @@ class DeepLinkState extends Equatable {
         return ActualisationPeDeepLinkState();
       case "AGENDA":
         return AgendaDeepLinkState();
+      case "FAVORIS":
+        return FavorisDeepLinkState();
+      case "SAVED_SEARCHES":
+        return SavedSearchesDeepLinkState();
+      case "RECHERCHE":
+        return RechercheDeepLinkState();
+      case "OUTILS":
+        return OutilsDeepLinkState();
       default:
         return NotInitializedDeepLinkState();
     }
@@ -86,3 +94,11 @@ class NotInitializedDeepLinkState extends DeepLinkState {}
 class ActualisationPeDeepLinkState extends DeepLinkState {}
 
 class AgendaDeepLinkState extends DeepLinkState {}
+
+class FavorisDeepLinkState extends DeepLinkState {}
+
+class SavedSearchesDeepLinkState extends DeepLinkState {}
+
+class RechercheDeepLinkState extends DeepLinkState {}
+
+class OutilsDeepLinkState extends DeepLinkState {}

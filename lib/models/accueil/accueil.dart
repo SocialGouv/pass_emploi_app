@@ -1,8 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_json_extractor.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_response.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class Accueil extends Equatable {
@@ -76,15 +79,28 @@ Rendezvous? _prochainRendezVous(dynamic json) {
 }
 
 List<Rendezvous>? _evenements(dynamic json) {
-  return null;
+  final events = json["evenementsAVenir"] as List?;
+  if (events == null) return null;
+
+  return events.map((event) => JsonRendezvous.fromJson(event).toRendezvous()).toList();
 }
 
 List<SavedSearch>? _alertes(dynamic json) {
-  return null;
+  final alertes = json["mesAlertes"] as List?;
+  if (alertes == null) return null;
+
+  return alertes
+      .map((search) => SavedSearchResponse.fromJson(search))
+      .map((e) => SavedSearchJsonExtractor().extract(e))
+      .whereNotNull()
+      .toList();
 }
 
 List<Favori>? _favoris(dynamic json) {
-  return null;
+  final favoris = json["mesFavoris"] as List?;
+  if (favoris == null) return null;
+
+  return favoris.map((favori) => Favori.fromJson(favori)).whereType<Favori>().toList();
 }
 
 class AccueilCetteSemaine extends Equatable {

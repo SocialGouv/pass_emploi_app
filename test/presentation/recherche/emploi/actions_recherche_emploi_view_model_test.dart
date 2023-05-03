@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
 
 import '../../../doubles/fixtures.dart';
@@ -82,7 +82,11 @@ void main() {
         // Given
         final store = givenState()
             .successRechercheEmploiStateWithRequest(
-              criteres: EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: false),
+              criteres: EmploiCriteresRecherche(
+                location: null,
+                keyword: '',
+                rechercheType: RechercheType.offreEmploiAndAlternance,
+              ),
             )
             .store();
 
@@ -98,7 +102,11 @@ void main() {
         final store = givenState()
             .rechercheEmploiStateWithRequest(
               status: RechercheStatus.updateLoading,
-              criteres: EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: false),
+              criteres: EmploiCriteresRecherche(
+                location: null,
+                keyword: '',
+                rechercheType: RechercheType.offreEmploiAndAlternance,
+              ),
             )
             .store();
 
@@ -116,7 +124,11 @@ void main() {
           // Given
           final store = givenState()
               .successRechercheEmploiStateWithRequest(
-                criteres: EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(
+                  location: null,
+                  keyword: '',
+                  rechercheType: RechercheType.onlyAlternance,
+                ),
               )
               .store();
 
@@ -131,7 +143,11 @@ void main() {
           // Given
           final store = givenState()
               .successRechercheEmploiStateWithRequest(
-                criteres: EmploiCriteresRecherche(location: mockLocation(), keyword: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(
+                  location: mockLocation(),
+                  keyword: '',
+                  rechercheType: RechercheType.onlyAlternance,
+                ),
               )
               .store();
 
@@ -146,7 +162,11 @@ void main() {
           // Given
           final store = givenState()
               .successRechercheEmploiStateWithRequest(
-                criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keyword: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(
+                  location: mockCommuneLocation(),
+                  keyword: '',
+                  rechercheType: RechercheType.onlyAlternance,
+                ),
               )
               .store();
 
@@ -164,7 +184,11 @@ void main() {
           final store = givenState()
               .rechercheEmploiStateWithRequest(
                 status: RechercheStatus.updateLoading,
-                criteres: EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(
+                  location: null,
+                  keyword: '',
+                  rechercheType: RechercheType.onlyAlternance,
+                ),
               )
               .store();
 
@@ -180,7 +204,11 @@ void main() {
           final store = givenState()
               .rechercheEmploiStateWithRequest(
                 status: RechercheStatus.updateLoading,
-                criteres: EmploiCriteresRecherche(location: mockLocation(), keyword: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(
+                  location: mockLocation(),
+                  keyword: '',
+                  rechercheType: RechercheType.onlyAlternance,
+                ),
               )
               .store();
 
@@ -196,7 +224,11 @@ void main() {
           final store = givenState()
               .rechercheEmploiStateWithRequest(
                 status: RechercheStatus.updateLoading,
-                criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keyword: '', onlyAlternance: true),
+                criteres: EmploiCriteresRecherche(
+                  location: mockCommuneLocation(),
+                  keyword: '',
+                  rechercheType: RechercheType.onlyAlternance,
+                ),
               )
               .store();
 

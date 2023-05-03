@@ -37,17 +37,137 @@
     },
     "evenementsAVenir": [
       {
-        "id": "string"
+        "id": "2d663392-b9ff-4b20-81ca-70a3c779e299",
+        "source": "PASS_EMPLOI",
+        "title": "super entretien",
+        "comment": "Amener votre CV",
+        "date": "2021-11-28T13:34:00.000Z",
+        "isLocaleDate": false,
+        "modality": "en présentiel : Misson locale / Permanence",
+        "duration": 23,
+        "jeune": {
+          "id": "FLHPT",
+          "prenom": "Gabriel",
+          "nom": "Android"
+        },
+        "type": {
+          "code": "ENTRETIEN_INDIVIDUEL_CONSEILLER",
+          "label": "Entretien individuel conseiller"
+        },
+        "presenceConseiller": true,
+        "conseiller": {
+          "id": "1",
+          "prenom": "Nils",
+          "nom": "Tavernier"
+        },
+        "createur": {
+          "id": "2",
+          "prenom": "Joe",
+          "nom": "Pesci"
+        },
+        "estInscrit": true
       }
     ],
     "mesAlertes": [
       {
-        "id": "string"
+        "id": "9ea85cc4-c92f-4f91-b5a3-b600f364faf1",
+        "titre": "Boulangerie",
+        "type": "OFFRES_EMPLOI",
+        "metier": "Boulangerie",
+        "criteres": {
+          "q": "Boulangerie",
+          "duree": [],
+          "rayon": null,
+          "commune": null,
+          "contrat": [],
+          "alternance": false,
+          "debutantAccepte": true,
+          "experience": [],
+          "departement": null
+        }
+      },
+      {
+        "id": "25f317c7-f28a-4f50-a629-013bb960484d",
+        "titre": "Boulangerie - NANTES",
+        "type": "OFFRES_EMPLOI",
+        "metier": "Boulangerie",
+        "localisation": "NANTES",
+        "criteres": {
+          "q": "Boulangerie",
+          "duree": [],
+          "rayon": null,
+          "commune": "44109",
+          "contrat": [],
+          "alternance": false,
+          "experience": [],
+          "departement": null
+        }
+      },
+      {
+        "id": "6b51e128-000b-4125-a09a-c38a32a8b886",
+        "titre": "Flutter",
+        "type": "OFFRES_EMPLOI",
+        "metier": "Flutter",
+        "criteres": {
+          "q": "Flutter",
+          "duree": [],
+          "rayon": null,
+          "commune": null,
+          "contrat": [],
+          "alternance": true,
+          "experience": [],
+          "departement": null
+        }
+      },
+      {
+        "id": "670c413e-b669-4228-850a-9a7307fe79ea",
+        "titre": "Boulangerie - viennoiserie - PARIS-14",
+        "type": "OFFRES_IMMERSION",
+        "metier": "Boulangerie - viennoiserie",
+        "localisation": "PARIS-14",
+        "criteres": {
+          "lat": 48.830108,
+          "lon": 2.323026,
+          "rome": "D1102"
+        }
+      },
+      {
+        "id": "9ea85cc4-c92f-4f91-b5a3-b600f364fbc2",
+        "titre": "",
+        "type": "UNKNOWN",
+        "metier": "",
+        "criteres": {
+          "q": "",
+          "duree": [],
+          "rayon": null,
+          "commune": null,
+          "contrat": [],
+          "alternance": false,
+          "experience": [],
+          "departement": null
+        }
       }
     ],
     "mesFavoris": [
       {
-        "idOffre": "string"
+        "idOffre": "1",
+        "titre": "titre-1",
+        "type": "OFFRE_EMPLOI",
+        "organisation": "organisation-1",
+        "localisation": "localisation-1"
+      },
+      {
+        "idOffre": "2",
+        "titre": "titre-2",
+        "type": "OFFRE_ALTERNANCE",
+        "organisation": "organisation-2",
+        "localisation": "localisation-2"
+      },
+      {
+        "idOffre": "3",
+        "titre": "titre-3",
+        "type": "OFFRE_IMMERSION",
+        "localisation": "localisation-3"
       }
     ]
   }

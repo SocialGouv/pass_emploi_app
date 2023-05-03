@@ -14,7 +14,6 @@ import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:package_info/package_info.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/auth/auth_access_checker.dart';
 import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
@@ -42,6 +41,7 @@ import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
+import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
@@ -49,6 +49,7 @@ import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
+import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -87,8 +88,6 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:redux/redux.dart';
@@ -98,14 +97,19 @@ class AppInitializer {
   Future<Widget> initializeApp() async {
     await Firebase.initializeApp();
     await _initializeCrashlytics();
-    final configuration = await Configuration.build();
-    await _initializeMatomoTracker(configuration);
     final remoteConfig = await _remoteConfig();
+    final allowBrsaToUpdateDemarche = _allowBrsaToUpdateDemarche(remoteConfig);
+    final allowBrsaToCreateDemarche = _allowBrsaToCreateDemarche(remoteConfig);
+    final configuration = await Configuration.build(
+      allowBrsaToUpdateDemarche: allowBrsaToUpdateDemarche,
+      allowBrsaToCreateDemarche: allowBrsaToCreateDemarche,
+    );
+    final matomoTracker = await _initializeMatomoTracker(configuration);
     final forceUpdate = await _shouldForceUpdate(remoteConfig);
     if (forceUpdate) {
       return ForceUpdatePage(configuration.flavor);
     } else {
-      final store = await _initializeReduxStore(configuration, remoteConfig);
+      final store = await _initializeReduxStore(configuration, matomoTracker);
       return PassEmploiApp(store);
     }
   }
@@ -115,13 +119,11 @@ class AppInitializer {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
   }
 
-  Future<void> _initializeMatomoTracker(Configuration configuration) async {
+  Future<PassEmploiMatomoTracker> _initializeMatomoTracker(Configuration configuration) async {
     final siteId = configuration.matomoSiteId;
     final url = configuration.matomoBaseUrl;
     await PassEmploiMatomoTracker.instance.initialize(siteId: int.parse(siteId), url: url);
-    PassEmploiMatomoTracker.instance.setDimensions({
-      AnalyticsCustomDimensions.userTypeId: AnalyticsCustomDimensions.appUserType,
-    });
+    return PassEmploiMatomoTracker.instance;
   }
 
   Future<FirebaseRemoteConfig?> _remoteConfig() async {
@@ -147,7 +149,20 @@ class AppInitializer {
     return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
   }
 
-  Future<Store<AppState>> _initializeReduxStore(Configuration configuration, FirebaseRemoteConfig? remoteConfig) async {
+  bool _allowBrsaToUpdateDemarche(FirebaseRemoteConfig? remoteConfig) {
+    if (remoteConfig == null) return false;
+    return remoteConfig.getBool('allow_brsa_to_update_demarche');
+  }
+
+  bool _allowBrsaToCreateDemarche(FirebaseRemoteConfig? remoteConfig) {
+    if (remoteConfig == null) return false;
+    return remoteConfig.getBool('allow_brsa_to_create_demarche');
+  }
+
+  Future<Store<AppState>> _initializeReduxStore(
+    Configuration configuration,
+    PassEmploiMatomoTracker matomoTracker,
+  ) async {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
     final pushNotificationManager = FirebasePushNotificationManager();
     final securedPreferences = SecureStorageExceptionHandlerDecorator(
@@ -234,7 +249,7 @@ class AppInitializer {
       SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
       modeDemoRepository,
       CampagneRepository(baseUrl, httpClient, crashlytics),
-      PassEmploiMatomoTracker.instance,
+      matomoTracker,
       UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
       CreateDemarcheRepository(dioClient, crashlytics),
       SearchDemarcheRepository(baseUrl, httpClient, crashlytics),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -12,17 +13,22 @@ import 'package:redux/redux.dart';
 class LoginViewModel extends Equatable {
   final DisplayState displayState;
   final List<LoginButtonViewModel> loginButtons;
+  final bool withAskAccountButton;
 
   LoginViewModel({
     required this.displayState,
     required this.loginButtons,
+    required this.withAskAccountButton,
   });
 
   factory LoginViewModel.create(Store<AppState> store) {
     final state = store.state.loginState;
+    final flavor = store.state.configurationState.getFlavor();
+    final brand = store.state.configurationState.getBrand();
     return LoginViewModel(
       displayState: _displayState(state),
-      loginButtons: _loginButtons(store, store.state.configurationState.getFlavor()),
+      loginButtons: _loginButtons(store, flavor, brand),
+      withAskAccountButton: brand.isCej,
     );
   }
 
@@ -30,18 +36,19 @@ class LoginViewModel extends Equatable {
   List<Object?> get props => [displayState];
 }
 
-List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor) {
+List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor, Brand brand) {
   return [
     LoginButtonViewModel(
       label: Strings.loginPoleEmploi,
       backgroundColor: AppColors.poleEmploi,
       action: () => store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI)),
     ),
-    LoginButtonViewModel(
-      label: Strings.loginMissionLocale,
-      backgroundColor: AppColors.missionLocale,
-      action: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)),
-    ),
+    if (brand == Brand.cej)
+      LoginButtonViewModel(
+        label: Strings.loginMissionLocale,
+        backgroundColor: AppColors.missionLocale,
+        action: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)),
+      ),
     if (flavor == Flavor.STAGING)
       LoginButtonViewModel(
         label: Strings.loginPassEmploi,

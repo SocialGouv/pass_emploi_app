@@ -9,7 +9,7 @@
       "source": "MILO",
       "title": "super entretien",
       "comment": "Amener votre CV",
-      "date": "2021-11-28T13:34:00.000Z",
+      "date": "<NOW_PLUS_1>",
       "isLocaleDate": false,
       "modality": "en présentiel : Misson locale / Permanence",
       "duration": 23,
@@ -36,17 +36,105 @@
     },
     "evenementsAVenir": [
       {
-        "id": "string"
+        "id": "1",
+        "date": "<NOW_PLUS_3>",
+        "isLocaleDate": false,
+        "modality": "",
+        "duration": 120,
+        "title": "Atelier \"Les clés pour réussir votre entretien\" ",
+        "estInscrit": true,
+        "type": {
+          "code": "ATELIER",
+          "label": "Atelier"
+        },
+        "presenceConseiller": true,
+        "invitation": false
+      },
+      {
+        "id": "2",
+        "date": "<NOW_PLUS_7>",
+        "isLocaleDate": false,
+        "modality": "",
+        "duration": 120,
+        "title": "Atelier \"Les clés pour réussir son CV\" ",
+        "estInscrit": false,
+        "type": {
+          "code": "ATELIER",
+          "label": "Atelier"
+        },
+        "presenceConseiller": true,
+        "invitation": false
       }
     ],
     "mesAlertes": [
       {
-        "id": "string"
+        "id": "9ea85cc4-c92f-4f91-b5a3-b600f364faf1",
+        "titre": "Boulangerie",
+        "type": "OFFRES_EMPLOI",
+        "metier": "Boulangerie",
+        "criteres": {
+          "q": "Boulangerie",
+          "duree": [],
+          "rayon": null,
+          "commune": null,
+          "contrat": [],
+          "alternance": false,
+          "debutantAccepte": true,
+          "experience": [],
+          "departement": null
+        }
+      },
+      {
+        "id": "25f317c7-f28a-4f50-a629-013bb960484d",
+        "titre": "Boulangerie - NANTES",
+        "type": "OFFRES_EMPLOI",
+        "metier": "Boulangerie",
+        "localisation": "NANTES",
+        "criteres": {
+          "q": "Boulangerie",
+          "duree": [],
+          "rayon": null,
+          "commune": "44109",
+          "contrat": [],
+          "alternance": false,
+          "experience": [],
+          "departement": null
+        }
+      },
+      {
+        "id": "670c413e-b669-4228-850a-9a7307fe79ea",
+        "titre": "Boulangerie - viennoiserie - PARIS-14",
+        "type": "OFFRES_IMMERSION",
+        "metier": "Boulangerie - viennoiserie",
+        "localisation": "PARIS-14",
+        "criteres": {
+          "lat": 48.830108,
+          "lon": 2.323026,
+          "rome": "D1102"
+        }
       }
     ],
     "mesFavoris": [
       {
-        "idOffre": "string"
+        "idOffre": "31440616600012-D1502",
+        "titre": "Management/gestion de rayon produits alimentaires",
+        "type": "OFFRE_IMMERSION",
+        "organisation": "Commerce de détail en magasin non spécialisé à prédominance alimentaire",
+        "localisation": "LYON-02"
+      },
+      {
+        "idOffre": "132WNLT",
+        "titre": "Employé / Employée de rayon libre-service (H/F)",
+        "type": "OFFRE_EMPLOI",
+        "organisation": "AUCHAN",
+        "localisation": "69 - DARDILLY"
+      },
+      {
+        "idOffre": "132XPKY",
+        "titre": "Vendeur / Vendeuse en électroménager   (H/F)",
+        "type": "OFFRE_ALTERNANCE",
+        "organisation": "DUCRETET",
+        "localisation": "69 - LYON 01"
       }
     ]
   }

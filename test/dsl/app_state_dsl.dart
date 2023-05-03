@@ -60,6 +60,10 @@ import '../utils/test_setup.dart';
 
 AppState givenState([Configuration? configuration]) => AppState.initialState(configuration: configuration);
 
+AppState givenBrsaState({Configuration? baseConfiguration}) {
+  return AppState.initialState(configuration: baseConfiguration ?? brsaConfiguration()).loggedInPoleEmploiUser();
+}
+
 extension AppStateDSL on AppState {
   Store<AppState> store([Function(TestStoreFactory)? foo]) {
     final factory = TestStoreFactory();
@@ -384,7 +388,12 @@ extension AppStateDSL on AppState {
     return withRechercheEmploiState(
       status: status,
       request: RechercheRequest(
-        criteres ?? EmploiCriteresRecherche(location: null, keyword: '', onlyAlternance: false),
+        criteres ??
+            EmploiCriteresRecherche(
+              location: null,
+              keyword: '',
+              rechercheType: RechercheType.offreEmploiAndAlternance,
+            ),
         filtres ?? EmploiFiltresRecherche.noFiltre(),
         1,
       ),
@@ -558,6 +567,10 @@ extension AppStateDSL on AppState {
 
   AppState withAccueilMiloSuccess() {
     return copyWith(accueilState: AccueilSuccessState(mockAccueilMilo()));
+  }
+
+  AppState withAccueilPoleEmploiSuccess() {
+    return copyWith(accueilState: AccueilSuccessState(mockAccueilPoleEmploi()));
   }
 
   AppState withAccueilFailure() {

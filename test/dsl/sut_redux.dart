@@ -12,9 +12,9 @@ class StoreSut {
     setUp(() => _whenDispatching = when);
   }
 
-  void thenExpectChangingStatesThroughOrder(List<Matcher> matchers) {
+  Future<void> thenExpectChangingStatesThroughOrder(List<Matcher> matchers) async {
     expect(givenStore.onChange, emitsInOrder(matchers.map((matcher) => emitsThrough(matcher))));
-    givenStore.dispatch(_whenDispatching());
+    await givenStore.dispatch(_whenDispatching());
   }
 
   void debug(dynamic Function(AppState) info) {

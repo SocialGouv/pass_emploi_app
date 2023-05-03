@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
@@ -41,10 +42,11 @@ class RouterPageViewModel extends Equatable {
 
 String? _storeUrl(AppState state, Platform platform) {
   final DeepLinkState deepLinkState = state.deepLinkState;
+  final Brand brand = state.configurationState.configuration?.brand ?? Brand.brand;
   if (deepLinkState is NouvellesFonctionnalitesDeepLinkState && deepLinkState.lastVersion != null) {
     final appVersion = state.configurationState.configuration?.version;
     if (appVersion != null && appVersion < deepLinkState.lastVersion!) {
-      return platform.getAppStoreUrl();
+      return platform.getAppStoreUrl(brand);
     }
   }
   return null;
@@ -76,8 +78,12 @@ MainPageDisplayState _toMainPageDisplayStateByDeepLink(DeepLinkState state) {
   if (state is DetailActionDeepLinkState) return MainPageDisplayState.ACTIONS_TAB;
   if (state is DetailRendezvousDeepLinkState) return MainPageDisplayState.RENDEZVOUS_TAB;
   if (state is NouveauMessageDeepLinkState) return MainPageDisplayState.CHAT;
+  if (state is FavorisDeepLinkState) return MainPageDisplayState.FAVORIS;
+  if (state is SavedSearchesDeepLinkState) return MainPageDisplayState.SAVED_SEARCHES;
   if (state is SavedSearchDeepLinkState) return MainPageDisplayState.SAVED_SEARCH;
   if (state is EventListDeepLinkState) return MainPageDisplayState.EVENT_LIST;
   if (state is ActualisationPeDeepLinkState) return MainPageDisplayState.ACTUALISATION_PE;
+  if (state is RechercheDeepLinkState) return MainPageDisplayState.RECHERCHE;
+  if (state is OutilsDeepLinkState) return MainPageDisplayState.OUTILS;
   return MainPageDisplayState.DEFAULT;
 }

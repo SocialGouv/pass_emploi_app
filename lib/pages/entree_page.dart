@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
+import 'package:pass_emploi_app/presentation/entree_page_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -16,6 +20,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
+import 'package:pass_emploi_app/widgets/entree_brsa_background.dart';
 import 'package:pass_emploi_app/widgets/hidden_menu.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
@@ -24,14 +29,24 @@ class EntreePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     return Tracker(
       tracking: AnalyticsScreenNames.entree,
-      child: Scaffold(
-        body: Stack(
-          children: [
-            const EntreeBiseauBackground(),
+      child: StoreConnector<AppState, EntreePageViewModel>(
+        converter: (store) => EntreePageViewModel.create(store),
+        distinct: true,
+        builder: (context, viewModel) => _scaffold(context, viewModel),
+      ),
+    );
+  }
+
+  Widget _scaffold(BuildContext context, EntreePageViewModel viewModel) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: Stack(
+        children: [
+          Brand.isCej() ? EntreeBiseauBackground() : EntreeBrsaBackground(),
+          if (Brand.isCej())
             SafeArea(
               bottom: false,
               child: Column(
@@ -41,7 +56,7 @@ class EntreePage extends StatelessWidget {
                   SvgPicture.asset(Drawables.unJeuneUneSolutionIllustration, width: screenWidth * 0.25),
                   SizedBox(height: 32),
                   HiddenMenuGesture(
-                    child: SvgPicture.asset(Drawables.cejAppLogo, width: screenWidth * 0.6),
+                    child: SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6),
                   ),
                   SizedBox(height: 16),
                   Expanded(
@@ -55,11 +70,23 @@ class EntreePage extends StatelessWidget {
                 ],
               ),
             ),
+          if (Brand.isBrsa())
             SafeArea(
-              bottom: false,
-              child: Align(
-                alignment: Alignment.bottomCenter,
                 child: Padding(
+              padding: const EdgeInsets.all(Margins.spacing_m),
+              child: SvgPicture.asset(Drawables.republiqueFrancaiseLogo, width: screenWidth * 0.2),
+            )),
+          SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                Flexible(child: Container()),
+                Expanded(
+                  child: Brand.isBrsa()
+                      ? HiddenMenuGesture(child: SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6))
+                      : Container(),
+                ),
+                Padding(
                   padding: const EdgeInsets.all(Margins.spacing_m),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -73,19 +100,19 @@ class EntreePage extends StatelessWidget {
                         right: Margins.spacing_base,
                         top: Margins.spacing_base,
                       ),
-                      child: _buttonCard(context),
+                      child: _buttonCard(context, viewModel),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Column _buttonCard(BuildContext context) {
+  Column _buttonCard(BuildContext context, EntreePageViewModel viewModel) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -94,11 +121,13 @@ class EntreePage extends StatelessWidget {
           label: Strings.loginAction,
           onPressed: () => Navigator.push(context, LoginPage.materialPageRoute()),
         ),
-        SizedBox(height: Margins.spacing_base),
-        SecondaryButton(
-          label: Strings.askAccount,
-          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
-        ),
+        if (viewModel.withRequestAccountButton) ...[
+          SizedBox(height: Margins.spacing_base),
+          SecondaryButton(
+            label: Strings.askAccount,
+            onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
+          ),
+        ],
         SepLine(Margins.spacing_base, 0),
         Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),

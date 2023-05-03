@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/presentation/force_update_view_model.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -21,7 +22,8 @@ class ForceUpdatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final platform = io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS;
-    final viewModel = ForceUpdateViewModel.create(_flavor, platform);
+    final brand = Brand.brand;
+    final viewModel = ForceUpdateViewModel.create(brand, _flavor, platform);
     return MaterialApp(
       title: Strings.appName,
       theme: ThemeData(primarySwatch: Colors.indigo),
@@ -33,7 +35,7 @@ class ForceUpdatePage extends StatelessWidget {
             padding: const EdgeInsets.all(Margins.spacing_base),
             child: Column(
               children: [
-                Expanded(child: SvgPicture.asset(Drawables.logoCEJ, semanticsLabel: Strings.logoTextDescription)),
+                Expanded(child: SvgPicture.asset(Drawables.appLogo, semanticsLabel: Strings.logoDescription)),
                 Text(viewModel.label, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
                 if (viewModel.withCallToAction) ExternalLink(label: Strings.updateButton, url: viewModel.storeUrl),
                 Expanded(child: SizedBox())

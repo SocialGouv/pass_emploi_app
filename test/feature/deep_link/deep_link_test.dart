@@ -45,6 +45,22 @@ void main() {
         NotInitializedDeepLinkState(),
       );
       assertState(
+        DeepLinkAction(RemoteMessage(data: {"type": "FAVORIS"})),
+        FavorisDeepLinkState(),
+      );
+      assertState(
+        DeepLinkAction(RemoteMessage(data: {"type": "SAVED_SEARCHES"})),
+        SavedSearchesDeepLinkState(),
+      );
+      assertState(
+        DeepLinkAction(RemoteMessage(data: {"type": "RECHERCHE"})),
+        RechercheDeepLinkState(),
+      );
+      assertState(
+        DeepLinkAction(RemoteMessage(data: {"type": "OUTILS"})),
+        OutilsDeepLinkState(),
+      );
+      assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "AGENDA"})),
         AgendaDeepLinkState(),
       );

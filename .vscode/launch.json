@@ -5,42 +5,47 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug production",
+            "name": "Dbg BRSA stg",
             "request": "launch",
             "type": "dart",
+            "program": "lib/brsa_main.dart",
             "args": [
                 "--flavor",
-                "prod"
+                "brsaStaging"
             ],
         },
         {
-            "name": "Run prod",
+            "name": "Run BRSA stg",
+            "request": "launch",
+            "flutterMode": "profile",
+            "type": "dart",
+            "program": "lib/brsa_main.dart",
+            "args": [
+                "--flavor",
+                "brsaStaging"
+            ],
+        },
+        {
+            "name": "Dbg CEJ stg",
             "request": "launch",
             "type": "dart",
+            "program": "lib/cej_main.dart",
+            "args": [
+                "--flavor",
+                "cejStaging"
+            ],
+        },
+        {
+            "name": "Run CEJ stg",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/cej_main.dart",
             "flutterMode": "profile",
             "args": [
                 "--flavor",
-                "prod"
+                "cejStaging"
             ],
         },
-        {
-            "name": "Debug staging",
-            "request": "launch",
-            "type": "dart",
-            "args": [
-                "--flavor",
-                "staging"
-            ],
-        },
-        {
-            "name": "Run staging",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile",
-            "args": [
-                "--flavor",
-                "staging"
-            ],
-        },
-    ]
+    ],
+  "compounds": []
 }

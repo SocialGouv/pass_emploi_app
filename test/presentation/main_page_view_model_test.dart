@@ -75,10 +75,10 @@ void main() {
       final viewModel = MainPageViewModel.create(store);
       // Then
       expect(viewModel.tabs, [
+        MainTab.accueil,
         MainTab.monSuivi,
         MainTab.chat,
         MainTab.solutions,
-        MainTab.favoris,
       ]);
     });
 
@@ -89,10 +89,10 @@ void main() {
       final viewModel = MainPageViewModel.create(store);
       // Then
       expect(viewModel.tabs, [
+        MainTab.accueil,
         MainTab.monSuivi,
         MainTab.chat,
         MainTab.solutions,
-        MainTab.favoris,
         MainTab.evenements,
       ]);
     });

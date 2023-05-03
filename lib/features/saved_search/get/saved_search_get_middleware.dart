@@ -52,7 +52,7 @@ class SavedSearchGetMiddleware extends MiddlewareClass<AppState> {
           EmploiCriteresRecherche(
             keyword: search.keyword ?? '',
             location: search.location,
-            onlyAlternance: search.onlyAlternance,
+            rechercheType: RechercheType.from(search.onlyAlternance),
           ),
           EmploiFiltresRecherche.withFiltres(
             distance: search.filters.distance,

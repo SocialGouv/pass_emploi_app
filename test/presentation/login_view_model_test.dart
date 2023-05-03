@@ -2,20 +2,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
-import 'package:pass_emploi_app/redux/app_reducer.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
+import '../dsl/app_state_dsl.dart';
 
 void main() {
   test('View model displays LOADER when login state is loading', () {
-    final state = AppState.initialState().copyWith(loginState: LoginLoadingState());
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = givenState().copyWith(loginState: LoginLoadingState()).store();
 
     final viewModel = LoginViewModel.create(store);
 
@@ -23,8 +21,7 @@ void main() {
   });
 
   test('View model displays FAILURE when login state is failure', () {
-    final state = AppState.initialState().copyWith(loginState: LoginFailureState());
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = givenState().copyWith(loginState: LoginFailureState()).store();
 
     final viewModel = LoginViewModel.create(store);
 
@@ -32,8 +29,7 @@ void main() {
   });
 
   test('View model displays CONTENT when login state is not logged in', () {
-    final state = AppState.initialState().copyWith(loginState: UserNotLoggedInState());
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = givenState().copyWith(loginState: UserNotLoggedInState()).store();
 
     final viewModel = LoginViewModel.create(store);
 
@@ -41,7 +37,7 @@ void main() {
   });
 
   test('View model displays CONTENT when login state is logged in', () {
-    final store = Store<AppState>(reducer, initialState: loggedInState());
+    final store = givenState().loggedInUser().store();
 
     final viewModel = LoginViewModel.create(store);
 
@@ -87,11 +83,44 @@ void main() {
     expect((store.dispatchedAction as RequestLoginAction).mode, RequestLoginMode.SIMILO);
   });
 
-  test("view model when build is staging should show 3 buttons : mission locale, pole emploi and pass emploi", () {
+  test("view model when brand is BRSA and flavor is prod should only display pole emploi button", () {
     // Given
-    final state = AppState.initialState(configuration: configuration(flavor: Flavor.STAGING))
-        .copyWith(loginState: UserNotLoggedInState());
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = givenState(configuration(flavor: Flavor.PROD, brand: Brand.brsa))
+        .copyWith(loginState: UserNotLoggedInState())
+        .store();
+
+    // When
+    final viewModel = LoginViewModel.create(store);
+
+    // Then
+    expect(viewModel.loginButtons, [
+      LoginButtonViewModel(label: "Pôle emploi", backgroundColor: AppColors.poleEmploi, action: () {}),
+    ]);
+  });
+
+  test("view model when brand is BRSA and flavor is staging should display pole emploi and pass emploi buttons", () {
+    // Given
+    final store = givenState(configuration(flavor: Flavor.STAGING, brand: Brand.brsa))
+        .copyWith(loginState: UserNotLoggedInState())
+        .store();
+
+    // When
+    final viewModel = LoginViewModel.create(store);
+
+    // Then
+    expect(viewModel.loginButtons, [
+      LoginButtonViewModel(label: "Pôle emploi", backgroundColor: AppColors.poleEmploi, action: () {}),
+      LoginButtonViewModel(label: "pass emploi", backgroundColor: AppColors.primary, action: () {}),
+    ]);
+  });
+
+  test(
+      "view model when flavor is staging and brand CEJ should show 3 buttons : mission locale, pole emploi and pass emploi",
+      () {
+    // Given
+    final store = givenState(configuration(flavor: Flavor.STAGING, brand: Brand.cej))
+        .copyWith(loginState: UserNotLoggedInState())
+        .store();
 
     // When
     final viewModel = LoginViewModel.create(store);
@@ -104,11 +133,11 @@ void main() {
     ]);
   });
 
-  test("view model when build is prod should show 2 buttons : mission locale and pole emploi", () {
+  test("view model when flavor is prod and brand CEJ should show 2 buttons : mission locale and pole emploi", () {
     // Given
-    final state = AppState.initialState(configuration: configuration(flavor: Flavor.PROD))
-        .copyWith(loginState: UserNotLoggedInState());
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = givenState(configuration(flavor: Flavor.PROD, brand: Brand.cej))
+        .copyWith(loginState: UserNotLoggedInState())
+        .store();
 
     // When
     final viewModel = LoginViewModel.create(store);
@@ -118,5 +147,27 @@ void main() {
       LoginButtonViewModel(label: "Pôle emploi", backgroundColor: AppColors.poleEmploi, action: () {}),
       LoginButtonViewModel(label: "Mission Locale", backgroundColor: AppColors.missionLocale, action: () {}),
     ]);
+  });
+
+  test("view model when brand is BRSA should not show ask account button", () {
+    // Given
+    final store = givenBrsaState().copyWith(loginState: UserNotLoggedInState()).store();
+
+    // When
+    final viewModel = LoginViewModel.create(store);
+
+    // Then
+    expect(viewModel.withAskAccountButton, false);
+  });
+
+  test("view model when brand is CEJ should show ask account button", () {
+    // Given
+    final store = givenState().copyWith(loginState: UserNotLoggedInState()).store();
+
+    // When
+    final viewModel = LoginViewModel.create(store);
+
+    // Then
+    expect(viewModel.withAskAccountButton, true);
   });
 }

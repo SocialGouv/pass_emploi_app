@@ -3,19 +3,32 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_favoris_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_outils_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_prochain_rendezvous_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
 import 'package:redux/redux.dart';
 
 class AccueilViewModel extends Equatable {
   final DisplayState displayState;
   final List<AccueilItem> items;
+  final DeepLinkState deepLinkState;
+  final Function() resetDeeplink;
   final Function() retry;
 
   AccueilViewModel({
     required this.displayState,
     required this.items,
+    required this.deepLinkState,
+    required this.resetDeeplink,
     required this.retry,
   });
 
@@ -23,12 +36,14 @@ class AccueilViewModel extends Equatable {
     return AccueilViewModel(
       displayState: _displayState(store),
       items: _items(store),
+      deepLinkState: store.state.deepLinkState,
+      resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items];
+  List<Object?> get props => [displayState, items, deepLinkState];
 }
 
 DisplayState _displayState(Store<AppState> store) {
@@ -41,6 +56,7 @@ DisplayState _displayState(Store<AppState> store) {
 List<AccueilItem> _items(Store<AppState> store) {
   final accueilState = store.state.accueilState;
   final user = store.state.user();
+  final brand = store.state.configurationState.getBrand();
   if (accueilState is! AccueilSuccessState || user == null) return [];
 
   return [
@@ -49,7 +65,7 @@ List<AccueilItem> _items(Store<AppState> store) {
     _evenementsItem(accueilState),
     _alertesItem(accueilState),
     _favorisItem(accueilState),
-    _outilsItem(accueilState),
+    _outilsItem(accueilState, brand),
   ].whereNotNull().toList();
 }
 
@@ -71,19 +87,29 @@ AccueilItem? _prochainRendezvousItem(AccueilSuccessState successState) {
 }
 
 AccueilItem? _evenementsItem(AccueilSuccessState successState) {
-  return null;
+  final evenements = successState.accueil.evenements;
+  return evenements != null && evenements.isNotEmpty
+      ? AccueilEvenementsItem(evenements.map((e) => e.id).toList())
+      : null;
 }
 
 AccueilItem? _alertesItem(AccueilSuccessState successState) {
-  return null;
+  final alertes = successState.accueil.alertes;
+  return alertes != null ? AccueilAlertesItem(alertes) : null;
 }
 
 AccueilItem? _favorisItem(AccueilSuccessState successState) {
-  return null;
+  final favoris = successState.accueil.favoris;
+  return favoris != null ? AccueilFavorisItem(favoris) : null;
 }
 
-AccueilItem? _outilsItem(AccueilSuccessState successState) {
-  return null;
+AccueilItem? _outilsItem(AccueilSuccessState successState, Brand brand) {
+  switch (brand) {
+    case Brand.cej:
+      return AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]);
+    case Brand.brsa:
+      return AccueilOutilsItem([Outils.emploiSolidaire.withoutImage(), Outils.emploiStore.withoutImage()]);
+  }
 }
 
 abstract class AccueilItem extends Equatable {
@@ -91,68 +117,4 @@ abstract class AccueilItem extends Equatable {
   List<Object?> get props => [];
 }
 
-//TODO: move: 1 file / item
-
 enum MonSuiviType { actions, demarches }
-
-class AccueilCetteSemaineItem extends AccueilItem {
-  final MonSuiviType monSuiviType;
-  final String rendezVous;
-  final String actionsDemarchesEnRetard;
-  final String actionsDemarchesARealiser;
-
-  AccueilCetteSemaineItem({
-    required this.monSuiviType,
-    required this.rendezVous,
-    required this.actionsDemarchesEnRetard,
-    required this.actionsDemarchesARealiser,
-  });
-
-  factory AccueilCetteSemaineItem.from({
-    required LoginMode loginMode,
-    required int nombreRendezVous,
-    required int nombreActionsDemarchesEnRetard,
-    required int nombreActionsDemarchesARealiser,
-  }) {
-    return AccueilCetteSemaineItem(
-      monSuiviType: loginMode.isPe() ? MonSuiviType.demarches : MonSuiviType.actions,
-      rendezVous: Strings.rendezvousEnCours(nombreRendezVous),
-      actionsDemarchesEnRetard: Strings.according(
-        loginMode: loginMode,
-        count: nombreActionsDemarchesEnRetard,
-        singularPoleEmploi: Strings.singularDemarcheLate(nombreActionsDemarchesEnRetard),
-        severalPoleEmploi: Strings.severalDemarchesLate(nombreActionsDemarchesEnRetard),
-        singularMissionLocale: Strings.singularActionLate(nombreActionsDemarchesEnRetard),
-        severalMissionLocale: Strings.severalActionsLate(nombreActionsDemarchesEnRetard),
-      ),
-      actionsDemarchesARealiser: Strings.according(
-        loginMode: loginMode,
-        count: nombreActionsDemarchesARealiser,
-        singularPoleEmploi: Strings.singularDemarcheToDo(nombreActionsDemarchesARealiser),
-        severalPoleEmploi: Strings.severalDemarchesToDo(nombreActionsDemarchesARealiser),
-        singularMissionLocale: Strings.singularActionToDo(nombreActionsDemarchesARealiser),
-        severalMissionLocale: Strings.severalActionsToDo(nombreActionsDemarchesARealiser),
-      ),
-    );
-  }
-
-  @override
-  List<Object?> get props => [monSuiviType, rendezVous, actionsDemarchesEnRetard, actionsDemarchesARealiser];
-}
-
-class AccueilProchainRendezvousItem extends AccueilItem {
-  final String rendezVousId;
-
-  AccueilProchainRendezvousItem(this.rendezVousId);
-
-  @override
-  List<Object?> get props => [rendezVousId];
-}
-
-class AccueilEvenementsItem extends AccueilItem {}
-
-class AccueilAlertesItem extends AccueilItem {}
-
-class AccueilFavorisItem extends AccueilItem {}
-
-class AccueilOutilsItem extends AccueilItem {}

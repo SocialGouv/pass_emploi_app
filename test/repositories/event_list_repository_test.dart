@@ -1,10 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 
+import '../doubles/fixtures.dart';
 import '../dsl/sut_repository.dart';
-import '../utils/test_datetime.dart';
 
 void main() {
   group('EventListRepository', () {
@@ -33,23 +32,7 @@ void main() {
 
             expect(
               result?[0],
-              Rendezvous(
-                id: '2d663392-b9ff-4b20-81ca-70a3c779e299',
-                source: RendezvousSource.passEmploi,
-                date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
-                modality: 'en présentiel : Misson locale / Permanence',
-                isInVisio: false,
-                duration: 23,
-                withConseiller: true,
-                isAnnule: false,
-                type: RendezvousType(
-                    RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, 'Entretien individuel conseiller'),
-                title: "super entretien",
-                comment: 'Amener votre CV',
-                conseiller: Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'),
-                createur: Conseiller(id: '2', firstName: 'Joe', lastName: 'Pesci'),
-                estInscrit: true,
-              ),
+              mockAnimationCollective(),
             );
 
             expect(result?[0].estInscrit, true);

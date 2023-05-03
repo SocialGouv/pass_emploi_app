@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_r
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
@@ -167,13 +168,16 @@ AuthTokenResponse authTokenResponse() => AuthTokenResponse(
       refreshToken: 'refreshToken',
     );
 
-Configuration configuration({Version version = const Version(1, 0, 0), Flavor flavor = Flavor.STAGING}) {
+Configuration configuration(
+    {Version version = const Version(1, 0, 0), Flavor flavor = Flavor.STAGING, Brand brand = Brand.cej}) {
   return Configuration(
     version,
     flavor,
+    brand,
     'serverBaseUrl',
     'matomoBaseUrl',
     'matomoSiteId',
+    'matomoDimensionProduitId',
     'authClientId',
     'authLoginRedirectUrl',
     'authLogoutRedirectUrl',
@@ -183,8 +187,12 @@ Configuration configuration({Version version = const Version(1, 0, 0), Flavor fl
     'someKey',
     'actualisationPoleEmploiUrl',
     'Europe/Paris',
+    false,
+    false,
   );
 }
+
+Configuration brsaConfiguration() => configuration(brand: Brand.brsa);
 
 Location mockLocation({double? lat, double? lon}) => Location(
       libelle: "",
@@ -278,6 +286,25 @@ ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
       lienAnnonce: "Bonjour, moi c'est le lien (social ?) mwahaha",
       codePostal: "75002",
     );
+
+Rendezvous mockAnimationCollective() {
+  return Rendezvous(
+    id: '2d663392-b9ff-4b20-81ca-70a3c779e299',
+    source: RendezvousSource.passEmploi,
+    date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
+    modality: 'en présentiel : Misson locale / Permanence',
+    isInVisio: false,
+    duration: 23,
+    withConseiller: true,
+    isAnnule: false,
+    type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, 'Entretien individuel conseiller'),
+    title: "super entretien",
+    comment: 'Amener votre CV',
+    conseiller: Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'),
+    createur: Conseiller(id: '2', firstName: 'Joe', lastName: 'Pesci'),
+    estInscrit: true,
+  );
+}
 
 Rendezvous rendezvousStub({String? id, DateTime? date}) {
   return Rendezvous(
@@ -643,7 +670,7 @@ RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> rechercheEmplo
     EmploiCriteresRecherche(
       keyword: "chevalier",
       location: Location(type: LocationType.COMMUNE, libelle: "Valence", code: "26000"),
-      onlyAlternance: false,
+      rechercheType: RechercheType.offreEmploiAndAlternance,
     ),
     EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdi]),
     1,
@@ -652,7 +679,11 @@ RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> rechercheEmplo
 
 RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> initialRechercheEmploiRequest() {
   return RechercheRequest(
-    EmploiCriteresRecherche(keyword: "chevalier", location: null, onlyAlternance: false),
+    EmploiCriteresRecherche(
+      keyword: "chevalier",
+      location: null,
+      rechercheType: RechercheType.offreEmploiAndAlternance,
+    ),
     EmploiFiltresRecherche.noFiltre(),
     1,
   );
@@ -695,6 +726,32 @@ DiagorienteUrls mockDiagorienteUrls() {
 
 Favori mockFavori([String id = 'id', SolutionType type = SolutionType.Immersion]) {
   return Favori(id: id, type: type, titre: 't', organisation: null, localisation: null);
+}
+
+List<Favori> mock3Favoris() {
+  return [
+    Favori(
+      id: "1",
+      titre: "titre-1",
+      type: SolutionType.OffreEmploi,
+      organisation: "organisation-1",
+      localisation: "localisation-1",
+    ),
+    Favori(
+      id: "2",
+      titre: "titre-2",
+      type: SolutionType.Alternance,
+      organisation: "organisation-2",
+      localisation: "localisation-2",
+    ),
+    Favori(
+      id: "3",
+      titre: "titre-3",
+      type: SolutionType.Immersion,
+      organisation: null,
+      localisation: "localisation-3",
+    ),
+  ];
 }
 
 List<SavedSearch> getMockedSavedSearch() {
@@ -770,6 +827,9 @@ Accueil mockAccueilMilo() {
       nombreActionsDemarchesARealiser: 1,
     ),
     prochainRendezVous: mockRendezvousMiloCV(),
+    evenements: [mockAnimationCollective()],
+    alertes: getMockedSavedSearch(),
+    favoris: mock3Favoris(),
   );
 }
 
@@ -782,5 +842,7 @@ Accueil mockAccueilPoleEmploi() {
       nombreActionsDemarchesARealiser: 1,
     ),
     prochainRendezVous: mockRendezvousPoleEmploi(),
+    alertes: getMockedSavedSearch(),
+    favoris: mock3Favoris(),
   );
 }

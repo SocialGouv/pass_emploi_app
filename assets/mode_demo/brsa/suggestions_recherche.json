@@ -1,0 +1,20 @@
+[
+  {
+    "id": "id-emploi",
+    "titre": "Employé de banque",
+    "type": "OFFRES_EMPLOI",
+    "metier": "Employé de banque",
+    "localisation": "Paris 14",
+    "dateCreation": "2022-10-11T14:13:35.899Z",
+    "dateRafraichissement": "2022-10-11T14:13:35.899Z"
+  },
+  {
+    "id": "id-immersion",
+    "titre": "Conducteur / Conductrice d’engins d’exploitations agricoles",
+    "type": "OFFRES_IMMERSION",
+    "metier": "Conducteur / Conductrice d’engins d’exploitations agricoles",
+    "localisation": "Lille",
+    "dateCreation": "2022-10-11T14:13:35.899Z",
+    "dateRafraichissement": "2022-10-11T14:13:35.899Z"
+  }
+]

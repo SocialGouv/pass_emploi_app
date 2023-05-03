@@ -18,7 +18,7 @@ void main() {
       id: 'id',
       content: "Faire le CV",
       status: DemarcheStatus.NOT_STARTED,
-      endDate: parseDateTimeUtcWithCurrentTimeZone('2023-04-28T16:06:48.396Z'),
+      endDate: parseDateTimeUtcWithCurrentTimeZone('2032-04-28T16:06:48.396Z'),
       deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
       label: "label",
@@ -59,7 +59,7 @@ void main() {
           backgroundColor: AppColors.accent1Lighten,
           textColor: AppColors.accent1,
         ),
-        dateFormattedTexts: [FormattedText('À réaliser pour le 28/04/2023')],
+        dateFormattedTexts: [FormattedText('À réaliser pour le 28/04/2032')],
         dateColor: AppColors.primary,
       ),
     );
