@@ -10,7 +10,7 @@ enum SavedSearchNavigationState {
 
   static SavedSearchNavigationState fromAppState(AppState state) {
     if (state.rechercheEmploiState.status == RechercheStatus.success) {
-      return state.rechercheEmploiState.request?.criteres.onlyAlternance == true
+      return state.rechercheEmploiState.request?.criteres.rechercheType.isOnlyAlternance() == true
           ? SavedSearchNavigationState.OFFRE_ALTERNANCE
           : SavedSearchNavigationState.OFFRE_EMPLOI;
     } else if (state.rechercheImmersionState.status == RechercheStatus.success) {

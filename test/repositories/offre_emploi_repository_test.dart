@@ -30,7 +30,11 @@ void main() {
     final response = await repository.rechercher(
       userId: "ID",
       request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
-        EmploiCriteresRecherche(keyword: "keyword", location: location, onlyAlternance: false),
+        EmploiCriteresRecherche(
+          keyword: "keyword",
+          location: location,
+          rechercheType: RechercheType.offreEmploiAndAlternance,
+        ),
         EmploiFiltresRecherche.noFiltre(),
         1,
       ),
@@ -85,7 +89,11 @@ void main() {
     final response = await repository.rechercher(
       userId: "ID",
       request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
-        EmploiCriteresRecherche(keyword: "keyword", location: location, onlyAlternance: false),
+        EmploiCriteresRecherche(
+          keyword: "keyword",
+          location: location,
+          rechercheType: RechercheType.offreEmploiAndAlternance,
+        ),
         EmploiFiltresRecherche.noFiltre(),
         1,
       ),
@@ -112,7 +120,11 @@ void main() {
     final response = await repository.rechercher(
       userId: "ID",
       request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
-        EmploiCriteresRecherche(keyword: "", location: null, onlyAlternance: false),
+        EmploiCriteresRecherche(
+          keyword: "",
+          location: null,
+          rechercheType: RechercheType.offreEmploiAndAlternance,
+        ),
         EmploiFiltresRecherche.noFiltre(),
         1,
       ),
@@ -140,7 +152,11 @@ void main() {
     final response = await repository.rechercher(
       userId: "ID",
       request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
-        EmploiCriteresRecherche(keyword: "", location: null, onlyAlternance: true),
+        EmploiCriteresRecherche(
+          keyword: "",
+          location: null,
+          rechercheType: RechercheType.onlyAlternance,
+        ),
         EmploiFiltresRecherche.noFiltre(),
         1,
       ),
@@ -168,7 +184,11 @@ void main() {
     final response = await repository.rechercher(
       userId: "ID",
       request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
-        EmploiCriteresRecherche(keyword: "keyword", location: location, onlyAlternance: false),
+        EmploiCriteresRecherche(
+          keyword: "keyword",
+          location: location,
+          rechercheType: RechercheType.offreEmploiAndAlternance,
+        ),
         EmploiFiltresRecherche.noFiltre(),
         1,
       ),
@@ -192,6 +212,86 @@ void main() {
         ));
   });
 
+  group("When RechercheType…", () {
+    test('is offreEmploiAndAlternance should not set alternance query param', () async {
+      // Given
+      final httpClient = PassEmploiMockClient((request) async {
+        if (request.url.queryParameters.containsKey("alternance")) return invalidHttpResponse();
+        return Response(loadTestAssets("offres_emploi.json"), 200);
+      });
+      final repository = OffreEmploiRepository("BASE_URL", httpClient);
+
+      // When
+      final response = await repository.rechercher(
+        userId: "ID",
+        request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
+          EmploiCriteresRecherche(
+            keyword: "keyword",
+            location: mockLocation(),
+            rechercheType: RechercheType.offreEmploiAndAlternance,
+          ),
+          EmploiFiltresRecherche.noFiltre(),
+          1,
+        ),
+      );
+
+      // Then
+      expect(response, isNotNull);
+    });
+
+    test('is onlyAlternance should set alternance query param to true', () async {
+      // Given
+      final httpClient = PassEmploiMockClient((request) async {
+        if (request.url.queryParameters["alternance"] != "true") return invalidHttpResponse();
+        return Response(loadTestAssets("offres_emploi.json"), 200);
+      });
+      final repository = OffreEmploiRepository("BASE_URL", httpClient);
+
+      // When
+      final response = await repository.rechercher(
+        userId: "ID",
+        request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
+          EmploiCriteresRecherche(
+            keyword: "keyword",
+            location: mockLocation(),
+            rechercheType: RechercheType.onlyAlternance,
+          ),
+          EmploiFiltresRecherche.noFiltre(),
+          1,
+        ),
+      );
+
+      // Then
+      expect(response, isNotNull);
+    });
+
+    test('is onlyOffreEmploi should set alternance query param to false', () async {
+      // Given
+      final httpClient = PassEmploiMockClient((request) async {
+        if (request.url.queryParameters["alternance"] != "false") return invalidHttpResponse();
+        return Response(loadTestAssets("offres_emploi.json"), 200);
+      });
+      final repository = OffreEmploiRepository("BASE_URL", httpClient);
+
+      // When
+      final response = await repository.rechercher(
+        userId: "ID",
+        request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
+          EmploiCriteresRecherche(
+            keyword: "keyword",
+            location: mockLocation(),
+            rechercheType: RechercheType.onlyOffreEmploi,
+          ),
+          EmploiFiltresRecherche.noFiltre(),
+          1,
+        ),
+      );
+
+      // Then
+      expect(response, isNotNull);
+    });
+  });
+
   group("response when filtres are applied ...", () {
     void assertFiltres(
       String title,
@@ -211,7 +311,11 @@ void main() {
         final response = await repository.rechercher(
           userId: "ID",
           request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
-            EmploiCriteresRecherche(keyword: "keyword", location: location, onlyAlternance: false),
+            EmploiCriteresRecherche(
+              keyword: "keyword",
+              location: location,
+              rechercheType: RechercheType.offreEmploiAndAlternance,
+            ),
             filtres,
             1,
           ),
@@ -403,7 +507,11 @@ void main() {
     final response = await repository.rechercher(
       userId: "ID",
       request: RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>(
-        EmploiCriteresRecherche(keyword: "keyword", location: null, onlyAlternance: false),
+        EmploiCriteresRecherche(
+          keyword: "keyword",
+          location: null,
+          rechercheType: RechercheType.offreEmploiAndAlternance,
+        ),
         EmploiFiltresRecherche.noFiltre(),
         1,
       ),

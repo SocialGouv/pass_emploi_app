@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/criteres_recherche_emploi_contenu_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../../doubles/fixtures.dart';
 import '../../../doubles/spies.dart';
@@ -64,11 +65,37 @@ void main() {
       expect(
         (dispatchedAction as RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>).request,
         RechercheRequest(
-          EmploiCriteresRecherche(keyword: 'keywords', location: mockLocation(), onlyAlternance: false),
+          EmploiCriteresRecherche(
+            keyword: 'keywords',
+            location: mockLocation(),
+            rechercheType: RechercheType.offreEmploiAndAlternance,
+          ),
           EmploiFiltresRecherche.noFiltre(),
           1,
         ),
       );
+    });
+
+    test('on BRSA brand should ALWAYS set RechercheType to onlyOffreEmploi (as Alternance is not handled for BRSA)',
+        () {
+      // Given
+      final store = StoreSpy.withState(AppState.initialState(configuration: brsaConfiguration()));
+      final viewModel = CriteresRechercheEmploiContenuViewModel.create(store);
+
+      // When
+      viewModel.onSearchingRequest('keywords', mockLocation(), true);
+
+      // Then
+      final dispatchedAction = store.dispatchedAction;
+      expect(
+        dispatchedAction,
+        isA<RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>>(),
+      );
+      final type = (dispatchedAction as RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>)
+          .request
+          .criteres
+          .rechercheType;
+      expect(type, RechercheType.onlyOffreEmploi);
     });
 
     group('on updated request', () {
@@ -90,7 +117,11 @@ void main() {
         expect(
           (dispatchedAction as RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>).request,
           RechercheRequest(
-            EmploiCriteresRecherche(keyword: 'keywords', location: mockLocation(), onlyAlternance: false),
+            EmploiCriteresRecherche(
+              keyword: 'keywords',
+              location: mockLocation(),
+              rechercheType: RechercheType.offreEmploiAndAlternance,
+            ),
             previousFiltres,
             1,
           ),
@@ -115,7 +146,11 @@ void main() {
         expect(
           (dispatchedAction as RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>).request,
           RechercheRequest(
-            EmploiCriteresRecherche(keyword: 'keywords', location: null, onlyAlternance: false),
+            EmploiCriteresRecherche(
+              keyword: 'keywords',
+              location: null,
+              rechercheType: RechercheType.offreEmploiAndAlternance,
+            ),
             EmploiFiltresRecherche.withFiltres(debutantOnly: true),
             1,
           ),
@@ -141,7 +176,11 @@ void main() {
         expect(
           (dispatchedAction as RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>).request,
           RechercheRequest(
-            EmploiCriteresRecherche(keyword: 'keywords', location: mockLocation(), onlyAlternance: false),
+            EmploiCriteresRecherche(
+              keyword: 'keywords',
+              location: mockLocation(),
+              rechercheType: RechercheType.offreEmploiAndAlternance,
+            ),
             EmploiFiltresRecherche.withFiltres(debutantOnly: true),
             1,
           ),

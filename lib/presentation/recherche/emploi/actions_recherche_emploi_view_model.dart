@@ -36,7 +36,7 @@ class ActionsRechercheEmploiViewModel extends ActionsRechercheViewModel {
 
 bool _withFiltreButton(RechercheState<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi> state) {
   final withFiltreButton = [RechercheStatus.success, RechercheStatus.updateLoading].contains(state.status);
-  if (state.request?.criteres.onlyAlternance == true) {
+  if (state.request?.criteres.rechercheType.isOnlyAlternance() == true) {
     return withFiltreButton && state.request?.criteres.location?.type == LocationType.COMMUNE;
   } else {
     return withFiltreButton;

@@ -670,7 +670,7 @@ RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> rechercheEmplo
     EmploiCriteresRecherche(
       keyword: "chevalier",
       location: Location(type: LocationType.COMMUNE, libelle: "Valence", code: "26000"),
-      onlyAlternance: false,
+      rechercheType: RechercheType.offreEmploiAndAlternance,
     ),
     EmploiFiltresRecherche.withFiltres(contrat: [ContratFiltre.cdi]),
     1,
@@ -679,7 +679,11 @@ RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> rechercheEmplo
 
 RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> initialRechercheEmploiRequest() {
   return RechercheRequest(
-    EmploiCriteresRecherche(keyword: "chevalier", location: null, onlyAlternance: false),
+    EmploiCriteresRecherche(
+      keyword: "chevalier",
+      location: null,
+      rechercheType: RechercheType.offreEmploiAndAlternance,
+    ),
     EmploiFiltresRecherche.noFiltre(),
     1,
   );
