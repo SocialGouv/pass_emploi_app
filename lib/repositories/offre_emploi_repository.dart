@@ -53,9 +53,17 @@ class OffreEmploiRepository extends RechercheRepository<EmploiCriteresRecherche,
       result.write(Uri.encodeQueryComponent(value));
     }
 
-    if (request.criteres.onlyAlternance) {
-      writeParameter("alternance", true.toString());
+    switch(request.criteres.rechercheType){
+      case RechercheType.onlyOffreEmploi:
+        writeParameter("alternance", false.toString());
+        break;
+      case RechercheType.onlyAlternance:
+        writeParameter("alternance", true.toString());
+        break;
+      case RechercheType.offreEmploiAndAlternance:
+        break;
     }
+
     writeParameter("page", request.page.toString());
     writeParameter("limit", PAGE_SIZE.toString());
     if (request.criteres.keyword.isNotEmpty) {

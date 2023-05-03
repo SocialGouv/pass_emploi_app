@@ -60,7 +60,7 @@ SavedSearch? createSavedSearchFromRequest(RechercheRequest request) {
       metier: null,
       location: request.criteres.location,
       keyword: request.criteres.keyword,
-      onlyAlternance: request.criteres.onlyAlternance,
+      onlyAlternance: request.criteres.rechercheType.isOnlyAlternance(),
       filters: request.filtres,
     );
   }

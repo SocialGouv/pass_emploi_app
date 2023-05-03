@@ -24,7 +24,7 @@ void main() {
           criteres: EmploiCriteresRecherche(
             keyword: "keyword",
             location: null,
-            onlyAlternance: true,
+            rechercheType: RechercheType.onlyAlternance,
           ),
         )
         .store();

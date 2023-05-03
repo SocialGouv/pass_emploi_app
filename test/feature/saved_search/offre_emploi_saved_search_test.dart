@@ -227,7 +227,7 @@ Matcher _shouldSucceedWithSameCriteresAndFiltres() {
         EmploiCriteresRecherche(
           keyword: "Boulangerie",
           location: Location(libelle: "NANTES", code: "44109", type: LocationType.COMMUNE),
-          onlyAlternance: false,
+          rechercheType: RechercheType.offreEmploiAndAlternance,
         ),
       );
       expect(

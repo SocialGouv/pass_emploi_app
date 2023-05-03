@@ -27,7 +27,11 @@ void main() {
 
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
-          criteres: EmploiCriteresRecherche(keyword: 'Je suis un keyword', location: location, onlyAlternance: false),
+          criteres: EmploiCriteresRecherche(
+            keyword: 'Je suis un keyword',
+            location: location,
+            rechercheType: RechercheType.offreEmploiAndAlternance,
+          ),
           filtres: filtres,
         )
         .store();

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
@@ -63,7 +63,11 @@ void main() {
     // Given
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
-          criteres: EmploiCriteresRecherche(location: mockCommuneLocation(), keyword: '', onlyAlternance: true),
+          criteres: EmploiCriteresRecherche(
+            location: mockCommuneLocation(),
+            keyword: '',
+            rechercheType: RechercheType.onlyAlternance,
+          ),
         )
         .store();
 
@@ -78,7 +82,11 @@ void main() {
     // Given
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
-          criteres: EmploiCriteresRecherche(keyword: '', location: mockCommuneLocation(), onlyAlternance: false),
+          criteres: EmploiCriteresRecherche(
+            keyword: '',
+            location: mockCommuneLocation(),
+            rechercheType: RechercheType.offreEmploiAndAlternance,
+          ),
           filtres: EmploiFiltresRecherche.withFiltres(distance: 20),
         )
         .store();
@@ -94,7 +102,11 @@ void main() {
     // Given
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
-          criteres: EmploiCriteresRecherche(keyword: '', location: mockLocation(), onlyAlternance: false),
+          criteres: EmploiCriteresRecherche(
+            keyword: '',
+            location: mockLocation(),
+            rechercheType: RechercheType.offreEmploiAndAlternance,
+          ),
         )
         .store();
 
@@ -109,7 +121,11 @@ void main() {
     // Given
     final store = givenState()
         .successRechercheEmploiStateWithRequest(
-          criteres: EmploiCriteresRecherche(keyword: '', location: mockCommuneLocation(), onlyAlternance: false),
+          criteres: EmploiCriteresRecherche(
+            keyword: '',
+            location: mockCommuneLocation(),
+            rechercheType: RechercheType.offreEmploiAndAlternance,
+          ),
           filtres: EmploiFiltresRecherche.withFiltres(distance: 20),
         )
         .store();
@@ -123,7 +139,7 @@ void main() {
 
   test('create when search location is not only alternance should display non distance filtres', () {
     // Given
-    final store = _store(onlyAlternance: false);
+    final store = _store(rechercheType: RechercheType.offreEmploiAndAlternance);
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -134,7 +150,7 @@ void main() {
 
   test('create when search location is only alternance should not display non distance filtres', () {
     // Given
-    final store = _store(onlyAlternance: true);
+    final store = _store(rechercheType: RechercheType.onlyAlternance);
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -253,10 +269,10 @@ List<CheckboxValueViewModel<ContratFiltre>> _allContratsInitiallyUnchecked() {
   ];
 }
 
-Store<AppState> _store({required bool onlyAlternance}) {
+Store<AppState> _store({required RechercheType rechercheType}) {
   return givenState()
       .successRechercheEmploiStateWithRequest(
-        criteres: EmploiCriteresRecherche(keyword: '', location: mockCommuneLocation(), onlyAlternance: onlyAlternance),
+        criteres: EmploiCriteresRecherche(keyword: '', location: mockCommuneLocation(), rechercheType: rechercheType),
       )
       .store();
 }
