@@ -1,0 +1,105 @@
+{
+    "cetteSemaine": {
+      "nombreRendezVous": 3,
+      "nombreActionsDemarchesEnRetard": 2,
+      "nombreActionsDemarchesARealiser": 1
+    },
+    "prochainRendezVous": {
+      "id": "4995ea8a-4f6a-48be-925e-f45593c481f6",
+      "source": "PASS_EMPLOI",
+      "title": "Super titre",
+      "idStable": "8456f048-0c76-4538-bce8-225d36608f38",
+      "type": {
+        "code": "PRESTATION",
+        "label": "Prestation"
+      },
+      "date": "<NOW_PLUS_1>",
+      "isLocaleDate": false,
+      "jeune": {
+        "id": "28b6a7cf-e023-4cd8-a498-7d8ba9d703f8",
+        "nom": "test",
+        "prenom": "test"
+      },
+      "modality": "par visio",
+      "duration": 0,
+      "description": "J'explore des pistes professionnelles.",
+      "adresse": "11 RUE Paul Vimereu  80142 ABBEVILLE",
+      "agencePE": true,
+      "theme": "Activ'Projet",
+      "annule": true,
+      "visio": true,
+      "telephone": "01.02.03.04.05",
+      "lienVisio": "http://www.visio.fr"
+    },
+    "mesAlertes": [
+      {
+        "id": "9ea85cc4-c92f-4f91-b5a3-b600f364faf1",
+        "titre": "Boulangerie",
+        "type": "OFFRES_EMPLOI",
+        "metier": "Boulangerie",
+        "criteres": {
+          "q": "Boulangerie",
+          "duree": [],
+          "rayon": null,
+          "commune": null,
+          "contrat": [],
+          "alternance": false,
+          "debutantAccepte": true,
+          "experience": [],
+          "departement": null
+        }
+      },
+      {
+        "id": "25f317c7-f28a-4f50-a629-013bb960484d",
+        "titre": "Boulangerie - NANTES",
+        "type": "OFFRES_EMPLOI",
+        "metier": "Boulangerie",
+        "localisation": "NANTES",
+        "criteres": {
+          "q": "Boulangerie",
+          "duree": [],
+          "rayon": null,
+          "commune": "44109",
+          "contrat": [],
+          "alternance": false,
+          "experience": [],
+          "departement": null
+        }
+      },
+      {
+        "id": "670c413e-b669-4228-850a-9a7307fe79ea",
+        "titre": "Boulangerie - viennoiserie - PARIS-14",
+        "type": "OFFRES_IMMERSION",
+        "metier": "Boulangerie - viennoiserie",
+        "localisation": "PARIS-14",
+        "criteres": {
+          "lat": 48.830108,
+          "lon": 2.323026,
+          "rome": "D1102"
+        }
+      }
+    ],
+    "mesFavoris": [
+      {
+        "idOffre": "31440616600012-D1502",
+        "titre": "Management/gestion de rayon produits alimentaires",
+        "type": "OFFRE_IMMERSION",
+        "organisation": "Commerce de détail en magasin non spécialisé à prédominance alimentaire",
+        "localisation": "LYON-02"
+      },
+      {
+        "idOffre": "132WNLT",
+        "titre": "Employé / Employée de rayon libre-service (H/F)",
+        "type": "OFFRE_EMPLOI",
+        "organisation": "AUCHAN",
+        "localisation": "69 - DARDILLY"
+      },
+      {
+        "idOffre": "48950012400024-D1502",
+        "titre": "Management/gestion de rayon produits alimentaires",
+        "type": "OFFRE_IMMERSION",
+        "organisation": "Commerce de détail en magasin non spécialisé à prédominance alimentaire",
+        "localisation": "LYON-03"
+      }
+    ]
+  }
