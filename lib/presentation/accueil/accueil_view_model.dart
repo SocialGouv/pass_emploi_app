@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
@@ -55,6 +56,7 @@ DisplayState _displayState(Store<AppState> store) {
 List<AccueilItem> _items(Store<AppState> store) {
   final accueilState = store.state.accueilState;
   final user = store.state.user();
+  final brand = store.state.configurationState.getBrand();
   if (accueilState is! AccueilSuccessState || user == null) return [];
 
   return [
@@ -63,7 +65,7 @@ List<AccueilItem> _items(Store<AppState> store) {
     _evenementsItem(accueilState),
     _alertesItem(accueilState),
     _favorisItem(accueilState),
-    _outilsItem(accueilState),
+    _outilsItem(accueilState, brand),
   ].whereNotNull().toList();
 }
 
@@ -101,11 +103,13 @@ AccueilItem? _favorisItem(AccueilSuccessState successState) {
   return favoris != null ? AccueilFavorisItem(favoris) : null;
 }
 
-AccueilItem? _outilsItem(AccueilSuccessState successState) {
-  return AccueilOutilsItem([
-    Outils.diagoriente.withoutImage(),
-    Outils.aides.withoutImage(),
-  ]);
+AccueilItem? _outilsItem(AccueilSuccessState successState, Brand brand) {
+  switch (brand) {
+    case Brand.cej:
+      return AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]);
+    case Brand.brsa:
+      return AccueilOutilsItem([Outils.emploiSolidaire.withoutImage(), Outils.emploiStore.withoutImage()]);
+  }
 }
 
 abstract class AccueilItem extends Equatable {

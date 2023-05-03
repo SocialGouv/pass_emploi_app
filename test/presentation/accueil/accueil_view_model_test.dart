@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
@@ -101,6 +102,40 @@ void main() {
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]),
         ],
+      );
+    });
+  });
+
+  group('outils items…', () {
+    test('on CEJ app should highlight Diagoriente and Aides', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().withAccueilPoleEmploiSuccess().store();
+      final viewModel = AccueilViewModel.create(store);
+
+      // When
+      final outilsItem = viewModel.items.firstWhereOrNull((item) => item is AccueilOutilsItem);
+
+      // Then
+      expect(outilsItem, isNotNull);
+      expect(
+        (outilsItem as AccueilOutilsItem).outils,
+        [Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()],
+      );
+    });
+
+    test('on BRSA app should highlight Diagoriente and Aides', () {
+      // Given
+      final store = givenBrsaState().loggedInPoleEmploiUser().withAccueilPoleEmploiSuccess().store();
+      final viewModel = AccueilViewModel.create(store);
+
+      // When
+      final outilsItem = viewModel.items.firstWhereOrNull((item) => item is AccueilOutilsItem);
+
+      // Then
+      expect(outilsItem, isNotNull);
+      expect(
+        (outilsItem as AccueilOutilsItem).outils,
+        [Outils.emploiSolidaire.withoutImage(), Outils.emploiStore.withoutImage()],
       );
     });
   });
