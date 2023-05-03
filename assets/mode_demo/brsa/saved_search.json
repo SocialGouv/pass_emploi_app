@@ -1,0 +1,39 @@
+[
+  {
+    "id": "d461b99c-0fb1-43f2-8c96-10cb89b66577",
+    "titre": "Employé Libre-Service - LYON 01",
+    "type": "OFFRES_EMPLOI",
+    "metier": "Employé Libre-Service",
+    "localisation": "LYON 01",
+    "criteres": {
+      "q": "Employé Libre-Service",
+      "duree": [
+        "1"
+      ],
+      "rayon": 10,
+      "commune": "69381",
+      "contrat": [
+        "CDI",
+        "CDD-interim-saisonnier"
+      ],
+      "alternance": false,
+      "experience": [
+        "1"
+      ],
+      "departement": null
+    }
+  },
+  {
+    "id": "52887145-6aa8-41fd-9b01-1acd5dc04e45",
+    "titre": "Adjoint / Adjointe au chef de rayon produits alimentaires - LYON 01",
+    "type": "OFFRES_IMMERSION",
+    "metier": "Adjoint / Adjointe au chef de rayon produits alimentaires",
+    "localisation": "LYON 01",
+    "criteres": {
+      "lat": 45.758,
+      "lon": 4.835,
+      "rome": "D1502",
+      "distance": null
+    }
+  }
+]
