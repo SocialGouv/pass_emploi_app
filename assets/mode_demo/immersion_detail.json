@@ -5,6 +5,8 @@
   "secteurActivite": "Commerce de détail en magasin non spécialisé à prédominance alimentaire",
   "ville": "LYON-09",
   "adresse": "Service des ressources humaines, 90 AVENUE BARTHELEMY BUYER, 69009 LYON-09",
+  "codeRome": "D1502",
+  "siret": "12345678900013",
   "estVolontaire": false,
   "localisation": {
     "latitude": 45.76179,
