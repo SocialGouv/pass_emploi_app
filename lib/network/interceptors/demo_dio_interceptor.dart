@@ -1,10 +1,12 @@
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_exception.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_files.dart';
+import 'package:pass_emploi_app/utils/asset_bundle_extensions.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
 class DemoDioInterceptor extends Interceptor {
@@ -34,7 +36,7 @@ class DemoDioInterceptor extends Interceptor {
     final now = DateTime.now();
     final dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     return rootBundle
-        .loadString("assets/mode_demo/" + stringUrl + ".json")
+        .loadDemoAsset(stringUrl)
         .then(
           (json) => json.replaceAllMapped(
             RegExp(r'(<NOW_PLUS_)(\d+)(>)'),
