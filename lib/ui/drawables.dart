@@ -4,7 +4,6 @@ class Drawables {
   Drawables._();
 
   static const String _assets = "assets/";
-  static const String _tuto = "assets/tuto/";
   static const String _svg = ".svg";
   static const String _png = ".png";
 
@@ -25,11 +24,4 @@ class Drawables {
   static String deleteIllustration = _assets + "ic_delete" + _svg;
 
   static String badge = _assets + "ic_badge" + _svg;
-
-  static String tutoImgNewImmersionMilo = _tuto + "img_new_immersion_Milo" + _svg;
-  static String tutoImgNewImmersionPE = _tuto + "img_new_immersion_PE" + _svg;
-  static String tutoImgNewLastSearchMilo = _tuto + "img_new_last_search_Milo" + _svg;
-  static String tutoImgNewSearchDiagoMilo = _tuto + "img_new_search_diago_Milo" + _svg;
-  static String tutoImgNewSearchDiagoPE = _tuto + "img_new_search_diago_PE" + _svg;
-  static String tutoImgProfilDiagoMilo = _tuto + "img_profil_diago_Milo" + _svg;
 }
