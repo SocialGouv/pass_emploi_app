@@ -31,30 +31,48 @@ Il est nécessaire pour cela de créer 2 configurations, en fonction que vous so
 ## Renseigner les secrets Firebase
 
 Le projet utilise plusieurs foncionnalités de Firebase. Les secrets ne sont pas et ne doivent pas
-être commités (à ce titre, ils sont présent dans le `.gitignore`. Pour autant, ils sont nécessaires
+être commités à ce titre, ils sont présent dans le `.gitignore`. Pour autant, ils sont nécessaires
 au bon fonctionnement de l'application. Ils sont téléchargeables directement depuis Firebase.
 
 Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déjà configuré pour).
 
 # Pour l'environnement de staging
 
-1. Télécharger les fichiers `google-services.json`
-   et `GoogleService-Info.plist` [ici](https://console.firebase.google.com/project/pass-emploi-staging/settings/general)
-   .
-2. Les déplacer respectivement dans les dossiers suivants (à créer) :
+### Configuration Android
 
-- Android : `/android/app/src/staging/google-services.json`
-- iOS : `/ios/firebase-config/staging/GoogleService-Info.plist`
+1. Télécharger le fichier `google-services.json` depuis la console Firebase de staging. Ce fichier est commun à CEJ et BRSA vous pouvez le télécharger depuis le panneau de configuration Android de l'une des deux applications [par exemple sur ce lien](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/android:fr.fabrique.social.gouv.passemploi.rsa.staging)
+
+2. Le déplacer dans le dossier suivant :
+
+- Android : `/android/app/google-services.json`
+
+### Configuration iOS
+
+1. Contrairement à Android, il va falloir télécharger les fichiers spécifiques `GoogleService-Info.plist` pour chacune des applications CEJ et BRSA depuis la console Firebase. [Ce lien pour CEJ](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/ios:fr.fabrique.social.gouv.passemploi.staging) et [ce lien pour BRSA](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/ios:fr.fabrique.social.gouv.passemploi.rsa.staging)
+
+2. Les déplacer respectivement dans les dossiers suivants (à créer):
+
+- `/ios/firebase-config/cejStaging/GoogleService-Info.plist`
+- `/ios/firebase-config/brsaStaging/GoogleService-Info.plist`
 
 # Pour l'environnement de prod
 
-1. Télécharger les fichiers `google-services.json`
-   et `GoogleService-Info.plist` [ici](https://console.firebase.google.com/u/1/project/pass-emploi/settings/general)
-   .
-2. Les déplacer respectivement dans les dossiers suivants (à créer) :
+### Configuration Android
 
-- Android : `/android/app/src/prod/google-services.json`
-- iOS : `/ios/firebase-config/prod/GoogleService-Info.plist`
+1. Télécharger le fichier `google-services.json` depuis la console Firebase de production. Ce fichier est commun à CEJ et BRSA vous pouvez le télécharger depuis le panneau de configuration Android de l'une des deux applications [par exemple sur ce lien](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/android:fr.fabrique.social.gouv.passemploi.rsa)
+
+2. Le déplacer dans le dossier suivant :
+
+- Android : `/android/app/google-services.json`
+
+### Configuration iOS
+
+1. Contrairement à Android, il va falloir télécharger les fichiers spécifiques `GoogleService-Info.plist` pour chacune des applications CEJ et BRSA depuis la console Firebase. [Ce lien pour CEJ](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/ios:fr.fabrique.social.gouv.passemploi) et [ce lien pour BRSA](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/ios:fr.fabrique.social.gouv.passemploi.rsa)
+
+2. Les déplacer respectivement dans les dossiers suivants (à créer):
+
+- `/ios/firebase-config/cejProd/GoogleService-Info.plist`
+- `/ios/firebase-config/brsaProd/GoogleService-Info.plist`
 
 ## Spécificité Firestore iOS
 
