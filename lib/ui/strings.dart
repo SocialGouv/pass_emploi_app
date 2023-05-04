@@ -16,9 +16,12 @@ class _BrsaStrings {
   static String modeDemoExplicationPremierPoint3 = " l’application pass emploi utilisée par vos bénéficiaires.";
   static String ratingLabel = "Aimez-vous l’application pass emploi ?";
   static String legalNoticeUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/pass_emploi_mentions_legales";
-  static String privacyPolicyUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_pass_emploi_politique_de_confidentialite";
-  static String termsOfServiceUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_pass_emploi_conditions_generales";
-  static String accessibilityUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_pass_emploi_accessibilite_application";
+  static String privacyPolicyUrl =
+      "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_pass_emploi_politique_de_confidentialite";
+  static String termsOfServiceUrl =
+      "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_pass_emploi_conditions_generales";
+  static String accessibilityUrl =
+      "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_pass_emploi_accessibilite_application";
 }
 
 class _CejStrings {
@@ -35,8 +38,7 @@ class _CejStrings {
   static String modeDemoExplicationPremierPoint3 = " l’application CEJ utilisée par vos bénéficiaires.";
   static String ratingLabel = "Aimez-vous l’application CEJ ?";
   static String legalNoticeUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_mentions_legales";
-  static String privacyPolicyUrl =
-      "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_politique_de_confidentialite";
+  static String privacyPolicyUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_politique_de_confidentialite";
   static String termsOfServiceUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_conditions_generales";
   static String accessibilityUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_accessibilite_application";
 }
@@ -742,32 +744,6 @@ class Strings {
   static String developerOptionMatomoPage = 'Matomo';
 
   // Tutorial
-  static String tutoMiloTitrePageUne = "Candidatez plus facilement à des offres d'immersion";
-  static String tutoMiloDescriptionPageUne =
-      "Vous pouvez désormais candidater plus facilement à des offres d’immersion grâce à un formulaire pré-rempli et modifiable qui sera envoyé directement à l’entreprise !";
-  static String tutoMiloTitrePageDeux = "Découvrez les métiers qui correspondent à vos centres d'intérêt";
-  static String tutoMiloDescriptionPageDeux =
-      "Dans votre profil, trouvez les métiers faits pour vous grâce à un questionnaire qui prend en compte vos centres d'intérêt et vous donne accès à des informations pratiques sur chaque métier !";
-  static String tutoMiloTitrePageTrois = "Retrouvez les métiers qui correspondent à vos centres d'intérêt";
-  static String tutoMiloDescriptionPageTrois =
-      "Identifiez des métiers correspondant à vos centres d'intérêts grâce au questionnaire se trouvant dans votre profil et retrouverez-les dans l'onglet recherche. ";
-  static String tutoMiloTitrePageQuatre = "Retrouvez votre historique de mots clés utilisés pour vos recherches";
-  static String tutoMiloDescriptionPageQuatre =
-      "Retrouvez désormais les mots clés utilisés lors de vos dernières recherches. Il vous suffit d'appuyer dessus pour les utiliser de nouveau !  ";
-
-  static String tutoEmploiTitrePageUne = "Candidatez plus facilement à des offres d'immersion";
-  static String tutoEmploiDescriptionPageUne =
-      "Vous pouvez désormais candidater plus facilement à des offres d’immersion grâce à un formulaire pré-rempli et modifiable qui sera envoyé directement à l’entreprise !";
-  static String tutoEmploiTitrePageDeux = "Découvrez les métiers qui correspondent à vos centres d'intérêt";
-  static String tutoEmploiDescriptionPageDeux =
-      "Dans votre profil, trouvez les métiers faits pour vous grâce à un questionnaire qui prend en compte vos centres d'intérêt et vous donne accès à des informations pratiques sur chaque métier !";
-  static String tutoEmploiTitrePageTrois = "Retrouvez les métiers qui correspondent à vos centres d'intérêt";
-  static String tutoEmploiDescriptionPageTrois =
-      "Identifiez des métiers correspondant à vos centres d'intérêts grâce au questionnaire se trouvant dans votre profil et retrouverez-les dans l'onglet recherche. ";
-  static String tutoEmploiTitrePageQuatre = "Retrouvez votre historique de mots clés utilisés pour vos recherches";
-  static String tutoEmploiDescriptionPageQuatre =
-      "Retrouvez désormais les mots clés utilisés lors de vos dernières recherches. Il vous suffit d'appuyer dessus pour les utiliser de nouveau !  ";
-
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";
 
