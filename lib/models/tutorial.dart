@@ -12,7 +12,7 @@ class Tutorial extends Equatable {
   static String title4 = "Retrouvez vos alertes plus facilement...";
   static String title5 = "ainsi que vos favoris !";
   static String description1 = "Swipez pour en savoir plus !";
-  static String descriptionPe2 = "Avec la synthèse de vos rendez-vous et vos démarches à réaliser sur la semaine";
+  static String descriptionPe2 = "Avec la synthèse de vos rendez-vous et démarches à réaliser sur la semaine";
   static String descriptionMilo2 = "Avec la synthèse de vos rendez-vous et actions à réaliser sur la semaine";
   static String description3 = "";
   static String description4 =
