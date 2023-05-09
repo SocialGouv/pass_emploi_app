@@ -7,9 +7,9 @@ import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 
-import '../doubles/fixtures.dart';
-import '../doubles/spies.dart';
-import '../dsl/app_state_dsl.dart';
+import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
   test("create should properly set user info", () {
