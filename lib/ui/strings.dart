@@ -704,7 +704,7 @@ class Strings {
   static String savedSearchImmersionTag = "Immersion";
   static String savedSearchServiceCiviqueTag = "Service civique";
   static String savedSearchSuccessfullyCreated =
-      "Votre recherche a bien été enregistrée en favoris. Retrouvez-la dans la page favoris.";
+      "Votre recherche a bien été enregistrée. Retrouvez-la dans la section Mes Alertes sur votre page d'accueil.";
   static String creationSavedSearchError = "Erreur lors de la création de la recherche sauvegardée. Veuillez réessayer";
   static String savedSearchGetError = "Erreur lors de la récupération des recherches sauvegardées.";
   static String noSavedSearchYet = "Aucune recherche sauvegardée.";
