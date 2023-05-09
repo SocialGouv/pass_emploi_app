@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dar
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
+import 'package:pass_emploi_app/features/cv/cv_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
@@ -579,5 +580,17 @@ extension AppStateDSL on AppState {
 
   AppState withAccueilLoading() {
     return copyWith(accueilState: AccueilLoadingState());
+  }
+
+  AppState withCvLoading() {
+    return copyWith(cvState: CvLoadingState());
+  }
+
+  AppState withCvFailure() {
+    return copyWith(cvState: CvFailureState());
+  }
+
+  AppState withCvSuccess() {
+    return copyWith(cvState: CvSuccessState(mockCvPoleEmploiList()));
   }
 }
