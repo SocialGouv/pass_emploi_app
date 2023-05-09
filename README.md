@@ -11,22 +11,31 @@ fichier `env.template` situé à la racine du projet. Y insérer toutes les bonn
 trouvent dans les notes partagées Dashlane (`[APP MOBILE] .env.staging` ou `[APP MOBILE] .env.prod`)
 .
 
-## Lancer l'application depuis Android Studio
+## Lancer l'application
 
-Il est nécessaire pour cela de créer 2 configurations, en fonction que vous soyez sur le flavor
-`staging` ou le flavor `prod`.
+### Dans Visual Studio Code
 
-### Pour le flavor staging
+Le fichier `launch.json` est déjà bien configuré pour lancer l'application en mode `staging` sur les
+applications BRSA et CEJ. Pour lancer l'application en mode `prod`, il faut modifier la valeur de
+`--flavor` dans le fichier `launch.json` par `prod`.
 
-1. Dans `Run` > `Edit Configurations`, rajouter une configuration Flutter appelée `staging`
-2. `Dart entrypoint` > `lib/main.dart`
-3. `Additional run arguments` > `--flavor staging`
+### Dans Android Studio
 
-### Pour le flavor prod
+Voici comment lancer l'application en mode `staging` sur les applications BRSA et CEJ. Pour lancer
+l'application en mode `prod`, il faut modifier la valeur de `--flavor` dans le
+fichier `Additional run arguments` par `cejProd` ou `brsaProd`.
 
-1. Dans `Run` > `Edit Configurations`, rajouter une configuration Flutter appelée `prod`
-2. `Dart entrypoint` > `lib/main.dart`
-3. `Additional run arguments` > `--flavor prod`
+#### Pour le flavor staging de l'app CEJ
+
+1. Dans `Run` > `Edit Configurations`, rajouter une configuration Flutter appelée `CEJ staging`
+2. `Dart entrypoint` > `lib/cej_main.dart`
+3. `Additional run arguments` > `--flavor cejStaging`
+
+#### Pour le flavor staging de l'app BRSA
+
+1. Dans `Run` > `Edit Configurations`, rajouter une configuration Flutter appelée `BRSA staging`
+2. `Dart entrypoint` > `lib/brsa_main.dart`
+3. `Additional run arguments` > `--flavor brsaStaging`
 
 ## Renseigner les secrets Firebase
 
@@ -40,7 +49,10 @@ Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déj
 
 ### Configuration Android
 
-1. Télécharger le fichier `google-services.json` depuis la console Firebase de staging. Ce fichier est commun à CEJ et BRSA vous pouvez le télécharger depuis le panneau de configuration Android de l'une des deux applications [par exemple sur ce lien](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/android:fr.fabrique.social.gouv.passemploi.rsa.staging)
+1. Télécharger le fichier `google-services.json` depuis la console Firebase de staging. Ce fichier
+   est commun à CEJ et BRSA vous pouvez le télécharger depuis le panneau de configuration Android de
+   l'une des deux
+   applications [par exemple sur ce lien](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/android:fr.fabrique.social.gouv.passemploi.rsa.staging)
 
 2. Le déplacer dans le dossier suivant :
 
@@ -48,7 +60,11 @@ Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déj
 
 ### Configuration iOS
 
-1. Contrairement à Android, il va falloir télécharger les fichiers spécifiques `GoogleService-Info.plist` pour chacune des applications CEJ et BRSA depuis la console Firebase. [Ce lien pour CEJ](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/ios:fr.fabrique.social.gouv.passemploi.staging) et [ce lien pour BRSA](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/ios:fr.fabrique.social.gouv.passemploi.rsa.staging)
+1. Contrairement à Android, il va falloir télécharger les fichiers
+   spécifiques `GoogleService-Info.plist` pour chacune des applications CEJ et BRSA depuis la
+   console
+   Firebase. [Ce lien pour CEJ](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/ios:fr.fabrique.social.gouv.passemploi.staging)
+   et [ce lien pour BRSA](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/ios:fr.fabrique.social.gouv.passemploi.rsa.staging)
 
 2. Les déplacer respectivement dans les dossiers suivants (à créer):
 
@@ -59,7 +75,10 @@ Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déj
 
 ### Configuration Android
 
-1. Télécharger le fichier `google-services.json` depuis la console Firebase de production. Ce fichier est commun à CEJ et BRSA vous pouvez le télécharger depuis le panneau de configuration Android de l'une des deux applications [par exemple sur ce lien](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/android:fr.fabrique.social.gouv.passemploi.rsa)
+1. Télécharger le fichier `google-services.json` depuis la console Firebase de production. Ce
+   fichier est commun à CEJ et BRSA vous pouvez le télécharger depuis le panneau de configuration
+   Android de l'une des deux
+   applications [par exemple sur ce lien](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/android:fr.fabrique.social.gouv.passemploi.rsa)
 
 2. Le déplacer dans le dossier suivant :
 
@@ -67,7 +86,11 @@ Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déj
 
 ### Configuration iOS
 
-1. Contrairement à Android, il va falloir télécharger les fichiers spécifiques `GoogleService-Info.plist` pour chacune des applications CEJ et BRSA depuis la console Firebase. [Ce lien pour CEJ](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/ios:fr.fabrique.social.gouv.passemploi) et [ce lien pour BRSA](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/ios:fr.fabrique.social.gouv.passemploi.rsa)
+1. Contrairement à Android, il va falloir télécharger les fichiers
+   spécifiques `GoogleService-Info.plist` pour chacune des applications CEJ et BRSA depuis la
+   console
+   Firebase. [Ce lien pour CEJ](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/ios:fr.fabrique.social.gouv.passemploi)
+   et [ce lien pour BRSA](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/ios:fr.fabrique.social.gouv.passemploi.rsa)
 
 2. Les déplacer respectivement dans les dossiers suivants (à créer):
 
@@ -103,7 +126,8 @@ Une fois la montée de version de Flutter effectuée, mettre à jour :
 - Remplacer le fichier Dart dans lib/ui/app_icons_additional_icons.dart
 - Remplacer le fichier json dans docs/flutterIcons/config.json
 - Exécuter `flutter pub get`
-- Exécuter "flutter run" pour vérifier que le projet compile et que l'application démarre comme prévu
+- Exécuter "flutter run" pour vérifier que le projet compile et que l'application démarre comme
+  prévu
 
 # Modifier l'icône de l'app
 
@@ -116,14 +140,17 @@ En se basant sur https://pub.dev/packages/flutter_launcher_icons
 
 En se basant sur https://pub.dev/packages/flutter_native_splash
 
-- Remplacez les images dans `assets_generation/splash_screen/` par les nouvelles illustrations de splash screen souhaitées.
+- Remplacez les images dans `assets_generation/splash_screen/` par les nouvelles illustrations de
+  splash screen souhaitées.
 - Exécutez dans un terminal : `sh scripts/generate_splash_screens.sh`
 - [Étapes supplémentaires pour iOS]
-  - Ouvrez Finder à `ios/Base.lproj/`. Vous verrez deux fichiers : `LaunchScreenBrsa.storyboard` et `LaunchScreenCej.storyboard`.
-  - Ouvrez Xcode.
-  - Dans l'explorateur de fichiers d'Xcode, ouvrez le dossier `Runner/Runner/`.
-  - Glissez les fichiers générés depuis la fenêtre Finder dans l'explorateur de fichiers d'Xcode.
-  - [ATTENTION] Pour voir les modifications, il faut lancer l'app, la fermer, puis la relancer depuis la page d'accueil du téléphone.
+    - Ouvrez Finder à `ios/Base.lproj/`. Vous verrez deux fichiers : `LaunchScreenBrsa.storyboard`
+      et `LaunchScreenCej.storyboard`.
+    - Ouvrez Xcode.
+    - Dans l'explorateur de fichiers d'Xcode, ouvrez le dossier `Runner/Runner/`.
+    - Glissez les fichiers générés depuis la fenêtre Finder dans l'explorateur de fichiers d'Xcode.
+    - [ATTENTION] Pour voir les modifications, il faut lancer l'app, la fermer, puis la relancer
+      depuis la page d'accueil du téléphone.
 
 # Dépendances
 
