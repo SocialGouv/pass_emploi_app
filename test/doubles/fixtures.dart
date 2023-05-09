@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
+import 'package:pass_emploi_app/models/cv_pole_emploi.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
@@ -845,4 +846,11 @@ Accueil mockAccueilPoleEmploi() {
     alertes: getMockedSavedSearch(),
     favoris: mock3Favoris(),
   );
+}
+
+List<CvPoleEmploi> mockCvPoleEmploiList() {
+  return [
+    CvPoleEmploi(titre: "Pâtissier-2023", url: "https://pole-emploi/users/cv/id-user/patissier"),
+    CvPoleEmploi(titre: "Boulanger-2023", url: "https://pole-emploi/users/cv/id-user/boulanger"),
+  ];
 }

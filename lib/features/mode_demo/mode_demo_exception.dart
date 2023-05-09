@@ -18,5 +18,5 @@ class ModeDemoException implements Exception {
         Please complete ModeDemoClient.dart or declare URL as not supposed to be mocked.
       '''
         .trim();
-  }
+  } // FIXME: TODO: changer en ? : Please complete mode_demo_client.dart or mode_demo_files...
 }
