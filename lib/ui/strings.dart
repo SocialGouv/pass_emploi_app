@@ -819,7 +819,7 @@ class Strings {
   // CV
   static String cvCardTitle = "CV";
   static String cvCardSubtitle =
-      "Préparez vos prochaines candidatures en téléchargeant vos CV Pôle emploi directement sur votre téléphone";
-  static String cvCadCaption = "Voir";
+      "Facilitez vos prochaines candidatures en téléchargeant vos CV Pôle emploi directement sur votre téléphone.";
+  static String cvCadCaption = "Télécharger";
   static String cvListPageTitle = "CV";
 }
