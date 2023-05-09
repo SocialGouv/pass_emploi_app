@@ -63,6 +63,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_reducer.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_reducer.dart';
+import 'package:pass_emploi_app/features/cv/cv_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -155,6 +156,7 @@ AppState reducer(AppState current, dynamic action) {
     recherchesRecentesState: recherchesRecentesReducer(current.recherchesRecentesState, action),
     contactImmersionState: contactImmersionReducer(current.contactImmersionState, action),
     accueilState: accueilReducer(current.accueilState, action),
+    cvState: cvReducer(current.cvState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

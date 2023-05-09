@@ -58,6 +58,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_state.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
+import 'package:pass_emploi_app/features/cv/cv_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -119,6 +120,7 @@ class AppState extends Equatable {
   final RecherchesRecentesState recherchesRecentesState;
   final ContactImmersionState contactImmersionState;
   final AccueilState accueilState;
+  final CvState cvState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -180,6 +182,7 @@ class AppState extends Equatable {
     required this.recherchesRecentesState,
     required this.contactImmersionState,
     required this.accueilState,
+    required this.cvState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -242,6 +245,7 @@ class AppState extends Equatable {
     final RecherchesRecentesState? recherchesRecentesState,
     final ContactImmersionState? contactImmersionState,
     final AccueilState? accueilState,
+    final CvState? cvState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -304,6 +308,7 @@ class AppState extends Equatable {
       recherchesRecentesState: recherchesRecentesState ?? this.recherchesRecentesState,
       contactImmersionState: contactImmersionState ?? this.contactImmersionState,
       accueilState: accueilState ?? this.accueilState,
+      cvState: cvState ?? this.cvState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -368,6 +373,7 @@ class AppState extends Equatable {
       recherchesRecentesState: RecherchesRecentesState([]),
       contactImmersionState: ContactImmersionNotInitializedState(),
       accueilState: AccueilNotInitializedState(),
+      cvState: CvNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -425,6 +431,7 @@ class AppState extends Equatable {
         recherchesRecentesState,
         contactImmersionState,
         accueilState,
+        cvState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 
