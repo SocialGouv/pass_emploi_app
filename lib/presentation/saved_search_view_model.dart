@@ -56,7 +56,7 @@ class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, createSavedSearch];
+  List<Object?> get props => [displayState, searchModel];
 }
 
 SavedSearchCreateState<Object> _getDisplayState(Store<AppState> store, _SearchType type) {
