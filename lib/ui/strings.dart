@@ -822,4 +822,5 @@ class Strings {
       "Facilitez vos prochaines candidatures en téléchargeant vos CV Pôle emploi directement sur votre téléphone.";
   static String cvCadCaption = "Télécharger";
   static String cvListPageTitle = "CV";
+  static String cvListPageSubtitle = "Retrouvez vos CV’s Pôle emploi ci-dessous";
 }
