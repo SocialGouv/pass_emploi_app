@@ -88,6 +88,32 @@ void main() {
     expect(viewModel.displayDeveloperOptions, isTrue);
   });
 
+  test("create when user is from PE should display download CV card", () {
+    // Given
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .store();
+
+    // When
+    final viewModel = ProfilPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.withDownloadCv, isTrue);
+  });
+
+  test("create when user is from Milo should not display download CV card", () {
+    // Given
+    final store = givenState() //
+        .loggedInMiloUser()
+        .store();
+
+    // When
+    final viewModel = ProfilPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.withDownloadCv, isFalse);
+  });
+
   test('onTitleTap should trigger action', () {
     // Given
     final store = StoreSpy();
