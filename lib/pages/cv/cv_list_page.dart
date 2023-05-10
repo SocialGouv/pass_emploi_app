@@ -3,10 +3,19 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/cv/cv_actions.dart';
+import 'package:pass_emploi_app/models/cv_pole_emploi.dart';
 import 'package:pass_emploi_app/presentation/cv/cv_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 class CvListPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => CvListPage());
@@ -38,12 +47,102 @@ class _Scaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SecondaryAppBar(title: Strings.cvListPageTitle),
-        body: Column(
-          children: [
-            Text(Strings.cvListPageSubtitle),
-            // Expanded(child: _CvListView(viewModel.cvList))
-          ],
-        ));
+      appBar: SecondaryAppBar(title: Strings.cvListPageTitle),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+        child: _Body(viewModel),
+      ),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final CvViewModel viewModel;
+
+  const _Body(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (viewModel.displayState) {
+      case DisplayState.LOADING:
+        return Center(child: CircularProgressIndicator());
+      case DisplayState.CONTENT:
+        return _Content(viewModel);
+      case DisplayState.EMPTY:
+        return _Empty();
+      case DisplayState.FAILURE:
+        return Center(child: Retry(Strings.cvError, () => viewModel.retry()));
+    }
+  }
+}
+
+class _Empty extends StatelessWidget {
+  const _Empty({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(Strings.cvEmpty, style: TextStyles.textMBold, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_m),
+          PrimaryActionButton(onPressed: () => Navigator.of(context).pop(), label: Strings.cvEmptyButton),
+        ],
+      ),
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  final CvViewModel viewModel;
+
+  const _Content(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(Strings.cvListPageSubtitle, style: TextStyles.textBaseRegular),
+        SizedBox(height: Margins.spacing_m),
+        Expanded(child: _CvListView(viewModel.cvList))
+      ],
+    );
+  }
+}
+
+class _CvListView extends StatelessWidget {
+  final List<CvPoleEmploi> cvList;
+
+  const _CvListView(this.cvList);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: cvList.length,
+      itemBuilder: (context, index) {
+        final cv = cvList[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+          child: CardContainer(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(cv.titre, style: TextStyles.textMBold),
+                SizedBox(height: Margins.spacing_base),
+                SecondaryButton(
+                  label: Strings.cvDownload,
+                  icon: AppIcons.download_rounded,
+                  onPressed: () {},
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

@@ -28,7 +28,9 @@ class CvViewModel extends Equatable {
 
 DisplayState _displayState(Store<AppState> store) {
   final cvState = store.state.cvState;
-  if (cvState is CvSuccessState) return DisplayState.CONTENT;
+  if (cvState is CvSuccessState) {
+    return cvState.cvList!.isEmpty ? DisplayState.EMPTY : DisplayState.CONTENT;
+  }
   if (cvState is CvFailureState) return DisplayState.FAILURE;
   return DisplayState.LOADING;
 }

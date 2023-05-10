@@ -21,6 +21,17 @@ void main() {
         expect(viewModel.displayState, DisplayState.LOADING);
       });
 
+      test('should be empty when CvListPage is success and there is no CV', () {
+        // Given
+        final store = givenState().loggedInPoleEmploiUser().withCvEmptySuccess().store();
+
+        // When
+        final viewModel = CvViewModel.create(store);
+
+        // Then
+        expect(viewModel.displayState, DisplayState.EMPTY);
+      });
+
       test('should be content when CvListPage is success', () {
         // Given
         final store = givenState().loggedInPoleEmploiUser().withCvSuccess().store();
