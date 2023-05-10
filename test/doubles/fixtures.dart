@@ -591,8 +591,9 @@ List<Demarche> mockDemarches() {
 
 SuggestionRecherche suggestionCariste() => SuggestionRecherche(
       id: "1",
-      type: SuggestionType.emploi,
       titre: "Cariste",
+      type: SuggestionType.emploi,
+      source: SuggestionSource.poleEmploi,
       metier: "Conduite d'engins de déplacement des charges",
       localisation: "Nord",
       dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-09-22T12:00:00.000Z"),
@@ -601,17 +602,27 @@ SuggestionRecherche suggestionCariste() => SuggestionRecherche(
 
 SuggestionRecherche suggestionBoulanger() => SuggestionRecherche(
       id: "2",
-      type: SuggestionType.immersion,
       titre: "Boulanger",
+      type: SuggestionType.immersion,
+      source: SuggestionSource.conseiller,
       metier: "Chef boulanger",
       localisation: "Valence",
       dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
       dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
     );
 
-List<SuggestionRecherche> mockSuggestionsRecherche() {
-  return [suggestionCariste(), suggestionBoulanger()];
-}
+SuggestionRecherche suggestionPlombier() => SuggestionRecherche(
+      id: "3",
+      titre: "Plombier",
+      type: SuggestionType.immersion,
+      source: null,
+      metier: "Plombier",
+      localisation: "Valence",
+      dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
+      dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
+    );
+
+List<SuggestionRecherche> mockSuggestionsRecherche() => [suggestionCariste(), suggestionBoulanger()];
 
 OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
       id: "id",

@@ -771,6 +771,8 @@ class Strings {
   static String suggestionTypeAlternance = "Alternance";
   static String suggestionTypeImmersion = "Immersion";
   static String suggestionTypeServiceCivique = "Service civique";
+  static String suggestionSourcePoleEmploi = "Profil PE";
+  static String suggestionSourceConseiller = "Conseiller";
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
   static String voirResultatsSuggestion = "Voir les résultats";

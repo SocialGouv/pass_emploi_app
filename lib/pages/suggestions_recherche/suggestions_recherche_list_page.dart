@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 
 class SuggestionsRechercheListPage extends StatelessWidget {
   SuggestionsRechercheListPage._() : super();
@@ -131,12 +132,18 @@ class _Card extends StatelessWidget {
 
   Widget _builder(SuggestionRechercheCardViewModel? viewModel) {
     if (viewModel == null) return SizedBox(height: 0);
-
+    final source = viewModel.source;
     return CardContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _Type(viewModel.type),
+          Row(
+            children: [
+              if (source != null) JobTag(label: source, backgroundColor: AppColors.additional2Ligthen),
+              if (source != null) SizedBox(width: Margins.spacing_m),
+              _Type(viewModel.type),
+            ],
+          ),
           _Space(),
           _Titre(viewModel.titre),
           _Space(),
