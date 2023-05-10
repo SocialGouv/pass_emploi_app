@@ -26,11 +26,7 @@ class SuggestionsRechercheListPage extends StatelessWidget {
   SuggestionsRechercheListPage._() : super();
 
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(
-      builder: (context) {
-        return SuggestionsRechercheListPage._();
-      },
-    );
+    return MaterialPageRoute(builder: (context) => SuggestionsRechercheListPage._());
   }
 
   @override
@@ -88,15 +84,33 @@ class _Scaffold extends StatelessWidget {
         children: [
           ListView.separated(
             itemCount: viewModel.suggestionIds.length,
-            padding: const EdgeInsets.all(Margins.spacing_s),
+            padding: const EdgeInsets.all(Margins.spacing_base),
             separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
             itemBuilder: (context, index) {
-              return _Card(suggestionId: viewModel.suggestionIds[index]);
+              final suggestionId = viewModel.suggestionIds[index];
+              return index == 0 ? _Header(suggestionId: suggestionId) : _Card(suggestionId: suggestionId);
             },
           ),
           if (viewModel.traiterDisplayState == DisplayState.LOADING) LoadingOverlay(),
         ],
       ),
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  final String suggestionId;
+
+  _Header({required this.suggestionId});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(Strings.suggestionsDeRechercheHeader, style: TextStyles.textBaseRegular),
+        SizedBox(height: Margins.spacing_base),
+        _Card(suggestionId: suggestionId),
+      ],
     );
   }
 }
@@ -277,12 +291,12 @@ class _Supprimer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 12),
                 child: Icon(
-                  AppIcons.delete,
+                  AppIcons.remove_alert_rounded,
                   color: AppColors.primary,
-                  size: Dimens.icon_size_base,
+                  size: Dimens.icon_size_m,
                 ),
               ),
-              Text(Strings.suppressionLabel, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
+              Text(Strings.refuserLabel, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
             ],
           ),
         ),
@@ -303,7 +317,7 @@ class _Ajouter extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: PrimaryActionButton(
             label: Strings.ajouter,
-            icon: AppIcons.add_rounded,
+            icon: Icons.add_alert_rounded,
             withShadow: false,
             heightPadding: 6,
             onPressed: onTapAjouter,

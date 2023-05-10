@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
-import 'package:pass_emploi_app/pages/offre_favoris_tab_page.dart';
+import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_favoris_item.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -56,7 +56,7 @@ class _AvecFavoris extends StatelessWidget {
   }
 
   void _goToFavoris(BuildContext context) {
-    Navigator.push(context, OffreFavorisTabPage.materialPageRoute());
+    Navigator.push(context, OffreFavorisPage.materialPageRoute());
   }
 }
 

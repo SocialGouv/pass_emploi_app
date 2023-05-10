@@ -65,7 +65,7 @@ class FavoriCard<T> extends StatelessWidget {
     required this.solutionType,
     required void Function() onDelete,
   }) : specialAction = IconButton(
-          icon: Icon(AppIcons.delete),
+          icon: Icon(AppIcons.remove_alert_rounded),
           onPressed: onDelete,
           color: AppColors.primary,
         );

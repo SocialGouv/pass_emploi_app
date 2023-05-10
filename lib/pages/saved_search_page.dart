@@ -32,20 +32,16 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_card.dart';
 
-class SavedSearchTabPage extends StatefulWidget {
+class SavedSearchPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(
-      builder: (context) {
-        return SavedSearchTabPage();
-      },
-    );
+    return MaterialPageRoute(builder: (context) => SavedSearchPage());
   }
 
   @override
-  State<SavedSearchTabPage> createState() => _SavedSearchTabPageState();
+  State<SavedSearchPage> createState() => _SavedSearchPageState();
 }
 
-class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
+class _SavedSearchPageState extends State<SavedSearchPage> {
   OffreFilter _selectedFilter = OffreFilter.tous;
   bool _shouldNavigate = true;
   final _scrollController = ScrollController();

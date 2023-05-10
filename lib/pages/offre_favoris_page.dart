@@ -28,20 +28,16 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:redux/redux.dart';
 
-class OffreFavorisTabPage extends StatefulWidget {
+class OffreFavorisPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(
-      builder: (context) {
-        return OffreFavorisTabPage();
-      },
-    );
+    return MaterialPageRoute(builder: (context) => OffreFavorisPage());
   }
 
   @override
-  State<OffreFavorisTabPage> createState() => _OffreFavorisTabPageState();
+  State<OffreFavorisPage> createState() => _OffreFavorisPageState();
 }
 
-class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
+class _OffreFavorisPageState extends State<OffreFavorisPage> {
   OffreFilter _selectedFilter = OffreFilter.tous;
   final _scrollController = ScrollController();
 
