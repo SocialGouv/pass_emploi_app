@@ -141,19 +141,15 @@ class _Card extends StatelessWidget {
             children: [
               if (source != null) JobTag(label: source, backgroundColor: AppColors.additional2Ligthen),
               if (source != null) SizedBox(width: Margins.spacing_m),
-              _Type(viewModel.type),
+              viewModel.type.toJobTag(),
             ],
           ),
-          _Space(),
+          SizedBox(height: Margins.spacing_m),
           _Titre(viewModel.titre),
-          _Space(),
-          if (viewModel.metier != null) ...[
-            _Metier(viewModel.metier!),
-            _Space(),
-          ],
+          SizedBox(height: Margins.spacing_base),
           if (viewModel.localisation != null) ...[
             _Localisation(viewModel.localisation!),
-            _Space(),
+            SizedBox(height: Margins.spacing_base)
           ],
           _Buttons(onTapAjouter: viewModel.ajouterSuggestion, onTapRefuser: viewModel.refuserSuggestion),
         ],
@@ -162,32 +158,6 @@ class _Card extends StatelessWidget {
   }
 }
 
-class _Space extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(height: Margins.spacing_base);
-  }
-}
-
-class _Type extends StatelessWidget {
-  final String text;
-
-  _Type(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.accent2),
-        borderRadius: BorderRadius.circular(Dimens.radius_l),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Text(text, style: TextStyles.textSRegular(color: AppColors.accent2)),
-      ),
-    );
-  }
-}
 
 class _Titre extends StatelessWidget {
   final String text;
@@ -196,59 +166,24 @@ class _Titre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: TextStyles.textBaseBold);
-  }
-}
-
-class _Metier extends StatelessWidget {
-  final String text;
-
-  _Metier(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(Dimens.radius_l),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Text(text, style: TextStyles.textSRegular(color: AppColors.primaryDarken)),
-      ),
-    );
+    return Text(text, style: TextStyles.textMBold);
   }
 }
 
 class _Localisation extends StatelessWidget {
-  final String text;
-
-  _Localisation(this.text);
+  final String localisation;
+  const _Localisation(this.localisation);
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(Dimens.radius_l),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: Icon(
-                AppIcons.location_on_rounded,
-                color: AppColors.primary,
-                size: Dimens.icon_size_base,
-              ),
-            ),
-            Text(text, style: TextStyles.textSRegular(color: AppColors.primary)),
-          ],
-        ),
-      ),
+    const color = AppColors.grey800;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(AppIcons.location_on_rounded, color: color, size: Dimens.icon_size_base),
+        SizedBox(width: Margins.spacing_s),
+        Text(localisation, style: TextStyles.textSRegular(color: color)),
+      ],
     );
   }
 }

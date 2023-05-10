@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 
 class SuggestionRechercheCardViewModel extends Equatable {
   final String titre;
-  final String type;
+  final SuggestionType type;
   final String? source;
   final String? metier;
   final String? localisation;
@@ -35,32 +35,21 @@ class SuggestionRechercheCardViewModel extends Equatable {
 
     return SuggestionRechercheCardViewModel._(
       titre: suggestion.titre,
-      type: _suggestionTypeLabel(suggestion.type),
+      type: suggestion.type,
       source: _suggestionSourceLabel(suggestion.source),
       metier: suggestion.metier,
       localisation: suggestion.localisation,
-      ajouterSuggestion: () =>
-          store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.accepter)),
-      refuserSuggestion: () =>
-          store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.refuser)),
+      ajouterSuggestion: () {
+        return store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.accepter));
+      },
+      refuserSuggestion: () {
+        return store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.refuser));
+      },
     );
   }
 
   @override
   List<Object?> get props => [titre, type, source, metier, localisation];
-}
-
-String _suggestionTypeLabel(SuggestionType type) {
-  switch (type) {
-    case SuggestionType.emploi:
-      return Strings.suggestionTypeEmploi;
-    case SuggestionType.alternance:
-      return Strings.suggestionTypeAlternance;
-    case SuggestionType.immersion:
-      return Strings.suggestionTypeImmersion;
-    case SuggestionType.civique:
-      return Strings.suggestionTypeServiceCivique;
-  }
 }
 
 String? _suggestionSourceLabel(SuggestionSource? source) {

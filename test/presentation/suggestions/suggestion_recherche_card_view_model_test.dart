@@ -17,7 +17,7 @@ void main() {
 
     // Then
     expect(viewModel, isNotNull);
-    expect(viewModel!.type, "Emploi");
+    expect(viewModel!.type, SuggestionType.emploi);
     expect(viewModel.titre, "Cariste");
     expect(viewModel.source, "Profil PE");
     expect(viewModel.metier, "Conduite d'engins de déplacement des charges");
@@ -33,29 +33,6 @@ void main() {
 
     // Then
     expect(viewModel, isNull);
-  });
-
-  group('type should have proper labels', () {
-    void assertLabel({required SuggestionType givenType, required String expectedLabel}) {
-      test('given $givenType should return $expectedLabel', () {
-        // Given
-        final suggestion = suggestionPlombier().copyWith(id: 'ID', type: givenType);
-        final store = givenState() //
-            .copyWith(suggestionsRechercheState: SuggestionsRechercheSuccessState([suggestion]))
-            .store();
-
-        // When
-        final viewModel = SuggestionRechercheCardViewModel.create(store, 'ID');
-
-        // Then
-        expect(viewModel?.type, expectedLabel);
-      });
-    }
-
-    assertLabel(givenType: SuggestionType.emploi, expectedLabel: 'Emploi');
-    assertLabel(givenType: SuggestionType.alternance, expectedLabel: 'Alternance');
-    assertLabel(givenType: SuggestionType.immersion, expectedLabel: 'Immersion');
-    assertLabel(givenType: SuggestionType.civique, expectedLabel: 'Service civique');
   });
 
   group('source should have proper labels', () {

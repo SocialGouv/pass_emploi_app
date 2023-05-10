@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
-import 'package:pass_emploi_app/widgets/tags/solution_tag.dart';
+import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 
 class FavoriCard<T> extends StatelessWidget {
   final SolutionType solutionType;
