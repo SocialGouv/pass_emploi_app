@@ -58,11 +58,10 @@ class DemarcheListPage extends StatelessWidget {
       body: Stack(
         children: [
           DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
-          if (viewModel.displayCreateDemarcheButton)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _AddDemarcheButton()),
-            ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _AddDemarcheButton()),
+          ),
         ],
       ),
     );
