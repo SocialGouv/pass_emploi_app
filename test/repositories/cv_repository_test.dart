@@ -12,7 +12,6 @@ void main() {
 
     group('getCvs', () {
       sut.when((repository) => repository.getCvs("id-jeune"));
-
       group('when response is valid', () {
         sut.givenJsonResponse(fromJson: "cv_pole_emploi.json");
 
@@ -29,14 +28,13 @@ void main() {
           });
         });
       });
-    });
 
-    group('when response is invalid', () {
-      sut.givenResponseCode(500);
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
 
-      // TODO: FIRST not complient
-      test('response should be null', () async {
-        await sut.expectNullResult();
+        test('response should be null', () async {
+          await sut.expectNullResult();
+        });
       });
     });
   });
