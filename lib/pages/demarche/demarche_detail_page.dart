@@ -94,7 +94,7 @@ class _Body extends StatelessWidget {
                   backgroundColor: viewModel.dateBackgroundColor,
                   textColor: viewModel.dateTextColor,
                 ),
-                if (viewModel.withEditOption) _StatusSelector(viewModel: viewModel),
+                _StatusSelector(viewModel: viewModel),
                 SizedBox(height: Margins.spacing_base),
                 _HistoriqueTitle(),
                 SizedBox(height: Margins.spacing_base),

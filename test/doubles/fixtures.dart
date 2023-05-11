@@ -187,8 +187,6 @@ Configuration configuration(
     'someKey',
     'actualisationPoleEmploiUrl',
     'Europe/Paris',
-    false,
-    false,
   );
 }
 

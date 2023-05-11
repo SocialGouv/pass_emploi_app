@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
-import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -191,44 +190,5 @@ void main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
-  });
-
-  test('when brand is BRSA and allowBrsaToCreateDemarche is set to false should not display create button', () {
-    // Given
-    final store = givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToCreateDemarche: false))
-        .agenda()
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.displayCreateDemarcheButton, isFalse);
-  });
-
-  test('when brand is BRSA and allowBrsaToCreateDemarche is set to true should display create button', () {
-    // Given
-    final store = givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToCreateDemarche: true))
-        .agenda()
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.displayCreateDemarcheButton, isTrue);
-  });
-
-  test('when brand is CEJ should display create button', () {
-    // Given
-    final store = givenState(configuration(brand: Brand.cej).copyWith(allowBrsaToCreateDemarche: false))
-        .loggedInPoleEmploiUser()
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.displayCreateDemarcheButton, isTrue);
   });
 }
