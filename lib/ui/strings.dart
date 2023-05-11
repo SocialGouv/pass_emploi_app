@@ -73,6 +73,7 @@ class Strings {
   static String ajouter = "Ajouter";
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
+  static String refuserLabel = "Refuser";
   static String seeDetail = "Voir le détail >";
   static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
@@ -759,16 +760,15 @@ class Strings {
   static String contentSupportMail = "Aidez-nous à améliorer l’application en nous donnant votre avis :\n";
 
   // Suggestions de recherche
-  static String vosSuggestionsDeRecherche = "Vos recherches suggérées";
-  static String nouvellesSuggestionsDeRechercheTitre = "Vous avez de nouvelles recherches suggérées !";
+  static String vosSuggestionsDeRecherche = "Vos suggestions d'alertes";
+  static String nouvellesSuggestionsDeRechercheTitre = "Vous avez des suggestions d’alertes";
   static String nouvellesSuggestionsDeRechercheDescription =
-      "Sur la base de votre profil Pôle emploi, voici des suggestions de recherches à sauvegarder dans vos favoris";
+      "Sur la base de votre profil Pôle emploi, voici des suggestions d'alertes à sauvegarder";
   static String voirSuggestionsDeRecherche = "Voir les suggestions";
-  static String suggestionsDeRechercheTitlePage = "Vos recherches suggérées";
-  static String suggestionTypeEmploi = "Emploi";
-  static String suggestionTypeAlternance = "Alternance";
-  static String suggestionTypeImmersion = "Immersion";
-  static String suggestionTypeServiceCivique = "Service civique";
+  static String suggestionsDeRechercheTitlePage = "Vos suggestions d'alertes";
+  static String suggestionsDeRechercheHeader = "Vos suggestions peuvent venir de différentes sources. Après l’ajout, vous serez notifié si une nouvelle offre est disponible.";
+  static String suggestionSourcePoleEmploi = "Profil PE";
+  static String suggestionSourceConseiller = "Conseiller";
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
   static String voirResultatsSuggestion = "Voir les résultats";

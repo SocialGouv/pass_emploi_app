@@ -3,8 +3,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/models/favori.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 
 import '../../doubles/fixtures.dart';
@@ -47,7 +47,7 @@ void main() {
         when(() => repository.getServiceCiviqueDetail('id'))
             .thenAnswer((_) async => NotFoundServiceCiviqueDetailResponse());
 
-        final f = Favori(id: 'id', type: SolutionType.ServiceCivique, titre: 't', organisation: 'o', localisation: 'l');
+        final f = Favori(id: 'id', type: OffreType.serviceCivique, titre: 't', organisation: 'o', localisation: 'l');
         sut.givenStore = givenState() //
             .loggedInUser() //
             .favoriListSuccessState([f]) //

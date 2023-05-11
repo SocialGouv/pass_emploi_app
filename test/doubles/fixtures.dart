@@ -28,6 +28,7 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -37,7 +38,6 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -591,8 +591,9 @@ List<Demarche> mockDemarches() {
 
 SuggestionRecherche suggestionCariste() => SuggestionRecherche(
       id: "1",
-      type: SuggestionType.emploi,
       titre: "Cariste",
+      type: OffreType.emploi,
+      source: SuggestionSource.poleEmploi,
       metier: "Conduite d'engins de déplacement des charges",
       localisation: "Nord",
       dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-09-22T12:00:00.000Z"),
@@ -601,17 +602,27 @@ SuggestionRecherche suggestionCariste() => SuggestionRecherche(
 
 SuggestionRecherche suggestionBoulanger() => SuggestionRecherche(
       id: "2",
-      type: SuggestionType.immersion,
       titre: "Boulanger",
+      type: OffreType.immersion,
+      source: SuggestionSource.conseiller,
       metier: "Chef boulanger",
       localisation: "Valence",
       dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
       dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
     );
 
-List<SuggestionRecherche> mockSuggestionsRecherche() {
-  return [suggestionCariste(), suggestionBoulanger()];
-}
+SuggestionRecherche suggestionPlombier() => SuggestionRecherche(
+      id: "3",
+      titre: "Plombier",
+      type: OffreType.immersion,
+      source: null,
+      metier: "Plombier",
+      localisation: "Valence",
+      dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
+      dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
+    );
+
+List<SuggestionRecherche> mockSuggestionsRecherche() => [suggestionCariste(), suggestionBoulanger()];
 
 OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
       id: "id",
@@ -722,7 +733,7 @@ DiagorienteUrls mockDiagorienteUrls() {
   );
 }
 
-Favori mockFavori([String id = 'id', SolutionType type = SolutionType.Immersion]) {
+Favori mockFavori([String id = 'id', OffreType type = OffreType.immersion]) {
   return Favori(id: id, type: type, titre: 't', organisation: null, localisation: null);
 }
 
@@ -731,21 +742,21 @@ List<Favori> mock3Favoris() {
     Favori(
       id: "1",
       titre: "titre-1",
-      type: SolutionType.OffreEmploi,
+      type: OffreType.emploi,
       organisation: "organisation-1",
       localisation: "localisation-1",
     ),
     Favori(
       id: "2",
       titre: "titre-2",
-      type: SolutionType.Alternance,
+      type: OffreType.alternance,
       organisation: "organisation-2",
       localisation: "localisation-2",
     ),
     Favori(
       id: "3",
       titre: "titre-3",
-      type: SolutionType.Immersion,
+      type: OffreType.immersion,
       organisation: null,
       localisation: "localisation-3",
     ),

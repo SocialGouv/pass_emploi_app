@@ -6,11 +6,11 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/pages/offre_filters_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
@@ -32,20 +32,16 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_card.dart';
 
-class SavedSearchTabPage extends StatefulWidget {
+class SavedSearchPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(
-      builder: (context) {
-        return SavedSearchTabPage();
-      },
-    );
+    return MaterialPageRoute(builder: (context) => SavedSearchPage());
   }
 
   @override
-  State<SavedSearchTabPage> createState() => _SavedSearchTabPageState();
+  State<SavedSearchPage> createState() => _SavedSearchPageState();
 }
 
-class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
+class _SavedSearchPageState extends State<SavedSearchPage> {
   OffreFilter _selectedFilter = OffreFilter.tous;
   bool _shouldNavigate = true;
   final _scrollController = ScrollController();
@@ -129,7 +125,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi, SavedSearchListViewModel viewModel) {
     final type = offreEmploi.onlyAlternance ? SavedSearchType.ALTERNANCE : SavedSearchType.EMPLOI;
     return FavoriCard.deletable(
-      solutionType: offreEmploi.onlyAlternance ? SolutionType.Alternance : SolutionType.OffreEmploi,
+      offreType: offreEmploi.onlyAlternance ? OffreType.alternance : OffreType.emploi,
       onTap: () => viewModel.offreEmploiSelected(offreEmploi),
       onDelete: () => _showDeleteDialog(viewModel, offreEmploi.id, type),
       title: offreEmploi.title,
@@ -217,7 +213,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     SavedSearchListViewModel viewModel,
   ) {
     return FavoriCard.deletable(
-      solutionType: SolutionType.Immersion,
+      offreType: OffreType.immersion,
       onTap: () => viewModel.offreImmersionSelected(savedSearchsImmersion),
       onDelete: () => _showDeleteDialog(viewModel, savedSearchsImmersion.id, SavedSearchType.IMMERSION),
       title: savedSearchsImmersion.title,
@@ -232,7 +228,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     SavedSearchListViewModel viewModel,
   ) {
     return FavoriCard.deletable(
-      solutionType: SolutionType.ServiceCivique,
+      offreType: OffreType.serviceCivique,
       onTap: () => viewModel.offreServiceCiviqueSelected(savedSearchsServiceCivique),
       onDelete: () => _showDeleteDialog(viewModel, savedSearchsServiceCivique.id, SavedSearchType.SERVICE_CIVIQUE),
       title: savedSearchsServiceCivique.titre,

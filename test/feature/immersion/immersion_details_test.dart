@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/features/immersion/details/immersion_details_sta
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../../doubles/mocks.dart';
@@ -54,7 +54,7 @@ void main() {
           return OffreDetailsResponse(isGenericFailure: false, isOffreNotFound: true, details: null);
         });
 
-        final f = Favori(id: 'id', type: SolutionType.Immersion, titre: 't', organisation: 'o', localisation: 'l');
+        final f = Favori(id: 'id', type: OffreType.immersion, titre: 't', organisation: 'o', localisation: 'l');
         sut.givenStore = givenState() //
             .loggedInUser() //
             .favoriListSuccessState([f]) //

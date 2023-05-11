@@ -10,8 +10,8 @@ import 'package:pass_emploi_app/pages/accueil/accueil_evenements.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_favoris.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_outils.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
-import 'package:pass_emploi_app/pages/offre_favoris_tab_page.dart';
-import 'package:pass_emploi_app/pages/saved_search_tab_page.dart';
+import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
+import 'package:pass_emploi_app/pages/saved_search_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
@@ -45,9 +45,9 @@ class AccueilPage extends StatelessWidget {
   void _handleDeeplink(BuildContext context, AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) {
     final deepLinkState = newViewModel.deepLinkState;
     if (deepLinkState is FavorisDeepLinkState) {
-      Navigator.push(context, OffreFavorisTabPage.materialPageRoute());
+      Navigator.push(context, OffreFavorisPage.materialPageRoute());
     } else if (deepLinkState is SavedSearchesDeepLinkState) {
-      Navigator.push(context, SavedSearchTabPage.materialPageRoute());
+      Navigator.push(context, SavedSearchPage.materialPageRoute());
     } else {
       return;
     }

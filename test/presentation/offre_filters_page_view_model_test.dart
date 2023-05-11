@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/brand.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/presentation/offre_filters_page_view_model.dart';
 
 import '../doubles/fixtures.dart';
@@ -16,8 +16,8 @@ void main() {
 
     // Then
     expect(
-      viewModel.solutionTypes,
-      [SolutionType.OffreEmploi, SolutionType.Alternance, SolutionType.Immersion, SolutionType.ServiceCivique],
+      viewModel.offreTypes,
+      [OffreType.emploi, OffreType.alternance, OffreType.immersion, OffreType.serviceCivique],
     );
   });
 
@@ -30,8 +30,8 @@ void main() {
 
     // Then
     expect(
-      viewModel.solutionTypes,
-      [SolutionType.OffreEmploi, SolutionType.Immersion],
+      viewModel.offreTypes,
+      [OffreType.emploi, OffreType.immersion],
     );
   });
 }

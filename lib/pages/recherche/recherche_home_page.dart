@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
@@ -40,7 +40,7 @@ class RechercheHomePage extends StatelessWidget {
         child: Column(
           children: [
             RecherchesRecentes(),
-            _NosOffres(solutionTypes: viewModel.solutionTypes),
+            _NosOffres(offreTypes: viewModel.offreTypes),
           ],
         ),
       ),
@@ -49,9 +49,9 @@ class RechercheHomePage extends StatelessWidget {
 }
 
 class _NosOffres extends StatelessWidget {
-  final List<SolutionType> solutionTypes;
+  final List<OffreType> offreTypes;
 
-  const _NosOffres({required this.solutionTypes});
+  const _NosOffres({required this.offreTypes});
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class _NosOffres extends StatelessWidget {
           },
         ),
         SizedBox(height: Margins.spacing_base),
-        if (solutionTypes.contains(SolutionType.OffreEmploi)) ...[
+        if (offreTypes.contains(OffreType.emploi)) ...[
           _BlocSolution(
             title: Strings.rechercheHomeOffresEmploiTitle,
             subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
@@ -79,7 +79,7 @@ class _NosOffres extends StatelessWidget {
           ),
           SizedBox(height: Margins.spacing_base),
         ],
-        if (solutionTypes.contains(SolutionType.Alternance)) ...[
+        if (offreTypes.contains(OffreType.alternance)) ...[
           _BlocSolution(
             title: Strings.rechercheHomeOffresAlternanceTitle,
             subtitle: Strings.rechercheHomeOffresAlternanceSubtitle,
@@ -88,7 +88,7 @@ class _NosOffres extends StatelessWidget {
           ),
           SizedBox(height: Margins.spacing_base),
         ],
-        if (solutionTypes.contains(SolutionType.Immersion)) ...[
+        if (offreTypes.contains(OffreType.immersion)) ...[
           _BlocSolution(
             title: Strings.rechercheHomeOffresImmersionTitle,
             subtitle: Strings.rechercheHomeOffresImmersionSubtitle,
@@ -97,7 +97,7 @@ class _NosOffres extends StatelessWidget {
           ),
           SizedBox(height: Margins.spacing_base),
         ],
-        if (solutionTypes.contains(SolutionType.ServiceCivique)) ...[
+        if (offreTypes.contains(OffreType.serviceCivique)) ...[
           _BlocSolution(
             title: Strings.rechercheHomeOffresServiceCiviqueTitle,
             subtitle: Strings.rechercheHomeOffresServiceCiviqueSubtitle,

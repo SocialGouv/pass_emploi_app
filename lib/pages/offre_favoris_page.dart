@@ -7,8 +7,8 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_filters_page.dart';
@@ -28,20 +28,16 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:redux/redux.dart';
 
-class OffreFavorisTabPage extends StatefulWidget {
+class OffreFavorisPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(
-      builder: (context) {
-        return OffreFavorisTabPage();
-      },
-    );
+    return MaterialPageRoute(builder: (context) => OffreFavorisPage());
   }
 
   @override
-  State<OffreFavorisTabPage> createState() => _OffreFavorisTabPageState();
+  State<OffreFavorisPage> createState() => _OffreFavorisPageState();
 }
 
-class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
+class _OffreFavorisPageState extends State<OffreFavorisPage> {
   OffreFilter _selectedFilter = OffreFilter.tous;
   final _scrollController = ScrollController();
 
@@ -97,12 +93,12 @@ class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
       itemBuilder: (context, index) {
         final favori = favoris[index];
         switch (favori.type) {
-          case SolutionType.OffreEmploi:
-          case SolutionType.Alternance:
+          case OffreType.emploi:
+          case OffreType.alternance:
             return _buildOffreEmploiItem(context, favori);
-          case SolutionType.Immersion:
+          case OffreType.immersion:
             return _buildImmersionItem(context, favori);
-          case SolutionType.ServiceCivique:
+          case OffreType.serviceCivique:
             return _buildServiceCiviqueItem(context, favori);
         }
       },
@@ -120,7 +116,7 @@ class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
         context,
         OffreEmploiDetailsPage.materialPageRoute(
           favori.id,
-          fromAlternance: favori.type == SolutionType.Alternance,
+          fromAlternance: favori.type == OffreType.alternance,
           popPageWhenFavoriIsRemoved: true,
         ),
       ),
@@ -166,7 +162,7 @@ class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
         company: favori.organisation,
         place: favori.localisation,
         bottomTip: Strings.voirLeDetail,
-        solutionType: favori.type,
+        offreType: favori.type,
         from: OffrePage.offreFavoris,
         id: favori.id,
         onTap: onTap,
