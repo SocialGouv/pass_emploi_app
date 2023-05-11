@@ -591,10 +591,10 @@ extension AppStateDSL on AppState {
   }
 
   AppState withCvSuccess() {
-    return copyWith(cvState: CvSuccessState(mockCvPoleEmploiList()));
+    return copyWith(cvState: CvSuccessState(cvList: mockCvPoleEmploiList(), cvDownloadStatus: {}));
   }
 
   AppState withCvEmptySuccess() {
-    return copyWith(cvState: CvSuccessState([]));
+    return copyWith(cvState: CvSuccessState(cvList: [], cvDownloadStatus: {}));
   }
 }

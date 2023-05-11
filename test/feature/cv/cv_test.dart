@@ -33,6 +33,29 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
       });
     });
+
+    group("when downloading", () {
+      final cv = mockCvPoleEmploiList()[0];
+      sut.when(() => CvdownldRequestAction(cv));
+
+      test('status should load then succeed when request succeed', () {
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .withCvSuccess()
+            .store((f) => {f.cvRepository = CvRepositorySuccessStub()});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadDownload(), _shouldSucceedDownload()]);
+      });
+
+      test('status should load then fail when request fail', () {
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .withCvSuccess()
+            .store((f) => {f.cvRepository = CvRepositoryErrorStub()});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadDownload(), _shouldFailDownload()]);
+      });
+    });
   });
 }
 
@@ -49,12 +72,34 @@ Matcher _shouldSucceed() {
   );
 }
 
+Matcher _shouldLoadDownload() => _downloadShouldBeInStatus(CvDownloadStatus.loading);
+
+Matcher _shouldFailDownload() => _downloadShouldBeInStatus(CvDownloadStatus.failure);
+
+Matcher _shouldSucceedDownload() => _downloadShouldBeInStatus(CvDownloadStatus.success);
+
+Matcher _downloadShouldBeInStatus(CvDownloadStatus status) {
+  final cv = mockCvPoleEmploiList()[0];
+
+  return StateMatch(
+    (state) => state.cvState is CvSuccessState && (state.cvState as CvSuccessState).cvDownloadStatus[cv.url] == status,
+    (state) {
+      expect((state.cvState as CvSuccessState).cvDownloadStatus[cv.url], status);
+    },
+  );
+}
+
 class CvRepositorySuccessStub extends CvRepository {
   CvRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<List<CvPoleEmploi>?> getCvs(String userId) async {
     return mockCvPoleEmploiList();
+  }
+
+  @override
+  Future<String?> download({required String url, required String fileName}) async {
+    return "path";
   }
 }
 
@@ -63,6 +108,11 @@ class CvRepositoryErrorStub extends CvRepository {
 
   @override
   Future<List<CvPoleEmploi>?> getCvs(String userId) async {
+    return null;
+  }
+
+  @override
+  Future<String?> download({required String url, required String fileName}) async {
     return null;
   }
 }

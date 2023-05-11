@@ -1,10 +1,12 @@
 [
   {
     "titre": "Pâtissier-2023",
-    "url": "https://pole-emploi/users/cv/id-user/patissier"
+    "url": "https://pole-emploi/users/cv/id-user/patissier",
+    "nomFichier": "patissier-2023.pdf"
   },
   {
     "titre": "Boulanger-2023",
-    "url": "https://pole-emploi/users/cv/id-user/boulanger"
+    "url": "https://pole-emploi/users/cv/id-user/boulanger",
+    "nomFichier": "boulanger-2023.pdf"
   }
 ]

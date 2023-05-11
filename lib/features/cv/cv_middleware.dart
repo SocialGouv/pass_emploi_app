@@ -14,13 +14,23 @@ class CvMiddleware extends MiddlewareClass<AppState> {
 
     final userId = store.state.userId();
 
-    if (userId != null && action is CvRequestAction) {
+    if (userId == null) return;
+
+    if (action is CvRequestAction) {
       store.dispatch(CvLoadingAction());
       final result = await _repository.getCvs(userId);
       if (result != null) {
         store.dispatch(CvSuccessAction(result));
       } else {
         store.dispatch(CvFailureAction());
+      }
+    } else if (action is CvdownldRequestAction) {
+      store.dispatch(CvdownldLoadingAction(action.cv.url));
+      final filePath = await _repository.download(url: action.cv.url, fileName: action.cv.nomFichier);
+      if (filePath != null) {
+        store.dispatch(CvdownldSuccessAction(filePath, action.cv.url));
+      } else {
+        store.dispatch(CvdownldFailureAction(action.cv.url));
       }
     }
   }

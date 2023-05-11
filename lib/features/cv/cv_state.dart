@@ -14,9 +14,18 @@ class CvFailureState extends CvState {}
 
 class CvSuccessState extends CvState {
   final List<CvPoleEmploi>? cvList;
+  final Map<String, CvDownloadStatus> cvDownloadStatus;
 
-  CvSuccessState(this.cvList);
+  CvSuccessState({required this.cvList, required this.cvDownloadStatus});
+
+  CvSuccessState updateDownloadStatus(String url, CvDownloadStatus status) {
+    final updatedData = Map<String, CvDownloadStatus>.from(cvDownloadStatus);
+    updatedData.update(url, (value) => status, ifAbsent: () => status);
+    return CvSuccessState(cvList: cvList, cvDownloadStatus: updatedData);
+  }
 
   @override
-  List<Object?> get props => [cvList];
+  List<Object?> get props => [cvList, cvDownloadStatus];
 }
+
+enum CvDownloadStatus { loading, success, failure }

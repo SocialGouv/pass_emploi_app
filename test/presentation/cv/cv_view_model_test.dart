@@ -77,5 +77,18 @@ void main() {
       // Then
       expect(store.dispatchedAction, isA<CvRequestAction>());
     });
+
+    test('should download cv', () {
+      // Given
+      final cv = mockCvPoleEmploiList()[0];
+      final store = StoreSpy();
+      final viewModel = CvViewModel.create(store);
+
+      // When
+      viewModel.onDownload(cv);
+
+      // Then
+      expect(store.dispatchedAction, isA<CvdownldRequestAction>());
+    });
   });
 }

@@ -10,8 +10,9 @@ class CvViewModel extends Equatable {
   final List<CvPoleEmploi> cvList;
   final DisplayState displayState;
   final Function() retry;
+  final Function(CvPoleEmploi) onDownload;
 
-  CvViewModel({required this.displayState, required this.retry, required this.cvList});
+  CvViewModel({required this.displayState, required this.retry, required this.cvList, required this.onDownload});
 
   factory CvViewModel.create(Store<AppState> store) {
     final state = store.state.cvState;
@@ -19,6 +20,7 @@ class CvViewModel extends Equatable {
       cvList: _cvList(state),
       displayState: _displayState(store),
       retry: () => store.dispatch(CvRequestAction()),
+      onDownload: (cv) => store.dispatch(CvdownldRequestAction(cv)),
     );
   }
 

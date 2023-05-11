@@ -108,19 +108,20 @@ class _Content extends StatelessWidget {
       children: [
         Text(Strings.cvListPageSubtitle, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        Expanded(child: _CvListView(viewModel.cvList))
+        Expanded(child: _CvListView(viewModel))
       ],
     );
   }
 }
 
 class _CvListView extends StatelessWidget {
-  final List<CvPoleEmploi> cvList;
+  final CvViewModel viewModel;
 
-  const _CvListView(this.cvList);
+  const _CvListView(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
+    final List<CvPoleEmploi> cvList = viewModel.cvList;
     return ListView.builder(
       itemCount: cvList.length,
       itemBuilder: (context, index) {
@@ -136,7 +137,7 @@ class _CvListView extends StatelessWidget {
                 SecondaryButton(
                   label: Strings.cvDownload,
                   icon: AppIcons.download_rounded,
-                  onPressed: () {},
+                  onPressed: () => viewModel.onDownload(cv),
                 )
               ],
             ),

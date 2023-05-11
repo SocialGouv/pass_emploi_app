@@ -850,7 +850,15 @@ Accueil mockAccueilPoleEmploi() {
 
 List<CvPoleEmploi> mockCvPoleEmploiList() {
   return [
-    CvPoleEmploi(titre: "Pâtissier-2023", url: "https://pole-emploi/users/cv/id-user/patissier"),
-    CvPoleEmploi(titre: "Boulanger-2023", url: "https://pole-emploi/users/cv/id-user/boulanger"),
+    CvPoleEmploi(
+      titre: "Pâtissier-2023",
+      url: "https://pole-emploi/users/cv/id-user/patissier",
+      nomFichier: "patissier-2023.pdf",
+    ),
+    CvPoleEmploi(
+      titre: "Boulanger-2023",
+      url: "https://pole-emploi/users/cv/id-user/boulanger",
+      nomFichier: "boulanger-2023.pdf",
+    ),
   ];
 }
