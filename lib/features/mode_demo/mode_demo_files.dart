@@ -37,7 +37,7 @@ extension UrlExtensions on String {
     return !contains("referentiels/communes-et-departements") &&
         !contains("fichiers") &&
         !contains("referentiels/metiers") &&
-        !contains("/docnums/"); //TODO: pas ouf parce qu'on ne maitrise pas le partenaire
+        !contains("/docnums/");
   }
 
   String removeLastPath() => substring(0, lastIndexOf('/'));
