@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_detai
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../../doubles/fixtures.dart';
@@ -58,7 +58,7 @@ void main() {
             .loggedInUser()
             .store((f) => {f.detailedOfferRepository = repository});
 
-        final f = Favori(id: 'id', type: SolutionType.Immersion, titre: 't', organisation: 'o', localisation: 'l');
+        final f = Favori(id: 'id', type: OffreType.immersion, titre: 't', organisation: 'o', localisation: 'l');
         sut.givenStore = givenState() //
             .loggedInUser() //
             .favoriListSuccessState([f]) //

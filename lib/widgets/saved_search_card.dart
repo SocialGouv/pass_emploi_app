@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
@@ -105,7 +105,7 @@ Widget _buildEmploiAndAlternanceCard(
   SavedSearchCardViewModel viewModel,
 ) {
   return FavoriCard(
-    solutionType: offreEmploi.onlyAlternance ? SolutionType.Alternance : SolutionType.OffreEmploi,
+    offreType: offreEmploi.onlyAlternance ? OffreType.alternance : OffreType.emploi,
     title: offreEmploi.title,
     place: offreEmploi.location?.libelle,
     bottomTip: Strings.voirResultatsSuggestion,
@@ -119,7 +119,7 @@ Widget _buildImmersionCard(
   SavedSearchCardViewModel viewModel,
 ) {
   return FavoriCard(
-    solutionType: SolutionType.Immersion,
+    offreType: OffreType.immersion,
     title: savedSearchsImmersion.title,
     place: savedSearchsImmersion.ville,
     bottomTip: Strings.voirResultatsSuggestion,
@@ -133,7 +133,7 @@ Widget _buildServiceCiviqueCard(
   SavedSearchCardViewModel viewModel,
 ) {
   return FavoriCard(
-    solutionType: SolutionType.ServiceCivique,
+    offreType: OffreType.serviceCivique,
     title: savedSearchsServiceCivique.titre,
     place: savedSearchsServiceCivique.ville?.isNotEmpty == true ? savedSearchsServiceCivique.ville : null,
     bottomTip: Strings.voirResultatsSuggestion,

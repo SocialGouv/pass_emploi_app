@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/presentation/offre_filters_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -58,7 +58,7 @@ class _OffreFiltersPageState extends State<OffreFiltersPage> {
       body: _Body(
         onFilterSelected: _onFilterSelected,
         offreFilter: _selectedFilter,
-        solutionTypes: viewModel.solutionTypes,
+        offreTypes: viewModel.offreTypes,
       ),
       floatingActionButton: _ApplyFiltersButton(onPressed: () => Navigator.pop(context, _selectedFilter)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -69,12 +69,12 @@ class _OffreFiltersPageState extends State<OffreFiltersPage> {
 class _Body extends StatelessWidget {
   final void Function(OffreFilter?) onFilterSelected;
   final OffreFilter offreFilter;
-  final List<SolutionType> solutionTypes;
+  final List<OffreType> offreTypes;
 
   const _Body({
     required this.onFilterSelected,
     required this.offreFilter,
-    required this.solutionTypes,
+    required this.offreTypes,
   });
 
   @override
@@ -88,13 +88,13 @@ class _Body extends StatelessWidget {
           _OffreFilterSubtitle(),
           SizedBox(height: Margins.spacing_base),
           _buildRadioListTile(OffreFilter.tous, Strings.filterAll),
-          if (solutionTypes.contains(SolutionType.OffreEmploi))
+          if (offreTypes.contains(OffreType.emploi))
             _buildRadioListTile(OffreFilter.emploi, Strings.filterEmploi),
-          if (solutionTypes.contains(SolutionType.Alternance))
+          if (offreTypes.contains(OffreType.alternance))
             _buildRadioListTile(OffreFilter.alternance, Strings.filterAlternance),
-          if (solutionTypes.contains(SolutionType.Immersion))
+          if (offreTypes.contains(OffreType.immersion))
             _buildRadioListTile(OffreFilter.immersion, Strings.filterImmersion),
-          if (solutionTypes.contains(SolutionType.ServiceCivique))
+          if (offreTypes.contains(OffreType.serviceCivique))
             _buildRadioListTile(OffreFilter.serviceCivique, Strings.filterServiceCivique),
         ],
       ),

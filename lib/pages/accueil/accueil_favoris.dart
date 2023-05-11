@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/favori.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
@@ -111,7 +111,7 @@ class _FavorisCard extends StatelessWidget {
           company: favori.organisation,
           place: favori.localisation,
           bottomTip: Strings.voirLeDetail,
-          solutionType: favori.type,
+          offreType: favori.type,
           onTap: () => _goToFavori(context, favori),
         ),
         SizedBox(height: Margins.spacing_base),
@@ -121,21 +121,21 @@ class _FavorisCard extends StatelessWidget {
 
   MaterialPageRoute<void> _route(Favori favori) {
     switch (favori.type) {
-      case SolutionType.OffreEmploi:
+      case OffreType.emploi:
         return OffreEmploiDetailsPage.materialPageRoute(
           favori.id,
           fromAlternance: false,
           popPageWhenFavoriIsRemoved: true,
         );
-      case SolutionType.Alternance:
+      case OffreType.alternance:
         return OffreEmploiDetailsPage.materialPageRoute(
           favori.id,
           fromAlternance: true,
           popPageWhenFavoriIsRemoved: true,
         );
-      case SolutionType.Immersion:
+      case OffreType.immersion:
         return ImmersionDetailsPage.materialPageRoute(favori.id, popPageWhenFavoriIsRemoved: true);
-      case SolutionType.ServiceCivique:
+      case OffreType.serviceCivique:
         return ServiceCiviqueDetailPage.materialPageRoute(favori.id, true);
     }
   }

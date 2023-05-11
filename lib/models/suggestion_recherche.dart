@@ -1,20 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
-enum SuggestionType {
-  emploi,
-  alternance,
-  immersion,
-  civique;
-
-  static SuggestionType? from(String value) {
-    if (value == "OFFRES_EMPLOI") return SuggestionType.emploi;
-    if (value == "OFFRES_ALTERNANCE") return SuggestionType.alternance;
-    if (value == "OFFRES_IMMERSION") return SuggestionType.immersion;
-    if (value == "OFFRES_SERVICES_CIVIQUE") return SuggestionType.civique;
-    return null;
-  }
-}
 
 enum SuggestionSource {
   poleEmploi,
@@ -30,7 +17,7 @@ enum SuggestionSource {
 class SuggestionRecherche extends Equatable {
   final String id;
   final String titre;
-  final SuggestionType type;
+  final OffreType type;
   final SuggestionSource? source;
   final String? metier;
   final String? localisation;
@@ -52,7 +39,7 @@ class SuggestionRecherche extends Equatable {
     return SuggestionRecherche(
       id: json["id"] as String,
       titre: json["titre"] as String,
-      type: SuggestionType.from(json["type"] as String) ?? SuggestionType.emploi,
+      type: OffreType.from(json["type"] as String) ?? OffreType.emploi,
       source: SuggestionSource.from(json["source"] as String),
       metier: json["metier"] as String?,
       localisation: json["localisation"] as String?,
@@ -64,7 +51,7 @@ class SuggestionRecherche extends Equatable {
   SuggestionRecherche copyWith({
     String? id,
     String? titre,
-    SuggestionType? type,
+    OffreType? type,
     SuggestionSource? source,
     String? metier,
     String? localisation,

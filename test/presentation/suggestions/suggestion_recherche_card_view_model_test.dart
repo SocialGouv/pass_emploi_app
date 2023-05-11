@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
 
@@ -17,7 +18,7 @@ void main() {
 
     // Then
     expect(viewModel, isNotNull);
-    expect(viewModel!.type, SuggestionType.emploi);
+    expect(viewModel!.type, OffreType.emploi);
     expect(viewModel.titre, "Cariste");
     expect(viewModel.source, "Profil PE");
     expect(viewModel.metier, "Conduite d'engins de déplacement des charges");

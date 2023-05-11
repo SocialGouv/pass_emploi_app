@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 
 class FavoriCard<T> extends StatelessWidget {
-  final SolutionType solutionType;
+  final OffreType offreType;
   final Widget? specialAction;
   final String title;
   final String? company;
@@ -31,7 +31,7 @@ class FavoriCard<T> extends StatelessWidget {
     this.date,
     this.dataTags = const [],
     required this.bottomTip,
-    required this.solutionType,
+    required this.offreType,
     this.specialAction,
   });
 
@@ -44,7 +44,7 @@ class FavoriCard<T> extends StatelessWidget {
     this.date,
     this.dataTags = const [],
     required this.bottomTip,
-    required this.solutionType,
+    required this.offreType,
     required String id,
     required OffrePage from,
   }) : specialAction = FavoriHeart<T>(
@@ -62,7 +62,7 @@ class FavoriCard<T> extends StatelessWidget {
     this.date,
     this.dataTags = const [],
     required this.bottomTip,
-    required this.solutionType,
+    required this.offreType,
     required void Function() onDelete,
   }) : specialAction = IconButton(
           icon: Icon(AppIcons.remove_alert_rounded),
@@ -80,7 +80,7 @@ class FavoriCard<T> extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              solutionType.toJobTag(),
+              offreType.toJobTag(),
               SizedBox.square(
                   dimension: Dimens.icon_size_m,
                   child: OverflowBox(

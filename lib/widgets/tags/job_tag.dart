@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
-import 'package:pass_emploi_app/models/suggestion_recherche.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -11,6 +10,7 @@ class JobTag extends StatelessWidget {
   final String label;
   final Color contentColor;
   final Color backgroundColor;
+
   const JobTag({
     Key? key,
     required this.label,
@@ -31,33 +31,17 @@ class JobTag extends StatelessWidget {
   }
 }
 
-extension JobSolutionTypeExt on SolutionType {
+extension JobOffreTypeExt on OffreType {
   Widget toJobTag() {
     switch (this) {
-      case SolutionType.OffreEmploi:
+      case OffreType.emploi:
         return JobTag(label: Strings.savedSearchEmploiTag, backgroundColor: AppColors.additional4Ligten);
-      case SolutionType.Alternance:
+      case OffreType.alternance:
         return JobTag(label: Strings.savedSearchAlternanceTag, backgroundColor: AppColors.additional3Ligthen);
-      case SolutionType.Immersion:
+      case OffreType.immersion:
         return JobTag(label: Strings.savedSearchImmersionTag, backgroundColor: AppColors.additional1Lighten);
-      case SolutionType.ServiceCivique:
+      case OffreType.serviceCivique:
         return JobTag(label: Strings.savedSearchServiceCiviqueTag, backgroundColor: AppColors.additional2Ligthen);
     }
   }
 }
-
-extension JobSuggestionTypeExt on SuggestionType {
-  Widget toJobTag() {
-    switch (this) {
-      case SuggestionType.emploi:
-        return JobTag(label: Strings.savedSearchEmploiTag, backgroundColor: AppColors.additional4Ligten);
-      case SuggestionType.alternance:
-        return JobTag(label: Strings.savedSearchAlternanceTag, backgroundColor: AppColors.additional3Ligthen);
-      case SuggestionType.immersion:
-        return JobTag(label: Strings.savedSearchImmersionTag, backgroundColor: AppColors.additional1Lighten);
-      case SuggestionType.civique:
-        return JobTag(label: Strings.savedSearchServiceCiviqueTag, backgroundColor: AppColors.additional2Ligthen);
-    }
-  }
-}
-

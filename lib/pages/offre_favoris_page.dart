@@ -7,8 +7,8 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_filters_page.dart';
@@ -93,12 +93,12 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
       itemBuilder: (context, index) {
         final favori = favoris[index];
         switch (favori.type) {
-          case SolutionType.OffreEmploi:
-          case SolutionType.Alternance:
+          case OffreType.emploi:
+          case OffreType.alternance:
             return _buildOffreEmploiItem(context, favori);
-          case SolutionType.Immersion:
+          case OffreType.immersion:
             return _buildImmersionItem(context, favori);
-          case SolutionType.ServiceCivique:
+          case OffreType.serviceCivique:
             return _buildServiceCiviqueItem(context, favori);
         }
       },
@@ -116,7 +116,7 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
         context,
         OffreEmploiDetailsPage.materialPageRoute(
           favori.id,
-          fromAlternance: favori.type == SolutionType.Alternance,
+          fromAlternance: favori.type == OffreType.alternance,
           popPageWhenFavoriIsRemoved: true,
         ),
       ),
@@ -162,7 +162,7 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
         company: favori.organisation,
         place: favori.localisation,
         bottomTip: Strings.voirLeDetail,
-        solutionType: favori.type,
+        offreType: favori.type,
         from: OffrePage.offreFavoris,
         id: favori.id,
         onTap: onTap,
