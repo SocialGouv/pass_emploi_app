@@ -72,7 +72,6 @@ class ProfilPage extends StatelessWidget {
               _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
               SizedBox(height: Margins.spacing_m),
               _DiscoverDiagorienteCard(),
-              _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
               SizedBox(height: Margins.spacing_m),
               if (viewModel.withDownloadCv) ...[
                 _CurriculumVitaeCard(),

@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/preview_file_invisible_handler.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class CvListPage extends StatelessWidget {
@@ -108,7 +109,8 @@ class _Content extends StatelessWidget {
       children: [
         Text(Strings.cvListPageSubtitle, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        Expanded(child: _CvListView(viewModel))
+        Expanded(child: _CvListView(viewModel)),
+        PreviewFileInvisibleHandler(),
       ],
     );
   }
@@ -134,6 +136,7 @@ class _CvListView extends StatelessWidget {
               children: [
                 Text(cv.titre, style: TextStyles.textMBold),
                 SizedBox(height: Margins.spacing_base),
+                //TODO: loading button
                 SecondaryButton(
                   label: Strings.cvDownload,
                   icon: AppIcons.download_rounded,

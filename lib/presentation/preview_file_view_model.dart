@@ -12,7 +12,6 @@ class PreviewFileViewModel extends Equatable {
 
   factory PreviewFileViewModel.create(Store<AppState> store) {
     final previewFileState = store.state.previewFileState;
-
     return PreviewFileViewModel(
       path: (previewFileState is PreviewFileSuccessState) ? previewFileState.path : null,
       viewClosed: () => store.dispatch(PreviewFileCloseAction()),

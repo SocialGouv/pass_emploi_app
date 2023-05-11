@@ -36,7 +36,7 @@ void main() {
 
     group("when downloading", () {
       final cv = mockCvPoleEmploiList()[0];
-      sut.when(() => CvdownldRequestAction(cv));
+      sut.when(() => CvDownloadRequestAction(cv));
 
       test('status should load then succeed when request succeed', () {
         sut.givenStore = givenState() //

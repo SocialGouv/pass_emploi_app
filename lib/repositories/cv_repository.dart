@@ -27,18 +27,16 @@ class CvRepository {
 
   Future<String?> download({required String url, required String fileName}) async {
     try {
-      final response = await _httpClient.get(url, options: Options(responseType: ResponseType.bytes));
-      await _saveFile(fileName: fileName, url: url, response: response);
+      //TODO: client
+      final dioClient = Dio();
+      final tempDir = await getTemporaryDirectory();
+      final path = '${tempDir.path}/$_cvFolderPath/${url.hashCode}/$fileName';
+      await File(path).create(recursive: true);
+      await dioClient.download(url, path);
+      return path;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return null;
-  }
-
-  Future<String> _saveFile({required String fileName, required String url, required Response<dynamic> response}) async {
-    final tempDir = await getTemporaryDirectory();
-    final file = await File('${tempDir.path}/$_cvFolderPath/${url.hashCode}/$fileName').create(recursive: true);
-    await file.writeAsBytes(response.data as List<int>);
-    return file.path;
   }
 }

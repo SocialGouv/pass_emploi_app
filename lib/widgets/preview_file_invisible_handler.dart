@@ -10,12 +10,12 @@ class PreviewFileInvisibleHandler extends StatelessWidget {
     return StoreConnector<AppState, PreviewFileViewModel>(
       converter: (store) => PreviewFileViewModel.create(store),
       builder: (context, viewModel) => _body(viewModel, context),
+      onDidChange: (previousViewModel, viewModel) => _open(viewModel),
       distinct: true,
     );
   }
 
   Widget _body(PreviewFileViewModel viewModel, BuildContext context) {
-    _open(viewModel);
     return SizedBox();
   }
 

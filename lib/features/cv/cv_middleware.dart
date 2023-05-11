@@ -24,13 +24,13 @@ class CvMiddleware extends MiddlewareClass<AppState> {
       } else {
         store.dispatch(CvFailureAction());
       }
-    } else if (action is CvdownldRequestAction) {
-      store.dispatch(CvdownldLoadingAction(action.cv.url));
+    } else if (action is CvDownloadRequestAction) {
+      store.dispatch(CvDownloadLoadingAction(action.cv.url));
       final filePath = await _repository.download(url: action.cv.url, fileName: action.cv.nomFichier);
       if (filePath != null) {
-        store.dispatch(CvdownldSuccessAction(filePath, action.cv.url));
+        store.dispatch(CvDownloadSuccessAction(filePath, action.cv.url));
       } else {
-        store.dispatch(CvdownldFailureAction(action.cv.url));
+        store.dispatch(CvDownloadFailureAction(action.cv.url));
       }
     }
   }

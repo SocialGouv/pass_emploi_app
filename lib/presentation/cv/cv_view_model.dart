@@ -20,7 +20,7 @@ class CvViewModel extends Equatable {
       cvList: _cvList(state),
       displayState: _displayState(store),
       retry: () => store.dispatch(CvRequestAction()),
-      onDownload: (cv) => store.dispatch(CvdownldRequestAction(cv)),
+      onDownload: (cv) => store.dispatch(CvDownloadRequestAction(cv)),
     );
   }
 

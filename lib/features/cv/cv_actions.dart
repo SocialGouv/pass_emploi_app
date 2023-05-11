@@ -14,27 +14,27 @@ class CvFailureAction {}
 
 class CvResetAction {}
 
-class CvdownldRequestAction {
+class CvDownloadRequestAction {
   final CvPoleEmploi cv;
 
-  CvdownldRequestAction(this.cv);
+  CvDownloadRequestAction(this.cv);
 }
 
-class CvdownldLoadingAction {
+class CvDownloadLoadingAction {
   final String url;
 
-  CvdownldLoadingAction(this.url);
+  CvDownloadLoadingAction(this.url);
 }
 
-class CvdownldSuccessAction {
+class CvDownloadSuccessAction {
   final String url;
-  final String? filePath;
+  final String filePath;
 
-  CvdownldSuccessAction(this.filePath, this.url);
+  CvDownloadSuccessAction(this.filePath, this.url);
 }
 
-class CvdownldFailureAction {
+class CvDownloadFailureAction {
   final String url;
 
-  CvdownldFailureAction(this.url);
+  CvDownloadFailureAction(this.url);
 }

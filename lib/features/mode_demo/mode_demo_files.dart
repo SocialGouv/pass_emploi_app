@@ -36,7 +36,8 @@ extension UrlExtensions on String {
   bool isSupposedToBeMocked() {
     return !contains("referentiels/communes-et-departements") &&
         !contains("fichiers") &&
-        !contains("referentiels/metiers");
+        !contains("referentiels/metiers") &&
+        !contains("/docnums/"); //TODO: pas ouf parce qu'on ne maitrise pas le partenaire
   }
 
   String removeLastPath() => substring(0, lastIndexOf('/'));

@@ -88,7 +88,7 @@ void main() {
       viewModel.onDownload(cv);
 
       // Then
-      expect(store.dispatchedAction, isA<CvdownldRequestAction>());
+      expect(store.dispatchedAction, isA<CvDownloadRequestAction>());
     });
   });
 }
