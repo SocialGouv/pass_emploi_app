@@ -115,6 +115,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
           child: ListView(
             reverse: true,
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 100.0),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             children: viewModel.items.reversed.map((item) {
               if (item is DayItem) {
                 return Center(child: Text(item.dayLabel, style: TextStyles.textSRegular()));
@@ -145,8 +146,8 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                     controller: _controller,
                     keyboardType: TextInputType.multiline,
                     textCapitalization: TextCapitalization.sentences,
-                    textInputAction: TextInputAction.done,
-                    maxLines: null,
+                    minLines: 1,
+                    maxLines: 5,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(left: 16, right: 16, top: 13, bottom: 13),
                       filled: true,
