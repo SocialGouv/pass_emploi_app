@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/pages/cv/cv_list_page.dart';
 import 'package:pass_emploi_app/pages/diagoriente/diagoriente_entry_page.dart';
 import 'package:pass_emploi_app/pages/partage_activite_page.dart';
 import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
@@ -71,6 +72,12 @@ class ProfilPage extends StatelessWidget {
               _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
               SizedBox(height: Margins.spacing_m),
               _DiscoverDiagorienteCard(),
+              _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
+              SizedBox(height: Margins.spacing_m),
+              if (viewModel.withDownloadCv) ...[
+                _CurriculumVitaeCard(),
+                SizedBox(height: Margins.spacing_m),
+              ],
               SizedBox(height: Margins.spacing_m),
               _ProfileCard(userEmail: viewModel.userEmail),
               SizedBox(height: Margins.spacing_m),
@@ -111,17 +118,38 @@ class _DiscoverDiagorienteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     const Color textColor = Colors.white;
     return CardContainer(
-        backgroundColor: AppColors.primary,
-        splashColor: AppColors.primaryDarken,
-        onTap: () => Navigator.push(context, DiagorienteEntryPage.materialPageRoute()),
-        child: Column(
-          children: [
-            Text(Strings.diagorienteDiscoverCardTitle, style: TextStyles.textMBold.copyWith(color: textColor)),
-            SizedBox(height: Margins.spacing_m),
-            Text(Strings.diagorienteDiscoverCardSubtitle, style: TextStyles.textBaseRegularWithColor(textColor)),
-            PressedTip(Strings.diagorienteDiscoverCardPressedTip, textColor: textColor),
-          ],
-        ));
+      backgroundColor: AppColors.primary,
+      splashColor: AppColors.primaryDarken,
+      onTap: () => Navigator.push(context, DiagorienteEntryPage.materialPageRoute()),
+      child: Column(
+        children: [
+          Text(Strings.diagorienteDiscoverCardTitle, style: TextStyles.textMBold.copyWith(color: textColor)),
+          SizedBox(height: Margins.spacing_m),
+          Text(Strings.diagorienteDiscoverCardSubtitle, style: TextStyles.textBaseRegularWithColor(textColor)),
+          PressedTip(Strings.diagorienteDiscoverCardPressedTip, textColor: textColor),
+        ],
+      ),
+    );
+  }
+}
+
+class _CurriculumVitaeCard extends StatelessWidget {
+  const _CurriculumVitaeCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return CardContainer(
+      onTap: () => Navigator.push(context, CvListPage.materialPageRoute()),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(Strings.cvCardTitle, style: TextStyles.textMBold),
+          SizedBox(height: Margins.spacing_m),
+          Text(Strings.cvCardSubtitle, style: TextStyles.textBaseRegular),
+          PressedTip(Strings.cvCadCaption),
+        ],
+      ),
+    );
   }
 }
 

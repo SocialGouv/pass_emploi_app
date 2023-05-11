@@ -7,9 +7,9 @@ import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 
-import '../doubles/fixtures.dart';
-import '../doubles/spies.dart';
-import '../dsl/app_state_dsl.dart';
+import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
   test("create should properly set user info", () {
@@ -86,6 +86,32 @@ void main() {
 
     // Then
     expect(viewModel.displayDeveloperOptions, isTrue);
+  });
+
+  test("create when user is from PE should display download CV card", () {
+    // Given
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .store();
+
+    // When
+    final viewModel = ProfilPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.withDownloadCv, isTrue);
+  });
+
+  test("create when user is from Milo should not display download CV card", () {
+    // Given
+    final store = givenState() //
+        .loggedInMiloUser()
+        .store();
+
+    // When
+    final viewModel = ProfilPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.withDownloadCv, isFalse);
   });
 
   test('onTitleTap should trigger action', () {

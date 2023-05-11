@@ -815,4 +815,11 @@ class Strings {
   static String diagorienteVoirplus = "Voir plus";
   static String diagorienteAffinerMesResultats = "Affiner mes résultats";
   static String diagorienteTerminerEtRetournerAuProfil = "Terminer et retourner au profil";
+
+  // CV
+  static String cvCardTitle = "CV";
+  static String cvCardSubtitle =
+      "Facilitez vos prochaines candidatures en téléchargeant vos CV Pôle emploi directement sur votre téléphone.";
+  static String cvCadCaption = "Télécharger";
+  static String cvListPageTitle = "CV";
 }
