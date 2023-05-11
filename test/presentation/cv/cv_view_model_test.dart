@@ -55,6 +55,52 @@ void main() {
       });
     }));
 
+    group('downloadStatus', () {
+      test('should display nothing when state is not success', () {
+        // Given
+        final store = givenState().withCvLoading().store();
+
+        // When
+        final viewModel = CvViewModel.create(store);
+
+        // Then
+        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.CONTENT);
+      });
+
+      test('should display loading when status is loading', () {
+        // Given
+        final store = givenState().withCvDownloadInProgress().store();
+
+        // When
+        final viewModel = CvViewModel.create(store);
+
+        // Then
+        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.LOADING);
+      });
+
+      test('should display nothing when status is success', () {
+        // Given
+        final store = givenState().withCvDownloadSuccess().store();
+
+        // When
+        final viewModel = CvViewModel.create(store);
+
+        // Then
+        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.CONTENT);
+      });
+
+      test('should display nothing when status is failure', () {
+        // Given
+        final store = givenState().withCvDownloadFailure().store();
+
+        // When
+        final viewModel = CvViewModel.create(store);
+
+        // Then
+        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.CONTENT);
+      });
+    });
+
     test('should have all CVs', () {
       // Given
       final store = givenState().loggedInPoleEmploiUser().withCvSuccess().store();
@@ -80,7 +126,7 @@ void main() {
 
     test('should download cv', () {
       // Given
-      final cv = mockCvPoleEmploiList()[0];
+      final cv = mockCvPoleEmploi();
       final store = StoreSpy();
       final viewModel = CvViewModel.create(store);
 

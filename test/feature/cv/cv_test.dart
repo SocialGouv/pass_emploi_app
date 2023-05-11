@@ -35,7 +35,7 @@ void main() {
     });
 
     group("when downloading", () {
-      final cv = mockCvPoleEmploiList()[0];
+      final cv = mockCvPoleEmploi();
       sut.when(() => CvDownloadRequestAction(cv));
 
       test('status should load then succeed when request succeed', () {
@@ -79,7 +79,7 @@ Matcher _shouldFailDownload() => _downloadShouldBeInStatus(CvDownloadStatus.fail
 Matcher _shouldSucceedDownload() => _downloadShouldBeInStatus(CvDownloadStatus.success);
 
 Matcher _downloadShouldBeInStatus(CvDownloadStatus status) {
-  final cv = mockCvPoleEmploiList()[0];
+  final cv = mockCvPoleEmploi();
 
   return StateMatch(
     (state) => state.cvState is CvSuccessState && (state.cvState as CvSuccessState).cvDownloadStatus[cv.url] == status,

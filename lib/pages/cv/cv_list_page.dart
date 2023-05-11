@@ -136,12 +136,13 @@ class _CvListView extends StatelessWidget {
               children: [
                 Text(cv.titre, style: TextStyles.textMBold),
                 SizedBox(height: Margins.spacing_base),
-                //TODO: loading button
-                SecondaryButton(
-                  label: Strings.cvDownload,
-                  icon: AppIcons.download_rounded,
-                  onPressed: () => viewModel.onDownload(cv),
-                )
+                viewModel.downloadStatus(cv.url).isLoading()
+                    ? Center(child: CircularProgressIndicator())
+                    : SecondaryButton(
+                        label: Strings.cvDownload,
+                        icon: AppIcons.download_rounded,
+                        onPressed: () => viewModel.onDownload(cv),
+                      )
               ],
             ),
           ),

@@ -597,4 +597,37 @@ extension AppStateDSL on AppState {
   AppState withCvEmptySuccess() {
     return copyWith(cvState: CvSuccessState(cvList: [], cvDownloadStatus: {}));
   }
+
+  AppState withCvDownloadInProgress() {
+    return copyWith(
+      cvState: CvSuccessState(
+        cvList: mockCvPoleEmploiList(),
+        cvDownloadStatus: {
+          mockCvPoleEmploi().url: CvDownloadStatus.loading,
+        },
+      ),
+    );
+  }
+
+  AppState withCvDownloadSuccess() {
+    return copyWith(
+      cvState: CvSuccessState(
+        cvList: mockCvPoleEmploiList(),
+        cvDownloadStatus: {
+          mockCvPoleEmploi().url: CvDownloadStatus.success,
+        },
+      ),
+    );
+  }
+
+  AppState withCvDownloadFailure() {
+    return copyWith(
+      cvState: CvSuccessState(
+        cvList: mockCvPoleEmploiList(),
+        cvDownloadStatus: {
+          mockCvPoleEmploi().url: CvDownloadStatus.failure,
+        },
+      ),
+    );
+  }
 }
