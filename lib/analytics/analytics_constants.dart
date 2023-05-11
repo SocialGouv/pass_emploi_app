@@ -57,25 +57,25 @@ class AnalyticsScreenNames {
 
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
-  static const emploiCreateAlert = "/saved_search/emploi/create";
+  static const emploiCreateAlert = "/saved_searches/emploi/create";
   static const emploiPartagePage = "/recherche/emploi/detail/partage-conseiller";
   static const emploiPartagePageSuccess = "/recherche/emploi/detail?partage-conseiller=true";
 
   static const alternanceResults = "recherche/alternance/search_results";
   static const alternanceDetails = "recherche/alternance/detail";
   static const alternanceFiltres = "recherche/alternance/search_results/filters";
-  static const alternanceCreateAlert = "/saved_search/alternance/create";
+  static const alternanceCreateAlert = "/saved_searches/alternance/create";
 
   static const immersionDetails = "recherche/immersion/detail";
   static const immersionContact = "recherche/immersion/detail/contact";
   static const immersionForm = "recherche/immersion/detail/formulaire";
   static String immersionFormSent(bool succeed) => "recherche/immersion/detail/formulaire?success=$succeed";
   static const immersionFiltres = "recherche/immersion/search_results/filters";
-  static const immersionCreateAlert = "/saved_search/immersion/create";
+  static const immersionCreateAlert = "/saved_searches/immersion/create";
 
   static const serviceCiviqueDetail = "recherche/service_civique/detail";
   static const serviceCiviqueFiltres = "recherche/service_civique/search_results/filters";
-  static const serviceCiviqueCreateAlert = "/saved_search/service_civique/create";
+  static const serviceCiviqueCreateAlert = "/saved_searches/service_civique/create";
 
   static const eventList = "events/list";
   static const toolbox = "recherche/boite_a_outils";
@@ -96,10 +96,10 @@ class AnalyticsScreenNames {
   static const savedSearchListFilterImmersion = "saved_searches/list?filtre=immersion";
   static const savedSearchListFilterServiceCivique = "saved_searches/list?filtre=service_civique";
 
-  static const savedSearchEmploiDelete = "/saved_search/emploi/delete";
-  static const savedSearchAlternanceDelete = "/saved_search/alternance/delete";
-  static const savedSearchImmersionDelete = "/saved_search/immersion/delete";
-  static const savedSearchServiceCiviqueDelete = "/saved_search/service-civique/delete";
+  static const savedSearchEmploiDelete = "/saved_searches/emploi/delete";
+  static const savedSearchAlternanceDelete = "/saved_searches/alternance/delete";
+  static const savedSearchImmersionDelete = "/saved_searches/immersion/delete";
+  static const savedSearchServiceCiviqueDelete = "/saved_searches/service-civique/delete";
 
   static const suppressionAccount = "/profil/suppression-compte";
   static const shareActivity = "/profil/autorisation-partage-conseiller";
