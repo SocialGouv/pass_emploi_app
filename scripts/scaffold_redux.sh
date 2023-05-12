@@ -179,7 +179,8 @@ class ${middlewareClass} extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final userId = store.state.userId();
-    if (userId != null && action is ${feature_camel_case}RequestAction) {
+    if (userId == null) return;
+    if (action is ${feature_camel_case}RequestAction) {
       store.dispatch(${feature_camel_case}LoadingAction());
       final result = await _repository.get();
       if (result != null) {

@@ -59,6 +59,7 @@ import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_r
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
+import 'package:pass_emploi_app/repositories/cv_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -396,5 +397,9 @@ class DummyContactImmersionRepository extends ContactImmersionRepository {
 
 class DummyAccueilRepository extends AccueilRepository {
   DummyAccueilRepository() : super(DioMock());
+}
+
+class DummyCvRepository extends CvRepository {
+  DummyCvRepository() : super(DioMock());
 }
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

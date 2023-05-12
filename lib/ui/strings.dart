@@ -820,7 +820,12 @@ class Strings {
   // CV
   static String cvCardTitle = "CV";
   static String cvCardSubtitle =
-      "Facilitez vos prochaines candidatures en téléchargeant vos CV Pôle emploi directement sur votre téléphone.";
-  static String cvCadCaption = "Télécharger";
+      "Préparez vos prochaines candidatures en téléchargeant vos CV Pôle emploi directement sur votre téléphone.";
+  static String cvCadCaption = "Voir";
   static String cvListPageTitle = "CV";
+  static String cvListPageSubtitle = "Retrouvez vos CV’s Pôle emploi ci-dessous";
+  static String cvError = "Erreur lors de la récupération des CVs Pôle emploi";
+  static String cvEmpty = "Vous n’avez pas de CV sur votre espace Pôle Emploi";
+  static String cvEmptyButton = "Revenir à mon profil";
+  static String cvDownload = "Télécharger";
 }

@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:package_info/package_info.dart';
+import 'package:pass_emploi_app/network/interceptors/pass_emploi_base_dio_interceptor.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:redux/redux.dart';
 
-class MonitoringDioInterceptor extends Interceptor {
+class MonitoringDioInterceptor extends PassEmploiBaseDioInterceptor {
   final InstallationIdRepository _repository;
   late Store<AppState> _store;
   String? _appVersion;
@@ -13,7 +14,7 @@ class MonitoringDioInterceptor extends Interceptor {
   MonitoringDioInterceptor(this._repository);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onPassEmploiRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     final userId = _store.state.userId() ?? 'NOT_LOGIN_USER';
     options.headers['X-UserId'] = userId;
     options.headers['X-InstallationId'] = await _repository.getInstallationId();

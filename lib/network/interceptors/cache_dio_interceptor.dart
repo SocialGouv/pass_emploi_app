@@ -3,15 +3,16 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
+import 'package:pass_emploi_app/network/interceptors/pass_emploi_base_dio_interceptor.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
-class CacheDioInterceptor extends Interceptor {
+class CacheDioInterceptor extends PassEmploiBaseDioInterceptor {
   final PassEmploiCacheManager cacheManager;
 
   CacheDioInterceptor(this.cacheManager);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onPassEmploiRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     final stringUrl = options.uri.toString();
     if (options.method != "GET" || !stringUrl.isWhitelistedForCache()) {
       handler.next(options);

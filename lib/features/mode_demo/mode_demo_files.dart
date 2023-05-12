@@ -28,6 +28,7 @@ String? getDemoFileName(String url, String query) {
   if (url.contains("/animations-collectives")) return "event_list";
   if (url.contains("/diagoriente/urls")) return "diagoriente_urls";
   if (url.contains("/diagoriente/metiers-favoris")) return "diagoriente_metiers_favoris";
+  if (url.contains("/pole-emploi/cv")) return "cv_pole_emploi";
   return null;
 }
 
@@ -35,7 +36,8 @@ extension UrlExtensions on String {
   bool isSupposedToBeMocked() {
     return !contains("referentiels/communes-et-departements") &&
         !contains("fichiers") &&
-        !contains("referentiels/metiers");
+        !contains("referentiels/metiers") &&
+        !contains("/docnums/");
   }
 
   String removeLastPath() => substring(0, lastIndexOf('/'));
