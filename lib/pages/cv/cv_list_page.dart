@@ -12,7 +12,6 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -28,32 +27,25 @@ class CvListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.cvListPage,
-      child: StoreConnector<AppState, CvViewModel>(
-        onInit: (store) => store.dispatch(CvRequestAction()),
-        converter: (store) => CvViewModel.create(store),
-        builder: (context, viewModel) => _Scaffold(viewModel: viewModel),
-        distinct: true,
+      child: Scaffold(
+        appBar: SecondaryAppBar(title: Strings.cvListPageTitle),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+          child: CvList(),
+        ),
       ),
     );
   }
 }
 
-class _Scaffold extends StatelessWidget {
-  final CvViewModel viewModel;
-
-  const _Scaffold({
-    Key? key,
-    required this.viewModel,
-  }) : super(key: key);
-
+class CvList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.cvListPageTitle),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-        child: _Body(viewModel),
-      ),
+    return StoreConnector<AppState, CvViewModel>(
+      onInit: (store) => store.dispatch(CvRequestAction()),
+      converter: (store) => CvViewModel.create(store),
+      builder: (context, viewModel) => _Body(viewModel),
+      distinct: true,
     );
   }
 }
@@ -93,9 +85,17 @@ class _Empty extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(Strings.cvEmpty, style: TextStyles.textMBold, textAlign: TextAlign.center),
+          Icon(
+            AppIcons.folder_off,
+            size: 80,
+            color: AppColors.primary,
+          ),
           SizedBox(height: Margins.spacing_m),
-          PrimaryActionButton(onPressed: () => Navigator.of(context).pop(), label: Strings.cvEmptyButton),
+          Text(
+            Strings.cvEmpty,
+            style: TextStyles.textBaseMedium.copyWith(color: AppColors.grey800),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
@@ -178,12 +178,16 @@ class _ApiPeKo extends StatelessWidget {
                   color: AppColors.primary,
                 ),
                 SizedBox(height: Margins.spacing_m),
-                Text(Strings.cvErrorApiPeKoMessage, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+                Text(
+                  Strings.cvErrorApiPeKoMessage,
+                  style: TextStyles.textBaseMedium.copyWith(color: AppColors.grey800),
+                  textAlign: TextAlign.center,
+                ),
               ],
             ),
           ),
         ),
-        PrimaryActionButton(
+        SecondaryButton(
           label: Strings.cvErrorApiPeKoButton,
           icon: AppIcons.refresh_rounded,
           onPressed: viewModel.retry,

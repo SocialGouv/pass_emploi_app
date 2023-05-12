@@ -84,6 +84,7 @@ class AppIcons {
   static const IconData add_alert_rounded = Icons.add_alert_rounded;
   static const IconData remove_alert_rounded = Icons.notifications_off_rounded;
   static const IconData construction = Icons.construction;
+  static const IconData folder_off = Icons.folder_off;
 
   // Solution
   static const IconData immersion = AppIconsAdditional.immersion;
