@@ -90,6 +90,7 @@ class _Empty extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(Strings.cvEmpty, style: TextStyles.textMBold, textAlign: TextAlign.center),
