@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/cv_pole_emploi.dart';
 import 'package:pass_emploi_app/presentation/cv/cv_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -64,6 +65,9 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (viewModel.apiPeKo) {
+      return _ApiPeKo(viewModel);
+    }
     switch (viewModel.displayState) {
       case DisplayState.LOADING:
         return Center(child: CircularProgressIndicator());
@@ -148,6 +152,43 @@ class _CvListView extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _ApiPeKo extends StatelessWidget {
+  const _ApiPeKo(this.viewModel);
+
+  final CvViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  AppIcons.construction,
+                  size: 80,
+                  color: AppColors.primary,
+                ),
+                SizedBox(height: Margins.spacing_m),
+                Text(Strings.cvErrorApiPeKoMessage, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+              ],
+            ),
+          ),
+        ),
+        PrimaryActionButton(
+          label: Strings.cvErrorApiPeKoButton,
+          icon: AppIcons.refresh_rounded,
+          onPressed: viewModel.retry,
+        ),
+        SizedBox(height: Margins.spacing_huge),
+      ],
     );
   }
 }

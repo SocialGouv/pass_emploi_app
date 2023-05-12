@@ -828,4 +828,6 @@ class Strings {
   static String cvEmpty = "Vous n’avez pas de CV sur votre espace Pôle Emploi";
   static String cvEmptyButton = "Revenir à mon profil";
   static String cvDownload = "Télécharger";
+  static String cvErrorApiPeKoMessage = "Impossible de se synchroniser avec votre espace Pôle emploi";
+  static String cvErrorApiPeKoButton = "Recharger la page";
 }
