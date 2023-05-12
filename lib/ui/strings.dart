@@ -706,16 +706,16 @@ class Strings {
   static String savedSearchServiceCiviqueTag = "Service civique";
   static String savedSearchSuccessfullyCreated =
       "Votre recherche a bien été enregistrée. Retrouvez-la dans la section Mes Alertes sur votre page d'accueil.";
-  static String creationSavedSearchError = "Erreur lors de la création de la recherche sauvegardée. Veuillez réessayer";
+  static String creationSavedSearchError = "Erreur lors de la création de l'alerte. Veuillez réessayer";
   static String savedSearchGetError = "Erreur lors de la récupération des recherches sauvegardées.";
-  static String noSavedSearchYet = "Aucune recherche sauvegardée.";
+  static String noSavedSearchYet = "Aucune alerte.";
   static String savedSearchTabName = "Mes alertes";
   static String favorisTabName = "Mes offres";
   static String savedSearchSeeResults = "Voir les résultats";
 
-  static String savedSearchDeleteMessage = "Voulez-vous vraiment supprimer la recherche sauvegardée ?";
+  static String savedSearchDeleteMessage = "Voulez-vous vraiment supprimer la alerte ?";
   static String savedSearchDeleteError = "Erreur lors de la suppression de la recherche.";
-  static String savedSearchDeleteSuccess = "Votre recherche sauvegardée a été supprimée avec succès.";
+  static String savedSearchDeleteSuccess = "Votre alerte a été supprimée avec succès.";
 
   // Mode support
   static String supportInformations = "Infos pour le support";
@@ -766,8 +766,9 @@ class Strings {
       "Sur la base de votre profil Pôle emploi, voici des suggestions d'alertes à sauvegarder";
   static String voirSuggestionsDeRecherche = "Voir les suggestions";
   static String suggestionsDeRechercheTitlePage = "Vos suggestions d'alertes";
-  static String suggestionsDeRechercheHeader = "Vos suggestions peuvent venir de différentes sources. Après l’ajout, vous serez notifié si une nouvelle offre est disponible.";
-  static String suggestionSourcePoleEmploi = "Profil PE";
+  static String suggestionsDeRechercheHeader =
+      "Vos suggestions peuvent venir de différentes sources. Après l’ajout, vous serez notifié si une nouvelle offre est disponible.";
+  static String suggestionSourcePoleEmploi = "Profil Pôle Emploi";
   static String suggestionSourceConseiller = "Conseiller";
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";

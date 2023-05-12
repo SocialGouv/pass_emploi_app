@@ -19,7 +19,6 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
-import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 
@@ -151,13 +150,13 @@ class _Card extends StatelessWidget {
             _Localisation(viewModel.localisation!),
             SizedBox(height: Margins.spacing_base)
           ],
+          SizedBox(height: Margins.spacing_s),
           _Buttons(onTapAjouter: viewModel.ajouterSuggestion, onTapRefuser: viewModel.refuserSuggestion),
         ],
       ),
     );
   }
 }
-
 
 class _Titre extends StatelessWidget {
   final String text;
@@ -196,22 +195,14 @@ class _Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SepLine(0, 0),
-        Padding(
-          padding: const EdgeInsets.only(top: 12),
-          child: IntrinsicHeight(
-            child: Row(
-              children: [
-                _Supprimer(onTapRefuser: onTapRefuser),
-                VerticalDivider(thickness: 1, color: AppColors.primaryLighten),
-                _Ajouter(onTapAjouter: onTapAjouter),
-              ],
-            ),
-          ),
-        )
-      ],
+    return IntrinsicHeight(
+      child: Row(
+        children: [
+          Expanded(child: _Supprimer(onTapRefuser: onTapRefuser)),
+          VerticalDivider(width: Margins.spacing_m, thickness: 1, color: AppColors.primaryLighten),
+          Expanded(child: _Ajouter(onTapAjouter: onTapAjouter)),
+        ],
+      ),
     );
   }
 }
@@ -223,26 +214,15 @@ class _Supprimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(left: Margins.spacing_s),
-        child: TextButton(
-          onPressed: onTapRefuser,
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 12),
-                child: Icon(
-                  AppIcons.remove_alert_rounded,
-                  color: AppColors.primary,
-                  size: Dimens.icon_size_m,
-                ),
-              ),
-              Text(Strings.refuserLabel, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
-            ],
-          ),
-        ),
-      ),
+    return PrimaryActionButton(
+      backgroundColor: AppColors.primaryLighten,
+      rippleColor: Color.alphaBlend(Colors.black12, AppColors.primaryLighten),
+      textColor: AppColors.primary,
+      iconColor: AppColors.primary,
+      label: Strings.refuserLabel,
+      icon: AppIcons.remove_alert_rounded,
+      withShadow: false,
+      onPressed: onTapRefuser,
     );
   }
 }
@@ -254,16 +234,11 @@ class _Ajouter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Align(
-          alignment: Alignment.centerRight,
-          child: PrimaryActionButton(
-            label: Strings.ajouter,
-            icon: Icons.add_alert_rounded,
-            withShadow: false,
-            heightPadding: 6,
-            onPressed: onTapAjouter,
-          )),
+    return PrimaryActionButton(
+      label: Strings.ajouter,
+      icon: AppIcons.add_alert_rounded,
+      withShadow: false,
+      onPressed: onTapAjouter,
     );
   }
 }
