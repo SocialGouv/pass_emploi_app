@@ -27,12 +27,10 @@ class CvRepository {
 
   Future<String?> download({required String url, required String fileName}) async {
     try {
-      //TODO: client
-      final dioClient = Dio();
       final tempDir = await getTemporaryDirectory();
       final path = '${tempDir.path}/$_cvFolderPath/${url.hashCode}/$fileName';
       await File(path).create(recursive: true);
-      await dioClient.download(url, path);
+      await _httpClient.download(url, path);
       return path;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);

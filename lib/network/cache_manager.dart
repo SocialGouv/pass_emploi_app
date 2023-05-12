@@ -68,6 +68,7 @@ const _blacklistedRoutes = [
   '/home/actions',
   '/home/demarches',
   '/fichiers',
+  '/docnums/',
 ];
 
 extension Whiteliste on String {
