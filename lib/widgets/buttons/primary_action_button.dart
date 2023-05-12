@@ -8,6 +8,7 @@ class PrimaryActionButton extends StatelessWidget {
   final Color disabledBackgroundColor;
   final Color textColor;
   final Color? rippleColor;
+  final Color? iconColor;
   final IconData? icon;
   final String label;
   final bool withShadow;
@@ -23,6 +24,7 @@ class PrimaryActionButton extends StatelessWidget {
     this.disabledBackgroundColor = AppColors.primaryWithAlpha50,
     this.textColor = Colors.white,
     this.rippleColor = AppColors.primaryDarken,
+    this.iconColor = Colors.white,
     this.withShadow = true,
     this.icon,
     this.onPressed,
@@ -75,7 +77,7 @@ class PrimaryActionButton extends StatelessWidget {
             child: Icon(
               icon,
               size: iconSize,
-              color: Colors.white,
+              color: iconColor,
             ),
           ),
         Text(
