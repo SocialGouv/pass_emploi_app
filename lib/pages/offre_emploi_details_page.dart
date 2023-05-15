@@ -8,7 +8,6 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/chat_partage_page.dart';
-import 'package:pass_emploi_app/pages/cv/cv_list_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
@@ -21,6 +20,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/postuler_offre_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
@@ -401,7 +401,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                 if (shouldShowCvBottomSheet) {
                   showPassEmploiBottomSheet(
                     context: context,
-                    builder: (context) => _PostulerOffreBottomSheet(
+                    builder: (context) => PostulerOffreBottomSheet(
                       onPostuler: () => _applyToOffer(context, url),
                     ),
                   );
@@ -476,56 +476,6 @@ class _PartageOffre extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
           child: Text(Strings.partagerOffreConseiller, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
-        ),
-      ),
-    );
-  }
-}
-
-class _PostulerOffreBottomSheet extends StatelessWidget {
-  _PostulerOffreBottomSheet({Key? key, required this.onPostuler}) : super(key: key);
-
-  final void Function() onPostuler;
-
-  @override
-  Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      heightFactor: 0.9,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              userActionBottomSheetHeader(context, title: Strings.postulerOffreTitle),
-              Divider(height: 1),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: Margins.spacing_base),
-                      Row(
-                        children: [
-                          Icon(AppIcons.description_rounded, color: AppColors.primary),
-                          SizedBox(width: Margins.spacing_base),
-                          Expanded(child: Text(Strings.postulerTitle, style: TextStyles.textMBold))
-                        ],
-                      ),
-                      SizedBox(height: Margins.spacing_base),
-                      Expanded(child: CvList()),
-                      PrimaryActionButton(
-                        label: Strings.postulerContinueButton,
-                        icon: AppIcons.open_in_new_rounded,
-                        onPressed: onPostuler,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
