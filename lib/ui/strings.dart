@@ -833,8 +833,6 @@ class Strings {
 
   // Postuler
   static String postulerOffreTitle = "Postuler";
-  static String postulerDisclaimerMessage =
-      "Cette offre est hébergée en dehors de l’application du CEJ. Lorsque vous appuierez sur “Continuer ves l’offre” vous serez redirigé.";
   static String postulerTitle = "Récupérez votre CV sur votre téléphone";
   static String postulerContinueButton = "Continuer vers l’offre";
 }

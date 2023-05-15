@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
@@ -10,6 +12,7 @@ enum OffreEmploiDetailsPageDisplayState { SHOW_DETAILS, SHOW_INCOMPLETE_DETAILS,
 
 class OffreEmploiDetailsPageViewModel {
   final OffreEmploiDetailsPageDisplayState displayState;
+  final bool shouldShowCvBottomSheet;
   final String? id;
   final String? title;
   final String? urlRedirectPourPostulation;
@@ -34,6 +37,7 @@ class OffreEmploiDetailsPageViewModel {
 
   OffreEmploiDetailsPageViewModel._({
     required this.displayState,
+    required this.shouldShowCvBottomSheet,
     this.id,
     this.title,
     this.urlRedirectPourPostulation,
@@ -59,12 +63,13 @@ class OffreEmploiDetailsPageViewModel {
 
   factory OffreEmploiDetailsPageViewModel.getDetails(Store<AppState> store) {
     final offreEmploiDetailsState = store.state.offreEmploiDetailsState;
+    final loginMode = (store.state.loginState as LoginSuccessState).user.loginMode;
     if (offreEmploiDetailsState is OffreEmploiDetailsSuccessState) {
-      return _viewModelFromDetails(offreEmploiDetailsState, offreEmploiDetailsState.offre);
+      return _viewModelFromDetails(offreEmploiDetailsState, offreEmploiDetailsState.offre, loginMode);
     } else if (offreEmploiDetailsState is OffreEmploiDetailsIncompleteDataState) {
-      return _viewModelFromIncompleteData(offreEmploiDetailsState.offre);
+      return _viewModelFromIncompleteData(offreEmploiDetailsState.offre, loginMode);
     } else {
-      return _viewModelForOtherCases(offreEmploiDetailsState);
+      return _viewModelForOtherCases(offreEmploiDetailsState, loginMode);
     }
   }
 }
@@ -93,9 +98,11 @@ class EducationViewModel extends Equatable {
 OffreEmploiDetailsPageViewModel _viewModelFromDetails(
   OffreEmploiDetailsSuccessState offreEmploiDetailsState,
   OffreEmploiDetails? offreDetails,
+  LoginMode loginMode,
 ) {
   return OffreEmploiDetailsPageViewModel._(
     displayState: OffreEmploiDetailsPageDisplayState.SHOW_DETAILS,
+    shouldShowCvBottomSheet: loginMode.isPe(),
     id: offreDetails?.id,
     title: offreDetails?.title,
     urlRedirectPourPostulation: offreDetails?.urlRedirectPourPostulation,
@@ -120,9 +127,10 @@ OffreEmploiDetailsPageViewModel _viewModelFromDetails(
   );
 }
 
-OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(OffreEmploi offreEmploi) {
+OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(OffreEmploi offreEmploi, LoginMode loginMode) {
   return OffreEmploiDetailsPageViewModel._(
     displayState: OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS,
+    shouldShowCvBottomSheet: loginMode.isPe(),
     title: offreEmploi.title,
     location: offreEmploi.location,
     id: offreEmploi.id,
@@ -132,8 +140,9 @@ OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(OffreEmploi offreEm
   );
 }
 
-OffreEmploiDetailsPageViewModel _viewModelForOtherCases(OffreEmploiDetailsState state) {
+OffreEmploiDetailsPageViewModel _viewModelForOtherCases(OffreEmploiDetailsState state, LoginMode loginMode) {
   return OffreEmploiDetailsPageViewModel._(
     displayState: _displayState(state),
+    shouldShowCvBottomSheet: loginMode.isPe(),
   );
 }

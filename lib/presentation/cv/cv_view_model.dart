@@ -30,7 +30,7 @@ class CvViewModel extends Equatable {
       cvList: _cvList(state),
       displayState: _displayState(store),
       downloadStatus: (url) => _downloadStatus(url, cvSuccessState),
-      apiPeKo: false, // TODO: Faire une vraie sealed class pour les CVs après Flutter 3.10
+      apiPeKo: false,
       retry: () => store.dispatch(CvRequestAction()),
       onDownload: (cv) => store.dispatch(CvDownloadRequestAction(cv)),
     );

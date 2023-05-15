@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
+import '../dsl/app_state_dsl.dart';
 
 void main() {
   test("getDetails when state is loading should set display state properly", () {
@@ -113,5 +114,29 @@ void main() {
     expect(viewModel.educations, null);
     expect(viewModel.languages, null);
     expect(viewModel.driverLicences, null);
+  });
+
+  group("shouldShowCvBottomSheet", () {
+    test("is false with Milo account", () {
+      // Given
+      final store = givenState().loggedInMiloUser().offreEmploiDetailsSuccess().store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+
+      // Then
+      expect(viewModel.shouldShowCvBottomSheet, false);
+    });
+
+    test("is true with PoleEmploi account", () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().offreEmploiDetailsSuccess().store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+
+      // Then
+      expect(viewModel.shouldShowCvBottomSheet, true);
+    });
   });
 }

@@ -24,7 +24,6 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
 import 'package:pass_emploi_app/widgets/external_link.dart';
@@ -156,7 +155,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
         if (url != null && id != null)
           Align(
             alignment: Alignment.bottomCenter,
-            child: _footer(context, url, id, viewModel.title),
+            child: _footer(context, viewModel.shouldShowCvBottomSheet, url, id, viewModel.title),
           )
         else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
           Align(
@@ -389,7 +388,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _footer(BuildContext context, String url, String offreId, String? title) {
+  Widget _footer(BuildContext context, bool shouldShowCvBottomSheet, String url, String offreId, String? title) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(Margins.spacing_base),
@@ -399,12 +398,16 @@ class OffreEmploiDetailsPage extends StatelessWidget {
           Expanded(
             child: PrimaryActionButton(
               onPressed: () {
-                showPassEmploiBottomSheet(
-                  context: context,
-                  builder: (context) => _PostulerOffreBottomSheet(
-                    onPostuler: () => _applyToOffer(context, url),
-                  ),
-                );
+                if (shouldShowCvBottomSheet) {
+                  showPassEmploiBottomSheet(
+                    context: context,
+                    builder: (context) => _PostulerOffreBottomSheet(
+                      onPostuler: () => _applyToOffer(context, url),
+                    ),
+                  );
+                } else {
+                  _applyToOffer(context, url);
+                }
               },
               label: Strings.postulerButtonTitle,
             ),
@@ -503,13 +506,6 @@ class _PostulerOffreBottomSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: Margins.spacing_base),
-                      CardContainer(
-                        child: Text(
-                          Strings.postulerDisclaimerMessage,
-                          style: TextStyles.textBaseRegular,
-                        ),
-                      ),
-                      SizedBox(height: Margins.spacing_m),
                       Row(
                         children: [
                           Icon(AppIcons.description_rounded, color: AppColors.primary),
