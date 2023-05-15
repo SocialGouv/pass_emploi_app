@@ -713,7 +713,7 @@ class Strings {
   static String favorisTabName = "Mes offres";
   static String savedSearchSeeResults = "Voir les résultats";
 
-  static String savedSearchDeleteMessage = "Voulez-vous vraiment supprimer la alerte ?";
+  static String savedSearchDeleteMessage = "Voulez-vous vraiment supprimer cette alerte ?";
   static String savedSearchDeleteError = "Erreur lors de la suppression de la recherche.";
   static String savedSearchDeleteSuccess = "Votre alerte a été supprimée avec succès.";
 
