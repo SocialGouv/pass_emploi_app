@@ -834,5 +834,5 @@ class Strings {
   // Postuler
   static String postulerOffreTitle = "Postuler";
   static String postulerTitle = "Récupérez votre CV sur votre téléphone";
-  static String postulerContinueButton = "Continuer vers l’offre";
+  static String postulerContinueButton = "Continuez vers l’offre";
 }

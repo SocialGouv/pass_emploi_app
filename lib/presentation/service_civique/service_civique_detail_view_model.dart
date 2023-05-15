@@ -22,9 +22,10 @@ class ServiceCiviqueDetailViewModel {
 
   factory ServiceCiviqueDetailViewModel.create(Store<AppState> store) {
     final ServiceCiviqueDetailState state = store.state.serviceCiviqueDetailState;
+    final loginState = store.state.loginState;
     return ServiceCiviqueDetailViewModel._(
       displayState: _displayState(state),
-      shouldShowCvBottomSheet: (store.state.loginState as LoginSuccessState).user.loginMode.isPe(),
+      shouldShowCvBottomSheet: loginState is LoginSuccessState ? loginState.user.loginMode.isPe() : false,
       detail: _detail(state),
       serviceCivique: _serviceCivique(state),
     );

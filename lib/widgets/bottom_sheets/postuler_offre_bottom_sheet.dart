@@ -9,9 +9,9 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
 class PostulerOffreBottomSheet extends StatelessWidget {
-  PostulerOffreBottomSheet({Key? key, required this.onPostuler}) : super(key: key);
-
   final void Function() onPostuler;
+
+  PostulerOffreBottomSheet({Key? key, required this.onPostuler}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
