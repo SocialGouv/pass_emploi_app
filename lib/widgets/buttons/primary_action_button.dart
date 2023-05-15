@@ -15,6 +15,7 @@ class PrimaryActionButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final double? fontSize;
   final double iconSize;
+  final double iconRightPadding;
   final double heightPadding;
   final double widthPadding;
 
@@ -31,6 +32,7 @@ class PrimaryActionButton extends StatelessWidget {
     required this.label,
     this.fontSize,
     this.iconSize = Dimens.icon_size_m,
+    this.iconRightPadding = 12,
     this.heightPadding = 12,
     this.widthPadding = 20,
   })  : backgroundColor = backgroundColor ?? AppColors.primary,
@@ -73,7 +75,7 @@ class PrimaryActionButton extends StatelessWidget {
       children: [
         if (icon != null)
           Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: EdgeInsets.only(right: iconRightPadding),
             child: Icon(
               icon,
               size: iconSize,

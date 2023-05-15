@@ -171,6 +171,7 @@ class _Titre extends StatelessWidget {
 
 class _Localisation extends StatelessWidget {
   final String localisation;
+
   const _Localisation(this.localisation);
 
   @override
@@ -198,7 +199,7 @@ class _Buttons extends StatelessWidget {
     return IntrinsicHeight(
       child: Row(
         children: [
-          Expanded(child: _Supprimer(onTapRefuser: onTapRefuser)),
+          Expanded(child: _Refuser(onTapRefuser: onTapRefuser)),
           VerticalDivider(width: Margins.spacing_m, thickness: 1, color: AppColors.primaryLighten),
           Expanded(child: _Ajouter(onTapAjouter: onTapAjouter)),
         ],
@@ -207,10 +208,10 @@ class _Buttons extends StatelessWidget {
   }
 }
 
-class _Supprimer extends StatelessWidget {
+class _Refuser extends StatelessWidget {
   final Function() onTapRefuser;
 
-  _Supprimer({required this.onTapRefuser});
+  _Refuser({required this.onTapRefuser});
 
   @override
   Widget build(BuildContext context) {
@@ -221,6 +222,7 @@ class _Supprimer extends StatelessWidget {
       iconColor: AppColors.primary,
       label: Strings.refuserLabel,
       icon: AppIcons.remove_alert_rounded,
+      iconRightPadding: Margins.spacing_xs,
       withShadow: false,
       onPressed: onTapRefuser,
     );
@@ -237,14 +239,18 @@ class _Ajouter extends StatelessWidget {
     return PrimaryActionButton(
       label: Strings.ajouter,
       icon: AppIcons.add_alert_rounded,
+      iconRightPadding: Margins.spacing_xs,
       withShadow: false,
       onPressed: onTapAjouter,
     );
   }
 }
 
-void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewModel? oldViewModel,
-    SuggestionsRechercheListViewModel newViewModel) {
+void _displaySuccessSnackbar(
+  BuildContext context,
+  SuggestionsRechercheListViewModel? oldViewModel,
+  SuggestionsRechercheListViewModel newViewModel,
+) {
   if (newViewModel.traiterDisplayState != DisplayState.CONTENT) return;
   if (oldViewModel?.traiterDisplayState == DisplayState.CONTENT) return;
 
