@@ -768,7 +768,7 @@ class Strings {
   static String suggestionsDeRechercheTitlePage = "Vos suggestions d'alertes";
   static String suggestionsDeRechercheHeader =
       "Vos suggestions peuvent venir de différentes sources. Après l’ajout, vous serez notifié si une nouvelle offre est disponible.";
-  static String suggestionSourcePoleEmploi = "Profil Pôle Emploi";
+  static String suggestionSourcePoleEmploi = "Profil Pôle emploi";
   static String suggestionSourceConseiller = "Conseiller";
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
