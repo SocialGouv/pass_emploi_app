@@ -61,7 +61,7 @@ class OffreEmploiDetailsPageViewModel {
     this.driverLicences,
   });
 
-  factory OffreEmploiDetailsPageViewModel.getDetails(Store<AppState> store) {
+  factory OffreEmploiDetailsPageViewModel.create(Store<AppState> store) {
     final offreEmploiDetailsState = store.state.offreEmploiDetailsState;
     final loginMode = (store.state.loginState as LoginSuccessState).user.loginMode;
     if (offreEmploiDetailsState is OffreEmploiDetailsSuccessState) {

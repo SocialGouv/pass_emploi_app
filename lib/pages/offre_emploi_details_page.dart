@@ -68,7 +68,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
         onInitialBuild: (_) {
           context.trackEvent(_offreAfficheeEvent());
         },
-        converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
+        converter: (store) => OffreEmploiDetailsPageViewModel.create(store),
         builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
           selectState: (store) => store.state.offreEmploiFavorisIdsState,
           child: _scaffold(_body(context, viewModel), context),

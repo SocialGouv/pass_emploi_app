@@ -19,7 +19,7 @@ void main() {
     );
 
     // When
-    final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+    final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_LOADER);
@@ -35,7 +35,7 @@ void main() {
     );
 
     // When
-    final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+    final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_ERROR);
@@ -52,7 +52,7 @@ void main() {
     );
 
     // When
-    final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+    final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_DETAILS);
@@ -89,7 +89,7 @@ void main() {
     );
 
     // When
-    final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+    final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS);
@@ -122,7 +122,7 @@ void main() {
       final store = givenState().loggedInMiloUser().offreEmploiDetailsSuccess().store();
 
       // When
-      final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
       // Then
       expect(viewModel.shouldShowCvBottomSheet, false);
@@ -133,7 +133,7 @@ void main() {
       final store = givenState().loggedInPoleEmploiUser().offreEmploiDetailsSuccess().store();
 
       // When
-      final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
       // Then
       expect(viewModel.shouldShowCvBottomSheet, true);
