@@ -136,5 +136,16 @@ void main() {
       // Then
       expect(store.dispatchedAction, isA<CvDownloadRequestAction>());
     });
+
+    test('should display api pe ko message', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().withCvSuccess().store();
+
+      // When
+      final viewModel = CvViewModel.create(store);
+
+      // Then
+      expect(viewModel.apiPeKo, false);
+    });
   });
 }

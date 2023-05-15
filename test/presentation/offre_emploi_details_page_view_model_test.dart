@@ -1,24 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
-import 'package:pass_emploi_app/redux/app_reducer.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
+import '../dsl/app_state_dsl.dart';
 
 void main() {
   test("getDetails when state is loading should set display state properly", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        offreEmploiDetailsState: OffreEmploiDetailsLoadingState(),
-      ),
-    );
+    final store = givenState().loggedInUser().offreEmploiDetailsLoading().store();
 
     // When
-    final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+    final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_LOADER);
@@ -26,15 +18,10 @@ void main() {
 
   test("getDetails when state is failure should set display state properly", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        offreEmploiDetailsState: OffreEmploiDetailsFailureState(),
-      ),
-    );
+    final store = givenState().loggedInUser().offreEmploiDetailsFailure().store();
 
     // When
-    final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+    final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_ERROR);
@@ -43,15 +30,11 @@ void main() {
   test("getDetails when state is success should set display state properly and convert data to view model", () {
     // Given
     final detailedOffer = mockOffreEmploiDetails();
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        offreEmploiDetailsState: OffreEmploiDetailsSuccessState(detailedOffer),
-      ),
-    );
+    final store =
+        givenState().loggedInPoleEmploiUser().offreEmploiDetailsSuccess(offreEmploiDetails: detailedOffer).store();
 
     // When
-    final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+    final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_DETAILS);
@@ -80,15 +63,12 @@ void main() {
 
   test("getDetails when state is incomplete data should set display state properly and convert data to view model", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        offreEmploiDetailsState: OffreEmploiDetailsIncompleteDataState(mockOffreEmploi()),
-      ),
-    );
+    final offreEmploi = mockOffreEmploi();
+    final store =
+        givenState().loggedInPoleEmploiUser().offreEmploiDetailsIncompleteData(offreEmploi: offreEmploi).store();
 
     // When
-    final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+    final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS);
@@ -113,5 +93,29 @@ void main() {
     expect(viewModel.educations, null);
     expect(viewModel.languages, null);
     expect(viewModel.driverLicences, null);
+  });
+
+  group("shouldShowCvBottomSheet", () {
+    test("is false with Milo account", () {
+      // Given
+      final store = givenState().loggedInMiloUser().offreEmploiDetailsSuccess().store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowCvBottomSheet, false);
+    });
+
+    test("is true with PoleEmploi account", () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().offreEmploiDetailsSuccess().store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowCvBottomSheet, true);
+    });
   });
 }

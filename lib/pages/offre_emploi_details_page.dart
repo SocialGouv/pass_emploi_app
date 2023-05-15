@@ -19,6 +19,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/postuler_offre_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
@@ -66,7 +68,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
         onInitialBuild: (_) {
           context.trackEvent(_offreAfficheeEvent());
         },
-        converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
+        converter: (store) => OffreEmploiDetailsPageViewModel.create(store),
         builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
           selectState: (store) => store.state.offreEmploiFavorisIdsState,
           child: _scaffold(_body(context, viewModel), context),
@@ -153,7 +155,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
         if (url != null && id != null)
           Align(
             alignment: Alignment.bottomCenter,
-            child: _footer(context, url, id, viewModel.title),
+            child: _footer(context, viewModel.shouldShowCvBottomSheet, url, id, viewModel.title),
           )
         else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
           Align(
@@ -386,7 +388,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _footer(BuildContext context, String url, String offreId, String? title) {
+  Widget _footer(BuildContext context, bool shouldShowCvBottomSheet, String url, String offreId, String? title) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(Margins.spacing_base),
@@ -395,7 +397,18 @@ class OffreEmploiDetailsPage extends StatelessWidget {
         children: [
           Expanded(
             child: PrimaryActionButton(
-              onPressed: () => _applyToOffer(context, url),
+              onPressed: () {
+                if (shouldShowCvBottomSheet) {
+                  showPassEmploiBottomSheet(
+                    context: context,
+                    builder: (context) => PostulerOffreBottomSheet(
+                      onPostuler: () => _applyToOffer(context, url),
+                    ),
+                  );
+                } else {
+                  _applyToOffer(context, url);
+                }
+              },
               label: Strings.postulerButtonTitle,
             ),
           ),

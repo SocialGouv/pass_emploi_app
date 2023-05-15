@@ -826,6 +826,13 @@ class Strings {
   static String cvListPageSubtitle = "Retrouvez vos CV’s Pôle emploi ci-dessous";
   static String cvError = "Erreur lors de la récupération des CVs Pôle emploi";
   static String cvEmpty = "Vous n’avez pas de CV sur votre espace Pôle Emploi";
-  static String cvEmptyButton = "Revenir à mon profil";
+  static String cvEmptyButton = "Retour";
   static String cvDownload = "Télécharger";
+  static String cvErrorApiPeKoMessage = "Impossible de se synchroniser avec votre espace Pôle emploi";
+  static String cvErrorApiPeKoButton = "Recharger la page";
+
+  // Postuler
+  static String postulerOffreTitle = "Postuler";
+  static String postulerTitle = "Récupérez votre CV sur votre téléphone";
+  static String postulerContinueButton = "Continuez vers l’offre";
 }

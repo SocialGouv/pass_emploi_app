@@ -10,6 +10,7 @@ class CvViewModel extends Equatable {
   final List<CvPoleEmploi> cvList;
   final DisplayState displayState;
   final DisplayState Function(String url) downloadStatus;
+  final bool apiPeKo;
   final Function() retry;
   final Function(CvPoleEmploi) onDownload;
 
@@ -17,6 +18,7 @@ class CvViewModel extends Equatable {
     required this.displayState,
     required this.retry,
     required this.cvList,
+    required this.apiPeKo,
     required this.onDownload,
     required this.downloadStatus,
   });
@@ -28,6 +30,7 @@ class CvViewModel extends Equatable {
       cvList: _cvList(state),
       displayState: _displayState(store),
       downloadStatus: (url) => _downloadStatus(url, cvSuccessState),
+      apiPeKo: false,
       retry: () => store.dispatch(CvRequestAction()),
       onDownload: (cv) => store.dispatch(CvDownloadRequestAction(cv)),
     );

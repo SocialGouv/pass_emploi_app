@@ -28,6 +28,7 @@ import 'package:pass_emploi_app/features/recherche/service_civique/service_civiq
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
+import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
@@ -46,10 +47,12 @@ import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/tutorial.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -134,8 +137,39 @@ extension AppStateDSL on AppState {
     return copyWith(chatState: ChatSuccessState(messages));
   }
 
-  AppState offreEmploiDetailsSuccess() {
-    return copyWith(offreEmploiDetailsState: OffreEmploiDetailsSuccessState(mockOffreEmploiDetails()));
+  AppState offreEmploiDetailsLoading() {
+    return copyWith(offreEmploiDetailsState: OffreEmploiDetailsLoadingState());
+  }
+
+  AppState offreEmploiDetailsSuccess({OffreEmploiDetails? offreEmploiDetails}) {
+    return copyWith(
+        offreEmploiDetailsState: OffreEmploiDetailsSuccessState(offreEmploiDetails ?? mockOffreEmploiDetails()));
+  }
+
+  AppState offreEmploiDetailsIncompleteData({OffreEmploi? offreEmploi}) {
+    return copyWith(offreEmploiDetailsState: OffreEmploiDetailsIncompleteDataState(offreEmploi ?? mockOffreEmploi()));
+  }
+
+  AppState offreEmploiDetailsFailure() {
+    return copyWith(offreEmploiDetailsState: OffreEmploiDetailsFailureState());
+  }
+
+  AppState serviceCiviqueDetailsLoading() {
+    return copyWith(serviceCiviqueDetailState: ServiceCiviqueDetailLoadingState());
+  }
+
+  AppState serviceCiviqueDetailsNotInitialized() {
+    return copyWith(serviceCiviqueDetailState: ServiceCiviqueDetailNotInitializedState());
+  }
+
+  AppState serviceCiviqueDetailsSuccess({ServiceCiviqueDetail? serviceCiviqueDetail}) {
+    return copyWith(
+        serviceCiviqueDetailState:
+            ServiceCiviqueDetailSuccessState(serviceCiviqueDetail ?? mockServiceCiviqueDetail()));
+  }
+
+  AppState serviceCiviqueDetailsFailure() {
+    return copyWith(serviceCiviqueDetailState: ServiceCiviqueDetailFailureState());
   }
 
   AppState showTutorial() {

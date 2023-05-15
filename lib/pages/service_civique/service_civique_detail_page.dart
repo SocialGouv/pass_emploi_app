@@ -18,6 +18,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/postuler_offre_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
@@ -132,7 +134,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
         if (detail?.lienAnnonce != null)
           Align(
             alignment: Alignment.bottomCenter,
-            child: _footer(context, detail!.lienAnnonce!, detail.titre),
+            child: _footer(context, detail!.lienAnnonce!, detail.titre, viewModel.shouldShowCvBottomSheet),
           )
       ],
     );
@@ -222,7 +224,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _footer(BuildContext context, String url, String? title) {
+  Widget _footer(BuildContext context, String url, String? title, bool shouldShowCvBottomSheet) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(Margins.spacing_base),
@@ -232,8 +234,19 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
         children: [
           Expanded(
             child: PrimaryActionButton(
-              onPressed: () => _applyToOffer(context, url),
               label: Strings.postulerButtonTitle,
+              onPressed: () {
+                if (shouldShowCvBottomSheet) {
+                  showPassEmploiBottomSheet(
+                    context: context,
+                    builder: (context) => PostulerOffreBottomSheet(
+                      onPostuler: () => _applyToOffer(context, url),
+                    ),
+                  );
+                } else {
+                  _applyToOffer(context, url);
+                }
+              },
             ),
           ),
           SizedBox(width: Margins.spacing_base),
