@@ -1,3 +1,5 @@
+import 'dart:io' as io;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -10,6 +12,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/mail_handler.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/cards/rating_card.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -20,7 +23,7 @@ class RatingBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RatingViewModel>(
-      converter: (state) => RatingViewModel.create(state),
+      converter: (state) => RatingViewModel.create(state, io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS),
       builder: (context, viewModel) => _body(context, viewModel),
     );
   }
@@ -49,13 +52,15 @@ class RatingBottomSheet extends StatelessWidget {
               RatingCard(
                 emoji: Strings.happyEmoji,
                 description: Strings.positiveRating,
-                onClick: () => _onPositiveRating(context, viewModel),
+                onClick: () => _sendStoreReview(context, viewModel),
               ),
               SepLine(10, 10),
               RatingCard(
                 emoji: Strings.sadEmoji,
                 description: Strings.negativeRating,
-                onClick: () => _onNegativeRating(context, viewModel),
+                onClick: () => viewModel.shouldSendEmailOnNegativeRating
+                    ? _sendEmailReview(context, viewModel)
+                    : _sendStoreReview(context, viewModel),
               ),
             ],
           ),
@@ -64,7 +69,7 @@ class RatingBottomSheet extends StatelessWidget {
     );
   }
 
-  void _onPositiveRating(BuildContext context, RatingViewModel viewModel) async {
+  void _sendStoreReview(BuildContext context, RatingViewModel viewModel) async {
     if (await inAppReview.isAvailable()) {
       inAppReview.requestReview();
       _ratingDone(context, viewModel, true);
@@ -73,7 +78,7 @@ class RatingBottomSheet extends StatelessWidget {
     }
   }
 
-  void _onNegativeRating(BuildContext context, RatingViewModel viewModel) async {
+  void _sendEmailReview(BuildContext context, RatingViewModel viewModel) async {
     final mailSent = await MailHandler.sendEmail(
         email: Strings.supportMail, subject: Strings.titleSupportMail, body: Strings.contentSupportMail);
     mailSent ? _ratingDone(context, viewModel, false) : showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
