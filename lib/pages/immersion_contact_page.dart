@@ -1,5 +1,3 @@
-import 'dart:io' as io;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -27,7 +25,7 @@ class ImmersionContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platform = io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS;
+    final platform = PlatformUtils.getPlatform;
     return Tracker(
       tracking: AnalyticsScreenNames.immersionContact,
       child: StoreConnector<AppState, ImmersionContactViewModel>(

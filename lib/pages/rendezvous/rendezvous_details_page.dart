@@ -1,5 +1,3 @@
-import 'dart:io' as io;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
@@ -32,7 +30,7 @@ class RendezvousDetailsPage extends StatelessWidget {
   final String _rendezvousId;
   final RendezvousStateSource _source;
   final RendezvousDetailsViewModel Function(Store<AppState>) _converter;
-  static final _platform = io.Platform.isIOS ? Platform.IOS : Platform.ANDROID;
+  static final _platform = PlatformUtils.getPlatform;
 
   RendezvousDetailsPage._(this._rendezvousId, this._source, this._converter) : super();
 

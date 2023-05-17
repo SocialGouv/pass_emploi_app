@@ -1,5 +1,3 @@
-import 'dart:io' as io;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -38,7 +36,7 @@ class _DismissSnackBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RatingViewModel>(
-      converter: (store) => RatingViewModel.create(store, io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS),
+      converter: (store) => RatingViewModel.create(store, PlatformUtils.getPlatform),
       builder: (context, viewModel) => _body(context, viewModel),
     );
   }

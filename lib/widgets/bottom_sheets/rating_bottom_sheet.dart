@@ -1,5 +1,3 @@
-import 'dart:io' as io;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -23,7 +21,7 @@ class RatingBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RatingViewModel>(
-      converter: (state) => RatingViewModel.create(state, io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS),
+      converter: (state) => RatingViewModel.create(state, PlatformUtils.getPlatform),
       builder: (context, viewModel) => _body(context, viewModel),
     );
   }

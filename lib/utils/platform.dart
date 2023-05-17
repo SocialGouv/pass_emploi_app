@@ -1,3 +1,5 @@
+import 'dart:io' as io;
+
 import 'package:pass_emploi_app/models/brand.dart';
 
 enum Platform {
@@ -21,4 +23,15 @@ enum Platform {
 extension PlatformExtension on Platform {
   bool get isIos => this == Platform.IOS;
   bool get isAndroid => this == Platform.ANDROID;
+}
+
+extension PlatformUtils on io.Platform {
+  static Platform get getPlatform {
+    if (io.Platform.isIOS) {
+      return Platform.IOS;
+    } else if (io.Platform.isAndroid) {
+      return Platform.ANDROID;
+    }
+    throw Exception("Platform not supported");
+  }
 }
