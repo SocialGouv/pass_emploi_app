@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_page.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
-import 'package:pass_emploi_app/pages/event_list_page.dart';
+import 'package:pass_emploi_app/pages/events_tab_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
@@ -141,8 +141,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         final initialTab = !_deepLinkHandled ? _initialSolutionsTab() : null;
         _deepLinkHandled = true;
         return SolutionsTabPage(initialTab: initialTab);
+      //TODO: un autre case pour PE ?
       case MainTab.evenements:
-        return EventListPage();
+        // return EventListPage();
+        return EventsTabPage();
       default:
         return MonSuiviTabPage();
     }
