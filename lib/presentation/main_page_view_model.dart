@@ -28,6 +28,7 @@ class MainPageViewModel extends Equatable {
   final List<MainTab> tabs;
   final bool withChatBadge;
   final bool showRating;
+  final LoginMode? loginMode;
   final Function resetDeeplink;
   final String actualisationPoleEmploiUrl;
 
@@ -35,6 +36,7 @@ class MainPageViewModel extends Equatable {
     required this.tabs,
     required this.withChatBadge,
     required this.showRating,
+    required this.loginMode,
     required this.resetDeeplink,
     required this.actualisationPoleEmploiUrl,
   });
@@ -43,22 +45,22 @@ class MainPageViewModel extends Equatable {
     final chatStatusState = store.state.chatStatusState;
     final ratingState = store.state.ratingState;
     final loginState = store.state.loginState;
-    final loginMode = loginState is LoginSuccessState ? loginState.user.loginMode : null;
     return MainPageViewModel(
       tabs: [
         MainTab.accueil,
         MainTab.monSuivi,
         MainTab.chat,
         MainTab.solutions,
-        if (loginMode.isMiLo()) MainTab.evenements,
+        MainTab.evenements,
       ],
       withChatBadge: (chatStatusState is ChatStatusSuccessState) && (chatStatusState.unreadMessageCount > 0),
       showRating: ratingState is ShowRatingState,
+      loginMode: loginState is LoginSuccessState ? loginState.user.loginMode : null,
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       actualisationPoleEmploiUrl: store.state.configurationState.configuration?.actualisationPoleEmploiUrl ?? "",
     );
   }
 
   @override
-  List<Object?> get props => [tabs, withChatBadge, showRating];
+  List<Object?> get props => [tabs, withChatBadge, showRating, loginMode];
 }
