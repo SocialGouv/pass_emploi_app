@@ -31,7 +31,7 @@ class MockFile extends File {
   }
 
   @override
-  void createSync({bool recursive = false}) {}
+  void createSync({bool recursive = false, bool exclusive = false}) {}
 
   @override
   Future<FileSystemEntity> delete({bool recursive = false}) {
