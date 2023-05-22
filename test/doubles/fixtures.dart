@@ -7,6 +7,8 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
@@ -409,6 +411,8 @@ Rendezvous mockRendezvousPoleEmploi() {
   );
 }
 
+List<Rendezvous> mockEvenementsExternes() => [mockAnimationCollective()];
+
 DetailsJeune detailsJeune() {
   return DetailsJeune(
     conseiller: DetailsJeuneConseiller(firstname: "Perceval", lastname: "de Galles", sinceDate: DateTime(2005, 1, 3)),
@@ -714,6 +718,15 @@ RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche
   return RechercheRequest(
     ServiceCiviqueCriteresRecherche(location: null),
     ServiceCiviqueFiltresRecherche.noFiltre(),
+    1,
+  );
+}
+
+RechercheRequest<EvenementsExternesCriteresRecherche, EvenementsExternesFiltresRecherche>
+    initialRechercheEvenementsExternesRequest() {
+  return RechercheRequest(
+    EvenementsExternesCriteresRecherche(location: mockLocation()),
+    EvenementsExternesFiltresRecherche(),
     1,
   );
 }

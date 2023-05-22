@@ -37,6 +37,7 @@ import 'package:pass_emploi_app/features/partage_activite/update/partage_activit
 import 'package:pass_emploi_app/features/push/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/features/rating/rating_middleware.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/recherche_emploi_middleware.dart';
+import 'package:pass_emploi_app/features/recherche/evenements_externes/recherche_evenements_externes_middleware.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/recherche_immersion_middleware.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/recherche_service_civique_middleware.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_middleware.dart';
@@ -86,6 +87,7 @@ import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
+import 'package:pass_emploi_app/repositories/evenements_externes_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
@@ -174,6 +176,7 @@ class StoreFactory {
   final ContactImmersionRepository contactImmersionRepository;
   final AccueilRepository accueilRepository;
   final CvRepository cvRepository;
+  final EvenementsExternesRepository evenementsExternesRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -229,6 +232,7 @@ class StoreFactory {
     this.contactImmersionRepository,
     this.accueilRepository,
     this.cvRepository,
+    this.evenementsExternesRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -292,6 +296,7 @@ class StoreFactory {
         RechercheEmploiMiddleware(offreEmploiRepository),
         RechercheImmersionMiddleware(immersionRepository),
         RechercheServiceCiviqueMiddleware(serviceCiviqueRepository),
+        RechercheEvenementsExternesMiddleware(evenementsExternesRepository),
         DiagorientePreferencesMetierMiddleware(diagorienteUrlsRepository, diagorienteMetiersFavorisRepository),
         FavoriListMiddleware(getFavorisRepository),
         RecherchesRecentesMiddleware(recherchesRecentesRepository),

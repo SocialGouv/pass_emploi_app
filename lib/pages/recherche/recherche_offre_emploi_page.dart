@@ -36,7 +36,7 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   }
 
   @override
-  String appBarTitle() {
+  String? appBarTitle() {
     return onlyAlternance ? Strings.rechercheOffresAlternanceTitle : Strings.rechercheOffresEmploiTitle;
   }
 
@@ -55,7 +55,7 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   }
 
   @override
-  Route<bool> buildFiltresMaterialPageRoute() {
+  Route<bool>? buildFiltresMaterialPageRoute() {
     return OffreEmploiFiltresPage.materialPageRoute(onlyAlternance);
   }
 

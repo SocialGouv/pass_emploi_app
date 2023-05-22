@@ -116,6 +116,7 @@ class AppState extends Equatable {
   final RechercheEmploiState rechercheEmploiState;
   final RechercheImmersionState rechercheImmersionState;
   final RechercheServiceCiviqueState rechercheServiceCiviqueState;
+  final RechercheEvenementsExternesState rechercheEvenementsExternesState;
   final DiagorientePreferencesMetierState diagorientePreferencesMetierState;
   final RecherchesRecentesState recherchesRecentesState;
   final ContactImmersionState contactImmersionState;
@@ -178,6 +179,7 @@ class AppState extends Equatable {
     required this.rechercheEmploiState,
     required this.rechercheImmersionState,
     required this.rechercheServiceCiviqueState,
+    required this.rechercheEvenementsExternesState,
     required this.diagorientePreferencesMetierState,
     required this.recherchesRecentesState,
     required this.contactImmersionState,
@@ -241,6 +243,7 @@ class AppState extends Equatable {
     final RechercheEmploiState? rechercheEmploiState,
     final RechercheImmersionState? rechercheImmersionState,
     final RechercheServiceCiviqueState? rechercheServiceCiviqueState,
+    final RechercheEvenementsExternesState? rechercheEvenementsExternesState,
     final DiagorientePreferencesMetierState? diagorientePreferencesMetierState,
     final RecherchesRecentesState? recherchesRecentesState,
     final ContactImmersionState? contactImmersionState,
@@ -304,6 +307,7 @@ class AppState extends Equatable {
       rechercheEmploiState: rechercheEmploiState ?? this.rechercheEmploiState,
       rechercheImmersionState: rechercheImmersionState ?? this.rechercheImmersionState,
       rechercheServiceCiviqueState: rechercheServiceCiviqueState ?? this.rechercheServiceCiviqueState,
+      rechercheEvenementsExternesState: rechercheEvenementsExternesState ?? this.rechercheEvenementsExternesState,
       diagorientePreferencesMetierState: diagorientePreferencesMetierState ?? this.diagorientePreferencesMetierState,
       recherchesRecentesState: recherchesRecentesState ?? this.recherchesRecentesState,
       contactImmersionState: contactImmersionState ?? this.contactImmersionState,
@@ -369,6 +373,7 @@ class AppState extends Equatable {
       rechercheEmploiState: RechercheState.initial(),
       rechercheImmersionState: RechercheState.initial(),
       rechercheServiceCiviqueState: RechercheState.initial(),
+      rechercheEvenementsExternesState: RechercheState.initial(),
       diagorientePreferencesMetierState: DiagorientePreferencesMetierNotInitializedState(),
       recherchesRecentesState: RecherchesRecentesState([]),
       contactImmersionState: ContactImmersionNotInitializedState(),
@@ -427,6 +432,7 @@ class AppState extends Equatable {
         rechercheEmploiState,
         rechercheImmersionState,
         rechercheServiceCiviqueState,
+        rechercheEvenementsExternesState,
         diagorientePreferencesMetierState,
         recherchesRecentesState,
         contactImmersionState,

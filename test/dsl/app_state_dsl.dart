@@ -21,6 +21,8 @@ import 'package:pass_emploi_app/features/partage_activite/update/partage_activit
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
@@ -560,6 +562,61 @@ extension AppStateDSL on AppState {
       request: RechercheRequest(
         criteres ?? ImmersionCriteresRecherche(location: mockLocation(), metier: mockMetier()),
         filtres ?? ImmersionFiltresRecherche.noFiltre(),
+        1,
+      ),
+    );
+  }
+
+  AppState initialRechercheEvenementsExternesState() {
+    return copyWith(rechercheEvenementsExternesState: RechercheEvenementsExternesState.initial());
+  }
+
+  AppState initialLoadingRechercheEvenementsExternesState() {
+    return copyWith(
+      rechercheEvenementsExternesState:
+          RechercheEvenementsExternesState.initial().copyWith(status: RechercheStatus.initialLoading),
+    );
+  }
+
+  AppState updateLoadingRechercheEvenementsExternesState() {
+    return copyWith(
+      rechercheEvenementsExternesState:
+          RechercheEvenementsExternesState.initial().copyWith(status: RechercheStatus.updateLoading),
+    );
+  }
+
+  AppState failureRechercheEvenementsExternesState() {
+    return copyWith(
+      rechercheEvenementsExternesState:
+          RechercheEvenementsExternesState.initial().copyWith(status: RechercheStatus.failure),
+    );
+  }
+
+  AppState successRechercheEvenementsExternesState({
+    List<Rendezvous>? results,
+    RechercheRequest<EvenementsExternesCriteresRecherche, EvenementsExternesFiltresRecherche>? request,
+    bool canLoadMore = true,
+  }) {
+    final _results = results ?? mockEvenementsExternes();
+    final _request = request ?? initialRechercheEvenementsExternesRequest();
+    return copyWith(
+      rechercheEvenementsExternesState: RechercheEvenementsExternesState.initial().copyWith(
+        status: RechercheStatus.success,
+        request: () => _request,
+        results: () => _results,
+        canLoadMore: canLoadMore,
+      ),
+    );
+  }
+
+  AppState successRechercheEvenementsExternesStateWithRequest({
+    EvenementsExternesCriteresRecherche? criteres,
+    EvenementsExternesFiltresRecherche? filtres,
+  }) {
+    return successRechercheEvenementsExternesState(
+      request: RechercheRequest(
+        criteres ?? EvenementsExternesCriteresRecherche(location: mockLocation()),
+        filtres ?? EvenementsExternesFiltresRecherche(),
         1,
       ),
     );

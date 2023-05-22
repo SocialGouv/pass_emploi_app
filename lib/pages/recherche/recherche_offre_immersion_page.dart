@@ -30,7 +30,7 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   }
 
   @override
-  String appBarTitle() => Strings.rechercheOffresImmersionTitle;
+  String? appBarTitle() => Strings.rechercheOffresImmersionTitle;
 
   @override
   String analyticsType() => "immersion";
@@ -45,7 +45,7 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   Widget buildAlertBottomSheet() => ImmersionSavedSearchBottomSheet();
 
   @override
-  Route<bool> buildFiltresMaterialPageRoute() => ImmersionFiltresPage.materialPageRoute();
+  Route<bool>? buildFiltresMaterialPageRoute() => ImmersionFiltresPage.materialPageRoute();
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

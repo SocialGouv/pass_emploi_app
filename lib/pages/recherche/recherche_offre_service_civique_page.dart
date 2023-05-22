@@ -30,7 +30,7 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
   }
 
   @override
-  String appBarTitle() => Strings.rechercheOffresServiceCiviqueTitle;
+  String? appBarTitle() => Strings.rechercheOffresServiceCiviqueTitle;
 
   @override
   String analyticsType() => "service_civique";
@@ -45,7 +45,7 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
   Widget buildAlertBottomSheet() => ServiceCiviqueSavedSearchBottomSheet();
 
   @override
-  Route<bool> buildFiltresMaterialPageRoute() => ServiceCiviqueFiltresPage.materialPageRoute();
+  Route<bool>? buildFiltresMaterialPageRoute() => ServiceCiviqueFiltresPage.materialPageRoute();
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

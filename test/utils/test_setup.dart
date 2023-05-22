@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
+import 'package:pass_emploi_app/repositories/evenements_externes_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
@@ -112,6 +113,7 @@ class TestStoreFactory {
   ContactImmersionRepository contactImmersionRepository = DummyContactImmersionRepository();
   AccueilRepository accueilRepository = DummyAccueilRepository();
   CvRepository cvRepository = DummyCvRepository();
+  EvenementsExternesRepository evenementsExternesRepository = DummyEvenementsExternesRepository();
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -168,6 +170,7 @@ class TestStoreFactory {
       contactImmersionRepository,
       accueilRepository,
       cvRepository,
+      evenementsExternesRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }
