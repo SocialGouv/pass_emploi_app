@@ -120,7 +120,7 @@ class _CommentsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => {scroll.jumpTo(scroll.position.maxScrollExtent)});
+    WidgetsBinding.instance.addPostFrameCallback((_) => scroll.jumpTo(scroll.position.maxScrollExtent));
     return Expanded(
       child: ListView.separated(
         controller: scroll,
