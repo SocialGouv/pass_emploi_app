@@ -1,4 +1,4 @@
-import 'package:flutterfire_installations/flutterfire_installations.dart';
+import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
