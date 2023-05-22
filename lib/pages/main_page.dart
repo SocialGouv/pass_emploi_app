@@ -147,7 +147,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return SolutionsTabPage(initialTab: initialTab);
       case MainTab.evenements:
         if (viewModel.loginMode?.isMiLo() == true) return EventsTabPage();
-        if (viewModel.loginMode?.isPe() == true) return RechercheEvenementsExternesPage();
+        if (viewModel.loginMode?.isPe() == true) return RechercheEvenementsExternesPage.withPrimaryAppBar();
         return SizedBox.shrink();
       default:
         return MonSuiviTabPage();
