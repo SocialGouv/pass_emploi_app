@@ -149,6 +149,7 @@ String? _modality(dynamic json) {
 RendezvousTypeCode parseRendezvousTypeCode(String rendezvousTypeCode) {
   //TODO: update dart & flutter version to fix this false warning (https://github.com/dart-lang/sdk/issues/52327)
   return RendezvousTypeCode.values.firstWhere(
+    // ignore: sdk_version_since
     (e) => e.name == rendezvousTypeCode,
     orElse: () => RendezvousTypeCode.AUTRE,
   );
