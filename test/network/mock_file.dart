@@ -26,7 +26,7 @@ class MockFile extends File {
   }
 
   @override
-  Future<File> create({bool recursive = false}) {
+  Future<File> create({bool recursive = false, bool exclusive = false}) {
     throw UnimplementedError();
   }
 
