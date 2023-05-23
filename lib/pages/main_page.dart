@@ -25,7 +25,9 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
+import 'package:pass_emploi_app/widgets/pass_emploi_material_app.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class MainPage extends StatefulWidget {
   final MainPageDisplayState displayState;
@@ -203,6 +205,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
 class _ModeDemoWrapper extends StatelessWidget {
   final Widget child;
+
   const _ModeDemoWrapper({
     Key? key,
     required this.child,
@@ -215,13 +218,16 @@ class _ModeDemoWrapper extends StatelessWidget {
     if (!isDemo) return child;
     return Scaffold(
       appBar: ModeDemoAppBar(),
-      body: MaterialApp(
+      body: PassEmploiMaterialApp(
+        scaffoldMessengerKey: modeDemoSnackBarKey,
         debugShowCheckedModeBanner: false,
         builder: (context, materialAppChild) => MediaQuery.removePadding(
           context: context,
           removeTop: true,
           child: materialAppChild ?? Container(),
         ),
+        // required to avoid automatic top scrolling when keyboard is displayed
+        useInheritedMediaQuery: true,
         home: child,
       ),
     );

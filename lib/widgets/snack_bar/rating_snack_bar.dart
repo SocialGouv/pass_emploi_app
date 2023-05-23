@@ -53,7 +53,7 @@ class _DismissSnackBar extends StatelessWidget {
 
   void _onDismiss(BuildContext context, RatingViewModel viewModel) {
     viewModel.onDone();
-    snackbarKey.currentState?.hideCurrentSnackBar();
+    clearAllSnackBars();
     PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipRating);
   }
 }
@@ -78,7 +78,7 @@ class _OnRatingTap extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        snackbarKey.currentState?.hideCurrentSnackBar();
+        clearAllSnackBars();
         showPassEmploiBottomSheet(context: context, builder: (context) => RatingBottomSheet());
       },
       child: Padding(
