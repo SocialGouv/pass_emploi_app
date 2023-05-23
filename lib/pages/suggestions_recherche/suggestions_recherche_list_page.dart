@@ -312,7 +312,7 @@ class _CloseSnackbar extends StatelessWidget {
     return InkWell(
       onTap: () {
         viewModel.resetTraiterState();
-        snackbarKey.currentState?.hideCurrentSnackBar();
+        clearAllSnackBars();
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
@@ -336,7 +336,7 @@ class _SeeResults extends StatelessWidget {
       onPressed: () {
         viewModel.seeOffreResults();
         viewModel.resetTraiterState();
-        snackbarKey.currentState?.removeCurrentSnackBar();
+        clearAllSnackBars();
       },
       child: Row(
         children: [

@@ -5,7 +5,8 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> snackBarKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> modeDemoSnackBarKey = GlobalKey<ScaffoldMessengerState>();
 
 void showSuccessfulSnackBar(BuildContext context, String label, [VoidCallback? onSeeDetailTap]) {
   _showSnackBar(context, label, onSeeDetailTap, success: true);
@@ -16,7 +17,7 @@ void showFailedSnackBar(BuildContext context, String label, [VoidCallback? onSee
 }
 
 void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetailTap, {required bool success}) {
-  _clearAllSnackBars();
+  clearAllSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       padding: EdgeInsets.symmetric(
@@ -42,7 +43,7 @@ void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetail
               SizedBox(
                 height: 30,
                 child: IconButton(
-                  onPressed: () => _clearAllSnackBars(),
+                  onPressed: () => clearAllSnackBars(),
                   icon: Icon(
                     Icons.close_rounded,
                     size: 24,
@@ -58,7 +59,7 @@ void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetail
               child: TextButton(
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
                 onPressed: () {
-                  _clearAllSnackBars();
+                  clearAllSnackBars();
                   onSeeDetailTap();
                 },
                 child: Text(Strings.seeDetail, style: TextStyles.textSRegular(color: AppColors.secondary)),
@@ -70,4 +71,7 @@ void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetail
   );
 }
 
-void _clearAllSnackBars() => snackbarKey.currentState?.clearSnackBars();
+void clearAllSnackBars() {
+  snackBarKey.currentState?.clearSnackBars();
+  modeDemoSnackBarKey.currentState?.clearSnackBars();
+}
