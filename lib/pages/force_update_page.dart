@@ -1,5 +1,3 @@
-import 'dart:io' as io;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -21,7 +19,7 @@ class ForceUpdatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platform = io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS;
+    final platform = PlatformUtils.getPlatform;
     final brand = Brand.brand;
     final viewModel = ForceUpdateViewModel.create(brand, _flavor, platform);
     return MaterialApp(

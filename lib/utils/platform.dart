@@ -1,3 +1,5 @@
+import 'dart:io' as io;
+
 import 'package:pass_emploi_app/models/brand.dart';
 
 enum Platform {
@@ -21,4 +23,8 @@ enum Platform {
 extension PlatformExtension on Platform {
   bool get isIos => this == Platform.IOS;
   bool get isAndroid => this == Platform.ANDROID;
+}
+
+class PlatformUtils {
+  static Platform get getPlatform => io.Platform.isIOS ? Platform.IOS : Platform.ANDROID;
 }

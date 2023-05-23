@@ -1,5 +1,3 @@
-import 'dart:io' as io;
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -33,7 +31,7 @@ class _RouterPageState extends State<RouterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final platform = io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS;
+    final platform = PlatformUtils.getPlatform;
     return StoreConnector<AppState, RouterPageViewModel>(
       onInit: (store) => store.dispatch(BootstrapAction()),
       converter: (store) => RouterPageViewModel.create(store, platform),
