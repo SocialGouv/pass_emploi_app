@@ -1,6 +1,16 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
+import 'package:pass_emploi_app/models/favori.dart';
+import 'package:pass_emploi_app/models/outil.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+
+enum MonSuiviType { actions, demarches }
+
+sealed class AccueilItem extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class AccueilCetteSemaineItem extends AccueilItem {
   final MonSuiviType monSuiviType;
@@ -45,4 +55,49 @@ class AccueilCetteSemaineItem extends AccueilItem {
 
   @override
   List<Object?> get props => [monSuiviType, rendezVous, actionsDemarchesEnRetard, actionsDemarchesARealiser];
+}
+
+class AccueilProchainRendezvousItem extends AccueilItem {
+  final String rendezVousId;
+
+  AccueilProchainRendezvousItem(this.rendezVousId);
+
+  @override
+  List<Object?> get props => [rendezVousId];
+}
+
+class AccueilEvenementsItem extends AccueilItem {
+  final List<String> evenementIds;
+
+  AccueilEvenementsItem(this.evenementIds);
+
+  @override
+  List<Object?> get props => [evenementIds];
+}
+
+class AccueilAlertesItem extends AccueilItem {
+  final List<SavedSearch> savedSearches;
+
+  AccueilAlertesItem(this.savedSearches);
+
+  @override
+  List<Object?> get props => [savedSearches];
+}
+
+class AccueilFavorisItem extends AccueilItem {
+  final List<Favori> favoris;
+
+  AccueilFavorisItem(this.favoris);
+
+  @override
+  List<Object?> get props => [favoris];
+}
+
+class AccueilOutilsItem extends AccueilItem {
+  final List<Outil> outils;
+
+  AccueilOutilsItem(this.outils);
+
+  @override
+  List<Object?> get props => [outils];
 }

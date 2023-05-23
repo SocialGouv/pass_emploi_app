@@ -6,12 +6,7 @@ import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_favoris_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_outils_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_prochain_rendezvous_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
@@ -47,10 +42,11 @@ class AccueilViewModel extends Equatable {
 }
 
 DisplayState _displayState(Store<AppState> store) {
-  final accueilState = store.state.accueilState;
-  if (accueilState is AccueilSuccessState) return DisplayState.CONTENT;
-  if (accueilState is AccueilFailureState) return DisplayState.FAILURE;
-  return DisplayState.LOADING;
+  return switch (store.state.accueilState) {
+    AccueilSuccessState _ => DisplayState.CONTENT,
+    AccueilFailureState _ => DisplayState.FAILURE,
+    AccueilLoadingState _ || AccueilNotInitializedState _ => DisplayState.LOADING,
+  };
 }
 
 List<AccueilItem> _items(Store<AppState> store) {
@@ -104,17 +100,8 @@ AccueilItem? _favorisItem(AccueilSuccessState successState) {
 }
 
 AccueilItem? _outilsItem(AccueilSuccessState successState, Brand brand) {
-  switch (brand) {
-    case Brand.cej:
-      return AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]);
-    case Brand.brsa:
-      return AccueilOutilsItem([Outils.emploiSolidaire.withoutImage(), Outils.emploiStore.withoutImage()]);
-  }
+  return switch (brand) {
+    Brand.cej => AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]),
+    Brand.brsa => AccueilOutilsItem([Outils.emploiSolidaire.withoutImage(), Outils.emploiStore.withoutImage()]),
+  };
 }
-
-abstract class AccueilItem extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-enum MonSuiviType { actions, demarches }

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 
-abstract class AccueilState extends Equatable {
+sealed class AccueilState extends Equatable {
   @override
   List<Object?> get props => [];
 }
