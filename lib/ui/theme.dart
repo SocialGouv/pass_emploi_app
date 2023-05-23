@@ -4,10 +4,22 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 class PassEmploiTheme {
   static final data = ThemeData(
     useMaterial3: true,
-    toggleableActiveColor: AppColors.nightBlue,
     checkboxTheme: _checkboxes(),
     sliderTheme: _sliders(),
     progressIndicatorTheme: _progress(),
+    radioTheme: RadioThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        return states.contains(MaterialState.selected) ? AppColors.primary : null;
+      }),
+    ),
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        return states.contains(MaterialState.selected) ? AppColors.primary : null;
+      }),
+      trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        return states.contains(MaterialState.selected) ? AppColors.primary : null;
+      }),
+    ),
   );
 
   static CheckboxThemeData _checkboxes() {

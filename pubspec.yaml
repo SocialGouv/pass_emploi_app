@@ -5,8 +5,8 @@ publish_to: "none"
 version: 3.1.0
 
 environment:
-  sdk: "2.18.2" # Dart version
-  flutter: 3.3.3
+  sdk: "3.0.1" # Dart version
+  flutter: 3.10.1
 
 dependencies:
   # Flutter
@@ -25,7 +25,7 @@ dependencies:
   flutter_cache_manager: "3.3.0"
   package_info: "2.0.2"
   url_launcher: "6.1.0"
-  share_plus: "4.0.4"
+  share_plus: "7.0.1"
   open_filex: "4.3.1"
   path_provider: "2.0.11"
   smooth_page_indicator: "1.0.0+2"
@@ -35,8 +35,8 @@ dependencies:
   dio: "5.1.0"
   http: "0.13.5"
   http_interceptor: "1.0.2"
-  intl: "0.17.0"
-  collection: "1.16.0"
+  intl: "0.18.0"
+  collection: "1.17.1"
   equatable: "2.0.3"
   logger: "1.1.0"
   uuid: "3.0.7"
@@ -44,13 +44,13 @@ dependencies:
   encrypt: "5.0.1"
   matomo_tracker: "2.0.0"
   # Firebase
-  firebase_core: "1.16.0"
-  firebase_crashlytics: "2.7.2"
-  firebase_remote_config: "2.0.6"
-  firebase_messaging: "11.3.0"
-  firebase_auth: "3.3.17"
-  cloud_firestore: "3.1.14"
-  flutterfire_installations: "0.1.0"
+  firebase_core: "2.13.0"
+  firebase_crashlytics: "3.3.1"
+  firebase_remote_config: "4.2.1"
+  firebase_messaging: "14.6.1"
+  firebase_auth: "4.6.1"
+  cloud_firestore: "4.7.1"
+  firebase_app_installations: "0.2.3+1"
   flutter_native_timezone: "2.0.0"
 
 dev_dependencies:
@@ -58,7 +58,7 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: "^0.12.0"
   flutter_lints: ^1.0.4
-  dart_code_metrics: ^4.14.0
+  dart_code_metrics: "5.7.4"
   mocktail: ^0.3.0
   flutter_native_splash: "2.2.18"
 
