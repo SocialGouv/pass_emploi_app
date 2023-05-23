@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/app_initializer.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 
 void appMain(Brand brand) async {
+  //TODO: update dart & flutter version to fix this false warning (https://github.com/dart-lang/sdk/issues/52327)
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     Brand.setBrand(brand);
