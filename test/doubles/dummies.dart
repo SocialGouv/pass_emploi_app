@@ -304,7 +304,7 @@ class DummyCampagneRepository extends CampagneRepository {
 }
 
 class DummyUpdateDemarcheRepository extends UpdateDemarcheRepository {
-  DummyUpdateDemarcheRepository() : super("", DummyHttpClient());
+  DummyUpdateDemarcheRepository() : super(DioMock());
 }
 
 class DummyPieceJointeRepository extends PieceJointeRepository {
@@ -320,7 +320,7 @@ class DummyPartageActiviteRepository extends PartageActiviteRepository {
 }
 
 class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {
-  DummyModifyDemarcheRepository() : super("", DummyHttpClient());
+  DummyModifyDemarcheRepository() : super(DioMock());
 
   @override
   Future<Demarche?> updateDemarche(

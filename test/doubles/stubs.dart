@@ -365,7 +365,7 @@ class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
   DateTime? _fin;
   DateTime? _debut;
 
-  UpdateDemarcheRepositorySuccessStub() : super('', DummyHttpClient());
+  UpdateDemarcheRepositorySuccessStub() : super(DioMock());
 
   void withArgsResolves(
     String userId,
@@ -397,7 +397,7 @@ class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
 }
 
 class UpdateDemarcheRepositoryFailureStub extends UpdateDemarcheRepository {
-  UpdateDemarcheRepositoryFailureStub() : super('', DummyHttpClient());
+  UpdateDemarcheRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<Demarche?> updateDemarche(
