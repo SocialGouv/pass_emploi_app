@@ -1,49 +1,46 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 
-import '../../doubles/fixtures.dart';
-import '../../utils/pass_emploi_mock_client.dart';
-import '../../utils/test_assets.dart';
+import '../../dsl/sut_repository2.dart';
 
 void main() {
-  test('getFirebaseToken when response is valid with all parameters should return token and key', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async {
-      if (request.method != "POST") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/auth/firebase/token")) return invalidHttpResponse();
-      return Response.bytes(loadTestAssetsAsBytes("firebase_auth_token.json"), 201);
+  final sut = RepositorySut2<FirebaseAuthRepository>();
+  sut.givenRepository((client) => FirebaseAuthRepository(client));
+
+  group("search", () {
+    sut.when((repository) => repository.getFirebaseAuth('userId'));
+
+    group('when response is valid', () {
+      sut.givenJsonResponse(fromJson: "firebase_auth_token.json");
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: HttpMethod.post,
+          url: '/auth/firebase/token',
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectResult<FirebaseAuthResponse?>((result) {
+          expect(result, FirebaseAuthResponse(token: "FIREBASE-TOKEN", key: "CLE"));
+        });
+      });
     });
-    final repository = FirebaseAuthRepository("BASE_URL", httpClient);
 
-    // When
-    final token = await repository.getFirebaseAuth("ID");
+    group('when response is invalid', () {
+      sut.givenResponseCode(400);
 
-    // Then
-    expect(token, FirebaseAuthResponse("FIREBASE-TOKEN", "CLE"));
-  });
+      test('response should be null', () async {
+        await sut.expectNullResult();
+      });
+    });
 
-  test('getFirebaseToken when response is invalid should return null', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = FirebaseAuthRepository("BASE_URL", httpClient);
+    group('when response throws exception', () {
+      sut.givenThrowingExceptionResponse();
 
-    // When
-    final token = await repository.getFirebaseAuth("ID");
-
-    // Then
-    expect(token, isNull);
-  });
-
-  test('getFirebaseToken when response throws exception should return null', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => throw Exception());
-    final repository = FirebaseAuthRepository("BASE_URL", httpClient);
-
-    // When
-    final token = await repository.getFirebaseAuth("ID");
-
-    // Then
-    expect(token, isNull);
+      test('response should be null', () async {
+        await sut.expectNullResult();
+      });
+    });
   });
 }

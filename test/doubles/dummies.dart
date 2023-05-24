@@ -195,7 +195,7 @@ class DummySearchLocationRepository extends SearchLocationRepository {
 }
 
 class DummyFirebaseAuthRepository extends FirebaseAuthRepository {
-  DummyFirebaseAuthRepository() : super("", DummyHttpClient());
+  DummyFirebaseAuthRepository() : super(DioMock());
 }
 
 class DummyFirebaseAuthWrapper extends FirebaseAuthWrapper {
