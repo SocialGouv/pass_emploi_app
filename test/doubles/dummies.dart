@@ -147,7 +147,7 @@ class DummyPageActionRepository extends PageActionRepository {
 }
 
 class DummyPageDemarcheRepository extends PageDemarcheRepository {
-  DummyPageDemarcheRepository() : super("", DummyHttpClient());
+  DummyPageDemarcheRepository() : super(DioMock());
 }
 
 class DummyRendezvousRepository extends RendezvousRepository {

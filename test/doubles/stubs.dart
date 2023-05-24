@@ -101,7 +101,7 @@ class PageActionRepositoryFailureStub extends PageActionRepository {
 class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
   Campagne? _campagne;
 
-  PageDemarcheRepositorySuccessStub() : super("", DummyHttpClient());
+  PageDemarcheRepositorySuccessStub() : super(DioMock());
 
   void withCampagne(Campagne campagne) {
     _campagne = campagne;
@@ -135,7 +135,7 @@ class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
 }
 
 class PageDemarcheRepositoryFailureStub extends PageDemarcheRepository {
-  PageDemarcheRepositoryFailureStub() : super("", DummyHttpClient());
+  PageDemarcheRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<PageDemarches?> getPageDemarches(String userId) async {

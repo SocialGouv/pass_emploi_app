@@ -4,12 +4,12 @@ import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository.dart';
+import '../dsl/sut_repository2.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  final sut = RepositorySut<PageDemarcheRepository>();
-  sut.givenRepository((client) => PageDemarcheRepository("BASE_URL", client));
+  final sut = RepositorySut2<PageDemarcheRepository>();
+  sut.givenRepository((client) => PageDemarcheRepository(client));
 
   group("getPageDemarches", () {
     sut.when((repository) => repository.getPageDemarches("UID"));
@@ -19,8 +19,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "GET",
-          url: "BASE_URL/v2/jeunes/UID/home/demarches",
+          method: HttpMethod.get,
+          url: "/v2/jeunes/UID/home/demarches",
         );
       });
 
