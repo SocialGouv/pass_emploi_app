@@ -140,15 +140,17 @@ OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       isAlternance: false,
     );
 
-OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false}) => OffreEmploi(
-      id: id,
-      title: "Technicien / Technicienne en froid et climatisation",
-      companyName: "RH TT INTERIM",
-      contractType: "MIS",
-      isAlternance: isAlternance,
-      location: "77 - LOGNES",
-      duration: "Temps plein",
-    );
+OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false, String contractType = 'MIS'}) {
+  return OffreEmploi(
+    id: id,
+    title: "Technicien / Technicienne en froid et climatisation",
+    companyName: "RH TT INTERIM",
+    contractType: contractType,
+    isAlternance: isAlternance,
+    location: "77 - LOGNES",
+    duration: "Temps plein",
+  );
+}
 
 List<OffreEmploi> mockOffresEmploi10() => List.generate(10, (index) => mockOffreEmploi());
 

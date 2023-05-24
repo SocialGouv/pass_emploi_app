@@ -598,6 +598,7 @@ class Strings {
   static String offreNotFoundExplaination =
       "Vous pouvez décider de la supprimer ou bien de la conserver dans vos favoris.";
   static String deleteOffreFromFavori = "Supprimer des favoris";
+  static String interim = "Intérim";
 
   // Favoris
   static String mesFavorisTabTitle = "Mes favoris";

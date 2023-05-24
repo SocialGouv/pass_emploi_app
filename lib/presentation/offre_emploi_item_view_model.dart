@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+
+const String _missionInterimCode = 'MIS';
 
 class OffreEmploiItemViewModel extends Equatable {
   final String id;
@@ -23,7 +26,7 @@ class OffreEmploiItemViewModel extends Equatable {
       id: offre.id,
       title: offre.title,
       companyName: offre.companyName,
-      contractType: offre.contractType,
+      contractType: _contractType(offre),
       duration: offre.duration,
       location: offre.location,
     );
@@ -38,4 +41,11 @@ class OffreEmploiItemViewModel extends Equatable {
         location,
         duration,
       ];
+}
+
+String _contractType(OffreEmploi offre) {
+  return switch (offre.contractType) {
+    _missionInterimCode => Strings.interim,
+    _ => offre.contractType,
+  };
 }
