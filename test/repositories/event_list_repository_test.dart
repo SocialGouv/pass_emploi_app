@@ -3,12 +3,12 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository.dart';
+import '../dsl/sut_repository2.dart';
 
 void main() {
   group('EventListRepository', () {
-    final sut = RepositorySut<EventListRepository>();
-    sut.givenRepository((client) => EventListRepository("BASE_URL", client));
+    final sut = RepositorySut2<EventListRepository>();
+    sut.givenRepository((client) => EventListRepository(client));
 
     group('getAgendaPoleEmploi', () {
       sut.when(
@@ -20,8 +20,8 @@ void main() {
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
-            method: "GET",
-            url: "BASE_URL/jeunes/UID/animations-collectives?maintenant=2022-11-05T00%3A00%3A00%2B00%3A00",
+            method: HttpMethod.get,
+            url: "/jeunes/UID/animations-collectives?maintenant=2022-11-05T00%3A00%3A00%2B00%3A00",
           );
         });
 

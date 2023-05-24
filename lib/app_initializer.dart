@@ -261,7 +261,7 @@ class AppInitializer {
       ActionCommentaireRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       AgendaRepository(dioClient, crashlytics),
       SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      EventListRepository(baseUrl, httpClient, crashlytics),
+      EventListRepository(dioClient, crashlytics),
       installationIdRepository,
       DiagorienteUrlsRepository(dioClient, crashlytics),
       DiagorienteMetiersFavorisRepository(dioClient, requestCacheManager, crashlytics),

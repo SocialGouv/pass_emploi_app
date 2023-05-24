@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 
-import '../../../doubles/dummies.dart';
+import '../../../doubles/dio_mock.dart';
 import '../../../doubles/fixtures.dart';
 import '../../../dsl/app_state_dsl.dart';
 import '../../../dsl/matchers.dart';
@@ -50,7 +50,7 @@ Matcher _shouldSucceed() {
 }
 
 class EventListRepositorySuccessStub extends EventListRepository {
-  EventListRepositorySuccessStub() : super("", DummyHttpClient());
+  EventListRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<List<Rendezvous>?> get(String userId, DateTime maintenant) async {
@@ -59,7 +59,7 @@ class EventListRepositorySuccessStub extends EventListRepository {
 }
 
 class EventListRepositoryErrorStub extends EventListRepository {
-  EventListRepositoryErrorStub() : super("", DummyHttpClient());
+  EventListRepositoryErrorStub() : super(DioMock());
 
   @override
   Future<List<Rendezvous>?> get(String userId, DateTime maintenant) async {
