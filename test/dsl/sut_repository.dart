@@ -70,7 +70,7 @@ class RepositorySut<REPO> {
   }
 
   Future<void> expectEmptyListAsResult() async {
-    expectResult<List<dynamic>>((list) {
+    await expectResult<List<dynamic>>((list) {
       expect(list, isEmpty);
     });
   }

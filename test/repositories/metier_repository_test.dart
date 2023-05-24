@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository.dart';
+import '../dsl/sut_repository2.dart';
 
 void main() {
-  final sut = RepositorySut<MetierRepository>();
-  sut.givenRepository((client) => MetierRepository("BASE_URL", client));
+  final sut = RepositorySut2<MetierRepository>();
+  sut.givenRepository((client) => MetierRepository(client));
 
   group('getSuggestions', () {
     group('with input greater than 2 characters', () {
@@ -18,8 +18,8 @@ void main() {
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
-            method: "GET",
-            url: "BASE_URL/referentiels/metiers?recherche=chevalier",
+            method: HttpMethod.get,
+            url: "/referentiels/metiers?recherche=chevalier",
           );
         });
 
@@ -40,7 +40,7 @@ void main() {
       });
     });
 
-    group('with input greater lower or equal than 2 characters', () {
+    group('with input lower or equal than 2 characters', () {
       sut.givenJsonResponse(fromJson: "autocomplete_metiers.json");
       sut.when((repository) => repository.getMetiers("ch"));
 

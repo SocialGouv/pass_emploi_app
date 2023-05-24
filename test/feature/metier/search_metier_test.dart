@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
@@ -45,7 +45,7 @@ void main() {
 }
 
 class MetierRepositorySuccessStub extends MetierRepository {
-  MetierRepositorySuccessStub(): super("", DummyHttpClient());
+  MetierRepositorySuccessStub(): super(DioMock());
 
   @override
   Future<List<Metier>> getMetiers(String userInput) async {

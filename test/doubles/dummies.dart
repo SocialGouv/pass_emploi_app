@@ -368,7 +368,7 @@ class DummyEventListRepository extends EventListRepository {
 }
 
 class DummyMetierRepository extends MetierRepository {
-  DummyMetierRepository() : super("", DummyHttpClient());
+  DummyMetierRepository() : super(DioMock());
 }
 
 class DummyInstallationIdRepository extends InstallationIdRepository {
