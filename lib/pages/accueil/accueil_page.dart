@@ -12,12 +12,7 @@ import 'package:pass_emploi_app/pages/accueil/accueil_outils.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
 import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
 import 'package:pass_emploi_app/pages/saved_search_page.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_favoris_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_outils_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_prochain_rendezvous_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -73,15 +68,11 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (viewModel.displayState) {
-      case DisplayState.LOADING:
-        return Center(child: CircularProgressIndicator());
-      case DisplayState.CONTENT:
-        return _Blocs(viewModel);
-      case DisplayState.EMPTY:
-      case DisplayState.FAILURE:
-        return _Retry(viewModel: viewModel);
-    }
+    return switch (viewModel.displayState) {
+      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+      DisplayState.CONTENT => _Blocs(viewModel),
+      DisplayState.EMPTY || DisplayState.FAILURE => _Retry(viewModel: viewModel),
+    };
   }
 }
 
@@ -101,14 +92,14 @@ class _Blocs extends StatelessWidget {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-    final item = viewModel.items[index];
-    if (item is AccueilCetteSemaineItem) return AccueilCetteSemaine(item);
-    if (item is AccueilProchainRendezvousItem) return AccueilProchainRendezVous(item);
-    if (item is AccueilEvenementsItem) return AccueilEvenements(item);
-    if (item is AccueilAlertesItem) return AccueilAlertes(item);
-    if (item is AccueilFavorisItem) return AccueilFavoris(item);
-    if (item is AccueilOutilsItem) return AccueilOutils(item);
-    return SizedBox.shrink();
+    return switch (viewModel.items[index]) {
+      final AccueilCetteSemaineItem item => AccueilCetteSemaine(item),
+      final AccueilProchainRendezvousItem item => AccueilProchainRendezVous(item),
+      final AccueilEvenementsItem item => AccueilEvenements(item),
+      final AccueilAlertesItem item => AccueilAlertes(item),
+      final AccueilFavorisItem item => AccueilFavoris(item),
+      final AccueilOutilsItem item => AccueilOutils(item),
+    };
   }
 }
 
@@ -120,9 +111,10 @@ class _Retry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Retry(Strings.agendaError, () => viewModel.retry()),
-    ));
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: Retry(Strings.agendaError, () => viewModel.retry()),
+      ),
+    );
   }
 }
