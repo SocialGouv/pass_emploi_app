@@ -276,7 +276,7 @@ class DummyDetailsJeuneRepository extends DetailsJeuneRepository {
 }
 
 class DummyLogoutRepository extends LogoutRepository {
-  DummyLogoutRepository() : super('', '', '');
+  DummyLogoutRepository() : super(authIssuer: '', clientSecret: '', clientId: '');
 }
 
 class DummyPassEmploiCacheManager extends PassEmploiCacheManager {

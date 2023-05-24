@@ -170,10 +170,10 @@ class AppInitializer {
       FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
     );
     final logoutRepository = LogoutRepository(
-      configuration.authIssuer,
-      configuration.authClientSecret,
-      configuration.authClientId,
-      crashlytics,
+      authIssuer: configuration.authIssuer,
+      clientSecret: configuration.authClientSecret,
+      clientId: configuration.authClientId,
+      crashlytics: crashlytics,
     );
     final authenticator = Authenticator(
       AuthWrapper(FlutterAppAuth(), Lock(), crashlytics),
@@ -197,8 +197,6 @@ class AppInitializer {
       crashlytics,
       configuration,
     );
-    logoutRepository.setHttpClient(httpClient);
-    logoutRepository.setCacheManager(requestCacheManager);
     final baseUrl = configuration.serverBaseUrl;
     final monitoringDioInterceptor = MonitoringDioInterceptor(installationIdRepository);
     final dioClient = _makeDioClient(
@@ -209,6 +207,8 @@ class AppInitializer {
       authAccessChecker,
       monitoringDioInterceptor,
     );
+    logoutRepository.setHttpClient(dioClient);
+    logoutRepository.setCacheManager(requestCacheManager);
     final chatCrypto = ChatCrypto();
     final firebaseInstanceIdGetter = FirebaseInstanceIdGetter();
     final reduxStore = StoreFactory(

@@ -7,7 +7,7 @@ void main() {
   final sut = RepositorySut2<FirebaseAuthRepository>();
   sut.givenRepository((client) => FirebaseAuthRepository(client));
 
-  group("search", () {
+  group('getFirebaseAuth', () {
     sut.when((repository) => repository.getFirebaseAuth('userId'));
 
     group('when response is valid', () {
