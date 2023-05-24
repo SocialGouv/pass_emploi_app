@@ -13,15 +13,13 @@ class ActionCommentaireRepository {
 
   ActionCommentaireRepository(this._httpClient, this._cacheManager, [this._crashlytics]);
 
-  static Uri getCommentairesUri({required String baseUrl, required String actionId}) {
-    return Uri.parse(baseUrl + "/actions/" + actionId + "/commentaires");
-  }
+  static String getCommentairesUrl({required String actionId}) => '/actions/$actionId/commentaires';
 
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
-    final url = "/actions/$actionId/commentaires";
+    final url = getCommentairesUrl(actionId: actionId);
     try {
       final response = await _httpClient.get(url);
-      _cacheManager.removeActionCommentaireResource(actionId, _httpClient.options.baseUrl); //TODO: problème ici
+      _cacheManager.removeActionCommentaireResource(actionId);
       return response.asListOf(Commentaire.fromJson);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
@@ -30,7 +28,7 @@ class ActionCommentaireRepository {
   }
 
   Future<bool> sendCommentaire({required String actionId, required String comment}) async {
-    final url = "/actions/$actionId/commentaires";
+    final url = getCommentairesUrl(actionId: actionId);
     try {
       await _httpClient.post(
         url,

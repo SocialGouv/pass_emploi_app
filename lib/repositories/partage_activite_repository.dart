@@ -15,12 +15,10 @@ class PartageActiviteRepository {
 
   PartageActiviteRepository(this._baseUrl, this._httpClient, this._cacheManager, [this._crashlytics]);
 
-  static Uri getPartageActiviteUri({required String baseUrl, required String userId}) {
-    return Uri.parse(baseUrl + "/jeunes/" + userId + "/preferences");
-  }
+  static String getPartageActiviteUrl({required String userId}) => "/jeunes/$userId/preferences";
 
   Future<PartageActivite?> getPartageActivite(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/preferences");
+    final url = Uri.parse(_baseUrl + getPartageActiviteUrl(userId: userId));
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
@@ -34,14 +32,14 @@ class PartageActiviteRepository {
   }
 
   Future<bool> updatePartageActivite(String userId, bool isShare) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/preferences");
+    final url = Uri.parse(_baseUrl + getPartageActiviteUrl(userId: userId));
     try {
       final response = await _httpClient.put(
         url,
         body: customJsonEncode(PutPartageActiviteRequest(favoris: isShare)),
       );
       if (response.statusCode.isValid()) {
-        _cacheManager.removeResource(CachedResource.UPDATE_PARTAGE_ACTIVITE, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.UPDATE_PARTAGE_ACTIVITE, userId);
         return true;
       }
     } catch (e, stack) {

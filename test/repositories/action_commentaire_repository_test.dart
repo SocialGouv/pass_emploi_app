@@ -24,7 +24,6 @@ void main() {
       });
 
       test('response should be valid', () async {
-        //TODO: ce test ne passe pas parce que dans le repo, on appelle `_httpClient.options.baseUrl` et mocktail ne permet pas de mocker une property
         await sut.expectResult<List<Commentaire>?>((result) {
           expect(result, isNotNull);
           expect(result?.length, 2);

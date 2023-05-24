@@ -16,13 +16,11 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
 
   OffreEmploiFavorisRepository(this._baseUrl, this._httpClient, this._cacheManager, [this._crashlytics]);
 
-  static Uri getFavorisIdUri({required String baseUrl, required String userId}) {
-    return Uri.parse(baseUrl + "/jeunes/$userId/favoris/offres-emploi");
-  }
+  static String getFavorisIdUrl({required String userId}) => '/jeunes/$userId/favoris/offres-emploi';
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
-    final url = getFavorisIdUri(baseUrl: _baseUrl, userId: userId);
+    final url = Uri.parse(_baseUrl + getFavorisIdUrl(userId: userId));
     try {
       final response = await _httpClient.get(url);
 
@@ -55,7 +53,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
-        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId);
         return true;
       }
     } catch (e, stack) {
@@ -70,7 +68,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
     try {
       final response = await _httpClient.delete(url);
       if (response.statusCode.isValid() || response.statusCode == 404) {
-        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId);
         return true;
       }
     } catch (e, stack) {

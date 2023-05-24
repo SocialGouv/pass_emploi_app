@@ -16,17 +16,15 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
 
   ServiceCiviqueFavorisRepository(this._baseUrl, this._httpClient, this._cacheManager, [this._crashlytics]);
 
-  static Uri getFavorisIdUri({required String baseUrl, required String userId}) {
-    return Uri.parse(baseUrl + "/jeunes/$userId/favoris/services-civique");
-  }
+  static String getFavorisIdUrl({required String userId}) => '/jeunes/$userId/favoris/services-civique';
 
   @override
   Future<bool> deleteFavori(String userId, String favoriId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/services-civique/$favoriId");
+    final url = Uri.parse(_baseUrl + '/jeunes/$userId/favoris/services-civique/$favoriId');
     try {
       final response = await _httpClient.delete(url);
       if (response.statusCode.isValid() || response.statusCode == 404) {
-        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId);
         return true;
       }
     } catch (e, stack) {
@@ -37,7 +35,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
-    final url = getFavorisIdUri(baseUrl: _baseUrl, userId: userId);
+    final url = Uri.parse(_baseUrl + getFavorisIdUrl(userId: userId));
     try {
       final response = await _httpClient.get(url);
 
@@ -68,7 +66,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
-        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId);
         return true;
       }
     } catch (e, stack) {

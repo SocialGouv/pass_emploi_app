@@ -51,6 +51,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
@@ -88,7 +89,6 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/repositories/cv_repository.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:redux/redux.dart';
@@ -184,7 +184,7 @@ class AppInitializer {
     );
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
     final authAccessChecker = AuthAccessChecker();
-    final requestCacheManager = PassEmploiCacheManager.requestCache();
+    final requestCacheManager = PassEmploiCacheManager.requestCache(configuration.serverBaseUrl);
     final modeDemoRepository = ModeDemoRepository();
     final installationIdRepository = InstallationIdRepository(securedPreferences);
     final monitoringInterceptor = MonitoringInterceptor(installationIdRepository);
