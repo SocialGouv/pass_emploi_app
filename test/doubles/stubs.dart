@@ -286,7 +286,7 @@ class ChatRepositoryStub extends ChatRepository {
 }
 
 class SuppressionCompteRepositorySuccessStub extends SuppressionCompteRepository {
-  SuppressionCompteRepositorySuccessStub() : super("", DummyHttpClient());
+  SuppressionCompteRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<bool> deleteUser(String userId) async {
@@ -295,7 +295,7 @@ class SuppressionCompteRepositorySuccessStub extends SuppressionCompteRepository
 }
 
 class SuppressionCompteRepositoryFailureStub extends SuppressionCompteRepository {
-  SuppressionCompteRepositoryFailureStub() : super("", DummyHttpClient());
+  SuppressionCompteRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<bool> deleteUser(String userId) async {

@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 
-import '../dsl/sut_repository.dart';
+import '../dsl/sut_repository2.dart';
 
 void main() {
-  final sut = RepositorySut<SuppressionCompteRepository>();
-  sut.givenRepository((client) => SuppressionCompteRepository("BASE_URL", client));
+  final sut = RepositorySut2<SuppressionCompteRepository>();
+  sut.givenRepository((client) => SuppressionCompteRepository(client));
 
   group("deleteUser", () {
     sut.when((repository) => repository.deleteUser("jeuneId"));
@@ -15,8 +15,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "DELETE",
-          url: "BASE_URL/jeunes/jeuneId",
+          method: HttpMethod.delete,
+          url: "/jeunes/jeuneId",
         );
       });
 

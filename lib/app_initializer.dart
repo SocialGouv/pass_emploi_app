@@ -247,7 +247,7 @@ class AppInitializer {
       ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, crashlytics),
       DetailsJeuneRepository(dioClient, crashlytics),
-      SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
+      SuppressionCompteRepository(dioClient, crashlytics),
       modeDemoRepository,
       CampagneRepository(baseUrl, httpClient, crashlytics),
       matomoTracker,

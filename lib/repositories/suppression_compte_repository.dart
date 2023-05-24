@@ -1,23 +1,19 @@
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
 
 class SuppressionCompteRepository {
-  final String _baseUrl;
-  final Client _httpClient;
+  final Dio _httpClient;
   final Crashlytics? _crashlytics;
 
-  SuppressionCompteRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
+  SuppressionCompteRepository(this._httpClient, [this._crashlytics]);
 
   Future<bool> deleteUser(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId");
+    final url = "/jeunes/$userId";
     try {
-      final response = await _httpClient.delete(url);
-      if (response.statusCode.isValid()) {
-        return true;
-      }
+      await _httpClient.delete(url);
+      return true;
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return false;
   }

@@ -296,7 +296,7 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
 }
 
 class DummySuppressionCompteRepository extends SuppressionCompteRepository {
-  DummySuppressionCompteRepository() : super("", DummyHttpClient());
+  DummySuppressionCompteRepository() : super(DioMock());
 }
 
 class DummyCampagneRepository extends CampagneRepository {
