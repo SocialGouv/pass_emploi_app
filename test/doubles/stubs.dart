@@ -331,7 +331,7 @@ class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
 }
 
 class ActionCommentaireRepositorySuccessStub extends ActionCommentaireRepository {
-  ActionCommentaireRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  ActionCommentaireRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
@@ -345,7 +345,7 @@ class ActionCommentaireRepositorySuccessStub extends ActionCommentaireRepository
 }
 
 class ActionCommentaireRepositoryFailureStub extends ActionCommentaireRepository {
-  ActionCommentaireRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  ActionCommentaireRepositoryFailureStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<Commentaire>?> getCommentaires(String actionId) async {

@@ -1,49 +1,44 @@
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
+import 'package:pass_emploi_app/network/dio_ext.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/post_action_commentaire.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
 
 class ActionCommentaireRepository {
-  final String _baseUrl;
-  final Client _httpClient;
+  final Dio _httpClient;
   final PassEmploiCacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
-  ActionCommentaireRepository(this._baseUrl, this._httpClient, this._cacheManager, [this._crashlytics]);
+  ActionCommentaireRepository(this._httpClient, this._cacheManager, [this._crashlytics]);
 
   static Uri getCommentairesUri({required String baseUrl, required String actionId}) {
     return Uri.parse(baseUrl + "/actions/" + actionId + "/commentaires");
   }
 
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
-    final url = Uri.parse(_baseUrl + "/actions/$actionId/commentaires");
+    final url = "/actions/$actionId/commentaires";
     try {
       final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes);
-        _cacheManager.removeActionCommentaireResource(actionId, _baseUrl);
-        return (json as List).map((comment) => Commentaire.fromJson(comment)).toList();
-      }
+      _cacheManager.removeActionCommentaireResource(actionId, _httpClient.options.baseUrl); //TODO: problème ici
+      return response.asListOf(Commentaire.fromJson);
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return null;
   }
 
   Future<bool> sendCommentaire({required String actionId, required String comment}) async {
-    final url = Uri.parse(_baseUrl + "/actions/$actionId/commentaires");
+    final url = "/actions/$actionId/commentaires";
     try {
-      final response = await _httpClient.post(
+      await _httpClient.post(
         url,
-        body: customJsonEncode(PostSendCommentaire(comment)),
+        data: customJsonEncode(PostSendCommentaire(comment)),
       );
-      if (response.statusCode.isValid()) return true;
+      return true;
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return false;
   }

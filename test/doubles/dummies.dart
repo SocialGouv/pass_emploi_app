@@ -352,7 +352,7 @@ class DummyRatingRepository extends RatingRepository {
 }
 
 class DummyActionCommentaireRepository extends ActionCommentaireRepository {
-  DummyActionCommentaireRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyActionCommentaireRepository() : super(DioMock(), DummyPassEmploiCacheManager());
 }
 
 class DummyAgendaRepository extends AgendaRepository {

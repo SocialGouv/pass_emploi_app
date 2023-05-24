@@ -258,7 +258,7 @@ class AppInitializer {
       TutorialRepository(securedPreferences),
       PartageActiviteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       RatingRepository(securedPreferences),
-      ActionCommentaireRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      ActionCommentaireRepository(dioClient, requestCacheManager, crashlytics),
       AgendaRepository(dioClient, crashlytics),
       SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       EventListRepository(dioClient, crashlytics),
