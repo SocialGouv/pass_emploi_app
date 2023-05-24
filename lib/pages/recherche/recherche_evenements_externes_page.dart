@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/evenements_externes/actions_recherche_evenements_externes_view_model.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_evenements_externes_contenu.dart';
 import 'package:redux/redux.dart';
@@ -69,14 +65,7 @@ class RechercheEvenementsExternesPage extends RechercheOffrePage<Rendezvous> {
     int index,
     BlocResultatRechercheViewModel<Rendezvous> resultViewModel,
   ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: item.id.rendezvousCard(
-        context: context,
-        stateSource: RendezvousStateSource.evenementsExternes,
-        trackedEvent: EventType.RDV_DETAIL,
-        simpleCard: false,
-      ),
-    );
+    //TODO: nouvelle carte à créer
+    return Text("todo");
   }
 }

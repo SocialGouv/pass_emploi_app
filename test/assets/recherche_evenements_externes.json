@@ -1,0 +1,12 @@
+{
+    "pagination": {
+      "page": 1,
+      "limit": 50
+    },
+    "results": [
+      {
+        "id": "id",
+        "titre": "titre"
+      }
+    ]
+  }

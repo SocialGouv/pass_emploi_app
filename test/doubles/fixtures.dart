@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/diagoriente_urls.dart';
+import 'package:pass_emploi_app/models/evenement_externe.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
@@ -196,6 +197,14 @@ Configuration configuration(
 }
 
 Configuration brsaConfiguration() => configuration(brand: Brand.brsa);
+
+Location mockLocationParis() => Location(
+      libelle: "Paris",
+      code: "75",
+      type: LocationType.DEPARTMENT,
+      latitude: 1,
+      longitude: 2,
+    );
 
 Location mockLocation({double? lat, double? lon}) => Location(
       libelle: "",
@@ -411,7 +420,11 @@ Rendezvous mockRendezvousPoleEmploi() {
   );
 }
 
-List<Rendezvous> mockEvenementsExternes() => [mockAnimationCollective()];
+EvenementExterne mockEvenementExterne() {
+  return EvenementExterne(id: "id", titre: "titre");
+}
+
+List<EvenementExterne> mockEvenementsExternes() => [mockEvenementExterne()];
 
 DetailsJeune detailsJeune() {
   return DetailsJeune(

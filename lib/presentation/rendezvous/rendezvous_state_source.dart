@@ -5,5 +5,4 @@ enum RendezvousStateSource {
   agenda,
   rendezvousList,
   eventList,
-  evenementsExternes,
 }

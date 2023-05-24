@@ -5,12 +5,12 @@ import 'package:pass_emploi_app/features/recherche/evenements_externes/evenement
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
+import 'package:pass_emploi_app/models/evenement_externe.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 
 typedef RechercheEmploiState = RechercheState<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi>;
@@ -18,7 +18,7 @@ typedef RechercheImmersionState = RechercheState<ImmersionCriteresRecherche, Imm
 typedef RechercheServiceCiviqueState
     = RechercheState<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche, ServiceCivique>;
 typedef RechercheEvenementsExternesState
-    = RechercheState<EvenementsExternesCriteresRecherche, EvenementsExternesFiltresRecherche, Rendezvous>;
+    = RechercheState<EvenementsExternesCriteresRecherche, EvenementsExternesFiltresRecherche, EvenementExterne>;
 
 enum RechercheStatus {
   nouvelleRecherche,
