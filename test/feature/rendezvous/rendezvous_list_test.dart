@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.d
 import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -58,7 +58,8 @@ void main() {
       sut.when(() => RendezvousListRequestAction(RendezvousPeriod.PASSE));
 
       test("should load and succeed with concatenated rendezvous when request succeeds", () async {
-        sut.givenStore = givenState().loggedInUser() //
+        sut.givenStore = givenState()
+            .loggedInUser() //
             .rendezvousFutur([mockRendezvous(id: "futur")]) //
             .store((f) => {f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id")});
 
@@ -116,7 +117,7 @@ Matcher _shouldSucceedPasseAndKeepFutur() {
 class RendezvousRepositorySuccessStub extends RendezvousRepository {
   final String expectedUserId;
 
-  RendezvousRepositorySuccessStub({required this.expectedUserId}) : super("", DummyHttpClient());
+  RendezvousRepositorySuccessStub({required this.expectedUserId}) : super(DioMock());
 
   @override
   Future<RendezvousListResult?> getRendezvousList(String userId, RendezvousPeriod period) async {
@@ -132,7 +133,7 @@ class RendezvousRepositorySuccessStub extends RendezvousRepository {
 class RendezvousRepositoryFailureStub extends RendezvousRepository {
   final String expectedUserId;
 
-  RendezvousRepositoryFailureStub({required this.expectedUserId}) : super("", DummyHttpClient());
+  RendezvousRepositoryFailureStub({required this.expectedUserId}) : super(DioMock());
 
   @override
   Future<RendezvousListResult?> getRendezvousList(String userId, RendezvousPeriod period) async {

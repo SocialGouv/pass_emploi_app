@@ -6,12 +6,12 @@ import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../dsl/sut_repository.dart';
+import '../../dsl/sut_repository2.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
-  final sut = RepositorySut<RendezvousRepository>();
-  sut.givenRepository((client) => RendezvousRepository('BASE_URL', client));
+  final sut = RepositorySut2<RendezvousRepository>();
+  sut.givenRepository((client) => RendezvousRepository(client));
 
   group('getRendezvousList', () {
     group('on past', () {
@@ -22,8 +22,8 @@ void main() {
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
-            method: 'GET',
-            url: 'BASE_URL/v2/jeunes/userID/rendezvous?periode=PASSES',
+            method: HttpMethod.get,
+            url: '/v2/jeunes/userID/rendezvous?periode=PASSES',
           );
         });
 
@@ -74,8 +74,8 @@ void main() {
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
-            method: 'GET',
-            url: 'BASE_URL/v2/jeunes/userID/rendezvous?periode=FUTURS',
+            method: HttpMethod.get,
+            url: '/v2/jeunes/userID/rendezvous?periode=FUTURS',
           );
         });
 
@@ -157,8 +157,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "GET",
-          url: "BASE_URL/jeunes/userID/rendezvous/rdvID",
+          method: HttpMethod.get,
+          url: "/jeunes/userID/rendezvous/rdvID",
         );
       });
     });
