@@ -457,7 +457,7 @@ class Strings {
   static String jobLocationServiceCiviqueHint =
       "Sélectionnez une ville dans laquelle vous cherchez un service civique.";
   static String jobEvenementEmploiHint =
-      "Sélectionnez une ville ou un département dans lequel vous cherchez un événement.";
+      "Sélectionnez une ville dans laquelle vous cherchez un événement.";
   static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";

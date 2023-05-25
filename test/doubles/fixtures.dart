@@ -422,7 +422,16 @@ Rendezvous mockRendezvousPoleEmploi() {
 }
 
 EvenementEmploi mockEvenementEmploi() {
-  return EvenementEmploi(id: "id", titre: "titre");
+  return EvenementEmploi(
+    id: 'id',
+    type: 'type',
+    titre: 'titre',
+    ville: 'ville',
+    codePostal: 'codePostal',
+    dateDebut: DateTime(2023, 1, 1, 10, 0, 0),
+    dateFin: DateTime(2023, 1, 1, 13, 0, 0),
+    modalites: [EvenementEmploiModalite.enPhysique],
+  );
 }
 
 List<EvenementEmploi> mockEvenementsEmploi() => [mockEvenementEmploi()];

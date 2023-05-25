@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/evenement_emploi.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_evenement_emploi_contenu.dart';
 import 'package:redux/redux.dart';
 
-class RechercheEvenementEmploiPage extends RechercheOffrePage<Rendezvous> {
+class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => RechercheEvenementEmploiPage());
   }
@@ -37,15 +37,14 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<Rendezvous> {
   @override
   String? appBarTitle() => null;
 
-  //TODO: analytics
   @override
-  String analyticsType() => "evenements_externes";
+  String analyticsType() => 'evenement_emploi';
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEvenementEmploiState;
 
   @override
-  FavoriIdsState<Rendezvous> favorisState(AppState appState) => FavoriIdsState<Rendezvous>.notInitialized();
+  FavoriIdsState<EvenementEmploi> favorisState(AppState appState) => FavoriIdsState<EvenementEmploi>.notInitialized();
 
   @override
   Widget buildAlertBottomSheet() => SizedBox.shrink();
@@ -61,11 +60,11 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<Rendezvous> {
   @override
   Widget buildResultItem(
     BuildContext context,
-    Rendezvous item,
+    EvenementEmploi item,
     int index,
-    BlocResultatRechercheViewModel<Rendezvous> resultViewModel,
+    BlocResultatRechercheViewModel<EvenementEmploi> resultViewModel,
   ) {
     //TODO: nouvelle carte à créer
-    return Text("todo");
+    return Text('ID: ${item.id} - Titre: ${item.titre}');
   }
 }

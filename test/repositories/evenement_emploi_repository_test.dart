@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/repositories/evenement_emploi_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../dsl/sut_repository2.dart';
+import '../utils/test_datetime.dart';
 
 void main() {
   group('EvenementEmploiRepository', () {
@@ -30,19 +31,28 @@ void main() {
         sut.givenJsonResponse(fromJson: 'recherche_evenements_emploi.json');
 
         test('request should be valid', () async {
-          await sut.expectRequestBody(
-              method: HttpMethod.get,
-              url: '/evenements-emploi',
-              queryParameters: {
-                'codePostal': mockCommuneLocation().codePostal,
-              });
+          await sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
+            'codePostal': mockCommuneLocation().codePostal,
+          });
         });
 
         test('response should be valid', () async {
           await sut.expectResult<RechercheResponse<EvenementEmploi>?>((response) {
             expect(response, isNotNull);
             expect(response!.results, hasLength(1));
-            expect(response.results.first, EvenementEmploi(id: '1', titre: 'Atelier du travail'));
+            expect(
+              response.results.first,
+              EvenementEmploi(
+                id: '1',
+                titre: 'Atelier du travail',
+                type: 'Atelier',
+                ville: 'Marseille',
+                codePostal: '13006',
+                dateDebut: parseDateTimeUtcWithCurrentTimeZone('2023-05-17T10:00:00.000+00:00'),
+                dateFin: parseDateTimeUtcWithCurrentTimeZone('2023-05-17T12:00:00.000+00:00'),
+                modalites: [EvenementEmploiModalite.enPhysique, EvenementEmploiModalite.aDistance],
+              ),
+            );
           });
         });
       });

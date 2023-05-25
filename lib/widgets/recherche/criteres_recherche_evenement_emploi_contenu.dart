@@ -52,9 +52,10 @@ class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRecher
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           LocationAutocomplete(
-            title: Strings.jobLocationTitle,
+            title: Strings.jobLocationMandatoryTitle,
             hint: Strings.jobEvenementEmploiHint,
             initialValue: _selectedLocation,
+            villesOnly: true,
             onLocationSelected: (location) {
               _selectedLocation = location;
               _updateCriteresActifsCount();
