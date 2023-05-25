@@ -14,8 +14,8 @@ class EvenementExterne extends Equatable {
 
   factory EvenementExterne.fromJson(dynamic json) {
     return EvenementExterne(
-      id: json["id"] as String,
-      titre: json["titre"] as String,
+      id: json['id'] as String,
+      titre: json['titre'] as String,
     );
   }
 }

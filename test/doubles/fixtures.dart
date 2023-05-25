@@ -216,7 +216,8 @@ Location mockLocation({double? lat, double? lon}) => Location(
 
 Location mockCommuneLocation({double? lat, double? lon, String label = ""}) => Location(
       libelle: label,
-      code: "",
+      code: "code",
+      codePostal: "codePostal",
       type: LocationType.COMMUNE,
       latitude: lat,
       longitude: lon,

@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/evenement_externe.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/repositories/evenements_externes_repository.dart';
 
@@ -13,12 +14,12 @@ void main() {
     final sut = RepositorySut2<EvenementsExternesRepository>();
     sut.givenRepository((client) => EvenementsExternesRepository(client));
 
-    group('getAgendaMissionLocale', () {
+    group('rechercher', () {
       sut.when(
         (repository) => repository.rechercher(
-          userId: "UID",
+          userId: 'UID',
           request: RechercheRequest(
-            EvenementsExternesCriteresRecherche(location: mockLocationParis()),
+            EvenementsExternesCriteresRecherche(location: mockCommuneLocation()),
             EvenementsExternesFiltresRecherche(),
             1,
           ),
@@ -26,24 +27,22 @@ void main() {
       );
 
       group('when response is valid', () {
-        sut.givenJsonResponse(fromJson: "recherche_evenements_externes.json");
+        sut.givenJsonResponse(fromJson: 'recherche_evenements_externes.json');
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
               method: HttpMethod.get,
-              //TODO: url repository à voir avec le back
-              url: "/todo",
-              //TODO: queryParameters à voir avec le back pour location
+              url: '/evenements-emploi',
               queryParameters: {
-                'lat': mockLocationParis().latitude.toString(),
-                'lon': mockLocationParis().longitude.toString(),
+                'codePostal': mockCommuneLocation().codePostal,
               });
         });
 
         test('response should be valid', () async {
-          await sut.expectResult<List<EvenementExterne>?>((result) {
-            expect(result, isNotNull);
-            expect(result, mockEvenementsExternes());
+          await sut.expectResult<RechercheResponse<EvenementExterne>?>((response) {
+            expect(response, isNotNull);
+            expect(response!.results, hasLength(1));
+            expect(response.results.first, EvenementExterne(id: '1', titre: 'Atelier du travail'));
           });
         });
       });
