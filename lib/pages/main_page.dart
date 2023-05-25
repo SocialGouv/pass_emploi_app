@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/pages/accueil/accueil_page.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/events_tab_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
-import 'package:pass_emploi_app/pages/recherche/recherche_evenements_externes_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_evenement_emploi_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
@@ -147,7 +147,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return SolutionsTabPage(initialTab: initialTab);
       case MainTab.evenements:
         if (viewModel.loginMode?.isMiLo() == true) return EventsTabPage();
-        if (viewModel.loginMode?.isPe() == true) return RechercheEvenementsExternesPage.withPrimaryAppBar();
+        if (viewModel.loginMode?.isPe() == true) return RechercheEvenementEmploiPage.withPrimaryAppBar();
         return SizedBox.shrink();
       default:
         return MonSuiviTabPage();

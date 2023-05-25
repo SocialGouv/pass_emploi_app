@@ -7,8 +7,8 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
-import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_criteres_recherche.dart';
-import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
@@ -23,7 +23,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/diagoriente_urls.dart';
-import 'package:pass_emploi_app/models/evenement_externe.dart';
+import 'package:pass_emploi_app/models/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
@@ -421,11 +421,11 @@ Rendezvous mockRendezvousPoleEmploi() {
   );
 }
 
-EvenementExterne mockEvenementExterne() {
-  return EvenementExterne(id: "id", titre: "titre");
+EvenementEmploi mockEvenementEmploi() {
+  return EvenementEmploi(id: "id", titre: "titre");
 }
 
-List<EvenementExterne> mockEvenementsExternes() => [mockEvenementExterne()];
+List<EvenementEmploi> mockEvenementsEmploi() => [mockEvenementEmploi()];
 
 DetailsJeune detailsJeune() {
   return DetailsJeune(
@@ -736,11 +736,11 @@ RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche
   );
 }
 
-RechercheRequest<EvenementsExternesCriteresRecherche, EvenementsExternesFiltresRecherche>
-    initialRechercheEvenementsExternesRequest() {
+RechercheRequest<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>
+    initialRechercheEvenementEmploiRequest() {
   return RechercheRequest(
-    EvenementsExternesCriteresRecherche(location: mockLocation()),
-    EvenementsExternesFiltresRecherche(),
+    EvenementEmploiCriteresRecherche(location: mockLocation()),
+    EvenementEmploiFiltresRecherche(),
     1,
   );
 }

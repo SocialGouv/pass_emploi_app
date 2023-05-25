@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
-import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_criteres_recherche.dart';
-import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
-import 'package:pass_emploi_app/models/evenement_externe.dart';
+import 'package:pass_emploi_app/models/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 
@@ -17,8 +17,8 @@ typedef RechercheEmploiState = RechercheState<EmploiCriteresRecherche, EmploiFil
 typedef RechercheImmersionState = RechercheState<ImmersionCriteresRecherche, ImmersionFiltresRecherche, Immersion>;
 typedef RechercheServiceCiviqueState
     = RechercheState<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche, ServiceCivique>;
-typedef RechercheEvenementsExternesState
-    = RechercheState<EvenementsExternesCriteresRecherche, EvenementsExternesFiltresRecherche, EvenementExterne>;
+typedef RechercheEvenementEmploiState
+    = RechercheState<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche, EvenementEmploi>;
 
 enum RechercheStatus {
   nouvelleRecherche,

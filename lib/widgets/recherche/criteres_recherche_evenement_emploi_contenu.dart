@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/presentation/recherche/evenements_externes/criteres_recherche_evenements_externes_contenu_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/evenement_emploi/criteres_recherche_evenement_emploi_contenu_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -10,38 +10,38 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/location_autocomplete.dart';
 
-class CriteresRechercheEvenementsExternesContenu extends StatefulWidget {
+class CriteresRechercheEvenementEmploiContenu extends StatefulWidget {
   final Function(int) onNumberOfCriteresChanged;
 
-  const CriteresRechercheEvenementsExternesContenu({
+  const CriteresRechercheEvenementEmploiContenu({
     required this.onNumberOfCriteresChanged,
   });
 
   @override
-  State<CriteresRechercheEvenementsExternesContenu> createState() => _CriteresRechercheEvenementsExternesContenuState();
+  State<CriteresRechercheEvenementEmploiContenu> createState() => _CriteresRechercheEvenementEmploiContenuState();
 }
 
-class _CriteresRechercheEvenementsExternesContenuState extends State<CriteresRechercheEvenementsExternesContenu> {
+class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRechercheEvenementEmploiContenu> {
   bool initialBuild = true;
   Location? _selectedLocation;
   String? _keyword;
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, CriteresRechercheEvenementsExternesContenuViewModel>(
+    return StoreConnector<AppState, CriteresRechercheEvenementEmploiContenuViewModel>(
       onInitialBuild: _onInitialBuild,
-      converter: (store) => CriteresRechercheEvenementsExternesContenuViewModel.create(store),
+      converter: (store) => CriteresRechercheEvenementEmploiContenuViewModel.create(store),
       builder: _builder,
       distinct: true,
     );
   }
 
-  void _onInitialBuild(CriteresRechercheEvenementsExternesContenuViewModel viewModel) {
+  void _onInitialBuild(CriteresRechercheEvenementEmploiContenuViewModel viewModel) {
     if (viewModel.initialLocation != null) _updateCriteresActifsCount();
     initialBuild = false;
   }
 
-  Widget _builder(BuildContext context, CriteresRechercheEvenementsExternesContenuViewModel viewModel) {
+  Widget _builder(BuildContext context, CriteresRechercheEvenementEmploiContenuViewModel viewModel) {
     // onInitialBuild is called AFTER the first build, so we need to do it here
     if (initialBuild) {
       _selectedLocation = viewModel.initialLocation;
@@ -53,7 +53,7 @@ class _CriteresRechercheEvenementsExternesContenuState extends State<CriteresRec
         children: [
           LocationAutocomplete(
             title: Strings.jobLocationTitle,
-            hint: Strings.jobEvenementsExternesHint,
+            hint: Strings.jobEvenementEmploiHint,
             initialValue: _selectedLocation,
             onLocationSelected: (location) {
               _selectedLocation = location;
@@ -72,7 +72,7 @@ class _CriteresRechercheEvenementsExternesContenuState extends State<CriteresRec
     );
   }
 
-  bool _isSearchButtonEnabled(CriteresRechercheEvenementsExternesContenuViewModel viewModel) =>
+  bool _isSearchButtonEnabled(CriteresRechercheEvenementEmploiContenuViewModel viewModel) =>
       _isFormValid() && !viewModel.displayState.isLoading();
 
   bool _isFormValid() => _selectedLocation != null;
@@ -84,7 +84,7 @@ class _CriteresRechercheEvenementsExternesContenuState extends State<CriteresRec
     widget.onNumberOfCriteresChanged(criteresActifsCount);
   }
 
-  void _search(CriteresRechercheEvenementsExternesContenuViewModel viewModel) {
+  void _search(CriteresRechercheEvenementEmploiContenuViewModel viewModel) {
     if (_selectedLocation == null) return;
     viewModel.onSearchingRequest(_selectedLocation!);
     Keyboard.dismiss(context);

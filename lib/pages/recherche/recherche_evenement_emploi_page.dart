@@ -5,33 +5,33 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
-import 'package:pass_emploi_app/presentation/recherche/evenements_externes/actions_recherche_evenements_externes_view_model.dart';
+import 'package:pass_emploi_app/presentation/recherche/evenement_emploi/actions_recherche_evenement_emploi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_evenements_externes_contenu.dart';
+import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_evenement_emploi_contenu.dart';
 import 'package:redux/redux.dart';
 
-class RechercheEvenementsExternesPage extends RechercheOffrePage<Rendezvous> {
+class RechercheEvenementEmploiPage extends RechercheOffrePage<Rendezvous> {
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => RechercheEvenementsExternesPage());
+    return MaterialPageRoute(builder: (context) => RechercheEvenementEmploiPage());
   }
 
-  RechercheEvenementsExternesPage();
+  RechercheEvenementEmploiPage();
 
   static Widget withPrimaryAppBar() {
     const backgroundColor = AppColors.grey100;
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PrimaryAppBar(title: Strings.eventAppBarTitle, backgroundColor: backgroundColor),
-      body: RechercheEvenementsExternesPage(),
+      body: RechercheEvenementEmploiPage(),
     );
   }
 
   @override
   ActionsRechercheViewModel buildActionsRechercheViewModel(Store<AppState> store) {
-    return ActionsRechercheEvenementsExternesViewModel.create(store);
+    return ActionsRechercheEvenementEmploiViewModel.create(store);
   }
 
   @override
@@ -42,7 +42,7 @@ class RechercheEvenementsExternesPage extends RechercheOffrePage<Rendezvous> {
   String analyticsType() => "evenements_externes";
 
   @override
-  RechercheState rechercheState(AppState appState) => appState.rechercheEvenementsExternesState;
+  RechercheState rechercheState(AppState appState) => appState.rechercheEvenementEmploiState;
 
   @override
   FavoriIdsState<Rendezvous> favorisState(AppState appState) => FavoriIdsState<Rendezvous>.notInitialized();
@@ -55,7 +55,7 @@ class RechercheEvenementsExternesPage extends RechercheOffrePage<Rendezvous> {
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {
-    return CriteresRechercheEvenementsExternesContenu(onNumberOfCriteresChanged: onNumberOfCriteresChanged);
+    return CriteresRechercheEvenementEmploiContenu(onNumberOfCriteresChanged: onNumberOfCriteresChanged);
   }
 
   @override

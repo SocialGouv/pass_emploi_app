@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class EvenementsExternesFiltresRecherche extends Equatable {
+class EvenementEmploiFiltresRecherche extends Equatable {
   @override
   List<Object?> get props => [];
 }

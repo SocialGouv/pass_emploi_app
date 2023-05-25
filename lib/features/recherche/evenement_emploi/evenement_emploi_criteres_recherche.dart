@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/location.dart';
 
-class EvenementsExternesCriteresRecherche extends Equatable {
+class EvenementEmploiCriteresRecherche extends Equatable {
   final Location location;
 
-  EvenementsExternesCriteresRecherche({
+  EvenementEmploiCriteresRecherche({
     required this.location,
   });
 

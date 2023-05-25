@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/event_list_page.dart';
-import 'package:pass_emploi_app/pages/recherche/recherche_evenements_externes_page.dart';
+import 'package:pass_emploi_app/pages/recherche/recherche_evenement_emploi_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -68,7 +68,7 @@ extension _Tabs on List<EventTab> {
         case EventTab.maMissionLocale:
           return EventListPage();
         case EventTab.rechercheExternes:
-          return RechercheEvenementsExternesPage();
+          return RechercheEvenementEmploiPage();
       }
     }).toList();
   }

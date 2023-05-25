@@ -21,8 +21,8 @@ import 'package:pass_emploi_app/features/partage_activite/update/partage_activit
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
-import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_criteres_recherche.dart';
-import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
@@ -43,7 +43,7 @@ import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
-import 'package:pass_emploi_app/models/evenement_externe.dart';
+import 'package:pass_emploi_app/models/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
@@ -568,40 +568,40 @@ extension AppStateDSL on AppState {
     );
   }
 
-  AppState initialRechercheEvenementsExternesState() {
-    return copyWith(rechercheEvenementsExternesState: RechercheEvenementsExternesState.initial());
+  AppState initialRechercheEvenementEmploiState() {
+    return copyWith(rechercheEvenementEmploiState: RechercheEvenementEmploiState.initial());
   }
 
-  AppState initialLoadingRechercheEvenementsExternesState() {
+  AppState initialLoadingRechercheEvenementEmploiState() {
     return copyWith(
-      rechercheEvenementsExternesState:
-          RechercheEvenementsExternesState.initial().copyWith(status: RechercheStatus.initialLoading),
+      rechercheEvenementEmploiState:
+          RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.initialLoading),
     );
   }
 
-  AppState updateLoadingRechercheEvenementsExternesState() {
+  AppState updateLoadingRechercheEvenementEmploiState() {
     return copyWith(
-      rechercheEvenementsExternesState:
-          RechercheEvenementsExternesState.initial().copyWith(status: RechercheStatus.updateLoading),
+      rechercheEvenementEmploiState:
+          RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.updateLoading),
     );
   }
 
-  AppState failureRechercheEvenementsExternesState() {
+  AppState failureRechercheEvenementEmploiState() {
     return copyWith(
-      rechercheEvenementsExternesState:
-          RechercheEvenementsExternesState.initial().copyWith(status: RechercheStatus.failure),
+      rechercheEvenementEmploiState:
+          RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.failure),
     );
   }
 
-  AppState successRechercheEvenementsExternesState({
-    List<EvenementExterne>? results,
-    RechercheRequest<EvenementsExternesCriteresRecherche, EvenementsExternesFiltresRecherche>? request,
+  AppState successRechercheEvenementEmploiState({
+    List<EvenementEmploi>? results,
+    RechercheRequest<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>? request,
     bool canLoadMore = true,
   }) {
-    final _results = results ?? mockEvenementsExternes();
-    final _request = request ?? initialRechercheEvenementsExternesRequest();
+    final _results = results ?? mockEvenementsEmploi();
+    final _request = request ?? initialRechercheEvenementEmploiRequest();
     return copyWith(
-      rechercheEvenementsExternesState: RechercheEvenementsExternesState.initial().copyWith(
+      rechercheEvenementEmploiState: RechercheEvenementEmploiState.initial().copyWith(
         status: RechercheStatus.success,
         request: () => _request,
         results: () => _results,
@@ -610,14 +610,14 @@ extension AppStateDSL on AppState {
     );
   }
 
-  AppState successRechercheEvenementsExternesStateWithRequest({
-    EvenementsExternesCriteresRecherche? criteres,
-    EvenementsExternesFiltresRecherche? filtres,
+  AppState successRechercheEvenementEmploiStateWithRequest({
+    EvenementEmploiCriteresRecherche? criteres,
+    EvenementEmploiFiltresRecherche? filtres,
   }) {
-    return successRechercheEvenementsExternesState(
+    return successRechercheEvenementEmploiState(
       request: RechercheRequest(
-        criteres ?? EvenementsExternesCriteresRecherche(location: mockLocation()),
-        filtres ?? EvenementsExternesFiltresRecherche(),
+        criteres ?? EvenementEmploiCriteresRecherche(location: mockLocation()),
+        filtres ?? EvenementEmploiFiltresRecherche(),
         1,
       ),
     );

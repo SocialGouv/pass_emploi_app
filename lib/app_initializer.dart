@@ -58,7 +58,7 @@ import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
-import 'package:pass_emploi_app/repositories/evenements_externes_repository.dart';
+import 'package:pass_emploi_app/repositories/evenement_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
@@ -271,7 +271,7 @@ class AppInitializer {
       ContactImmersionRepository(dioClient, crashlytics),
       AccueilRepository(dioClient, crashlytics),
       CvRepository(dioClient, crashlytics),
-      EvenementsExternesRepository(dioClient, crashlytics),
+      EvenementEmploiRepository(dioClient, crashlytics),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

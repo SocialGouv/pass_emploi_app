@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_mo
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-class ActionsRechercheEvenementsExternesViewModel extends ActionsRechercheViewModel {
+class ActionsRechercheEvenementEmploiViewModel extends ActionsRechercheViewModel {
   @override
   final bool withAlertButton;
   @override
@@ -10,14 +10,14 @@ class ActionsRechercheEvenementsExternesViewModel extends ActionsRechercheViewMo
   @override
   final int? filtresCount;
 
-  ActionsRechercheEvenementsExternesViewModel({
+  ActionsRechercheEvenementEmploiViewModel({
     required this.withAlertButton,
     required this.withFiltreButton,
     required this.filtresCount,
   });
 
-  factory ActionsRechercheEvenementsExternesViewModel.create(Store<AppState> store) {
-    return ActionsRechercheEvenementsExternesViewModel(
+  factory ActionsRechercheEvenementEmploiViewModel.create(Store<AppState> store) {
+    return ActionsRechercheEvenementEmploiViewModel(
       withAlertButton: false,
       withFiltreButton: false,
       filtresCount: null,

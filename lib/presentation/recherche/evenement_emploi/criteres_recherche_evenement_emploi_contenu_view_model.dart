@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_criteres_recherche.dart';
-import 'package:pass_emploi_app/features/recherche/evenements_externes/evenements_externes_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
@@ -9,21 +9,21 @@ import 'package:pass_emploi_app/presentation/recherche/recherche_state_to_displa
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-class CriteresRechercheEvenementsExternesContenuViewModel extends Equatable {
+class CriteresRechercheEvenementEmploiContenuViewModel extends Equatable {
   final DisplayState displayState;
   final Location? initialLocation;
   final Function(Location location) onSearchingRequest;
 
-  CriteresRechercheEvenementsExternesContenuViewModel({
+  CriteresRechercheEvenementEmploiContenuViewModel({
     required this.displayState,
     required this.initialLocation,
     required this.onSearchingRequest,
   });
 
-  factory CriteresRechercheEvenementsExternesContenuViewModel.create(Store<AppState> store) {
-    return CriteresRechercheEvenementsExternesContenuViewModel(
-      displayState: store.state.rechercheEvenementsExternesState.displayState(),
-      initialLocation: store.state.rechercheEvenementsExternesState.request?.criteres.location,
+  factory CriteresRechercheEvenementEmploiContenuViewModel.create(Store<AppState> store) {
+    return CriteresRechercheEvenementEmploiContenuViewModel(
+      displayState: store.state.rechercheEvenementEmploiState.displayState(),
+      initialLocation: store.state.rechercheEvenementEmploiState.request?.criteres.location,
       onSearchingRequest: (loc) => _onSearchingRequest(store, loc),
     );
   }
@@ -34,12 +34,12 @@ class CriteresRechercheEvenementsExternesContenuViewModel extends Equatable {
 
 void _onSearchingRequest(Store<AppState> store, Location location) {
   store.dispatch(
-    RechercheRequestAction<EvenementsExternesCriteresRecherche, EvenementsExternesFiltresRecherche>(
+    RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>(
       RechercheRequest(
-        EvenementsExternesCriteresRecherche(
+        EvenementEmploiCriteresRecherche(
           location: location,
         ),
-        EvenementsExternesFiltresRecherche(),
+        EvenementEmploiFiltresRecherche(),
         1,
       ),
     ),

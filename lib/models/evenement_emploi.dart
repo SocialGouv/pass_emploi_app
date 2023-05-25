@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-class EvenementExterne extends Equatable {
+class EvenementEmploi extends Equatable {
   final String id;
   final String titre;
 
-  EvenementExterne({
+  EvenementEmploi({
     required this.id,
     required this.titre,
   });
@@ -12,8 +12,8 @@ class EvenementExterne extends Equatable {
   @override
   List<Object?> get props => [id];
 
-  factory EvenementExterne.fromJson(dynamic json) {
-    return EvenementExterne(
+  factory EvenementEmploi.fromJson(dynamic json) {
+    return EvenementEmploi(
       id: json['id'] as String,
       titre: json['titre'] as String,
     );
