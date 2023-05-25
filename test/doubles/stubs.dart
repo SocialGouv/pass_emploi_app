@@ -101,7 +101,7 @@ class PageActionRepositoryFailureStub extends PageActionRepository {
 class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
   Campagne? _campagne;
 
-  PageDemarcheRepositorySuccessStub() : super("", DummyHttpClient());
+  PageDemarcheRepositorySuccessStub() : super(DioMock());
 
   void withCampagne(Campagne campagne) {
     _campagne = campagne;
@@ -135,7 +135,7 @@ class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
 }
 
 class PageDemarcheRepositoryFailureStub extends PageDemarcheRepository {
-  PageDemarcheRepositoryFailureStub() : super("", DummyHttpClient());
+  PageDemarcheRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<PageDemarches?> getPageDemarches(String userId) async {
@@ -286,7 +286,7 @@ class ChatRepositoryStub extends ChatRepository {
 }
 
 class SuppressionCompteRepositorySuccessStub extends SuppressionCompteRepository {
-  SuppressionCompteRepositorySuccessStub() : super("", DummyHttpClient());
+  SuppressionCompteRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<bool> deleteUser(String userId) async {
@@ -295,7 +295,7 @@ class SuppressionCompteRepositorySuccessStub extends SuppressionCompteRepository
 }
 
 class SuppressionCompteRepositoryFailureStub extends SuppressionCompteRepository {
-  SuppressionCompteRepositoryFailureStub() : super("", DummyHttpClient());
+  SuppressionCompteRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<bool> deleteUser(String userId) async {
@@ -331,7 +331,7 @@ class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
 }
 
 class ActionCommentaireRepositorySuccessStub extends ActionCommentaireRepository {
-  ActionCommentaireRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  ActionCommentaireRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
@@ -345,7 +345,7 @@ class ActionCommentaireRepositorySuccessStub extends ActionCommentaireRepository
 }
 
 class ActionCommentaireRepositoryFailureStub extends ActionCommentaireRepository {
-  ActionCommentaireRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  ActionCommentaireRepositoryFailureStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
@@ -365,7 +365,7 @@ class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
   DateTime? _fin;
   DateTime? _debut;
 
-  UpdateDemarcheRepositorySuccessStub() : super('', DummyHttpClient());
+  UpdateDemarcheRepositorySuccessStub() : super(DioMock());
 
   void withArgsResolves(
     String userId,
@@ -397,7 +397,7 @@ class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
 }
 
 class UpdateDemarcheRepositoryFailureStub extends UpdateDemarcheRepository {
-  UpdateDemarcheRepositoryFailureStub() : super('', DummyHttpClient());
+  UpdateDemarcheRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<Demarche?> updateDemarche(

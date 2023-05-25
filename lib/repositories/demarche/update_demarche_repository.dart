@@ -1,16 +1,15 @@
-import 'package:http/http.dart';
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class UpdateDemarcheRepository {
-  final String _baseUrl;
-  final Client _httpClient;
+  final Dio _httpClient;
   final Crashlytics? _crashlytics;
 
-  UpdateDemarcheRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
+  UpdateDemarcheRepository(this._httpClient, [this._crashlytics]);
 
   Future<Demarche?> updateDemarche(
     String userId,
@@ -19,19 +18,19 @@ class UpdateDemarcheRepository {
     DateTime? dateFin,
     DateTime? dateDebut,
   ) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/demarches/$demarcheId/statut");
+    final url = "/jeunes/$userId/demarches/$demarcheId/statut";
     try {
-      final response = await _httpClient.put(url, body: {
-        "statut": _statusToString(status),
-        "dateFin": dateFin?.toIso8601WithOffsetDateTime(),
-        "dateDebut": dateDebut?.toIso8601WithOffsetDateTime(),
-      });
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes);
-        return Demarche.fromJson(json);
-      }
+      final response = await _httpClient.put(
+        url,
+        data: jsonEncode({
+          "statut": _statusToString(status),
+          "dateFin": dateFin?.toIso8601WithOffsetDateTime(),
+          "dateDebut": dateDebut?.toIso8601WithOffsetDateTime(),
+        }),
+      );
+      return Demarche.fromJson(response.data);
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return null;
   }

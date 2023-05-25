@@ -16,12 +16,10 @@ class SuggestionsRechercheRepository {
 
   SuggestionsRechercheRepository(this._baseUrl, this._httpClient, this._cacheManager, [this._crashlytics]);
 
-  static Uri getSuggestionsUri({required String baseUrl, required String userId}) {
-    return Uri.parse(baseUrl + "/jeunes/$userId/recherches/suggestions");
-  }
+  static String getSuggestionsUrl({required String userId}) => '/jeunes/$userId/recherches/suggestions';
 
   Future<List<SuggestionRecherche>?> getSuggestions(String userId) async {
-    final url = getSuggestionsUri(baseUrl: _baseUrl, userId: userId);
+    final url = Uri.parse(_baseUrl + getSuggestionsUrl(userId: userId));
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
@@ -66,7 +64,7 @@ class SuggestionsRechercheRepository {
 
 extension _CacheExt on PassEmploiCacheManager {
   void invalidateSuggestionsAndSavedSearch({required String baseUrl, required String userId}) {
-    removeSuggestionsRechercheResource(baseUrl: baseUrl, userId: userId);
-    removeResource(CachedResource.SAVED_SEARCH, userId, baseUrl);
+    removeSuggestionsRechercheResource(userId: userId);
+    removeResource(CachedResource.SAVED_SEARCH, userId);
   }
 }

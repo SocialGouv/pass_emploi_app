@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart'
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:redux/src/store.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
@@ -147,12 +147,12 @@ void main() {
 }
 
 class _FirebaseAuthRepositorySuccessStub extends FirebaseAuthRepository {
-  _FirebaseAuthRepositorySuccessStub() : super("", DummyHttpClient());
+  _FirebaseAuthRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<FirebaseAuthResponse?> getFirebaseAuth(String userId) async {
     await Future.delayed(Duration(milliseconds: 50));
-    if (userId == "id") return FirebaseAuthResponse("FIREBASE-TOKEN", "CLE");
+    if (userId == "id") return FirebaseAuthResponse(token: "FIREBASE-TOKEN", key: "CLE");
     return null;
   }
 }

@@ -63,7 +63,11 @@ class RepositorySut2<REPO> {
             .when(() => _client.get(mocktail.any(), queryParameters: mocktail.any(named: "queryParameters")))
             .thenAnswer((_) async => _response());
         mocktail //
-            .when(() => _client.post(mocktail.any(), data: mocktail.any(named: "data")))
+            .when(() => _client.post(
+                  mocktail.any(),
+                  data: mocktail.any(named: "data"),
+                  options: mocktail.any(named: "options"),
+                ))
             .thenAnswer((_) async => _response());
         mocktail //
             .when(() => _client.put(mocktail.any(), data: mocktail.any(named: "data")))
@@ -82,13 +86,16 @@ class RepositorySut2<REPO> {
     required HttpMethod method,
     required String url,
     Map<String, dynamic>? jsonBody,
+    Object? rawBody,
     Map<String, dynamic>? queryParameters,
+    Options? options,
   }) async {
     await _when(_repository);
 
     final dynamic capturedUrl;
     dynamic capturedData;
     dynamic capturedQueryParameters;
+    dynamic capturedOptions;
     switch (method) {
       case HttpMethod.get:
         final captured = mocktail
@@ -102,10 +109,15 @@ class RepositorySut2<REPO> {
         break;
       case HttpMethod.post:
         final captured = mocktail
-            .verify(() => _client.post(mocktail.captureAny(), data: mocktail.captureAny(named: "data")))
+            .verify(() => _client.post(
+                  mocktail.captureAny(),
+                  data: mocktail.captureAny(named: "data"),
+                  options: mocktail.captureAny(named: "options"),
+                ))
             .captured;
         capturedUrl = captured[0];
         capturedData = captured[1];
+        capturedOptions = captured[2];
         break;
       case HttpMethod.put:
         final captured = mocktail
@@ -121,7 +133,11 @@ class RepositorySut2<REPO> {
 
     expect(capturedUrl, url);
     if (jsonBody != null) expect(jsonDecode(capturedData as String), jsonBody);
+    if (rawBody != null) expect(capturedData, rawBody);
     if (capturedQueryParameters != null) expect(capturedQueryParameters, queryParameters);
+    if (capturedOptions != null) {
+      expect((capturedOptions as Options).contentType, options?.contentType);
+    }
     throwModeDemoExceptionIfNecessary(method == HttpMethod.get, Uri.parse(url));
   }
 

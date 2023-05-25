@@ -111,7 +111,7 @@ class StubSuccessHttpClient extends BaseClient {
 class FullCacheMock extends PassEmploiCacheManager {
   final DateTime? validUntill;
 
-  FullCacheMock([this.validUntill]) : super(DummyConfig());
+  FullCacheMock([this.validUntill]) : super(config: DummyConfig(), baseUrl: '');
 
   @override
   Future<FileInfo?> getFileFromCache(

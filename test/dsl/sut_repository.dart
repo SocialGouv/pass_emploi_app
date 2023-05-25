@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
@@ -49,6 +51,8 @@ class RepositorySut<REPO> {
     required String url,
     Map<String, dynamic>? bodyFields,
     Map<String, dynamic>? jsonBody,
+    Map<String, String>? headers,
+    Encoding? encoding,
   }) async {
     await _when(_repository);
 
@@ -57,6 +61,8 @@ class RepositorySut<REPO> {
 
     if (bodyFields != null) expect(_request.bodyFields, bodyFields);
     if (jsonBody != null) expect(jsonUtf8Decode(_request.bodyBytes), jsonBody);
+    if (headers != null) expect(_request.headers, headers);
+    if (encoding != null) expect(_request.encoding, encoding);
   }
 
   Future<void> expectResult<RESULT>(Function(RESULT) expectLambda) async {
@@ -70,7 +76,7 @@ class RepositorySut<REPO> {
   }
 
   Future<void> expectEmptyListAsResult() async {
-    expectResult<List<dynamic>>((list) {
+    await expectResult<List<dynamic>>((list) {
       expect(list, isEmpty);
     });
   }

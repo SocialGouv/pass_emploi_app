@@ -12,44 +12,48 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 class PassEmploiCacheManager extends CacheManager {
   static const Duration requestCacheDuration = Duration(minutes: 20);
 
-  PassEmploiCacheManager(Config config) : super(config);
+  final String baseUrl;
 
-  factory PassEmploiCacheManager.requestCache() {
-    return PassEmploiCacheManager(Config(
-      "PassEmploiCacheKey",
-      stalePeriod: requestCacheDuration,
-      maxNrOfCacheObjects: 30,
-    ));
+  PassEmploiCacheManager({required Config config, required this.baseUrl}) : super(config);
+
+  factory PassEmploiCacheManager.requestCache(String baseUrl) {
+    return PassEmploiCacheManager(
+      config: Config(
+        "PassEmploiCacheKey",
+        stalePeriod: requestCacheDuration,
+        maxNrOfCacheObjects: 30,
+      ),
+      baseUrl: baseUrl,
+    );
   }
 
-  void removeResource(CachedResource resourceToRemove, String userId, String baseUrl) {
+  void removeResource(CachedResource resourceToRemove, String userId) {
     switch (resourceToRemove) {
       case CachedResource.FAVORIS:
-        removeFile(GetFavorisRepository.getFavorisUri(baseUrl: baseUrl, userId: userId).toString());
-        removeFile(ImmersionFavorisRepository.getFavorisIdUri(baseUrl: baseUrl, userId: userId).toString());
-        removeFile(OffreEmploiFavorisRepository.getFavorisIdUri(baseUrl: baseUrl, userId: userId).toString());
-        removeFile(ServiceCiviqueFavorisRepository.getFavorisIdUri(baseUrl: baseUrl, userId: userId).toString());
+        removeFile(baseUrl + GetFavorisRepository.getFavorisUrl(userId: userId));
+        removeFile(baseUrl + ImmersionFavorisRepository.getFavorisIdUrl(userId: userId));
+        removeFile(baseUrl + OffreEmploiFavorisRepository.getFavorisIdUrl(userId: userId));
+        removeFile(baseUrl + ServiceCiviqueFavorisRepository.getFavorisIdUrl(userId: userId));
         break;
       case CachedResource.SAVED_SEARCH:
-        removeFile(GetSavedSearchRepository.getSavedSearchUri(baseUrl: baseUrl, userId: userId).toString());
+        removeFile(baseUrl + GetSavedSearchRepository.getSavedSearchUrl(userId: userId));
         break;
       case CachedResource.UPDATE_PARTAGE_ACTIVITE:
-        removeFile(PartageActiviteRepository.getPartageActiviteUri(baseUrl: baseUrl, userId: userId).toString());
+        removeFile(baseUrl + PartageActiviteRepository.getPartageActiviteUrl(userId: userId));
         break;
     }
   }
 
-  void removeActionCommentaireResource(String actionId, String baseUrl) {
-    removeFile(ActionCommentaireRepository.getCommentairesUri(baseUrl: baseUrl, actionId: actionId).toString());
+  void removeActionCommentaireResource(String actionId) {
+    removeFile(baseUrl + ActionCommentaireRepository.getCommentairesUrl(actionId: actionId));
   }
 
-  void removeSuggestionsRechercheResource({required String baseUrl, required String userId}) {
-    removeFile(SuggestionsRechercheRepository.getSuggestionsUri(baseUrl: baseUrl, userId: userId).toString());
+  void removeSuggestionsRechercheResource({required String userId}) {
+    removeFile(baseUrl + SuggestionsRechercheRepository.getSuggestionsUrl(userId: userId));
   }
 
-  void removeDiagorienteFavorisResource({required String baseUrl, required String userId}) {
-    final url = baseUrl + DiagorienteMetiersFavorisRepository.getUrl(userId: userId);
-    removeFile(url);
+  void removeDiagorienteFavorisResource({required String userId}) {
+    removeFile(baseUrl + DiagorienteMetiersFavorisRepository.getUrl(userId: userId));
   }
 }
 

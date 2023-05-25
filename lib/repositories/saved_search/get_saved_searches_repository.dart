@@ -13,12 +13,10 @@ class GetSavedSearchRepository {
 
   GetSavedSearchRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
-  static Uri getSavedSearchUri({required String baseUrl, required String userId}) {
-    return Uri.parse(baseUrl + "/jeunes/" + userId + "/recherches");
-  }
+  static String getSavedSearchUrl({required String userId}) => '/jeunes/$userId/recherches';
 
   Future<List<SavedSearch>?> getSavedSearch(String userId) async {
-    final url = getSavedSearchUri(baseUrl: _baseUrl, userId: userId);
+    final url = Uri.parse(_baseUrl + getSavedSearchUrl(userId: userId));
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {

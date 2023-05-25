@@ -51,6 +51,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
@@ -88,7 +89,6 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/repositories/cv_repository.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:redux/redux.dart';
@@ -170,10 +170,10 @@ class AppInitializer {
       FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
     );
     final logoutRepository = LogoutRepository(
-      configuration.authIssuer,
-      configuration.authClientSecret,
-      configuration.authClientId,
-      crashlytics,
+      authIssuer: configuration.authIssuer,
+      clientSecret: configuration.authClientSecret,
+      clientId: configuration.authClientId,
+      crashlytics: crashlytics,
     );
     final authenticator = Authenticator(
       AuthWrapper(FlutterAppAuth(), Lock(), crashlytics),
@@ -184,7 +184,7 @@ class AppInitializer {
     );
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
     final authAccessChecker = AuthAccessChecker();
-    final requestCacheManager = PassEmploiCacheManager.requestCache();
+    final requestCacheManager = PassEmploiCacheManager.requestCache(configuration.serverBaseUrl);
     final modeDemoRepository = ModeDemoRepository();
     final installationIdRepository = InstallationIdRepository(securedPreferences);
     final monitoringInterceptor = MonitoringInterceptor(installationIdRepository);
@@ -197,8 +197,6 @@ class AppInitializer {
       crashlytics,
       configuration,
     );
-    logoutRepository.setHttpClient(httpClient);
-    logoutRepository.setCacheManager(requestCacheManager);
     final baseUrl = configuration.serverBaseUrl;
     final monitoringDioInterceptor = MonitoringDioInterceptor(installationIdRepository);
     final dioClient = _makeDioClient(
@@ -209,6 +207,8 @@ class AppInitializer {
       authAccessChecker,
       monitoringDioInterceptor,
     );
+    logoutRepository.setHttpClient(dioClient);
+    logoutRepository.setCacheManager(requestCacheManager);
     final chatCrypto = ChatCrypto();
     final firebaseInstanceIdGetter = FirebaseInstanceIdGetter();
     final reduxStore = StoreFactory(
@@ -217,8 +217,8 @@ class AppInitializer {
       crashlytics,
       chatCrypto,
       PageActionRepository(dioClient, crashlytics),
-      PageDemarcheRepository(baseUrl, httpClient, crashlytics),
-      RendezvousRepository(baseUrl, httpClient, crashlytics),
+      PageDemarcheRepository(dioClient, crashlytics),
+      RendezvousRepository(dioClient, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, crashlytics),
       ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
       ConfigurationApplicationRepository(
@@ -233,10 +233,10 @@ class AppInitializer {
       ImmersionFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ServiceCiviqueFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       SearchLocationRepository(baseUrl, httpClient, crashlytics),
-      MetierRepository(baseUrl, httpClient),
+      MetierRepository(dioClient),
       ImmersionRepository(dioClient, crashlytics),
       ImmersionDetailsRepository(baseUrl, httpClient, crashlytics),
-      FirebaseAuthRepository(baseUrl, httpClient, crashlytics),
+      FirebaseAuthRepository(dioClient, crashlytics),
       FirebaseAuthWrapper(),
       TrackingEventRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
@@ -247,21 +247,21 @@ class AppInitializer {
       ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, crashlytics),
       DetailsJeuneRepository(dioClient, crashlytics),
-      SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
+      SuppressionCompteRepository(dioClient, crashlytics),
       modeDemoRepository,
       CampagneRepository(baseUrl, httpClient, crashlytics),
       matomoTracker,
-      UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
+      UpdateDemarcheRepository(dioClient, crashlytics),
       CreateDemarcheRepository(dioClient, crashlytics),
       SearchDemarcheRepository(baseUrl, httpClient, crashlytics),
       PieceJointeRepository(baseUrl, httpClient, crashlytics),
       TutorialRepository(securedPreferences),
       PartageActiviteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       RatingRepository(securedPreferences),
-      ActionCommentaireRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      ActionCommentaireRepository(dioClient, requestCacheManager, crashlytics),
       AgendaRepository(dioClient, crashlytics),
       SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      EventListRepository(baseUrl, httpClient, crashlytics),
+      EventListRepository(dioClient, crashlytics),
       installationIdRepository,
       DiagorienteUrlsRepository(dioClient, crashlytics),
       DiagorienteMetiersFavorisRepository(dioClient, requestCacheManager, crashlytics),

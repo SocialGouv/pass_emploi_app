@@ -34,7 +34,7 @@ class ImmersionSavedSearchRepository extends SavedSearchRepository<ImmersionSave
         ),
       );
       if (response.statusCode.isValid()) {
-        _cacheManager.removeResource(CachedResource.SAVED_SEARCH, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.SAVED_SEARCH, userId);
         return true;
       }
     } catch (e, stack) {

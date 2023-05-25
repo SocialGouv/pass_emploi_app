@@ -17,7 +17,7 @@ class SavedSearchDeleteRepository {
     try {
       final response = await _httpClient.delete(url);
       if (response.statusCode.isValid()) {
-        _cacheManager.removeResource(CachedResource.SAVED_SEARCH, userId, _baseUrl);
+        _cacheManager.removeResource(CachedResource.SAVED_SEARCH, userId);
         return true;
       }
     } catch (e, stack) {

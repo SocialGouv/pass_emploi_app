@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_s
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -51,7 +51,7 @@ Matcher _shouldSucceed() {
 }
 
 class RendezvousRepositorySuccessStub extends RendezvousRepository {
-  RendezvousRepositorySuccessStub() : super('', DummyHttpClient());
+  RendezvousRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<Rendezvous?> getRendezvous(String userId, String rendezvousId) async {
@@ -60,7 +60,7 @@ class RendezvousRepositorySuccessStub extends RendezvousRepository {
 }
 
 class RendezvousRepositoryErrorStub extends RendezvousRepository {
-  RendezvousRepositoryErrorStub() : super('', DummyHttpClient());
+  RendezvousRepositoryErrorStub() : super(DioMock());
 
   @override
   Future<Rendezvous?> getRendezvous(String userId, String rendezvousId) async {
