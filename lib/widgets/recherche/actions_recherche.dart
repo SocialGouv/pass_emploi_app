@@ -14,7 +14,7 @@ import 'package:redux/redux.dart';
 class ActionsRecherche extends StatelessWidget {
   final ActionsRechercheViewModel Function(Store<AppState> store) buildViewModel;
   final Widget Function() buildAlertBottomSheet;
-  final Route<bool> Function() buildFiltresMaterialPageRoute;
+  final Route<bool>? Function() buildFiltresMaterialPageRoute;
   final Function() onFiltreApplied;
 
   ActionsRecherche({
@@ -73,7 +73,9 @@ class ActionsRecherche extends StatelessWidget {
   }
 
   Future<void> _onFiltreButtonPressed(BuildContext context) {
-    return Navigator.push(context, buildFiltresMaterialPageRoute()).then((value) {
+    final route = buildFiltresMaterialPageRoute();
+    if (route == null) return Future(() => {});
+    return Navigator.push(context, route).then((value) {
       if (value == true) onFiltreApplied();
     });
   }

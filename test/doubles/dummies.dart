@@ -31,6 +31,7 @@ import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
+import 'package:pass_emploi_app/repositories/evenement_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -402,4 +403,9 @@ class DummyAccueilRepository extends AccueilRepository {
 class DummyCvRepository extends CvRepository {
   DummyCvRepository() : super(DioMock());
 }
+
+class DummyEvenementEmploiRepository extends EvenementEmploiRepository {
+  DummyEvenementEmploiRepository() : super(DioMock());
+}
+
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

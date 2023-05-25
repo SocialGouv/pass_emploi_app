@@ -21,6 +21,8 @@ import 'package:pass_emploi_app/features/partage_activite/update/partage_activit
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
@@ -41,6 +43,7 @@ import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
+import 'package:pass_emploi_app/models/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
@@ -560,6 +563,61 @@ extension AppStateDSL on AppState {
       request: RechercheRequest(
         criteres ?? ImmersionCriteresRecherche(location: mockLocation(), metier: mockMetier()),
         filtres ?? ImmersionFiltresRecherche.noFiltre(),
+        1,
+      ),
+    );
+  }
+
+  AppState initialRechercheEvenementEmploiState() {
+    return copyWith(rechercheEvenementEmploiState: RechercheEvenementEmploiState.initial());
+  }
+
+  AppState initialLoadingRechercheEvenementEmploiState() {
+    return copyWith(
+      rechercheEvenementEmploiState:
+          RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.initialLoading),
+    );
+  }
+
+  AppState updateLoadingRechercheEvenementEmploiState() {
+    return copyWith(
+      rechercheEvenementEmploiState:
+          RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.updateLoading),
+    );
+  }
+
+  AppState failureRechercheEvenementEmploiState() {
+    return copyWith(
+      rechercheEvenementEmploiState:
+          RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.failure),
+    );
+  }
+
+  AppState successRechercheEvenementEmploiState({
+    List<EvenementEmploi>? results,
+    RechercheRequest<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>? request,
+    bool canLoadMore = true,
+  }) {
+    final _results = results ?? mockEvenementsEmploi();
+    final _request = request ?? initialRechercheEvenementEmploiRequest();
+    return copyWith(
+      rechercheEvenementEmploiState: RechercheEvenementEmploiState.initial().copyWith(
+        status: RechercheStatus.success,
+        request: () => _request,
+        results: () => _results,
+        canLoadMore: canLoadMore,
+      ),
+    );
+  }
+
+  AppState successRechercheEvenementEmploiStateWithRequest({
+    EvenementEmploiCriteresRecherche? criteres,
+    EvenementEmploiFiltresRecherche? filtres,
+  }) {
+    return successRechercheEvenementEmploiState(
+      request: RechercheRequest(
+        criteres ?? EvenementEmploiCriteresRecherche(location: mockLocation()),
+        filtres ?? EvenementEmploiFiltresRecherche(),
         1,
       ),
     );

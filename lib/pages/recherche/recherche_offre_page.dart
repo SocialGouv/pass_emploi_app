@@ -20,7 +20,7 @@ import 'package:redux/redux.dart';
 abstract class RechercheOffrePage<Result> extends StatefulWidget {
   ActionsRechercheViewModel buildActionsRechercheViewModel(Store<AppState> store);
 
-  String appBarTitle();
+  String? appBarTitle();
 
   String analyticsType();
 
@@ -30,7 +30,7 @@ abstract class RechercheOffrePage<Result> extends StatefulWidget {
 
   Widget buildAlertBottomSheet();
 
-  Route<bool> buildFiltresMaterialPageRoute();
+  Route<bool>? buildFiltresMaterialPageRoute();
 
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged});
 
@@ -63,7 +63,9 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
       tracking: AnalyticsScreenNames.rechercheInitiale(widget.analyticsType()),
       child: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: SecondaryAppBar(title: widget.appBarTitle(), backgroundColor: backgroundColor),
+        appBar: widget.appBarTitle() != null
+            ? SecondaryAppBar(title: widget.appBarTitle()!, backgroundColor: backgroundColor)
+            : null,
         floatingActionButton: ActionsRecherche(
           buildViewModel: widget.buildActionsRechercheViewModel,
           buildAlertBottomSheet: widget.buildAlertBottomSheet,

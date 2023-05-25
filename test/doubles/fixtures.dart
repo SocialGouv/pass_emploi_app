@@ -7,6 +7,8 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
@@ -21,6 +23,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/diagoriente_urls.dart';
+import 'package:pass_emploi_app/models/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
@@ -195,6 +198,14 @@ Configuration configuration(
 
 Configuration brsaConfiguration() => configuration(brand: Brand.brsa);
 
+Location mockLocationParis() => Location(
+      libelle: "Paris",
+      code: "75",
+      type: LocationType.DEPARTMENT,
+      latitude: 1,
+      longitude: 2,
+    );
+
 Location mockLocation({double? lat, double? lon}) => Location(
       libelle: "",
       code: "",
@@ -205,7 +216,8 @@ Location mockLocation({double? lat, double? lon}) => Location(
 
 Location mockCommuneLocation({double? lat, double? lon, String label = ""}) => Location(
       libelle: label,
-      code: "",
+      code: "code",
+      codePostal: "codePostal",
       type: LocationType.COMMUNE,
       latitude: lat,
       longitude: lon,
@@ -408,6 +420,21 @@ Rendezvous mockRendezvousPoleEmploi() {
     visioRedirectUrl: 'http://www.visio.fr',
   );
 }
+
+EvenementEmploi mockEvenementEmploi() {
+  return EvenementEmploi(
+    id: 'id',
+    type: 'type',
+    titre: 'titre',
+    ville: 'ville',
+    codePostal: 'codePostal',
+    dateDebut: DateTime(2023, 1, 1, 10, 0, 0),
+    dateFin: DateTime(2023, 1, 1, 13, 0, 0),
+    modalites: [EvenementEmploiModalite.enPhysique],
+  );
+}
+
+List<EvenementEmploi> mockEvenementsEmploi() => [mockEvenementEmploi()];
 
 DetailsJeune detailsJeune() {
   return DetailsJeune(
@@ -714,6 +741,15 @@ RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche
   return RechercheRequest(
     ServiceCiviqueCriteresRecherche(location: null),
     ServiceCiviqueFiltresRecherche.noFiltre(),
+    1,
+  );
+}
+
+RechercheRequest<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>
+    initialRechercheEvenementEmploiRequest() {
+  return RechercheRequest(
+    EvenementEmploiCriteresRecherche(location: mockLocation()),
+    EvenementEmploiFiltresRecherche(),
     1,
   );
 }

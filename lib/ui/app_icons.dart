@@ -40,6 +40,7 @@ class AppIcons {
   static const IconData timer_rounded = Icons.timer_rounded;
   static const IconData lock_rounded = Icons.lock_rounded;
   static const IconData flag_rounded = Icons.flag_rounded;
+  static const IconData schedule = Icons.schedule;
   static const IconData schedule_rounded = AppIconsAdditional.schedule;
   static const IconData error_rounded = Icons.error_rounded;
   static const IconData person_rounded = Icons.person_rounded;

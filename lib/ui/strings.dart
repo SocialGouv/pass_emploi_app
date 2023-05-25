@@ -456,6 +456,8 @@ class Strings {
   static String jobLocationImmersionHint = "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
   static String jobLocationServiceCiviqueHint =
       "Sélectionnez une ville dans laquelle vous cherchez un service civique.";
+  static String jobEvenementEmploiHint =
+      "Sélectionnez une ville dans laquelle vous cherchez un événement.";
   static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
@@ -781,6 +783,8 @@ class Strings {
   static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
   static String eventAppBarTitle = "Événements";
+  static String eventTabMaMissionLocale = "Ma Mission Locale";
+  static String eventTabExternes = "Externes";
 
   // Mode dégradé Pôle Emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
