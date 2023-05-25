@@ -3,12 +3,14 @@ import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/evenement_emploi.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
+import 'package:pass_emploi_app/presentation/evenement_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/evenement_emploi/actions_recherche_evenement_emploi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/cards/evenement_emploi_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_evenement_emploi_contenu.dart';
 import 'package:redux/redux.dart';
@@ -64,7 +66,7 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
     int index,
     BlocResultatRechercheViewModel<EvenementEmploi> resultViewModel,
   ) {
-    //TODO: nouvelle carte à créer
-    return Text('ID: ${item.id} - Titre: ${item.titre}');
+    final viewModel = EvenementEmploiItemViewModel.create(item);
+    return EvenementEmploiCard(viewModel);
   }
 }

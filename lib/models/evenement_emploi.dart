@@ -21,8 +21,8 @@ class EvenementEmploi extends Equatable {
   final String titre;
   final String ville;
   final String codePostal;
-  final DateTime? dateDebut;
-  final DateTime? dateFin;
+  final DateTime dateDebut;
+  final DateTime dateFin;
   final List<EvenementEmploiModalite> modalites;
 
   EvenementEmploi({
