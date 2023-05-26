@@ -111,6 +111,15 @@ class TextStyles {
     decoration: TextDecoration.underline,
   );
 
+  static TextStyle textBaseMediumBold({Color? color = AppColors.contentColor}) {
+    return TextStyle(
+      color: color,
+      fontFamily: 'Marianne',
+      fontSize: FontSizes.medium,
+      fontWeight: FontWeight.w600,
+    );
+  }
+
   static final textBaseMedium = TextStyle(
     color: AppColors.contentColor,
     fontFamily: 'Marianne',
@@ -118,12 +127,12 @@ class TextStyles {
     fontWeight: FontWeight.w500,
   );
 
-  static TextStyle textBaseMediumBold({Color? color = AppColors.contentColor}) {
+  static TextStyle textMBoldWithColor({Color? color = AppColors.contentColor}) {
     return TextStyle(
       color: color,
       fontFamily: 'Marianne',
       fontSize: FontSizes.medium,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
     );
   }
 

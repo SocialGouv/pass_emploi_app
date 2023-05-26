@@ -786,6 +786,7 @@ class Strings {
   static String eventAppBarTitle = "Événements";
   static String eventTabMaMissionLocale = "Ma Mission Locale";
   static String eventTabExternes = "Externes";
+  static String eventEmploiDetailsAppBarTitle = "Détail de l’événement";
 
   // Événements Emploi
   static const String secteurActiviteLabel = "Secteur d'activité";
