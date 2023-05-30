@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/diagoriente_urls.dart';
 import 'package:pass_emploi_app/models/evenement_emploi.dart';
+import 'package:pass_emploi_app/models/evenement_emploi_details.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
@@ -435,6 +436,18 @@ EvenementEmploi mockEvenementEmploi() {
 }
 
 List<EvenementEmploi> mockEvenementsEmploi() => [mockEvenementEmploi()];
+
+EvenementEmploiDetails mockEvenementEmploiDetails() {
+  return EvenementEmploiDetails(
+    tag: "tag",
+    titre: "titre",
+    date: "date",
+    heure: "heure",
+    lieu: "lieu",
+    type: "type",
+    description: "description",
+  );
+}
 
 DetailsJeune detailsJeune() {
   return DetailsJeune(
