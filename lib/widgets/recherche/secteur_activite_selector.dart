@@ -73,10 +73,40 @@ class _SecteurActiviteField extends StatelessWidget {
               borderRadius: BorderRadius.circular(Dimens.radius_base),
               border: Border.all(color: AppColors.contentColor),
             ),
-            child: Text(value?.label ?? 'Tous'),
+            child: value != null ? _SelectedSecteurActivite(value!.label) : SizedBox(),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _SelectedSecteurActivite extends StatelessWidget {
+  final String label;
+
+  const _SelectedSecteurActivite(this.label);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: 12),
+      child: Wrap(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_s, vertical: Margins.spacing_xs),
+            decoration: BoxDecoration(
+              color: AppColors.primaryLighten,
+              borderRadius: BorderRadius.all(Radius.circular(Dimens.radius_base)),
+            ),
+            child: Text(
+              label,
+              style: TextStyles.textSMedium(color: AppColors.primary),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
