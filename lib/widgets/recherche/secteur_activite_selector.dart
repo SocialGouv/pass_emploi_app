@@ -62,13 +62,13 @@ class _SecteurActiviteField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.secteurActiviteLabel, style: TextStyles.textBaseBold),
-        Text(Strings.secteurActiviteHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
         SizedBox(height: Margins.spacing_base),
         GestureDetector(
           onTap: onFieldTap,
           child: Container(
             height: 56,
             width: double.maxFinite,
+            alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Dimens.radius_base),
               border: Border.all(color: AppColors.contentColor),
