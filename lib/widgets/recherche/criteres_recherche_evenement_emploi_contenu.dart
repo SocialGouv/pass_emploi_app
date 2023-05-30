@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/secteur_activite.dart';
 import 'package:pass_emploi_app/presentation/recherche/evenement_emploi/criteres_recherche_evenement_emploi_contenu_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -8,6 +9,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
+import 'package:pass_emploi_app/widgets/recherche/secteur_activite_selector.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/location_autocomplete.dart';
 
 class CriteresRechercheEvenementEmploiContenu extends StatefulWidget {
@@ -24,7 +26,7 @@ class CriteresRechercheEvenementEmploiContenu extends StatefulWidget {
 class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRechercheEvenementEmploiContenu> {
   bool initialBuild = true;
   Location? _selectedLocation;
-  String? _keyword;
+  SecteurActivite? _secteurActivite;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,14 @@ class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRecher
             },
           ),
           const SizedBox(height: Margins.spacing_m),
+          SecteurActiviteSelector(
+            initialValue: _secteurActivite,
+            onSecteurActiviteSelected: (secteur) {
+              _secteurActivite = secteur;
+              _updateCriteresActifsCount();
+            },
+          ),
+          const SizedBox(height: Margins.spacing_m),
           if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
           PrimaryActionButton(
             label: Strings.searchButton,
@@ -80,7 +90,7 @@ class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRecher
 
   void _updateCriteresActifsCount() {
     int criteresActifsCount = 0;
-    criteresActifsCount += _keyword?.isNotEmpty == true ? 1 : 0;
+    criteresActifsCount += _secteurActivite != null ? 1 : 0;
     criteresActifsCount += _selectedLocation != null ? 1 : 0;
     widget.onNumberOfCriteresChanged(criteresActifsCount);
   }

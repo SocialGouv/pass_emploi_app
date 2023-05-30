@@ -788,6 +788,9 @@ class Strings {
   static String eventTabExternes = "Externes";
 
   // Événements Emploi
+  static const String secteurActiviteLabel = "Secteur d'activité";
+  static const String secteurActiviteHint = "Sélectionnez un secteur d'activité";
+  static const String secteurActiviteAll = "Tous les secteurs d'activité";
   static const String secteurActiviteAgriculture =
       "Agriculture et Pêche, Espaces naturels et Espaces verts, Soins aux animaux";
   static const String secteurActiviteArt = "Arts et Façonnage d'ouvrages d'art";
