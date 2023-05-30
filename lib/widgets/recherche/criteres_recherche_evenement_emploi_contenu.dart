@@ -26,7 +26,7 @@ class CriteresRechercheEvenementEmploiContenu extends StatefulWidget {
 class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRechercheEvenementEmploiContenu> {
   bool initialBuild = true;
   Location? _selectedLocation;
-  SecteurActivite? _secteurActivite;
+  SecteurActivite? _secteurSecteurActivite;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRecher
   }
 
   void _onInitialBuild(CriteresRechercheEvenementEmploiContenuViewModel viewModel) {
-    if (viewModel.initialLocation != null) _updateCriteresActifsCount();
+    if (viewModel.initialLocation != null || viewModel.initialSecteurActivite != null) _updateCriteresActifsCount();
     initialBuild = false;
   }
 
@@ -47,6 +47,7 @@ class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRecher
     // onInitialBuild is called AFTER the first build, so we need to do it here
     if (initialBuild) {
       _selectedLocation = viewModel.initialLocation;
+      _secteurSecteurActivite = viewModel.initialSecteurActivite;
     }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
@@ -65,9 +66,9 @@ class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRecher
           ),
           const SizedBox(height: Margins.spacing_m),
           SecteurActiviteSelector(
-            initialValue: _secteurActivite,
+            initialValue: _secteurSecteurActivite,
             onSecteurActiviteSelected: (secteur) {
-              _secteurActivite = secteur;
+              _secteurSecteurActivite = secteur;
               _updateCriteresActifsCount();
             },
           ),
@@ -90,14 +91,14 @@ class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRecher
 
   void _updateCriteresActifsCount() {
     int criteresActifsCount = 0;
-    criteresActifsCount += _secteurActivite != null ? 1 : 0;
+    criteresActifsCount += _secteurSecteurActivite != null ? 1 : 0;
     criteresActifsCount += _selectedLocation != null ? 1 : 0;
     widget.onNumberOfCriteresChanged(criteresActifsCount);
   }
 
   void _search(CriteresRechercheEvenementEmploiContenuViewModel viewModel) {
     if (_selectedLocation == null) return;
-    viewModel.onSearchingRequest(_selectedLocation!);
+    viewModel.onSearchingRequest(_selectedLocation!, _secteurSecteurActivite);
     Keyboard.dismiss(context);
   }
 }

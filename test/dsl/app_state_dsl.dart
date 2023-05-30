@@ -616,7 +616,7 @@ extension AppStateDSL on AppState {
   }) {
     return successRechercheEvenementEmploiState(
       request: RechercheRequest(
-        criteres ?? EvenementEmploiCriteresRecherche(location: mockLocation()),
+        criteres ?? EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: null),
         filtres ?? EvenementEmploiFiltresRecherche(),
         1,
       ),

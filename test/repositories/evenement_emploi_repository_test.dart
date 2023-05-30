@@ -20,7 +20,7 @@ void main() {
         (repository) => repository.rechercher(
           userId: 'UID',
           request: RechercheRequest(
-            EvenementEmploiCriteresRecherche(location: mockCommuneLocation()),
+            EvenementEmploiCriteresRecherche(location: mockCommuneLocation(), secteurActivite: null),
             EvenementEmploiFiltresRecherche(),
             1,
           ),
