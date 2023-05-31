@@ -1,5 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pass_emploi_app/repositories/evenement_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
@@ -17,3 +18,5 @@ class MockOffreEmploiDetailsRepository extends Mock implements OffreEmploiDetail
 class MockMatomoTracker extends Mock implements PassEmploiMatomoTracker {}
 
 class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage{}
+
+class MockSecteurActiviteQueryMapper extends Mock implements SecteurActiviteQueryMapper {}
