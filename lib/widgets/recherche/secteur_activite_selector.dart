@@ -73,7 +73,7 @@ class _SecteurActiviteField extends StatelessWidget {
               borderRadius: BorderRadius.circular(Dimens.radius_base),
               border: Border.all(color: AppColors.contentColor),
             ),
-            child: value != null ? _SelectedSecteurActivite(value!.label) : SizedBox(),
+            child: _SelectedSecteurActivite(value?.label ?? Strings.secteurActiviteAll),
           ),
         ),
       ],
