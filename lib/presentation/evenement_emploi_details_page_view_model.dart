@@ -3,17 +3,17 @@ import 'package:pass_emploi_app/features/evenement_emploi_details/evenement_empl
 import 'package:pass_emploi_app/models/evenement_emploi_details.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
 class EvenementEmploiDetailsPageViewModel extends Equatable {
   final DisplayState displayState;
-  final String tag;
+  final String? tag;
   final String titre;
   final String date;
   final String heure;
   final String lieu;
-  final String type;
-  final String description;
+  final String? description;
 
   EvenementEmploiDetailsPageViewModel({
     required this.displayState,
@@ -22,7 +22,6 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
     required this.date,
     required this.heure,
     required this.lieu,
-    required this.type,
     required this.description,
   });
 
@@ -35,12 +34,12 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
 
     return EvenementEmploiDetailsPageViewModel(
       displayState: displayState,
-      tag: details.tag,
-      titre: details.titre,
-      date: details.date,
-      heure: details.heure,
-      lieu: details.lieu,
-      type: details.type,
+      tag: details.typeEvenement,
+      titre: details.titre ?? "",
+      date: details.dateEvenement?.toDayWithFullMonth() ?? "",
+      heure:
+          details.heureDebut != null && details.heureFin != null ? "${details.heureDebut} - ${details.heureFin}" : "",
+      lieu: details.ville != null && details.codePostal != null ? "${details.codePostal} - ${details.ville}" : "",
       description: details.description,
     );
   }
@@ -53,13 +52,12 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
       date: "",
       heure: "",
       lieu: "",
-      type: "",
       description: "",
     );
   }
 
   @override
-  List<Object?> get props => [displayState, tag, titre, date, heure, lieu, type, description];
+  List<Object?> get props => [displayState, tag, titre, date, heure, lieu, description];
 }
 
 DisplayState _displayState(EvenementEmploiDetailsState state) {

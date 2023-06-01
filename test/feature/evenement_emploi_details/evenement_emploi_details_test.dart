@@ -15,7 +15,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting", () {
-      sut.when(() => EvenementEmploiDetailsRequestAction());
+      sut.when(() => EvenementEmploiDetailsRequestAction("id"));
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState() //
@@ -53,7 +53,7 @@ class EvenementEmploiDetailsRepositorySuccessStub extends EvenementEmploiDetails
   EvenementEmploiDetailsRepositorySuccessStub() : super(DioMock());
 
   @override
-  Future<EvenementEmploiDetails?> get() async {
+  Future<EvenementEmploiDetails?> get(String eventId) async {
     return mockEvenementEmploiDetails();
   }
 }
@@ -62,7 +62,7 @@ class EvenementEmploiDetailsRepositoryErrorStub extends EvenementEmploiDetailsRe
   EvenementEmploiDetailsRepositoryErrorStub() : super(DioMock());
 
   @override
-  Future<EvenementEmploiDetails?> get() async {
+  Future<EvenementEmploiDetails?> get(String eventId) async {
     return null;
   }
 }

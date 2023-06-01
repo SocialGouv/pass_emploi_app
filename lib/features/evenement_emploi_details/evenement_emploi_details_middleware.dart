@@ -15,7 +15,7 @@ class EvenementEmploiDetailsMiddleware extends MiddlewareClass<AppState> {
     if (userId == null) return;
     if (action is EvenementEmploiDetailsRequestAction) {
       store.dispatch(EvenementEmploiDetailsLoadingAction());
-      final details = await _repository.get();
+      final details = await _repository.get(action.eventId);
       if (details != null) {
         store.dispatch(EvenementEmploiDetailsSuccessAction(details));
       } else {
