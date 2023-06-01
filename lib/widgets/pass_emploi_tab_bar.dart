@@ -35,7 +35,7 @@ class PassEmploiTabBar extends StatelessWidget {
               tabs: _tabs(),
             ),
           ),
-          SepLine(0, 0, color: AppColors.grey500),
+          if (Brand.isCej()) SepLine(0, 0, color: AppColors.grey500),
         ],
       ),
     );
