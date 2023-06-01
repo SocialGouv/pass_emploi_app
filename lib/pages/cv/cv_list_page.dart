@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/cv/cv_actions.dart';
 import 'package:pass_emploi_app/models/cv_pole_emploi.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/cv/cv_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -12,6 +13,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -146,7 +148,7 @@ class _CvListView extends StatelessWidget {
                     : SecondaryButton(
                         label: Strings.cvDownload,
                         icon: AppIcons.download_rounded,
-                        onPressed: () => viewModel.onDownload(cv),
+                        onPressed: () => _downloadCv(context, cv),
                       )
               ],
             ),
@@ -154,6 +156,11 @@ class _CvListView extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _downloadCv(BuildContext context, CvPoleEmploi cv) {
+    viewModel.onDownload(cv);
+    context.trackEvent(EventType.CV_PE_TELECHARGE);
   }
 }
 

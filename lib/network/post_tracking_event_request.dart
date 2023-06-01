@@ -22,7 +22,8 @@ enum EventType {
   ACTION_DETAIL,
   ANIMATION_COLLECTIVE_PARTAGEE,
   ANIMATION_COLLECTIVE_AFFICHEE,
-  RDV_DETAIL
+  RDV_DETAIL,
+  CV_PE_TELECHARGE,
 }
 
 class PostTrackingEmetteur extends JsonSerializable {
@@ -110,6 +111,8 @@ class PostTrackingEvent extends JsonSerializable {
         return "ANIMATION_COLLECTIVE_AFFICHEE";
       case EventType.RDV_DETAIL:
         return "RDV_DETAIL";
+      case EventType.CV_PE_TELECHARGE:
+        return "CV_PE_TELECHARGE";
     }
   }
 }
