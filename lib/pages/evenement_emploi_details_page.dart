@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/features/evenement_emploi_details/evenement_emploi_details_actions.dart';
 import 'package:pass_emploi_app/presentation/evenement_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -29,6 +30,7 @@ class EvenementEmploiDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const backgroundColor = Colors.white;
     return StoreConnector<AppState, EvenementEmploiDetailsPageViewModel>(
+        onInit: (store) => store.dispatch(EvenementEmploiDetailsRequestAction(eventId)),
         converter: (store) => EvenementEmploiDetailsPageViewModel.create(store),
         builder: (context, vm) {
           return Scaffold(
