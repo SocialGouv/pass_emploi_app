@@ -68,6 +68,7 @@ import 'package:synchronized/synchronized.dart';
 import 'dio_mock.dart';
 import 'dummies_for_cache.dart';
 import 'fixtures.dart';
+import 'mocks.dart';
 
 // ignore: ban-name, no need to use PassEmploiMockClient here
 class DummyHttpClient extends MockClient {
@@ -405,7 +406,7 @@ class DummyCvRepository extends CvRepository {
 }
 
 class DummyEvenementEmploiRepository extends EvenementEmploiRepository {
-  DummyEvenementEmploiRepository() : super(DioMock());
+  DummyEvenementEmploiRepository() : super(DioMock(), MockSecteurActiviteQueryMapper());
 }
 
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

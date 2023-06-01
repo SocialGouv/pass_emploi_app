@@ -12,13 +12,13 @@ import 'package:redux/redux.dart';
 
 class CriteresRechercheEmploiContenuViewModel extends Equatable {
   final DisplayState displayState;
-  final String? initiaKeyword;
+  final String? initialKeyword;
   final Location? initialLocation;
   final Function(String keyword, Location? location, bool onlyAlternance) onSearchingRequest;
 
   CriteresRechercheEmploiContenuViewModel({
     required this.displayState,
-    required this.initiaKeyword,
+    required this.initialKeyword,
     required this.initialLocation,
     required this.onSearchingRequest,
   });
@@ -26,7 +26,7 @@ class CriteresRechercheEmploiContenuViewModel extends Equatable {
   factory CriteresRechercheEmploiContenuViewModel.create(Store<AppState> store) {
     return CriteresRechercheEmploiContenuViewModel(
       displayState: store.state.rechercheEmploiState.displayState(),
-      initiaKeyword: store.state.rechercheEmploiState.request?.criteres.keyword,
+      initialKeyword: store.state.rechercheEmploiState.request?.criteres.keyword,
       initialLocation: store.state.rechercheEmploiState.request?.criteres.location,
       onSearchingRequest: (keyword, loc, onlyAlternance) => _onSearchingRequest(store, keyword, loc, onlyAlternance),
     );

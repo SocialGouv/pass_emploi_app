@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_em
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
+import 'package:pass_emploi_app/models/secteur_activite.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/evenement_emploi/criteres_recherche_evenement_emploi_contenu_view_model.dart';
 
@@ -53,7 +54,10 @@ void main() {
       final viewModel = CriteresRechercheEvenementEmploiContenuViewModel.create(store);
 
       // When
-      viewModel.onSearchingRequest(mockLocation());
+      viewModel.onSearchingRequest(EvenementEmploiCriteresRecherche(
+        location: mockLocation(),
+        secteurActivite: SecteurActivite.agriculture,
+      ));
 
       // Then
       final dispatchedAction = store.dispatchedAction;
@@ -62,11 +66,10 @@ void main() {
         isA<RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>>(),
       );
       expect(
-        (dispatchedAction
-                as RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>)
+        (dispatchedAction as RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>)
             .request,
         RechercheRequest(
-          EvenementEmploiCriteresRecherche(location: mockLocation()),
+          EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: SecteurActivite.agriculture),
           EvenementEmploiFiltresRecherche(),
           1,
         ),
@@ -76,12 +79,14 @@ void main() {
     test('on updated request should dispatch proper action with previous filtres', () {
       // Given
       final previousFiltres = EvenementEmploiFiltresRecherche();
-      final store =
-          givenState().successRechercheEvenementEmploiStateWithRequest(filtres: previousFiltres).spyStore();
+      final store = givenState().successRechercheEvenementEmploiStateWithRequest(filtres: previousFiltres).spyStore();
       final viewModel = CriteresRechercheEvenementEmploiContenuViewModel.create(store);
 
       // When
-      viewModel.onSearchingRequest(mockLocation());
+      viewModel.onSearchingRequest(EvenementEmploiCriteresRecherche(
+        location: mockLocation(),
+        secteurActivite: SecteurActivite.sante,
+      ));
 
       // Then
       final dispatchedAction = store.dispatchedAction;
@@ -90,11 +95,10 @@ void main() {
         isA<RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>>(),
       );
       expect(
-        (dispatchedAction
-                as RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>)
+        (dispatchedAction as RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>)
             .request,
         RechercheRequest(
-          EvenementEmploiCriteresRecherche(location: mockLocation()),
+          EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: SecteurActivite.sante),
           EvenementEmploiFiltresRecherche(),
           1,
         ),

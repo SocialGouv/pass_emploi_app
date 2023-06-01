@@ -1,26 +1,35 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
+import 'package:pass_emploi_app/models/secteur_activite.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi_repository.dart';
 
 import '../doubles/fixtures.dart';
+import '../doubles/mocks.dart';
 import '../dsl/sut_repository2.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
   group('EvenementEmploiRepository', () {
     final sut = RepositorySut2<EvenementEmploiRepository>();
-    sut.givenRepository((client) => EvenementEmploiRepository(client));
+    final secteurActiviteQueryMapper = MockSecteurActiviteQueryMapper();
+    sut.givenRepository((client) => EvenementEmploiRepository(client, secteurActiviteQueryMapper));
 
     group('rechercher', () {
+      when(() => secteurActiviteQueryMapper.getQueryParamValue(SecteurActivite.agriculture)).thenReturn('A');
+
       sut.when(
         (repository) => repository.rechercher(
           userId: 'UID',
           request: RechercheRequest(
-            EvenementEmploiCriteresRecherche(location: mockCommuneLocation()),
+            EvenementEmploiCriteresRecherche(
+              location: mockCommuneLocation(),
+              secteurActivite: SecteurActivite.agriculture,
+            ),
             EvenementEmploiFiltresRecherche(),
             1,
           ),
@@ -33,6 +42,7 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
             'codePostal': mockCommuneLocation().codePostal,
+            'secteurActivite': 'A',
           });
         });
 
@@ -65,5 +75,35 @@ void main() {
         });
       });
     });
+  });
+
+  group('SecteurActiviteQueryMapper', () {
+    void assertQueryParamValue(SecteurActivite secteurActivite, String expected) {
+      test('when $secteurActivite then expect \'$expected\' query param value', () {
+        // Given
+        final mapper = SecteurActiviteQueryMapper();
+
+        // When
+        final queryParamValue = mapper.getQueryParamValue(secteurActivite);
+
+        // Then
+        expect(queryParamValue, expected);
+      });
+    }
+
+    assertQueryParamValue(SecteurActivite.agriculture, 'A');
+    assertQueryParamValue(SecteurActivite.art, 'B');
+    assertQueryParamValue(SecteurActivite.banque, 'C');
+    assertQueryParamValue(SecteurActivite.commerce, 'D');
+    assertQueryParamValue(SecteurActivite.communication, 'E');
+    assertQueryParamValue(SecteurActivite.batiment, 'F');
+    assertQueryParamValue(SecteurActivite.tourisme, 'G');
+    assertQueryParamValue(SecteurActivite.industrie, 'H');
+    assertQueryParamValue(SecteurActivite.installation, 'I');
+    assertQueryParamValue(SecteurActivite.sante, 'J');
+    assertQueryParamValue(SecteurActivite.services, 'K');
+    assertQueryParamValue(SecteurActivite.spectacle, 'L');
+    assertQueryParamValue(SecteurActivite.support, 'M');
+    assertQueryParamValue(SecteurActivite.transport, 'N');
   });
 }

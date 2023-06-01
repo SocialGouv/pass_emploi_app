@@ -456,8 +456,7 @@ class Strings {
   static String jobLocationImmersionHint = "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
   static String jobLocationServiceCiviqueHint =
       "Sélectionnez une ville dans laquelle vous cherchez un service civique.";
-  static String jobEvenementEmploiHint =
-      "Sélectionnez une ville dans laquelle vous cherchez un événement.";
+  static String jobEvenementEmploiHint = "Sélectionnez une ville dans laquelle vous cherchez un événement.";
   static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
@@ -606,7 +605,9 @@ class Strings {
   static String mesFavorisTabTitle = "Mes favoris";
   static String mesAlertesTabTitle = "Mes alertes";
   static String miscellaneousErrorRetry = "Une erreur est survenue. Veuillez réessayer";
+
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
+
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
@@ -785,6 +786,26 @@ class Strings {
   static String eventAppBarTitle = "Événements";
   static String eventTabMaMissionLocale = "Ma Mission Locale";
   static String eventTabExternes = "Externes";
+
+  // Événements Emploi
+  static const String secteurActiviteLabel = "Secteur d'activité";
+  static const String secteurActiviteHint = "Sélectionnez un secteur d'activité";
+  static const String secteurActiviteAll = "Tous les secteurs d'activité";
+  static const String secteurActiviteAgriculture =
+      "Agriculture et Pêche, Espaces naturels et Espaces verts, Soins aux animaux";
+  static const String secteurActiviteArt = "Arts et Façonnage d'ouvrages d'art";
+  static const String secteurActiviteBanque = "Banque, Assurance, Immobilier";
+  static const String secteurActiviteCommerce = "Commerce, Vente et Grande distribution";
+  static const String secteurActiviteCommunication = "Communication, Média et Multimédia";
+  static const String secteurActiviteBatiment = "Construction, Bâtiment et Travaux publics";
+  static const String secteurActiviteTourisme = "Hôtellerie-Restauration, Tourisme, Loisirs et Animation";
+  static const String secteurActiviteIndustrie = "Industrie";
+  static const String secteurActiviteInstallation = "Installation et Maintenance";
+  static const String secteurActiviteSante = "Santé";
+  static const String secteurActiviteServices = "Services à la personne et à la collectivité";
+  static const String secteurActiviteSpectacle = "Spectacle";
+  static const String secteurActiviteSupport = "Support à l'entreprise";
+  static const String secteurActiviteTransport = "Transport et Logistique";
 
   // Mode dégradé Pôle Emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
