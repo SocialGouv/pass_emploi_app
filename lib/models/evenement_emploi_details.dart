@@ -1,36 +1,57 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class EvenementEmploiDetails extends Equatable {
-  final String tag;
-  final String titre;
-  final String date;
-  final String heure;
-  final String lieu;
-  final String type;
-  final String description;
+  final String id;
+  final String? ville;
+  final String? codePostal;
+  final String? description;
+  final String? titre;
+  final String? typeEvenement;
+  final DateTime? dateEvenement;
+  final String? heureDebut;
+  final String? heureFin;
+  final String? url;
 
   EvenementEmploiDetails({
-    required this.tag,
-    required this.titre,
-    required this.date,
-    required this.heure,
-    required this.lieu,
-    required this.type,
+    required this.id,
+    required this.ville,
+    required this.codePostal,
     required this.description,
+    required this.titre,
+    required this.typeEvenement,
+    required this.dateEvenement,
+    required this.heureDebut,
+    required this.heureFin,
+    required this.url,
   });
 
   factory EvenementEmploiDetails.fromJson(dynamic json) {
     return EvenementEmploiDetails(
-      tag: json['tag'] as String,
-      titre: json['titre'] as String,
-      date: json['date'] as String,
-      heure: json['heure'] as String,
-      lieu: json['lieu'] as String,
-      type: json['type'] as String,
-      description: json['description'] as String,
+      id: json['id'] as String,
+      ville: json['ville'] as String?,
+      codePostal: json['codePostal'] as String?,
+      description: json['description'] as String?,
+      titre: json['titre'] as String?,
+      typeEvenement: json['typeEvenement'] as String?,
+      dateEvenement: (json['dateEvenement'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+      heureDebut: json['heureDebut'] as String?,
+      heureFin: json['heureFin'] as String?,
+      url: json['url'] as String?,
     );
   }
 
   @override
-  List<Object?> get props => [tag, titre, date, heure, lieu, type, description];
+  List<Object?> get props => [
+        id,
+        ville,
+        codePostal,
+        description,
+        titre,
+        typeEvenement,
+        dateEvenement,
+        heureDebut,
+        heureFin,
+        url,
+      ];
 }

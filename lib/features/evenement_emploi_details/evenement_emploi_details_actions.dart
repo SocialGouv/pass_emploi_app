@@ -1,6 +1,10 @@
 import 'package:pass_emploi_app/models/evenement_emploi_details.dart';
 
-class EvenementEmploiDetailsRequestAction {}
+class EvenementEmploiDetailsRequestAction {
+  final String eventId;
+
+  EvenementEmploiDetailsRequestAction(this.eventId);
+}
 
 class EvenementEmploiDetailsLoadingAction {}
 

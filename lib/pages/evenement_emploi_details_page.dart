@@ -104,7 +104,7 @@ class _Header extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: SecondaryButton(
-            label: "partager",
+            label: Strings.eventEmploiDetailsPartager,
             onPressed: () => {},
           ),
         ),
@@ -144,7 +144,7 @@ class _FooterButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        PrimaryActionButton(label: "inscris"),
+        PrimaryActionButton(label: Strings.eventEmploiDetailsInscription),
         SizedBox(width: Margins.spacing_m),
         Text("love"),
         SizedBox(width: Margins.spacing_m),

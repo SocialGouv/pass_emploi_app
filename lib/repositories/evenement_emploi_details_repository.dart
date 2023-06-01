@@ -8,11 +8,11 @@ class EvenementEmploiDetailsRepository {
 
   EvenementEmploiDetailsRepository(this._httpClient, [this._crashlytics]);
 
-  Future<EvenementEmploiDetails?> get() async {
-    final url = "/jeunes/todo";
+  Future<EvenementEmploiDetails?> get(String idEvenement) async {
+    final url = "/evenements-emploi/$idEvenement";
     try {
       final response = await _httpClient.get(url);
-      return null;
+      return EvenementEmploiDetails.fromJson(response.data);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
