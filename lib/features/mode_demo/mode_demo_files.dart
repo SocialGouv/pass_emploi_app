@@ -29,7 +29,8 @@ String? getDemoFileName(String url, String query) {
   if (url.contains('/diagoriente/urls')) return 'diagoriente_urls';
   if (url.contains('/diagoriente/metiers-favoris')) return 'diagoriente_metiers_favoris';
   if (url.contains('/pole-emploi/cv')) return 'cv_pole_emploi';
-  if (url.contains('/evenements-emploi')) return 'recherche_evenements_emploi';
+  if (url.endsWith('/evenements-emploi')) return 'recherche_evenements_emploi';
+  if (url.contains('/evenements-emploi/')) return 'evenement_emploi_details';
   return null;
 }
 
