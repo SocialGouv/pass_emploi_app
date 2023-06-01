@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/secteur_activite.dart';
 import 'package:pass_emploi_app/presentation/recherche/evenement_emploi/criteres_recherche_evenement_emploi_contenu_view_model.dart';
@@ -98,7 +99,10 @@ class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRecher
 
   void _search(CriteresRechercheEvenementEmploiContenuViewModel viewModel) {
     if (_selectedLocation == null) return;
-    viewModel.onSearchingRequest(_selectedLocation!, _secteurSecteurActivite);
+    viewModel.onSearchingRequest(EvenementEmploiCriteresRecherche(
+      location: _selectedLocation!,
+      secteurActivite: _secteurSecteurActivite,
+    ));
     Keyboard.dismiss(context);
   }
 }

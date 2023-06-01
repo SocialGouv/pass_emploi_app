@@ -14,7 +14,7 @@ class CriteresRechercheEvenementEmploiContenuViewModel extends Equatable {
   final DisplayState displayState;
   final Location? initialLocation;
   final SecteurActivite? initialSecteurActivite;
-  final Function(Location location, SecteurActivite? secteurActivite) onSearchingRequest;
+  final Function(EvenementEmploiCriteresRecherche criteresRecherche) onSearchingRequest;
 
   CriteresRechercheEvenementEmploiContenuViewModel({
     required this.displayState,
@@ -28,7 +28,7 @@ class CriteresRechercheEvenementEmploiContenuViewModel extends Equatable {
       displayState: store.state.rechercheEvenementEmploiState.displayState(),
       initialLocation: store.state.rechercheEvenementEmploiState.request?.criteres.location,
       initialSecteurActivite: store.state.rechercheEvenementEmploiState.request?.criteres.secteurActivite,
-      onSearchingRequest: (location, secteur) => _onSearchingRequest(store, location, secteur),
+      onSearchingRequest: (criteresRecherche) => _onSearchingRequest(store, criteresRecherche),
     );
   }
 
@@ -36,17 +36,10 @@ class CriteresRechercheEvenementEmploiContenuViewModel extends Equatable {
   List<Object?> get props => [displayState];
 }
 
-void _onSearchingRequest(Store<AppState> store, Location location, SecteurActivite? secteurActivite) {
+void _onSearchingRequest(Store<AppState> store, EvenementEmploiCriteresRecherche criteresRecherche) {
   store.dispatch(
     RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>(
-      RechercheRequest(
-        EvenementEmploiCriteresRecherche(
-          location: location,
-          secteurActivite: secteurActivite,
-        ),
-        EvenementEmploiFiltresRecherche(),
-        1,
-      ),
+      RechercheRequest(criteresRecherche, EvenementEmploiFiltresRecherche(), 1),
     ),
   );
 }

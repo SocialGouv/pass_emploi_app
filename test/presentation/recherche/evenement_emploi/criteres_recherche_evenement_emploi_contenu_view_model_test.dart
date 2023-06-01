@@ -54,7 +54,10 @@ void main() {
       final viewModel = CriteresRechercheEvenementEmploiContenuViewModel.create(store);
 
       // When
-      viewModel.onSearchingRequest(mockLocation(), SecteurActivite.agriculture);
+      viewModel.onSearchingRequest(EvenementEmploiCriteresRecherche(
+        location: mockLocation(),
+        secteurActivite: SecteurActivite.agriculture,
+      ));
 
       // Then
       final dispatchedAction = store.dispatchedAction;
@@ -63,8 +66,7 @@ void main() {
         isA<RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>>(),
       );
       expect(
-        (dispatchedAction
-                as RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>)
+        (dispatchedAction as RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>)
             .request,
         RechercheRequest(
           EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: SecteurActivite.agriculture),
@@ -77,12 +79,14 @@ void main() {
     test('on updated request should dispatch proper action with previous filtres', () {
       // Given
       final previousFiltres = EvenementEmploiFiltresRecherche();
-      final store =
-          givenState().successRechercheEvenementEmploiStateWithRequest(filtres: previousFiltres).spyStore();
+      final store = givenState().successRechercheEvenementEmploiStateWithRequest(filtres: previousFiltres).spyStore();
       final viewModel = CriteresRechercheEvenementEmploiContenuViewModel.create(store);
 
       // When
-      viewModel.onSearchingRequest(mockLocation(), SecteurActivite.sante);
+      viewModel.onSearchingRequest(EvenementEmploiCriteresRecherche(
+        location: mockLocation(),
+        secteurActivite: SecteurActivite.sante,
+      ));
 
       // Then
       final dispatchedAction = store.dispatchedAction;
@@ -91,8 +95,7 @@ void main() {
         isA<RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>>(),
       );
       expect(
-        (dispatchedAction
-                as RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>)
+        (dispatchedAction as RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>)
             .request,
         RechercheRequest(
           EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: SecteurActivite.sante),
