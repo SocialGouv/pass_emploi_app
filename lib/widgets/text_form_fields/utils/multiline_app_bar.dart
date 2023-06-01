@@ -25,12 +25,15 @@ class MultilineAppBar extends StatelessWidget {
         ),
         SizedBox(width: Margins.spacing_base),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: TextStyles.textBaseBold),
-              if (hint != null) Text(hint!, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_s, right: Margins.spacing_base),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: TextStyles.textBaseBold),
+                if (hint != null) Text(hint!, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+              ],
+            ),
           ),
         )
       ],
