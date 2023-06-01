@@ -66,7 +66,7 @@ class JsonEvenementEmploi {
   factory JsonEvenementEmploi.fromJson(dynamic json) {
     return JsonEvenementEmploi(
       id: json['id'] as String,
-      type: json['type'] as String,
+      type: json['typeEvenement'] as String,
       titre: json['titre'] as String,
       ville: json['ville'] as String,
       codePostal: json['codePostal'] as String,

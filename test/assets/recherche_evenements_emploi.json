@@ -6,7 +6,7 @@
   "results": [
     {
       "id": "1",
-      "type": "Atelier",
+      "typeEvenement": "Atelier",
       "titre": "Atelier du travail",
       "ville": "Marseille",
       "codePostal": "13006",
