@@ -78,29 +78,23 @@ class _Header extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         JobTag(
-          label: "tag",
+          label: viewModel.tag!, //TODO:
           backgroundColor: AppColors.additional5Ligten,
         ),
         SizedBox(height: Margins.spacing_s),
-        Text("title", style: TextStyles.textLBold()),
+        Text(viewModel.titre, style: TextStyles.textLBold()),
         SizedBox(height: Margins.spacing_base),
         Row(
           children: [
-            Text("date", style: TextStyles.textBaseBold),
-            Text("heures", style: TextStyles.textBaseBold),
+            Text(viewModel.date, style: TextStyles.textBaseBold),
+            Text(viewModel.heure, style: TextStyles.textBaseBold),
           ],
         ),
         SizedBox(height: Margins.spacing_s),
         Row(
           children: [
-            Text("lieu", style: TextStyles.textBaseRegular),
+            Text(viewModel.lieu, style: TextStyles.textBaseRegular),
           ],
-        ),
-        SizedBox(height: Margins.spacing_base),
-        JobTag(
-          label: "type",
-          contentColor: AppColors.primary,
-          backgroundColor: AppColors.primaryLighten,
         ),
         SizedBox(height: Margins.spacing_base),
         SizedBox(
@@ -131,7 +125,7 @@ class _Details extends StatelessWidget {
           ],
         ),
         SizedBox(height: Margins.spacing_m),
-        Text("blabla", style: TextStyles.textBaseRegular)
+        Text(viewModel.description!, style: TextStyles.textBaseRegular), //TODO:
       ],
     );
   }
