@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/evenement_emploi_details/evenement_emploi_details_actions.dart';
 import 'package:pass_emploi_app/features/evenement_emploi_details/evenement_emploi_details_state.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_details.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -14,6 +15,7 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
   final String heure;
   final String lieu;
   final String? description;
+  final Function(String eventId) retry;
 
   EvenementEmploiDetailsPageViewModel({
     required this.displayState,
@@ -23,6 +25,7 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
     required this.heure,
     required this.lieu,
     required this.description,
+    required this.retry,
   });
 
   factory EvenementEmploiDetailsPageViewModel.create(Store<AppState> store) {
@@ -30,7 +33,7 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
     final displayState = _displayState(state);
     final details = _details(state);
 
-    if (details == null) return EvenementEmploiDetailsPageViewModel.blank(displayState);
+    if (details == null) return EvenementEmploiDetailsPageViewModel.blank(store, displayState);
 
     return EvenementEmploiDetailsPageViewModel(
       displayState: displayState,
@@ -41,10 +44,11 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
           details.heureDebut != null && details.heureFin != null ? "${details.heureDebut} - ${details.heureFin}" : "",
       lieu: details.ville != null && details.codePostal != null ? "${details.codePostal} - ${details.ville}" : "",
       description: details.description,
+      retry: (eventId) => store.dispatch(EvenementEmploiDetailsRequestAction(eventId)),
     );
   }
 
-  factory EvenementEmploiDetailsPageViewModel.blank(DisplayState displayState) {
+  factory EvenementEmploiDetailsPageViewModel.blank(Store<AppState> store, DisplayState displayState) {
     return EvenementEmploiDetailsPageViewModel(
       displayState: displayState,
       tag: "",
@@ -53,6 +57,7 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
       heure: "",
       lieu: "",
       description: "",
+      retry: (eventId) => store.dispatch(EvenementEmploiDetailsRequestAction(eventId)),
     );
   }
 
