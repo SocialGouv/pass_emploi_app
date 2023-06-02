@@ -809,6 +809,7 @@ class Strings {
   static const String secteurActiviteSpectacle = "Spectacle";
   static const String secteurActiviteSupport = "Support à l'entreprise";
   static const String secteurActiviteTransport = "Transport et Logistique";
+  static const String eventDetails = "Détail de l'évènement";
 
   // Mode dégradé Pôle Emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";

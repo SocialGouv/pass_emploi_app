@@ -131,7 +131,7 @@ class TextStyles {
     return TextStyle(
       color: color,
       fontFamily: 'Marianne',
-      fontSize: FontSizes.medium,
+      fontSize: FontSizes.semi,
       fontWeight: FontWeight.w700,
     );
   }
