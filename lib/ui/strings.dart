@@ -884,4 +884,12 @@ class Strings {
   static String postulerOffreTitle = "Postuler";
   static String postulerTitle = "Récupérez votre CV sur votre téléphone";
   static String postulerContinueButton = "Continuez vers l’offre";
+
+  // Suggestions alertes location form
+  static String localisationAppBarTitle = "Paramètrer votre alerte";
+  static String localisationFormTitle = "Localisation (optionnel)";
+  static String localisationFormEmploiSubtitle = jobLocationEmploiHint;
+  static String localisationFormImmersionSubtitle = jobLocationImmersionHint;
+  static String zoneFormTitle = "Zone (optionnel)";
+  static String addAlerteButton = "Ajouter l’alerte";
 }
