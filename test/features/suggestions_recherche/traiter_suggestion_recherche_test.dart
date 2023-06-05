@@ -18,7 +18,7 @@ void main() {
   final sut = StoreSut();
 
   group("when requesting to accepter une suggestion", () {
-    sut.when(() => TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.accepter));
+    sut.when(() => TraiterSuggestionRechercheRequestAction(suggestionPoleEmploi(), TraiterSuggestionType.accepter));
 
     test('should load then succeed when request succeed', () {
       sut.givenStore = givenState()
@@ -60,7 +60,7 @@ void main() {
   });
 
   group("when requesting to refuser une suggestion", () {
-    sut.when(() => TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.refuser));
+    sut.when(() => TraiterSuggestionRechercheRequestAction(suggestionPoleEmploi(), TraiterSuggestionType.refuser));
 
     test('should load then succeed when request succeed', () {
       sut.givenStore = givenState()
@@ -122,7 +122,7 @@ Matcher _suggestionShouldBeRemoved() {
   return StateMatch((state) {
     final suggestionState = state.suggestionsRechercheState;
     return suggestionState is SuggestionsRechercheSuccessState &&
-        suggestionState.suggestions.firstWhereOrNull((e) => e.id == suggestionCariste().id) == null;
+        suggestionState.suggestions.firstWhereOrNull((e) => e.id == suggestionPoleEmploi().id) == null;
   });
 }
 

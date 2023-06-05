@@ -31,7 +31,8 @@ void main() {
       test('response should be valid', () async {
         await sut.expectResult<List<SuggestionRecherche>?>((result) {
           expect(result, isNotNull);
-          expect(result, [suggestionCariste(), suggestionBoulanger(), suggestionPlombier()]);
+          expect(
+              result, [suggestionPoleEmploi(), suggestionConseiller(), suggestionPlombier(), suggestionDiagoriente()]);
         });
       });
     });
