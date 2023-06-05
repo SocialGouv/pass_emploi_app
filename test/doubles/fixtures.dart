@@ -48,8 +48,8 @@ import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/version.dart';
-import 'package:pass_emploi_app/presentation/immersion_contact_form_view_model.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
+import 'package:pass_emploi_app/presentation/immersion/immersion_contact_form_view_model.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../utils/test_datetime.dart';

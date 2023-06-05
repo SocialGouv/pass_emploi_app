@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/pages/evenement_emploi_details_page.dart';
-import 'package:pass_emploi_app/presentation/evenement_emploi_item_view_model.dart';
+import 'package:pass_emploi_app/pages/evenement_emploi/evenement_emploi_details_page.dart';
+import 'package:pass_emploi_app/presentation/evenement_emploi/evenement_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
