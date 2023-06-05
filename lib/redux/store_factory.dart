@@ -178,7 +178,7 @@ class StoreFactory {
   final ContactImmersionRepository contactImmersionRepository;
   final AccueilRepository accueilRepository;
   final CvRepository cvRepository;
-  final EvenementEmploiRepository evenementsExternesRepository;
+  final EvenementEmploiRepository evenementEmploiRepository;
   final EvenementEmploiDetailsRepository evenementEmploiDetailsRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
@@ -235,7 +235,7 @@ class StoreFactory {
     this.contactImmersionRepository,
     this.accueilRepository,
     this.cvRepository,
-    this.evenementsExternesRepository,
+    this.evenementEmploiRepository,
     this.evenementEmploiDetailsRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
@@ -300,7 +300,7 @@ class StoreFactory {
         RechercheEmploiMiddleware(offreEmploiRepository),
         RechercheImmersionMiddleware(immersionRepository),
         RechercheServiceCiviqueMiddleware(serviceCiviqueRepository),
-        RechercheEvenementEmploiMiddleware(evenementsExternesRepository),
+        RechercheEvenementEmploiMiddleware(evenementEmploiRepository),
         DiagorientePreferencesMetierMiddleware(diagorienteUrlsRepository, diagorienteMetiersFavorisRepository),
         FavoriListMiddleware(getFavorisRepository),
         RecherchesRecentesMiddleware(recherchesRecentesRepository),

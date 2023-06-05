@@ -9,7 +9,31 @@ import '../doubles/spies.dart';
 import '../dsl/app_state_dsl.dart';
 
 void main() {
-  //TODO: manque un test sur les properties. Reviewer, je m'en occupe TKT :p
+  test("view model", () {
+    // Given
+    final store = givenState()
+        .loggedInUser() //
+        .copyWith(evenementEmploiDetailsState: EvenementEmploiDetailsSuccessState(mockEvenementEmploiDetails()))
+        .store();
+
+    // When
+    final viewModel = EvenementEmploiDetailsPageViewModel.create(store);
+
+    // Then
+    expect(
+      viewModel,
+      EvenementEmploiDetailsPageViewModel(
+        displayState: DisplayState.CONTENT,
+        tag: "Réunion d'information",
+        titre: "Devenir conseiller à Pôle emploi",
+        date: "15 juin 2023",
+        heure: "12h - 15h",
+        lieu: "95120 - Ermont",
+        description: "Information collective pour découvrir les métiers de pôle emploi en vu d'un recrutement...",
+        retry: (id) => {},
+      ),
+    );
+  });
 
   group('Display State', () {
     test('when state is loading', () {

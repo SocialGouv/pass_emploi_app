@@ -38,11 +38,10 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
     return EvenementEmploiDetailsPageViewModel(
       displayState: displayState,
       tag: details.typeEvenement,
-      titre: details.titre ?? "",
-      date: details.dateEvenement?.toDayWithFullMonth() ?? "",
-      heure:
-          details.heureDebut != null && details.heureFin != null ? "${details.heureDebut} - ${details.heureFin}" : "",
-      lieu: details.ville != null && details.codePostal != null ? "${details.codePostal} - ${details.ville}" : "",
+      titre: details.titre ?? '',
+      date: details.dateEvenement?.toDayWithFullMonth() ?? '',
+      heure: _heure(details.heureDebut, details.heureFin),
+      lieu: details.ville != null && details.codePostal != null ? "${details.codePostal} - ${details.ville}" : '',
       description: details.description,
       retry: (eventId) => store.dispatch(EvenementEmploiDetailsRequestAction(eventId)),
     );
@@ -51,12 +50,12 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
   factory EvenementEmploiDetailsPageViewModel.blank(Store<AppState> store, DisplayState displayState) {
     return EvenementEmploiDetailsPageViewModel(
       displayState: displayState,
-      tag: "",
-      titre: "",
-      date: "",
-      heure: "",
-      lieu: "",
-      description: "",
+      tag: '',
+      titre: '',
+      date: '',
+      heure: '',
+      lieu: '',
+      description: '',
       retry: (eventId) => store.dispatch(EvenementEmploiDetailsRequestAction(eventId)),
     );
   }
@@ -75,4 +74,9 @@ DisplayState _displayState(EvenementEmploiDetailsState state) {
 
 EvenementEmploiDetails? _details(EvenementEmploiDetailsState state) {
   return switch (state) { final EvenementEmploiDetailsSuccessState e => e.details, _ => null };
+}
+
+String _heure(DateTime? heureDebut, DateTime? heureFin) {
+  if (heureDebut == null || heureFin == null) return '';
+  return "${heureDebut.toHourWithHSeparator()} - ${heureFin.toHourWithHSeparator()}";
 }

@@ -202,7 +202,7 @@ class _Retry extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Retry(Strings.agendaError, () => viewModel.retry(eventId)),
+        child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.retry(eventId)),
       ),
     );
   }

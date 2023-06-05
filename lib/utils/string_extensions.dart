@@ -11,6 +11,12 @@ extension StringToDateExtensions on String {
   DateTime toDateTimeUtcWithoutTimeZone() => DateFormat("yyyy-MM-DDTHH:mm:ss.SSS").parseUtc(this).toLocal();
 
   DateTime toDateTimeUnconsideringTimeZone() => DateFormat("yyyy-MM-DDTHH:mm:ss.SSSz").parse(this);
+
+  DateTime? timeToDateTime() {
+    final times = split(":");
+    if (times.length < 2) return null;
+    return DateTime(1970, 1, 1, int.parse(times[0]), int.parse(times[1]));
+  }
 }
 
 extension StringExtensions on String {
