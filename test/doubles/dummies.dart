@@ -61,6 +61,7 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/repositories/evenement_emploi_details_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -409,4 +410,7 @@ class DummyEvenementEmploiRepository extends EvenementEmploiRepository {
   DummyEvenementEmploiRepository() : super(DioMock(), MockSecteurActiviteQueryMapper());
 }
 
+class DummyEvenementEmploiDetailsRepository extends EvenementEmploiDetailsRepository {
+  DummyEvenementEmploiDetailsRepository() : super(DioMock());
+}
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

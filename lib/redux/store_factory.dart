@@ -66,6 +66,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
+import 'package:pass_emploi_app/features/evenement_emploi_details/evenement_emploi_details_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -120,6 +121,7 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/repositories/evenement_emploi_details_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -176,7 +178,8 @@ class StoreFactory {
   final ContactImmersionRepository contactImmersionRepository;
   final AccueilRepository accueilRepository;
   final CvRepository cvRepository;
-  final EvenementEmploiRepository evenementsExternesRepository;
+  final EvenementEmploiRepository evenementEmploiRepository;
+  final EvenementEmploiDetailsRepository evenementEmploiDetailsRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -232,7 +235,8 @@ class StoreFactory {
     this.contactImmersionRepository,
     this.accueilRepository,
     this.cvRepository,
-    this.evenementsExternesRepository,
+    this.evenementEmploiRepository,
+    this.evenementEmploiDetailsRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -296,13 +300,14 @@ class StoreFactory {
         RechercheEmploiMiddleware(offreEmploiRepository),
         RechercheImmersionMiddleware(immersionRepository),
         RechercheServiceCiviqueMiddleware(serviceCiviqueRepository),
-        RechercheEvenementEmploiMiddleware(evenementsExternesRepository),
+        RechercheEvenementEmploiMiddleware(evenementEmploiRepository),
         DiagorientePreferencesMetierMiddleware(diagorienteUrlsRepository, diagorienteMetiersFavorisRepository),
         FavoriListMiddleware(getFavorisRepository),
         RecherchesRecentesMiddleware(recherchesRecentesRepository),
         ContactImmersionMiddleware(contactImmersionRepository),
         AccueilMiddleware(accueilRepository),
         CvMiddleware(cvRepository),
+        EvenementEmploiDetailsMiddleware(evenementEmploiDetailsRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

@@ -786,6 +786,9 @@ class Strings {
   static String eventAppBarTitle = "Événements";
   static String eventTabMaMissionLocale = "Ma Mission Locale";
   static String eventTabExternes = "Externes";
+  static String eventEmploiDetailsAppBarTitle = "Détail de l’événement";
+  static String eventEmploiDetailsPartager = "Partager l'événement à mon conseiller";
+  static String eventEmploiDetailsInscription = "Je m'inscris";
 
   // Événements Emploi
   static const String secteurActiviteLabel = "Secteur d'activité";
@@ -806,6 +809,7 @@ class Strings {
   static const String secteurActiviteSpectacle = "Spectacle";
   static const String secteurActiviteSupport = "Support à l'entreprise";
   static const String secteurActiviteTransport = "Transport et Logistique";
+  static const String eventDetails = "Détail de l'événement";
 
   // Mode dégradé Pôle Emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";

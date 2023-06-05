@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/diagoriente_urls.dart';
 import 'package:pass_emploi_app/models/evenement_emploi.dart';
+import 'package:pass_emploi_app/models/evenement_emploi_details.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
@@ -435,6 +436,21 @@ EvenementEmploi mockEvenementEmploi() {
 }
 
 List<EvenementEmploi> mockEvenementsEmploi() => [mockEvenementEmploi()];
+
+EvenementEmploiDetails mockEvenementEmploiDetails() {
+  return EvenementEmploiDetails(
+    id: "106757",
+    ville: "Ermont",
+    codePostal: "95120",
+    description: "Information collective pour découvrir les métiers de pôle emploi en vu d'un recrutement...",
+    titre: "Devenir conseiller à Pôle emploi",
+    typeEvenement: "Réunion d'information",
+    dateEvenement: parseDateTimeUtcWithCurrentTimeZone("2023-06-15T12:00:00.000+00:00"),
+    heureDebut: DateTime(1970, 1, 1, 12, 0, 0),
+    heureFin: DateTime(1970, 1, 1, 15, 0, 0),
+    url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
+  );
+}
 
 DetailsJeune detailsJeune() {
   return DetailsJeune(

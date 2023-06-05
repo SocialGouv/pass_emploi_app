@@ -59,6 +59,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/features/evenement_emploi_details/evenement_emploi_details_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -122,6 +123,7 @@ class AppState extends Equatable {
   final ContactImmersionState contactImmersionState;
   final AccueilState accueilState;
   final CvState cvState;
+  final EvenementEmploiDetailsState evenementEmploiDetailsState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -185,6 +187,7 @@ class AppState extends Equatable {
     required this.contactImmersionState,
     required this.accueilState,
     required this.cvState,
+    required this.evenementEmploiDetailsState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -249,6 +252,7 @@ class AppState extends Equatable {
     final ContactImmersionState? contactImmersionState,
     final AccueilState? accueilState,
     final CvState? cvState,
+    final EvenementEmploiDetailsState? evenementEmploiDetailsState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -313,6 +317,7 @@ class AppState extends Equatable {
       contactImmersionState: contactImmersionState ?? this.contactImmersionState,
       accueilState: accueilState ?? this.accueilState,
       cvState: cvState ?? this.cvState,
+      evenementEmploiDetailsState: evenementEmploiDetailsState ?? this.evenementEmploiDetailsState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -379,6 +384,7 @@ class AppState extends Equatable {
       contactImmersionState: ContactImmersionNotInitializedState(),
       accueilState: AccueilNotInitializedState(),
       cvState: CvNotInitializedState(),
+      evenementEmploiDetailsState: EvenementEmploiDetailsNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -438,6 +444,7 @@ class AppState extends Equatable {
         contactImmersionState,
         accueilState,
         cvState,
+        evenementEmploiDetailsState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 
