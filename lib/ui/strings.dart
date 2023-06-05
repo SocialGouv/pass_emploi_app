@@ -774,6 +774,7 @@ class Strings {
       "Vos suggestions peuvent venir de différentes sources. Après l’ajout, vous serez notifié si une nouvelle offre est disponible.";
   static String suggestionSourcePoleEmploi = "Profil Pôle emploi";
   static String suggestionSourceConseiller = "Conseiller";
+  static String suggestionSourceDiagoriente = "Diagoriente";
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
   static String voirResultatsSuggestion = "Voir les résultats";

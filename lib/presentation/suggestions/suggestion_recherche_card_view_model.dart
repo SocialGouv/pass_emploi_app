@@ -14,6 +14,7 @@ class SuggestionRechercheCardViewModel extends Equatable {
   final String? source;
   final String? metier;
   final String? localisation;
+  final bool withLocationForm;
   final Function() ajouterSuggestion;
   final Function() refuserSuggestion;
 
@@ -23,6 +24,7 @@ class SuggestionRechercheCardViewModel extends Equatable {
     required this.source,
     required this.metier,
     required this.localisation,
+    required this.withLocationForm,
     required this.ajouterSuggestion,
     required this.refuserSuggestion,
   });
@@ -40,6 +42,7 @@ class SuggestionRechercheCardViewModel extends Equatable {
       source: _suggestionSourceLabel(suggestion.source),
       metier: suggestion.metier,
       localisation: suggestion.localisation,
+      withLocationForm: suggestion.source == SuggestionSource.diagoriente,
       ajouterSuggestion: () {
         return store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.accepter));
       },
@@ -50,7 +53,7 @@ class SuggestionRechercheCardViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [titre, type, source, metier, localisation];
+  List<Object?> get props => [titre, type, source, metier, localisation, withLocationForm];
 }
 
 String? _suggestionSourceLabel(SuggestionSource? source) {
@@ -59,6 +62,8 @@ String? _suggestionSourceLabel(SuggestionSource? source) {
       return Strings.suggestionSourcePoleEmploi;
     case SuggestionSource.conseiller:
       return Strings.suggestionSourceConseiller;
+    case SuggestionSource.diagoriente:
+      return Strings.suggestionSourceDiagoriente;
     default:
       return null;
   }
