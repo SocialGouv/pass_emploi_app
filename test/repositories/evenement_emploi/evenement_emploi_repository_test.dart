@@ -30,7 +30,7 @@ void main() {
               location: mockCommuneLocation(),
               secteurActivite: SecteurActivite.agriculture,
             ),
-            EvenementEmploiFiltresRecherche(),
+            EvenementEmploiFiltresRecherche.noFiltre(),
             1,
           ),
         ),

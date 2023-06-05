@@ -39,7 +39,7 @@ class CriteresRechercheEvenementEmploiContenuViewModel extends Equatable {
 void _onSearchingRequest(Store<AppState> store, EvenementEmploiCriteresRecherche criteresRecherche) {
   store.dispatch(
     RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>(
-      RechercheRequest(criteresRecherche, EvenementEmploiFiltresRecherche(), 1),
+      RechercheRequest(criteresRecherche, EvenementEmploiFiltresRecherche.noFiltre(), 1),
     ),
   );
 }

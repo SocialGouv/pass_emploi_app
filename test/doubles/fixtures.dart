@@ -766,7 +766,7 @@ RechercheRequest<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherc
     initialRechercheEvenementEmploiRequest() {
   return RechercheRequest(
     EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: null),
-    EvenementEmploiFiltresRecherche(),
+    EvenementEmploiFiltresRecherche.noFiltre(),
     1,
   );
 }
