@@ -70,7 +70,7 @@ void main() {
             .request,
         RechercheRequest(
           EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: SecteurActivite.agriculture),
-          EvenementEmploiFiltresRecherche(),
+          EvenementEmploiFiltresRecherche.noFiltre(),
           1,
         ),
       );
@@ -78,7 +78,7 @@ void main() {
 
     test('on updated request should dispatch proper action with previous filtres', () {
       // Given
-      final previousFiltres = EvenementEmploiFiltresRecherche();
+      final previousFiltres = EvenementEmploiFiltresRecherche.noFiltre();
       final store = givenState().successRechercheEvenementEmploiStateWithRequest(filtres: previousFiltres).spyStore();
       final viewModel = CriteresRechercheEvenementEmploiContenuViewModel.create(store);
 
@@ -99,7 +99,7 @@ void main() {
             .request,
         RechercheRequest(
           EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: SecteurActivite.sante),
-          EvenementEmploiFiltresRecherche(),
+          EvenementEmploiFiltresRecherche.noFiltre(),
           1,
         ),
       );

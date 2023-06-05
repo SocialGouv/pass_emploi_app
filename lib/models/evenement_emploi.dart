@@ -15,6 +15,28 @@ enum EvenementEmploiModalite {
   }
 }
 
+/*
+
+Réunion d'information
+Forum
+Conférence
+Atelier
+Salon en ligne
+Job Dating
+Visite d'entreprise
+Portes ouvertes
+ */
+
+enum EvenementEmploiType {
+  reunionInformation,
+  forum,
+  conference,
+  salonEnLigne,
+  jobDating,
+  visiteEntreprise,
+  portesOuvertes;
+}
+
 class EvenementEmploi extends Equatable {
   final String id;
   final String type;
