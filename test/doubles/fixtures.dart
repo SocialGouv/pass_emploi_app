@@ -619,7 +619,7 @@ List<Demarche> mockDemarches() {
   ];
 }
 
-SuggestionRecherche suggestionCariste() => SuggestionRecherche(
+SuggestionRecherche suggestionPoleEmploi() => SuggestionRecherche(
       id: "1",
       titre: "Cariste",
       type: OffreType.emploi,
@@ -630,7 +630,7 @@ SuggestionRecherche suggestionCariste() => SuggestionRecherche(
       dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-09-26T13:00:00.000Z"),
     );
 
-SuggestionRecherche suggestionBoulanger() => SuggestionRecherche(
+SuggestionRecherche suggestionConseiller() => SuggestionRecherche(
       id: "2",
       titre: "Boulanger",
       type: OffreType.immersion,
@@ -652,7 +652,18 @@ SuggestionRecherche suggestionPlombier() => SuggestionRecherche(
       dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
     );
 
-List<SuggestionRecherche> mockSuggestionsRecherche() => [suggestionCariste(), suggestionBoulanger()];
+SuggestionRecherche suggestionDiagoriente() => SuggestionRecherche(
+      id: "4",
+      titre: "Coiffeur",
+      type: OffreType.immersion,
+      source: SuggestionSource.diagoriente,
+      metier: "Coiffeur en salon",
+      localisation: "Juan Les Pins",
+      dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
+      dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
+    );
+
+List<SuggestionRecherche> mockSuggestionsRecherche() => [suggestionPoleEmploi(), suggestionConseiller()];
 
 OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
       id: "id",

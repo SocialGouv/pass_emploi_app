@@ -14,7 +14,7 @@ void main() {
     final store = givenState().withSuggestionsRecherche().store();
 
     // When
-    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCariste().id);
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionPoleEmploi().id);
 
     // Then
     expect(viewModel, isNotNull);
@@ -61,7 +61,7 @@ void main() {
   test("should dispatch accepter suggestion", () {
     // Given
     final store = givenState().withSuggestionsRecherche().spyStore();
-    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCariste().id);
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionPoleEmploi().id);
 
     // When
     viewModel?.ajouterSuggestion();
@@ -70,14 +70,14 @@ void main() {
     expect(viewModel, isNotNull);
     expect(
       store.dispatchedAction,
-      TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.accepter),
+      TraiterSuggestionRechercheRequestAction(suggestionPoleEmploi(), TraiterSuggestionType.accepter),
     );
   });
 
   test("should dispatch refuser suggestion", () {
     // Given
     final store = givenState().withSuggestionsRecherche().spyStore();
-    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCariste().id);
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionPoleEmploi().id);
 
     // When
     viewModel?.refuserSuggestion();
@@ -86,7 +86,7 @@ void main() {
     expect(viewModel, isNotNull);
     expect(
       store.dispatchedAction,
-      TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.refuser),
+      TraiterSuggestionRechercheRequestAction(suggestionPoleEmploi(), TraiterSuggestionType.refuser),
     );
   });
 }
