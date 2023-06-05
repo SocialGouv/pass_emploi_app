@@ -23,6 +23,7 @@ void main() {
     expect(viewModel.source, "Profil Pôle emploi");
     expect(viewModel.metier, "Conduite d'engins de déplacement des charges");
     expect(viewModel.localisation, "Nord");
+    expect(viewModel.withLocationForm, false);
   });
 
   test("should be null without a suggestion", () {
@@ -56,6 +57,21 @@ void main() {
     assertLabel(givenSource: SuggestionSource.poleEmploi, expectedLabel: 'Profil Pôle emploi');
     assertLabel(givenSource: SuggestionSource.conseiller, expectedLabel: 'Conseiller');
     assertLabel(givenSource: null, expectedLabel: null);
+  });
+
+  test('should display location form when source is diagoriente', () {
+    // Given
+    final suggestion = suggestionPlombier().copyWith(id: 'ID', source: SuggestionSource.diagoriente);
+    final store = givenState() //
+        .copyWith(suggestionsRechercheState: SuggestionsRechercheSuccessState([suggestion]))
+        .store();
+
+    // When
+    final viewModel = SuggestionRechercheCardViewModel.create(store, 'ID');
+
+    // Then
+    expect(viewModel?.source, 'Diagoriente');
+    expect(viewModel?.withLocationForm, true);
   });
 
   test("should dispatch accepter suggestion", () {
