@@ -115,7 +115,7 @@ class _Header extends StatelessWidget {
             Icon(AppIcons.today_outlined, color: AppColors.primary, size: Dimens.icon_size_base),
             SizedBox(width: Margins.spacing_xs),
             Text(viewModel.date, style: TextStyles.textBaseBold),
-            Expanded(child: Container()), //TODO: mieux ?
+            Expanded(child: SizedBox.shrink()),
             Icon(AppIcons.schedule, color: AppColors.primary, size: Dimens.icon_size_base),
             SizedBox(width: Margins.spacing_xs),
             Text(viewModel.heure, style: TextStyles.textBaseBold),
@@ -175,11 +175,17 @@ class _FooterButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        PrimaryActionButton(label: Strings.eventEmploiDetailsInscription),
-        SizedBox(width: Margins.spacing_m),
-        Text("love"),
-        SizedBox(width: Margins.spacing_m),
-        Text("share"),
+        Expanded(child: PrimaryActionButton(label: Strings.eventEmploiDetailsInscription)),
+        SizedBox(width: Margins.spacing_base),
+        // FavoriHeart<EvenementEmploiDetails>(
+        //   offreId: "offreId",
+        //   withBorder: true,
+        //   from: OffrePage.emploiDetails,
+        //   onFavoriRemoved: null,
+        // ),
+        // SizedBox(width: Margins.spacing_base),
+        // ShareButton(url, title, () => _shareOffer(context)),
+        Text("(futur us) + (futur us)")
       ],
     );
   }
