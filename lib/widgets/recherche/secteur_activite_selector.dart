@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
-import 'package:pass_emploi_app/models/secteur_activite.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/secteur_activite.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';

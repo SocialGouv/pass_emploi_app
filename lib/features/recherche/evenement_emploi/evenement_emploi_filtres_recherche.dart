@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/evenement_emploi.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_modalite.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_type.dart';
 
 class EvenementEmploiFiltresRecherche extends Equatable {
   final EvenementEmploiType? type;

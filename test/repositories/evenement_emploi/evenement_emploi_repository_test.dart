@@ -2,10 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
-import 'package:pass_emploi_app/models/evenement_emploi.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_modalite.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_type.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/secteur_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
-import 'package:pass_emploi_app/models/secteur_activite.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
 
 import '../../doubles/fixtures.dart';
@@ -17,7 +19,8 @@ void main() {
   group('EvenementEmploiRepository', () {
     final sut = RepositorySut2<EvenementEmploiRepository>();
     final secteurActiviteQueryMapper = MockSecteurActiviteQueryMapper();
-    sut.givenRepository((client) => EvenementEmploiRepository(client, secteurActiviteQueryMapper));
+    final typeQueryMapper = MockEvenementEmploiTypeQueryMapper();
+    sut.givenRepository((client) => EvenementEmploiRepository(client, secteurActiviteQueryMapper, typeQueryMapper));
 
     group('rechercher', () {
       when(() => secteurActiviteQueryMapper.getQueryParamValue(SecteurActivite.agriculture)).thenReturn('A');
@@ -39,15 +42,15 @@ void main() {
       group('when response is valid', () {
         sut.givenJsonResponse(fromJson: 'recherche_evenements_emploi.json');
 
-        test('request should be valid', () async {
-          await sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
+        test('request should be valid', () {
+          sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
             'codePostal': mockCommuneLocation().codePostal,
             'secteurActivite': 'A',
           });
         });
 
-        test('response should be valid', () async {
-          await sut.expectResult<RechercheResponse<EvenementEmploi>?>((response) {
+        test('response should be valid', () {
+          sut.expectResult<RechercheResponse<EvenementEmploi>?>((response) {
             expect(response, isNotNull);
             expect(response!.results, hasLength(1));
             expect(
@@ -70,8 +73,164 @@ void main() {
       group('when response is invalid', () {
         sut.givenResponseCode(500);
 
-        test('response should be null', () async {
-          await sut.expectNullResult();
+        test('response should be null', () {
+          sut.expectNullResult();
+        });
+      });
+    });
+
+    group('rechercher when filtres are applied', () {
+      sut.givenJsonResponse(fromJson: 'recherche_evenements_emploi.json');
+
+      group('modalités…', () {
+        group('when absent', () {
+          sut.when(
+            (repository) => repository.rechercher(
+              userId: 'UID',
+              request: RechercheRequest(
+                EvenementEmploiCriteresRecherche(location: mockCommuneLocation(), secteurActivite: null),
+                EvenementEmploiFiltresRecherche.withFiltres(modalites: []),
+                1,
+              ),
+            ),
+          );
+
+          test('query parameters should be properly built without modalite', () {
+            sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
+              'codePostal': mockCommuneLocation().codePostal,
+            });
+          });
+        });
+
+        group('when both modalité are selected', () {
+          sut.when(
+            (repository) => repository.rechercher(
+              userId: 'UID',
+              request: RechercheRequest(
+                EvenementEmploiCriteresRecherche(location: mockCommuneLocation(), secteurActivite: null),
+                EvenementEmploiFiltresRecherche.withFiltres(
+                  modalites: [EvenementEmploiModalite.enPhysique, EvenementEmploiModalite.aDistance],
+                ),
+                1,
+              ),
+            ),
+          );
+
+          test('query parameters should be properly built without modalite', () {
+            sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
+              'codePostal': mockCommuneLocation().codePostal,
+            });
+          });
+        });
+
+        group('when "en physique" is selected', () {
+          sut.when(
+            (repository) => repository.rechercher(
+              userId: 'UID',
+              request: RechercheRequest(
+                EvenementEmploiCriteresRecherche(location: mockCommuneLocation(), secteurActivite: null),
+                EvenementEmploiFiltresRecherche.withFiltres(
+                  modalites: [EvenementEmploiModalite.enPhysique],
+                ),
+                1,
+              ),
+            ),
+          );
+
+          test('query parameters should be properly built without modalite', () {
+            sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
+              'codePostal': mockCommuneLocation().codePostal,
+              'modalite': 'ENPHY',
+            });
+          });
+        });
+
+        group('when "à distance" is selected', () {
+          sut.when(
+            (repository) => repository.rechercher(
+              userId: 'UID',
+              request: RechercheRequest(
+                EvenementEmploiCriteresRecherche(location: mockCommuneLocation(), secteurActivite: null),
+                EvenementEmploiFiltresRecherche.withFiltres(
+                  modalites: [EvenementEmploiModalite.aDistance],
+                ),
+                1,
+              ),
+            ),
+          );
+
+          test('query parameters should be properly built without modalite', () {
+            sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
+              'codePostal': mockCommuneLocation().codePostal,
+              'modalite': 'ADIST',
+            });
+          });
+        });
+      });
+
+      group('date de début…', () {
+        sut.when(
+          (repository) => repository.rechercher(
+            userId: 'UID',
+            request: RechercheRequest(
+              EvenementEmploiCriteresRecherche(location: mockCommuneLocation(), secteurActivite: null),
+              EvenementEmploiFiltresRecherche.withFiltres(
+                dateDebut: DateTime(2023, 1, 30, 7),
+              ),
+              1,
+            ),
+          ),
+        );
+
+        test('query parameters should be properly built with date debut at start of day', () {
+          sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
+            'codePostal': mockCommuneLocation().codePostal,
+            'dateDebut': '2023-01-30T00:00:00.000',
+          });
+        });
+      });
+
+      group('date de fin…', () {
+        sut.when(
+          (repository) => repository.rechercher(
+            userId: 'UID',
+            request: RechercheRequest(
+              EvenementEmploiCriteresRecherche(location: mockCommuneLocation(), secteurActivite: null),
+              EvenementEmploiFiltresRecherche.withFiltres(
+                dateFin: DateTime(2023, 1, 30, 7),
+              ),
+              1,
+            ),
+          ),
+        );
+
+        test('query parameters should be properly built with date debut at end of day', () {
+          sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
+            'codePostal': mockCommuneLocation().codePostal,
+            'dateFin': '2023-01-30T23:59:59.999',
+          });
+        });
+      });
+
+      group('type…', () {
+        when(() => typeQueryMapper.getQueryParamValue(EvenementEmploiType.conference)).thenReturn('15');
+
+        sut.when(
+          (repository) => repository.rechercher(
+            userId: 'UID',
+            request: RechercheRequest(
+              EvenementEmploiCriteresRecherche(location: mockCommuneLocation(), secteurActivite: null),
+              EvenementEmploiFiltresRecherche.withFiltres(type: EvenementEmploiType.conference),
+              1,
+            ),
+          ),
+        );
+
+        test('query parameters should be properly built without modalite', () {
+          sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
+            'codePostal': mockCommuneLocation().codePostal,
+            'typeEvenement': '15',
+          });
         });
       });
     });
@@ -105,5 +264,29 @@ void main() {
     assertQueryParamValue(SecteurActivite.spectacle, 'L');
     assertQueryParamValue(SecteurActivite.support, 'M');
     assertQueryParamValue(SecteurActivite.transport, 'N');
+  });
+
+  group('EvenementEmploiTypeQueryMapper', () {
+    void assertQueryParamValue(EvenementEmploiType type, String expected) {
+      test('when $type then expect \'$expected\' query param value', () {
+        // Given
+        final mapper = EvenementEmploiTypeQueryMapper();
+
+        // When
+        final queryParamValue = mapper.getQueryParamValue(type);
+
+        // Then
+        expect(queryParamValue, expected);
+      });
+    }
+
+    assertQueryParamValue(EvenementEmploiType.reunionInformation, '13');
+    assertQueryParamValue(EvenementEmploiType.forum, '14');
+    assertQueryParamValue(EvenementEmploiType.conference, '15');
+    assertQueryParamValue(EvenementEmploiType.atelier, '16');
+    assertQueryParamValue(EvenementEmploiType.salonEnLigne, '17');
+    assertQueryParamValue(EvenementEmploiType.jobDating, '18');
+    assertQueryParamValue(EvenementEmploiType.visiteEntreprise, '31');
+    assertQueryParamValue(EvenementEmploiType.portesOuvertes, '32');
   });
 }

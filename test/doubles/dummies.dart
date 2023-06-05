@@ -407,7 +407,12 @@ class DummyCvRepository extends CvRepository {
 }
 
 class DummyEvenementEmploiRepository extends EvenementEmploiRepository {
-  DummyEvenementEmploiRepository() : super(DioMock(), MockSecteurActiviteQueryMapper());
+  DummyEvenementEmploiRepository()
+      : super(
+          DioMock(),
+          MockSecteurActiviteQueryMapper(),
+          MockEvenementEmploiTypeQueryMapper(),
+        );
 }
 
 class DummyEvenementEmploiDetailsRepository extends EvenementEmploiDetailsRepository {
