@@ -80,7 +80,6 @@ void main() {
         MainTab.monSuivi,
         MainTab.chat,
         MainTab.solutions,
-        MainTab.evenements,
       ]);
     });
 

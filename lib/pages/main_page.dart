@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_page.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
-import 'package:pass_emploi_app/pages/events_tab_page.dart';
+import 'package:pass_emploi_app/pages/event_list_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
-import 'package:pass_emploi_app/pages/recherche/recherche_evenement_emploi_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
@@ -146,9 +144,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         _deepLinkHandled = true;
         return SolutionsTabPage(initialTab: initialTab);
       case MainTab.evenements:
-        if (viewModel.loginMode?.isMiLo() == true) return EventsTabPage();
-        if (viewModel.loginMode?.isPe() == true) return RechercheEvenementEmploiPage.withPrimaryAppBar();
-        return SizedBox.shrink();
+        return EventListPage.withPrimaryAppBar();
+      // if (viewModel.loginMode?.isMiLo() == true) return EventsTabPage();
+      // if (viewModel.loginMode?.isPe() == true) return RechercheEvenementEmploiPage.withPrimaryAppBar();
+      // return SizedBox.shrink();
       default:
         return MonSuiviTabPage();
     }
