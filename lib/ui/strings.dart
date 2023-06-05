@@ -810,6 +810,17 @@ class Strings {
   static const String secteurActiviteSpectacle = "Spectacle";
   static const String secteurActiviteSupport = "Support à l'entreprise";
   static const String secteurActiviteTransport = "Transport et Logistique";
+  static const String evenementEmploiTypeAll = "Tous les types d'événement";
+  static const String evenementEmploiTypeReunionInformation = "Réunion d'information";
+  static const String evenementEmploiTypeForum = "Forum";
+  static const String evenementEmploiTypeConference = "Conférence";
+  static const String evenementEmploiTypeAtelier = "Atelier";
+  static const String evenementEmploiTypeSalonEnLigne = "Salon en ligne";
+  static const String evenementEmploiTypeJobDating = "Job Dating";
+  static const String evenementEmploiTypeVisiteEntreprise = "Visite d'entreprise";
+  static const String evenementEmploiTypePortesOuvertes = "Portes ouvertes";
+  static const String evenementEmploiModaliteEnPhysique = "En présentiel";
+  static const String evenementEmploiModaliteADistance = "À distance";
   static const String eventDetails = "Détail de l'événement";
 
   // Mode dégradé Pôle Emploi

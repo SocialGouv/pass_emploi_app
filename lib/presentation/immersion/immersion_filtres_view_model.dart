@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -45,15 +45,12 @@ String _errorMessage(RechercheImmersionState state) {
   return state.status == RechercheStatus.failure ? Strings.genericError : "";
 }
 
-DisplayState _displayState(RechercheImmersionState state) {
-  switch (state.status) {
-    case RechercheStatus.updateLoading:
-      return DisplayState.LOADING;
-    case RechercheStatus.success:
-      return DisplayState.CONTENT;
-    default:
-      return DisplayState.FAILURE;
-  }
+DisplayState _displayState(RechercheState state) {
+  return switch (state.status) {
+    RechercheStatus.updateLoading => DisplayState.LOADING,
+    RechercheStatus.success => DisplayState.CONTENT,
+    _ => DisplayState.FAILURE,
+  };
 }
 
 int _distance(RechercheImmersionState state) {
