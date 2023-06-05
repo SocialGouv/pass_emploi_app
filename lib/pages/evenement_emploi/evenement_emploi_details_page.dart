@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -176,21 +177,24 @@ class _FooterButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        if (viewModel.url != null) ...[
+        if (viewModel.url != null)
           Expanded(
-            child: PrimaryActionButton(label: Strings.eventEmploiDetailsInscription, onPressed: _openInscriptionUrl),
+            child: PrimaryActionButton(
+              label: Strings.eventEmploiDetailsInscription,
+              onPressed: _openInscriptionUrl,
+            ),
           ),
-          SizedBox(width: Margins.spacing_base),
-        ],
+        // SizedBox(width: Margins.spacing_base),
         // FavoriHeart<EvenementEmploiDetails>(
         //   offreId: "offreId",
         //   withBorder: true,
         //   from: OffrePage.emploiDetails,
         //   onFavoriRemoved: null,
         // ),
-        // SizedBox(width: Margins.spacing_base),
-        // ShareButton(url, title, () => _shareOffer(context)),
-        Text("(futur us) + (futur us)")
+        if (viewModel.url != null) ...[
+          SizedBox(width: Margins.spacing_base),
+          ShareButton(viewModel.url!, viewModel.titre, null),
+        ],
       ],
     );
   }
