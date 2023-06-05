@@ -30,6 +30,7 @@ void main() {
         heure: "12h - 15h",
         lieu: "95120 - Ermont",
         description: "Information collective pour découvrir les métiers de pôle emploi en vu d'un recrutement...",
+        url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
         retry: (id) => {},
       ),
     );

@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -175,8 +176,12 @@ class _FooterButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: PrimaryActionButton(label: Strings.eventEmploiDetailsInscription)),
-        SizedBox(width: Margins.spacing_base),
+        if (viewModel.url != null) ...[
+          Expanded(
+            child: PrimaryActionButton(label: Strings.eventEmploiDetailsInscription, onPressed: _openInscriptionUrl),
+          ),
+          SizedBox(width: Margins.spacing_base),
+        ],
         // FavoriHeart<EvenementEmploiDetails>(
         //   offreId: "offreId",
         //   withBorder: true,
@@ -188,6 +193,11 @@ class _FooterButtons extends StatelessWidget {
         Text("(futur us) + (futur us)")
       ],
     );
+  }
+
+  void _openInscriptionUrl() {
+    if (viewModel.url == null) return;
+    launchExternalUrl(viewModel.url!);
   }
 }
 
