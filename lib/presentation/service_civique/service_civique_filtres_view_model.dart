@@ -63,15 +63,12 @@ bool _shouldDisplayDistanceFiltre(RechercheServiceCiviqueState state) {
   return location?.type == LocationType.COMMUNE && location?.longitude != null && location?.latitude != null;
 }
 
-DisplayState _displayState(RechercheServiceCiviqueState state) {
-  switch (state.status) {
-    case RechercheStatus.updateLoading:
-      return DisplayState.LOADING;
-    case RechercheStatus.success:
-      return DisplayState.CONTENT;
-    default:
-      return DisplayState.FAILURE;
-  }
+DisplayState _displayState(RechercheState state) {
+  return switch (state.status) {
+    RechercheStatus.updateLoading => DisplayState.LOADING,
+    RechercheStatus.success => DisplayState.CONTENT,
+    _ => DisplayState.FAILURE,
+  };
 }
 
 int _distance(RechercheServiceCiviqueState state) {
