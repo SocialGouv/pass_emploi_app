@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/features/service_civique/detail/service_civique_
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
-import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';

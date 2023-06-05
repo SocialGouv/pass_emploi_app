@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/evenement_emploi_details/evenement_emploi_details_actions.dart';
-import 'package:pass_emploi_app/features/evenement_emploi_details/evenement_emploi_details_state.dart';
+import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_actions.dart';
+import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_state.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_details.dart';
-import 'package:pass_emploi_app/repositories/evenement_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
 
 import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';

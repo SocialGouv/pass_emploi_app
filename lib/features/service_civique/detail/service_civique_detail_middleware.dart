@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:redux/redux.dart';
 
 class ServiceCiviqueDetailMiddleware extends MiddlewareClass<AppState> {

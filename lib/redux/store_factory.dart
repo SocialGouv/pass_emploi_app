@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/features/developer_option/activation/developer_o
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_middleware.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_middleware.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_middleware.dart';
+import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
@@ -66,7 +67,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/evenement_emploi_details/evenement_emploi_details_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -89,18 +89,19 @@ import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
-import 'package:pass_emploi_app/repositories/evenement_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
-import 'package:pass_emploi_app/repositories/immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
@@ -114,14 +115,13 @@ import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_sea
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
-import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/repositories/evenement_emploi_details_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 

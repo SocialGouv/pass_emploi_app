@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_detai
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';

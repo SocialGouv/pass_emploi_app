@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/pages/immersion_details_page.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
+import 'package:pass_emploi_app/pages/immersion/immersion_details_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';

@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';

@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 
 import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
