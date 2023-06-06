@@ -35,6 +35,7 @@ class EvenementEmploiDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const backgroundColor = Colors.white;
+    //TODO-1674 Tracking
     return StoreConnector<AppState, EvenementEmploiDetailsPageViewModel>(
         onInit: (store) => store.dispatch(EvenementEmploiDetailsRequestAction(eventId)),
         converter: (store) => EvenementEmploiDetailsPageViewModel.create(store),
@@ -158,7 +159,7 @@ class _Details extends StatelessWidget {
           children: [
             Text("•", style: TextStyles.textMBoldWithColor(color: AppColors.primary)),
             SizedBox(width: Margins.spacing_s),
-            Text(Strings.eventDetails, style: TextStyles.textMBoldWithColor(color: AppColors.grey800)),
+            Text(Strings.evenementEmploiDetails, style: TextStyles.textMBoldWithColor(color: AppColors.grey800)),
           ],
         ),
         SizedBox(height: Margins.spacing_m),

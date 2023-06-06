@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_modalite.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_type.dart';
@@ -11,17 +12,24 @@ import 'package:redux/redux.dart';
 
 class EvenementEmploiFiltresViewModel extends Equatable {
   final DisplayState displayState;
-  final List<CheckboxValueViewModel<EvenementEmploiType?>> typeFiltres;
   final List<CheckboxValueViewModel<EvenementEmploiModalite>> modalitesFiltres;
+  final EvenementEmploiType? initialTypeValue;
   final DateTime? initialDateDebut;
   final DateTime? initialDateFin;
+  final Function(
+    EvenementEmploiType? type,
+    List<CheckboxValueViewModel<EvenementEmploiModalite>>? modalitesFiltres,
+    DateTime? dateDebut,
+    DateTime? dateFin,
+  ) updateFiltres;
 
   EvenementEmploiFiltresViewModel._({
     required this.displayState,
-    required this.typeFiltres,
     required this.modalitesFiltres,
+    required this.initialTypeValue,
     required this.initialDateDebut,
     required this.initialDateFin,
+    required this.updateFiltres,
   });
 
   factory EvenementEmploiFiltresViewModel.create(Store<AppState> store) {
@@ -29,15 +37,18 @@ class EvenementEmploiFiltresViewModel extends Equatable {
     final filtres = state.request?.filtres;
     return EvenementEmploiFiltresViewModel._(
       displayState: _displayState(state),
-      typeFiltres: _typeFiltres(filtres),
       modalitesFiltres: _modalitesFiltres(filtres),
+      initialTypeValue: filtres?.type,
       initialDateDebut: filtres?.dateDebut,
       initialDateFin: filtres?.dateFin,
+      updateFiltres: (updatedModalitesFiltres, updatedType, updatedDateDebut, updatedDateFin) {
+        _dispatchUpdateFiltresAction(store, updatedModalitesFiltres, updatedType, updatedDateDebut, updatedDateFin);
+      },
     );
   }
 
   @override
-  List<Object?> get props => [displayState, typeFiltres, modalitesFiltres, initialDateDebut, initialDateFin];
+  List<Object?> get props => [displayState, modalitesFiltres, initialDateDebut, initialDateFin];
 }
 
 DisplayState _displayState(RechercheState state) {
@@ -46,56 +57,6 @@ DisplayState _displayState(RechercheState state) {
     RechercheStatus.success => DisplayState.CONTENT,
     _ => DisplayState.FAILURE,
   };
-}
-
-List<CheckboxValueViewModel<EvenementEmploiType?>> _typeFiltres(EvenementEmploiFiltresRecherche? filtres) {
-  return [
-    CheckboxValueViewModel(
-      label: Strings.evenementEmploiTypeAll,
-      value: null,
-      isInitiallyChecked: filtres?.type == null,
-    ),
-    CheckboxValueViewModel(
-      label: Strings.evenementEmploiTypeReunionInformation,
-      value: EvenementEmploiType.reunionInformation,
-      isInitiallyChecked: filtres?.type == EvenementEmploiType.reunionInformation,
-    ),
-    CheckboxValueViewModel(
-      label: Strings.evenementEmploiTypeForum,
-      value: EvenementEmploiType.forum,
-      isInitiallyChecked: filtres?.type == EvenementEmploiType.forum,
-    ),
-    CheckboxValueViewModel(
-      label: Strings.evenementEmploiTypeConference,
-      value: EvenementEmploiType.conference,
-      isInitiallyChecked: filtres?.type == EvenementEmploiType.conference,
-    ),
-    CheckboxValueViewModel(
-      label: Strings.evenementEmploiTypeAtelier,
-      value: EvenementEmploiType.atelier,
-      isInitiallyChecked: filtres?.type == EvenementEmploiType.atelier,
-    ),
-    CheckboxValueViewModel(
-      label: Strings.evenementEmploiTypeSalonEnLigne,
-      value: EvenementEmploiType.salonEnLigne,
-      isInitiallyChecked: filtres?.type == EvenementEmploiType.salonEnLigne,
-    ),
-    CheckboxValueViewModel(
-      label: Strings.evenementEmploiTypeJobDating,
-      value: EvenementEmploiType.jobDating,
-      isInitiallyChecked: filtres?.type == EvenementEmploiType.jobDating,
-    ),
-    CheckboxValueViewModel(
-      label: Strings.evenementEmploiTypeVisiteEntreprise,
-      value: EvenementEmploiType.visiteEntreprise,
-      isInitiallyChecked: filtres?.type == EvenementEmploiType.visiteEntreprise,
-    ),
-    CheckboxValueViewModel(
-      label: Strings.evenementEmploiTypePortesOuvertes,
-      value: EvenementEmploiType.portesOuvertes,
-      isInitiallyChecked: filtres?.type == EvenementEmploiType.portesOuvertes,
-    ),
-  ];
 }
 
 List<CheckboxValueViewModel<EvenementEmploiModalite>> _modalitesFiltres(EvenementEmploiFiltresRecherche? filtres) {
@@ -111,4 +72,23 @@ List<CheckboxValueViewModel<EvenementEmploiModalite>> _modalitesFiltres(Evenemen
       isInitiallyChecked: filtres?.modalites?.contains(EvenementEmploiModalite.aDistance) == true,
     ),
   ];
+}
+
+void _dispatchUpdateFiltresAction(
+  Store<AppState> store,
+  EvenementEmploiType? updatedType,
+  List<CheckboxValueViewModel<EvenementEmploiModalite>>? modalitesFiltres,
+  DateTime? updatedDateDebut,
+  DateTime? updatedDateFin,
+) {
+  store.dispatch(
+    RechercheUpdateFiltresAction<EvenementEmploiFiltresRecherche>(
+      EvenementEmploiFiltresRecherche.withFiltres(
+        type: updatedType,
+        modalites: modalitesFiltres?.map((e) => e.value).toList(),
+        dateDebut: updatedDateDebut,
+        dateFin: updatedDateFin,
+      ),
+    ),
+  );
 }

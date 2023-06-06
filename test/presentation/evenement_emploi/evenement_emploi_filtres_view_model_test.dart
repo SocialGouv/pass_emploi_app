@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_modalite.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_type.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
@@ -7,6 +8,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/evenement_emploi/evenement_emploi_filtres_view_model.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
@@ -66,10 +68,10 @@ void main() {
     final viewModel = EvenementEmploiFiltresViewModel.create(store);
 
     // Then
-    expect(viewModel.typeFiltres, _allTypeInitiallyUnchecked());
-    expect(viewModel.modalitesFiltres, _allModalitesInitiallyUnchecked());
-    expect(viewModel.initialDateDebut, null);
-    expect(viewModel.initialDateFin, null);
+    expect(viewModel.modalitesFiltres, _modalitesWithCheck(enPhysiqueChecked: false, aDistanceChecked: false));
+    expect(viewModel.initialTypeValue, isNull);
+    expect(viewModel.initialDateDebut, isNull);
+    expect(viewModel.initialDateFin, isNull);
   });
 
   test("create when state has type filtre set should pre-check type", () {
@@ -84,17 +86,7 @@ void main() {
     final viewModel = EvenementEmploiFiltresViewModel.create(store);
 
     // Then
-    expect(
-        viewModel.typeFiltres,
-        _allTypeInitiallyUnchecked()
-            .map(
-              (checkbox) => CheckboxValueViewModel(
-                label: checkbox.label,
-                value: checkbox.value,
-                isInitiallyChecked: checkbox.value == EvenementEmploiType.reunionInformation,
-              ),
-            )
-            .toList());
+    expect(viewModel.initialTypeValue, EvenementEmploiType.reunionInformation);
   });
 
   test("create when state has modalité filtre set should pre-check type", () {
@@ -109,17 +101,7 @@ void main() {
     final viewModel = EvenementEmploiFiltresViewModel.create(store);
 
     // Then
-    expect(
-        viewModel.modalitesFiltres,
-        _allModalitesInitiallyUnchecked()
-            .map(
-              (checkbox) => CheckboxValueViewModel(
-                label: checkbox.label,
-                value: checkbox.value,
-                isInitiallyChecked: checkbox.value == EvenementEmploiModalite.enPhysique,
-              ),
-            )
-            .toList());
+    expect(viewModel.modalitesFiltres, _modalitesWithCheck(enPhysiqueChecked: true, aDistanceChecked: false));
   });
 
   test("create when state has dates set should pre-check dates", () {
@@ -140,61 +122,43 @@ void main() {
     expect(viewModel.initialDateDebut, DateTime(2030, 1, 1));
     expect(viewModel.initialDateFin, DateTime(2030, 1, 2));
   });
+
+  test('updateFiltres should map parameters into actions', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = EvenementEmploiFiltresViewModel.create(store);
+
+    // When
+    viewModel.updateFiltres(
+      EvenementEmploiType.conference,
+      [CheckboxValueViewModel(label: '', value: EvenementEmploiModalite.enPhysique, isInitiallyChecked: false)],
+      DateTime(2030, 1, 1),
+      DateTime(2030, 1, 2),
+    );
+
+    // Then
+    final action = store.dispatchedAction as RechercheUpdateFiltresAction<EvenementEmploiFiltresRecherche>;
+    expect(action.filtres.type, EvenementEmploiType.conference);
+    expect(action.filtres.modalites, [EvenementEmploiModalite.enPhysique]);
+    expect(action.filtres.dateDebut, DateTime(2030, 1, 1));
+    expect(action.filtres.dateFin, DateTime(2030, 1, 2));
+  });
 }
 
-List<CheckboxValueViewModel<EvenementEmploiModalite>> _allModalitesInitiallyUnchecked() {
+List<CheckboxValueViewModel<EvenementEmploiModalite>> _modalitesWithCheck({
+  required bool enPhysiqueChecked,
+  required bool aDistanceChecked,
+}) {
   return [
     CheckboxValueViewModel(
       label: 'En présentiel',
       value: EvenementEmploiModalite.enPhysique,
-      isInitiallyChecked: false,
-    ),
-    CheckboxValueViewModel(label: 'À distance', value: EvenementEmploiModalite.aDistance, isInitiallyChecked: false),
-  ];
-}
-
-List<CheckboxValueViewModel<EvenementEmploiType?>> _allTypeInitiallyUnchecked() {
-  return [
-    CheckboxValueViewModel(label: 'Tous les types d\'événement', value: null, isInitiallyChecked: true),
-    CheckboxValueViewModel(
-      label: 'Réunion d\'information',
-      value: EvenementEmploiType.reunionInformation,
-      isInitiallyChecked: false,
+      isInitiallyChecked: enPhysiqueChecked,
     ),
     CheckboxValueViewModel(
-      label: 'Forum',
-      value: EvenementEmploiType.forum,
-      isInitiallyChecked: false,
-    ),
-    CheckboxValueViewModel(
-      label: 'Conférence',
-      value: EvenementEmploiType.conference,
-      isInitiallyChecked: false,
-    ),
-    CheckboxValueViewModel(
-      label: 'Atelier',
-      value: EvenementEmploiType.atelier,
-      isInitiallyChecked: false,
-    ),
-    CheckboxValueViewModel(
-      label: 'Salon en ligne',
-      value: EvenementEmploiType.salonEnLigne,
-      isInitiallyChecked: false,
-    ),
-    CheckboxValueViewModel(
-      label: 'Job Dating',
-      value: EvenementEmploiType.jobDating,
-      isInitiallyChecked: false,
-    ),
-    CheckboxValueViewModel(
-      label: 'Visite d\'entreprise',
-      value: EvenementEmploiType.visiteEntreprise,
-      isInitiallyChecked: false,
-    ),
-    CheckboxValueViewModel(
-      label: 'Portes ouvertes',
-      value: EvenementEmploiType.portesOuvertes,
-      isInitiallyChecked: false,
+      label: 'À distance',
+      value: EvenementEmploiModalite.aDistance,
+      isInitiallyChecked: aDistanceChecked,
     ),
   ];
 }

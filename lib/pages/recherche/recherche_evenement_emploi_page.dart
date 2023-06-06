@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
+import 'package:pass_emploi_app/pages/evenement_emploi/evenement_emploi_filtres_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
 import 'package:pass_emploi_app/presentation/evenement_emploi/evenement_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
@@ -40,7 +41,7 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
   String? appBarTitle() => null;
 
   @override
-  String analyticsType() => 'evenement_emploi';
+  String analyticsType() => 'evenement_emploi'; // TODO-1674 Tracking
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEvenementEmploiState;
@@ -52,7 +53,7 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
   Widget buildAlertBottomSheet() => SizedBox.shrink();
 
   @override
-  Route<bool>? buildFiltresMaterialPageRoute() => null;
+  Route<bool>? buildFiltresMaterialPageRoute() => EvenementEmploiFiltresPage.materialPageRoute();
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {
