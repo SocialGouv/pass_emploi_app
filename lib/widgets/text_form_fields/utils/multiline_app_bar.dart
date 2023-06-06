@@ -14,6 +14,7 @@ class MultilineAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ConstrainedBox(
           constraints: BoxConstraints.tightFor(width: kToolbarHeight, height: kToolbarHeight),
