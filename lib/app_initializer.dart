@@ -230,7 +230,7 @@ class AppInitializer {
         pushNotificationManager,
         crashlytics,
       ),
-      OffreEmploiDetailsRepository(baseUrl, httpClient, crashlytics),
+      OffreEmploiDetailsRepository(dioClient, crashlytics),
       OffreEmploiFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ImmersionFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ServiceCiviqueFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
