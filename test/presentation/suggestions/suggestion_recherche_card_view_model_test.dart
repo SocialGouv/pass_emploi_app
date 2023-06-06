@@ -90,6 +90,25 @@ void main() {
     );
   });
 
+  test("should dispatch accepter suggestion with Location and rayon", () {
+    // Given
+    final store = givenState().withSuggestionsRecherche().spyStore();
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionPoleEmploi().id);
+    final location = mockLocation(lat: 48.830108, lon: 2.323026);
+    const rayon = 10.0;
+
+    // When
+    viewModel?.ajouterSuggestion(location: location, rayon: rayon);
+
+    // Then
+    expect(viewModel, isNotNull);
+    expect(
+      store.dispatchedAction,
+      TraiterSuggestionRechercheRequestAction(suggestionPoleEmploi(), TraiterSuggestionType.accepter,
+          location: location, rayon: rayon),
+    );
+  });
+
   test("should dispatch refuser suggestion", () {
     // Given
     final store = givenState().withSuggestionsRecherche().spyStore();

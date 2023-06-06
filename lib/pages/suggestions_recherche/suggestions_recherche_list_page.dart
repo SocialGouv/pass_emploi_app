@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
+import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_alerte_location_form.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
@@ -123,13 +125,13 @@ class _Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SuggestionRechercheCardViewModel?>(
-      builder: (context, viewModel) => _builder(viewModel),
+      builder: (context, viewModel) => _builder(context, viewModel),
       converter: (store) => SuggestionRechercheCardViewModel.create(store, suggestionId),
       distinct: true,
     );
   }
 
-  Widget _builder(SuggestionRechercheCardViewModel? viewModel) {
+  Widget _builder(BuildContext context, SuggestionRechercheCardViewModel? viewModel) {
     if (viewModel == null) return SizedBox(height: 0);
     final source = viewModel.source;
     return CardContainer(
@@ -151,7 +153,21 @@ class _Card extends StatelessWidget {
             SizedBox(height: Margins.spacing_base)
           ],
           SizedBox(height: Margins.spacing_s),
-          _Buttons(onTapAjouter: viewModel.ajouterSuggestion, onTapRefuser: viewModel.refuserSuggestion),
+          _Buttons(
+              onTapAjouter: () async {
+                if (viewModel.withLocationForm) {
+                  final locationAndRayon = await Navigator.of(context)
+                      .push(SuggestionsAlerteLocationForm.materialPageRoute(viewModel: viewModel));
+
+                  if (locationAndRayon != null) {
+                    final (Location? location, double? rayon) = locationAndRayon;
+                    viewModel.ajouterSuggestion(location: location, rayon: rayon);
+                  }
+                } else {
+                  viewModel.ajouterSuggestion();
+                }
+              },
+              onTapRefuser: viewModel.refuserSuggestion),
         ],
       ),
     );

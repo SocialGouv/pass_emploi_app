@@ -5,26 +5,23 @@ import 'package:pass_emploi_app/ui/strings.dart';
 
 class SuggestionAlerteLocationFormViewModel extends Equatable {
   SuggestionAlerteLocationFormViewModel({
-    required this.title,
     required this.hint,
     required this.villesOnly,
   });
 
-  final String title;
   final String hint;
   final bool villesOnly;
 
   factory SuggestionAlerteLocationFormViewModel.create(SuggestionRechercheCardViewModel baseViewModel) {
     final type = baseViewModel.type;
     return SuggestionAlerteLocationFormViewModel(
-      title: Strings.localisationFormTitle,
       hint: _hint(type),
       villesOnly: _villesOnly(type),
     );
   }
 
   @override
-  List<Object?> get props => [title, hint, villesOnly];
+  List<Object?> get props => [hint, villesOnly];
 }
 
 String _hint(OffreType type) {
