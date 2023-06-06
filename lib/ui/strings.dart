@@ -824,6 +824,9 @@ class Strings {
   static const String evenementEmploiFiltres = "Filtrer les événements";
   static const String evenementEmploiFiltresModalites = "Modalités d'accès";
   static const String evenementEmploiFiltresType = "Par type d’événement";
+  static const String evenementEmploiFiltresDate = "Période";
+  static const String evenementEmploiFiltresDateDebut = "Date de début";
+  static const String evenementEmploiFiltresDateFin = "Date de fin";
 
   // Mode dégradé Pôle Emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
