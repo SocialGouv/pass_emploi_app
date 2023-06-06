@@ -11,8 +11,14 @@ class DatePicker extends StatelessWidget {
   final Function(DateTime) onValueChange;
   final DateTime? initialDateValue;
   final bool isActiveDate;
+  final DateTime? firstDate;
 
-  DatePicker({required this.onValueChange, required this.initialDateValue, required this.isActiveDate});
+  DatePicker({
+    required this.onValueChange,
+    required this.initialDateValue,
+    required this.isActiveDate,
+    this.firstDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +51,7 @@ class DatePicker extends StatelessWidget {
               height: 180,
               child: CupertinoDatePicker(
                   initialDateTime: initialDateValue ?? DateTime.now(),
+                  minimumDate: firstDate,
                   mode: CupertinoDatePickerMode.date,
                   onDateTimeChanged: (value) {
                     onValueChange(value);
@@ -59,7 +66,7 @@ class DatePicker extends StatelessWidget {
   Future<void> _androidDatePicker(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      firstDate: DateTime(2020),
+      firstDate: firstDate ?? DateTime(2020),
       lastDate: DateTime(2101),
       initialDate: initialDateValue ?? DateTime.now(),
       locale: const Locale("fr", "FR"),

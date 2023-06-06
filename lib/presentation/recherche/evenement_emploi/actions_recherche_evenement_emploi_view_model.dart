@@ -36,6 +36,7 @@ bool _withFiltreButton(RechercheState state) {
 }
 
 int? _filtresCount(EvenementEmploiFiltresRecherche? filtres) {
+  // TODO-1674 Fix date count
   if (filtres == null) return null;
   final int typeFiltreCount = filtres.type != null ? 1 : 0;
   final int modalitesFiltreCount = filtres.modalites != null ? 1 : 0;

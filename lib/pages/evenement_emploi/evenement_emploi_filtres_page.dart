@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
+import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 
@@ -74,6 +75,8 @@ class _Content extends StatefulWidget {
 class _ContentState extends State<_Content> {
   EvenementEmploiType? _currentTypeValue;
   List<CheckboxValueViewModel<EvenementEmploiModalite>>? _currentModaliteFiltres;
+  DateTime? _currentDateDebut;
+  DateTime? _currentDateFin;
   var _hasFormChanged = false;
 
   @override
@@ -81,6 +84,8 @@ class _ContentState extends State<_Content> {
     super.initState();
     _currentTypeValue = widget.viewModel.initialTypeValue;
     _currentModaliteFiltres = widget.viewModel.modalitesFiltres.where((element) => element.isInitiallyChecked).toList();
+    _currentDateDebut = widget.viewModel.initialDateDebut;
+    _currentDateFin = widget.viewModel.initialDateFin;
   }
 
   @override
@@ -92,6 +97,8 @@ class _ContentState extends State<_Content> {
           viewModel: widget.viewModel,
           onTypeValueChange: (type) => _setTypeFiltreState(type),
           onModalitesValueChange: (selectedOptions) => _setModalitesFiltreState(selectedOptions),
+          onDateDebutValueChange: (dateTime) => _setDateDebutFiltreState(dateTime),
+          onDateFinValueChange: (dateTime) => _setDateFinFiltreState(dateTime),
         ),
         Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),
@@ -118,15 +125,24 @@ class _ContentState extends State<_Content> {
     });
   }
 
+  void _setDateDebutFiltreState(DateTime dateTime) {
+    setState(() {
+      _hasFormChanged = true;
+      _currentDateDebut = dateTime;
+    });
+  }
+
+  void _setDateFinFiltreState(DateTime dateTime) {
+    setState(() {
+      _hasFormChanged = true;
+      _currentDateFin = dateTime;
+    });
+  }
+
   bool _isButtonEnabled(DisplayState displayState) => _hasFormChanged && displayState != DisplayState.LOADING;
 
   void _onButtonClick(EvenementEmploiFiltresViewModel viewModel) {
-    viewModel.updateFiltres(
-      _currentTypeValue,
-      _currentModaliteFiltres ?? [],
-      null, // TODO-1674 dateDebut
-      null, // TODO-1674 dateFin
-    );
+    viewModel.updateFiltres(_currentTypeValue, _currentModaliteFiltres, _currentDateDebut, _currentDateFin);
   }
 }
 
@@ -134,11 +150,15 @@ class _Filtres extends StatefulWidget {
   final EvenementEmploiFiltresViewModel viewModel;
   final Function(EvenementEmploiType?) onTypeValueChange;
   final Function(List<CheckboxValueViewModel<EvenementEmploiModalite>>) onModalitesValueChange;
+  final Function(DateTime) onDateDebutValueChange;
+  final Function(DateTime) onDateFinValueChange;
 
   _Filtres({
     required this.viewModel,
     required this.onTypeValueChange,
     required this.onModalitesValueChange,
+    required this.onDateDebutValueChange,
+    required this.onDateFinValueChange,
   });
 
   @override
@@ -168,6 +188,16 @@ class _FiltresState extends State<_Filtres> {
               onSelectedOptionsUpdated: (selectedOptions) {
                 widget.onModalitesValueChange(selectedOptions as List<CheckboxValueViewModel<EvenementEmploiModalite>>);
               },
+            ),
+          ),
+          SizedBox(height: Margins.spacing_m),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+            child: _DateFiltres(
+              onDateDebutValueChange: widget.onDateDebutValueChange,
+              onDateFinValueChange: widget.onDateFinValueChange,
+              initialDateDebut: widget.viewModel.initialDateDebut,
+              initialDateFin: widget.viewModel.initialDateFin,
             ),
           ),
           if (widget.viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
@@ -213,6 +243,7 @@ class _TypeFiltreState extends State<_TypeFiltre> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [null, ...EvenementEmploiType.values]
+                // TODO-1674 Fix right padding
                 .map((type) => RadioListTile<EvenementEmploiType?>(
                     controlAffinity: ListTileControlAffinity.trailing,
                     selected: type == _currentValue,
@@ -224,6 +255,79 @@ class _TypeFiltreState extends State<_TypeFiltre> {
                       setState(() => _currentValue = value);
                     }))
                 .toList(),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _DateFiltres extends StatefulWidget {
+  final Function(DateTime) onDateDebutValueChange;
+  final Function(DateTime) onDateFinValueChange;
+  final DateTime? initialDateDebut;
+  final DateTime? initialDateFin;
+
+  const _DateFiltres({
+    required this.onDateDebutValueChange,
+    required this.onDateFinValueChange,
+    required this.initialDateDebut,
+    required this.initialDateFin,
+  });
+
+  @override
+  State<_DateFiltres> createState() => _DateFiltresState();
+}
+
+class _DateFiltresState extends State<_DateFiltres> {
+  DateTime? _currentDateDebut;
+  DateTime? _currentDateFin;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentDateDebut = widget.initialDateDebut;
+    _currentDateFin = widget.initialDateFin;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(Strings.evenementEmploiFiltresDate, style: TextStyles.textBaseBold),
+        SizedBox(height: Margins.spacing_base),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(Dimens.radius_base)),
+            boxShadow: [Shadows.radius_base],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(Margins.spacing_base),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(Strings.evenementEmploiFiltresDateDebut, style: TextStyles.textBaseMedium),
+                SizedBox(height: Margins.spacing_s),
+                // TODO-1674 Fix theme
+                DatePicker(
+                  onValueChange: widget.onDateDebutValueChange,
+                  initialDateValue: _currentDateDebut,
+                  isActiveDate: true,
+                  firstDate: DateTime.now(),
+                ),
+                SizedBox(height: Margins.spacing_base),
+                Text(Strings.evenementEmploiFiltresDateFin, style: TextStyles.textBaseMedium),
+                SizedBox(height: Margins.spacing_s),
+                DatePicker(
+                  onValueChange: widget.onDateFinValueChange,
+                  initialDateValue: _currentDateFin,
+                  isActiveDate: true,
+                  firstDate: _currentDateDebut ?? DateTime.now()
+                ),
+              ],
+            ),
           ),
         ),
       ],
