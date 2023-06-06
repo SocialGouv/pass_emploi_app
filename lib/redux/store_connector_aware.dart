@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
 class StoreConnectorAware<ViewModel> extends StatefulWidget {
-
   final ViewModelBuilder<ViewModel> builder;
   final StoreConverter<AppState, ViewModel> converter;
   final bool distinct;
