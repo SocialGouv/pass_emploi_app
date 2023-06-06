@@ -45,8 +45,14 @@ class SuggestionRechercheCardViewModel extends Equatable {
       localisation: suggestion.localisation,
       withLocationForm: suggestion.source == SuggestionSource.diagoriente,
       ajouterSuggestion: ({location, rayon}) {
-        return store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.accepter,
-            location: location, rayon: rayon));
+        return store.dispatch(
+          TraiterSuggestionRechercheRequestAction(
+            suggestion,
+            TraiterSuggestionType.accepter,
+            location: location,
+            rayon: rayon,
+          ),
+        );
       },
       refuserSuggestion: () {
         return store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.refuser));

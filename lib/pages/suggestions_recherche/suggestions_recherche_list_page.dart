@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
@@ -154,23 +155,36 @@ class _Card extends StatelessWidget {
           ],
           SizedBox(height: Margins.spacing_s),
           _Buttons(
-              onTapAjouter: () async {
-                if (viewModel.withLocationForm) {
-                  final locationAndRayon = await Navigator.of(context)
-                      .push(SuggestionsAlerteLocationForm.materialPageRoute(viewModel: viewModel));
-
-                  if (locationAndRayon != null) {
-                    final (Location? location, double? rayon) = locationAndRayon;
-                    viewModel.ajouterSuggestion(location: location, rayon: rayon);
-                  }
-                } else {
-                  viewModel.ajouterSuggestion();
-                }
-              },
-              onTapRefuser: viewModel.refuserSuggestion),
+            onTapAjouter: () async {
+              if (viewModel.withLocationForm) {
+                await _selectLocationAndRayon(
+                  context,
+                  viewModel.type,
+                  onSelected: (location, rayon) => viewModel.ajouterSuggestion(location: location, rayon: rayon),
+                );
+              } else {
+                viewModel.ajouterSuggestion();
+              }
+            },
+            onTapRefuser: viewModel.refuserSuggestion,
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> _selectLocationAndRayon(
+    BuildContext context,
+    OffreType type, {
+    required void Function(Location? location, double? rayon) onSelected,
+  }) async {
+    final locationAndRayon =
+        await Navigator.of(context).push(SuggestionsAlerteLocationForm.materialPageRoute(type: type));
+
+    if (locationAndRayon != null) {
+      final (Location? location, double? rayon) = locationAndRayon;
+      onSelected(location, rayon);
+    }
   }
 }
 

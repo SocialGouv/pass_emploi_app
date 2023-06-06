@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_alerte_location_form_view_model.dart';
-import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -12,12 +12,11 @@ import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/location_autocomplete.dart';
 
 class SuggestionsAlerteLocationForm extends StatefulWidget {
-  final SuggestionRechercheCardViewModel viewModel;
-  const SuggestionsAlerteLocationForm({super.key, required this.viewModel});
+  final OffreType type;
+  const SuggestionsAlerteLocationForm({super.key, required this.type});
 
-  static MaterialPageRoute<(Location? location, double? rayon)> materialPageRoute(
-      {required SuggestionRechercheCardViewModel viewModel}) {
-    return MaterialPageRoute(builder: (context) => SuggestionsAlerteLocationForm(viewModel: viewModel));
+  static MaterialPageRoute<(Location? location, double? rayon)> materialPageRoute({required OffreType type}) {
+    return MaterialPageRoute(builder: (context) => SuggestionsAlerteLocationForm(type: type));
   }
 
   @override
@@ -31,7 +30,7 @@ class _SuggestionsAlerteLocationFormState extends State<SuggestionsAlerteLocatio
 
   @override
   void initState() {
-    viewModel = SuggestionAlerteLocationFormViewModel.create(widget.viewModel);
+    viewModel = SuggestionAlerteLocationFormViewModel.create(widget.type);
     super.initState();
   }
 
@@ -57,6 +56,7 @@ class _SuggestionsAlerteLocationFormState extends State<SuggestionsAlerteLocatio
                   onLocationSelected: (location) {
                     setState(() {
                       _selectedLocation = location;
+                      _selectedRayon = null;
                     });
                   },
                 ),
@@ -69,7 +69,7 @@ class _SuggestionsAlerteLocationFormState extends State<SuggestionsAlerteLocatio
                 ),
                 ApparitionAnimation(
                   child: DistanceSlider(
-                    initialDistanceValue: _selectedRayon ?? 10,
+                    initialDistanceValue: _selectedRayon ?? 0,
                     onValueChange: (value) => _selectedRayon = value,
                   ),
                 ),

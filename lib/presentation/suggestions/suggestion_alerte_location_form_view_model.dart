@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
-import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 class SuggestionAlerteLocationFormViewModel extends Equatable {
@@ -12,8 +11,7 @@ class SuggestionAlerteLocationFormViewModel extends Equatable {
   final String hint;
   final bool villesOnly;
 
-  factory SuggestionAlerteLocationFormViewModel.create(SuggestionRechercheCardViewModel baseViewModel) {
-    final type = baseViewModel.type;
+  factory SuggestionAlerteLocationFormViewModel.create(OffreType type) {
     return SuggestionAlerteLocationFormViewModel(
       hint: _hint(type),
       villesOnly: _villesOnly(type),

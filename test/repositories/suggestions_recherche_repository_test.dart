@@ -31,8 +31,12 @@ void main() {
       test('response should be valid', () async {
         await sut.expectResult<List<SuggestionRecherche>?>((result) {
           expect(result, isNotNull);
-          expect(
-              result, [suggestionPoleEmploi(), suggestionConseiller(), suggestionPlombier(), suggestionDiagoriente()]);
+          expect(result, [
+            suggestionCaristeFromPoleEmploi(),
+            suggestionBoulangerFromConseiller(),
+            suggestionPlombier(),
+            suggestionCoiffeurFormDiagoriente()
+          ]);
         });
       });
     });
@@ -85,14 +89,17 @@ void main() {
 
   group('accepter suggestion with location and rayon', () {
     sut.when((repository) => repository.accepterSuggestion(
-        userId: "USERID", suggestionId: "SUGGID", location: mockLocation(lat: 48.830108, lon: 2.323026), rayon: 10.0));
+        userId: "USERID", suggestionId: "SUGGID", location: mockLocationParis(), rayon: 10.0));
     sut.givenJsonResponse(fromJson: "suggestions_recherche_emploi_acceptee.json");
 
     test('request should be valid', () async {
       await sut.expectRequestBody(
-        method: "POST",
-        url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
-      );
+          method: "POST",
+          url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
+          jsonBody: {
+            'location': {'libelle': 'Paris', 'code': '75', 'type': 'DEPARTEMENT', 'latitude': 1.0, 'longitude': 2.0},
+            'rayon': 10.0
+          });
     });
   });
 
