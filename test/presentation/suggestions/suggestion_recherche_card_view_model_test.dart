@@ -14,7 +14,7 @@ void main() {
     final store = givenState().withSuggestionsRecherche().store();
 
     // When
-    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionPoleEmploi().id);
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCaristeFromPoleEmploi().id);
 
     // Then
     expect(viewModel, isNotNull);
@@ -77,7 +77,7 @@ void main() {
   test("should dispatch accepter suggestion", () {
     // Given
     final store = givenState().withSuggestionsRecherche().spyStore();
-    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionPoleEmploi().id);
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCaristeFromPoleEmploi().id);
 
     // When
     viewModel?.ajouterSuggestion();
@@ -86,14 +86,14 @@ void main() {
     expect(viewModel, isNotNull);
     expect(
       store.dispatchedAction,
-      TraiterSuggestionRechercheRequestAction(suggestionPoleEmploi(), TraiterSuggestionType.accepter),
+      TraiterSuggestionRechercheRequestAction(suggestionCaristeFromPoleEmploi(), TraiterSuggestionType.accepter),
     );
   });
 
   test("should dispatch accepter suggestion with Location and rayon", () {
     // Given
     final store = givenState().withSuggestionsRecherche().spyStore();
-    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionPoleEmploi().id);
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCaristeFromPoleEmploi().id);
     final location = mockLocation(lat: 48.830108, lon: 2.323026);
     const rayon = 10.0;
 
@@ -104,15 +104,19 @@ void main() {
     expect(viewModel, isNotNull);
     expect(
       store.dispatchedAction,
-      TraiterSuggestionRechercheRequestAction(suggestionPoleEmploi(), TraiterSuggestionType.accepter,
-          location: location, rayon: rayon),
+      TraiterSuggestionRechercheRequestAction(
+        suggestionCaristeFromPoleEmploi(),
+        TraiterSuggestionType.accepter,
+        location: location,
+        rayon: rayon,
+      ),
     );
   });
 
   test("should dispatch refuser suggestion", () {
     // Given
     final store = givenState().withSuggestionsRecherche().spyStore();
-    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionPoleEmploi().id);
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCaristeFromPoleEmploi().id);
 
     // When
     viewModel?.refuserSuggestion();
@@ -121,7 +125,7 @@ void main() {
     expect(viewModel, isNotNull);
     expect(
       store.dispatchedAction,
-      TraiterSuggestionRechercheRequestAction(suggestionPoleEmploi(), TraiterSuggestionType.refuser),
+      TraiterSuggestionRechercheRequestAction(suggestionCaristeFromPoleEmploi(), TraiterSuggestionType.refuser),
     );
   });
 }
