@@ -38,6 +38,7 @@ import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/requests/contact_immersion_request.dart';
+import 'package:pass_emploi_app/models/saved_search/evenement_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
@@ -828,6 +829,10 @@ List<Favori> mock3Favoris() {
       localisation: "localisation-3",
     ),
   ];
+}
+
+EvenementEmploiSavedSearch mockEvenementEmploiSavedSearch() {
+  return EvenementEmploiSavedSearch(id: "id-117", titre: "Ermont", location: mockLocation());
 }
 
 List<SavedSearch> getMockedSavedSearch() {
