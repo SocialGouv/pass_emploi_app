@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -15,7 +16,7 @@ class SuggestionRechercheCardViewModel extends Equatable {
   final String? metier;
   final String? localisation;
   final bool withLocationForm;
-  final Function() ajouterSuggestion;
+  final Function({Location? location, double? rayon}) ajouterSuggestion;
   final Function() refuserSuggestion;
 
   SuggestionRechercheCardViewModel._({
@@ -43,8 +44,9 @@ class SuggestionRechercheCardViewModel extends Equatable {
       metier: suggestion.metier,
       localisation: suggestion.localisation,
       withLocationForm: suggestion.source == SuggestionSource.diagoriente,
-      ajouterSuggestion: () {
-        return store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.accepter));
+      ajouterSuggestion: ({location, rayon}) {
+        return store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.accepter,
+            location: location, rayon: rayon));
       },
       refuserSuggestion: () {
         return store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.refuser));

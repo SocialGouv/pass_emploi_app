@@ -83,6 +83,19 @@ void main() {
     });
   });
 
+  group('accepter suggestion with location and rayon', () {
+    sut.when((repository) => repository.accepterSuggestion(
+        userId: "USERID", suggestionId: "SUGGID", location: mockLocation(lat: 48.830108, lon: 2.323026), rayon: 10.0));
+    sut.givenJsonResponse(fromJson: "suggestions_recherche_emploi_acceptee.json");
+
+    test('request should be valid', () async {
+      await sut.expectRequestBody(
+        method: "POST",
+        url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
+      );
+    });
+  });
+
   group('refuserSuggestion', () {
     sut.when((repository) => repository.refuserSuggestion(userId: "USERID", suggestionId: "SUGGID"));
 

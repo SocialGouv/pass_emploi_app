@@ -15,7 +15,7 @@ class SuggestionsAlerteLocationForm extends StatefulWidget {
   final SuggestionRechercheCardViewModel viewModel;
   const SuggestionsAlerteLocationForm({super.key, required this.viewModel});
 
-  static MaterialPageRoute<(Location? location, double? rayon)?> materialPageRoute(
+  static MaterialPageRoute<(Location? location, double? rayon)> materialPageRoute(
       {required SuggestionRechercheCardViewModel viewModel}) {
     return MaterialPageRoute(builder: (context) => SuggestionsAlerteLocationForm(viewModel: viewModel));
   }
@@ -50,7 +50,7 @@ class _SuggestionsAlerteLocationFormState extends State<SuggestionsAlerteLocatio
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
                 child: LocationAutocomplete(
-                  title: viewModel.title,
+                  title: Strings.localisationFormTitle,
                   hint: viewModel.hint,
                   villesOnly: viewModel.villesOnly,
                   initialValue: _selectedLocation,
