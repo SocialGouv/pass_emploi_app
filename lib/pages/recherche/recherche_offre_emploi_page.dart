@@ -50,14 +50,10 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   FavoriIdsState<OffreEmploi> favorisState(AppState appState) => appState.offreEmploiFavorisIdsState;
 
   @override
-  Widget buildAlertBottomSheet() {
-    return OffreEmploiSavedSearchBottomSheet(onlyAlternance: onlyAlternance);
-  }
+  Widget buildAlertBottomSheet() => OffreEmploiSavedSearchBottomSheet(onlyAlternance: onlyAlternance);
 
   @override
-  Route<bool>? buildFiltresMaterialPageRoute() {
-    return OffreEmploiFiltresPage.materialPageRoute(onlyAlternance);
-  }
+  Route<bool>? buildFiltresMaterialPageRoute() => OffreEmploiFiltresPage.materialPageRoute(onlyAlternance);
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

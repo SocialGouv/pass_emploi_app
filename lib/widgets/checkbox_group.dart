@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -43,11 +44,11 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
         DecoratedBox(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
+            borderRadius: BorderRadius.all(Radius.circular(Dimens.radius_base)),
             boxShadow: [Shadows.radius_base],
           ),
           child: Padding(
-            padding: const EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.only(left: Margins.spacing_base),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: _optionsSelectionStatus.entries

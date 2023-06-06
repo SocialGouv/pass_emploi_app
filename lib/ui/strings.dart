@@ -820,7 +820,10 @@ class Strings {
   static const String evenementEmploiTypePortesOuvertes = "Portes ouvertes";
   static const String evenementEmploiModaliteEnPhysique = "En présentiel";
   static const String evenementEmploiModaliteADistance = "À distance";
-  static const String eventDetails = "Détail de l'événement";
+  static const String evenementEmploiDetails = "Détail de l'événement";
+  static const String evenementEmploiFiltres = "Filtrer les événements";
+  static const String evenementEmploiFiltresModalites = "Modalités d'accès";
+  static const String evenementEmploiFiltresType = "Par type d’événement";
 
   // Mode dégradé Pôle Emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
