@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigatio
 import 'package:pass_emploi_app/presentation/saved_search_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/saved_search_navigator_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 
@@ -29,7 +30,7 @@ class _SavedSearchNavigatorState extends State<SavedSearchNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, SavedSearchNavigatorViewModel>(
+    return StoreConnectorAware<SavedSearchNavigatorViewModel>(
       converter: (store) => SavedSearchNavigatorViewModel.create(store),
       builder: (_, __) => widget.child,
       onWillChange: _onWillChange,
