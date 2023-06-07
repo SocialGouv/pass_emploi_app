@@ -190,7 +190,7 @@ class DummyDetailedRepository extends OffreEmploiDetailsRepository {
 }
 
 class DummyOffreEmploiFavorisRepository extends OffreEmploiFavorisRepository {
-  DummyOffreEmploiFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyOffreEmploiFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
 }
 
 class DummySearchLocationRepository extends SearchLocationRepository {
