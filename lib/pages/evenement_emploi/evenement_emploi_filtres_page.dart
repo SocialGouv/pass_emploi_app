@@ -183,6 +183,7 @@ class _FiltresState extends State<_Filtres> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
             child: CheckBoxGroup<EvenementEmploiModalite>(
+              contentPadding: EdgeInsets.only(left: Margins.spacing_base, right: Margins.spacing_s),
               title: Strings.evenementEmploiFiltresModalites,
               options: widget.viewModel.modalitesFiltres,
               onSelectedOptionsUpdated: (selectedOptions) {
@@ -243,8 +244,8 @@ class _TypeFiltreState extends State<_TypeFiltre> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [null, ...EvenementEmploiType.values]
-                // TODO-1674 Fix right padding
                 .map((type) => RadioListTile<EvenementEmploiType?>(
+                    contentPadding: EdgeInsets.only(left: Margins.spacing_base, right: Margins.spacing_s),
                     controlAffinity: ListTileControlAffinity.trailing,
                     selected: type == _currentValue,
                     title: Text(type?.label ?? Strings.evenementEmploiTypeAll),
@@ -324,7 +325,7 @@ class _DateFiltresState extends State<_DateFiltres> {
                   onValueChange: widget.onDateFinValueChange,
                   initialDateValue: _currentDateFin,
                   isActiveDate: true,
-                  firstDate: _currentDateDebut ?? DateTime.now()
+                  firstDate: _currentDateDebut ?? DateTime.now(),
                 ),
               ],
             ),

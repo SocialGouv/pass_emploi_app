@@ -13,12 +13,14 @@ class CheckBoxGroup<T> extends StatefulWidget {
   final String title;
   final List<CheckboxValueViewModel<T>> options;
   final void Function(List<CheckboxValueViewModel> selectedOptions) onSelectedOptionsUpdated;
+  final EdgeInsetsGeometry? contentPadding;
 
   const CheckBoxGroup({
     Key? key,
     required this.title,
     required this.options,
     required this.onSelectedOptionsUpdated,
+    this.contentPadding,
   }) : super(key: key);
 
   @override
@@ -48,7 +50,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
             boxShadow: [Shadows.radius_base],
           ),
           child: Padding(
-            padding: const EdgeInsets.only(left: Margins.spacing_base),
+            padding: widget.contentPadding ?? const EdgeInsets.only(left: Margins.spacing_base),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: _optionsSelectionStatus.entries
