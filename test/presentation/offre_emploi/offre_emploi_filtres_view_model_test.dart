@@ -216,10 +216,9 @@ void main() {
   test("updateFiltres should map view model input into action", () {
     // Given
     final store = StoreSpy();
-
     final viewModel = OffreEmploiFiltresViewModel.create(store);
-    // When
 
+    // When
     viewModel.updateFiltres(
       20,
       true,

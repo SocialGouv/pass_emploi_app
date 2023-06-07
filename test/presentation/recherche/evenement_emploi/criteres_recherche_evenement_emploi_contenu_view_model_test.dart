@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/secteur_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
-import 'package:pass_emploi_app/models/secteur_activite.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/evenement_emploi/criteres_recherche_evenement_emploi_contenu_view_model.dart';
 
@@ -70,7 +70,7 @@ void main() {
             .request,
         RechercheRequest(
           EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: SecteurActivite.agriculture),
-          EvenementEmploiFiltresRecherche(),
+          EvenementEmploiFiltresRecherche.noFiltre(),
           1,
         ),
       );
@@ -78,7 +78,7 @@ void main() {
 
     test('on updated request should dispatch proper action with previous filtres', () {
       // Given
-      final previousFiltres = EvenementEmploiFiltresRecherche();
+      final previousFiltres = EvenementEmploiFiltresRecherche.noFiltre();
       final store = givenState().successRechercheEvenementEmploiStateWithRequest(filtres: previousFiltres).spyStore();
       final viewModel = CriteresRechercheEvenementEmploiContenuViewModel.create(store);
 
@@ -99,7 +99,7 @@ void main() {
             .request,
         RechercheRequest(
           EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: SecteurActivite.sante),
-          EvenementEmploiFiltresRecherche(),
+          EvenementEmploiFiltresRecherche.noFiltre(),
           1,
         ),
       );

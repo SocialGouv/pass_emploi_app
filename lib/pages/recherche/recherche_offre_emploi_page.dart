@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -41,7 +42,9 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   }
 
   @override
-  String analyticsType() => onlyAlternance ? "alternance" : "emploi";
+  String analyticsType() {
+    return onlyAlternance ? AnalyticsScreenNames.alternanceRecherche : AnalyticsScreenNames.emploiRecherche;
+  }
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
@@ -50,14 +53,10 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   FavoriIdsState<OffreEmploi> favorisState(AppState appState) => appState.offreEmploiFavorisIdsState;
 
   @override
-  Widget buildAlertBottomSheet() {
-    return OffreEmploiSavedSearchBottomSheet(onlyAlternance: onlyAlternance);
-  }
+  Widget buildAlertBottomSheet() => OffreEmploiSavedSearchBottomSheet(onlyAlternance: onlyAlternance);
 
   @override
-  Route<bool>? buildFiltresMaterialPageRoute() {
-    return OffreEmploiFiltresPage.materialPageRoute(onlyAlternance);
-  }
+  Route<bool>? buildFiltresMaterialPageRoute() => OffreEmploiFiltresPage.materialPageRoute(onlyAlternance);
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

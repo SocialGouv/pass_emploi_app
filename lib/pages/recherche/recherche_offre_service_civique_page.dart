@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -33,7 +34,7 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
   String? appBarTitle() => Strings.rechercheOffresServiceCiviqueTitle;
 
   @override
-  String analyticsType() => "service_civique";
+  String analyticsType() => AnalyticsScreenNames.serviceCiviqueRecherche;
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheServiceCiviqueState;

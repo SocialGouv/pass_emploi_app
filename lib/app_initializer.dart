@@ -272,7 +272,7 @@ class AppInitializer {
       ContactImmersionRepository(dioClient, crashlytics),
       AccueilRepository(dioClient, crashlytics),
       CvRepository(dioClient, crashlytics),
-      EvenementEmploiRepository(dioClient, SecteurActiviteQueryMapper(), crashlytics),
+      EvenementEmploiRepository(dioClient, SecteurActiviteQueryMapper(), EvenementEmploiTypeQueryMapper(), crashlytics),
       EvenementEmploiDetailsRepository(dioClient, crashlytics),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));

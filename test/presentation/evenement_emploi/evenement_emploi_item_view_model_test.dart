@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/evenement_emploi.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
 import 'package:pass_emploi_app/presentation/evenement_emploi/evenement_emploi_item_view_model.dart';
 
 void main() {

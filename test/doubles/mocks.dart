@@ -17,6 +17,8 @@ class MockOffreEmploiDetailsRepository extends Mock implements OffreEmploiDetail
 
 class MockMatomoTracker extends Mock implements PassEmploiMatomoTracker {}
 
-class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage{}
+class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
 
 class MockSecteurActiviteQueryMapper extends Mock implements SecteurActiviteQueryMapper {}
+
+class MockEvenementEmploiTypeQueryMapper extends Mock implements EvenementEmploiTypeQueryMapper {}

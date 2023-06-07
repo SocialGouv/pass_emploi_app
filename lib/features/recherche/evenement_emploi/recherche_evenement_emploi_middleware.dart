@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_em
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_middleware.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
-import 'package:pass_emploi_app/models/evenement_emploi.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';

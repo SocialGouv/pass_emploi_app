@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/evenement_emploi_details.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_details.dart';
 
 sealed class EvenementEmploiDetailsState extends Equatable {
   @override

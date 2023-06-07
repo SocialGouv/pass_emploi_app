@@ -1,19 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_modalite.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
-
-enum EvenementEmploiModalite {
-  enPhysique,
-  aDistance;
-
-  static EvenementEmploiModalite? from(String value) {
-    return switch (value) {
-      'en physique' => EvenementEmploiModalite.enPhysique,
-      'a distance' => EvenementEmploiModalite.aDistance,
-      _ => null,
-    };
-  }
-}
 
 class EvenementEmploi extends Equatable {
   final String id;

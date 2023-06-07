@@ -43,7 +43,7 @@ import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
-import 'package:pass_emploi_app/models/evenement_emploi.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
@@ -617,7 +617,7 @@ extension AppStateDSL on AppState {
     return successRechercheEvenementEmploiState(
       request: RechercheRequest(
         criteres ?? EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: null),
-        filtres ?? EvenementEmploiFiltresRecherche(),
+        filtres ?? EvenementEmploiFiltresRecherche.noFiltre(),
         1,
       ),
     );
