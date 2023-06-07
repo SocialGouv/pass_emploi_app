@@ -276,7 +276,6 @@ class _DateFiltres extends StatelessWidget {
               children: [
                 Text(Strings.evenementEmploiFiltresDateDebut, style: TextStyles.textBaseMedium),
                 SizedBox(height: Margins.spacing_s),
-                // TODO-1674 Fix theme
                 DatePicker(
                   onValueChange: onDateDebutValueChange,
                   initialDateValue: initialDateDebut,
