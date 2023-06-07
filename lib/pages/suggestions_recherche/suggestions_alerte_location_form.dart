@@ -37,7 +37,7 @@ class _SuggestionsAlerteLocationFormState extends State<SuggestionsAlerteLocatio
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SecondaryAppBar(title: Strings.localisationAppBarTitle),
+        appBar: SecondaryAppBar(title: Strings.suggestionLocalisationAppBarTitle),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: _SubmitButton(
           onPressed: () => Navigator.pop(context, (_selectedLocation, _selectedRayon)),
@@ -49,7 +49,7 @@ class _SuggestionsAlerteLocationFormState extends State<SuggestionsAlerteLocatio
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
                 child: LocationAutocomplete(
-                  title: Strings.localisationFormTitle,
+                  title: Strings.suggestionLocalisationFormTitle,
                   hint: viewModel.hint,
                   villesOnly: viewModel.villesOnly,
                   initialValue: _selectedLocation,
@@ -65,7 +65,7 @@ class _SuggestionsAlerteLocationFormState extends State<SuggestionsAlerteLocatio
               if (_selectedLocation != null && _selectedLocation!.type == LocationType.COMMUNE) ...[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-                  child: Text(Strings.zoneFormTitle, style: TextStyles.textBaseBold),
+                  child: Text(Strings.suggestionLocalizationZoneFormTitle, style: TextStyles.textBaseBold),
                 ),
                 ApparitionAnimation(
                   child: DistanceSlider(
@@ -94,7 +94,7 @@ class _SubmitButton extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: PrimaryActionButton(
-          label: Strings.addAlerteButton,
+          label: Strings.suggestionLocalisationAddAlerteButton,
           onPressed: onPressed,
         ),
       ),

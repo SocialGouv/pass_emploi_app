@@ -1,6 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
@@ -26,7 +28,9 @@ class SuggestionsRechercheRepository {
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
-        return response.bodyBytes.asListOf(SuggestionRecherche.fromJson);
+        final suggestions = response.bodyBytes.asListOf(SuggestionRecherche.fromJson);
+        final validSuggestions = _suggestionsSanitized(suggestions);
+        return validSuggestions;
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
@@ -70,6 +74,16 @@ class SuggestionsRechercheRepository {
       _crashlytics?.recordNonNetworkException(e, stack, uri);
     }
     return false;
+  }
+
+  List<SuggestionRecherche> _suggestionsSanitized(List<SuggestionRecherche> suggestions) {
+    return List<SuggestionRecherche>.from(suggestions.whereNot((suggestion) =>
+        suggestion.source == SuggestionSource.diagoriente &&
+        switch (suggestion.type) {
+          OffreType.emploi => false,
+          OffreType.immersion => false,
+          _ => true,
+        }));
   }
 }
 
