@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
@@ -41,7 +42,7 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
   String? appBarTitle() => null;
 
   @override
-  String analyticsType() => 'evenement_emploi'; // TODO-1674 Tracking
+  String analyticsType() => AnalyticsScreenNames.evenementEmploiRecherche;
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEvenementEmploiState;

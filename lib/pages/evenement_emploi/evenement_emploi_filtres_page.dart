@@ -27,7 +27,7 @@ class EvenementEmploiFiltresPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: AnalyticsScreenNames.emploiFiltres, // TODO-1674 Tracking
+      tracking: AnalyticsScreenNames.evenementEmploiFiltres,
       child: StoreConnector<AppState, EvenementEmploiFiltresViewModel>(
         converter: (store) => EvenementEmploiFiltresViewModel.create(store),
         builder: (_, viewModel) => _Scaffold(viewModel),

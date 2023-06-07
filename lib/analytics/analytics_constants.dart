@@ -15,9 +15,10 @@ class AnalyticsScreenNames {
 
   static const accueil = "accueil";
   static const accueilSuggestionsListe = "accueil/suggested_list";
-
   static const monSuivi = "mon_suivi";
   static const agenda = "agenda";
+  static const chat = "chat";
+  static const profil = "profil";
 
   static const userActionList = "actions/list";
   static const userActionDetails = "actions/detail";
@@ -28,8 +29,6 @@ class AnalyticsScreenNames {
   static const searchDemarcheStep3 = "/demarches/demarche-renferentiel-create";
   static const searchDemarcheStep3Success = "/demarches/createSuccess";
   static const createDemarchePersonnalisee = "actions/demarche-personnalisee/create";
-
-  static const chat = "chat";
 
   static const rendezvousListPast = "rdv/list-past";
   static const rendezvousListFuture = "rdv/list-future";
@@ -43,7 +42,6 @@ class AnalyticsScreenNames {
   static const rendezvousPrestation = "rdv/prestation";
   static const rendezvousAutre = "rdv/autre";
 
-  // Recherche V2
   static const rechercheV2Home = "recherche/home";
   static const rechercheSuggestionsListe = "recherche/suggested_list";
 
@@ -55,17 +53,20 @@ class AnalyticsScreenNames {
 
   static String rechercheModifieeResultats(String type) => "recherche/$type/search_results?update=true";
 
+
+  static const emploiRecherche = "emploi";
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
   static const emploiCreateAlert = "/saved_searches/emploi/create";
   static const emploiPartagePage = "/recherche/emploi/detail/partage-conseiller";
   static const emploiPartagePageSuccess = "/recherche/emploi/detail?partage-conseiller=true";
 
-  static const alternanceResults = "recherche/alternance/search_results";
+  static const alternanceRecherche = "alternance";
   static const alternanceDetails = "recherche/alternance/detail";
   static const alternanceFiltres = "recherche/alternance/search_results/filters";
   static const alternanceCreateAlert = "/saved_searches/alternance/create";
 
+  static const immersionRecherche = "immersion";
   static const immersionDetails = "recherche/immersion/detail";
   static const immersionContact = "recherche/immersion/detail/contact";
   static const immersionForm = "recherche/immersion/detail/formulaire";
@@ -73,15 +74,19 @@ class AnalyticsScreenNames {
   static const immersionFiltres = "recherche/immersion/search_results/filters";
   static const immersionCreateAlert = "/saved_searches/immersion/create";
 
+  static const serviceCiviqueRecherche = "service_civique";
   static const serviceCiviqueDetail = "recherche/service_civique/detail";
   static const serviceCiviqueFiltres = "recherche/service_civique/search_results/filters";
   static const serviceCiviqueCreateAlert = "/saved_searches/service_civique/create";
 
-  static const eventList = "events/list";
   static const toolbox = "recherche/boite_a_outils";
-  static const profil = "profil";
 
+  static const eventList = "events/list";
   static const eventPartagePageSuccess = "events/detail?partage-conseiller=true";
+
+  static const evenementEmploiRecherche = "evenement_emploi";
+  static const evenementEmploiDetails = "evenement_emploi/detail";
+  static const evenementEmploiFiltres = "evenement_emploi/search_results/filters";
 
   static const offreFavorisList = "favoris/list";
   static const offreFavorisListFilterEmploi = "favoris/list?filtre=emploi";

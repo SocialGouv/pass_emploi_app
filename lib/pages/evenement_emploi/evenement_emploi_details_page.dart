@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/evenement_emploi/evenement_emploi_details_page_view_model.dart';
@@ -35,8 +37,9 @@ class EvenementEmploiDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const backgroundColor = Colors.white;
-    //TODO-1674 Tracking
-    return StoreConnector<AppState, EvenementEmploiDetailsPageViewModel>(
+    return Tracker(
+      tracking: AnalyticsScreenNames.evenementEmploiDetails,
+      child: StoreConnector<AppState, EvenementEmploiDetailsPageViewModel>(
         onInit: (store) => store.dispatch(EvenementEmploiDetailsRequestAction(eventId)),
         converter: (store) => EvenementEmploiDetailsPageViewModel.create(store),
         builder: (context, vm) {
@@ -45,7 +48,9 @@ class EvenementEmploiDetailsPage extends StatelessWidget {
             appBar: SecondaryAppBar(title: Strings.eventEmploiDetailsAppBarTitle, backgroundColor: backgroundColor),
             body: _Body(viewModel: vm, eventId: eventId),
           );
-        });
+        },
+      ),
+    );
   }
 }
 
