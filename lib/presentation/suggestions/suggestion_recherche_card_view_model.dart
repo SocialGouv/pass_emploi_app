@@ -65,14 +65,10 @@ class SuggestionRechercheCardViewModel extends Equatable {
 }
 
 String? _suggestionSourceLabel(SuggestionSource? source) {
-  switch (source) {
-    case SuggestionSource.poleEmploi:
-      return Strings.suggestionSourcePoleEmploi;
-    case SuggestionSource.conseiller:
-      return Strings.suggestionSourceConseiller;
-    case SuggestionSource.diagoriente:
-      return Strings.suggestionSourceDiagoriente;
-    default:
-      return null;
-  }
+  return switch (source) {
+    SuggestionSource.poleEmploi => Strings.suggestionSourcePoleEmploi,
+    SuggestionSource.conseiller => Strings.suggestionSourceConseiller,
+    SuggestionSource.diagoriente => Strings.suggestionSourceDiagoriente,
+    _ => null,
+  };
 }

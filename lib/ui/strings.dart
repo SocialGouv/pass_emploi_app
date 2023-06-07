@@ -886,11 +886,12 @@ class Strings {
   static String postulerContinueButton = "Continuez vers l’offre";
 
   // Suggestions alertes location form
-  static String localisationAppBarTitle = "Paramétrer votre alerte";
-  static String localisationFormTitle = "Localisation (optionnel)";
-  static String localisationFormEmploiSubtitle =
+  static String suggestionLocalisationAppBarTitle = "Paramétrer votre alerte";
+  static String suggestionLocalisationFormTitle = "Localisation (optionnel)";
+  static String suggestionLocalisationFormEmploiSubtitle =
       "Sélectionnez une ville ou un département dans lequel vous cherchez un emploi.";
-  static String localisationFormImmersionSubtitle = "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
-  static String zoneFormTitle = "Zone (optionnel)";
-  static String addAlerteButton = "Ajouter l’alerte";
+  static String suggestionLocalisationFormImmersionSubtitle =
+      "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
+  static String suggestionLocalizationZoneFormTitle = "Zone (optionnel)";
+  static String suggestionLocalisationAddAlerteButton = "Ajouter l’alerte";
 }

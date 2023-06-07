@@ -33,10 +33,10 @@ void main() {
       const type = OffreType.serviceCivique;
 
       // When
-      SuggestionAlerteLocationFormViewModel action() => SuggestionAlerteLocationFormViewModel.create(type);
+      SuggestionAlerteLocationFormViewModel createViewModel() => SuggestionAlerteLocationFormViewModel.create(type);
 
       // Then
-      expect(action, throwsException);
+      expect(createViewModel, throwsException);
     });
   });
 }

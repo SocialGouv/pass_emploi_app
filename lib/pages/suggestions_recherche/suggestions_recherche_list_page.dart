@@ -126,7 +126,7 @@ class _Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SuggestionRechercheCardViewModel?>(
-      builder: (context, viewModel) => _builder(context, viewModel),
+      builder: _builder,
       converter: (store) => SuggestionRechercheCardViewModel.create(store, suggestionId),
       distinct: true,
     );

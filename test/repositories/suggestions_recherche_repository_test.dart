@@ -88,8 +88,14 @@ void main() {
   });
 
   group('accepter suggestion with location and rayon', () {
-    sut.when((repository) => repository.accepterSuggestion(
-        userId: "USERID", suggestionId: "SUGGID", location: mockLocationParis(), rayon: 10.0));
+    sut.when(
+      (repository) => repository.accepterSuggestion(
+        userId: "USERID",
+        suggestionId: "SUGGID",
+        location: mockLocationParis(),
+        rayon: 10.0,
+      ),
+    );
     sut.givenJsonResponse(fromJson: "suggestions_recherche_emploi_acceptee.json");
 
     test('request should be valid', () async {

@@ -3,13 +3,13 @@ import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 class SuggestionAlerteLocationFormViewModel extends Equatable {
+  final String hint;
+  final bool villesOnly;
+
   SuggestionAlerteLocationFormViewModel({
     required this.hint,
     required this.villesOnly,
   });
-
-  final String hint;
-  final bool villesOnly;
 
   factory SuggestionAlerteLocationFormViewModel.create(OffreType type) {
     return SuggestionAlerteLocationFormViewModel(
@@ -24,8 +24,8 @@ class SuggestionAlerteLocationFormViewModel extends Equatable {
 
 String _hint(OffreType type) {
   return switch (type) {
-    OffreType.emploi => Strings.localisationFormEmploiSubtitle,
-    OffreType.immersion => Strings.localisationFormImmersionSubtitle,
+    OffreType.emploi => Strings.suggestionLocalisationFormEmploiSubtitle,
+    OffreType.immersion => Strings.suggestionLocalisationFormImmersionSubtitle,
     _ => throw Exception("Forbidden type $type"),
   };
 }
