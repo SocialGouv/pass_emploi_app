@@ -181,7 +181,7 @@ class _Filtres extends StatelessWidget {
             ),
           ),
           if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
-          SizedBox(height: 100),
+          SizedBox(height: 160),
         ],
       ),
     );
