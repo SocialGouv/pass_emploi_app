@@ -4,6 +4,8 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 class PassEmploiTheme {
   static final data = ThemeData(
     useMaterial3: true,
+    // colorScheme is particularly useful to theme Android DatePicker dialogs
+    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
     checkboxTheme: _checkboxes(),
     sliderTheme: _sliders(),
     progressIndicatorTheme: _progress(),
