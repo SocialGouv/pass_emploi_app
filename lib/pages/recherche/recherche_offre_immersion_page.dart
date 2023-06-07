@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -33,7 +34,7 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   String? appBarTitle() => Strings.rechercheOffresImmersionTitle;
 
   @override
-  String analyticsType() => "immersion";
+  String analyticsType() => AnalyticsScreenNames.immersionRecherche;
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheImmersionState;
