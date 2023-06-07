@@ -5,8 +5,7 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 enum SuggestionSource {
   poleEmploi,
   conseiller,
-  diagoriente,
-  ;
+  diagoriente;
 
   static SuggestionSource? from(String value) {
     if (value == "POLE_EMPLOI") return SuggestionSource.poleEmploi;
