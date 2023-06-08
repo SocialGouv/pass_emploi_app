@@ -24,7 +24,12 @@ class RepositorySut2<REPO> {
 
   void givenResponseCode(int code) {
     dynamic data() {
-      return code.isValid() ? null : throw Exception("Mocking client: exception thrown when status code is invalid.");
+      final error = DioError(
+        requestOptions: _makeRequestOptions(),
+        response: Response(requestOptions: _makeRequestOptions(), statusCode: code),
+        message: "RepositorySut: givenResponseCode $code",
+      );
+      return code.isValid() ? null : throw error;
     }
 
     givenResponse(() => Response(requestOptions: _makeRequestOptions(), statusCode: code, data: data()));

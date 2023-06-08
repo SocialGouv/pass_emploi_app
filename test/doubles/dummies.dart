@@ -186,11 +186,11 @@ class DummyOffreEmploiRepository extends OffreEmploiRepository {
 }
 
 class DummyDetailedRepository extends OffreEmploiDetailsRepository {
-  DummyDetailedRepository() : super("", DummyHttpClient());
+  DummyDetailedRepository() : super(DioMock());
 }
 
 class DummyOffreEmploiFavorisRepository extends OffreEmploiFavorisRepository {
-  DummyOffreEmploiFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyOffreEmploiFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
 }
 
 class DummySearchLocationRepository extends SearchLocationRepository {
@@ -239,7 +239,7 @@ class DummyTrackingEventRepository extends TrackingEventRepository {
 }
 
 class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
-  DummyImmersionFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyImmersionFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
 }
 
 class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
@@ -271,7 +271,7 @@ class DummyServiceCiviqueDetailRepository extends ServiceCiviqueDetailRepository
 }
 
 class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisRepository {
-  DummyServiceCiviqueFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyServiceCiviqueFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
 }
 
 class DummyDetailsJeuneRepository extends DetailsJeuneRepository {

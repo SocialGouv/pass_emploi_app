@@ -1,169 +1,122 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 
 import '../../doubles/dummies.dart';
-import '../../doubles/fixtures.dart';
-import '../../utils/pass_emploi_mock_client.dart';
-import '../../utils/test_assets.dart';
+import '../../dsl/sut_repository2.dart';
 
 void main() {
-  test('getFavorisId when response is valid with all parameters should return offres', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async {
-      if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion")) {
-        return invalidHttpResponse();
-      }
-      return Response.bytes(loadTestAssetsAsBytes("immersion_favoris_id.json"), 200);
+  final sut = RepositorySut2<ImmersionFavorisRepository>();
+  sut.givenRepository((client) => ImmersionFavorisRepository(client, DummyPassEmploiCacheManager()));
+
+  group("getFavorisId", () {
+    sut.when((repository) => repository.getFavorisId("jeuneId"));
+
+    group('when response is valid', () {
+      sut.givenJsonResponse(fromJson: "immersion_favoris_id.json");
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: HttpMethod.get,
+          url: "/jeunes/jeuneId/favoris/offres-immersion",
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectResult<Set<String>?>((result) {
+          expect(result, [
+            "4f44d3ec-6568-41f0-b66e-e53a9e1fe904",
+            "4277d7b7-3d86-453d-9375-14aee8fde94d",
+            "b2d70bb3-ba69-4dd8-880a-62171b48ecbc",
+          ]);
+        });
+      });
     });
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
-    // When
-    final favoris = await repository.getFavorisId("jeuneId");
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
 
-    // Then
-    expect(favoris, [
-      "4f44d3ec-6568-41f0-b66e-e53a9e1fe904",
-      "4277d7b7-3d86-453d-9375-14aee8fde94d",
-      "b2d70bb3-ba69-4dd8-880a-62171b48ecbc",
-    ]);
+      test('response should be null', () async {
+        await sut.expectNullResult();
+      });
+    });
   });
 
-  test('getFavorisId when response is invalid should return null', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+  group("postFavori", () {
+    sut.when((repository) => repository.postFavori("jeuneId", _offreWithFullData()));
 
-    // When
-    final favoris = await repository.getFavorisId("jeuneId");
+    group('when response is valid', () {
+      sut.givenResponseCode(200);
 
-    // Then
-    expect(favoris, isNull);
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: HttpMethod.post,
+          url: "/jeunes/jeuneId/favoris/offres-immersion",
+          jsonBody: {
+            'idOffre': '98286f66-2a8e-4a22-80a8-c6fda3a52980',
+            'metier': 'Boulanger',
+            'nomEtablissement': 'EPSAN Brumath',
+            'secteurActivite': 'Boulangerie',
+            'ville': 'Brumath'
+          },
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectTrueAsResult();
+      });
+    });
+
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
+
+      test('response should be false', () async {
+        await sut.expectFalseAsResult();
+      });
+    });
+
+    group('when response is 409', () {
+      sut.givenResponseCode(409);
+
+      test('response should be true', () async {
+        await sut.expectTrueAsResult();
+      });
+    });
   });
 
-  test(
-      "postFavori when adding favori should post correct data when all fields are not null and return true when response is valid",
-      () async {
-    // Given
-    final httpClient = _mockClientForFullData();
+  group("deleteFavori", () {
+    sut.when((repository) => repository.deleteFavori("jeuneId", "offreId"));
 
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+    group('when response is valid', () {
+      sut.givenResponseCode(204);
 
-    // When
-    final result = await repository.postFavori("jeuneId", _offreWithFullData());
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: HttpMethod.delete,
+          url: "/jeunes/jeuneId/favoris/offres-immersion/offreId",
+        );
+      });
 
-    // Then
-    expect(result, isTrue);
-  });
+      test('response should be valid', () async {
+        await sut.expectTrueAsResult();
+      });
+    });
 
-  test("deleteFavori when removing favori should delete with correct id and return true when response is valid",
-      () async {
-    // Given
-    final httpClient = _successfulClientForDelete();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+    group('when response is 404', () {
+      sut.givenResponseCode(404);
 
-    // When
-    final result = await repository.deleteFavori("jeuneId", "offreId");
+      test('response should be true', () async {
+        await sut.expectTrueAsResult();
+      });
+    });
 
-    // Then
-    expect(result, isTrue);
-  });
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
 
-  test("deleteFavori when removing favori should return true when response is a 404", () async {
-    // Given
-    final httpClient = _notFoundClient();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.deleteFavori("jeuneId", "offreId");
-
-    // Then
-    expect(result, true);
-  });
-
-  test("deleteFavori when removing favori should return false when response is invalid", () async {
-    // Given
-    final httpClient = _failureClient();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.deleteFavori("jeuneId", "offreId");
-
-    // Then
-    expect(result, isFalse);
-  });
-
-  test("postFavori when adding favori should return false when response is invalid", () async {
-    // Given
-    final httpClient = _failureClient();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.postFavori("jeuneId", _offreWithFullData());
-
-    // Then
-    expect(result, isFalse);
-  });
-
-  test("postFavori when adding favori should return true when response is 409", () async {
-    // Given
-    final httpClient = _alreadyExistsClient();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.postFavori("jeuneId", _offreWithFullData());
-
-    // Then
-    expect(result, isTrue);
-  });
-}
-
-BaseClient _failureClient() {
-  return PassEmploiMockClient((request) async {
-    return Response("", 500);
-  });
-}
-
-BaseClient _notFoundClient() {
-  return PassEmploiMockClient((request) async {
-    return Response("", 404);
-  });
-}
-
-BaseClient _alreadyExistsClient() {
-  return PassEmploiMockClient((request) async {
-    return Response("", 409);
-  });
-}
-
-BaseClient _successfulClientForDelete() {
-  return PassEmploiMockClient((request) async {
-    if (request.method != "DELETE") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion/offreId")) {
-      return invalidHttpResponse();
-    }
-    return Response("", 204);
-  });
-}
-
-BaseClient _mockClientForFullData() {
-  return PassEmploiMockClient((request) async {
-    if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion")) {
-      return invalidHttpResponse();
-    }
-    final requestJson = jsonUtf8Decode(request.bodyBytes);
-    if (requestJson["idOffre"] != "98286f66-2a8e-4a22-80a8-c6fda3a52980") {
-      return invalidHttpResponse(message: "idOffre KO");
-    }
-    if (requestJson["metier"] != "Boulanger") return invalidHttpResponse(message: "metier KO");
-    if (requestJson["nomEtablissement"] != "EPSAN Brumath") return invalidHttpResponse(message: "nomEtablissement KO");
-    if (requestJson["secteurActivite"] != "Boulangerie") return invalidHttpResponse(message: "secteurActivite KO");
-    if (requestJson["ville"] != "Brumath") return invalidHttpResponse(message: "ville KO");
-    return Response("", 201);
+      test('response should be null', () async {
+        await sut.expectFalseAsResult();
+      });
+    });
   });
 }
 
