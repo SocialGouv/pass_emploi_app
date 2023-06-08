@@ -21,7 +21,8 @@ class SuggestionsRechercheRepository {
 
   SuggestionsRechercheRepository(this._baseUrl, this._httpClient, this._cacheManager, [this._crashlytics]);
 
-  static String getSuggestionsUrl({required String userId}) => '/jeunes/$userId/recherches/suggestions';
+  static String getSuggestionsUrl({required String userId}) =>
+      '/jeunes/$userId/recherches/suggestions?avecDiagoriente=true';
 
   Future<List<SuggestionRecherche>?> getSuggestions(String userId) async {
     final url = Uri.parse(_baseUrl + getSuggestionsUrl(userId: userId));
