@@ -24,7 +24,7 @@ void main() {
       test('request should be valid', () async {
         await sut.expectRequestBody(
           method: "GET",
-          url: "BASE_URL/jeunes/UID/recherches/suggestions",
+          url: "BASE_URL/jeunes/UID/recherches/suggestions?avecDiagoriente=true",
         );
       });
 
