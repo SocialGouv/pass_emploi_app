@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_alerte_location_form_view_model.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/apparition_animation.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -15,7 +14,7 @@ class SuggestionsAlerteLocationForm extends StatefulWidget {
   final OffreType type;
   const SuggestionsAlerteLocationForm({super.key, required this.type});
 
-  static MaterialPageRoute<(Location? location, double? rayon)> materialPageRoute({required OffreType type}) {
+  static MaterialPageRoute<(Location location, double rayon)> materialPageRoute({required OffreType type}) {
     return MaterialPageRoute(builder: (context) => SuggestionsAlerteLocationForm(type: type));
   }
 
@@ -26,7 +25,7 @@ class SuggestionsAlerteLocationForm extends StatefulWidget {
 class _SuggestionsAlerteLocationFormState extends State<SuggestionsAlerteLocationForm> {
   late SuggestionAlerteLocationFormViewModel viewModel;
   Location? _selectedLocation;
-  double? _selectedRayon;
+  double _selectedRayon = 10;
 
   @override
   void initState() {
@@ -40,7 +39,8 @@ class _SuggestionsAlerteLocationFormState extends State<SuggestionsAlerteLocatio
         appBar: SecondaryAppBar(title: Strings.suggestionLocalisationAppBarTitle),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: _SubmitButton(
-          onPressed: () => Navigator.pop(context, (_selectedLocation, _selectedRayon)),
+          onPressed:
+              _selectedLocation != null ? () => Navigator.pop(context, (_selectedLocation, _selectedRayon)) : null,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -56,24 +56,19 @@ class _SuggestionsAlerteLocationFormState extends State<SuggestionsAlerteLocatio
                   onLocationSelected: (location) {
                     setState(() {
                       _selectedLocation = location;
-                      _selectedRayon = null;
+                      _selectedRayon = 10;
                     });
                   },
                 ),
               ),
               SizedBox(height: Margins.spacing_l),
-              if (_selectedLocation != null && _selectedLocation!.type == LocationType.COMMUNE) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-                  child: Text(Strings.suggestionLocalizationZoneFormTitle, style: TextStyles.textBaseBold),
-                ),
+              if (_selectedLocation != null && _selectedLocation!.type == LocationType.COMMUNE)
                 ApparitionAnimation(
                   child: DistanceSlider(
-                    initialDistanceValue: _selectedRayon ?? 0,
+                    initialDistanceValue: _selectedRayon,
                     onValueChange: (value) => _selectedRayon = value,
                   ),
                 ),
-              ]
             ],
           ),
         ));
@@ -85,7 +80,7 @@ class _SubmitButton extends StatelessWidget {
     required this.onPressed,
   });
 
-  final void Function() onPressed;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {

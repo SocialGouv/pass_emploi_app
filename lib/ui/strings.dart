@@ -887,11 +887,10 @@ class Strings {
 
   // Suggestions alertes location form
   static String suggestionLocalisationAppBarTitle = "Paramétrer votre alerte";
-  static String suggestionLocalisationFormTitle = "Localisation (optionnel)";
+  static String suggestionLocalisationFormTitle = "Localisation";
   static String suggestionLocalisationFormEmploiSubtitle =
       "Sélectionnez une ville ou un département dans lequel vous cherchez un emploi.";
   static String suggestionLocalisationFormImmersionSubtitle =
       "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
-  static String suggestionLocalizationZoneFormTitle = "Zone (optionnel)";
   static String suggestionLocalisationAddAlerteButton = "Ajouter l’alerte";
 }

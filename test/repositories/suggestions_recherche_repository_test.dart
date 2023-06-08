@@ -98,7 +98,7 @@ void main() {
     );
     sut.givenJsonResponse(fromJson: "suggestions_recherche_emploi_acceptee.json");
 
-    test('request should be valid', () async {
+    test('request should be valid when location and rayon are not null', () async {
       await sut.expectRequestBody(
           method: "POST",
           url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
@@ -106,6 +106,21 @@ void main() {
             'location': {'libelle': 'Paris', 'code': '75', 'type': 'DEPARTEMENT', 'latitude': 1.0, 'longitude': 2.0},
             'rayon': 10.0
           });
+    });
+  });
+
+  group('accepter suggestion without location and rayon', () {
+    sut.when(
+      (repository) => repository.accepterSuggestion(
+        userId: "USERID",
+        suggestionId: "SUGGID",
+      ),
+    );
+    test('request should be valid when location is null', () async {
+      await sut.expectRequestBody(
+        method: "POST",
+        url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
+      );
     });
   });
 

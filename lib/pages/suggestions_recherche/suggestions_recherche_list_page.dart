@@ -182,7 +182,7 @@ class _Card extends StatelessWidget {
         await Navigator.of(context).push(SuggestionsAlerteLocationForm.materialPageRoute(type: type));
 
     if (locationAndRayon != null) {
-      final (Location? location, double? rayon) = locationAndRayon;
+      final (Location location, double rayon) = locationAndRayon;
       onSelected(location, rayon);
     }
   }

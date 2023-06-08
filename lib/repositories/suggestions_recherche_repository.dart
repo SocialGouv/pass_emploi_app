@@ -47,10 +47,12 @@ class SuggestionsRechercheRepository {
   }) async {
     final uri = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/suggestions/$suggestionId/accepter");
     try {
-      final response = await _httpClient.post(
-        uri,
-        body: customJsonEncode(PostAccepterSuggestionAlerte(location: location, rayon: rayon)),
-      );
+      final response = location != null && rayon != null
+          ? await _httpClient.post(
+              uri,
+              body: customJsonEncode(PostAccepterSuggestionAlerte(location: location, rayon: rayon)),
+            )
+          : await _httpClient.post(uri);
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
         final savedSearch = SavedSearchJsonExtractor().extract(SavedSearchResponse.fromJson(json));
