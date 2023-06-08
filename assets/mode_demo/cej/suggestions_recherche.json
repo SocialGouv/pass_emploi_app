@@ -38,5 +38,15 @@
     "localisation": "Lille",
     "dateCreation": "2022-10-11T14:13:35.899Z",
     "dateRafraichissement": "2022-10-11T14:13:35.899Z"
+  },
+  {
+    "id": "id-diagoriente",
+    "titre": "Coiffeur / Coiffeuse",
+    "type": "OFFRES_IMMERSION",
+    "source": "DIAGORIENTE",
+    "metier": "Coiffeur / Coiffeuse",
+    "localisation": "Juan-les-Pins",
+    "dateCreation": "2022-12-11T14:13:35.899Z",
+    "dateRafraichissement": "2022-12-11T14:13:35.899Z"
   }
 ]

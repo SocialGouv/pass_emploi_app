@@ -2,14 +2,15 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
-
 enum SuggestionSource {
   poleEmploi,
-  conseiller;
+  conseiller,
+  diagoriente;
 
   static SuggestionSource? from(String value) {
     if (value == "POLE_EMPLOI") return SuggestionSource.poleEmploi;
     if (value == "CONSEILLER") return SuggestionSource.conseiller;
+    if (value == "DIAGORIENTE") return SuggestionSource.diagoriente;
     return null;
   }
 }

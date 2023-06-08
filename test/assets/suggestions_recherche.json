@@ -19,6 +19,7 @@
     "dateCreation": "2022-10-12T22:00:00.000Z",
     "dateRafraichissement": "2022-10-16T23:00:00.000Z"
   },
+
   {
     "id": "3",
     "titre": "Plombier",
@@ -26,6 +27,26 @@
     "source": "UNKNOWN",
     "metier": "Plombier",
     "localisation": "Valence",
+    "dateCreation": "2022-10-12T22:00:00.000Z",
+    "dateRafraichissement": "2022-10-16T23:00:00.000Z"
+  },
+  {
+    "id": "4",
+    "titre": "Coiffeur",
+    "type": "OFFRES_IMMERSION",
+    "source": "DIAGORIENTE",
+    "metier": "Coiffeur en salon",
+    "localisation": "Juan Les Pins",
+    "dateCreation": "2022-10-12T22:00:00.000Z",
+    "dateRafraichissement": "2022-10-16T23:00:00.000Z"
+  },
+  {
+    "id": "5",
+    "titre": "Piègeur",
+    "type": "OFFRES_SERVICES_CIVIQUE",
+    "source": "DIAGORIENTE",
+    "metier": "Pose des pièges",
+    "localisation": "Dourdan",
     "dateCreation": "2022-10-12T22:00:00.000Z",
     "dateRafraichissement": "2022-10-16T23:00:00.000Z"
   }

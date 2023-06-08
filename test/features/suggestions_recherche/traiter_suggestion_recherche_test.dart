@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_sta
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
@@ -17,8 +18,26 @@ import '../../dsl/sut_redux.dart';
 void main() {
   final sut = StoreSut();
 
+  group('when requesting to accepter une suggestion with location and rayon', () {
+    sut.when(() => TraiterSuggestionRechercheRequestAction(
+          suggestionCaristeFromPoleEmploi(),
+          TraiterSuggestionType.accepter,
+          location: mockLocation(),
+          rayon: 3,
+        ));
+
+    test('should load then succeed when request succeed', () {
+      sut.givenStore = givenState()
+          .loggedInUser() //
+          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: true)});
+
+      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedAccepter()]);
+    });
+  });
+
   group("when requesting to accepter une suggestion", () {
-    sut.when(() => TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.accepter));
+    sut.when(() =>
+        TraiterSuggestionRechercheRequestAction(suggestionCaristeFromPoleEmploi(), TraiterSuggestionType.accepter));
 
     test('should load then succeed when request succeed', () {
       sut.givenStore = givenState()
@@ -60,7 +79,8 @@ void main() {
   });
 
   group("when requesting to refuser une suggestion", () {
-    sut.when(() => TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.refuser));
+    sut.when(() =>
+        TraiterSuggestionRechercheRequestAction(suggestionCaristeFromPoleEmploi(), TraiterSuggestionType.refuser));
 
     test('should load then succeed when request succeed', () {
       sut.givenStore = givenState()
@@ -122,7 +142,7 @@ Matcher _suggestionShouldBeRemoved() {
   return StateMatch((state) {
     final suggestionState = state.suggestionsRechercheState;
     return suggestionState is SuggestionsRechercheSuccessState &&
-        suggestionState.suggestions.firstWhereOrNull((e) => e.id == suggestionCariste().id) == null;
+        suggestionState.suggestions.firstWhereOrNull((e) => e.id == suggestionCaristeFromPoleEmploi().id) == null;
   });
 }
 
@@ -139,7 +159,12 @@ class SuggestionsRechercheRepositoryStub extends SuggestionsRechercheRepository 
       : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
-  Future<SavedSearch?> accepterSuggestion({required String userId, required String suggestionId}) async {
+  Future<SavedSearch?> accepterSuggestion({
+    required String userId,
+    required String suggestionId,
+    Location? location,
+    double? rayon,
+  }) async {
     return accepterSucceed ? offreEmploiSavedSearch() : null;
   }
 

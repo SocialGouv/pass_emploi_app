@@ -774,6 +774,7 @@ class Strings {
       "Vos suggestions peuvent venir de différentes sources. Après l’ajout, vous serez notifié si une nouvelle offre est disponible.";
   static String suggestionSourcePoleEmploi = "Profil Pôle emploi";
   static String suggestionSourceConseiller = "Conseiller";
+  static String suggestionSourceDiagoriente = "Diagoriente";
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
   static String voirResultatsSuggestion = "Voir les résultats";
@@ -883,4 +884,13 @@ class Strings {
   static String postulerOffreTitle = "Postuler";
   static String postulerTitle = "Récupérez votre CV sur votre téléphone";
   static String postulerContinueButton = "Continuez vers l’offre";
+
+  // Suggestions alertes location form
+  static String suggestionLocalisationAppBarTitle = "Paramétrer votre alerte";
+  static String suggestionLocalisationFormTitle = "Localisation";
+  static String suggestionLocalisationFormEmploiSubtitle =
+      "Sélectionnez une ville ou un département dans lequel vous cherchez un emploi.";
+  static String suggestionLocalisationFormImmersionSubtitle =
+      "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
+  static String suggestionLocalisationAddAlerteButton = "Ajouter l’alerte";
 }

@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -14,7 +15,8 @@ class SuggestionRechercheCardViewModel extends Equatable {
   final String? source;
   final String? metier;
   final String? localisation;
-  final Function() ajouterSuggestion;
+  final bool withLocationForm;
+  final Function({Location? location, double? rayon}) ajouterSuggestion;
   final Function() refuserSuggestion;
 
   SuggestionRechercheCardViewModel._({
@@ -23,6 +25,7 @@ class SuggestionRechercheCardViewModel extends Equatable {
     required this.source,
     required this.metier,
     required this.localisation,
+    required this.withLocationForm,
     required this.ajouterSuggestion,
     required this.refuserSuggestion,
   });
@@ -40,8 +43,16 @@ class SuggestionRechercheCardViewModel extends Equatable {
       source: _suggestionSourceLabel(suggestion.source),
       metier: suggestion.metier,
       localisation: suggestion.localisation,
-      ajouterSuggestion: () {
-        return store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.accepter));
+      withLocationForm: suggestion.source == SuggestionSource.diagoriente,
+      ajouterSuggestion: ({location, rayon}) {
+        return store.dispatch(
+          TraiterSuggestionRechercheRequestAction(
+            suggestion,
+            TraiterSuggestionType.accepter,
+            location: location,
+            rayon: rayon,
+          ),
+        );
       },
       refuserSuggestion: () {
         return store.dispatch(TraiterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.refuser));
@@ -50,16 +61,14 @@ class SuggestionRechercheCardViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [titre, type, source, metier, localisation];
+  List<Object?> get props => [titre, type, source, metier, localisation, withLocationForm];
 }
 
 String? _suggestionSourceLabel(SuggestionSource? source) {
-  switch (source) {
-    case SuggestionSource.poleEmploi:
-      return Strings.suggestionSourcePoleEmploi;
-    case SuggestionSource.conseiller:
-      return Strings.suggestionSourceConseiller;
-    default:
-      return null;
-  }
+  return switch (source) {
+    SuggestionSource.poleEmploi => Strings.suggestionSourcePoleEmploi,
+    SuggestionSource.conseiller => Strings.suggestionSourceConseiller,
+    SuggestionSource.diagoriente => Strings.suggestionSourceDiagoriente,
+    _ => null,
+  };
 }

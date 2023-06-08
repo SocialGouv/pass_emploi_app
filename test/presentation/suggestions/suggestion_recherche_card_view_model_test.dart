@@ -14,7 +14,7 @@ void main() {
     final store = givenState().withSuggestionsRecherche().store();
 
     // When
-    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCariste().id);
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCaristeFromPoleEmploi().id);
 
     // Then
     expect(viewModel, isNotNull);
@@ -23,6 +23,7 @@ void main() {
     expect(viewModel.source, "Profil Pôle emploi");
     expect(viewModel.metier, "Conduite d'engins de déplacement des charges");
     expect(viewModel.localisation, "Nord");
+    expect(viewModel.withLocationForm, false);
   });
 
   test("should be null without a suggestion", () {
@@ -58,10 +59,25 @@ void main() {
     assertLabel(givenSource: null, expectedLabel: null);
   });
 
+  test('should display location form when source is diagoriente', () {
+    // Given
+    final suggestion = suggestionPlombier().copyWith(id: 'ID', source: SuggestionSource.diagoriente);
+    final store = givenState() //
+        .copyWith(suggestionsRechercheState: SuggestionsRechercheSuccessState([suggestion]))
+        .store();
+
+    // When
+    final viewModel = SuggestionRechercheCardViewModel.create(store, 'ID');
+
+    // Then
+    expect(viewModel?.source, 'Diagoriente');
+    expect(viewModel?.withLocationForm, true);
+  });
+
   test("should dispatch accepter suggestion", () {
     // Given
     final store = givenState().withSuggestionsRecherche().spyStore();
-    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCariste().id);
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCaristeFromPoleEmploi().id);
 
     // When
     viewModel?.ajouterSuggestion();
@@ -70,14 +86,37 @@ void main() {
     expect(viewModel, isNotNull);
     expect(
       store.dispatchedAction,
-      TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.accepter),
+      TraiterSuggestionRechercheRequestAction(suggestionCaristeFromPoleEmploi(), TraiterSuggestionType.accepter),
+    );
+  });
+
+  test("should dispatch accepter suggestion with Location and rayon", () {
+    // Given
+    final store = givenState().withSuggestionsRecherche().spyStore();
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCaristeFromPoleEmploi().id);
+    final location = mockLocation(lat: 48.830108, lon: 2.323026);
+    const rayon = 10.0;
+
+    // When
+    viewModel?.ajouterSuggestion(location: location, rayon: rayon);
+
+    // Then
+    expect(viewModel, isNotNull);
+    expect(
+      store.dispatchedAction,
+      TraiterSuggestionRechercheRequestAction(
+        suggestionCaristeFromPoleEmploi(),
+        TraiterSuggestionType.accepter,
+        location: location,
+        rayon: rayon,
+      ),
     );
   });
 
   test("should dispatch refuser suggestion", () {
     // Given
     final store = givenState().withSuggestionsRecherche().spyStore();
-    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCariste().id);
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCaristeFromPoleEmploi().id);
 
     // When
     viewModel?.refuserSuggestion();
@@ -86,7 +125,7 @@ void main() {
     expect(viewModel, isNotNull);
     expect(
       store.dispatchedAction,
-      TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.refuser),
+      TraiterSuggestionRechercheRequestAction(suggestionCaristeFromPoleEmploi(), TraiterSuggestionType.refuser),
     );
   });
 }
