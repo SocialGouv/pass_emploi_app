@@ -232,7 +232,7 @@ class AppInitializer {
       ),
       OffreEmploiDetailsRepository(dioClient, crashlytics),
       OffreEmploiFavorisRepository(dioClient, requestCacheManager, crashlytics),
-      ImmersionFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      ImmersionFavorisRepository(dioClient, requestCacheManager, crashlytics),
       ServiceCiviqueFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       SearchLocationRepository(baseUrl, httpClient, crashlytics),
       MetierRepository(dioClient),

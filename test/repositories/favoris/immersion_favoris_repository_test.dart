@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 
 import '../../doubles/dummies.dart';
-import '../../dsl/sut_repository.dart';
+import '../../dsl/sut_repository2.dart';
 
 void main() {
-  final sut = RepositorySut<ImmersionFavorisRepository>();
-  sut.givenRepository((client) => ImmersionFavorisRepository("BASE_URL", client, DummyPassEmploiCacheManager()));
+  final sut = RepositorySut2<ImmersionFavorisRepository>();
+  sut.givenRepository((client) => ImmersionFavorisRepository(client, DummyPassEmploiCacheManager()));
 
   group("getFavorisId", () {
     sut.when((repository) => repository.getFavorisId("jeuneId"));
@@ -17,8 +17,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "GET",
-          url: "BASE_URL/jeunes/jeuneId/favoris/offres-immersion",
+          method: HttpMethod.get,
+          url: "/jeunes/jeuneId/favoris/offres-immersion",
         );
       });
 
@@ -50,8 +50,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "POST",
-          url: "BASE_URL/jeunes/jeuneId/favoris/offres-immersion",
+          method: HttpMethod.post,
+          url: "/jeunes/jeuneId/favoris/offres-immersion",
           jsonBody: {
             'idOffre': '98286f66-2a8e-4a22-80a8-c6fda3a52980',
             'metier': 'Boulanger',
@@ -92,8 +92,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "DELETE",
-          url: "BASE_URL/jeunes/jeuneId/favoris/offres-immersion/offreId",
+          method: HttpMethod.delete,
+          url: "/jeunes/jeuneId/favoris/offres-immersion/offreId",
         );
       });
 

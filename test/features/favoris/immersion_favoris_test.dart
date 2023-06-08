@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:redux/src/store.dart';
 
+import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
@@ -162,7 +163,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
 }
 
 class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
-  ImmersionFavorisRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  ImmersionFavorisRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
@@ -181,7 +182,7 @@ class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
 }
 
 class ImmersionFavorisRepositoryFailureStub extends ImmersionFavorisRepository {
-  ImmersionFavorisRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  ImmersionFavorisRepositoryFailureStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {

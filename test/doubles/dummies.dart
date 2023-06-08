@@ -239,7 +239,7 @@ class DummyTrackingEventRepository extends TrackingEventRepository {
 }
 
 class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
-  DummyImmersionFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyImmersionFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
 }
 
 class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
