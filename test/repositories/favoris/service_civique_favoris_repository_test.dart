@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 
 import '../../doubles/dummies.dart';
-import '../../dsl/sut_repository.dart';
+import '../../dsl/sut_repository2.dart';
 
 void main() {
-  final sut = RepositorySut<ServiceCiviqueFavorisRepository>();
-  sut.givenRepository((client) => ServiceCiviqueFavorisRepository("BASE_URL", client, DummyPassEmploiCacheManager()));
+  final sut = RepositorySut2<ServiceCiviqueFavorisRepository>();
+  sut.givenRepository((client) => ServiceCiviqueFavorisRepository(client, DummyPassEmploiCacheManager()));
 
   group("getFavorisId", () {
     sut.when((repository) => repository.getFavorisId("jeuneId"));
@@ -17,8 +17,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "GET",
-          url: "BASE_URL/jeunes/jeuneId/favoris/services-civique",
+          method: HttpMethod.get,
+          url: "/jeunes/jeuneId/favoris/services-civique",
         );
       });
 
@@ -50,8 +50,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "POST",
-          url: "BASE_URL/jeunes/jeuneId/favoris/services-civique",
+          method: HttpMethod.post,
+          url: "/jeunes/jeuneId/favoris/services-civique",
           jsonBody: {
             'id': 'GOAT',
             'titre': 'Cristiano Ronaldo',
@@ -93,8 +93,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "DELETE",
-          url: "BASE_URL/jeunes/jeuneId/favoris/services-civique/offreId",
+          method: HttpMethod.delete,
+          url: "/jeunes/jeuneId/favoris/services-civique/offreId",
         );
       });
 
@@ -119,7 +119,6 @@ void main() {
       });
     });
   });
-
 }
 
 ServiceCivique _offreWithFullData() {

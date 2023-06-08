@@ -271,7 +271,7 @@ class DummyServiceCiviqueDetailRepository extends ServiceCiviqueDetailRepository
 }
 
 class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisRepository {
-  DummyServiceCiviqueFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyServiceCiviqueFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
 }
 
 class DummyDetailsJeuneRepository extends DetailsJeuneRepository {
