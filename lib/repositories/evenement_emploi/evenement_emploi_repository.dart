@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class EvenementEmploiRepository
     extends RechercheRepository<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche, EvenementEmploi> {
-  static const PAGE_SIZE = 50;
+  static const PAGE_SIZE = 20;
 
   final Dio _httpClient;
   final SecteurActiviteQueryMapper _secteurActiviteQueryMapper;
