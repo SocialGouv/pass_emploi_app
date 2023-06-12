@@ -1,45 +1,35 @@
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:http/http.dart';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 
 class ImmersionDetailsRepository {
-  final String _baseUrl;
-  final Client _httpClient;
+  final Dio _httpClient;
 
   final Crashlytics? _crashlytics;
 
-  ImmersionDetailsRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
+  ImmersionDetailsRepository(this._httpClient, [this._crashlytics]);
 
   Future<OffreDetailsResponse<ImmersionDetails>> fetch(String offreId) async {
-    final url = Uri.parse(_baseUrl + "/offres-immersion/$offreId");
+    final url = '/offres-immersion/$offreId';
     try {
       final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        return OffreDetailsResponse(
-          isGenericFailure: false,
-          isOffreNotFound: false,
-          details: ImmersionDetails.fromJson(jsonUtf8Decode(response.bodyBytes)),
-        );
-      } else {
-        return OffreDetailsResponse<ImmersionDetails>(
-          isGenericFailure: false,
-          isOffreNotFound: true,
-          details: null,
-        );
-      }
+      return OffreDetailsResponse(
+        isGenericFailure: false,
+        isOffreNotFound: false,
+        details: ImmersionDetails.fromJson(response.data),
+      );
     } catch (e, stack) {
-      if (e is HttpExceptionWithStatus && e.statusCode == 404) {
+      if (e is DioError && e.response?.statusCode == HttpStatus.notFound) {
         return OffreDetailsResponse<ImmersionDetails>(
           isGenericFailure: false,
           isOffreNotFound: true,
           details: null,
         );
       }
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return OffreDetailsResponse<ImmersionDetails>(
       isGenericFailure: true,

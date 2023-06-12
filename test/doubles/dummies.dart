@@ -218,7 +218,7 @@ class DummyImmersionRepository extends ImmersionRepository {
 }
 
 class DummyImmersionDetailsRepository extends ImmersionDetailsRepository {
-  DummyImmersionDetailsRepository() : super("", DummyHttpClient());
+  DummyImmersionDetailsRepository() : super(DioMock());
 }
 
 class DummyChatCrypto extends ChatCrypto {
