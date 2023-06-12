@@ -46,11 +46,14 @@ void main() {
           sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
             'codePostal': mockCommuneLocation().codePostal,
             'secteurActivite': 'A',
+            'page': '1',
+            'limit': '20',
           });
         });
 
         test('response should be valid', () {
           sut.expectResult<RechercheResponse<EvenementEmploi>?>((response) {
+            expect(response?.canLoadMore, false);
             expect(response, isNotNull);
             expect(response!.results, hasLength(1));
             expect(
@@ -98,6 +101,8 @@ void main() {
           test('query parameters should be properly built without modalite', () {
             sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
               'codePostal': mockCommuneLocation().codePostal,
+              'page': '1',
+              'limit': '20',
             });
           });
         });
@@ -119,6 +124,8 @@ void main() {
           test('query parameters should be properly built without modalite', () {
             sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
               'codePostal': mockCommuneLocation().codePostal,
+              'page': '1',
+              'limit': '20',
             });
           });
         });
@@ -141,6 +148,8 @@ void main() {
             sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
               'codePostal': mockCommuneLocation().codePostal,
               'modalite': 'ENPHY',
+              'page': '1',
+              'limit': '20',
             });
           });
         });
@@ -163,6 +172,8 @@ void main() {
             sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
               'codePostal': mockCommuneLocation().codePostal,
               'modalite': 'ADIST',
+              'page': '1',
+              'limit': '20',
             });
           });
         });
@@ -186,6 +197,8 @@ void main() {
           sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
             'codePostal': mockCommuneLocation().codePostal,
             'dateDebut': '2023-01-30T00:00:00.000',
+            'page': '1',
+            'limit': '20',
           });
         });
       });
@@ -208,6 +221,8 @@ void main() {
           sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
             'codePostal': mockCommuneLocation().codePostal,
             'dateFin': '2023-01-30T23:59:59.999',
+            'page': '1',
+            'limit': '20',
           });
         });
       });
@@ -230,6 +245,8 @@ void main() {
           sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
             'codePostal': mockCommuneLocation().codePostal,
             'typeEvenement': '15',
+            'page': '1',
+            'limit': '20',
           });
         });
       });

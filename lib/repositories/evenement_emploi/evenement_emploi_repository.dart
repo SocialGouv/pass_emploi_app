@@ -13,6 +13,8 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class EvenementEmploiRepository
     extends RechercheRepository<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche, EvenementEmploi> {
+  static const PAGE_SIZE = 20;
+
   final Dio _httpClient;
   final SecteurActiviteQueryMapper _secteurActiviteQueryMapper;
   final EvenementEmploiTypeQueryMapper _typeQueryMapper;
@@ -37,7 +39,7 @@ class EvenementEmploiRepository
         'results',
         (event) => JsonEvenementEmploi.fromJson(event).toEvenementEmploi(),
       );
-      return RechercheResponse(results: events, canLoadMore: false);
+      return RechercheResponse(results: events, canLoadMore: events.length == PAGE_SIZE);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
@@ -51,6 +53,8 @@ class EvenementEmploiRepository
     final type = request.filtres.type;
     final modaliteQueryParamValue = _modaliteQueryParamValue(request.filtres.modalites);
     return {
+      'page': '${request.page}',
+      'limit': '$PAGE_SIZE',
       'codePostal': request.criteres.location.codePostal ?? request.criteres.location.code,
       if (secteur != null) 'secteurActivite': _secteurActiviteQueryMapper.getQueryParamValue(secteur),
       if (type != null) 'typeEvenement': _typeQueryMapper.getQueryParamValue(type),
