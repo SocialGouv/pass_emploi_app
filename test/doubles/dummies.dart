@@ -342,7 +342,7 @@ class DummySuccessCreateDemarcheRepository extends CreateDemarcheRepository {
 }
 
 class DummyDemarcheDuReferentielRepository extends SearchDemarcheRepository {
-  DummyDemarcheDuReferentielRepository() : super("", DummyHttpClient());
+  DummyDemarcheDuReferentielRepository() : super(DioMock());
 
   @override
   Future<List<DemarcheDuReferentiel>?> search(String query) async {

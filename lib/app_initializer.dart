@@ -255,7 +255,7 @@ class AppInitializer {
       matomoTracker,
       UpdateDemarcheRepository(dioClient, crashlytics),
       CreateDemarcheRepository(dioClient, crashlytics),
-      SearchDemarcheRepository(baseUrl, httpClient, crashlytics),
+      SearchDemarcheRepository(dioClient, crashlytics),
       PieceJointeRepository(baseUrl, httpClient, crashlytics),
       TutorialRepository(securedPreferences),
       PartageActiviteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
