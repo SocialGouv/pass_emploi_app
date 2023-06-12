@@ -47,7 +47,7 @@ void main() {
             'codePostal': mockCommuneLocation().codePostal,
             'secteurActivite': 'A',
             'page': '1',
-            'limit': '50',
+            'limit': '20',
           });
         });
 
@@ -102,7 +102,7 @@ void main() {
             sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
               'codePostal': mockCommuneLocation().codePostal,
               'page': '1',
-              'limit': '50',
+              'limit': '20',
             });
           });
         });
@@ -125,7 +125,7 @@ void main() {
             sut.expectRequestBody(method: HttpMethod.get, url: '/evenements-emploi', queryParameters: {
               'codePostal': mockCommuneLocation().codePostal,
               'page': '1',
-              'limit': '50',
+              'limit': '20',
             });
           });
         });
@@ -149,7 +149,7 @@ void main() {
               'codePostal': mockCommuneLocation().codePostal,
               'modalite': 'ENPHY',
               'page': '1',
-              'limit': '50',
+              'limit': '20',
             });
           });
         });
@@ -173,7 +173,7 @@ void main() {
               'codePostal': mockCommuneLocation().codePostal,
               'modalite': 'ADIST',
               'page': '1',
-              'limit': '50',
+              'limit': '20',
             });
           });
         });
@@ -198,7 +198,7 @@ void main() {
             'codePostal': mockCommuneLocation().codePostal,
             'dateDebut': '2023-01-30T00:00:00.000',
             'page': '1',
-            'limit': '50',
+            'limit': '20',
           });
         });
       });
@@ -222,7 +222,7 @@ void main() {
             'codePostal': mockCommuneLocation().codePostal,
             'dateFin': '2023-01-30T23:59:59.999',
             'page': '1',
-            'limit': '50',
+            'limit': '20',
           });
         });
       });
@@ -246,7 +246,7 @@ void main() {
             'codePostal': mockCommuneLocation().codePostal,
             'typeEvenement': '15',
             'page': '1',
-            'limit': '50',
+            'limit': '20',
           });
         });
       });
