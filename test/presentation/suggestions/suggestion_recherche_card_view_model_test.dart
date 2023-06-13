@@ -70,7 +70,7 @@ void main() {
     final viewModel = SuggestionRechercheCardViewModel.create(store, 'ID');
 
     // Then
-    expect(viewModel?.source, 'Diagoriente');
+    expect(viewModel?.source, 'Métiers favoris');
     expect(viewModel?.withLocationForm, true);
   });
 
