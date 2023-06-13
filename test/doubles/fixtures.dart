@@ -676,7 +676,7 @@ SuggestionRecherche suggestionCoiffeurFormDiagoriente() => SuggestionRecherche(
       type: OffreType.immersion,
       source: SuggestionSource.diagoriente,
       metier: "Coiffeur en salon",
-      localisation: "Juan Les Pins",
+      localisation: null,
       dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
       dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
     );
