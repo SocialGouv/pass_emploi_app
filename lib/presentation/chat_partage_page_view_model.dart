@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_empl
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_details.dart';
+import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
@@ -183,13 +184,14 @@ void _partagerOffre(Store<AppState> store, OffreEmploiDetails offre, OffreType t
 }
 
 void _partagerEvenementEmploi(Store<AppState> store, EvenementEmploiDetails evenementEmploiDetails, String message) {
-  // store.dispatch(
-  //   ChatPartagerEvenementEmploiAction(
-  //     EvenementEmploiPartage(
-  //       id: evenementEmploiDetails.id,
-  //       titre: evenementEmploiDetails.titre ?? "",
-  //       message: message,
-  //     ),
-  //   ),
-  // );
+  store.dispatch(
+    ChatPartagerEvenementEmploiAction(
+      EvenementEmploiPartage(
+        id: evenementEmploiDetails.id,
+        titre: evenementEmploiDetails.titre ?? "",
+        url: evenementEmploiDetails.url ?? "",
+        message: message,
+      ),
+    ),
+  );
 }
