@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
+import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_state.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
@@ -59,6 +60,29 @@ void main() {
           ),
         ),
       );
+    });
+  });
+
+  group('when sharing an evenement emploi', () {
+    test('should have corresponding titles', () {
+      // Given
+      final store = givenState()
+          .loggedInUser() //
+          .copyWith(evenementEmploiDetailsState: EvenementEmploiDetailsSuccessState(mockEvenementEmploiDetails()))
+          .store();
+
+      // When
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEvenementEmploiSource());
+
+      // Then
+      expect(viewModel.pageTitle, "Partage de l’événement");
+      expect(viewModel.willShareTitle, "L’événement que vous souhaitez partager");
+      expect(viewModel.defaultMessage, "Bonjour, je vous partage un événement afin d’avoir votre avis");
+      expect(viewModel.information, "L’événement sera partagé à votre conseiller dans la messagerie");
+      expect(viewModel.shareButtonTitle, "Partager l’événement");
+      expect(viewModel.snackbarSuccessText,
+          "L’événement a été partagé à votre conseiller sur la messagerie de l’application");
+      expect(viewModel.snackbarSuccessTracking, "evenement_emploi/detail?partage-conseiller=true");
     });
   });
 

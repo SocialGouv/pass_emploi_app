@@ -484,6 +484,15 @@ class Strings {
   static String partageEventNavTitle = "Partage d’événement";
   static String partageEventSuccess = "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
 
+  // Evenement partage
+  static String partageEvenementEmploiNavTitle = "Partage de l’événement";
+  static String souhaitDePartagerEvenementEmploi = "L’événement que vous souhaitez partager";
+  static String partageEvenementEmploiDefaultMessage = "Bonjour, je vous partage un événement afin d’avoir votre avis";
+  static String partageEvenementEmploiSuccess =
+      "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
+  static String infoEvenementEmploiPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
+  static String partagerEvenementEmploiAuConseiller = "Partager l’événement";
+
   // Immersion
   static String entrepriseAccueillante = 'Entreprise accueillante';
   static String entreprisesAccueillantesHeader =

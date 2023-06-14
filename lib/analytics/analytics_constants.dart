@@ -53,7 +53,6 @@ class AnalyticsScreenNames {
 
   static String rechercheModifieeResultats(String type) => "recherche/$type/search_results?update=true";
 
-
   static const emploiRecherche = "emploi";
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
@@ -87,6 +86,7 @@ class AnalyticsScreenNames {
   static const evenementEmploiRecherche = "evenement_emploi";
   static const evenementEmploiDetails = "evenement_emploi/detail";
   static const evenementEmploiFiltres = "evenement_emploi/search_results/filters";
+  static const evenementEmploiPartagePageSuccess = "evenement_emploi/detail?partage-conseiller=true";
 
   static const offreFavorisList = "favoris/list";
   static const offreFavorisListFilterEmploi = "favoris/list?filtre=emploi";

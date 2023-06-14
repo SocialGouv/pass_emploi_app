@@ -4,8 +4,10 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
+import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_details.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
@@ -16,7 +18,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
-abstract class ChatPartageSource {}
+sealed class ChatPartageSource {}
 
 class ChatPartageOffreEmploiSource extends ChatPartageSource {
   final OffreType type;
@@ -29,6 +31,8 @@ class ChatPartageEventSource extends ChatPartageSource {
 
   ChatPartageEventSource(this.eventId);
 }
+
+class ChatPartageEvenementEmploiSource extends ChatPartageSource {}
 
 class ChatPartagePageViewModel extends Equatable {
   final String pageTitle;
@@ -58,13 +62,11 @@ class ChatPartagePageViewModel extends Equatable {
   });
 
   factory ChatPartagePageViewModel.fromSource(Store<AppState> store, ChatPartageSource source) {
-    if (source is ChatPartageOffreEmploiSource) {
-      return ChatPartagePageViewModel.sharingOffre(store, source);
-    }
-    if (source is ChatPartageEventSource) {
-      return ChatPartagePageViewModel.sharingEvent(store, source);
-    }
-    throw Exception("Bad source type.");
+    return switch (source) {
+      ChatPartageOffreEmploiSource() => ChatPartagePageViewModel.sharingOffre(store, source),
+      ChatPartageEventSource() => ChatPartagePageViewModel.sharingEvent(store, source),
+      ChatPartageEvenementEmploiSource() => ChatPartagePageViewModel.sharingEvenementEmploi(store, source),
+    };
   }
 
   factory ChatPartagePageViewModel.sharingOffre(Store<AppState> store, ChatPartageOffreEmploiSource source) {
@@ -113,6 +115,28 @@ class ChatPartagePageViewModel extends Equatable {
     );
   }
 
+  factory ChatPartagePageViewModel.sharingEvenementEmploi(
+      Store<AppState> store, ChatPartageEvenementEmploiSource source) {
+    final evenementEmploiDetailsState = store.state.evenementEmploiDetailsState;
+    if (evenementEmploiDetailsState is! EvenementEmploiDetailsSuccessState) {
+      throw Exception("ChatPartagePageViewModel must be created with a EvenementEmploiDetailsSuccessState.");
+    }
+
+    return ChatPartagePageViewModel(
+      pageTitle: Strings.partageEvenementEmploiNavTitle,
+      willShareTitle: Strings.souhaitDePartagerEvenementEmploi,
+      defaultMessage: Strings.partageEvenementEmploiDefaultMessage,
+      information: Strings.infoEvenementEmploiPartageChat,
+      shareButtonTitle: Strings.partagerEvenementEmploiAuConseiller,
+      shareableTitle: evenementEmploiDetailsState.details.titre ?? "",
+      onShare: (message) => _partagerEvenementEmploi(store, evenementEmploiDetailsState.details, message),
+      snackbarState: _snackbarState(store),
+      snackbarDisplayed: () => store.dispatch(ChatPartageResetAction()),
+      snackbarSuccessText: Strings.partageEvenementEmploiSuccess,
+      snackbarSuccessTracking: AnalyticsScreenNames.evenementEmploiPartagePageSuccess,
+    );
+  }
+
   @override
   List<Object?> get props => [shareableTitle, snackbarState];
 }
@@ -156,4 +180,16 @@ void _partagerOffre(Store<AppState> store, OffreEmploiDetails offre, OffreType t
       ),
     ),
   );
+}
+
+void _partagerEvenementEmploi(Store<AppState> store, EvenementEmploiDetails evenementEmploiDetails, String message) {
+  // store.dispatch(
+  //   ChatPartagerEvenementEmploiAction(
+  //     EvenementEmploiPartage(
+  //       id: evenementEmploiDetails.id,
+  //       titre: evenementEmploiDetails.titre ?? "",
+  //       message: message,
+  //     ),
+  //   ),
+  // );
 }
