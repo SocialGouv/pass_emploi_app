@@ -99,6 +99,7 @@ class DemarcheListPage extends StatelessWidget {
 
   Widget _listItem(BuildContext context, DemarcheListItem item, DemarcheListPageViewModel viewModel) {
     if (item is DemarcheCampagneItem) {
+      //TODO: remove
       return _CampagneCard(title: item.titre, description: item.description);
     } else if (item is DemarcheNotUpToDateItem) {
       return NotUpToDateMessage(message: Strings.demarchesNotUpToDateMessage, onRefresh: viewModel.onRetry);
@@ -134,6 +135,7 @@ class DemarcheListPage extends StatelessWidget {
   }
 }
 
+//TODO: remove
 class _CampagneCard extends StatelessWidget {
   final String title;
   final String description;

@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class PageDemarches extends Equatable {
   final List<Demarche> demarches;
-  final Campagne? campagne;
+  final Campagne? campagne; //TODO: remove
   final DateTime? dateDerniereMiseAJour;
 
   PageDemarches({required this.demarches, this.campagne, this.dateDerniereMiseAJour});

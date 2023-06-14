@@ -21,7 +21,7 @@ class DemarcheListMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(page != null
           ? DemarcheListSuccessAction(page.demarches, page.dateDerniereMiseAJour)
           : DemarcheListFailureAction());
-      store.dispatch(CampagneFetchedAction(page?.campagne));
+      store.dispatch(CampagneFetchedAction(page?.campagne)); //TODO: remove
     }
   }
 }

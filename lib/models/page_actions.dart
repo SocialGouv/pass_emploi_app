@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 
 class PageActions extends Equatable {
   final List<UserAction> actions;
-  final Campagne? campagne;
+  final Campagne? campagne; //TODO: remove
 
   PageActions({required this.actions, this.campagne});
 

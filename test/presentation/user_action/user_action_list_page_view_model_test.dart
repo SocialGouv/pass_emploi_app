@@ -100,7 +100,7 @@ void main() {
             mockUserAction(id: 'IN_PROGRESS', status: UserActionStatus.IN_PROGRESS),
           ],
         ),
-        campagneState: CampagneState(campagne(), []),
+        campagneState: CampagneState(campagne(), []), //TODO: remove + in title
       ),
     );
 
@@ -108,8 +108,8 @@ void main() {
     final viewModel = UserActionListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.items.length, 11);
-    expect(viewModel.items[0] is CampagneItem, isTrue);
+    expect(viewModel.items.length, 11); //TODO: 10 ?
+    expect(viewModel.items[0] is CampagneItem, isTrue); //TODO: remove
     for (var i = 1; i < 6; ++i) {
       expect(viewModel.items[i] is IdItem, isTrue);
       expect((viewModel.items[i] as IdItem).userActionId, isIn(['IN_PROGRESS', 'NOT_STARTED']));
@@ -130,7 +130,7 @@ void main() {
       reducer,
       initialState: loggedInState().copyWith(
         userActionListState: UserActionListSuccessState([]),
-        campagneState: CampagneState(null, []),
+        campagneState: CampagneState(null, []), //TODO: remove + title
       ),
     );
 
@@ -144,6 +144,7 @@ void main() {
     expect(viewModel.items.length, 0);
   });
 
+//TODO: remove the whole test ?
   test(
       'create when action state is success but there are no user_action but with campagne should display campagne card',
       () {
@@ -152,7 +153,7 @@ void main() {
       reducer,
       initialState: loggedInState().copyWith(
         userActionListState: UserActionListSuccessState([]),
-        campagneState: CampagneState(campagne(), []),
+        campagneState: CampagneState(campagne(), []), //TODO: remove + title
       ),
     );
 
@@ -164,7 +165,7 @@ void main() {
     expect(viewModel.withFailure, false);
     expect(viewModel.withEmptyMessage, false);
     expect(viewModel.items.length, 1);
-    expect(viewModel.items[0] is CampagneItem, isTrue);
+    expect(viewModel.items[0] is CampagneItem, isTrue); //TODO: remove
   });
 
   test("create when action state is success with only active user_action should display them", () {

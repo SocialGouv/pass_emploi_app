@@ -20,7 +20,7 @@ class UserActionListMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(
         page != null ? UserActionListSuccessAction(page.actions) : UserActionListFailureAction(),
       );
-      store.dispatch(CampagneFetchedAction(page?.campagne));
+      store.dispatch(CampagneFetchedAction(page?.campagne)); //TODO: remove.
     }
   }
 }

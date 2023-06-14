@@ -88,7 +88,7 @@ void main() {
               mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
             ],
           ),
-          campagneState: CampagneState(campagne(), []),
+          campagneState: CampagneState(campagne(), []), //TODO: remove + title
         )
         .store();
 
@@ -115,7 +115,7 @@ void main() {
         .loggedInPoleEmploiUser()
         .copyWith(
           demarcheListState: DemarcheListSuccessState([]),
-          campagneState: CampagneState(null, []),
+          campagneState: CampagneState(null, []), //TODO: remove + title
         )
         .store();
 
@@ -127,6 +127,7 @@ void main() {
     expect(viewModel.items.length, 0);
   });
 
+  //TODO: remove whole test ?
   test('create when demarche state is success but there are no demarches but a campagne should display a campagne card',
       () {
     // Given
@@ -153,7 +154,7 @@ void main() {
         .loggedInPoleEmploiUser()
         .copyWith(
           demarcheListState: DemarcheListSuccessState([], DateTime(2023, 1, 1)),
-          campagneState: CampagneState(null, []),
+          campagneState: CampagneState(null, []), //TODO: remove
         )
         .store();
 

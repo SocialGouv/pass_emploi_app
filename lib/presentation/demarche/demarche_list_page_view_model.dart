@@ -24,7 +24,7 @@ class DemarcheListPageViewModel extends Equatable {
     return DemarcheListPageViewModel(
       displayState: _displayState(store.state),
       items: _listItems(
-        campagne: _campagneItem(state: store.state),
+        campagne: _campagneItem(state: store.state), //TODO: remove
         activeItemIds: _activeItems(state: state),
         inactiveIds: _inactiveItems(state: state),
         withNotUpToDateItem: state is DemarcheListSuccessState && state.dateDerniereMiseAJour != null,
@@ -41,7 +41,7 @@ class DemarcheListPageViewModel extends Equatable {
 DisplayState _displayState(AppState state) {
   final actionState = state.demarcheListState;
   if (actionState is DemarcheListSuccessState) {
-    return (actionState.demarches.isNotEmpty || state.campagneState.campagne != null)
+    return (actionState.demarches.isNotEmpty || state.campagneState.campagne != null) //TODO: remove
         ? DisplayState.CONTENT
         : DisplayState.EMPTY;
   } else if (actionState is DemarcheListFailureState) {
@@ -51,6 +51,7 @@ DisplayState _displayState(AppState state) {
   }
 }
 
+//TODO: remove
 DemarcheCampagneItem? _campagneItem({required AppState state}) {
   final campagne = state.campagneState.campagne;
   if (campagne != null) {
@@ -80,14 +81,14 @@ List<String> _inactiveItems({required DemarcheListState state}) {
 }
 
 List<DemarcheListItem> _listItems({
-  required DemarcheCampagneItem? campagne,
+  required DemarcheCampagneItem? campagne, //TODO: remove
   required List<String> activeItemIds,
   required List<String> inactiveIds,
   required bool withNotUpToDateItem,
 }) {
   return [
     if (withNotUpToDateItem) DemarcheNotUpToDateItem(),
-    if (campagne != null) ...[campagne],
+    if (campagne != null) ...[campagne], //TODO: remove
     ...activeItemIds.map((e) => IdItem(e)),
     ...inactiveIds.map((e) => IdItem(e)),
   ];
@@ -107,6 +108,7 @@ class IdItem extends DemarcheListItem {
   List<Object?> get props => [demarcheId];
 }
 
+//TODO: remove
 class DemarcheCampagneItem extends DemarcheListItem {
   final String titre;
   final String description;

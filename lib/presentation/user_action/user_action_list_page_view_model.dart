@@ -41,7 +41,7 @@ class UserActionListPageViewModel extends Equatable {
       withFailure: actionState is UserActionListFailureState,
       withEmptyMessage: _isEmpty(store.state),
       items: _listItems(
-        campagne: _campagneItem(state: store.state),
+        campagne: _campagneItem(state: store.state), //TODO: remove
         activeItemIds: _activeActions(state: actionState),
         doneOrCanceledItemIds: _doneOrCanceledActions(state: actionState),
       ),
@@ -64,9 +64,10 @@ bool _isEmpty(AppState state) {
   final actionState = state.userActionListState;
   return actionState is UserActionListSuccessState &&
       actionState.userActions.isEmpty &&
-      state.campagneState.campagne == null;
+      state.campagneState.campagne == null; //TODO: remove
 }
 
+//TODO: remove
 CampagneItem? _campagneItem({required AppState state}) {
   final campagne = state.campagneState.campagne;
   if (campagne != null) {
@@ -96,12 +97,12 @@ List<String> _doneOrCanceledActions({required UserActionListState state}) {
 }
 
 List<UserActionListPageItem> _listItems({
-  required CampagneItem? campagne,
+  required CampagneItem? campagne, //TODO: remove
   required List<String> activeItemIds,
   required List<String> doneOrCanceledItemIds,
 }) {
   return [
-    if (campagne != null) ...[campagne],
+    if (campagne != null) ...[campagne], //TODO: remove
     ...activeItemIds.map((e) => IdItem(e)),
     if (doneOrCanceledItemIds.isNotEmpty) ...[
       SubtitleItem(Strings.doneActionsTitle),
@@ -136,6 +137,7 @@ class IdItem extends UserActionListPageItem {
   List<Object?> get props => [userActionId];
 }
 
+//TODO: remove
 class CampagneItem extends UserActionListPageItem {
   final String titre;
   final String description;
