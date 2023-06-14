@@ -788,7 +788,7 @@ class Strings {
   static String eventTabMaMissionLocale = "Ma Mission Locale";
   static String eventTabExternes = "Externes";
   static String eventEmploiDetailsAppBarTitle = "Détail de l’événement";
-  static String eventEmploiDetailsPartager = "Partager l'événement à mon conseiller";
+  static String eventEmploiDetailsPartagerConseiller = "Partager l'événement à mon conseiller";
   static String eventEmploiDetailsInscription = "Je m'inscris";
 
   // Événements Emploi

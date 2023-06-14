@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_actions.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/evenement_emploi/evenement_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -12,6 +13,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
@@ -141,12 +143,16 @@ class _Header extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: SecondaryButton(
-            label: Strings.eventEmploiDetailsPartager,
-            onPressed: () => {},
+            label: Strings.eventEmploiDetailsPartagerConseiller,
+            onPressed: () => partagerConseiller(context),
           ),
         ),
       ],
     );
+  }
+
+  void partagerConseiller(BuildContext context) {
+    context.trackEvent(EventType.EVENEMENT_EXTERNE_PARTAGE_CONSEILLER);
   }
 }
 
@@ -187,7 +193,7 @@ class _FooterButtons extends StatelessWidget {
           Expanded(
             child: PrimaryActionButton(
               label: Strings.eventEmploiDetailsInscription,
-              onPressed: _openInscriptionUrl,
+              onPressed: () => _openInscriptionUrl(context),
             ),
           ),
         // SizedBox(width: Margins.spacing_base),
@@ -199,14 +205,19 @@ class _FooterButtons extends StatelessWidget {
         // ),
         if (viewModel.url != null) ...[
           SizedBox(width: Margins.spacing_base),
-          ShareButton(viewModel.url!, viewModel.titre, null),
+          ShareButton(
+            viewModel.url!,
+            viewModel.titre,
+            () => context.trackEvent(EventType.EVENEMENT_EXTERNE_PARTAGE),
+          ),
         ],
       ],
     );
   }
 
-  void _openInscriptionUrl() {
+  void _openInscriptionUrl(BuildContext context) {
     if (viewModel.url == null) return;
+    context.trackEvent(EventType.EVENEMENT_EXTERNE_INSCRIPTION);
     launchExternalUrl(viewModel.url!);
   }
 }
