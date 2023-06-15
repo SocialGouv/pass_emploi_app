@@ -213,10 +213,10 @@ void main() {
         });
       }
 
-      assertSnackBarDisplayState(ChatPartageState.notInitialized, DisplayState.EMPTY);
-      assertSnackBarDisplayState(ChatPartageState.loading, DisplayState.LOADING);
-      assertSnackBarDisplayState(ChatPartageState.success, DisplayState.CONTENT);
-      assertSnackBarDisplayState(ChatPartageState.failure, DisplayState.FAILURE);
+      assertSnackBarDisplayState(ChatPartageNotInitializedState(), DisplayState.EMPTY);
+      assertSnackBarDisplayState(ChatPartageLoadingState(), DisplayState.LOADING);
+      assertSnackBarDisplayState(ChatPartageSuccessState(), DisplayState.CONTENT);
+      assertSnackBarDisplayState(ChatPartageFailureState(), DisplayState.FAILURE);
     });
 
     test('should reset snackbar', () {

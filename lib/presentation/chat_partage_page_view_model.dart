@@ -144,13 +144,13 @@ class ChatPartagePageViewModel extends Equatable {
 
 DisplayState _snackbarState(Store<AppState> store) {
   switch (store.state.chatPartageState) {
-    case ChatPartageState.notInitialized:
+    case ChatPartageNotInitializedState():
       return DisplayState.EMPTY;
-    case ChatPartageState.loading:
+    case ChatPartageLoadingState():
       return DisplayState.LOADING;
-    case ChatPartageState.success:
+    case ChatPartageSuccessState():
       return DisplayState.CONTENT;
-    case ChatPartageState.failure:
+    case ChatPartageFailureState():
       return DisplayState.FAILURE;
   }
 }

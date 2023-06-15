@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_chat_repository.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
+import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
@@ -44,6 +45,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _partagerOffre(store, userId, action.offre);
         } else if (action is ChatPartagerEventAction) {
           _partagerEvent(store, userId, action.eventPartage);
+        } else if (action is ChatPartagerEvenementEmploiAction) {
+          _partagerEvenementEmploi(store, userId, action.evenementEmploi);
         } else if (action is LastMessageSeenAction) {
           _repository.setLastMessageSeen(userId);
         }
@@ -56,6 +59,17 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     final succeed = await _repository.sendOffrePartagee(userId, offre);
     if (succeed) {
       store.dispatch(TrackingEventAction(EventType.MESSAGE_OFFRE_PARTAGEE));
+      store.dispatch(ChatPartageSuccessAction());
+    } else {
+      store.dispatch(ChatPartageFailureAction());
+    }
+  }
+
+  void _partagerEvenementEmploi(Store<AppState> store, String userId, EvenementEmploiPartage evenementEmploi) async {
+    store.dispatch(ChatPartageLoadingAction());
+    final succeed = await _repository.sendEvenementEmploiPartage(userId, evenementEmploi);
+    if (succeed) {
+      store.dispatch(TrackingEventAction(EventType.MESSAGE_EVENEMENT_EMPLOI_PARTAGE));
       store.dispatch(ChatPartageSuccessAction());
     } else {
       store.dispatch(ChatPartageFailureAction());
