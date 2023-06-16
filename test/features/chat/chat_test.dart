@@ -161,12 +161,10 @@ void main() {
         mockChatRepository.onSendEventPartageSuccess(dummyEventPartage());
 
         // When
-        sut.dispatch();
+        await sut.dispatch();
 
         // Then
-        await Future.delayed(Duration.zero, () {
-          trackingEventRepository.verifyHasBeenCalled();
-        });
+        trackingEventRepository.verifyHasBeenCalled();
       });
     });
 
@@ -205,12 +203,10 @@ void main() {
         mockChatRepository.onPartageOffreEmploiSucceeds(dummyOffrePartagee());
 
         // When
-        sut.dispatch();
+        await sut.dispatch();
 
         // Then
-        await Future.delayed(Duration.zero, () {
-          trackingEventRepository.verifyHasBeenCalled();
-        });
+        trackingEventRepository.verifyHasBeenCalled();
       });
     });
 
@@ -244,12 +240,10 @@ void main() {
         mockChatRepository.onPartageEvenementEmploiSucceeds(dummyEvenementEmploiPartage());
 
         // When
-        sut.dispatch();
+        await sut.dispatch();
 
         // Then
-        await Future.delayed(Duration.zero, () {
-          trackingEventRepository.verifyHasBeenCalled();
-        });
+        trackingEventRepository.verifyHasBeenCalled();
       });
     });
   });
