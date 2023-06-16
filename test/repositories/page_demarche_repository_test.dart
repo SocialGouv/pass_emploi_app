@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 
@@ -27,22 +26,7 @@ void main() {
       test('response should be valid', () async {
         await sut.expectResult<PageDemarches?>((result) {
           expect(result, isNotNull);
-          //TODO: remove campagne here & json & json demo
-          expect(result!.campagne, isNotNull);
-          expect(
-            result.campagne,
-            Campagne(
-              id: "id-campagne",
-              titre: "Votre expérience sur l'application",
-              description: "Donnez nous votre avis",
-              questions: [
-                Question(id: 1, libelle: "la question ?", options: [
-                  Option(id: 1, libelle: "Non, pas du tout"),
-                ])
-              ],
-            ),
-          );
-          expect(result.demarches, isNotNull);
+          expect(result!.demarches, isNotNull);
           expect(result.demarches.length, 7);
           expect(result.demarches.first, demarcheStub());
           expect(result.dateDerniereMiseAJour, parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'));

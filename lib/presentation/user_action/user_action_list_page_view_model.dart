@@ -41,7 +41,6 @@ class UserActionListPageViewModel extends Equatable {
       withFailure: actionState is UserActionListFailureState,
       withEmptyMessage: _isEmpty(store.state),
       items: _listItems(
-        campagne: _campagneItem(state: store.state), //TODO: remove
         activeItemIds: _activeActions(state: actionState),
         doneOrCanceledItemIds: _doneOrCanceledActions(state: actionState),
       ),
@@ -62,18 +61,7 @@ class UserActionListPageViewModel extends Equatable {
 
 bool _isEmpty(AppState state) {
   final actionState = state.userActionListState;
-  return actionState is UserActionListSuccessState &&
-      actionState.userActions.isEmpty &&
-      state.campagneState.campagne == null; //TODO: remove
-}
-
-//TODO: remove
-CampagneItem? _campagneItem({required AppState state}) {
-  final campagne = state.campagneState.campagne;
-  if (campagne != null) {
-    return CampagneItem(titre: campagne.titre, description: campagne.description);
-  }
-  return null;
+  return actionState is UserActionListSuccessState && actionState.userActions.isEmpty;
 }
 
 List<String> _activeActions({required UserActionListState state}) {
@@ -97,12 +85,10 @@ List<String> _doneOrCanceledActions({required UserActionListState state}) {
 }
 
 List<UserActionListPageItem> _listItems({
-  required CampagneItem? campagne, //TODO: remove
   required List<String> activeItemIds,
   required List<String> doneOrCanceledItemIds,
 }) {
   return [
-    if (campagne != null) ...[campagne], //TODO: remove
     ...activeItemIds.map((e) => IdItem(e)),
     if (doneOrCanceledItemIds.isNotEmpty) ...[
       SubtitleItem(Strings.doneActionsTitle),
@@ -135,15 +121,4 @@ class IdItem extends UserActionListPageItem {
 
   @override
   List<Object?> get props => [userActionId];
-}
-
-//TODO: remove
-class CampagneItem extends UserActionListPageItem {
-  final String titre;
-  final String description;
-
-  CampagneItem({required this.titre, required this.description});
-
-  @override
-  List<Object?> get props => [titre, description];
 }

@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
@@ -19,7 +18,6 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -105,8 +103,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
         padding: const EdgeInsets.only(top: Margins.spacing_base),
         child: Text(item.title, style: TextStyles.textMBold),
       );
-    } else if (item is CampagneItem) {
-      return _CampagneCard(title: item.titre, description: item.description);
     } else {
       final actionId = (item as IdItem).userActionId;
       return UserActionCard(
@@ -160,24 +156,5 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   void _onCreateUserActionDismissed(UserActionListPageViewModel viewModel) {
     viewModel.onCreateUserActionDismissed();
-  }
-}
-
-//TODO: remove
-class _CampagneCard extends StatelessWidget {
-  final String title;
-  final String description;
-
-  _CampagneCard({required this.title, required this.description});
-
-  @override
-  Widget build(BuildContext context) {
-    return CampagneCard(
-      onTap: () {
-        Navigator.push(context, CampagneDetailsPage.materialPageRoute());
-      },
-      titre: title,
-      description: description,
-    );
   }
 }

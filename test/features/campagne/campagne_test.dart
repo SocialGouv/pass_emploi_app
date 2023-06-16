@@ -17,39 +17,41 @@ import '../../utils/test_setup.dart';
 
 void main() {
   group('Campagne retrieval', () {
-    test('On Milo user, campagne should be fetched and displayed if any', () async {
-      // Given
-      final testStoreFactory = TestStoreFactory();
-      final repository = PageActionRepositorySuccessStub();
-      repository.withCampagne(campagne('id-campagne'));
-      testStoreFactory.pageActionRepository = repository;
-      final store = testStoreFactory.initializeReduxStore(initialState: loggedInMiloState());
-      final successAppState = store.onChange.firstWhere((e) => e.campagneState.campagne != null);
+//TODO: test campagne redux loop
 
-      // When
-      await store.dispatch(UserActionListRequestAction());
+    // test('On Milo user, campagne should be fetched and displayed if any', () async {
+    //   // Given
+    //   final testStoreFactory = TestStoreFactory();
+    //   final repository = PageActionRepositorySuccessStub();
+    //   repository.withCampagne(campagne('id-campagne'));
+    //   testStoreFactory.pageActionRepository = repository;
+    //   final store = testStoreFactory.initializeReduxStore(initialState: loggedInMiloState());
+    //   final successAppState = store.onChange.firstWhere((e) => e.campagneState.campagne != null);
 
-      // Then
-      final appState = await successAppState;
-      expect(appState.campagneState.campagne!.id, 'id-campagne');
-    });
+    //   // When
+    //   await store.dispatch(UserActionListRequestAction());
 
-    test('On Pôle Emploi user, campagne should be fetched and displayed if any', () async {
-      // Given
-      final testStoreFactory = TestStoreFactory();
-      final repository = PageDemarcheRepositorySuccessStub();
-      repository.withCampagne(campagne('id-campagne'));
-      testStoreFactory.pageDemarcheRepository = repository;
-      final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
-      final successAppState = store.onChange.firstWhere((e) => e.campagneState.campagne != null);
+    //   // Then
+    //   final appState = await successAppState;
+    //   expect(appState.campagneState.campagne!.id, 'id-campagne');
+    // });
 
-      // When
-      await store.dispatch(DemarcheListRequestAction());
+    // test('On Pôle Emploi user, campagne should be fetched and displayed if any', () async {
+    //   // Given
+    //   final testStoreFactory = TestStoreFactory();
+    //   final repository = PageDemarcheRepositorySuccessStub();
+    //   repository.withCampagne(campagne('id-campagne'));
+    //   testStoreFactory.pageDemarcheRepository = repository;
+    //   final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
+    //   final successAppState = store.onChange.firstWhere((e) => e.campagneState.campagne != null);
 
-      // Then
-      final appState = await successAppState;
-      expect(appState.campagneState.campagne!.id, 'id-campagne');
-    });
+    //   // When
+    //   await store.dispatch(DemarcheListRequestAction());
+
+    //   // Then
+    //   final appState = await successAppState;
+    //   expect(appState.campagneState.campagne!.id, 'id-campagne');
+    // });
   });
 
   group('Campagne results', () {

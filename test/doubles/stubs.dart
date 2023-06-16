@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
-import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
@@ -31,14 +30,9 @@ import 'fixtures.dart';
 import 'spies.dart';
 
 class PageActionRepositorySuccessStub extends PageActionRepository {
-  Campagne? _campagne;
   var isActionUpdated = false;
 
   PageActionRepositorySuccessStub() : super(DioMock());
-
-  void withCampagne(Campagne campagne) {
-    _campagne = campagne;
-  }
 
   @override
   Future<PageActions> getPageActions(String userId) async {
@@ -53,7 +47,6 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
           creator: JeuneActionCreator(),
         ),
       ],
-      campagne: _campagne,
     );
   }
 
@@ -99,13 +92,7 @@ class PageActionRepositoryFailureStub extends PageActionRepository {
 }
 
 class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
-  Campagne? _campagne;
-
   PageDemarcheRepositorySuccessStub() : super(DioMock());
-
-  void withCampagne(Campagne campagne) {
-    _campagne = campagne;
-  }
 
   @override
   Future<PageDemarches?> getPageDemarches(String userId) async {
@@ -128,7 +115,6 @@ class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
           attributs: [],
         ),
       ],
-      campagne: _campagne,
       dateDerniereMiseAJour: DateTime(2023, 1, 1),
     );
   }

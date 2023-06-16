@@ -1,4 +1,3 @@
-import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -21,7 +20,6 @@ class DemarcheListMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(page != null
           ? DemarcheListSuccessAction(page.demarches, page.dateDerniereMiseAJour)
           : DemarcheListFailureAction());
-      store.dispatch(CampagneFetchedAction(page?.campagne)); //TODO: remove
     }
   }
 }

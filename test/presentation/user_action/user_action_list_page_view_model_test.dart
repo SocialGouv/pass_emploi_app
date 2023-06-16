@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
@@ -81,7 +80,7 @@ void main() {
   });
 
   test(
-      "create when action state is success with active and done user_action and campagne should display them separated by done user_action title and campagne in first position",
+      "create when action state is success with active and done user_action should display them separated by done user_action title and campagne in first position",
       () {
     // Given
     final store = Store<AppState>(
@@ -100,7 +99,6 @@ void main() {
             mockUserAction(id: 'IN_PROGRESS', status: UserActionStatus.IN_PROGRESS),
           ],
         ),
-        campagneState: CampagneState(campagne(), []), //TODO: remove + in title
       ),
     );
 
@@ -108,29 +106,27 @@ void main() {
     final viewModel = UserActionListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.items.length, 11); //TODO: 10 ?
-    expect(viewModel.items[0] is CampagneItem, isTrue); //TODO: remove
-    for (var i = 1; i < 6; ++i) {
+    expect(viewModel.items.length, 10);
+    for (var i = 0; i < 5; ++i) {
       expect(viewModel.items[i] is IdItem, isTrue);
       expect((viewModel.items[i] as IdItem).userActionId, isIn(['IN_PROGRESS', 'NOT_STARTED']));
     }
-    expect(viewModel.items[6] is SubtitleItem, isTrue);
-    expect((viewModel.items[6] as SubtitleItem).title, "Actions terminées et annulées");
-    for (var i = 7; i < 11; ++i) {
+    expect(viewModel.items[5] is SubtitleItem, isTrue);
+    expect((viewModel.items[5] as SubtitleItem).title, "Actions terminées et annulées");
+    for (var i = 6; i < 10; ++i) {
       expect(viewModel.items[i] is IdItem, isTrue);
       expect((viewModel.items[i] as IdItem).userActionId, isIn(['DONE', 'CANCELED']));
     }
   });
 
   test(
-      'create when action state is success but there are no user_action and no campagne neither should display an empty message',
+      'create when action state is success but there are no user_action should display an empty message',
       () {
     // Given
     final store = Store<AppState>(
       reducer,
       initialState: loggedInState().copyWith(
         userActionListState: UserActionListSuccessState([]),
-        campagneState: CampagneState(null, []), //TODO: remove + title
       ),
     );
 
@@ -142,30 +138,6 @@ void main() {
     expect(viewModel.withFailure, false);
     expect(viewModel.withEmptyMessage, true);
     expect(viewModel.items.length, 0);
-  });
-
-//TODO: remove the whole test ?
-  test(
-      'create when action state is success but there are no user_action but with campagne should display campagne card',
-      () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(
-        userActionListState: UserActionListSuccessState([]),
-        campagneState: CampagneState(campagne(), []), //TODO: remove + title
-      ),
-    );
-
-    // When
-    final viewModel = UserActionListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.withLoading, false);
-    expect(viewModel.withFailure, false);
-    expect(viewModel.withEmptyMessage, false);
-    expect(viewModel.items.length, 1);
-    expect(viewModel.items[0] is CampagneItem, isTrue); //TODO: remove
   });
 
   test("create when action state is success with only active user_action should display them", () {
