@@ -76,8 +76,7 @@ void main() {
       );
     });
 
-    test('on BRSA brand should ALWAYS set RechercheType to onlyOffreEmploi (as Alternance is not handled for BRSA)',
-        () {
+    test('on BRSA brand should set RechercheType to offre emploi and alternance', () {
       // Given
       final store = StoreSpy.withState(AppState.initialState(configuration: brsaConfiguration()));
       final viewModel = CriteresRechercheEmploiContenuViewModel.create(store);
@@ -95,7 +94,7 @@ void main() {
           .request
           .criteres
           .rechercheType;
-      expect(type, RechercheType.onlyOffreEmploi);
+      expect(type, RechercheType.offreEmploiAndAlternance);
     });
 
     group('on updated request', () {
