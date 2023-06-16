@@ -127,7 +127,6 @@ class ChatRepository {
         'id': emploiPartage.id,
         'titre': emploiPartage.titre,
         'url': emploiPartage.url,
-        'message': emploiPartage.message,
       },
       'type': "MESSAGE_EVENEMENT_EMPLOI",
     };

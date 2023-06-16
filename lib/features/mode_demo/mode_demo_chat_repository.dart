@@ -34,4 +34,18 @@ List<Message> modeDemoChat() => [
           OffreType.emploi,
         ),
       ),
+      Message(
+        "Bonjour, je vous partage une offre d’emploi afin d’avoir votre avis",
+        DateTime.now().subtract(Duration(minutes: 18)),
+        Sender.jeune,
+        MessageType.offre,
+        [],
+        null,
+        null,
+        ChatEvenementEmploi(
+          "98382HUZE",
+          "Salon de l'emploi",
+          "https://salonenligne.pole-emploi.fr/candidat/voirtouslessalons",
+        ),
+      ),
     ];

@@ -68,6 +68,8 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
           return _offreMessageItem(message, lastConseillerReading);
         case MessageType.event:
           return _eventMessageItem(message, lastConseillerReading);
+        case MessageType.evenementEmploi:
+          throw UnimplementedError(); // TODO:
         case MessageType.inconnu:
           return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }
