@@ -108,7 +108,7 @@ extension AppStateDSL on AppState {
 
   AppState failedPastRendezvous() => copyWith(rendezvousListState: RendezvousListState.failedPast());
 
-  AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
+  AppState withCampagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
 
   AppState piecesJointesWithIdOneSuccess() =>
       copyWith(piecesJointesState: PiecesJointesState({"id-1": PieceJointeStatus.success}));
@@ -588,8 +588,7 @@ extension AppStateDSL on AppState {
 
   AppState failureRechercheEvenementEmploiState() {
     return copyWith(
-      rechercheEvenementEmploiState:
-          RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.failure),
+      rechercheEvenementEmploiState: RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.failure),
     );
   }
 

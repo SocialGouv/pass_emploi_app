@@ -25,7 +25,7 @@ void main() {
 
   test('should display first question', () {
     // Given
-    final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
+    final store = givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions).store();
 
     // When
     final viewModel = QuestionPageViewModel.create(store, 0);
@@ -38,7 +38,7 @@ void main() {
 
   test('should display second question (last one)', () {
     // Given
-    final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
+    final store = givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions).store();
 
     // When
     final viewModel = QuestionPageViewModel.create(store, 1);
@@ -54,7 +54,7 @@ void main() {
 
   test('should display next button when there is more questions', () {
     // Given
-    final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
+    final store = givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions).store();
 
     // When
     final viewModel = QuestionPageViewModel.create(store, 0);
@@ -65,7 +65,7 @@ void main() {
 
   test('should display valid button on last page', () {
     // Given
-    final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
+    final store = givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions).store();
 
     // When
     final viewModel = QuestionPageViewModel.create(store, 1);
@@ -76,7 +76,7 @@ void main() {
 
   test('should display informations on first page', () {
     // Given
-    final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
+    final store = givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions).store();
 
     // When
     final viewModel = QuestionPageViewModel.create(store, 0);
@@ -87,7 +87,7 @@ void main() {
 
   test('should not display informations on other pages than first', () {
     // Given
-    final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
+    final store = givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions).store();
 
     // When
     final viewModel = QuestionPageViewModel.create(store, 1);
@@ -101,7 +101,7 @@ void main() {
     final storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions),
+      initialState: givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions),
     );
     final viewModel = QuestionPageViewModel.create(store, 0);
 
@@ -118,7 +118,7 @@ void main() {
     final storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions),
+      initialState: givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions),
     );
     final viewModel = QuestionPageViewModel.create(store, 1);
 
