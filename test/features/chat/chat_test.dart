@@ -1,13 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_actions.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
+import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
+import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -17,6 +22,8 @@ import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
@@ -107,25 +114,81 @@ void main() {
     expect(appState.chatBrouillonState, ChatBrouillonState(null));
   });
 
-  test('should track when an offre is successfully partagée', () async {
-    // Given
-    final repository = _MockTrackingEventRepository();
-    final store = givenState().loggedInUser().store((factory) {
-      factory.trackingEventRepository = repository;
-      factory.chatRepository = ChatRepositoryStub();
+  group('Partage actions', () {
+    final sut = StoreSut();
+    late _MockTrackingEventRepository trackingEventRepository;
+    late _MockChatRepository mockChatRepository;
+
+    setUp(() {
+      trackingEventRepository = _MockTrackingEventRepository();
+      mockChatRepository = _MockChatRepository();
+      sut.givenStore = givenState() //
+          .loggedInUser()
+          .store(
+            (f) => {
+              f.chatRepository = mockChatRepository,
+              f.trackingEventRepository = trackingEventRepository,
+            },
+          );
     });
 
-    // When
-    await store.dispatch(ChatPartagerOffreAction(OffrePartagee(
-      id: "123TZKB",
-      titre: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
-      url: "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB",
-      message: "Regardes ça",
-      type: OffreType.emploi,
-    )));
+    group('partage event action', () {
+      sut.when(() => ChatPartagerEventAction(_dummyEventPartage));
 
-    // Then
-    expect(repository.isCalled, true);
+      // TODO: 3 tests should track & should succeed & should fail
+
+      test('should track and dispatch loading then succeed when an event is successfully partagé', () async {
+        mockChatRepository.onSendEventPartageSuccess(_dummyEventPartage);
+
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
+        ]);
+
+        await Future.delayed(Duration.zero, () {
+          trackingEventRepository.verifyHasBeenCalled();
+        });
+      });
+    });
+
+    group('partage offre emploi action', () {
+      sut.when(() => ChatPartagerOffreAction(_dummyOffrePartagee));
+
+      setUpAll(() {
+        registerFallbackValue(EventType.MESSAGE_EVENEMENT_EMPLOI_PARTAGE);
+        registerFallbackValue(LoginMode.MILO);
+      });
+
+      test('should track and dispatch loading then succeed when an offre is successfully partagée', () async {
+        mockChatRepository.onPartageOffreEmploiSucceeds(_dummyOffrePartagee);
+
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
+        ]);
+
+        await Future.delayed(Duration(milliseconds: 100), () {
+          trackingEventRepository.verifyHasBeenCalled();
+        });
+      });
+    });
+
+    group('partage evenement emploi', () {
+      sut.when(() => ChatPartagerEvenementEmploiAction(_dummyEvenementEmploiPartage));
+
+      test('should track and dispatch loading then succeed action when repository succeeds', () async {
+        mockChatRepository.onPartageEvenementEmploiSucceeds(_dummyEvenementEmploiPartage);
+
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
+        ]);
+
+        await Future.delayed(Duration(milliseconds: 100), () {
+          trackingEventRepository.verifyHasBeenCalled();
+        });
+      });
+    });
   });
 }
 
@@ -149,4 +212,49 @@ class _MockTrackingEventRepository extends TrackingEventRepository {
     isCalled = true;
     return true;
   }
+
+  void verifyHasBeenCalled() {
+    expect(isCalled, true);
+  }
 }
+
+class _MockChatRepository extends Mock implements ChatRepository {
+  void onSendEventPartageSuccess(EventPartage eventPartage) {
+    when(() => sendEventPartage(any(), eventPartage)).thenAnswer((_) async => true);
+  }
+
+  void onPartageOffreEmploiSucceeds(OffrePartagee offrePartagee) {
+    when(() => sendMessage(any(), any())).thenAnswer((_) async => true);
+    when(() => sendOffrePartagee(any(), offrePartagee)).thenAnswer((_) async => true);
+  }
+
+  void onPartageEvenementEmploiSucceeds(EvenementEmploiPartage evenementEmploiPartage) {
+    when(() => sendMessage(any(), any())).thenAnswer((_) async => true);
+    when(() => sendEvenementEmploiPartage(any(), evenementEmploiPartage)).thenAnswer((_) async => true);
+  }
+}
+
+// TODO: move to dummy
+
+final _dummyOffrePartagee = OffrePartagee(
+  id: "123TZKB",
+  titre: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
+  url: "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB",
+  message: "Regardes ça",
+  type: OffreType.emploi,
+);
+
+final _dummyEvenementEmploiPartage = EvenementEmploiPartage(
+  id: "106757",
+  titre: "Devenir conseiller à Pôle emploi",
+  url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
+  message: "Regardes ça",
+);
+
+final _dummyEventPartage = EventPartage(
+  id: "123TZKB",
+  titre: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
+  message: "Regardes ça",
+  date: DateTime(2023),
+  type: RendezvousType(RendezvousTypeCode.ACTIVITE_EXTERIEURES, "label"),
+);
