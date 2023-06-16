@@ -1,4 +1,4 @@
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
@@ -6,97 +6,87 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
+import 'package:pass_emploi_app/network/dio_ext.dart';
 import 'package:pass_emploi_app/network/filtres_request.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
 
 class OffreEmploiRepository extends RechercheRepository<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi> {
   static const PAGE_SIZE = 50;
 
-  final String _baseUrl;
-  final Client _httpClient;
-
+  final Dio _httpClient;
   final Crashlytics? _crashlytics;
 
-  OffreEmploiRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
+  OffreEmploiRepository(this._httpClient, [this._crashlytics]);
 
   @override
   Future<RechercheResponse<OffreEmploi>?> rechercher({
     required String userId,
     required RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request,
   }) async {
-    final url = Uri.parse(_baseUrl + "/offres-emploi").replace(
-      query: _createQuery(request),
-    );
+    const url = '/offres-emploi';
     try {
-      final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes);
-        final list = (json["results"] as List).map((offre) => OffreEmploi.fromJson(offre)).toList();
-        return RechercheResponse(canLoadMore: list.length == PAGE_SIZE, results: list);
-      }
+      final response = await _httpClient.get(
+        url,
+        queryParameters: _queryParams(request),
+        // required to send query parameters as expected by backend
+        // e.g.foo=value&foo=another_value rather foo=value,another_value
+        options: Options(listFormat: ListFormat.multi),
+      );
+      final list = response.asListOfWithKey('results', (json) => OffreEmploi.fromJson(json));
+      return RechercheResponse(canLoadMore: list.length == PAGE_SIZE, results: list);
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return null;
   }
 
-  String _createQuery(RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request) {
-    final result = StringBuffer();
-    var separator = "";
-
-    void writeParameter(String key, String value) {
-      result.write(separator);
-      separator = "&";
-      result.write(Uri.encodeQueryComponent(key));
-      result.write("=");
-      result.write(Uri.encodeQueryComponent(value));
-    }
-
-    switch(request.criteres.rechercheType){
-      case RechercheType.onlyOffreEmploi:
-        writeParameter("alternance", false.toString());
-        break;
-      case RechercheType.onlyAlternance:
-        writeParameter("alternance", true.toString());
-        break;
-      case RechercheType.offreEmploiAndAlternance:
-        break;
-    }
-
-    writeParameter("page", request.page.toString());
-    writeParameter("limit", PAGE_SIZE.toString());
-    if (request.criteres.keyword.isNotEmpty) {
-      writeParameter("q", request.criteres.keyword);
-    }
-    if (request.criteres.location?.type == LocationType.DEPARTMENT) {
-      writeParameter("departement", request.criteres.location!.code);
-    }
-    if (request.criteres.location?.type == LocationType.COMMUNE) {
-      writeParameter("commune", request.criteres.location!.code);
-    }
-    if (request.filtres.distance != null) {
-      writeParameter("rayon", request.filtres.distance.toString());
-    }
-    if (request.filtres.debutantOnly != null) {
-      writeParameter("debutantAccepte", request.filtres.debutantOnly.toString());
-    }
-    request.filtres.experience?.forEach((element) {
-      writeParameter("experience", FiltresRequest.experienceToUrlParameter(element));
-    });
-    request.filtres.contrat?.forEach((element) {
-      writeParameter("contrat", FiltresRequest.contratToUrlParameter(element));
-    });
-    request.filtres.duree?.forEach((element) {
-      writeParameter("duree", FiltresRequest.dureeToUrlParameter(element));
-    });
-    return result.toString();
+  Map<String, dynamic> _queryParams(RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request) {
+    return {
+      ..._alternanceQueryParams(request),
+      ..._experienceQueryParam(request),
+      ..._contratQueryParam(request),
+      ..._dureeQueryParam(request),
+      'page': request.page.toString(),
+      'limit': PAGE_SIZE.toString(),
+      if (request.criteres.keyword.isNotEmpty) 'q': request.criteres.keyword,
+      if (request.criteres.location?.type == LocationType.DEPARTMENT) 'departement': request.criteres.location!.code,
+      if (request.criteres.location?.type == LocationType.COMMUNE) 'commune': request.criteres.location!.code,
+      if (request.filtres.distance != null) 'rayon': request.filtres.distance.toString(),
+      if (request.filtres.debutantOnly != null) 'debutantAccepte': request.filtres.debutantOnly.toString(),
+    };
   }
-}
 
-extension Encoded on StringBuffer {
-  void writeEncoded(String string) {
-    write(Uri.encodeQueryComponent(string));
+  Map<String, dynamic> _experienceQueryParam(
+    RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request
+  ) {
+    final experiences = request.filtres.experience;
+    if (experiences == null || experiences.isEmpty) return {};
+    return {'experience': experiences.map(FiltresRequest.experienceToUrlParameter).toList()};
+  }
+
+  Map<String, dynamic> _contratQueryParam(
+    RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request,
+  ) {
+    final contrats = request.filtres.contrat;
+    if (contrats == null || contrats.isEmpty) return {};
+    return {'contrat': contrats.map(FiltresRequest.contratToUrlParameter).toList()};
+  }
+
+  Map<String, dynamic> _dureeQueryParam(
+    RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request,
+  ) {
+    final durees = request.filtres.duree;
+    if (durees == null || durees.isEmpty) return {};
+    return {'duree': durees.map(FiltresRequest.dureeToUrlParameter).toList()};
+  }
+
+  Map<String, String> _alternanceQueryParams(
+    RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> request,
+  ) {
+    return switch (request.criteres.rechercheType) {
+      RechercheType.onlyOffreEmploi => {'alternance': false.toString()},
+      RechercheType.onlyAlternance => {'alternance': true.toString()},
+      RechercheType.offreEmploiAndAlternance => {},
+    };
   }
 }
 

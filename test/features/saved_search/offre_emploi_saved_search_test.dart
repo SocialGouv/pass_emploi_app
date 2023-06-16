@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repositor
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 
+import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
@@ -134,7 +135,7 @@ void main() {
 }
 
 class OffreEmploiRepositorySuccessStub extends OffreEmploiRepository {
-  OffreEmploiRepositorySuccessStub() : super("", DummyHttpClient());
+  OffreEmploiRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<RechercheResponse<OffreEmploi>?> rechercher({

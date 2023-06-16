@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.da
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 
@@ -63,7 +63,7 @@ void main() {
 }
 
 class DemarcheDuReferentielSuccessStub extends SearchDemarcheRepository {
-  DemarcheDuReferentielSuccessStub() : super('', DummyHttpClient());
+  DemarcheDuReferentielSuccessStub() : super(DioMock());
 
   @override
   Future<List<DemarcheDuReferentiel>?> search(String query) async {
@@ -73,7 +73,7 @@ class DemarcheDuReferentielSuccessStub extends SearchDemarcheRepository {
 }
 
 class DemarcheDuReferentielFailureStub extends SearchDemarcheRepository {
-  DemarcheDuReferentielFailureStub() : super('', DummyHttpClient());
+  DemarcheDuReferentielFailureStub() : super(DioMock());
 
   @override
   Future<List<DemarcheDuReferentiel>?> search(String query) async => null;

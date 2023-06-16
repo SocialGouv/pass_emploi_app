@@ -182,7 +182,7 @@ class DummyCrashlytics extends Crashlytics {
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
-  DummyOffreEmploiRepository() : super("", DummyHttpClient());
+  DummyOffreEmploiRepository() : super(DioMock());
 }
 
 class DummyDetailedRepository extends OffreEmploiDetailsRepository {
@@ -218,7 +218,7 @@ class DummyImmersionRepository extends ImmersionRepository {
 }
 
 class DummyImmersionDetailsRepository extends ImmersionDetailsRepository {
-  DummyImmersionDetailsRepository() : super("", DummyHttpClient());
+  DummyImmersionDetailsRepository() : super(DioMock());
 }
 
 class DummyChatCrypto extends ChatCrypto {
@@ -342,7 +342,7 @@ class DummySuccessCreateDemarcheRepository extends CreateDemarcheRepository {
 }
 
 class DummyDemarcheDuReferentielRepository extends SearchDemarcheRepository {
-  DummyDemarcheDuReferentielRepository() : super("", DummyHttpClient());
+  DummyDemarcheDuReferentielRepository() : super(DioMock());
 
   @override
   Future<List<DemarcheDuReferentiel>?> search(String query) async {
