@@ -12,7 +12,6 @@ import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -133,18 +132,38 @@ void main() {
     });
 
     group('partage event action', () {
-      sut.when(() => ChatPartagerEventAction(_dummyEventPartage));
+      sut.when(() => ChatPartagerEventAction(dummyEventPartage()));
 
-      // TODO: 3 tests should track & should succeed & should fail
+      test('should dispatch loading then succeed when an event is successfully partagé', () async {
+        // Given
+        mockChatRepository.onSendEventPartageSuccess(dummyEventPartage());
 
-      test('should track and dispatch loading then succeed when an event is successfully partagé', () async {
-        mockChatRepository.onSendEventPartageSuccess(_dummyEventPartage);
-
+        // When & Then
         sut.thenExpectChangingStatesThroughOrder([
           StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
           StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
         ]);
+      });
 
+      test('should dispatch loading then failure when an event fails to be shared', () {
+        // Given
+        mockChatRepository.onSendEventPartageFailure(dummyEventPartage());
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageFailureState>((state) => state.chatPartageState),
+        ]);
+      });
+
+      test('should track when event is successfully partagé', () async {
+        // Given
+        mockChatRepository.onSendEventPartageSuccess(dummyEventPartage());
+
+        // When
+        sut.dispatch();
+
+        // Then
         await Future.delayed(Duration.zero, () {
           trackingEventRepository.verifyHasBeenCalled();
         });
@@ -152,39 +171,83 @@ void main() {
     });
 
     group('partage offre emploi action', () {
-      sut.when(() => ChatPartagerOffreAction(_dummyOffrePartagee));
+      sut.when(() => ChatPartagerOffreAction(dummyOffrePartagee()));
 
       setUpAll(() {
         registerFallbackValue(EventType.MESSAGE_EVENEMENT_EMPLOI_PARTAGE);
         registerFallbackValue(LoginMode.MILO);
       });
 
-      test('should track and dispatch loading then succeed when an offre is successfully partagée', () async {
-        mockChatRepository.onPartageOffreEmploiSucceeds(_dummyOffrePartagee);
+      test('should dispatch loading then succeed when an offre is successfully partagée', () async {
+        // Given
+        mockChatRepository.onPartageOffreEmploiSucceeds(dummyOffrePartagee());
 
+        // When & Then
         sut.thenExpectChangingStatesThroughOrder([
           StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
           StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
         ]);
+      });
 
-        await Future.delayed(Duration(milliseconds: 100), () {
+      test('should dispatch loading then failure when an offre fails to be shared', () {
+        // Given
+        mockChatRepository.onPartageOffreEmploiFails(dummyOffrePartagee());
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageFailureState>((state) => state.chatPartageState),
+        ]);
+      });
+
+      test('should track when offre is successfully partagé', () async {
+        // Given
+        mockChatRepository.onPartageOffreEmploiSucceeds(dummyOffrePartagee());
+
+        // When
+        sut.dispatch();
+
+        // Then
+        await Future.delayed(Duration.zero, () {
           trackingEventRepository.verifyHasBeenCalled();
         });
       });
     });
 
     group('partage evenement emploi', () {
-      sut.when(() => ChatPartagerEvenementEmploiAction(_dummyEvenementEmploiPartage));
+      sut.when(() => ChatPartagerEvenementEmploiAction(dummyEvenementEmploiPartage()));
 
-      test('should track and dispatch loading then succeed action when repository succeeds', () async {
-        mockChatRepository.onPartageEvenementEmploiSucceeds(_dummyEvenementEmploiPartage);
+      test('should dispatch loading then succeed action an evenement emploi is successfully partagé', () async {
+        // Given
+        mockChatRepository.onPartageEvenementEmploiSucceeds(dummyEvenementEmploiPartage());
 
+        // When & Then
         sut.thenExpectChangingStatesThroughOrder([
           StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
           StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
         ]);
+      });
 
-        await Future.delayed(Duration(milliseconds: 100), () {
+      test('should dispatch loading then failure when an evenement emploi fails to be shared', () {
+        // Given
+        mockChatRepository.onPartageEvenementEmploiFails(dummyEvenementEmploiPartage());
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageFailureState>((state) => state.chatPartageState),
+        ]);
+      });
+
+      test('should track when event is successfully partagé', () async {
+        // Given
+        mockChatRepository.onPartageEvenementEmploiSucceeds(dummyEvenementEmploiPartage());
+
+        // When
+        sut.dispatch();
+
+        // Then
+        await Future.delayed(Duration.zero, () {
           trackingEventRepository.verifyHasBeenCalled();
         });
       });
@@ -223,38 +286,23 @@ class _MockChatRepository extends Mock implements ChatRepository {
     when(() => sendEventPartage(any(), eventPartage)).thenAnswer((_) async => true);
   }
 
+  void onSendEventPartageFailure(EventPartage eventPartage) {
+    when(() => sendEventPartage(any(), eventPartage)).thenAnswer((_) async => false);
+  }
+
   void onPartageOffreEmploiSucceeds(OffrePartagee offrePartagee) {
-    when(() => sendMessage(any(), any())).thenAnswer((_) async => true);
     when(() => sendOffrePartagee(any(), offrePartagee)).thenAnswer((_) async => true);
   }
 
+  void onPartageOffreEmploiFails(OffrePartagee offrePartagee) {
+    when(() => sendOffrePartagee(any(), offrePartagee)).thenAnswer((_) async => false);
+  }
+
   void onPartageEvenementEmploiSucceeds(EvenementEmploiPartage evenementEmploiPartage) {
-    when(() => sendMessage(any(), any())).thenAnswer((_) async => true);
     when(() => sendEvenementEmploiPartage(any(), evenementEmploiPartage)).thenAnswer((_) async => true);
   }
+
+  void onPartageEvenementEmploiFails(EvenementEmploiPartage evenementEmploiPartage) {
+    when(() => sendEvenementEmploiPartage(any(), evenementEmploiPartage)).thenAnswer((_) async => false);
+  }
 }
-
-// TODO: move to dummy
-
-final _dummyOffrePartagee = OffrePartagee(
-  id: "123TZKB",
-  titre: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
-  url: "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB",
-  message: "Regardes ça",
-  type: OffreType.emploi,
-);
-
-final _dummyEvenementEmploiPartage = EvenementEmploiPartage(
-  id: "106757",
-  titre: "Devenir conseiller à Pôle emploi",
-  url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
-  message: "Regardes ça",
-);
-
-final _dummyEventPartage = EventPartage(
-  id: "123TZKB",
-  titre: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
-  message: "Regardes ça",
-  date: DateTime(2023),
-  type: RendezvousType(RendezvousTypeCode.ACTIVITE_EXTERIEURES, "label"),
-);
