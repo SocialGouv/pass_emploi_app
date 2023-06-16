@@ -221,7 +221,7 @@ class AppInitializer {
       PageActionRepository(dioClient, crashlytics),
       PageDemarcheRepository(dioClient, crashlytics),
       RendezvousRepository(dioClient, crashlytics),
-      OffreEmploiRepository(baseUrl, httpClient, crashlytics),
+      OffreEmploiRepository(dioClient, crashlytics),
       ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
       ConfigurationApplicationRepository(
         baseUrl,

@@ -65,7 +65,11 @@ class RepositorySut2<REPO> {
       _when = (repo) {
         mocktail.reset(_client);
         mocktail //
-            .when(() => _client.get(mocktail.any(), queryParameters: mocktail.any(named: "queryParameters")))
+            .when(() => _client.get(
+                  mocktail.any(),
+                  queryParameters: mocktail.any(named: "queryParameters"),
+                  options: mocktail.any(named: "options"),
+                ))
             .thenAnswer((_) async => _response());
         mocktail //
             .when(() => _client.post(
@@ -107,10 +111,12 @@ class RepositorySut2<REPO> {
             .verify(() => _client.get(
                   mocktail.captureAny(),
                   queryParameters: mocktail.captureAny(named: "queryParameters"),
+                  options: mocktail.captureAny(named: "options"),
                 ))
             .captured;
         capturedUrl = captured[0];
         capturedQueryParameters = captured[1];
+        capturedOptions = captured[2];
         break;
       case HttpMethod.post:
         final captured = mocktail
@@ -141,7 +147,8 @@ class RepositorySut2<REPO> {
     if (rawBody != null) expect(capturedData, rawBody);
     if (capturedQueryParameters != null) expect(capturedQueryParameters, queryParameters);
     if (capturedOptions != null) {
-      expect((capturedOptions as Options).contentType, options?.contentType);
+      if (options?.contentType != null) expect(capturedOptions.contentType, options?.contentType);
+      if (options?.listFormat != null) expect(capturedOptions.listFormat, options?.listFormat);
     }
     throwModeDemoExceptionIfNecessary(method == HttpMethod.get, Uri.parse(url));
   }

@@ -182,7 +182,7 @@ class DummyCrashlytics extends Crashlytics {
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
-  DummyOffreEmploiRepository() : super("", DummyHttpClient());
+  DummyOffreEmploiRepository() : super(DioMock());
 }
 
 class DummyDetailedRepository extends OffreEmploiDetailsRepository {
