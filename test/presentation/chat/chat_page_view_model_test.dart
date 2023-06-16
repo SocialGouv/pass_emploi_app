@@ -118,144 +118,216 @@ void main() {
     ]);
   });
 
-  test('should display offre partagée from jeune', () {
-    // Given
-    final messages = [
-      Message(
-        'Super offre',
-        todayAtNoon,
-        Sender.jeune,
-        MessageType.offre,
-        [],
-        Offre(
-          "343",
-          "Chevalier",
-          OffreType.emploi,
+  group('Offre partagée', () {
+    test('should display offre partagée from jeune', () {
+      // Given
+      final messages = [
+        Message(
+          'Super offre',
+          todayAtNoon,
+          Sender.jeune,
+          MessageType.offre,
+          [],
+          Offre(
+            "343",
+            "Chevalier",
+            OffreType.emploi,
+          ),
+        )
+      ];
+      final store = givenState().chatSuccess(messages).store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.items, [
+        DayItem('Aujourd\'hui'),
+        OffreMessageItem(
+          content: "Super offre",
+          idPartage: "343",
+          titrePartage: "Chevalier",
+          type: OffreType.emploi,
+          sender: Sender.jeune,
+          caption: "12:00 · Envoyé",
         ),
-      )
-    ];
-    final store = givenState().chatSuccess(messages).store();
+      ]);
+    });
 
-    // When
-    final viewModel = ChatPageViewModel.create(store);
+    test('should display offre partagée from conseiller', () {
+      // Given
+      final messages = [
+        Message(
+          'Super offre',
+          todayAtNoon,
+          Sender.conseiller,
+          MessageType.offre,
+          [],
+          Offre("343", "Chevalier", OffreType.emploi),
+        )
+      ];
+      final store = givenState().chatSuccess(messages).store();
 
-    // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.items, [
-      DayItem('Aujourd\'hui'),
-      OffreMessageItem(
-        content: "Super offre",
-        idPartage: "343",
-        titrePartage: "Chevalier",
-        type: OffreType.emploi,
-        sender: Sender.jeune,
-        caption: "12:00 · Envoyé",
-      ),
-    ]);
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.items, [
+        DayItem('Aujourd\'hui'),
+        OffreMessageItem(
+          content: "Super offre",
+          idPartage: "343",
+          titrePartage: "Chevalier",
+          type: OffreType.emploi,
+          sender: Sender.conseiller,
+          caption: "12:00",
+        ),
+      ]);
+    });
   });
 
-  test('should display offre partagée from conseiller', () {
-    // Given
-    final messages = [
-      Message(
-        'Super offre',
-        todayAtNoon,
-        Sender.conseiller,
-        MessageType.offre,
-        [],
-        Offre("343", "Chevalier", OffreType.emploi),
-      )
-    ];
-    final store = givenState().chatSuccess(messages).store();
+  group('Event partagé', () {
+    test('should display event partagé from jeune', () {
+      // Given
+      final messages = [
+        Message(
+          'Super event',
+          todayAtNoon,
+          Sender.jeune,
+          MessageType.event,
+          [],
+          null,
+          Event(
+            id: "id-1",
+            type: RendezvousTypeCode.ATELIER,
+            titre: "atelier catapulte",
+          ),
+        ),
+      ];
+      final store = givenState().chatSuccess(messages).store();
 
-    // When
-    final viewModel = ChatPageViewModel.create(store);
+      // When
+      final viewModel = ChatPageViewModel.create(store);
 
-    // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.items, [
-      DayItem('Aujourd\'hui'),
-      OffreMessageItem(
-        content: "Super offre",
-        idPartage: "343",
-        titrePartage: "Chevalier",
-        type: OffreType.emploi,
-        sender: Sender.conseiller,
-        caption: "12:00",
-      ),
-    ]);
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.items, [
+        DayItem('Aujourd\'hui'),
+        EventMessageItem(
+          content: "Super event",
+          idPartage: "id-1",
+          titrePartage: "atelier catapulte",
+          sender: Sender.jeune,
+          caption: "12:00 · Envoyé",
+        ),
+      ]);
+    });
+
+    test('should display event partagé from conseiller', () {
+      // Given
+      final messages = [
+        Message(
+          'Super event',
+          todayAtNoon,
+          Sender.conseiller,
+          MessageType.event,
+          [],
+          null,
+          Event(
+            id: "id-1",
+            type: RendezvousTypeCode.ATELIER,
+            titre: "atelier catapulte",
+          ),
+        ),
+      ];
+      final store = givenState().chatSuccess(messages).store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.items, [
+        DayItem('Aujourd\'hui'),
+        EventMessageItem(
+          content: "Super event",
+          idPartage: "id-1",
+          titrePartage: "atelier catapulte",
+          sender: Sender.conseiller,
+          caption: "12:00",
+        ),
+      ]);
+    });
   });
 
-  test('should display event partagé from jeune', () {
-    // Given
-    final messages = [
-      Message(
-        'Super event',
-        todayAtNoon,
-        Sender.jeune,
-        MessageType.event,
-        [],
-        null,
-        Event(
-          id: "id-1",
-          type: RendezvousTypeCode.ATELIER,
-          titre: "atelier catapulte",
+  group('Evenement emploi partagé', () {
+    test('should display evenement emploi partagé from jeune', () {
+      // Given
+      final messages = [
+        Message(
+          'Super evenement emploi',
+          todayAtNoon,
+          Sender.jeune,
+          MessageType.evenementEmploi,
+          [],
+          null,
+          null,
+          ChatEvenementEmploi("oinzinfz98dqz", "Salon de l'emploi", "https://www.salondelemploi.fr"),
         ),
-      ),
-    ];
-    final store = givenState().chatSuccess(messages).store();
+      ];
+      final store = givenState().chatSuccess(messages).store();
 
-    // When
-    final viewModel = ChatPageViewModel.create(store);
+      // When
+      final viewModel = ChatPageViewModel.create(store);
 
-    // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.items, [
-      DayItem('Aujourd\'hui'),
-      EventMessageItem(
-        content: "Super event",
-        idPartage: "id-1",
-        titrePartage: "atelier catapulte",
-        sender: Sender.jeune,
-        caption: "12:00 · Envoyé",
-      ),
-    ]);
-  });
-
-  test('should display event partagé from conseiller', () {
-    // Given
-    final messages = [
-      Message(
-        'Super event',
-        todayAtNoon,
-        Sender.conseiller,
-        MessageType.event,
-        [],
-        null,
-        Event(
-          id: "id-1",
-          type: RendezvousTypeCode.ATELIER,
-          titre: "atelier catapulte",
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.items, [
+        DayItem('Aujourd\'hui'),
+        EvenementEmploiMessageItem(
+          content: "Super evenement emploi",
+          idPartage: "oinzinfz98dqz",
+          titrePartage: "Salon de l'emploi",
+          sender: Sender.jeune,
+          caption: "12:00 · Envoyé",
         ),
-      ),
-    ];
-    final store = givenState().chatSuccess(messages).store();
+      ]);
+    });
 
-    // When
-    final viewModel = ChatPageViewModel.create(store);
+    test('should display evenement emploi partagé from conseiller', () {
+      // Given
+      final messages = [
+        Message(
+          'Super evenement emploi',
+          todayAtNoon,
+          Sender.conseiller,
+          MessageType.evenementEmploi,
+          [],
+          null,
+          null,
+          ChatEvenementEmploi("oinzinfz98dqz", "Salon de l'emploi", "https://www.salondelemploi.fr"),
+        ),
+      ];
+      final store = givenState().chatSuccess(messages).store();
 
-    // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.items, [
-      DayItem('Aujourd\'hui'),
-      EventMessageItem(
-        content: "Super event",
-        idPartage: "id-1",
-        titrePartage: "atelier catapulte",
-        sender: Sender.conseiller,
-        caption: "12:00",
-      ),
-    ]);
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.items, [
+        DayItem('Aujourd\'hui'),
+        EvenementEmploiMessageItem(
+          content: "Super evenement emploi",
+          idPartage: "oinzinfz98dqz",
+          titrePartage: "Salon de l'emploi",
+          sender: Sender.conseiller,
+          caption: "12:00",
+        ),
+      ]);
+    });
   });
 
   test('create when chat state is SUCCESS and message type is NOUVEAU_CONSEILLER', () {

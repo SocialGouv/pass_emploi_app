@@ -85,6 +85,19 @@ class EventMessageItem extends PartageMessageItem {
   List<Object?> get props => [content, caption, sender, idPartage, titrePartage];
 }
 
+class EvenementEmploiMessageItem extends PartageMessageItem {
+  EvenementEmploiMessageItem({
+    required String content,
+    required String caption,
+    required Sender sender,
+    required String idPartage,
+    required String titrePartage,
+  }) : super(content, caption, idPartage, titrePartage, sender);
+
+  @override
+  List<Object?> get props => [content, caption, sender, idPartage, titrePartage];
+}
+
 class PieceJointeConseillerMessageItem extends ChatItem {
   final String id;
   final String message;

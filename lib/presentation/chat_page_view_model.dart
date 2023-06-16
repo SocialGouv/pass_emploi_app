@@ -69,12 +69,22 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
         case MessageType.event:
           return _eventMessageItem(message, lastConseillerReading);
         case MessageType.evenementEmploi:
-          throw UnimplementedError(); // TODO:
+          return _evenementEmploiItem(message, lastConseillerReading);
         case MessageType.inconnu:
           return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }
     }
   }).toList();
+}
+
+ChatItem _evenementEmploiItem(Message message, DateTime lastConseillerReading) {
+  return EvenementEmploiMessageItem(
+    content: message.content,
+    idPartage: message.evenementEmploi?.id ?? "",
+    titrePartage: message.evenementEmploi?.titre ?? "",
+    sender: message.sentBy,
+    caption: caption(message, lastConseillerReading),
+  );
 }
 
 ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
