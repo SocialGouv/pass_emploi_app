@@ -27,6 +27,7 @@ void main() {
         test('result should be valid', () {
           sut.expectResult<PageActions?>((result) {
             expect(result, isNotNull);
+            //TODO: remove + json + json demo
             expect(result?.campagne, isNotNull);
             expect(
               result?.campagne,

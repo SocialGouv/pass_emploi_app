@@ -27,6 +27,7 @@ void main() {
       test('response should be valid', () async {
         await sut.expectResult<PageDemarches?>((result) {
           expect(result, isNotNull);
+          //TODO: remove campagne here & json & json demo
           expect(result!.campagne, isNotNull);
           expect(
             result.campagne,

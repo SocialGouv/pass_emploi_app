@@ -58,6 +58,7 @@ import 'package:pass_emploi_app/presentation/immersion/immersion_contact_form_vi
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
+import '../features/campagne/campagne_test.dart';
 import '../utils/test_datetime.dart';
 
 User mockUser({String id = "", LoginMode loginMode = LoginMode.MILO}) => User(
@@ -916,6 +917,7 @@ Accueil mockAccueilMilo() {
     evenements: [mockAnimationCollective()],
     alertes: getMockedSavedSearch(),
     favoris: mock3Favoris(),
+    campagne: mockCampagne(),
   );
 }
 
@@ -930,6 +932,7 @@ Accueil mockAccueilPoleEmploi() {
     prochainRendezVous: mockRendezvousPoleEmploi(),
     alertes: getMockedSavedSearch(),
     favoris: mock3Favoris(),
+    campagne: mockCampagne(),
   );
 }
 
