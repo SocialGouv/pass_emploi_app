@@ -46,7 +46,7 @@ void _onSearchingRequest(Store<AppState> store, String keyword, Location? locati
         EmploiCriteresRecherche(
           keyword: keyword,
           location: location,
-          rechercheType: brand.isBrsa ? RechercheType.onlyOffreEmploi : RechercheType.from(onlyAlternance),
+          rechercheType: brand.isBrsa ? RechercheType.offreEmploiAndAlternance : RechercheType.from(onlyAlternance),
         ),
         initialRecherche
             ? EmploiFiltresRecherche.noFiltre()
