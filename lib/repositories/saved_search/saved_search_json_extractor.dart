@@ -9,6 +9,8 @@ class SavedSearchJsonExtractor {
       return SavedSearchServiceCiviqueExtractor().extract(savedSearch);
     } else if (savedSearch.type == "OFFRES_EMPLOI" || savedSearch.type == "OFFRES_ALTERNANCE") {
       return SavedSearchEmploiExtractor().extract(savedSearch);
+    } else if (savedSearch.type == "EVENEMENT_EMPLOI") {
+      return SavedSearchEvenementEmploiExtractor().extract(savedSearch);
     } else {
       return null;
     }

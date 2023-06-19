@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pass_emploi_app/models/saved_search/evenement_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
@@ -41,6 +42,7 @@ extension _SavedSearchExt on SavedSearch {
     if (savedSearch is OffreEmploiSavedSearch) return savedSearch.toSavedSearchResponse();
     if (savedSearch is ImmersionSavedSearch) return savedSearch.toSavedSearchResponse();
     if (savedSearch is ServiceCiviqueSavedSearch) return savedSearch.toSavedSearchResponse();
+    if (savedSearch is EvenementEmploiSavedSearch) return savedSearch.toSavedSearchResponse();
     return null;
   }
 }
