@@ -145,7 +145,6 @@ class _LocationAutocompletePageState extends State<_LocationAutocompletePage> {
           DebounceTextFormField(
             heroTag: _heroTag,
             initialValue: widget.selectedLocation?.displayableLabel(),
-            onFieldSubmitted: (_) => Navigator.pop(context, viewModel.locations.firstOrNull),
             onChanged: (text) {
               if (text.isEmpty != emptyInput) setState(() => emptyInput = text.isEmpty);
               viewModel.onInputLocation(text);

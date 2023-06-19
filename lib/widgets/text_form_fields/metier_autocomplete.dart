@@ -147,7 +147,6 @@ class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
           DebounceTextFormField(
             heroTag: _heroTag,
             initialValue: widget.selectedMetier?.libelle,
-            onFieldSubmitted: (_) => Navigator.pop(context, autocompleteItems.firstOrNull),
             onChanged: (text) {
               if (text.isEmpty != emptyInput) setState(() => emptyInput = text.isEmpty);
               viewModel.onInputMetier(text);
