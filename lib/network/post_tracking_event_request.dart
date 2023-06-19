@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/network/json_serializable.dart';
 enum EventType {
   MESSAGE_ENVOYE,
   MESSAGE_OFFRE_PARTAGEE,
+  MESSAGE_EVENEMENT_EMPLOI_PARTAGE,
   OFFRE_EMPLOI_AFFICHEE,
   OFFRE_EMPLOI_POSTULEE,
   OFFRE_EMPLOI_PARTAGEE,
@@ -76,6 +77,8 @@ class PostTrackingEvent extends JsonSerializable {
         return "MESSAGE_ENVOYE";
       case EventType.MESSAGE_OFFRE_PARTAGEE:
         return "MESSAGE_OFFRE_PARTAGEE";
+      case EventType.MESSAGE_EVENEMENT_EMPLOI_PARTAGE:
+        return "MESSAGE_EVENEMENT_EMPLOI_PARTAGE";
       case EventType.OFFRE_EMPLOI_POSTULEE:
         return "OFFRE_EMPLOI_POSTULEE";
       case EventType.OFFRE_EMPLOI_PARTAGEE:

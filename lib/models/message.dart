@@ -7,7 +7,16 @@ import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
 
 enum Sender { jeune, conseiller }
 
-enum MessageType { message, nouveauConseiller, nouveauConseillerTemporaire, messagePj, offre, event, inconnu }
+enum MessageType {
+  message,
+  nouveauConseiller,
+  nouveauConseillerTemporaire,
+  messagePj,
+  offre,
+  event,
+  evenementEmploi,
+  inconnu,
+}
 
 enum OffreType { emploi, alternance, immersion, civique, inconnu }
 
@@ -19,6 +28,7 @@ class Message extends Equatable {
   final List<PieceJointe> pieceJointes;
   final Offre? offre;
   final Event? event;
+  final ChatEvenementEmploi? evenementEmploi;
 
   Message(
     this.content,
@@ -28,6 +38,7 @@ class Message extends Equatable {
     this.pieceJointes, [
     this.offre,
     this.event,
+    this.evenementEmploi,
   ]);
 
   static Message? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
@@ -43,6 +54,7 @@ class Message extends Equatable {
       _pieceJointes(json, chatCrypto, crashlytics),
       _offre(json),
       _event(json),
+      _evenementEmploi(json),
     );
   }
 
@@ -56,6 +68,12 @@ class Message extends Equatable {
     final eventJson = json["evenement"];
     if (eventJson == null) return null;
     return Event.fromJson(eventJson);
+  }
+
+  static ChatEvenementEmploi? _evenementEmploi(dynamic json) {
+    final evenementEmploiJson = json["evenementEmploi"];
+    if (evenementEmploiJson == null) return null;
+    return ChatEvenementEmploi.fromJson(evenementEmploiJson);
   }
 
   static List<PieceJointe> _pieceJointes(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
@@ -92,6 +110,8 @@ class Message extends Equatable {
           return MessageType.offre;
         case "MESSAGE_EVENEMENT":
           return MessageType.event;
+        case "MESSAGE_EVENEMENT_EMPLOI":
+          return MessageType.evenementEmploi;
         default:
           return MessageType.inconnu;
       }
@@ -101,7 +121,7 @@ class Message extends Equatable {
   }
 
   @override
-  List<Object?> get props => [content, creationDate, sentBy, type, pieceJointes, offre];
+  List<Object?> get props => [content, creationDate, sentBy, type, pieceJointes, offre, event, evenementEmploi];
 }
 
 extension _DecryptString on String {
@@ -156,6 +176,7 @@ class Event extends Equatable {
     return Event(id: id, titre: titre, type: type);
   }
 }
+
 class Offre extends Equatable {
   final String id;
   final String titre;
@@ -193,6 +214,25 @@ class Offre extends Equatable {
       return _defaultForRetrocompatibility();
     }
   }
+}
+
+class ChatEvenementEmploi extends Equatable {
+  final String id;
+  final String titre;
+  final String url;
+
+  ChatEvenementEmploi(this.id, this.titre, this.url);
+
+  static ChatEvenementEmploi? fromJson(dynamic json) {
+    final id = json['id'] as String?;
+    final titre = json['titre'] as String?;
+    final url = json['url'] as String?;
+    if (id == null || titre == null || url == null) return null;
+    return ChatEvenementEmploi(id, titre, url);
+  }
+
+  @override
+  List<Object?> get props => [id, titre, url];
 }
 
 OffreType _defaultForRetrocompatibility() => OffreType.emploi;

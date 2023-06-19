@@ -363,7 +363,7 @@ class AppState extends Equatable {
       matomoLoggingState: MatomoLoggingState([]),
       previewFileState: PreviewFileNotInitializedState(),
       chatBrouillonState: ChatBrouillonState(null),
-      chatPartageState: ChatPartageState.notInitialized,
+      chatPartageState: ChatPartageNotInitializedState(),
       tutorialState: TutorialNotInitializedState(),
       partageActiviteState: PartageActiviteNotInitializedState(),
       partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),

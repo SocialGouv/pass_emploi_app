@@ -26,14 +26,18 @@ import 'package:pass_emploi_app/models/diagoriente_urls.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_details.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_modalite.dart';
+import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
+import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/message.dart' as message;
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
@@ -947,3 +951,26 @@ List<CvPoleEmploi> mockCvPoleEmploiList() {
     ),
   ];
 }
+
+OffrePartagee dummyOffrePartagee() => OffrePartagee(
+      id: "123TZKB",
+      titre: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
+      url: "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB",
+      message: "Regardes ça",
+      type: message.OffreType.emploi,
+    );
+
+EvenementEmploiPartage dummyEvenementEmploiPartage() => EvenementEmploiPartage(
+      id: "106757",
+      titre: "Devenir conseiller à Pôle emploi",
+      url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
+      message: "Regardes ça",
+    );
+
+EventPartage dummyEventPartage() => EventPartage(
+      id: "123TZKB",
+      titre: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
+      message: "Regardes ça",
+      date: DateTime(2023),
+      type: RendezvousType(RendezvousTypeCode.ACTIVITE_EXTERIEURES, "label"),
+    );

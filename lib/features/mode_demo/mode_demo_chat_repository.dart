@@ -33,5 +33,5 @@ List<Message> modeDemoChat() => [
           "Employé / Employée de rayon libre-service (H/F)",
           OffreType.emploi,
         ),
-      ),
+      )
     ];

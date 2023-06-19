@@ -17,6 +17,10 @@ class StoreSut {
     await givenStore.dispatch(_whenDispatching());
   }
 
+  Future<void> dispatch() async {
+    await givenStore.dispatch(_whenDispatching());
+  }
+
   void debug(dynamic Function(AppState) info) {
     expect(givenStore.onChange, emitsThrough(DebugMatcher(info)));
     givenStore.dispatch(_whenDispatching());

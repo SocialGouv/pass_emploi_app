@@ -4,6 +4,8 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/chat_partage_page.dart';
+import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/evenement_emploi/evenement_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -153,6 +155,10 @@ class _Header extends StatelessWidget {
 
   void partagerConseiller(BuildContext context) {
     context.trackEvent(EventType.EVENEMENT_EXTERNE_PARTAGE_CONSEILLER);
+    Navigator.push(
+      context,
+      ChatPartagePage.materialPageRoute(ChatPartageEvenementEmploiSource()),
+    );
   }
 }
 
