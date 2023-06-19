@@ -56,6 +56,7 @@ List<AccueilItem> _items(Store<AppState> store) {
   if (accueilState is! AccueilSuccessState || user == null) return [];
 
   return [
+    _campagneItem(store.state),
     _cetteSemaineItem(user.loginMode, accueilState),
     _prochainRendezvousItem(accueilState),
     _evenementsItem(accueilState),
@@ -104,4 +105,12 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Brand brand) {
     Brand.cej => AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]),
     Brand.brsa => AccueilOutilsItem([Outils.emploiSolidaire.withoutImage(), Outils.emploiStore.withoutImage()]),
   };
+}
+
+AccueilItem? _campagneItem(AppState state) {
+  final campagne = state.campagneState.campagne;
+  if (campagne != null) {
+    return AccueilCampagneItem(titre: campagne.titre, description: campagne.description);
+  }
+  return null;
 }

@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/pages/accueil/accueil_evenements.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_favoris.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_outils.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
+import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
 import 'package:pass_emploi_app/pages/saved_search_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
@@ -19,6 +20,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
@@ -93,6 +95,7 @@ class _Blocs extends StatelessWidget {
 
   Widget _itemBuilder(BuildContext context, int index) {
     return switch (viewModel.items[index]) {
+      final AccueilCampagneItem item => _CampagneCard(title: item.titre, description: item.description),
       final AccueilCetteSemaineItem item => AccueilCetteSemaine(item),
       final AccueilProchainRendezvousItem item => AccueilProchainRendezVous(item),
       final AccueilEvenementsItem item => AccueilEvenements(item),
@@ -115,6 +118,24 @@ class _Retry extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
         child: Retry(Strings.agendaError, () => viewModel.retry()),
       ),
+    );
+  }
+}
+
+class _CampagneCard extends StatelessWidget {
+  final String title;
+  final String description;
+
+  _CampagneCard({required this.title, required this.description});
+
+  @override
+  Widget build(BuildContext context) {
+    return CampagneCard(
+      onTap: () {
+        Navigator.push(context, CampagneDetailsPage.materialPageRoute());
+      },
+      titre: title,
+      description: description,
     );
   }
 }

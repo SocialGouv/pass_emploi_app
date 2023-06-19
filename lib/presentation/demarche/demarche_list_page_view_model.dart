@@ -24,7 +24,6 @@ class DemarcheListPageViewModel extends Equatable {
     return DemarcheListPageViewModel(
       displayState: _displayState(store.state),
       items: _listItems(
-        campagne: _campagneItem(state: store.state),
         activeItemIds: _activeItems(state: state),
         inactiveIds: _inactiveItems(state: state),
         withNotUpToDateItem: state is DemarcheListSuccessState && state.dateDerniereMiseAJour != null,
@@ -41,22 +40,12 @@ class DemarcheListPageViewModel extends Equatable {
 DisplayState _displayState(AppState state) {
   final actionState = state.demarcheListState;
   if (actionState is DemarcheListSuccessState) {
-    return (actionState.demarches.isNotEmpty || state.campagneState.campagne != null)
-        ? DisplayState.CONTENT
-        : DisplayState.EMPTY;
+    return actionState.demarches.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
   } else if (actionState is DemarcheListFailureState) {
     return DisplayState.FAILURE;
   } else {
     return DisplayState.LOADING;
   }
-}
-
-DemarcheCampagneItem? _campagneItem({required AppState state}) {
-  final campagne = state.campagneState.campagne;
-  if (campagne != null) {
-    return DemarcheCampagneItem(titre: campagne.titre, description: campagne.description);
-  }
-  return null;
 }
 
 List<String> _activeItems({required DemarcheListState state}) {
@@ -80,14 +69,12 @@ List<String> _inactiveItems({required DemarcheListState state}) {
 }
 
 List<DemarcheListItem> _listItems({
-  required DemarcheCampagneItem? campagne,
   required List<String> activeItemIds,
   required List<String> inactiveIds,
   required bool withNotUpToDateItem,
 }) {
   return [
     if (withNotUpToDateItem) DemarcheNotUpToDateItem(),
-    if (campagne != null) ...[campagne],
     ...activeItemIds.map((e) => IdItem(e)),
     ...inactiveIds.map((e) => IdItem(e)),
   ];
@@ -105,16 +92,6 @@ class IdItem extends DemarcheListItem {
 
   @override
   List<Object?> get props => [demarcheId];
-}
-
-class DemarcheCampagneItem extends DemarcheListItem {
-  final String titre;
-  final String description;
-
-  DemarcheCampagneItem({required this.titre, required this.description});
-
-  @override
-  List<Object?> get props => [titre, description];
 }
 
 class DemarcheNotUpToDateItem extends DemarcheListItem {}

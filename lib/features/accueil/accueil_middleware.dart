@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
@@ -35,6 +36,7 @@ class AccueilMiddleware extends MiddlewareClass<AppState> {
       } else {
         store.dispatch(AccueilFailureAction());
       }
+      store.dispatch(CampagneFetchedAction(result?.campagne));
     }
   }
 

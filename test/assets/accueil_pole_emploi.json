@@ -133,5 +133,22 @@
         "type": "OFFRE_IMMERSION",
         "localisation": "localisation-3"
       }
-    ]
+    ],
+    "campagne": {
+      "id": "id-campagne",
+      "titre": "Votre expérience sur l'application",
+      "description": "Donnez nous votre avis",
+      "questions": [
+        {
+          "id": 1,
+          "libelle": "la question ?",
+          "options": [
+            {
+              "id": 1,
+              "libelle": "Non, pas du tout"
+            }
+          ]
+        }
+      ]
+    }
   }

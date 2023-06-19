@@ -101,3 +101,13 @@ class AccueilOutilsItem extends AccueilItem {
   @override
   List<Object?> get props => [outils];
 }
+
+class AccueilCampagneItem extends AccueilItem {
+  final String titre;
+  final String description;
+
+  AccueilCampagneItem({required this.titre, required this.description});
+
+  @override
+  List<Object?> get props => [titre, description];
+}

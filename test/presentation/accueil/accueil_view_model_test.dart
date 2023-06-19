@@ -49,7 +49,11 @@ void main() {
   group('milo', () {
     test('should have all items', () {
       // Given
-      final store = givenState().loggedInMiloUser().withAccueilMiloSuccess().store();
+      final store = givenState() //
+          .loggedInMiloUser()
+          .withAccueilMiloSuccess()
+          .withCampagne(campagne())
+          .store();
 
       // When
       final viewModel = AccueilViewModel.create(store);
@@ -58,6 +62,7 @@ void main() {
       expect(
         viewModel.items,
         [
+          AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
             monSuiviType: MonSuiviType.actions,
             rendezVous: "3 rendez-vous",
@@ -77,7 +82,11 @@ void main() {
   group('pe', () {
     test('should have all items', () {
       // Given
-      final store = givenState().loggedInPoleEmploiUser().withAccueilPoleEmploiSuccess().store();
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .withAccueilPoleEmploiSuccess()
+          .withCampagne(campagne())
+          .store();
 
       // When
       final viewModel = AccueilViewModel.create(store);
@@ -86,6 +95,7 @@ void main() {
       expect(
         viewModel.items,
         [
+          AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
             monSuiviType: MonSuiviType.demarches,
             rendezVous: "3 rendez-vous",

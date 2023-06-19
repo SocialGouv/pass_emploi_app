@@ -21,22 +21,5 @@
       "creatorType": "conseiller",
       "creator": "Nils Tavernier"
     }
-  ],
-  "campagne": {
-    "id": "id-campagne",
-    "titre": "Votre expérience sur l'application",
-    "description": "Donnez nous votre avis",
-    "questions": [
-      {
-        "id": 1,
-        "libelle": "la question ?",
-        "options": [
-          {
-            "id": 1,
-            "libelle": "Non, pas du tout"
-          }
-        ]
-      }
-    ]
-  }
+  ]
 }

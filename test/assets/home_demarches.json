@@ -133,24 +133,7 @@
         "modifieParConseiller": false,
         "creeeParConseiller": false
       }
-    ],
-    "campagne": {
-      "id": "id-campagne",
-      "titre": "Votre expérience sur l'application",
-      "description": "Donnez nous votre avis",
-      "questions": [
-        {
-          "id": 1,
-          "libelle": "la question ?",
-          "options": [
-            {
-              "id": 1,
-              "libelle": "Non, pas du tout"
-            }
-          ]
-        }
-      ]
-    }
+    ]
   },
   "dateDerniereMiseAJour": "2023-01-01T00:00:00.000Z"
 }

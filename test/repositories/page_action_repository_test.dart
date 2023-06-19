@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -27,20 +26,6 @@ void main() {
         test('result should be valid', () {
           sut.expectResult<PageActions?>((result) {
             expect(result, isNotNull);
-            expect(result?.campagne, isNotNull);
-            expect(
-              result?.campagne,
-              Campagne(
-                id: "id-campagne",
-                titre: "Votre expérience sur l'application",
-                description: "Donnez nous votre avis",
-                questions: [
-                  Question(id: 1, libelle: "la question ?", options: [
-                    Option(id: 1, libelle: "Non, pas du tout"),
-                  ])
-                ],
-              ),
-            );
             expect(result?.actions, isNotNull);
             expect(result?.actions.length, 2);
             expect(
