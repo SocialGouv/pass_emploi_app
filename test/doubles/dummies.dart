@@ -363,7 +363,7 @@ class DummyAgendaRepository extends AgendaRepository {
 }
 
 class DummySuggestionsRechercheRepository extends SuggestionsRechercheRepository {
-  DummySuggestionsRechercheRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummySuggestionsRechercheRepository() : super(DioMock(), DummyPassEmploiCacheManager());
 }
 
 class DummyEventListRepository extends EventListRepository {

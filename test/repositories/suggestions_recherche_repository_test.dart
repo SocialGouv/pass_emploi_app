@@ -6,14 +6,14 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 
 import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
-import '../dsl/sut_repository.dart';
+import '../dsl/sut_repository2.dart';
 
 void main() {
   var cacheManager = SpyPassEmploiCacheManager();
   setUp(() => cacheManager = SpyPassEmploiCacheManager());
 
-  final sut = RepositorySut<SuggestionsRechercheRepository>();
-  sut.givenRepository((client) => SuggestionsRechercheRepository("BASE_URL", client, cacheManager));
+  final sut = RepositorySut2<SuggestionsRechercheRepository>();
+  sut.givenRepository((client) => SuggestionsRechercheRepository(client, cacheManager));
 
   group('getSuggestions', () {
     sut.when((repository) => repository.getSuggestions("UID"));
@@ -23,8 +23,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "GET",
-          url: "BASE_URL/jeunes/UID/recherches/suggestions?avecDiagoriente=true",
+          method: HttpMethod.get,
+          url: "/jeunes/UID/recherches/suggestions?avecDiagoriente=true",
         );
       });
 
@@ -58,8 +58,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "POST",
-          url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
+          method: HttpMethod.post,
+          url: "/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
         );
       });
 
@@ -100,8 +100,8 @@ void main() {
 
     test('request should be valid when location and rayon are not null', () async {
       await sut.expectRequestBody(
-          method: "POST",
-          url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
+          method: HttpMethod.post,
+          url: "/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
           jsonBody: {
             'location': {'libelle': 'Paris', 'code': '75', 'type': 'DEPARTEMENT', 'latitude': 1.0, 'longitude': 2.0},
             'rayon': 10.0
@@ -118,8 +118,8 @@ void main() {
     );
     test('request should be valid when location is null', () async {
       await sut.expectRequestBody(
-        method: "POST",
-        url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
+        method: HttpMethod.post,
+        url: "/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
       );
     });
   });
@@ -132,8 +132,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "POST",
-          url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/refuser",
+          method: HttpMethod.post,
+          url: "/jeunes/USERID/recherches/suggestions/SUGGID/refuser",
         );
       });
 

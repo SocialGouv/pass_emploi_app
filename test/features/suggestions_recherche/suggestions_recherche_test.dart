@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
+import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -48,7 +49,7 @@ Matcher _shouldSucceed() {
 }
 
 class SuggestionsRechercheRepositorySuccessStub extends SuggestionsRechercheRepository {
-  SuggestionsRechercheRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  SuggestionsRechercheRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<SuggestionRecherche>?> getSuggestions(String userId) async {
@@ -57,7 +58,7 @@ class SuggestionsRechercheRepositorySuccessStub extends SuggestionsRechercheRepo
 }
 
 class SuggestionsRechercheRepositoryErrorStub extends SuggestionsRechercheRepository {
-  SuggestionsRechercheRepositoryErrorStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  SuggestionsRechercheRepositoryErrorStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<SuggestionRecherche>?> getSuggestions(String userId) async {
