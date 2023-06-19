@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
-import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/campagne_question_answer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -12,46 +12,51 @@ import 'package:redux/redux.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 import '../../utils/test_setup.dart';
+import '../accueil/accueil_test.dart';
 
 void main() {
   group('Campagne retrieval', () {
-//TODO: test campagne redux loop
+    final sut = StoreSut();
 
-    // test('On Milo user, campagne should be fetched and displayed if any', () async {
-    //   // Given
-    //   final testStoreFactory = TestStoreFactory();
-    //   final repository = PageActionRepositorySuccessStub();
-    //   repository.withCampagne(campagne('id-campagne'));
-    //   testStoreFactory.pageActionRepository = repository;
-    //   final store = testStoreFactory.initializeReduxStore(initialState: loggedInMiloState());
-    //   final successAppState = store.onChange.firstWhere((e) => e.campagneState.campagne != null);
+    group("when requesting", () {
+      sut.when(() => AccueilRequestAction());
 
-    //   // When
-    //   await store.dispatch(UserActionListRequestAction());
+      test('should succeed when request succeed for milo', () {
+        sut.givenStore = givenState() //
+            .loggedInMiloUser()
+            .store((f) => {f.accueilRepository = AccueilRepositorySuccessStub()});
 
-    //   // Then
-    //   final appState = await successAppState;
-    //   expect(appState.campagneState.campagne!.id, 'id-campagne');
-    // });
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldHaveCampagne()]);
+      });
 
-    // test('On Pôle Emploi user, campagne should be fetched and displayed if any', () async {
-    //   // Given
-    //   final testStoreFactory = TestStoreFactory();
-    //   final repository = PageDemarcheRepositorySuccessStub();
-    //   repository.withCampagne(campagne('id-campagne'));
-    //   testStoreFactory.pageDemarcheRepository = repository;
-    //   final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
-    //   final successAppState = store.onChange.firstWhere((e) => e.campagneState.campagne != null);
+      test('should fail when request fail for milo', () {
+        sut.givenStore = givenState() //
+            .loggedInMiloUser()
+            .store((f) => {f.accueilRepository = AccueilRepositoryErrorStub()});
 
-    //   // When
-    //   await store.dispatch(DemarcheListRequestAction());
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldNotHaveCampagne()]);
+      });
 
-    //   // Then
-    //   final appState = await successAppState;
-    //   expect(appState.campagneState.campagne!.id, 'id-campagne');
-    // });
+      test('should succeed when request succeed for PoleEmploi', () {
+        sut.givenStore = givenState() //
+            .loggedInPoleEmploiUser()
+            .store((f) => {f.accueilRepository = AccueilRepositorySuccessStub()});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldHaveCampagne()]);
+      });
+
+      test('should fail when request fail for PoleEmploi', () {
+        sut.givenStore = givenState() //
+            .loggedInPoleEmploiUser()
+            .store((f) => {f.accueilRepository = AccueilRepositoryErrorStub()});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldNotHaveCampagne()]);
+      });
+    });
   });
 
   group('Campagne results', () {
@@ -186,5 +191,19 @@ Campagne mockCampagne() {
         ],
       )
     ],
+  );
+}
+Matcher _shouldLoad() => StateIs<AccueilLoadingState>((state) => state.accueilState);
+
+Matcher _shouldHaveCampagne() {
+  return StateMatch(
+    (state) => state.campagneState.campagne != null,
+    (state) => expect(state.campagneState.campagne, mockCampagne()),
+  );
+}
+
+Matcher _shouldNotHaveCampagne() {
+  return StateMatch(
+    (state) => state.campagneState.campagne == null,
   );
 }
