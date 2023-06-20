@@ -1,20 +1,17 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/put_configuration_application.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 
 class ConfigurationApplicationRepository {
-  final String _baseUrl;
-  final Client _httpClient;
+  final Dio _httpClient;
   final FirebaseInstanceIdGetter _firebaseInstanceIdGetter;
-
   final PushNotificationManager _pushNotificationManager;
   final Crashlytics? _crashlytics;
 
   ConfigurationApplicationRepository(
-    this._baseUrl,
     this._httpClient,
     this._firebaseInstanceIdGetter,
     this._pushNotificationManager, [
@@ -22,7 +19,7 @@ class ConfigurationApplicationRepository {
   ]);
 
   Future<void> configureApplication(String userId, String fuseauHoraire) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/configuration-application");
+    final url = "/jeunes/$userId/configuration-application";
 
     try {
       final token = await _pushNotificationManager.getToken();
@@ -32,14 +29,14 @@ class ConfigurationApplicationRepository {
 
       await _httpClient.put(
         url,
-        headers: {'X-InstanceId': firebaseInstanceId},
-        body: customJsonEncode(PutConfigurationApplication(
+        options: Options(headers: {'X-InstanceId': firebaseInstanceId}),
+        data: customJsonEncode(PutConfigurationApplication(
           token: token,
           fuseauHoraire: fuseauHoraire,
         )),
       );
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
   }
 }

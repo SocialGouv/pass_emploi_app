@@ -85,13 +85,7 @@ class DummyPushNotificationManager extends PushNotificationManager {
 }
 
 class DummyRegisterTokenRepository extends ConfigurationApplicationRepository {
-  DummyRegisterTokenRepository()
-      : super(
-          "",
-          DummyHttpClient(),
-          DummyFirebaseInstanceIdGetter(),
-          DummyPushNotificationManager(),
-        );
+  DummyRegisterTokenRepository() : super(DioMock(), DummyFirebaseInstanceIdGetter(), DummyPushNotificationManager());
 
   @override
   Future<void> configureApplication(String userId, String fuseauHoraire) async {}
@@ -311,7 +305,7 @@ class DummyUpdateDemarcheRepository extends UpdateDemarcheRepository {
 }
 
 class DummyPieceJointeRepository extends PieceJointeRepository {
-  DummyPieceJointeRepository() : super(DioMock(), PieceJointeSaverMock());
+  DummyPieceJointeRepository() : super(DioMock(), MockPieceJointeSaver());
 }
 
 class DummyTutorialRepository extends TutorialRepository {

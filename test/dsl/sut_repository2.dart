@@ -136,10 +136,15 @@ class RepositorySut2<REPO> {
         break;
       case HttpMethod.put:
         final captured = mocktail
-            .verify(() => _client.put(mocktail.captureAny(), data: mocktail.captureAny(named: "data")))
+            .verify(() => _client.put(
+                  mocktail.captureAny(),
+                  data: mocktail.captureAny(named: "data"),
+                  options: mocktail.captureAny(named: "options"),
+                ))
             .captured;
         capturedUrl = captured[0];
         capturedData = captured[1];
+        capturedOptions = captured[2];
         break;
       case HttpMethod.delete:
         capturedUrl = mocktail.verify(() => _client.delete(mocktail.captureAny())).captured.last;

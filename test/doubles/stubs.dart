@@ -291,7 +291,7 @@ class SuppressionCompteRepositoryFailureStub extends SuppressionCompteRepository
 }
 
 class PieceJointeRepositorySuccessStub extends PieceJointeRepository {
-  PieceJointeRepositorySuccessStub() : super(DioMock(), PieceJointeSaverMock());
+  PieceJointeRepositorySuccessStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
   Future<String?> download({required String fileId, required String fileName}) async {
@@ -300,7 +300,7 @@ class PieceJointeRepositorySuccessStub extends PieceJointeRepository {
 }
 
 class PieceJointeRepositoryFailureStub extends PieceJointeRepository {
-  PieceJointeRepositoryFailureStub() : super(DioMock(), PieceJointeSaverMock());
+  PieceJointeRepositoryFailureStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
   Future<String?> download({required String fileId, required String fileName}) async {
@@ -309,7 +309,7 @@ class PieceJointeRepositoryFailureStub extends PieceJointeRepository {
 }
 
 class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
-  PieceJointeRepositoryUnavailableStub() : super(DioMock(), PieceJointeSaverMock());
+  PieceJointeRepositoryUnavailableStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
   Future<String?> download({required String fileId, required String fileName}) async {

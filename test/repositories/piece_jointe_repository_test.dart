@@ -9,7 +9,7 @@ import '../dsl/sut_repository2.dart';
 import '../utils/expects.dart';
 
 void main() {
-  final saverMock = PieceJointeSaverMock();
+  final saverMock = MockPieceJointeSaver();
   final sut = RepositorySut2<PieceJointeRepository>();
   sut.givenRepository((client) => PieceJointeRepository(client, saverMock));
 
@@ -51,10 +51,10 @@ void main() {
       });
     });
 
-    group('when response is invalid', () {
+    group('when response is not found', () {
       sut.givenResponseCode(404);
 
-      test('response should be null', () async {
+      test('response should be path not found', () async {
         await sut.expectResult<String?>((path) => expect(path, Strings.fileNotAvailableError));
       });
     });
