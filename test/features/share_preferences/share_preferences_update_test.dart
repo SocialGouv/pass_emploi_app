@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:redux/src/store.dart';
 
+import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../dsl/app_state_dsl.dart';
 
@@ -66,7 +67,7 @@ Store<AppState> _failureStoreWithLoadedPartageActivite() {
 }
 
 class PartageActiviteRepositorySuccessStub extends PartageActiviteRepository {
-  PartageActiviteRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  PartageActiviteRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> updatePartageActivite(String userId, bool isShare) async {
@@ -75,7 +76,7 @@ class PartageActiviteRepositorySuccessStub extends PartageActiviteRepository {
 }
 
 class PartageActiviteRepositoryFailureStub extends PartageActiviteRepository {
-  PartageActiviteRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  PartageActiviteRepositoryFailureStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> updatePartageActivite(String userId, bool isShare) async {
