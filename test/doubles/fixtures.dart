@@ -231,6 +231,51 @@ Location mockCommuneLocation({double? lat, double? lon, String label = ""}) => L
       longitude: lon,
     );
 
+List<Location> mockLocations() {
+  return [
+    Location(
+      libelle: "Paris",
+      code: "75",
+      type: LocationType.DEPARTMENT,
+      codePostal: null,
+      latitude: null,
+      longitude: null,
+    ),
+    Location(
+      libelle: "PARIS 14",
+      code: "75114",
+      type: LocationType.COMMUNE,
+      codePostal: "75014",
+      latitude: 48.830108,
+      longitude: 2.323026,
+    ),
+    Location(
+      libelle: "PARIS 19",
+      code: "75119",
+      type: LocationType.COMMUNE,
+      codePostal: "75019",
+      latitude: 48.887252,
+      longitude: 2.387708,
+    ),
+    Location(
+      libelle: "PARIS 07",
+      code: "75107",
+      type: LocationType.COMMUNE,
+      codePostal: "75007",
+      latitude: 48.859,
+      longitude: 2.347,
+    ),
+    Location(
+      libelle: "PARIS 09",
+      code: "75109",
+      type: LocationType.COMMUNE,
+      codePostal: "75009",
+      latitude: 48.859,
+      longitude: 2.347,
+    ),
+  ];
+}
+
 Immersion mockImmersion({String id = "", bool fromEntrepriseAccueillante = false}) {
   return Immersion(
     id: id,

@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
@@ -82,7 +82,7 @@ void main() {
 }
 
 class SearchLocationRepositorySuccessStub extends SearchLocationRepository {
-  SearchLocationRepositorySuccessStub() : super("", DummyHttpClient());
+  SearchLocationRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<List<Location>> getLocations({required String userId, required String query, bool villesOnly = false}) async {
@@ -95,7 +95,7 @@ class SearchLocationRepositorySpy extends SearchLocationRepository {
   bool getLocationsHasBeenCalled = false;
   bool getLocationsHasBeenCalledWithVillesOnly = false;
 
-  SearchLocationRepositorySpy() : super("", DummyHttpClient());
+  SearchLocationRepositorySpy() : super(DioMock());
 
   @override
   Future<List<Location>> getLocations({required String userId, required String query, bool villesOnly = false}) async {

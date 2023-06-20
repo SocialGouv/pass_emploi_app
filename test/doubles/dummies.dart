@@ -188,7 +188,7 @@ class DummyOffreEmploiFavorisRepository extends OffreEmploiFavorisRepository {
 }
 
 class DummySearchLocationRepository extends SearchLocationRepository {
-  DummySearchLocationRepository() : super("", DummyHttpClient());
+  DummySearchLocationRepository() : super(DioMock());
 }
 
 class DummyFirebaseAuthRepository extends FirebaseAuthRepository {
