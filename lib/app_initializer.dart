@@ -239,7 +239,7 @@ class AppInitializer {
       ImmersionSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       GetSavedSearchRepository(baseUrl, httpClient, crashlytics),
-      SavedSearchDeleteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      SavedSearchDeleteRepository(dioClient, requestCacheManager, crashlytics),
       ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, crashlytics),
       DetailsJeuneRepository(dioClient, crashlytics),

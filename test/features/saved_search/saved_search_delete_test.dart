@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 
+import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
@@ -100,7 +101,7 @@ SavedSearch _mockSavedSearch() {
 }
 
 class SavedSearchDeleteRepositorySuccessStub extends SavedSearchDeleteRepository {
-  SavedSearchDeleteRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  SavedSearchDeleteRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> delete(String userId, String savedSearchId) async {
@@ -110,7 +111,7 @@ class SavedSearchDeleteRepositorySuccessStub extends SavedSearchDeleteRepository
 }
 
 class SavedSearchDeleteRepositoryFailureStub extends SavedSearchDeleteRepository {
-  SavedSearchDeleteRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  SavedSearchDeleteRepositoryFailureStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> delete(String userId, String savedSearchId) async => false;
