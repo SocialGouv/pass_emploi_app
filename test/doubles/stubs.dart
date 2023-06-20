@@ -27,6 +27,7 @@ import 'package:synchronized/synchronized.dart';
 import 'dio_mock.dart';
 import 'dummies.dart';
 import 'fixtures.dart';
+import 'mocks.dart';
 import 'spies.dart';
 
 class PageActionRepositorySuccessStub extends PageActionRepository {
@@ -290,7 +291,7 @@ class SuppressionCompteRepositoryFailureStub extends SuppressionCompteRepository
 }
 
 class PieceJointeRepositorySuccessStub extends PieceJointeRepository {
-  PieceJointeRepositorySuccessStub() : super("", DummyHttpClient());
+  PieceJointeRepositorySuccessStub() : super(DioMock(), PieceJointeSaverMock());
 
   @override
   Future<String?> download({required String fileId, required String fileName}) async {
@@ -299,7 +300,7 @@ class PieceJointeRepositorySuccessStub extends PieceJointeRepository {
 }
 
 class PieceJointeRepositoryFailureStub extends PieceJointeRepository {
-  PieceJointeRepositoryFailureStub() : super("", DummyHttpClient());
+  PieceJointeRepositoryFailureStub() : super(DioMock(), PieceJointeSaverMock());
 
   @override
   Future<String?> download({required String fileId, required String fileName}) async {
@@ -308,7 +309,7 @@ class PieceJointeRepositoryFailureStub extends PieceJointeRepository {
 }
 
 class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
-  PieceJointeRepositoryUnavailableStub() : super("", DummyHttpClient());
+  PieceJointeRepositoryUnavailableStub() : super(DioMock(), PieceJointeSaverMock());
 
   @override
   Future<String?> download({required String fileId, required String fileName}) async {

@@ -35,6 +35,10 @@ class RepositorySut2<REPO> {
     givenResponse(() => Response(requestOptions: _makeRequestOptions(), statusCode: code, data: data()));
   }
 
+  void givenBytesResponse(List<int> bytes) {
+    givenResponse(() => Response(requestOptions: _makeRequestOptions(), data: bytes, statusCode: 200));
+  }
+
   void givenThrowingExceptionResponse() {
     givenResponse(() => throw Exception());
   }

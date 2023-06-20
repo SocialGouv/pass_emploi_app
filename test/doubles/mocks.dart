@@ -4,8 +4,11 @@ import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_r
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+
+import 'dio_mock.dart';
 
 class MockGetFavorisRepository extends Mock implements GetFavorisRepository {}
 
@@ -22,3 +25,16 @@ class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
 class MockSecteurActiviteQueryMapper extends Mock implements SecteurActiviteQueryMapper {}
 
 class MockEvenementEmploiTypeQueryMapper extends Mock implements EvenementEmploiTypeQueryMapper {}
+
+class PieceJointeSaverMock extends Mock implements PieceJointeSaver {
+  void mockSaveFile() {
+    registerFallbackValue(DioFakeResponse());
+    when(
+      () => saveFile(
+        fileName: any(named: "fileName"),
+        fileId: any(named: "fileId"),
+        response: any(named: "response"),
+      ),
+    ).thenAnswer((_) async => "saved_path");
+  }
+}

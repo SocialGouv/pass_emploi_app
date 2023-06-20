@@ -311,7 +311,7 @@ class DummyUpdateDemarcheRepository extends UpdateDemarcheRepository {
 }
 
 class DummyPieceJointeRepository extends PieceJointeRepository {
-  DummyPieceJointeRepository() : super("", DummyHttpClient());
+  DummyPieceJointeRepository() : super(DioMock(), PieceJointeSaverMock());
 }
 
 class DummyTutorialRepository extends TutorialRepository {
