@@ -80,23 +80,23 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
             top: Margins.spacing_base,
             right: Margins.spacing_base,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              BlocCriteresRecherche<Result>(
-                rechercheState: widget.rechercheState,
-                buildCriteresContentWidget: widget.buildCriteresContentWidget,
-              ),
-              Expanded(
-                child: BlocResultatRecherche<Result>(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                BlocCriteresRecherche<Result>(
+                  rechercheState: widget.rechercheState,
+                  buildCriteresContentWidget: widget.buildCriteresContentWidget,
+                ),
+                BlocResultatRecherche<Result>(
                   listResultatKey: _listResultatKey,
                   rechercheState: widget.rechercheState,
                   favorisState: widget.favorisState,
                   buildResultItem: widget.buildResultItem,
                   analyticsType: widget.analyticsType(),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

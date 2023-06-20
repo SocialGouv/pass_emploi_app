@@ -32,7 +32,7 @@ class _ImageAndText extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Flexible(child: SvgPicture.asset(Drawables.emptyOffresIllustration)),
+        SvgPicture.asset(Drawables.emptyOffresIllustration),
         _TextOnly(message),
       ],
     );
