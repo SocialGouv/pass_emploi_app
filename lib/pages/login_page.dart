@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
@@ -28,6 +29,7 @@ class LoginPage extends StatelessWidget {
       child: StoreConnector<AppState, LoginViewModel>(
         converter: (store) => LoginViewModel.create(store),
         distinct: true,
+        onWillChange: _onWillChange,
         builder: (context, viewModel) => _content(viewModel, context),
       ),
     );
@@ -96,20 +98,18 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _body(LoginViewModel viewModel, BuildContext context) {
-    switch (viewModel.displayState) {
-      case DisplayState.LOADING:
-        return Center(child: CircularProgressIndicator());
-      case DisplayState.FAILURE:
-        return _failure(viewModel, context);
-      default:
-        return Column(
+    return switch (viewModel.displayState) {
+      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+      DisplayState.FAILURE => _failure(viewModel, context),
+      _ => Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [..._loginButtons(viewModel, context)],
-        );
-    }
+        )
+    };
   }
 
-  Column _failure(LoginViewModel viewModel, BuildContext context) {
+  Widget _failure(LoginViewModel viewModel, BuildContext context) {
+    _trackLoginResult(successful: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -136,6 +136,19 @@ class LoginPage extends StatelessWidget {
       label: viewModel.label,
       onPressed: viewModel.action,
       backgroundColor: viewModel.backgroundColor,
+    );
+  }
+
+  void _onWillChange(LoginViewModel? previousVM, LoginViewModel newVM) {
+    if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
+      _trackLoginResult(successful: true);
+    }
+  }
+
+  void _trackLoginResult({required bool successful}){
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.webAuthPageEventCategory,
+      action: successful ? AnalyticsEventNames.webAuthPageSuccessAction : AnalyticsEventNames.webAuthPageErrorAction,
     );
   }
 }
