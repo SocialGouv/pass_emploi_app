@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_rep
 import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 
+import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
@@ -199,7 +200,7 @@ class ServiceCiviqueSavedSearchRepositoryFailureStub extends ServiceCiviqueSaved
 }
 
 class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
-  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyCrashlytics());
+  SavedSearchRepositorySuccessStub() : super(DioMock(), DummyCrashlytics());
 
   @override
   Future<List<ServiceCiviqueSavedSearch>?> getSavedSearch(String userId) async {
@@ -208,7 +209,7 @@ class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
 }
 
 class SavedSearchRepositoryFailureStub extends GetSavedSearchRepository {
-  SavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyCrashlytics());
+  SavedSearchRepositoryFailureStub() : super(DioMock(), DummyCrashlytics());
 
   @override
   Future<List<ServiceCiviqueSavedSearch>?> getSavedSearch(String userId) async {

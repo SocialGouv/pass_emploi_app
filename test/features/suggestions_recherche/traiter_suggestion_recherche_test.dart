@@ -176,7 +176,7 @@ class SuggestionsRechercheRepositoryStub extends SuggestionsRechercheRepository 
 }
 
 class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
-  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyCrashlytics());
+  SavedSearchRepositorySuccessStub() : super(DioMock(), DummyCrashlytics());
 
   @override
   Future<List<SavedSearch>?> getSavedSearch(String userId) async {

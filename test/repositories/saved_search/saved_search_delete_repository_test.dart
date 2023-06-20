@@ -21,7 +21,7 @@ void main() {
           );
         });
 
-        test('response should be valid', () async {
+        test('response should be true', () async {
           await sut.expectTrueAsResult();
         });
       });
@@ -29,7 +29,7 @@ void main() {
       group('when response is invalid', () {
         sut.givenResponseCode(500);
 
-        test('response should be null', () async {
+        test('response should be false', () async {
           await sut.expectFalseAsResult();
         });
       });

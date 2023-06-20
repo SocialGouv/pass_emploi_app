@@ -249,7 +249,7 @@ class DummyServiceCiviqueSavedSearchRepository extends ServiceCiviqueSavedSearch
 }
 
 class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
-  DummyGetSavedSearchRepository() : super("", DummyHttpClient(), null);
+  DummyGetSavedSearchRepository() : super(DioMock(), null);
 }
 
 class DummySavedSearchDeleteRepository extends SavedSearchDeleteRepository {

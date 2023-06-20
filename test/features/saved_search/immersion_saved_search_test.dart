@@ -300,7 +300,7 @@ class ImmersionSavedSearchRepositoryFailureStub extends ImmersionSavedSearchRepo
 }
 
 class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
-  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyCrashlytics());
+  SavedSearchRepositorySuccessStub() : super(DioMock(), DummyCrashlytics());
 
   @override
   Future<List<ImmersionSavedSearch>?> getSavedSearch(String userId) async {
@@ -309,7 +309,7 @@ class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
 }
 
 class SavedSearchRepositoryFailureStub extends GetSavedSearchRepository {
-  SavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyCrashlytics());
+  SavedSearchRepositoryFailureStub() : super(DioMock(), DummyCrashlytics());
 
   @override
   Future<List<ImmersionSavedSearch>?> getSavedSearch(String userId) async {
