@@ -251,7 +251,7 @@ class AppInitializer {
       DetailsJeuneRepository(dioClient, crashlytics),
       SuppressionCompteRepository(dioClient, crashlytics),
       modeDemoRepository,
-      CampagneRepository(baseUrl, httpClient, crashlytics),
+      CampagneRepository(dioClient, crashlytics),
       matomoTracker,
       UpdateDemarcheRepository(dioClient, crashlytics),
       CreateDemarcheRepository(dioClient, crashlytics),

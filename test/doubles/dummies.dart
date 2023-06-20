@@ -303,7 +303,7 @@ class DummySuppressionCompteRepository extends SuppressionCompteRepository {
 }
 
 class DummyCampagneRepository extends CampagneRepository {
-  DummyCampagneRepository() : super("", DummyHttpClient());
+  DummyCampagneRepository() : super(DioMock());
 }
 
 class DummyUpdateDemarcheRepository extends UpdateDemarcheRepository {

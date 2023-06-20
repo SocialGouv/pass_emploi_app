@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:redux/redux.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -153,7 +153,7 @@ class CampagneRepositoryStub extends CampagneRepository {
   String? _campagneId;
   List<CampagneQuestionAnswer>? _updatedAnswers;
 
-  CampagneRepositoryStub() : super("", DummyHttpClient());
+  CampagneRepositoryStub() : super(DioMock());
 
   @override
   Future<void> postAnswers(String userId, String campagneId, List<CampagneQuestionAnswer> updatedAnswers) async {

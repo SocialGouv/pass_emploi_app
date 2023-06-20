@@ -94,7 +94,7 @@ class RepositorySut2<REPO> {
   Future<void> expectRequestBody({
     required HttpMethod method,
     required String url,
-    Map<String, dynamic>? jsonBody,
+    dynamic jsonBody,
     Object? rawBody,
     Map<String, dynamic>? queryParameters,
     Options? options,
