@@ -240,7 +240,7 @@ class AppInitializer {
       ImmersionDetailsRepository(dioClient, crashlytics),
       FirebaseAuthRepository(dioClient, crashlytics),
       FirebaseAuthWrapper(),
-      TrackingEventRepository(baseUrl, httpClient, crashlytics),
+      TrackingEventRepository(dioClient, crashlytics),
       OffreEmploiSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ImmersionSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),

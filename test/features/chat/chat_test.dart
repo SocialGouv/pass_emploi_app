@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 
+import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
@@ -262,7 +263,7 @@ Message _mockMessage([String id = '1']) {
 class _MockTrackingEventRepository extends TrackingEventRepository {
   bool isCalled = false;
 
-  _MockTrackingEventRepository() : super('', DummyHttpClient());
+  _MockTrackingEventRepository() : super(DioMock());
 
   @override
   Future<bool> sendEvent({required String userId, required EventType event, required LoginMode loginMode}) async {

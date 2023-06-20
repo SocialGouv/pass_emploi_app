@@ -235,7 +235,7 @@ class NotInitializedDummyChatCrypto extends ChatCrypto {
 }
 
 class DummyTrackingEventRepository extends TrackingEventRepository {
-  DummyTrackingEventRepository() : super("", DummyHttpClient());
+  DummyTrackingEventRepository() : super(DioMock());
 }
 
 class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
