@@ -338,6 +338,27 @@ ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
 
 List<ServiceCivique> mockOffresServiceCivique10() => List.generate(10, (index) => mockServiceCivique());
 
+List<ServiceCivique> mockOffresServiceCiviqueAccompagnementInsertion() {
+  return [
+    ServiceCivique(
+      id: "61dd6f4cd016777c442bd8c7",
+      title: "Accompagnement des publics individuels",
+      companyName: "SYNDICAT MIXTE DU CHATEAU DE VALENCAY",
+      location: "Valençay",
+      startDate: "2021-12-01T00:00:00.000Z",
+      domain: "solidarite-insertion",
+    ),
+    ServiceCivique(
+      id: "61dd6f4ad016777c442bd8c5",
+      title: "Accompagnement des publics groupes",
+      companyName: "SYNDICAT MIXTE DU CHATEAU DE VALENCAY",
+      location: "Valençay",
+      startDate: "2021-12-01T00:00:00.000Z",
+      domain: "solidarite-insertion",
+    ),
+  ];
+}
+
 ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
       id: "123DXPM",
       dateDeDebut: '17/02/2022',
@@ -864,6 +885,15 @@ RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche
   return RechercheRequest(
     ServiceCiviqueCriteresRecherche(location: null),
     ServiceCiviqueFiltresRecherche.noFiltre(),
+    1,
+  );
+}
+
+RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>
+    mockRechercheServiceCiviqueRequestWithFiltres() {
+  return RechercheRequest(
+    ServiceCiviqueCriteresRecherche(location: null),
+    ServiceCiviqueFiltresRecherche(distance: 500, startDate: DateTime(2023), domain: Domaine.all),
     1,
   );
 }

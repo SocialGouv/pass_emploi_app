@@ -170,7 +170,7 @@ void main() {
 }
 
 class ServiceCiviqueRepositorySuccessStub extends ServiceCiviqueRepository {
-  ServiceCiviqueRepositorySuccessStub() : super('', DummyHttpClient());
+  ServiceCiviqueRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<RechercheResponse<ServiceCivique>?> rechercher({
