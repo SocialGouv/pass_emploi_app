@@ -1,6 +1,4 @@
 import 'package:clock/clock.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
@@ -109,10 +107,6 @@ AppState loggedInState() => AppState.initialState().copyWith(loginState: success
 AppState loggedInMiloState() => AppState.initialState().copyWith(loginState: successMiloUserState());
 
 AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
-
-Response invalidHttpResponse({String message = ""}) => Response(message, 500);
-
-HttpExceptionWithStatus deletedOfferHttpResponse() => throw HttpExceptionWithStatus(404, "Offer was delete");
 
 OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       id: "123TZKB",

@@ -1,7 +1,5 @@
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
@@ -70,11 +68,6 @@ import 'dio_mock.dart';
 import 'dummies_for_cache.dart';
 import 'fixtures.dart';
 import 'mocks.dart';
-
-// ignore: ban-name, no need to use PassEmploiMockClient here
-class DummyHttpClient extends MockClient {
-  DummyHttpClient() : super((request) async => Response("", 200));
-}
 
 class DummyPushNotificationManager extends PushNotificationManager {
   @override

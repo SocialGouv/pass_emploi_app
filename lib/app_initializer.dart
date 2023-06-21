@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -10,9 +9,6 @@ import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
-import 'package:http/io_client.dart';
-import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/auth/auth_access_checker.dart';
 import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
@@ -23,19 +19,13 @@ import 'package:pass_emploi_app/configuration/app_version_checker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
-import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
-import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/auth_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/cache_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/demo_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/expired_token_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
@@ -189,16 +179,6 @@ class AppInitializer {
     final requestCacheManager = PassEmploiCacheManager.requestCache(configuration.serverBaseUrl);
     final modeDemoRepository = ModeDemoRepository();
     final installationIdRepository = InstallationIdRepository(securedPreferences);
-    final monitoringInterceptor = MonitoringInterceptor(installationIdRepository);
-    final httpClient = _makeHttpClient(
-      modeDemoRepository,
-      accessTokenRetriever,
-      requestCacheManager,
-      authAccessChecker,
-      monitoringInterceptor,
-      crashlytics,
-      configuration,
-    );
     final baseUrl = configuration.serverBaseUrl;
     final monitoringDioInterceptor = MonitoringDioInterceptor(installationIdRepository);
     final dioClient = _makeDioClient(
@@ -272,7 +252,6 @@ class AppInitializer {
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
-    monitoringInterceptor.setStore(reduxStore);
     monitoringDioInterceptor.setStore(reduxStore);
     chatCrypto.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
@@ -296,36 +275,5 @@ class AppInitializer {
     dioClient.interceptors.add(LoggingNetworkDioInterceptor());
     dioClient.interceptors.add(ExpiredTokenDioInterceptor(authAccessChecker));
     return dioClient;
-  }
-
-  Client _makeHttpClient(
-    ModeDemoRepository modeDemoRepository,
-    AuthAccessTokenRetriever accessTokenRetriever,
-    PassEmploiCacheManager requestCacheManager,
-    AuthAccessChecker authAccessChecker,
-    MonitoringInterceptor monitoringInterceptor,
-    CrashlyticsWithFirebase crashlytics,
-    Configuration configuration,
-  ) {
-    final defaultContext = SecurityContext.defaultContext;
-    try {
-      defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
-    } catch (e, stack) {
-      crashlytics.recordNonNetworkException(e, stack);
-    }
-    final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
-    final modeDemoClient = ModeDemoClient(
-      modeDemoRepository,
-      HttpClientWithCache(requestCacheManager, clientWithCertificate),
-    );
-    return InterceptedClient.build(
-      client: modeDemoClient,
-      interceptors: [
-        monitoringInterceptor,
-        AccessTokenInterceptor(accessTokenRetriever, modeDemoRepository),
-        LogoutInterceptor(authAccessChecker),
-        LoggingInterceptor(),
-      ],
-    );
   }
 }

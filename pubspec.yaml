@@ -33,8 +33,6 @@ dependencies:
   webview_flutter: "4.0.5"
   # Dart
   dio: "5.1.0"
-  http: "0.13.5"
-  http_interceptor: "1.0.2"
   intl: "0.18.0"
   collection: "1.17.1"
   equatable: "2.0.3"

@@ -638,21 +638,13 @@ packages:
     source: hosted
     version: "0.15.2"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
       url: "https://pub.dev"
     source: hosted
     version: "0.13.5"
-  http_interceptor:
-    dependency: "direct main"
-    description:
-      name: http_interceptor
-      sha256: "5f3dde028e67789339c250252c09510a74aff21ce16b06d07d9096bda6582bab"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   http_multi_server:
     dependency: transitive
     description:
