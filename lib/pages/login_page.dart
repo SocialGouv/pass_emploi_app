@@ -109,7 +109,6 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _failure(LoginViewModel viewModel, BuildContext context) {
-    _trackLoginResult(successful: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -140,12 +139,12 @@ class LoginPage extends StatelessWidget {
   }
 
   void _onWillChange(LoginViewModel? previousVM, LoginViewModel newVM) {
-    if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
-      _trackLoginResult(successful: true);
-    }
+    if (previousVM?.displayState != DisplayState.LOADING) return;
+    if (newVM.displayState == DisplayState.CONTENT) _trackLoginResult(successful: true);
+    if (newVM.displayState == DisplayState.FAILURE) _trackLoginResult(successful: false);
   }
 
-  void _trackLoginResult({required bool successful}){
+  void _trackLoginResult({required bool successful}) {
     PassEmploiMatomoTracker.instance.trackEvent(
       eventCategory: AnalyticsEventNames.webAuthPageEventCategory,
       action: successful ? AnalyticsEventNames.webAuthPageSuccessAction : AnalyticsEventNames.webAuthPageErrorAction,
