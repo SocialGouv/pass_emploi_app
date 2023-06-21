@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -181,6 +182,7 @@ class AppInitializer {
     final installationIdRepository = InstallationIdRepository(securedPreferences);
     final baseUrl = configuration.serverBaseUrl;
     final monitoringDioInterceptor = MonitoringDioInterceptor(installationIdRepository);
+    _setTrustedCertificatesForOldDevices(configuration, crashlytics);
     final dioClient = _makeDioClient(
       baseUrl,
       modeDemoRepository,
@@ -275,5 +277,22 @@ class AppInitializer {
     dioClient.interceptors.add(LoggingNetworkDioInterceptor());
     dioClient.interceptors.add(ExpiredTokenDioInterceptor(authAccessChecker));
     return dioClient;
+  }
+
+  /// MUST BE called to make http clients work on older Android devices.
+  /// See: https://stackoverflow.com/questions/69511057/flutter-on-android-7-certificate-verify-failed-with-letsencrypt-ssl-cert-after-s
+  void _setTrustedCertificatesForOldDevices(
+    Configuration configuration,
+    CrashlyticsWithFirebase crashlytics,
+  ) {
+    try {
+      SecurityContext.defaultContext.setTrustedCertificatesBytes(
+        utf8.encode(
+          configuration.iSRGX1CertificateForOldDevices,
+        ),
+      );
+    } catch (e, stack) {
+      crashlytics.recordNonNetworkException(e, stack);
+    }
   }
 }
