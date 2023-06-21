@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<SuppressionCompteRepository>();
+  final sut = DioRepositorySut<SuppressionCompteRepository>();
   sut.givenRepository((client) => SuppressionCompteRepository(client));
 
   group("deleteUser", () {

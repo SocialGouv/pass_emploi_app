@@ -4,11 +4,11 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('ServiceCiviqueRepository', () {
-    final sut = RepositorySut2<ServiceCiviqueRepository>();
+    final sut = DioRepositorySut<ServiceCiviqueRepository>();
     sut.givenRepository((client) => ServiceCiviqueRepository(client));
 
     group('postSavedSearch', () {

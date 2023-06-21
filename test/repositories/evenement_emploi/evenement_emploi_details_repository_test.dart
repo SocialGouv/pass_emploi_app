@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_details
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('EvenementEmploiDetailsRepository', () {
-    final sut = RepositorySut2<EvenementEmploiDetailsRepository>();
+    final sut = DioRepositorySut<EvenementEmploiDetailsRepository>();
     sut.givenRepository((client) => EvenementEmploiDetailsRepository(client));
 
     group('get', () {

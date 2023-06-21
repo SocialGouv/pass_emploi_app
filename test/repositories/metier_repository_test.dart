@@ -3,10 +3,10 @@ import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<MetierRepository>();
+  final sut = DioRepositorySut<MetierRepository>();
   sut.givenRepository((client) => MetierRepository(client));
 
   group('getSuggestions', () {

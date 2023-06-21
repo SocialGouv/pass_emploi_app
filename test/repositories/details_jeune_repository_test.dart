@@ -2,11 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  final sut = RepositorySut2<DetailsJeuneRepository>();
+  final sut = DioRepositorySut<DetailsJeuneRepository>();
   sut.givenRepository((client) => DetailsJeuneRepository(client));
 
   group("fetch", () {

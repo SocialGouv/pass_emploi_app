@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
   group('SearchLocationRepository', () {
-    final sut = RepositorySut2<SearchLocationRepository>();
+    final sut = DioRepositorySut<SearchLocationRepository>();
     sut.givenRepository((client) => SearchLocationRepository(client));
 
     group('getLocations', () {

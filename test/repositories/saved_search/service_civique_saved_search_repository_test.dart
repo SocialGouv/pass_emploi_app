@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('ServiceCiviqueSavedSearchRepository', () {
-    final sut = RepositorySut2<ServiceCiviqueSavedSearchRepository>();
+    final sut = DioRepositorySut<ServiceCiviqueSavedSearchRepository>();
     sut.givenRepository((client) => ServiceCiviqueSavedSearchRepository(client, DummyPassEmploiCacheManager()));
 
     group('postSavedSearch', () {

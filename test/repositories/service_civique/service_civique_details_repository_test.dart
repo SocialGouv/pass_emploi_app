@@ -2,11 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('ServiceCiviqueDetailRepository', () {
-    final sut = RepositorySut2<ServiceCiviqueDetailRepository>();
+    final sut = DioRepositorySut<ServiceCiviqueDetailRepository>();
     sut.givenRepository((client) => ServiceCiviqueDetailRepository(client));
 
     group('getServiceCiviqueDetail', () {

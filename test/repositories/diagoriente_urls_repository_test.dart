@@ -2,11 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
   group('DiagorienteUrlsRepository', () {
-    final sut = RepositorySut2<DiagorienteUrlsRepository>();
+    final sut = DioRepositorySut<DiagorienteUrlsRepository>();
     sut.givenRepository((client) => DiagorienteUrlsRepository(client));
 
     group('get', () {

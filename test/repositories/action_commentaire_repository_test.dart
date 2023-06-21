@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 
 import '../doubles/dummies.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  final sut = RepositorySut2<ActionCommentaireRepository>();
+  final sut = DioRepositorySut<ActionCommentaireRepository>();
   sut.givenRepository((client) => ActionCommentaireRepository(client, DummyPassEmploiCacheManager()));
 
   group("getCommentaires", () {

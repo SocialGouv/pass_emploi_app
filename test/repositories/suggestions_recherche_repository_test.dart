@@ -6,13 +6,13 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 
 import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
   var cacheManager = SpyPassEmploiCacheManager();
   setUp(() => cacheManager = SpyPassEmploiCacheManager());
 
-  final sut = RepositorySut2<SuggestionsRechercheRepository>();
+  final sut = DioRepositorySut<SuggestionsRechercheRepository>();
   sut.givenRepository((client) => SuggestionsRechercheRepository(client, cacheManager));
 
   group('getSuggestions', () {

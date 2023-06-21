@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('ImmersionSavedSearchRepository', () {
-    final sut = RepositorySut2<ImmersionSavedSearchRepository>();
+    final sut = DioRepositorySut<ImmersionSavedSearchRepository>();
     sut.givenRepository((client) => ImmersionSavedSearchRepository(client, DummyPassEmploiCacheManager()));
 
     group('postSavedSearch', () {

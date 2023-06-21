@@ -3,10 +3,10 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 
 import '../../doubles/dummies.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<ImmersionFavorisRepository>();
+  final sut = DioRepositorySut<ImmersionFavorisRepository>();
   sut.givenRepository((client) => ImmersionFavorisRepository(client, DummyPassEmploiCacheManager()));
 
   group("getFavorisId", () {

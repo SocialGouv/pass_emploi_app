@@ -5,12 +5,12 @@ import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 import '../doubles/mocks.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 import '../utils/expects.dart';
 
 void main() {
   final saverMock = MockPieceJointeSaver();
-  final sut = RepositorySut2<PieceJointeRepository>();
+  final sut = DioRepositorySut<PieceJointeRepository>();
   sut.givenRepository((client) => PieceJointeRepository(client, saverMock));
 
   setUp(() {

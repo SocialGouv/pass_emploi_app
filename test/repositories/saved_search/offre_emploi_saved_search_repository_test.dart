@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_sea
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('OffreEmploiSavedSearchRepository', () {
-    final sut = RepositorySut2<OffreEmploiSavedSearchRepository>();
+    final sut = DioRepositorySut<OffreEmploiSavedSearchRepository>();
     sut.givenRepository((client) => OffreEmploiSavedSearchRepository(client, DummyPassEmploiCacheManager()));
 
     void testPostSavedSearch({required bool isAlternance}) {

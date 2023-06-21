@@ -6,10 +6,10 @@ import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<ImmersionDetailsRepository>();
+  final sut = DioRepositorySut<ImmersionDetailsRepository>();
   sut.givenRepository((client) => ImmersionDetailsRepository(client));
 
   group('fetch', () {

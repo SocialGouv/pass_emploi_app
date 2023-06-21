@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/cv_pole_emploi.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
   group('CvRepository', () {
-    final sut = RepositorySut2<CvRepository>();
+    final sut = DioRepositorySut<CvRepository>();
     sut.givenRepository((client) => CvRepository(client));
 
     group('getCvs', () {

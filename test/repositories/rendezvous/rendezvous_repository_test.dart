@@ -6,11 +6,11 @@ import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
-  final sut = RepositorySut2<RendezvousRepository>();
+  final sut = DioRepositorySut<RendezvousRepository>();
   sut.givenRepository((client) => RendezvousRepository(client));
 
   group('getRendezvousList', () {

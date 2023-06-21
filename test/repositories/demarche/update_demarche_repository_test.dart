@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<UpdateDemarcheRepository>();
+  final sut = DioRepositorySut<UpdateDemarcheRepository>();
   sut.givenRepository((client) => UpdateDemarcheRepository(client));
 
   group("updateDemarche", () {

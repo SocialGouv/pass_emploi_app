@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<FirebaseAuthRepository>();
+  final sut = DioRepositorySut<FirebaseAuthRepository>();
   sut.givenRepository((client) => FirebaseAuthRepository(client));
 
   group('getFirebaseAuth', () {

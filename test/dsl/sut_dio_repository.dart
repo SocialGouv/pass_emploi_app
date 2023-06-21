@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/network/status_code.dart';
 import '../doubles/dio_mock.dart';
 import '../utils/test_assets.dart';
 
-class RepositorySut2<REPO> {
+class DioRepositorySut<REPO> {
   late Response<dynamic> Function() _response;
   late DioMock _client;
   late REPO _repository;

@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('GetFavorisRepository', () {
-    final sut = RepositorySut2<GetFavorisRepository>();
+    final sut = DioRepositorySut<GetFavorisRepository>();
     sut.givenRepository((client) => GetFavorisRepository(client));
 
     group('getFavoris', () {

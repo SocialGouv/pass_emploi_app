@@ -3,10 +3,10 @@ import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<OffreEmploiDetailsRepository>();
+  final sut = DioRepositorySut<OffreEmploiDetailsRepository>();
   sut.givenRepository((client) => OffreEmploiDetailsRepository(client));
 
   group("getOffreEmploiDetails", () {

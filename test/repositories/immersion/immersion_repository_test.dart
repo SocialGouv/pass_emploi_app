@@ -8,11 +8,11 @@ import 'package:pass_emploi_app/models/recherche/recherche_repository.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('ImmersionRepository', () {
-    final sut = RepositorySut2<ImmersionRepository>();
+    final sut = DioRepositorySut<ImmersionRepository>();
     sut.givenRepository((client) => ImmersionRepository(client));
 
     group('rechercher', () {
@@ -86,7 +86,7 @@ void main() {
 
       group('when no distance is set', () {
         sut.when(
-              (repository) => repository.rechercher(
+          (repository) => repository.rechercher(
             userId: "ID",
             request: _requestWithFiltres2(ImmersionFiltresRecherche.noFiltre()),
           ),

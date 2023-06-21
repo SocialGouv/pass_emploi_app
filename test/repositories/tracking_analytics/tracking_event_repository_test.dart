@@ -3,10 +3,10 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<TrackingEventRepository>();
+  final sut = DioRepositorySut<TrackingEventRepository>();
   sut.givenRepository((client) => TrackingEventRepository(client));
 
   group("sendEvent", () {

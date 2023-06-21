@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 
 import '../doubles/dummies.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
   group('DiagorienteMetiersFavorisRepository', () {
-    final sut = RepositorySut2<DiagorienteMetiersFavorisRepository>();
+    final sut = DioRepositorySut<DiagorienteMetiersFavorisRepository>();
     sut.givenRepository((client) => DiagorienteMetiersFavorisRepository(client, DummyPassEmploiCacheManager()));
 
     group('get', () {

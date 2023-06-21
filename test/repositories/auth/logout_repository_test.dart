@@ -5,10 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
 import '../../doubles/dummies.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<LogoutRepository>();
+  final sut = DioRepositorySut<LogoutRepository>();
   sut.givenRepository((client) {
     final repository = LogoutRepository(
       authIssuer: 'AUTH_ISSUER',

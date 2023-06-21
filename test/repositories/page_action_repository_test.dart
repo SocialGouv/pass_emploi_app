@@ -5,12 +5,12 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
   group('PageActionRepository', () {
-    final sut = RepositorySut2<PageActionRepository>();
+    final sut = DioRepositorySut<PageActionRepository>();
     sut.givenRepository((client) => PageActionRepository(client));
 
     group('getPageActions', () {

@@ -12,10 +12,10 @@ import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 
 import '../../doubles/dio_mock.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<OffreEmploiRepository>();
+  final sut = DioRepositorySut<OffreEmploiRepository>();
   sut.givenRepository((client) => OffreEmploiRepository(client));
 
   group('rechercher', () {

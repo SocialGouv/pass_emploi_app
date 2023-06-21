@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<SearchDemarcheRepository>();
+  final sut = DioRepositorySut<SearchDemarcheRepository>();
   sut.givenRepository((client) => SearchDemarcheRepository(client));
 
   group("search", () {

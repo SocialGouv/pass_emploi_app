@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
   group('EventListRepository', () {
-    final sut = RepositorySut2<EventListRepository>();
+    final sut = DioRepositorySut<EventListRepository>();
     sut.givenRepository((client) => EventListRepository(client));
 
     group('getAgendaPoleEmploi', () {

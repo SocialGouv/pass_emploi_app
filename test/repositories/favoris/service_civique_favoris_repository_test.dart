@@ -3,10 +3,10 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 
 import '../../doubles/dummies.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut2<ServiceCiviqueFavorisRepository>();
+  final sut = DioRepositorySut<ServiceCiviqueFavorisRepository>();
   sut.givenRepository((client) => ServiceCiviqueFavorisRepository(client, DummyPassEmploiCacheManager()));
 
   group("getFavorisId", () {

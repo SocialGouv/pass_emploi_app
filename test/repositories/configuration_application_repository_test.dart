@@ -4,12 +4,12 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 
 import '../doubles/mocks.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
   final mockFirebase = MockFirebaseInstanceIdGetter();
   final mockNotification = MockPushNotificationManager();
-  final sut = RepositorySut2<ConfigurationApplicationRepository>();
+  final sut = DioRepositorySut<ConfigurationApplicationRepository>();
   sut.givenRepository((client) => ConfigurationApplicationRepository(client, mockFirebase, mockNotification));
 
   setUp(() {

@@ -12,12 +12,12 @@ import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_r
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
   group('EvenementEmploiRepository', () {
-    final sut = RepositorySut2<EvenementEmploiRepository>();
+    final sut = DioRepositorySut<EvenementEmploiRepository>();
     final secteurActiviteQueryMapper = MockSecteurActiviteQueryMapper();
     final typeQueryMapper = MockEvenementEmploiTypeQueryMapper();
     sut.givenRepository((client) => EvenementEmploiRepository(client, secteurActiviteQueryMapper, typeQueryMapper));

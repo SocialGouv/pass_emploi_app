@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  final sut = RepositorySut2<PageDemarcheRepository>();
+  final sut = DioRepositorySut<PageDemarcheRepository>();
   sut.givenRepository((client) => PageDemarcheRepository(client));
 
   group("getPageDemarches", () {

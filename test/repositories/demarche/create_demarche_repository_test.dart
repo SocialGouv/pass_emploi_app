@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 
-import '../../dsl/sut_repository2.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('CreateDemarcheRepository', () {
-    final sut = RepositorySut2<CreateDemarcheRepository>();
+    final sut = DioRepositorySut<CreateDemarcheRepository>();
     sut.givenRepository((client) => CreateDemarcheRepository(client));
 
     group("createDemarche", () {
