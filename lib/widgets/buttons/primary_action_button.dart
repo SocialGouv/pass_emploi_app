@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/responsive_icon_and_text.dart';
 
 class PrimaryActionButton extends StatelessWidget {
   final Color backgroundColor;
@@ -71,23 +70,23 @@ class PrimaryActionButton extends StatelessWidget {
   }
 
   Widget _getRow() {
-    return ResponsiveIconText(
-      icon: (key) => icon != null
-          ? Padding(
-              key: key,
-              padding: EdgeInsets.only(right: iconRightPadding),
-              child: Icon(
-                icon,
-                size: iconSize,
-                color: iconColor,
-              ),
-            )
-          : SizedBox.shrink(key: key),
-      text: (key) => Text(
-        label,
-        key: key,
-        textAlign: TextAlign.center,
-      ),
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        if (icon != null)
+          Padding(
+            padding: EdgeInsets.only(right: iconRightPadding),
+            child: Icon(
+              icon,
+              size: iconSize,
+              color: iconColor,
+            ),
+          ),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }
