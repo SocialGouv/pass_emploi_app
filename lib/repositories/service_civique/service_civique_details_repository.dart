@@ -1,34 +1,22 @@
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
 
 class ServiceCiviqueDetailRepository {
-  final String _baseUrl;
-  final Client _httpClient;
-
+  final Dio _httpClient;
   final Crashlytics? _crashlytics;
 
-  ServiceCiviqueDetailRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
+  ServiceCiviqueDetailRepository(this._httpClient, [this._crashlytics]);
 
   Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
-    final url = Uri.parse(_baseUrl + "/services-civique/$idOffre");
+    final url = "/services-civique/$idOffre";
     try {
       final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final Map<dynamic, dynamic> json = jsonUtf8Decode(response.bodyBytes) as Map<dynamic, dynamic>;
-        return SuccessfullServiceCiviqueDetailResponse(ServiceCiviqueDetail.fromJson(json, idOffre));
-      } else {
-        return NotFoundServiceCiviqueDetailResponse();
-      }
+      return SuccessfullServiceCiviqueDetailResponse(ServiceCiviqueDetail.fromJson(response.data, idOffre));
     } catch (e, stack) {
-      if (e is HttpExceptionWithStatus && e.statusCode == 404) {
-        return NotFoundServiceCiviqueDetailResponse();
-      }
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
+      if (e is DioError && e.response?.statusCode != null) return NotFoundServiceCiviqueDetailResponse();
     }
     return FailedServiceCiviqueDetailResponse();
   }
