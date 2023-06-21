@@ -47,8 +47,11 @@ import 'package:pass_emploi_app/models/saved_search/evenement_emploi_saved_searc
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
+import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -743,6 +746,17 @@ OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
       onlyAlternance: false,
       filters: EmploiFiltresRecherche.withFiltres(distance: 0),
     );
+
+ServiceCiviqueSavedSearch mockServiceCiviqueSavedSearchWithFiltres() {
+  return ServiceCiviqueSavedSearch(
+    id: "id",
+    titre: "ronaldo",
+    domaine: Domaine.values[2],
+    ville: "Paris",
+    location: mockLocation(lat: 48.830108, lon: 2.323026),
+    filtres: ServiceCiviqueFiltresParameters.distance(30),
+  );
+}
 
 Metier mockMetier() => Metier(codeRome: "A1410", libelle: "Chevrier / Chevrière");
 

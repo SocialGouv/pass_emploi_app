@@ -182,7 +182,7 @@ class ServiceCiviqueRepositorySuccessStub extends ServiceCiviqueRepository {
 }
 
 class ServiceCiviqueSavedSearchRepositorySuccessStub extends ServiceCiviqueSavedSearchRepository {
-  ServiceCiviqueSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  ServiceCiviqueSavedSearchRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ServiceCiviqueSavedSearch savedSearch, String title) async {
@@ -191,7 +191,7 @@ class ServiceCiviqueSavedSearchRepositorySuccessStub extends ServiceCiviqueSaved
 }
 
 class ServiceCiviqueSavedSearchRepositoryFailureStub extends ServiceCiviqueSavedSearchRepository {
-  ServiceCiviqueSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  ServiceCiviqueSavedSearchRepositoryFailureStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ServiceCiviqueSavedSearch savedSearch, String title) async {

@@ -237,7 +237,7 @@ class AppInitializer {
       TrackingEventRepository(dioClient, crashlytics),
       OffreEmploiSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ImmersionSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      ServiceCiviqueSavedSearchRepository(dioClient, requestCacheManager, crashlytics),
       GetSavedSearchRepository(dioClient, crashlytics),
       SavedSearchDeleteRepository(dioClient, requestCacheManager, crashlytics),
       ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),

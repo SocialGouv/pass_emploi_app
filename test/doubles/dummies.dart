@@ -245,7 +245,7 @@ class DummyImmersionSavedSearchRepository extends ImmersionSavedSearchRepository
 }
 
 class DummyServiceCiviqueSavedSearchRepository extends ServiceCiviqueSavedSearchRepository {
-  DummyServiceCiviqueSavedSearchRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyServiceCiviqueSavedSearchRepository() : super(DioMock(), DummyPassEmploiCacheManager());
 }
 
 class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
