@@ -758,6 +758,18 @@ ServiceCiviqueSavedSearch mockServiceCiviqueSavedSearchWithFiltres() {
   );
 }
 
+ImmersionSavedSearch mockImmersionSavedSearchWithFiltres() {
+  return ImmersionSavedSearch(
+    id: "id",
+    title: "title",
+    metier: "plombier",
+    ville: "Paris",
+    codeRome: "F1104",
+    location: mockLocation(lat: 48.830108, lon: 2.323026),
+    filtres: ImmersionFiltresRecherche.distance(30),
+  );
+}
+
 Metier mockMetier() => Metier(codeRome: "A1410", libelle: "Chevrier / Chevrière");
 
 List<Metier> mockAutocompleteMetiers() {
