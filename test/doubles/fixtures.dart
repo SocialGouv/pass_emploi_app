@@ -747,6 +747,23 @@ OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
       filters: EmploiFiltresRecherche.withFiltres(distance: 0),
     );
 
+OffreEmploiSavedSearch mockOffreEmploiSavedSearchWithFilters({required bool isAlternance}) {
+  return OffreEmploiSavedSearch(
+    id: "id",
+    title: "title",
+    metier: "plombier",
+    location: Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT),
+    keyword: "secteur privé",
+    onlyAlternance: isAlternance,
+    filters: EmploiFiltresRecherche.withFiltres(
+        distance: 40,
+        contrat: [ContratFiltre.cdi],
+        debutantOnly: true,
+        experience: [ExperienceFiltre.trois_ans_et_plus, ExperienceFiltre.de_un_a_trois_ans],
+        duree: [DureeFiltre.temps_plein]),
+  );
+}
+
 ServiceCiviqueSavedSearch mockServiceCiviqueSavedSearchWithFiltres() {
   return ServiceCiviqueSavedSearch(
     id: "id",

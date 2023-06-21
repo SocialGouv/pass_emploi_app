@@ -235,7 +235,7 @@ class AppInitializer {
       FirebaseAuthRepository(dioClient, crashlytics),
       FirebaseAuthWrapper(),
       TrackingEventRepository(dioClient, crashlytics),
-      OffreEmploiSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      OffreEmploiSavedSearchRepository(dioClient, requestCacheManager, crashlytics),
       ImmersionSavedSearchRepository(dioClient, requestCacheManager, crashlytics),
       ServiceCiviqueSavedSearchRepository(dioClient, requestCacheManager, crashlytics),
       GetSavedSearchRepository(dioClient, crashlytics),

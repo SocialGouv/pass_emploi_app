@@ -147,7 +147,7 @@ class OffreEmploiRepositorySuccessStub extends OffreEmploiRepository {
 }
 
 class OffreEmploiSavedSearchRepositorySuccessStub extends OffreEmploiSavedSearchRepository {
-  OffreEmploiSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  OffreEmploiSavedSearchRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch, String title) async {
@@ -156,7 +156,7 @@ class OffreEmploiSavedSearchRepositorySuccessStub extends OffreEmploiSavedSearch
 }
 
 class OffreEmploiSavedSearchRepositoryFailureStub extends OffreEmploiSavedSearchRepository {
-  OffreEmploiSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  OffreEmploiSavedSearchRepositoryFailureStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch, String title) async {
