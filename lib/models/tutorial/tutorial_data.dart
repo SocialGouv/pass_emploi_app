@@ -1,7 +1,7 @@
 import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
 
 class TutorialData {
-  static const String version = '1687444907';
+  static const String version = '1687445165';
   static List<Tutorial> milo = [
     Tutorial(
       title:
