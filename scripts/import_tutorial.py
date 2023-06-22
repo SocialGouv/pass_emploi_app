@@ -14,7 +14,7 @@ import urllib.request
 ### Constantes
 
 assets_path = "assets/tuto"
-dart_file_path = "lib/models/tutorial/tutorial_data.dart"
+dart_file_path = "lib/models/tutorial/tutorial.dart"
 csv_path = "lib/models/tutorial/tutorial_data.csv"
 
 ### Code
@@ -39,7 +39,7 @@ class Page:
         return text.replace('"', '\\"')
 
     def __str__(self):
-        return f"Tutorial(title: \"{self.title}\", description: \"{self.description}\", image: \"{self.image_path}\",)"
+        return f"TutorialPage(title: \"{self.title}\", description: \"{self.description}\", image: \"{self.image_path}\",)"
 
 class Tutorial:
     def __init__(self, milo, pe):
@@ -50,7 +50,7 @@ class Tutorial:
         return str(int(time.time()))
 
     def pages_to_dart(self, structure, pages):
-        result = f"static List<Tutorial> {structure} = [\n"
+        result = f"static List<TutorialPage> {structure} = [\n"
         for page in pages:
             result += str(page) + ",\n"
         result += "];\n"
@@ -71,8 +71,8 @@ class Tutorial:
         dart_format(dart_file_path)
 
     def __str__(self):
-        result = "import 'package:pass_emploi_app/models/tutorial/tutorial.dart';\n"
-        result += "class TutorialData {\n"
+        result = "import 'package:pass_emploi_app/models/tutorial/tutorial_page.dart';\n"
+        result += "class Tutorial {\n"
         result += f"static const String version = '{self.version()}';\n"
         result += self.pages_to_dart("milo", self.milo)
         result += self.pages_to_dart("pe", self.pe)

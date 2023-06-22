@@ -21,7 +21,7 @@ void main() {
     final pages = repository.getPoleEmploiTutorial();
 
     // Then
-    expect(pages, Tutorial.poleEmploi);
+    expect(pages, Tutorial.pe);
   });
 
   test("shouldShowTutorial returns true when user did not already saw it", () async {
