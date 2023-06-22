@@ -1,5 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:pass_emploi_app/models/tutorial.dart';
+import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
 
 class TutorialRepository {
   final FlutterSecureStorage _preferences;
