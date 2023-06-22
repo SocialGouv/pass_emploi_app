@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_actions.dart';
-import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
+import 'package:pass_emploi_app/models/tutorial/tutorial_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:redux/redux.dart';
@@ -14,7 +14,7 @@ class TutorialMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
-    List<Tutorial> pages = [];
+    List<TutorialPage> pages = [];
     next(action);
     if (action is LoginSuccessAction) {
       final loginState = store.state.loginState;
