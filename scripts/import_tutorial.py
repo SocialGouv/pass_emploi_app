@@ -6,10 +6,10 @@ import time
 import urllib.request
 
 ### Utilisation
+# Depuis la feuille (Import-Jeunes), exporter au format csv le tutoriel
+# Le placer dans le dossier $csv_path (cf. constantes)
+# Lancer le script :
 # python scripts/import_tutorial.py
-
-### TODO: 
-# - on pourrait faire un set et juste un for (download_images)
 
 ### Constantes
 
