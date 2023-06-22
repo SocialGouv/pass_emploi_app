@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/models/tutorial.dart';
+import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
 
 abstract class TutorialState {}
 

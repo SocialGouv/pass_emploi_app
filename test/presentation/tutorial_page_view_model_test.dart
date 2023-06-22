@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_actions.dart';
-import 'package:pass_emploi_app/models/tutorial.dart';
+import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
 import 'package:pass_emploi_app/presentation/tutorial_page_view_model.dart';
 
 import '../doubles/spies.dart';
