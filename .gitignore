@@ -72,3 +72,6 @@ env/.env.audit
 
 # fvm
 .fvm
+
+# Others
+*tutorial_data.csv

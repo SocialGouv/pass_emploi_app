@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/tutorial.dart';
+import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 
 import '../doubles/spies.dart';
@@ -21,7 +21,7 @@ void main() {
     final pages = repository.getPoleEmploiTutorial();
 
     // Then
-    expect(pages, Tutorial.poleEmploi);
+    expect(pages, Tutorial.pe);
   });
 
   test("shouldShowTutorial returns true when user did not already saw it", () async {
