@@ -1,5 +1,6 @@
 import csv
 import hashlib
+import os
 import subprocess
 import time
 import urllib.request
@@ -8,9 +9,9 @@ import urllib.request
 # python scripts/import_tutorial.py
 
 ### TODO: 
-# - supprimer les anciennes images
 # - on pourrait faire un set et juste un for (download_images)
 # - les constantes tout en haut
+# - ne pas répéter le path assets/tuto/
 
 ### Code
 
@@ -100,9 +101,16 @@ class Tutorial:
         result += "}"
         return result
 
+def delete_files_in_folder(folder_path):
+    for filename in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+
 ### Main
 
 if __name__ == '__main__':
+    delete_files_in_folder('assets/tuto/')
     tutorial = parse_csv('lib/models/tutorial/tutorial_data.csv')
     tutorial.download_images()
     tutorial.write_dart_file()
