@@ -905,4 +905,6 @@ class Strings {
 
   // a11y
   static String unJeuneUneSolutionIllustrationSemanticsLabel = "Logo France Relance pour Un jeune, une solution";
+  static String favoriHeartRemove = "Mise en favoris: retirer";
+  static String favoriHeartAdd = "Mise en favoris: ajouter";
 }
