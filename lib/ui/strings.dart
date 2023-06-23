@@ -902,4 +902,7 @@ class Strings {
   static String suggestionLocalisationFormImmersionSubtitle =
       "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
   static String suggestionLocalisationAddAlerteButton = "Ajouter l’alerte";
+
+  // a11y
+  static String unJeuneUneSolutionIllustrationSemanticsLabel = "Logo France Relance pour Un jeune, une solution";
 }

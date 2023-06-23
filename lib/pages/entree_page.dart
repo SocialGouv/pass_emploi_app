@@ -54,7 +54,11 @@ class EntreePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: 16),
-                  SvgPicture.asset(Drawables.unJeuneUneSolutionIllustration, width: screenWidth * 0.25),
+                  SvgPicture.asset(
+                    Drawables.unJeuneUneSolutionIllustration,
+                    semanticsLabel: Strings.unJeuneUneSolutionIllustrationSemanticsLabel,
+                    width: screenWidth * 0.25,
+                  ),
                   SizedBox(height: 32),
                   HiddenMenuGesture(
                     child: AppLogo(width: screenWidth * 0.6),
