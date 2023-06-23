@@ -7,7 +7,7 @@ class Tutorial {
       title: "Retrouvez les événements liés à l’emploi organisés autour de chez vous !",
       description:
           "Dans l'onglet \"Mes événements\", retrouvez désormais les différents types d'événements organisés au sein de votre Mission Locale ou en dehors de votre Mission Locale",
-      image: "assets/tuto/img_evenement_PE.svg",
+      image: "assets/tuto/img_evenements_MiLo.svg",
     ),
   ];
   static List<TutorialPage> pe = [
@@ -15,7 +15,7 @@ class Tutorial {
       title: "Retrouvez les événements liés à l’emploi organisés autour de chez vous !",
       description:
           "Dans l'onglet \"Mes événements\", recherchez différents types d'événements organisés au sein de votre agence ou par des partenaires externes",
-      image: "assets/tuto/img_evenements_MiLo.svg",
+      image: "assets/tuto/img_evenement_PE.svg",
     ),
   ];
 }
