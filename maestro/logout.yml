@@ -1,0 +1,9 @@
+appId: fr.fabrique.social.gouv.passemploi.staging
+---
+- tapOn:
+    point: "89%,11%"
+- scrollUntilVisible:
+    element: "Se déconnecter"
+    direction: DOWN
+- tapOn: "Se déconnecter"
+- assertVisible: "Se connecter"

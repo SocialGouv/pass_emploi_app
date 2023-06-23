@@ -1,0 +1,15 @@
+appId: fr.fabrique.social.gouv.passemploi.staging
+---
+- tapOn: "Se connecter"
+- tapOn: "pass emploi"
+- tapOn: "Continuer"
+- tapOn: "Nom d'utilisateur"
+- inputText: "$user.login"
+- tapOn: "Mot de passe"
+- inputText: "$user.pwd"
+- tapOn: "Connexion"
+- runFlow:
+    when:
+      visible: "Terminer"
+    file: "tutorial.yml"
+- assertVisible: "Bienvenue"

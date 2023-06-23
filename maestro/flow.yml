@@ -1,0 +1,9 @@
+appId: fr.fabrique.social.gouv.passemploi.staging
+---
+- clearState
+- launchApp
+- runFlow:
+    when:
+      visible: "Bienvenue"
+    file: "logout.yml"
+- runFlow: "login.yml"
