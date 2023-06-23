@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/entree_brsa_background.dart';
 import 'package:pass_emploi_app/widgets/hidden_menu.dart';
@@ -56,7 +57,7 @@ class EntreePage extends StatelessWidget {
                   SvgPicture.asset(Drawables.unJeuneUneSolutionIllustration, width: screenWidth * 0.25),
                   SizedBox(height: 32),
                   HiddenMenuGesture(
-                    child: SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6),
+                    child: AppLogo(width: screenWidth * 0.6),
                   ),
                   SizedBox(height: 16),
                   Expanded(
@@ -82,9 +83,7 @@ class EntreePage extends StatelessWidget {
               children: [
                 Flexible(child: Container()),
                 Expanded(
-                  child: Brand.isBrsa()
-                      ? HiddenMenuGesture(child: SvgPicture.asset(Drawables.appLogo, width: screenWidth * 0.6))
-                      : Container(),
+                  child: Brand.isBrsa() ? HiddenMenuGesture(child: AppLogo(width: screenWidth * 0.6)) : Container(),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(Margins.spacing_m),

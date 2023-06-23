@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 
 class SplashScreenPage extends StatelessWidget {
@@ -22,7 +20,7 @@ class SplashScreenPage extends StatelessWidget {
             body: Stack(
               children: [
                 EntreeBiseauBackground(),
-                Center(child: SvgPicture.asset(Drawables.appLogo, semanticsLabel: Strings.logoDescription)),
+                Center(child: AppLogo()),
                 if (appVersion != null) _AppVersion(appVersion),
               ],
             ),
