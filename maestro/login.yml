@@ -4,9 +4,9 @@ appId: fr.fabrique.social.gouv.passemploi.staging
 - tapOn: "pass emploi"
 - tapOn: "Continuer"
 - tapOn: "Nom d'utilisateur"
-- inputText: "$user.login"
+- inputText: ${MAESTRO_LOGIN}
 - tapOn: "Mot de passe"
-- inputText: "$user.pwd"
+- inputText: ${MAESTRO_PASSWORD}
 - tapOn: "Connexion"
 - runFlow:
     when:
