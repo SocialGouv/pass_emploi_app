@@ -8,7 +8,8 @@ appId: fr.fabrique.social.gouv.passemploi.staging
 - tapOn: "Mot de passe"
 - inputText: ${MAESTRO_PASSWORD}
 - tapOn: "Connexion"
-- runFlow:
+##FIXME: bug, il faut faire une gesture "navigation back" pour faire apparaitre le tuto
+- runFlow: ##TODO: tjrs le tuto ?
     when:
       visible: "Terminer"
     file: "tutorial.yml"

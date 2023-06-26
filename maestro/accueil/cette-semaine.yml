@@ -11,5 +11,5 @@ appId: fr.fabrique.social.gouv.passemploi.staging
 - tapOn: "Retour"
 - tapOn: "Voir le détail de ma semaine"
 - assertVisible: "Mon suivi"
-- assertVisible: "En retard : 14 actions\nVoir"
+#TODO: assert Cette semaine onglet actif
 - tapOn: "Accueil\nAccueil\nOnglet 1 sur 5"

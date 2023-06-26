@@ -1,7 +1,8 @@
 appId: fr.fabrique.social.gouv.passemploi.staging
 ---
 - clearState
+- clearKeychain
 - launchApp
-- runFlow: "start/ensure-fresh-start.yml"
 - runFlow: "start/login.yml"
 - runFlow: "accueil/cette-semaine.yml"
+- runFlow: "mon-suivi/all-mon-suivi.yml"

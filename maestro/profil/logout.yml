@@ -1,7 +1,7 @@
 appId: fr.fabrique.social.gouv.passemploi.staging
 ---
 - tapOn:
-    point: "89%,11%"
+    point: "89%,11%" #TODO: ally bouton profil
 - scrollUntilVisible:
     element: "Se déconnecter"
     direction: DOWN

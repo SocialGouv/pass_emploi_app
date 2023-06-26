@@ -1,5 +1,0 @@
-appId: fr.fabrique.social.gouv.passemploi.staging
----
-- extendedWaitUntil:
-    notVisible: "Logo CEJ"
-    timeout: 10000
