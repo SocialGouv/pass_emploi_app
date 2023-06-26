@@ -200,7 +200,7 @@ class AnalyticsEventNames {
   static const lastRechercheLocationDisplayAction = "Affichage dernières recherches localisation";
   static const lastRechercheLocationClickAction = "Clic dernières recherches localisation";
 
-  static const webAuthPageEventCategory = "Affichage mire authentification";
+  static const webAuthPageEventCategory = "Mire connexion mobile";
   static const webAuthPageSuccessAction = "Connexion post mire OK";
   static const webAuthPageErrorAction = "Connexion post mire KO";
 }
