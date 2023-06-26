@@ -1,0 +1,11 @@
+appId: fr.fabrique.social.gouv.passemploi.staging
+---
+- runFlow: "splashscreen.yml"
+- runFlow:
+    when:
+      visible: "Terminer"
+    file: "tutorial.yml"
+- runFlow:
+    when:
+      visible: "Bienvenue"
+    file: "../profil/logout.yml"

@@ -1,0 +1,15 @@
+appId: fr.fabrique.social.gouv.passemploi.staging
+---
+- tapOn: "0 rendez-vous"
+- assertVisible: "Rendez-vous"
+- tapOn: "Retour"
+- tapOn: "14 actions en retard"
+- assertVisible: "Actions"
+- tapOn: "Retour"
+- tapOn: "0 action à réaliser"
+- assertVisible: "Actions"
+- tapOn: "Retour"
+- tapOn: "Voir le détail de ma semaine"
+- assertVisible: "Mon suivi"
+- assertVisible: "En retard : 14 actions\nVoir"
+- tapOn: "Accueil\nAccueil\nOnglet 1 sur 5"
