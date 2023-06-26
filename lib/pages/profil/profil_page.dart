@@ -278,7 +278,7 @@ class _LegalInformationCard extends StatelessWidget {
 
   Widget _redirectIcon() => Icon(
         AppIcons.open_in_new_rounded,
-        semanticLabel: Strings.openInNewTabLabel,
+        semanticLabel: Strings.openInNavigator,
         size: Dimens.icon_size_base,
         color: AppColors.grey800,
       );
