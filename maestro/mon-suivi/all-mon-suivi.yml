@@ -1,0 +1,6 @@
+appId: fr.fabrique.social.gouv.passemploi.staging
+---
+- tapOn: "Mon suivi\nMon suivi\nOnglet 2 sur 5"
+- assertVisible: "Mon suivi"
+# assert Cette semaine onglet actif
+- runFlow: "actions/all-actions.yml"

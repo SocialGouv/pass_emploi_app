@@ -1,0 +1,32 @@
+appId: fr.fabrique.social.gouv.passemploi.staging
+---
+- tapOn: "Actions\nOnglet 2 sur 3"
+- tapOn: "Créer une action"
+- tapOn:
+    point: "50%,28%" ##TODO: ally champs de texte titre
+- inputText: "Maestro action"
+- tapOn:
+    point: "50%,46%" ##TODO: ally champs de texte description
+- inputText: "Maestro description"
+- tapOn:
+    id: "Done"
+- tapOn: "*Sélectionner une date d'échéance"
+- swipe:  ##TODO: ally slider
+    start: 30%, 88% # From (90% of width, 50% of height)
+    end: 30%, 84% # To (10% of width, 50% of height)
+- tapOn: ##TODO: ally fermer le slider
+    id: "card:fr.fabrique.social.gouv.passemploi.staging:sceneID:fr.fabrique.social.gouv.passemploi.staging-default"
+- tapOn: "Créer"
+- assertVisible: "Maestro action"
+- tapOn: "Voir le détail >"
+- assertVisible: "Détail de l'action"
+- assertVisible: "Maestro action"
+- assertVisible: "Maestro description"
+- scrollUntilVisible:
+    element: "Supprimer l'action"
+    direction: DOWN
+- tapOn: "Supprimer l'action"
+- assertVisible: "L’action a bien été supprimée"
+- tapOn:
+    point: "90%,84%" ##TODO: ally croix pour fermer
+##FIXME: bug quand on créé l'action depuis l'onglet Cette semaine : la snackbar redirige vers une page en erreur
