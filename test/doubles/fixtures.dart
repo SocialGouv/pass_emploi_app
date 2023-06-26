@@ -213,7 +213,7 @@ Location mockLocationParis() => Location(
 
 Location mockLocation({double? lat, double? lon}) => Location(
       libelle: "",
-      code: "",
+      code: "code",
       type: LocationType.DEPARTMENT,
       latitude: lat,
       longitude: lon,

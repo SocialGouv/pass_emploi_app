@@ -50,10 +50,18 @@ void main() {
     test('with many recherches recentes should only take 3', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockOffreEmploiSavedSearch(location: Location(libelle: '1', code: '1', type: LocationType.COMMUNE)),
-        mockOffreEmploiSavedSearch(location: Location(libelle: '2', code: '2', type: LocationType.COMMUNE)),
-        mockOffreEmploiSavedSearch(location: Location(libelle: '3', code: '3', type: LocationType.COMMUNE)),
-        mockOffreEmploiSavedSearch(location: Location(libelle: '4', code: '4', type: LocationType.COMMUNE)),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
+        ),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '2', code: '2', codePostal: '2', type: LocationType.COMMUNE),
+        ),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '3', code: '3', codePostal: '3', type: LocationType.COMMUNE),
+        ),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '4', code: '4', codePostal: '4', type: LocationType.COMMUNE),
+        ),
       ]).store();
       // When
       final viewModel = LocationViewModel.create(store, villesOnly: false);
@@ -61,15 +69,15 @@ void main() {
       expect(viewModel.dernieresLocations, [
         LocationTitleItem("Dernières recherches"),
         LocationSuggestionItem(
-          Location(libelle: '1', code: '1', type: LocationType.COMMUNE),
+          Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
           LocationSource.dernieresRecherches,
         ),
         LocationSuggestionItem(
-          Location(libelle: '2', code: '2', type: LocationType.COMMUNE),
+          Location(libelle: '2', code: '2', codePostal: '2', type: LocationType.COMMUNE),
           LocationSource.dernieresRecherches,
         ),
         LocationSuggestionItem(
-          Location(libelle: '3', code: '3', type: LocationType.COMMUNE),
+          Location(libelle: '3', code: '3', codePostal: '3', type: LocationType.COMMUNE),
           LocationSource.dernieresRecherches,
         ),
       ]);
@@ -78,8 +86,12 @@ void main() {
     test('with null location in recherches recentes should remove them', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockOffreEmploiSavedSearch(location: Location(libelle: '1', code: '1', type: LocationType.COMMUNE)),
-        mockOffreEmploiSavedSearch(location: Location(libelle: '2', code: '2', type: LocationType.COMMUNE)),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
+        ),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '2', code: '2', codePostal: '2', type: LocationType.COMMUNE),
+        ),
         mockOffreEmploiSavedSearch(location: null),
       ]).store();
       // When
@@ -88,11 +100,36 @@ void main() {
       expect(viewModel.dernieresLocations, [
         LocationTitleItem("Dernières recherches"),
         LocationSuggestionItem(
-          Location(libelle: '1', code: '1', type: LocationType.COMMUNE),
+          Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
           LocationSource.dernieresRecherches,
         ),
         LocationSuggestionItem(
-          Location(libelle: '2', code: '2', type: LocationType.COMMUNE),
+          Location(libelle: '2', code: '2', codePostal: '2', type: LocationType.COMMUNE),
+          LocationSource.dernieresRecherches,
+        ),
+      ]);
+    });
+
+    test('with invalid location in recherches recentes should remove them - REQUIRED WHEN COMING FROM SUGGESTIONS', () {
+      // Given
+      final store = givenState().loggedInUser().withRecentsSearches([
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '1', code: '', codePostal: '1', type: LocationType.COMMUNE),
+        ),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '2', code: '2', codePostal: null, type: LocationType.COMMUNE),
+        ),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '3', code: '3', codePostal: '3', type: LocationType.COMMUNE),
+        ),
+      ]).store();
+      // When
+      final viewModel = LocationViewModel.create(store, villesOnly: false);
+      // Then
+      expect(viewModel.dernieresLocations, [
+        LocationTitleItem("Dernière recherche"),
+        LocationSuggestionItem(
+          Location(libelle: '3', code: '3', codePostal: '3', type: LocationType.COMMUNE),
           LocationSource.dernieresRecherches,
         ),
       ]);
@@ -101,9 +138,15 @@ void main() {
     test('with duplicated location in recherches recentes should remove them', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockOffreEmploiSavedSearch(location: Location(libelle: '1', code: '1', type: LocationType.COMMUNE)),
-        mockOffreEmploiSavedSearch(location: Location(libelle: '2', code: '2', type: LocationType.COMMUNE)),
-        mockOffreEmploiSavedSearch(location: Location(libelle: '1', code: '1', type: LocationType.COMMUNE)),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
+        ),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '2', code: '2', codePostal: '2', type: LocationType.COMMUNE),
+        ),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
+        ),
       ]).store();
       // When
       final viewModel = LocationViewModel.create(store, villesOnly: false);
@@ -111,11 +154,11 @@ void main() {
       expect(viewModel.dernieresLocations, [
         LocationTitleItem("Dernières recherches"),
         LocationSuggestionItem(
-          Location(libelle: '1', code: '1', type: LocationType.COMMUNE),
+          Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
           LocationSource.dernieresRecherches,
         ),
         LocationSuggestionItem(
-          Location(libelle: '2', code: '2', type: LocationType.COMMUNE),
+          Location(libelle: '2', code: '2', codePostal: '2', type: LocationType.COMMUNE),
           LocationSource.dernieresRecherches,
         ),
       ]);
@@ -124,9 +167,15 @@ void main() {
     test('with villesOnly should only return villes', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockOffreEmploiSavedSearch(location: Location(libelle: '1', code: '1', type: LocationType.COMMUNE)),
-        mockOffreEmploiSavedSearch(location: Location(libelle: '2', code: '2', type: LocationType.DEPARTMENT)),
-        mockOffreEmploiSavedSearch(location: Location(libelle: '3', code: '3', type: LocationType.COMMUNE)),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
+        ),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '2', code: '2', codePostal: '2', type: LocationType.DEPARTMENT),
+        ),
+        mockOffreEmploiSavedSearch(
+          location: Location(libelle: '3', code: '3', codePostal: '3', type: LocationType.COMMUNE),
+        ),
       ]).store();
       // When
       final viewModel = LocationViewModel.create(store, villesOnly: true);
@@ -134,11 +183,11 @@ void main() {
       expect(viewModel.dernieresLocations, [
         LocationTitleItem("Dernières recherches"),
         LocationSuggestionItem(
-          Location(libelle: '1', code: '1', type: LocationType.COMMUNE),
+          Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
           LocationSource.dernieresRecherches,
         ),
         LocationSuggestionItem(
-          Location(libelle: '3', code: '3', type: LocationType.COMMUNE),
+          Location(libelle: '3', code: '3', codePostal: '3', type: LocationType.COMMUNE),
           LocationSource.dernieresRecherches,
         ),
       ]);

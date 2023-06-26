@@ -74,8 +74,18 @@ List<Location> _dernieresLocations(Store<AppState> store, bool villesOnly) {
   return store.state.recherchesRecentesState.recentSearches
       .map((offre) => offre.getLocation())
       .whereNotNull()
+      .where((location) => location._isValid)
       .distinct()
       .where((location) => villesOnly ? location.type == LocationType.COMMUNE : true)
       .take(3)
       .toList();
+}
+
+extension on Location {
+  bool get _isValid {
+    return switch (type) {
+      LocationType.COMMUNE => code.isNotEmpty && codePostal?.isNotEmpty == true,
+      LocationType.DEPARTMENT => code.isNotEmpty,
+    };
+  }
 }
