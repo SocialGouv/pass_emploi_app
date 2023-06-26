@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
@@ -9,8 +10,10 @@ import 'package:pass_emploi_app/pages/main_page.dart';
 import 'package:pass_emploi_app/pages/spash_screen_page.dart';
 import 'package:pass_emploi_app/pages/tutorial_page.dart';
 import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
+import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 
 class RouterPage extends StatefulWidget {
@@ -89,5 +92,15 @@ class _RouterPageState extends State<RouterPage> {
     FirebaseMessaging.onMessageOpenedApp.listen(_handleDeepLink);
   }
 
-  void _handleDeepLink(RemoteMessage message) => StoreProvider.of<AppState>(context).dispatch(DeepLinkAction(message));
+  void _handleDeepLink(RemoteMessage message) {
+    final type = message.getType();
+    if (type != null) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.pushNotificationEventCategory,
+        action: AnalyticsEventNames.pushNotificationOpenedAction,
+        eventName: type,
+      );
+    }
+    StoreProvider.of<AppState>(context).dispatch(DeepLinkAction(message));
+  }
 }

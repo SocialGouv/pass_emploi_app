@@ -203,6 +203,13 @@ class AnalyticsEventNames {
   static const webAuthPageEventCategory = "Mire connexion mobile";
   static const webAuthPageSuccessAction = "Connexion post mire OK";
   static const webAuthPageErrorAction = "Connexion post mire KO";
+
+  static const pushNotificationEventCategory = "Push notifications sur mobile";
+  static const pushNotificationReceivedAction = "Reception push notification";
+  static const pushNotificationOpenedAction = "Ouverture push notification";
+
+  static const pushNotificationAuthorizationStatusEventCategory = "Autorisation des push notifications sur mobile";
+  static const pushNotificationAuthorizationStatusAction = "Autorisation";
 }
 
 class AnalyticsCustomDimensions {
