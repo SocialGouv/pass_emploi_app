@@ -1,0 +1,7 @@
+appId: fr.fabrique.social.gouv.passemploi.staging
+---
+- tapOn: "Nom d'utilisateur"
+- inputText: ${MAESTRO_LOGIN}
+- tapOn: "Mot de passe"
+- inputText: ${MAESTRO_PASSWORD}
+- tapOn: "Connexion"

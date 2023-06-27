@@ -3,14 +3,9 @@ appId: fr.fabrique.social.gouv.passemploi.staging
 - tapOn: "Se connecter"
 - tapOn: "pass emploi"
 - tapOn: "Continuer"
-- tapOn: "Nom d'utilisateur"
-- inputText: ${MAESTRO_LOGIN}
-- tapOn: "Mot de passe"
-- inputText: ${MAESTRO_PASSWORD}
-- tapOn: "Connexion"
-##FIXME: bug, il faut faire une gesture "navigation back" pour faire apparaitre le tuto
-- runFlow: ##TODO: tjrs le tuto ?
+- runFlow:
     when:
-      visible: "Terminer"
-    file: "tutorial.yml"
+      visible: "Connexion" #TODO: parce que la webview se souvient encore de l'utilisateur si on ne fait pas un "vrai" logout
+    file: "login_webview.yml"
+- runFlow: "tutorial.yml"
 - assertVisible: "Bienvenue"
