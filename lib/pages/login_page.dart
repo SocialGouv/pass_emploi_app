@@ -28,7 +28,7 @@ class LoginPage extends StatelessWidget {
       child: StoreConnector<AppState, LoginViewModel>(
         converter: (store) => LoginViewModel.create(store),
         distinct: true,
-        onWillChange: _onWillChange,
+        onWillChange: (oldVm, newVm) => _onWillChange(oldVm, newVm, context),
         builder: (context, viewModel) => _content(viewModel, context),
       ),
     );
@@ -137,10 +137,13 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void _onWillChange(LoginViewModel? previousVM, LoginViewModel newVM) {
+  void _onWillChange(LoginViewModel? previousVM, LoginViewModel newVM, BuildContext context) {
     if (previousVM?.displayState != DisplayState.LOADING) return;
-    if (newVM.displayState == DisplayState.CONTENT) _trackLoginResult(successful: true);
     if (newVM.displayState == DisplayState.FAILURE) _trackLoginResult(successful: false);
+    if (newVM.displayState == DisplayState.CONTENT) {
+      _trackLoginResult(successful: true);
+      if (Navigator.of(context).canPop()) Navigator.of(context).pop();
+    }
   }
 
   void _trackLoginResult({required bool successful}) {
