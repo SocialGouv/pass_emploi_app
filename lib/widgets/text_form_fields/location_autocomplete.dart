@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -145,7 +144,6 @@ class _LocationAutocompletePageState extends State<_LocationAutocompletePage> {
           DebounceTextFormField(
             heroTag: _heroTag,
             initialValue: widget.selectedLocation?.displayableLabel(),
-            onFieldSubmitted: (_) => Navigator.pop(context, viewModel.locations.firstOrNull),
             onChanged: (text) {
               if (text.isEmpty != emptyInput) setState(() => emptyInput = text.isEmpty);
               viewModel.onInputLocation(text);

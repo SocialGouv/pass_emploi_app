@@ -2,11 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 
-import '../../dsl/sut_repository.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut<SearchDemarcheRepository>();
-  sut.givenRepository((client) => SearchDemarcheRepository("BASE_URL", client));
+  final sut = DioRepositorySut<SearchDemarcheRepository>();
+  sut.givenRepository((client) => SearchDemarcheRepository(client));
 
   group("search", () {
     sut.when(
@@ -18,8 +18,9 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "GET",
-          url: "BASE_URL/referentiels/pole-emploi/types-demarches?recherche=query",
+          method: HttpMethod.get,
+          url: "/referentiels/pole-emploi/types-demarches",
+          queryParameters: {'recherche': 'query'},
         );
       });
 

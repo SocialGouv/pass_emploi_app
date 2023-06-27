@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
+import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_state.dart';
+import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
@@ -57,6 +59,61 @@ void main() {
             date: DateTime(2022),
             message: "Regardes ça",
           ),
+        ),
+      );
+    });
+  });
+
+  group('when sharing an evenement emploi', () {
+    test('should have corresponding titles', () {
+      // Given
+      final store = givenState()
+          .loggedInUser() //
+          .copyWith(evenementEmploiDetailsState: EvenementEmploiDetailsSuccessState(mockEvenementEmploiDetails()))
+          .store();
+
+      // When
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEvenementEmploiSource());
+
+      // Then
+      expect(viewModel.pageTitle, "Partage de l’événement");
+      expect(viewModel.willShareTitle, "L’événement que vous souhaitez partager");
+      expect(viewModel.defaultMessage, "Bonjour, je vous partage un événement afin d’avoir votre avis");
+      expect(viewModel.information, "L’événement sera partagé à votre conseiller dans la messagerie");
+      expect(viewModel.shareButtonTitle, "Partager l’événement");
+      expect(viewModel.snackbarSuccessText,
+          "L’événement a été partagé à votre conseiller sur la messagerie de l’application");
+      expect(viewModel.snackbarSuccessTracking, "evenement_emploi/detail?partage-conseiller=true");
+    });
+
+    test('should throw error when evenementEmploiDetailsState is not success', () {
+      final store = givenState().store();
+      expect(
+        () => ChatPartagePageViewModel.fromSource(store, ChatPartageEvenementEmploiSource()),
+        throwsA(isA<Exception>()),
+      );
+    });
+
+    test('should partager evenement emploi', () {
+      // Given
+      final store = givenState()
+          .loggedInUser() //
+          .copyWith(evenementEmploiDetailsState: EvenementEmploiDetailsSuccessState(mockEvenementEmploiDetails()))
+          .spyStore();
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEvenementEmploiSource());
+
+      // When
+      viewModel.onShare("Regardes ça");
+
+      // Then
+      expect(store.dispatchedAction, isA<ChatPartagerEvenementEmploiAction>());
+      expect(
+        (store.dispatchedAction as ChatPartagerEvenementEmploiAction).evenementEmploi,
+        EvenementEmploiPartage(
+          id: "106757",
+          titre: "Devenir conseiller à Pôle emploi",
+          url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
+          message: "Regardes ça",
         ),
       );
     });
@@ -156,10 +213,10 @@ void main() {
         });
       }
 
-      assertSnackBarDisplayState(ChatPartageState.notInitialized, DisplayState.EMPTY);
-      assertSnackBarDisplayState(ChatPartageState.loading, DisplayState.LOADING);
-      assertSnackBarDisplayState(ChatPartageState.success, DisplayState.CONTENT);
-      assertSnackBarDisplayState(ChatPartageState.failure, DisplayState.FAILURE);
+      assertSnackBarDisplayState(ChatPartageNotInitializedState(), DisplayState.EMPTY);
+      assertSnackBarDisplayState(ChatPartageLoadingState(), DisplayState.LOADING);
+      assertSnackBarDisplayState(ChatPartageSuccessState(), DisplayState.CONTENT);
+      assertSnackBarDisplayState(ChatPartageFailureState(), DisplayState.FAILURE);
     });
 
     test('should reset snackbar', () {

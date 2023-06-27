@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/pages/immersion_details_page.dart';
-import 'package:pass_emploi_app/pages/immersion_filtres_page.dart';
+import 'package:pass_emploi_app/pages/immersion/immersion_details_page.dart';
+import 'package:pass_emploi_app/pages/immersion/immersion_filtres_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
@@ -30,10 +31,10 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   }
 
   @override
-  String appBarTitle() => Strings.rechercheOffresImmersionTitle;
+  String? appBarTitle() => Strings.rechercheOffresImmersionTitle;
 
   @override
-  String analyticsType() => "immersion";
+  String analyticsType() => AnalyticsScreenNames.immersionRecherche;
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheImmersionState;
@@ -45,7 +46,7 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   Widget buildAlertBottomSheet() => ImmersionSavedSearchBottomSheet();
 
   @override
-  Route<bool> buildFiltresMaterialPageRoute() => ImmersionFiltresPage.materialPageRoute();
+  Route<bool>? buildFiltresMaterialPageRoute() => ImmersionFiltresPage.materialPageRoute();
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

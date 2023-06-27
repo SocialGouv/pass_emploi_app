@@ -15,9 +15,10 @@ class AnalyticsScreenNames {
 
   static const accueil = "accueil";
   static const accueilSuggestionsListe = "accueil/suggested_list";
-
   static const monSuivi = "mon_suivi";
   static const agenda = "agenda";
+  static const chat = "chat";
+  static const profil = "profil";
 
   static const userActionList = "actions/list";
   static const userActionDetails = "actions/detail";
@@ -28,8 +29,6 @@ class AnalyticsScreenNames {
   static const searchDemarcheStep3 = "/demarches/demarche-renferentiel-create";
   static const searchDemarcheStep3Success = "/demarches/createSuccess";
   static const createDemarchePersonnalisee = "actions/demarche-personnalisee/create";
-
-  static const chat = "chat";
 
   static const rendezvousListPast = "rdv/list-past";
   static const rendezvousListFuture = "rdv/list-future";
@@ -43,7 +42,6 @@ class AnalyticsScreenNames {
   static const rendezvousPrestation = "rdv/prestation";
   static const rendezvousAutre = "rdv/autre";
 
-  // Recherche V2
   static const rechercheV2Home = "recherche/home";
   static const rechercheSuggestionsListe = "recherche/suggested_list";
 
@@ -55,33 +53,40 @@ class AnalyticsScreenNames {
 
   static String rechercheModifieeResultats(String type) => "recherche/$type/search_results?update=true";
 
+  static const emploiRecherche = "emploi";
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
-  static const emploiCreateAlert = "/saved_search/emploi/create";
+  static const emploiCreateAlert = "/saved_searches/emploi/create";
   static const emploiPartagePage = "/recherche/emploi/detail/partage-conseiller";
   static const emploiPartagePageSuccess = "/recherche/emploi/detail?partage-conseiller=true";
 
-  static const alternanceResults = "recherche/alternance/search_results";
+  static const alternanceRecherche = "alternance";
   static const alternanceDetails = "recherche/alternance/detail";
   static const alternanceFiltres = "recherche/alternance/search_results/filters";
-  static const alternanceCreateAlert = "/saved_search/alternance/create";
+  static const alternanceCreateAlert = "/saved_searches/alternance/create";
 
+  static const immersionRecherche = "immersion";
   static const immersionDetails = "recherche/immersion/detail";
   static const immersionContact = "recherche/immersion/detail/contact";
   static const immersionForm = "recherche/immersion/detail/formulaire";
   static String immersionFormSent(bool succeed) => "recherche/immersion/detail/formulaire?success=$succeed";
   static const immersionFiltres = "recherche/immersion/search_results/filters";
-  static const immersionCreateAlert = "/saved_search/immersion/create";
+  static const immersionCreateAlert = "/saved_searches/immersion/create";
 
+  static const serviceCiviqueRecherche = "service_civique";
   static const serviceCiviqueDetail = "recherche/service_civique/detail";
   static const serviceCiviqueFiltres = "recherche/service_civique/search_results/filters";
-  static const serviceCiviqueCreateAlert = "/saved_search/service_civique/create";
+  static const serviceCiviqueCreateAlert = "/saved_searches/service_civique/create";
+
+  static const toolbox = "recherche/boite_a_outils";
 
   static const eventList = "events/list";
-  static const toolbox = "recherche/boite_a_outils";
-  static const profil = "profil";
-
   static const eventPartagePageSuccess = "events/detail?partage-conseiller=true";
+
+  static const evenementEmploiRecherche = "evenement_emploi";
+  static const evenementEmploiDetails = "evenement_emploi/detail";
+  static const evenementEmploiFiltres = "evenement_emploi/search_results/filters";
+  static const evenementEmploiPartagePageSuccess = "evenement_emploi/detail?partage-conseiller=true";
 
   static const offreFavorisList = "favoris/list";
   static const offreFavorisListFilterEmploi = "favoris/list?filtre=emploi";
@@ -96,10 +101,10 @@ class AnalyticsScreenNames {
   static const savedSearchListFilterImmersion = "saved_searches/list?filtre=immersion";
   static const savedSearchListFilterServiceCivique = "saved_searches/list?filtre=service_civique";
 
-  static const savedSearchEmploiDelete = "/saved_search/emploi/delete";
-  static const savedSearchAlternanceDelete = "/saved_search/alternance/delete";
-  static const savedSearchImmersionDelete = "/saved_search/immersion/delete";
-  static const savedSearchServiceCiviqueDelete = "/saved_search/service-civique/delete";
+  static const savedSearchEmploiDelete = "/saved_searches/emploi/delete";
+  static const savedSearchAlternanceDelete = "/saved_searches/alternance/delete";
+  static const savedSearchImmersionDelete = "/saved_searches/immersion/delete";
+  static const savedSearchServiceCiviqueDelete = "/saved_searches/service-civique/delete";
 
   static const suppressionAccount = "/profil/suppression-compte";
   static const shareActivity = "/profil/autorisation-partage-conseiller";
@@ -114,6 +119,8 @@ class AnalyticsScreenNames {
   static const diagorienteEntryPage = "/diagoriente";
   static const diagorienteChatBot = "/diagoriente/chatbot";
   static const diagorienteFavoris = "/diagoriente/favoris";
+
+  static const cvListPage = "/cv/list";
 }
 
 class AnalyticsActionNames {
@@ -192,6 +199,17 @@ class AnalyticsEventNames {
   static const lastRechercheLocationEventCategory = "Dernières recherches localisation";
   static const lastRechercheLocationDisplayAction = "Affichage dernières recherches localisation";
   static const lastRechercheLocationClickAction = "Clic dernières recherches localisation";
+
+  static const webAuthPageEventCategory = "Mire connexion mobile";
+  static const webAuthPageSuccessAction = "Connexion post mire OK";
+  static const webAuthPageErrorAction = "Connexion post mire KO";
+
+  static const pushNotificationEventCategory = "Push notifications sur mobile";
+  static const pushNotificationReceivedAction = "Reception push notification";
+  static const pushNotificationOpenedAction = "Ouverture push notification";
+
+  static const pushNotificationAuthorizationStatusEventCategory = "Autorisation des push notifications sur mobile";
+  static const pushNotificationAuthorizationStatusAction = "Autorisation";
 }
 
 class AnalyticsCustomDimensions {

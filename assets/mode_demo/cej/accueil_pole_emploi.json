@@ -101,5 +101,60 @@
         "organisation": "DUCRETET",
         "localisation": "69 - LYON 01"
       }
-    ]
+    ],
+    "campagne": {
+      "id": "59eed752-d69e-4b9f-ab01-3037c7977f18",
+      "dateDebut": "2022-05-22T00:00:00.000Z",
+      "dateFin": "2022-05-30T00:00:00.000Z",
+      "description": "Votre expérience sur l'application",
+      "titre": "Donnez nous votre avis",
+      "questions": [
+        {
+          "id": 1,
+          "libelle": "Est-ce que l’application du CEJ vous aide à avoir un bon accompagnement avec votre conseiller ?",
+          "pourquoi": true,
+          "options": [
+            {
+              "id": 1,
+              "libelle": "Non, pas du tout"
+            },
+            {
+              "id": 2,
+              "libelle": "Plutôt non"
+            },
+            {
+              "id": 3,
+              "libelle": "Plutôt oui"
+            },
+            {
+              "id": 4,
+              "libelle": "Oui, tout à fait"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "libelle": "À votre avis, est-ce que l'application vous aide à avancer dans votre projet professionnel ?",
+          "pourquoi": true,
+          "options": [
+            {
+              "id": 1,
+              "libelle": "Non, pas du tout"
+            },
+            {
+              "id": 2,
+              "libelle": "Plutôt non"
+            },
+            {
+              "id": 3,
+              "libelle": "Plutôt oui"
+            },
+            {
+              "id": 4,
+              "libelle": "Oui, tout à fait"
+            }
+          ]
+        }
+      ]
+    }
   }

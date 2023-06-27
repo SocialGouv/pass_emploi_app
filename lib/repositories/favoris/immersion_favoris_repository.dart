@@ -1,48 +1,40 @@
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/post_favoris/post_immersion_favori.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
 import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 
 class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
-  final String _baseUrl;
-  final Client _httpClient;
+  final Dio _httpClient;
   final PassEmploiCacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
-  ImmersionFavorisRepository(this._baseUrl, this._httpClient, this._cacheManager, [this._crashlytics]);
+  ImmersionFavorisRepository(this._httpClient, this._cacheManager, [this._crashlytics]);
 
-  static Uri getFavorisIdUri({required String baseUrl, required String userId}) {
-    return Uri.parse(baseUrl + "/jeunes/$userId/favoris/offres-immersion");
-  }
+  static String getFavorisIdUrl({required String userId}) => '/jeunes/$userId/favoris/offres-immersion';
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
-    final url = getFavorisIdUri(baseUrl: _baseUrl, userId: userId);
+    final url = getFavorisIdUrl(userId: userId);
     try {
       final response = await _httpClient.get(url);
-
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes) as List;
-        return json.map((favori) => favori["id"] as String).toSet();
-      }
+      final json = response.data as List;
+      return json.map((favori) => favori["id"] as String).toSet();
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return null;
   }
 
   @override
   Future<bool> postFavori(String userId, Immersion favori) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion");
+    final url = "/jeunes/$userId/favoris/offres-immersion";
     try {
-      final response = await _httpClient.post(
+      await _httpClient.post(
         url,
-        body: customJsonEncode(
+        data: customJsonEncode(
           PostImmersionFavori(
             id: favori.id,
             metier: favori.metier,
@@ -52,27 +44,31 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
           ),
         ),
       );
-      if (response.statusCode.isValid() || response.statusCode == 409) {
-        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
+      _cacheManager.removeResource(CachedResource.FAVORIS, userId);
+      return true;
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
+      if (e is DioError && e.response?.statusCode == 409) {
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId);
         return true;
       }
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return false;
   }
 
   @override
   Future<bool> deleteFavori(String userId, String favoriId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion/$favoriId");
+    final url = "/jeunes/$userId/favoris/offres-immersion/$favoriId";
     try {
-      final response = await _httpClient.delete(url);
-      if (response.statusCode.isValid() || response.statusCode == 404) {
-        _cacheManager.removeResource(CachedResource.FAVORIS, userId, _baseUrl);
+      await _httpClient.delete(url);
+      _cacheManager.removeResource(CachedResource.FAVORIS, userId);
+      return true;
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
+      if (e is DioError && e.response?.statusCode == 404) {
+        _cacheManager.removeResource(CachedResource.FAVORIS, userId);
         return true;
       }
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return false;
   }

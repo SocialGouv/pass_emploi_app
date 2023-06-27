@@ -3,12 +3,12 @@ import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
   group('AgendaRepository', () {
-    final sut = RepositorySut2<AgendaRepository>();
+    final sut = DioRepositorySut<AgendaRepository>();
     sut.givenRepository((client) => AgendaRepository(client));
 
     group('getAgendaMissionLocale', () {

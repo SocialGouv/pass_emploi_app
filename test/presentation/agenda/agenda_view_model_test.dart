@@ -284,33 +284,7 @@ void main() {
   });
 
   group('create button', () {
-    test('when brand is BRSA and allowBrsaToCreateDemarche is set to false should not display create button', () {
-      // Given
-      final store = givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToCreateDemarche: false))
-          .agenda()
-          .store();
-
-      // When
-      final viewModel = AgendaPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.createButton, null);
-    });
-
-    test('when brand is BRSA and allowBrsaToCreateDemarche is set to true should display create button', () {
-      // Given
-      final store = givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToCreateDemarche: true))
-          .agenda()
-          .store();
-
-      // When
-      final viewModel = AgendaPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.createButton, CreateButton.demarche);
-    });
-
-    test('when brand is CEJ and user is from Mission Locale should set create button for user action', () {
+    test('when user is from Mission locale should set create button for user action', () {
       // Given
       final store = givenState().loggedInMiloUser().agenda().store();
 
@@ -321,7 +295,7 @@ void main() {
       expect(viewModel.createButton, CreateButton.userAction);
     });
 
-    test('when brand is CEJ and user is from Pole Emploi should set create button for user action', () {
+    test('when user is from Pôle emploi should set create button for user action', () {
       // Given
       final store = givenState().loggedInPoleEmploiUser().agenda().store();
 

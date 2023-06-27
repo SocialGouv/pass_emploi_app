@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
@@ -9,6 +10,8 @@ import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.da
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
+import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_state.dart';
+import 'package:pass_emploi_app/features/cv/cv_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
@@ -19,6 +22,7 @@ import 'package:pass_emploi_app/features/developer_option/activation/developer_o
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_state.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_state.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
+import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
@@ -56,8 +60,6 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_state.dart';
-import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -115,10 +117,13 @@ class AppState extends Equatable {
   final RechercheEmploiState rechercheEmploiState;
   final RechercheImmersionState rechercheImmersionState;
   final RechercheServiceCiviqueState rechercheServiceCiviqueState;
+  final RechercheEvenementEmploiState rechercheEvenementEmploiState;
   final DiagorientePreferencesMetierState diagorientePreferencesMetierState;
   final RecherchesRecentesState recherchesRecentesState;
   final ContactImmersionState contactImmersionState;
   final AccueilState accueilState;
+  final CvState cvState;
+  final EvenementEmploiDetailsState evenementEmploiDetailsState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -176,10 +181,13 @@ class AppState extends Equatable {
     required this.rechercheEmploiState,
     required this.rechercheImmersionState,
     required this.rechercheServiceCiviqueState,
+    required this.rechercheEvenementEmploiState,
     required this.diagorientePreferencesMetierState,
     required this.recherchesRecentesState,
     required this.contactImmersionState,
     required this.accueilState,
+    required this.cvState,
+    required this.evenementEmploiDetailsState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -238,10 +246,13 @@ class AppState extends Equatable {
     final RechercheEmploiState? rechercheEmploiState,
     final RechercheImmersionState? rechercheImmersionState,
     final RechercheServiceCiviqueState? rechercheServiceCiviqueState,
+    final RechercheEvenementEmploiState? rechercheEvenementEmploiState,
     final DiagorientePreferencesMetierState? diagorientePreferencesMetierState,
     final RecherchesRecentesState? recherchesRecentesState,
     final ContactImmersionState? contactImmersionState,
     final AccueilState? accueilState,
+    final CvState? cvState,
+    final EvenementEmploiDetailsState? evenementEmploiDetailsState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -300,10 +311,13 @@ class AppState extends Equatable {
       rechercheEmploiState: rechercheEmploiState ?? this.rechercheEmploiState,
       rechercheImmersionState: rechercheImmersionState ?? this.rechercheImmersionState,
       rechercheServiceCiviqueState: rechercheServiceCiviqueState ?? this.rechercheServiceCiviqueState,
+      rechercheEvenementEmploiState: rechercheEvenementEmploiState ?? this.rechercheEvenementEmploiState,
       diagorientePreferencesMetierState: diagorientePreferencesMetierState ?? this.diagorientePreferencesMetierState,
       recherchesRecentesState: recherchesRecentesState ?? this.recherchesRecentesState,
       contactImmersionState: contactImmersionState ?? this.contactImmersionState,
       accueilState: accueilState ?? this.accueilState,
+      cvState: cvState ?? this.cvState,
+      evenementEmploiDetailsState: evenementEmploiDetailsState ?? this.evenementEmploiDetailsState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -349,7 +363,7 @@ class AppState extends Equatable {
       matomoLoggingState: MatomoLoggingState([]),
       previewFileState: PreviewFileNotInitializedState(),
       chatBrouillonState: ChatBrouillonState(null),
-      chatPartageState: ChatPartageState.notInitialized,
+      chatPartageState: ChatPartageNotInitializedState(),
       tutorialState: TutorialNotInitializedState(),
       partageActiviteState: PartageActiviteNotInitializedState(),
       partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),
@@ -364,10 +378,13 @@ class AppState extends Equatable {
       rechercheEmploiState: RechercheState.initial(),
       rechercheImmersionState: RechercheState.initial(),
       rechercheServiceCiviqueState: RechercheState.initial(),
+      rechercheEvenementEmploiState: RechercheState.initial(),
       diagorientePreferencesMetierState: DiagorientePreferencesMetierNotInitializedState(),
       recherchesRecentesState: RecherchesRecentesState([]),
       contactImmersionState: ContactImmersionNotInitializedState(),
       accueilState: AccueilNotInitializedState(),
+      cvState: CvNotInitializedState(),
+      evenementEmploiDetailsState: EvenementEmploiDetailsNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -421,10 +438,13 @@ class AppState extends Equatable {
         rechercheEmploiState,
         rechercheImmersionState,
         rechercheServiceCiviqueState,
+        rechercheEvenementEmploiState,
         diagorientePreferencesMetierState,
         recherchesRecentesState,
         contactImmersionState,
         accueilState,
+        cvState,
+        evenementEmploiDetailsState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

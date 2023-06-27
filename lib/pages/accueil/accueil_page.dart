@@ -10,20 +10,17 @@ import 'package:pass_emploi_app/pages/accueil/accueil_evenements.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_favoris.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_outils.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
-import 'package:pass_emploi_app/pages/offre_favoris_tab_page.dart';
-import 'package:pass_emploi_app/pages/saved_search_tab_page.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_favoris_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_outils_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_prochain_rendezvous_item.dart';
+import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
+import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
+import 'package:pass_emploi_app/pages/saved_search_page.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
@@ -45,9 +42,9 @@ class AccueilPage extends StatelessWidget {
   void _handleDeeplink(BuildContext context, AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) {
     final deepLinkState = newViewModel.deepLinkState;
     if (deepLinkState is FavorisDeepLinkState) {
-      Navigator.push(context, OffreFavorisTabPage.materialPageRoute());
+      Navigator.push(context, OffreFavorisPage.materialPageRoute());
     } else if (deepLinkState is SavedSearchesDeepLinkState) {
-      Navigator.push(context, SavedSearchTabPage.materialPageRoute());
+      Navigator.push(context, SavedSearchPage.materialPageRoute());
     } else {
       return;
     }
@@ -73,15 +70,11 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (viewModel.displayState) {
-      case DisplayState.LOADING:
-        return Center(child: CircularProgressIndicator());
-      case DisplayState.CONTENT:
-        return _Blocs(viewModel);
-      case DisplayState.EMPTY:
-      case DisplayState.FAILURE:
-        return _Retry(viewModel: viewModel);
-    }
+    return switch (viewModel.displayState) {
+      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+      DisplayState.CONTENT => _Blocs(viewModel),
+      DisplayState.EMPTY || DisplayState.FAILURE => _Retry(viewModel: viewModel),
+    };
   }
 }
 
@@ -101,14 +94,15 @@ class _Blocs extends StatelessWidget {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-    final item = viewModel.items[index];
-    if (item is AccueilCetteSemaineItem) return AccueilCetteSemaine(item);
-    if (item is AccueilProchainRendezvousItem) return AccueilProchainRendezVous(item);
-    if (item is AccueilEvenementsItem) return AccueilEvenements(item);
-    if (item is AccueilAlertesItem) return AccueilAlertes(item);
-    if (item is AccueilFavorisItem) return AccueilFavoris(item);
-    if (item is AccueilOutilsItem) return AccueilOutils(item);
-    return SizedBox.shrink();
+    return switch (viewModel.items[index]) {
+      final AccueilCampagneItem item => _CampagneCard(title: item.titre, description: item.description),
+      final AccueilCetteSemaineItem item => AccueilCetteSemaine(item),
+      final AccueilProchainRendezvousItem item => AccueilProchainRendezVous(item),
+      final AccueilEvenementsItem item => AccueilEvenements(item),
+      final AccueilAlertesItem item => AccueilAlertes(item),
+      final AccueilFavorisItem item => AccueilFavoris(item),
+      final AccueilOutilsItem item => AccueilOutils(item),
+    };
   }
 }
 
@@ -120,9 +114,28 @@ class _Retry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Retry(Strings.agendaError, () => viewModel.retry()),
-    ));
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: Retry(Strings.agendaError, () => viewModel.retry()),
+      ),
+    );
+  }
+}
+
+class _CampagneCard extends StatelessWidget {
+  final String title;
+  final String description;
+
+  _CampagneCard({required this.title, required this.description});
+
+  @override
+  Widget build(BuildContext context) {
+    return CampagneCard(
+      onTap: () {
+        Navigator.push(context, CampagneDetailsPage.materialPageRoute());
+      },
+      titre: title,
+      description: description,
+    );
   }
 }

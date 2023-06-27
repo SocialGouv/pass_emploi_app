@@ -1,27 +1,22 @@
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
+import 'package:pass_emploi_app/network/dio_ext.dart';
 
 class SearchLocationRepository {
-  final String _baseUrl;
-  final Client _httpClient;
+  final Dio _httpClient;
 
   final Crashlytics? _crashlytics;
 
-  SearchLocationRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
+  SearchLocationRepository(this._httpClient, [this._crashlytics]);
 
   Future<List<Location>> getLocations({required String userId, required String query, bool villesOnly = false}) async {
-    final url = Uri.parse(_baseUrl + "/referentiels/communes-et-departements?recherche=$query&villesOnly=$villesOnly");
+    final url = "/referentiels/communes-et-departements?recherche=$query&villesOnly=$villesOnly";
     try {
       final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes);
-        return (json as List).map((location) => Location.fromJson(location)).toList();
-      }
+      return response.asListOf(Location.fromJson);
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return [];
   }

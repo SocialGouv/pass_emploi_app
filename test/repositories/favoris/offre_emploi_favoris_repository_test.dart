@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 
 import '../../doubles/dummies.dart';
-import '../../dsl/sut_repository.dart';
+import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = RepositorySut<OffreEmploiFavorisRepository>();
-  sut.givenRepository((client) => OffreEmploiFavorisRepository("BASE_URL", client, DummyPassEmploiCacheManager()));
+  final sut = DioRepositorySut<OffreEmploiFavorisRepository>();
+  sut.givenRepository((client) => OffreEmploiFavorisRepository(client, DummyPassEmploiCacheManager()));
 
   group("getFavorisId", () {
     sut.when((repository) => repository.getFavorisId("jeuneId"));
@@ -17,8 +17,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "GET",
-          url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi",
+          method: HttpMethod.get,
+          url: "/jeunes/jeuneId/favoris/offres-emploi",
         );
       });
 
@@ -47,8 +47,8 @@ void main() {
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
-            method: "POST",
-            url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi",
+            method: HttpMethod.post,
+            url: "/jeunes/jeuneId/favoris/offres-emploi",
             jsonBody: {
               "idOffre": "offreId",
               "titre": "title",
@@ -93,8 +93,8 @@ void main() {
 
             test('request should be valid', () async {
               await sut.expectRequestBody(
-                method: "POST",
-                url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi",
+                method: HttpMethod.post,
+                url: "/jeunes/jeuneId/favoris/offres-emploi",
                 jsonBody: {
                   "idOffre": "offreId2",
                   "titre": "otherTitle",
@@ -129,8 +129,8 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "DELETE",
-          url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi/offreId",
+          method: HttpMethod.delete,
+          url: "/jeunes/jeuneId/favoris/offres-emploi/offreId",
         );
       });
 

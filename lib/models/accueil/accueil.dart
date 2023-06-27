@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
@@ -15,6 +16,7 @@ class Accueil extends Equatable {
   final List<Rendezvous>? evenements;
   final List<SavedSearch>? alertes;
   final List<Favori>? favoris;
+  final Campagne? campagne;
 
   Accueil({
     this.dateDerniereMiseAJour,
@@ -23,6 +25,7 @@ class Accueil extends Equatable {
     this.evenements,
     this.alertes,
     this.favoris,
+    this.campagne,
   });
 
   factory Accueil.fromJson(dynamic json) {
@@ -32,6 +35,8 @@ class Accueil extends Equatable {
     final evenements = _evenements(json);
     final alertes = _alertes(json);
     final favoris = _favoris(json);
+    final campagne = json["campagne"] != null ? Campagne.fromJson(json["campagne"]) : null;
+
     return Accueil(
       dateDerniereMiseAJour: dateDerniereMiseAjour,
       cetteSemaine: cetteSemaine,
@@ -39,6 +44,7 @@ class Accueil extends Equatable {
       evenements: evenements,
       alertes: alertes,
       favoris: favoris,
+      campagne: campagne,
     );
   }
 

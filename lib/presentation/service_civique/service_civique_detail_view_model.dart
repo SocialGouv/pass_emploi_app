@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
@@ -7,19 +9,23 @@ import 'package:redux/redux.dart';
 
 class ServiceCiviqueDetailViewModel {
   final DisplayState displayState;
+  final bool shouldShowCvBottomSheet;
   final ServiceCiviqueDetail? detail;
   final ServiceCivique? serviceCivique;
 
   ServiceCiviqueDetailViewModel._({
     required this.displayState,
+    required this.shouldShowCvBottomSheet,
     this.serviceCivique,
     this.detail,
   });
 
   factory ServiceCiviqueDetailViewModel.create(Store<AppState> store) {
     final ServiceCiviqueDetailState state = store.state.serviceCiviqueDetailState;
+    final loginState = store.state.loginState;
     return ServiceCiviqueDetailViewModel._(
       displayState: _displayState(state),
+      shouldShowCvBottomSheet: loginState is LoginSuccessState ? loginState.user.loginMode.isPe() : false,
       detail: _detail(state),
       serviceCivique: _serviceCivique(state),
     );

@@ -27,8 +27,6 @@ class Configuration extends Equatable {
   final String iSRGX1CertificateForOldDevices;
   final String actualisationPoleEmploiUrl;
   final String fuseauHoraire;
-  final bool allowBrsaToUpdateDemarche;
-  final bool allowBrsaToCreateDemarche;
 
   Configuration(
     this.version,
@@ -47,8 +45,6 @@ class Configuration extends Equatable {
     this.iSRGX1CertificateForOldDevices,
     this.actualisationPoleEmploiUrl,
     this.fuseauHoraire,
-    this.allowBrsaToUpdateDemarche,
-    this.allowBrsaToCreateDemarche,
   );
 
   static Future<Configuration> build({
@@ -76,24 +72,23 @@ class Configuration extends Equatable {
     final actualisationPoleEmploiUrl = getOrThrow('ACTUALISATION_PE_URL');
     final fuseauHoraire = await FlutterNativeTimezone.getLocalTimezone();
     return Configuration(
-        currentVersion,
-        flavor,
-        brand,
-        serverBaseUrl,
-        matomoBaseUrl,
-        matomoSiteId,
-        matomoDimensionProduitId,
-        authClientId,
-        authLoginRedirectUrl,
-        authLogoutRedirectUrl,
-        authIssuer,
-        authScopes,
-        authClientSecret,
-        iSRGX1CertificateForOldDevices,
-        actualisationPoleEmploiUrl,
-        fuseauHoraire,
-        allowBrsaToUpdateDemarche,
-        allowBrsaToCreateDemarche);
+      currentVersion,
+      flavor,
+      brand,
+      serverBaseUrl,
+      matomoBaseUrl,
+      matomoSiteId,
+      matomoDimensionProduitId,
+      authClientId,
+      authLoginRedirectUrl,
+      authLogoutRedirectUrl,
+      authIssuer,
+      authScopes,
+      authClientSecret,
+      iSRGX1CertificateForOldDevices,
+      actualisationPoleEmploiUrl,
+      fuseauHoraire,
+    );
   }
 
   static Future<void> loadEnvironmentVariables(Flavor flavor) async {
@@ -134,8 +129,6 @@ class Configuration extends Equatable {
         iSRGX1CertificateForOldDevices,
         actualisationPoleEmploiUrl,
         fuseauHoraire,
-        allowBrsaToUpdateDemarche,
-        allowBrsaToCreateDemarche,
       ];
 
   Configuration copyWith({
@@ -175,8 +168,6 @@ class Configuration extends Equatable {
       iSRGX1CertificateForOldDevices ?? this.iSRGX1CertificateForOldDevices,
       actualisationPoleEmploiUrl ?? this.actualisationPoleEmploiUrl,
       fuseauHoraire ?? this.fuseauHoraire,
-      allowBrsaToUpdateDemarche ?? this.allowBrsaToUpdateDemarche,
-      allowBrsaToCreateDemarche ?? this.allowBrsaToCreateDemarche,
     );
   }
 }

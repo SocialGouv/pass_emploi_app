@@ -10,9 +10,6 @@ import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
-import 'package:http/io_client.dart';
-import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/auth/auth_access_checker.dart';
 import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
@@ -23,19 +20,13 @@ import 'package:pass_emploi_app/configuration/app_version_checker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
-import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
-import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/auth_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/cache_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/demo_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/expired_token_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
@@ -51,23 +42,26 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
+import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
-import 'package:pass_emploi_app/repositories/immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
@@ -81,8 +75,8 @@ import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_sea
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
-import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
@@ -169,10 +163,10 @@ class AppInitializer {
       FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
     );
     final logoutRepository = LogoutRepository(
-      configuration.authIssuer,
-      configuration.authClientSecret,
-      configuration.authClientId,
-      crashlytics,
+      authIssuer: configuration.authIssuer,
+      clientSecret: configuration.authClientSecret,
+      clientId: configuration.authClientId,
+      crashlytics: crashlytics,
     );
     final authenticator = Authenticator(
       AuthWrapper(FlutterAppAuth(), Lock(), crashlytics),
@@ -183,23 +177,12 @@ class AppInitializer {
     );
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
     final authAccessChecker = AuthAccessChecker();
-    final requestCacheManager = PassEmploiCacheManager.requestCache();
+    final requestCacheManager = PassEmploiCacheManager.requestCache(configuration.serverBaseUrl);
     final modeDemoRepository = ModeDemoRepository();
     final installationIdRepository = InstallationIdRepository(securedPreferences);
-    final monitoringInterceptor = MonitoringInterceptor(installationIdRepository);
-    final httpClient = _makeHttpClient(
-      modeDemoRepository,
-      accessTokenRetriever,
-      requestCacheManager,
-      authAccessChecker,
-      monitoringInterceptor,
-      crashlytics,
-      configuration,
-    );
-    logoutRepository.setHttpClient(httpClient);
-    logoutRepository.setCacheManager(requestCacheManager);
     final baseUrl = configuration.serverBaseUrl;
     final monitoringDioInterceptor = MonitoringDioInterceptor(installationIdRepository);
+    _setTrustedCertificatesForOldDevices(configuration, crashlytics);
     final dioClient = _makeDioClient(
       baseUrl,
       modeDemoRepository,
@@ -208,6 +191,8 @@ class AppInitializer {
       authAccessChecker,
       monitoringDioInterceptor,
     );
+    logoutRepository.setHttpClient(dioClient);
+    logoutRepository.setCacheManager(requestCacheManager);
     final chatCrypto = ChatCrypto();
     final firebaseInstanceIdGetter = FirebaseInstanceIdGetter();
     final reduxStore = StoreFactory(
@@ -216,51 +201,45 @@ class AppInitializer {
       crashlytics,
       chatCrypto,
       PageActionRepository(dioClient, crashlytics),
-      PageDemarcheRepository(baseUrl, httpClient, crashlytics),
-      RendezvousRepository(baseUrl, httpClient, crashlytics),
-      OffreEmploiRepository(baseUrl, httpClient, crashlytics),
+      PageDemarcheRepository(dioClient, crashlytics),
+      RendezvousRepository(dioClient, crashlytics),
+      OffreEmploiRepository(dioClient, crashlytics),
       ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
-      ConfigurationApplicationRepository(
-        baseUrl,
-        httpClient,
-        firebaseInstanceIdGetter,
-        pushNotificationManager,
-        crashlytics,
-      ),
-      OffreEmploiDetailsRepository(baseUrl, httpClient, crashlytics),
-      OffreEmploiFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      ImmersionFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      ServiceCiviqueFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      SearchLocationRepository(baseUrl, httpClient, crashlytics),
-      MetierRepository(baseUrl, httpClient),
+      ConfigurationApplicationRepository(dioClient, firebaseInstanceIdGetter, pushNotificationManager, crashlytics),
+      OffreEmploiDetailsRepository(dioClient, crashlytics),
+      OffreEmploiFavorisRepository(dioClient, requestCacheManager, crashlytics),
+      ImmersionFavorisRepository(dioClient, requestCacheManager, crashlytics),
+      ServiceCiviqueFavorisRepository(dioClient, requestCacheManager, crashlytics),
+      SearchLocationRepository(dioClient, crashlytics),
+      MetierRepository(dioClient),
       ImmersionRepository(dioClient, crashlytics),
-      ImmersionDetailsRepository(baseUrl, httpClient, crashlytics),
-      FirebaseAuthRepository(baseUrl, httpClient, crashlytics),
+      ImmersionDetailsRepository(dioClient, crashlytics),
+      FirebaseAuthRepository(dioClient, crashlytics),
       FirebaseAuthWrapper(),
-      TrackingEventRepository(baseUrl, httpClient, crashlytics),
-      OffreEmploiSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      ImmersionSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      GetSavedSearchRepository(baseUrl, httpClient, crashlytics),
-      SavedSearchDeleteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),
-      ServiceCiviqueDetailRepository(baseUrl, httpClient, crashlytics),
+      TrackingEventRepository(dioClient, crashlytics),
+      OffreEmploiSavedSearchRepository(dioClient, requestCacheManager, crashlytics),
+      ImmersionSavedSearchRepository(dioClient, requestCacheManager, crashlytics),
+      ServiceCiviqueSavedSearchRepository(dioClient, requestCacheManager, crashlytics),
+      GetSavedSearchRepository(dioClient, crashlytics),
+      SavedSearchDeleteRepository(dioClient, requestCacheManager, crashlytics),
+      ServiceCiviqueRepository(dioClient, crashlytics),
+      ServiceCiviqueDetailRepository(dioClient, crashlytics),
       DetailsJeuneRepository(dioClient, crashlytics),
-      SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
+      SuppressionCompteRepository(dioClient, crashlytics),
       modeDemoRepository,
-      CampagneRepository(baseUrl, httpClient, crashlytics),
+      CampagneRepository(dioClient, crashlytics),
       matomoTracker,
-      UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
+      UpdateDemarcheRepository(dioClient, crashlytics),
       CreateDemarcheRepository(dioClient, crashlytics),
-      SearchDemarcheRepository(baseUrl, httpClient, crashlytics),
-      PieceJointeRepository(baseUrl, httpClient, crashlytics),
+      SearchDemarcheRepository(dioClient, crashlytics),
+      PieceJointeRepository(dioClient, PieceJointeFileSaver(), crashlytics),
       TutorialRepository(securedPreferences),
-      PartageActiviteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      PartageActiviteRepository(dioClient, requestCacheManager, crashlytics),
       RatingRepository(securedPreferences),
-      ActionCommentaireRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      ActionCommentaireRepository(dioClient, requestCacheManager, crashlytics),
       AgendaRepository(dioClient, crashlytics),
-      SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
-      EventListRepository(baseUrl, httpClient, crashlytics),
+      SuggestionsRechercheRepository(dioClient, requestCacheManager, crashlytics),
+      EventListRepository(dioClient, crashlytics),
       installationIdRepository,
       DiagorienteUrlsRepository(dioClient, crashlytics),
       DiagorienteMetiersFavorisRepository(dioClient, requestCacheManager, crashlytics),
@@ -268,11 +247,13 @@ class AppInitializer {
       RecherchesRecentesRepository(securedPreferences),
       ContactImmersionRepository(dioClient, crashlytics),
       AccueilRepository(dioClient, crashlytics),
+      CvRepository(dioClient, crashlytics),
+      EvenementEmploiRepository(dioClient, SecteurActiviteQueryMapper(), EvenementEmploiTypeQueryMapper(), crashlytics),
+      EvenementEmploiDetailsRepository(dioClient, crashlytics),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
-    monitoringInterceptor.setStore(reduxStore);
     monitoringDioInterceptor.setStore(reduxStore);
     chatCrypto.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
@@ -298,34 +279,20 @@ class AppInitializer {
     return dioClient;
   }
 
-  Client _makeHttpClient(
-    ModeDemoRepository modeDemoRepository,
-    AuthAccessTokenRetriever accessTokenRetriever,
-    PassEmploiCacheManager requestCacheManager,
-    AuthAccessChecker authAccessChecker,
-    MonitoringInterceptor monitoringInterceptor,
-    CrashlyticsWithFirebase crashlytics,
+  /// MUST BE called to make http clients work on older Android devices.
+  /// See: https://stackoverflow.com/questions/69511057/flutter-on-android-7-certificate-verify-failed-with-letsencrypt-ssl-cert-after-s
+  void _setTrustedCertificatesForOldDevices(
     Configuration configuration,
+    CrashlyticsWithFirebase crashlytics,
   ) {
-    final defaultContext = SecurityContext.defaultContext;
     try {
-      defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
+      SecurityContext.defaultContext.setTrustedCertificatesBytes(
+        utf8.encode(
+          configuration.iSRGX1CertificateForOldDevices,
+        ),
+      );
     } catch (e, stack) {
       crashlytics.recordNonNetworkException(e, stack);
     }
-    final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
-    final modeDemoClient = ModeDemoClient(
-      modeDemoRepository,
-      HttpClientWithCache(requestCacheManager, clientWithCertificate),
-    );
-    return InterceptedClient.build(
-      client: modeDemoClient,
-      interceptors: [
-        monitoringInterceptor,
-        AccessTokenInterceptor(accessTokenRetriever, modeDemoRepository),
-        LogoutInterceptor(authAccessChecker),
-        LoggingInterceptor(),
-      ],
-    );
   }
 }

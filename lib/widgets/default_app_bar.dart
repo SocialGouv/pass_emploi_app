@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/profile_button.dart';
 
-class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
+class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Color? backgroundColor;
   final bool withProfileButton;
@@ -48,7 +48,7 @@ class PrimaryAppBar extends StatelessWidget with PreferredSizeWidget {
   Size get preferredSize => Size.fromHeight(toolBarHeight);
 }
 
-class SecondaryAppBar extends StatelessWidget with PreferredSizeWidget {
+class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Color? backgroundColor;
 
@@ -78,7 +78,7 @@ class SecondaryAppBar extends StatelessWidget with PreferredSizeWidget {
   Size get preferredSize => Size.fromHeight(toolBarHeight);
 }
 
-class ModeDemoAppBar extends StatelessWidget with PreferredSizeWidget {
+class ModeDemoAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(

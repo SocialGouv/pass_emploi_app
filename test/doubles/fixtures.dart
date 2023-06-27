@@ -1,12 +1,12 @@
 import 'package:clock/clock.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
@@ -16,37 +16,50 @@ import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
+import 'package:pass_emploi_app/models/cv_pole_emploi.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/diagoriente_urls.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_details.dart';
+import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_modalite.dart';
+import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
+import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/message.dart' as message;
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/offre_partagee.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/requests/contact_immersion_request.dart';
+import 'package:pass_emploi_app/models/saved_search/evenement_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
+import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/version.dart';
-import 'package:pass_emploi_app/presentation/immersion_contact_form_view_model.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
+import 'package:pass_emploi_app/presentation/immersion/immersion_contact_form_view_model.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
+import '../features/campagne/campagne_test.dart';
 import '../utils/test_datetime.dart';
 
 User mockUser({String id = "", LoginMode loginMode = LoginMode.MILO}) => User(
@@ -95,10 +108,6 @@ AppState loggedInMiloState() => AppState.initialState().copyWith(loginState: suc
 
 AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
 
-Response invalidHttpResponse({String message = ""}) => Response(message, 500);
-
-HttpExceptionWithStatus deletedOfferHttpResponse() => throw HttpExceptionWithStatus(404, "Offer was delete");
-
 OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       id: "123TZKB",
       title: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
@@ -139,15 +148,17 @@ OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       isAlternance: false,
     );
 
-OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false}) => OffreEmploi(
-      id: id,
-      title: "Technicien / Technicienne en froid et climatisation",
-      companyName: "RH TT INTERIM",
-      contractType: "MIS",
-      isAlternance: isAlternance,
-      location: "77 - LOGNES",
-      duration: "Temps plein",
-    );
+OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false, String contractType = 'MIS'}) {
+  return OffreEmploi(
+    id: id,
+    title: "Technicien / Technicienne en froid et climatisation",
+    companyName: "RH TT INTERIM",
+    contractType: contractType,
+    isAlternance: isAlternance,
+    location: "77 - LOGNES",
+    duration: "Temps plein",
+  );
+}
 
 List<OffreEmploi> mockOffresEmploi10() => List.generate(10, (index) => mockOffreEmploi());
 
@@ -187,16 +198,22 @@ Configuration configuration(
     'someKey',
     'actualisationPoleEmploiUrl',
     'Europe/Paris',
-    false,
-    false,
   );
 }
 
 Configuration brsaConfiguration() => configuration(brand: Brand.brsa);
 
+Location mockLocationParis() => Location(
+      libelle: "Paris",
+      code: "75",
+      type: LocationType.DEPARTMENT,
+      latitude: 1,
+      longitude: 2,
+    );
+
 Location mockLocation({double? lat, double? lon}) => Location(
       libelle: "",
-      code: "",
+      code: "code",
       type: LocationType.DEPARTMENT,
       latitude: lat,
       longitude: lon,
@@ -204,11 +221,57 @@ Location mockLocation({double? lat, double? lon}) => Location(
 
 Location mockCommuneLocation({double? lat, double? lon, String label = ""}) => Location(
       libelle: label,
-      code: "",
+      code: "code",
+      codePostal: "codePostal",
       type: LocationType.COMMUNE,
       latitude: lat,
       longitude: lon,
     );
+
+List<Location> mockLocations() {
+  return [
+    Location(
+      libelle: "Paris",
+      code: "75",
+      type: LocationType.DEPARTMENT,
+      codePostal: null,
+      latitude: null,
+      longitude: null,
+    ),
+    Location(
+      libelle: "PARIS 14",
+      code: "75114",
+      type: LocationType.COMMUNE,
+      codePostal: "75014",
+      latitude: 48.830108,
+      longitude: 2.323026,
+    ),
+    Location(
+      libelle: "PARIS 19",
+      code: "75119",
+      type: LocationType.COMMUNE,
+      codePostal: "75019",
+      latitude: 48.887252,
+      longitude: 2.387708,
+    ),
+    Location(
+      libelle: "PARIS 07",
+      code: "75107",
+      type: LocationType.COMMUNE,
+      codePostal: "75007",
+      latitude: 48.859,
+      longitude: 2.347,
+    ),
+    Location(
+      libelle: "PARIS 09",
+      code: "75109",
+      type: LocationType.COMMUNE,
+      codePostal: "75009",
+      latitude: 48.859,
+      longitude: 2.347,
+    ),
+  ];
+}
 
 Immersion mockImmersion({String id = "", bool fromEntrepriseAccueillante = false}) {
   return Immersion(
@@ -268,6 +331,27 @@ ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
     );
 
 List<ServiceCivique> mockOffresServiceCivique10() => List.generate(10, (index) => mockServiceCivique());
+
+List<ServiceCivique> mockOffresServiceCiviqueAccompagnementInsertion() {
+  return [
+    ServiceCivique(
+      id: "61dd6f4cd016777c442bd8c7",
+      title: "Accompagnement des publics individuels",
+      companyName: "SYNDICAT MIXTE DU CHATEAU DE VALENCAY",
+      location: "Valençay",
+      startDate: "2021-12-01T00:00:00.000Z",
+      domain: "solidarite-insertion",
+    ),
+    ServiceCivique(
+      id: "61dd6f4ad016777c442bd8c5",
+      title: "Accompagnement des publics groupes",
+      companyName: "SYNDICAT MIXTE DU CHATEAU DE VALENCAY",
+      location: "Valençay",
+      startDate: "2021-12-01T00:00:00.000Z",
+      domain: "solidarite-insertion",
+    ),
+  ];
+}
 
 ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
       id: "123DXPM",
@@ -405,6 +489,36 @@ Rendezvous mockRendezvousPoleEmploi() {
     theme: 'Activ\'Projet',
     description: 'J\'explore des pistes professionnelles.',
     visioRedirectUrl: 'http://www.visio.fr',
+  );
+}
+
+EvenementEmploi mockEvenementEmploi() {
+  return EvenementEmploi(
+    id: 'id',
+    type: 'type',
+    titre: 'titre',
+    ville: 'ville',
+    codePostal: 'codePostal',
+    dateDebut: DateTime(2023, 1, 1, 10, 0, 0),
+    dateFin: DateTime(2023, 1, 1, 13, 0, 0),
+    modalites: [EvenementEmploiModalite.enPhysique],
+  );
+}
+
+List<EvenementEmploi> mockEvenementsEmploi() => [mockEvenementEmploi()];
+
+EvenementEmploiDetails mockEvenementEmploiDetails() {
+  return EvenementEmploiDetails(
+    id: "106757",
+    ville: "Ermont",
+    codePostal: "95120",
+    description: "Information collective pour découvrir les métiers de pôle emploi en vu d'un recrutement...",
+    titre: "Devenir conseiller à Pôle emploi",
+    typeEvenement: "Réunion d'information",
+    dateEvenement: parseDateTimeUtcWithCurrentTimeZone("2023-06-15T12:00:00.000+00:00"),
+    heureDebut: DateTime(1970, 1, 1, 12, 0, 0),
+    heureFin: DateTime(1970, 1, 1, 15, 0, 0),
+    url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
   );
 }
 
@@ -591,29 +705,52 @@ List<Demarche> mockDemarches() {
   ];
 }
 
-SuggestionRecherche suggestionCariste() => SuggestionRecherche(
+SuggestionRecherche suggestionCaristeFromPoleEmploi() => SuggestionRecherche(
       id: "1",
-      type: SuggestionType.emploi,
       titre: "Cariste",
+      type: OffreType.emploi,
+      source: SuggestionSource.poleEmploi,
       metier: "Conduite d'engins de déplacement des charges",
       localisation: "Nord",
       dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-09-22T12:00:00.000Z"),
       dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-09-26T13:00:00.000Z"),
     );
 
-SuggestionRecherche suggestionBoulanger() => SuggestionRecherche(
+SuggestionRecherche suggestionBoulangerFromConseiller() => SuggestionRecherche(
       id: "2",
-      type: SuggestionType.immersion,
       titre: "Boulanger",
+      type: OffreType.immersion,
+      source: SuggestionSource.conseiller,
       metier: "Chef boulanger",
       localisation: "Valence",
       dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
       dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
     );
 
-List<SuggestionRecherche> mockSuggestionsRecherche() {
-  return [suggestionCariste(), suggestionBoulanger()];
-}
+SuggestionRecherche suggestionPlombier() => SuggestionRecherche(
+      id: "3",
+      titre: "Plombier",
+      type: OffreType.immersion,
+      source: null,
+      metier: "Plombier",
+      localisation: "Valence",
+      dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
+      dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
+    );
+
+SuggestionRecherche suggestionCoiffeurFormDiagoriente() => SuggestionRecherche(
+      id: "4",
+      titre: "Coiffeur",
+      type: OffreType.immersion,
+      source: SuggestionSource.diagoriente,
+      metier: "Coiffeur en salon",
+      localisation: null,
+      dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
+      dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
+    );
+
+List<SuggestionRecherche> mockSuggestionsRecherche() =>
+    [suggestionCaristeFromPoleEmploi(), suggestionBoulangerFromConseiller()];
 
 OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
       id: "id",
@@ -624,6 +761,46 @@ OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
       onlyAlternance: false,
       filters: EmploiFiltresRecherche.withFiltres(distance: 0),
     );
+
+OffreEmploiSavedSearch mockOffreEmploiSavedSearchWithFilters({required bool isAlternance}) {
+  return OffreEmploiSavedSearch(
+    id: "id",
+    title: "title",
+    metier: "plombier",
+    location: Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT),
+    keyword: "secteur privé",
+    onlyAlternance: isAlternance,
+    filters: EmploiFiltresRecherche.withFiltres(
+        distance: 40,
+        contrat: [ContratFiltre.cdi],
+        debutantOnly: true,
+        experience: [ExperienceFiltre.trois_ans_et_plus, ExperienceFiltre.de_un_a_trois_ans],
+        duree: [DureeFiltre.temps_plein]),
+  );
+}
+
+ServiceCiviqueSavedSearch mockServiceCiviqueSavedSearchWithFiltres() {
+  return ServiceCiviqueSavedSearch(
+    id: "id",
+    titre: "ronaldo",
+    domaine: Domaine.values[2],
+    ville: "Paris",
+    location: mockLocation(lat: 48.830108, lon: 2.323026),
+    filtres: ServiceCiviqueFiltresParameters.distance(30),
+  );
+}
+
+ImmersionSavedSearch mockImmersionSavedSearchWithFiltres() {
+  return ImmersionSavedSearch(
+    id: "id",
+    title: "title",
+    metier: "plombier",
+    ville: "Paris",
+    codeRome: "F1104",
+    location: mockLocation(lat: 48.830108, lon: 2.323026),
+    filtres: ImmersionFiltresRecherche.distance(30),
+  );
+}
 
 Metier mockMetier() => Metier(codeRome: "A1410", libelle: "Chevrier / Chevrière");
 
@@ -706,6 +883,24 @@ RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche
   );
 }
 
+RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>
+    mockRechercheServiceCiviqueRequestWithFiltres() {
+  return RechercheRequest(
+    ServiceCiviqueCriteresRecherche(location: null),
+    ServiceCiviqueFiltresRecherche(distance: 500, startDate: DateTime(2023), domain: Domaine.all),
+    1,
+  );
+}
+
+RechercheRequest<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>
+    initialRechercheEvenementEmploiRequest() {
+  return RechercheRequest(
+    EvenementEmploiCriteresRecherche(location: mockLocation(), secteurActivite: null),
+    EvenementEmploiFiltresRecherche.noFiltre(),
+    1,
+  );
+}
+
 RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> secondRechercheEmploiRequest() {
   return initialRechercheEmploiRequest().copyWith(page: 2);
 }
@@ -724,7 +919,7 @@ DiagorienteUrls mockDiagorienteUrls() {
   );
 }
 
-Favori mockFavori([String id = 'id', SolutionType type = SolutionType.Immersion]) {
+Favori mockFavori([String id = 'id', OffreType type = OffreType.immersion]) {
   return Favori(id: id, type: type, titre: 't', organisation: null, localisation: null);
 }
 
@@ -733,25 +928,29 @@ List<Favori> mock3Favoris() {
     Favori(
       id: "1",
       titre: "titre-1",
-      type: SolutionType.OffreEmploi,
+      type: OffreType.emploi,
       organisation: "organisation-1",
       localisation: "localisation-1",
     ),
     Favori(
       id: "2",
       titre: "titre-2",
-      type: SolutionType.Alternance,
+      type: OffreType.alternance,
       organisation: "organisation-2",
       localisation: "localisation-2",
     ),
     Favori(
       id: "3",
       titre: "titre-3",
-      type: SolutionType.Immersion,
+      type: OffreType.immersion,
       organisation: null,
       localisation: "localisation-3",
     ),
   ];
+}
+
+EvenementEmploiSavedSearch mockEvenementEmploiSavedSearch() {
+  return EvenementEmploiSavedSearch(id: "id-117", titre: "Ermont", location: mockLocation());
 }
 
 List<SavedSearch> getMockedSavedSearch() {
@@ -830,6 +1029,7 @@ Accueil mockAccueilMilo() {
     evenements: [mockAnimationCollective()],
     alertes: getMockedSavedSearch(),
     favoris: mock3Favoris(),
+    campagne: mockCampagne(),
   );
 }
 
@@ -844,5 +1044,48 @@ Accueil mockAccueilPoleEmploi() {
     prochainRendezVous: mockRendezvousPoleEmploi(),
     alertes: getMockedSavedSearch(),
     favoris: mock3Favoris(),
+    campagne: mockCampagne(),
   );
 }
+
+CvPoleEmploi mockCvPoleEmploi() {
+  return CvPoleEmploi(
+    titre: "Pâtissier-2023",
+    url: "https://pole-emploi/users/cv/id-user/patissier",
+    nomFichier: "patissier-2023.pdf",
+  );
+}
+
+List<CvPoleEmploi> mockCvPoleEmploiList() {
+  return [
+    mockCvPoleEmploi(),
+    CvPoleEmploi(
+      titre: "Boulanger-2023",
+      url: "https://pole-emploi/users/cv/id-user/boulanger",
+      nomFichier: "boulanger-2023.pdf",
+    ),
+  ];
+}
+
+OffrePartagee dummyOffrePartagee() => OffrePartagee(
+      id: "123TZKB",
+      titre: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
+      url: "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB",
+      message: "Regardes ça",
+      type: message.OffreType.emploi,
+    );
+
+EvenementEmploiPartage dummyEvenementEmploiPartage() => EvenementEmploiPartage(
+      id: "106757",
+      titre: "Devenir conseiller à Pôle emploi",
+      url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
+      message: "Regardes ça",
+    );
+
+EventPartage dummyEventPartage() => EventPartage(
+      id: "123TZKB",
+      titre: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
+      message: "Regardes ça",
+      date: DateTime(2023),
+      type: RendezvousType(RendezvousTypeCode.ACTIVITE_EXTERIEURES, "label"),
+    );

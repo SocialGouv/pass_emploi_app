@@ -18,7 +18,7 @@ class DiagorienteMetiersFavorisRepository {
     final url = getUrl(userId: userId);
 
     if (forceNoCache) {
-      _cacheManager.removeDiagorienteFavorisResource(baseUrl: _httpClient.options.baseUrl, userId: userId);
+      _cacheManager.removeDiagorienteFavorisResource( userId: userId);
     }
 
     try {

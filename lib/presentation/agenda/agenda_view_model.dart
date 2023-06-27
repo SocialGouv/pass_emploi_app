@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
-import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -42,14 +41,12 @@ class AgendaPageViewModel extends Equatable {
   factory AgendaPageViewModel.create(Store<AppState> store) {
     final loginState = store.state.loginState;
     final isPoleEmploi = loginState is LoginSuccessState && loginState.user.loginMode.isPe();
-    final isBrsa = store.state.configurationState.configuration?.brand == Brand.brsa;
-    final allowBrsaToCreateDemarche = store.state.configurationState.configuration?.allowBrsaToCreateDemarche == true;
     return AgendaPageViewModel(
       displayState: _displayState(store, isPoleEmploi),
       isPoleEmploi: isPoleEmploi,
       events: _events(store, isPoleEmploi),
       emptyMessage: isPoleEmploi ? Strings.agendaEmptyPoleEmploi : Strings.agendaEmptyMilo,
-      createButton: _createButton(isBrsa, allowBrsaToCreateDemarche, isPoleEmploi),
+      createButton: isPoleEmploi ? CreateButton.demarche : CreateButton.userAction,
       isReloading: store.state.agendaState is AgendaReloadingState,
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
       reload: (date) => store.dispatch(AgendaRequestReloadAction(date)),
@@ -59,13 +56,6 @@ class AgendaPageViewModel extends Equatable {
 
   @override
   List<Object?> get props => [displayState, isPoleEmploi, events, emptyMessage, createButton, isReloading];
-}
-
-CreateButton? _createButton(bool isBrsa, bool allowBrsaToCreateDemarche, bool isPoleEmploi) {
-  if (isBrsa) {
-    return allowBrsaToCreateDemarche ? CreateButton.demarche : null;
-  }
-  return isPoleEmploi ? CreateButton.demarche : CreateButton.userAction;
 }
 
 DisplayState _displayState(Store<AppState> store, bool isPoleEmploi) {
@@ -250,6 +240,7 @@ class DaySeparatorAgendaItem extends AgendaItem {
 
 class EmptyMessageAgendaItem extends AgendaItem {
   final String text;
+
   EmptyMessageAgendaItem(this.text);
 
   @override

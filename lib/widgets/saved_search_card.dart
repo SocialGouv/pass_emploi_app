@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigatio
 import 'package:pass_emploi_app/presentation/saved_search_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/saved_search_navigator_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 
@@ -29,7 +30,7 @@ class _SavedSearchNavigatorState extends State<SavedSearchNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, SavedSearchNavigatorViewModel>(
+    return StoreConnectorAware<SavedSearchNavigatorViewModel>(
       converter: (store) => SavedSearchNavigatorViewModel.create(store),
       builder: (_, __) => widget.child,
       onWillChange: _onWillChange,
@@ -105,7 +106,7 @@ Widget _buildEmploiAndAlternanceCard(
   SavedSearchCardViewModel viewModel,
 ) {
   return FavoriCard(
-    solutionType: offreEmploi.onlyAlternance ? SolutionType.Alternance : SolutionType.OffreEmploi,
+    offreType: offreEmploi.onlyAlternance ? OffreType.alternance : OffreType.emploi,
     title: offreEmploi.title,
     place: offreEmploi.location?.libelle,
     bottomTip: Strings.voirResultatsSuggestion,
@@ -119,7 +120,7 @@ Widget _buildImmersionCard(
   SavedSearchCardViewModel viewModel,
 ) {
   return FavoriCard(
-    solutionType: SolutionType.Immersion,
+    offreType: OffreType.immersion,
     title: savedSearchsImmersion.title,
     place: savedSearchsImmersion.ville,
     bottomTip: Strings.voirResultatsSuggestion,
@@ -133,7 +134,7 @@ Widget _buildServiceCiviqueCard(
   SavedSearchCardViewModel viewModel,
 ) {
   return FavoriCard(
-    solutionType: SolutionType.ServiceCivique,
+    offreType: OffreType.serviceCivique,
     title: savedSearchsServiceCivique.titre,
     place: savedSearchsServiceCivique.ville?.isNotEmpty == true ? savedSearchsServiceCivique.ville : null,
     bottomTip: Strings.voirResultatsSuggestion,

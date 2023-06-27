@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
-import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
@@ -28,17 +27,13 @@ import 'package:synchronized/synchronized.dart';
 import 'dio_mock.dart';
 import 'dummies.dart';
 import 'fixtures.dart';
+import 'mocks.dart';
 import 'spies.dart';
 
 class PageActionRepositorySuccessStub extends PageActionRepository {
-  Campagne? _campagne;
   var isActionUpdated = false;
 
   PageActionRepositorySuccessStub() : super(DioMock());
-
-  void withCampagne(Campagne campagne) {
-    _campagne = campagne;
-  }
 
   @override
   Future<PageActions> getPageActions(String userId) async {
@@ -53,7 +48,6 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
           creator: JeuneActionCreator(),
         ),
       ],
-      campagne: _campagne,
     );
   }
 
@@ -99,13 +93,7 @@ class PageActionRepositoryFailureStub extends PageActionRepository {
 }
 
 class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
-  Campagne? _campagne;
-
-  PageDemarcheRepositorySuccessStub() : super("", DummyHttpClient());
-
-  void withCampagne(Campagne campagne) {
-    _campagne = campagne;
-  }
+  PageDemarcheRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<PageDemarches?> getPageDemarches(String userId) async {
@@ -128,14 +116,13 @@ class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
           attributs: [],
         ),
       ],
-      campagne: _campagne,
       dateDerniereMiseAJour: DateTime(2023, 1, 1),
     );
   }
 }
 
 class PageDemarcheRepositoryFailureStub extends PageDemarcheRepository {
-  PageDemarcheRepositoryFailureStub() : super("", DummyHttpClient());
+  PageDemarcheRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<PageDemarches?> getPageDemarches(String userId) async {
@@ -286,7 +273,7 @@ class ChatRepositoryStub extends ChatRepository {
 }
 
 class SuppressionCompteRepositorySuccessStub extends SuppressionCompteRepository {
-  SuppressionCompteRepositorySuccessStub() : super("", DummyHttpClient());
+  SuppressionCompteRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<bool> deleteUser(String userId) async {
@@ -295,7 +282,7 @@ class SuppressionCompteRepositorySuccessStub extends SuppressionCompteRepository
 }
 
 class SuppressionCompteRepositoryFailureStub extends SuppressionCompteRepository {
-  SuppressionCompteRepositoryFailureStub() : super("", DummyHttpClient());
+  SuppressionCompteRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<bool> deleteUser(String userId) async {
@@ -304,7 +291,7 @@ class SuppressionCompteRepositoryFailureStub extends SuppressionCompteRepository
 }
 
 class PieceJointeRepositorySuccessStub extends PieceJointeRepository {
-  PieceJointeRepositorySuccessStub() : super("", DummyHttpClient());
+  PieceJointeRepositorySuccessStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
   Future<String?> download({required String fileId, required String fileName}) async {
@@ -313,7 +300,7 @@ class PieceJointeRepositorySuccessStub extends PieceJointeRepository {
 }
 
 class PieceJointeRepositoryFailureStub extends PieceJointeRepository {
-  PieceJointeRepositoryFailureStub() : super("", DummyHttpClient());
+  PieceJointeRepositoryFailureStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
   Future<String?> download({required String fileId, required String fileName}) async {
@@ -322,7 +309,7 @@ class PieceJointeRepositoryFailureStub extends PieceJointeRepository {
 }
 
 class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
-  PieceJointeRepositoryUnavailableStub() : super("", DummyHttpClient());
+  PieceJointeRepositoryUnavailableStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
   Future<String?> download({required String fileId, required String fileName}) async {
@@ -331,7 +318,7 @@ class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
 }
 
 class ActionCommentaireRepositorySuccessStub extends ActionCommentaireRepository {
-  ActionCommentaireRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  ActionCommentaireRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
@@ -345,7 +332,7 @@ class ActionCommentaireRepositorySuccessStub extends ActionCommentaireRepository
 }
 
 class ActionCommentaireRepositoryFailureStub extends ActionCommentaireRepository {
-  ActionCommentaireRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  ActionCommentaireRepositoryFailureStub() : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
@@ -365,7 +352,7 @@ class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
   DateTime? _fin;
   DateTime? _debut;
 
-  UpdateDemarcheRepositorySuccessStub() : super('', DummyHttpClient());
+  UpdateDemarcheRepositorySuccessStub() : super(DioMock());
 
   void withArgsResolves(
     String userId,
@@ -397,7 +384,7 @@ class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
 }
 
 class UpdateDemarcheRepositoryFailureStub extends UpdateDemarcheRepository {
-  UpdateDemarcheRepositoryFailureStub() : super('', DummyHttpClient());
+  UpdateDemarcheRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<Demarche?> updateDemarche(

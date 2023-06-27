@@ -1,14 +1,15 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:pass_emploi_app/models/tutorial.dart';
+import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
+import 'package:pass_emploi_app/models/tutorial/tutorial_page.dart';
 
 class TutorialRepository {
   final FlutterSecureStorage _preferences;
 
   TutorialRepository(this._preferences);
 
-  List<Tutorial> getMiloTutorial() => Tutorial.milo.toList();
+  List<TutorialPage> getMiloTutorial() => Tutorial.milo;
 
-  List<Tutorial> getPoleEmploiTutorial() => Tutorial.poleEmploi.toList();
+  List<TutorialPage> getPoleEmploiTutorial() => Tutorial.pe;
 
   Future<void> setTutorialRead() async {
     await _preferences.write(key: 'tutorialRead-' + Tutorial.version, value: 'read');

@@ -1,15 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository.dart';
+import '../dsl/sut_dio_repository.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  final sut = RepositorySut<PageDemarcheRepository>();
-  sut.givenRepository((client) => PageDemarcheRepository("BASE_URL", client));
+  final sut = DioRepositorySut<PageDemarcheRepository>();
+  sut.givenRepository((client) => PageDemarcheRepository(client));
 
   group("getPageDemarches", () {
     sut.when((repository) => repository.getPageDemarches("UID"));
@@ -19,29 +18,15 @@ void main() {
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
-          method: "GET",
-          url: "BASE_URL/v2/jeunes/UID/home/demarches",
+          method: HttpMethod.get,
+          url: "/v2/jeunes/UID/home/demarches",
         );
       });
 
       test('response should be valid', () async {
         await sut.expectResult<PageDemarches?>((result) {
           expect(result, isNotNull);
-          expect(result!.campagne, isNotNull);
-          expect(
-            result.campagne,
-            Campagne(
-              id: "id-campagne",
-              titre: "Votre expérience sur l'application",
-              description: "Donnez nous votre avis",
-              questions: [
-                Question(id: 1, libelle: "la question ?", options: [
-                  Option(id: 1, libelle: "Non, pas du tout"),
-                ])
-              ],
-            ),
-          );
-          expect(result.demarches, isNotNull);
+          expect(result!.demarches, isNotNull);
           expect(result.demarches.length, 7);
           expect(result.demarches.first, demarcheStub());
           expect(result.dateDerniereMiseAJour, parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'));

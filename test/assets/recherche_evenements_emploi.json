@@ -1,0 +1,22 @@
+{
+  "pagination": {
+    "page": 1,
+    "limit": 20
+  },
+  "results": [
+    {
+      "id": "1",
+      "typeEvenement": "Atelier",
+      "titre": "Atelier du travail",
+      "ville": "Marseille",
+      "codePostal": "13006",
+      "heureDebut": "10:00:00",
+      "heureFin": "12:00:00",
+      "dateEvenement": "2023-05-17T10:00:00.000+00:00",
+      "modalites": [
+        "en physique",
+        "a distance"
+      ]
+    }
+  ]
+}

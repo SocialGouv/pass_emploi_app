@@ -1,8 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
-import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -67,7 +65,7 @@ void main() {
   });
 
   test(
-      "create when demarche state is success with active, retarded, done, cancelled demarche and campagne should sort it correctly and put campagne in first position",
+      "create when demarche state is success with active, retarded, done, cancelled demarche should sort it correctly and put campagne in first position",
       () {
     // Given
     final store = givenState() //
@@ -89,7 +87,6 @@ void main() {
               mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
             ],
           ),
-          campagneState: CampagneState(campagne(), []),
         )
         .store();
 
@@ -97,26 +94,22 @@ void main() {
     final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.items.length, 13);
-    expect(viewModel.items.first, isA<DemarcheCampagneItem>());
+    expect(viewModel.items.length, 12);
 
-    for (var i = 1; i < 7; ++i) {
+    for (var i = 0; i < 6; ++i) {
       expect((viewModel.items[i] as IdItem).demarcheId, isIn(['IN_PROGRESS', 'NOT_STARTED']));
     }
-    for (var i = 7; i < 12; ++i) {
+    for (var i = 6; i < 11; ++i) {
       expect((viewModel.items[i] as IdItem).demarcheId, isIn(['DONE', 'CANCELLED']));
     }
   });
 
-  test(
-      'create when demarche state is success but there are no demarche and no campagne neither should display an empty message',
-      () {
+  test('create when demarche state is success but there are no demarche should display an empty message', () {
     // Given
     final store = givenState() //
         .loggedInPoleEmploiUser()
         .copyWith(
           demarcheListState: DemarcheListSuccessState([]),
-          campagneState: CampagneState(null, []),
         )
         .store();
 
@@ -128,33 +121,12 @@ void main() {
     expect(viewModel.items.length, 0);
   });
 
-  test('create when demarche state is success but there are no demarches but a campagne should display a campagne card',
-      () {
-    // Given
-    final store = givenState() //
-        .loggedInPoleEmploiUser()
-        .copyWith(
-          demarcheListState: DemarcheListSuccessState([]),
-          campagneState: CampagneState(campagne(), []),
-        )
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.items.length, 1);
-    expect(viewModel.items.first, isA<DemarcheCampagneItem>());
-  });
-
   test("should display technical message when data are not up to date", () {
     // Given
     final store = givenState() //
         .loggedInPoleEmploiUser()
         .copyWith(
           demarcheListState: DemarcheListSuccessState([], DateTime(2023, 1, 1)),
-          campagneState: CampagneState(null, []),
         )
         .store();
 
@@ -191,44 +163,5 @@ void main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
-  });
-
-  test('when brand is BRSA and allowBrsaToCreateDemarche is set to false should not display create button', () {
-    // Given
-    final store = givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToCreateDemarche: false))
-        .agenda()
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.displayCreateDemarcheButton, isFalse);
-  });
-
-  test('when brand is BRSA and allowBrsaToCreateDemarche is set to true should display create button', () {
-    // Given
-    final store = givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToCreateDemarche: true))
-        .agenda()
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.displayCreateDemarcheButton, isTrue);
-  });
-
-  test('when brand is CEJ should display create button', () {
-    // Given
-    final store = givenState(configuration(brand: Brand.cej).copyWith(allowBrsaToCreateDemarche: false))
-        .loggedInPoleEmploiUser()
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.displayCreateDemarcheButton, isTrue);
   });
 }

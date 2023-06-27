@@ -1,73 +1,74 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 
 import '../doubles/dummies.dart';
-import '../doubles/fixtures.dart';
-import '../utils/pass_emploi_mock_client.dart';
-import '../utils/test_assets.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
-  test('getPartageActivite returns is favorite shared preference', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async {
-      if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/preferences")) return invalidHttpResponse();
-      return Response.bytes(loadTestAssetsAsBytes("partage_activite.json"), 200);
+  group('PartageActiviteRepository', () {
+    final sut = DioRepositorySut<PartageActiviteRepository>();
+    sut.givenRepository((client) => PartageActiviteRepository(client, DummyPassEmploiCacheManager()));
+
+    group('getPartageActivite', () {
+      sut.when(
+        (repository) => repository.getPartageActivite("UID"),
+      );
+
+      group('when response is valid', () {
+        sut.givenJsonResponse(fromJson: "partage_activite.json");
+
+        test('request should be valid', () async {
+          await sut.expectRequestBody(
+            method: HttpMethod.get,
+            url: "/jeunes/UID/preferences",
+          );
+        });
+
+        test('response should be valid', () async {
+          await sut.expectResult<PartageActivite?>((result) {
+            expect(result, PartageActivite(partageFavoris: true));
+          });
+        });
+      });
+
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
+
+        test('response should be null', () async {
+          await sut.expectNullResult();
+        });
+      });
     });
-    final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
-    // When
-    final PartageActivite? result = await repository.getPartageActivite("UID");
+    group('updatePartageActivite', () {
+      sut.when(
+        (repository) => repository.updatePartageActivite("UID", true),
+      );
 
-    // Then
-    expect(result, isNotNull);
-    expect(result, PartageActivite(partageFavoris: true));
-    expect(result?.partageFavoris, isNotNull);
-    expect(result?.partageFavoris, true);
-  });
+      group('when response is valid', () {
+        sut.givenResponseCode(200);
 
-  test('getPartageActivite returns null when response is not valid', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+        test('request should be valid', () async {
+          await sut.expectRequestBody(
+            method: HttpMethod.put,
+            url: "/jeunes/UID/preferences",
+            jsonBody: {'partageFavoris': true},
+          );
+        });
 
-    // When
-    final result = await repository.getPartageActivite("UID");
+        test('response should be true', () async {
+          await sut.expectTrueAsResult();
+        });
+      });
 
-    // Then
-    expect(result, isNull);
-  });
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
 
-  test('putPartageActivite returns is favorite shared preference', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async {
-      if (request.method != "PUT") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/preferences")) return invalidHttpResponse();
-      final requestJson = jsonUtf8Decode(request.bodyBytes);
-      if (requestJson['partageFavoris'] != true) return invalidHttpResponse();
-      return Response('', 200);
+        test('response should be false', () async {
+          await sut.expectFalseAsResult();
+        });
+      });
     });
-    final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.updatePartageActivite("UID", true);
-
-    // Then
-    expect(result, isTrue);
-  });
-
-  test('putPartageActivite returns null when response is not valid', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.updatePartageActivite("UID", true);
-
-    // Then
-    expect(result, isFalse);
   });
 }

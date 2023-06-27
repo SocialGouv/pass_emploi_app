@@ -47,6 +47,8 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
     return FavorisStateContext<Result>(
       selectState: (store) => widget.favorisState(store.state),
       child: ListView.separated(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
         controller: _scrollController,
         itemCount: widget.viewModel.items.length,

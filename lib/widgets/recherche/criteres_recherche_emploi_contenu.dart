@@ -40,7 +40,7 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
   }
 
   void _onInitialBuild(CriteresRechercheEmploiContenuViewModel viewModel) {
-    if (viewModel.initialLocation != null || viewModel.initiaKeyword != null) _updateCriteresActifsCount();
+    if (viewModel.initialLocation != null || viewModel.initialKeyword != null) _updateCriteresActifsCount();
     initialBuild = false;
   }
 
@@ -48,7 +48,7 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
     // onInitialBuild is called AFTER the first build, so we need to do it here
     if (initialBuild) {
       _selectedLocation = viewModel.initialLocation;
-      _keyword = viewModel.initiaKeyword;
+      _keyword = viewModel.initialKeyword;
     }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),

@@ -1,12 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_alertes_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_cette_semaine_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_evenements_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_favoris_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_outils_item.dart';
-import 'package:pass_emploi_app/presentation/accueil/accueil_prochain_rendezvous_item.dart';
+import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
@@ -54,7 +49,11 @@ void main() {
   group('milo', () {
     test('should have all items', () {
       // Given
-      final store = givenState().loggedInMiloUser().withAccueilMiloSuccess().store();
+      final store = givenState() //
+          .loggedInMiloUser()
+          .withAccueilMiloSuccess()
+          .withCampagne(campagne())
+          .store();
 
       // When
       final viewModel = AccueilViewModel.create(store);
@@ -63,6 +62,7 @@ void main() {
       expect(
         viewModel.items,
         [
+          AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
             monSuiviType: MonSuiviType.actions,
             rendezVous: "3 rendez-vous",
@@ -82,7 +82,11 @@ void main() {
   group('pe', () {
     test('should have all items', () {
       // Given
-      final store = givenState().loggedInPoleEmploiUser().withAccueilPoleEmploiSuccess().store();
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .withAccueilPoleEmploiSuccess()
+          .withCampagne(campagne())
+          .store();
 
       // When
       final viewModel = AccueilViewModel.create(store);
@@ -91,6 +95,7 @@ void main() {
       expect(
         viewModel.items,
         [
+          AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
             monSuiviType: MonSuiviType.demarches,
             rendezVous: "3 rendez-vous",

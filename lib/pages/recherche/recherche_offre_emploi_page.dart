@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_filtres_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
@@ -36,12 +37,14 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   }
 
   @override
-  String appBarTitle() {
+  String? appBarTitle() {
     return onlyAlternance ? Strings.rechercheOffresAlternanceTitle : Strings.rechercheOffresEmploiTitle;
   }
 
   @override
-  String analyticsType() => onlyAlternance ? "alternance" : "emploi";
+  String analyticsType() {
+    return onlyAlternance ? AnalyticsScreenNames.alternanceRecherche : AnalyticsScreenNames.emploiRecherche;
+  }
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
@@ -50,14 +53,10 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   FavoriIdsState<OffreEmploi> favorisState(AppState appState) => appState.offreEmploiFavorisIdsState;
 
   @override
-  Widget buildAlertBottomSheet() {
-    return OffreEmploiSavedSearchBottomSheet(onlyAlternance: onlyAlternance);
-  }
+  Widget buildAlertBottomSheet() => OffreEmploiSavedSearchBottomSheet(onlyAlternance: onlyAlternance);
 
   @override
-  Route<bool> buildFiltresMaterialPageRoute() {
-    return OffreEmploiFiltresPage.materialPageRoute(onlyAlternance);
-  }
+  Route<bool>? buildFiltresMaterialPageRoute() => OffreEmploiFiltresPage.materialPageRoute(onlyAlternance);
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

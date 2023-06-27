@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
-import 'package:pass_emploi_app/models/solution_type.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 enum FavoriStatus { added, removed }
 
 class Favori extends Equatable {
   final String id;
-  final SolutionType type;
+  final OffreType type;
   final String titre;
   final String? organisation;
   final String? localisation;
@@ -23,7 +23,7 @@ class Favori extends Equatable {
   });
 
   static Favori? fromJson(dynamic json) {
-    final type = _typeFromString(json["type"] as String);
+    final type = OffreType.from(json["type"] as String);
     if (type == null) return null;
     return Favori(
       id: json['idOffre'] as String,
@@ -36,14 +36,6 @@ class Favori extends Equatable {
 
   @override
   List<Object?> get props => [id, type, titre, organisation, localisation];
-}
-
-SolutionType? _typeFromString(String typeString) {
-  if (typeString == "OFFRE_EMPLOI") return SolutionType.OffreEmploi;
-  if (typeString == "OFFRE_ALTERNANCE") return SolutionType.Alternance;
-  if (typeString == "OFFRE_IMMERSION") return SolutionType.Immersion;
-  if (typeString == "OFFRE_SERVICE_CIVIQUE") return SolutionType.ServiceCivique;
-  return null;
 }
 
 extension FavoriExt on Favori {

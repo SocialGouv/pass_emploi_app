@@ -26,12 +26,12 @@ class MockFile extends File {
   }
 
   @override
-  Future<File> create({bool recursive = false}) {
+  Future<File> create({bool recursive = false, bool exclusive = false}) {
     throw UnimplementedError();
   }
 
   @override
-  void createSync({bool recursive = false}) {}
+  void createSync({bool recursive = false, bool exclusive = false}) {}
 
   @override
   Future<FileSystemEntity> delete({bool recursive = false}) {

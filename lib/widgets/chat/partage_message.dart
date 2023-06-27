@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/pages/immersion_details_page.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
+import 'package:pass_emploi_app/pages/evenement_emploi/evenement_emploi_details_page.dart';
+import 'package:pass_emploi_app/pages/immersion/immersion_details_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
@@ -84,6 +85,8 @@ class _PartageCard extends StatelessWidget {
       _showOffreDetailsPage(context, item);
     } else if (item is EventMessageItem) {
       _showEventDetailsPage(context, item);
+    } else if (item is EvenementEmploiMessageItem) {
+      _showEvenementEmploiDetailsPage(context, item);
     }
   }
 
@@ -113,6 +116,15 @@ class _PartageCard extends StatelessWidget {
       context,
       RendezvousDetailsPage.materialPageRoute(
         RendezvousStateSource.noSource,
+        item.idPartage,
+      ),
+    );
+  }
+
+  void _showEvenementEmploiDetailsPage(BuildContext context, EvenementEmploiMessageItem item) {
+    Navigator.push(
+      context,
+      EvenementEmploiDetailsPage.materialPageRoute(
         item.idPartage,
       ),
     );

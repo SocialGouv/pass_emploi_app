@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_action.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
@@ -12,6 +13,7 @@ class ProfilPageViewModel extends Equatable {
   final String userEmail;
   final bool displayMonConseiller;
   final bool displayDeveloperOptions;
+  final bool withDownloadCv;
   final Function() onTitleTap;
 
   ProfilPageViewModel({
@@ -19,6 +21,7 @@ class ProfilPageViewModel extends Equatable {
     required this.userEmail,
     required this.displayMonConseiller,
     required this.displayDeveloperOptions,
+    required this.withDownloadCv,
     required this.onTitleTap,
   });
 
@@ -30,6 +33,7 @@ class ProfilPageViewModel extends Equatable {
       userEmail: user?.email ?? Strings.missingEmailAddressValue,
       displayMonConseiller: _shouldDisplayMonConseiller(store.state.detailsJeuneState),
       displayDeveloperOptions: store.state.developerOptionsState is DeveloperOptionsActivatedState,
+      withDownloadCv: user?.loginMode.isPe() ?? false,
       onTitleTap: () => store.dispatch(DeveloperOptionsActivationRequestAction()),
     );
   }

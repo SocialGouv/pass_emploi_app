@@ -190,7 +190,7 @@ systématiquement ajoutés à chaque nouvelle fonctionnalité.
 ## Les tests de la couche repository
 La couche repository est testée "en boîte noire" à la façon d'un test d'intégration. L'usage d'un `MockHttpClient` permet
 de tester les repositories de la sorte. Il est possible de s'inspirer de ce qui est notamment fait dans le fichier 
-[`immersion_repository_test.dart`](test/repositories/immersion_repository_test.dart).
+[`immersion_repository_test.dart`](test/repositories/immersion/immersion_repository_test.dart).
 
 ### Le cas nominal
 Le test du cas nominal doit permettre de s'assurer que les bons paramètres sont passés, et que le parsing est bien fait.

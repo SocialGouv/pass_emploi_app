@@ -220,48 +220,4 @@ void main() {
     expect(store.dispatchedAction, isA<UpdateDemarcheResetAction>());
     expect(viewModel.updateDisplayState, DisplayState.EMPTY);
   });
-
-  test('when brand is BRSA and allowBrsaToUpdateDemarche is set to false should not allow edition on demarche', () {
-    // Given
-    final store = StoreSpy.withState(
-        givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToUpdateDemarche: false))
-            .withDemarches(mockDemarches()));
-
-    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
-
-    // When
-    viewModel.resetUpdateStatus();
-
-    // Then
-    expect(viewModel.withEditOption, false);
-  });
-
-  test('when brand is BRSA and allowBrsaToUpdateDemarche is set to true should allow demarche edition', () {
-    // Given
-    final store = StoreSpy.withState(
-        givenBrsaState(baseConfiguration: brsaConfiguration().copyWith(allowBrsaToUpdateDemarche: true))
-            .withDemarches(mockDemarches()));
-
-    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
-
-    // When
-    viewModel.resetUpdateStatus();
-
-    // Then
-    expect(viewModel.withEditOption, true);
-  });
-
-  test('when brand is CEJ and allowBrsaToUpdateDemarche is set to false should allow edition on demarche', () {
-    // Given
-    final store = StoreSpy.withState(
-        givenState(configuration().copyWith(allowBrsaToUpdateDemarche: false)).withDemarches(mockDemarches()));
-
-    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
-
-    // When
-    viewModel.resetUpdateStatus();
-
-    // Then
-    expect(viewModel.withEditOption, true);
-  });
 }

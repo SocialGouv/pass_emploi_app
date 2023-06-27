@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
-import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
@@ -16,7 +15,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -58,11 +56,10 @@ class DemarcheListPage extends StatelessWidget {
       body: Stack(
         children: [
           DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
-          if (viewModel.displayCreateDemarcheButton)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _AddDemarcheButton()),
-            ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _AddDemarcheButton()),
+          ),
         ],
       ),
     );
@@ -99,9 +96,7 @@ class DemarcheListPage extends StatelessWidget {
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
   Widget _listItem(BuildContext context, DemarcheListItem item, DemarcheListPageViewModel viewModel) {
-    if (item is DemarcheCampagneItem) {
-      return _CampagneCard(title: item.titre, description: item.description);
-    } else if (item is DemarcheNotUpToDateItem) {
+    if (item is DemarcheNotUpToDateItem) {
       return NotUpToDateMessage(message: Strings.demarchesNotUpToDateMessage, onRefresh: viewModel.onRetry);
     } else {
       final id = (item as IdItem).demarcheId;
@@ -132,24 +127,6 @@ class DemarcheListPage extends StatelessWidget {
         ? ReloadablePage(
             reloadMessage: Strings.demarchesNotUpToDateMessage, onReload: viewModel.onRetry, emptyMessage: emptyMessage)
         : Empty(description: emptyMessage);
-  }
-}
-
-class _CampagneCard extends StatelessWidget {
-  final String title;
-  final String description;
-
-  _CampagneCard({required this.title, required this.description});
-
-  @override
-  Widget build(BuildContext context) {
-    return CampagneCard(
-      onTap: () {
-        Navigator.push(context, CampagneDetailsPage.materialPageRoute());
-      },
-      titre: title,
-      description: description,
-    );
   }
 }
 

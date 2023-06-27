@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/saved_search/evenement_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
@@ -236,6 +237,31 @@ class SavedSearchServiceCiviqueExtractor {
   }
 }
 
+class SavedSearchEvenementEmploiExtractor {
+  EvenementEmploiSavedSearch extract(SavedSearchResponse savedSearch) {
+    return EvenementEmploiSavedSearch(
+      id: savedSearch.id,
+      titre: savedSearch.titre,
+      location: _getLocation(savedSearch),
+    );
+  }
+
+  Location _getLocation(SavedSearchResponse savedSearch) {
+    if (savedSearch.location != null) {
+      return savedSearch.location!;
+    } else {
+      return Location(
+        type: LocationType.COMMUNE,
+        code: savedSearch.criteres.commune ?? "",
+        libelle: savedSearch.locationLabel ?? "",
+        codePostal: null,
+        longitude: savedSearch.criteres.lon,
+        latitude: savedSearch.criteres.lat,
+      );
+    }
+  }
+}
+
 extension OffreEmploiSavedSearchExt on OffreEmploiSavedSearch {
   SavedSearchResponse toSavedSearchResponse() {
     return SavedSearchResponse(
@@ -321,6 +347,35 @@ extension ServiceCiviqueSavedSearchExt on ServiceCiviqueSavedSearch {
         domaine: domaine?.tag,
         distance: filtres.distance,
         dateDeDebutMinimum: dateDeDebut?.toIso8601String(),
+      ),
+    );
+  }
+}
+
+extension SavedSearchEvenementEmploiExtractorExt on EvenementEmploiSavedSearch {
+  SavedSearchResponse toSavedSearchResponse() {
+    return SavedSearchResponse(
+      id: id,
+      titre: titre,
+      locationLabel: location.libelle,
+      location: location,
+      type: "EVENEMENT_EMPLOI",
+      criteres: SavedSearchResponseCriteres(
+        q: null,
+        departement: location.type == LocationType.DEPARTMENT ? location.code : null,
+        alternance: null,
+        debutantAccepte: null,
+        experience: null,
+        contrat: null,
+        duree: null,
+        commune: location.type == LocationType.COMMUNE ? location.code : null,
+        rayon: null,
+        lat: location.latitude,
+        lon: location.longitude,
+        rome: null,
+        domaine: null,
+        distance: null,
+        dateDeDebutMinimum: null,
       ),
     );
   }

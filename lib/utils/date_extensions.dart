@@ -49,9 +49,14 @@ extension DateExtensions on DateTime {
 
   String toHour() => DateFormat('HH:mm').format(this);
 
-  bool isAtSameDayAs(DateTime other) {
-    return day == other.day && month == other.month && year == other.year;
+  String toHourWithHSeparator() {
+    return switch (minute) {
+      0 => DateFormat('HH\'h\'').format(this),
+      _ => DateFormat('HH\'h\'mm').format(this),
+    };
   }
+
+  bool isAtSameDayAs(DateTime other) => day == other.day && month == other.month && year == other.year;
 
   bool isToday() => isAtSameDayAs(clock.now());
 
@@ -65,21 +70,17 @@ extension DateExtensions on DateTime {
     return thisDayDate.isBefore(anotherDayDate);
   }
 
-  DateTime toMondayOnThisWeek() {
-    return subtract(Duration(days: weekday - 1));
-  }
+  DateTime toMondayOnThisWeek() => subtract(Duration(days: weekday - 1));
 
-  DateTime toSundayOnThisWeek() {
-    return add(Duration(days: 7 - weekday));
-  }
+  DateTime toSundayOnThisWeek() => add(Duration(days: 7 - weekday));
 
-  DateTime toMondayOnNextWeek() {
-    return add(Duration(days: 7 - weekday + 1));
-  }
+  DateTime toMondayOnNextWeek() => add(Duration(days: 7 - weekday + 1));
 
-  DateTime addWeeks(int weeks) {
-    return add(Duration(days: 7 * weeks));
-  }
+  DateTime addWeeks(int weeks) => add(Duration(days: 7 * weeks));
+
+  DateTime toStartOfDay() => DateTime(year, month, day);
+
+  DateTime toEndOfDay() => toStartOfDay().add(Duration(hours: 23, minutes: 59, seconds: 59, milliseconds: 999));
 
   int numberOfDaysUntilToday() {
     final from = DateTime(year, month, day);

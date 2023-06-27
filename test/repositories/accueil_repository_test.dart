@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
   group('AccueilRepository', () {
-    final sut = RepositorySut2<AccueilRepository>();
+    final sut = DioRepositorySut<AccueilRepository>();
     sut.givenRepository((client) => AccueilRepository(client));
 
     group('getAccueilMissionLocale', () {

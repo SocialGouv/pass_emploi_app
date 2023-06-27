@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -147,7 +146,6 @@ class _MetierAutocompletePageState extends State<_MetierAutocompletePage> {
           DebounceTextFormField(
             heroTag: _heroTag,
             initialValue: widget.selectedMetier?.libelle,
-            onFieldSubmitted: (_) => Navigator.pop(context, autocompleteItems.firstOrNull),
             onChanged: (text) {
               if (text.isEmpty != emptyInput) setState(() => emptyInput = text.isEmpty);
               viewModel.onInputMetier(text);

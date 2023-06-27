@@ -22,4 +22,15 @@ void main() {
     // Then
     expect(viewModel.rechercheRecente, getMockedSavedSearch().first);
   });
+
+  test('should only display recents offer searches', () {
+    // Given
+    final searches = getMockedSavedSearch();
+    searches.insert(0, mockEvenementEmploiSavedSearch());
+    final store = givenState().loggedInUser().withRecentsSearches(searches).store();
+    // When
+    final viewModel = RecherchesRecentesViewModel.create(store);
+    // Then
+    expect(viewModel.rechercheRecente, getMockedSavedSearch().first);
+  });
 }

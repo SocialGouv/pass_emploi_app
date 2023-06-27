@@ -73,6 +73,7 @@ class Strings {
   static String ajouter = "Ajouter";
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
+  static String refuserLabel = "Refuser";
   static String seeDetail = "Voir le détail >";
   static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
@@ -455,6 +456,7 @@ class Strings {
   static String jobLocationImmersionHint = "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
   static String jobLocationServiceCiviqueHint =
       "Sélectionnez une ville dans laquelle vous cherchez un service civique.";
+  static String jobEvenementEmploiHint = "Sélectionnez une ville dans laquelle vous cherchez un événement.";
   static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
@@ -481,6 +483,15 @@ class Strings {
   static String partagerAuConseiller = "Partager à mon conseiller";
   static String partageEventNavTitle = "Partage d’événement";
   static String partageEventSuccess = "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
+
+  // Evenement partage
+  static String partageEvenementEmploiNavTitle = "Partage de l’événement";
+  static String souhaitDePartagerEvenementEmploi = "L’événement que vous souhaitez partager";
+  static String partageEvenementEmploiDefaultMessage = "Bonjour, je vous partage un événement afin d’avoir votre avis";
+  static String partageEvenementEmploiSuccess =
+      "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
+  static String infoEvenementEmploiPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
+  static String partagerEvenementEmploiAuConseiller = "Partager l’événement";
 
   // Immersion
   static String entrepriseAccueillante = 'Entreprise accueillante';
@@ -597,12 +608,15 @@ class Strings {
   static String offreNotFoundExplaination =
       "Vous pouvez décider de la supprimer ou bien de la conserver dans vos favoris.";
   static String deleteOffreFromFavori = "Supprimer des favoris";
+  static String interim = "Intérim";
 
   // Favoris
   static String mesFavorisTabTitle = "Mes favoris";
   static String mesAlertesTabTitle = "Mes alertes";
   static String miscellaneousErrorRetry = "Une erreur est survenue. Veuillez réessayer";
+
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
+
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
@@ -705,16 +719,16 @@ class Strings {
   static String savedSearchServiceCiviqueTag = "Service civique";
   static String savedSearchSuccessfullyCreated =
       "Votre recherche a bien été enregistrée. Retrouvez-la dans la section Mes Alertes sur votre page d'accueil.";
-  static String creationSavedSearchError = "Erreur lors de la création de la recherche sauvegardée. Veuillez réessayer";
+  static String creationSavedSearchError = "Erreur lors de la création de l'alerte. Veuillez réessayer";
   static String savedSearchGetError = "Erreur lors de la récupération des recherches sauvegardées.";
-  static String noSavedSearchYet = "Aucune recherche sauvegardée.";
+  static String noSavedSearchYet = "Aucune alerte.";
   static String savedSearchTabName = "Mes alertes";
   static String favorisTabName = "Mes offres";
   static String savedSearchSeeResults = "Voir les résultats";
 
-  static String savedSearchDeleteMessage = "Voulez-vous vraiment supprimer la recherche sauvegardée ?";
+  static String savedSearchDeleteMessage = "Voulez-vous vraiment supprimer cette alerte ?";
   static String savedSearchDeleteError = "Erreur lors de la suppression de la recherche.";
-  static String savedSearchDeleteSuccess = "Votre recherche sauvegardée a été supprimée avec succès.";
+  static String savedSearchDeleteSuccess = "Votre alerte a été supprimée avec succès.";
 
   // Mode support
   static String supportInformations = "Infos pour le support";
@@ -759,16 +773,17 @@ class Strings {
   static String contentSupportMail = "Aidez-nous à améliorer l’application en nous donnant votre avis :\n";
 
   // Suggestions de recherche
-  static String vosSuggestionsDeRecherche = "Vos recherches suggérées";
-  static String nouvellesSuggestionsDeRechercheTitre = "Vous avez de nouvelles recherches suggérées !";
+  static String vosSuggestionsDeRecherche = "Vos suggestions d'alertes";
+  static String nouvellesSuggestionsDeRechercheTitre = "Vous avez des suggestions d’alertes";
   static String nouvellesSuggestionsDeRechercheDescription =
-      "Sur la base de votre profil Pôle emploi, voici des suggestions de recherches à sauvegarder dans vos favoris";
+      "Sur la base de votre profil Pôle emploi, voici des suggestions d'alertes à sauvegarder";
   static String voirSuggestionsDeRecherche = "Voir les suggestions";
-  static String suggestionsDeRechercheTitlePage = "Vos recherches suggérées";
-  static String suggestionTypeEmploi = "Emploi";
-  static String suggestionTypeAlternance = "Alternance";
-  static String suggestionTypeImmersion = "Immersion";
-  static String suggestionTypeServiceCivique = "Service civique";
+  static String suggestionsDeRechercheTitlePage = "Vos suggestions d'alertes";
+  static String suggestionsDeRechercheHeader =
+      "Vos suggestions peuvent venir de différentes sources. Après l’ajout, vous serez notifié si une nouvelle offre est disponible.";
+  static String suggestionSourcePoleEmploi = "Profil Pôle emploi";
+  static String suggestionSourceConseiller = "Conseiller";
+  static String suggestionSourceDiagoriente = "Métiers favoris";
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
   static String voirResultatsSuggestion = "Voir les résultats";
@@ -779,6 +794,49 @@ class Strings {
   static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
   static String eventAppBarTitle = "Événements";
+  static String eventTabMaMissionLocale = "Ma Mission Locale";
+  static String eventTabExternes = "Externes";
+  static String eventEmploiDetailsAppBarTitle = "Détail de l’événement";
+  static String eventEmploiDetailsPartagerConseiller = "Partager l'événement à mon conseiller";
+  static String eventEmploiDetailsInscription = "Je m'inscris";
+
+  // Événements Emploi
+  static const String secteurActiviteLabel = "Secteur d'activité";
+  static const String secteurActiviteHint = "Sélectionnez un secteur d'activité";
+  static const String secteurActiviteAll = "Tous les secteurs d'activité";
+  static const String secteurActiviteAgriculture =
+      "Agriculture et Pêche, Espaces naturels et Espaces verts, Soins aux animaux";
+  static const String secteurActiviteArt = "Arts et Façonnage d'ouvrages d'art";
+  static const String secteurActiviteBanque = "Banque, Assurance, Immobilier";
+  static const String secteurActiviteCommerce = "Commerce, Vente et Grande distribution";
+  static const String secteurActiviteCommunication = "Communication, Média et Multimédia";
+  static const String secteurActiviteBatiment = "Construction, Bâtiment et Travaux publics";
+  static const String secteurActiviteTourisme = "Hôtellerie-Restauration, Tourisme, Loisirs et Animation";
+  static const String secteurActiviteIndustrie = "Industrie";
+  static const String secteurActiviteInstallation = "Installation et Maintenance";
+  static const String secteurActiviteSante = "Santé";
+  static const String secteurActiviteServices = "Services à la personne et à la collectivité";
+  static const String secteurActiviteSpectacle = "Spectacle";
+  static const String secteurActiviteSupport = "Support à l'entreprise";
+  static const String secteurActiviteTransport = "Transport et Logistique";
+  static const String evenementEmploiTypeAll = "Tous les types d'événement";
+  static const String evenementEmploiTypeReunionInformation = "Réunion d'information";
+  static const String evenementEmploiTypeForum = "Forum";
+  static const String evenementEmploiTypeConference = "Conférence";
+  static const String evenementEmploiTypeAtelier = "Atelier";
+  static const String evenementEmploiTypeSalonEnLigne = "Salon en ligne";
+  static const String evenementEmploiTypeJobDating = "Job Dating";
+  static const String evenementEmploiTypeVisiteEntreprise = "Visite d'entreprise";
+  static const String evenementEmploiTypePortesOuvertes = "Portes ouvertes";
+  static const String evenementEmploiModaliteEnPhysique = "En présentiel";
+  static const String evenementEmploiModaliteADistance = "À distance";
+  static const String evenementEmploiDetails = "Détail de l'événement";
+  static const String evenementEmploiFiltres = "Filtrer les événements";
+  static const String evenementEmploiFiltresModalites = "Modalités d'accès";
+  static const String evenementEmploiFiltresType = "Par type d’événement";
+  static const String evenementEmploiFiltresDate = "Période";
+  static const String evenementEmploiFiltresDateDebut = "Date de début";
+  static const String evenementEmploiFiltresDateFin = "Date de fin";
 
   // Mode dégradé Pôle Emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
@@ -815,4 +873,41 @@ class Strings {
   static String diagorienteVoirplus = "Voir plus";
   static String diagorienteAffinerMesResultats = "Affiner mes résultats";
   static String diagorienteTerminerEtRetournerAuProfil = "Terminer et retourner au profil";
+
+  // CV
+  static String cvCardTitle = "CV";
+  static String cvCardSubtitle =
+      "Préparez vos prochaines candidatures en téléchargeant vos CV Pôle emploi directement sur votre téléphone.";
+  static String cvCadCaption = "Voir";
+  static String cvListPageTitle = "CV";
+  static String cvListPageSubtitle =
+      "Téléchargez vos CV Pôle emploi sur votre téléphone pour préparer votre candidature";
+  static String cvError = "Erreur lors de la récupération des CVs Pôle emploi";
+  static String cvEmpty = "Vous n’avez pas de CV sur votre espace Pôle Emploi";
+  static String cvEmptyButton = "Retour";
+  static String cvDownload = "Télécharger";
+  static String cvErrorApiPeKoMessage = "Impossible de se synchroniser avec votre espace Pôle emploi";
+  static String cvErrorApiPeKoButton = "Recharger la page";
+
+  // Postuler
+  static String postulerOffreTitle = "Postuler";
+  static String postulerTitle = "Récupérez votre CV sur votre téléphone";
+  static String postulerContinueButton = "Continuez vers l’offre";
+
+  // Suggestions alertes location form
+  static String suggestionLocalisationAppBarTitle = "Paramétrer votre alerte";
+  static String suggestionLocalisationFormTitle = "Localisation";
+  static String suggestionLocalisationFormEmploiSubtitle =
+      "Sélectionnez une ville ou un département dans lequel vous cherchez un emploi.";
+  static String suggestionLocalisationFormImmersionSubtitle =
+      "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
+  static String suggestionLocalisationAddAlerteButton = "Ajouter l’alerte";
+
+  // a11y
+  static String unJeuneUneSolutionIllustrationSemanticsLabel = "France Relance, #1jeune1solution";
+  static String favoriHeartRemove = "Mise en favoris: retirer";
+  static String favoriHeartAdd = "Mise en favoris: ajouter";
+  static String openInNavigator = "Ouvrir dans le navigateur";
+  static String openInNewTab = "Ouvrir dans un nouvel onglet";
+  static String semanticsLabelInformation = "Information";
 }

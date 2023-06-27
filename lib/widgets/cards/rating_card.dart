@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class RatingCard extends StatelessWidget {
@@ -25,7 +26,11 @@ class RatingCard extends StatelessWidget {
               padding: const EdgeInsets.only(right: 80),
               child: Text(description, style: TextStyles.textSRegular()),
             ),
-            Icon(AppIcons.chevron_right_rounded, color: AppColors.contentColor),
+            Icon(
+              AppIcons.chevron_right_rounded,
+              semanticLabel: Strings.openInNewTab,
+              color: AppColors.contentColor,
+            ),
           ],
         ),
       ),

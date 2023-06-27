@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/rating_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -35,7 +36,7 @@ class _DismissSnackBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RatingViewModel>(
-      converter: (store) => RatingViewModel.create(store),
+      converter: (store) => RatingViewModel.create(store, PlatformUtils.getPlatform),
       builder: (context, viewModel) => _body(context, viewModel),
     );
   }
@@ -52,7 +53,7 @@ class _DismissSnackBar extends StatelessWidget {
 
   void _onDismiss(BuildContext context, RatingViewModel viewModel) {
     viewModel.onDone();
-    snackbarKey.currentState?.hideCurrentSnackBar();
+    clearAllSnackBars();
     PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipRating);
   }
 }
@@ -77,7 +78,7 @@ class _OnRatingTap extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        snackbarKey.currentState?.hideCurrentSnackBar();
+        clearAllSnackBars();
         showPassEmploiBottomSheet(context: context, builder: (context) => RatingBottomSheet());
       },
       child: Padding(

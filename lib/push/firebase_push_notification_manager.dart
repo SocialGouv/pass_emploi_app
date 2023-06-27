@@ -5,14 +5,23 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/log.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:redux/redux.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  Log.d("Handling a background message: ${message.messageId}");
+  final type = message.getType();
+  if (type != null) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.pushNotificationEventCategory,
+      action: AnalyticsEventNames.pushNotificationReceivedAction,
+      eventName: type,
+    );
+  }
 }
 
 const String _channelId = 'high_importance_channel';
@@ -52,6 +61,7 @@ class FirebasePushNotificationManager extends PushNotificationManager {
       sound: true,
     );
     Log.d('User granted permission: ${settings.authorizationStatus}');
+    _trackAuthorizationStatus(settings.authorizationStatus);
   }
 
   Future<void> _createHighImportanceAndroidChannel() async {
@@ -92,4 +102,17 @@ class FirebasePushNotificationManager extends PushNotificationManager {
       store.dispatch(LocalDeeplinkAction(jsonDecode(payload) as Map<String, dynamic>));
     }
   }
+
+  void _trackAuthorizationStatus(AuthorizationStatus status) {
+    final bool authorized = status == AuthorizationStatus.authorized || status == AuthorizationStatus.provisional;
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.pushNotificationAuthorizationStatusEventCategory,
+      action: AnalyticsEventNames.pushNotificationAuthorizationStatusAction,
+      eventName: authorized ? 'accordée' : 'non accordée',
+    );
+  }
+}
+
+extension Type on RemoteMessage {
+  String? getType() => data["type"]?.toString();
 }

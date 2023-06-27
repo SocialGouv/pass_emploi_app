@@ -2,11 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
   group('ContactImmersionRepository', () {
-    final sut = RepositorySut2<ContactImmersionRepository>();
+    final sut = DioRepositorySut<ContactImmersionRepository>();
     sut.givenRepository((client) => ContactImmersionRepository(client));
 
     group('post', () {

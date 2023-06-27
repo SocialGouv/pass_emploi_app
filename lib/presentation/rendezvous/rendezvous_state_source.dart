@@ -4,5 +4,5 @@ enum RendezvousStateSource {
   accueilLesEvenements,
   agenda,
   rendezvousList,
-  eventList
+  eventList,
 }

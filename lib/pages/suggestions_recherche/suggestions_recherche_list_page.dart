@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
+import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_alerte_location_form.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
@@ -19,18 +22,14 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
-import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 
 class SuggestionsRechercheListPage extends StatelessWidget {
   SuggestionsRechercheListPage._() : super();
 
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(
-      builder: (context) {
-        return SuggestionsRechercheListPage._();
-      },
-    );
+    return MaterialPageRoute(builder: (context) => SuggestionsRechercheListPage._());
   }
 
   @override
@@ -88,15 +87,33 @@ class _Scaffold extends StatelessWidget {
         children: [
           ListView.separated(
             itemCount: viewModel.suggestionIds.length,
-            padding: const EdgeInsets.all(Margins.spacing_s),
+            padding: const EdgeInsets.all(Margins.spacing_base),
             separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
             itemBuilder: (context, index) {
-              return _Card(suggestionId: viewModel.suggestionIds[index]);
+              final suggestionId = viewModel.suggestionIds[index];
+              return index == 0 ? _Header(suggestionId: suggestionId) : _Card(suggestionId: suggestionId);
             },
           ),
           if (viewModel.traiterDisplayState == DisplayState.LOADING) LoadingOverlay(),
         ],
       ),
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  final String suggestionId;
+
+  _Header({required this.suggestionId});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(Strings.suggestionsDeRechercheHeader, style: TextStyles.textBaseRegular),
+        SizedBox(height: Margins.spacing_base),
+        _Card(suggestionId: suggestionId),
+      ],
     );
   }
 }
@@ -109,62 +126,65 @@ class _Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SuggestionRechercheCardViewModel?>(
-      builder: (context, viewModel) => _builder(viewModel),
+      builder: _builder,
       converter: (store) => SuggestionRechercheCardViewModel.create(store, suggestionId),
       distinct: true,
     );
   }
 
-  Widget _builder(SuggestionRechercheCardViewModel? viewModel) {
+  Widget _builder(BuildContext context, SuggestionRechercheCardViewModel? viewModel) {
     if (viewModel == null) return SizedBox(height: 0);
-
+    final source = viewModel.source;
     return CardContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _Type(viewModel.type),
-          _Space(),
+          Row(
+            children: [
+              if (source != null) JobTag(label: source, backgroundColor: AppColors.additional2Ligthen),
+              if (source != null) SizedBox(width: Margins.spacing_m),
+              viewModel.type.toJobTag(),
+            ],
+          ),
+          SizedBox(height: Margins.spacing_m),
           _Titre(viewModel.titre),
-          _Space(),
-          if (viewModel.metier != null) ...[
-            _Metier(viewModel.metier!),
-            _Space(),
-          ],
+          SizedBox(height: Margins.spacing_base),
           if (viewModel.localisation != null) ...[
             _Localisation(viewModel.localisation!),
-            _Space(),
+            SizedBox(height: Margins.spacing_base)
           ],
-          _Buttons(onTapAjouter: viewModel.ajouterSuggestion, onTapRefuser: viewModel.refuserSuggestion),
+          SizedBox(height: Margins.spacing_s),
+          _Buttons(
+            onTapAjouter: () async {
+              if (viewModel.withLocationForm) {
+                await _selectLocationAndRayon(
+                  context,
+                  viewModel.type,
+                  onSelected: (location, rayon) => viewModel.ajouterSuggestion(location: location, rayon: rayon),
+                );
+              } else {
+                viewModel.ajouterSuggestion();
+              }
+            },
+            onTapRefuser: viewModel.refuserSuggestion,
+          ),
         ],
       ),
     );
   }
-}
 
-class _Space extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(height: Margins.spacing_base);
-  }
-}
+  Future<void> _selectLocationAndRayon(
+    BuildContext context,
+    OffreType type, {
+    required void Function(Location? location, double? rayon) onSelected,
+  }) async {
+    final locationAndRayon =
+        await Navigator.of(context).push(SuggestionsAlerteLocationForm.materialPageRoute(type: type));
 
-class _Type extends StatelessWidget {
-  final String text;
-
-  _Type(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.accent2),
-        borderRadius: BorderRadius.circular(Dimens.radius_l),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Text(text, style: TextStyles.textSRegular(color: AppColors.accent2)),
-      ),
-    );
+    if (locationAndRayon != null) {
+      final (Location location, double rayon) = locationAndRayon;
+      onSelected(location, rayon);
+    }
   }
 }
 
@@ -175,59 +195,25 @@ class _Titre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: TextStyles.textBaseBold);
-  }
-}
-
-class _Metier extends StatelessWidget {
-  final String text;
-
-  _Metier(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(Dimens.radius_l),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Text(text, style: TextStyles.textSRegular(color: AppColors.primaryDarken)),
-      ),
-    );
+    return Text(text, style: TextStyles.textMBold);
   }
 }
 
 class _Localisation extends StatelessWidget {
-  final String text;
+  final String localisation;
 
-  _Localisation(this.text);
+  const _Localisation(this.localisation);
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(Dimens.radius_l),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: Icon(
-                AppIcons.location_on_rounded,
-                color: AppColors.primary,
-                size: Dimens.icon_size_base,
-              ),
-            ),
-            Text(text, style: TextStyles.textSRegular(color: AppColors.primary)),
-          ],
-        ),
-      ),
+    const color = AppColors.grey800;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(AppIcons.location_on_rounded, color: color, size: Dimens.icon_size_base),
+        SizedBox(width: Margins.spacing_s),
+        Text(localisation, style: TextStyles.textSRegular(color: color)),
+      ],
     );
   }
 }
@@ -240,53 +226,34 @@ class _Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
-        SepLine(0, 0),
-        Padding(
-          padding: const EdgeInsets.only(top: 12),
-          child: IntrinsicHeight(
-            child: Row(
-              children: [
-                _Supprimer(onTapRefuser: onTapRefuser),
-                VerticalDivider(thickness: 1, color: AppColors.primaryLighten),
-                _Ajouter(onTapAjouter: onTapAjouter),
-              ],
-            ),
-          ),
-        )
+        Expanded(child: _Refuser(onTapRefuser: onTapRefuser)),
+        VerticalDivider(width: Margins.spacing_m, thickness: 1, color: AppColors.primaryLighten),
+        Expanded(child: _Ajouter(onTapAjouter: onTapAjouter)),
       ],
     );
   }
 }
 
-class _Supprimer extends StatelessWidget {
+class _Refuser extends StatelessWidget {
   final Function() onTapRefuser;
 
-  _Supprimer({required this.onTapRefuser});
+  _Refuser({required this.onTapRefuser});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(left: Margins.spacing_s),
-        child: TextButton(
-          onPressed: onTapRefuser,
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 12),
-                child: Icon(
-                  AppIcons.delete,
-                  color: AppColors.primary,
-                  size: Dimens.icon_size_base,
-                ),
-              ),
-              Text(Strings.suppressionLabel, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
-            ],
-          ),
-        ),
-      ),
+    return PrimaryActionButton(
+      heightPadding: Margins.spacing_xs,
+      backgroundColor: AppColors.primaryLighten,
+      rippleColor: Color.alphaBlend(Colors.black12, AppColors.primaryLighten),
+      textColor: AppColors.primary,
+      iconColor: AppColors.primary,
+      label: Strings.refuserLabel,
+      icon: AppIcons.remove_alert_rounded,
+      iconRightPadding: Margins.spacing_xs,
+      withShadow: false,
+      onPressed: onTapRefuser,
     );
   }
 }
@@ -298,22 +265,22 @@ class _Ajouter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Align(
-          alignment: Alignment.centerRight,
-          child: PrimaryActionButton(
-            label: Strings.ajouter,
-            icon: AppIcons.add_rounded,
-            withShadow: false,
-            heightPadding: 6,
-            onPressed: onTapAjouter,
-          )),
+    return PrimaryActionButton(
+      heightPadding: Margins.spacing_xs,
+      label: Strings.ajouter,
+      icon: AppIcons.add_alert_rounded,
+      iconRightPadding: Margins.spacing_xs,
+      withShadow: false,
+      onPressed: onTapAjouter,
     );
   }
 }
 
-void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewModel? oldViewModel,
-    SuggestionsRechercheListViewModel newViewModel) {
+void _displaySuccessSnackbar(
+  BuildContext context,
+  SuggestionsRechercheListViewModel? oldViewModel,
+  SuggestionsRechercheListViewModel newViewModel,
+) {
   if (newViewModel.traiterDisplayState != DisplayState.CONTENT) return;
   if (oldViewModel?.traiterDisplayState == DisplayState.CONTENT) return;
 
@@ -375,7 +342,7 @@ class _CloseSnackbar extends StatelessWidget {
     return InkWell(
       onTap: () {
         viewModel.resetTraiterState();
-        snackbarKey.currentState?.hideCurrentSnackBar();
+        clearAllSnackBars();
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
@@ -399,7 +366,7 @@ class _SeeResults extends StatelessWidget {
       onPressed: () {
         viewModel.seeOffreResults();
         viewModel.resetTraiterState();
-        snackbarKey.currentState?.removeCurrentSnackBar();
+        clearAllSnackBars();
       },
       child: Row(
         children: [

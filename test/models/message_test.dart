@@ -191,6 +191,49 @@ void main() {
     );
   });
 
+  group('fromJson when message typed as MESSAGE_EVENEMENT_EMPLOI', () {
+    test("should return message with ChatEvenementEmploi", () {
+      // Given
+      final chatCryptoSpy = _FakeChatCrypto();
+
+      // When
+      final message = Message.fromJson(
+        {
+          "content": "toto-chiffré",
+          "creationDate": Timestamp.fromDate(DateTime(2022, 7, 30, 9, 43, 9)),
+          "iv": "ivvv",
+          "sentBy": "jeune",
+          "type": "MESSAGE_EVENEMENT_EMPLOI",
+          "evenementEmploi": {
+            "id": "343",
+            "titre": "Salon de l'emploi",
+            "url": "https://www.mon-url.fr",
+          },
+        },
+        chatCryptoSpy,
+        DummyCrashlytics(),
+      );
+
+      // Then
+      expect(
+          message,
+          Message(
+            "toto-chiffré-déchiffré",
+            DateTime(2022, 7, 30, 9, 43, 9),
+            Sender.jeune,
+            MessageType.evenementEmploi,
+            [],
+            null,
+            null,
+            ChatEvenementEmploi(
+              "343",
+              "Salon de l'emploi",
+              "https://www.mon-url.fr",
+            ),
+          ));
+    });
+  });
+
   test("toJson when message typed as NOUVEAU_CONSEILLER", () {
     // Given
     final chatCryptoSpy = _FakeChatCrypto();

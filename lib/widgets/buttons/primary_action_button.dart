@@ -8,12 +8,14 @@ class PrimaryActionButton extends StatelessWidget {
   final Color disabledBackgroundColor;
   final Color textColor;
   final Color? rippleColor;
+  final Color? iconColor;
   final IconData? icon;
   final String label;
   final bool withShadow;
   final VoidCallback? onPressed;
   final double? fontSize;
   final double iconSize;
+  final double iconRightPadding;
   final double heightPadding;
   final double widthPadding;
 
@@ -23,12 +25,14 @@ class PrimaryActionButton extends StatelessWidget {
     this.disabledBackgroundColor = AppColors.primaryWithAlpha50,
     this.textColor = Colors.white,
     this.rippleColor = AppColors.primaryDarken,
+    this.iconColor = Colors.white,
     this.withShadow = true,
     this.icon,
     this.onPressed,
     required this.label,
     this.fontSize,
     this.iconSize = Dimens.icon_size_m,
+    this.iconRightPadding = 12,
     this.heightPadding = 12,
     this.widthPadding = 20,
   })  : backgroundColor = backgroundColor ?? AppColors.primary,
@@ -53,7 +57,13 @@ class PrimaryActionButton extends StatelessWidget {
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(200)))),
         overlayColor: MaterialStateProperty.resolveWith(
           (states) {
-            return states.contains(MaterialState.pressed) ? rippleColor : null;
+            if (states.contains(MaterialState.pressed)) {
+              return rippleColor;
+            }
+            if (states.contains(MaterialState.focused)) {
+              return rippleColor;
+            }
+            return null;
           },
         ),
       ),
@@ -71,11 +81,11 @@ class PrimaryActionButton extends StatelessWidget {
       children: [
         if (icon != null)
           Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: EdgeInsets.only(right: iconRightPadding),
             child: Icon(
               icon,
               size: iconSize,
-              color: Colors.white,
+              color: iconColor,
             ),
           ),
         Text(

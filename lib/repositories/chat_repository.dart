@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
+import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
@@ -118,6 +119,18 @@ class ChatRepository {
       'type': "MESSAGE_EVENEMENT",
     };
     return _sendMessage(userId: userId, message: eventPartage.message, customPayload: customPayload);
+  }
+
+  Future<bool> sendEvenementEmploiPartage(String userId, EvenementEmploiPartage emploiPartage) async {
+    final customPayload = {
+      'evenementEmploi': {
+        'id': emploiPartage.id,
+        'titre': emploiPartage.titre,
+        'url': emploiPartage.url,
+      },
+      'type': "MESSAGE_EVENEMENT_EMPLOI",
+    };
+    return _sendMessage(userId: userId, message: emploiPartage.message, customPayload: customPayload);
   }
 
   Future<void> setLastMessageSeen(String userId) async {

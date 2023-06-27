@@ -124,7 +124,7 @@ echo "Creating state…"
 cat > "lib/features/$feature_snake_case/${feature_snake_case}_state.dart" <<- EOM
 import 'package:equatable/equatable.dart';
 
-abstract class ${feature_camel_case}State extends Equatable {
+sealed class ${feature_camel_case}State extends Equatable {
   @override
   List<Object?> get props => [];
 }
@@ -179,7 +179,8 @@ class ${middlewareClass} extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final userId = store.state.userId();
-    if (userId != null && action is ${feature_camel_case}RequestAction) {
+    if (userId == null) return;
+    if (action is ${feature_camel_case}RequestAction) {
       store.dispatch(${feature_camel_case}LoadingAction());
       final result = await _repository.get();
       if (result != null) {

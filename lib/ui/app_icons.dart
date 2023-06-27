@@ -40,6 +40,7 @@ class AppIcons {
   static const IconData timer_rounded = Icons.timer_rounded;
   static const IconData lock_rounded = Icons.lock_rounded;
   static const IconData flag_rounded = Icons.flag_rounded;
+  static const IconData schedule = Icons.schedule;
   static const IconData schedule_rounded = AppIconsAdditional.schedule;
   static const IconData error_rounded = Icons.error_rounded;
   static const IconData person_rounded = Icons.person_rounded;
@@ -81,6 +82,10 @@ class AppIcons {
   static const IconData edit_rounded = Icons.edit_rounded;
   static const IconData search_rounded = Icons.search_rounded;
   static const IconData check_rounded = Icons.check_rounded;
+  static const IconData add_alert_rounded = Icons.add_alert_rounded;
+  static const IconData remove_alert_rounded = Icons.notifications_off_rounded;
+  static const IconData construction = Icons.construction;
+  static const IconData folder_off = Icons.folder_off;
 
   // Solution
   static const IconData immersion = AppIconsAdditional.immersion;
