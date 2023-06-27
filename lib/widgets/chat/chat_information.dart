@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class ChatInformation extends StatelessWidget {
@@ -46,7 +47,11 @@ class _Title extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(Margins.spacing_xs),
-          child: Icon(AppIcons.info_rounded, color: AppColors.primary),
+          child: Icon(
+            AppIcons.info_rounded,
+            semanticLabel: Strings.semanticsLabelInformation,
+            color: AppColors.primary,
+          ),
         ),
         SizedBox(width: Margins.spacing_s),
         Flexible(

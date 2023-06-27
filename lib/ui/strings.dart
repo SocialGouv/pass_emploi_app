@@ -902,4 +902,12 @@ class Strings {
   static String suggestionLocalisationFormImmersionSubtitle =
       "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
   static String suggestionLocalisationAddAlerteButton = "Ajouter l’alerte";
+
+  // a11y
+  static String unJeuneUneSolutionIllustrationSemanticsLabel = "France Relance, #1jeune1solution";
+  static String favoriHeartRemove = "Mise en favoris: retirer";
+  static String favoriHeartAdd = "Mise en favoris: ajouter";
+  static String openInNavigator = "Ouvrir dans le navigateur";
+  static String openInNewTab = "Ouvrir dans un nouvel onglet";
+  static String semanticsLabelInformation = "Information";
 }

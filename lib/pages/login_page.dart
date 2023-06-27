@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
@@ -8,13 +7,13 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 
 class LoginPage extends StatelessWidget {
@@ -45,7 +44,7 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 32),
-                  SvgPicture.asset(Drawables.appLogo, width: 200),
+                  AppLogo(width: 200),
                   SizedBox(height: 32),
                   Container(
                     width: double.infinity,

@@ -12,11 +12,12 @@ class LabelValueRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      alignment: WrapAlignment.spaceBetween,
-      spacing: 4,
-      children: [label, value],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        label,
+        value,
+      ],
     );
   }
 }

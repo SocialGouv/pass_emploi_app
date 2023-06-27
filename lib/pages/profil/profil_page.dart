@@ -29,7 +29,6 @@ import 'package:pass_emploi_app/widgets/cards/profil/standalone_profil_card.dart
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/label_value_row.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
-import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class ProfilPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -230,56 +229,39 @@ class _LegalInformationCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              InkWell(
+              ListTile(
                 onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
-                child: Padding(
-                  padding: const EdgeInsets.all(Margins.spacing_base),
-                  child: LabelValueRow(
-                    label: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
-                    value: _redirectIcon(),
-                  ),
+                title: LabelValueRow(
+                  label: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
+                  value: _redirectIcon(),
                 ),
               ),
-              SepLine(0, 0, color: AppColors.grey100),
-              InkWell(
+              Divider(color: AppColors.grey100, height: 0),
+              ListTile(
                 onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
-                child: Padding(
-                  padding: const EdgeInsets.all(Margins.spacing_base),
-                  child: LabelValueRow(
-                    label: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
-                    value: _redirectIcon(),
-                  ),
+                title: LabelValueRow(
+                  label: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
+                  value: _redirectIcon(),
                 ),
               ),
-              SepLine(0, 0, color: AppColors.grey100),
-              InkWell(
+              Divider(color: AppColors.grey100, height: 0),
+              ListTile(
                 onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
-                child: Padding(
-                  padding: const EdgeInsets.all(Margins.spacing_base),
-                  child: LabelValueRow(
-                    label: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
-                    value: _redirectIcon(),
-                  ),
+                title: LabelValueRow(
+                  label: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
+                  value: _redirectIcon(),
                 ),
               ),
-              SepLine(0, 0, color: AppColors.grey100),
-              InkWell(
+              Divider(color: AppColors.grey100, height: 0),
+              ListTile(
                 onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
-                child: Padding(
-                  padding: const EdgeInsets.all(Margins.spacing_base),
-                  child: LabelValueRow(
-                    label: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
-                        Text(
-                          Strings.accessibilityLevelNonConforme,
-                          style: TextStyles.textBaseBold,
-                        )
-                      ],
-                    ),
-                    value: _redirectIcon(),
-                  ),
+                title: LabelValueRow(
+                  label: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
+                  value: _redirectIcon(),
+                ),
+                subtitle: Text(
+                  Strings.accessibilityLevelNonConforme,
+                  style: TextStyles.textBaseBold,
                 ),
               ),
             ],
@@ -296,6 +278,7 @@ class _LegalInformationCard extends StatelessWidget {
 
   Widget _redirectIcon() => Icon(
         AppIcons.open_in_new_rounded,
+        semanticLabel: Strings.openInNavigator,
         size: Dimens.icon_size_base,
         color: AppColors.grey800,
       );
