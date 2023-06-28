@@ -40,8 +40,6 @@ class PrimaryActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double leftPadding = icon != null ? 8 : 16;
-    final double rightPadding = icon != null ? 8 : widthPadding;
     final baseTextStyle = TextStyles.textPrimaryButton;
     final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
     return TextButton(
@@ -71,7 +69,7 @@ class PrimaryActionButton extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(leftPadding, heightPadding, rightPadding, heightPadding),
+        padding: EdgeInsets.symmetric(horizontal: widthPadding, vertical: heightPadding),
         child: _getRow(),
       ),
     );
