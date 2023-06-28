@@ -229,7 +229,10 @@ class _Buttons extends StatelessWidget {
     return Row(
       children: [
         Expanded(child: _Refuser(onTapRefuser: onTapRefuser)),
-        VerticalDivider(width: Margins.spacing_m, thickness: 1, color: AppColors.primaryLighten),
+        SizedBox(
+          height: Margins.spacing_l,
+          child: VerticalDivider(width: Margins.spacing_base, thickness: 1, color: AppColors.primaryLighten),
+        ),
         Expanded(child: _Ajouter(onTapAjouter: onTapAjouter)),
       ],
     );
@@ -244,7 +247,7 @@ class _Refuser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PrimaryActionButton(
-      heightPadding: Margins.spacing_xs,
+      heightPadding: Margins.spacing_base,
       backgroundColor: AppColors.primaryLighten,
       rippleColor: Color.alphaBlend(Colors.black12, AppColors.primaryLighten),
       textColor: AppColors.primary,
@@ -266,7 +269,7 @@ class _Ajouter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PrimaryActionButton(
-      heightPadding: Margins.spacing_xs,
+      heightPadding: Margins.spacing_base,
       label: Strings.ajouter,
       icon: AppIcons.add_alert_rounded,
       iconRightPadding: Margins.spacing_xs,
