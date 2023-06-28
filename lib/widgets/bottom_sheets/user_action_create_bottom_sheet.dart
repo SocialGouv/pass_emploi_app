@@ -65,6 +65,8 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             userActionBottomSheetHeader(context, title: Strings.addAnAction),
+            _Mandatory(),
+            SizedBox(height: Margins.spacing_base),
             SepLine(0, 0),
             Expanded(
               child: ListView(
@@ -231,6 +233,16 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
   void _dismissBottomSheetIfNeeded(BuildContext context, UserActionCreateViewModel viewModel) {
     final displayState = viewModel.displayState;
     if (displayState is Dismiss) Navigator.pop(context, displayState.userActionCreatedId);
+  }
+}
+
+class _Mandatory extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Text(Strings.mandatoryFields, style: TextStyles.textSRegular()),
+    );
   }
 }
 
