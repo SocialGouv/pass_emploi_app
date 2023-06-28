@@ -79,9 +79,12 @@ class _Contenu extends StatelessWidget {
               Center(
                   child: Padding(
                 padding: const EdgeInsets.only(top: 24),
-                child: Text(
-                  Strings.modeDemoExplicationTitre,
-                  style: TextStyles.secondaryAppBar,
+                child: Semantics(
+                  header: true,
+                  child: Text(
+                    Strings.modeDemoExplicationTitre,
+                    style: TextStyles.secondaryAppBar,
+                  ),
                 ),
               )),
               Padding(

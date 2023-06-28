@@ -21,7 +21,10 @@ Padding userActionBottomSheetHeader(BuildContext context, {required String title
     child: Stack(
       alignment: AlignmentDirectional.center,
       children: [
-        Text(title, style: TextStyles.textBaseBold),
+        Semantics(
+          header: true,
+          child: Text(title, style: TextStyles.textBaseBold),
+        ),
         Positioned(
           right: 8,
           child: IconButton(
