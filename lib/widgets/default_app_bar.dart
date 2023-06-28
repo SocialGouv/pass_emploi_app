@@ -29,10 +29,13 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: canPop ? BackButton(color: iconColor) : null,
       scrolledUnderElevation: 0,
       backgroundColor: Brand.isCej() ? AppColors.grey100 : AppColors.primary,
-      title: Text(
-        title,
-        style: TextStyles.primaryAppBar.copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
-        overflow: TextOverflow.fade,
+      title: Semantics(
+        header: true,
+        child: Text(
+          title,
+          style: TextStyles.primaryAppBar.copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
+          overflow: TextOverflow.fade,
+        ),
       ),
       elevation: 0,
       centerTitle: false,
@@ -64,10 +67,13 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: false,
       scrolledUnderElevation: 0,
       backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
-      title: Text(
-        title,
-        style: TextStyles.secondaryAppBar,
-        overflow: TextOverflow.fade,
+      title: Semantics(
+        header: true,
+        child: Text(
+          title,
+          style: TextStyles.secondaryAppBar,
+          overflow: TextOverflow.fade,
+        ),
       ),
     );
   }

@@ -112,8 +112,11 @@ class _RatingHeader extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(30),
-          child: Center(
-            child: Text(Strings.ratingLabel, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+          child: Semantics(
+            header: true,
+            child: Center(
+              child: Text(Strings.ratingLabel, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+            ),
           ),
         ),
       ],
