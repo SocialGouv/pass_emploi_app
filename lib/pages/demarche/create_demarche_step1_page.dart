@@ -48,7 +48,10 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
       body: Padding(
         padding: const EdgeInsets.all(Margins.spacing_base),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _Mandatory(),
+            SizedBox(height: Margins.spacing_base),
             Text(Strings.searchDemarcheHint, style: TextStyles.textBaseMedium),
             SizedBox(height: Margins.spacing_base),
             _ChampRecherche(
@@ -87,6 +90,13 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
 
   bool _buttonIsActive(CreateDemarcheStep1ViewModel viewModel) {
     return _query.trim().isNotEmpty && !viewModel.displayState.isLoading();
+  }
+}
+
+class _Mandatory extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text(Strings.mandatoryFields, style: TextStyles.textSRegular());
   }
 }
 

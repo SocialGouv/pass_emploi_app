@@ -77,6 +77,7 @@ class Strings {
   static String seeDetail = "Voir le détail >";
   static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
+  static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
 
   // Menu
   static String menuAccueil = "Accueil";
@@ -324,8 +325,8 @@ class Strings {
   static String addAnAction = "Créer une action";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
-  static String actionLabel = "Intitulé de l'action";
-  static String actionDescription = "Description de l'action";
+  static String actionLabel = "*Intitulé de l'action";
+  static String actionDescription = "*Description de l'action";
   static String mandatoryActionLabelError = "L'intitulé de l'action doit être renseigné";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
@@ -379,7 +380,6 @@ class Strings {
   static const String demarcheCancelled = "Annulé";
   static const String late = "En retard : ";
   static const String createDemarchePersonnalisee = "Créer une démarche personnalisée";
-  static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
   static const String commentaire = "Commentaire";
   static const String descriptionDemarche = "*Description de la démarche";
   static const String caracteres255 = "255 caractères maximum";
@@ -390,7 +390,7 @@ class Strings {
   static const String noDemarcheFound = "Aucune démarche pre-renseignée n’a été trouvée";
   static const String selectDemarche = "Sélectionnez une démarche ou créez une démarche personnalisée";
   static const String addALaDemarche = "Créer la démarche";
-  static const String searchDemarcheHint = "Renseigner un mot clé pour rechercher une démarche à créer";
+  static const String searchDemarcheHint = "*Renseigner un mot clé pour rechercher une démarche à créer";
   static const String searchDemarcheButton = "Rechercher une démarche";
   static const String mandatoryField = "Le champs est obligatoire";
   static const String comment = "Comment";
