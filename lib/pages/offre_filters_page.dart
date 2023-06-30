@@ -79,24 +79,26 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: Margins.spacing_base),
-          _OffreFilterSubtitle(),
-          SizedBox(height: Margins.spacing_base),
-          _buildRadioListTile(OffreFilter.tous, Strings.filterAll),
-          if (offreTypes.contains(OffreType.emploi))
-            _buildRadioListTile(OffreFilter.emploi, Strings.filterEmploi),
-          if (offreTypes.contains(OffreType.alternance))
-            _buildRadioListTile(OffreFilter.alternance, Strings.filterAlternance),
-          if (offreTypes.contains(OffreType.immersion))
-            _buildRadioListTile(OffreFilter.immersion, Strings.filterImmersion),
-          if (offreTypes.contains(OffreType.serviceCivique))
-            _buildRadioListTile(OffreFilter.serviceCivique, Strings.filterServiceCivique),
-        ],
+    return Semantics(
+      label: Strings.listSemanticsLabel,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: Margins.spacing_base),
+            _OffreFilterSubtitle(),
+            SizedBox(height: Margins.spacing_base),
+            _buildRadioListTile(OffreFilter.tous, Strings.filterAll),
+            if (offreTypes.contains(OffreType.emploi)) _buildRadioListTile(OffreFilter.emploi, Strings.filterEmploi),
+            if (offreTypes.contains(OffreType.alternance))
+              _buildRadioListTile(OffreFilter.alternance, Strings.filterAlternance),
+            if (offreTypes.contains(OffreType.immersion))
+              _buildRadioListTile(OffreFilter.immersion, Strings.filterImmersion),
+            if (offreTypes.contains(OffreType.serviceCivique))
+              _buildRadioListTile(OffreFilter.serviceCivique, Strings.filterServiceCivique),
+          ],
+        ),
       ),
     );
   }

@@ -54,19 +54,22 @@ class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Re
       case BlocResultatRechercheDisplayState.results:
       case BlocResultatRechercheDisplayState.editRecherche:
         final bool withOpacity = viewModel.displayState == BlocResultatRechercheDisplayState.editRecherche;
-        return GestureDetector(
-          onTapDown: (_) => viewModel.onListWithOpacityTouch(),
-          child: AnimatedOpacity(
-            opacity: withOpacity ? 0.2 : 1,
-            duration: Duration(milliseconds: 200),
-            child: AbsorbPointer(
-              absorbing: withOpacity,
-              child: ResultatRechercheContenu<Result>(
-                key: widget.listResultatKey,
-                analyticsType: widget.analyticsType,
-                viewModel: viewModel,
-                favorisState: widget.favorisState,
-                buildResultItem: widget.buildResultItem,
+        return Semantics(
+          label: Strings.listSemanticsLabel,
+          child: GestureDetector(
+            onTapDown: (_) => viewModel.onListWithOpacityTouch(),
+            child: AnimatedOpacity(
+              opacity: withOpacity ? 0.2 : 1,
+              duration: Duration(milliseconds: 200),
+              child: AbsorbPointer(
+                absorbing: withOpacity,
+                child: ResultatRechercheContenu<Result>(
+                  key: widget.listResultatKey,
+                  analyticsType: widget.analyticsType,
+                  viewModel: viewModel,
+                  favorisState: widget.favorisState,
+                  buildResultItem: widget.buildResultItem,
+                ),
               ),
             ),
           ),

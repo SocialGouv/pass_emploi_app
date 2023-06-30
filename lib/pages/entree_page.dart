@@ -118,44 +118,47 @@ class EntreePage extends StatelessWidget {
     );
   }
 
-  Column _buttonCard(BuildContext context, EntreePageViewModel viewModel) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        PrimaryActionButton(
-          label: Strings.loginAction,
-          onPressed: () => Navigator.push(context, LoginPage.materialPageRoute()),
-        ),
-        if (viewModel.withRequestAccountButton) ...[
-          SizedBox(height: Margins.spacing_base),
-          SecondaryButton(
-            label: Strings.askAccount,
-            onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
+  Widget _buttonCard(BuildContext context, EntreePageViewModel viewModel) {
+    return Semantics(
+      label: Strings.listSemanticsLabel,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          PrimaryActionButton(
+            label: Strings.loginAction,
+            onPressed: () => Navigator.push(context, LoginPage.materialPageRoute()),
           ),
+          if (viewModel.withRequestAccountButton) ...[
+            SizedBox(height: Margins.spacing_base),
+            SecondaryButton(
+              label: Strings.askAccount,
+              onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
+            ),
+          ],
+          SepLine(Margins.spacing_base, 0),
+          Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              tilePadding: EdgeInsets.zero,
+              title: Text(Strings.legalInformation, style: TextStyles.textBaseRegular),
+              expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              expandedAlignment: Alignment.topLeft,
+              children: [
+                SizedBox(height: Margins.spacing_s),
+                Link(Strings.legalNoticeLabel, Strings.legalNoticeUrl),
+                SizedBox(height: Margins.spacing_m),
+                Link(Strings.privacyPolicyLabel, Strings.privacyPolicyUrl),
+                SizedBox(height: Margins.spacing_m),
+                Link(Strings.termsOfServiceLabel, Strings.termsOfServiceUrl),
+                SizedBox(height: Margins.spacing_m),
+                Link(Strings.accessibilityLevelLabel, Strings.accessibilityUrl),
+                SizedBox(height: Margins.spacing_m),
+              ],
+            ),
+          )
         ],
-        SepLine(Margins.spacing_base, 0),
-        Theme(
-          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-          child: ExpansionTile(
-            tilePadding: EdgeInsets.zero,
-            title: Text(Strings.legalInformation, style: TextStyles.textBaseRegular),
-            expandedCrossAxisAlignment: CrossAxisAlignment.start,
-            expandedAlignment: Alignment.topLeft,
-            children: [
-              SizedBox(height: Margins.spacing_s),
-              Link(Strings.legalNoticeLabel, Strings.legalNoticeUrl),
-              SizedBox(height: Margins.spacing_m),
-              Link(Strings.privacyPolicyLabel, Strings.privacyPolicyUrl),
-              SizedBox(height: Margins.spacing_m),
-              Link(Strings.termsOfServiceLabel, Strings.termsOfServiceUrl),
-              SizedBox(height: Margins.spacing_m),
-              Link(Strings.accessibilityLevelLabel, Strings.accessibilityUrl),
-              SizedBox(height: Margins.spacing_m),
-            ],
-          ),
-        )
-      ],
+      ),
     );
   }
 }
