@@ -31,33 +31,36 @@ class AccueilCetteSemaine extends StatelessWidget {
       children: [
         Text(Strings.accueilCetteSemaineSection, style: TextStyles.accueilSection),
         SizedBox(height: Margins.spacing_base),
-        CardContainer(
-          padding: EdgeInsets.zero,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _CetteSemaineRow(
-                icon: Icon(AppIcons.today_rounded, color: AppColors.primary),
-                text: item.rendezVous,
-                addBorderRadius: true,
-                onTap: () => Navigator.of(context).push(RendezvousListPage.materialPageRoute()),
-              ),
-              SepLine(0, 0),
-              _CetteSemaineRow(
-                icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
-                text: item.actionsDemarchesEnRetard,
-                onTap: () => Navigator.of(context).push(actionsDemarchesPageRoute()),
-              ),
-              SepLine(0, 0),
-              _CetteSemaineRow(
-                icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
-                text: item.actionsDemarchesARealiser,
-                onTap: () => Navigator.of(context).push(actionsDemarchesPageRoute()),
-              ),
-              _CetteSemaineVoirDetails(
-                onTap: () => StoreProvider.of<AppState>(context).dispatchAgendaDeeplink(),
-              ),
-            ],
+        Semantics(
+          label: Strings.listSemanticsLabel,
+          child: CardContainer(
+            padding: EdgeInsets.zero,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _CetteSemaineRow(
+                  icon: Icon(AppIcons.today_rounded, color: AppColors.primary),
+                  text: item.rendezVous,
+                  addBorderRadius: true,
+                  onTap: () => Navigator.of(context).push(RendezvousListPage.materialPageRoute()),
+                ),
+                SepLine(0, 0),
+                _CetteSemaineRow(
+                  icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
+                  text: item.actionsDemarchesEnRetard,
+                  onTap: () => Navigator.of(context).push(actionsDemarchesPageRoute()),
+                ),
+                SepLine(0, 0),
+                _CetteSemaineRow(
+                  icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
+                  text: item.actionsDemarchesARealiser,
+                  onTap: () => Navigator.of(context).push(actionsDemarchesPageRoute()),
+                ),
+                _CetteSemaineVoirDetails(
+                  onTap: () => StoreProvider.of<AppState>(context).dispatchAgendaDeeplink(),
+                ),
+              ],
+            ),
           ),
         ),
       ],
