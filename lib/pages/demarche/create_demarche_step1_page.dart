@@ -13,8 +13,10 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
+import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class CreateDemarcheStep1Page extends StatefulWidget {
   static MaterialPageRoute<String?> materialPageRoute() {
@@ -50,6 +52,8 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _Subtitle(text: Strings.demarcheRechercheSubtitle),
+            SizedBox(height: Margins.spacing_base),
             _Mandatory(),
             SizedBox(height: Margins.spacing_base),
             Text(Strings.searchDemarcheHint, style: TextStyles.textBaseMedium),
@@ -63,16 +67,18 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
             ),
             if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
             SizedBox(height: Margins.spacing_xl),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                PrimaryActionButton(
-                  icon: AppIcons.search_rounded,
-                  label: Strings.searchDemarcheButton,
-                  onPressed: _buttonIsActive(viewModel) ? () => viewModel.onSearchDemarche(_query) : null,
-                ),
-              ],
+            SizedBox(
+              width: double.infinity,
+              child: PrimaryActionButton(
+                icon: AppIcons.search_rounded,
+                label: Strings.searchDemarcheButton,
+                onPressed: _buttonIsActive(viewModel) ? () => viewModel.onSearchDemarche(_query) : null,
+              ),
             ),
+            SizedBox(height: Margins.spacing_xl),
+            _Subtitle(text: Strings.demarcheCategoriesSubtitle),
+            SizedBox(height: Margins.spacing_base),
+            _ThematicCard(),
           ],
         ),
       ),
@@ -90,6 +96,46 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
 
   bool _buttonIsActive(CreateDemarcheStep1ViewModel viewModel) {
     return _query.trim().isNotEmpty && !viewModel.displayState.isLoading();
+  }
+}
+
+class _ThematicCard extends StatelessWidget {
+  const _ThematicCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return CardContainer(
+        child: Column(
+      children: [
+        Row(
+          children: [
+            Icon(AppIcons.signpost_rounded, color: AppColors.primary),
+            SizedBox(width: Margins.spacing_s),
+            Text(Strings.demarcheCategoriesCardTitle, style: TextStyles.textMBold),
+          ],
+        ),
+        SizedBox(height: Margins.spacing_base),
+        Text(
+          Strings.demarchesCategoriesDescription,
+          style: TextStyles.textBaseRegular,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        PressedTip(Strings.demarchesCategoriesPressedTip),
+      ],
+    ));
+  }
+}
+
+class _Subtitle extends StatelessWidget {
+  const _Subtitle({
+    required this.text,
+  });
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text, style: TextStyles.textMBold.copyWith(color: AppColors.grey800));
   }
 }
 

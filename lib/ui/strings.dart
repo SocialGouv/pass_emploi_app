@@ -415,6 +415,13 @@ class Strings {
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";
 
+  static String demarcheRechercheSubtitle = "Rechercher par mot-clé";
+  static String demarcheCategoriesSubtitle = "Rechercher par catégories";
+  static String demarcheCategoriesCardTitle = "Thématiques";
+  static String demarchesCategoriesPressedTip = "Découvrir la liste";
+  static String demarchesCategoriesDescription =
+      "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise...";
+
   // Recherche
   static String derniereRecherche = "Dernière recherche";
   static String dernieresRecherches = "Dernières recherches";
