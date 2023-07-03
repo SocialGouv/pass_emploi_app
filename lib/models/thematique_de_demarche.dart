@@ -16,7 +16,7 @@ class ThematiqueDeDemarche extends Equatable {
     return ThematiqueDeDemarche(
       code: json['code'] as String,
       libelle: json['libelle'] as String,
-      demarches: (json['demarches'] as List).map((demarche) => DemarcheDuReferentiel.fromJson(demarche)).toList(),
+      demarches: (json['demarches'] as List).map(DemarcheDuReferentiel.fromJson).toList(),
     );
   }
 
