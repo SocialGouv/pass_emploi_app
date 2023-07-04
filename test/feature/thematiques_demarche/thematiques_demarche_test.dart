@@ -44,7 +44,7 @@ Matcher _shouldSucceed() {
   return StateIs<ThematiquesDemarcheSuccessState>(
     (state) => state.thematiquesDemarcheState,
     (state) {
-      expect(state.result, [dummyThematiqueDeDemarche()]);
+      expect(state.thematiques, [dummyThematiqueDeDemarche()]);
     },
   );
 }

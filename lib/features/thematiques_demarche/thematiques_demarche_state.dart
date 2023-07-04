@@ -13,10 +13,10 @@ class ThematiquesDemarcheLoadingState extends ThematiquesDemarcheState {}
 class ThematiquesDemarcheFailureState extends ThematiquesDemarcheState {}
 
 class ThematiquesDemarcheSuccessState extends ThematiquesDemarcheState {
-  final List<ThematiqueDeDemarche> result;
+  final List<ThematiqueDeDemarche> thematiques;
 
-  ThematiquesDemarcheSuccessState(this.result);
+  ThematiquesDemarcheSuccessState(this.thematiques);
 
   @override
-  List<Object?> get props => [result];
+  List<Object?> get props => [thematiques];
 }

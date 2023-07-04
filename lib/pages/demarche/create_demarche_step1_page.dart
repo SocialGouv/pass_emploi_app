@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
+import 'package:pass_emploi_app/pages/demarche/thematiques_demarche_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -106,23 +107,21 @@ class _ThematicCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardContainer(
         child: Column(
-      children: [
-        Row(
           children: [
-            Icon(AppIcons.signpost_rounded, color: AppColors.primary),
-            SizedBox(width: Margins.spacing_s),
-            Text(Strings.demarcheCategoriesCardTitle, style: TextStyles.textMBold),
+            Row(
+              children: [
+                Icon(AppIcons.signpost_rounded, color: AppColors.primary),
+                SizedBox(width: Margins.spacing_s),
+                Text(Strings.demarcheThematiqueTitle, style: TextStyles.textMBold),
+              ],
+            ),
+            SizedBox(height: Margins.spacing_base),
+            Text(Strings.demarchesCategoriesDescription, style: TextStyles.textBaseRegular),
+            SizedBox(height: Margins.spacing_base),
+            PressedTip(Strings.demarchesCategoriesPressedTip),
           ],
         ),
-        SizedBox(height: Margins.spacing_base),
-        Text(
-          Strings.demarchesCategoriesDescription,
-          style: TextStyles.textBaseRegular,
-        ),
-        SizedBox(height: Margins.spacing_base),
-        PressedTip(Strings.demarchesCategoriesPressedTip),
-      ],
-    ));
+        onTap: () => Navigator.push(context, ThematiquesDemarchePage.materialPageRoute()));
   }
 }
 
