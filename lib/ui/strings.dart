@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
 
 class _BrsaStrings {
   static String appName = "pass emploi";
-  static String logoDescription = "Logo pass emploi";
+  static String logoDescription = "Pass emploi";
   static String shouldInformConseiller =
       "En cas d’imprévu, il est important de prévenir votre conseiller. Vous pouvez le contacter via la messagerie de l’application pass emploi.";
   static String suppressionAccountLabel = "Supprimer mon compte de l’application pass emploi";
@@ -26,7 +26,7 @@ class _BrsaStrings {
 
 class _CejStrings {
   static String appName = "CEJ";
-  static String logoDescription = "Logo CEJ";
+  static String logoDescription = "Contrat d'Engagement Jeune";
   static String shouldInformConseiller =
       "En cas d’imprévu, il est important de prévenir votre conseiller. Vous pouvez le contacter via la messagerie de l’application CEJ.";
   static String suppressionAccountLabel = "Supprimer mon compte de l’application CEJ";
@@ -648,6 +648,7 @@ class Strings {
 
   // Profil
   static String personalInformation = "Informations personnelles";
+  static String profilButtonSemanticsLabel = "Voir sa page Profil";
 
   static String sinceDate(String date) => "Depuis le $date";
   static String emailAddressLabel = "Adresse e-mail";
