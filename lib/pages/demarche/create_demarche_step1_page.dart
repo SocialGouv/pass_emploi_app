@@ -121,7 +121,12 @@ class _ThematicCard extends StatelessWidget {
             PressedTip(Strings.demarchesCategoriesPressedTip),
           ],
         ),
-        onTap: () => Navigator.push(context, ThematiquesDemarchePage.materialPageRoute()));
+        onTap: () {
+          Navigator.push(context, ThematiquesDemarchePage.materialPageRoute()).then((value) {
+            // forward result to previous page
+            if (value != null) Navigator.pop(context, value);
+          });
+        });
   }
 }
 

@@ -379,7 +379,7 @@ class Strings {
   static const String demarcheDone = "Réalisé";
   static const String demarcheCancelled = "Annulé";
   static const String late = "En retard : ";
-  static const String createDemarchePersonnalisee = "Créer une démarche personnalisée";
+  static const String createDemarchePersonnalisee = "Créer une démarche";
   static const String commentaire = "Commentaire";
   static const String descriptionDemarche = "*Description de la démarche";
   static const String caracteres255 = "255 caractères maximum";
@@ -414,13 +414,16 @@ class Strings {
   static String withoutDate = "Date indéterminée";
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";
-
   static String demarcheRechercheSubtitle = "Rechercher par mot-clé";
   static String demarcheCategoriesSubtitle = "Rechercher par catégories";
+
+  // Thematiques de demarche
   static String demarcheThematiqueTitle = "Thématiques";
   static String demarchesCategoriesPressedTip = "Découvrir la liste";
   static String demarchesCategoriesDescription =
       "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise...";
+  static String thematiquesDemarcheDescription = "Choisissez une thématique parmi les six thématiques suivantes :";
+  static String thematiquesDemarchePressedTip = "Parcourir les démarches";
 
   // Recherche
   static String derniereRecherche = "Dernière recherche";
