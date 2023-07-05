@@ -731,7 +731,7 @@ extension AppStateDSL on AppState {
     return copyWith(thematiquesDemarcheState: ThematiquesDemarcheFailureState());
   }
 
-  AppState withThematiquesDemarcheSuccessState() {
-    return copyWith(thematiquesDemarcheState: ThematiquesDemarcheSuccessState([dummyThematiqueDeDemarche()]));
+  AppState withThematiquesDemarcheSuccessState({List<DemarcheDuReferentiel>? demarches}) {
+    return copyWith(thematiquesDemarcheState: ThematiquesDemarcheSuccessState([dummyThematiqueDeDemarche(demarches)]));
   }
 }

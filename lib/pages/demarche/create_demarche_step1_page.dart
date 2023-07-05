@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
 import 'package:pass_emploi_app/pages/demarche/thematiques_demarche_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -88,7 +89,8 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
 
   void _onDidChange(CreateDemarcheStep1ViewModel? oldVm, CreateDemarcheStep1ViewModel newVm) {
     if (newVm.shouldGoToStep2) {
-      Navigator.push(context, CreateDemarcheStep2Page.materialPageRoute()).then((value) {
+      Navigator.push(context, CreateDemarcheStep2Page.materialPageRoute(source: RechercheDemarcheSource()))
+          .then((value) {
         // forward result to previous page
         if (value != null) Navigator.pop(context, value);
       });

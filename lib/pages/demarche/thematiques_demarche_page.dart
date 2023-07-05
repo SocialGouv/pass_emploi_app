@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_custom_demarche.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/demarche/thematiques_demarche_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -18,7 +19,6 @@ import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class ThematiquesDemarchePage extends StatelessWidget {
   const ThematiquesDemarchePage({super.key});
-  // final DemarcheSource source;
 
   static MaterialPageRoute<String?> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => ThematiquesDemarchePage());
@@ -135,7 +135,11 @@ class _ThematiqueTile extends StatelessWidget {
           ],
         ),
         onTap: () {
-          Navigator.push(context, CreateDemarcheStep2Page.materialPageRoute()).then((value) {
+          Navigator.push(
+              context,
+              CreateDemarcheStep2Page.materialPageRoute(
+                source: ThematiquesDemarcheSource(thematique.id),
+              )).then((value) {
             // forward result to previous page
             if (value != null) Navigator.pop(context, value);
           });
