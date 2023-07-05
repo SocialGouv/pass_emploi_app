@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/boite_a_outils_card.dart';
+import 'package:pass_emploi_app/widgets/textes.dart';
 
 class AccueilOutils extends StatelessWidget {
   final AccueilOutilsItem item;
@@ -20,7 +21,7 @@ class AccueilOutils extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilOutilsSection, style: TextStyles.accueilSection),
+        LargeSectionTitle(Strings.accueilOutilsSection),
         SizedBox(height: Margins.spacing_base),
         Text(Strings.accueilOutilsSectionDescription, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_base),

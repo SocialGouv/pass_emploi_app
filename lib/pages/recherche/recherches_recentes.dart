@@ -5,8 +5,8 @@ import 'package:pass_emploi_app/presentation/recherches_recentes_view_model.dart
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/saved_search_card.dart';
+import 'package:pass_emploi_app/widgets/textes.dart';
 
 class RecherchesRecentes extends StatelessWidget {
   @override
@@ -33,10 +33,7 @@ class _Body extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            Strings.derniereRecherche,
-            style: TextStyles.textMRegular,
-          ),
+          MediumSectionTitle(Strings.derniereRecherche),
           SizedBox(height: Margins.spacing_base),
           SavedSearchCard(savedSearch),
           SizedBox(height: Margins.spacing_base),
