@@ -140,7 +140,11 @@ class _ThematiqueTile extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.format_list_bulleted_rounded, color: AppColors.primary),
+                Icon(
+                  Icons.circle,
+                  color: AppColors.primary,
+                  size: 12,
+                ),
                 const SizedBox(width: Margins.spacing_s),
                 Expanded(child: Text(thematique.title, style: TextStyles.textMBold)),
               ],
