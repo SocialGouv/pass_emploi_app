@@ -51,7 +51,8 @@ class CreateDemarcheStep2Page extends StatelessWidget {
               source: source,
               idDemarche: item.idDemarche,
               onTap: () {
-                Navigator.push(context, CreateDemarcheStep3Page.materialPageRoute(item.idDemarche)).then((value) {
+                Navigator.push(context, CreateDemarcheStep3Page.materialPageRoute(item.idDemarche, source))
+                    .then((value) {
                   // forward result to previous page
                   if (value != null) Navigator.pop(context, value);
                 });

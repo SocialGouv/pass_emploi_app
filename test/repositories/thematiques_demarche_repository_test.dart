@@ -19,7 +19,7 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: HttpMethod.get,
-            url: "/referentiels/pole-emploi/thematiques-demarche",
+            url: "/referentiels/pole-emploi/catalogue",
           );
         });
 

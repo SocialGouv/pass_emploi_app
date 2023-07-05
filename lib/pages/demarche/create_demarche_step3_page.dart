@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -22,11 +23,12 @@ import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class CreateDemarcheStep3Page extends StatefulWidget {
   final String idDemarche;
+  final DemarcheSource source;
 
-  CreateDemarcheStep3Page._(this.idDemarche);
+  CreateDemarcheStep3Page._(this.idDemarche, this.source);
 
-  static MaterialPageRoute<String?> materialPageRoute(String idDemarche) {
-    return MaterialPageRoute(builder: (context) => CreateDemarcheStep3Page._(idDemarche));
+  static MaterialPageRoute<String?> materialPageRoute(String idDemarche, DemarcheSource source) {
+    return MaterialPageRoute(builder: (context) => CreateDemarcheStep3Page._(idDemarche, source));
   }
 
   @override
@@ -43,7 +45,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
       tracking: AnalyticsScreenNames.searchDemarcheStep3,
       child: StoreConnector<AppState, CreateDemarcheStep3ViewModel>(
         builder: _buildBody,
-        converter: (store) => CreateDemarcheStep3ViewModel.create(store, widget.idDemarche),
+        converter: (store) => CreateDemarcheStep3ViewModel.create(store, widget.idDemarche, widget.source),
         onDidChange: _onDidChange,
         onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
         distinct: true,

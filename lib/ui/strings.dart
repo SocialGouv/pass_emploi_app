@@ -424,6 +424,9 @@ class Strings {
       "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise...";
   static String thematiquesDemarcheDescription = "Choisissez une thématique parmi les six thématiques suivantes :";
   static String thematiquesDemarchePressedTip = "Parcourir les démarches";
+  static String thematiquesErrorTitle = "Il y a un problème technique de notre côté !";
+  static String thematiquesErrorSubtitle =
+      "Nous sommes en train de régler le problème. Réessayez plus tard ou créez une démarche personnalisée.";
 
   // Recherche
   static String derniereRecherche = "Dernière recherche";

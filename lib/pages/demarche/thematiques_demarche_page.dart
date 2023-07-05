@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/presentation/demarche/thematiques_demarche_view_
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -75,7 +76,21 @@ class _ErrorMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder(); // TODO:
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(AppIcons.construction, color: AppColors.primary, size: 80),
+          const SizedBox(height: Margins.spacing_xl),
+          Text(Strings.thematiquesErrorTitle, style: TextStyles.textBaseBold),
+          const SizedBox(height: Margins.spacing_m),
+          Text(Strings.thematiquesErrorSubtitle, style: TextStyles.textBaseRegular),
+          const SizedBox(height: Margins.spacing_xl),
+          CreateCustomDemarche(),
+        ],
+      ),
+    );
   }
 }
 

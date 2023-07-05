@@ -10,7 +10,7 @@ class ThematiquesDemarcheRepository {
   ThematiquesDemarcheRepository(this._httpClient, [this._crashlytics]);
 
   Future<List<ThematiqueDeDemarche>?> get() async {
-    const url = "/referentiels/pole-emploi/thematiques-demarche";
+    const url = "/referentiels/pole-emploi/catalogue";
     try {
       final response = await _httpClient.get(url);
       return response.asListOf(ThematiqueDeDemarche.fromJson);
