@@ -326,7 +326,7 @@ class Strings {
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
   static String actionLabel = "*Intitulé de l'action";
-  static String actionDescription = "*Description de l'action";
+  static String actionDescription = "Description de l'action";
   static String mandatoryActionLabelError = "L'intitulé de l'action doit être renseigné";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
