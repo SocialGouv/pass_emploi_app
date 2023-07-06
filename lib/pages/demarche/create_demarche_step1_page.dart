@@ -124,7 +124,7 @@ class _ThematicCard extends StatelessWidget {
           ],
         ),
         onTap: () {
-          Navigator.push(context, ThematiquesDemarchePage.materialPageRoute()).then((value) {
+          Navigator.push(context, ThematiqueDemarchePage.materialPageRoute()).then((value) {
             // forward result to previous page
             if (value != null) Navigator.pop(context, value);
           });

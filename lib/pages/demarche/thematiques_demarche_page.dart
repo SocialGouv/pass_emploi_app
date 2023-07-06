@@ -14,24 +14,25 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
-class ThematiquesDemarchePage extends StatelessWidget {
-  const ThematiquesDemarchePage({super.key});
+class ThematiqueDemarchePage extends StatelessWidget {
+  const ThematiqueDemarchePage({super.key});
 
   static MaterialPageRoute<String?> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => ThematiquesDemarchePage());
+    return MaterialPageRoute(builder: (context) => ThematiqueDemarchePage());
   }
 
   @override
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.thematiquesDemarche,
-      child: StoreConnector<AppState, ThematiquesDemarchePageViewModel>(
-        onInit: (store) => store.dispatch(ThematiquesDemarcheRequestAction()),
-        converter: (store) => ThematiquesDemarchePageViewModel.create(store),
+      child: StoreConnector<AppState, ThematiqueDemarchePageViewModel>(
+        onInit: (store) => store.dispatch(ThematiqueDemarcheRequestAction()),
+        converter: (store) => ThematiqueDemarchePageViewModel.create(store),
         builder: (context, viewModel) => _Scaffold(viewModel),
         distinct: true,
       ),
@@ -41,7 +42,7 @@ class ThematiquesDemarchePage extends StatelessWidget {
 
 class _Scaffold extends StatelessWidget {
   const _Scaffold(this.viewModel);
-  final ThematiquesDemarchePageViewModel viewModel;
+  final ThematiqueDemarchePageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -54,24 +55,21 @@ class _Scaffold extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   const _Body(this.viewModel);
-  final ThematiquesDemarchePageViewModel viewModel;
+  final ThematiqueDemarchePageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
-    switch (viewModel.displayState) {
-      case DisplayState.FAILURE:
-        return _ErrorMessage();
-      case DisplayState.LOADING:
-      case DisplayState.EMPTY:
-        return const Center(child: CircularProgressIndicator());
-      case DisplayState.CONTENT:
-        return _Content(viewModel);
-    }
+    return switch (viewModel.displayState) {
+      DisplayState.FAILURE => _ErrorMessage(viewModel),
+      DisplayState.CONTENT => _Content(viewModel),
+      _ => const Center(child: CircularProgressIndicator()),
+    };
   }
 }
 
 class _ErrorMessage extends StatelessWidget {
-  const _ErrorMessage();
+  const _ErrorMessage(this.viewModel);
+  final ThematiqueDemarchePageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +83,8 @@ class _ErrorMessage extends StatelessWidget {
           Text(Strings.thematiquesErrorTitle, style: TextStyles.textBaseBold),
           const SizedBox(height: Margins.spacing_m),
           Text(Strings.thematiquesErrorSubtitle, style: TextStyles.textBaseRegular),
+          const SizedBox(height: Margins.spacing_m),
+          PrimaryActionButton(label: Strings.retry, onPressed: viewModel.onRetry),
           const SizedBox(height: Margins.spacing_xl),
           CreateCustomDemarche(),
         ],
@@ -95,7 +95,7 @@ class _ErrorMessage extends StatelessWidget {
 
 class _Content extends StatelessWidget {
   const _Content(this.viewModel);
-  final ThematiquesDemarchePageViewModel viewModel;
+  final ThematiqueDemarchePageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +130,7 @@ class _Content extends StatelessWidget {
 
 class _ThematiqueTile extends StatelessWidget {
   const _ThematiqueTile(this.thematique);
-  final ThematiquesDemarcheItem thematique;
+  final ThematiqueDemarcheItem thematique;
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +156,7 @@ class _ThematiqueTile extends StatelessWidget {
           Navigator.push(
               context,
               CreateDemarcheStep2Page.materialPageRoute(
-                source: ThematiquesDemarcheSource(thematique.id),
+                source: ThematiqueDemarcheSource(thematique.id),
               )).then((value) {
             // forward result to previous page
             if (value != null) Navigator.pop(context, value);

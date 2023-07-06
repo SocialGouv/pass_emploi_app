@@ -55,45 +55,15 @@ void main() {
   });
 
   group('when source is thematique', () {
-    test('create when thematique state is not successful returns blank view model', () {
-      // Given
-      final store = givenState() //
-          .loggedInUser() //
-          .withThematiquesDemarcheFailureState()
-          .store();
-
-      // When
-      final viewModel = DemarcheDuReferentielCardViewModel.create(store, 'id', ThematiquesDemarcheSource("PO3"));
-
-      // Then
-      expect(viewModel.quoi, isEmpty);
-      expect(viewModel.pourquoi, isEmpty);
-    });
-
-    test('create when thematique state is successful but no demarche matches id returns blank view model', () {
-      // Given
-      final store = givenState() //
-          .loggedInUser() //
-          .withThematiquesDemarcheSuccessState(demarches: [mockDemarcheDuReferentiel('id-0')]) //
-          .store();
-
-      // When
-      final viewModel = DemarcheDuReferentielCardViewModel.create(store, 'id-1', ThematiquesDemarcheSource("PO3"));
-
-      // Then
-      expect(viewModel.quoi, isEmpty);
-      expect(viewModel.pourquoi, isEmpty);
-    });
-
     test('create when thematique state is successful and demarche matches id', () {
       // Given
       final store = givenState() //
           .loggedInUser() //
-          .withThematiquesDemarcheSuccessState(demarches: [mockDemarcheDuReferentiel('id')]) //
+          .withThematiqueDemarcheSuccessState(demarches: [mockDemarcheDuReferentiel('id')]) //
           .store();
 
       // When
-      final viewModel = DemarcheDuReferentielCardViewModel.create(store, 'id', ThematiquesDemarcheSource("PO3"));
+      final viewModel = DemarcheDuReferentielCardViewModel.create(store, 'id', ThematiqueDemarcheSource("P03"));
 
       // Then
       expect(viewModel.quoi, 'quoi');

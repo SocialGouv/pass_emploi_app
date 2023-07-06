@@ -9,7 +9,7 @@ class DemarcheDuReferentielCardViewModel {
   DemarcheDuReferentielCardViewModel({required this.quoi, required this.pourquoi});
 
   factory DemarcheDuReferentielCardViewModel.create(Store<AppState> store, String idDemarche, DemarcheSource source) {
-    final demarche = source.demarcheFromSource(store, idDemarche);
+    final demarche = source.demarche(store, idDemarche);
     if (demarche != null) {
       return DemarcheDuReferentielCardViewModel(
         quoi: demarche.quoi,

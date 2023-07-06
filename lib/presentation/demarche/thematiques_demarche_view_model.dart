@@ -1,20 +1,23 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-class ThematiquesDemarchePageViewModel extends Equatable {
+class ThematiqueDemarchePageViewModel extends Equatable {
   final DisplayState displayState;
-  final List<ThematiquesDemarcheItem> thematiques;
+  final List<ThematiqueDemarcheItem> thematiques;
+  final void Function() onRetry;
 
-  ThematiquesDemarchePageViewModel({required this.displayState, required this.thematiques});
+  ThematiqueDemarchePageViewModel({required this.displayState, required this.thematiques, required this.onRetry});
 
-  factory ThematiquesDemarchePageViewModel.create(Store<AppState> store) {
+  factory ThematiqueDemarchePageViewModel.create(Store<AppState> store) {
     final state = store.state.thematiquesDemarcheState;
-    return ThematiquesDemarchePageViewModel(
+    return ThematiqueDemarchePageViewModel(
       displayState: _displayState(state),
       thematiques: _thematiques(state),
+      onRetry: () => store.dispatch(ThematiqueDemarcheRequestAction()),
     );
   }
 
@@ -22,23 +25,25 @@ class ThematiquesDemarchePageViewModel extends Equatable {
   List<Object?> get props => [displayState, thematiques];
 }
 
-List<ThematiquesDemarcheItem> _thematiques(ThematiquesDemarcheState state) {
-  return state is ThematiquesDemarcheSuccessState
-      ? state.thematiques.map((e) => ThematiquesDemarcheItem(id: e.code, title: e.libelle)).toList()
-      : <ThematiquesDemarcheItem>[];
+List<ThematiqueDemarcheItem> _thematiques(ThematiqueDemarcheState state) {
+  return state is ThematiqueDemarcheSuccessState
+      ? state.thematiques.map((e) => ThematiqueDemarcheItem(id: e.code, title: e.libelle)).toList()
+      : <ThematiqueDemarcheItem>[];
 }
 
-DisplayState _displayState(ThematiquesDemarcheState state) {
-  if (state is ThematiquesDemarcheFailureState) return DisplayState.FAILURE;
-  if (state is ThematiquesDemarcheSuccessState) return DisplayState.CONTENT;
-  return DisplayState.LOADING;
+DisplayState _displayState(ThematiqueDemarcheState state) {
+  return switch (state) {
+    ThematiqueDemarcheFailureState() => DisplayState.FAILURE,
+    ThematiqueDemarcheSuccessState() => DisplayState.CONTENT,
+    _ => DisplayState.LOADING,
+  };
 }
 
-class ThematiquesDemarcheItem extends Equatable {
+class ThematiqueDemarcheItem extends Equatable {
   final String id;
   final String title;
 
-  ThematiquesDemarcheItem({required this.id, required this.title});
+  ThematiqueDemarcheItem({required this.id, required this.title});
 
   @override
   List<Object?> get props => [id, title];

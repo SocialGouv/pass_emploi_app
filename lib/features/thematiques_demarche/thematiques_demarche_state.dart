@@ -1,21 +1,21 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 
-sealed class ThematiquesDemarcheState extends Equatable {
+sealed class ThematiqueDemarcheState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class ThematiquesDemarcheNotInitializedState extends ThematiquesDemarcheState {}
+class ThematiqueDemarcheNotInitializedState extends ThematiqueDemarcheState {}
 
-class ThematiquesDemarcheLoadingState extends ThematiquesDemarcheState {}
+class ThematiqueDemarcheLoadingState extends ThematiqueDemarcheState {}
 
-class ThematiquesDemarcheFailureState extends ThematiquesDemarcheState {}
+class ThematiqueDemarcheFailureState extends ThematiqueDemarcheState {}
 
-class ThematiquesDemarcheSuccessState extends ThematiquesDemarcheState {
+class ThematiqueDemarcheSuccessState extends ThematiqueDemarcheState {
   final List<ThematiqueDeDemarche> thematiques;
 
-  ThematiquesDemarcheSuccessState(this.thematiques);
+  ThematiqueDemarcheSuccessState(this.thematiques);
 
   @override
   List<Object?> get props => [thematiques];

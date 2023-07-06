@@ -1,9 +1,5 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
-import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -15,31 +11,12 @@ class CreateDemarcheStep2ViewModel extends Equatable {
   CreateDemarcheStep2ViewModel(this.items);
 
   factory CreateDemarcheStep2ViewModel.create(Store<AppState> store, DemarcheSource source) {
-    final List<DemarcheDuReferentiel> demarches = _demarchesFromSource(store, source);
+    final List<DemarcheDuReferentiel> demarches = source.demarcheList(store);
     return CreateDemarcheStep2ViewModel(_items(demarches));
   }
 
   @override
   List<Object?> get props => [items];
-}
-
-List<DemarcheDuReferentiel> _demarchesFromSource(Store<AppState> store, DemarcheSource source) {
-  return switch (source) {
-    RechercheDemarcheSource() => _demarchesFromRecherche(store),
-    ThematiquesDemarcheSource() => _demarchesFromThematiques(store, source.thematiqueCode),
-  };
-}
-
-List<DemarcheDuReferentiel> _demarchesFromThematiques(Store<AppState> store, String thematiqueCode) {
-  final state = store.state.thematiquesDemarcheState;
-  final thematiques = state is ThematiquesDemarcheSuccessState ? state.thematiques : <ThematiqueDeDemarche>[];
-  return thematiques.firstWhereOrNull((element) => element.code == thematiqueCode)?.demarches ??
-      <DemarcheDuReferentiel>[];
-}
-
-List<DemarcheDuReferentiel> _demarchesFromRecherche(Store<AppState> store) {
-  final state = store.state.searchDemarcheState;
-  return state is SearchDemarcheSuccessState ? state.demarchesDuReferentiel : <DemarcheDuReferentiel>[];
 }
 
 List<CreateDemarcheStep2Item> _items(List<DemarcheDuReferentiel> demarches) {

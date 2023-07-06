@@ -1,10 +1,10 @@
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 
-ThematiquesDemarcheState thematiquesDemarcheReducer(ThematiquesDemarcheState current, dynamic action) {
-  if (action is ThematiquesDemarcheLoadingAction) return ThematiquesDemarcheLoadingState();
-  if (action is ThematiquesDemarcheFailureAction) return ThematiquesDemarcheFailureState();
-  if (action is ThematiquesDemarcheSuccessAction) return ThematiquesDemarcheSuccessState(action.thematiques);
-  if (action is ThematiquesDemarcheResetAction) return ThematiquesDemarcheNotInitializedState();
+ThematiqueDemarcheState thematiquesDemarcheReducer(ThematiqueDemarcheState current, dynamic action) {
+  if (action is ThematiqueDemarcheLoadingAction) return ThematiqueDemarcheLoadingState();
+  if (action is ThematiqueDemarcheFailureAction) return ThematiqueDemarcheFailureState();
+  if (action is ThematiqueDemarcheSuccessAction) return ThematiqueDemarcheSuccessState(action.thematiques);
+  if (action is ThematiqueDemarcheResetAction) return ThematiqueDemarcheNotInitializedState();
   return current;
 }

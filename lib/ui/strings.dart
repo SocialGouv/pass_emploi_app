@@ -419,11 +419,11 @@ class Strings {
   static String customDemarcheTitle = "Vous ne trouvez pas ce que vous cherchez ?";
   static String customDemarcheSubtitle = "Créez une démarche personnalisée qui correspond à votre situation.";
 
-  // Thematiques de demarche
+  // Thematique de demarche
   static String demarcheThematiqueTitle = "Thématiques";
   static String demarchesCategoriesPressedTip = "Découvrir la liste";
   static String demarchesCategoriesDescription =
-      "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise...";
+      "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise…";
   static String thematiquesDemarcheDescription = "Choisissez une thématique parmi les six thématiques suivantes :";
   static String thematiquesDemarchePressedTip = "Parcourir les démarches";
   static String thematiquesErrorTitle = "Il y a un problème technique de notre côté !";

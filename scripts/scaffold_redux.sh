@@ -1,5 +1,4 @@
 #! /bin/bash
-# TODO: rename RepositorySut2 to DioRepositorySut
 ### USAGE
 # > sh scripts/scaffold_redux.sh MaNouvelleFeature
 

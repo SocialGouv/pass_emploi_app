@@ -28,7 +28,7 @@ class CreateDemarcheStep3ViewModel extends Equatable {
   });
 
   factory CreateDemarcheStep3ViewModel.create(Store<AppState> store, String idDemarche, DemarcheSource source) {
-    final demarche = source.demarcheFromSource(store, idDemarche);
+    final demarche = source.demarche(store, idDemarche);
     if (demarche != null) {
       return CreateDemarcheStep3ViewModel(
         displayState: _displayState(store),

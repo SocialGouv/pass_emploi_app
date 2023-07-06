@@ -63,11 +63,11 @@ void main() {
       // Given
       final store = givenState() //
           .loggedInUser() //
-          .withThematiquesDemarcheSuccessState() //
+          .withThematiqueDemarcheSuccessState() //
           .store();
 
       // When
-      final viewModel = CreateDemarcheStep2ViewModel.create(store, ThematiquesDemarcheSource("P03"));
+      final viewModel = CreateDemarcheStep2ViewModel.create(store, ThematiqueDemarcheSource("P03"));
 
       // Then
       expect(viewModel.items.length, 3);

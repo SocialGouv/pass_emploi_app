@@ -46,6 +46,7 @@ import 'package:pass_emploi_app/features/service_civique/detail/service_civique_
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_state.dart';
+import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
@@ -60,7 +61,6 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -125,7 +125,7 @@ class AppState extends Equatable {
   final AccueilState accueilState;
   final CvState cvState;
   final EvenementEmploiDetailsState evenementEmploiDetailsState;
-  final ThematiquesDemarcheState thematiquesDemarcheState;
+  final ThematiqueDemarcheState thematiquesDemarcheState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -256,7 +256,7 @@ class AppState extends Equatable {
     final AccueilState? accueilState,
     final CvState? cvState,
     final EvenementEmploiDetailsState? evenementEmploiDetailsState,
-    final ThematiquesDemarcheState? thematiquesDemarcheState,
+    final ThematiqueDemarcheState? thematiquesDemarcheState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -390,7 +390,7 @@ class AppState extends Equatable {
       accueilState: AccueilNotInitializedState(),
       cvState: CvNotInitializedState(),
       evenementEmploiDetailsState: EvenementEmploiDetailsNotInitializedState(),
-      thematiquesDemarcheState: ThematiquesDemarcheNotInitializedState(),
+      thematiquesDemarcheState: ThematiqueDemarcheNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }

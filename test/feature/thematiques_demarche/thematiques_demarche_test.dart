@@ -11,16 +11,16 @@ import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
 void main() {
-  group('ThematiquesDemarche', () {
+  group('ThematiqueDemarche', () {
     final sut = StoreSut();
 
     group("when requesting", () {
-      sut.when(() => ThematiquesDemarcheRequestAction());
+      sut.when(() => ThematiqueDemarcheRequestAction());
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState() //
             .loggedInUser()
-            .store((f) => {f.thematiquesDemarcheRepository = ThematiquesDemarcheRepositorySuccessStub()});
+            .store((f) => {f.thematiquesDemarcheRepository = ThematiqueDemarcheRepositorySuccessStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
       });
@@ -28,7 +28,7 @@ void main() {
       test('should load then fail when request fail', () {
         sut.givenStore = givenState() //
             .loggedInUser()
-            .store((f) => {f.thematiquesDemarcheRepository = ThematiquesDemarcheRepositoryErrorStub()});
+            .store((f) => {f.thematiquesDemarcheRepository = ThematiqueDemarcheRepositoryErrorStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
       });
@@ -36,12 +36,12 @@ void main() {
   });
 }
 
-Matcher _shouldLoad() => StateIs<ThematiquesDemarcheLoadingState>((state) => state.thematiquesDemarcheState);
+Matcher _shouldLoad() => StateIs<ThematiqueDemarcheLoadingState>((state) => state.thematiquesDemarcheState);
 
-Matcher _shouldFail() => StateIs<ThematiquesDemarcheFailureState>((state) => state.thematiquesDemarcheState);
+Matcher _shouldFail() => StateIs<ThematiqueDemarcheFailureState>((state) => state.thematiquesDemarcheState);
 
 Matcher _shouldSucceed() {
-  return StateIs<ThematiquesDemarcheSuccessState>(
+  return StateIs<ThematiqueDemarcheSuccessState>(
     (state) => state.thematiquesDemarcheState,
     (state) {
       expect(state.thematiques, [dummyThematiqueDeDemarche()]);
@@ -49,20 +49,20 @@ Matcher _shouldSucceed() {
   );
 }
 
-class ThematiquesDemarcheRepositorySuccessStub extends ThematiquesDemarcheRepository {
-  ThematiquesDemarcheRepositorySuccessStub() : super(DioMock());
+class ThematiqueDemarcheRepositorySuccessStub extends ThematiqueDemarcheRepository {
+  ThematiqueDemarcheRepositorySuccessStub() : super(DioMock());
 
   @override
-  Future<List<ThematiqueDeDemarche>?> get() async {
+  Future<List<ThematiqueDeDemarche>?> getThematique() async {
     return [dummyThematiqueDeDemarche()];
   }
 }
 
-class ThematiquesDemarcheRepositoryErrorStub extends ThematiquesDemarcheRepository {
-  ThematiquesDemarcheRepositoryErrorStub() : super(DioMock());
+class ThematiqueDemarcheRepositoryErrorStub extends ThematiqueDemarcheRepository {
+  ThematiqueDemarcheRepositoryErrorStub() : super(DioMock());
 
   @override
-  Future<List<ThematiqueDeDemarche>?> get() async {
+  Future<List<ThematiqueDeDemarche>?> getThematique() async {
     return null;
   }
 }

@@ -723,15 +723,15 @@ extension AppStateDSL on AppState {
     );
   }
 
-  AppState withThematiquesDemarcheLoadingState() {
-    return copyWith(thematiquesDemarcheState: ThematiquesDemarcheLoadingState());
+  AppState withThematiqueDemarcheLoadingState() {
+    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheLoadingState());
   }
 
-  AppState withThematiquesDemarcheFailureState() {
-    return copyWith(thematiquesDemarcheState: ThematiquesDemarcheFailureState());
+  AppState withThematiqueDemarcheFailureState() {
+    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheFailureState());
   }
 
-  AppState withThematiquesDemarcheSuccessState({List<DemarcheDuReferentiel>? demarches}) {
-    return copyWith(thematiquesDemarcheState: ThematiquesDemarcheSuccessState([dummyThematiqueDeDemarche(demarches)]));
+  AppState withThematiqueDemarcheSuccessState({List<DemarcheDuReferentiel>? demarches}) {
+    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheSuccessState([dummyThematiqueDeDemarche(demarches)]));
   }
 }

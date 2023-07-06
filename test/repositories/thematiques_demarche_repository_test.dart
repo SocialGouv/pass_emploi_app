@@ -6,12 +6,12 @@ import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dar
 import '../dsl/sut_dio_repository.dart';
 
 void main() {
-  group('ThematiquesDemarcheRepository', () {
-    final sut = DioRepositorySut<ThematiquesDemarcheRepository>();
-    sut.givenRepository((client) => ThematiquesDemarcheRepository(client));
+  group('ThematiqueDemarcheRepository', () {
+    final sut = DioRepositorySut<ThematiqueDemarcheRepository>();
+    sut.givenRepository((client) => ThematiqueDemarcheRepository(client));
 
     group('get', () {
-      sut.when((repository) => repository.get());
+      sut.when((repository) => repository.getThematique());
 
       group('when response is valid', () {
         sut.givenJsonResponse(fromJson: 'thematiques_demarche.json');

@@ -2,46 +2,45 @@ import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
+import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 sealed class DemarcheSource {
-  DemarcheDuReferentiel? demarcheFromSource(Store<AppState> store, String idDemarche) {
-    return _demarcheFromSource(store, idDemarche, this);
+  List<DemarcheDuReferentiel> demarcheList(Store<AppState> store);
+  DemarcheDuReferentiel? demarche(Store<AppState> store, String idDemarche);
+}
+
+class RechercheDemarcheSource extends DemarcheSource {
+  @override
+  List<DemarcheDuReferentiel> demarcheList(Store<AppState> store) {
+    final state = store.state.searchDemarcheState;
+    return state is SearchDemarcheSuccessState ? state.demarchesDuReferentiel : <DemarcheDuReferentiel>[];
+  }
+
+  @override
+  DemarcheDuReferentiel? demarche(Store<AppState> store, String idDemarche) {
+    final demarchesDuReferentiel = demarcheList(store);
+    return demarchesDuReferentiel.firstWhereOrNull((demarche) => demarche.id == idDemarche);
   }
 }
 
-class RechercheDemarcheSource extends DemarcheSource {}
-
-class ThematiquesDemarcheSource extends DemarcheSource {
+class ThematiqueDemarcheSource extends DemarcheSource {
   final String thematiqueCode;
 
-  ThematiquesDemarcheSource(this.thematiqueCode);
-}
+  ThematiqueDemarcheSource(this.thematiqueCode);
 
-DemarcheDuReferentiel? _demarcheFromSource(Store<AppState> store, String idDemarche, DemarcheSource source) {
-  return switch (source) {
-    RechercheDemarcheSource() => _demarcheFromRecherche(store, idDemarche),
-    ThematiquesDemarcheSource() => _demarcheFromThematiques(store, idDemarche),
-  };
-}
-
-DemarcheDuReferentiel? _demarcheFromRecherche(Store<AppState> store, String idDemarche) {
-  final state = store.state.searchDemarcheState;
-  if (state is SearchDemarcheSuccessState) {
-    return state.demarchesDuReferentiel.firstWhereOrNull((demarche) => demarche.id == idDemarche);
+  @override
+  List<DemarcheDuReferentiel> demarcheList(Store<AppState> store) {
+    final state = store.state.thematiquesDemarcheState;
+    final thematiques = state is ThematiqueDemarcheSuccessState ? state.thematiques : <ThematiqueDeDemarche>[];
+    return thematiques.firstWhereOrNull((thematique) => thematique.code == thematiqueCode)?.demarches ??
+        <DemarcheDuReferentiel>[];
   }
-  return null;
-}
 
-DemarcheDuReferentiel? _demarcheFromThematiques(Store<AppState> store, String idDemarche) {
-  final state = store.state.thematiquesDemarcheState;
-  if (state is ThematiquesDemarcheSuccessState) {
-    final thematique = state.thematiques
-        .firstWhereOrNull((thematique) => thematique.demarches.any((demarche) => demarche.id == idDemarche));
-    if (thematique != null) {
-      return thematique.demarches.firstWhereOrNull((demarche) => demarche.id == idDemarche);
-    }
+  @override
+  DemarcheDuReferentiel? demarche(Store<AppState> store, String idDemarche) {
+    final demarchesDuReferentiel = demarcheList(store);
+    return demarchesDuReferentiel.firstWhereOrNull((demarche) => demarche.id == idDemarche);
   }
-  return null;
 }

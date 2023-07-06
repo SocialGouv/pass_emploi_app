@@ -407,7 +407,7 @@ class DummyEvenementEmploiDetailsRepository extends EvenementEmploiDetailsReposi
   DummyEvenementEmploiDetailsRepository() : super(DioMock());
 }
 
-class DummyThematiquesDemarcheRepository extends ThematiquesDemarcheRepository {
-  DummyThematiquesDemarcheRepository() : super(DioMock());
+class DummyThematiqueDemarcheRepository extends ThematiqueDemarcheRepository {
+  DummyThematiqueDemarcheRepository() : super(DioMock());
 }
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/
