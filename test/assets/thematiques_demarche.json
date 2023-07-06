@@ -1,0 +1,25 @@
+[
+  {
+    "code": "P03",
+    "libelle": "Mes candidatures",
+    "demarches": [
+      {
+        "libelleQuoi": "Mes candidatures",
+        "libellePourquoi": "Participation",
+        "codeQuoi": "P01",
+        "codePourquoi": "P8",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "label": "En voiture",
+            "code": "VOITURE"
+          },
+          {
+            "label": "En avion",
+            "code": "AVION"
+          }
+        ]
+      }
+    ]
+  }
+]

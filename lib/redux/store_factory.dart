@@ -58,6 +58,7 @@ import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_s
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_middleware.dart';
 import 'package:pass_emploi_app/features/tech/action_logging_middleware.dart';
 import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
+import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_setup_middleware.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_middleware.dart';
@@ -119,6 +120,7 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_det
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
+import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
@@ -180,6 +182,7 @@ class StoreFactory {
   final CvRepository cvRepository;
   final EvenementEmploiRepository evenementEmploiRepository;
   final EvenementEmploiDetailsRepository evenementEmploiDetailsRepository;
+  final ThematiqueDemarcheRepository thematiquesDemarcheRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -237,6 +240,7 @@ class StoreFactory {
     this.cvRepository,
     this.evenementEmploiRepository,
     this.evenementEmploiDetailsRepository,
+    this.thematiquesDemarcheRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -308,6 +312,7 @@ class StoreFactory {
         AccueilMiddleware(accueilRepository),
         CvMiddleware(cvRepository),
         EvenementEmploiDetailsMiddleware(evenementEmploiDetailsRepository),
+        ThematiqueDemarcheMiddleware(thematiquesDemarcheRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

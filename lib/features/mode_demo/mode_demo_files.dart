@@ -31,6 +31,7 @@ String? getDemoFileName(String url, String query) {
   if (url.contains('/pole-emploi/cv')) return 'cv_pole_emploi';
   if (url.endsWith('/evenements-emploi')) return 'recherche_evenements_emploi';
   if (url.contains('/evenements-emploi/')) return 'evenement_emploi_details';
+  if (url.contains('/catalogue')) return 'thematiques_demarche';
   return null;
 }
 

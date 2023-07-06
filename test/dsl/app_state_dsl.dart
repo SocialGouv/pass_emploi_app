@@ -33,6 +33,7 @@ import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.d
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
+import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
@@ -720,5 +721,17 @@ extension AppStateDSL on AppState {
         },
       ),
     );
+  }
+
+  AppState withThematiqueDemarcheLoadingState() {
+    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheLoadingState());
+  }
+
+  AppState withThematiqueDemarcheFailureState() {
+    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheFailureState());
+  }
+
+  AppState withThematiqueDemarcheSuccessState({List<DemarcheDuReferentiel>? demarches}) {
+    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheSuccessState([dummyThematiqueDeDemarche(demarches)]));
   }
 }

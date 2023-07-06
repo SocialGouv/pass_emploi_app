@@ -1,5 +1,4 @@
 #! /bin/bash
-
 ### USAGE
 # > sh scripts/scaffold_redux.sh MaNouvelleFeature
 

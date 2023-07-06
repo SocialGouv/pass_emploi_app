@@ -29,6 +29,7 @@ class AnalyticsScreenNames {
   static const searchDemarcheStep3 = "/demarches/demarche-renferentiel-create";
   static const searchDemarcheStep3Success = "/demarches/createSuccess";
   static const createDemarchePersonnalisee = "actions/demarche-personnalisee/create";
+  static const thematiquesDemarche = "demarches/thematiques";
 
   static const rendezvousListPast = "rdv/list-past";
   static const rendezvousListFuture = "rdv/list-future";

@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.da
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
 import '../../doubles/fixtures.dart';
@@ -12,50 +13,71 @@ import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  test('create when search state is not successful returns blank view model', () {
-    // Given
-    final store = givenState() //
-        .loggedInUser() //
-        .copyWith(searchDemarcheState: SearchDemarcheNotInitializedState()) //
-        .store();
+  group('when source is research', () {
+    test('create when search state is not successful returns blank view model', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser() //
+          .copyWith(searchDemarcheState: SearchDemarcheNotInitializedState()) //
+          .store();
 
-    // When
-    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+      // When
+      final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
 
-    // Then
-    expect(viewModel.pourquoi, isEmpty);
-    expect(viewModel.quoi, isEmpty);
+      // Then
+      expect(viewModel.pourquoi, isEmpty);
+      expect(viewModel.quoi, isEmpty);
+    });
+
+    test('create when search state is successful but no demarche matches id returns blank view model', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser() //
+          .searchDemarchesSuccess([mockDemarcheDuReferentiel('id-0')]) //
+          .store();
+
+      // When
+      final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id-1', RechercheDemarcheSource());
+
+      // Then
+      expect(viewModel.pourquoi, isEmpty);
+      expect(viewModel.quoi, isEmpty);
+    });
+
+    test('create when search state is successful and demarche matches id', () {
+      // Given
+      final demarche = mockDemarcheDuReferentiel('id');
+      final store = givenState() //
+          .loggedInUser() //
+          .searchDemarchesSuccess([demarche]) //
+          .store();
+
+      // When
+      final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
+
+      // Then
+      expect(viewModel.pourquoi, demarche.pourquoi);
+      expect(viewModel.quoi, demarche.quoi);
+    });
   });
 
-  test('create when search state is successful but no demarche matches id returns blank view model', () {
-    // Given
-    final store = givenState() //
-        .loggedInUser() //
-        .searchDemarchesSuccess([mockDemarcheDuReferentiel('id-0')]) //
-        .store();
+  group('when source is thematique', () {
+    test('create when thematique state is successful and demarche matches id', () {
+      // Given
+      final demarche = mockDemarcheDuReferentiel('id');
 
-    // When
-    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id-1');
+      final store = givenState() //
+          .loggedInUser() //
+          .withThematiqueDemarcheSuccessState(demarches: [demarche]) //
+          .store();
 
-    // Then
-    expect(viewModel.pourquoi, isEmpty);
-    expect(viewModel.quoi, isEmpty);
-  });
+      // When
+      final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', ThematiqueDemarcheSource("P03"));
 
-  test('create when search state is successful and demarche matches id', () {
-    // Given
-    final demarche = mockDemarcheDuReferentiel('id');
-    final store = givenState() //
-        .loggedInUser() //
-        .searchDemarchesSuccess([demarche]) //
-        .store();
-
-    // When
-    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
-
-    // Then
-    expect(viewModel.pourquoi, demarche.pourquoi);
-    expect(viewModel.quoi, demarche.quoi);
+      // Then
+      expect(viewModel.pourquoi, demarche.pourquoi);
+      expect(viewModel.quoi, demarche.quoi);
+    });
   });
 
   test('create when demarche has no comment', () {
@@ -67,7 +89,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
 
     // Then
     expect(viewModel.pourquoi, demarche.pourquoi);
@@ -84,7 +106,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
 
     // Then
     expect(viewModel.pourquoi, demarche.pourquoi);
@@ -105,7 +127,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
 
     // Then
     expect(viewModel.pourquoi, demarche.pourquoi);
@@ -125,7 +147,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
 
     // Then
     expect(viewModel.isCommentMandatory, demarche.isCommentMandatory);
@@ -140,7 +162,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
@@ -155,7 +177,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
 
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
@@ -170,7 +192,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
 
     // Then
     expect(viewModel.demarcheCreationState, isA<DemarcheCreationSuccessState>());
@@ -181,7 +203,7 @@ void main() {
     // Given
     final demarche = mockDemarcheDuReferentiel('id');
     final store = StoreSpy.withState(givenState().loggedInUser().searchDemarchesSuccess([demarche]));
-    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
     final now = DateTime.now();
 
     // When

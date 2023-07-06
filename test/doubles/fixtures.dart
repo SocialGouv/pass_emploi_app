@@ -51,6 +51,7 @@ import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
+import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
@@ -554,6 +555,14 @@ Campagne campagne([String? id]) {
     titre: 'Questionnaire',
     description: 'Super test',
     questions: [],
+  );
+}
+
+ThematiqueDeDemarche dummyThematiqueDeDemarche([List<DemarcheDuReferentiel>? demarches]) {
+  return ThematiqueDeDemarche(
+    code: "P03",
+    libelle: "Mes candidatures",
+    demarches: demarches ?? [mockDemarcheDuReferentiel()],
   );
 }
 
