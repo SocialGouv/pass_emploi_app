@@ -62,11 +62,10 @@ class _Body extends StatelessWidget {
       case DisplayState.FAILURE:
         return _ErrorMessage();
       case DisplayState.LOADING:
+      case DisplayState.EMPTY:
         return const Center(child: CircularProgressIndicator());
       case DisplayState.CONTENT:
         return _Content(viewModel);
-      default:
-        return Center(child: CircularProgressIndicator());
     }
   }
 }

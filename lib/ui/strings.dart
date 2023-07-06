@@ -416,6 +416,8 @@ class Strings {
   static String createByAdvisor = "Créé par votre conseiller";
   static String demarcheRechercheSubtitle = "Rechercher par mot-clé";
   static String demarcheCategoriesSubtitle = "Rechercher par catégories";
+  static String customDemarcheTitle = "Vous ne trouvez pas ce que vous cherchez ?";
+  static String customDemarcheSubtitle = "Créez une démarche personnalisée qui correspond à votre situation.";
 
   // Thematiques de demarche
   static String demarcheThematiqueTitle = "Thématiques";

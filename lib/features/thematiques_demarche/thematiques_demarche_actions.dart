@@ -6,12 +6,12 @@ class ThematiquesDemarcheRequestAction {}
 class ThematiquesDemarcheLoadingAction {}
 
 class ThematiquesDemarcheSuccessAction extends Equatable {
-  final List<ThematiqueDeDemarche> result;
+  final List<ThematiqueDeDemarche> thematiques;
 
-  ThematiquesDemarcheSuccessAction(this.result);
+  ThematiquesDemarcheSuccessAction(this.thematiques);
 
   @override
-  List<Object> get props => [result];
+  List<Object> get props => [thematiques];
 }
 
 class ThematiquesDemarcheFailureAction {}

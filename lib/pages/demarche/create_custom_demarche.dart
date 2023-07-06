@@ -24,13 +24,13 @@ class CreateCustomDemarche extends StatelessWidget {
           ),
           SizedBox(height: Margins.spacing_base),
           Text(
-            "Vous ne trouvez pas ce que vous cherchez ?",
+            Strings.customDemarcheTitle,
             style: TextStyles.textBaseBold,
             textAlign: TextAlign.center,
           ),
           SizedBox(height: Margins.spacing_base),
           Text(
-            "Créez une démarche personnalisée qui correspond à votre situation.",
+            Strings.customDemarcheSubtitle,
             style: TextStyles.textBaseRegular,
             textAlign: TextAlign.center,
           ),
