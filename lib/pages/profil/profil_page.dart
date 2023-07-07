@@ -236,51 +236,54 @@ class _ActivityShareCard extends StatelessWidget {
 class _LegalInformationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ProfilCard(
-      padding: EdgeInsets.zero,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Material(
-          color: Colors.transparent,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ListTile(
-                onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
-                title: LabelValueRow(
-                  label: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
-                  value: _redirectIcon(),
+    return Semantics(
+      label: Strings.listSemanticsLabel,
+      child: ProfilCard(
+        padding: EdgeInsets.zero,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Material(
+            color: Colors.transparent,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ListTile(
+                  onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
+                  title: LabelValueRow(
+                    label: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
+                    value: _redirectIcon(),
+                  ),
                 ),
-              ),
-              Divider(color: AppColors.grey100, height: 0),
-              ListTile(
-                onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
-                title: LabelValueRow(
-                  label: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
-                  value: _redirectIcon(),
+                Divider(color: AppColors.grey100, height: 0),
+                ListTile(
+                  onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
+                  title: LabelValueRow(
+                    label: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
+                    value: _redirectIcon(),
+                  ),
                 ),
-              ),
-              Divider(color: AppColors.grey100, height: 0),
-              ListTile(
-                onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
-                title: LabelValueRow(
-                  label: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
-                  value: _redirectIcon(),
+                Divider(color: AppColors.grey100, height: 0),
+                ListTile(
+                  onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
+                  title: LabelValueRow(
+                    label: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
+                    value: _redirectIcon(),
+                  ),
                 ),
-              ),
-              Divider(color: AppColors.grey100, height: 0),
-              ListTile(
-                onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
-                title: LabelValueRow(
-                  label: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
-                  value: _redirectIcon(),
+                Divider(color: AppColors.grey100, height: 0),
+                ListTile(
+                  onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
+                  title: LabelValueRow(
+                    label: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
+                    value: _redirectIcon(),
+                  ),
+                  subtitle: Text(
+                    Strings.accessibilityLevelNonConforme,
+                    style: TextStyles.textBaseBold,
+                  ),
                 ),
-                subtitle: Text(
-                  Strings.accessibilityLevelNonConforme,
-                  style: TextStyles.textBaseBold,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
