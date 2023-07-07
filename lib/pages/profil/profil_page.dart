@@ -82,20 +82,20 @@ class ProfilPage extends StatelessWidget {
                 _ProfileCard(userEmail: viewModel.userEmail),
                 SizedBox(height: Margins.spacing_m),
                 if (viewModel.displayMonConseiller) MonConseillerCard(),
-                Text(Strings.settingsLabel, style: TextStyles.textLBold()),
+                _SeactionTitle(Strings.settingsLabel),
                 SizedBox(height: Margins.spacing_m),
                 _SuppressionAccountCard(),
                 _ActivityShareCard(),
-                Text(Strings.legalInformation, style: TextStyles.textLBold()),
+                _SeactionTitle(Strings.legalInformation),
                 SizedBox(height: Margins.spacing_m),
                 _LegalInformationCard(),
                 SizedBox(height: Margins.spacing_m),
-                Text(Strings.helpTitle, style: TextStyles.textLBold()),
+                _SeactionTitle(Strings.helpTitle),
                 SizedBox(height: Margins.spacing_m),
                 _RatingCard(),
                 SizedBox(height: Margins.spacing_m),
                 if (viewModel.displayDeveloperOptions) ...[
-                  Text(Strings.developerOptions, style: TextStyles.textLBold()),
+                  _SeactionTitle(Strings.developerOptions),
                   SizedBox(height: Margins.spacing_m),
                   _MatomoCard(),
                 ],
@@ -108,6 +108,19 @@ class ProfilPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SeactionTitle extends StatelessWidget {
+  const _SeactionTitle(this.title);
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      header: true,
+      child: Text(title, style: TextStyles.textLBold()),
     );
   }
 }
@@ -164,7 +177,7 @@ class _UsernameTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onDoubleTap: onTitleTap,
-      child: Text(userName, style: TextStyles.textLBold()),
+      child: _SeactionTitle(userName),
     );
   }
 }

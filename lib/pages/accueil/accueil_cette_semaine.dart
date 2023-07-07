@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/textes.dart';
 
 class AccueilCetteSemaine extends StatelessWidget {
   final AccueilCetteSemaineItem item;
@@ -29,7 +30,7 @@ class AccueilCetteSemaine extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilCetteSemaineSection, style: TextStyles.accueilSection),
+        LargeSectionTitle(Strings.accueilCetteSemaineSection),
         SizedBox(height: Margins.spacing_base),
         Semantics(
           label: Strings.listSemanticsLabel,

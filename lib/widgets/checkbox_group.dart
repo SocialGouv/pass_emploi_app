@@ -41,7 +41,10 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.title, style: TextStyles.textBaseBold),
+        Semantics(
+          header: true,
+          child: Text(widget.title, style: TextStyles.textBaseBold),
+        ),
         SizedBox(height: Margins.spacing_base),
         DecoratedBox(
           decoration: BoxDecoration(

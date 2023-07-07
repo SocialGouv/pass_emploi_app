@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/saved_search_card.dart';
+import 'package:pass_emploi_app/widgets/textes.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
 class AccueilAlertes extends StatelessWidget {
@@ -31,7 +32,7 @@ class AccueilAlertes extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(Strings.accueilMesAlertesSection, style: TextStyles.accueilSection),
+          LargeSectionTitle(Strings.accueilMesAlertesSection),
           VoirSuggestionsRechercheBandeau(
             padding: EdgeInsets.only(top: Margins.spacing_base),
             onTapShowSuggestions: () {

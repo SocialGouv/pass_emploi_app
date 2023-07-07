@@ -15,30 +15,30 @@ Future<T?> showPassEmploiBottomSheet<T>({required BuildContext context, required
   );
 }
 
-Padding userActionBottomSheetHeader(BuildContext context, {required String title}) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 22),
-    child: Stack(
-      alignment: AlignmentDirectional.center,
-      children: [
-        Semantics(
-          header: true,
-          child: Text(title, style: TextStyles.textBaseBold),
-        ),
-        Positioned(
-          right: 8,
-          child: IconButton(
-            padding: const EdgeInsets.all(0),
-            iconSize: Dimens.icon_size_m,
-            onPressed: () => Navigator.pop(context),
-            tooltip: Strings.close,
-            icon: Icon(
-              AppIcons.close_rounded,
-              color: AppColors.contentColor,
+Widget userActionBottomSheetHeader(BuildContext context, {required String title}) {
+  return Semantics(
+    header: true,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 22),
+      child: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          Text(title, style: TextStyles.textBaseBold),
+          Positioned(
+            right: 8,
+            child: IconButton(
+              padding: const EdgeInsets.all(0),
+              iconSize: Dimens.icon_size_m,
+              onPressed: () => Navigator.pop(context),
+              tooltip: Strings.close,
+              icon: Icon(
+                AppIcons.close_rounded,
+                color: AppColors.contentColor,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }

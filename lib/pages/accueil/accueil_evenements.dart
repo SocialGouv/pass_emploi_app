@@ -6,10 +6,10 @@ import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
+import 'package:pass_emploi_app/widgets/textes.dart';
 
 class AccueilEvenements extends StatelessWidget {
   final AccueilEvenementsItem item;
@@ -21,7 +21,7 @@ class AccueilEvenements extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilEvenementsSection, style: TextStyles.accueilSection),
+        LargeSectionTitle(Strings.accueilEvenementsSection),
         SizedBox(height: Margins.spacing_base),
         ...item.evenementIds.map((id) => _EventCard(id)),
         SizedBox(height: Margins.spacing_s),

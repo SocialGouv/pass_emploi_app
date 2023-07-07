@@ -256,7 +256,10 @@ class _FiltreDebutantState extends State<_FiltreDebutant> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(Strings.experienceSectionTitle, style: TextStyles.textBaseBold),
+          Semantics(
+            header: true,
+            child: Text(Strings.experienceSectionTitle, style: TextStyles.textBaseBold),
+          ),
           SizedBox(height: Margins.spacing_base),
           DecoratedBox(
             decoration: BoxDecoration(
