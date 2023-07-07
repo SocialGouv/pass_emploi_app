@@ -19,7 +19,6 @@ import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class CreateDemarcheStep3Page extends StatefulWidget {
   final String idDemarche;
@@ -62,12 +61,6 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              StatutTag(
-                backgroundColor: AppColors.accent2Lighten,
-                textColor: AppColors.accent2,
-                title: viewModel.pourquoi,
-              ),
-              SizedBox(height: Margins.spacing_s),
               Text(viewModel.quoi, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
               if (viewModel.isCommentMandatory) _Mandatory(),
               if (viewModel.comments.isNotEmpty) _Section(Strings.comment),
@@ -125,7 +118,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
       }
       return RadioListTile<String>(
           controlAffinity: ListTileControlAffinity.trailing,
-          title: Text(comment.label),
+          title: Text(comment.label, style: TextStyles.textBaseMedium),
           contentPadding: const EdgeInsets.all(0),
           value: comment.code,
           groupValue: _codeComment,

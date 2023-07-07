@@ -385,14 +385,14 @@ class Strings {
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
   static const String selectEcheance = "*Sélectionner une date d'échéance";
-  static const String addADemarche = "Créer une démarche";
+  static const String addADemarche = "Ajouter une démarche";
   static const String createDemarcheTitle = "Création d'une démarche";
   static const String noDemarcheFound = "Aucune démarche pre-renseignée n’a été trouvée";
   static const String selectDemarche = "Sélectionnez une démarche ou créez une démarche personnalisée";
   static const String addALaDemarche = "Créer la démarche";
   static const String searchDemarcheHint = "*Renseigner un mot clé pour rechercher une démarche à créer";
   static const String searchDemarcheButton = "Rechercher une démarche";
-  static const String mandatoryField = "Le champs est obligatoire";
+  static const String mandatoryField = "Le champ est obligatoire";
   static const String comment = "Comment";
   static const String selectComment = "*Sélectionner un des moyens";
   static const String selectQuand = "*Sélectionner une date d’échéance";
