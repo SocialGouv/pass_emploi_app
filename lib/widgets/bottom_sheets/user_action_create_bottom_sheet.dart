@@ -60,82 +60,87 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
       key: _formKey,
       child: FractionallySizedBox(
         heightFactor: 0.90,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            userActionBottomSheetHeader(context, title: Strings.addAnAction),
-            _Mandatory(),
-            SizedBox(height: Margins.spacing_base),
-            SepLine(0, 0),
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  _actionContentAndComment(viewModel),
-                  SizedBox(height: Margins.spacing_xl),
-                  _DateEcheance(
-                    dateEcheance: _dateEcheance,
-                    onDateEcheanceChange: (date) {
-                      setState(() {
-                        _dateEcheance = date;
-                      });
-                    },
-                  ),
-                  SizedBox(height: Margins.spacing_xl),
-                  _Rappel(
-                    value: _rappel,
-                    isActive: viewModel.isRappelActive(_dateEcheance),
-                    onChanged: (value) {
-                      setState(() {
-                        _rappel = value;
-                      });
-                    },
-                  ),
-                  SizedBox(height: Margins.spacing_xl),
-                  SepLine(0, 0),
-                  _defineStatus(viewModel),
-                ],
+        child: Padding(
+          padding: bottomSheetContentPadding(),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              userActionBottomSheetHeader(context, title: Strings.addAnAction),
+              _Mandatory(),
+              SizedBox(height: Margins.spacing_base),
+              SepLine(0, 0),
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    ..._actionContentAndComment(viewModel),
+                    SizedBox(height: Margins.spacing_xl),
+                    _DateEcheance(
+                      dateEcheance: _dateEcheance,
+                      onDateEcheanceChange: (date) {
+                        setState(() {
+                          _dateEcheance = date;
+                        });
+                      },
+                    ),
+                    SizedBox(height: Margins.spacing_xl),
+                    _Rappel(
+                      value: _rappel,
+                      isActive: viewModel.isRappelActive(_dateEcheance),
+                      onChanged: (value) {
+                        setState(() {
+                          _rappel = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: Margins.spacing_xl),
+                    SepLine(0, 0),
+                    _defineStatus(viewModel),
+                  ],
+                ),
               ),
-            ),
-            SepLine(0, 0),
-            Padding(
-              padding: bottomSheetContentPadding(),
-              child: _createButton(viewModel),
-            ),
-          ],
+              SepLine(0, 0),
+              Padding(
+                padding: bottomSheetContentPadding(),
+                child: _createButton(viewModel),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _actionContentAndComment(UserActionCreateViewModel viewModel) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(Strings.actionLabel, style: TextStyles.textBaseBold),
-          SizedBox(height: Margins.spacing_base),
-          _textField(
-            isEnabled: viewModel.displayState is! DisplayLoading,
-            onChanged: (value) => _actionContent = value,
-            isMandatory: true,
-            mandatoryError: Strings.mandatoryActionLabelError,
-            textInputAction: TextInputAction.next,
-          ),
-          SizedBox(height: Margins.spacing_base),
-          Text(Strings.actionDescription, style: TextStyles.textBaseBold),
-          SizedBox(height: Margins.spacing_base),
-          _textField(
-            isEnabled: viewModel.displayState is! DisplayLoading,
-            onChanged: (value) => _actionComment = value,
-            textInputAction: TextInputAction.done,
-          ),
-        ],
+  List<Widget> _actionContentAndComment(UserActionCreateViewModel viewModel) {
+    return [
+      Semantics(
+        // Semantics is used to make the screen reader read the label of the text field
+        label: Strings.actionLabel,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ExcludeSemantics(child: Text(Strings.actionLabel, style: TextStyles.textBaseBold)),
+            SizedBox(height: Margins.spacing_base),
+            _textField(
+              isEnabled: viewModel.displayState is! DisplayLoading,
+              onChanged: (value) => _actionContent = value,
+              isMandatory: true,
+              mandatoryError: Strings.mandatoryActionLabelError,
+              textInputAction: TextInputAction.next,
+            ),
+          ],
+        ),
       ),
-    );
+      SizedBox(height: Margins.spacing_base),
+      Text(Strings.actionDescription, style: TextStyles.textBaseBold),
+      SizedBox(height: Margins.spacing_base),
+      _textField(
+        isEnabled: viewModel.displayState is! DisplayLoading,
+        onChanged: (value) => _actionComment = value,
+        textInputAction: TextInputAction.done,
+      ),
+    ];
   }
 
   TextFormField _textField({
@@ -169,60 +174,54 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
   }
 
   Widget _defineStatus(UserActionCreateViewModel viewModel) {
-    return Padding(
-      padding: bottomSheetContentPadding(),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(Strings.defineActionStatus, style: TextStyles.textXsRegular()),
-          SizedBox(height: Margins.spacing_base),
-          UserActionStatusGroup(
-            status: _initialStatus,
-            update: (wantedStatus) => _update(wantedStatus),
-            isCreated: true,
-            isEnabled: viewModel.displayState is! DisplayLoading,
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(Strings.defineActionStatus, style: TextStyles.textXsRegular()),
+        SizedBox(height: Margins.spacing_base),
+        UserActionStatusGroup(
+          status: _initialStatus,
+          update: (wantedStatus) => _update(wantedStatus),
+          isCreated: true,
+          isEnabled: viewModel.displayState is! DisplayLoading,
+        ),
+      ],
     );
   }
 
   Widget _createButton(UserActionCreateViewModel viewModel) {
-    return Padding(
-      padding: bottomSheetContentPadding(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          PrimaryActionButton(
-            label: Strings.create,
-            onPressed: _isLoading(viewModel) && _isFormValid()
-                ? () => {
-                      viewModel.createUserAction(
-                        UserActionCreateRequest(
-                          _actionContent!,
-                          _actionComment,
-                          _dateEcheance!,
-                          _rappel,
-                          _initialStatus,
-                        ),
-                      )
-                    }
-                : null,
-          ),
-          if (viewModel.displayState is DisplayError)
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  Strings.actionCreationError,
-                  textAlign: TextAlign.center,
-                  style: TextStyles.textSRegular(color: AppColors.warning),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        PrimaryActionButton(
+          label: Strings.create,
+          onPressed: _isLoading(viewModel) && _isFormValid()
+              ? () => {
+                    viewModel.createUserAction(
+                      UserActionCreateRequest(
+                        _actionContent!,
+                        _actionComment,
+                        _dateEcheance!,
+                        _rappel,
+                        _initialStatus,
+                      ),
+                    )
+                  }
+              : null,
+        ),
+        if (viewModel.displayState is DisplayError)
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                Strings.actionCreationError,
+                textAlign: TextAlign.center,
+                style: TextStyles.textSRegular(color: AppColors.warning),
               ),
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 
@@ -254,21 +253,18 @@ class _DateEcheance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(Strings.selectEcheance, style: TextStyles.textBaseMedium),
-          SizedBox(height: Margins.spacing_s),
-          DatePicker(
-            onValueChange: (date) => onDateEcheanceChange(date),
-            initialDateValue: dateEcheance,
-            isActiveDate: true,
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(Strings.selectEcheance, style: TextStyles.textBaseMedium),
+        SizedBox(height: Margins.spacing_s),
+        DatePicker(
+          onValueChange: (date) => onDateEcheanceChange(date),
+          initialDateValue: dateEcheance,
+          isActiveDate: true,
+        ),
+      ],
     );
   }
 }
@@ -283,21 +279,18 @@ class _Rappel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyle = isActive ? TextStyles.textBaseRegular : TextStyles.textBaseRegularWithColor(AppColors.disabled);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Row(
-        children: [
-          Expanded(child: Text(Strings.rappelSwitch, style: textStyle)),
-          SizedBox(width: Margins.spacing_m),
-          Switch(
-            value: isActive && value,
-            onChanged: isActive ? onChanged : null,
-            activeColor: AppColors.primary,
-            inactiveTrackColor: AppColors.disabled,
-          ),
-          Text(isActive && value ? Strings.yes : Strings.no, style: textStyle),
-        ],
-      ),
+    return Row(
+      children: [
+        Expanded(child: Text(Strings.rappelSwitch, style: textStyle)),
+        SizedBox(width: Margins.spacing_m),
+        Switch(
+          value: isActive && value,
+          onChanged: isActive ? onChanged : null,
+          activeColor: AppColors.primary,
+          inactiveTrackColor: AppColors.disabled,
+        ),
+        Text(isActive && value ? Strings.yes : Strings.no, style: textStyle),
+      ],
     );
   }
 }
