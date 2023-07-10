@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/utils/log.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:redux/redux.dart';
 
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   final type = message.getType();
   if (type != null) {
