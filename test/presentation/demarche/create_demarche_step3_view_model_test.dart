@@ -80,6 +80,25 @@ void main() {
     });
   });
 
+  group('when source is top demarche', () {
+    test('create when thematique state is successful and demarche matches id', () {
+      // Given
+      final demarche = mockDemarcheDuReferentiel('id');
+
+      final store = givenState() //
+          .loggedInUser() //
+          .withTopDemarcheSuccessState(demarches: [demarche]) //
+          .store();
+
+      // When
+      final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', TopDemarcheSource());
+
+      // Then
+      expect(viewModel.pourquoi, demarche.pourquoi);
+      expect(viewModel.quoi, demarche.quoi);
+    });
+  });
+
   test('create when demarche has no comment', () {
     // Given
     final demarche = mockDemarcheDuReferentiel('id', []);

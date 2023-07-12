@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
 import 'package:pass_emploi_app/pages/demarche/thematiques_demarche_page.dart';
+import 'package:pass_emploi_app/pages/demarche/top_demarche_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -138,10 +139,10 @@ class _TopDemarcheCard extends StatelessWidget {
       description: Strings.topDemarchesSubtitle,
       pressedTip: Strings.topDemarchesPressedTip,
       onTap: () {
-        // Navigator.push(context, ThematiqueDemarchePage.materialPageRoute()).then((value) {
-        //   // forward result to previous page
-        //   if (value != null) Navigator.pop(context, value);
-        // });
+        Navigator.push(context, TopDemarchePage.materialPageRoute()).then((value) {
+          // forward result to previous page
+          if (value != null) Navigator.pop(context, value);
+        });
       },
     );
   }
