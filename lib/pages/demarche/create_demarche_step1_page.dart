@@ -51,37 +51,42 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
       appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
       body: Padding(
         padding: const EdgeInsets.all(Margins.spacing_base),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _Subtitle(text: Strings.demarcheRechercheSubtitle),
-            SizedBox(height: Margins.spacing_base),
-            _Mandatory(),
-            SizedBox(height: Margins.spacing_base),
-            Text(Strings.searchDemarcheHint, style: TextStyles.textBaseMedium),
-            SizedBox(height: Margins.spacing_base),
-            _ChampRecherche(
-              onChanged: (value) {
-                setState(() {
-                  _query = value;
-                });
-              },
-            ),
-            if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
-            SizedBox(height: Margins.spacing_xl),
-            SizedBox(
-              width: double.infinity,
-              child: PrimaryActionButton(
-                icon: AppIcons.search_rounded,
-                label: Strings.searchDemarcheButton,
-                onPressed: _buttonIsActive(viewModel) ? () => viewModel.onSearchDemarche(_query) : null,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _Subtitle(text: Strings.demarcheRechercheSubtitle),
+              SizedBox(height: Margins.spacing_base),
+              _Mandatory(),
+              SizedBox(height: Margins.spacing_base),
+              Text(Strings.searchDemarcheHint, style: TextStyles.textBaseMedium),
+              SizedBox(height: Margins.spacing_base),
+              _ChampRecherche(
+                onChanged: (value) {
+                  setState(() {
+                    _query = value;
+                  });
+                },
               ),
-            ),
-            SizedBox(height: Margins.spacing_xl),
-            _Subtitle(text: Strings.demarcheCategoriesSubtitle),
-            SizedBox(height: Margins.spacing_base),
-            _ThematicCard(),
-          ],
+              if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
+              SizedBox(height: Margins.spacing_xl),
+              SizedBox(
+                width: double.infinity,
+                child: PrimaryActionButton(
+                  icon: AppIcons.search_rounded,
+                  label: Strings.searchDemarcheButton,
+                  onPressed: _buttonIsActive(viewModel) ? () => viewModel.onSearchDemarche(_query) : null,
+                ),
+              ),
+              SizedBox(height: Margins.spacing_xl),
+              _Subtitle(text: Strings.demarcheCategoriesSubtitle),
+              SizedBox(height: Margins.spacing_base),
+              _ThematicCard(),
+              SizedBox(height: Margins.spacing_base),
+              _TopDemarcheCard(),
+              SizedBox(height: Margins.spacing_huge),
+            ],
+          ),
         ),
       ),
     );
@@ -107,28 +112,69 @@ class _ThematicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _DemarcheCardBase(
+      icon: AppIcons.signpost_rounded,
+      title: Strings.demarcheThematiqueTitle,
+      description: Strings.demarchesCategoriesDescription,
+      pressedTip: Strings.demarchesCategoriesPressedTip,
+      onTap: () {
+        Navigator.push(context, ThematiqueDemarchePage.materialPageRoute()).then((value) {
+          // forward result to previous page
+          if (value != null) Navigator.pop(context, value);
+        });
+      },
+    );
+  }
+}
+
+class _TopDemarcheCard extends StatelessWidget {
+  const _TopDemarcheCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return _DemarcheCardBase(
+      icon: AppIcons.favorite_rounded,
+      title: Strings.topDemarchesTitle,
+      description: Strings.topDemarchesSubtitle,
+      pressedTip: Strings.topDemarchesPressedTip,
+      onTap: () {
+        // Navigator.push(context, ThematiqueDemarchePage.materialPageRoute()).then((value) {
+        //   // forward result to previous page
+        //   if (value != null) Navigator.pop(context, value);
+        // });
+      },
+    );
+  }
+}
+
+class _DemarcheCardBase extends StatelessWidget {
+  const _DemarcheCardBase(
+      {required this.icon, required this.title, required this.description, required this.pressedTip, this.onTap});
+  final IconData icon;
+  final String title;
+  final String description;
+  final String pressedTip;
+  final void Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
     return CardContainer(
+        onTap: onTap,
         child: Column(
           children: [
             Row(
               children: [
-                Icon(AppIcons.signpost_rounded, color: AppColors.primary),
+                Icon(icon, color: AppColors.primary),
                 SizedBox(width: Margins.spacing_s),
-                Text(Strings.demarcheThematiqueTitle, style: TextStyles.textMBold),
+                Text(title, style: TextStyles.textMBold),
               ],
             ),
             SizedBox(height: Margins.spacing_base),
-            Text(Strings.demarchesCategoriesDescription, style: TextStyles.textBaseRegular),
+            Text(description, style: TextStyles.textBaseRegular),
             SizedBox(height: Margins.spacing_base),
-            PressedTip(Strings.demarchesCategoriesPressedTip),
+            PressedTip(pressedTip),
           ],
-        ),
-        onTap: () {
-          Navigator.push(context, ThematiqueDemarchePage.materialPageRoute()).then((value) {
-            // forward result to previous page
-            if (value != null) Navigator.pop(context, value);
-          });
-        });
+        ));
   }
 }
 

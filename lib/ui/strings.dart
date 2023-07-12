@@ -430,6 +430,11 @@ class Strings {
   static String thematiquesErrorSubtitle =
       "Nous sommes en train de régler le problème. Réessayez plus tard ou créez une démarche personnalisée.";
 
+  // Top démarches
+  static String topDemarchesTitle = "Top démarches";
+  static String topDemarchesSubtitle = "Inspirez-vous des démarches les plus utilisées";
+  static String topDemarchesPressedTip = "Découvrir la liste";
+
   // Recherche
   static String derniereRecherche = "Dernière recherche";
   static String dernieresRecherches = "Dernières recherches";
