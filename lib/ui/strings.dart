@@ -854,7 +854,7 @@ class Strings {
   static const String evenementEmploiFiltresDateDebut = "Date de début";
   static const String evenementEmploiFiltresDateFin = "Date de fin";
 
-  // Mode dégradé Pôle Emploi
+  // Mode dégradé Pôle emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
   static String rendezvousNotUpToDateMessage =
       "Une erreur technique s’est produite. Certains de vos rendez-vous ne sont peut-être pas à jour.";
@@ -899,7 +899,7 @@ class Strings {
   static String cvListPageSubtitle =
       "Téléchargez vos CV Pôle emploi sur votre téléphone pour préparer votre candidature";
   static String cvError = "Erreur lors de la récupération des CVs Pôle emploi";
-  static String cvEmpty = "Vous n’avez pas de CV sur votre espace Pôle Emploi";
+  static String cvEmpty = "Vous n’avez pas de CV sur votre espace Pôle emploi";
   static String cvEmptyButton = "Retour";
   static String cvDownload = "Télécharger";
   static String cvErrorApiPeKoMessage = "Impossible de se synchroniser avec votre espace Pôle emploi";
