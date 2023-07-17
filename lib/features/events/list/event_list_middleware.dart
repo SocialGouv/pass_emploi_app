@@ -16,7 +16,7 @@ class EventListMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(EventListLoadingAction());
       final events = await _repository.get(userId, action.maintenant);
       if (events != null) {
-        store.dispatch(EventListSuccessAction(events));
+        store.dispatch(EventListSuccessAction(events, []));
       } else {
         store.dispatch(EventListFailureAction());
       }

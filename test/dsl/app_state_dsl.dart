@@ -377,7 +377,7 @@ extension AppStateDSL on AppState {
   }
 
   AppState succeedEventList(List<Rendezvous> events) {
-    return copyWith(eventListState: EventListSuccessState(events));
+    return copyWith(eventListState: EventListSuccessState(events, []));
   }
 
   AppState initialRechercheEmploiState() {

@@ -50,6 +50,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -1098,3 +1099,5 @@ EventPartage dummyEventPartage() => EventPartage(
       date: DateTime(2023),
       type: RendezvousType(RendezvousTypeCode.ACTIVITE_EXTERIEURES, "label"),
     );
+
+SessionMilo mockSessionMilo() => SessionMilo();
