@@ -69,6 +69,7 @@ import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_reducer.dart';
+import 'package:pass_emploi_app/features/top_demarche/top_demarche_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -169,6 +170,7 @@ AppState reducer(AppState current, dynamic action) {
     cvState: cvReducer(current.cvState, action),
     evenementEmploiDetailsState: evenementEmploiDetailsReducer(current.evenementEmploiDetailsState, action),
     thematiquesDemarcheState: thematiquesDemarcheReducer(current.thematiquesDemarcheState, action),
+    topDemarcheState: topDemarcheReducer(current.topDemarcheState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

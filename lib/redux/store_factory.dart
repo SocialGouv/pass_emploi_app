@@ -68,6 +68,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
+import 'package:pass_emploi_app/features/top_demarche/top_demarche_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -124,6 +125,7 @@ import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dar
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -183,6 +185,7 @@ class StoreFactory {
   final EvenementEmploiRepository evenementEmploiRepository;
   final EvenementEmploiDetailsRepository evenementEmploiDetailsRepository;
   final ThematiqueDemarcheRepository thematiquesDemarcheRepository;
+  final TopDemarcheRepository topDemarcheRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -241,6 +244,7 @@ class StoreFactory {
     this.evenementEmploiRepository,
     this.evenementEmploiDetailsRepository,
     this.thematiquesDemarcheRepository,
+    this.topDemarcheRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -313,6 +317,7 @@ class StoreFactory {
         CvMiddleware(cvRepository),
         EvenementEmploiDetailsMiddleware(evenementEmploiDetailsRepository),
         ThematiqueDemarcheMiddleware(thematiquesDemarcheRepository),
+        TopDemarcheMiddleware(topDemarcheRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

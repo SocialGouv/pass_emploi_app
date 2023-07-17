@@ -58,9 +58,10 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_det
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
+import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
-import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -409,5 +410,9 @@ class DummyEvenementEmploiDetailsRepository extends EvenementEmploiDetailsReposi
 
 class DummyThematiqueDemarcheRepository extends ThematiqueDemarcheRepository {
   DummyThematiqueDemarcheRepository() : super(DioMock());
+}
+
+class DummyTopDemarcheRepository extends TopDemarcheRepository {
+  DummyTopDemarcheRepository() : super();
 }
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/
