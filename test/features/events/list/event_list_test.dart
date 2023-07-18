@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/repositories/event_list_repository.dart';
+import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 
 import '../../../doubles/dio_mock.dart';
 import '../../../doubles/fixtures.dart';
@@ -20,7 +20,7 @@ void main() {
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState()
             .loggedInUser() //
-            .store((f) => {f.eventListRepository = EventListRepositorySuccessStub()});
+            .store((f) => {f.animationsCollectivesRepository = AnimationsCollectivesRepositorySuccessStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
       });
@@ -28,7 +28,7 @@ void main() {
       test('should load then fail when request fail', () {
         sut.givenStore = givenState()
             .loggedInUser() //
-            .store((f) => {f.eventListRepository = EventListRepositoryErrorStub()});
+            .store((f) => {f.animationsCollectivesRepository = AnimationsCollectivesRepositoryErrorStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
       });
@@ -49,8 +49,8 @@ Matcher _shouldSucceed() {
   );
 }
 
-class EventListRepositorySuccessStub extends EventListRepository {
-  EventListRepositorySuccessStub() : super(DioMock());
+class AnimationsCollectivesRepositorySuccessStub extends AnimationsCollectivesRepository {
+  AnimationsCollectivesRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<List<Rendezvous>?> get(String userId, DateTime maintenant) async {
@@ -58,8 +58,8 @@ class EventListRepositorySuccessStub extends EventListRepository {
   }
 }
 
-class EventListRepositoryErrorStub extends EventListRepository {
-  EventListRepositoryErrorStub() : super(DioMock());
+class AnimationsCollectivesRepositoryErrorStub extends AnimationsCollectivesRepository {
+  AnimationsCollectivesRepositoryErrorStub() : super(DioMock());
 
   @override
   Future<List<Rendezvous>?> get(String userId, DateTime maintenant) async {

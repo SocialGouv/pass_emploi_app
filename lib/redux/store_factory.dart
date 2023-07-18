@@ -93,7 +93,7 @@ import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_reposit
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/event_list_repository.dart';
+import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -173,7 +173,7 @@ class StoreFactory {
   final ActionCommentaireRepository actionCommentaireRepository;
   final AgendaRepository agendaRepository;
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
-  final EventListRepository eventListRepository;
+  final AnimationsCollectivesRepository animationsCollectivesRepository;
   final InstallationIdRepository installationIdRepository;
   final DiagorienteUrlsRepository diagorienteUrlsRepository;
   final DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository;
@@ -232,7 +232,7 @@ class StoreFactory {
     this.actionCommentaireRepository,
     this.agendaRepository,
     this.suggestionsRechercheRepository,
-    this.eventListRepository,
+    this.animationsCollectivesRepository,
     this.installationIdRepository,
     this.diagorienteUrlsRepository,
     this.diagorienteMetiersFavorisRepository,
@@ -303,7 +303,7 @@ class StoreFactory {
         AgendaMiddleware(agendaRepository),
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository),
         TraiterSuggestionRechercheMiddleware(suggestionsRechercheRepository),
-        EventListMiddleware(eventListRepository),
+        EventListMiddleware(animationsCollectivesRepository),
         DeviceInfoMiddleware(installationIdRepository),
         RechercheEmploiMiddleware(offreEmploiRepository),
         RechercheImmersionMiddleware(immersionRepository),

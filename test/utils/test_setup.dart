@@ -23,7 +23,7 @@ import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_reposit
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/event_list_repository.dart';
+import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -107,7 +107,7 @@ class TestStoreFactory {
   ActionCommentaireRepository actionCommentaireRepository = DummyActionCommentaireRepository();
   AgendaRepository agendaRepository = DummyAgendaRepository();
   SuggestionsRechercheRepository suggestionsRechercheRepository = DummySuggestionsRechercheRepository();
-  EventListRepository eventListRepository = DummyEventListRepository();
+  AnimationsCollectivesRepository animationsCollectivesRepository = DummyAnimationsCollectivesRepository();
   InstallationIdRepository installationIdRepository = DummyInstallationIdRepository();
   DiagorienteUrlsRepository diagorienteUrlsRepository = DummyDiagorienteUrlsRepository();
   DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository = DummyDiagorienteMetiersFavorisRepository();
@@ -167,7 +167,7 @@ class TestStoreFactory {
       actionCommentaireRepository,
       agendaRepository,
       suggestionsRechercheRepository,
-      eventListRepository,
+      animationsCollectivesRepository,
       installationIdRepository,
       diagorienteUrlsRepository,
       diagorienteMetiersFavorisRepository,
