@@ -71,6 +71,6 @@ class MockSessionMiloRepository extends Mock implements SessionMiloRepository {
 
   void mockGetDetailsSuccess() {
     when(() => getDetails(sessionId: any(named: "sessionId"), userId: any(named: "userId")))
-        .thenAnswer((_) async => null);
+        .thenAnswer((_) async => mockSessionMiloDetails());
   }
 }
