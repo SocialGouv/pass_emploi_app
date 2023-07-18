@@ -10,10 +10,10 @@ class EventListRequestAction {
 class EventListLoadingAction {}
 
 class EventListSuccessAction {
-  final List<Rendezvous> events;
+  final List<Rendezvous> animationsCollectives;
   final List<SessionMilo> sessionsMilos;
 
-  EventListSuccessAction(this.events, this.sessionsMilos);
+  EventListSuccessAction(this.animationsCollectives, this.sessionsMilos);
 }
 
 class EventListFailureAction {}

@@ -6,7 +6,7 @@ EventListState eventListReducer(EventListState current, dynamic action) {
   if (action is EventListFailureAction) return EventListFailureState();
   if (action is EventListSuccessAction) {
     return EventListSuccessState(
-      action.events,
+      action.animationsCollectives,
       action.sessionsMilos,
     );
   }

@@ -44,7 +44,7 @@ Matcher _shouldSucceed() {
   return StateIs<EventListSuccessState>(
     (state) => state.eventListState,
     (state) {
-      expect(state.events.length, 1);
+      expect(state.animationsCollectives.length, 1);
     },
   );
 }

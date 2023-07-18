@@ -50,7 +50,7 @@ DisplayState _displayState(EventListState eventListState) {
   if (eventListState is EventListFailureState) {
     return DisplayState.FAILURE;
   } else if (eventListState is EventListSuccessState) {
-    if (eventListState.events.isEmpty && eventListState.sessionsMilos.isEmpty) {
+    if (eventListState.animationsCollectives.isEmpty && eventListState.sessionsMilos.isEmpty) {
       return DisplayState.EMPTY;
     } else {
       return DisplayState.CONTENT;
@@ -65,7 +65,7 @@ List<EventId> _eventIds(EventListState eventListState) {
   }
 
   return [
-    ...eventListState.events.map((e) => (AnimationCollectiveId(e.id), e.date)),
+    ...eventListState.animationsCollectives.map((e) => (AnimationCollectiveId(e.id), e.date)),
     ...eventListState.sessionsMilos.map((e) => (SessionMiloId(e.id), e.dateDeDebut)),
   ].sortedBy((e) => e.$2).map((e) => e.$1).toList();
 }

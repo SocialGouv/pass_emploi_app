@@ -38,7 +38,7 @@ Rendezvous getRendezvous(Store<AppState> store, RendezvousStateSource source, St
 Rendezvous _getRendezvousFromEventListState(Store<AppState> store, String rdvId) {
   final state = store.state.eventListState;
   if (state is! EventListSuccessState) throw Exception('Invalid state.');
-  final rendezvous = state.events.where((e) => e.id == rdvId);
+  final rendezvous = state.animationsCollectives.where((e) => e.id == rdvId);
   if (rendezvous.isEmpty) throw Exception('No Rendezvous matching id $rdvId');
   return rendezvous.first;
 }
