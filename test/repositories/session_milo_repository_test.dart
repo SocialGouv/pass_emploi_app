@@ -26,7 +26,7 @@ void main() {
 
         test('response should be valid', () async {
           await sut.expectResult<List<SessionMilo>?>((sessions) {
-            expect(sessions, [mockSessionMilo()]);
+            expect(sessions, [mockSessionMiloAtelierCv()]);
           });
         });
       });

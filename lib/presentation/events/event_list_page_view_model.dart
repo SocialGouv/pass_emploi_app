@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
@@ -49,7 +50,7 @@ DisplayState _displayState(EventListState eventListState) {
   if (eventListState is EventListFailureState) {
     return DisplayState.FAILURE;
   } else if (eventListState is EventListSuccessState) {
-    if (eventListState.events.isEmpty) {
+    if (eventListState.events.isEmpty && eventListState.sessionsMilos.isEmpty) {
       return DisplayState.EMPTY;
     } else {
       return DisplayState.CONTENT;
@@ -62,5 +63,9 @@ List<EventId> _eventIds(EventListState eventListState) {
   if (eventListState is! EventListSuccessState) {
     return [];
   }
-  return eventListState.events.map((e) => AnimationCollectiveId(e.id)).toList();
+
+  return [
+    ...eventListState.events.map((e) => (AnimationCollectiveId(e.id), e.date)),
+    ...eventListState.sessionsMilos.map((e) => (SessionMiloId(e.id), e.dateDeDebut)),
+  ].sortedBy((e) => e.$2).map((e) => e.$1).toList();
 }

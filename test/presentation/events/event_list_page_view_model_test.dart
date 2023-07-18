@@ -10,16 +10,27 @@ import '../../dsl/app_state_dsl.dart';
 
 void main() {
   group('Events', () {
-    test('should have events when list succeed', () {
+    test('should have events when list succeed ordered by date', () {
       // Given
-      final rendezvous = [mockRendezvous(id: "id-1")];
-      final store = givenState().loggedInUser().succeedEventList(rendezvous).store();
+      final rendezvous = [mockRendezvous(id: "id-2", date: DateTime(2022))];
+      final sessions = [
+        mockSessionMilo(id: "id-1", dateDeDebut: DateTime(2021)),
+        mockSessionMilo(id: "id-3", dateDeDebut: DateTime(2023)),
+      ];
+      final store = givenState()
+          .loggedInUser()
+          .succeedEventList(animationsCollectives: rendezvous, sessionsMilo: sessions)
+          .store();
 
       // When
       final viewModel = EventListPageViewModel.create(store);
 
       // Then
-      expect(viewModel.eventIds, [AnimationCollectiveId("id-1")]);
+      expect(viewModel.eventIds, [
+        SessionMiloId("id-1"),
+        AnimationCollectiveId("id-2"),
+        SessionMiloId("id-3"),
+      ]);
     });
   });
 
@@ -57,9 +68,9 @@ void main() {
       expect(viewModel.displayState, DisplayState.FAILURE);
     });
 
-    test('should display EMPTY when request succeed but has no rendezvous', () {
+    test('should display EMPTY when request succeed but has no events', () {
       // Given
-      final store = givenState().loggedInUser().succeedEventList([]).store();
+      final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [], sessionsMilo: []).store();
 
       // When
       final viewModel = EventListPageViewModel.create(store);
@@ -68,9 +79,34 @@ void main() {
       expect(viewModel.displayState, DisplayState.EMPTY);
     });
 
-    test('should display CONTENT when request succeed with some rendezvous', () {
+    test('should display CONTENT when request succeed with some animations collectives', () {
       // Given
-      final store = givenState().loggedInUser().succeedEventList([mockRendezvous()]).store();
+      final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [mockRendezvous()]).store();
+
+      // When
+      final viewModel = EventListPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+    });
+
+    test('should display CONTENT when request succeed with some sessions milo', () {
+      // Given
+      final store = givenState().loggedInUser().succeedEventList(sessionsMilo: [mockSessionMiloAtelierCv()]).store();
+
+      // When
+      final viewModel = EventListPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+    });
+
+    test('should display CONTENT when request succeed with both sessions milo and animations collectives', () {
+      // Given
+      final store = givenState().loggedInUser().succeedEventList(
+        animationsCollectives: [mockRendezvous()],
+        sessionsMilo: [mockSessionMiloAtelierCv()],
+      ).store();
 
       // When
       final viewModel = EventListPageViewModel.create(store);
