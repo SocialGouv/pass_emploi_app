@@ -60,9 +60,6 @@ class PrimaryActionButton extends StatelessWidget {
             if (states.contains(MaterialState.pressed)) {
               return rippleColor;
             }
-            if (states.contains(MaterialState.focused)) {
-              return rippleColor;
-            }
             return null;
           },
         ),
