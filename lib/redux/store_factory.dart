@@ -119,6 +119,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dart';
@@ -174,6 +175,7 @@ class StoreFactory {
   final AgendaRepository agendaRepository;
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
   final AnimationsCollectivesRepository animationsCollectivesRepository;
+  final SessionMiloRepository sessionMiloRepository;
   final InstallationIdRepository installationIdRepository;
   final DiagorienteUrlsRepository diagorienteUrlsRepository;
   final DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository;
@@ -233,6 +235,7 @@ class StoreFactory {
     this.agendaRepository,
     this.suggestionsRechercheRepository,
     this.animationsCollectivesRepository,
+    this.sessionMiloRepository,
     this.installationIdRepository,
     this.diagorienteUrlsRepository,
     this.diagorienteMetiersFavorisRepository,
@@ -303,7 +306,7 @@ class StoreFactory {
         AgendaMiddleware(agendaRepository),
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository),
         TraiterSuggestionRechercheMiddleware(suggestionsRechercheRepository),
-        EventListMiddleware(animationsCollectivesRepository),
+        EventListMiddleware(animationsCollectivesRepository, sessionMiloRepository),
         DeviceInfoMiddleware(installationIdRepository),
         RechercheEmploiMiddleware(offreEmploiRepository),
         RechercheImmersionMiddleware(immersionRepository),

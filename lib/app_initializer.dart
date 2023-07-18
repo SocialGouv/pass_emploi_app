@@ -77,6 +77,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dart';
@@ -242,6 +243,7 @@ class AppInitializer {
       AgendaRepository(dioClient, crashlytics),
       SuggestionsRechercheRepository(dioClient, requestCacheManager, crashlytics),
       AnimationsCollectivesRepository(dioClient, crashlytics),
+      SessionMiloRepository(dioClient, crashlytics),
       installationIdRepository,
       DiagorienteUrlsRepository(dioClient, crashlytics),
       DiagorienteMetiersFavorisRepository(dioClient, requestCacheManager, crashlytics),
