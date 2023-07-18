@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/repositories/immersion/immersion_details_reposit
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
+import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 
 import 'dio_mock.dart';
@@ -50,5 +51,25 @@ class MockFirebaseInstanceIdGetter extends Mock implements FirebaseInstanceIdGet
 class MockPushNotificationManager extends Mock implements PushNotificationManager {
   void mockGetToken() {
     when(() => getToken()).thenAnswer((_) async => "token");
+  }
+}
+
+class MockSessionMiloRepository extends Mock implements SessionMiloRepository {
+  void mockGetListSuccess() {
+    when(() => getList(any())).thenAnswer((_) async => null);
+  }
+
+  void mockGetListFailure() {
+    when(() => getList(any())).thenAnswer((_) async => null);
+  }
+
+  void mockGetDetailsFailure() {
+    when(() => getDetails(sessionId: any(named: "sessionId"), userId: any(named: "userId")))
+        .thenAnswer((_) async => null);
+  }
+
+  void mockGetDetailsSuccess() {
+    when(() => getDetails(sessionId: any(named: "sessionId"), userId: any(named: "userId")))
+        .thenAnswer((_) async => null);
   }
 }
