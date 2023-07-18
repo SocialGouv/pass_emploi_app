@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 
 import 'dio_mock.dart';
+import 'fixtures.dart';
 
 class MockGetFavorisRepository extends Mock implements GetFavorisRepository {}
 
@@ -56,7 +57,7 @@ class MockPushNotificationManager extends Mock implements PushNotificationManage
 
 class MockSessionMiloRepository extends Mock implements SessionMiloRepository {
   void mockGetListSuccess() {
-    when(() => getList(any())).thenAnswer((_) async => null);
+    when(() => getList(any())).thenAnswer((_) async => [mockSessionMilo()]);
   }
 
   void mockGetListFailure() {

@@ -1,4 +1,6 @@
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
@@ -16,9 +18,14 @@ class EventListMiddleware extends MiddlewareClass<AppState> {
     final userId = store.state.userId();
     if (userId != null && action is EventListRequestAction) {
       store.dispatch(EventListLoadingAction());
-      final animationsCollectives = await _animationsCollectivesRepository.get(userId, action.maintenant);
-      if (animationsCollectives != null) {
-        store.dispatch(EventListSuccessAction(animationsCollectives, []));
+      late List<Rendezvous>? animations;
+      late List<SessionMilo>? sessions;
+      await Future.wait([
+        _animationsCollectivesRepository.get(userId, action.maintenant).then((result) => animations = result),
+        _sessionMiloRepository.getList(userId).then((result) => sessions = result),
+      ]);
+      if (animations != null || sessions != null) {
+        store.dispatch(EventListSuccessAction(animations ?? [], sessions ?? []));
       } else {
         store.dispatch(EventListFailureAction());
       }
