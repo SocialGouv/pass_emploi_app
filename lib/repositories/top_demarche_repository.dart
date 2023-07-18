@@ -137,37 +137,6 @@ class TopDemarcheRepository {
         ],
         isCommentMandatory: true,
       ),
-      DemarcheDuReferentiel(
-        id: 'top11',
-        quoi: 'Participation à un salon ou un forum formation',
-        pourquoi: 'Ma formation professionnelle',
-        codeQuoi: 'Q09',
-        codePourquoi: 'P02',
-        comments: [],
-        isCommentMandatory: false,
-      ),
-      DemarcheDuReferentiel(
-        id: 'top12',
-        quoi: 'Information sur un projet de formation ou de Validation des acquis de l\'expérience',
-        pourquoi: 'Ma formation professionnelle',
-        codeQuoi: 'Q06',
-        codePourquoi: 'P02',
-        comments: [
-          Comment(label: 'Sur internet', code: 'C06.03'),
-          Comment(label: 'Par un autre moyen', code: 'C06.04'),
-          Comment(label: 'Moyen à définir', code: 'C06.05'),
-        ],
-        isCommentMandatory: true,
-      ),
-      DemarcheDuReferentiel(
-        id: 'top13',
-        quoi: 'Participation à une formation',
-        pourquoi: 'Ma formation professionnelle',
-        codeQuoi: 'Q08',
-        codePourquoi: 'P02',
-        comments: [],
-        isCommentMandatory: false,
-      )
     ];
   }
 }
