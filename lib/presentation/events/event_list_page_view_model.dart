@@ -5,9 +5,12 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-sealed class EventId {
+sealed class EventId extends Equatable {
   final String id;
   EventId(this.id);
+
+  @override
+  List<Object?> get props => [id];
 }
 
 class AnimationCollectiveId extends EventId {
