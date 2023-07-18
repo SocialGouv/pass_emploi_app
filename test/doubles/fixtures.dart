@@ -1100,4 +1100,9 @@ EventPartage dummyEventPartage() => EventPartage(
       type: RendezvousType(RendezvousTypeCode.ACTIVITE_EXTERIEURES, "label"),
     );
 
-SessionMilo mockSessionMilo() => SessionMilo();
+SessionMilo mockSessionMilo() => SessionMilo(
+      id: "id-cv-2023",
+      nomSession: "Session CV",
+      dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
+      typeLabel: "Atelier",
+    );

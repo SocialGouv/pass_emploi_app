@@ -12,8 +12,32 @@ void main() {
     sut.givenRepository((client) => SessionMiloRepository(client));
 
     group('getList', () {
-      test("description", () => expect(mockSessionMilo(), isNotNull));
-      test("description", () => expect(SessionMilo(), isNotNull));
+      sut.when((repository) => repository.getList("userId"));
+
+      group('when response is valid', () {
+        sut.givenJsonResponse(fromJson: "session_milo_list.json");
+
+        test('request should be valid', () async {
+          await sut.expectRequestBody(
+            method: HttpMethod.get,
+            url: "/jeunes/milo/userId/sessions",
+          );
+        });
+
+        test('response should be valid', () async {
+          await sut.expectResult<List<SessionMilo>?>((sessions) {
+            expect(sessions, [mockSessionMilo()]);
+          });
+        });
+      });
+
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
+
+        test('response should be null', () async {
+          await sut.expectNullResult();
+        });
+      });
     });
     group('getDetails', () {
       test("description", () => expect(DetailsSessionMilo(), isNotNull));
