@@ -1,0 +1,10 @@
+{
+  "nomSession": "SESSION TEST",
+  "nomOffre": "ANIMATION COLLECTIVE POUR TEST",
+  "type": "Atelier",
+  "dateHeureDebut": "2042-01-01T09:10:00.000Z",
+  "dateHeureFin": "2042-01-01T09:10:00.000Z",
+  "lieu": "Paris",
+  "animateur": "SIMILO SIMILO",
+  "commentaire": "Lorem ipsus"
+}
