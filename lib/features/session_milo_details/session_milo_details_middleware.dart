@@ -15,7 +15,7 @@ class SessionMiloDetailsMiddleware extends MiddlewareClass<AppState> {
     if (userId == null) return;
     if (action is SessionMiloDetailsRequestAction) {
       store.dispatch(SessionMiloDetailsLoadingAction());
-      final result = await _repository.getDetails();
+      final result = await _repository.getDetails(userId: userId, sessionId: action.sessionId);
       if (result != null) {
         store.dispatch(SessionMiloDetailsSuccessAction(result));
       } else {

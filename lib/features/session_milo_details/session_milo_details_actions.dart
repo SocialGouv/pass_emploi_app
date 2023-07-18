@@ -2,7 +2,11 @@ import 'package:pass_emploi_app/models/session_milo_details.dart';
 
 sealed class SessioMiloAction {}
 
-class SessionMiloDetailsRequestAction extends SessioMiloAction {}
+class SessionMiloDetailsRequestAction extends SessioMiloAction {
+  final String sessionId;
+
+  SessionMiloDetailsRequestAction(this.sessionId);
+}
 
 class SessionMiloDetailsLoadingAction extends SessioMiloAction {}
 
