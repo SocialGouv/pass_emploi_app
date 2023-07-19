@@ -677,6 +677,22 @@ void main() {
         expect(viewModel.withModalityPart, isFalse);
       });
 
+      test('display session leader when source is session milo details', () {
+        // Given
+        final store = givenState().loggedInUser().withSuccessSessionMiloDetails().store();
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(
+          store: store,
+          source: RendezvousStateSource.sessionMiloDetails,
+          rdvId: '1',
+          platform: Platform.IOS,
+        );
+
+        // Then
+        expect(viewModel.withSessionLeader, true);
+      });
+
       test('should not display absent part if vm created from event list and is not inscrit', () {
         // Given
         final store = givenState()
@@ -836,6 +852,7 @@ void main() {
             withDescriptionPart: false,
             withModalityPart: true,
             withIfAbsentPart: true,
+            withSessionLeader: false,
             isShareable: false,
             visioButtonState: VisioButtonState.HIDDEN,
             onRetry: () => {},

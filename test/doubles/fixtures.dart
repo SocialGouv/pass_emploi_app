@@ -1108,10 +1108,11 @@ SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
       type: mockSessionMiloType(),
     );
 
-SessionMiloDetails mockSessionMiloDetails() => SessionMiloDetails(
+SessionMiloDetails mockSessionMiloDetails({String id = "1"}) => SessionMiloDetails(
+      id: id,
       nomSession: "SESSION TEST",
       nomOffre: "ANIMATION COLLECTIVE POUR TEST",
-      type: "Atelier",
+      type: mockSessionMiloType(),
       dateHeureDebut: DateTime(2042, 1, 1, 10, 0, 0),
       dateHeureFin: DateTime(2042, 1, 1, 10, 0, 0),
       lieu: "Paris",

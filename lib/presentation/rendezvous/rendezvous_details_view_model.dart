@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -33,6 +34,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final bool withDescriptionPart;
   final bool withModalityPart;
   final bool withIfAbsentPart;
+  final bool withSessionLeader;
   final String? withDateDerniereMiseAJour;
   final bool isShareable;
   final VisioButtonState visioButtonState;
@@ -68,6 +70,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.withDescriptionPart,
     required this.withModalityPart,
     required this.withIfAbsentPart,
+    required this.withSessionLeader,
     this.withDateDerniereMiseAJour,
     required this.isShareable,
     required this.visioButtonState,
@@ -119,7 +122,10 @@ class RendezvousDetailsViewModel extends Equatable {
       withConseillerPresencePart: _shouldDisplayConseillerPresence(rdv),
       withDescriptionPart: rdv.description != null || rdv.theme != null,
       withModalityPart: _withModalityPart(rdv),
-      withIfAbsentPart: (source != RendezvousStateSource.eventList || isInscrit),
+      withIfAbsentPart:
+          ((source != RendezvousStateSource.eventList && source != RendezvousStateSource.sessionMiloDetails) ||
+              isInscrit),
+      withSessionLeader: source == RendezvousStateSource.sessionMiloDetails,
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
       isShareable: (source == RendezvousStateSource.eventList && isInscrit == false),
       visioButtonState: _visioButtonState(rdv),
@@ -156,6 +162,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withDescriptionPart: false,
       withModalityPart: false,
       withIfAbsentPart: false,
+      withSessionLeader: false,
       isShareable: false,
       visioButtonState: VisioButtonState.HIDDEN,
       onRetry: () => store.dispatch(RendezvousDetailsRequestAction(rdvId)),
@@ -218,7 +225,8 @@ String? _withDateDerniereMiseAJour(DateTime? dateDerniereMiseAJour) {
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
 
 Rendezvous? _getRendezvous(Store<AppState> store, RendezvousStateSource source, String rdvId) {
-  if (source != RendezvousStateSource.noSource || store.state.rendezvousDetailsState is RendezvousDetailsSuccessState) {
+  if (source != RendezvousStateSource.noSource && store.state.rendezvousDetailsState is RendezvousDetailsSuccessState ||
+      store.state.sessionMiloDetailsState is SessionMiloDetailsSuccessState) {
     return getRendezvous(store, source, rdvId);
   } else {
     return null;

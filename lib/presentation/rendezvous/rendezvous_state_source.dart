@@ -6,5 +6,5 @@ enum RendezvousStateSource {
   rendezvousList,
   eventList,
   sessionMiloList,
-  // sessionMiloDetails,
+  sessionMiloDetails,
 }

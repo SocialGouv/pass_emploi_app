@@ -1,10 +1,13 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class SessionMiloDetails extends Equatable {
+  final String id;
   final String nomSession;
   final String nomOffre;
-  final String type;
+  final SessionMiloType type;
   final DateTime dateHeureDebut;
   final DateTime dateHeureFin;
   final String lieu;
@@ -13,6 +16,7 @@ class SessionMiloDetails extends Equatable {
   final String commentaire;
 
   SessionMiloDetails({
+    required this.id,
     required this.nomSession,
     required this.nomOffre,
     required this.type,
@@ -39,15 +43,32 @@ class SessionMiloDetails extends Equatable {
 
   factory SessionMiloDetails.fromJson(dynamic json) {
     return SessionMiloDetails(
+      id: json['id'] as String,
       nomSession: json['nomSession'] as String,
       nomOffre: json['nomOffre'] as String,
-      type: json['type'] as String,
+      type: SessionMiloType.fromJson(json['type']),
       dateHeureDebut: (json['dateHeureDebut'] as String).toDateTimeUtcOnLocalTimeZone(),
       dateHeureFin: (json['dateHeureFin'] as String).toDateTimeUtcOnLocalTimeZone(),
       lieu: json['lieu'] as String,
       animateur: json['animateur'] as String? ?? "--",
       description: json['description'] as String? ?? "--",
       commentaire: json['commentaire'] as String? ?? "--",
+    );
+  }
+
+  Rendezvous get toRendezVous {
+    return Rendezvous(
+      id: id,
+      title: nomSession,
+      address: lieu,
+      description: description,
+      date: dateHeureDebut,
+      type: type.toRendezvousType,
+      isAnnule: false,
+      source: RendezvousSource.milo,
+      isInVisio: false,
+      animateur: animateur,
+      comment: commentaire,
     );
   }
 }

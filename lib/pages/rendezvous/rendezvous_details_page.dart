@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
 import 'package:pass_emploi_app/pages/chat_partage_page.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -54,9 +55,7 @@ class RendezvousDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousDetailsViewModel>(
-      onInit: (store) {
-        _source == RendezvousStateSource.noSource ? store.dispatch(RendezvousDetailsRequestAction(_rendezvousId)) : {};
-      },
+      onInit: _onInit,
       converter: _converter,
       builder: _scaffold,
       onInitialBuild: (viewModel) {
@@ -69,6 +68,14 @@ class RendezvousDetailsPage extends StatelessWidget {
       },
       distinct: true,
     );
+  }
+
+  void _onInit(Store<AppState> store) {
+    if (_source == RendezvousStateSource.sessionMiloDetails) {
+      store.dispatch(SessionMiloDetailsRequestAction(_rendezvousId));
+    } else if (_source == RendezvousStateSource.noSource) {
+      store.dispatch(RendezvousDetailsRequestAction(_rendezvousId));
+    }
   }
 
   Widget _scaffold(BuildContext context, RendezvousDetailsViewModel viewModel) {
