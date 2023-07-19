@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -32,15 +33,25 @@ Rendezvous getRendezvous(Store<AppState> store, RendezvousStateSource source, St
       return _getRendezvousFromEventListState(store, rdvId);
     case RendezvousStateSource.noSource:
       return _getRendezvousFromDetailsState(store);
+    case RendezvousStateSource.sessionMiloList:
+      return _getRendezvousFromSessionMiloListState(store, rdvId);
   }
 }
 
-Rendezvous _getRendezvousFromEventListState(Store<AppState> store, String rdvId) {
+Rendezvous _getRendezvousFromEventListState(Store<AppState> store, String eventId) {
   final state = store.state.eventListState;
   if (state is! EventListSuccessState) throw Exception('Invalid state.');
-  final rendezvous = state.animationsCollectives.where((e) => e.id == rdvId);
-  if (rendezvous.isEmpty) throw Exception('No Rendezvous matching id $rdvId');
-  return rendezvous.first;
+  final Rendezvous? rendezvous = state.animationsCollectives.firstWhereOrNull((e) => e.id == eventId);
+  if (rendezvous == null) throw Exception('No Rendezvous matching id $eventId');
+  return rendezvous;
+}
+
+Rendezvous _getRendezvousFromSessionMiloListState(Store<AppState> store, String sessionId) {
+  final state = store.state.eventListState;
+  if (state is! EventListSuccessState) throw Exception('Invalid state.');
+  final SessionMilo? sessionMilo = state.sessionsMilos.firstWhereOrNull((e) => e.id == sessionId);
+  if (sessionMilo == null) throw Exception('No session matching id $sessionId');
+  return sessionMilo.toRendezVous;
 }
 
 Rendezvous _getRendezvousFromRendezvousListState(Store<AppState> store, String rdvId) {

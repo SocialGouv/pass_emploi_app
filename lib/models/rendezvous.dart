@@ -100,6 +100,8 @@ enum RendezvousTypeCode {
   VISITE,
   PRESTATION,
   AUTRE,
+  WORKSHOP,
+  COLLECTIVE_INFORMATION,
 }
 
 enum RendezvousModalityType { TELEPHONE, NONE }

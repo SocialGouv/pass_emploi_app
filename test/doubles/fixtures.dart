@@ -1104,7 +1104,7 @@ SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
       id: "id-cv-2023",
       nomSession: "Session CV",
       dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
-      typeLabel: "Atelier",
+      type: mockSessionMiloType(),
     );
 
 SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
@@ -1112,6 +1112,10 @@ SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
     id: id ?? "id-1",
     nomSession: "nomSession",
     dateDeDebut: dateDeDebut ?? parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
-    typeLabel: "typeLabel",
+    type: mockSessionMiloType(),
   );
+}
+
+SessionMiloType mockSessionMiloType() {
+  return SessionMiloType(SessionMiloTypeCode.WORKSHOP, "Atelier");
 }

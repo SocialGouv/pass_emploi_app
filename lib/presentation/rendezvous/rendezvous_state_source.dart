@@ -5,4 +5,5 @@ enum RendezvousStateSource {
   agenda,
   rendezvousList,
   eventList,
+  sessionMiloList
 }

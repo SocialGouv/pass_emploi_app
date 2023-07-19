@@ -78,7 +78,11 @@ class _Content extends StatelessWidget {
                       stateSource: RendezvousStateSource.eventList,
                       trackedEvent: EventType.ANIMATION_COLLECTIVE_AFFICHEE,
                     ),
-                  final SessionMiloId _ => Placeholder(fallbackHeight: 20),
+                  final SessionMiloId s => s.id.rendezvousCard(
+                      context: context,
+                      stateSource: RendezvousStateSource.sessionMiloList,
+                      trackedEvent: EventType.ANIMATION_COLLECTIVE_AFFICHEE,
+                    ),
                 };
               },
             ),
