@@ -259,6 +259,7 @@ class Strings {
   static String conseillerIsPresent = "Votre conseiller sera présent";
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
   static String commentWithoutConseiller = "Commentaire de votre conseiller";
+  static String rendezVousCommentaire = "Commentaire";
   static String seeItinerary = 'Voir l\'itinéraire';
   static String seeVisio = 'Accéder à la visio';
   static String rendezvousVisioModalityMessage =

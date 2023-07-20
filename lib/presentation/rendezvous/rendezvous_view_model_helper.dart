@@ -30,11 +30,11 @@ Rendezvous getRendezvous(Store<AppState> store, RendezvousStateSource source, St
       return _getRendezvousFromAgendaState(store, rdvId);
     case RendezvousStateSource.rendezvousList:
       return _getRendezvousFromRendezvousListState(store, rdvId);
-    case RendezvousStateSource.eventList:
+    case RendezvousStateSource.eventListAnimationsCollectives:
       return _getRendezvousFromEventListState(store, rdvId);
     case RendezvousStateSource.noSource:
       return _getRendezvousFromDetailsState(store);
-    case RendezvousStateSource.sessionMiloList:
+    case RendezvousStateSource.eventListSessionsMilo:
       return _getRendezvousFromSessionMiloListState(store, rdvId);
     case RendezvousStateSource.sessionMiloDetails:
       return _getRendezvousFromSessionMiloDetailsState(store, rdvId);

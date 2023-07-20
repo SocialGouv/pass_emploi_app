@@ -690,7 +690,7 @@ void main() {
         );
 
         // Then
-        expect(viewModel.withSessionLeader, true);
+        expect(viewModel.withAnimateur, true);
       });
 
       test('should not display absent part if vm created from event list and is not inscrit', () {
@@ -702,7 +702,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -721,7 +721,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -740,7 +740,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -759,7 +759,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -778,7 +778,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -797,7 +797,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -852,7 +852,7 @@ void main() {
             withDescriptionPart: false,
             withModalityPart: true,
             withIfAbsentPart: true,
-            withSessionLeader: false,
+            withAnimateur: false,
             isShareable: false,
             visioButtonState: VisioButtonState.HIDDEN,
             onRetry: () => {},

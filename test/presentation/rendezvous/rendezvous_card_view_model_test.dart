@@ -264,7 +264,8 @@ void main() {
       final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [rdv]).store();
 
       // When
-      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.eventList, '1');
+      final viewModel =
+          RendezvousCardViewModel.create(store, RendezvousStateSource.eventListAnimationsCollectives, '1');
 
       // Then
       expect(
@@ -287,7 +288,7 @@ void main() {
       final store = givenState().loggedInUser().succeedEventList(sessionsMilo: [mockSessionMilo(id: "1")]).store();
 
       // When
-      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.sessionMiloList, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.eventListSessionsMilo, '1');
 
       // Then
       expect(
