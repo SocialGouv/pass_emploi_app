@@ -284,7 +284,9 @@ void main() {
 
     test('full view model test from event list with session milo', () {
       // Given
-      final store = givenState().loggedInUser().succeedEventList(sessionsMilo: [mockSessionMilo(id: "1")]).store();
+      final store = givenState()
+          .loggedInUser()
+          .succeedEventList(sessionsMilo: [mockSessionMilo(id: "1", dateDeDebut: DateTime(2023))]).store();
 
       // When
       final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.sessionMiloList, '1');
@@ -295,7 +297,7 @@ void main() {
         RendezvousCardViewModel(
           id: '1',
           tag: 'Atelier',
-          date: 'Le 01/01/2023 à 01h00',
+          date: 'Le 01/01/2023 à 00h00',
           isInscrit: false,
           isAnnule: false,
           title: 'nomSession',
