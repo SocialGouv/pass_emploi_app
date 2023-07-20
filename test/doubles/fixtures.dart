@@ -51,6 +51,7 @@ import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/models/session_milo.dart';
+import 'package:pass_emploi_app/models/session_milo_details.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -1105,6 +1106,19 @@ SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
       nomSession: "Session CV",
       dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
       type: mockSessionMiloType(),
+    );
+
+SessionMiloDetails mockSessionMiloDetails({String id = "1"}) => SessionMiloDetails(
+      id: id,
+      nomSession: "SESSION TEST",
+      nomOffre: "ANIMATION COLLECTIVE POUR TEST",
+      type: mockSessionMiloType(),
+      dateHeureDebut: DateTime(2042, 1, 1, 10, 0, 0),
+      dateHeureFin: DateTime(2042, 1, 1, 12, 0, 0),
+      lieu: "Paris",
+      animateur: "SIMILO SIMILO",
+      description: null,
+      commentaire: "Lorem ipsus",
     );
 
 SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {

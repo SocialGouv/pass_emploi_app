@@ -31,6 +31,7 @@ import 'package:pass_emploi_app/features/recherche/service_civique/service_civiq
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
@@ -742,5 +743,9 @@ extension AppStateDSL on AppState {
 
   AppState withTopDemarcheSuccessState({required List<DemarcheDuReferentiel> demarches}) {
     return copyWith(topDemarcheState: TopDemarcheSuccessState(demarches));
+  }
+
+  AppState withSuccessSessionMiloDetails() {
+    return copyWith(sessionMiloDetailsState: SessionMiloDetailsSuccessState(mockSessionMiloDetails()));
   }
 }

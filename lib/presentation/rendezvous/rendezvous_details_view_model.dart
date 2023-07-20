@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -33,6 +34,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final bool withDescriptionPart;
   final bool withModalityPart;
   final bool withIfAbsentPart;
+  final String? withAnimateur;
   final String? withDateDerniereMiseAJour;
   final bool isShareable;
   final VisioButtonState visioButtonState;
@@ -68,6 +70,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.withDescriptionPart,
     required this.withModalityPart,
     required this.withIfAbsentPart,
+    this.withAnimateur,
     this.withDateDerniereMiseAJour,
     required this.isShareable,
     required this.visioButtonState,
@@ -117,24 +120,25 @@ class RendezvousDetailsViewModel extends Equatable {
       isInscrit: isInscrit,
       isAnnule: rdv.isAnnule,
       withConseillerPresencePart: _shouldDisplayConseillerPresence(rdv),
-      withDescriptionPart: rdv.description != null || rdv.theme != null,
+      withDescriptionPart: _withDescription(source, rdv),
       withModalityPart: _withModalityPart(rdv),
-      withIfAbsentPart: (source != RendezvousStateSource.eventList || isInscrit),
+      withIfAbsentPart: _estCeQueMaPresenceEstRequise(source, isInscrit),
+      withAnimateur: _withAnimateur(source, rdv.animateur),
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
-      isShareable: (source == RendezvousStateSource.eventList && isInscrit == false),
+      isShareable: (source == RendezvousStateSource.eventListAnimationsCollectives && isInscrit == false),
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       onRetry: () => {},
       trackingPageName: _trackingPageName(rdv.type.code),
       title: rdv.title,
-      commentTitle: _commentTitle(rdv, comment),
-      comment: comment,
+      commentTitle: _commentTitle(source, rdv, comment),
+      comment: _comment(source, comment),
       organism: _shouldHidePresentielInformation(rdv) ? null : rdv.organism,
       address: address,
       phone: rdv.phone != null ? Strings.phone(rdv.phone!) : null,
       addressRedirectUri: address != null ? UriHandler().mapsUri(address, platform) : null,
       theme: rdv.theme,
-      description: rdv.description,
+      description: _descriptionFromSoruce(source, rdv),
     );
   }
 
@@ -218,7 +222,9 @@ String? _withDateDerniereMiseAJour(DateTime? dateDerniereMiseAJour) {
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
 
 Rendezvous? _getRendezvous(Store<AppState> store, RendezvousStateSource source, String rdvId) {
-  if (source != RendezvousStateSource.noSource || store.state.rendezvousDetailsState is RendezvousDetailsSuccessState) {
+  if (source != RendezvousStateSource.noSource ||
+      store.state.rendezvousDetailsState is RendezvousDetailsSuccessState ||
+      store.state.sessionMiloDetailsState is SessionMiloDetailsSuccessState) {
     return getRendezvous(store, source, rdvId);
   } else {
     return null;
@@ -226,7 +232,9 @@ Rendezvous? _getRendezvous(Store<AppState> store, RendezvousStateSource source, 
 }
 
 String _navbarTitle(RendezvousStateSource source, Rendezvous rendezvous) {
-  if (source != RendezvousStateSource.eventList) return Strings.myRendezVous;
+  if (source != RendezvousStateSource.eventListAnimationsCollectives && !source.isMiloDetails) {
+    return Strings.myRendezVous;
+  }
   return rendezvous.estInscrit == true ? Strings.myRendezVous : Strings.eventTitle;
 }
 
@@ -258,8 +266,13 @@ String _toDuration(int duration) {
   return '${hours}h$minutes';
 }
 
-String? _commentTitle(Rendezvous rdv, String? comment) {
-  if (comment != null && rdv.conseiller == null) return Strings.commentWithoutConseiller;
+String? _commentTitle(RendezvousStateSource source, Rendezvous rdv, String? comment) {
+  if (source.isMiloDetails) {
+    return Strings.rendezVousCommentaire;
+  }
+  if (comment != null && rdv.conseiller == null) {
+    return Strings.commentWithoutConseiller;
+  }
   if (comment != null && rdv.conseiller != null) return Strings.rendezVousConseillerCommentLabel;
   return null;
 }
@@ -315,9 +328,32 @@ String? _trackingPageName(RendezvousTypeCode code) {
       return AnalyticsScreenNames.rendezvousPrestation;
     case RendezvousTypeCode.AUTRE:
       return AnalyticsScreenNames.rendezvousAutre;
-    case RendezvousTypeCode.WORKSHOP:
-      return AnalyticsScreenNames.sessionWorkshop;
-    case RendezvousTypeCode.COLLECTIVE_INFORMATION:
-      return AnalyticsScreenNames.sessionCollectiveInformation;
   }
 }
+
+String? _withAnimateur(RendezvousStateSource source, String? animateur) {
+  if (source.isMiloDetails) {
+    return animateur ?? "--";
+  }
+  return null;
+}
+
+bool _withDescription(RendezvousStateSource source, Rendezvous rdv) {
+  if (source.isMiloDetails) return true;
+  return rdv.description != null || rdv.theme != null;
+}
+
+String? _descriptionFromSoruce(RendezvousStateSource source, Rendezvous rdv) {
+  if (source.isMiloDetails) return rdv.description ?? "--";
+  return rdv.description;
+}
+
+String? _comment(RendezvousStateSource source, String? comment) {
+  if (source.isMiloDetails) return comment ?? "--";
+  return comment;
+}
+
+bool _estCeQueMaPresenceEstRequise(RendezvousStateSource source, bool isInscrit) =>
+    (source != RendezvousStateSource.eventListAnimationsCollectives &&
+        source != RendezvousStateSource.sessionMiloDetails) ||
+    isInscrit;

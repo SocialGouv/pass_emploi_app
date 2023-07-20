@@ -62,6 +62,7 @@ import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -128,6 +129,7 @@ class AppState extends Equatable {
   final EvenementEmploiDetailsState evenementEmploiDetailsState;
   final ThematiqueDemarcheState thematiquesDemarcheState;
   final TopDemarcheState topDemarcheState;
+  final SessionMiloDetailsState sessionMiloDetailsState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -194,6 +196,7 @@ class AppState extends Equatable {
     required this.evenementEmploiDetailsState,
     required this.thematiquesDemarcheState,
     required this.topDemarcheState,
+    required this.sessionMiloDetailsState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -261,6 +264,7 @@ class AppState extends Equatable {
     final EvenementEmploiDetailsState? evenementEmploiDetailsState,
     final ThematiqueDemarcheState? thematiquesDemarcheState,
     final TopDemarcheState? topDemarcheState,
+    final SessionMiloDetailsState? sessionMiloDetailsState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -328,6 +332,7 @@ class AppState extends Equatable {
       evenementEmploiDetailsState: evenementEmploiDetailsState ?? this.evenementEmploiDetailsState,
       thematiquesDemarcheState: thematiquesDemarcheState ?? this.thematiquesDemarcheState,
       topDemarcheState: topDemarcheState ?? this.topDemarcheState,
+      sessionMiloDetailsState: sessionMiloDetailsState ?? this.sessionMiloDetailsState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -397,6 +402,7 @@ class AppState extends Equatable {
       evenementEmploiDetailsState: EvenementEmploiDetailsNotInitializedState(),
       thematiquesDemarcheState: ThematiqueDemarcheNotInitializedState(),
       topDemarcheState: TopDemarcheNotInitializedState(),
+      sessionMiloDetailsState: SessionMiloDetailsNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -459,6 +465,7 @@ class AppState extends Equatable {
         evenementEmploiDetailsState,
         thematiquesDemarcheState,
         topDemarcheState,
+        sessionMiloDetailsState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

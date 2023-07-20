@@ -159,11 +159,19 @@ extension RendezvousCardFromId on String {
         context.trackEvent(trackedEvent);
         Navigator.push(
           context,
-          RendezvousDetailsPage.materialPageRoute(stateSource, this),
+          RendezvousDetailsPage.materialPageRoute(_stateSource(stateSource), this),
         );
       },
     );
   }
+}
+
+RendezvousStateSource _stateSource(RendezvousStateSource stateSource) {
+  // TODO: Est-ce qu'on pourrait faire autrement ?
+  if (stateSource == RendezvousStateSource.eventListSessionsMilo) {
+    return RendezvousStateSource.sessionMiloDetails;
+  }
+  return stateSource;
 }
 
 class _InscritTag extends StatelessWidget {

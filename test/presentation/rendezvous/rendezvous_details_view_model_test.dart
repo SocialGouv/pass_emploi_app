@@ -677,6 +677,22 @@ void main() {
         expect(viewModel.withModalityPart, isFalse);
       });
 
+      test('display session leader when source is session milo details', () {
+        // Given
+        final store = givenState().loggedInUser().withSuccessSessionMiloDetails().store();
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(
+          store: store,
+          source: RendezvousStateSource.sessionMiloDetails,
+          rdvId: '1',
+          platform: Platform.IOS,
+        );
+
+        // Then
+        expect(viewModel.withAnimateur, "SIMILO SIMILO");
+      });
+
       test('should not display absent part if vm created from event list and is not inscrit', () {
         // Given
         final store = givenState()
@@ -686,7 +702,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -705,7 +721,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -724,7 +740,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -743,7 +759,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -762,7 +778,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -781,7 +797,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -883,6 +899,55 @@ void main() {
 
         // Then
         expect(viewModel.id, mockRendezvousMiloCV().id);
+      });
+    });
+
+    group('create when source is from session milo details', () {
+      test('should display session milo rendez vous', () {
+        // Given
+        final store = givenState()
+            .loggedInUser() //
+            .withSuccessSessionMiloDetails()
+            .store();
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(
+          store: store,
+          source: RendezvousStateSource.sessionMiloDetails,
+          rdvId: '1',
+          platform: Platform.IOS,
+        );
+
+        // Then
+        expect(
+          viewModel,
+          RendezvousDetailsViewModel(
+              displayState: DisplayState.CONTENT,
+              navbarTitle: "Événement",
+              id: "1",
+              tag: "Atelier",
+              greenTag: false,
+              date: '01 janvier 2042',
+              hourAndDuration: '10:00 (2h)',
+              conseillerPresenceLabel: 'Votre conseiller ne sera pas présent',
+              conseillerPresenceColor: AppColors.warning,
+              isInscrit: false,
+              isAnnule: false,
+              withConseillerPresencePart: false,
+              withDescriptionPart: true,
+              withModalityPart: true,
+              withIfAbsentPart: false,
+              isShareable: false,
+              visioButtonState: VisioButtonState.HIDDEN,
+              onRetry: () => {},
+              commentTitle: 'Commentaire',
+              title: 'SESSION TEST',
+              trackingPageName: "rdv/atelier",
+              comment: 'Lorem ipsus',
+              address: 'Paris',
+              addressRedirectUri: Uri.parse('https://maps.apple.com/maps?q=Paris'),
+              description: "--"),
+        );
       });
     });
   });

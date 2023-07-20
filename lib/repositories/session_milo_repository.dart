@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/models/details_session_milo.dart';
 import 'package:pass_emploi_app/models/session_milo.dart';
+import 'package:pass_emploi_app/models/session_milo_details.dart';
 import 'package:pass_emploi_app/network/dio_ext.dart';
 
 class SessionMiloRepository {
@@ -21,7 +21,14 @@ class SessionMiloRepository {
     return null;
   }
 
-  Future<DetailsSessionMilo?> getDetails({required String userId, required String sessionId}) async {
+  Future<SessionMiloDetails?> getDetails({required String userId, required String sessionId}) async {
+    final url = "/jeunes/milo/$userId/sessions/$sessionId";
+    try {
+      final response = await _httpClient.get(url);
+      return SessionMiloDetails.fromJson(response.data);
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
+    }
     return null;
   }
 }

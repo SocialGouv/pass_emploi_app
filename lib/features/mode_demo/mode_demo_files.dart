@@ -33,6 +33,8 @@ String? getDemoFileName(String url, String query) {
   if (url.endsWith('/evenements-emploi')) return 'recherche_evenements_emploi';
   if (url.contains('/evenements-emploi/')) return 'evenement_emploi_details';
   if (url.contains('/catalogue')) return 'thematiques_demarche';
+  if (url.contains('/sessions/')) return 'session_milo_details';
+
   return null;
 }
 
