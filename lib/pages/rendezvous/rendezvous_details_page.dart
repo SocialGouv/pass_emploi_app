@@ -122,6 +122,8 @@ class RendezvousDetailsPage extends StatelessWidget {
             if (viewModel.withModalityPart) _Modality(viewModel),
             if (viewModel.withDescriptionPart) _DescriptionPart(viewModel),
             SepLine(Margins.spacing_m, Margins.spacing_m),
+            if (viewModel.withAnimateur != null) _AnimateurPart(viewModel.withAnimateur!),
+            SepLine(Margins.spacing_m, Margins.spacing_m),
             _ConseillerPart(viewModel),
             if (viewModel.withIfAbsentPart) _InformIfAbsent(),
             if (viewModel.isShareable) _Share(eventId: viewModel.id),
@@ -278,6 +280,25 @@ class _DescriptionPart extends StatelessWidget {
             padding: const EdgeInsets.only(top: Margins.spacing_s),
             child: TextWithClickableLinks(viewModel.description!, style: TextStyles.textBaseRegular),
           ),
+      ],
+    );
+  }
+}
+
+class _AnimateurPart extends StatelessWidget {
+  const _AnimateurPart(this.withAnimateur);
+  final String withAnimateur;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(Strings.withAnimateurTitle, style: TextStyles.textBaseBold),
+        Padding(
+          padding: const EdgeInsets.only(top: Margins.spacing_s),
+          child: TextWithClickableLinks(withAnimateur, style: TextStyles.textBaseRegular),
+        ),
       ],
     );
   }

@@ -69,6 +69,7 @@ class SessionMiloDetails extends Equatable {
       isInVisio: false,
       animateur: animateur,
       comment: commentaire,
+      duration: dateHeureFin.difference(dateHeureDebut).inHours,
     );
   }
 }

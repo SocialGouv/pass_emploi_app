@@ -282,6 +282,7 @@ class Strings {
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
   static String shareToConseiller = "Partager à mon conseiller";
+  static String withAnimateurTitle = "Animateur de la session";
 
   static String rendezvousSinceDate(String date) => "depuis le $date";
 

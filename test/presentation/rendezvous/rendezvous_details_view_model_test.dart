@@ -852,7 +852,6 @@ void main() {
             withDescriptionPart: false,
             withModalityPart: true,
             withIfAbsentPart: true,
-            withAnimateur: false,
             isShareable: false,
             visioButtonState: VisioButtonState.HIDDEN,
             onRetry: () => {},

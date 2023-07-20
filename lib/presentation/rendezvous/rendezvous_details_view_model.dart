@@ -232,7 +232,9 @@ Rendezvous? _getRendezvous(Store<AppState> store, RendezvousStateSource source, 
 }
 
 String _navbarTitle(RendezvousStateSource source, Rendezvous rendezvous) {
-  if (source != RendezvousStateSource.eventListAnimationsCollectives) return Strings.myRendezVous;
+  if (source != RendezvousStateSource.eventListAnimationsCollectives && !source.isMiloDetails) {
+    return Strings.myRendezVous;
+  }
   return rendezvous.estInscrit == true ? Strings.myRendezVous : Strings.eventTitle;
 }
 
@@ -326,10 +328,6 @@ String? _trackingPageName(RendezvousTypeCode code) {
       return AnalyticsScreenNames.rendezvousPrestation;
     case RendezvousTypeCode.AUTRE:
       return AnalyticsScreenNames.rendezvousAutre;
-    case RendezvousTypeCode.WORKSHOP:
-      return AnalyticsScreenNames.sessionWorkshop;
-    case RendezvousTypeCode.COLLECTIVE_INFORMATION:
-      return AnalyticsScreenNames.sessionCollectiveInformation;
   }
 }
 
@@ -356,6 +354,6 @@ String? _comment(RendezvousStateSource source, String? comment) {
 }
 
 bool _estCeQueMaPresenceEstRequise(RendezvousStateSource source, bool isInscrit) =>
-    source != RendezvousStateSource.eventListAnimationsCollectives ||
-    source != RendezvousStateSource.sessionMiloDetails ||
+    (source != RendezvousStateSource.eventListAnimationsCollectives &&
+        source != RendezvousStateSource.sessionMiloDetails) ||
     isInscrit;

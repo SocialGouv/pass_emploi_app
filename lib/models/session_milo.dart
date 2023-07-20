@@ -80,9 +80,9 @@ extension SessionMiloTypeCodeExt on SessionMiloTypeCode {
   RendezvousTypeCode get rendezvousTypeCode {
     switch (this) {
       case SessionMiloTypeCode.WORKSHOP:
-        return RendezvousTypeCode.WORKSHOP;
+        return RendezvousTypeCode.ATELIER;
       case SessionMiloTypeCode.COLLECTIVE_INFORMATION:
-        return RendezvousTypeCode.COLLECTIVE_INFORMATION;
+        return RendezvousTypeCode.INFORMATION_COLLECTIVE;
       case SessionMiloTypeCode.AUTRE:
         return RendezvousTypeCode.AUTRE;
     }
