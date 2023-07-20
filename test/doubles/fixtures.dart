@@ -50,6 +50,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -1098,3 +1099,23 @@ EventPartage dummyEventPartage() => EventPartage(
       date: DateTime(2023),
       type: RendezvousType(RendezvousTypeCode.ACTIVITE_EXTERIEURES, "label"),
     );
+
+SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
+      id: "id-cv-2023",
+      nomSession: "Session CV",
+      dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
+      type: mockSessionMiloType(),
+    );
+
+SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
+  return SessionMilo(
+    id: id ?? "id-1",
+    nomSession: "nomSession",
+    dateDeDebut: dateDeDebut ?? parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
+    type: mockSessionMiloType(),
+  );
+}
+
+SessionMiloType mockSessionMiloType() {
+  return SessionMiloType(SessionMiloTypeCode.WORKSHOP, "Atelier");
+}

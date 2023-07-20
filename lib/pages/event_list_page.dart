@@ -71,11 +71,19 @@ class _Content extends StatelessWidget {
               itemCount: viewModel.eventIds.length,
               separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
               itemBuilder: (context, index) {
-                return viewModel.eventIds[index].rendezvousCard(
-                  context: context,
-                  stateSource: RendezvousStateSource.eventList,
-                  trackedEvent: EventType.ANIMATION_COLLECTIVE_AFFICHEE,
-                );
+                final eventId = viewModel.eventIds[index];
+                return switch (eventId) {
+                  final AnimationCollectiveId a => a.id.rendezvousCard(
+                      context: context,
+                      stateSource: RendezvousStateSource.eventList,
+                      trackedEvent: EventType.ANIMATION_COLLECTIVE_AFFICHEE,
+                    ),
+                  final SessionMiloId s => s.id.rendezvousCard(
+                      context: context,
+                      stateSource: RendezvousStateSource.sessionMiloList,
+                      trackedEvent: EventType.ANIMATION_COLLECTIVE_AFFICHEE,
+                    ),
+                };
               },
             ),
           ),

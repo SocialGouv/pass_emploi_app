@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
@@ -5,9 +6,25 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
+sealed class EventId extends Equatable {
+  final String id;
+  EventId(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class AnimationCollectiveId extends EventId {
+  AnimationCollectiveId(super.id);
+}
+
+class SessionMiloId extends EventId {
+  SessionMiloId(super.id);
+}
+
 class EventListPageViewModel extends Equatable {
   final DisplayState displayState;
-  final List<String> eventIds;
+  final List<EventId> eventIds;
   final Function onRetry;
 
   EventListPageViewModel({
@@ -20,7 +37,7 @@ class EventListPageViewModel extends Equatable {
     final eventListState = store.state.eventListState;
     return EventListPageViewModel(
       displayState: _displayState(eventListState),
-      eventIds: _events(eventListState),
+      eventIds: _eventIds(eventListState),
       onRetry: () => {store.dispatch(EventListRequestAction(DateTime.now()))},
     );
   }
@@ -33,7 +50,7 @@ DisplayState _displayState(EventListState eventListState) {
   if (eventListState is EventListFailureState) {
     return DisplayState.FAILURE;
   } else if (eventListState is EventListSuccessState) {
-    if (eventListState.events.isEmpty) {
+    if (eventListState.animationsCollectives.isEmpty && eventListState.sessionsMilos.isEmpty) {
       return DisplayState.EMPTY;
     } else {
       return DisplayState.CONTENT;
@@ -42,9 +59,13 @@ DisplayState _displayState(EventListState eventListState) {
   return DisplayState.LOADING;
 }
 
-List<String> _events(EventListState eventListState) {
+List<EventId> _eventIds(EventListState eventListState) {
   if (eventListState is! EventListSuccessState) {
     return [];
   }
-  return eventListState.events.map((e) => e.id).toList();
+
+  return [
+    ...eventListState.animationsCollectives.map((e) => (AnimationCollectiveId(e.id), e.date)),
+    ...eventListState.sessionsMilos.map((e) => (SessionMiloId(e.id), e.dateDeDebut)),
+  ].sortedBy((e) => e.$2).map((e) => e.$1).toList();
 }

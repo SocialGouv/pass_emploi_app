@@ -205,6 +205,10 @@ class ChatRepository {
         return "PRESTATION";
       case RendezvousTypeCode.AUTRE:
         return "AUTRE";
+      case RendezvousTypeCode.WORKSHOP:
+        return "WORKSHOP";
+      case RendezvousTypeCode.COLLECTIVE_INFORMATION:
+        return "COLLECTIVE_INFORMATION";
     }
   }
 }

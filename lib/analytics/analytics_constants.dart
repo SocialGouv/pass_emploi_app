@@ -43,6 +43,8 @@ class AnalyticsScreenNames {
   static const rendezvousVisite = "rdv/visite";
   static const rendezvousPrestation = "rdv/prestation";
   static const rendezvousAutre = "rdv/autre";
+  static const sessionWorkshop = "session_milo/sessionWorkshop";
+  static const sessionCollectiveInformation = "session_milo/sessionCollectiveInformation";
 
   static const rechercheV2Home = "recherche/home";
   static const rechercheSuggestionsListe = "recherche/suggested_list";

@@ -18,7 +18,7 @@ void main() {
   group('when sharing an event', () {
     test('should have corresponding titles', () {
       // Given
-      final store = givenState().succeedEventList([mockRendezvous(id: "id-1")]).store();
+      final store = givenState().succeedEventList(animationsCollectives: [mockRendezvous(id: "id-1")]).store();
 
       // When
       final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEventSource("id-1"));
@@ -42,7 +42,7 @@ void main() {
         date: DateTime(2022),
         type: RendezvousType(RendezvousTypeCode.ATELIER, 'Att'),
       );
-      final store = givenState().succeedEventList([rdv]).spyStore();
+      final store = givenState().succeedEventList(animationsCollectives: [rdv]).spyStore();
       final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEventSource("id-1"));
 
       // When

@@ -315,5 +315,9 @@ String? _trackingPageName(RendezvousTypeCode code) {
       return AnalyticsScreenNames.rendezvousPrestation;
     case RendezvousTypeCode.AUTRE:
       return AnalyticsScreenNames.rendezvousAutre;
+    case RendezvousTypeCode.WORKSHOP:
+      return AnalyticsScreenNames.sessionWorkshop;
+    case RendezvousTypeCode.COLLECTIVE_INFORMATION:
+      return AnalyticsScreenNames.sessionCollectiveInformation;
   }
 }

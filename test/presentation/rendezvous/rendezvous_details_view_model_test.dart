@@ -679,7 +679,9 @@ void main() {
 
       test('should not display absent part if vm created from event list and is not inscrit', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: false)]).store();
+        final store = givenState()
+            .loggedInUser()
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: false)]).store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
@@ -695,7 +697,10 @@ void main() {
 
       test('should display absent part if vm created from event list and is inscrit', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: true)]).store();
+        final store = givenState()
+            .loggedInUser() //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: true)]) //
+            .store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
@@ -711,7 +716,10 @@ void main() {
 
       test('should be inscrit when rendezvous is marked as inscrit', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: true)]).store();
+        final store = givenState()
+            .loggedInUser() //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: true)]) //
+            .store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
@@ -727,7 +735,10 @@ void main() {
 
       test('should be shareable if vm created from event list and is not inscrit', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: false)]).store();
+        final store = givenState()
+            .loggedInUser() //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: false)]) //
+            .store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
@@ -743,7 +754,10 @@ void main() {
 
       test('should not be shareable if vm created from event list and is inscrit', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: true)]).store();
+        final store = givenState()
+            .loggedInUser() //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: true)]) //
+            .store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
@@ -759,7 +773,10 @@ void main() {
 
       test('should display "événement" page title if vm created from event list and is not inscrit', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: false)]).store();
+        final store = givenState()
+            .loggedInUser() //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: false)]) //
+            .store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(

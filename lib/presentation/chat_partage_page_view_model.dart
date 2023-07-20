@@ -97,7 +97,7 @@ class ChatPartagePageViewModel extends Equatable {
     if (eventListState is! EventListSuccessState) {
       throw Exception("ChatPartagePageViewModel must be created with a EventListSuccessState.");
     }
-    final event = eventListState.events.firstWhereOrNull((element) => element.id == source.eventId);
+    final event = eventListState.animationsCollectives.firstWhereOrNull((element) => element.id == source.eventId);
     if (event == null) {
       throw Exception("Event not found.");
     }
