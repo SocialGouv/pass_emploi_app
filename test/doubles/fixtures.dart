@@ -1114,10 +1114,10 @@ SessionMiloDetails mockSessionMiloDetails({String id = "1"}) => SessionMiloDetai
       nomOffre: "ANIMATION COLLECTIVE POUR TEST",
       type: mockSessionMiloType(),
       dateHeureDebut: DateTime(2042, 1, 1, 10, 0, 0),
-      dateHeureFin: DateTime(2042, 1, 1, 10, 0, 0),
+      dateHeureFin: DateTime(2042, 1, 1, 12, 0, 0),
       lieu: "Paris",
       animateur: "SIMILO SIMILO",
-      description: "--",
+      description: null,
       commentaire: "Lorem ipsus",
     );
 
