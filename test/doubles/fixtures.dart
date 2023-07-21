@@ -1107,6 +1107,7 @@ SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
       nomOffre: "Mon premier CV",
       dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
       type: mockSessionMiloType(),
+      estInscrit: true,
     );
 
 SessionMiloDetails mockSessionMiloDetails({String id = "1", DateTime? dateDeDebut, DateTime? dateDeFin}) =>
@@ -1130,6 +1131,7 @@ SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
     nomOffre: "nomOffre",
     dateDeDebut: dateDeDebut ?? parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
     type: mockSessionMiloType(),
+    estInscrit: true,
   );
 }
 

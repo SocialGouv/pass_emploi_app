@@ -8,6 +8,7 @@ class SessionMilo extends Equatable {
   final String nomOffre;
   final DateTime dateDeDebut;
   final SessionMiloType type;
+  final bool estInscrit;
 
   SessionMilo({
     required this.id,
@@ -15,6 +16,7 @@ class SessionMilo extends Equatable {
     required this.nomOffre,
     required this.dateDeDebut,
     required this.type,
+    required this.estInscrit,
   });
 
   factory SessionMilo.fromJson(dynamic json) {
@@ -24,6 +26,7 @@ class SessionMilo extends Equatable {
       nomOffre: json["nomOffre"] as String,
       dateDeDebut: (json["dateHeureDebut"] as String).toDateTimeUtcOnLocalTimeZone(),
       type: SessionMiloType.fromJson(json["type"]),
+      estInscrit: (json["inscription"] as String) == "INSCRIT",
     );
   }
 
@@ -39,6 +42,7 @@ class SessionMilo extends Equatable {
       isAnnule: false,
       source: RendezvousSource.milo,
       isInVisio: false,
+      estInscrit: estInscrit,
     );
   }
 }

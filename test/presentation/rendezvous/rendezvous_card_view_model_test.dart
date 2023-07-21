@@ -299,7 +299,7 @@ void main() {
           id: '1',
           tag: 'Atelier',
           date: 'Le 01/01/2023 à 00h00',
-          isInscrit: false,
+          isInscrit: true,
           isAnnule: false,
           title: 'nomOffre - nomSession',
           subtitle: null,
