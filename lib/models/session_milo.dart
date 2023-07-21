@@ -31,7 +31,13 @@ class SessionMilo extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, nomSession, dateDeDebut, type];
+  List<Object?> get props => [
+        id,
+        nomSession,
+        dateDeDebut,
+        type,
+        estInscrit,
+      ];
 
   Rendezvous get toRendezVous {
     return Rendezvous(

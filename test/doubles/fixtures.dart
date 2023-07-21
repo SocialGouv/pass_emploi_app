@@ -1122,6 +1122,7 @@ SessionMiloDetails mockSessionMiloDetails({String id = "1", DateTime? dateDeDebu
       animateur: "SIMILO SIMILO",
       description: null,
       commentaire: "Lorem ipsus",
+      estInscrit: true,
     );
 
 SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
