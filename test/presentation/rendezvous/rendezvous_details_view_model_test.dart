@@ -944,7 +944,7 @@ void main() {
               visioButtonState: VisioButtonState.HIDDEN,
               onRetry: () => {},
               commentTitle: 'Commentaire',
-              title: 'SESSION TEST',
+              title: 'ANIMATION COLLECTIVE POUR TEST - SESSION TEST',
               trackingPageName: "rdv/atelier",
               comment: 'Lorem ipsus',
               address: 'Paris',

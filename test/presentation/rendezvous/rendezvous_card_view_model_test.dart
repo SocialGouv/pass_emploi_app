@@ -301,7 +301,7 @@ void main() {
           date: 'Le 01/01/2023 à 00h00',
           isInscrit: false,
           isAnnule: false,
-          title: 'nomSession',
+          title: 'nomOffre - nomSession',
           subtitle: null,
           greenTag: false,
         ),

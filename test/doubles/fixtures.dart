@@ -1104,6 +1104,7 @@ EventPartage dummyEventPartage() => EventPartage(
 SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
       id: "id-cv-2023",
       nomSession: "Session CV",
+      nomOffre: "Mon premier CV",
       dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
       type: mockSessionMiloType(),
     );
@@ -1126,6 +1127,7 @@ SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
   return SessionMilo(
     id: id ?? "id-1",
     nomSession: "nomSession",
+    nomOffre: "nomOffre",
     dateDeDebut: dateDeDebut ?? parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
     type: mockSessionMiloType(),
   );

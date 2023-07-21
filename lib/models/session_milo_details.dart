@@ -59,7 +59,7 @@ class SessionMiloDetails extends Equatable {
   Rendezvous get toRendezVous {
     return Rendezvous(
       id: id,
-      title: nomSession,
+      title: nomOffre + " - " + nomSession,
       address: lieu,
       description: description,
       date: dateHeureDebut,

@@ -5,12 +5,14 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 class SessionMilo extends Equatable {
   final String id;
   final String nomSession;
+  final String nomOffre;
   final DateTime dateDeDebut;
   final SessionMiloType type;
 
   SessionMilo({
     required this.id,
     required this.nomSession,
+    required this.nomOffre,
     required this.dateDeDebut,
     required this.type,
   });
@@ -19,6 +21,7 @@ class SessionMilo extends Equatable {
     return SessionMilo(
       id: json["id"] as String,
       nomSession: json["nomSession"] as String,
+      nomOffre: json["nomOffre"] as String,
       dateDeDebut: (json["dateHeureDebut"] as String).toDateTimeUtcOnLocalTimeZone(),
       type: SessionMiloType.fromJson(json["type"]),
     );
@@ -30,7 +33,7 @@ class SessionMilo extends Equatable {
   Rendezvous get toRendezVous {
     return Rendezvous(
       id: id,
-      title: nomSession,
+      title: nomOffre + " - " + nomSession,
       date: dateDeDebut,
       type: type.toRendezvousType,
       isAnnule: false,
