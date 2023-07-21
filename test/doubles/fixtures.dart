@@ -1108,13 +1108,14 @@ SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
       type: mockSessionMiloType(),
     );
 
-SessionMiloDetails mockSessionMiloDetails({String id = "1"}) => SessionMiloDetails(
+SessionMiloDetails mockSessionMiloDetails({String id = "1", DateTime? dateDeDebut, DateTime? dateDeFin}) =>
+    SessionMiloDetails(
       id: id,
       nomSession: "SESSION TEST",
       nomOffre: "ANIMATION COLLECTIVE POUR TEST",
       type: mockSessionMiloType(),
-      dateHeureDebut: parseDateTimeUtcWithCurrentTimeZone("2042-01-01T09:00:00.000+00:00"),
-      dateHeureFin: parseDateTimeUtcWithCurrentTimeZone("2042-01-01T11:00:00.000+00:00"),
+      dateHeureDebut: dateDeDebut ?? parseDateTimeUtcWithCurrentTimeZone("2042-01-01T09:00:00.000+00:00"),
+      dateHeureFin: dateDeFin ?? parseDateTimeUtcWithCurrentTimeZone("2042-01-01T11:00:00.000+00:00"),
       lieu: "Paris",
       animateur: "SIMILO SIMILO",
       description: null,

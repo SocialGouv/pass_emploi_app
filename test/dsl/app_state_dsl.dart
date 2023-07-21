@@ -745,7 +745,11 @@ extension AppStateDSL on AppState {
     return copyWith(topDemarcheState: TopDemarcheSuccessState(demarches));
   }
 
-  AppState withSuccessSessionMiloDetails() {
-    return copyWith(sessionMiloDetailsState: SessionMiloDetailsSuccessState(mockSessionMiloDetails()));
+  AppState withSuccessSessionMiloDetails({DateTime? dateDeDebut, DateTime? dateDeFin}) {
+    return copyWith(
+        sessionMiloDetailsState: SessionMiloDetailsSuccessState(mockSessionMiloDetails(
+      dateDeDebut: dateDeDebut,
+      dateDeFin: dateDeFin,
+    )));
   }
 }

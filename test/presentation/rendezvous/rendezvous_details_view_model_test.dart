@@ -907,7 +907,10 @@ void main() {
         // Given
         final store = givenState()
             .loggedInUser() //
-            .withSuccessSessionMiloDetails()
+            .withSuccessSessionMiloDetails(
+              dateDeDebut: DateTime(2042, 1, 1, 10, 0),
+              dateDeFin: DateTime(2042, 1, 1, 12, 0),
+            )
             .store();
 
         // When
