@@ -56,6 +56,7 @@ void main() {
           test('response should be valid', () async {
             await sut.expectResult<SessionMiloDetails?>((sessionMilo) {
               expect(sessionMilo, isNotNull);
+
               expect(sessionMilo, mockSessionMiloDetails());
             });
           });
