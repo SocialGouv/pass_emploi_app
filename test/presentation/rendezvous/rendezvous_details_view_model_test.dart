@@ -908,8 +908,8 @@ void main() {
         final store = givenState()
             .loggedInUser() //
             .withSuccessSessionMiloDetails(
-              dateDeDebut: DateTime(2042, 1, 1, 10, 0),
-              dateDeFin: DateTime(2042, 1, 1, 12, 0),
+              dateDeDebut: DateTime(2022, 3, 1),
+              dateDeFin: DateTime(2022, 3, 1),
             )
             .store();
 
@@ -930,8 +930,8 @@ void main() {
               id: "1",
               tag: "Atelier",
               greenTag: false,
-              date: '01 janvier 2042',
-              hourAndDuration: '10:00 (2h)',
+              date: '01 mars 2022',
+              hourAndDuration: '00:00 (0min)',
               conseillerPresenceLabel: 'Votre conseiller ne sera pas présent',
               conseillerPresenceColor: AppColors.warning,
               isInscrit: false,
