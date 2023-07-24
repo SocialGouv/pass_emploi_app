@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
+import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -47,6 +48,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _partagerEvent(store, userId, action.eventPartage);
         } else if (action is ChatPartagerEvenementEmploiAction) {
           _partagerEvenementEmploi(store, userId, action.evenementEmploi);
+        } else if (action is ChatPartagerSessionMiloAction) {
+          _partageSessionMilo(store, userId, action.sessionMilo);
         } else if (action is LastMessageSeenAction) {
           _repository.setLastMessageSeen(userId);
         }
@@ -81,6 +84,17 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     final succeed = await _repository.sendEventPartage(userId, eventPartage);
     if (succeed) {
       store.dispatch(TrackingEventAction(EventType.ANIMATION_COLLECTIVE_PARTAGEE));
+      store.dispatch(ChatPartageSuccessAction());
+    } else {
+      store.dispatch(ChatPartageFailureAction());
+    }
+  }
+
+  void _partageSessionMilo(Store<AppState> store, String userId, SessionMiloPartage sessionMilo) async {
+    store.dispatch(ChatPartageLoadingAction());
+    final succeed = await _repository.sendSessionMiloPartage(userId, sessionMilo);
+    if (succeed) {
+      store.dispatch(TrackingEventAction(EventType.MESSAGE_SESSION_MILO_PARTAGE));
       store.dispatch(ChatPartageSuccessAction());
     } else {
       store.dispatch(ChatPartageFailureAction());

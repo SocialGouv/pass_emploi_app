@@ -28,6 +28,7 @@ enum EventType {
   EVENEMENT_EXTERNE_PARTAGE,
   EVENEMENT_EXTERNE_PARTAGE_CONSEILLER,
   EVENEMENT_EXTERNE_INSCRIPTION,
+  MESSAGE_SESSION_MILO_PARTAGE,
 }
 
 class PostTrackingEmetteur extends JsonSerializable {
@@ -125,6 +126,8 @@ class PostTrackingEvent extends JsonSerializable {
         return "EVENEMENT_EXTERNE_PARTAGE_CONSEILLER";
       case EventType.EVENEMENT_EXTERNE_INSCRIPTION:
         return "EVENEMENT_EXTERNE_INSCRIPTION";
+      case EventType.MESSAGE_SESSION_MILO_PARTAGE:
+        return "MESSAGE_SESSION_MILO_PARTAGE";
     }
   }
 }

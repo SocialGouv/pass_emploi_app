@@ -52,6 +52,7 @@ import 'package:pass_emploi_app/models/service_civique/service_civique_detail.da
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/models/session_milo_details.dart';
+import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -1143,4 +1144,12 @@ SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
 
 SessionMiloType mockSessionMiloType() {
   return SessionMiloType(SessionMiloTypeCode.WORKSHOP, "Atelier");
+}
+
+SessionMiloPartage dummySessionMiloPartage() {
+  return SessionMiloPartage(
+    id: "id-1",
+    titre: "titre",
+    message: "message",
+  );
 }

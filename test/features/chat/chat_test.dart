@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
+import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -247,6 +248,43 @@ void main() {
         trackingEventRepository.verifyHasBeenCalled();
       });
     });
+
+    group('partage session milo', () {
+      sut.when(() => ChatPartagerSessionMiloAction(dummySessionMiloPartage()));
+
+      test('should dispatch loading then succeed action a session milo is successfully partagé', () async {
+        // Given
+        mockChatRepository.onPartageSessionMiloSuccess(dummySessionMiloPartage());
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
+        ]);
+      });
+
+      test('should dispatch loading then failure when a session milo fails to be shared', () {
+        // Given
+        mockChatRepository.onPartageSessionMiloFails(dummySessionMiloPartage());
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageFailureState>((state) => state.chatPartageState),
+        ]);
+      });
+
+      test('should track when session milo is successfully partagé', () async {
+        // Given
+        mockChatRepository.onPartageSessionMiloSuccess(dummySessionMiloPartage());
+
+        // When
+        await sut.dispatch();
+
+        // Then
+        trackingEventRepository.verifyHasBeenCalled();
+      });
+    });
   });
 }
 
@@ -299,5 +337,13 @@ class _MockChatRepository extends Mock implements ChatRepository {
 
   void onPartageEvenementEmploiFails(EvenementEmploiPartage evenementEmploiPartage) {
     when(() => sendEvenementEmploiPartage(any(), evenementEmploiPartage)).thenAnswer((_) async => false);
+  }
+
+  void onPartageSessionMiloSuccess(SessionMiloPartage sessionMiloPartage) {
+    when(() => sendSessionMiloPartage(any(), sessionMiloPartage)).thenAnswer((_) async => true);
+  }
+
+  void onPartageSessionMiloFails(SessionMiloPartage sessionMiloPartage) {
+    when(() => sendSessionMiloPartage(any(), sessionMiloPartage)).thenAnswer((_) async => false);
   }
 }
