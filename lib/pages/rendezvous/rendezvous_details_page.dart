@@ -126,7 +126,7 @@ class RendezvousDetailsPage extends StatelessWidget {
             SepLine(Margins.spacing_m, Margins.spacing_m),
             _ConseillerPart(viewModel),
             if (viewModel.withIfAbsentPart) _InformIfAbsent(),
-            if (viewModel.shareToConseillerSource != null) _Share(eventId: viewModel.id),
+            if (viewModel.shareToConseillerSource != null) _Share(source: viewModel.shareToConseillerSource!),
           ],
         ),
       ),
@@ -409,9 +409,9 @@ class _Createur extends StatelessWidget {
 }
 
 class _Share extends StatelessWidget {
-  final String eventId;
+  final ChatPartageSource source;
 
-  _Share({required this.eventId});
+  _Share({required this.source});
 
   @override
   Widget build(BuildContext context) {
@@ -425,8 +425,7 @@ class _Share extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                ChatPartagePage.materialPageRoute(
-                    ChatPartageEventSource(eventId)), // TODO: change to ChatPartageRendezvousSource
+                ChatPartagePage.materialPageRoute(source),
               );
             },
           ),
