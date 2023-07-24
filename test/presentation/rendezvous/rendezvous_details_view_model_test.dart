@@ -955,6 +955,25 @@ void main() {
     });
   });
 
+  test('when session state is loading', () {
+    // Given
+    final store = givenState()
+        .loggedInUser() //
+        .withLoadingSessionMiloDetails()
+        .store();
+
+    // When
+    final viewModel = RendezvousDetailsViewModel.create(
+      store: store,
+      source: RendezvousStateSource.sessionMiloDetails,
+      rdvId: '1',
+      platform: Platform.IOS,
+    );
+
+    // Then
+    expect(viewModel.displayState, DisplayState.LOADING);
+  });
+
   group('without RendezvousStateSource', () {
     test('when rendezvous state is loading', () {
       // Given

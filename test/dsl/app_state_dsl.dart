@@ -752,4 +752,8 @@ extension AppStateDSL on AppState {
       dateDeFin: dateDeFin,
     )));
   }
+
+  AppState withLoadingSessionMiloDetails() {
+    return copyWith(sessionMiloDetailsState: SessionMiloDetailsLoadingState());
+  }
 }

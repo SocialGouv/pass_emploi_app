@@ -222,13 +222,19 @@ String? _withDateDerniereMiseAJour(DateTime? dateDerniereMiseAJour) {
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
 
 Rendezvous? _getRendezvous(Store<AppState> store, RendezvousStateSource source, String rdvId) {
-  if (source != RendezvousStateSource.noSource ||
-      store.state.rendezvousDetailsState is RendezvousDetailsSuccessState ||
-      store.state.sessionMiloDetailsState is SessionMiloDetailsSuccessState) {
+  if (_shouldGetRendezvous(source, store)) {
     return getRendezvous(store, source, rdvId);
   } else {
     return null;
   }
+}
+
+bool _shouldGetRendezvous(RendezvousStateSource source, Store<AppState> store) {
+  return switch (source) {
+    RendezvousStateSource.noSource => store.state.rendezvousDetailsState is RendezvousDetailsSuccessState,
+    RendezvousStateSource.sessionMiloDetails => store.state.sessionMiloDetailsState is SessionMiloDetailsSuccessState,
+    _ => true,
+  };
 }
 
 String _navbarTitle(RendezvousStateSource source, Rendezvous rendezvous) {
