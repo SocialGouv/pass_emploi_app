@@ -26,7 +26,7 @@ class SessionMilo extends Equatable {
       nomOffre: json["nomOffre"] as String,
       dateDeDebut: (json["dateHeureDebut"] as String).toDateTimeUtcOnLocalTimeZone(),
       type: SessionMiloType.fromJson(json["type"]),
-      estInscrit: (json["inscription"] as String) == "INSCRIT",
+      estInscrit: (json["inscription"] as String?) == "INSCRIT",
     );
   }
 
