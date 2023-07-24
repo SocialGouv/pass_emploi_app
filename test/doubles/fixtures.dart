@@ -1110,7 +1110,12 @@ SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
       estInscrit: true,
     );
 
-SessionMiloDetails mockSessionMiloDetails({String id = "1", DateTime? dateDeDebut, DateTime? dateDeFin}) =>
+SessionMiloDetails mockSessionMiloDetails({
+  String id = "1",
+  DateTime? dateDeDebut,
+  DateTime? dateDeFin,
+  bool? estInscrit,
+}) =>
     SessionMiloDetails(
       id: id,
       nomSession: "SESSION TEST",
@@ -1122,7 +1127,7 @@ SessionMiloDetails mockSessionMiloDetails({String id = "1", DateTime? dateDeDebu
       animateur: "SIMILO SIMILO",
       description: null,
       commentaire: "Lorem ipsus",
-      estInscrit: true,
+      estInscrit: estInscrit ?? true,
     );
 
 SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {

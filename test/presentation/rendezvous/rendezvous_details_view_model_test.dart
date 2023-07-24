@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_s
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -749,6 +750,25 @@ void main() {
         expect(viewModel.isInscrit, true);
       });
 
+      test('should be shareable if vm created from session milo details', () {
+        // Given
+        final store = givenState()
+            .loggedInUser() //
+            .withSuccessSessionMiloDetails(estInscrit: false)
+            .store();
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(
+          store: store,
+          source: RendezvousStateSource.sessionMiloDetails,
+          rdvId: '1',
+          platform: Platform.IOS,
+        );
+
+        // Then
+        expect(viewModel.shareToConseillerSource, ChatPartageSessionMiloSource("1"));
+      });
+
       test('should be shareable if vm created from event list and is not inscrit', () {
         // Given
         final store = givenState()
@@ -765,7 +785,7 @@ void main() {
         );
 
         // Then
-        expect(viewModel.isShareable, true);
+        expect(viewModel.shareToConseillerSource, ChatPartageEventSource("1"));
       });
 
       test('should not be shareable if vm created from event list and is inscrit', () {
@@ -784,7 +804,7 @@ void main() {
         );
 
         // Then
-        expect(viewModel.isShareable, false);
+        expect(viewModel.shareToConseillerSource, null);
       });
 
       test('should display "événement" page title if vm created from event list and is not inscrit', () {
@@ -852,7 +872,6 @@ void main() {
             withDescriptionPart: false,
             withModalityPart: true,
             withIfAbsentPart: true,
-            isShareable: false,
             visioButtonState: VisioButtonState.HIDDEN,
             onRetry: () => {},
             trackingPageName: 'rdv/atelier',
@@ -940,7 +959,6 @@ void main() {
               withDescriptionPart: true,
               withModalityPart: true,
               withIfAbsentPart: true,
-              isShareable: false,
               visioButtonState: VisioButtonState.HIDDEN,
               onRetry: () => {},
               commentTitle: 'Commentaire',

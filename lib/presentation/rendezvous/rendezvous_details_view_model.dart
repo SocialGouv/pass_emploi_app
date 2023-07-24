@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_a
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_view_model_helper.dart';
@@ -36,7 +37,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final bool withIfAbsentPart;
   final String? withAnimateur;
   final String? withDateDerniereMiseAJour;
-  final bool isShareable;
+  final ChatPartageSource? shareToConseillerSource;
   final VisioButtonState visioButtonState;
   final Function() onRetry;
   final String? trackingPageName;
@@ -72,7 +73,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.withIfAbsentPart,
     this.withAnimateur,
     this.withDateDerniereMiseAJour,
-    required this.isShareable,
+    this.shareToConseillerSource,
     required this.visioButtonState,
     required this.onRetry,
     this.trackingPageName,
@@ -125,7 +126,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withIfAbsentPart: _estCeQueMaPresenceEstRequise(source, isInscrit),
       withAnimateur: _withAnimateur(source, rdv.animateur),
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
-      isShareable: (source == RendezvousStateSource.eventListAnimationsCollectives && isInscrit == false),
+      shareToConseillerSource: _shareToConseillerSource(source, rdv),
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       onRetry: () => {},
@@ -160,7 +161,6 @@ class RendezvousDetailsViewModel extends Equatable {
       withDescriptionPart: false,
       withModalityPart: false,
       withIfAbsentPart: false,
-      isShareable: false,
       visioButtonState: VisioButtonState.HIDDEN,
       onRetry: () => store.dispatch(RendezvousDetailsRequestAction(rdvId)),
     );
@@ -185,7 +185,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withModalityPart,
       withIfAbsentPart,
       withDateDerniereMiseAJour,
-      isShareable,
+      shareToConseillerSource,
       visioButtonState,
       trackingPageName,
       title,
@@ -363,3 +363,12 @@ bool _estCeQueMaPresenceEstRequise(RendezvousStateSource source, bool isInscrit)
     (source != RendezvousStateSource.eventListAnimationsCollectives &&
         source != RendezvousStateSource.sessionMiloDetails) ||
     isInscrit;
+
+ChatPartageSource? _shareToConseillerSource(RendezvousStateSource source, Rendezvous rdv) {
+  if (rdv.estInscrit == true) return null;
+  return switch (source) {
+    RendezvousStateSource.eventListAnimationsCollectives => ChatPartageEventSource(rdv.id),
+    RendezvousStateSource.sessionMiloDetails => ChatPartageSessionMiloSource(rdv.id),
+    _ => null,
+  };
+}

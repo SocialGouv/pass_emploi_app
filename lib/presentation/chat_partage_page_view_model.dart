@@ -19,21 +19,39 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
-sealed class ChatPartageSource {}
+sealed class ChatPartageSource extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class ChatPartageOffreEmploiSource extends ChatPartageSource {
   final OffreType type;
 
   ChatPartageOffreEmploiSource(this.type);
+
+  @override
+  List<Object?> get props => [type];
 }
 
 class ChatPartageEventSource extends ChatPartageSource {
   final String eventId;
 
   ChatPartageEventSource(this.eventId);
+
+  @override
+  List<Object?> get props => [eventId];
 }
 
 class ChatPartageEvenementEmploiSource extends ChatPartageSource {}
+
+class ChatPartageSessionMiloSource extends ChatPartageSource {
+  final String sessionId;
+
+  ChatPartageSessionMiloSource(this.sessionId);
+
+  @override
+  List<Object?> get props => [sessionId];
+}
 
 class ChatPartagePageViewModel extends Equatable {
   final String pageTitle;
@@ -67,6 +85,8 @@ class ChatPartagePageViewModel extends Equatable {
       ChatPartageOffreEmploiSource() => ChatPartagePageViewModel.sharingOffre(store, source),
       ChatPartageEventSource() => ChatPartagePageViewModel.sharingEvent(store, source),
       ChatPartageEvenementEmploiSource() => ChatPartagePageViewModel.sharingEvenementEmploi(store, source),
+      ChatPartageSessionMiloSource() =>
+        throw Exception("ChatPartagePageViewModel must be created with a source."), // TODO:
     };
   }
 

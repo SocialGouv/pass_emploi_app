@@ -126,7 +126,7 @@ class RendezvousDetailsPage extends StatelessWidget {
             SepLine(Margins.spacing_m, Margins.spacing_m),
             _ConseillerPart(viewModel),
             if (viewModel.withIfAbsentPart) _InformIfAbsent(),
-            if (viewModel.isShareable) _Share(eventId: viewModel.id),
+            if (viewModel.shareToConseillerSource != null) _Share(eventId: viewModel.id),
           ],
         ),
       ),
@@ -425,7 +425,8 @@ class _Share extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                ChatPartagePage.materialPageRoute(ChatPartageEventSource(eventId)),
+                ChatPartagePage.materialPageRoute(
+                    ChatPartageEventSource(eventId)), // TODO: change to ChatPartageRendezvousSource
               );
             },
           ),
