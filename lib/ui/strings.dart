@@ -515,6 +515,15 @@ class Strings {
   static String infoEvenementEmploiPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
   static String partagerEvenementEmploiAuConseiller = "Partager l’événement";
 
+  // Session milo partage
+  static String partageSessionMiloNavTitle = "Partage d’événement";
+  static String souhaitDePartagerSessionMilo = "Ce que vous souhaitez partager";
+  static String partageSessionMiloDefaultMessage = "Bonjour, je vous partage un événement afin d’avoir votre avis";
+  static String partageSessionMiloSuccess =
+      "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
+  static String infoSessionMiloPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
+  static String partagerSessionMiloAuConseiller = "Partager à mon conseiller";
+
   // Immersion
   static String entrepriseAccueillante = 'Entreprise accueillante';
   static String entreprisesAccueillantesHeader =

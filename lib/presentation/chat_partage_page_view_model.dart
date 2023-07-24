@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
 import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi_details.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
@@ -14,6 +15,7 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -85,8 +87,7 @@ class ChatPartagePageViewModel extends Equatable {
       ChatPartageOffreEmploiSource() => ChatPartagePageViewModel.sharingOffre(store, source),
       ChatPartageEventSource() => ChatPartagePageViewModel.sharingEvent(store, source),
       ChatPartageEvenementEmploiSource() => ChatPartagePageViewModel.sharingEvenementEmploi(store, source),
-      ChatPartageSessionMiloSource() =>
-        throw Exception("ChatPartagePageViewModel must be created with a source."), // TODO:
+      ChatPartageSessionMiloSource() => ChatPartagePageViewModel.sharingSessionMilo(store, source),
     };
   }
 
@@ -158,6 +159,27 @@ class ChatPartagePageViewModel extends Equatable {
     );
   }
 
+  factory ChatPartagePageViewModel.sharingSessionMilo(Store<AppState> store, ChatPartageSessionMiloSource source) {
+    final sessionMiloDetailsState = store.state.sessionMiloDetailsState;
+    if (sessionMiloDetailsState is! SessionMiloDetailsSuccessState) {
+      throw Exception("ChatPartagePageViewModel must be created with a SessionMiloDetailsSuccessState.");
+    }
+
+    return ChatPartagePageViewModel(
+      pageTitle: Strings.partageSessionMiloNavTitle,
+      willShareTitle: Strings.souhaitDePartagerSessionMilo,
+      defaultMessage: Strings.partageSessionMiloDefaultMessage,
+      information: Strings.infoSessionMiloPartageChat,
+      shareButtonTitle: Strings.partagerSessionMiloAuConseiller,
+      shareableTitle: sessionMiloDetailsState.details.nomSession,
+      onShare: (message) => _partagerSessionMilo(store, sessionMiloDetailsState.details.toRendezVous, message),
+      snackbarState: _snackbarState(store),
+      snackbarDisplayed: () => store.dispatch(ChatPartageResetAction()),
+      snackbarSuccessText: Strings.partageSessionMiloSuccess,
+      snackbarSuccessTracking: AnalyticsScreenNames.sessionMiloPartagePageSuccess,
+    );
+  }
+
   @override
   List<Object?> get props => [shareableTitle, snackbarState];
 }
@@ -210,6 +232,18 @@ void _partagerEvenementEmploi(Store<AppState> store, EvenementEmploiDetails even
         id: evenementEmploiDetails.id,
         titre: evenementEmploiDetails.titre ?? "",
         url: evenementEmploiDetails.url ?? "",
+        message: message,
+      ),
+    ),
+  );
+}
+
+void _partagerSessionMilo(Store<AppState> store, Rendezvous sessionMilo, String message) {
+  store.dispatch(
+    ChatPartagerSessionMiloAction(
+      SessionMiloPartage(
+        id: sessionMilo.id,
+        titre: sessionMilo.title ?? "",
         message: message,
       ),
     ),
