@@ -87,6 +87,8 @@ class _PartageCard extends StatelessWidget {
       _showEventDetailsPage(context, item);
     } else if (item is EvenementEmploiMessageItem) {
       _showEvenementEmploiDetailsPage(context, item);
+    } else if (item is SessionMiloMessageItem) {
+      _showSessionMiloDetailsPage(context, item);
     }
   }
 
@@ -125,6 +127,16 @@ class _PartageCard extends StatelessWidget {
     Navigator.push(
       context,
       EvenementEmploiDetailsPage.materialPageRoute(
+        item.idPartage,
+      ),
+    );
+  }
+
+  void _showSessionMiloDetailsPage(BuildContext context, SessionMiloMessageItem item) {
+    Navigator.push(
+      context,
+      RendezvousDetailsPage.materialPageRoute(
+        RendezvousStateSource.sessionMiloDetails,
         item.idPartage,
       ),
     );
