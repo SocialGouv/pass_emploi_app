@@ -42,7 +42,7 @@ class SessionMilo extends Equatable {
   Rendezvous get toRendezVous {
     return Rendezvous(
       id: id,
-      title: nomOffre + " - " + nomSession,
+      title: displayableTitle,
       date: dateDeDebut,
       type: type.toRendezvousType,
       isAnnule: false,
@@ -50,6 +50,10 @@ class SessionMilo extends Equatable {
       isInVisio: false,
       estInscrit: estInscrit,
     );
+  }
+
+  String get displayableTitle {
+    return nomOffre + " - " + nomSession;
   }
 }
 

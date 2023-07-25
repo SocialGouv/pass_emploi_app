@@ -63,7 +63,7 @@ class SessionMiloDetails extends Equatable {
   Rendezvous get toRendezVous {
     return Rendezvous(
       id: id,
-      title: nomOffre + " - " + nomSession,
+      title: displayableTitle,
       address: lieu,
       description: description,
       date: dateHeureDebut,
@@ -76,5 +76,9 @@ class SessionMiloDetails extends Equatable {
       duration: dateHeureFin.difference(dateHeureDebut).inMinutes,
       estInscrit: estInscrit,
     );
+  }
+
+  String get displayableTitle {
+    return nomOffre + " - " + nomSession;
   }
 }

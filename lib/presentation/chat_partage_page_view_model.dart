@@ -171,7 +171,7 @@ class ChatPartagePageViewModel extends Equatable {
       defaultMessage: Strings.partageSessionMiloDefaultMessage,
       information: Strings.infoSessionMiloPartageChat,
       shareButtonTitle: Strings.partagerSessionMiloAuConseiller,
-      shareableTitle: sessionMiloDetailsState.details.nomSession,
+      shareableTitle: sessionMiloDetailsState.details.displayableTitle,
       onShare: (message) => _partagerSessionMilo(store, sessionMiloDetailsState.details.toRendezVous, message),
       snackbarState: _snackbarState(store),
       snackbarDisplayed: () => store.dispatch(ChatPartageResetAction()),
