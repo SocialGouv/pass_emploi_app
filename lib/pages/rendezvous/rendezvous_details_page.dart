@@ -65,6 +65,7 @@ class RendezvousDetailsPage extends StatelessWidget {
       },
       onDispose: (store) {
         _source == RendezvousStateSource.noSource ? store.dispatch(RendezvousDetailsResetAction()) : {};
+        _source == RendezvousStateSource.sessionMiloDetails ? store.dispatch(SessionMiloDetailsResetAction()) : {};
       },
       distinct: true,
     );
