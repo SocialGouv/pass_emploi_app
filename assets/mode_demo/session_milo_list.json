@@ -8,6 +8,8 @@
       "code": "WORKSHOP",
       "label": "Atelier"
     },
-    "inscription": "INSCRIT"
+    "inscription":  {
+      "statut": "INSCRIT"
+    }
   }
 ]
