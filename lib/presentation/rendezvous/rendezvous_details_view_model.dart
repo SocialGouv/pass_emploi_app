@@ -38,6 +38,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? withAnimateur;
   final String? withDateDerniereMiseAJour;
   final ChatPartageSource? shareToConseillerSource;
+  final String? shareToConseillerButtonTitle;
   final VisioButtonState visioButtonState;
   final Function() onRetry;
   final String? trackingPageName;
@@ -74,6 +75,7 @@ class RendezvousDetailsViewModel extends Equatable {
     this.withAnimateur,
     this.withDateDerniereMiseAJour,
     this.shareToConseillerSource,
+    this.shareToConseillerButtonTitle,
     required this.visioButtonState,
     required this.onRetry,
     this.trackingPageName,
@@ -105,6 +107,7 @@ class RendezvousDetailsViewModel extends Equatable {
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;
     final isInscrit = rdv.estInscrit ?? false;
+    final shareSource = _shareToConseillerSource(source, rdv);
     return RendezvousDetailsViewModel(
       displayState: DisplayState.CONTENT,
       navbarTitle: _navbarTitle(source, rdv),
@@ -126,7 +129,8 @@ class RendezvousDetailsViewModel extends Equatable {
       withIfAbsentPart: _estCeQueMaPresenceEstRequise(source, isInscrit),
       withAnimateur: _withAnimateur(source, rdv.animateur),
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
-      shareToConseillerSource: _shareToConseillerSource(source, rdv),
+      shareToConseillerSource: shareSource,
+      shareToConseillerButtonTitle: _shareTitle(shareSource),
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       onRetry: () => {},
@@ -186,6 +190,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withIfAbsentPart,
       withDateDerniereMiseAJour,
       shareToConseillerSource,
+      shareToConseillerButtonTitle,
       visioButtonState,
       trackingPageName,
       title,
@@ -370,5 +375,13 @@ ChatPartageSource? _shareToConseillerSource(RendezvousStateSource source, Rendez
     RendezvousStateSource.eventListAnimationsCollectives => ChatPartageEventSource(rdv.id),
     RendezvousStateSource.sessionMiloDetails => ChatPartageSessionMiloSource(rdv.id),
     _ => null,
+  };
+}
+
+String? _shareTitle(ChatPartageSource? source) {
+  return switch (source) {
+    null => null,
+    ChatPartageSessionMiloSource _ => Strings.shareToConseillerDemandeInscription,
+    _ => Strings.shareToConseiller,
   };
 }

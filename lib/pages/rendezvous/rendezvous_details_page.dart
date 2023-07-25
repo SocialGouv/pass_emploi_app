@@ -126,7 +126,11 @@ class RendezvousDetailsPage extends StatelessWidget {
             SepLine(Margins.spacing_m, Margins.spacing_m),
             _ConseillerPart(viewModel),
             if (viewModel.withIfAbsentPart) _InformIfAbsent(),
-            if (viewModel.shareToConseillerSource != null) _Share(source: viewModel.shareToConseillerSource!),
+            if (viewModel.shareToConseillerSource != null)
+              _Share(
+                source: viewModel.shareToConseillerSource!,
+                buttonTitle: viewModel.shareToConseillerButtonTitle,
+              ),
           ],
         ),
       ),
@@ -409,9 +413,10 @@ class _Createur extends StatelessWidget {
 }
 
 class _Share extends StatelessWidget {
+  final String? buttonTitle;
   final ChatPartageSource source;
 
-  _Share({required this.source});
+  _Share({required this.buttonTitle, required this.source});
 
   @override
   Widget build(BuildContext context) {
@@ -421,7 +426,7 @@ class _Share extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryActionButton(
-            label: Strings.shareToConseiller,
+            label: buttonTitle ?? Strings.shareToConseiller,
             onPressed: () {
               Navigator.push(
                 context,

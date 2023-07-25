@@ -767,6 +767,7 @@ void main() {
 
         // Then
         expect(viewModel.shareToConseillerSource, ChatPartageSessionMiloSource("1"));
+        expect(viewModel.shareToConseillerButtonTitle, "Faire une demande d’inscription");
       });
 
       test('should be shareable if vm created from event list and is not inscrit', () {
@@ -786,6 +787,7 @@ void main() {
 
         // Then
         expect(viewModel.shareToConseillerSource, ChatPartageEventSource("1"));
+        expect(viewModel.shareToConseillerButtonTitle, "Partager à mon conseiller");
       });
 
       test('should not be shareable if vm created from event list and is inscrit', () {
@@ -805,6 +807,7 @@ void main() {
 
         // Then
         expect(viewModel.shareToConseillerSource, null);
+        expect(viewModel.shareToConseillerButtonTitle, null);
       });
 
       test('should display "événement" page title if vm created from event list and is not inscrit', () {
