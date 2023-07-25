@@ -188,6 +188,78 @@ void main() {
     });
   });
 
+  group('Session milo partagé', () {
+    test('should display event partagé from jeune', () {
+      // Given
+      final messages = [
+        Message(
+          'Super session milo',
+          todayAtNoon,
+          Sender.jeune,
+          MessageType.sessionMilo,
+          [],
+          null,
+          null,
+          null,
+          ChatSessionMilo("id-1", "Salon de l'emploi"),
+        ),
+      ];
+
+      final store = givenState().chatSuccess(messages).store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.items, [
+        DayItem('Aujourd\'hui'),
+        SessionMiloMessageItem(
+          content: "Super session milo",
+          idPartage: "id-1",
+          titrePartage: "Salon de l'emploi",
+          sender: Sender.jeune,
+          caption: "12:00 · Envoyé",
+        ),
+      ]);
+    });
+
+    test('should display event partagé from conseiller', () {
+      // Given
+      final messages = [
+        Message(
+          'Super session milo',
+          todayAtNoon,
+          Sender.conseiller,
+          MessageType.sessionMilo,
+          [],
+          null,
+          null,
+          null,
+          ChatSessionMilo("id-1", "Salon de l'emploi"),
+        ),
+      ];
+
+      final store = givenState().chatSuccess(messages).store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.items, [
+        DayItem('Aujourd\'hui'),
+        SessionMiloMessageItem(
+          content: "Super session milo",
+          idPartage: "id-1",
+          titrePartage: "Salon de l'emploi",
+          sender: Sender.conseiller,
+          caption: "12:00",
+        ),
+      ]);
+    });
+  });
+
   group('Event partagé', () {
     test('should display event partagé from jeune', () {
       // Given

@@ -16,6 +16,7 @@ enum MessageType {
   event,
   evenementEmploi,
   inconnu,
+  sessionMilo,
 }
 
 enum OffreType { emploi, alternance, immersion, civique, inconnu }
@@ -29,7 +30,9 @@ class Message extends Equatable {
   final Offre? offre;
   final Event? event;
   final ChatEvenementEmploi? evenementEmploi;
+  final ChatSessionMilo? sessionMilo;
 
+  //TODO: refactor this constructor to use named parameters
   Message(
     this.content,
     this.creationDate,
@@ -39,6 +42,7 @@ class Message extends Equatable {
     this.offre,
     this.event,
     this.evenementEmploi,
+    this.sessionMilo,
   ]);
 
   static Message? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
@@ -55,6 +59,7 @@ class Message extends Equatable {
       _offre(json),
       _event(json),
       _evenementEmploi(json),
+      _sessionMilo(json),
     );
   }
 
@@ -74,6 +79,12 @@ class Message extends Equatable {
     final evenementEmploiJson = json["evenementEmploi"];
     if (evenementEmploiJson == null) return null;
     return ChatEvenementEmploi.fromJson(evenementEmploiJson);
+  }
+
+  static ChatSessionMilo? _sessionMilo(dynamic json) {
+    final sessionMiloJson = json["sessionMilo"];
+    if (sessionMiloJson == null) return null;
+    return ChatSessionMilo.fromJson(sessionMiloJson);
   }
 
   static List<PieceJointe> _pieceJointes(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
@@ -112,6 +123,8 @@ class Message extends Equatable {
           return MessageType.event;
         case "MESSAGE_EVENEMENT_EMPLOI":
           return MessageType.evenementEmploi;
+        case "MESSAGE_SESSION_MILO":
+          return MessageType.sessionMilo;
         default:
           return MessageType.inconnu;
       }
@@ -233,6 +246,23 @@ class ChatEvenementEmploi extends Equatable {
 
   @override
   List<Object?> get props => [id, titre, url];
+}
+
+class ChatSessionMilo extends Equatable {
+  final String id;
+  final String titre;
+
+  ChatSessionMilo(this.id, this.titre);
+
+  static ChatSessionMilo? fromJson(dynamic json) {
+    final id = json['id'] as String?;
+    final titre = json['titre'] as String?;
+    if (id == null || titre == null) return null;
+    return ChatSessionMilo(id, titre);
+  }
+
+  @override
+  List<Object?> get props => [id, titre];
 }
 
 OffreType _defaultForRetrocompatibility() => OffreType.emploi;
