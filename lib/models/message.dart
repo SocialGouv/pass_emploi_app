@@ -32,7 +32,6 @@ class Message extends Equatable {
   final ChatEvenementEmploi? evenementEmploi;
   final ChatSessionMilo? sessionMilo;
 
-  //TODO: refactor this constructor to use named parameters
   Message(
     this.content,
     this.creationDate,
