@@ -1038,6 +1038,7 @@ Accueil mockAccueilMilo() {
       nombreActionsDemarchesARealiser: 1,
     ),
     prochainRendezVous: mockRendezvousMiloCV(),
+    prochaineSessionMilo: mockSessionMiloAtelierCv(),
     evenements: [mockAnimationCollective()],
     alertes: getMockedSavedSearch(),
     favoris: mock3Favoris(),
