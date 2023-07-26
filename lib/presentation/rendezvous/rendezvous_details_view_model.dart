@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
@@ -102,7 +103,7 @@ class RendezvousDetailsViewModel extends Equatable {
   }) {
     final rdv = _getRendezvous(store, source, rdvId);
     final dateDerniereMiseAJour = _getDateDerniereMiseAJour(store, source);
-    if (rdv == null) return RendezvousDetailsViewModel._createBlankRendezvous(store, rdvId);
+    if (rdv == null) return RendezvousDetailsViewModel._createBlankRendezvous(store, source, rdvId);
     final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;
@@ -147,10 +148,22 @@ class RendezvousDetailsViewModel extends Equatable {
     );
   }
 
-  factory RendezvousDetailsViewModel._createBlankRendezvous(Store<AppState> store, String rdvId) {
-    final state = store.state.rendezvousDetailsState;
+  factory RendezvousDetailsViewModel._createBlankRendezvous(
+    Store<AppState> store,
+    RendezvousStateSource source,
+    String rdvId,
+  ) {
+    final fromSession = [
+      //TODO: extension quelque part ?
+      // RendezvousStateSource.accueilProchaineSession, //TODO: inexistant ?
+      // RendezvousStateSource.eventListSessionsMilo, //TODO: inexistant ?
+      RendezvousStateSource.sessionMiloDetails,
+    ].contains(source);
+    final isFailure = fromSession
+        ? store.state.sessionMiloDetailsState is SessionMiloDetailsFailureState
+        : store.state.rendezvousDetailsState is RendezvousDetailsFailureState;
     return RendezvousDetailsViewModel(
-      displayState: state is RendezvousDetailsFailureState ? DisplayState.FAILURE : DisplayState.LOADING,
+      displayState: isFailure ? DisplayState.FAILURE : DisplayState.LOADING,
       navbarTitle: Strings.eventTitle,
       id: '',
       tag: '',
@@ -166,7 +179,11 @@ class RendezvousDetailsViewModel extends Equatable {
       withModalityPart: false,
       withIfAbsentPart: false,
       visioButtonState: VisioButtonState.HIDDEN,
-      onRetry: () => store.dispatch(RendezvousDetailsRequestAction(rdvId)),
+      onRetry: () {
+        fromSession
+            ? store.dispatch(SessionMiloDetailsRequestAction(rdvId))
+            : store.dispatch(RendezvousDetailsRequestAction(rdvId));
+      },
     );
   }
 

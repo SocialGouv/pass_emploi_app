@@ -54,7 +54,7 @@ class Accueil extends Equatable {
   }
 
   Accueil copyWith({
-    final DateTime? dateDerniereMiseAjour,
+    final DateTime? dateDerniereMiseAJour,
     final AccueilCetteSemaine? cetteSemaine,
     final Rendezvous? prochainRendezVous,
     final SessionMilo? prochaineSessionMilo,
@@ -63,13 +63,13 @@ class Accueil extends Equatable {
     final List<Favori>? favoris,
   }) {
     return Accueil(
-      dateDerniereMiseAJour: dateDerniereMiseAjour ?? dateDerniereMiseAJour,
-      cetteSemaine: cetteSemaine ?? cetteSemaine,
-      prochainRendezVous: prochainRendezVous ?? prochainRendezVous,
-      prochaineSessionMilo: prochaineSessionMilo ?? prochaineSessionMilo,
-      evenements: evenements ?? evenements,
-      alertes: alertes ?? alertes,
-      favoris: favoris ?? favoris,
+      dateDerniereMiseAJour: dateDerniereMiseAJour ?? this.dateDerniereMiseAJour,
+      cetteSemaine: cetteSemaine ?? this.cetteSemaine,
+      prochainRendezVous: prochainRendezVous ?? this.prochainRendezVous,
+      prochaineSessionMilo: prochaineSessionMilo ?? this.prochaineSessionMilo,
+      evenements: evenements ?? this.evenements,
+      alertes: alertes ?? this.alertes,
+      favoris: favoris ?? this.favoris,
     );
   }
 

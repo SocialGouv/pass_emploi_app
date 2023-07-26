@@ -77,6 +77,40 @@ void main() {
         ],
       );
     });
+
+    test('should have prochaine session instead of prochain rendezvous when date is before', () {
+      // Given
+      final rdv = mockRendezvous(date: DateTime(2030));
+      final sessionMilo = mockSessionMilo(dateDeDebut: DateTime(2025));
+      final store = givenState() //
+          .loggedInMiloUser()
+          .withAccueilMiloSuccess(
+              mockAccueilMilo().copyWith(prochainRendezVous: rdv, prochaineSessionMilo: sessionMilo))
+          .withCampagne(campagne())
+          .store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items,
+        [
+          AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
+          AccueilCetteSemaineItem(
+            monSuiviType: MonSuiviType.actions,
+            rendezVous: "3 rendez-vous",
+            actionsDemarchesEnRetard: "2 actions en retard",
+            actionsDemarchesARealiser: "1 action à réaliser",
+          ),
+          AccueilProchaineSessionMiloItem(sessionMilo.id),
+          AccueilEvenementsItem([mockAnimationCollective().id]),
+          AccueilAlertesItem(getMockedSavedSearch()),
+          AccueilFavorisItem(mock3Favoris()),
+          AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]),
+        ],
+      );
+    });
   });
 
   group('pe', () {

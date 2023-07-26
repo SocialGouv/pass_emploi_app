@@ -7,6 +7,7 @@ enum RendezvousStateSource {
   eventListAnimationsCollectives,
   eventListSessionsMilo,
   sessionMiloDetails,
+  accueilProchaineSession,
 }
 
 extension RendezvousStateSourceExt on RendezvousStateSource {
