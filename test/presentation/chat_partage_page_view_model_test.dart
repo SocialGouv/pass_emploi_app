@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
@@ -193,6 +194,55 @@ void main() {
           url: "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB",
           message: "Regardes ça",
           type: OffreType.emploi,
+        ),
+      );
+    });
+  });
+
+  group('when sharing a session milo', () {
+    test('should have corresponding titles', () {
+      // Given
+      final store = givenState().withSuccessSessionMiloDetails().store();
+
+      // When
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageSessionMiloSource("1"));
+
+      // Then
+      expect(viewModel.pageTitle, "Partage d’événement");
+      expect(viewModel.willShareTitle, "Ce que vous souhaitez partager");
+      expect(viewModel.defaultMessage, "Bonjour, je vous partage un événement afin d’avoir votre avis");
+      expect(viewModel.shareableTitle, "ANIMATION COLLECTIVE POUR TEST - SESSION TEST");
+      expect(viewModel.information, "L’événement sera partagé à votre conseiller dans la messagerie");
+      expect(viewModel.shareButtonTitle, "Partager à mon conseiller");
+      expect(viewModel.snackbarSuccessText,
+          "L’événement a été partagé à votre conseiller sur la messagerie de l’application");
+      expect(viewModel.snackbarSuccessTracking, "session_milo/detail?partage-conseiller=true");
+    });
+
+    test('should throw error when sessionMiloDetailsState is not success', () {
+      final store = givenState().store();
+      expect(
+        () => ChatPartagePageViewModel.fromSource(store, ChatPartageSessionMiloSource("1")),
+        throwsA(isA<Exception>()),
+      );
+    });
+
+    test('should partager session milo', () {
+      // Given
+      final store = givenState().withSuccessSessionMiloDetails().spyStore();
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageSessionMiloSource("1"));
+
+      // When
+      viewModel.onShare("Regardes ça");
+
+      // Then
+      expect(store.dispatchedAction, isA<ChatPartagerSessionMiloAction>());
+      expect(
+        (store.dispatchedAction as ChatPartagerSessionMiloAction).sessionMilo,
+        SessionMiloPartage(
+          id: "1",
+          titre: "ANIMATION COLLECTIVE POUR TEST - SESSION TEST",
+          message: "Regardes ça",
         ),
       );
     });

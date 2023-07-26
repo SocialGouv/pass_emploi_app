@@ -53,7 +53,7 @@ class SessionMiloDetails extends Equatable {
       dateHeureDebut: (json['dateHeureDebut'] as String).toDateTimeUtcOnLocalTimeZone(),
       dateHeureFin: (json['dateHeureFin'] as String).toDateTimeUtcOnLocalTimeZone(),
       lieu: json['lieu'] as String,
-      estInscrit: (json['inscription'] as String?) == "INSCRIT",
+      estInscrit: (json['inscription']?['statut'] as String?) == "INSCRIT",
       animateur: json['animateur'] as String?,
       description: json['description'] as String?,
       commentaire: json['commentaire'] as String?,
@@ -63,7 +63,7 @@ class SessionMiloDetails extends Equatable {
   Rendezvous get toRendezVous {
     return Rendezvous(
       id: id,
-      title: nomOffre + " - " + nomSession,
+      title: displayableTitle,
       address: lieu,
       description: description,
       date: dateHeureDebut,
@@ -76,5 +76,9 @@ class SessionMiloDetails extends Equatable {
       duration: dateHeureFin.difference(dateHeureDebut).inMinutes,
       estInscrit: estInscrit,
     );
+  }
+
+  String get displayableTitle {
+    return nomOffre + " - " + nomSession;
   }
 }

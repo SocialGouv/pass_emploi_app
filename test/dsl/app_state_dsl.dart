@@ -745,11 +745,12 @@ extension AppStateDSL on AppState {
     return copyWith(topDemarcheState: TopDemarcheSuccessState(demarches));
   }
 
-  AppState withSuccessSessionMiloDetails({DateTime? dateDeDebut, DateTime? dateDeFin}) {
+  AppState withSuccessSessionMiloDetails({DateTime? dateDeDebut, DateTime? dateDeFin, bool? estInscrit}) {
     return copyWith(
         sessionMiloDetailsState: SessionMiloDetailsSuccessState(mockSessionMiloDetails(
       dateDeDebut: dateDeDebut,
       dateDeFin: dateDeFin,
+      estInscrit: estInscrit,
     )));
   }
 

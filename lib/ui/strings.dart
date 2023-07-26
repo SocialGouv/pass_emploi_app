@@ -282,6 +282,7 @@ class Strings {
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
   static String shareToConseiller = "Partager à mon conseiller";
+  static String shareToConseillerDemandeInscription = "Faire une demande d’inscription";
   static String withAnimateurTitle = "Animateur de la session";
 
   static String rendezvousSinceDate(String date) => "depuis le $date";
@@ -514,6 +515,15 @@ class Strings {
       "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
   static String infoEvenementEmploiPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
   static String partagerEvenementEmploiAuConseiller = "Partager l’événement";
+
+  // Session milo partage
+  static String partageSessionMiloNavTitle = "Partage d’événement";
+  static String souhaitDePartagerSessionMilo = "Ce que vous souhaitez partager";
+  static String partageSessionMiloDefaultMessage = "Bonjour, je vous partage un événement afin d’avoir votre avis";
+  static String partageSessionMiloSuccess =
+      "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
+  static String infoSessionMiloPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
+  static String partagerSessionMiloAuConseiller = "Partager à mon conseiller";
 
   // Immersion
   static String entrepriseAccueillante = 'Entreprise accueillante';

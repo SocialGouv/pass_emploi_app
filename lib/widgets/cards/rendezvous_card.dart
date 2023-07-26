@@ -167,7 +167,6 @@ extension RendezvousCardFromId on String {
 }
 
 RendezvousStateSource _stateSource(RendezvousStateSource stateSource) {
-  // TODO: Est-ce qu'on pourrait faire autrement ?
   if (stateSource == RendezvousStateSource.eventListSessionsMilo) {
     return RendezvousStateSource.sessionMiloDetails;
   }
