@@ -80,7 +80,16 @@ AccueilItem? _cetteSemaineItem(LoginMode loginMode, AccueilSuccessState successS
 
 AccueilItem? _prochainRendezvousItem(AccueilSuccessState successState) {
   final prochainRendezVous = successState.accueil.prochainRendezVous;
-  return prochainRendezVous != null ? AccueilProchainRendezvousItem(prochainRendezVous.id) : null;
+  final prochaineSessionMilo = successState.accueil.prochaineSessionMilo;
+
+  return switch ((prochainRendezVous?.date, prochaineSessionMilo?.dateDeDebut)) {
+    (null, null) => null,
+    (null, _) => AccueilProchaineSessionMiloItem(prochaineSessionMilo!.id),
+    (_, null) => AccueilProchainRendezvousItem(prochainRendezVous!.id),
+    (_, _) => prochainRendezVous!.date.isBefore(prochaineSessionMilo!.dateDeDebut)
+        ? AccueilProchainRendezvousItem(prochainRendezVous.id)
+        : AccueilProchaineSessionMiloItem(prochaineSessionMilo.id),
+  };
 }
 
 AccueilItem? _evenementsItem(AccueilSuccessState successState) {

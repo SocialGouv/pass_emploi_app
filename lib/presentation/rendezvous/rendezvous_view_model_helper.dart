@@ -24,6 +24,8 @@ Rendezvous getRendezvous(Store<AppState> store, RendezvousStateSource source, St
   switch (source) {
     case RendezvousStateSource.accueilProchainRendezvous:
       return _getRendezvousFromAccueilProchainRendezvousState(store, rdvId);
+    case RendezvousStateSource.accueilProchaineSession:
+      return _getRendezvousFromAccueilProchaineSessionState(store, rdvId);
     case RendezvousStateSource.accueilLesEvenements:
       return _getRendezvousFromAccueilLesEvenementsState(store, rdvId);
     case RendezvousStateSource.agenda:
@@ -85,6 +87,14 @@ Rendezvous _getRendezvousFromAccueilProchainRendezvousState(Store<AppState> stor
   final rendezvous = state.accueil.prochainRendezVous;
   if (rendezvous == null) throw Exception('No prochain rendezvous');
   return rendezvous;
+}
+
+Rendezvous _getRendezvousFromAccueilProchaineSessionState(Store<AppState> store, String rdvId) {
+  final state = store.state.accueilState;
+  if (state is! AccueilSuccessState) throw Exception('Invalid state.');
+  final session = state.accueil.prochaineSessionMilo;
+  if (session == null) throw Exception('No prochaine session');
+  return session.toRendezVous;
 }
 
 Rendezvous _getRendezvousFromAccueilLesEvenementsState(Store<AppState> store, String rdvId) {

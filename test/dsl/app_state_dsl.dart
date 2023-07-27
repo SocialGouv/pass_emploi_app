@@ -42,6 +42,7 @@ import 'package:pass_emploi_app/features/user_action/commentaire/list/action_com
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
@@ -664,8 +665,8 @@ extension AppStateDSL on AppState {
     return copyWith(recherchesRecentesState: RecherchesRecentesState(recherchesRecentes));
   }
 
-  AppState withAccueilMiloSuccess() {
-    return copyWith(accueilState: AccueilSuccessState(mockAccueilMilo()));
+  AppState withAccueilMiloSuccess([Accueil? accueil]) {
+    return copyWith(accueilState: AccueilSuccessState(accueil ?? mockAccueilMilo()));
   }
 
   AppState withAccueilPoleEmploiSuccess() {
