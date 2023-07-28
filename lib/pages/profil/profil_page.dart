@@ -19,8 +19,6 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/rating_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/mon_conseiller_card.dart';
@@ -29,6 +27,7 @@ import 'package:pass_emploi_app/widgets/cards/profil/standalone_profil_card.dart
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/label_value_row.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
+import 'package:pass_emploi_app/widgets/rating_page.dart';
 
 class ProfilPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -317,8 +316,6 @@ class _RatingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StandaloneProfilCard(
-      text: Strings.ratingAppLabel,
-      onTap: () => showPassEmploiBottomSheet(context: context, builder: (context) => RatingBottomSheet()),
-    );
+        text: Strings.ratingAppLabel, onTap: () => Navigator.of(context).push(RatingPage.materialPageRoute()));
   }
 }

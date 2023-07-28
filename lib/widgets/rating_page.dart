@@ -4,8 +4,6 @@ import 'package:in_app_review/in_app_review.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/rating_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/mail_handler.dart';
@@ -17,7 +15,9 @@ import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 final InAppReview inAppReview = InAppReview.instance;
 
-class RatingBottomSheet extends StatelessWidget {
+class RatingPage extends StatelessWidget {
+  static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => RatingPage());
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RatingViewModel>(
@@ -27,9 +27,12 @@ class RatingBottomSheet extends StatelessWidget {
   }
 
   Widget _body(BuildContext context, RatingViewModel viewModel) {
-    return FractionallySizedBox(
-      heightFactor: 0.4,
-      child: Center(
+    return Scaffold(
+      appBar: AppBar(
+        title: _RatingAppBar(onDismiss: viewModel.onDone),
+        centerTitle: false,
+      ),
+      body: Center(
         child: Padding(
           padding: EdgeInsets.all(8.0),
           child: _content(context, viewModel),
@@ -41,8 +44,6 @@ class RatingBottomSheet extends StatelessWidget {
   Widget _content(BuildContext context, RatingViewModel viewModel) {
     return Column(
       children: [
-        _RatingHeader(onDismiss: viewModel.onDone),
-        SepLine(0, 0),
         Expanded(
           child: Semantics(
             label: Strings.listSemanticsLabel,
@@ -94,35 +95,16 @@ class RatingBottomSheet extends StatelessWidget {
   }
 }
 
-class _RatingHeader extends StatelessWidget {
+class _RatingAppBar extends StatelessWidget {
   final Function() onDismiss;
 
-  _RatingHeader({required this.onDismiss});
+  _RatingAppBar({required this.onDismiss});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topRight,
-      children: [
-        IconButton(
-          onPressed: () {
-            onDismiss();
-            PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipRating);
-            Navigator.pop(context);
-          },
-          tooltip: Strings.close,
-          icon: Icon(AppIcons.close_rounded, color: AppColors.contentColor),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(30),
-          child: Semantics(
-            header: true,
-            child: Center(
-              child: Text(Strings.ratingLabel, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
-            ),
-          ),
-        ),
-      ],
+    return Semantics(
+      header: true,
+      child: Text(Strings.ratingLabel, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
     );
   }
 }
