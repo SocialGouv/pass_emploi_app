@@ -170,6 +170,7 @@ RendezvousStateSource _stateSource(RendezvousStateSource stateSource) {
   if ([
     RendezvousStateSource.eventListSessionsMilo,
     RendezvousStateSource.accueilProchaineSession,
+    RendezvousStateSource.agendaSessionMilo,
   ].contains(stateSource)) {
     return RendezvousStateSource.sessionMiloDetails;
   }
