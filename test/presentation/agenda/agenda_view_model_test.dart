@@ -47,6 +47,11 @@ void main() {
     date: DateTime(2022, 8, 31, 11),
   );
 
+  final sessionMiloLundi = mockSessionMilo(
+    id: "session 22/08 17h",
+    dateDeDebut: DateTime(2022, 8, 22, 17),
+  );
+
   test('when this week is empty but not next week should arrange agenda with sorted events', () {
     // Given
     final demarches = [demarcheSamediProchain];
@@ -76,9 +81,10 @@ void main() {
     // Given
     final actions = [actionJeudi, actionLundi];
     final rendezvous = [rendezvousLundi];
+    final sessions = [sessionMiloLundi];
     final store = givenState() //
         .loggedInMiloUser()
-        .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: lundi22)
+        .agenda(actions: actions, rendezvous: rendezvous, sessionsMilo: sessions, dateDeDebut: lundi22)
         .store();
 
     // When
@@ -91,6 +97,7 @@ void main() {
         DaySeparatorAgendaItem("Lundi 22 août"),
         UserActionAgendaItem(actionLundi.id),
         RendezvousAgendaItem(rendezvousLundi.id),
+        SessionMiloAgendaItem(sessionMiloLundi.id),
         DaySeparatorAgendaItem("Mardi 23 août"),
         EmptyMessageAgendaItem("Pas d’action ni de rendez-vous"),
         DaySeparatorAgendaItem("Mercredi 24 août"),

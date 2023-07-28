@@ -103,6 +103,7 @@ List<EventAgenda> _allEventsSorted(Agenda agenda) {
     ...agenda.actions.map((e) => UserActionEventAgenda(e.id, e.dateEcheance)),
     ...agenda.demarches.where((e) => e.endDate != null).map((e) => DemarcheEventAgenda(e.id, e.endDate!)),
     ...agenda.rendezvous.map((e) => RendezvousEventAgenda(e.id, e.date)),
+    ...agenda.sessionsMilo.map((e) => SessionMiloEventAgenda(e.id, e.dateDeDebut)),
   ];
 
   events.sort((a, b) => a.date.compareTo(b.date));
@@ -157,6 +158,9 @@ List<AgendaItem> _makeCurrentWeekWithEvents(
           case RendezvousEventAgenda:
             currentWeekItems.add(RendezvousAgendaItem(event.id));
             break;
+          case SessionMiloEventAgenda:
+            currentWeekItems.add(SessionMiloAgendaItem(event.id));
+            break;
         }
       }
     }
@@ -194,6 +198,8 @@ List<AgendaItem> _makeNextWeekWithEvents(List<EventAgenda> nextWeekEvents) {
             return DemarcheAgendaItem(e.id, collapsed: true);
           case RendezvousEventAgenda:
             return RendezvousAgendaItem(e.id, collapsed: true);
+          case SessionMiloEventAgenda:
+            return SessionMiloAgendaItem(e.id, collapsed: true);
         }
       })
       .whereType<AgendaItem>()
@@ -277,6 +283,16 @@ class UserActionAgendaItem extends AgendaItem {
   List<Object?> get props => [actionId, collapsed];
 }
 
+class SessionMiloAgendaItem extends AgendaItem {
+  final String sessionId;
+  final bool collapsed;
+
+  SessionMiloAgendaItem(this.sessionId, {this.collapsed = false});
+
+  @override
+  List<Object?> get props => [sessionId, collapsed];
+}
+
 class CallToActionEventMiloAgendaItem extends AgendaItem {}
 
 abstract class EventAgenda extends Equatable {
@@ -299,4 +315,8 @@ class DemarcheEventAgenda extends EventAgenda {
 
 class RendezvousEventAgenda extends EventAgenda {
   RendezvousEventAgenda(super.id, super.date);
+}
+
+class SessionMiloEventAgenda extends EventAgenda {
+  SessionMiloEventAgenda(super.id, super.date);
 }
