@@ -46,7 +46,7 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
   Widget buildAlertBottomSheet() => ServiceCiviqueSavedSearchBottomSheet();
 
   @override
-  Route<bool>? buildFiltresMaterialPageRoute() => ServiceCiviqueFiltresPage.materialPageRoute();
+  Future<bool?>? buildFiltresBottomSheet(BuildContext context) => ServiceCiviqueFiltresPage.show(context);
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

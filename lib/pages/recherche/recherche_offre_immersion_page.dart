@@ -46,7 +46,7 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   Widget buildAlertBottomSheet() => ImmersionSavedSearchBottomSheet();
 
   @override
-  Route<bool>? buildFiltresMaterialPageRoute() => ImmersionFiltresPage.materialPageRoute();
+  Future<bool?>? buildFiltresBottomSheet(BuildContext context) => ImmersionFiltresPage.show(context);
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

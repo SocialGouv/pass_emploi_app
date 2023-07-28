@@ -12,9 +12,9 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
@@ -24,8 +24,11 @@ class OffreEmploiFiltresPage extends StatefulWidget {
 
   OffreEmploiFiltresPage(this.fromAlternance);
 
-  static MaterialPageRoute<bool> materialPageRoute(bool fromAlternance) {
-    return MaterialPageRoute(builder: (_) => OffreEmploiFiltresPage(fromAlternance));
+  static Future<bool?> show(BuildContext context, bool fromAlternance) {
+    return showPassEmploiBottomSheet<bool>(
+      context: context,
+      builder: (context) => OffreEmploiFiltresPage(fromAlternance),
+    );
   }
 
   @override
@@ -51,10 +54,8 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   }
 
   Widget _scaffold(OffreEmploiFiltresViewModel viewModel) {
-    const backgroundColor = Colors.white;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: Strings.offresEmploiFiltresTitle, backgroundColor: backgroundColor),
+    return BottomSheetWrapper(
+      title: Strings.offresEmploiFiltresTitle,
       body: _Content(viewModel: viewModel),
     );
   }
@@ -96,12 +97,9 @@ class _ContentState extends State<_Content> {
           onContractValueChange: (selectedOptions) => _setContractFilterState(selectedOptions),
           onDurationValueChange: (selectedOptions) => _setContractDurationState(selectedOptions),
         ),
-        Padding(
-          padding: const EdgeInsets.all(Margins.spacing_m),
-          child: FilterButton(
-            isEnabled: _isButtonEnabled(widget.viewModel.displayState),
-            onPressed: () => _onButtonClick(widget.viewModel),
-          ),
+        FilterButton(
+          isEnabled: _isButtonEnabled(widget.viewModel.displayState),
+          onPressed: () => _onButtonClick(widget.viewModel),
         ),
       ],
     );
@@ -175,7 +173,6 @@ class _FiltersState extends State<_Filters> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: Margins.spacing_l),
           if (widget.viewModel.shouldDisplayDistanceFiltre) ...[
             DistanceSlider(
               initialDistanceValue: widget.viewModel.initialDistanceValue.toDouble(),
@@ -189,26 +186,20 @@ class _FiltersState extends State<_Filters> {
               debutantOnlyEnabled: widget.viewModel.initialDebutantOnlyFiltre ?? false,
             ),
             SizedBox(height: Margins.spacing_m),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-              child: CheckBoxGroup<ContratFiltre>(
-                title: Strings.contratSectionTitle,
-                options: widget.viewModel.contratFiltres,
-                onSelectedOptionsUpdated: (selectedOptions) {
-                  widget.onContractValueChange(selectedOptions as List<CheckboxValueViewModel<ContratFiltre>>);
-                },
-              ),
+            CheckBoxGroup<ContratFiltre>(
+              title: Strings.contratSectionTitle,
+              options: widget.viewModel.contratFiltres,
+              onSelectedOptionsUpdated: (selectedOptions) {
+                widget.onContractValueChange(selectedOptions as List<CheckboxValueViewModel<ContratFiltre>>);
+              },
             ),
             SizedBox(height: Margins.spacing_m),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-              child: CheckBoxGroup<DureeFiltre>(
-                title: Strings.dureeSectionTitle,
-                options: widget.viewModel.dureeFiltres,
-                onSelectedOptionsUpdated: (selectedOptions) {
-                  widget.onDurationValueChange(selectedOptions as List<CheckboxValueViewModel<DureeFiltre>>);
-                },
-              ),
+            CheckBoxGroup<DureeFiltre>(
+              title: Strings.dureeSectionTitle,
+              options: widget.viewModel.dureeFiltres,
+              onSelectedOptionsUpdated: (selectedOptions) {
+                widget.onDurationValueChange(selectedOptions as List<CheckboxValueViewModel<DureeFiltre>>);
+              },
             ),
           ],
           if (widget.viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
@@ -251,39 +242,36 @@ class _FiltreDebutantState extends State<_FiltreDebutant> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Semantics(
-            header: true,
-            child: Text(Strings.experienceSectionTitle, style: TextStyles.textBaseBold),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Semantics(
+          header: true,
+          child: Text(Strings.experienceSectionTitle, style: TextStyles.textBaseBold),
+        ),
+        SizedBox(height: Margins.spacing_base),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+            boxShadow: [Shadows.radius_base],
           ),
-          SizedBox(height: Margins.spacing_base),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-              boxShadow: [Shadows.radius_base],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_m),
+            child: Row(
+              children: [
+                Expanded(child: Text(Strings.experienceSectionDescription, style: TextStyles.textBaseRegular)),
+                Switch(
+                  value: _debutantOnlyEnabled,
+                  onChanged: _onDebutantOnlyValueChange,
+                  activeColor: AppColors.primary,
+                ),
+                Text(Strings.yes, style: TextStyles.textBaseRegular),
+              ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_m),
-              child: Row(
-                children: [
-                  Expanded(child: Text(Strings.experienceSectionDescription, style: TextStyles.textBaseRegular)),
-                  Switch(
-                    value: _debutantOnlyEnabled,
-                    onChanged: _onDebutantOnlyValueChange,
-                    activeColor: AppColors.primary,
-                  ),
-                  Text(Strings.yes, style: TextStyles.textBaseRegular),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }

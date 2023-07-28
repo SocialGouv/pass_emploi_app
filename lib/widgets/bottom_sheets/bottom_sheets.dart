@@ -25,20 +25,28 @@ class BottomSheetHeader extends StatelessWidget implements PreferredSizeWidget {
     return Semantics(
       header: true,
       child: Padding(
-        padding: padding ?? EdgeInsets.symmetric(vertical: Margins.spacing_base),
+        padding: padding ?? EdgeInsets.zero,
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
             Text(title, style: TextStyles.textBaseBold),
             Align(
               alignment: AlignmentDirectional.centerStart,
-              child: IconButton(
-                iconSize: Dimens.icon_size_m,
-                onPressed: () => Navigator.pop(context),
-                tooltip: Strings.close,
-                icon: Icon(
-                  AppIcons.close_rounded,
-                  color: AppColors.contentColor,
+              child: SizedBox.square(
+                dimension: Dimens.icon_size_m,
+                child: OverflowBox(
+                  // to avoid extra padding
+                  maxHeight: 40,
+                  maxWidth: 40,
+                  child: IconButton(
+                    iconSize: Dimens.icon_size_m,
+                    onPressed: () => Navigator.pop(context),
+                    tooltip: Strings.close,
+                    icon: Icon(
+                      AppIcons.close_rounded,
+                      color: AppColors.contentColor,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -53,22 +61,23 @@ class BottomSheetHeader extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class BottomSheetWrapper extends StatelessWidget {
-  const BottomSheetWrapper({super.key, required this.title, required this.body, this.heightFactor = 0.9});
+  const BottomSheetWrapper({super.key, required this.title, required this.body, this.heightFactor = 0.9, this.padding});
   final double heightFactor;
   final String title;
   final Widget body;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
+    final padding = this.padding ?? EdgeInsets.all(Margins.spacing_m);
     return FractionallySizedBox(
       heightFactor: heightFactor,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(Dimens.radius_l),
         child: Scaffold(
-          appBar: BottomSheetHeader(title: title),
+          appBar: BottomSheetHeader(title: title, padding: padding),
           body: Padding(
-            padding:
-                EdgeInsets.only(left: Margins.spacing_base, right: Margins.spacing_base, bottom: Margins.spacing_base),
+            padding: padding,
             child: body,
           ),
         ),

@@ -46,7 +46,6 @@ class _DistanceSliderState extends State<DistanceSlider> {
       _currentSliderValue != null ? _currentSliderValue! : initialDistanceValue;
 }
 
-
 class _Slider extends StatelessWidget {
   final Function(double) onValueChange;
   final double currentValue;

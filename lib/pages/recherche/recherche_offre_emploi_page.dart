@@ -56,7 +56,7 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   Widget buildAlertBottomSheet() => OffreEmploiSavedSearchBottomSheet(onlyAlternance: onlyAlternance);
 
   @override
-  Route<bool>? buildFiltresMaterialPageRoute() => OffreEmploiFiltresPage.materialPageRoute(onlyAlternance);
+  Future<bool?>? buildFiltresBottomSheet(BuildContext context) => OffreEmploiFiltresPage.show(context, onlyAlternance);
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

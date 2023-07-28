@@ -30,7 +30,7 @@ abstract class RechercheOffrePage<Result> extends StatefulWidget {
 
   Widget buildAlertBottomSheet();
 
-  Route<bool>? buildFiltresMaterialPageRoute();
+  Future<bool?>? buildFiltresBottomSheet(BuildContext context);
 
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged});
 
@@ -69,7 +69,7 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
         floatingActionButton: ActionsRecherche(
           buildViewModel: widget.buildActionsRechercheViewModel,
           buildAlertBottomSheet: widget.buildAlertBottomSheet,
-          buildFiltresMaterialPageRoute: widget.buildFiltresMaterialPageRoute,
+          buildFiltresBottomSheet: () => widget.buildFiltresBottomSheet(context),
           onFiltreApplied: _onFiltreApplied,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

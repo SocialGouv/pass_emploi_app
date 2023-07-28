@@ -54,7 +54,7 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
   Widget buildAlertBottomSheet() => SizedBox.shrink();
 
   @override
-  Route<bool>? buildFiltresMaterialPageRoute() => EvenementEmploiFiltresPage.materialPageRoute();
+  Future<bool?>? buildFiltresBottomSheet(BuildContext context) => EvenementEmploiFiltresPage.show(context);
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

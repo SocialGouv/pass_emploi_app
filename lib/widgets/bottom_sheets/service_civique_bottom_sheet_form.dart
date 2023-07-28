@@ -9,9 +9,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class ServiceCiviqueBottomSheetForm extends StatefulWidget {
@@ -38,8 +36,6 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        BottomSheetHeader(title: Strings.createSavedSearchTitle),
-        SepLine(0, 0),
         Expanded(
           child: ListView(
             shrinkWrap: true,
@@ -84,6 +80,8 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Text(Strings.savedSearchTitle, style: TextStyles.textBaseBold),
+        SizedBox(height: Margins.spacing_base),
         _textField(
           initialValue: searchViewModel.titre,
           onChanged: _updateTitle,

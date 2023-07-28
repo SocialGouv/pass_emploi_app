@@ -26,7 +26,7 @@ class ServiceCiviqueSavedSearchBottomSheet extends AbstractSavedSearchBottomShee
   Widget _buildForm(BuildContext context, ServiceCiviqueSavedSearchViewModel viewModel) {
     return BottomSheetWrapper(
       body: ServiceCiviqueBottomSheetForm(viewModel),
-      title: Strings.savedSearchTitle,
+      title: Strings.createSavedSearchTitle,
     );
   }
 
