@@ -58,55 +58,48 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
     return Form(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       key: _formKey,
-      child: FractionallySizedBox(
-        heightFactor: 0.90,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_s),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              userActionBottomSheetHeader(context, title: Strings.addAnAction),
-              _Mandatory(),
-              SizedBox(height: Margins.spacing_base),
-              SepLine(0, 0),
-              Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    ..._actionContentAndComment(viewModel),
-                    SizedBox(height: Margins.spacing_xl),
-                    _DateEcheance(
-                      dateEcheance: _dateEcheance,
-                      onDateEcheanceChange: (date) {
-                        setState(() {
-                          _dateEcheance = date;
-                        });
-                      },
-                    ),
-                    SizedBox(height: Margins.spacing_xl),
-                    _Rappel(
-                      value: _rappel,
-                      isActive: viewModel.isRappelActive(_dateEcheance),
-                      onChanged: (value) {
-                        setState(() {
-                          _rappel = value;
-                        });
-                      },
-                    ),
-                    SizedBox(height: Margins.spacing_xl),
-                    SepLine(0, 0),
-                    _defineStatus(viewModel),
-                  ],
-                ),
+      child: BottomSheetWrapper(
+        title: Strings.addAnAction,
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _Mandatory(),
+            SizedBox(height: Margins.spacing_base),
+            SepLine(0, 0),
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  ..._actionContentAndComment(viewModel),
+                  SizedBox(height: Margins.spacing_xl),
+                  _DateEcheance(
+                    dateEcheance: _dateEcheance,
+                    onDateEcheanceChange: (date) {
+                      setState(() {
+                        _dateEcheance = date;
+                      });
+                    },
+                  ),
+                  SizedBox(height: Margins.spacing_xl),
+                  _Rappel(
+                    value: _rappel,
+                    isActive: viewModel.isRappelActive(_dateEcheance),
+                    onChanged: (value) {
+                      setState(() {
+                        _rappel = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: Margins.spacing_xl),
+                  SepLine(0, 0),
+                  _defineStatus(viewModel),
+                ],
               ),
-              SepLine(0, 0),
-              Padding(
-                padding: bottomSheetContentPadding(),
-                child: _createButton(viewModel),
-              ),
-            ],
-          ),
+            ),
+            SepLine(0, 0),
+            _createButton(viewModel),
+          ],
         ),
       ),
     );

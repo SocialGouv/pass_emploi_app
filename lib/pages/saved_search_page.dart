@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
-import 'package:pass_emploi_app/pages/offre_filters_page.dart';
+import 'package:pass_emploi_app/pages/offre_filters_bottom_sheet.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
@@ -105,7 +105,7 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
       ),
       floatingActionButton: FiltreButton.primary(
         onPressed: () async {
-          Navigator.push(context, OffreFiltersPage.materialPageRoute(initialFilter: _selectedFilter)).then((result) {
+          OffreFiltersBottomSheet.show(context, _selectedFilter).then((result) {
             if (result != null) _filterSelected(result);
           });
         },

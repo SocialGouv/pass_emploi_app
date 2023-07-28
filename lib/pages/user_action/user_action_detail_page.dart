@@ -213,35 +213,39 @@ class _Separator extends StatelessWidget {
 class _SuccessBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      userActionBottomSheetHeader(context, title: ""),
-      SvgPicture.asset(Drawables.congratulationsIllustration),
-      Padding(
-        padding: const EdgeInsets.all(24),
-        child: Text(
-          Strings.congratulationsActionUpdated,
-          style: TextStyles.textBaseBold,
-          textAlign: TextAlign.center,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        BottomSheetHeader(title: ""),
+        SvgPicture.asset(Drawables.congratulationsIllustration),
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(
+            Strings.congratulationsActionUpdated,
+            style: TextStyles.textBaseBold,
+            textAlign: TextAlign.center,
+          ),
         ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Text(
-          Strings.conseillerNotifiedActionUpdated,
-          style: TextStyles.textBaseRegular,
-          textAlign: TextAlign.center,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Text(
+            Strings.conseillerNotifiedActionUpdated,
+            style: TextStyles.textBaseRegular,
+            textAlign: TextAlign.center,
+          ),
         ),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
-        child: PrimaryActionButton(
-          label: Strings.understood,
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
+          child: PrimaryActionButton(
+            label: Strings.understood,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }
 
