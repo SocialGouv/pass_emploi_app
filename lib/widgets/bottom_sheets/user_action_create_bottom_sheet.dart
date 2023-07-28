@@ -61,7 +61,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
       child: FractionallySizedBox(
         heightFactor: 0.90,
         child: Padding(
-          padding: bottomSheetContentPadding(),
+          padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_s),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -238,10 +238,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 class _Mandatory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Text(Strings.mandatoryFields, style: TextStyles.textSRegular()),
-    );
+    return Text(Strings.mandatoryFields, style: TextStyles.textSRegular());
   }
 }
 
