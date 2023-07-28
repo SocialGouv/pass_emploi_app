@@ -11,5 +11,7 @@
   "lieu": "Paris",
   "animateur": "SIMILO SIMILO",
   "commentaire": "Lorem ipsus",
-  "inscription": "INSCRIT"
+  "inscription": {
+    "statut": "INSCRIT"
+  }
 }
