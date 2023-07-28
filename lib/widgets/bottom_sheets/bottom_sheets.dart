@@ -19,16 +19,16 @@ Widget userActionBottomSheetHeader(BuildContext context, {required String title}
   return Semantics(
     header: true,
     child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 22),
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_base),
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
           Text(title, style: TextStyles.textBaseBold),
-          Positioned(
-            right: 8,
+          Align(
+            alignment: AlignmentDirectional.centerStart,
             child: IconButton(
-              padding: const EdgeInsets.all(0),
               iconSize: Dimens.icon_size_m,
+              padding: EdgeInsets.zero,
               onPressed: () => Navigator.pop(context),
               tooltip: Strings.close,
               icon: Icon(
