@@ -157,6 +157,19 @@
       "invitation": false
     }
   ],
+  "sessionsMilo": [
+    {
+      "id": "id-cv-2023",
+      "nomSession": "Session CV",
+      "nomOffre": "Mon premier CV",
+      "dateHeureDebut": "2023-01-01T00:00:00.000Z",
+      "type": {
+        "code": "WORKSHOP",
+        "label": "Atelier"
+      },
+      "inscription": "INSCRIT"
+    }
+  ],
   "metadata": {
     "actionsEnRetard": 2,
     "dateDeDebut": "2022-05-02T11:00:00.000Z"
