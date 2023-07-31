@@ -13,13 +13,14 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
-class ImmersionContactPage extends StatelessWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(
-      builder: (context) => ImmersionContactPage(),
+class ImmersionContactBottomSheet extends StatelessWidget {
+  static Future<void> show(BuildContext context) {
+    return showPassEmploiBottomSheet(
+      context: context,
+      builder: (context) => ImmersionContactBottomSheet(),
     );
   }
 
@@ -44,13 +45,10 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = Colors.white;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: Strings.offreDetails, backgroundColor: backgroundColor),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+    return BottomSheetWrapper(
+      title: Strings.offreDetails,
+      body: Scaffold(
+        body: SingleChildScrollView(
           child: Column(
             children: [
               _InstructionsText(),
@@ -58,9 +56,9 @@ class _Content extends StatelessWidget {
             ],
           ),
         ),
+        floatingActionButton: _ContactButton(callToAction),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      floatingActionButton: _ContactButton(callToAction),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
