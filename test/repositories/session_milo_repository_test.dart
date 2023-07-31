@@ -71,5 +71,5 @@ void main() {
         });
       });
     });
-  }, skip: true); //TODO: désactivé pour no-reg et MEP : on ne veut pas les sessions
+  });
 }

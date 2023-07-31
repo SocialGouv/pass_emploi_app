@@ -87,6 +87,7 @@ Matcher _shouldSucceedForMissionLocaleUser() {
     (state) {
       expect(state.agenda.actions.length, 1);
       expect(state.agenda.rendezvous.length, 1);
+      expect(state.agenda.sessionsMilo.length, 1);
     },
   );
 }
@@ -110,6 +111,7 @@ class AgendaRepositorySuccessStub extends AgendaRepository {
       actions: [userActionStub()],
       demarches: [],
       rendezvous: [rendezvousStub()],
+      sessionsMilo: [mockSessionMiloAtelierCv()],
       delayedActions: 0,
       dateDeDebut: DateTime(2042),
     );
@@ -121,6 +123,7 @@ class AgendaRepositorySuccessStub extends AgendaRepository {
       actions: [],
       demarches: [demarcheStub()],
       rendezvous: [rendezvousStub()],
+      sessionsMilo: [],
       delayedActions: 0,
       dateDeDebut: DateTime(2042),
     );

@@ -253,7 +253,14 @@ extension AppStateDSL on AppState {
   }
 
   AppState emptyAgenda() {
-    final agenda = Agenda(actions: [], demarches: [], rendezvous: [], delayedActions: 0, dateDeDebut: DateTime(2042));
+    final agenda = Agenda(
+      actions: [],
+      demarches: [],
+      rendezvous: [],
+      sessionsMilo: [],
+      delayedActions: 0,
+      dateDeDebut: DateTime(2042),
+    );
     return copyWith(agendaState: AgendaSuccessState(agenda));
   }
 
@@ -261,6 +268,7 @@ extension AppStateDSL on AppState {
     List<UserAction>? actions,
     List<Demarche>? demarches,
     List<Rendezvous>? rendezvous,
+    List<SessionMilo>? sessionsMilo,
     int delayedActions = 0,
     DateTime? dateDeDebut,
     DateTime? dateDerniereMiseAjour,
@@ -270,6 +278,7 @@ extension AppStateDSL on AppState {
         actions: actions ?? [],
         demarches: demarches ?? [],
         rendezvous: rendezvous ?? [],
+        sessionsMilo: sessionsMilo ?? [],
         delayedActions: delayedActions,
         dateDeDebut: dateDeDebut ?? DateTime(2042),
         dateDerniereMiseAJour: dateDerniereMiseAjour,

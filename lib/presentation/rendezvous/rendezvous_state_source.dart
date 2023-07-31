@@ -8,6 +8,7 @@ enum RendezvousStateSource {
   eventListSessionsMilo,
   sessionMiloDetails,
   accueilProchaineSession,
+  agendaSessionMilo,
 }
 
 extension RendezvousStateSourceExt on RendezvousStateSource {

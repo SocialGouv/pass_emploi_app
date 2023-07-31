@@ -38,6 +38,7 @@ void main() {
                   actions: [userActionStub()],
                   demarches: [],
                   rendezvous: [rendezvousStub()],
+                  sessionsMilo: [mockSessionMiloAtelierCv()],
                   delayedActions: 3,
                   dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2022-08-27T00:00:00.000Z'),
                 ));
@@ -81,6 +82,7 @@ void main() {
                 actions: [],
                 demarches: [demarcheStub()],
                 rendezvous: [rendezvousStub()],
+                sessionsMilo: [],
                 delayedActions: 3,
                 dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2022-08-27T00:00:00.000Z'),
                 dateDerniereMiseAJour: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
