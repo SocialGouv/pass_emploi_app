@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -18,15 +19,15 @@ import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class CreateDemarcheStep3Page extends StatefulWidget {
   final String idDemarche;
+  final DemarcheSource source;
 
-  CreateDemarcheStep3Page._(this.idDemarche);
+  CreateDemarcheStep3Page._(this.idDemarche, this.source);
 
-  static MaterialPageRoute<String?> materialPageRoute(String idDemarche) {
-    return MaterialPageRoute(builder: (context) => CreateDemarcheStep3Page._(idDemarche));
+  static MaterialPageRoute<String?> materialPageRoute(String idDemarche, DemarcheSource source) {
+    return MaterialPageRoute(builder: (context) => CreateDemarcheStep3Page._(idDemarche, source));
   }
 
   @override
@@ -43,7 +44,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
       tracking: AnalyticsScreenNames.searchDemarcheStep3,
       child: StoreConnector<AppState, CreateDemarcheStep3ViewModel>(
         builder: _buildBody,
-        converter: (store) => CreateDemarcheStep3ViewModel.create(store, widget.idDemarche),
+        converter: (store) => CreateDemarcheStep3ViewModel.create(store, widget.idDemarche, widget.source),
         onDidChange: _onDidChange,
         onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
         distinct: true,
@@ -60,12 +61,6 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              StatutTag(
-                backgroundColor: AppColors.accent2Lighten,
-                textColor: AppColors.accent2,
-                title: viewModel.pourquoi,
-              ),
-              SizedBox(height: Margins.spacing_s),
               Text(viewModel.quoi, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
               if (viewModel.isCommentMandatory) _Mandatory(),
               if (viewModel.comments.isNotEmpty) _Section(Strings.comment),
@@ -123,7 +118,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
       }
       return RadioListTile<String>(
           controlAffinity: ListTileControlAffinity.trailing,
-          title: Text(comment.label),
+          title: Text(comment.label, style: TextStyles.textBaseMedium),
           contentPadding: const EdgeInsets.all(0),
           value: comment.code,
           groupValue: _codeComment,

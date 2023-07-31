@@ -68,6 +68,9 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_reducer.dart';
+import 'package:pass_emploi_app/features/top_demarche/top_demarche_reducer.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -167,6 +170,9 @@ AppState reducer(AppState current, dynamic action) {
     accueilState: accueilReducer(current.accueilState, action),
     cvState: cvReducer(current.cvState, action),
     evenementEmploiDetailsState: evenementEmploiDetailsReducer(current.evenementEmploiDetailsState, action),
+    thematiquesDemarcheState: thematiquesDemarcheReducer(current.thematiquesDemarcheState, action),
+    topDemarcheState: topDemarcheReducer(current.topDemarcheState, action),
+    sessionMiloDetailsState: sessionMiloDetailsReducer(current.sessionMiloDetailsState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

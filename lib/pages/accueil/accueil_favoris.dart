@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
+import 'package:pass_emploi_app/widgets/textes.dart';
 
 class AccueilFavoris extends StatelessWidget {
   final AccueilFavorisItem item;
@@ -30,7 +31,7 @@ class AccueilFavoris extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilMesFavorisSection, style: TextStyles.accueilSection),
+        LargeSectionTitle(Strings.accueilMesFavorisSection),
         SizedBox(height: Margins.spacing_base),
         if (hasContent) _AvecFavoris(item),
         if (!hasContent) _SansFavori(),

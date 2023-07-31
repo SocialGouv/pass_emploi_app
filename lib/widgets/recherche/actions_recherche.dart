@@ -53,8 +53,6 @@ class ActionsRecherche extends StatelessWidget {
               label: Strings.createAlert,
               icon: AppIcons.notifications_rounded,
               rippleColor: AppColors.primaryDarken,
-              heightPadding: 6,
-              widthPadding: 6,
               iconSize: 16,
               onPressed: () => _onAlertButtonPressed(context),
             ),

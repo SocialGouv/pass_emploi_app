@@ -31,8 +31,11 @@ import 'package:pass_emploi_app/features/recherche/service_civique/service_civiq
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
+import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
+import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
@@ -56,6 +59,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -374,8 +378,11 @@ extension AppStateDSL on AppState {
     return copyWith(traiterSuggestionRechercheState: TraiterSuggestionRechercheFailureState());
   }
 
-  AppState succeedEventList(List<Rendezvous> events) {
-    return copyWith(eventListState: EventListSuccessState(events));
+  AppState succeedEventList({
+    List<Rendezvous> animationsCollectives = const [],
+    List<SessionMilo> sessionsMilo = const [],
+  }) {
+    return copyWith(eventListState: EventListSuccessState(animationsCollectives, sessionsMilo));
   }
 
   AppState initialRechercheEmploiState() {
@@ -720,5 +727,33 @@ extension AppStateDSL on AppState {
         },
       ),
     );
+  }
+
+  AppState withThematiqueDemarcheLoadingState() {
+    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheLoadingState());
+  }
+
+  AppState withThematiqueDemarcheFailureState() {
+    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheFailureState());
+  }
+
+  AppState withThematiqueDemarcheSuccessState({List<DemarcheDuReferentiel>? demarches}) {
+    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheSuccessState([dummyThematiqueDeDemarche(demarches)]));
+  }
+
+  AppState withTopDemarcheSuccessState({required List<DemarcheDuReferentiel> demarches}) {
+    return copyWith(topDemarcheState: TopDemarcheSuccessState(demarches));
+  }
+
+  AppState withSuccessSessionMiloDetails({DateTime? dateDeDebut, DateTime? dateDeFin}) {
+    return copyWith(
+        sessionMiloDetailsState: SessionMiloDetailsSuccessState(mockSessionMiloDetails(
+      dateDeDebut: dateDeDebut,
+      dateDeFin: dateDeFin,
+    )));
+  }
+
+  AppState withLoadingSessionMiloDetails() {
+    return copyWith(sessionMiloDetailsState: SessionMiloDetailsLoadingState());
   }
 }

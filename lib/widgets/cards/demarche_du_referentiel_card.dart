@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_du_referentiel_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -10,15 +11,16 @@ import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class DemarcheDuReferentielCard extends StatelessWidget {
   final String idDemarche;
+  final DemarcheSource source;
   final Function() onTap;
 
-  const DemarcheDuReferentielCard({required this.idDemarche, required this.onTap});
+  const DemarcheDuReferentielCard({required this.idDemarche, required this.onTap, required this.source});
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, DemarcheDuReferentielCardViewModel>(
       builder: _buildBody,
-      converter: (store) => DemarcheDuReferentielCardViewModel.create(store, idDemarche),
+      converter: (store) => DemarcheDuReferentielCardViewModel.create(store, idDemarche, source),
       distinct: true,
     );
   }

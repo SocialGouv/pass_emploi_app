@@ -29,6 +29,8 @@ class AnalyticsScreenNames {
   static const searchDemarcheStep3 = "/demarches/demarche-renferentiel-create";
   static const searchDemarcheStep3Success = "/demarches/createSuccess";
   static const createDemarchePersonnalisee = "actions/demarche-personnalisee/create";
+  static const thematiquesDemarche = "demarches/thematiques";
+  static const topDemarches = "demarches/top-demarches";
 
   static const rendezvousListPast = "rdv/list-past";
   static const rendezvousListFuture = "rdv/list-future";
@@ -41,6 +43,8 @@ class AnalyticsScreenNames {
   static const rendezvousVisite = "rdv/visite";
   static const rendezvousPrestation = "rdv/prestation";
   static const rendezvousAutre = "rdv/autre";
+  static const sessionWorkshop = "session_milo/sessionWorkshop";
+  static const sessionCollectiveInformation = "session_milo/sessionCollectiveInformation";
 
   static const rechercheV2Home = "recherche/home";
   static const rechercheSuggestionsListe = "recherche/suggested_list";

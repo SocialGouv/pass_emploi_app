@@ -5,12 +5,12 @@ import 'package:pass_emploi_app/network/dio_ext.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-class EventListRepository {
+class AnimationsCollectivesRepository {
   final Dio _httpClient;
 
   final Crashlytics? _crashlytics;
 
-  EventListRepository(this._httpClient, [this._crashlytics]);
+  AnimationsCollectivesRepository(this._httpClient, [this._crashlytics]);
 
   Future<List<Rendezvous>?> get(String userId, DateTime maintenant) async {
     final date = Uri.encodeComponent(maintenant.toIso8601WithOffsetDateTime());

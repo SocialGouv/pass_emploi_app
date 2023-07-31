@@ -74,13 +74,13 @@ void main() {
   });
 
   group('when having rendez-vous futurs', () {
-    test("should not navigate to past when logged in Pole Emploi", () {
+    test("should navigate to past when logged in Pole emploi", () {
       // Given
       final store = givenState().loggedInPoleEmploiUser().rendezvous([]).store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
-      expect(viewModel.withPreviousPageButton, false);
+      expect(viewModel.withPreviousPageButton, true);
     });
 
     test("should navigate to past when logged in MiLo", () {

@@ -677,14 +677,32 @@ void main() {
         expect(viewModel.withModalityPart, isFalse);
       });
 
-      test('should not display absent part if vm created from event list and is not inscrit', () {
+      test('display session leader when source is session milo details', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: false)]).store();
+        final store = givenState().loggedInUser().withSuccessSessionMiloDetails().store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.sessionMiloDetails,
+          rdvId: '1',
+          platform: Platform.IOS,
+        );
+
+        // Then
+        expect(viewModel.withAnimateur, "SIMILO SIMILO");
+      });
+
+      test('should not display absent part if vm created from event list and is not inscrit', () {
+        // Given
+        final store = givenState()
+            .loggedInUser()
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: false)]).store();
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(
+          store: store,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -695,12 +713,15 @@ void main() {
 
       test('should display absent part if vm created from event list and is inscrit', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: true)]).store();
+        final store = givenState()
+            .loggedInUser() //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: true)]) //
+            .store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -711,12 +732,15 @@ void main() {
 
       test('should be inscrit when rendezvous is marked as inscrit', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: true)]).store();
+        final store = givenState()
+            .loggedInUser() //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: true)]) //
+            .store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -727,12 +751,15 @@ void main() {
 
       test('should be shareable if vm created from event list and is not inscrit', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: false)]).store();
+        final store = givenState()
+            .loggedInUser() //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: false)]) //
+            .store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -743,12 +770,15 @@ void main() {
 
       test('should not be shareable if vm created from event list and is inscrit', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: true)]).store();
+        final store = givenState()
+            .loggedInUser() //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: true)]) //
+            .store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -759,12 +789,15 @@ void main() {
 
       test('should display "événement" page title if vm created from event list and is not inscrit', () {
         // Given
-        final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: false)]).store();
+        final store = givenState()
+            .loggedInUser() //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: false)]) //
+            .store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.eventList,
+          source: RendezvousStateSource.eventListAnimationsCollectives,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -868,6 +901,77 @@ void main() {
         expect(viewModel.id, mockRendezvousMiloCV().id);
       });
     });
+
+    group('create when source is from session milo details', () {
+      test('should display session milo rendez vous', () {
+        // Given
+        final store = givenState()
+            .loggedInUser() //
+            .withSuccessSessionMiloDetails(
+              dateDeDebut: DateTime(2022, 3, 1),
+              dateDeFin: DateTime(2022, 3, 1),
+            )
+            .store();
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(
+          store: store,
+          source: RendezvousStateSource.sessionMiloDetails,
+          rdvId: '1',
+          platform: Platform.IOS,
+        );
+
+        // Then
+        expect(
+          viewModel,
+          RendezvousDetailsViewModel(
+              displayState: DisplayState.CONTENT,
+              navbarTitle: "Mon rendez-vous",
+              id: "1",
+              tag: "Atelier",
+              greenTag: false,
+              date: '01 mars 2022',
+              hourAndDuration: '00:00 (0min)',
+              conseillerPresenceLabel: 'Votre conseiller ne sera pas présent',
+              conseillerPresenceColor: AppColors.warning,
+              isInscrit: true,
+              isAnnule: false,
+              withConseillerPresencePart: false,
+              withDescriptionPart: true,
+              withModalityPart: true,
+              withIfAbsentPart: true,
+              isShareable: false,
+              visioButtonState: VisioButtonState.HIDDEN,
+              onRetry: () => {},
+              commentTitle: 'Commentaire',
+              title: 'ANIMATION COLLECTIVE POUR TEST - SESSION TEST',
+              trackingPageName: "rdv/atelier",
+              comment: 'Lorem ipsus',
+              address: 'Paris',
+              addressRedirectUri: Uri.parse('https://maps.apple.com/maps?q=Paris'),
+              description: "--"),
+        );
+      });
+    });
+  });
+
+  test('when session state is loading', () {
+    // Given
+    final store = givenState()
+        .loggedInUser() //
+        .withLoadingSessionMiloDetails()
+        .store();
+
+    // When
+    final viewModel = RendezvousDetailsViewModel.create(
+      store: store,
+      source: RendezvousStateSource.sessionMiloDetails,
+      rdvId: '1',
+      platform: Platform.IOS,
+    );
+
+    // Then
+    expect(viewModel.displayState, DisplayState.LOADING);
   });
 
   group('without RendezvousStateSource', () {

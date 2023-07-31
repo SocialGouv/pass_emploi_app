@@ -23,6 +23,7 @@ class Rendezvous extends Equatable {
   final Conseiller? conseiller;
   final Conseiller? createur;
   final bool? estInscrit;
+  final String? animateur;
 
   Rendezvous({
     required this.id,
@@ -46,6 +47,7 @@ class Rendezvous extends Equatable {
     this.conseiller,
     this.createur,
     this.estInscrit,
+    this.animateur,
   });
 
   RendezvousModalityType modalityType() {
@@ -77,6 +79,7 @@ class Rendezvous extends Equatable {
       conseiller,
       createur,
       estInscrit,
+      animateur,
     ];
   }
 }
@@ -99,7 +102,7 @@ enum RendezvousTypeCode {
   INFORMATION_COLLECTIVE,
   VISITE,
   PRESTATION,
-  AUTRE,
+  AUTRE
 }
 
 enum RendezvousModalityType { TELEPHONE, NONE }

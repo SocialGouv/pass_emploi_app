@@ -1,0 +1,839 @@
+[
+  {
+    "code": "P03",
+    "libelle": "Mes candidatures",
+    "demarches": [
+      {
+        "codePourquoi": "P03",
+        "libellePourquoi": "Mes candidatures",
+        "codeQuoi": "Q11",
+        "libelleQuoi": "Préparation de ses candidatures (CV, lettre de motivation, book)",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C11.01",
+            "label": "En participant à un atelier, une prestation, une réunion d'information"
+          },
+          {
+            "code": "C11.04",
+            "label": "Avec l'aide d'une personne ou d'une structure"
+          },
+          {
+            "code": "C11.06",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C11.02",
+            "label": "En créant ou en mettant à jour mon CV et ou ma lettre de motivation"
+          },
+          {
+            "code": "C11.03",
+            "label": "En publiant mon profil/mon CV sur internet"
+          },
+          {
+            "code": "C11.05",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C11.07",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P03",
+        "libellePourquoi": "Mes candidatures",
+        "codeQuoi": "Q12",
+        "libelleQuoi": "Recherche d'offres d'emploi ou d'entreprises",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C12.05",
+            "label": "En participant à un atelier, une prestation, une réunion d'information"
+          },
+          {
+            "code": "C12.01",
+            "label": "Avec l'aide d'une personne ou d'une structure"
+          },
+          {
+            "code": "C12.02",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C12.03",
+            "label": "Avec une agence d'intérim"
+          },
+          {
+            "code": "C12.04",
+            "label": "Avec un cabinet de recrutement"
+          },
+          {
+            "code": "C12.06",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C12.07",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P03",
+        "libellePourquoi": "Mes candidatures",
+        "codeQuoi": "Q13",
+        "libelleQuoi": "Participation à un salon ou un forum pour rechercher des offres",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C13.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C13.02",
+            "label": "En présentiel"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P03",
+        "libellePourquoi": "Mes candidatures",
+        "codeQuoi": "Q14",
+        "libelleQuoi": "Réponse à des offres d'emploi",
+        "commentObligatoire": true,
+        "comment": []
+      },
+      {
+        "codePourquoi": "P03",
+        "libellePourquoi": "Mes candidatures",
+        "codeQuoi": "Q15",
+        "libelleQuoi": "Candidatures spontanées",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C15.05",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C15.01",
+            "label": "En utilisant mon réseau personnel "
+          },
+          {
+            "code": "C15.02",
+            "label": "En contactant un employeur "
+          },
+          {
+            "code": "C15.03",
+            "label": "En déposant une annonce pour trouver un employeur "
+          },
+          {
+            "code": "C15.04",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C15.06",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P03",
+        "libellePourquoi": "Mes candidatures",
+        "codeQuoi": "Q16",
+        "libelleQuoi": "Réalisation du suivi de ses candidatures et relance des recruteurs",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C16.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C16.02",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C16.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P03",
+        "libellePourquoi": "Mes candidatures",
+        "codeQuoi": "Q42",
+        "libelleQuoi": "Recherche de missions de service civique",
+        "commentObligatoire": true,
+        "comment": []
+      }
+    ]
+  },
+  {
+    "code": "P04",
+    "libelle": "Mes entretiens d'embauche",
+    "demarches": [
+      {
+        "codePourquoi": "P04",
+        "libellePourquoi": "Mes entretiens d'embauche",
+        "codeQuoi": "Q17",
+        "libelleQuoi": "Préparation des entretiens d'embauche",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C17.01",
+            "label": "En participant à un atelier, une prestation, une réunion d'information"
+          },
+          {
+            "code": "C17.02",
+            "label": "Avec l'aide d'une personne ou d'une structure"
+          },
+          {
+            "code": "C17.03",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C17.04",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C17.05",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P04",
+        "libellePourquoi": "Mes entretiens d'embauche",
+        "codeQuoi": "Q18",
+        "libelleQuoi": "Réalisation d'entretiens d'embauche",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C18.05",
+            "label": "En participant à un Job dating avec Pôle emploi"
+          },
+          {
+            "code": "C18.02",
+            "label": "En participant à un Job dating hors Pôle emploi"
+          },
+          {
+            "code": "C18.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C18.03",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C18.04",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P04",
+        "libellePourquoi": "Mes entretiens d'embauche",
+        "codeQuoi": "Q19",
+        "libelleQuoi": "Passation de tests de recrutement (concours, casting…)",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C19.02",
+            "label": "Méthode de recrutement par simulation"
+          },
+          {
+            "code": "C19.01",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C19.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P04",
+        "libellePourquoi": "Mes entretiens d'embauche",
+        "codeQuoi": "Q20",
+        "libelleQuoi": "Relance des recruteurs suite à ses entretiens",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C20.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C20.02",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C20.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P04",
+        "libellePourquoi": "Mes entretiens d'embauche",
+        "codeQuoi": "Q21",
+        "libelleQuoi": "Réalisation d'une mise en situation professionnelle dans une entreprise",
+        "commentObligatoire": true,
+        "comment": []
+      }
+    ]
+  },
+  {
+    "code": "P02",
+    "libelle": "Ma formation professionnelle",
+    "demarches": [
+      {
+        "codePourquoi": "P02",
+        "libellePourquoi": "Ma formation professionnelle",
+        "codeQuoi": "Q06",
+        "libelleQuoi": "Information sur un projet de formation ou de Validation des acquis de l'expérience",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C06.01",
+            "label": "En participant à un atelier, une prestation, une réunion d'information"
+          },
+          {
+            "code": "C06.02",
+            "label": "Avec l'aide d'une personne ou d'une structure"
+          },
+          {
+            "code": "C06.03",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C06.04",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C06.05",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P02",
+        "libellePourquoi": "Ma formation professionnelle",
+        "codeQuoi": "Q37",
+        "libelleQuoi": "Initiation à l'informatique ou à Internet",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C37.01",
+            "label": "En participant à un atelier, une prestation, une réunion d'information"
+          },
+          {
+            "code": "C37.02",
+            "label": "Avec l'aide d'une personne ou d'une structure"
+          },
+          {
+            "code": "C37.03",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C37.04",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C37.05",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P02",
+        "libellePourquoi": "Ma formation professionnelle",
+        "codeQuoi": "Q07",
+        "libelleQuoi": "Montage d'un dossier d’inscription à une formation",
+        "commentObligatoire": true,
+        "comment": []
+      },
+      {
+        "codePourquoi": "P02",
+        "libellePourquoi": "Ma formation professionnelle",
+        "codeQuoi": "Q08",
+        "libelleQuoi": "Participation à une formation",
+        "commentObligatoire": true,
+        "comment": []
+      },
+      {
+        "codePourquoi": "P02",
+        "libellePourquoi": "Ma formation professionnelle",
+        "codeQuoi": "Q41",
+        "libelleQuoi": "Participation à un dispositif d'insertion",
+        "commentObligatoire": true,
+        "comment": []
+      },
+      {
+        "codePourquoi": "P02",
+        "libellePourquoi": "Ma formation professionnelle",
+        "codeQuoi": "Q09",
+        "libelleQuoi": "Participation à un salon ou un forum formation",
+        "commentObligatoire": true,
+        "comment": []
+      },
+      {
+        "codePourquoi": "P02",
+        "libellePourquoi": "Ma formation professionnelle",
+        "codeQuoi": "Q10",
+        "libelleQuoi": "Réalisation d'une démarche de VAE",
+        "commentObligatoire": true,
+        "comment": []
+      },
+      {
+        "codePourquoi": "P02",
+        "libellePourquoi": "Ma formation professionnelle",
+        "codeQuoi": "Q40",
+        "libelleQuoi": "Evaluation des compétences numériques",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C40.01",
+            "label": "En réalisant un Pix emploi"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "code": "P01",
+    "libelle": "Mon (nouveau) métier",
+    "demarches": [
+      {
+        "codePourquoi": "P01",
+        "libellePourquoi": "Mon (nouveau) métier",
+        "codeQuoi": "Q01",
+        "libelleQuoi": "Identification de ses points forts et de ses compétences",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C01.01",
+            "label": "En participant à un atelier, une prestation, une réunion d'information"
+          },
+          {
+            "code": "C01.02",
+            "label": "Avec l'aide d'une personne ou d'une structure"
+          },
+          {
+            "code": "C01.04",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C01.03",
+            "label": "Avec un bilan de compétences"
+          },
+          {
+            "code": "C01.05",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C01.06",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P01",
+        "libellePourquoi": "Mon (nouveau) métier",
+        "codeQuoi": "Q02",
+        "libelleQuoi": "Information sur un métier ou un secteur d'activité",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C02.01",
+            "label": "En participant à un atelier, une prestation, une réunion d'information"
+          },
+          {
+            "code": "C02.02",
+            "label": "Avec l'aide d'une personne ou d'une structure"
+          },
+          {
+            "code": "C02.03",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C02.04",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C02.05",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P01",
+        "libellePourquoi": "Mon (nouveau) métier",
+        "codeQuoi": "Q03",
+        "libelleQuoi": "Observation en entreprise",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C03.02",
+            "label": "Période de mise en situation en milieu professionnel"
+          },
+          {
+            "code": "C03.01",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C03.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P01",
+        "libellePourquoi": "Mon (nouveau) métier",
+        "codeQuoi": "Q04",
+        "libelleQuoi": "Enquête métier afin de mieux connaître un métier",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C04.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C04.02",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C04.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P01",
+        "libellePourquoi": "Mon (nouveau) métier",
+        "codeQuoi": "Q05",
+        "libelleQuoi": "Participation à un salon ou un forum pour s'informer sur un métier",
+        "commentObligatoire": true,
+        "comment": []
+      },
+      {
+        "codePourquoi": "P01",
+        "libellePourquoi": "Mon (nouveau) métier",
+        "codeQuoi": "Q38",
+        "libelleQuoi": "Action issue de l’application CEJ",
+        "commentObligatoire": true,
+        "comment": []
+      }
+    ]
+  },
+  {
+    "code": "P05",
+    "libelle": "Ma création ou reprise d'entreprise",
+    "demarches": [
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q22",
+        "libelleQuoi": "Recherches pour créer ou reprendre une entreprise",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C22.01",
+            "label": "En participant à un atelier, une prestation, une réunion d'information"
+          },
+          {
+            "code": "C22.02",
+            "label": "Avec l'aide d'une personne ou d'une structure"
+          },
+          {
+            "code": "C22.03",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C22.04",
+            "label": "Avec la Chambre de Commerce et d'Industrie ou la Chambre de Métiers et de l'Artisanat"
+          },
+          {
+            "code": "C22.05",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C22.06",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q23",
+        "libelleQuoi": "Réalisation d'une étude de marché auprès de prospects/clients /fournisseurs",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C23.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C23.02",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C23.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q24",
+        "libelleQuoi": "Participation à un salon ou forum pour s'informer sur la création entreprise",
+        "commentObligatoire": true,
+        "comment": []
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q25",
+        "libelleQuoi": "Réalisation d'un business plan afin de préparer la création de son entreprise",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C25.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C25.02",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C25.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q26",
+        "libelleQuoi": "Prise de RDV avec des organismes financiers",
+        "commentObligatoire": true,
+        "comment": []
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q27",
+        "libelleQuoi": "Réalisation de démarches juridiques de création d'entreprise",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C27.03",
+            "label": "Sur Internet"
+          },
+          {
+            "code": "C27.01",
+            "label": "Avec le Centre de Formalité des Entreprises"
+          },
+          {
+            "code": "C27.02",
+            "label": "Avec la Chambre de Commerce et d'Industrie ou la Chambre de Métiers et de l'Artisanat"
+          },
+          {
+            "code": "C27.04",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C27.05",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q28",
+        "libelleQuoi": "Réalisation d'actions de communication pour faire connaitre son entreprise",
+        "commentObligatoire": true,
+        "comment": []
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q29",
+        "libelleQuoi": "Prospection pour développer sa clientèle",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C29.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C29.02",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C29.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q30",
+        "libelleQuoi": "Développement de nouveaux partenariats",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C30.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C30.02",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C30.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q31",
+        "libelleQuoi": "Mise en œuvre d'actions de fidélisation de ses  clients ou utilisateurs",
+        "commentObligatoire": true,
+        "comment": []
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q32",
+        "libelleQuoi": "Organisation de son activité de dirigeant et de gestion de son entreprise",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C32.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C32.02",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C32.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q33",
+        "libelleQuoi": "Diversification de ses activités en proposant de nouveaux services ou produits",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C33.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C33.02",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C33.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q34",
+        "libelleQuoi": "Développement de son entreprise en procédant à des recrutements",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C34.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C34.02",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C34.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      },
+      {
+        "codePourquoi": "P05",
+        "libellePourquoi": "Ma création ou reprise d'entreprise",
+        "codeQuoi": "Q35",
+        "libelleQuoi": "Réalisation d'autres actions pour développer son entreprise",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C35.04",
+            "label": "En participant à un atelier, une prestation, une réunion d'information"
+          },
+          {
+            "code": "C35.01",
+            "label": "Sur internet"
+          },
+          {
+            "code": "C35.02",
+            "label": "Par un autre moyen"
+          },
+          {
+            "code": "C35.03",
+            "label": "Moyen à définir"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "code": "P06",
+    "libelle": "Mes entretiens avec un conseiller",
+    "demarches": [
+      {
+        "codePourquoi": "P06",
+        "libellePourquoi": "Mes entretiens avec un conseiller",
+        "codeQuoi": "Q36",
+        "libelleQuoi": "Vous avez eu un",
+        "commentObligatoire": true,
+        "comment": []
+      }
+    ]
+  },
+  {
+    "code": "P07",
+    "libelle": "Mes contraintes personnelles",
+    "demarches": [
+      {
+        "codePourquoi": "P07",
+        "libellePourquoi": "Mes contraintes personnelles",
+        "codeQuoi": "Q39",
+        "libelleQuoi": "Résoudre ses contraintes personnelles",
+        "commentObligatoire": true,
+        "comment": [
+          {
+            "code": "C39.01",
+            "label": "En participant à un atelier, une prestation, une réunion d'information"
+          },
+          {
+            "code": "C39.02",
+            "label": "Avec l’aide d’une personne ou d’une structure"
+          },
+          {
+            "code": "C39.03",
+            "label": "Par un autre moyen"
+          }
+        ]
+      }
+    ]
+  }
+]

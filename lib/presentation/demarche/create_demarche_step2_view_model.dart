@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
@@ -10,10 +10,8 @@ class CreateDemarcheStep2ViewModel extends Equatable {
 
   CreateDemarcheStep2ViewModel(this.items);
 
-  factory CreateDemarcheStep2ViewModel.create(Store<AppState> store) {
-    final state = store.state.searchDemarcheState;
-    final List<DemarcheDuReferentiel> demarches =
-        state is SearchDemarcheSuccessState ? state.demarchesDuReferentiel : [];
+  factory CreateDemarcheStep2ViewModel.create(Store<AppState> store, DemarcheSource source) {
+    final List<DemarcheDuReferentiel> demarches = source.demarcheList(store);
     return CreateDemarcheStep2ViewModel(_items(demarches));
   }
 

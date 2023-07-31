@@ -1,10 +1,9 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
-import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -28,30 +27,27 @@ class CreateDemarcheStep3ViewModel extends Equatable {
     required this.onCreateDemarche,
   });
 
-  factory CreateDemarcheStep3ViewModel.create(Store<AppState> store, String idDemarche) {
-    final state = store.state.searchDemarcheState;
-    if (state is SearchDemarcheSuccessState) {
-      final demarche = state.demarchesDuReferentiel.firstWhereOrNull((e) => e.id == idDemarche);
-      if (demarche != null) {
-        return CreateDemarcheStep3ViewModel(
-          displayState: _displayState(store),
-          demarcheCreationState: _demarcheCreationState(store),
-          pourquoi: demarche.pourquoi,
-          quoi: demarche.quoi,
-          isCommentMandatory: demarche.comments.length != 1 ? demarche.isCommentMandatory : false,
-          comments: _comments(demarche.comments),
-          onCreateDemarche: (codeComment, endDate) => {
-            store.dispatch(
-              CreateDemarcheRequestAction(
-                codeQuoi: demarche.codeQuoi,
-                codePourquoi: demarche.codePourquoi,
-                codeComment: codeComment,
-                dateEcheance: endDate,
-              ),
-            )
-          },
-        );
-      }
+  factory CreateDemarcheStep3ViewModel.create(Store<AppState> store, String idDemarche, DemarcheSource source) {
+    final demarche = source.demarche(store, idDemarche);
+    if (demarche != null) {
+      return CreateDemarcheStep3ViewModel(
+        displayState: _displayState(store),
+        demarcheCreationState: _demarcheCreationState(store),
+        pourquoi: demarche.pourquoi,
+        quoi: demarche.quoi,
+        isCommentMandatory: demarche.comments.length != 1 ? demarche.isCommentMandatory : false,
+        comments: _comments(demarche.comments),
+        onCreateDemarche: (codeComment, endDate) => {
+          store.dispatch(
+            CreateDemarcheRequestAction(
+              codeQuoi: demarche.codeQuoi,
+              codePourquoi: demarche.codePourquoi,
+              codeComment: codeComment,
+              dateEcheance: endDate,
+            ),
+          )
+        },
+      );
     }
     return CreateDemarcheStep3ViewModel(
       displayState: DisplayState.FAILURE,

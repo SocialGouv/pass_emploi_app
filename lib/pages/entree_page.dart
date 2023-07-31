@@ -54,10 +54,13 @@ class EntreePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: 16),
-                  SvgPicture.asset(
-                    Drawables.unJeuneUneSolutionIllustration,
-                    semanticsLabel: Strings.unJeuneUneSolutionIllustrationSemanticsLabel,
-                    width: screenWidth * 0.25,
+                  Semantics(
+                    header: true,
+                    label: Strings.unJeuneUneSolutionIllustrationSemanticsLabel,
+                    child: SvgPicture.asset(
+                      Drawables.unJeuneUneSolutionIllustration,
+                      width: screenWidth * 0.25,
+                    ),
                   ),
                   SizedBox(height: 32),
                   HiddenMenuGesture(
@@ -115,7 +118,7 @@ class EntreePage extends StatelessWidget {
     );
   }
 
-  Column _buttonCard(BuildContext context, EntreePageViewModel viewModel) {
+  Widget _buttonCard(BuildContext context, EntreePageViewModel viewModel) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -140,15 +143,19 @@ class EntreePage extends StatelessWidget {
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
             expandedAlignment: Alignment.topLeft,
             children: [
-              SizedBox(height: Margins.spacing_s),
-              Link(Strings.legalNoticeLabel, Strings.legalNoticeUrl),
-              SizedBox(height: Margins.spacing_m),
-              Link(Strings.privacyPolicyLabel, Strings.privacyPolicyUrl),
-              SizedBox(height: Margins.spacing_m),
-              Link(Strings.termsOfServiceLabel, Strings.termsOfServiceUrl),
-              SizedBox(height: Margins.spacing_m),
-              Link(Strings.accessibilityLevelLabel, Strings.accessibilityUrl),
-              SizedBox(height: Margins.spacing_m),
+              Column(
+                children: [
+                  SizedBox(height: Margins.spacing_s),
+                  Link(Strings.legalNoticeLabel, Strings.legalNoticeUrl),
+                  SizedBox(height: Margins.spacing_m),
+                  Link(Strings.privacyPolicyLabel, Strings.privacyPolicyUrl),
+                  SizedBox(height: Margins.spacing_m),
+                  Link(Strings.termsOfServiceLabel, Strings.termsOfServiceUrl),
+                  SizedBox(height: Margins.spacing_m),
+                  Link(Strings.accessibilityLevelLabel, Strings.accessibilityUrl),
+                  SizedBox(height: Margins.spacing_m),
+                ],
+              )
             ],
           ),
         )

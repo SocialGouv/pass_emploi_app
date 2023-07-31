@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/textes.dart';
 
 class DemarcheDetailPage extends StatelessWidget {
   final String id;
@@ -163,10 +164,7 @@ class _Titre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      label,
-      style: TextStyles.textLBold(color: AppColors.primary),
-    );
+    return LargeSectionTitle(label);
   }
 }
 

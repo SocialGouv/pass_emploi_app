@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -44,10 +43,8 @@ abstract class RendezVousListBuilder {
   }
 
   static bool hasPreviousPage(int pageOffset, LoginState loginState) {
-    if (pageOffset > 0) return true;
     if (pageOffset < 0) return false;
-
-    return (loginState is LoginSuccessState && loginState.user.loginMode.isPe() == false);
+    return true;
   }
 
   static bool hasNextPage(int pageOffset) => pageOffset < 5;

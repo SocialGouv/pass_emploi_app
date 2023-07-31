@@ -62,49 +62,65 @@ class ProfilPage extends StatelessWidget {
         backgroundColor: backgroundColor,
         canPop: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(Margins.spacing_m),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
-              SizedBox(height: Margins.spacing_m),
-              _DiscoverDiagorienteCard(),
-              SizedBox(height: Margins.spacing_m),
-              if (viewModel.withDownloadCv) ...[
-                _CurriculumVitaeCard(),
+      body: Semantics(
+        label: Strings.listSemanticsLabel,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(Margins.spacing_m),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
                 SizedBox(height: Margins.spacing_m),
-              ],
-              SizedBox(height: Margins.spacing_m),
-              _ProfileCard(userEmail: viewModel.userEmail),
-              SizedBox(height: Margins.spacing_m),
-              if (viewModel.displayMonConseiller) MonConseillerCard(),
-              Text(Strings.settingsLabel, style: TextStyles.textLBold()),
-              SizedBox(height: Margins.spacing_m),
-              _SuppressionAccountCard(),
-              _ActivityShareCard(),
-              Text(Strings.legalInformation, style: TextStyles.textLBold()),
-              SizedBox(height: Margins.spacing_m),
-              _LegalInformationCard(),
-              SizedBox(height: Margins.spacing_m),
-              Text(Strings.helpTitle, style: TextStyles.textLBold()),
-              SizedBox(height: Margins.spacing_m),
-              _RatingCard(),
-              SizedBox(height: Margins.spacing_m),
-              if (viewModel.displayDeveloperOptions) ...[
-                Text(Strings.developerOptions, style: TextStyles.textLBold()),
+                _DiscoverDiagorienteCard(),
                 SizedBox(height: Margins.spacing_m),
-                _MatomoCard(),
+                if (viewModel.withDownloadCv) ...[
+                  _CurriculumVitaeCard(),
+                  SizedBox(height: Margins.spacing_m),
+                ],
+                SizedBox(height: Margins.spacing_m),
+                _ProfileCard(userEmail: viewModel.userEmail),
+                SizedBox(height: Margins.spacing_m),
+                if (viewModel.displayMonConseiller) MonConseillerCard(),
+                _SeactionTitle(Strings.settingsLabel),
+                SizedBox(height: Margins.spacing_m),
+                _SuppressionAccountCard(),
+                _ActivityShareCard(),
+                _SeactionTitle(Strings.legalInformation),
+                SizedBox(height: Margins.spacing_m),
+                _LegalInformationCard(),
+                SizedBox(height: Margins.spacing_m),
+                _SeactionTitle(Strings.helpTitle),
+                SizedBox(height: Margins.spacing_m),
+                _RatingCard(),
+                SizedBox(height: Margins.spacing_m),
+                if (viewModel.displayDeveloperOptions) ...[
+                  _SeactionTitle(Strings.developerOptions),
+                  SizedBox(height: Margins.spacing_m),
+                  _MatomoCard(),
+                ],
+                SecondaryButton(
+                  onPressed: () => StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction()),
+                  label: Strings.logoutAction,
+                ),
               ],
-              SecondaryButton(
-                onPressed: () => StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction()),
-                label: Strings.logoutAction,
-              ),
-            ],
+            ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SeactionTitle extends StatelessWidget {
+  const _SeactionTitle(this.title);
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      header: true,
+      child: Text(title, style: TextStyles.textLBold()),
     );
   }
 }
@@ -161,7 +177,7 @@ class _UsernameTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onDoubleTap: onTitleTap,
-      child: Text(userName, style: TextStyles.textLBold()),
+      child: _SeactionTitle(userName),
     );
   }
 }
@@ -220,51 +236,54 @@ class _ActivityShareCard extends StatelessWidget {
 class _LegalInformationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ProfilCard(
-      padding: EdgeInsets.zero,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Material(
-          color: Colors.transparent,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ListTile(
-                onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
-                title: LabelValueRow(
-                  label: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
-                  value: _redirectIcon(),
+    return Semantics(
+      label: Strings.listSemanticsLabel,
+      child: ProfilCard(
+        padding: EdgeInsets.zero,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Material(
+            color: Colors.transparent,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ListTile(
+                  onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
+                  title: LabelValueRow(
+                    label: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
+                    value: _redirectIcon(),
+                  ),
                 ),
-              ),
-              Divider(color: AppColors.grey100, height: 0),
-              ListTile(
-                onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
-                title: LabelValueRow(
-                  label: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
-                  value: _redirectIcon(),
+                Divider(color: AppColors.grey100, height: 0),
+                ListTile(
+                  onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
+                  title: LabelValueRow(
+                    label: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
+                    value: _redirectIcon(),
+                  ),
                 ),
-              ),
-              Divider(color: AppColors.grey100, height: 0),
-              ListTile(
-                onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
-                title: LabelValueRow(
-                  label: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
-                  value: _redirectIcon(),
+                Divider(color: AppColors.grey100, height: 0),
+                ListTile(
+                  onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
+                  title: LabelValueRow(
+                    label: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
+                    value: _redirectIcon(),
+                  ),
                 ),
-              ),
-              Divider(color: AppColors.grey100, height: 0),
-              ListTile(
-                onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
-                title: LabelValueRow(
-                  label: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
-                  value: _redirectIcon(),
+                Divider(color: AppColors.grey100, height: 0),
+                ListTile(
+                  onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
+                  title: LabelValueRow(
+                    label: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
+                    value: _redirectIcon(),
+                  ),
+                  subtitle: Text(
+                    Strings.accessibilityLevelNonConforme,
+                    style: TextStyles.textBaseBold,
+                  ),
                 ),
-                subtitle: Text(
-                  Strings.accessibilityLevelNonConforme,
-                  style: TextStyles.textBaseBold,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

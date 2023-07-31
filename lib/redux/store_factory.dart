@@ -53,11 +53,14 @@ import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_middl
 import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_middleware.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_middleware.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_middleware.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_middleware.dart';
 import 'package:pass_emploi_app/features/tech/action_logging_middleware.dart';
 import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
+import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_middleware.dart';
+import 'package:pass_emploi_app/features/top_demarche/top_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_setup_middleware.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_middleware.dart';
@@ -76,6 +79,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
+import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -91,7 +95,6 @@ import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_reposit
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -117,8 +120,11 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
+import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
@@ -169,7 +175,8 @@ class StoreFactory {
   final ActionCommentaireRepository actionCommentaireRepository;
   final AgendaRepository agendaRepository;
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
-  final EventListRepository eventListRepository;
+  final AnimationsCollectivesRepository animationsCollectivesRepository;
+  final SessionMiloRepository sessionMiloRepository;
   final InstallationIdRepository installationIdRepository;
   final DiagorienteUrlsRepository diagorienteUrlsRepository;
   final DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository;
@@ -180,6 +187,8 @@ class StoreFactory {
   final CvRepository cvRepository;
   final EvenementEmploiRepository evenementEmploiRepository;
   final EvenementEmploiDetailsRepository evenementEmploiDetailsRepository;
+  final ThematiqueDemarcheRepository thematiquesDemarcheRepository;
+  final TopDemarcheRepository topDemarcheRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -226,7 +235,8 @@ class StoreFactory {
     this.actionCommentaireRepository,
     this.agendaRepository,
     this.suggestionsRechercheRepository,
-    this.eventListRepository,
+    this.animationsCollectivesRepository,
+    this.sessionMiloRepository,
     this.installationIdRepository,
     this.diagorienteUrlsRepository,
     this.diagorienteMetiersFavorisRepository,
@@ -237,6 +247,8 @@ class StoreFactory {
     this.cvRepository,
     this.evenementEmploiRepository,
     this.evenementEmploiDetailsRepository,
+    this.thematiquesDemarcheRepository,
+    this.topDemarcheRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -295,7 +307,7 @@ class StoreFactory {
         AgendaMiddleware(agendaRepository),
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository),
         TraiterSuggestionRechercheMiddleware(suggestionsRechercheRepository),
-        EventListMiddleware(eventListRepository),
+        EventListMiddleware(animationsCollectivesRepository, sessionMiloRepository),
         DeviceInfoMiddleware(installationIdRepository),
         RechercheEmploiMiddleware(offreEmploiRepository),
         RechercheImmersionMiddleware(immersionRepository),
@@ -308,6 +320,9 @@ class StoreFactory {
         AccueilMiddleware(accueilRepository),
         CvMiddleware(cvRepository),
         EvenementEmploiDetailsMiddleware(evenementEmploiDetailsRepository),
+        ThematiqueDemarcheMiddleware(thematiquesDemarcheRepository),
+        TopDemarcheMiddleware(topDemarcheRepository),
+        SessionMiloDetailsMiddleware(sessionMiloRepository),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

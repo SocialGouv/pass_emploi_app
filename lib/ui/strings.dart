@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
 
 class _BrsaStrings {
   static String appName = "pass emploi";
-  static String logoDescription = "Logo pass emploi";
+  static String logoDescription = "Pass emploi";
   static String shouldInformConseiller =
       "En cas d’imprévu, il est important de prévenir votre conseiller. Vous pouvez le contacter via la messagerie de l’application pass emploi.";
   static String suppressionAccountLabel = "Supprimer mon compte de l’application pass emploi";
@@ -26,7 +26,7 @@ class _BrsaStrings {
 
 class _CejStrings {
   static String appName = "CEJ";
-  static String logoDescription = "Logo CEJ";
+  static String logoDescription = "Contrat d'Engagement Jeune";
   static String shouldInformConseiller =
       "En cas d’imprévu, il est important de prévenir votre conseiller. Vous pouvez le contacter via la messagerie de l’application CEJ.";
   static String suppressionAccountLabel = "Supprimer mon compte de l’application CEJ";
@@ -77,6 +77,7 @@ class Strings {
   static String seeDetail = "Voir le détail >";
   static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
+  static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
 
   // Menu
   static String menuAccueil = "Accueil";
@@ -258,6 +259,7 @@ class Strings {
   static String conseillerIsPresent = "Votre conseiller sera présent";
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
   static String commentWithoutConseiller = "Commentaire de votre conseiller";
+  static String rendezVousCommentaire = "Commentaire";
   static String seeItinerary = 'Voir l\'itinéraire';
   static String seeVisio = 'Accéder à la visio';
   static String rendezvousVisioModalityMessage =
@@ -280,6 +282,7 @@ class Strings {
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
   static String shareToConseiller = "Partager à mon conseiller";
+  static String withAnimateurTitle = "Animateur de la session";
 
   static String rendezvousSinceDate(String date) => "depuis le $date";
 
@@ -324,7 +327,7 @@ class Strings {
   static String addAnAction = "Créer une action";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
-  static String actionLabel = "Intitulé de l'action";
+  static String actionLabel = "*Intitulé de l'action";
   static String actionDescription = "Description de l'action";
   static String mandatoryActionLabelError = "L'intitulé de l'action doit être renseigné";
   static String defineActionStatus = "Définir le statut";
@@ -378,21 +381,20 @@ class Strings {
   static const String demarcheDone = "Réalisé";
   static const String demarcheCancelled = "Annulé";
   static const String late = "En retard : ";
-  static const String createDemarchePersonnalisee = "Créer une démarche personnalisée";
-  static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
+  static const String createDemarchePersonnalisee = "Créer une démarche";
   static const String commentaire = "Commentaire";
   static const String descriptionDemarche = "*Description de la démarche";
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
   static const String selectEcheance = "*Sélectionner une date d'échéance";
-  static const String addADemarche = "Créer une démarche";
+  static const String addADemarche = "Ajouter une démarche";
   static const String createDemarcheTitle = "Création d'une démarche";
   static const String noDemarcheFound = "Aucune démarche pre-renseignée n’a été trouvée";
   static const String selectDemarche = "Sélectionnez une démarche ou créez une démarche personnalisée";
   static const String addALaDemarche = "Créer la démarche";
-  static const String searchDemarcheHint = "Renseigner un mot clé pour rechercher une démarche à créer";
+  static const String searchDemarcheHint = "*Renseigner un mot clé pour rechercher une démarche à créer";
   static const String searchDemarcheButton = "Rechercher une démarche";
-  static const String mandatoryField = "Le champs est obligatoire";
+  static const String mandatoryField = "Le champ est obligatoire";
   static const String comment = "Comment";
   static const String selectComment = "*Sélectionner un des moyens";
   static const String selectQuand = "*Sélectionner une date d’échéance";
@@ -414,6 +416,26 @@ class Strings {
   static String withoutDate = "Date indéterminée";
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";
+  static String demarcheRechercheSubtitle = "Rechercher par mot-clé";
+  static String demarcheCategoriesSubtitle = "Rechercher par catégories";
+  static String customDemarcheTitle = "Vous ne trouvez pas ce que vous cherchez ?";
+  static String customDemarcheSubtitle = "Créez une démarche personnalisée qui correspond à votre situation.";
+
+  // Thematique de demarche
+  static String demarcheThematiqueTitle = "Thématiques";
+  static String demarchesCategoriesPressedTip = "Découvrir la liste";
+  static String demarchesCategoriesDescription =
+      "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise…";
+  static String thematiquesDemarcheDescription = "Choisissez une thématique parmi les six thématiques suivantes :";
+  static String thematiquesDemarchePressedTip = "Parcourir les démarches";
+  static String thematiquesErrorTitle = "Il y a un problème technique de notre côté !";
+  static String thematiquesErrorSubtitle =
+      "Nous sommes en train de régler le problème. Réessayez plus tard ou créez une démarche personnalisée.";
+
+  // Top démarches
+  static String topDemarchesTitle = "Top démarches";
+  static String topDemarchesSubtitle = "Inspirez-vous des démarches les plus utilisées";
+  static String topDemarchesPressedTip = "Découvrir la liste";
 
   // Recherche
   static String derniereRecherche = "Dernière recherche";
@@ -648,6 +670,7 @@ class Strings {
 
   // Profil
   static String personalInformation = "Informations personnelles";
+  static String profilButtonSemanticsLabel = "Voir sa page Profil";
 
   static String sinceDate(String date) => "Depuis le $date";
   static String emailAddressLabel = "Adresse e-mail";
@@ -838,7 +861,7 @@ class Strings {
   static const String evenementEmploiFiltresDateDebut = "Date de début";
   static const String evenementEmploiFiltresDateFin = "Date de fin";
 
-  // Mode dégradé Pôle Emploi
+  // Mode dégradé Pôle emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
   static String rendezvousNotUpToDateMessage =
       "Une erreur technique s’est produite. Certains de vos rendez-vous ne sont peut-être pas à jour.";
@@ -883,7 +906,7 @@ class Strings {
   static String cvListPageSubtitle =
       "Téléchargez vos CV Pôle emploi sur votre téléphone pour préparer votre candidature";
   static String cvError = "Erreur lors de la récupération des CVs Pôle emploi";
-  static String cvEmpty = "Vous n’avez pas de CV sur votre espace Pôle Emploi";
+  static String cvEmpty = "Vous n’avez pas de CV sur votre espace Pôle emploi";
   static String cvEmptyButton = "Retour";
   static String cvDownload = "Télécharger";
   static String cvErrorApiPeKoMessage = "Impossible de se synchroniser avec votre espace Pôle emploi";
@@ -903,11 +926,12 @@ class Strings {
       "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
   static String suggestionLocalisationAddAlerteButton = "Ajouter l’alerte";
 
-  // a11y
+  // textes alternatifs
   static String unJeuneUneSolutionIllustrationSemanticsLabel = "France Relance, #1jeune1solution";
   static String favoriHeartRemove = "Mise en favoris: retirer";
   static String favoriHeartAdd = "Mise en favoris: ajouter";
   static String openInNavigator = "Ouvrir dans le navigateur";
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
+  static String listSemanticsLabel = "Liste";
 }

@@ -44,23 +44,26 @@ class RatingBottomSheet extends StatelessWidget {
         _RatingHeader(onDismiss: viewModel.onDone),
         SepLine(0, 0),
         Expanded(
-          child: ListView(
-            shrinkWrap: true,
-            children: [
-              RatingCard(
-                emoji: Strings.happyEmoji,
-                description: Strings.positiveRating,
-                onClick: () => _sendStoreReview(context, viewModel),
-              ),
-              SepLine(10, 10),
-              RatingCard(
-                emoji: Strings.sadEmoji,
-                description: Strings.negativeRating,
-                onClick: () => viewModel.shouldSendEmailOnNegativeRating
-                    ? _sendEmailReview(context, viewModel)
-                    : _sendStoreReview(context, viewModel),
-              ),
-            ],
+          child: Semantics(
+            label: Strings.listSemanticsLabel,
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                RatingCard(
+                  emoji: Strings.happyEmoji,
+                  description: Strings.positiveRating,
+                  onClick: () => _sendStoreReview(context, viewModel),
+                ),
+                SepLine(10, 10),
+                RatingCard(
+                  emoji: Strings.sadEmoji,
+                  description: Strings.negativeRating,
+                  onClick: () => viewModel.shouldSendEmailOnNegativeRating
+                      ? _sendEmailReview(context, viewModel)
+                      : _sendStoreReview(context, viewModel),
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -112,8 +115,11 @@ class _RatingHeader extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(30),
-          child: Center(
-            child: Text(Strings.ratingLabel, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+          child: Semantics(
+            header: true,
+            child: Center(
+              child: Text(Strings.ratingLabel, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+            ),
           ),
         ),
       ],

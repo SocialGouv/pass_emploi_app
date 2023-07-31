@@ -34,7 +34,7 @@ void main() {
     expect(() => RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '2'), throwsException);
   });
 
-  group('create when rendezvous state is successful…', () {
+  group('create when rendezvous state is successful and Rendezvous not empty…', () {
     test('should display precision in tag if type is "Autre" and precision is set', () {
       // Given
       final store = _store(
@@ -245,7 +245,7 @@ void main() {
       );
     });
 
-    test('full view model test from event list', () {
+    test('full view model test from event list with rendez vous', () {
       // Given
       final rdv = Rendezvous(
         id: '1',
@@ -261,10 +261,11 @@ void main() {
         organism: 'Entreprise Bio Carburant',
         type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
       );
-      final store = givenState().loggedInUser().succeedEventList([rdv]).store();
+      final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [rdv]).store();
 
       // When
-      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.eventList, '1');
+      final viewModel =
+          RendezvousCardViewModel.create(store, RendezvousStateSource.eventListAnimationsCollectives, '1');
 
       // Then
       expect(
@@ -277,6 +278,31 @@ void main() {
           isAnnule: false,
           title: 'Super bio',
           subtitle: 'Par téléphone',
+          greenTag: false,
+        ),
+      );
+    });
+
+    test('full view model test from event list with session milo', () {
+      // Given
+      final store = givenState()
+          .loggedInUser()
+          .succeedEventList(sessionsMilo: [mockSessionMilo(id: "1", dateDeDebut: DateTime(2023))]).store();
+
+      // When
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.eventListSessionsMilo, '1');
+
+      // Then
+      expect(
+        viewModel,
+        RendezvousCardViewModel(
+          id: '1',
+          tag: 'Atelier',
+          date: 'Le 01/01/2023 à 00h00',
+          isInscrit: true,
+          isAnnule: false,
+          title: 'nomOffre - nomSession',
+          subtitle: null,
           greenTag: false,
         ),
       );

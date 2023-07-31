@@ -32,19 +32,19 @@ class PrimaryActionButton extends StatelessWidget {
     required this.label,
     this.fontSize,
     this.iconSize = Dimens.icon_size_m,
-    this.iconRightPadding = 12,
-    this.heightPadding = 12,
-    this.widthPadding = 20,
+    this.iconRightPadding = 8,
+    this.heightPadding = 16,
+    this.widthPadding = 24,
   })  : backgroundColor = backgroundColor ?? AppColors.primary,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final double leftPadding = icon != null ? 12 : 20;
     final baseTextStyle = TextStyles.textPrimaryButton;
     final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
     return TextButton(
       style: ButtonStyle(
+        padding: MaterialStateProperty.all(EdgeInsets.zero),
         foregroundColor: MaterialStateProperty.all(textColor),
         textStyle: MaterialStateProperty.all(usedTextStyle),
         backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
@@ -60,16 +60,13 @@ class PrimaryActionButton extends StatelessWidget {
             if (states.contains(MaterialState.pressed)) {
               return rippleColor;
             }
-            if (states.contains(MaterialState.focused)) {
-              return rippleColor;
-            }
             return null;
           },
         ),
       ),
       onPressed: onPressed,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(leftPadding, heightPadding, widthPadding, heightPadding),
+        padding: EdgeInsets.symmetric(horizontal: widthPadding, vertical: heightPadding),
         child: _getRow(),
       ),
     );

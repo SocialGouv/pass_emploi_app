@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/textes.dart';
 
 class AccueilCetteSemaine extends StatelessWidget {
   final AccueilCetteSemaineItem item;
@@ -29,35 +30,38 @@ class AccueilCetteSemaine extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilCetteSemaineSection, style: TextStyles.accueilSection),
+        LargeSectionTitle(Strings.accueilCetteSemaineSection),
         SizedBox(height: Margins.spacing_base),
-        CardContainer(
-          padding: EdgeInsets.zero,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _CetteSemaineRow(
-                icon: Icon(AppIcons.today_rounded, color: AppColors.primary),
-                text: item.rendezVous,
-                addBorderRadius: true,
-                onTap: () => Navigator.of(context).push(RendezvousListPage.materialPageRoute()),
-              ),
-              SepLine(0, 0),
-              _CetteSemaineRow(
-                icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
-                text: item.actionsDemarchesEnRetard,
-                onTap: () => Navigator.of(context).push(actionsDemarchesPageRoute()),
-              ),
-              SepLine(0, 0),
-              _CetteSemaineRow(
-                icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
-                text: item.actionsDemarchesARealiser,
-                onTap: () => Navigator.of(context).push(actionsDemarchesPageRoute()),
-              ),
-              _CetteSemaineVoirDetails(
-                onTap: () => StoreProvider.of<AppState>(context).dispatchAgendaDeeplink(),
-              ),
-            ],
+        Semantics(
+          label: Strings.listSemanticsLabel,
+          child: CardContainer(
+            padding: EdgeInsets.zero,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _CetteSemaineRow(
+                  icon: Icon(AppIcons.today_rounded, color: AppColors.primary),
+                  text: item.rendezVous,
+                  addBorderRadius: true,
+                  onTap: () => Navigator.of(context).push(RendezvousListPage.materialPageRoute()),
+                ),
+                SepLine(0, 0),
+                _CetteSemaineRow(
+                  icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
+                  text: item.actionsDemarchesEnRetard,
+                  onTap: () => Navigator.of(context).push(actionsDemarchesPageRoute()),
+                ),
+                SepLine(0, 0),
+                _CetteSemaineRow(
+                  icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
+                  text: item.actionsDemarchesARealiser,
+                  onTap: () => Navigator.of(context).push(actionsDemarchesPageRoute()),
+                ),
+                _CetteSemaineVoirDetails(
+                  onTap: () => StoreProvider.of<AppState>(context).dispatchAgendaDeeplink(),
+                ),
+              ],
+            ),
           ),
         ),
       ],

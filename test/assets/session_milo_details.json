@@ -1,0 +1,15 @@
+{
+  "id": "1",
+  "nomSession": "SESSION TEST",
+  "nomOffre": "ANIMATION COLLECTIVE POUR TEST",
+  "type": {
+    "code": "WORKSHOP",
+    "label": "Atelier"
+  },
+  "dateHeureDebut": "2042-01-01T09:00:00.000+00:00",
+  "dateHeureFin": "2042-01-01T11:00:00.000+00:00",
+  "lieu": "Paris",
+  "animateur": "SIMILO SIMILO",
+  "commentaire": "Lorem ipsus",
+  "inscription": "INSCRIT"
+}

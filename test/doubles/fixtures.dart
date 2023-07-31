@@ -50,7 +50,10 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
+import 'package:pass_emploi_app/models/session_milo_details.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
+import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
@@ -554,6 +557,14 @@ Campagne campagne([String? id]) {
     titre: 'Questionnaire',
     description: 'Super test',
     questions: [],
+  );
+}
+
+ThematiqueDeDemarche dummyThematiqueDeDemarche([List<DemarcheDuReferentiel>? demarches]) {
+  return ThematiqueDeDemarche(
+    code: "P03",
+    libelle: "Mes candidatures",
+    demarches: demarches ?? [mockDemarcheDuReferentiel()],
   );
 }
 
@@ -1089,3 +1100,42 @@ EventPartage dummyEventPartage() => EventPartage(
       date: DateTime(2023),
       type: RendezvousType(RendezvousTypeCode.ACTIVITE_EXTERIEURES, "label"),
     );
+
+SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
+      id: "id-cv-2023",
+      nomSession: "Session CV",
+      nomOffre: "Mon premier CV",
+      dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
+      type: mockSessionMiloType(),
+      estInscrit: true,
+    );
+
+SessionMiloDetails mockSessionMiloDetails({String id = "1", DateTime? dateDeDebut, DateTime? dateDeFin}) =>
+    SessionMiloDetails(
+      id: id,
+      nomSession: "SESSION TEST",
+      nomOffre: "ANIMATION COLLECTIVE POUR TEST",
+      type: mockSessionMiloType(),
+      dateHeureDebut: dateDeDebut ?? parseDateTimeUtcWithCurrentTimeZone("2042-01-01T09:00:00.000+00:00"),
+      dateHeureFin: dateDeFin ?? parseDateTimeUtcWithCurrentTimeZone("2042-01-01T11:00:00.000+00:00"),
+      lieu: "Paris",
+      animateur: "SIMILO SIMILO",
+      description: null,
+      commentaire: "Lorem ipsus",
+      estInscrit: true,
+    );
+
+SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
+  return SessionMilo(
+    id: id ?? "id-1",
+    nomSession: "nomSession",
+    nomOffre: "nomOffre",
+    dateDeDebut: dateDeDebut ?? parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
+    type: mockSessionMiloType(),
+    estInscrit: true,
+  );
+}
+
+SessionMiloType mockSessionMiloType() {
+  return SessionMiloType(SessionMiloTypeCode.WORKSHOP, "Atelier");
+}

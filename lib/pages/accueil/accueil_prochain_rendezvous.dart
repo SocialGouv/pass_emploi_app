@@ -4,8 +4,8 @@ import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
+import 'package:pass_emploi_app/widgets/textes.dart';
 
 class AccueilProchainRendezVous extends StatelessWidget {
   final AccueilProchainRendezvousItem item;
@@ -17,7 +17,7 @@ class AccueilProchainRendezVous extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.accueilRendezvousSection, style: TextStyles.accueilSection),
+        LargeSectionTitle(Strings.accueilRendezvousSection),
         SizedBox(height: Margins.spacing_base),
         item.rendezVousId.rendezvousCard(
           context: context,

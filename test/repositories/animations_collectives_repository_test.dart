@@ -1,14 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/repositories/event_list_repository.dart';
+import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../dsl/sut_dio_repository.dart';
 
 void main() {
-  group('EventListRepository', () {
-    final sut = DioRepositorySut<EventListRepository>();
-    sut.givenRepository((client) => EventListRepository(client));
+  group('AnimationsCollectivesRepository', () {
+    final sut = DioRepositorySut<AnimationsCollectivesRepository>();
+    sut.givenRepository((client) => AnimationsCollectivesRepository(client));
 
     group('getAgendaPoleEmploi', () {
       sut.when(

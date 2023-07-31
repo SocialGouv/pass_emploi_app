@@ -31,7 +31,7 @@ import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_reposit
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/event_list_repository.dart';
+import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -56,8 +56,11 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
+import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT*/
@@ -353,8 +356,12 @@ class DummySuggestionsRechercheRepository extends SuggestionsRechercheRepository
   DummySuggestionsRechercheRepository() : super(DioMock(), DummyPassEmploiCacheManager());
 }
 
-class DummyEventListRepository extends EventListRepository {
-  DummyEventListRepository() : super(DioMock());
+class DummyAnimationsCollectivesRepository extends AnimationsCollectivesRepository {
+  DummyAnimationsCollectivesRepository() : super(DioMock());
+}
+
+class DummySessionMiloRepository extends SessionMiloRepository {
+  DummySessionMiloRepository() : super(DioMock());
 }
 
 class DummyMetierRepository extends MetierRepository {
@@ -404,5 +411,13 @@ class DummyEvenementEmploiRepository extends EvenementEmploiRepository {
 
 class DummyEvenementEmploiDetailsRepository extends EvenementEmploiDetailsRepository {
   DummyEvenementEmploiDetailsRepository() : super(DioMock());
+}
+
+class DummyThematiqueDemarcheRepository extends ThematiqueDemarcheRepository {
+  DummyThematiqueDemarcheRepository() : super(DioMock());
+}
+
+class DummyTopDemarcheRepository extends TopDemarcheRepository {
+  DummyTopDemarcheRepository() : super();
 }
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

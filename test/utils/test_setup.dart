@@ -23,7 +23,7 @@ import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_reposit
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/event_list_repository.dart';
+import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -49,11 +49,14 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
+import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -105,7 +108,8 @@ class TestStoreFactory {
   ActionCommentaireRepository actionCommentaireRepository = DummyActionCommentaireRepository();
   AgendaRepository agendaRepository = DummyAgendaRepository();
   SuggestionsRechercheRepository suggestionsRechercheRepository = DummySuggestionsRechercheRepository();
-  EventListRepository eventListRepository = DummyEventListRepository();
+  AnimationsCollectivesRepository animationsCollectivesRepository = DummyAnimationsCollectivesRepository();
+  SessionMiloRepository sessionMiloRepository = DummySessionMiloRepository();
   InstallationIdRepository installationIdRepository = DummyInstallationIdRepository();
   DiagorienteUrlsRepository diagorienteUrlsRepository = DummyDiagorienteUrlsRepository();
   DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository = DummyDiagorienteMetiersFavorisRepository();
@@ -116,6 +120,8 @@ class TestStoreFactory {
   CvRepository cvRepository = DummyCvRepository();
   EvenementEmploiRepository evenementEmploiRepository = DummyEvenementEmploiRepository();
   EvenementEmploiDetailsRepository evenementEmploiDetailsRepository = DummyEvenementEmploiDetailsRepository();
+  ThematiqueDemarcheRepository thematiquesDemarcheRepository = DummyThematiqueDemarcheRepository();
+  TopDemarcheRepository topDemarcheRepository = DummyTopDemarcheRepository();
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -163,7 +169,8 @@ class TestStoreFactory {
       actionCommentaireRepository,
       agendaRepository,
       suggestionsRechercheRepository,
-      eventListRepository,
+      animationsCollectivesRepository,
+      sessionMiloRepository,
       installationIdRepository,
       diagorienteUrlsRepository,
       diagorienteMetiersFavorisRepository,
@@ -174,6 +181,8 @@ class TestStoreFactory {
       cvRepository,
       evenementEmploiRepository,
       evenementEmploiDetailsRepository,
+      thematiquesDemarcheRepository,
+      topDemarcheRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }
