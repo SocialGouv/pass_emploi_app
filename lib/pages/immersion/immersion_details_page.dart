@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/features/immersion/details/immersion_details_act
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/immersion/immersion_contact_bottom_sheet.dart';
-import 'package:pass_emploi_app/pages/immersion/immersion_contact_form_page.dart';
+import 'package:pass_emploi_app/pages/immersion/immersion_contact_forl_bottom_sheet.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -185,7 +185,7 @@ class ImmersionDetailsPage extends StatelessWidget {
               child: PrimaryActionButton(
             onPressed: () {
               viewModel.withContactForm
-                  ? Navigator.push(context, ImmersionContactFormPage.materialPageRoute())
+                  ? ImmersionContactFormBottomSheet.show(context)
                   : ImmersionContactBottomSheet.show(context);
             },
             label: Strings.immersionContact,

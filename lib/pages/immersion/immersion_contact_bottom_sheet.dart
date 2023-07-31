@@ -47,6 +47,7 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomSheetWrapper(
       title: Strings.offreDetails,
+      padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
       body: Scaffold(
         body: SingleChildScrollView(
           child: Column(
