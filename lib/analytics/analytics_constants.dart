@@ -20,6 +20,8 @@ class AnalyticsScreenNames {
   static const chat = "chat";
   static const profil = "profil";
 
+  static const contactProfil = "profil/contact";
+
   static const userActionList = "actions/list";
   static const userActionDetails = "actions/detail";
   static const updateUserAction = "actions/detail?modifySuccess=true";
@@ -172,6 +174,8 @@ class AnalyticsActionNames {
   static const skipRating = "/notation/skip";
   static const negativeRating = "/notation/defavorable";
   static const positiveRating = "/notation/favorable";
+
+  static const contactEmailSent = "/contact/email-sent";
 
   static const accessToActionComments = "/actions/detail/comments/add";
   static const sendComment = "/actions/detail/comments/send";

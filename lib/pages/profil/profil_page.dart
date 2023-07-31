@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/mon_conseiller_card.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/standalone_profil_card.dart';
+import 'package:pass_emploi_app/widgets/contact_page.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/label_value_row.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
@@ -239,51 +240,37 @@ class _LegalInformationCard extends StatelessWidget {
       label: Strings.listSemanticsLabel,
       child: ProfilCard(
         padding: EdgeInsets.zero,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: Material(
-            color: Colors.transparent,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ListTile(
-                  onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
-                  title: LabelValueRow(
-                    label: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
-                    value: _redirectIcon(),
-                  ),
-                ),
-                Divider(color: AppColors.grey100, height: 0),
-                ListTile(
-                  onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
-                  title: LabelValueRow(
-                    label: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
-                    value: _redirectIcon(),
-                  ),
-                ),
-                Divider(color: AppColors.grey100, height: 0),
-                ListTile(
-                  onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
-                  title: LabelValueRow(
-                    label: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
-                    value: _redirectIcon(),
-                  ),
-                ),
-                Divider(color: AppColors.grey100, height: 0),
-                ListTile(
-                  onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
-                  title: LabelValueRow(
-                    label: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
-                    value: _redirectIcon(),
-                  ),
-                  subtitle: Text(
-                    Strings.accessibilityLevelNonConforme,
-                    style: TextStyles.textBaseBold,
-                  ),
-                ),
-              ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ListTile(
+              onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
+              title: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
+              trailing: _redirectIcon(),
             ),
-          ),
+            Divider(color: AppColors.grey100, height: 0),
+            ListTile(
+              onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
+              title: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
+              trailing: _redirectIcon(),
+            ),
+            Divider(color: AppColors.grey100, height: 0),
+            ListTile(
+              onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
+              title: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
+              trailing: _redirectIcon(),
+            ),
+            Divider(color: AppColors.grey100, height: 0),
+            ListTile(
+              onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
+              title: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
+              trailing: _redirectIcon(),
+              subtitle: Text(
+                Strings.accessibilityLevelNonConforme,
+                style: TextStyles.textBaseBold,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -315,7 +302,36 @@ class _MatomoCard extends StatelessWidget {
 class _RatingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StandaloneProfilCard(
-        text: Strings.ratingAppLabel, onTap: () => Navigator.of(context).push(RatingPage.materialPageRoute()));
+    return Semantics(
+      label: Strings.listSemanticsLabel,
+      child: ProfilCard(
+        padding: EdgeInsets.zero,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ListTile(
+              onTap: () => Navigator.of(context).push(ContactPage.materialPageRoute()),
+              title: Text(Strings.contactTeamLabel, style: TextStyles.textBaseRegular),
+              trailing: _arrowRedirectIcon(),
+            ),
+            Divider(color: AppColors.grey100, height: 0),
+            ListTile(
+              onTap: () => Navigator.of(context).push(RatingPage.materialPageRoute()),
+              title: Text(
+                Strings.ratingAppLabel,
+                style: TextStyles.textBaseRegular,
+              ),
+              trailing: _arrowRedirectIcon(),
+            ),
+          ],
+        ),
+      ),
+    );
   }
+
+  Widget _arrowRedirectIcon() => Icon(
+        AppIcons.chevron_right_rounded,
+        semanticLabel: Strings.openInNewTab,
+        color: AppColors.contentColor,
+      );
 }

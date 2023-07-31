@@ -733,6 +733,22 @@ class Strings {
 
   static String helpTitle = "Besoin d’aide ?";
   static String ratingAppLabel = "Partager votre avis sur l'application";
+  static String contactTeamLabel = "Contacter l'équipe de l'application";
+
+  // contact page
+  static String contactPageTitle = "Contacter l’équipe CEJ";
+  static String contactPageBody1 =
+      "L’équipe technique de l’application CEJ est en charge du développement de l’application.";
+  static String contactPageBody2 = "Contactez-nous pour :";
+  static String contactPageBody3 =
+      "Pour toutes les informations et les problèmes liés au Contrat d’Engagement Jeune, veuillez contacter votre conseiller.";
+  static String contactPageBodyBullet1 = "Un problème sur l’application";
+  static String contactPageBodyBullet2 = "Une suggestions d’évolution";
+  static String contactPageBodyBullet3 = "Toute autre remarques";
+  static String contactPageButton = "Continuer";
+
+  static String objetPriseDeContact = "Prise de contact avec l’équipe de l’application du CEJ";
+  static String corpsPriseDeContact = "Décrivez nous votre problème ou vos suggestions d’évolutions : ";
 
   // saved search
   static String createAlert = "Créer une alerte";
