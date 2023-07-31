@@ -12,15 +12,16 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class ImmersionContactFormPage extends StatelessWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(
-      builder: (context) => ImmersionContactFormPage(),
+class ImmersionContactFormBottomSheet extends StatelessWidget {
+  static Future<void> show(BuildContext context) {
+    return showPassEmploiBottomSheet(
+      context: context,
+      builder: (context) => ImmersionContactFormBottomSheet(),
     );
   }
 
@@ -89,11 +90,11 @@ class _ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.immersitionContactFormTitle),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: SizedBox(
+    return BottomSheetWrapper(
+      title: Strings.immersitionContactFormTitle,
+      padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+      body: Scaffold(
+        floatingActionButton: SizedBox(
           width: double.infinity,
           child: PrimaryActionButton(
             label: Strings.immersionContactFormButton,
@@ -101,13 +102,10 @@ class _ContentState extends State<_Content> {
             onPressed: state.isFormValid && widget.viewModel.sendingState.isLoading() == false ? _submitForm : null,
           ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: Stack(
+          children: [
+            SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -163,9 +161,9 @@ class _ContentState extends State<_Content> {
                 ],
               ),
             ),
-          ),
-          if (widget.viewModel.sendingState.isLoading()) LoadingOverlay(),
-        ],
+            if (widget.viewModel.sendingState.isLoading()) LoadingOverlay(),
+          ],
+        ),
       ),
     );
   }
