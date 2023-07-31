@@ -9,9 +9,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class ServiceCiviqueBottomSheetForm extends StatefulWidget {
@@ -38,14 +36,14 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        userActionBottomSheetHeader(context, title: Strings.createSavedSearchTitle),
-        SepLine(0, 0),
         Expanded(
           child: ListView(
             shrinkWrap: true,
             children: [
               _savedSearchTitle(widget.viewModel.searchModel),
+              SizedBox(height: Margins.spacing_m),
               _savedSearchFilters(widget.viewModel.searchModel),
+              SizedBox(height: Margins.spacing_m),
               _savedSearchInfo(),
             ],
           ),
@@ -56,49 +54,43 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
   }
 
   Widget _createButton(ServiceCiviqueSavedSearchViewModel viewModel) {
-    return Padding(
-      padding: bottomSheetContentPadding(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          PrimaryActionButton(
-            label: Strings.createSavedSearchButton,
-            icon: AppIcons.error_rounded,
-            iconSize: Dimens.icon_size_base,
-            onPressed: (_isFormValid())
-                ? () {
-                    viewModel.createSavedSearch(searchTitle!);
-                    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.createSavedSearchServiceCivique);
-                  }
-                : null,
-          ),
-          if (viewModel.savingFailure()) _createError(),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        PrimaryActionButton(
+          label: Strings.createSavedSearchButton,
+          icon: AppIcons.error_rounded,
+          iconSize: Dimens.icon_size_base,
+          onPressed: (_isFormValid())
+              ? () {
+                  viewModel.createSavedSearch(searchTitle!);
+                  PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.createSavedSearchServiceCivique);
+                }
+              : null,
+        ),
+        if (viewModel.savingFailure()) _createError(),
+      ],
     );
   }
 
   bool _isFormValid() => searchTitle != null && searchTitle!.isNotEmpty;
 
   Widget _savedSearchTitle(ServiceCiviqueSavedSearch searchViewModel) {
-    return Padding(
-      padding: bottomSheetContentPadding(),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(Strings.savedSearchTitle, style: TextStyles.textBaseBold),
-          SizedBox(height: Margins.spacing_base),
-          _textField(
-            initialValue: searchViewModel.titre,
-            onChanged: _updateTitle,
-            isMandatory: true,
-            mandatoryError: Strings.mandatorySavedSearchTitleError,
-            textInputAction: TextInputAction.next,
-            isEnabled: true,
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(Strings.savedSearchTitle, style: TextStyles.textBaseBold),
+        SizedBox(height: Margins.spacing_base),
+        _textField(
+          initialValue: searchViewModel.titre,
+          onChanged: _updateTitle,
+          isMandatory: true,
+          mandatoryError: Strings.mandatorySavedSearchTitleError,
+          textInputAction: TextInputAction.next,
+          isEnabled: true,
+        ),
+      ],
     );
   }
 
@@ -143,21 +135,18 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
   Widget _savedSearchFilters(ServiceCiviqueSavedSearch searchViewModel) {
     final domaine = searchViewModel.domaine?.titre;
     final ville = searchViewModel.ville;
-    return Padding(
-      padding: bottomSheetContentPadding(),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(Strings.savedSearchFilters, style: TextStyles.textBaseBold),
-          SizedBox(height: Margins.spacing_base),
-          _buildDataTags([
-            TagInfo(Strings.savedSearchServiceCiviqueTag, false),
-            if (domaine != null && domaine.isNotEmpty) TagInfo(domaine, false),
-            if (ville != null && ville.isNotEmpty) TagInfo(ville, true),
-          ]),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(Strings.savedSearchFilters, style: TextStyles.textBaseBold),
+        SizedBox(height: Margins.spacing_base),
+        _buildDataTags([
+          TagInfo(Strings.savedSearchServiceCiviqueTag, false),
+          if (domaine != null && domaine.isNotEmpty) TagInfo(domaine, false),
+          if (ville != null && ville.isNotEmpty) TagInfo(ville, true),
+        ]),
+      ],
     );
   }
 
@@ -176,17 +165,14 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
   }
 
   Widget _savedSearchInfo() {
-    return Padding(
-      padding: bottomSheetContentPadding(),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.savedSearchInfo)),
-          SizedBox(height: Margins.spacing_base),
-          Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.searchNotificationInfo)),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.savedSearchInfo)),
+        SizedBox(height: Margins.spacing_base),
+        Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.searchNotificationInfo)),
+      ],
     );
   }
 

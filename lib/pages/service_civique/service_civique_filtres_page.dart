@@ -9,15 +9,18 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 import 'package:pass_emploi_app/widgets/toggles/date_toggle.dart';
 
 class ServiceCiviqueFiltresPage extends StatefulWidget {
-  static MaterialPageRoute<bool> materialPageRoute() {
-    return MaterialPageRoute(builder: (_) => ServiceCiviqueFiltresPage());
+  static Future<bool?> show(BuildContext context) {
+    return showPassEmploiBottomSheet<bool>(
+      context: context,
+      builder: (context) => ServiceCiviqueFiltresPage(),
+    );
   }
 
   @override
@@ -38,10 +41,8 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
   }
 
   Widget _scaffold(BuildContext context, ServiceCiviqueFiltresViewModel viewModel) {
-    const backgroundColor = Colors.white;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: Strings.serviceCiviqueFiltresTitle, backgroundColor: backgroundColor),
+    return BottomSheetWrapper(
+      title: Strings.serviceCiviqueFiltresTitle,
       body: _Content(viewModel: viewModel),
     );
   }
@@ -80,12 +81,9 @@ class _ContentState extends State<_Content> {
           onStartDateValueChange: (date, isActive) => _setStartDateFilterState(date, isActive),
           onDomainValueChange: (domain) => _setDomainFilterState(domain),
         ),
-        Padding(
-          padding: const EdgeInsets.all(Margins.spacing_m),
-          child: FilterButton(
-            isEnabled: _isButtonEnabled(widget.viewModel),
-            onPressed: () => _onButtonClick(widget.viewModel),
-          ),
+        FilterButton(
+          isEnabled: _isButtonEnabled(widget.viewModel),
+          onPressed: () => _onButtonClick(widget.viewModel),
         ),
       ],
     );
@@ -164,27 +162,22 @@ class _FiltersState extends State<_Filters> {
       child: Column(
         children: [
           if (widget.viewModel.shouldDisplayDistanceFiltre) ...[
-            SizedBox(height: Margins.spacing_l),
             DistanceSlider(
               initialDistanceValue: widget.viewModel.initialDistanceValue.toDouble(),
               onValueChange: (value) => widget.onDistanceValueChange(value),
             ),
+            SizedBox(height: Margins.spacing_m),
           ],
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m, vertical: Margins.spacing_l),
-            child: _StartDateFilters(
-              initialDateValue: _isActiveDate ? _currentStartDate : null,
-              onIsActiveChange: _onIsActiveChange,
-              onDateChange: _onDateChange,
-              isActiveDate: _isActiveDate,
-            ),
+          _StartDateFilters(
+            initialDateValue: _isActiveDate ? _currentStartDate : null,
+            onIsActiveChange: _onIsActiveChange,
+            onDateChange: _onDateChange,
+            isActiveDate: _isActiveDate,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-            child: _DomainFilters(
-              currentDomainValue: _currentDomainValue!,
-              onValueChange: (value) => widget.onDomainValueChange(value),
-            ),
+          SizedBox(height: Margins.spacing_m),
+          _DomainFilters(
+            currentDomainValue: _currentDomainValue!,
+            onValueChange: (value) => widget.onDomainValueChange(value),
           ),
           SizedBox(height: 100),
         ],
@@ -294,6 +287,7 @@ class _DomainListState extends State<_DomainList> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: Domaine.values
           .map((domain) => RadioListTile<Domaine>(
+              contentPadding: EdgeInsets.zero,
               controlAffinity: ListTileControlAffinity.trailing,
               selected: domain == _currentValue,
               title: Text(domain.titre),

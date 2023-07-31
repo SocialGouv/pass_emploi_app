@@ -7,28 +7,28 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 enum OffreFilter { tous, emploi, immersion, alternance, serviceCivique }
 
-class OffreFiltersPage extends StatefulWidget {
+class OffreFiltersBottomSheet extends StatefulWidget {
   final OffreFilter initialFilter;
 
-  const OffreFiltersPage({required this.initialFilter});
+  const OffreFiltersBottomSheet({required this.initialFilter});
 
-  static MaterialPageRoute<OffreFilter> materialPageRoute({OffreFilter initialFilter = OffreFilter.tous}) =>
-      MaterialPageRoute(builder: (_) {
-        return OffreFiltersPage(
-          initialFilter: initialFilter,
-        );
-      });
+  static Future<OffreFilter?> show(BuildContext context, OffreFilter initialFilter) {
+    return showPassEmploiBottomSheet(
+      context: context,
+      builder: (context) => OffreFiltersBottomSheet(initialFilter: initialFilter),
+    );
+  }
 
   @override
-  State<OffreFiltersPage> createState() => _OffreFiltersPageState();
+  State<OffreFiltersBottomSheet> createState() => _OffreFiltersBottomSheetState();
 }
 
-class _OffreFiltersPageState extends State<OffreFiltersPage> {
+class _OffreFiltersBottomSheetState extends State<OffreFiltersBottomSheet> {
   OffreFilter _selectedFilter = OffreFilter.tous;
 
   @override
@@ -52,16 +52,18 @@ class _OffreFiltersPageState extends State<OffreFiltersPage> {
     );
   }
 
-  Scaffold _builder(BuildContext context, OffreFiltersPageViewModel viewModel) {
-    return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.filterList),
-      body: _Body(
-        onFilterSelected: _onFilterSelected,
-        offreFilter: _selectedFilter,
-        offreTypes: viewModel.offreTypes,
+  Widget _builder(BuildContext context, OffreFiltersPageViewModel viewModel) {
+    return BottomSheetWrapper(
+      title: Strings.filterList,
+      body: Scaffold(
+        body: _Body(
+          onFilterSelected: _onFilterSelected,
+          offreFilter: _selectedFilter,
+          offreTypes: viewModel.offreTypes,
+        ),
+        floatingActionButton: _ApplyFiltersButton(onPressed: () => Navigator.pop(context, _selectedFilter)),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      floatingActionButton: _ApplyFiltersButton(onPressed: () => Navigator.pop(context, _selectedFilter)),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
@@ -81,24 +83,21 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       label: Strings.listSemanticsLabel,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: Margins.spacing_base),
-            _OffreFilterSubtitle(),
-            SizedBox(height: Margins.spacing_base),
-            _buildRadioListTile(OffreFilter.tous, Strings.filterAll),
-            if (offreTypes.contains(OffreType.emploi)) _buildRadioListTile(OffreFilter.emploi, Strings.filterEmploi),
-            if (offreTypes.contains(OffreType.alternance))
-              _buildRadioListTile(OffreFilter.alternance, Strings.filterAlternance),
-            if (offreTypes.contains(OffreType.immersion))
-              _buildRadioListTile(OffreFilter.immersion, Strings.filterImmersion),
-            if (offreTypes.contains(OffreType.serviceCivique))
-              _buildRadioListTile(OffreFilter.serviceCivique, Strings.filterServiceCivique),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: Margins.spacing_base),
+          _OffreFilterSubtitle(),
+          SizedBox(height: Margins.spacing_base),
+          _buildRadioListTile(OffreFilter.tous, Strings.filterAll),
+          if (offreTypes.contains(OffreType.emploi)) _buildRadioListTile(OffreFilter.emploi, Strings.filterEmploi),
+          if (offreTypes.contains(OffreType.alternance))
+            _buildRadioListTile(OffreFilter.alternance, Strings.filterAlternance),
+          if (offreTypes.contains(OffreType.immersion))
+            _buildRadioListTile(OffreFilter.immersion, Strings.filterImmersion),
+          if (offreTypes.contains(OffreType.serviceCivique))
+            _buildRadioListTile(OffreFilter.serviceCivique, Strings.filterServiceCivique),
+        ],
       ),
     );
   }

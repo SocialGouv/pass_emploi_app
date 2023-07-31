@@ -13,15 +13,18 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 
 class EvenementEmploiFiltresPage extends StatelessWidget {
-  static MaterialPageRoute<bool> materialPageRoute() {
-    return MaterialPageRoute(builder: (_) => EvenementEmploiFiltresPage());
+  static Future<bool?> show(BuildContext context) {
+    return showPassEmploiBottomSheet<bool>(
+      context: context,
+      builder: (context) => EvenementEmploiFiltresPage(),
+    );
   }
 
   @override
@@ -69,24 +72,25 @@ class _ScaffoldState extends State<_Scaffold> {
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = Colors.white;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: Strings.evenementEmploiFiltres, backgroundColor: backgroundColor),
-      body: _Filtres(
-        viewModel: widget.viewModel,
-        currentDateDebut: _currentDateDebut,
-        currentDateFin: _currentDateFin,
-        onTypeValueChange: (type) => _setTypeFiltreState(type),
-        onModalitesValueChange: (selectedOptions) => _setModalitesFiltreState(selectedOptions),
-        onDateDebutValueChange: (dateTime) => _setDateDebutFiltreState(dateTime),
-        onDateFinValueChange: (dateTime) => _setDateFinFiltreState(dateTime),
+    return BottomSheetWrapper(
+      title: Strings.evenementEmploiFiltres,
+      padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+      body: Scaffold(
+        body: _Filtres(
+          viewModel: widget.viewModel,
+          currentDateDebut: _currentDateDebut,
+          currentDateFin: _currentDateFin,
+          onTypeValueChange: (type) => _setTypeFiltreState(type),
+          onModalitesValueChange: (selectedOptions) => _setModalitesFiltreState(selectedOptions),
+          onDateDebutValueChange: (dateTime) => _setDateDebutFiltreState(dateTime),
+          onDateFinValueChange: (dateTime) => _setDateFinFiltreState(dateTime),
+        ),
+        floatingActionButton: FilterButton(
+          isEnabled: _isButtonEnabled(widget.viewModel.displayState),
+          onPressed: () => {_onButtonClick(widget.viewModel)},
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      floatingActionButton: FilterButton(
-        isEnabled: _isButtonEnabled(widget.viewModel.displayState),
-        onPressed: () => {_onButtonClick(widget.viewModel)},
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -150,35 +154,26 @@ class _Filtres extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: Margins.spacing_l),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-            child: _TypeFiltre(
-              initialTypeValue: viewModel.initialTypeValue,
-              onValueChange: (value) => onTypeValueChange(value),
-            ),
+          SizedBox(height: Margins.spacing_m),
+          _TypeFiltre(
+            initialTypeValue: viewModel.initialTypeValue,
+            onValueChange: (value) => onTypeValueChange(value),
           ),
           SizedBox(height: Margins.spacing_m),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-            child: CheckBoxGroup<EvenementEmploiModalite>(
-              contentPadding: EdgeInsets.only(left: Margins.spacing_base, right: Margins.spacing_s),
-              title: Strings.evenementEmploiFiltresModalites,
-              options: viewModel.modalitesFiltres,
-              onSelectedOptionsUpdated: (selectedOptions) {
-                onModalitesValueChange(selectedOptions as List<CheckboxValueViewModel<EvenementEmploiModalite>>);
-              },
-            ),
+          CheckBoxGroup<EvenementEmploiModalite>(
+            contentPadding: EdgeInsets.only(left: Margins.spacing_base, right: Margins.spacing_s),
+            title: Strings.evenementEmploiFiltresModalites,
+            options: viewModel.modalitesFiltres,
+            onSelectedOptionsUpdated: (selectedOptions) {
+              onModalitesValueChange(selectedOptions as List<CheckboxValueViewModel<EvenementEmploiModalite>>);
+            },
           ),
           SizedBox(height: Margins.spacing_m),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-            child: _DateFiltres(
-              onDateDebutValueChange: onDateDebutValueChange,
-              onDateFinValueChange: onDateFinValueChange,
-              initialDateDebut: currentDateDebut,
-              initialDateFin: currentDateFin,
-            ),
+          _DateFiltres(
+            onDateDebutValueChange: onDateDebutValueChange,
+            onDateFinValueChange: onDateFinValueChange,
+            initialDateDebut: currentDateDebut,
+            initialDateFin: currentDateFin,
           ),
           if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
           SizedBox(height: 160),

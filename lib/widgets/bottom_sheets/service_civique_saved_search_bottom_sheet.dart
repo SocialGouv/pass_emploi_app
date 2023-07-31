@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search
 import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/service_civique_bottom_sheet_form.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -23,9 +24,9 @@ class ServiceCiviqueSavedSearchBottomSheet extends AbstractSavedSearchBottomShee
   }
 
   Widget _buildForm(BuildContext context, ServiceCiviqueSavedSearchViewModel viewModel) {
-    return FractionallySizedBox(
-      heightFactor: 0.90,
-      child: ServiceCiviqueBottomSheetForm(viewModel),
+    return BottomSheetWrapper(
+      body: ServiceCiviqueBottomSheetForm(viewModel),
+      title: Strings.createSavedSearchTitle,
     );
   }
 

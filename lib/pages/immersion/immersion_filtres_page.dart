@@ -5,17 +5,19 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 
 class ImmersionFiltresPage extends StatefulWidget {
-  static MaterialPageRoute<bool> materialPageRoute() {
-    return MaterialPageRoute(builder: (_) => ImmersionFiltresPage());
+  static Future<bool?> show(BuildContext context) {
+    return showPassEmploiBottomSheet<bool>(
+      context: context,
+      builder: (context) => ImmersionFiltresPage(),
+    );
   }
 
   @override
@@ -41,10 +43,8 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
   }
 
   Widget _scaffold(ImmersionFiltresViewModel viewModel) {
-    const backgroundColor = Colors.white;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: Strings.offresEmploiFiltresTitle, backgroundColor: backgroundColor),
+    return BottomSheetWrapper(
+      title: Strings.offresEmploiFiltresTitle,
       body: _Content(viewModel: viewModel),
     );
   }
@@ -68,18 +68,14 @@ class _ContentState extends State<_Content> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: Margins.spacing_l),
           DistanceSlider(
             initialDistanceValue: widget.viewModel.initialDistanceValue.toDouble(),
             onValueChange: (value) => _setDistanceFilterState(value),
           ),
           SepLineWithPadding(),
           if (_isError(widget.viewModel)) ErrorText(widget.viewModel.errorMessage),
-          Padding(
-            padding: const EdgeInsets.all(Margins.spacing_m),
-            child: FilterButton(
-                isEnabled: _isButtonEnabled(widget.viewModel), onPressed: () => _onButtonClick(widget.viewModel)),
-          ),
+          FilterButton(
+              isEnabled: _isButtonEnabled(widget.viewModel), onPressed: () => _onButtonClick(widget.viewModel)),
         ],
       ),
     );
