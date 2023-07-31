@@ -19,6 +19,7 @@ class AuthIdToken extends Equatable {
   final String firstName;
   final String lastName;
   final String? email;
+  final int issuedAt;
   final int expiresAt;
   final String loginMode;
 
@@ -27,6 +28,7 @@ class AuthIdToken extends Equatable {
     required this.firstName,
     required this.lastName,
     required this.email,
+    required this.issuedAt,
     required this.expiresAt,
     required this.loginMode,
   });
@@ -49,6 +51,7 @@ class AuthIdToken extends Equatable {
       firstName: json["given_name"] as String,
       lastName: json["family_name"] as String,
       email: json["email"] as String?,
+      issuedAt: json["iat"] as int,
       expiresAt: json["exp"] as int,
       loginMode: json["userStructure"] as String,
     );
@@ -57,7 +60,7 @@ class AuthIdToken extends Equatable {
   bool isValid() => (expiresAt - _additionalExpirationSecurityIsSeconds) > DateTime.now().millisecondsSinceEpoch / 1000;
 
   @override
-  List<Object?> get props => [userId, firstName, lastName, expiresAt];
+  List<Object?> get props => [userId, firstName, lastName, issuedAt, expiresAt];
 
   LoginMode getLoginMode() {
     if (loginMode == "MILO") return LoginMode.MILO;

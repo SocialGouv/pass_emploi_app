@@ -99,6 +99,7 @@ class AuthenticatorLoggedInAndValidIdTokenStub extends Authenticator {
         firstName: "F",
         lastName: "L",
         email: "email@email.com",
+        issuedAt: (DateTime.now().millisecondsSinceEpoch ~/ 1000),
         expiresAt: (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 1000,
         loginMode: 'MILO',
       );
@@ -115,10 +116,11 @@ class AuthenticatorLoggedInAndInvalidIdTokenStub extends Authenticator {
 
   @override
   Future<AuthIdToken?> idToken() async => AuthIdToken(
-    userId: "id",
+        userId: "id",
         firstName: "F",
         lastName: "L",
         email: "email@email.com",
+        issuedAt: 0,
         expiresAt: 0,
         loginMode: 'MILO',
       );
