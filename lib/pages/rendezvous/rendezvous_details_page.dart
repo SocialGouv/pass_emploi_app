@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
-import 'package:pass_emploi_app/pages/chat_partage_page.dart';
+import 'package:pass_emploi_app/pages/chat_partage_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
@@ -428,12 +428,7 @@ class _Share extends StatelessWidget {
         children: [
           PrimaryActionButton(
             label: buttonTitle ?? Strings.shareToConseiller,
-            onPressed: () {
-              Navigator.push(
-                context,
-                ChatPartagePage.materialPageRoute(source),
-              );
-            },
+            onPressed: () => ChatPartageBottomSheet.show(context, source),
           ),
         ],
       ),

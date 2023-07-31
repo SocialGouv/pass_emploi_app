@@ -11,26 +11,27 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class ChatPartagePage extends StatefulWidget {
+class ChatPartageBottomSheet extends StatefulWidget {
   final ChatPartageSource source;
 
-  ChatPartagePage._({required this.source});
+  ChatPartageBottomSheet._({required this.source});
 
   @override
-  _ChatPartagePageState createState() => _ChatPartagePageState();
+  _ChatPartageBottomSheetState createState() => _ChatPartageBottomSheetState();
 
-  static MaterialPageRoute<void> materialPageRoute(ChatPartageSource source) {
-    return MaterialPageRoute(builder: (context) {
-      return ChatPartagePage._(source: source);
-    });
+  static Future<void> show(BuildContext context, ChatPartageSource source) {
+    return showPassEmploiBottomSheet(
+      context: context,
+      builder: (context) => ChatPartageBottomSheet._(source: source),
+    );
   }
 }
 
-class _ChatPartagePageState extends State<ChatPartagePage> {
+class _ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
   TextEditingController? _controller;
 
   @override
@@ -54,10 +55,8 @@ class _ChatPartagePageState extends State<ChatPartagePage> {
 
   Widget _builder(BuildContext context, ChatPartagePageViewModel viewModel) {
     _controller ??= TextEditingController(text: viewModel.defaultMessage);
-    const backgroundColor = Colors.white;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: viewModel.pageTitle, backgroundColor: backgroundColor),
+    return BottomSheetWrapper(
+      title: viewModel.pageTitle,
       body: _Body(viewModel, _controller),
     );
   }
@@ -90,24 +89,21 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(Margins.spacing_m),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(_viewModel.willShareTitle, style: TextStyles.textBaseBold),
-            SizedBox(height: Margins.spacing_base),
-            _Offre(_viewModel),
-            SizedBox(height: Margins.spacing_l),
-            Text(Strings.messagePourConseiller, style: TextStyles.textBaseMedium),
-            SizedBox(height: Margins.spacing_base),
-            _TextField(_controller),
-            SizedBox(height: Margins.spacing_l),
-            _InfoPartage(_viewModel),
-            SizedBox(height: Margins.spacing_l),
-            _PartageButton(_viewModel, _controller),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(_viewModel.willShareTitle, style: TextStyles.textBaseBold),
+          SizedBox(height: Margins.spacing_base),
+          _Offre(_viewModel),
+          SizedBox(height: Margins.spacing_l),
+          Text(Strings.messagePourConseiller, style: TextStyles.textBaseMedium),
+          SizedBox(height: Margins.spacing_base),
+          _TextField(_controller),
+          SizedBox(height: Margins.spacing_l),
+          _InfoPartage(_viewModel),
+          SizedBox(height: Margins.spacing_l),
+          _PartageButton(_viewModel, _controller),
+        ],
       ),
     );
   }
