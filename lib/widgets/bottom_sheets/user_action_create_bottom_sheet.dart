@@ -11,13 +11,17 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 class CreateUserActionBottomSheet extends StatefulWidget {
+  static MaterialPageRoute<String?> materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => CreateUserActionBottomSheet());
+  }
+
   @override
   State<CreateUserActionBottomSheet> createState() => _CreateUserActionBottomSheetState();
 }
@@ -36,10 +40,24 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
     _initialStatus = UserActionStatus.NOT_STARTED;
   }
 
-  void _update(UserActionStatus newStatus) {
-    setState(() {
-      _initialStatus = newStatus;
-    });
+  void _updateUserActionStatus(UserActionStatus newStatus) {
+    setState(() => _initialStatus = newStatus);
+  }
+
+  void _updateContent(String content) {
+    setState(() => _actionContent = content);
+  }
+
+  void _updateComment(String comment) {
+    setState(() => _actionComment = comment);
+  }
+
+  void _updateDateEcheance(DateTime date) {
+    setState(() => _dateEcheance = date);
+  }
+
+  void _updateRappel(bool rappel) {
+    setState(() => _rappel = rappel);
   }
 
   @override
@@ -55,51 +73,48 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
   }
 
   Widget _buildForm(BuildContext context, UserActionCreateViewModel viewModel) {
-    return Form(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      key: _formKey,
-      child: BottomSheetWrapper(
-        title: Strings.addAnAction,
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _Mandatory(),
-            SizedBox(height: Margins.spacing_base),
-            SepLine(0, 0),
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  ..._actionContentAndComment(viewModel),
-                  SizedBox(height: Margins.spacing_xl),
-                  _DateEcheance(
-                    dateEcheance: _dateEcheance,
-                    onDateEcheanceChange: (date) {
-                      setState(() {
-                        _dateEcheance = date;
-                      });
-                    },
-                  ),
-                  SizedBox(height: Margins.spacing_xl),
-                  _Rappel(
-                    value: _rappel,
-                    isActive: viewModel.isRappelActive(_dateEcheance),
-                    onChanged: (value) {
-                      setState(() {
-                        _rappel = value;
-                      });
-                    },
-                  ),
-                  SizedBox(height: Margins.spacing_xl),
-                  SepLine(0, 0),
-                  _defineStatus(viewModel),
-                ],
+    return Scaffold(
+      appBar: SecondaryAppBar(title: Strings.addAnAction),
+      floatingActionButton: _createButton(viewModel),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _Mandatory(),
+              SizedBox(height: Margins.spacing_base),
+              SepLine(0, 0),
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    ..._actionContentAndComment(viewModel),
+                    SizedBox(height: Margins.spacing_xl),
+                    _DateEcheance(
+                      dateEcheance: _dateEcheance,
+                      onDateEcheanceChange: _updateDateEcheance,
+                    ),
+                    SizedBox(height: Margins.spacing_xl),
+                    _Rappel(
+                      value: _rappel,
+                      isActive: viewModel.isRappelActive(_dateEcheance),
+                      onChanged: _updateRappel,
+                    ),
+                    SizedBox(height: Margins.spacing_xl),
+                    SepLine(0, 0),
+                    _defineStatus(viewModel),
+                    SizedBox(height: Margins.spacing_xl),
+                    SizedBox(height: Margins.spacing_xl),
+                  ],
+                ),
               ),
-            ),
-            SepLine(0, 0),
-            _createButton(viewModel),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -108,7 +123,6 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
   List<Widget> _actionContentAndComment(UserActionCreateViewModel viewModel) {
     return [
       Semantics(
-        // Semantics is used to make the screen reader read the label of the text field
         label: Strings.actionLabel,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +131,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
             SizedBox(height: Margins.spacing_base),
             _textField(
               isEnabled: viewModel.displayState is! DisplayLoading,
-              onChanged: (value) => _actionContent = value,
+              onChanged: _updateContent,
               isMandatory: true,
               mandatoryError: Strings.mandatoryActionLabelError,
               textInputAction: TextInputAction.next,
@@ -130,7 +144,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
       SizedBox(height: Margins.spacing_base),
       _textField(
         isEnabled: viewModel.displayState is! DisplayLoading,
-        onChanged: (value) => _actionComment = value,
+        onChanged: _updateComment,
         textInputAction: TextInputAction.done,
       ),
     ];
@@ -175,7 +189,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
         SizedBox(height: Margins.spacing_base),
         UserActionStatusGroup(
           status: _initialStatus,
-          update: (wantedStatus) => _update(wantedStatus),
+          update: (wantedStatus) => _updateUserActionStatus(wantedStatus),
           isCreated: true,
           isEnabled: viewModel.displayState is! DisplayLoading,
         ),
@@ -184,37 +198,41 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
   }
 
   Widget _createButton(UserActionCreateViewModel viewModel) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        PrimaryActionButton(
-          label: Strings.create,
-          onPressed: _isLoading(viewModel) && _isFormValid()
-              ? () => {
-                    viewModel.createUserAction(
-                      UserActionCreateRequest(
-                        _actionContent!,
-                        _actionComment,
-                        _dateEcheance!,
-                        _rappel,
-                        _initialStatus,
-                      ),
-                    )
-                  }
-              : null,
-        ),
-        if (viewModel.displayState is DisplayError)
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                Strings.actionCreationError,
-                textAlign: TextAlign.center,
-                style: TextStyles.textSRegular(color: AppColors.warning),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PrimaryActionButton(
+            label: Strings.create,
+            onPressed: _isLoading(viewModel) && _isFormValid()
+                ? () => {
+                      viewModel.createUserAction(
+                        UserActionCreateRequest(
+                          _actionContent!,
+                          _actionComment,
+                          _dateEcheance!,
+                          _rappel,
+                          _initialStatus,
+                        ),
+                      )
+                    }
+                : null,
+          ),
+          if (viewModel.displayState is DisplayError)
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  Strings.actionCreationError,
+                  textAlign: TextAlign.center,
+                  style: TextStyles.textSRegular(color: AppColors.warning),
+                ),
               ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 

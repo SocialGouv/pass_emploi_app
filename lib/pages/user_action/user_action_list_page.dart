@@ -15,7 +15,6 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
@@ -124,12 +123,12 @@ class _UserActionListPageState extends State<UserActionListPage> {
       label: Strings.addAnAction,
       icon: AppIcons.add_rounded,
       rippleColor: AppColors.primaryDarken,
-      onPressed: () => showPassEmploiBottomSheet(
-        context: context,
-        builder: (context) => CreateUserActionBottomSheet(),
+      onPressed: () => Navigator.push(
+        context,
+        CreateUserActionBottomSheet.materialPageRoute(),
       ).then((value) {
         if (value != null) {
-          _showSnackBarWithDetail(value as String);
+          _showSnackBarWithDetail(value);
           _onCreateUserActionDismissed(viewModel);
         }
       }),
