@@ -71,9 +71,13 @@ class SavedSearchDeleteDialog extends StatelessWidget {
 
   Widget _alertDialog(BuildContext context, SavedSearchDeleteViewModel viewModel) {
     return AlertDialog(
+      surfaceTintColor: Colors.white,
       title: Column(
         children: [
-          SvgPicture.asset(Drawables.trashAlertIllustration),
+          SizedBox.square(
+            dimension: 120,
+            child: SvgPicture.asset(Drawables.trashAlertIllustration),
+          ),
           Text(Strings.savedSearchDeleteMessage, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
           if (_isLoading(viewModel)) _loader(),
           if (viewModel.displayState == SavedSearchDeleteDisplayState.FAILURE) _error(),
@@ -87,12 +91,6 @@ class SavedSearchDeleteDialog extends StatelessWidget {
         ),
         PrimaryActionButton(
           label: Strings.suppressionLabel,
-          textColor: AppColors.warning,
-          backgroundColor: AppColors.warningLighten,
-          disabledBackgroundColor: AppColors.warningLighten,
-          rippleColor: AppColors.warningLighten,
-          withShadow: false,
-          heightPadding: Margins.spacing_s,
           onPressed: _isLoading(viewModel) ? null : () => viewModel.onDeleteConfirm(savedSearchId),
         ),
       ],
