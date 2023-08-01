@@ -290,7 +290,7 @@ class _DomainListState extends State<_DomainList> {
               contentPadding: EdgeInsets.zero,
               controlAffinity: ListTileControlAffinity.trailing,
               selected: domain == _currentValue,
-              title: Text(domain.titre),
+              title: Text(domain.titre, style: TextStyles.textBaseMedium),
               value: domain,
               groupValue: _currentValue,
               onChanged: (value) {

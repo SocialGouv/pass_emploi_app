@@ -106,7 +106,7 @@ class _Body extends StatelessWidget {
     return RadioListTile<OffreFilter>(
       contentPadding: EdgeInsets.zero,
       activeColor: AppColors.primary,
-      title: Text(title),
+      title: Text(title, style: TextStyles.textBaseMedium),
       value: value,
       groupValue: offreFilter,
       onChanged: onFilterSelected,

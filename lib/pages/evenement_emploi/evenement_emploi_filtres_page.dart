@@ -222,7 +222,7 @@ class _TypeFiltreState extends State<_TypeFiltre> {
                     contentPadding: EdgeInsets.only(left: Margins.spacing_base, right: Margins.spacing_s),
                     controlAffinity: ListTileControlAffinity.trailing,
                     selected: type == _currentValue,
-                    title: Text(type?.label ?? Strings.evenementEmploiTypeAll),
+                    title: Text(type?.label ?? Strings.evenementEmploiTypeAll, style: TextStyles.textBaseMedium),
                     value: type,
                     groupValue: _currentValue,
                     onChanged: (value) {

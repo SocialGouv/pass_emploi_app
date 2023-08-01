@@ -122,7 +122,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
           .map((option) => RadioListTile<int>(
               controlAffinity: ListTileControlAffinity.trailing,
               selected: option.id == _answerId,
-              title: Text(option.libelle),
+              title: Text(option.libelle, style: TextStyles.textBaseMedium),
               value: option.id,
               groupValue: _answerId,
               onChanged: (value) {
