@@ -1,0 +1,17 @@
+appId: com.apple.mobilesafari
+---
+- clearState
+- clearKeychain
+- launchApp
+- tapOn:
+    id: "TabBarItemTitle"
+- inputText: "https://web.pass-emploi.incubateur.net/login"
+- tapOn:
+    id: "Go"
+- tapOn: "Terminer"
+- tapOn: "Authentification pass emploi"
+- tapOn: "Nom d'utilisateur"
+- inputText: ${MAESTRO_LOGIN_WEB}
+- tapOn: "Mot de passe"
+- inputText: ${MAESTRO_PASSWORD_WEB}
+- tapOn: "Connexion"
