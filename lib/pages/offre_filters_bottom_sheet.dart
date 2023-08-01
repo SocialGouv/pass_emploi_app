@@ -107,6 +107,7 @@ class _Body extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       activeColor: AppColors.primary,
       title: Text(title, style: TextStyles.textBaseMedium),
+      controlAffinity: ListTileControlAffinity.leading,
       value: value,
       groupValue: offreFilter,
       onChanged: onFilterSelected,

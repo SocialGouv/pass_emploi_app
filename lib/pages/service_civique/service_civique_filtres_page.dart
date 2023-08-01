@@ -277,7 +277,7 @@ class _DomainListState extends State<_DomainList> {
       children: Domaine.values
           .map((domain) => RadioListTile<Domaine>(
               contentPadding: EdgeInsets.zero,
-              controlAffinity: ListTileControlAffinity.trailing,
+              controlAffinity: ListTileControlAffinity.leading,
               selected: domain == _currentValue,
               title: Text(domain.titre, style: TextStyles.textBaseMedium),
               value: domain,

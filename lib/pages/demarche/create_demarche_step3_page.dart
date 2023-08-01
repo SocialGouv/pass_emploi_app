@@ -117,7 +117,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
         return Text(comment.label, style: TextStyles.textBaseBold);
       }
       return RadioListTile<String>(
-          controlAffinity: ListTileControlAffinity.trailing,
+          controlAffinity: ListTileControlAffinity.leading,
           title: Text(comment.label, style: TextStyles.textBaseMedium),
           contentPadding: const EdgeInsets.all(0),
           value: comment.code,

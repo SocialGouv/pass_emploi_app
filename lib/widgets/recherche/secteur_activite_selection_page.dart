@@ -88,7 +88,7 @@ class _SecteurActiviteListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RadioListTile<SecteurActivite?>(
-      controlAffinity: ListTileControlAffinity.trailing,
+      controlAffinity: ListTileControlAffinity.leading,
       selected: secteurActivite == selectedValue,
       title: Padding(
         padding: const EdgeInsets.all(Margins.spacing_s),

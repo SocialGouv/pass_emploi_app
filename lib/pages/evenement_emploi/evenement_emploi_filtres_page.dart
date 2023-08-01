@@ -211,7 +211,7 @@ class _TypeFiltreState extends State<_TypeFiltre> {
             children: [null, ...EvenementEmploiType.values]
                 .map((type) => RadioListTile<EvenementEmploiType?>(
                     contentPadding: EdgeInsets.only(left: Margins.spacing_base, right: Margins.spacing_s),
-                    controlAffinity: ListTileControlAffinity.trailing,
+                    controlAffinity: ListTileControlAffinity.leading,
                     selected: type == _currentValue,
                     title: Text(type?.label ?? Strings.evenementEmploiTypeAll, style: TextStyles.textBaseMedium),
                     value: type,
