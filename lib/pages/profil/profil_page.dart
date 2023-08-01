@@ -26,7 +26,6 @@ import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/standalone_profil_card.dart';
 import 'package:pass_emploi_app/widgets/contact_page.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/label_value_row.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 import 'package:pass_emploi_app/widgets/rating_page.dart';
 
