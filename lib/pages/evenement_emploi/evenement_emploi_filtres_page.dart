@@ -59,7 +59,6 @@ class _ScaffoldState extends State<_Scaffold> {
   List<CheckboxValueViewModel<EvenementEmploiModalite>>? _currentModaliteFiltres;
   DateTime? _currentDateDebut;
   DateTime? _currentDateFin;
-  var _hasFormChanged = false;
 
   @override
   void initState() {
@@ -95,22 +94,15 @@ class _ScaffoldState extends State<_Scaffold> {
   }
 
   void _setTypeFiltreState(EvenementEmploiType? type) {
-    setState(() {
-      _hasFormChanged = true;
-      _currentTypeValue = type;
-    });
+    setState(() => _currentTypeValue = type);
   }
 
   void _setModalitesFiltreState(List<CheckboxValueViewModel<EvenementEmploiModalite>> selectedOptions) {
-    setState(() {
-      _hasFormChanged = true;
-      _currentModaliteFiltres = selectedOptions;
-    });
+    setState(() => _currentModaliteFiltres = selectedOptions);
   }
 
   void _setDateDebutFiltreState(DateTime dateTime) {
     setState(() {
-      _hasFormChanged = true;
       _currentDateDebut = dateTime;
       if (_currentDateFin?.isBefore(dateTime) == true) _currentDateFin = null;
     });
@@ -118,12 +110,11 @@ class _ScaffoldState extends State<_Scaffold> {
 
   void _setDateFinFiltreState(DateTime dateTime) {
     setState(() {
-      _hasFormChanged = true;
       _currentDateFin = dateTime;
     });
   }
 
-  bool _isButtonEnabled(DisplayState displayState) => _hasFormChanged && displayState != DisplayState.LOADING;
+  bool _isButtonEnabled(DisplayState displayState) => displayState != DisplayState.LOADING;
 
   void _onButtonClick(EvenementEmploiFiltresViewModel viewModel) {
     viewModel.updateFiltres(_currentTypeValue, _currentModaliteFiltres, _currentDateDebut, _currentDateFin);

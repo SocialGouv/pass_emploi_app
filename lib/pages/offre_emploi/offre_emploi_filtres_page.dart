@@ -75,7 +75,6 @@ class _ContentState extends State<_Content> {
   bool? _currentDebutantOnlyFiltre;
   List<CheckboxValueViewModel<ContratFiltre>>? _currentContratFiltres;
   List<CheckboxValueViewModel<DureeFiltre>>? _currentDureeFiltres;
-  var _hasFormChanged = false;
 
   @override
   void initState() {
@@ -106,37 +105,25 @@ class _ContentState extends State<_Content> {
   }
 
   void _setDistanceFilterState(double value) {
-    setState(() {
-      _hasFormChanged = true;
-      _currentSliderValue = value;
-    });
+    setState(() => _currentSliderValue = value);
   }
 
   void _setDebutantOnlyFilterState(bool value) {
-    setState(() {
-      _hasFormChanged = true;
-      _currentDebutantOnlyFiltre = value;
-    });
+    setState(() => _currentDebutantOnlyFiltre = value);
   }
 
   void _setContractFilterState(List<CheckboxValueViewModel<ContratFiltre>> selectedOptions) {
-    setState(() {
-      _hasFormChanged = true;
-      _currentContratFiltres = selectedOptions;
-    });
+    setState(() => _currentContratFiltres = selectedOptions);
   }
 
   void _setContractDurationState(List<CheckboxValueViewModel<DureeFiltre>> selectedOptions) {
-    setState(() {
-      _hasFormChanged = true;
-      _currentDureeFiltres = selectedOptions;
-    });
+    setState(() => _currentDureeFiltres = selectedOptions);
   }
 
   double _sliderValueToDisplay(double initialDistanceValue) =>
       _currentSliderValue != null ? _currentSliderValue! : initialDistanceValue;
 
-  bool _isButtonEnabled(DisplayState displayState) => _hasFormChanged && displayState != DisplayState.LOADING;
+  bool _isButtonEnabled(DisplayState displayState) => displayState != DisplayState.LOADING;
 
   void _onButtonClick(OffreEmploiFiltresViewModel viewModel) {
     viewModel.updateFiltres(

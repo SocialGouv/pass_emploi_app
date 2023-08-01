@@ -61,7 +61,6 @@ class _ContentState extends State<_Content> {
   double? _currentSliderValue;
   DateTime? _currentStartDate;
   Domaine? _currentDomainValue;
-  var _isFiltersUpdated = false;
 
   @override
   void initState() {
@@ -90,28 +89,18 @@ class _ContentState extends State<_Content> {
   }
 
   void _setDistanceFilterState(double value) {
-    setState(() {
-      _isFiltersUpdated = true;
-      _currentSliderValue = value;
-    });
+    setState(() => _currentSliderValue = value);
   }
 
   void _setStartDateFilterState(DateTime? date, bool isActive) {
-    setState(() {
-      _isFiltersUpdated = true;
-      _currentStartDate = isActive ? date : null;
-    });
+    setState(() => _currentStartDate = isActive ? date : null);
   }
 
   void _setDomainFilterState(Domaine? domain) {
-    setState(() {
-      _isFiltersUpdated = true;
-      _currentDomainValue = domain;
-    });
+    setState(() => _currentDomainValue = domain);
   }
 
-  bool _isButtonEnabled(ServiceCiviqueFiltresViewModel viewModel) =>
-      _isFiltersUpdated && viewModel.displayState != DisplayState.LOADING;
+  bool _isButtonEnabled(ServiceCiviqueFiltresViewModel viewModel) => viewModel.displayState != DisplayState.LOADING;
 
   void _onButtonClick(ServiceCiviqueFiltresViewModel viewModel) {
     viewModel.updateFiltres(
