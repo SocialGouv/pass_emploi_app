@@ -399,6 +399,7 @@ class Strings {
   static const String comment = "Comment";
   static const String selectComment = "*Sélectionner un des moyens";
   static const String selectQuand = "*Sélectionner une date d’échéance";
+  static const String demarchePressedTip = "Choisir cette démarche";
 
   static String demarcheActiveLabel = "À réaliser pour le ";
 
