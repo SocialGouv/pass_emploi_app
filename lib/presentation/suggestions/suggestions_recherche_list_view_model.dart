@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
@@ -10,6 +12,7 @@ import 'package:redux/redux.dart';
 
 class SuggestionsRechercheListViewModel extends Equatable {
   final List<String> suggestionIds;
+  final LoginMode? loginMode;
   final DisplayState traiterDisplayState;
   final SavedSearchNavigationState searchNavigationState;
   final Function() resetTraiterState;
@@ -17,6 +20,7 @@ class SuggestionsRechercheListViewModel extends Equatable {
 
   SuggestionsRechercheListViewModel._({
     required this.suggestionIds,
+    required this.loginMode,
     required this.traiterDisplayState,
     required this.searchNavigationState,
     required this.resetTraiterState,
@@ -24,8 +28,10 @@ class SuggestionsRechercheListViewModel extends Equatable {
   });
 
   factory SuggestionsRechercheListViewModel.create(Store<AppState> store) {
+    final loginState = store.state.loginState;
     return SuggestionsRechercheListViewModel._(
       suggestionIds: _ids(store),
+      loginMode: loginState is LoginSuccessState ? loginState.user.loginMode : null,
       traiterDisplayState: _displayState(store),
       searchNavigationState: SavedSearchNavigationState.fromAppState(store.state),
       resetTraiterState: () => store.dispatch(TraiterSuggestionRechercheResetAction()),

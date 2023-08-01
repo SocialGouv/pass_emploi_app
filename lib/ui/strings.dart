@@ -840,6 +840,11 @@ class Strings {
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
   static String voirResultatsSuggestion = "Voir les résultats";
+  static String emptySuggestionAlerteListTitre = "Vous n’avez pas encore de suggestions d’alerte";
+  static String emptySuggestionAlerteListDescriptionMilo =
+      "Vous pouvez découvrir vos métiers favoris dans votre profil pour avoir des suggestions qui vous correspondent";
+  static String emptySuggestionAlerteListDescriptionPoleEmploi =
+      "Vous pouvez remplir votre profil Pôle emploi et découvrir vos métiers favoris dans votre profil pour avoir des suggestions qui vous correspondent";
 
   // Événements
   static String eventListError = "Erreur lors de la récupération des événements";

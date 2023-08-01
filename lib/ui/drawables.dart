@@ -22,6 +22,7 @@ class Drawables {
   static String trashAlertIllustration = _assets + "ic_trash_alert" + _svg;
   static String emptyIllustration = _assets + "ic_empty" + _svg;
   static String deleteIllustration = _assets + "ic_delete" + _svg;
+  static String actionInacessibleIllustration = _assets + "action_inacessible" + _svg;
 
   static String badge = _assets + "ic_badge" + _svg;
 }
