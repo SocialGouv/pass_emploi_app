@@ -733,6 +733,26 @@ class Strings {
 
   static String helpTitle = "Besoin d’aide ?";
   static String ratingAppLabel = "Partager votre avis sur l'application";
+  static String contactTeamLabel = "Contacter l'équipe de l'application";
+
+  // contact page
+  static String contactPageTitle = "Contacter l’équipe";
+  static String contactPageBody1 = Brand.isCej()
+      ? "L’équipe technique de l’application CEJ est en charge du développement de l’application."
+      : "L’équipe technique de l’application pass emploi est en charge du développement de l’application.";
+  static String contactPageBody2 = "Contactez-nous pour :";
+  static String contactPageBody3 = Brand.isCej()
+      ? "Pour toutes les informations et les problèmes liés au Contrat d’Engagement Jeune, veuillez contacter votre conseiller."
+      : "Pour toutes les informations et les problèmes liés au RSA, veuillez contacter votre conseiller.";
+  static String contactPageBodyBullet1 = "Un problème sur l’application";
+  static String contactPageBodyBullet2 = "Une suggestion d’évolution";
+  static String contactPageBodyBullet3 = "Toute autre remarque";
+  static String contactPageButton = "Continuer";
+
+  static String objetPriseDeContact = Brand.isCej()
+      ? "Prise de contact avec l’équipe de l’application du CEJ"
+      : "Prise de contact avec l’équipe de l’application pass emploi";
+  static String corpsPriseDeContact = "Décrivez nous votre problème ou vos suggestions d’évolutions : ";
 
   // saved search
   static String createAlert = "Créer une alerte";
