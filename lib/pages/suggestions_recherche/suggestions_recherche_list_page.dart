@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
@@ -15,6 +17,7 @@ import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -83,18 +86,73 @@ class _Scaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: SecondaryAppBar(title: Strings.suggestionsDeRechercheTitlePage, backgroundColor: backgroundColor),
-      body: Stack(
+      body: _Body(viewModel: viewModel),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final SuggestionsRechercheListViewModel viewModel;
+
+  _Body({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        switch (viewModel.suggestionIds.isEmpty) {
+          true => _Empty(viewModel: viewModel),
+          false => _Content(viewModel: viewModel),
+        },
+        if (viewModel.traiterDisplayState == DisplayState.LOADING) LoadingOverlay(),
+      ],
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  final SuggestionsRechercheListViewModel viewModel;
+
+  _Content({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      itemCount: viewModel.suggestionIds.length,
+      padding: const EdgeInsets.all(Margins.spacing_base),
+      separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
+      itemBuilder: (context, index) {
+        final suggestionId = viewModel.suggestionIds[index];
+        return index == 0 ? _Header(suggestionId: suggestionId) : _Card(suggestionId: suggestionId);
+      },
+    );
+  }
+}
+
+class _Empty extends StatelessWidget {
+  final SuggestionsRechercheListViewModel viewModel;
+
+  _Empty({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_xl),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ListView.separated(
-            itemCount: viewModel.suggestionIds.length,
-            padding: const EdgeInsets.all(Margins.spacing_base),
-            separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
-            itemBuilder: (context, index) {
-              final suggestionId = viewModel.suggestionIds[index];
-              return index == 0 ? _Header(suggestionId: suggestionId) : _Card(suggestionId: suggestionId);
-            },
+          Spacer(flex: 1),
+          SvgPicture.asset(Drawables.actionInacessibleIllustration, width: 180, height: 180),
+          Text(Strings.emptySuggestionAlerteListTitre, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_base),
+          Text(
+            viewModel.loginMode?.isMiLo() == true
+                ? Strings.emptySuggestionAlerteListDescriptionMilo
+                : Strings.emptySuggestionAlerteListDescriptionPoleEmploi,
+            style: TextStyles.textBaseRegular,
+            textAlign: TextAlign.center,
           ),
-          if (viewModel.traiterDisplayState == DisplayState.LOADING) LoadingOverlay(),
+          Spacer(flex: 2),
         ],
       ),
     );

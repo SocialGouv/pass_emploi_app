@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -101,5 +102,27 @@ void main() {
     // Then
     expect(store.dispatchedAction, isA<FetchSavedSearchResultsFromIdAction>());
     expect((store.dispatchedAction as FetchSavedSearchResultsFromIdAction).savedSearchId, 'id');
+  });
+
+  test("should have login mode milo", () {
+    // Given
+    final store = givenState().loggedInMiloUser().spyStore();
+
+    // When
+    final viewModel = SuggestionsRechercheListViewModel.create(store);
+
+    // Then
+    expect(viewModel.loginMode, LoginMode.MILO);
+  });
+
+  test("should have login mode pole emploi", () {
+    // Given
+    final store = givenState().loggedInPoleEmploiUser().spyStore();
+
+    // When
+    final viewModel = SuggestionsRechercheListViewModel.create(store);
+
+    // Then
+    expect(viewModel.loginMode, LoginMode.POLE_EMPLOI);
   });
 }
