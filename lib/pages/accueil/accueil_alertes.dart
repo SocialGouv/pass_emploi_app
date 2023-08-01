@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/pages/saved_search_page.dart';
-import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -11,14 +9,12 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/saved_search_card.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
-import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
 class AccueilAlertes extends StatelessWidget {
   final AccueilAlertesItem item;
@@ -33,13 +29,6 @@ class AccueilAlertes extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           LargeSectionTitle(Strings.accueilMesAlertesSection),
-          VoirSuggestionsRechercheBandeau(
-            padding: EdgeInsets.only(top: Margins.spacing_base),
-            onTapShowSuggestions: () {
-              PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.accueilSuggestionsListe);
-              Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
-            },
-          ),
           SizedBox(height: Margins.spacing_base),
           if (hasContent) _AvecAlertes(item),
           if (!hasContent) _SansAlerte(),

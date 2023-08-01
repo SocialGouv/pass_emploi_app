@@ -826,7 +826,7 @@ class Strings {
   static String contentSupportMail = "Aidez-nous à améliorer l’application en nous donnant votre avis :\n";
 
   // Suggestions de recherche
-  static String vosSuggestionsDeRecherche = "Vos suggestions d'alertes";
+  static String vosSuggestionsAlertes = "Vos suggestions d'alertes";
   static String nouvellesSuggestionsDeRechercheTitre = "Vous avez des suggestions d’alertes";
   static String nouvellesSuggestionsDeRechercheDescription =
       "Sur la base de votre profil Pôle emploi, voici des suggestions d'alertes à sauvegarder";

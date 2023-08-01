@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
+import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -11,6 +13,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -56,6 +59,15 @@ class AccueilCetteSemaine extends StatelessWidget {
                   icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
                   text: item.actionsDemarchesARealiser,
                   onTap: () => Navigator.of(context).push(actionsDemarchesPageRoute()),
+                ),
+                SepLine(0, 0),
+                _CetteSemaineRow(
+                  icon: Icon(AppIcons.add_alert_rounded, color: AppColors.primary),
+                  text: Strings.vosSuggestionsAlertes,
+                  onTap: () {
+                    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.accueilSuggestionsListe);
+                    Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
+                  },
                 ),
                 _CetteSemaineVoirDetails(
                   onTap: () => StoreProvider.of<AppState>(context).dispatchAgendaDeeplink(),
