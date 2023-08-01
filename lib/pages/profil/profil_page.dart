@@ -194,14 +194,18 @@ class _ProfileCard extends StatelessWidget {
         children: [
           Text(Strings.personalInformation, style: TextStyles.textMBold),
           SizedBox(height: Margins.spacing_m),
-          LabelValueRow(
-            label: Text(Strings.emailAddressLabel, style: TextStyles.textBaseRegular),
-            value: Text(
-              userEmail,
-              style: TextStyles.textBaseBold.copyWith(
-                color: AppColors.primary,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            children: [
+              Text(Strings.emailAddressLabel, style: TextStyles.textBaseRegular),
+              Text(
+                userEmail,
+                textAlign: TextAlign.right,
+                style: TextStyles.textBaseBold.copyWith(
+                  color: AppColors.primary,
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),
