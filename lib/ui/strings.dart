@@ -752,7 +752,7 @@ class Strings {
   static String objetPriseDeContact = Brand.isCej()
       ? "Prise de contact avec l’équipe de l’application du CEJ"
       : "Prise de contact avec l’équipe de l’application pass emploi";
-  static String corpsPriseDeContact = "Décrivez nous votre problème ou vos suggestions d’évolutions : ";
+  static String corpsPriseDeContact = "Décrivez nous votre problème ou vos suggestions d’évolution : ";
 
   // saved search
   static String createAlert = "Créer une alerte";
