@@ -331,6 +331,7 @@ class Strings {
   static String actionLabel = "*Intitulé de l'action";
   static String actionDescription = "Description de l'action";
   static String mandatoryActionLabelError = "L'intitulé de l'action doit être renseigné";
+  static String mandatoryDateEcheanceError = "La date d'échéance doit être renseignée";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
   static String actionCreationError = "Erreur lors de la création de l'action. Veuillez réessayer";

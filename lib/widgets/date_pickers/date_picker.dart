@@ -14,6 +14,7 @@ class DatePicker extends StatelessWidget {
   final bool isActiveDate;
   final DateTime? firstDate;
   final bool showInitialDate;
+  final String? errorText;
 
   DatePicker({
     required this.onValueChange,
@@ -21,15 +22,17 @@ class DatePicker extends StatelessWidget {
     required this.isActiveDate,
     this.firstDate,
     this.showInitialDate = true,
+    this.errorText,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       enabled: isActiveDate,
       decoration: InputDecoration(
           suffixIcon: Icon(AppIcons.today_rounded, color: AppColors.grey800),
           hintText: _hintText(),
+          errorText: errorText,
           contentPadding: const EdgeInsets.all(Margins.spacing_base),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(Dimens.radius_base),
@@ -39,6 +42,7 @@ class DatePicker extends StatelessWidget {
       textCapitalization: TextCapitalization.sentences,
       onTap: () => Platform.isIOS ? _iOSDatePicker(context) : _androidDatePicker(context),
       showCursor: false,
+      readOnly: true,
     );
   }
 
