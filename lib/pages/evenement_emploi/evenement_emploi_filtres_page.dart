@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
+import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 
 class EvenementEmploiFiltresPage extends StatelessWidget {
   static Future<bool?> show(BuildContext context) {
@@ -209,11 +210,8 @@ class _TypeFiltreState extends State<_TypeFiltre> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [null, ...EvenementEmploiType.values]
-                .map((type) => RadioListTile<EvenementEmploiType?>(
-                    contentPadding: EdgeInsets.only(left: Margins.spacing_base, right: Margins.spacing_s),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    selected: type == _currentValue,
-                    title: Text(type?.label ?? Strings.evenementEmploiTypeAll, style: TextStyles.textBaseMedium),
+                .map((type) => RadioGroup<EvenementEmploiType?>(
+                    title: type?.label ?? Strings.evenementEmploiTypeAll,
                     value: type,
                     groupValue: _currentValue,
                     onChanged: (value) {

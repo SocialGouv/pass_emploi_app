@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
+import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 import 'package:pass_emploi_app/widgets/toggles/date_toggle.dart';
 
@@ -275,11 +276,8 @@ class _DomainListState extends State<_DomainList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: Domaine.values
-          .map((domain) => RadioListTile<Domaine>(
-              contentPadding: EdgeInsets.zero,
-              controlAffinity: ListTileControlAffinity.leading,
-              selected: domain == _currentValue,
-              title: Text(domain.titre, style: TextStyles.textBaseMedium),
+          .map((domain) => RadioGroup<Domaine>(
+              title: domain.titre,
               value: domain,
               groupValue: _currentValue,
               onChanged: (value) {
