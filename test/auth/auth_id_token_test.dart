@@ -31,7 +31,7 @@ void main() {
     expect(isValid, expected);
   }
 
-  group("without max living time ", () {
+  group("without max living time", () {
     test('is valid return true if token expires in more than 15 seconds', () {
       assertIsValid(now: oneSecondBeforeExpiration, expected: true);
     });
@@ -41,7 +41,7 @@ void main() {
     });
   });
 
-  group("with max living time ", () {
+  group("with max living time", () {
     test('is valid return true if token expires in more than 15 seconds and is below max living time', () {
       assertIsValid(
         now: oneSecondBeforeMaxLivingTime,
