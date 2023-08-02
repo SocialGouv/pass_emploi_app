@@ -2,11 +2,10 @@ appId: fr.fabrique.social.gouv.passemploi.staging
 ---
 - tapOn: "Actions\nOnglet 2 sur 3"
 - tapOn: "Créer une action"
-- tapOn:
-    point: "50%,28%" ##TODO: ally champs de texte titre
+- tapOn: "*Intitulé de l'action"
 - inputText: "Maestro action"
 - tapOn:
-    point: "50%,46%" ##TODO: ally champs de texte description
+    id: "Next:" ##TODO: ally champs de texte description
 - inputText: "Maestro description"
 - tapOn:
     id: "Done"
@@ -14,8 +13,8 @@ appId: fr.fabrique.social.gouv.passemploi.staging
 - swipe:  ##TODO: ally slider
     start: 30%, 88% # From (90% of width, 50% of height)
     end: 30%, 84% # To (10% of width, 50% of height)
-- tapOn: ##TODO: ally fermer le slider
-    id: "card:fr.fabrique.social.gouv.passemploi.staging:sceneID:fr.fabrique.social.gouv.passemploi.staging-default"
+- tapOn:
+    id: "Home Grabber" ##TODO: ally fermer le slider
 - tapOn: "Créer"
 - assertVisible: "Maestro action"
 - tapOn: "Voir le détail >"
