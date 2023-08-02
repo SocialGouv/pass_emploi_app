@@ -18,7 +18,7 @@ class AuthAccessTokenRetriever {
   Future<String> _accessToken() async {
     final idToken = await _authenticator.idToken();
     if (idToken == null) throw Exception("ID Token is null");
-    if (idToken.isValid()) return (await _authenticator.accessToken())!;
+    if (idToken.isValid(now: DateTime.now())) return (await _authenticator.accessToken())!;
     final refreshTokenStatus = await _authenticator.performRefreshToken();
     switch (refreshTokenStatus) {
       case RefreshTokenStatus.SUCCESSFUL:

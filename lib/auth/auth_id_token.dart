@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-const int _additionalExpirationSecurityIsSeconds = 15;
+const int _additionalExpirationSecuritySeconds = 15;
 
 enum LoginMode { MILO, POLE_EMPLOI, PASS_EMPLOI, DEMO_PE, DEMO_MILO }
 
@@ -57,7 +57,16 @@ class AuthIdToken extends Equatable {
     );
   }
 
-  bool isValid() => (expiresAt - _additionalExpirationSecurityIsSeconds) > DateTime.now().millisecondsSinceEpoch / 1000;
+  bool isValid({required DateTime now, int? maxLivingTimeInSeconds}) {
+    return isValidBasedOnExpirationDate(now) && isValidBasedOnMaxLivingTime(now, maxLivingTimeInSeconds);
+  }
+
+  bool isValidBasedOnMaxLivingTime(DateTime now, int? maxLivingTimeInSeconds) {
+    if (maxLivingTimeInSeconds == null) return true;
+    return now.isStillValidWith(expirationDateInSeconds: issuedAt + maxLivingTimeInSeconds);
+  }
+
+  bool isValidBasedOnExpirationDate(DateTime now) => now.isStillValidWith(expirationDateInSeconds: expiresAt);
 
   @override
   List<Object?> get props => [userId, firstName, lastName, issuedAt, expiresAt];
@@ -66,5 +75,11 @@ class AuthIdToken extends Equatable {
     if (loginMode == "MILO") return LoginMode.MILO;
     if (loginMode.contains("POLE_EMPLOI")) return LoginMode.POLE_EMPLOI;
     return LoginMode.PASS_EMPLOI;
+  }
+}
+
+extension _DateTimeExtension on DateTime {
+  bool isStillValidWith({required int expirationDateInSeconds}) {
+    return (expirationDateInSeconds - _additionalExpirationSecuritySeconds) > millisecondsSinceEpoch / 1000;
   }
 }
