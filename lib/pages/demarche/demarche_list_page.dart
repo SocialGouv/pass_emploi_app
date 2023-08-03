@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
@@ -13,6 +14,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
@@ -103,8 +105,10 @@ class DemarcheListPage extends StatelessWidget {
       return DemarcheCard(
         demarcheId: id,
         stateSource: DemarcheStateSource.demarcheList,
-        onTap: () =>
-            Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.demarcheList)),
+        onTap: () {
+          context.trackEvent(EventType.ACTION_DETAIL);
+          Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.demarcheList));
+        },
       );
     }
   }
