@@ -125,9 +125,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   void _onItemTapped(int index, MainPageViewModel viewModel) {
-    if (viewModel.tabs[index] == MainTab.monSuivi) {
-      context.trackEvent(EventType.ACTION_LISTE);
-    }
     setState(() => _selectedIndex = index);
   }
 
