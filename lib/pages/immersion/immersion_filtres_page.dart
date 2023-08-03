@@ -60,7 +60,6 @@ class _Content extends StatefulWidget {
 }
 
 class _ContentState extends State<_Content> {
-  var _hasFormChanged = false;
   double? _currentSliderValue;
 
   @override
@@ -82,14 +81,10 @@ class _ContentState extends State<_Content> {
   }
 
   void _setDistanceFilterState(double value) {
-    setState(() {
-      _hasFormChanged = true;
-      _currentSliderValue = value;
-    });
+    setState(() => _currentSliderValue = value);
   }
 
-  bool _isButtonEnabled(ImmersionFiltresViewModel viewModel) =>
-      _hasFormChanged && viewModel.displayState != DisplayState.LOADING;
+  bool _isButtonEnabled(ImmersionFiltresViewModel viewModel) => viewModel.displayState != DisplayState.LOADING;
 
   void _onButtonClick(ImmersionFiltresViewModel viewModel) =>
       viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt());

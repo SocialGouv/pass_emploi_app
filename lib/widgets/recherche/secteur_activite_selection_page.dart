@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/secteur_activite.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/multiline_app_bar.dart';
 
 class SecteurActiviteSelectionPage extends StatefulWidget {
@@ -77,7 +77,7 @@ class _SecteurActiviteSelectionPageState extends State<SecteurActiviteSelectionP
 class _SecteurActiviteListTile extends StatelessWidget {
   final SecteurActivite? secteurActivite;
   final SecteurActivite? selectedValue;
-  final ValueChanged<SecteurActivite?>? onChanged;
+  final ValueChanged<SecteurActivite?> onChanged;
 
   const _SecteurActiviteListTile({
     required this.secteurActivite,
@@ -87,13 +87,8 @@ class _SecteurActiviteListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RadioListTile<SecteurActivite?>(
-      controlAffinity: ListTileControlAffinity.trailing,
-      selected: secteurActivite == selectedValue,
-      title: Padding(
-        padding: const EdgeInsets.all(Margins.spacing_s),
-        child: Text(secteurActivite?.label ?? Strings.secteurActiviteAll, style: TextStyles.textBaseRegular),
-      ),
+    return RadioGroup<SecteurActivite?>(
+      title: secteurActivite?.label ?? Strings.secteurActiviteAll,
       value: secteurActivite,
       groupValue: selectedValue,
       onChanged: onChanged,

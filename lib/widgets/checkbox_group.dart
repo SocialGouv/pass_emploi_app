@@ -72,6 +72,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
     final label = viewModel.label;
     final helpText = viewModel.helpText;
     return CheckboxListTile(
+      controlAffinity: ListTileControlAffinity.leading,
       title: helpText != null ? _textWithToolTip(label, helpText) : _title(label),
       value: isSelected,
       contentPadding: EdgeInsets.zero,

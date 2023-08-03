@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class CampagneQuestionPage extends StatefulWidget {
@@ -119,10 +120,8 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: options
-          .map((option) => RadioListTile<int>(
-              controlAffinity: ListTileControlAffinity.trailing,
-              selected: option.id == _answerId,
-              title: Text(option.libelle),
+          .map((option) => RadioGroup<int>(
+              title: option.libelle,
               value: option.id,
               groupValue: _answerId,
               onChanged: (value) {

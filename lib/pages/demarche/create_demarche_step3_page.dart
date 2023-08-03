@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
+import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class CreateDemarcheStep3Page extends StatefulWidget {
@@ -116,10 +117,8 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
         _codeComment = comment.code;
         return Text(comment.label, style: TextStyles.textBaseBold);
       }
-      return RadioListTile<String>(
-          controlAffinity: ListTileControlAffinity.trailing,
-          title: Text(comment.label, style: TextStyles.textBaseMedium),
-          contentPadding: const EdgeInsets.all(0),
+      return RadioGroup<String>(
+          title: comment.label,
           value: comment.code,
           groupValue: _codeComment,
           onChanged: (value) {

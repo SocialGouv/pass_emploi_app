@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
+import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 import 'package:pass_emploi_app/widgets/toggles/date_toggle.dart';
 
@@ -61,7 +62,6 @@ class _ContentState extends State<_Content> {
   double? _currentSliderValue;
   DateTime? _currentStartDate;
   Domaine? _currentDomainValue;
-  var _isFiltersUpdated = false;
 
   @override
   void initState() {
@@ -90,28 +90,18 @@ class _ContentState extends State<_Content> {
   }
 
   void _setDistanceFilterState(double value) {
-    setState(() {
-      _isFiltersUpdated = true;
-      _currentSliderValue = value;
-    });
+    setState(() => _currentSliderValue = value);
   }
 
   void _setStartDateFilterState(DateTime? date, bool isActive) {
-    setState(() {
-      _isFiltersUpdated = true;
-      _currentStartDate = isActive ? date : null;
-    });
+    setState(() => _currentStartDate = isActive ? date : null);
   }
 
   void _setDomainFilterState(Domaine? domain) {
-    setState(() {
-      _isFiltersUpdated = true;
-      _currentDomainValue = domain;
-    });
+    setState(() => _currentDomainValue = domain);
   }
 
-  bool _isButtonEnabled(ServiceCiviqueFiltresViewModel viewModel) =>
-      _isFiltersUpdated && viewModel.displayState != DisplayState.LOADING;
+  bool _isButtonEnabled(ServiceCiviqueFiltresViewModel viewModel) => viewModel.displayState != DisplayState.LOADING;
 
   void _onButtonClick(ServiceCiviqueFiltresViewModel viewModel) {
     viewModel.updateFiltres(
@@ -286,11 +276,8 @@ class _DomainListState extends State<_DomainList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: Domaine.values
-          .map((domain) => RadioListTile<Domaine>(
-              contentPadding: EdgeInsets.zero,
-              controlAffinity: ListTileControlAffinity.trailing,
-              selected: domain == _currentValue,
-              title: Text(domain.titre),
+          .map((domain) => RadioGroup<Domaine>(
+              title: domain.titre,
               value: domain,
               groupValue: _currentValue,
               onChanged: (value) {

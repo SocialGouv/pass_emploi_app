@@ -331,6 +331,7 @@ class Strings {
   static String actionLabel = "*Intitulé de l'action";
   static String actionDescription = "Description de l'action";
   static String mandatoryActionLabelError = "L'intitulé de l'action doit être renseigné";
+  static String mandatoryDateEcheanceError = "La date d'échéance doit être renseignée";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
   static String actionCreationError = "Erreur lors de la création de l'action. Veuillez réessayer";
@@ -399,6 +400,7 @@ class Strings {
   static const String comment = "Comment";
   static const String selectComment = "*Sélectionner un des moyens";
   static const String selectQuand = "*Sélectionner une date d’échéance";
+  static const String demarchePressedTip = "Choisir cette démarche";
 
   static String demarcheActiveLabel = "À réaliser pour le ";
 

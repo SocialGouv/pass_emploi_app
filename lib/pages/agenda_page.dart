@@ -22,7 +22,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/big_title_separator.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
@@ -82,12 +81,12 @@ class _Scaffold extends StatelessWidget {
         if (viewModel.createButton == CreateButton.userAction)
           _CreateButton(
             label: Strings.addAnAction,
-            onPressed: () => showPassEmploiBottomSheet(
-              context: context,
-              builder: (context) => CreateUserActionBottomSheet(),
+            onPressed: () => Navigator.push(
+              context,
+              CreateUserActionBottomSheet.materialPageRoute(),
             ).then((value) {
               if (value != null) {
-                _showUserActionSnackBarWithDetail(context, value as String);
+                _showUserActionSnackBarWithDetail(context, value);
                 viewModel.resetCreateAction();
               }
             }),

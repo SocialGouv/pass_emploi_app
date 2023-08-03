@@ -3,12 +3,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/presentation/offre_filters_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 
 enum OffreFilter { tous, emploi, immersion, alternance, serviceCivique }
 
@@ -89,24 +89,22 @@ class _Body extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           _OffreFilterSubtitle(),
           SizedBox(height: Margins.spacing_base),
-          _buildRadioListTile(OffreFilter.tous, Strings.filterAll),
-          if (offreTypes.contains(OffreType.emploi)) _buildRadioListTile(OffreFilter.emploi, Strings.filterEmploi),
+          _buildRadioGroup(OffreFilter.tous, Strings.filterAll),
+          if (offreTypes.contains(OffreType.emploi)) _buildRadioGroup(OffreFilter.emploi, Strings.filterEmploi),
           if (offreTypes.contains(OffreType.alternance))
-            _buildRadioListTile(OffreFilter.alternance, Strings.filterAlternance),
+            _buildRadioGroup(OffreFilter.alternance, Strings.filterAlternance),
           if (offreTypes.contains(OffreType.immersion))
-            _buildRadioListTile(OffreFilter.immersion, Strings.filterImmersion),
+            _buildRadioGroup(OffreFilter.immersion, Strings.filterImmersion),
           if (offreTypes.contains(OffreType.serviceCivique))
-            _buildRadioListTile(OffreFilter.serviceCivique, Strings.filterServiceCivique),
+            _buildRadioGroup(OffreFilter.serviceCivique, Strings.filterServiceCivique),
         ],
       ),
     );
   }
 
-  Widget _buildRadioListTile(OffreFilter value, String title) {
-    return RadioListTile<OffreFilter>(
-      contentPadding: EdgeInsets.zero,
-      activeColor: AppColors.primary,
-      title: Text(title),
+  Widget _buildRadioGroup(OffreFilter value, String title) {
+    return RadioGroup<OffreFilter>(
+      title: title,
       value: value,
       groupValue: offreFilter,
       onChanged: onFilterSelected,
