@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
+import 'package:pass_emploi_app/auth/max_living_time_config.dart';
 import 'package:pass_emploi_app/configuration/app_version_checker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
@@ -106,7 +107,7 @@ class AppInitializer {
     if (forceUpdate) {
       return ForceUpdatePage(configuration.flavor);
     } else {
-      final store = await _initializeReduxStore(configuration, matomoTracker);
+      final store = await _initializeReduxStore(configuration, matomoTracker, remoteConfig);
       return PassEmploiApp(store);
     }
   }
@@ -159,6 +160,7 @@ class AppInitializer {
   Future<Store<AppState>> _initializeReduxStore(
     Configuration configuration,
     PassEmploiMatomoTracker matomoTracker,
+    FirebaseRemoteConfig? firebaseRemoteConfig,
   ) async {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
     final pushNotificationManager = FirebasePushNotificationManager();
@@ -178,7 +180,11 @@ class AppInitializer {
       securedPreferences,
       crashlytics,
     );
-    final accessTokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
+    final accessTokenRetriever = AuthAccessTokenRetriever(
+      MaxLivingTimeRemoteConfig(firebaseRemoteConfig),
+      authenticator,
+      Lock(),
+    );
     final authAccessChecker = AuthAccessChecker();
     final requestCacheManager = PassEmploiCacheManager.requestCache(configuration.serverBaseUrl);
     final modeDemoRepository = ModeDemoRepository();

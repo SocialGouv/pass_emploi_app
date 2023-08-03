@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
+import 'package:pass_emploi_app/auth/max_living_time_config.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
@@ -131,6 +132,13 @@ class DummyAuthenticator extends Authenticator {
 
 class DummyAuthWrapper extends AuthWrapper {
   DummyAuthWrapper() : super(DummyFlutterAppAuth(), Lock());
+}
+
+class DummyMaxLivingTimeConfig extends MaxLivingTimeConfig {
+  DummyMaxLivingTimeConfig() : super();
+
+  @override
+  int? maxLivingTimeInSecondsForMilo() => null;
 }
 
 class DummyFlutterAppAuth extends FlutterAppAuth {}
