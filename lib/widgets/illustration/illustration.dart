@@ -2,24 +2,62 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
 
-const _illustrationDefaultSize = 300.0;
+const _illustrationDefaultSize = 200.0;
 const _illustrationFigmaSize = 300.0;
 
 class Illustration extends StatelessWidget {
-  const Illustration({super.key});
+  final Color primaryColor;
+  final Color secondaryColor;
+  final IconData icon;
+
+  const Illustration({
+    required this.primaryColor,
+    required this.secondaryColor,
+    required this.icon,
+  });
+
+  factory Illustration.important(
+    IconData icon,
+  ) {
+    return Illustration(
+      primaryColor: AppColors.warning,
+      secondaryColor: AppColors.warningLighten,
+      icon: icon,
+    );
+  }
+
+  factory Illustration.information(IconData icon) {
+    return Illustration(
+      primaryColor: AppColors.primary,
+      secondaryColor: AppColors.primaryLighten,
+      icon: icon,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _Assemblage(scale: _illustrationDefaultSize / _illustrationFigmaSize);
+    return _Assemblage(
+      primaryColor: primaryColor,
+      secondaryColor: secondaryColor,
+      icon: icon,
+      scale: _illustrationDefaultSize / _illustrationFigmaSize,
+    );
   }
 }
 
 class _Assemblage extends StatelessWidget {
+  final Color primaryColor;
+  final Color secondaryColor;
+  final IconData icon;
   final double scale;
 
-  _Assemblage({required this.scale});
+  const _Assemblage({
+    required this.primaryColor,
+    required this.secondaryColor,
+    required this.icon,
+    required this.scale,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +65,12 @@ class _Assemblage extends StatelessWidget {
       return Transform.scale(
         scale: scale,
         child: SizedBox.square(
-          // dimension: _illustrationFigmaSize,
           child: Stack(
             alignment: Alignment.center,
-            // fit: StackFit.expand,
             children: [
-              _Fond(),
-              _Rond(),
-              _Icone(),
+              _Fond(color: secondaryColor),
+              _Rond(color: primaryColor),
+              _Icone(icon: icon),
             ],
           ),
         ),
@@ -44,6 +80,10 @@ class _Assemblage extends StatelessWidget {
 }
 
 class _Fond extends StatelessWidget {
+  final Color color;
+
+  const _Fond({required this.color});
+
   @override
   Widget build(BuildContext context) {
     return SizedBox.square(
@@ -53,46 +93,48 @@ class _Fond extends StatelessWidget {
           Positioned(
             top: 0,
             left: 10,
-            child: circle(),
+            child: circle(color: color),
           ),
           Positioned(
             bottom: 0,
             right: 10,
-            child: circle(),
+            child: circle(color: color),
           ),
           Positioned(
             top: 41,
             right: 0,
-            child: square(83),
+            child: square(color: color, rotation: 83),
           ),
           Positioned(
             bottom: 28,
             left: 0,
-            child: square(77),
+            child: square(color: color, rotation: 77),
           ),
         ],
       ),
     );
   }
 
-  Widget circle() => Container(
-        width: 132,
-        height: 132,
-        decoration: BoxDecoration(
-          color: AppColors.warningLighten,
-          shape: BoxShape.circle,
-        ),
-      );
+  Widget circle({required Color color}) {
+    return Container(
+      width: 132,
+      height: 132,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+      ),
+    );
+  }
 
-  Widget square(double angle) {
-    final rad = angle * pi / 180;
+  Widget square({required Color color, required double rotation}) {
+    final radian = rotation * pi / 180;
     return Transform.rotate(
-      angle: -rad,
+      angle: -radian,
       child: Container(
         width: 44,
         height: 44,
         decoration: BoxDecoration(
-          color: AppColors.warningLighten,
+          color: color,
         ),
       ),
     );
@@ -100,13 +142,17 @@ class _Fond extends StatelessWidget {
 }
 
 class _Rond extends StatelessWidget {
+  final Color color;
+
+  const _Rond({required this.color});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 206,
       height: 206,
       decoration: BoxDecoration(
-        color: AppColors.warning,
+        color: color,
         shape: BoxShape.circle,
       ),
     );
@@ -114,10 +160,14 @@ class _Rond extends StatelessWidget {
 }
 
 class _Icone extends StatelessWidget {
+  final IconData icon;
+
+  const _Icone({required this.icon});
+
   @override
   Widget build(BuildContext context) {
     return Icon(
-      AppIcons.delete,
+      icon,
       color: Colors.white,
       size: 80,
     );
