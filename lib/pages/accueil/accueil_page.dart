@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class AccueilPage extends StatelessWidget {
@@ -57,12 +58,16 @@ class AccueilPage extends StatelessWidget {
       backgroundColor: backgroundColor,
       appBar: PrimaryAppBar(title: Strings.accueilAppBarTitle, backgroundColor: backgroundColor),
       body: SafeArea(
-        child: _Body(viewModel),
+        // child: _Body(viewModel),
+        child: Center(
+          child: Illustration(),
+        ),
       ),
     );
   }
 }
 
+// ignore: unused_element
 class _Body extends StatelessWidget {
   final AccueilViewModel viewModel;
 
