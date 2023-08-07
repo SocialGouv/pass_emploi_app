@@ -218,6 +218,9 @@ class AnalyticsEventNames {
 
   static const pushNotificationAuthorizationStatusEventCategory = "Autorisation des push notifications sur mobile";
   static const pushNotificationAuthorizationStatusAction = "Autorisation";
+
+  static const evenementEmploiDetailsCategory = "Détails événement emploi";
+  static const evenementEmploiDetailsInscriptionAction = "Clic inscription événement emploi";
 }
 
 class AnalyticsCustomDimensions {
