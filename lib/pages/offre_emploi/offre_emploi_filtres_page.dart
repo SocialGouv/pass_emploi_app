@@ -251,7 +251,6 @@ class _FiltreDebutantState extends State<_FiltreDebutant> {
                 Switch(
                   value: _debutantOnlyEnabled,
                   onChanged: _onDebutantOnlyValueChange,
-                  activeColor: AppColors.primary,
                 ),
                 Text(Strings.yes, style: TextStyles.textBaseRegular),
               ],

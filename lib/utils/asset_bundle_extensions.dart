@@ -22,7 +22,7 @@ extension AssetBundleExtensions on AssetBundle {
   }
 
   String _getSpecificPathForBrand(String stringUrl) {
-    switch(Brand.brand){
+    switch (Brand.brand) {
       case Brand.cej:
         return _modeDemoCejFolder + stringUrl + _jsonExtension;
       case Brand.brsa:

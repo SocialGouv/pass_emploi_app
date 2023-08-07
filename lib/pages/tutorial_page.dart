@@ -149,7 +149,7 @@ class _SkipButton extends StatelessWidget {
           InkWell(
             onTap: active
                 ? () {
-              viewModel.onDone();
+                    viewModel.onDone();
                     PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipTutorial);
                   }
                 : null,

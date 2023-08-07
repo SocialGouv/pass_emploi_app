@@ -43,8 +43,7 @@ class AppColors {
 
   // Neutrals colors
   static const Color contentColor = Color(0xFF161616);
-  static const Color disabled = Color(0xFF999BB3);
-  static const Color disabled2 = Color(0xFF73758D);
+  static const Color disabled = Color(0xFF73758D);
 
   static const Color grey100 = Color(0xFFF1F1F1);
   static const Color grey500 = Color(0xFFB2B2B2);

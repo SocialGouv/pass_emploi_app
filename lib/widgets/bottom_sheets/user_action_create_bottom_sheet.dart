@@ -265,8 +265,6 @@ class _Rappel extends StatelessWidget {
         Switch(
           value: isActive && value,
           onChanged: isActive ? onChanged : null,
-          activeColor: AppColors.primary,
-          inactiveTrackColor: AppColors.disabled,
         ),
         Text(isActive && value ? Strings.yes : Strings.no, style: textStyle),
       ],
