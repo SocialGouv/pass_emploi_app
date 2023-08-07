@@ -10,11 +10,13 @@ class Illustration extends StatelessWidget {
   final Color primaryColor;
   final Color secondaryColor;
   final IconData icon;
+  final double size;
 
   const Illustration({
     required this.primaryColor,
     required this.secondaryColor,
     required this.icon,
+    this.size = _illustrationDefaultSize,
   });
 
   factory Illustration.red(
