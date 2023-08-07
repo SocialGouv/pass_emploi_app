@@ -17,7 +17,7 @@ class Illustration extends StatelessWidget {
     required this.icon,
   });
 
-  factory Illustration.important(
+  factory Illustration.red(
     IconData icon,
   ) {
     return Illustration(
@@ -27,10 +27,34 @@ class Illustration extends StatelessWidget {
     );
   }
 
-  factory Illustration.information(IconData icon) {
+  factory Illustration.blue(IconData icon) {
     return Illustration(
       primaryColor: AppColors.primary,
       secondaryColor: AppColors.primaryLighten,
+      icon: icon,
+    );
+  }
+
+  factory Illustration.green(IconData icon) {
+    return Illustration(
+      primaryColor: AppColors.success,
+      secondaryColor: AppColors.successLighten,
+      icon: icon,
+    );
+  }
+
+  factory Illustration.orange(IconData icon) {
+    return Illustration(
+      primaryColor: AppColors.alert,
+      secondaryColor: AppColors.alertLighten,
+      icon: icon,
+    );
+  }
+
+  factory Illustration.grey(IconData icon) {
+    return Illustration(
+      primaryColor: AppColors.disabled2,
+      secondaryColor: AppColors.grey100,
       icon: icon,
     );
   }
