@@ -111,8 +111,16 @@ AccueilItem? _favorisItem(AccueilSuccessState successState) {
 
 AccueilItem? _outilsItem(AccueilSuccessState successState, Brand brand) {
   return switch (brand) {
-    Brand.cej => AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]),
-    Brand.brsa => AccueilOutilsItem([Outils.emploiSolidaire.withoutImage(), Outils.emploiStore.withoutImage()]),
+    Brand.cej => AccueilOutilsItem([
+        Outils.diagoriente.withoutImage(),
+        Outils.aides.withoutImage(),
+        Outils.benevolat.withoutImage(),
+      ]),
+    Brand.brsa => AccueilOutilsItem([
+        Outils.emploiSolidaire.withoutImage(),
+        Outils.emploiStore.withoutImage(),
+        Outils.benevolat.withoutImage(),
+      ]),
   };
 }
 
