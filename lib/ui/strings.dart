@@ -202,8 +202,8 @@ class Strings {
 
   static String severalActionsLate(int count) => "$count actions en retard";
   static String accueilRendezvousSection = "Votre prochain rendez-vous";
-  static String accueilEvenementsSection = "Événements à venir";
-  static String accueilVoirLesEvenements = "Voir tous les événements";
+  static String accueilEvenementsSection = "Événements pouvant vous intéresser";
+  static String accueilVoirLesEvenements = "Voir plus d’événements";
   static String accueilMesAlertesSection = "Mes alertes";
   static String accueilVoirMesAlertes = "Voir toutes mes alertes";
   static String accueilPasDalerteDescription =
