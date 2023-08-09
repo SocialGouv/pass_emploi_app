@@ -272,7 +272,7 @@ class StoreFactory {
         ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),
-        RendezvousListMiddleware(rendezvousRepository),
+        RendezvousListMiddleware(rendezvousRepository, sessionMiloRepository),
         RendezvousDetailsMiddleware(rendezvousRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository, configuration),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),

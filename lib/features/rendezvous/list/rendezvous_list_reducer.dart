@@ -28,13 +28,16 @@ RendezvousListState rendezvousListReducer(RendezvousListState current, dynamic a
       return current.copyWith(
         futurRendezVousStatus: RendezvousListStatus.SUCCESS,
         rendezvous: action.rendezvousListResult.rendezvous,
+        sessionsMilo: action.sessionsMilo,
         dateDerniereMiseAJour: () => action.rendezvousListResult.dateDerniereMiseAJour,
       );
     } else {
       final rendezvous = action.rendezvousListResult.rendezvous + current.rendezvous;
+      final sessions = action.sessionsMilo + current.sessionsMilo;
       return current.copyWith(
         pastRendezVousStatus: RendezvousListStatus.SUCCESS,
         rendezvous: rendezvous,
+        sessionsMilo: sessions,
         dateDerniereMiseAJour: () => action.rendezvousListResult.dateDerniereMiseAJour,
       );
     }
