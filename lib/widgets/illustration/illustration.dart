@@ -3,20 +3,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 
-const _illustrationDefaultSize = 200.0;
 const _illustrationFigmaSize = 300.0;
 
 class Illustration extends StatelessWidget {
   final Color primaryColor;
   final Color secondaryColor;
   final IconData icon;
-  final double size;
 
   const Illustration({
     required this.primaryColor,
     required this.secondaryColor,
     required this.icon,
-    this.size = _illustrationDefaultSize,
   });
 
   factory Illustration.red(
@@ -53,10 +50,10 @@ class Illustration extends StatelessWidget {
     );
   }
 
-  factory Illustration.grey(IconData icon) {
+  factory Illustration.grey(IconData icon, {bool withWhiteBackground = false}) {
     return Illustration(
       primaryColor: AppColors.disabled,
-      secondaryColor: AppColors.grey100,
+      secondaryColor: withWhiteBackground ? Colors.white : AppColors.grey100,
       icon: icon,
     );
   }
@@ -67,7 +64,6 @@ class Illustration extends StatelessWidget {
       primaryColor: primaryColor,
       secondaryColor: secondaryColor,
       icon: icon,
-      scale: _illustrationDefaultSize / _illustrationFigmaSize,
     );
   }
 }
@@ -76,28 +72,33 @@ class _Assemblage extends StatelessWidget {
   final Color primaryColor;
   final Color secondaryColor;
   final IconData icon;
-  final double scale;
 
   const _Assemblage({
     required this.primaryColor,
     required this.secondaryColor,
     required this.icon,
-    required this.scale,
   });
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      return Transform.scale(
-        scale: scale,
-        child: SizedBox.square(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              _Fond(color: secondaryColor),
-              _Rond(color: primaryColor),
-              _Icone(icon: icon),
-            ],
+      return SizedBox.square(
+        dimension: constraints.maxWidth,
+        child: OverflowBox(
+          maxWidth: _illustrationFigmaSize,
+          maxHeight: _illustrationFigmaSize,
+          child: Transform.scale(
+            scale: constraints.maxWidth / _illustrationFigmaSize,
+            child: SizedBox.square(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  _Fond(color: secondaryColor),
+                  _Rond(color: primaryColor),
+                  _Icone(icon: icon),
+                ],
+              ),
+            ),
           ),
         ),
       );
