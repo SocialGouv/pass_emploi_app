@@ -73,7 +73,11 @@ void main() {
           AccueilEvenementsItem([mockAnimationCollective().id]),
           AccueilAlertesItem(getMockedSavedSearch()),
           AccueilFavorisItem(mock3Favoris()),
-          AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]),
+          AccueilOutilsItem([
+            Outils.diagoriente.withoutImage(),
+            Outils.aides.withoutImage(),
+            Outils.benevolat.withoutImage(),
+          ]),
         ],
       );
     });
@@ -107,7 +111,11 @@ void main() {
           AccueilEvenementsItem([mockAnimationCollective().id]),
           AccueilAlertesItem(getMockedSavedSearch()),
           AccueilFavorisItem(mock3Favoris()),
-          AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]),
+          AccueilOutilsItem([
+            Outils.diagoriente.withoutImage(),
+            Outils.aides.withoutImage(),
+            Outils.benevolat.withoutImage(),
+          ]),
         ],
       );
     });
@@ -139,7 +147,11 @@ void main() {
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
           AccueilAlertesItem(getMockedSavedSearch()),
           AccueilFavorisItem(mock3Favoris()),
-          AccueilOutilsItem([Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()]),
+          AccueilOutilsItem([
+            Outils.diagoriente.withoutImage(),
+            Outils.aides.withoutImage(),
+            Outils.benevolat.withoutImage(),
+          ]),
         ],
       );
     });
@@ -158,7 +170,11 @@ void main() {
       expect(outilsItem, isNotNull);
       expect(
         (outilsItem as AccueilOutilsItem).outils,
-        [Outils.diagoriente.withoutImage(), Outils.aides.withoutImage()],
+        [
+          Outils.diagoriente.withoutImage(),
+          Outils.aides.withoutImage(),
+          Outils.benevolat.withoutImage(),
+        ],
       );
     });
 
@@ -174,7 +190,11 @@ void main() {
       expect(outilsItem, isNotNull);
       expect(
         (outilsItem as AccueilOutilsItem).outils,
-        [Outils.emploiSolidaire.withoutImage(), Outils.emploiStore.withoutImage()],
+        [
+          Outils.emploiSolidaire.withoutImage(),
+          Outils.emploiStore.withoutImage(),
+          Outils.benevolat.withoutImage(),
+        ],
       );
     });
   });
