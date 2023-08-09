@@ -76,7 +76,7 @@ void main() {
   group('when having rendez-vous futurs', () {
     test("should navigate to past when logged in Pole emploi", () {
       // Given
-      final store = givenState().loggedInPoleEmploiUser().rendezvous([]).store();
+      final store = givenState().loggedInPoleEmploiUser().rendezvous().store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -85,7 +85,7 @@ void main() {
 
     test("should navigate to past when logged in MiLo", () {
       // Given
-      final store = givenState().loggedInMiloUser().rendezvous([]).store();
+      final store = givenState().loggedInMiloUser().rendezvous().store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -94,7 +94,8 @@ void main() {
 
     test("should display technical message when data are not up to date", () {
       // Given
-      final store = givenState().loggedInPoleEmploiUser().rendezvous([], DateTime(2023, 1, 1)).store();
+      final store =
+          givenState().loggedInPoleEmploiUser().rendezvous(dateDerniereMiseAJour: DateTime(2023, 1, 1)).store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -103,7 +104,7 @@ void main() {
 
     test("should not display technical message when data are up to date", () {
       // Given
-      final store = givenState().loggedInPoleEmploiUser().rendezvous([]).store();
+      final store = givenState().loggedInPoleEmploiUser().rendezvous().store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -173,7 +174,7 @@ void main() {
 
       test('and sort them by most recent for past', () {
         // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+        final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
         // Then
@@ -199,7 +200,7 @@ void main() {
 
       test('and sort them by last recent for this week', () {
         // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+        final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
         // Then
@@ -225,7 +226,7 @@ void main() {
 
       test('and sort them by last recent for next week 1', () {
         // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+        final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 1);
         // Then
@@ -256,7 +257,7 @@ void main() {
 
       test('and sort them by last recent for next week 2', () {
         // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+        final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 2);
         // Then
@@ -287,7 +288,7 @@ void main() {
 
       test('and sort them by last recent for next week 3', () {
         // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+        final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 3);
         // Then
@@ -318,7 +319,7 @@ void main() {
 
       test('and sort them by last recent for next week 4', () {
         // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+        final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 4);
         // Then
@@ -349,7 +350,7 @@ void main() {
 
       test('and sort them by last recent and grouped by month for next month', () {
         // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+        final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 5);
         // Then
@@ -398,7 +399,7 @@ void main() {
           final rendezvousOnPage = rendezvous.map((e) {
             return mockRendezvous(id: e.id, date: e.date.addWeeks(pageOffset));
           }).toList();
-          final store = givenState().loggedInUser().rendezvous(rendezvousOnPage).store();
+          final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvousOnPage).store();
           // When
           final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
           // Then
@@ -468,7 +469,7 @@ void main() {
 
       test("should not be displayed on current week page", () {
         // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+        final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
         // Then
@@ -483,7 +484,7 @@ void main() {
 
       test("should be displayed on past page", () {
         // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+        final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
         // Then
@@ -498,7 +499,7 @@ void main() {
 
     test("should have an empty rendezvous display", () {
       // Given
-      final store = givenState().loggedInUser().rendezvous([]).store();
+      final store = givenState().loggedInUser().rendezvous().store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -518,7 +519,7 @@ void main() {
       }) {
         test("${rendezvous.map((e) => e.id)} at page $pageOffset-> $expectedPageOffsetOfNextRendezvous", () {
           // Given
-          final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+          final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
 
           // When
           final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
@@ -530,8 +531,8 @@ void main() {
 
       test("Bug fix with today on monday morning, to week + 2 on monday afternoon", () {
         // Given
-        final rendezVous = [mockRendezvous(id: 'semaine+2 lundi matin', date: DateTime(2022, 2, 14, 3, 5, 30))];
-        final store = givenState().loggedInUser().rendezvous(rendezVous).store();
+        final rendezvous = [mockRendezvous(id: 'semaine+2 lundi matin', date: DateTime(2022, 2, 14, 3, 5, 30))];
+        final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
         final monday31JanuaryAfternoon = DateTime(2022, 1, 31, 16, 5, 30);
         // When
         final viewModel = RendezvousListViewModel.create(store, monday31JanuaryAfternoon, 0);
@@ -634,7 +635,7 @@ void main() {
       // Given
       final DateTime now = DateTime(2022, 11, 30, 4, 5, 0);
       final rendezvous = [mockRendezvous(id: 'cette semaine 1', date: DateTime(2022, 11, 30, 4, 0, 0))];
-      final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+      final store = givenState().loggedInUser().rendezvous(rendezvous: rendezvous).store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, now, -1);
@@ -645,7 +646,7 @@ void main() {
 
     test('should handle deeplink with valid ID', () {
       // Given
-      final store = givenState().rendezvous([mockRendezvous(id: '1')]).deeplinkToRendezvous('1').store();
+      final store = givenState().rendezvous(rendezvous: [mockRendezvous(id: '1')]).deeplinkToRendezvous('1').store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -656,7 +657,7 @@ void main() {
 
     test('should handle deeplink with invalid ID', () {
       // Given
-      final store = givenState().rendezvous([mockRendezvous(id: '1')]).deeplinkToRendezvous('22').store();
+      final store = givenState().rendezvous(rendezvous: [mockRendezvous(id: '1')]).deeplinkToRendezvous('22').store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -706,7 +707,7 @@ void main() {
             "-> ${shouldRequestPast ? "should request" : "should not request"}";
         test(msg, () {
           // Given
-          final state = hasFetchedPast ? RendezvousListState.successful([]) : RendezvousListState.successfulFuture([]);
+          final state = hasFetchedPast ? RendezvousListState.successful() : RendezvousListState.successfulFuture();
           final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousListState: state));
 
           // When
@@ -737,7 +738,7 @@ void main() {
         test(msg, () {
           // Given
           final state =
-              hasFetchedFuture ? RendezvousListState.successfulFuture([]) : RendezvousListState.notInitialized();
+              hasFetchedFuture ? RendezvousListState.successfulFuture() : RendezvousListState.notInitialized();
           final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousListState: state));
 
           // When

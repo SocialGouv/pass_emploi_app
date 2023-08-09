@@ -26,7 +26,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: loggedInState().copyWith(
-        rendezvousListState: RendezvousListState.successfulFuture([mockRendezvous(id: '1')]),
+        rendezvousListState: RendezvousListState.successfulFuture(rendezvous: [mockRendezvous(id: '1')]),
       ),
     );
 
@@ -313,7 +313,7 @@ void main() {
 Store<AppState> _store(Rendezvous rendezvous) {
   return TestStoreFactory().initializeReduxStore(
     initialState: loggedInState().copyWith(
-      rendezvousListState: RendezvousListState.successfulFuture([rendezvous]),
+      rendezvousListState: RendezvousListState.successfulFuture(rendezvous: [rendezvous]),
     ),
   );
 }

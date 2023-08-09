@@ -60,7 +60,7 @@ void main() {
       test("should load and succeed with concatenated rendezvous when request succeeds", () async {
         sut.givenStore = givenState()
             .loggedInUser() //
-            .rendezvousFutur([mockRendezvous(id: "futur")]) //
+            .rendezvousFutur(rendezvous: [mockRendezvous(id: "futur")]) //
             .store((f) => {f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id")});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadPasse(), _shouldSucceedPasseAndKeepFutur()]);
