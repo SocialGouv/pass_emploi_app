@@ -188,11 +188,11 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Janvier 2022 (2)",
-            displayedRendezvous: ["semaine passée 1", "passés lointain 1"],
+            displayedRendezvous: [RendezvousId("semaine passée 1"), RendezvousId("passés lointain 1")],
           ),
           RendezvousSection(
             title: "Décembre 2021 (1)",
-            displayedRendezvous: ["passés lointain 2"],
+            displayedRendezvous: [RendezvousId("passés lointain 2")],
           ),
         ]);
       });
@@ -214,11 +214,11 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Samedi 5 février",
-            displayedRendezvous: ["cette semaine après-demain 1"],
+            displayedRendezvous: [RendezvousId("cette semaine après-demain 1")],
           ),
           RendezvousSection(
             title: "Dimanche 6 février",
-            displayedRendezvous: ["cette semaine dimanche"],
+            displayedRendezvous: [RendezvousId("cette semaine dimanche")],
           ),
         ]);
       });
@@ -241,15 +241,15 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 7 février",
-            displayedRendezvous: ["semaine+1 lundi"],
+            displayedRendezvous: [RendezvousId("semaine+1 lundi")],
           ),
           RendezvousSection(
             title: "Jeudi 10 février",
-            displayedRendezvous: ["semaine+1 jeudi"],
+            displayedRendezvous: [RendezvousId("semaine+1 jeudi")],
           ),
           RendezvousSection(
             title: "Dimanche 13 février",
-            displayedRendezvous: ["semaine+1 dimanche"],
+            displayedRendezvous: [RendezvousId("semaine+1 dimanche")],
           ),
         ]);
       });
@@ -272,15 +272,15 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 14 février",
-            displayedRendezvous: ["semaine+2 lundi"],
+            displayedRendezvous: [RendezvousId("semaine+2 lundi")],
           ),
           RendezvousSection(
             title: "Jeudi 17 février",
-            displayedRendezvous: ["semaine+2 jeudi"],
+            displayedRendezvous: [RendezvousId("semaine+2 jeudi")],
           ),
           RendezvousSection(
             title: "Dimanche 20 février",
-            displayedRendezvous: ["semaine+2 dimanche"],
+            displayedRendezvous: [RendezvousId("semaine+2 dimanche")],
           ),
         ]);
       });
@@ -303,15 +303,15 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 21 février",
-            displayedRendezvous: ["semaine+3 lundi"],
+            displayedRendezvous: [RendezvousId("semaine+3 lundi")],
           ),
           RendezvousSection(
             title: "Jeudi 24 février",
-            displayedRendezvous: ["semaine+3 jeudi"],
+            displayedRendezvous: [RendezvousId("semaine+3 jeudi")],
           ),
           RendezvousSection(
             title: "Dimanche 27 février",
-            displayedRendezvous: ["semaine+3 dimanche"],
+            displayedRendezvous: [RendezvousId("semaine+3 dimanche")],
           ),
         ]);
       });
@@ -334,15 +334,15 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 28 février",
-            displayedRendezvous: ["semaine+4 lundi"],
+            displayedRendezvous: [RendezvousId("semaine+4 lundi")],
           ),
           RendezvousSection(
             title: "Jeudi 3 mars",
-            displayedRendezvous: ["semaine+4 jeudi"],
+            displayedRendezvous: [RendezvousId("semaine+4 jeudi")],
           ),
           RendezvousSection(
             title: "Dimanche 6 mars",
-            displayedRendezvous: ["semaine+4 dimanche"],
+            displayedRendezvous: [RendezvousId("semaine+4 dimanche")],
           ),
         ]);
       });
@@ -364,11 +364,11 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Mars 2022 (1)",
-            displayedRendezvous: ["mois futur lundi 7 mars"],
+            displayedRendezvous: [RendezvousId("mois futur lundi 7 mars")],
           ),
           RendezvousSection(
             title: "Avril 2022 (2)",
-            displayedRendezvous: ["mois futur avril A", "mois futur avril B"],
+            displayedRendezvous: [RendezvousId("mois futur avril A"), RendezvousId("mois futur avril B")],
           ),
         ]);
       });
@@ -476,7 +476,7 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Dimanche 6 février",
-            displayedRendezvous: ["cette semaine dimanche"],
+            displayedRendezvous: [RendezvousId("cette semaine dimanche")],
           ),
         ]);
       });
@@ -490,7 +490,7 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Février 2022 (2)",
-            displayedRendezvous: ["cette semaine mardi", "cette semaine lundi"],
+            displayedRendezvous: [RendezvousId("cette semaine mardi"), RendezvousId("cette semaine lundi")],
           ),
         ]);
       });

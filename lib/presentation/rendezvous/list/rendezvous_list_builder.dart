@@ -87,7 +87,7 @@ extension RendezvousIterableExtension on Iterable<Rendezvous> {
 
     return groupedRendezvous.keys.map((date) {
       final title = _title(displayCount, date, groupedRendezvous);
-      final rendezvous = groupedRendezvous[date]!.map((e) => e.id).toList();
+      final rendezvous = groupedRendezvous[date]!.map((e) => RendezvousId(e.id)).toList();
       if (expandable) {
         return RendezvousSection.expandable(title: title, rendezvous: rendezvous, count: 3);
       } else {

@@ -243,12 +243,12 @@ class _RendezvousSection extends StatelessWidget {
   }
 }
 
-extension _RendezvousIdCards on List<String> {
+extension _RendezvousIdCards on List<RendezvousListId> {
   List<Widget> cards(BuildContext context) {
     return map(
       (id) => Padding(
         padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-        child: id.rendezvousCard(
+        child: id.id.rendezvousCard(
           context: context,
           stateSource: RendezvousStateSource.rendezvousList,
           trackedEvent: EventType.RDV_DETAIL,

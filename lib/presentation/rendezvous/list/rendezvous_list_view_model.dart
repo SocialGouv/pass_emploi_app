@@ -92,8 +92,10 @@ class RendezvousListViewModel extends Equatable {
       ];
 }
 
-List<RendezvousItem> _makeRendezvousItems(
-    {required List<RendezvousSection> rendezvous, DateTime? dateDerniereMiseAJour}) {
+List<RendezvousItem> _makeRendezvousItems({
+  required List<RendezvousSection> rendezvous,
+  DateTime? dateDerniereMiseAJour,
+}) {
   return [
     if (dateDerniereMiseAJour != null) RendezvousNotUpToDateItem(),
     ...rendezvous,
@@ -134,16 +136,20 @@ abstract class RendezvousItem extends Equatable {
 
 class RendezvousSection extends RendezvousItem {
   final String title;
-  final List<String> displayedRendezvous;
-  final List<String> expandableRendezvous;
+  final List<RendezvousListId> displayedRendezvous;
+  final List<RendezvousListId> expandableRendezvous;
 
   RendezvousSection({required this.title, required this.displayedRendezvous, this.expandableRendezvous = const []});
 
-  RendezvousSection.normal({required this.title, required List<String> rendezvous})
+  RendezvousSection.normal({required this.title, required List<RendezvousListId> rendezvous})
       : displayedRendezvous = rendezvous,
         expandableRendezvous = [];
 
-  factory RendezvousSection.expandable({required String title, required List<String> rendezvous, required int count}) {
+  factory RendezvousSection.expandable({
+    required String title,
+    required List<RendezvousListId> rendezvous,
+    required int count,
+  }) {
     return RendezvousSection(
       title: title,
       displayedRendezvous: rendezvous.take(count).toList(),
@@ -156,3 +162,19 @@ class RendezvousSection extends RendezvousItem {
 }
 
 class RendezvousNotUpToDateItem extends RendezvousItem {}
+
+sealed class RendezvousListId extends Equatable {
+  final String id;
+  RendezvousListId(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class RendezvousId extends RendezvousListId {
+  RendezvousId(super.id);
+}
+
+class SessionMiloId extends RendezvousListId {
+  SessionMiloId(super.id);
+}
