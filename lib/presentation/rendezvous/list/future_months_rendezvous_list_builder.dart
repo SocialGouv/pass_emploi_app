@@ -1,15 +1,17 @@
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
-  final RendezvousListState _rendezvousListState;
+  final RendezvousListStatus _futurRendezVousStatus;
+  final List<Rendezvous> _allRendezvous;
   final DateTime _now;
 
-  FutureMonthsRendezVousListBuilder(this._rendezvousListState, this._now);
+  FutureMonthsRendezVousListBuilder(this._futurRendezVousStatus, this._allRendezvous, this._now);
 
   @override
   String makeTitle() => Strings.rendezVousFutursTitre;
@@ -35,10 +37,10 @@ class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListFuture;
 
   @override
-  List<RendezvousSection> rendezvous() {
-    if (_rendezvousListState.futurRendezVousStatus != RendezvousListStatus.SUCCESS) return [];
+  List<RendezvousSection> makeSections() {
+    if (_futurRendezVousStatus != RendezvousListStatus.SUCCESS) return [];
 
-    return _rendezvousListState.rendezvous
+    return _allRendezvous
         .sortedFromRecentToFuture()
         .filteredAfterFourWeeks(_now)
         .sections(displayCount: true, expandable: true, groupedBy: (element) => element.date.toFullMonthAndYear());

@@ -50,7 +50,7 @@ class RendezvousListViewModel extends Equatable {
       pageOffset: pageOffset,
       displayState: _displayState(rendezvousListState, pageOffset),
       rendezvousItems: _makeRendezvousItems(
-          rendezvous: builder.rendezvous(), dateDerniereMiseAJour: rendezvousListState.dateDerniereMiseAJour),
+          rendezvous: builder.makeSections(), dateDerniereMiseAJour: rendezvousListState.dateDerniereMiseAJour),
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousListState),
       onRetry: () => _retry(store, pageOffset),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),

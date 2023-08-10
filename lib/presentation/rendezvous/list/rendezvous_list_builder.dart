@@ -24,21 +24,23 @@ abstract class RendezVousListBuilder {
 
   String makeAnalyticsLabel();
 
-  List<RendezvousSection> rendezvous();
+  List<RendezvousSection> makeSections();
 
   factory RendezVousListBuilder.create(
-    RendezvousListState rendezvousListState,
+    RendezvousListState state,
     int pageOffset,
     DateTime now,
   ) {
+    final allRendezvous = state.rendezvous + state.sessionsMilo.map((e) => e.toRendezVous).toList();
+
     if (pageOffset.isInPast()) {
-      return PastRendezVousListBuilder(rendezvousListState, now);
+      return PastRendezVousListBuilder(state.pastRendezVousStatus, allRendezvous, now);
     } else if (pageOffset.isThisWeek()) {
-      return CurrentWeekRendezVousListBuilder(rendezvousListState, pageOffset, now);
+      return CurrentWeekRendezVousListBuilder(state.futurRendezVousStatus, allRendezvous, pageOffset, now);
     } else if (pageOffset >= 1 && pageOffset < 5) {
-      return FutureWeekRendezVousListBuilder(rendezvousListState, pageOffset, now);
+      return FutureWeekRendezVousListBuilder(state.futurRendezVousStatus, allRendezvous, pageOffset, now);
     } else {
-      return FutureMonthsRendezVousListBuilder(rendezvousListState, now);
+      return FutureMonthsRendezVousListBuilder(state.futurRendezVousStatus, allRendezvous, now);
     }
   }
 
@@ -87,7 +89,9 @@ extension RendezvousIterableExtension on Iterable<Rendezvous> {
 
     return groupedRendezvous.keys.map((date) {
       final title = _title(displayCount, date, groupedRendezvous);
-      final rendezvous = groupedRendezvous[date]!.map((e) => RendezvousId(e.id)).toList();
+      final rendezvous = groupedRendezvous[date]!.map((e) {
+        return e.createdFromSessionMilo == true ? SessionMiloId(e.id) : RendezvousId(e.id);
+      }).toList();
       if (expandable) {
         return RendezvousSection.expandable(title: title, rendezvous: rendezvous, count: 3);
       } else {

@@ -9,11 +9,12 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
-  final RendezvousListState _rendezvousListState;
+  final RendezvousListStatus _futurRendezVousStatus;
+  final List<Rendezvous> _allRendezvous;
   final int _pageOffset;
   final DateTime _now;
 
-  CurrentWeekRendezVousListBuilder(this._rendezvousListState, this._pageOffset, this._now);
+  CurrentWeekRendezVousListBuilder(this._futurRendezVousStatus, this._allRendezvous, this._pageOffset, this._now);
 
   @override
   String makeTitle() => Strings.rendezVousCetteSemaineTitre;
@@ -27,26 +28,25 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeEmptyLabel() {
-    if (_rendezvousListState.futurRendezVousStatus == RendezvousListStatus.SUCCESS) {
-      if (_rendezvousListState.rendezvous.isEmpty) {
+    if (_futurRendezVousStatus == RendezvousListStatus.SUCCESS) {
+      if (_allRendezvous.isEmpty) {
         return Strings.noRendezYet;
-      } else if (_haveRendezvousPreviousThisWeek(_rendezvousListState.rendezvous)) {
+      } else if (_haveRendezvousPreviousThisWeek()) {
         return Strings.noMoreRendezVousThisWeek;
       }
     }
     return Strings.noRendezVousCetteSemaineTitre;
   }
 
-  bool _haveRendezvousPreviousThisWeek(List<Rendezvous> rendezvous) {
-    return rendezvous.any((element) {
+  bool _haveRendezvousPreviousThisWeek() {
+    return _allRendezvous.any((element) {
       return element.date.isAfter(_now.toMondayOnThisWeek()) && element.date.isBefore(_now);
     });
   }
 
   @override
   String? makeEmptySubtitleLabel() {
-    if (_rendezvousListState.futurRendezVousStatus == RendezvousListStatus.SUCCESS &&
-        _rendezvousListState.rendezvous.isEmpty) {
+    if (_futurRendezVousStatus == RendezvousListStatus.SUCCESS && _allRendezvous.isEmpty) {
       return Strings.noRendezYetSubtitle;
     }
     return null;
@@ -54,18 +54,18 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   int? nextRendezvousPageOffset() {
-    if (_rendezvousListState.rendezvous.isEmpty) return null;
-    if (rendezvous().isNotEmpty) return null;
+    if (_allRendezvous.isEmpty) return null;
+    if (makeSections().isNotEmpty) return null;
 
     final futureBuilders = [
-      FutureWeekRendezVousListBuilder(_rendezvousListState, 1, _now),
-      FutureWeekRendezVousListBuilder(_rendezvousListState, 2, _now),
-      FutureWeekRendezVousListBuilder(_rendezvousListState, 3, _now),
-      FutureWeekRendezVousListBuilder(_rendezvousListState, 4, _now),
-      FutureMonthsRendezVousListBuilder(_rendezvousListState, _now),
+      FutureWeekRendezVousListBuilder(_futurRendezVousStatus, _allRendezvous, 1, _now),
+      FutureWeekRendezVousListBuilder(_futurRendezVousStatus, _allRendezvous, 2, _now),
+      FutureWeekRendezVousListBuilder(_futurRendezVousStatus, _allRendezvous, 3, _now),
+      FutureWeekRendezVousListBuilder(_futurRendezVousStatus, _allRendezvous, 4, _now),
+      FutureMonthsRendezVousListBuilder(_futurRendezVousStatus, _allRendezvous, _now),
     ];
 
-    final index = futureBuilders.indexWhere((element) => element.rendezvous().isNotEmpty);
+    final index = futureBuilders.indexWhere((element) => element.makeSections().isNotEmpty);
     return index == -1 ? null : index + 1;
   }
 
@@ -73,10 +73,10 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListWeek + _pageOffset.toString();
 
   @override
-  List<RendezvousSection> rendezvous() {
-    if (_rendezvousListState.futurRendezVousStatus != RendezvousListStatus.SUCCESS) return [];
+  List<RendezvousSection> makeSections() {
+    if (_futurRendezVousStatus != RendezvousListStatus.SUCCESS) return [];
 
-    return _rendezvousListState.rendezvous
+    return _allRendezvous
         .sortedFromRecentToFuture()
         .filteredFromTodayToSunday(_now)
         .sections(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());

@@ -24,6 +24,7 @@ class Rendezvous extends Equatable {
   final Conseiller? createur;
   final bool? estInscrit;
   final String? animateur;
+  final bool? createdFromSessionMilo;
 
   Rendezvous({
     required this.id,
@@ -48,6 +49,7 @@ class Rendezvous extends Equatable {
     this.createur,
     this.estInscrit,
     this.animateur,
+    this.createdFromSessionMilo,
   });
 
   RendezvousModalityType modalityType() {
@@ -80,6 +82,7 @@ class Rendezvous extends Equatable {
       createur,
       estInscrit,
       animateur,
+      createdFromSessionMilo,
     ];
   }
 }
