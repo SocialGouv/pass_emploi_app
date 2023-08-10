@@ -42,6 +42,8 @@ Rendezvous getRendezvous(Store<AppState> store, RendezvousStateSource source, St
       return _getRendezvousFromSessionMiloListState(store, rdvId);
     case RendezvousStateSource.sessionMiloDetails:
       return _getRendezvousFromSessionMiloDetailsState(store, rdvId);
+    case RendezvousStateSource.rendezvousListSession:
+      return _getRendezvousFromRendezvousListSessionState(store, rdvId);
   }
 }
 
@@ -73,6 +75,13 @@ Rendezvous _getRendezvousFromRendezvousListState(Store<AppState> store, String r
   final rendezvous = state.rendezvous.where((e) => e.id == rdvId);
   if (rendezvous.isEmpty) throw Exception('No Rendezvous matching id $rdvId');
   return rendezvous.first;
+}
+
+Rendezvous _getRendezvousFromRendezvousListSessionState(Store<AppState> store, String rdvId) {
+  final state = store.state.rendezvousListState;
+  final session = state.sessionsMilo.where((e) => e.id == rdvId).firstOrNull;
+  if (session == null) throw Exception('No session matching id $rdvId');
+  return session.toRendezVous;
 }
 
 Rendezvous _getRendezvousFromAgendaState(Store<AppState> store, String rdvId) {
