@@ -8,19 +8,20 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class PastRendezVousListBuilder implements RendezVousListBuilder {
-  final RendezvousListState _rendezvousListState;
+  final RendezvousListStatus _pastRendezVousStatus;
+  final List<Rendezvous> _allRendezvous;
   final DateTime _now;
 
-  PastRendezVousListBuilder(this._rendezvousListState, this._now);
+  PastRendezVousListBuilder(this._pastRendezVousStatus, this._allRendezvous, this._now);
 
   @override
   String makeTitle() => Strings.rendezVousPassesTitre;
 
   @override
   String makeDateLabel() {
-    if (_rendezvousListState.pastRendezVousStatus != RendezvousListStatus.SUCCESS) return "";
+    if (_pastRendezVousStatus != RendezvousListStatus.SUCCESS) return "";
 
-    final oldestRendezvousDate = _oldestRendezvousDate(_rendezvousListState.rendezvous);
+    final oldestRendezvousDate = _oldestRendezvousDate();
     if (oldestRendezvousDate == null) return "";
 
     if (oldestRendezvousDate.isInPreviousDay(_now)) {
@@ -43,17 +44,17 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListPast;
 
   @override
-  List<RendezvousSection> rendezvous() {
-    if (_rendezvousListState.pastRendezVousStatus != RendezvousListStatus.SUCCESS) return [];
+  List<RendezvousSection> makeSections() {
+    if (_pastRendezVousStatus != RendezvousListStatus.SUCCESS) return [];
 
-    return _rendezvousListState.rendezvous
+    return _allRendezvous
         .sortedFromRecentToOldest()
         .where((element) => element.date.isBefore(DateUtils.dateOnly(_now)))
         .sections(displayCount: true, expandable: true, groupedBy: (element) => element.date.toFullMonthAndYear());
   }
-}
 
-DateTime? _oldestRendezvousDate(List<Rendezvous> list) {
-  if (list.isEmpty) return null;
-  return list.reduce((value, element) => value.date.isAfter(element.date) ? element : value).date;
+  DateTime? _oldestRendezvousDate() {
+    if (_allRendezvous.isEmpty) return null;
+    return _allRendezvous.reduce((value, element) => value.date.isAfter(element.date) ? element : value).date;
+  }
 }

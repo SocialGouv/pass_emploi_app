@@ -10,8 +10,8 @@ class SessionMiloRepository {
 
   SessionMiloRepository(this._httpClient, [this._crashlytics]);
 
-  Future<List<SessionMilo>?> getList(String userId) async {
-    final url = "/jeunes/milo/$userId/sessions";
+  Future<List<SessionMilo>?> getList({required String userId, bool filtrerEstInscrit = false}) async {
+    final url = "/jeunes/milo/$userId/sessions?filtrerEstInscrit=$filtrerEstInscrit";
     try {
       final response = await _httpClient.get(url);
       return response.asListOf((session) => SessionMilo.fromJson(session));

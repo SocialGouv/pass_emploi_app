@@ -243,18 +243,27 @@ class _RendezvousSection extends StatelessWidget {
   }
 }
 
-extension _RendezvousIdCards on List<String> {
+extension _RendezvousIdCards on List<RendezvousListId> {
   List<Widget> cards(BuildContext context) {
     return map(
-      (id) => Padding(
+      (element) => Padding(
         padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-        child: id.rendezvousCard(
+        child: element.id.rendezvousCard(
           context: context,
-          stateSource: RendezvousStateSource.rendezvousList,
+          stateSource: element.source(),
           trackedEvent: EventType.RDV_DETAIL,
         ),
       ),
     ).toList();
+  }
+}
+
+extension _RendezvousIdCard on RendezvousListId {
+  RendezvousStateSource source() {
+    return switch (this) {
+      RendezvousId _ => RendezvousStateSource.rendezvousList,
+      SessionMiloId _ => RendezvousStateSource.rendezvousListSession,
+    };
   }
 }
 

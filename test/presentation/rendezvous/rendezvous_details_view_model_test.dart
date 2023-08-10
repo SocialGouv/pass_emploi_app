@@ -41,7 +41,7 @@ void main() {
       // Given
       final store = TestStoreFactory().initializeReduxStore(
         initialState: loggedInState().copyWith(
-          rendezvousListState: RendezvousListState.successfulFuture([mockRendezvous(id: '1')]),
+          rendezvousListState: RendezvousListState.successfulFuture(rendezvous: [mockRendezvous(id: '1')]),
         ),
       );
 
@@ -1137,7 +1137,7 @@ void main() {
 Store<AppState> _store(Rendezvous rendezvous) {
   return TestStoreFactory().initializeReduxStore(
     initialState: loggedInState().copyWith(
-      rendezvousListState: RendezvousListState.successfulFuture([rendezvous]),
+      rendezvousListState: RendezvousListState.successfulFuture(rendezvous: [rendezvous]),
     ),
   );
 }
@@ -1145,7 +1145,10 @@ Store<AppState> _store(Rendezvous rendezvous) {
 Store<AppState> _storeNotUpToDate(Rendezvous rendezvous, DateTime dateDerniereMiseAJour) {
   return TestStoreFactory().initializeReduxStore(
     initialState: loggedInState().copyWith(
-      rendezvousListState: RendezvousListState.successfulFuture([rendezvous], dateDerniereMiseAJour),
+      rendezvousListState: RendezvousListState.successfulFuture(
+        rendezvous: [rendezvous],
+        dateDerniereMiseAJour: dateDerniereMiseAJour,
+      ),
     ),
   );
 }

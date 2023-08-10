@@ -95,11 +95,29 @@ extension AppStateDSL on AppState {
 
   AppState withDemoMode() => copyWith(demoState: true);
 
-  AppState rendezvousFutur(List<Rendezvous> rendezvous) =>
-      copyWith(rendezvousListState: RendezvousListState.successfulFuture(rendezvous));
+  AppState rendezvousFutur({
+    List<Rendezvous> rendezvous = const [],
+    List<SessionMilo> sessionsMilo = const [],
+  }) {
+    return copyWith(
+        rendezvousListState: RendezvousListState.successfulFuture(
+      rendezvous: rendezvous,
+      sessionsMilo: sessionsMilo,
+    ));
+  }
 
-  AppState rendezvous(List<Rendezvous> rendezvous, [DateTime? dateDerniereMiseAJour]) =>
-      copyWith(rendezvousListState: RendezvousListState.successful(rendezvous, dateDerniereMiseAJour));
+  AppState rendezvous({
+    List<Rendezvous> rendezvous = const [],
+    List<SessionMilo> sessionsMilo = const [],
+    DateTime? dateDerniereMiseAJour,
+  }) {
+    return copyWith(
+        rendezvousListState: RendezvousListState.successful(
+      rendezvous: rendezvous,
+      sessionsMilo: sessionsMilo,
+      dateDerniereMiseAJour: dateDerniereMiseAJour,
+    ));
+  }
 
   AppState rendezvousNotInitialized() => copyWith(rendezvousListState: RendezvousListState.notInitialized());
 

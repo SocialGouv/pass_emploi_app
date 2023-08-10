@@ -57,11 +57,13 @@ class MockPushNotificationManager extends Mock implements PushNotificationManage
 
 class MockSessionMiloRepository extends Mock implements SessionMiloRepository {
   void mockGetListSuccess() {
-    when(() => getList(any())).thenAnswer((_) async => [mockSessionMilo()]);
+    when(() => getList(userId: any(named: "userId"), filtrerEstInscrit: any(named: "filtrerEstInscrit")))
+        .thenAnswer((_) async => [mockSessionMilo()]);
   }
 
   void mockGetListFailure() {
-    when(() => getList(any())).thenAnswer((_) async => null);
+    when(() => getList(userId: any(named: "userId"), filtrerEstInscrit: any(named: "filtrerEstInscrit")))
+        .thenAnswer((_) async => null);
   }
 
   void mockGetDetailsFailure() {

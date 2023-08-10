@@ -75,6 +75,7 @@ class SessionMiloDetails extends Equatable {
       comment: commentaire,
       duration: dateHeureFin.difference(dateHeureDebut).inMinutes,
       estInscrit: estInscrit,
+      createdFromSessionMilo: true,
     );
   }
 

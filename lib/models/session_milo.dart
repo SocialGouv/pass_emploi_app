@@ -49,6 +49,7 @@ class SessionMilo extends Equatable {
       source: RendezvousSource.milo,
       isInVisio: false,
       estInscrit: estInscrit,
+      createdFromSessionMilo: true,
     );
   }
 

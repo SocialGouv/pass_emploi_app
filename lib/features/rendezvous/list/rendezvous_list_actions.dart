@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
 
 enum RendezvousPeriod { PASSE, FUTUR }
 
@@ -28,9 +29,10 @@ class RendezvousListReloadingAction {
 
 class RendezvousListSuccessAction {
   final RendezvousListResult rendezvousListResult;
+  final List<SessionMilo> sessionsMilo;
   final RendezvousPeriod period;
 
-  RendezvousListSuccessAction(this.rendezvousListResult, this.period);
+  RendezvousListSuccessAction({required this.rendezvousListResult, required this.sessionsMilo, required this.period});
 }
 
 class RendezvousListFailureAction {
