@@ -37,6 +37,12 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
   String analyticsType() => AnalyticsScreenNames.serviceCiviqueRecherche;
 
   @override
+  String placeHolderTitle() => Strings.recherchePlaceholderTitle;
+
+  @override
+  String placeHolderSubtitle() => Strings.rechercheLancerUneRechercheHint;
+
+  @override
   RechercheState rechercheState(AppState appState) => appState.rechercheServiceCiviqueState;
 
   @override

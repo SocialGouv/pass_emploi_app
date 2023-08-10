@@ -24,6 +24,10 @@ abstract class RechercheOffrePage<Result> extends StatefulWidget {
 
   String analyticsType();
 
+  String placeHolderTitle();
+
+  String placeHolderSubtitle();
+
   RechercheState rechercheState(AppState appState);
 
   FavoriIdsState<Result> favorisState(AppState appState);
@@ -94,6 +98,8 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
                   favorisState: widget.favorisState,
                   buildResultItem: widget.buildResultItem,
                   analyticsType: widget.analyticsType(),
+                  placeHolderTitle: widget.placeHolderTitle(),
+                  placeHolderSubtitle: widget.placeHolderSubtitle(),
                 ),
               ],
             ),

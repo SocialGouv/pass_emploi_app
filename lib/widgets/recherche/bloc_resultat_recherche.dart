@@ -16,6 +16,8 @@ class BlocResultatRecherche<Result> extends StatefulWidget {
   final FavoriIdsState<Result> Function(AppState) favorisState;
   final Widget Function(BuildContext, Result, int, BlocResultatRechercheViewModel<Result>) buildResultItem;
   final String analyticsType;
+  final String placeHolderTitle;
+  final String placeHolderSubtitle;
 
   BlocResultatRecherche({
     required this.listResultatKey,
@@ -23,6 +25,8 @@ class BlocResultatRecherche<Result> extends StatefulWidget {
     required this.favorisState,
     required this.buildResultItem,
     required this.analyticsType,
+    required this.placeHolderTitle,
+    required this.placeHolderSubtitle,
   });
 
   @override
@@ -48,7 +52,7 @@ class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Re
   Widget _builder(BuildContext context, BlocResultatRechercheViewModel<Result> viewModel) {
     switch (viewModel.displayState) {
       case BlocResultatRechercheDisplayState.recherche:
-        return RechercheMessagePlaceholder(Strings.rechercheLancerUneRechercheHint);
+        return RechercheMessagePlaceholder(widget.placeHolderTitle, subtitle: widget.placeHolderSubtitle);
       case BlocResultatRechercheDisplayState.empty:
         return RechercheMessagePlaceholder(Strings.noContentError);
       case BlocResultatRechercheDisplayState.results:

@@ -47,6 +47,12 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   }
 
   @override
+  String placeHolderTitle() => Strings.eventPlaceholderTitle;
+
+  @override
+  String placeHolderSubtitle() => Strings.eventPlaceholderSubtitle;
+
+  @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
 
   @override

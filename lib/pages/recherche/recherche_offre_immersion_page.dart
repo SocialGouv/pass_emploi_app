@@ -37,6 +37,12 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   String analyticsType() => AnalyticsScreenNames.immersionRecherche;
 
   @override
+  String placeHolderTitle() => Strings.recherchePlaceholderTitle;
+
+  @override
+  String placeHolderSubtitle() => Strings.rechercheLancerUneRechercheHint;
+
+  @override
   RechercheState rechercheState(AppState appState) => appState.rechercheImmersionState;
 
   @override

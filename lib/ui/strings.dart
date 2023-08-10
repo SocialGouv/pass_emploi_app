@@ -460,8 +460,9 @@ class Strings {
   static String rechercheOffresAlternanceTitle = "Offres d’alternance";
   static String rechercheOffresImmersionTitle = "Offres d’immersion";
   static String rechercheOffresServiceCiviqueTitle = "Offres de service civique";
-  static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
   static String rechercheAfficherPlus = "Afficher plus d'offres";
+  static String recherchePlaceholderTitle = "Effectuez votre recherche pour afficher des résultats";
+  static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
 
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
 
@@ -860,6 +861,8 @@ class Strings {
   static String eventEmploiDetailsAppBarTitle = "Détail de l’événement";
   static String eventEmploiDetailsPartagerConseiller = "Partager l'événement à mon conseiller";
   static String eventEmploiDetailsInscription = "Je m'inscris";
+  static String eventPlaceholderTitle = "Trouvez un événement";
+  static String eventPlaceholderSubtitle = "Commencez votre recherche en remplissant les champs ci-dessus.";
 
   // Événements Emploi
   static const String secteurActiviteLabel = "Secteur d'activité";
