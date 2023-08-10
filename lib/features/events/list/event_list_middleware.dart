@@ -22,7 +22,7 @@ class EventListMiddleware extends MiddlewareClass<AppState> {
       late List<SessionMilo>? sessions;
       await Future.wait([
         _animationsCollectivesRepository.get(userId, action.maintenant).then((result) => animations = result),
-        _sessionMiloRepository.getList(userId).then((result) => sessions = result),
+        _sessionMiloRepository.getList(userId: userId).then((result) => sessions = result),
       ]);
       if (animations != null || sessions != null) {
         store.dispatch(EventListSuccessAction(animations ?? [], sessions ?? []));

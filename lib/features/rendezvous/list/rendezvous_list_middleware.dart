@@ -52,7 +52,7 @@ class RendezvousListMiddleware extends MiddlewareClass<AppState> {
 
     final Future<List<SessionMilo>?> fetchSessions = //
         _shouldFetchSessions(loginMode, period) //
-            ? _sessionMiloRepository.getList(userId)
+            ? _sessionMiloRepository.getList(userId: userId, filtrerEstInscrit: true)
             : Future.value([]);
 
     await Future.wait([
