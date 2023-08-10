@@ -85,7 +85,6 @@ enum SessionMiloTypeCode {
 }
 
 SessionMiloTypeCode _parseSessionMiloTypeCode(String sessionMiloTypeCode) {
-  // TODO: update dart & flutter version to fix this false warning
   return SessionMiloTypeCode.values.firstWhere(
     // ignore: sdk_version_since
     (e) => e.name == sessionMiloTypeCode,

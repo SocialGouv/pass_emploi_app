@@ -154,9 +154,6 @@ class RendezvousDetailsViewModel extends Equatable {
     String rdvId,
   ) {
     final fromSession = [
-      //TODO: extension quelque part ?
-      // RendezvousStateSource.accueilProchaineSession, //TODO: inexistant ?
-      // RendezvousStateSource.eventListSessionsMilo, //TODO: inexistant ?
       RendezvousStateSource.sessionMiloDetails,
     ].contains(source);
     final isFailure = fromSession
