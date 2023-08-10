@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
 import 'package:pass_emploi_app/models/session_milo.dart';
@@ -16,8 +17,8 @@ class RendezvousListMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
 
-    final userId = store.state.userId();
-    if (userId == null) return;
+    final user = store.state.user();
+    if (user == null) return;
 
     if (action is RendezvousListRequestAction || action is RendezvousListRequestReloadAction) {
       final period = action.period as RendezvousPeriod;
@@ -26,7 +27,7 @@ class RendezvousListMiddleware extends MiddlewareClass<AppState> {
           ? RendezvousListLoadingAction(period)
           : RendezvousListReloadingAction(period));
 
-      final (rendezvousListResult, sessionsMilo) = await _fetch(userId, period);
+      final (rendezvousListResult, sessionsMilo) = await _fetch(user.loginMode, user.id, period);
 
       if (rendezvousListResult != null && sessionsMilo != null) {
         store.dispatch(RendezvousListSuccessAction(
@@ -41,12 +42,16 @@ class RendezvousListMiddleware extends MiddlewareClass<AppState> {
     return;
   }
 
-  Future<(RendezvousListResult?, List<SessionMilo>?)> _fetch(String userId, RendezvousPeriod period) async {
+  Future<(RendezvousListResult?, List<SessionMilo>?)> _fetch(
+    LoginMode loginMode,
+    String userId,
+    RendezvousPeriod period,
+  ) async {
     late RendezvousListResult? rendezvousListResult;
     late List<SessionMilo>? sessionsMilo;
 
     final Future<List<SessionMilo>?> fetchSessions = //
-        period == RendezvousPeriod.FUTUR //
+        _shouldFetchSessions(loginMode, period) //
             ? _sessionMiloRepository.getList(userId)
             : Future.value([]);
 
@@ -56,5 +61,9 @@ class RendezvousListMiddleware extends MiddlewareClass<AppState> {
     ]);
 
     return (rendezvousListResult, sessionsMilo);
+  }
+
+  bool _shouldFetchSessions(LoginMode loginMode, RendezvousPeriod period) {
+    return period == RendezvousPeriod.FUTUR && loginMode.isMiLo();
   }
 }
