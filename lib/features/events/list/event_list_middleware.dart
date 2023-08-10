@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/session_milo.dart';
@@ -15,20 +16,43 @@ class EventListMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    final userId = store.state.userId();
-    if (userId != null && action is EventListRequestAction) {
+
+    final user = store.state.user();
+    if (user == null) return;
+
+    if (action is EventListRequestAction) {
       store.dispatch(EventListLoadingAction());
-      late List<Rendezvous>? animations;
-      late List<SessionMilo>? sessions;
-      await Future.wait([
-        _animationsCollectivesRepository.get(userId, action.maintenant).then((result) => animations = result),
-        _sessionMiloRepository.getList(userId: userId).then((result) => sessions = result),
-      ]);
+      final (animations, sessions) = await _fetch(user.loginMode, user.id, action.maintenant);
       if (animations != null || sessions != null) {
         store.dispatch(EventListSuccessAction(animations ?? [], sessions ?? []));
       } else {
         store.dispatch(EventListFailureAction());
       }
     }
+  }
+
+  Future<(List<Rendezvous>?, List<SessionMilo>?)> _fetch(
+    LoginMode loginMode,
+    String userId,
+    DateTime maintenant,
+  ) async {
+    late List<Rendezvous>? animations;
+    late List<SessionMilo>? sessionsMilo;
+
+    final Future<List<SessionMilo>?> fetchSessions = //
+        _shouldFetchSessions(loginMode) //
+            ? _sessionMiloRepository.getList(userId: userId, filtrerEstInscrit: false)
+            : Future.value([]);
+
+    await Future.wait([
+      _animationsCollectivesRepository.get(userId, maintenant).then((result) => animations = result),
+      fetchSessions.then((result) => sessionsMilo = result),
+    ]);
+
+    return (animations, sessionsMilo);
+  }
+
+  bool _shouldFetchSessions(LoginMode loginMode) {
+    return loginMode.isMiLo() && loginMode != LoginMode.PASS_EMPLOI;
   }
 }

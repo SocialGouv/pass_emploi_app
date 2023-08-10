@@ -64,6 +64,6 @@ class RendezvousListMiddleware extends MiddlewareClass<AppState> {
   }
 
   bool _shouldFetchSessions(LoginMode loginMode, RendezvousPeriod period) {
-    return period == RendezvousPeriod.FUTUR && loginMode.isMiLo();
+    return period == RendezvousPeriod.FUTUR && loginMode.isMiLo() && loginMode != LoginMode.PASS_EMPLOI;
   }
 }
