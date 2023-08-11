@@ -22,6 +22,8 @@ import 'package:pass_emploi_app/widgets/chat/chat_text_message.dart';
 import 'package:pass_emploi_app/widgets/chat/partage_message.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/preview_file_invisible_handler.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -112,26 +114,28 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       children: [
         Container(
           color: Colors.white,
-          child: ListView(
-            reverse: true,
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 100.0),
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            children: viewModel.items.reversed.map((item) {
-              if (item is DayItem) {
-                return Center(child: Text(item.dayLabel, style: TextStyles.textSRegular()));
-              } else if (item is TextMessageItem) {
-                return ChatTextMessage(item);
-              } else if (item is InformationItem) {
-                return ChatInformation(item.title, item.description);
-              } else if (item is PieceJointeConseillerMessageItem) {
-                return ChatPieceJointe(item);
-              } else if (item is PartageMessageItem) {
-                return PartageMessage(item);
-              } else {
-                return Container();
-              }
-            }).toList(),
-          ),
+          child: viewModel.items.isEmpty
+              ? _EmptyChatPlaceholder()
+              : ListView(
+                  reverse: true,
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 100.0),
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  children: viewModel.items.reversed.map((item) {
+                    if (item is DayItem) {
+                      return Center(child: Text(item.dayLabel, style: TextStyles.textSRegular()));
+                    } else if (item is TextMessageItem) {
+                      return ChatTextMessage(item);
+                    } else if (item is InformationItem) {
+                      return ChatInformation(item.title, item.description);
+                    } else if (item is PieceJointeConseillerMessageItem) {
+                      return ChatPieceJointe(item);
+                    } else if (item is PartageMessageItem) {
+                      return PartageMessage(item);
+                    } else {
+                      return Container();
+                    }
+                  }).toList(),
+                ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -189,6 +193,21 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
           ),
         )
       ],
+    );
+  }
+}
+
+class _EmptyChatPlaceholder extends StatelessWidget {
+  const _EmptyChatPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: EmptyStatePlaceholder(
+        illustration: Illustration.grey(AppIcons.forum_rounded),
+        title: Strings.chatEmpty,
+        subtitle: Strings.chatEmptySubtitle,
+      ),
     );
   }
 }

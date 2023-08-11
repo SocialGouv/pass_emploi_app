@@ -110,6 +110,9 @@ class Strings {
   static String open = "Ouvrir";
   static String fileNotAvailableError = "ERROR: 404";
   static String fileNotAvailableTitle = "Le fichier n'est plus disponible";
+  static String chatEmpty = "Commencez une conversation avec votre conseiller";
+  static String chatEmptySubtitle =
+      "Obtenez les informations que vous recherchez en contactant directement votre conseiller";
 
   // Force Update
   static String updateTitle = "Mise à jour";
