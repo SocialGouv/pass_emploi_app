@@ -45,10 +45,10 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
   String analyticsType() => AnalyticsScreenNames.evenementEmploiRecherche;
 
   @override
-  String placeHolderTitle() => Strings.recherchePlaceholderTitle;
+  String placeHolderTitle() => Strings.eventPlaceholderTitle;
 
   @override
-  String placeHolderSubtitle() => Strings.rechercheLancerUneRechercheHint;
+  String placeHolderSubtitle() => Strings.eventPlaceholderSubtitle;
 
   @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEvenementEmploiState;
