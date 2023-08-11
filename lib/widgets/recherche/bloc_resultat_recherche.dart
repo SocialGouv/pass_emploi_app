@@ -54,7 +54,7 @@ class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Re
       case BlocResultatRechercheDisplayState.recherche:
         return RechercheMessagePlaceholder(widget.placeHolderTitle, subtitle: widget.placeHolderSubtitle);
       case BlocResultatRechercheDisplayState.empty:
-        return RechercheMessagePlaceholder(Strings.noContentError);
+        return RechercheMessagePlaceholder(Strings.noContentErrorTitle, subtitle: Strings.noContentErrorSubtitle);
       case BlocResultatRechercheDisplayState.results:
       case BlocResultatRechercheDisplayState.editRecherche:
         final bool withOpacity = viewModel.displayState == BlocResultatRechercheDisplayState.editRecherche;

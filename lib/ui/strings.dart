@@ -597,8 +597,9 @@ class Strings {
   static String serviceCiviqueOrganisationTitle = "Organisation";
 
   // Solutions Errors
-  static String noContentError =
-      "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";
+  static String noContentErrorTitle = "Pour le moment, aucune offre ne correspond à vos critères.";
+  static String noContentErrorSubtitle =
+      "Essayez d’élargir votre recherche en modifiant vos critères ou créez une alerte.";
   static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
   static String genericCreationError = "Erreur lors de la création. Veuillez réessayer";
 
