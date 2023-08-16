@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 class Empty extends StatelessWidget {
   final String description;
@@ -11,16 +10,10 @@ class Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(height: Margins.spacing_l),
-          Flexible(child: SvgPicture.asset(Drawables.emptyIllustration)),
-          Text(description, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
-        ],
+    return Center(
+      child: EmptyStatePlaceholder(
+        illustration: Illustration.grey(AppIcons.checklist_rounded, withWhiteBackground: true),
+        title: description,
       ),
     );
   }
