@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
@@ -17,13 +16,13 @@ import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
@@ -142,7 +141,13 @@ class _Empty extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Spacer(flex: 1),
-          SvgPicture.asset(Drawables.actionInacessibleIllustration, width: 180, height: 180),
+          Center(
+            child: SizedBox(
+              height: 130,
+              width: 130,
+              child: Illustration.grey(AppIcons.checklist_rounded),
+            ),
+          ),
           Text(Strings.emptySuggestionAlerteListTitre, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
           SizedBox(height: Margins.spacing_base),
           Text(
