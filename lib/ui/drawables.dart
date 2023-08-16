@@ -19,7 +19,6 @@ class Drawables {
   static String republiqueFrancaiseLogo = _assets + "logo_republique_francaise" + _svg;
   static String congratulationsIllustration = _assets + "ic_congratulations" + _svg;
   static String trashAlertIllustration = _assets + "ic_trash_alert" + _svg;
-  static String deleteIllustration = _assets + "ic_delete" + _svg;
   static String actionInacessibleIllustration = _assets + "action_inacessible" + _svg;
 
   static String badge = _assets + "ic_badge" + _svg;
