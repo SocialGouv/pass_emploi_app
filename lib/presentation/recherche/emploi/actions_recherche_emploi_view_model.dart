@@ -35,6 +35,9 @@ class ActionsRechercheEmploiViewModel extends ActionsRechercheViewModel {
 }
 
 bool _withFiltreButton(RechercheState<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi> state) {
+  if (state.results?.isEmpty == true) {
+    return false;
+  }
   final withFiltreButton = [RechercheStatus.success, RechercheStatus.updateLoading].contains(state.status);
   if (state.request?.criteres.rechercheType.isOnlyAlternance() == true) {
     return withFiltreButton && state.request?.criteres.location?.type == LocationType.COMMUNE;
