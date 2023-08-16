@@ -10,7 +10,6 @@ class Drawables {
   static String appLogo = Brand.isCej() ? _assets + "logo_app_cej" + _svg : _assets + "logo_app_brsa" + _svg;
 
   static String jeuneEntree = _assets + "jeune_home" + _png;
-  static String conversation = _assets + "conversation" + _svg;
 
   static String unJeuneUneSolutionIllustration = _assets + "logo_1jeune1solution_light" + _svg;
   static String republiqueFrancaiseLogo = _assets + "logo_republique_francaise" + _svg;
