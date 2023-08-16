@@ -14,7 +14,6 @@ class Drawables {
   static String jeuneEntree = _assets + "jeune_home" + _png;
   static String conversation = _assets + "conversation" + _svg;
 
-  static String modeDemoExplicationIllustration = _assets + "connexion" + _svg;
   static String unJeuneUneSolutionIllustration = _assets + "logo_1jeune1solution_light" + _svg;
   static String republiqueFrancaiseLogo = _assets + "logo_republique_francaise" + _svg;
   static String trashAlertIllustration = _assets + "ic_trash_alert" + _svg;
