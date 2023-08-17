@@ -14,18 +14,20 @@ import 'package:pass_emploi_app/widgets/cards/demarche_du_referentiel_card.dart'
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class CreateDemarcheStep2Page extends StatelessWidget {
-  const CreateDemarcheStep2Page({super.key, required this.source});
+  const CreateDemarcheStep2Page({super.key, required this.source, this.analyticsDetailsName});
 
-  static MaterialPageRoute<String?> materialPageRoute({required DemarcheSource source}) {
-    return MaterialPageRoute(builder: (context) => CreateDemarcheStep2Page(source: source));
+  static MaterialPageRoute<String?> materialPageRoute({required DemarcheSource source, String? analyticsDetailsName}) {
+    return MaterialPageRoute(
+        builder: (context) => CreateDemarcheStep2Page(source: source, analyticsDetailsName: analyticsDetailsName));
   }
 
   final DemarcheSource source;
+  final String? analyticsDetailsName;
 
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: AnalyticsScreenNames.searchDemarcheStep2,
+      tracking: analyticsName(source, analyticsDetailsName: analyticsDetailsName),
       child: StoreConnector<AppState, CreateDemarcheStep2ViewModel>(
         builder: _buildBody,
         converter: (store) => CreateDemarcheStep2ViewModel.create(store, source),
@@ -63,5 +65,13 @@ class CreateDemarcheStep2Page extends StatelessWidget {
         },
       ),
     );
+  }
+
+  String analyticsName(DemarcheSource source, {String? analyticsDetailsName}) {
+    final sanitizedName = analyticsDetailsName?.replaceAll(" ", "_").toLowerCase() ?? "unknown";
+    return switch (source) {
+      ThematiqueDemarcheSource() => AnalyticsScreenNames.thematiquesDemarcheDetails(sanitizedName),
+      _ => AnalyticsScreenNames.searchDemarcheStep2,
+    };
   }
 }
