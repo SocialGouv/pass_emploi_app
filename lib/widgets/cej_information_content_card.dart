@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 class CejInformationContentCard extends StatelessWidget {
   final List<Widget> children;
@@ -97,7 +96,13 @@ class CejInformationThirdContentCard extends StatelessWidget {
       children: [
         Text(Strings.whoIsConcerned, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
         SizedBox(height: Margins.spacing_m),
-        SvgPicture.asset(Drawables.puzzle),
+        Center(
+          child: SizedBox(
+            height: 130,
+            width: 130,
+            child: Illustration.blue(AppIcons.diversity_3),
+          ),
+        ),
         SizedBox(height: Margins.spacing_m),
         RichText(
           text: TextSpan(

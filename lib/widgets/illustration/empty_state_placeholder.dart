@@ -8,11 +8,11 @@ class EmptyStatePlaceholder extends StatelessWidget {
     super.key,
     required this.illustration,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
   });
   final Illustration illustration;
   final String title;
-  final String subtitle;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +35,14 @@ class EmptyStatePlaceholder extends StatelessWidget {
               style: TextStyles.textBaseBold,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: Margins.spacing_base),
-            Text(
-              subtitle,
-              style: TextStyles.textBaseRegular,
-              textAlign: TextAlign.center,
-            ),
+            if (subtitle != null) ...[
+              SizedBox(height: Margins.spacing_base),
+              Text(
+                subtitle!,
+                style: TextStyles.textBaseRegular,
+                textAlign: TextAlign.center,
+              ),
+            ]
           ],
         ),
       );

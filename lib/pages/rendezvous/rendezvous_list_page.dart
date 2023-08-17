@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
@@ -11,7 +10,6 @@ import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -21,6 +19,7 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -285,8 +284,12 @@ class _EmptyWeek extends StatelessWidget {
     return Expanded(
       child: Column(
         mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Flexible(child: SvgPicture.asset(Drawables.emptyOffresIllustration)),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: 130, maxWidth: 130),
+            child: Illustration.grey(Icons.calendar_today_rounded, withWhiteBackground: true),
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 20, left: 24, right: 24, bottom: 20),
             child: Column(

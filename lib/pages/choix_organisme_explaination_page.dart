@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/choix_organisme_explaination_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/primary_rounded_bottom_background.dart';
 
 class ChoixOrganismeExplainationPage extends StatelessWidget {
@@ -54,7 +53,13 @@ class ChoixOrganismeExplainationPage extends StatelessWidget {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.stretch,
                                     children: [
-                                      SvgPicture.asset(Drawables.conversation),
+                                      Center(
+                                        child: SizedBox(
+                                          height: 130,
+                                          width: 130,
+                                          child: Illustration.blue(AppIcons.outgoing_mail),
+                                        ),
+                                      ),
                                       Text(
                                         vm.explainationText,
                                         style: TextStyles.textMRegular,

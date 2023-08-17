@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/reloadable_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -76,7 +77,7 @@ class DemarcheListPage extends StatelessWidget {
       case DisplayState.EMPTY:
         return _emptyPage(context, viewModel);
       case DisplayState.FAILURE:
-        return Center(child: Retry(Strings.demarchesError, () => viewModel.onRetry()));
+        return _Error(viewModel: viewModel);
     }
   }
 
@@ -131,6 +132,29 @@ class DemarcheListPage extends StatelessWidget {
         ? ReloadablePage(
             reloadMessage: Strings.demarchesNotUpToDateMessage, onReload: viewModel.onRetry, emptyMessage: emptyMessage)
         : Empty(description: emptyMessage);
+  }
+}
+
+class _Error extends StatelessWidget {
+  const _Error({Key? key, required this.viewModel}) : super(key: key);
+  final DemarcheListPageViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox.square(dimension: 130, child: Illustration.orange(AppIcons.construction)),
+          SizedBox(height: Margins.spacing_base),
+          Retry(
+            Strings.demarchesError,
+            () => viewModel.onRetry(),
+          )
+        ],
+      ),
+    );
   }
 }
 
