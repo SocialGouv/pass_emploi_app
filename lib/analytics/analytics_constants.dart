@@ -34,7 +34,7 @@ class AnalyticsScreenNames {
   static const thematiquesDemarche = "demarches/thematiques";
   static String thematiquesDemarcheDetails(String thematique) => "demarches/thematiques/$thematique";
   static const topDemarches = "demarches/top-demarches";
-  static String topDemarcheDetails(String thematique) => "demarches/top-demarches/$thematique";
+  static String topDemarcheDetails(String demarche) => "demarches/top-demarches/$demarche";
 
   static const rendezvousListPast = "rdv/list-past";
   static const rendezvousListFuture = "rdv/list-future";
