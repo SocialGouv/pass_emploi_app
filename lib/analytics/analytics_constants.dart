@@ -30,7 +30,7 @@ class AnalyticsScreenNames {
   static const searchDemarcheStep2 = "/demarches/search-results";
   static const searchDemarcheStep3 = "/demarches/demarche-renferentiel-create";
   static const searchDemarcheStep3Success = "/demarches/createSuccess";
-  static const createDemarchePersonnalisee = "actions/demarche-personnalisee/create";
+  static const createDemarchePersonnalisee = "demarches/creer_demarche_personalisee";
   static const thematiquesDemarche = "demarches/thematiques";
   static String thematiquesDemarcheDetails(String thematique) => "demarches/thematiques/$thematique";
   static const topDemarches = "demarches/top-demarches";
