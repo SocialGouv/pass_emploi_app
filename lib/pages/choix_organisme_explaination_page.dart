@@ -38,50 +38,48 @@ class ChoixOrganismeExplainationPage extends StatelessWidget {
                   children: [
                     _backButton(context),
                     Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 0),
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                    color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_base)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(Margins.spacing_m),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                                    children: [
-                                      Center(
-                                        child: SizedBox(
-                                          height: 130,
-                                          width: 130,
-                                          child: Illustration.blue(AppIcons.outgoing_mail),
-                                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 0),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                  color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_base)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(Margins.spacing_m),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    Center(
+                                      child: SizedBox(
+                                        height: 130,
+                                        width: 130,
+                                        child: Illustration.blue(AppIcons.outgoing_mail),
                                       ),
-                                      Text(
-                                        vm.explainationText,
-                                        style: TextStyles.textMRegular,
-                                        textAlign: TextAlign.center,
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    Text(
+                                      vm.explainationText,
+                                      style: TextStyles.textMRegular,
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
-                            SizedBox(height: Margins.spacing_base),
-                            Text(
-                              Strings.alreadyHaveAccount,
-                              style: TextStyles.textBaseRegular,
-                              textAlign: TextAlign.center,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(Margins.spacing_m),
-                              child: SecondaryButton(label: Strings.loginAction, onPressed: vm.loginAction),
-                            ),
-                          ],
-                        ),
+                          ),
+                          Expanded(child: SizedBox()),
+                          Text(
+                            Strings.alreadyHaveAccount,
+                            style: TextStyles.textBaseRegular,
+                            textAlign: TextAlign.center,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(Margins.spacing_m),
+                            child: SecondaryButton(label: Strings.loginAction, onPressed: vm.loginAction),
+                          ),
+                        ],
                       ),
                     ),
                   ],
