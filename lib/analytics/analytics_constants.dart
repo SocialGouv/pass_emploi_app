@@ -32,7 +32,9 @@ class AnalyticsScreenNames {
   static const searchDemarcheStep3Success = "/demarches/createSuccess";
   static const createDemarchePersonnalisee = "actions/demarche-personnalisee/create";
   static const thematiquesDemarche = "demarches/thematiques";
+  static String thematiquesDemarcheDetails(String thematique) => "demarches/thematiques/$thematique";
   static const topDemarches = "demarches/top-demarches";
+  static String topDemarcheDetails(String thematique) => "demarches/top-demarches/$thematique";
 
   static const rendezvousListPast = "rdv/list-past";
   static const rendezvousListFuture = "rdv/list-future";
