@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
@@ -24,19 +25,26 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 
 class SuggestionsRechercheListPage extends StatelessWidget {
-  SuggestionsRechercheListPage._() : super();
+  final bool fetchSuggestions;
 
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => SuggestionsRechercheListPage._());
+  SuggestionsRechercheListPage._({required this.fetchSuggestions}) : super();
+
+  static MaterialPageRoute<void> materialPageRoute({bool fetchSuggestions = false}) {
+    return MaterialPageRoute(
+        builder: (context) => SuggestionsRechercheListPage._(
+              fetchSuggestions: fetchSuggestions,
+            ));
   }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnectorAware<SuggestionsRechercheListViewModel>(
+      onInit: (store) => fetchSuggestions ? store.dispatch(SuggestionsRechercheRequestAction()) : null,
       builder: (context, viewModel) => _Scaffold(viewModel: viewModel),
       converter: (store) => SuggestionsRechercheListViewModel.create(store),
       onDidChange: (oldVM, newVM) => _onDidChange(context, oldVM, newVM),
@@ -99,9 +107,11 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        switch (viewModel.suggestionIds.isEmpty) {
-          true => _Empty(viewModel: viewModel),
-          false => _Content(viewModel: viewModel),
+        switch (viewModel.displayState) {
+          DisplayState.EMPTY => _Empty(viewModel: viewModel),
+          DisplayState.CONTENT => _Content(viewModel: viewModel),
+          DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+          DisplayState.FAILURE => _Retry(viewModel: viewModel),
         },
         if (viewModel.traiterDisplayState == DisplayState.LOADING) LoadingOverlay(),
       ],
@@ -445,6 +455,22 @@ class _SeeResults extends StatelessWidget {
             color: AppColors.secondary,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _Retry extends StatelessWidget {
+  final SuggestionsRechercheListViewModel viewModel;
+
+  const _Retry({Key? key, required this.viewModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: Retry(Strings.vosSuggestionsAlertesError, () => viewModel.retryFetchSuggestions()),
       ),
     );
   }

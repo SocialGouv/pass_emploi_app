@@ -833,6 +833,7 @@ class Strings {
   static String contentSupportMail = "Aidez-nous à améliorer l’application en nous donnant votre avis :\n";
 
   // Suggestions de recherche
+  static String vosSuggestionsAlertesError = "Erreur lors de la récupération de vos suggestions d'alertes";
   static String vosSuggestionsAlertes = "Vos suggestions d'alertes";
   static String nouvellesSuggestionsDeRechercheTitre = "Vous avez des suggestions d’alertes";
   static String nouvellesSuggestionsDeRechercheDescription =

@@ -74,7 +74,7 @@ class AccueilCetteSemaine extends StatelessWidget {
                   text: Strings.vosSuggestionsAlertes,
                   onTap: () {
                     PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.accueilSuggestionsListe);
-                    Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
+                    Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute(fetchSuggestions: true));
                   },
                 ),
                 _CetteSemaineVoirDetails(

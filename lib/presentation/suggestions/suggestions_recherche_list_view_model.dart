@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
@@ -11,36 +12,42 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class SuggestionsRechercheListViewModel extends Equatable {
+  final DisplayState displayState;
   final List<String> suggestionIds;
   final LoginMode? loginMode;
   final DisplayState traiterDisplayState;
   final SavedSearchNavigationState searchNavigationState;
   final Function() resetTraiterState;
   final Function() seeOffreResults;
+  final Function() retryFetchSuggestions;
 
   SuggestionsRechercheListViewModel._({
+    required this.displayState,
     required this.suggestionIds,
     required this.loginMode,
     required this.traiterDisplayState,
     required this.searchNavigationState,
     required this.resetTraiterState,
     required this.seeOffreResults,
+    required this.retryFetchSuggestions,
   });
 
   factory SuggestionsRechercheListViewModel.create(Store<AppState> store) {
     final loginState = store.state.loginState;
     return SuggestionsRechercheListViewModel._(
+      displayState: _displayState(store),
       suggestionIds: _ids(store),
       loginMode: loginState is LoginSuccessState ? loginState.user.loginMode : null,
-      traiterDisplayState: _displayState(store),
+      traiterDisplayState: _traiterDisplayState(store),
       searchNavigationState: SavedSearchNavigationState.fromAppState(store.state),
       resetTraiterState: () => store.dispatch(TraiterSuggestionRechercheResetAction()),
       seeOffreResults: () => _seeOffreResults(store),
+      retryFetchSuggestions: () => store.dispatch(SuggestionsRechercheRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [suggestionIds, traiterDisplayState, searchNavigationState];
+  List<Object?> get props => [displayState, suggestionIds, traiterDisplayState, searchNavigationState];
 }
 
 List<String> _ids(Store<AppState> store) {
@@ -52,6 +59,16 @@ List<String> _ids(Store<AppState> store) {
 }
 
 DisplayState _displayState(Store<AppState> store) {
+  final state = store.state.suggestionsRechercheState;
+  return switch (state) {
+    SuggestionsRechercheNotInitializedState() => DisplayState.FAILURE,
+    SuggestionsRechercheLoadingState() => DisplayState.LOADING,
+    SuggestionsRechercheFailureState() => DisplayState.FAILURE,
+    final SuggestionsRechercheSuccessState e => e.suggestions.isEmpty ? DisplayState.EMPTY : DisplayState.CONTENT,
+  };
+}
+
+DisplayState _traiterDisplayState(Store<AppState> store) {
   final state = store.state.traiterSuggestionRechercheState;
   if (state is TraiterSuggestionRechercheLoadingState) return DisplayState.LOADING;
   if (state is AccepterSuggestionRechercheSuccessState) return DisplayState.CONTENT;

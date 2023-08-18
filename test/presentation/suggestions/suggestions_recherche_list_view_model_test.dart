@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_list_view_model.dart';
@@ -8,6 +9,41 @@ import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_l
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
+  test("should display loading when loading", () {
+    // Given
+    final store = givenState().failedSuggestionsRecherche().store();
+
+    // When
+    final viewModel = SuggestionsRechercheListViewModel.create(store);
+
+    // Then
+    expect(viewModel.suggestionIds, []);
+    expect(viewModel.displayState, DisplayState.FAILURE);
+  });
+
+  test("should display loading when loading", () {
+    // Given
+    final store = givenState().loadingSuggestionsRecherche().store();
+
+    // When
+    final viewModel = SuggestionsRechercheListViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.LOADING);
+  });
+
+  test("should display empty when no suggestion", () {
+    // Given
+    final store = givenState().emptySuggestionsRecherche().store();
+
+    // When
+    final viewModel = SuggestionsRechercheListViewModel.create(store);
+
+    // Then
+    expect(viewModel.suggestionIds, []);
+    expect(viewModel.displayState, DisplayState.EMPTY);
+  });
+
   test("should display content with suggestions when init", () {
     // Given
     final store = givenState().withSuggestionsRecherche().store();
@@ -17,9 +53,10 @@ void main() {
 
     // Then
     expect(viewModel.suggestionIds, ["1", "2"]);
+    expect(viewModel.displayState, DisplayState.CONTENT);
   });
 
-  test("should display empty with suggestions when not init", () {
+  test("should display traiter empty with suggestions when not init", () {
     // Given
     final store = givenState().withSuggestionsRecherche().notInitTraiterSuggestionRecherche().store();
 
@@ -31,7 +68,7 @@ void main() {
     expect(viewModel.traiterDisplayState, DisplayState.EMPTY);
   });
 
-  test("should display loading with suggestions when loading", () {
+  test("should display traiter loading with suggestions when loading", () {
     // Given
     final store = givenState().withSuggestionsRecherche().loadingTraiterSuggestionRecherche().store();
 
@@ -43,7 +80,7 @@ void main() {
     expect(viewModel.traiterDisplayState, DisplayState.LOADING);
   });
 
-  test("should display content with suggestions when succeed accepter", () {
+  test("should display traiter content with suggestions when succeed accepter", () {
     // Given
     final store = givenState().withSuggestionsRecherche().succeedAccepterSuggestionRecherche().store();
 
@@ -55,7 +92,7 @@ void main() {
     expect(viewModel.traiterDisplayState, DisplayState.CONTENT);
   });
 
-  test("should display empty with suggestions when succeed refuser", () {
+  test("should display traiter empty with suggestions when succeed refuser", () {
     // Given
     final store = givenState().withSuggestionsRecherche().succeedRefuserSuggestionRecherche().store();
 
@@ -67,7 +104,7 @@ void main() {
     expect(viewModel.traiterDisplayState, DisplayState.EMPTY);
   });
 
-  test("should display content with suggestions when fail", () {
+  test("should display traiter empty with suggestions when fail", () {
     // Given
     final store = givenState().withSuggestionsRecherche().failedTraiterSuggestionRecherche().store();
 
@@ -77,6 +114,18 @@ void main() {
     // Then
     expect(viewModel.suggestionIds, isNotEmpty);
     expect(viewModel.traiterDisplayState, DisplayState.EMPTY);
+  });
+
+  test("should retry fetch", () {
+    // Given
+    final store = givenState().failedSuggestionsRecherche().spyStore();
+    final viewModel = SuggestionsRechercheListViewModel.create(store);
+
+    // When
+    viewModel.retryFetchSuggestions();
+
+    // Then
+    expect(store.dispatchedAction, isA<SuggestionsRechercheRequestAction>());
   });
 
   test("should reset traiter state", () {
