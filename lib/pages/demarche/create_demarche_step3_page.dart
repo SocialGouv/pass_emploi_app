@@ -54,7 +54,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
   }
 
   Widget _buildBody(BuildContext context, CreateDemarcheStep3ViewModel viewModel) {
-    return TopDemarcheAnalyticsWrapper(
+    return UnicTopDemarcheTrackingWrapper(
       source: widget.source,
       viewModel: viewModel,
       child: Scaffold(
@@ -189,25 +189,23 @@ class _Section extends StatelessWidget {
   }
 }
 
-class TopDemarcheAnalyticsWrapper extends StatefulWidget {
-  const TopDemarcheAnalyticsWrapper({super.key, required this.source, required this.child, required this.viewModel});
+class UnicTopDemarcheTrackingWrapper extends StatefulWidget {
+  const UnicTopDemarcheTrackingWrapper({super.key, required this.source, required this.child, required this.viewModel});
   final DemarcheSource source;
   final Widget child;
   final CreateDemarcheStep3ViewModel viewModel;
 
   @override
-  State<TopDemarcheAnalyticsWrapper> createState() => _TopDemarcheAnalyticsWrapperState();
+  State<UnicTopDemarcheTrackingWrapper> createState() => _UnicTopDemarcheTrackingWrapperState();
 }
 
-class _TopDemarcheAnalyticsWrapperState extends State<TopDemarcheAnalyticsWrapper> {
+class _UnicTopDemarcheTrackingWrapperState extends State<UnicTopDemarcheTrackingWrapper> {
   @override
   void initState() {
     super.initState();
     if (widget.source is TopDemarcheSource) {
       final quoi = widget.viewModel.quoi;
-      final sanitizedName = quoi.replaceAll(" ", "_").toLowerCase();
-      // triggered only once on widget first build
-      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.topDemarcheDetails(sanitizedName));
+      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.topDemarcheDetails(quoi));
     }
   }
 

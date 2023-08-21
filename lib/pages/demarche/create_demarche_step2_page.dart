@@ -68,7 +68,7 @@ class CreateDemarcheStep2Page extends StatelessWidget {
   }
 
   String analyticsName(DemarcheSource source, {String? analyticsDetailsName}) {
-    final sanitizedName = analyticsDetailsName?.replaceAll(" ", "_").toLowerCase() ?? "unknown";
+    final sanitizedName = analyticsDetailsName ?? "unknown";
     return switch (source) {
       ThematiqueDemarcheSource() => AnalyticsScreenNames.thematiquesDemarcheDetails(sanitizedName),
       _ => AnalyticsScreenNames.searchDemarcheStep2,
