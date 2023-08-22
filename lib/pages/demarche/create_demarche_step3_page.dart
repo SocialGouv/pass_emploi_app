@@ -54,43 +54,47 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
   }
 
   Widget _buildBody(BuildContext context, CreateDemarcheStep3ViewModel viewModel) {
-    return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(Margins.spacing_m),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(viewModel.quoi, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
-              if (viewModel.isCommentMandatory) _Mandatory(),
-              if (viewModel.comments.isNotEmpty) _Section(Strings.comment),
-              if (viewModel.isCommentMandatory) _SelectLabel(Strings.selectComment),
-              ..._buildComments(viewModel.comments),
-              _Section(Strings.quand),
-              _SelectLabel(Strings.selectQuand),
-              DatePicker(
-                onValueChange: (date) {
-                  setState(() {
-                    _endDate = date;
-                  });
-                },
-                initialDateValue: _endDate,
-                isActiveDate: true,
-              ),
-              SizedBox(height: Margins.spacing_xl),
-              if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  PrimaryActionButton(
-                    label: Strings.addALaDemarche,
-                    onPressed:
-                        _buttonIsActive(viewModel) ? () => viewModel.onCreateDemarche(_codeComment, _endDate!) : null,
-                  ),
-                ],
-              )
-            ],
+    return UnicTopDemarcheTrackingWrapper(
+      source: widget.source,
+      viewModel: viewModel,
+      child: Scaffold(
+        appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(Margins.spacing_m),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(viewModel.quoi, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
+                if (viewModel.isCommentMandatory) _Mandatory(),
+                if (viewModel.comments.isNotEmpty) _Section(Strings.comment),
+                if (viewModel.isCommentMandatory) _SelectLabel(Strings.selectComment),
+                ..._buildComments(viewModel.comments),
+                _Section(Strings.quand),
+                _SelectLabel(Strings.selectQuand),
+                DatePicker(
+                  onValueChange: (date) {
+                    setState(() {
+                      _endDate = date;
+                    });
+                  },
+                  initialDateValue: _endDate,
+                  isActiveDate: true,
+                ),
+                SizedBox(height: Margins.spacing_xl),
+                if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    PrimaryActionButton(
+                      label: Strings.addALaDemarche,
+                      onPressed:
+                          _buttonIsActive(viewModel) ? () => viewModel.onCreateDemarche(_codeComment, _endDate!) : null,
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -182,5 +186,31 @@ class _Section extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class UnicTopDemarcheTrackingWrapper extends StatefulWidget {
+  const UnicTopDemarcheTrackingWrapper({super.key, required this.source, required this.child, required this.viewModel});
+  final DemarcheSource source;
+  final Widget child;
+  final CreateDemarcheStep3ViewModel viewModel;
+
+  @override
+  State<UnicTopDemarcheTrackingWrapper> createState() => _UnicTopDemarcheTrackingWrapperState();
+}
+
+class _UnicTopDemarcheTrackingWrapperState extends State<UnicTopDemarcheTrackingWrapper> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.source is TopDemarcheSource) {
+      final quoi = widget.viewModel.quoi;
+      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.topDemarcheDetails(quoi));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }

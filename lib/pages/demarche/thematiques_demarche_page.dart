@@ -157,6 +157,7 @@ class _ThematiqueTile extends StatelessWidget {
               context,
               CreateDemarcheStep2Page.materialPageRoute(
                 source: ThematiqueDemarcheSource(thematique.id),
+                analyticsDetailsName: thematique.title,
               )).then((value) {
             // forward result to previous page
             if (value != null) Navigator.pop(context, value);
