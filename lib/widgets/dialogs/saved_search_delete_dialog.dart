@@ -72,16 +72,28 @@ class SavedSearchDeleteDialog extends StatelessWidget {
   Widget _alertDialog(BuildContext context, SavedSearchDeleteViewModel viewModel) {
     return AlertDialog(
       surfaceTintColor: Colors.white,
-      title: Column(
+      title: Stack(
         children: [
-          SizedBox.square(
-            dimension: 120,
-            child: Illustration.red(AppIcons.delete),
+          Column(
+            children: [
+              SizedBox.square(
+                dimension: 120,
+                child: Illustration.red(AppIcons.delete),
+              ),
+              SizedBox(height: Margins.spacing_m),
+              Text(Strings.savedSearchDeleteMessage, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+              if (_isLoading(viewModel)) _loader(),
+              if (viewModel.displayState == SavedSearchDeleteDisplayState.FAILURE) _error(),
+            ],
           ),
-          SizedBox(height: Margins.spacing_m),
-          Text(Strings.savedSearchDeleteMessage, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
-          if (_isLoading(viewModel)) _loader(),
-          if (viewModel.displayState == SavedSearchDeleteDisplayState.FAILURE) _error(),
+          Positioned(
+            top: 0,
+            left: 0,
+            child: IconButton(
+              icon: Icon(Icons.close, color: AppColors.nightBlue),
+              onPressed: () => Navigator.pop(context),
+            ),
+          )
         ],
       ),
       actions: [
