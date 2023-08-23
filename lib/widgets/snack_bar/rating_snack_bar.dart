@@ -19,14 +19,16 @@ void ratingSnackBar(BuildContext context) {
       padding: const EdgeInsets.only(left: 24, bottom: 14),
       duration: Duration(days: 365),
       backgroundColor: Colors.white,
-      content: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          _DismissSnackBar(),
-          _SnackBarTittle(),
-          _OnRatingTap(),
-        ],
+      content: SafeArea(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _DismissSnackBar(),
+            _SnackBarTittle(),
+            _OnRatingTap(),
+          ],
+        ),
       ),
     ),
   );

@@ -87,11 +87,14 @@ class _SecteurActiviteListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RadioGroup<SecteurActivite?>(
-      title: secteurActivite?.label ?? Strings.secteurActiviteAll,
-      value: secteurActivite,
-      groupValue: selectedValue,
-      onChanged: onChanged,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: RadioGroup<SecteurActivite?>(
+        title: secteurActivite?.label ?? Strings.secteurActiviteAll,
+        value: secteurActivite,
+        groupValue: selectedValue,
+        onChanged: onChanged,
+      ),
     );
   }
 }
