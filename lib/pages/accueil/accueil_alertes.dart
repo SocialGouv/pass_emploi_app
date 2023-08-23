@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/pages/saved_search_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
@@ -9,6 +10,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
@@ -55,6 +57,7 @@ class _AvecAlertes extends StatelessWidget {
   }
 
   void goToSavedSearches(BuildContext context) {
+    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.savedSearchListFromAccueil);
     Navigator.push(context, SavedSearchPage.materialPageRoute());
   }
 }

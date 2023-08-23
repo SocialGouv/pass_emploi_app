@@ -104,6 +104,7 @@ class AnalyticsScreenNames {
 
   static const savedSearchSuggestionsListe = "saved_searches/suggested_list";
   static const savedSearchList = "saved_searches/list";
+  static const savedSearchListFromAccueil = "saved_searches/list/from-accueil";
   static const savedSearchListFilterEmploi = "saved_searches/list?filtre=emploi";
   static const savedSearchListFilterAlternance = "saved_searches/list?filtre=alternance";
   static const savedSearchListFilterImmersion = "saved_searches/list?filtre=immersion";
