@@ -96,12 +96,7 @@ class AppInitializer {
     await Firebase.initializeApp();
     await _initializeCrashlytics();
     final remoteConfig = await _remoteConfig();
-    final allowBrsaToUpdateDemarche = _allowBrsaToUpdateDemarche(remoteConfig);
-    final allowBrsaToCreateDemarche = _allowBrsaToCreateDemarche(remoteConfig);
-    final configuration = await Configuration.build(
-      allowBrsaToUpdateDemarche: allowBrsaToUpdateDemarche,
-      allowBrsaToCreateDemarche: allowBrsaToCreateDemarche,
-    );
+    final configuration = await Configuration.build();
     final matomoTracker = await _initializeMatomoTracker(configuration);
     final forceUpdate = await _shouldForceUpdate(remoteConfig);
     if (forceUpdate) {
@@ -145,16 +140,6 @@ class AppInitializer {
     final currentVersion = packageInfo.version;
     final minimumVersion = remoteConfig.getString(minimumVersionKey);
     return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
-  }
-
-  bool _allowBrsaToUpdateDemarche(FirebaseRemoteConfig? remoteConfig) {
-    if (remoteConfig == null) return false;
-    return remoteConfig.getBool('allow_brsa_to_update_demarche');
-  }
-
-  bool _allowBrsaToCreateDemarche(FirebaseRemoteConfig? remoteConfig) {
-    if (remoteConfig == null) return false;
-    return remoteConfig.getBool('allow_brsa_to_create_demarche');
   }
 
   Future<Store<AppState>> _initializeReduxStore(
