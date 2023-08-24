@@ -31,6 +31,8 @@ dependencies:
   smooth_page_indicator: "1.0.0+2"
   in_app_review: "2.0.4"
   webview_flutter: "4.0.5"
+  flutter_staggered_animations: ^1.1.1
+  shimmer: ^3.0.0
   # Dart
   dio: "5.1.0"
   intl: "0.18.0"
