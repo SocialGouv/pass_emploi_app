@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
-import 'package:pass_emploi_app/pages/chat_partage_page.dart';
+import 'package:pass_emploi_app/pages/chat_partage_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
@@ -65,6 +65,7 @@ class RendezvousDetailsPage extends StatelessWidget {
       },
       onDispose: (store) {
         _source == RendezvousStateSource.noSource ? store.dispatch(RendezvousDetailsResetAction()) : {};
+        _source == RendezvousStateSource.sessionMiloDetails ? store.dispatch(SessionMiloDetailsResetAction()) : {};
       },
       distinct: true,
     );
@@ -126,7 +127,11 @@ class RendezvousDetailsPage extends StatelessWidget {
             SepLine(Margins.spacing_m, Margins.spacing_m),
             _ConseillerPart(viewModel),
             if (viewModel.withIfAbsentPart) _InformIfAbsent(),
-            if (viewModel.isShareable) _Share(eventId: viewModel.id),
+            if (viewModel.shareToConseillerSource != null)
+              _Share(
+                source: viewModel.shareToConseillerSource!,
+                buttonTitle: viewModel.shareToConseillerButtonTitle,
+              ),
           ],
         ),
       ),
@@ -409,9 +414,10 @@ class _Createur extends StatelessWidget {
 }
 
 class _Share extends StatelessWidget {
-  final String eventId;
+  final String? buttonTitle;
+  final ChatPartageSource source;
 
-  _Share({required this.eventId});
+  _Share({required this.buttonTitle, required this.source});
 
   @override
   Widget build(BuildContext context) {
@@ -421,13 +427,8 @@ class _Share extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryActionButton(
-            label: Strings.shareToConseiller,
-            onPressed: () {
-              Navigator.push(
-                context,
-                ChatPartagePage.materialPageRoute(ChatPartageEventSource(eventId)),
-              );
-            },
+            label: buttonTitle ?? Strings.shareToConseiller,
+            onPressed: () => ChatPartageBottomSheet.show(context, source),
           ),
         ],
       ),

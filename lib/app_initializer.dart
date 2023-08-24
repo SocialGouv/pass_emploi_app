@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
+import 'package:pass_emploi_app/auth/max_living_time_config.dart';
 import 'package:pass_emploi_app/configuration/app_version_checker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
@@ -95,18 +96,13 @@ class AppInitializer {
     await Firebase.initializeApp();
     await _initializeCrashlytics();
     final remoteConfig = await _remoteConfig();
-    final allowBrsaToUpdateDemarche = _allowBrsaToUpdateDemarche(remoteConfig);
-    final allowBrsaToCreateDemarche = _allowBrsaToCreateDemarche(remoteConfig);
-    final configuration = await Configuration.build(
-      allowBrsaToUpdateDemarche: allowBrsaToUpdateDemarche,
-      allowBrsaToCreateDemarche: allowBrsaToCreateDemarche,
-    );
+    final configuration = await Configuration.build();
     final matomoTracker = await _initializeMatomoTracker(configuration);
     final forceUpdate = await _shouldForceUpdate(remoteConfig);
     if (forceUpdate) {
       return ForceUpdatePage(configuration.flavor);
     } else {
-      final store = await _initializeReduxStore(configuration, matomoTracker);
+      final store = await _initializeReduxStore(configuration, matomoTracker, remoteConfig);
       return PassEmploiApp(store);
     }
   }
@@ -146,19 +142,10 @@ class AppInitializer {
     return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
   }
 
-  bool _allowBrsaToUpdateDemarche(FirebaseRemoteConfig? remoteConfig) {
-    if (remoteConfig == null) return false;
-    return remoteConfig.getBool('allow_brsa_to_update_demarche');
-  }
-
-  bool _allowBrsaToCreateDemarche(FirebaseRemoteConfig? remoteConfig) {
-    if (remoteConfig == null) return false;
-    return remoteConfig.getBool('allow_brsa_to_create_demarche');
-  }
-
   Future<Store<AppState>> _initializeReduxStore(
     Configuration configuration,
     PassEmploiMatomoTracker matomoTracker,
+    FirebaseRemoteConfig? firebaseRemoteConfig,
   ) async {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
     final pushNotificationManager = FirebasePushNotificationManager();
@@ -178,7 +165,11 @@ class AppInitializer {
       securedPreferences,
       crashlytics,
     );
-    final accessTokenRetriever = AuthAccessTokenRetriever(authenticator, Lock());
+    final accessTokenRetriever = AuthAccessTokenRetriever(
+      MaxLivingTimeRemoteConfig(firebaseRemoteConfig),
+      authenticator,
+      Lock(),
+    );
     final authAccessChecker = AuthAccessChecker();
     final requestCacheManager = PassEmploiCacheManager.requestCache(configuration.serverBaseUrl);
     final modeDemoRepository = ModeDemoRepository();

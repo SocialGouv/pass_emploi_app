@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_json_extractor.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_response.dart';
@@ -13,6 +14,7 @@ class Accueil extends Equatable {
   final DateTime? dateDerniereMiseAJour;
   final AccueilCetteSemaine? cetteSemaine;
   final Rendezvous? prochainRendezVous;
+  final SessionMilo? prochaineSessionMilo;
   final List<Rendezvous>? evenements;
   final List<SavedSearch>? alertes;
   final List<Favori>? favoris;
@@ -22,6 +24,7 @@ class Accueil extends Equatable {
     this.dateDerniereMiseAJour,
     this.cetteSemaine,
     this.prochainRendezVous,
+    this.prochaineSessionMilo,
     this.evenements,
     this.alertes,
     this.favoris,
@@ -32,6 +35,7 @@ class Accueil extends Equatable {
     final dateDerniereMiseAjour = _dateDerniereMiseAJour(json);
     final cetteSemaine = _cetteSemaine(json);
     final prochainRendezVous = _prochainRendezVous(json);
+    final prochaineSessionMilo = _prochaineSessionMilo(json);
     final evenements = _evenements(json);
     final alertes = _alertes(json);
     final favoris = _favoris(json);
@@ -41,6 +45,7 @@ class Accueil extends Equatable {
       dateDerniereMiseAJour: dateDerniereMiseAjour,
       cetteSemaine: cetteSemaine,
       prochainRendezVous: prochainRendezVous,
+      prochaineSessionMilo: prochaineSessionMilo,
       evenements: evenements,
       alertes: alertes,
       favoris: favoris,
@@ -49,25 +54,35 @@ class Accueil extends Equatable {
   }
 
   Accueil copyWith({
-    final DateTime? dateDerniereMiseAjour,
+    final DateTime? dateDerniereMiseAJour,
     final AccueilCetteSemaine? cetteSemaine,
     final Rendezvous? prochainRendezVous,
+    final SessionMilo? prochaineSessionMilo,
     final List<Rendezvous>? evenements,
     final List<SavedSearch>? alertes,
     final List<Favori>? favoris,
   }) {
     return Accueil(
-      dateDerniereMiseAJour: dateDerniereMiseAjour ?? dateDerniereMiseAJour,
-      cetteSemaine: cetteSemaine ?? cetteSemaine,
-      prochainRendezVous: prochainRendezVous ?? prochainRendezVous,
-      evenements: evenements ?? evenements,
-      alertes: alertes ?? alertes,
-      favoris: favoris ?? favoris,
+      dateDerniereMiseAJour: dateDerniereMiseAJour ?? this.dateDerniereMiseAJour,
+      cetteSemaine: cetteSemaine ?? this.cetteSemaine,
+      prochainRendezVous: prochainRendezVous ?? this.prochainRendezVous,
+      prochaineSessionMilo: prochaineSessionMilo ?? this.prochaineSessionMilo,
+      evenements: evenements ?? this.evenements,
+      alertes: alertes ?? this.alertes,
+      favoris: favoris ?? this.favoris,
     );
   }
 
   @override
-  List<Object?> get props => [dateDerniereMiseAJour, cetteSemaine, prochainRendezVous, evenements, alertes, favoris];
+  List<Object?> get props => [
+        dateDerniereMiseAJour,
+        cetteSemaine,
+        prochainRendezVous,
+        prochaineSessionMilo,
+        evenements,
+        alertes,
+        favoris,
+      ];
 }
 
 DateTime? _dateDerniereMiseAJour(dynamic json) {
@@ -82,6 +97,11 @@ AccueilCetteSemaine? _cetteSemaine(dynamic json) {
 Rendezvous? _prochainRendezVous(dynamic json) {
   final rendezvous = json["prochainRendezVous"];
   return rendezvous != null ? JsonRendezvous.fromJson(rendezvous).toRendezvous() : null;
+}
+
+SessionMilo? _prochaineSessionMilo(dynamic json) {
+  final sessionMilo = json["prochaineSessionMilo"];
+  return sessionMilo != null ? SessionMilo.fromJson(sessionMilo) : null;
 }
 
 List<Rendezvous>? _evenements(dynamic json) {

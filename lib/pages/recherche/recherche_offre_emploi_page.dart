@@ -47,6 +47,12 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   }
 
   @override
+  String placeHolderTitle() => Strings.recherchePlaceholderTitle;
+
+  @override
+  String placeHolderSubtitle() => Strings.rechercheLancerUneRechercheHint;
+
+  @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEmploiState;
 
   @override
@@ -56,7 +62,7 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   Widget buildAlertBottomSheet() => OffreEmploiSavedSearchBottomSheet(onlyAlternance: onlyAlternance);
 
   @override
-  Route<bool>? buildFiltresMaterialPageRoute() => OffreEmploiFiltresPage.materialPageRoute(onlyAlternance);
+  Future<bool?>? buildFiltresBottomSheet(BuildContext context) => OffreEmploiFiltresPage.show(context, onlyAlternance);
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

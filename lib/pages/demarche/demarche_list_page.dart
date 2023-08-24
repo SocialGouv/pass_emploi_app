@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
@@ -13,12 +14,14 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/reloadable_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -74,7 +77,7 @@ class DemarcheListPage extends StatelessWidget {
       case DisplayState.EMPTY:
         return _emptyPage(context, viewModel);
       case DisplayState.FAILURE:
-        return Center(child: Retry(Strings.demarchesError, () => viewModel.onRetry()));
+        return _Error(viewModel: viewModel);
     }
   }
 
@@ -103,8 +106,10 @@ class DemarcheListPage extends StatelessWidget {
       return DemarcheCard(
         demarcheId: id,
         stateSource: DemarcheStateSource.demarcheList,
-        onTap: () =>
-            Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.demarcheList)),
+        onTap: () {
+          context.trackEvent(EventType.ACTION_DETAIL);
+          Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.demarcheList));
+        },
       );
     }
   }
@@ -127,6 +132,29 @@ class DemarcheListPage extends StatelessWidget {
         ? ReloadablePage(
             reloadMessage: Strings.demarchesNotUpToDateMessage, onReload: viewModel.onRetry, emptyMessage: emptyMessage)
         : Empty(description: emptyMessage);
+  }
+}
+
+class _Error extends StatelessWidget {
+  const _Error({Key? key, required this.viewModel}) : super(key: key);
+  final DemarcheListPageViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox.square(dimension: 130, child: Illustration.orange(AppIcons.construction)),
+          SizedBox(height: Margins.spacing_base),
+          Retry(
+            Strings.demarchesError,
+            () => viewModel.onRetry(),
+          )
+        ],
+      ),
+    );
   }
 }
 

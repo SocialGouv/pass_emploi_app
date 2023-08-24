@@ -28,6 +28,10 @@ class AppColors {
   // Status colors
   static const Color warning = Color(0xFFD31140);
   static const Color warningLighten = Color(0xFFFDEAEF);
+  static const Color success = Color(0xFF033C24);
+  static const Color successLighten = Color(0xFFE5F6EF);
+  static const Color alert = Color(0xFFFF975C);
+  static const Color alertLighten = Color(0xFFFFC6A6);
 
   // Accent colors
   static const Color accent1 = Color(0xFF950EFF);
@@ -39,7 +43,7 @@ class AppColors {
 
   // Neutrals colors
   static const Color contentColor = Color(0xFF161616);
-  static const Color disabled = Color(0xFF999BB3);
+  static const Color disabled = Color(0xFF73758D);
 
   static const Color grey100 = Color(0xFFF1F1F1);
   static const Color grey500 = Color(0xFFB2B2B2);

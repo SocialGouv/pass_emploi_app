@@ -167,11 +167,22 @@ extension RendezvousCardFromId on String {
 }
 
 RendezvousStateSource _stateSource(RendezvousStateSource stateSource) {
-  // TODO: Est-ce qu'on pourrait faire autrement ?
-  if (stateSource == RendezvousStateSource.eventListSessionsMilo) {
-    return RendezvousStateSource.sessionMiloDetails;
-  }
-  return stateSource;
+  // Pourquoi un switch ? Pour être sûr (compliation) de ne pas oublier un futur cas ajouté.
+  return switch (stateSource) {
+    RendezvousStateSource.eventListSessionsMilo ||
+    RendezvousStateSource.accueilProchaineSession ||
+    RendezvousStateSource.agendaSessionMilo ||
+    RendezvousStateSource.rendezvousListSession ||
+    RendezvousStateSource.sessionMiloDetails =>
+      RendezvousStateSource.sessionMiloDetails,
+    RendezvousStateSource.noSource ||
+    RendezvousStateSource.accueilProchainRendezvous ||
+    RendezvousStateSource.agenda ||
+    RendezvousStateSource.eventListAnimationsCollectives ||
+    RendezvousStateSource.accueilLesEvenements ||
+    RendezvousStateSource.rendezvousList =>
+      stateSource,
+  };
 }
 
 class _InscritTag extends StatelessWidget {

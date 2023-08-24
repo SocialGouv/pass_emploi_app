@@ -40,6 +40,7 @@ class _RouterPageState extends State<RouterPage> {
       converter: (store) => RouterPageViewModel.create(store, platform),
       builder: (context, viewModel) => _content(viewModel),
       ignoreChange: (state) => state.deepLinkState is UsedDeepLinkState,
+      onWillChange: _onWillChange,
       onDidChange: _onDidChange,
       distinct: true,
     );
@@ -61,11 +62,14 @@ class _RouterPageState extends State<RouterPage> {
     }
   }
 
-  Future<void> _onDidChange(RouterPageViewModel? oldVm, RouterPageViewModel newVm) async {
+  Future<void> _onWillChange(RouterPageViewModel? oldVm, RouterPageViewModel newVm) async {
     if (newVm.routerPageDisplayState == RouterPageDisplayState.LOGIN ||
         newVm.routerPageDisplayState == RouterPageDisplayState.MAIN) {
       _removeAllScreensAboveRouterPage();
     }
+  }
+
+  Future<void> _onDidChange(RouterPageViewModel? oldVm, RouterPageViewModel newVm) async {
     if (newVm.storeUrl != null) {
       launchExternalUrl(newVm.storeUrl!);
       newVm.onAppStoreOpened();

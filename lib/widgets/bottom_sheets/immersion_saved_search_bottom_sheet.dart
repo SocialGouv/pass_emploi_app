@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/immersion_bottom_sheet_form.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -21,9 +22,9 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
   }
 
   Widget _buildForm(BuildContext context, ImmersionSavedSearchViewModel viewModel) {
-    return FractionallySizedBox(
-      heightFactor: 0.90,
-      child: ImmersionBottomSheetForm(viewModel),
+    return BottomSheetWrapper(
+      title: Strings.createSavedSearchTitle,
+      body: ImmersionBottomSheetForm(viewModel),
     );
   }
 

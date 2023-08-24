@@ -37,6 +37,12 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
   String analyticsType() => AnalyticsScreenNames.serviceCiviqueRecherche;
 
   @override
+  String placeHolderTitle() => Strings.recherchePlaceholderTitle;
+
+  @override
+  String placeHolderSubtitle() => Strings.rechercheLancerUneRechercheHint;
+
+  @override
   RechercheState rechercheState(AppState appState) => appState.rechercheServiceCiviqueState;
 
   @override
@@ -46,7 +52,7 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
   Widget buildAlertBottomSheet() => ServiceCiviqueSavedSearchBottomSheet();
 
   @override
-  Route<bool>? buildFiltresMaterialPageRoute() => ServiceCiviqueFiltresPage.materialPageRoute();
+  Future<bool?>? buildFiltresBottomSheet(BuildContext context) => ServiceCiviqueFiltresPage.show(context);
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

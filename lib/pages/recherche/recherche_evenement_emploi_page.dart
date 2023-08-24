@@ -45,6 +45,12 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
   String analyticsType() => AnalyticsScreenNames.evenementEmploiRecherche;
 
   @override
+  String placeHolderTitle() => Strings.eventPlaceholderTitle;
+
+  @override
+  String placeHolderSubtitle() => Strings.eventPlaceholderSubtitle;
+
+  @override
   RechercheState rechercheState(AppState appState) => appState.rechercheEvenementEmploiState;
 
   @override
@@ -54,7 +60,7 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
   Widget buildAlertBottomSheet() => SizedBox.shrink();
 
   @override
-  Route<bool>? buildFiltresMaterialPageRoute() => EvenementEmploiFiltresPage.materialPageRoute();
+  Future<bool?>? buildFiltresBottomSheet(BuildContext context) => EvenementEmploiFiltresPage.show(context);
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

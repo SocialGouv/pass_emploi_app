@@ -24,13 +24,17 @@ abstract class RechercheOffrePage<Result> extends StatefulWidget {
 
   String analyticsType();
 
+  String placeHolderTitle();
+
+  String placeHolderSubtitle();
+
   RechercheState rechercheState(AppState appState);
 
   FavoriIdsState<Result> favorisState(AppState appState);
 
   Widget buildAlertBottomSheet();
 
-  Route<bool>? buildFiltresMaterialPageRoute();
+  Future<bool?>? buildFiltresBottomSheet(BuildContext context);
 
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged});
 
@@ -69,7 +73,7 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
         floatingActionButton: ActionsRecherche(
           buildViewModel: widget.buildActionsRechercheViewModel,
           buildAlertBottomSheet: widget.buildAlertBottomSheet,
-          buildFiltresMaterialPageRoute: widget.buildFiltresMaterialPageRoute,
+          buildFiltresBottomSheet: () => widget.buildFiltresBottomSheet(context),
           onFiltreApplied: _onFiltreApplied,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -94,6 +98,8 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
                   favorisState: widget.favorisState,
                   buildResultItem: widget.buildResultItem,
                   analyticsType: widget.analyticsType(),
+                  placeHolderTitle: widget.placeHolderTitle(),
+                  placeHolderSubtitle: widget.placeHolderSubtitle(),
                 ),
               ],
             ),

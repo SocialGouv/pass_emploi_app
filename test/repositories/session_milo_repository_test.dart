@@ -12,7 +12,7 @@ void main() {
     sut.givenRepository((client) => SessionMiloRepository(client));
 
     group('getList', () {
-      sut.when((repository) => repository.getList("userId"));
+      sut.when((repository) => repository.getList(userId: "userId", filtrerEstInscrit: false));
 
       group('when response is valid', () {
         sut.givenJsonResponse(fromJson: "session_milo_list.json");
@@ -20,7 +20,7 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: HttpMethod.get,
-            url: "/jeunes/milo/userId/sessions",
+            url: "/jeunes/milo/userId/sessions?filtrerEstInscrit=false",
           );
         });
 
@@ -71,5 +71,5 @@ void main() {
         });
       });
     });
-  }, skip: true); //TODO: désactivé pour no-reg et MEP : on ne veut pas les sessions
+  });
 }

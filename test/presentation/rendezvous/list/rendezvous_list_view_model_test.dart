@@ -19,7 +19,7 @@ void main() {
   group('when fetching rendez-vous futurs', () {
     test('when not initialized should display loading', () {
       // Given
-      final store = givenState().loggedInUser().rendezvousNotInitialized().store();
+      final store = givenState().loggedInMiloUser().rendezvousNotInitialized().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -30,7 +30,7 @@ void main() {
 
     test('when loading should display loading', () {
       // Given
-      final store = givenState().loggedInUser().loadingFutureRendezvous().store();
+      final store = givenState().loggedInMiloUser().loadingFutureRendezvous().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -41,7 +41,7 @@ void main() {
 
     test('when reloading should display loading', () {
       // Given
-      final store = givenState().loggedInUser().reloadingFutureRendezvous().store();
+      final store = givenState().loggedInMiloUser().reloadingFutureRendezvous().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -52,7 +52,7 @@ void main() {
 
     test('when reloading should be reloading', () {
       // Given
-      final store = givenState().loggedInUser().reloadingFutureRendezvous().store();
+      final store = givenState().loggedInMiloUser().reloadingFutureRendezvous().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -63,7 +63,7 @@ void main() {
 
     test('should display failure', () {
       // Given
-      final store = givenState().loggedInUser().failedFutureRendezvous().store();
+      final store = givenState().loggedInMiloUser().failedFutureRendezvous().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -76,7 +76,7 @@ void main() {
   group('when having rendez-vous futurs', () {
     test("should navigate to past when logged in Pole emploi", () {
       // Given
-      final store = givenState().loggedInPoleEmploiUser().rendezvous([]).store();
+      final store = givenState().loggedInPoleEmploiUser().rendezvous().store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -85,7 +85,7 @@ void main() {
 
     test("should navigate to past when logged in MiLo", () {
       // Given
-      final store = givenState().loggedInMiloUser().rendezvous([]).store();
+      final store = givenState().loggedInMiloUser().rendezvous().store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -94,7 +94,8 @@ void main() {
 
     test("should display technical message when data are not up to date", () {
       // Given
-      final store = givenState().loggedInPoleEmploiUser().rendezvous([], DateTime(2023, 1, 1)).store();
+      final store =
+          givenState().loggedInPoleEmploiUser().rendezvous(dateDerniereMiseAJour: DateTime(2023, 1, 1)).store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -103,7 +104,7 @@ void main() {
 
     test("should not display technical message when data are up to date", () {
       // Given
-      final store = givenState().loggedInPoleEmploiUser().rendezvous([]).store();
+      final store = givenState().loggedInPoleEmploiUser().rendezvous().store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -114,7 +115,7 @@ void main() {
   group('when having rendez-vous futurs and fetching rendez-vous passés', () {
     test('when not initialized should display loading', () {
       // Given
-      final store = givenState().loggedInUser().rendezvousNotInitialized().store();
+      final store = givenState().loggedInMiloUser().rendezvousNotInitialized().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
@@ -125,7 +126,7 @@ void main() {
 
     test('when loading should display loading', () {
       // Given
-      final store = givenState().loggedInUser().loadingPastRendezvous().store();
+      final store = givenState().loggedInMiloUser().loadingPastRendezvous().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
@@ -136,7 +137,7 @@ void main() {
 
     test('should display failure', () {
       // Given
-      final store = givenState().loggedInUser().failedPastRendezvous().store();
+      final store = givenState().loggedInMiloUser().failedPastRendezvous().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
@@ -171,11 +172,22 @@ void main() {
         mockRendezvous(id: 'mois futur avril B', date: DateTime(2022, 4, 29, 4, 5, 30)),
       ];
 
+      final sessions = [
+        mockSessionMilo(id: 'semaine passée 0', dateDeDebut: DateTime(2022, 1, 31, 4, 5, 30)),
+        mockSessionMilo(id: 'cette semaine après-demain 2', dateDeDebut: DateTime(2022, 2, 5, 6, 5, 30)),
+        mockSessionMilo(id: 'semaine+1 mardi', dateDeDebut: DateTime(2022, 2, 8, 4, 5, 30)),
+      ];
+
+      // Given
+      final store = givenState()
+          .loggedInMiloUser() //
+          .rendezvous(rendezvous: rendezvous, sessionsMilo: sessions)
+          .store();
+
       test('and sort them by most recent for past', () {
-        // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
+
         // Then
         expect(viewModel.displayState, DisplayState.CONTENT);
         expect(viewModel.withNextPageButton, true);
@@ -187,21 +199,24 @@ void main() {
         expect(viewModel.analyticsLabel, "rdv/list-past");
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
-            title: "Janvier 2022 (2)",
-            displayedRendezvous: ["semaine passée 1", "passés lointain 1"],
+            title: "Janvier 2022 (3)",
+            displayedRendezvous: [
+              SessionMiloId("semaine passée 0"),
+              RendezvousId("semaine passée 1"),
+              RendezvousId("passés lointain 1"),
+            ],
           ),
           RendezvousSection(
             title: "Décembre 2021 (1)",
-            displayedRendezvous: ["passés lointain 2"],
+            displayedRendezvous: [RendezvousId("passés lointain 2")],
           ),
         ]);
       });
 
       test('and sort them by last recent for this week', () {
-        // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+
         // Then
         expect(viewModel.displayState, DisplayState.CONTENT);
         expect(viewModel.withNextPageButton, true);
@@ -214,20 +229,22 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Samedi 5 février",
-            displayedRendezvous: ["cette semaine après-demain 1"],
+            displayedRendezvous: [
+              RendezvousId("cette semaine après-demain 1"),
+              SessionMiloId("cette semaine après-demain 2"),
+            ],
           ),
           RendezvousSection(
             title: "Dimanche 6 février",
-            displayedRendezvous: ["cette semaine dimanche"],
+            displayedRendezvous: [RendezvousId("cette semaine dimanche")],
           ),
         ]);
       });
 
       test('and sort them by last recent for next week 1', () {
-        // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 1);
+
         // Then
         expect(viewModel.displayState, DisplayState.CONTENT);
         expect(viewModel.withNextPageButton, true);
@@ -241,24 +258,27 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 7 février",
-            displayedRendezvous: ["semaine+1 lundi"],
+            displayedRendezvous: [RendezvousId("semaine+1 lundi")],
+          ),
+          RendezvousSection(
+            title: "Mardi 8 février",
+            displayedRendezvous: [SessionMiloId("semaine+1 mardi")],
           ),
           RendezvousSection(
             title: "Jeudi 10 février",
-            displayedRendezvous: ["semaine+1 jeudi"],
+            displayedRendezvous: [RendezvousId("semaine+1 jeudi")],
           ),
           RendezvousSection(
             title: "Dimanche 13 février",
-            displayedRendezvous: ["semaine+1 dimanche"],
+            displayedRendezvous: [RendezvousId("semaine+1 dimanche")],
           ),
         ]);
       });
 
       test('and sort them by last recent for next week 2', () {
-        // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 2);
+
         // Then
         expect(viewModel.displayState, DisplayState.CONTENT);
         expect(viewModel.withNextPageButton, true);
@@ -272,24 +292,23 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 14 février",
-            displayedRendezvous: ["semaine+2 lundi"],
+            displayedRendezvous: [RendezvousId("semaine+2 lundi")],
           ),
           RendezvousSection(
             title: "Jeudi 17 février",
-            displayedRendezvous: ["semaine+2 jeudi"],
+            displayedRendezvous: [RendezvousId("semaine+2 jeudi")],
           ),
           RendezvousSection(
             title: "Dimanche 20 février",
-            displayedRendezvous: ["semaine+2 dimanche"],
+            displayedRendezvous: [RendezvousId("semaine+2 dimanche")],
           ),
         ]);
       });
 
       test('and sort them by last recent for next week 3', () {
-        // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 3);
+
         // Then
         expect(viewModel.displayState, DisplayState.CONTENT);
         expect(viewModel.withNextPageButton, true);
@@ -303,24 +322,23 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 21 février",
-            displayedRendezvous: ["semaine+3 lundi"],
+            displayedRendezvous: [RendezvousId("semaine+3 lundi")],
           ),
           RendezvousSection(
             title: "Jeudi 24 février",
-            displayedRendezvous: ["semaine+3 jeudi"],
+            displayedRendezvous: [RendezvousId("semaine+3 jeudi")],
           ),
           RendezvousSection(
             title: "Dimanche 27 février",
-            displayedRendezvous: ["semaine+3 dimanche"],
+            displayedRendezvous: [RendezvousId("semaine+3 dimanche")],
           ),
         ]);
       });
 
       test('and sort them by last recent for next week 4', () {
-        // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 4);
+
         // Then
         expect(viewModel.displayState, DisplayState.CONTENT);
         expect(viewModel.withNextPageButton, true);
@@ -334,24 +352,23 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Lundi 28 février",
-            displayedRendezvous: ["semaine+4 lundi"],
+            displayedRendezvous: [RendezvousId("semaine+4 lundi")],
           ),
           RendezvousSection(
             title: "Jeudi 3 mars",
-            displayedRendezvous: ["semaine+4 jeudi"],
+            displayedRendezvous: [RendezvousId("semaine+4 jeudi")],
           ),
           RendezvousSection(
             title: "Dimanche 6 mars",
-            displayedRendezvous: ["semaine+4 dimanche"],
+            displayedRendezvous: [RendezvousId("semaine+4 dimanche")],
           ),
         ]);
       });
 
       test('and sort them by last recent and grouped by month for next month', () {
-        // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 5);
+
         // Then
         expect(viewModel.displayState, DisplayState.CONTENT);
         expect(viewModel.withNextPageButton, false);
@@ -364,11 +381,11 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Mars 2022 (1)",
-            displayedRendezvous: ["mois futur lundi 7 mars"],
+            displayedRendezvous: [RendezvousId("mois futur lundi 7 mars")],
           ),
           RendezvousSection(
             title: "Avril 2022 (2)",
-            displayedRendezvous: ["mois futur avril A", "mois futur avril B"],
+            displayedRendezvous: [RendezvousId("mois futur avril A"), RendezvousId("mois futur avril B")],
           ),
         ]);
       });
@@ -398,7 +415,7 @@ void main() {
           final rendezvousOnPage = rendezvous.map((e) {
             return mockRendezvous(id: e.id, date: e.date.addWeeks(pageOffset));
           }).toList();
-          final store = givenState().loggedInUser().rendezvous(rendezvousOnPage).store();
+          final store = givenState().loggedInMiloUser().rendezvous(rendezvous: rendezvousOnPage).store();
           // When
           final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
           // Then
@@ -468,7 +485,7 @@ void main() {
 
       test("should not be displayed on current week page", () {
         // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+        final store = givenState().loggedInMiloUser().rendezvous(rendezvous: rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
         // Then
@@ -476,21 +493,21 @@ void main() {
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Dimanche 6 février",
-            displayedRendezvous: ["cette semaine dimanche"],
+            displayedRendezvous: [RendezvousId("cette semaine dimanche")],
           ),
         ]);
       });
 
       test("should be displayed on past page", () {
         // Given
-        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+        final store = givenState().loggedInMiloUser().rendezvous(rendezvous: rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
         // Then
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
             title: "Février 2022 (2)",
-            displayedRendezvous: ["cette semaine mardi", "cette semaine lundi"],
+            displayedRendezvous: [RendezvousId("cette semaine mardi"), RendezvousId("cette semaine lundi")],
           ),
         ]);
       });
@@ -498,7 +515,7 @@ void main() {
 
     test("should have an empty rendezvous display", () {
       // Given
-      final store = givenState().loggedInUser().rendezvous([]).store();
+      final store = givenState().loggedInMiloUser().rendezvous().store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -518,7 +535,7 @@ void main() {
       }) {
         test("${rendezvous.map((e) => e.id)} at page $pageOffset-> $expectedPageOffsetOfNextRendezvous", () {
           // Given
-          final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+          final store = givenState().loggedInMiloUser().rendezvous(rendezvous: rendezvous).store();
 
           // When
           final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
@@ -530,8 +547,8 @@ void main() {
 
       test("Bug fix with today on monday morning, to week + 2 on monday afternoon", () {
         // Given
-        final rendezVous = [mockRendezvous(id: 'semaine+2 lundi matin', date: DateTime(2022, 2, 14, 3, 5, 30))];
-        final store = givenState().loggedInUser().rendezvous(rendezVous).store();
+        final rendezvous = [mockRendezvous(id: 'semaine+2 lundi matin', date: DateTime(2022, 2, 14, 3, 5, 30))];
+        final store = givenState().loggedInMiloUser().rendezvous(rendezvous: rendezvous).store();
         final monday31JanuaryAfternoon = DateTime(2022, 1, 31, 16, 5, 30);
         // When
         final viewModel = RendezvousListViewModel.create(store, monday31JanuaryAfternoon, 0);
@@ -634,7 +651,7 @@ void main() {
       // Given
       final DateTime now = DateTime(2022, 11, 30, 4, 5, 0);
       final rendezvous = [mockRendezvous(id: 'cette semaine 1', date: DateTime(2022, 11, 30, 4, 0, 0))];
-      final store = givenState().loggedInUser().rendezvous(rendezvous).store();
+      final store = givenState().loggedInMiloUser().rendezvous(rendezvous: rendezvous).store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, now, -1);
@@ -645,7 +662,7 @@ void main() {
 
     test('should handle deeplink with valid ID', () {
       // Given
-      final store = givenState().rendezvous([mockRendezvous(id: '1')]).deeplinkToRendezvous('1').store();
+      final store = givenState().rendezvous(rendezvous: [mockRendezvous(id: '1')]).deeplinkToRendezvous('1').store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -656,7 +673,7 @@ void main() {
 
     test('should handle deeplink with invalid ID', () {
       // Given
-      final store = givenState().rendezvous([mockRendezvous(id: '1')]).deeplinkToRendezvous('22').store();
+      final store = givenState().rendezvous(rendezvous: [mockRendezvous(id: '1')]).deeplinkToRendezvous('22').store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -706,7 +723,7 @@ void main() {
             "-> ${shouldRequestPast ? "should request" : "should not request"}";
         test(msg, () {
           // Given
-          final state = hasFetchedPast ? RendezvousListState.successful([]) : RendezvousListState.successfulFuture([]);
+          final state = hasFetchedPast ? RendezvousListState.successful() : RendezvousListState.successfulFuture();
           final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousListState: state));
 
           // When
@@ -737,7 +754,7 @@ void main() {
         test(msg, () {
           // Given
           final state =
-              hasFetchedFuture ? RendezvousListState.successfulFuture([]) : RendezvousListState.notInitialized();
+              hasFetchedFuture ? RendezvousListState.successfulFuture() : RendezvousListState.notInitialized();
           final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousListState: state));
 
           // When

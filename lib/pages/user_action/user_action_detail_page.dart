@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
@@ -14,7 +13,7 @@ import 'package:pass_emploi_app/presentation/user_action/user_action_details_vie
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -26,6 +25,7 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/comment.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -213,35 +213,45 @@ class _Separator extends StatelessWidget {
 class _SuccessBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      userActionBottomSheetHeader(context, title: ""),
-      SvgPicture.asset(Drawables.congratulationsIllustration),
-      Padding(
-        padding: const EdgeInsets.all(24),
-        child: Text(
-          Strings.congratulationsActionUpdated,
-          style: TextStyles.textBaseBold,
-          textAlign: TextAlign.center,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        BottomSheetHeader(title: "", padding: EdgeInsets.all(Margins.spacing_m)),
+        Center(
+          child: SizedBox(
+            height: 100,
+            width: 100,
+            child: Illustration.green(AppIcons.check_rounded),
+          ),
         ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Text(
-          Strings.conseillerNotifiedActionUpdated,
-          style: TextStyles.textBaseRegular,
-          textAlign: TextAlign.center,
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(
+            Strings.congratulationsActionUpdated,
+            style: TextStyles.textBaseBold,
+            textAlign: TextAlign.center,
+          ),
         ),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
-        child: PrimaryActionButton(
-          label: Strings.understood,
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Text(
+            Strings.conseillerNotifiedActionUpdated,
+            style: TextStyles.textBaseRegular,
+            textAlign: TextAlign.center,
+          ),
         ),
-      ),
-    ]);
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
+          child: PrimaryActionButton(
+            label: Strings.understood,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+      ],
+    );
   }
 }
 

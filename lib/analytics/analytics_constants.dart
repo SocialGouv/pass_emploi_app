@@ -20,6 +20,8 @@ class AnalyticsScreenNames {
   static const chat = "chat";
   static const profil = "profil";
 
+  static const contactProfil = "profil/contact";
+
   static const userActionList = "actions/list";
   static const userActionDetails = "actions/detail";
   static const updateUserAction = "actions/detail?modifySuccess=true";
@@ -28,9 +30,11 @@ class AnalyticsScreenNames {
   static const searchDemarcheStep2 = "/demarches/search-results";
   static const searchDemarcheStep3 = "/demarches/demarche-renferentiel-create";
   static const searchDemarcheStep3Success = "/demarches/createSuccess";
-  static const createDemarchePersonnalisee = "actions/demarche-personnalisee/create";
+  static const createDemarchePersonnalisee = "demarches/creer_demarche_personalisee";
   static const thematiquesDemarche = "demarches/thematiques";
+  static String thematiquesDemarcheDetails(String thematique) => "demarches/thematiques/$thematique";
   static const topDemarches = "demarches/top-demarches";
+  static String topDemarcheDetails(String demarche) => "demarches/top-demarches/$demarche";
 
   static const rendezvousListPast = "rdv/list-past";
   static const rendezvousListFuture = "rdv/list-future";
@@ -43,8 +47,8 @@ class AnalyticsScreenNames {
   static const rendezvousVisite = "rdv/visite";
   static const rendezvousPrestation = "rdv/prestation";
   static const rendezvousAutre = "rdv/autre";
-  static const sessionWorkshop = "session_milo/sessionWorkshop";
-  static const sessionCollectiveInformation = "session_milo/sessionCollectiveInformation";
+
+  static const sessionMiloPartagePageSuccess = "session_milo/detail?partage-conseiller=true";
 
   static const rechercheV2Home = "recherche/home";
   static const rechercheSuggestionsListe = "recherche/suggested_list";
@@ -100,6 +104,7 @@ class AnalyticsScreenNames {
 
   static const savedSearchSuggestionsListe = "saved_searches/suggested_list";
   static const savedSearchList = "saved_searches/list";
+  static const savedSearchListFromAccueil = "saved_searches/list/from-accueil";
   static const savedSearchListFilterEmploi = "saved_searches/list?filtre=emploi";
   static const savedSearchListFilterAlternance = "saved_searches/list?filtre=alternance";
   static const savedSearchListFilterImmersion = "saved_searches/list?filtre=immersion";
@@ -173,6 +178,8 @@ class AnalyticsActionNames {
   static const negativeRating = "/notation/defavorable";
   static const positiveRating = "/notation/favorable";
 
+  static const contactEmailSent = "/contact/email-sent";
+
   static const accessToActionComments = "/actions/detail/comments/add";
   static const sendComment = "/actions/detail/comments/send";
 }
@@ -214,6 +221,9 @@ class AnalyticsEventNames {
 
   static const pushNotificationAuthorizationStatusEventCategory = "Autorisation des push notifications sur mobile";
   static const pushNotificationAuthorizationStatusAction = "Autorisation";
+
+  static const evenementEmploiDetailsCategory = "Détails événement emploi";
+  static const evenementEmploiDetailsInscriptionAction = "Clic inscription événement emploi";
 }
 
 class AnalyticsCustomDimensions {

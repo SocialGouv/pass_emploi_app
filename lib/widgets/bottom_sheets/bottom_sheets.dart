@@ -9,40 +9,81 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 Future<T?> showPassEmploiBottomSheet<T>({required BuildContext context, required WidgetBuilder builder}) {
   return showModalBottomSheet(
     context: context,
+    backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
     isScrollControlled: true,
     builder: builder,
   );
 }
 
-Widget userActionBottomSheetHeader(BuildContext context, {required String title}) {
-  return Semantics(
-    header: true,
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 22),
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          Text(title, style: TextStyles.textBaseBold),
-          Positioned(
-            right: 8,
-            child: IconButton(
-              padding: const EdgeInsets.all(0),
-              iconSize: Dimens.icon_size_m,
-              onPressed: () => Navigator.pop(context),
-              tooltip: Strings.close,
-              icon: Icon(
-                AppIcons.close_rounded,
-                color: AppColors.contentColor,
+class BottomSheetHeader extends StatelessWidget implements PreferredSizeWidget {
+  const BottomSheetHeader({super.key, required this.title, this.padding});
+  final String title;
+  final EdgeInsets? padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      header: true,
+      child: Padding(
+        padding: padding ?? EdgeInsets.zero,
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            Text(title, style: TextStyles.textBaseBold),
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: SizedBox.square(
+                dimension: Dimens.icon_size_m,
+                child: OverflowBox(
+                  // to avoid extra padding
+                  maxHeight: 40,
+                  maxWidth: 40,
+                  child: IconButton(
+                    iconSize: Dimens.icon_size_m,
+                    onPressed: () => Navigator.pop(context),
+                    tooltip: Strings.close,
+                    icon: Icon(
+                      AppIcons.close_rounded,
+                      color: AppColors.contentColor,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(70);
 }
 
-EdgeInsets bottomSheetContentPadding() {
-  return const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_m);
+class BottomSheetWrapper extends StatelessWidget {
+  const BottomSheetWrapper({super.key, required this.title, required this.body, this.heightFactor = 0.9, this.padding});
+  final double heightFactor;
+  final String title;
+  final Widget body;
+  final EdgeInsets? padding;
+
+  @override
+  Widget build(BuildContext context) {
+    final padding = this.padding ?? EdgeInsets.all(Margins.spacing_m);
+    return FractionallySizedBox(
+      heightFactor: heightFactor,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(Dimens.radius_l),
+        child: Scaffold(
+          appBar: BottomSheetHeader(title: title, padding: padding),
+          backgroundColor: Colors.white,
+          body: Padding(
+            padding: padding,
+            child: body,
+          ),
+        ),
+      ),
+    );
+  }
 }

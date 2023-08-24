@@ -110,6 +110,9 @@ class Strings {
   static String open = "Ouvrir";
   static String fileNotAvailableError = "ERROR: 404";
   static String fileNotAvailableTitle = "Le fichier n'est plus disponible";
+  static String chatEmpty = "Commencez une conversation avec votre conseiller";
+  static String chatEmptySubtitle =
+      "Obtenez les informations que vous recherchez en contactant directement votre conseiller";
 
   // Force Update
   static String updateTitle = "Mise à jour";
@@ -202,8 +205,8 @@ class Strings {
 
   static String severalActionsLate(int count) => "$count actions en retard";
   static String accueilRendezvousSection = "Votre prochain rendez-vous";
-  static String accueilEvenementsSection = "Événements à venir";
-  static String accueilVoirLesEvenements = "Voir tous les événements";
+  static String accueilEvenementsSection = "Événements pouvant vous intéresser";
+  static String accueilVoirLesEvenements = "Voir plus d’événements";
   static String accueilMesAlertesSection = "Mes alertes";
   static String accueilVoirMesAlertes = "Voir toutes mes alertes";
   static String accueilPasDalerteDescription =
@@ -282,6 +285,7 @@ class Strings {
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
   static String shareToConseiller = "Partager à mon conseiller";
+  static String shareToConseillerDemandeInscription = "Faire une demande d’inscription";
   static String withAnimateurTitle = "Animateur de la session";
 
   static String rendezvousSinceDate(String date) => "depuis le $date";
@@ -330,6 +334,7 @@ class Strings {
   static String actionLabel = "*Intitulé de l'action";
   static String actionDescription = "Description de l'action";
   static String mandatoryActionLabelError = "L'intitulé de l'action doit être renseigné";
+  static String mandatoryDateEcheanceError = "La date d'échéance doit être renseignée";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
   static String actionCreationError = "Erreur lors de la création de l'action. Veuillez réessayer";
@@ -398,6 +403,7 @@ class Strings {
   static const String comment = "Comment";
   static const String selectComment = "*Sélectionner un des moyens";
   static const String selectQuand = "*Sélectionner une date d’échéance";
+  static const String demarchePressedTip = "Choisir cette démarche";
 
   static String demarcheActiveLabel = "À réaliser pour le ";
 
@@ -457,8 +463,9 @@ class Strings {
   static String rechercheOffresAlternanceTitle = "Offres d’alternance";
   static String rechercheOffresImmersionTitle = "Offres d’immersion";
   static String rechercheOffresServiceCiviqueTitle = "Offres de service civique";
-  static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
   static String rechercheAfficherPlus = "Afficher plus d'offres";
+  static String recherchePlaceholderTitle = "Effectuez votre recherche pour afficher des résultats";
+  static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
 
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
 
@@ -514,6 +521,15 @@ class Strings {
       "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
   static String infoEvenementEmploiPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
   static String partagerEvenementEmploiAuConseiller = "Partager l’événement";
+
+  // Session milo partage
+  static String partageSessionMiloNavTitle = "Partage d’événement";
+  static String souhaitDePartagerSessionMilo = "Ce que vous souhaitez partager";
+  static String partageSessionMiloDefaultMessage = "Bonjour, je vous partage un événement afin d’avoir votre avis";
+  static String partageSessionMiloSuccess =
+      "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
+  static String infoSessionMiloPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
+  static String partagerSessionMiloAuConseiller = "Partager à mon conseiller";
 
   // Immersion
   static String entrepriseAccueillante = 'Entreprise accueillante';
@@ -584,8 +600,9 @@ class Strings {
   static String serviceCiviqueOrganisationTitle = "Organisation";
 
   // Solutions Errors
-  static String noContentError =
-      "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";
+  static String noContentErrorTitle = "Pour le moment, aucune offre ne correspond à vos critères.";
+  static String noContentErrorSubtitle =
+      "Essayez d’élargir votre recherche en modifiant vos critères ou créez une alerte.";
   static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
   static String genericCreationError = "Erreur lors de la création. Veuillez réessayer";
 
@@ -723,6 +740,26 @@ class Strings {
 
   static String helpTitle = "Besoin d’aide ?";
   static String ratingAppLabel = "Partager votre avis sur l'application";
+  static String contactTeamLabel = "Contacter l'équipe de l'application";
+
+  // contact page
+  static String contactPageTitle = "Contacter l’équipe";
+  static String contactPageBody1 = Brand.isCej()
+      ? "L’équipe technique de l’application CEJ est en charge du développement de l’application."
+      : "L’équipe technique de l’application pass emploi est en charge du développement de l’application.";
+  static String contactPageBody2 = "Contactez-nous pour :";
+  static String contactPageBody3 = Brand.isCej()
+      ? "Pour toutes les informations et les problèmes liés au Contrat d’Engagement Jeune, veuillez contacter votre conseiller."
+      : "Pour toutes les informations et les problèmes liés au RSA, veuillez contacter votre conseiller.";
+  static String contactPageBodyBullet1 = "Un problème sur l’application";
+  static String contactPageBodyBullet2 = "Une suggestion d’évolution";
+  static String contactPageBodyBullet3 = "Toute autre remarque";
+  static String contactPageButton = "Continuer";
+
+  static String objetPriseDeContact = Brand.isCej()
+      ? "Prise de contact avec l’équipe de l’application du CEJ"
+      : "Prise de contact avec l’équipe de l’application pass emploi";
+  static String corpsPriseDeContact = "Décrivez nous votre problème ou vos suggestions d’évolution : ";
 
   // saved search
   static String createAlert = "Créer une alerte";
@@ -796,7 +833,8 @@ class Strings {
   static String contentSupportMail = "Aidez-nous à améliorer l’application en nous donnant votre avis :\n";
 
   // Suggestions de recherche
-  static String vosSuggestionsDeRecherche = "Vos suggestions d'alertes";
+  static String vosSuggestionsAlertesError = "Erreur lors de la récupération de vos suggestions d'alertes";
+  static String vosSuggestionsAlertes = "Vos suggestions d'alertes";
   static String nouvellesSuggestionsDeRechercheTitre = "Vous avez des suggestions d’alertes";
   static String nouvellesSuggestionsDeRechercheDescription =
       "Sur la base de votre profil Pôle emploi, voici des suggestions d'alertes à sauvegarder";
@@ -810,10 +848,16 @@ class Strings {
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
   static String voirResultatsSuggestion = "Voir les résultats";
+  static String emptySuggestionAlerteListTitre = "Vous n’avez pas encore de suggestions d’alerte";
+  static String emptySuggestionAlerteListDescriptionMilo =
+      "Vous pouvez découvrir vos métiers favoris dans votre profil pour avoir des suggestions qui vous correspondent";
+  static String emptySuggestionAlerteListDescriptionPoleEmploi =
+      "Vous pouvez remplir votre profil Pôle emploi et découvrir vos métiers favoris dans votre profil pour avoir des suggestions qui vous correspondent";
 
   // Événements
   static String eventListError = "Erreur lors de la récupération des événements";
-  static String eventListEmpty = "Il n'y a actuellement aucun événement";
+  static String eventListEmpty = "Il n’y a pas encore d’évènement dans votre Mission Locale";
+  static String eventListEmptySubtitle = "Vous retrouverez ici tous les événements programmés de votre mission locale";
   static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
   static String eventAppBarTitle = "Événements";
@@ -822,6 +866,8 @@ class Strings {
   static String eventEmploiDetailsAppBarTitle = "Détail de l’événement";
   static String eventEmploiDetailsPartagerConseiller = "Partager l'événement à mon conseiller";
   static String eventEmploiDetailsInscription = "Je m'inscris";
+  static String eventPlaceholderTitle = "Trouvez un événement";
+  static String eventPlaceholderSubtitle = "Commencez votre recherche en remplissant les champs ci-dessus.";
 
   // Événements Emploi
   static const String secteurActiviteLabel = "Secteur d'activité";

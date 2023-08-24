@@ -70,11 +70,23 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
           return _eventMessageItem(message, lastConseillerReading);
         case MessageType.evenementEmploi:
           return _evenementEmploiItem(message, lastConseillerReading);
+        case MessageType.sessionMilo:
+          return _sessionMiloItem(message, lastConseillerReading);
         case MessageType.inconnu:
           return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }
     }
   }).toList();
+}
+
+ChatItem _sessionMiloItem(Message message, DateTime lastConseillerReading) {
+  return SessionMiloMessageItem(
+    content: message.content,
+    idPartage: message.sessionMilo?.id ?? "",
+    titrePartage: message.sessionMilo?.titre ?? "",
+    sender: message.sentBy,
+    caption: caption(message, lastConseillerReading),
+  );
 }
 
 ChatItem _evenementEmploiItem(Message message, DateTime lastConseillerReading) {

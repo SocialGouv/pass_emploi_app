@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/log.dart';
@@ -119,6 +120,17 @@ class ChatRepository {
       'type': "MESSAGE_EVENEMENT",
     };
     return _sendMessage(userId: userId, message: eventPartage.message, customPayload: customPayload);
+  }
+
+  Future<bool> sendSessionMiloPartage(String userId, SessionMiloPartage sessionMiloPartage) async {
+    final customPayload = {
+      'sessionMilo': {
+        'id': sessionMiloPartage.id,
+        'titre': sessionMiloPartage.titre,
+      },
+      'type': "MESSAGE_SESSION_MILO",
+    };
+    return _sendMessage(userId: userId, message: sessionMiloPartage.message, customPayload: customPayload);
   }
 
   Future<bool> sendEvenementEmploiPartage(String userId, EvenementEmploiPartage emploiPartage) async {

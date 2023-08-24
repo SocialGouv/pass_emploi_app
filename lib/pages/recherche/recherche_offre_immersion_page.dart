@@ -37,6 +37,12 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   String analyticsType() => AnalyticsScreenNames.immersionRecherche;
 
   @override
+  String placeHolderTitle() => Strings.recherchePlaceholderTitle;
+
+  @override
+  String placeHolderSubtitle() => Strings.rechercheLancerUneRechercheHint;
+
+  @override
   RechercheState rechercheState(AppState appState) => appState.rechercheImmersionState;
 
   @override
@@ -46,7 +52,7 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
   Widget buildAlertBottomSheet() => ImmersionSavedSearchBottomSheet();
 
   @override
-  Route<bool>? buildFiltresMaterialPageRoute() => ImmersionFiltresPage.materialPageRoute();
+  Future<bool?>? buildFiltresBottomSheet(BuildContext context) => ImmersionFiltresPage.show(context);
 
   @override
   Widget buildCriteresContentWidget({required Function(int) onNumberOfCriteresChanged}) {

@@ -78,7 +78,7 @@ class _Text extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Text(Strings.vosSuggestionsDeRecherche, style: TextStyles.textBaseBold),
+      child: Text(Strings.vosSuggestionsAlertes, style: TextStyles.textBaseBold),
     );
   }
 }

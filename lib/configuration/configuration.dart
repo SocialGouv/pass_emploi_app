@@ -47,10 +47,7 @@ class Configuration extends Equatable {
     this.fuseauHoraire,
   );
 
-  static Future<Configuration> build({
-    required bool allowBrsaToUpdateDemarche,
-    required bool allowBrsaToCreateDemarche,
-  }) async {
+  static Future<Configuration> build() async {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final currentVersion = Version.fromString(packageInfo.version);
     final packageName = packageInfo.packageName;
@@ -148,8 +145,6 @@ class Configuration extends Equatable {
     String? iSRGX1CertificateForOldDevices,
     String? actualisationPoleEmploiUrl,
     String? fuseauHoraire,
-    bool? allowBrsaToUpdateDemarche,
-    bool? allowBrsaToCreateDemarche,
   }) {
     return Configuration(
       version ?? this.version,

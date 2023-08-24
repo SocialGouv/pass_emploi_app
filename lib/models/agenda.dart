@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
@@ -9,6 +10,7 @@ class Agenda extends Equatable {
   final List<UserAction> actions;
   final List<Demarche> demarches;
   final List<Rendezvous> rendezvous;
+  final List<SessionMilo> sessionsMilo;
   final int delayedActions;
   final DateTime dateDeDebut;
   final DateTime? dateDerniereMiseAJour;
@@ -17,6 +19,7 @@ class Agenda extends Equatable {
     required this.actions,
     required this.demarches,
     required this.rendezvous,
+    required this.sessionsMilo,
     required this.delayedActions,
     required this.dateDeDebut,
     this.dateDerniereMiseAJour,
@@ -38,6 +41,7 @@ class Agenda extends Equatable {
       actions: _actions(result),
       demarches: _demarches(result),
       rendezvous: rendezvous,
+      sessionsMilo: _sessionsMilo(result),
       delayedActions: delayedActions,
       dateDeDebut: dateDeDebut,
       dateDerniereMiseAJour: dateDerniereMiseAjour,
@@ -48,6 +52,7 @@ class Agenda extends Equatable {
     final List<UserAction>? actions,
     final List<Demarche>? demarches,
     final List<Rendezvous>? rendezvous,
+    final List<SessionMilo>? sessionsMilo,
     final int? delayedActions,
     final DateTime? dateDeDebut,
     final DateTime? dateDerniereMiseAjour,
@@ -56,6 +61,7 @@ class Agenda extends Equatable {
       actions: actions ?? this.actions,
       demarches: demarches ?? this.demarches,
       rendezvous: rendezvous ?? this.rendezvous,
+      sessionsMilo: sessionsMilo ?? this.sessionsMilo,
       delayedActions: delayedActions ?? this.delayedActions,
       dateDeDebut: dateDeDebut ?? this.dateDeDebut,
       dateDerniereMiseAJour: dateDerniereMiseAjour ?? dateDerniereMiseAJour,
@@ -63,7 +69,7 @@ class Agenda extends Equatable {
   }
 
   @override
-  List<Object?> get props => [actions, demarches, rendezvous, delayedActions, dateDeDebut, dateDerniereMiseAJour];
+  List<Object?> get props => [actions, demarches, rendezvous, sessionsMilo, delayedActions, dateDeDebut, dateDerniereMiseAJour];
 }
 
 int _delayedActions(metadata) {
@@ -82,6 +88,13 @@ List<UserAction> _actions(json) {
 List<Demarche> _demarches(json) {
   if (json["demarches"] != null) {
     return (json["demarches"] as List).map((demarche) => Demarche.fromJson(demarche)).toList();
+  }
+  return [];
+}
+
+List<SessionMilo> _sessionsMilo(json) {
+  if (json["sessionsMilo"] != null) {
+    return (json["sessionsMilo"] as List).map((sessionMilo) => SessionMilo.fromJson(sessionMilo)).toList();
   }
   return [];
 }

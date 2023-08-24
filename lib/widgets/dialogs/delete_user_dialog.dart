@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/suppression_compte_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 class DeleteAlertDialog extends StatefulWidget {
   @override
@@ -42,12 +41,18 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
 
   Widget _build(BuildContext context, SuppressionCompteViewModel viewModel) {
     return AlertDialog(
+      surfaceTintColor: Colors.white,
       title: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Center(child: SvgPicture.asset(Drawables.deleteIllustration)),
+              Center(
+                child: SizedBox.square(
+                  dimension: 100,
+                  child: Illustration.red(AppIcons.delete),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Text(

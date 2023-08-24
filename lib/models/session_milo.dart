@@ -42,14 +42,19 @@ class SessionMilo extends Equatable {
   Rendezvous get toRendezVous {
     return Rendezvous(
       id: id,
-      title: nomOffre + " - " + nomSession,
+      title: displayableTitle,
       date: dateDeDebut,
       type: type.toRendezvousType,
       isAnnule: false,
       source: RendezvousSource.milo,
       isInVisio: false,
       estInscrit: estInscrit,
+      createdFromSessionMilo: true,
     );
+  }
+
+  String get displayableTitle {
+    return nomOffre + " - " + nomSession;
   }
 }
 
@@ -81,7 +86,6 @@ enum SessionMiloTypeCode {
 }
 
 SessionMiloTypeCode _parseSessionMiloTypeCode(String sessionMiloTypeCode) {
-  // TODO: update dart & flutter version to fix this false warning
   return SessionMiloTypeCode.values.firstWhere(
     // ignore: sdk_version_since
     (e) => e.name == sessionMiloTypeCode,

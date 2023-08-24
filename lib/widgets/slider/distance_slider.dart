@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/widgets/slider/slider_caption.dart';
 import 'package:pass_emploi_app/widgets/slider/slider_value.dart';
 
@@ -46,7 +47,6 @@ class _DistanceSliderState extends State<DistanceSlider> {
       _currentSliderValue != null ? _currentSliderValue! : initialDistanceValue;
 }
 
-
 class _Slider extends StatelessWidget {
   final Function(double) onValueChange;
   final double currentValue;
@@ -55,12 +55,17 @@ class _Slider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Slider(
-      value: currentValue,
-      min: 0,
-      max: 100,
-      divisions: 10,
-      onChanged: (value) => onValueChange(value),
+    return SliderTheme(
+      data: SliderTheme.of(context).copyWith(
+        thumbShape: RoundSliderThumbShape(enabledThumbRadius: Dimens.icon_size_base),
+      ),
+      child: Slider(
+        value: currentValue,
+        min: 0,
+        max: 100,
+        divisions: 10,
+        onChanged: (value) => onValueChange(value),
+      ),
     );
   }
 }

@@ -66,6 +66,15 @@ class AccueilProchainRendezvousItem extends AccueilItem {
   List<Object?> get props => [rendezVousId];
 }
 
+class AccueilProchaineSessionMiloItem extends AccueilItem {
+  final String sessionId;
+
+  AccueilProchaineSessionMiloItem(this.sessionId);
+
+  @override
+  List<Object?> get props => [sessionId];
+}
+
 class AccueilEvenementsItem extends AccueilItem {
   final List<String> evenementIds;
 

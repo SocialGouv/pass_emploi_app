@@ -143,7 +143,6 @@ class _PartageFavorisState extends State<_PartageFavoris> {
                 Switch(
                   value: _partageFavorisEnabled,
                   onChanged: _onPartageFavorisValueChange,
-                  activeColor: AppColors.primary,
                 ),
                 Text(
                   _partageFavorisEnabled ? Strings.yes : Strings.no,

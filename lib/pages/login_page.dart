@@ -142,9 +142,6 @@ class LoginPage extends StatelessWidget {
     if (newVM.displayState == DisplayState.FAILURE) _trackLoginResult(successful: false);
     if (newVM.displayState == DisplayState.CONTENT) {
       _trackLoginResult(successful: true);
-      if (Navigator.of(context).canPop()) {
-        Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
-      }
     }
   }
 

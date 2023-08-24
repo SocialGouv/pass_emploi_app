@@ -4,8 +4,10 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_view_model_helper.dart';
@@ -36,7 +38,8 @@ class RendezvousDetailsViewModel extends Equatable {
   final bool withIfAbsentPart;
   final String? withAnimateur;
   final String? withDateDerniereMiseAJour;
-  final bool isShareable;
+  final ChatPartageSource? shareToConseillerSource;
+  final String? shareToConseillerButtonTitle;
   final VisioButtonState visioButtonState;
   final Function() onRetry;
   final String? trackingPageName;
@@ -72,7 +75,8 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.withIfAbsentPart,
     this.withAnimateur,
     this.withDateDerniereMiseAJour,
-    required this.isShareable,
+    this.shareToConseillerSource,
+    this.shareToConseillerButtonTitle,
     required this.visioButtonState,
     required this.onRetry,
     this.trackingPageName,
@@ -99,11 +103,12 @@ class RendezvousDetailsViewModel extends Equatable {
   }) {
     final rdv = _getRendezvous(store, source, rdvId);
     final dateDerniereMiseAJour = _getDateDerniereMiseAJour(store, source);
-    if (rdv == null) return RendezvousDetailsViewModel._createBlankRendezvous(store, rdvId);
+    if (rdv == null) return RendezvousDetailsViewModel._createBlankRendezvous(store, source, rdvId);
     final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;
     final isInscrit = rdv.estInscrit ?? false;
+    final shareSource = _shareToConseillerSource(source, rdv);
     return RendezvousDetailsViewModel(
       displayState: DisplayState.CONTENT,
       navbarTitle: _navbarTitle(source, rdv),
@@ -125,7 +130,8 @@ class RendezvousDetailsViewModel extends Equatable {
       withIfAbsentPart: _estCeQueMaPresenceEstRequise(source, isInscrit),
       withAnimateur: _withAnimateur(source, rdv.animateur),
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
-      isShareable: (source == RendezvousStateSource.eventListAnimationsCollectives && isInscrit == false),
+      shareToConseillerSource: shareSource,
+      shareToConseillerButtonTitle: _shareTitle(shareSource),
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       onRetry: () => {},
@@ -142,10 +148,19 @@ class RendezvousDetailsViewModel extends Equatable {
     );
   }
 
-  factory RendezvousDetailsViewModel._createBlankRendezvous(Store<AppState> store, String rdvId) {
-    final state = store.state.rendezvousDetailsState;
+  factory RendezvousDetailsViewModel._createBlankRendezvous(
+    Store<AppState> store,
+    RendezvousStateSource source,
+    String rdvId,
+  ) {
+    final fromSession = [
+      RendezvousStateSource.sessionMiloDetails,
+    ].contains(source);
+    final isFailure = fromSession
+        ? store.state.sessionMiloDetailsState is SessionMiloDetailsFailureState
+        : store.state.rendezvousDetailsState is RendezvousDetailsFailureState;
     return RendezvousDetailsViewModel(
-      displayState: state is RendezvousDetailsFailureState ? DisplayState.FAILURE : DisplayState.LOADING,
+      displayState: isFailure ? DisplayState.FAILURE : DisplayState.LOADING,
       navbarTitle: Strings.eventTitle,
       id: '',
       tag: '',
@@ -160,9 +175,12 @@ class RendezvousDetailsViewModel extends Equatable {
       withDescriptionPart: false,
       withModalityPart: false,
       withIfAbsentPart: false,
-      isShareable: false,
       visioButtonState: VisioButtonState.HIDDEN,
-      onRetry: () => store.dispatch(RendezvousDetailsRequestAction(rdvId)),
+      onRetry: () {
+        fromSession
+            ? store.dispatch(SessionMiloDetailsRequestAction(rdvId))
+            : store.dispatch(RendezvousDetailsRequestAction(rdvId));
+      },
     );
   }
 
@@ -185,7 +203,8 @@ class RendezvousDetailsViewModel extends Equatable {
       withModalityPart,
       withIfAbsentPart,
       withDateDerniereMiseAJour,
-      isShareable,
+      shareToConseillerSource,
+      shareToConseillerButtonTitle,
       visioButtonState,
       trackingPageName,
       title,
@@ -363,3 +382,20 @@ bool _estCeQueMaPresenceEstRequise(RendezvousStateSource source, bool isInscrit)
     (source != RendezvousStateSource.eventListAnimationsCollectives &&
         source != RendezvousStateSource.sessionMiloDetails) ||
     isInscrit;
+
+ChatPartageSource? _shareToConseillerSource(RendezvousStateSource source, Rendezvous rdv) {
+  if (rdv.estInscrit == true) return null;
+  return switch (source) {
+    RendezvousStateSource.eventListAnimationsCollectives => ChatPartageEventSource(rdv.id),
+    RendezvousStateSource.sessionMiloDetails => ChatPartageSessionMiloSource(rdv.id),
+    _ => null,
+  };
+}
+
+String? _shareTitle(ChatPartageSource? source) {
+  return switch (source) {
+    null => null,
+    ChatPartageSessionMiloSource _ => Strings.shareToConseillerDemandeInscription,
+    _ => Strings.shareToConseiller,
+  };
+}

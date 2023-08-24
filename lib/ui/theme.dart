@@ -16,7 +16,7 @@ class PassEmploiTheme {
     ),
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-        return states.contains(MaterialState.selected) ? AppColors.primary : null;
+        return states.contains(MaterialState.selected) ? Colors.white : null;
       }),
       trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
         return states.contains(MaterialState.selected) ? AppColors.primary : null;

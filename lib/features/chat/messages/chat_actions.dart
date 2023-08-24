@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
+import 'package:pass_emploi_app/models/session_milo_partage.dart';
 
 class ChatRequestAction {}
 
@@ -46,6 +47,15 @@ class ChatPartagerEvenementEmploiAction extends Equatable {
 
   @override
   List<Object?> get props => [evenementEmploi];
+}
+
+class ChatPartagerSessionMiloAction extends Equatable {
+  final SessionMiloPartage sessionMilo;
+
+  ChatPartagerSessionMiloAction(this.sessionMilo);
+
+  @override
+  List<Object?> get props => [sessionMilo];
 }
 
 class LastMessageSeenAction {}

@@ -22,7 +22,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/big_title_separator.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
@@ -82,12 +81,12 @@ class _Scaffold extends StatelessWidget {
         if (viewModel.createButton == CreateButton.userAction)
           _CreateButton(
             label: Strings.addAnAction,
-            onPressed: () => showPassEmploiBottomSheet(
-              context: context,
-              builder: (context) => CreateUserActionBottomSheet(),
+            onPressed: () => Navigator.push(
+              context,
+              CreateUserActionBottomSheet.materialPageRoute(),
             ).then((value) {
               if (value != null) {
-                _showUserActionSnackBarWithDetail(context, value as String);
+                _showUserActionSnackBarWithDetail(context, value);
                 viewModel.resetCreateAction();
               }
             }),
@@ -229,6 +228,7 @@ class _Content extends StatelessWidget {
           if (item is DaySeparatorAgendaItem) return _DaySeparatorAgendaItem(item);
           if (item is EmptyMessageAgendaItem) return _MessageAgendaItem(item);
           if (item is RendezvousAgendaItem) return _RendezvousAgendaItem(item);
+          if (item is SessionMiloAgendaItem) return _SessionMiloAgendaItem(item);
           if (item is DemarcheAgendaItem) return _DemarcheAgendaItem(item);
           if (item is UserActionAgendaItem) return _UserActionAgendaItem(item);
           if (item is CallToActionEventMiloAgendaItem) return _CurrentWeekEmptyMiloCard(agendaPageViewModel: viewModel);
@@ -446,6 +446,25 @@ class _RendezvousAgendaItem extends StatelessWidget {
         stateSource: RendezvousStateSource.agenda,
         trackedEvent: EventType.RDV_DETAIL,
         simpleCard: rendezvousAgendaItem.collapsed,
+      ),
+    );
+  }
+}
+
+class _SessionMiloAgendaItem extends StatelessWidget {
+  final SessionMiloAgendaItem sessionMiloAgendaItem;
+
+  const _SessionMiloAgendaItem(this.sessionMiloAgendaItem);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      child: sessionMiloAgendaItem.sessionId.rendezvousCard(
+        context: context,
+        stateSource: RendezvousStateSource.agendaSessionMilo,
+        trackedEvent: EventType.RDV_DETAIL,
+        simpleCard: sessionMiloAgendaItem.collapsed,
       ),
     );
   }

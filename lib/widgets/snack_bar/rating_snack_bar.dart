@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/rating_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/rating_page.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 void ratingSnackBar(BuildContext context) {
@@ -19,14 +19,16 @@ void ratingSnackBar(BuildContext context) {
       padding: const EdgeInsets.only(left: 24, bottom: 14),
       duration: Duration(days: 365),
       backgroundColor: Colors.white,
-      content: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          _DismissSnackBar(),
-          _SnackBarTittle(),
-          _OnRatingTap(),
-        ],
+      content: SafeArea(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _DismissSnackBar(),
+            _SnackBarTittle(),
+            _OnRatingTap(),
+          ],
+        ),
       ),
     ),
   );
@@ -79,7 +81,7 @@ class _OnRatingTap extends StatelessWidget {
     return InkWell(
       onTap: () {
         clearAllSnackBars();
-        showPassEmploiBottomSheet(context: context, builder: (context) => RatingBottomSheet());
+        showPassEmploiBottomSheet(context: context, builder: (context) => RatingPage());
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 50, 35, 0),

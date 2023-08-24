@@ -23,7 +23,7 @@ class PostulerOffreBottomSheet extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              userActionBottomSheetHeader(context, title: Strings.postulerOffreTitle),
+              BottomSheetHeader(title: Strings.postulerOffreTitle),
               Divider(height: 1),
               Expanded(
                 child: Padding(

@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_bottom_sheet_form.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -30,9 +31,9 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
   }
 
   Widget _buildForm(BuildContext context, OffreEmploiSavedSearchViewModel viewModel) {
-    return FractionallySizedBox(
-      heightFactor: 0.90,
-      child: OffreEmploiBottomSheetForm(viewModel, onlyAlternance),
+    return BottomSheetWrapper(
+      title: Strings.createSavedSearchTitle,
+      body: OffreEmploiBottomSheetForm(viewModel, onlyAlternance),
     );
   }
 

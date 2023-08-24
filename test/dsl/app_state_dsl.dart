@@ -42,6 +42,7 @@ import 'package:pass_emploi_app/features/user_action/commentaire/list/action_com
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
@@ -94,11 +95,29 @@ extension AppStateDSL on AppState {
 
   AppState withDemoMode() => copyWith(demoState: true);
 
-  AppState rendezvousFutur(List<Rendezvous> rendezvous) =>
-      copyWith(rendezvousListState: RendezvousListState.successfulFuture(rendezvous));
+  AppState rendezvousFutur({
+    List<Rendezvous> rendezvous = const [],
+    List<SessionMilo> sessionsMilo = const [],
+  }) {
+    return copyWith(
+        rendezvousListState: RendezvousListState.successfulFuture(
+      rendezvous: rendezvous,
+      sessionsMilo: sessionsMilo,
+    ));
+  }
 
-  AppState rendezvous(List<Rendezvous> rendezvous, [DateTime? dateDerniereMiseAJour]) =>
-      copyWith(rendezvousListState: RendezvousListState.successful(rendezvous, dateDerniereMiseAJour));
+  AppState rendezvous({
+    List<Rendezvous> rendezvous = const [],
+    List<SessionMilo> sessionsMilo = const [],
+    DateTime? dateDerniereMiseAJour,
+  }) {
+    return copyWith(
+        rendezvousListState: RendezvousListState.successful(
+      rendezvous: rendezvous,
+      sessionsMilo: sessionsMilo,
+      dateDerniereMiseAJour: dateDerniereMiseAJour,
+    ));
+  }
 
   AppState rendezvousNotInitialized() => copyWith(rendezvousListState: RendezvousListState.notInitialized());
 
@@ -252,7 +271,14 @@ extension AppStateDSL on AppState {
   }
 
   AppState emptyAgenda() {
-    final agenda = Agenda(actions: [], demarches: [], rendezvous: [], delayedActions: 0, dateDeDebut: DateTime(2042));
+    final agenda = Agenda(
+      actions: [],
+      demarches: [],
+      rendezvous: [],
+      sessionsMilo: [],
+      delayedActions: 0,
+      dateDeDebut: DateTime(2042),
+    );
     return copyWith(agendaState: AgendaSuccessState(agenda));
   }
 
@@ -260,6 +286,7 @@ extension AppStateDSL on AppState {
     List<UserAction>? actions,
     List<Demarche>? demarches,
     List<Rendezvous>? rendezvous,
+    List<SessionMilo>? sessionsMilo,
     int delayedActions = 0,
     DateTime? dateDeDebut,
     DateTime? dateDerniereMiseAjour,
@@ -269,6 +296,7 @@ extension AppStateDSL on AppState {
         actions: actions ?? [],
         demarches: demarches ?? [],
         rendezvous: rendezvous ?? [],
+        sessionsMilo: sessionsMilo ?? [],
         delayedActions: delayedActions,
         dateDeDebut: dateDeDebut ?? DateTime(2042),
         dateDerniereMiseAJour: dateDerniereMiseAjour,
@@ -664,8 +692,8 @@ extension AppStateDSL on AppState {
     return copyWith(recherchesRecentesState: RecherchesRecentesState(recherchesRecentes));
   }
 
-  AppState withAccueilMiloSuccess() {
-    return copyWith(accueilState: AccueilSuccessState(mockAccueilMilo()));
+  AppState withAccueilMiloSuccess([Accueil? accueil]) {
+    return copyWith(accueilState: AccueilSuccessState(accueil ?? mockAccueilMilo()));
   }
 
   AppState withAccueilPoleEmploiSuccess() {
@@ -745,11 +773,12 @@ extension AppStateDSL on AppState {
     return copyWith(topDemarcheState: TopDemarcheSuccessState(demarches));
   }
 
-  AppState withSuccessSessionMiloDetails({DateTime? dateDeDebut, DateTime? dateDeFin}) {
+  AppState withSuccessSessionMiloDetails({DateTime? dateDeDebut, DateTime? dateDeFin, bool? estInscrit}) {
     return copyWith(
         sessionMiloDetailsState: SessionMiloDetailsSuccessState(mockSessionMiloDetails(
       dateDeDebut: dateDeDebut,
       dateDeFin: dateDeFin,
+      estInscrit: estInscrit,
     )));
   }
 

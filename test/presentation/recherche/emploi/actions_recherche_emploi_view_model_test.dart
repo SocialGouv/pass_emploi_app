@@ -77,6 +77,17 @@ void main() {
       expect(viewModel.withFiltreButton, isFalse);
     });
 
+    test('when recherche status is success and result is empty should hide filtre button', () {
+      // Given
+      final store = givenState().successRechercheEmploiState(results: []).store();
+
+      // When
+      final viewModel = ActionsRechercheEmploiViewModel.create(store);
+
+      // Then
+      expect(viewModel.withFiltreButton, isFalse);
+    });
+
     group('when request is not only alternance', () {
       test('and recherche status is success should return true', () {
         // Given

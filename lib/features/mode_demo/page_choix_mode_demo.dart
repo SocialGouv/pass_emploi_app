@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
@@ -11,11 +10,12 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 class ChoixModeDemoPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -87,14 +87,15 @@ class _Contenu extends StatelessWidget {
                   ),
                 ),
               )),
-              Padding(
-                padding: const EdgeInsets.all(16),
+              SizedBox(height: Margins.spacing_m),
+              Center(
                 child: SizedBox(
-                  height: 175,
-                  width: 175,
-                  child: SvgPicture.asset(Drawables.modeDemoExplicationIllustration),
+                  height: 130,
+                  width: 130,
+                  child: Illustration.blue(AppIcons.lock_rounded),
                 ),
               ),
+              SizedBox(height: Margins.spacing_m),
               Padding(
                 padding: const EdgeInsets.only(left: 24, top: 40, right: 24),
                 child: Text(

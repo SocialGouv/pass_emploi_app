@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/pages/saved_search_page.dart';
-import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -18,7 +17,6 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/saved_search_card.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
-import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
 class AccueilAlertes extends StatelessWidget {
   final AccueilAlertesItem item;
@@ -33,13 +31,6 @@ class AccueilAlertes extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           LargeSectionTitle(Strings.accueilMesAlertesSection),
-          VoirSuggestionsRechercheBandeau(
-            padding: EdgeInsets.only(top: Margins.spacing_base),
-            onTapShowSuggestions: () {
-              PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.accueilSuggestionsListe);
-              Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
-            },
-          ),
           SizedBox(height: Margins.spacing_base),
           if (hasContent) _AvecAlertes(item),
           if (!hasContent) _SansAlerte(),
@@ -66,6 +57,7 @@ class _AvecAlertes extends StatelessWidget {
   }
 
   void goToSavedSearches(BuildContext context) {
+    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.savedSearchListFromAccueil);
     Navigator.push(context, SavedSearchPage.materialPageRoute());
   }
 }
@@ -80,7 +72,7 @@ class _SansAlerte extends StatelessWidget {
           Center(
             child: Icon(
               AppIcons.notifications_rounded,
-              color: AppColors.accent1,
+              color: AppColors.accent2,
               size: 40,
             ),
           ),

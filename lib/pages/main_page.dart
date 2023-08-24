@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_page.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/events_tab_page.dart';
@@ -20,7 +19,6 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -125,9 +123,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   void _onItemTapped(int index, MainPageViewModel viewModel) {
-    if (viewModel.tabs[index] == MainTab.monSuivi) {
-      context.trackEvent(EventType.ACTION_LISTE);
-    }
     setState(() => _selectedIndex = index);
   }
 
