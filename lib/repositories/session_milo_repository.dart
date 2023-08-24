@@ -11,6 +11,8 @@ class SessionMiloRepository {
   SessionMiloRepository(this._httpClient, [this._crashlytics]);
 
   Future<List<SessionMilo>?> getList({required String userId, bool filtrerEstInscrit = false}) async {
+    if (1 == 1) return null; //TODO: sessions feature flagged
+
     final url = "/jeunes/milo/$userId/sessions?filtrerEstInscrit=$filtrerEstInscrit";
     try {
       final response = await _httpClient.get(url);
@@ -22,6 +24,8 @@ class SessionMiloRepository {
   }
 
   Future<SessionMiloDetails?> getDetails({required String userId, required String sessionId}) async {
+    if (1 == 1) return null; //TODO: sessions feature flagged
+
     final url = "/jeunes/milo/$userId/sessions/$sessionId";
     try {
       final response = await _httpClient.get(url);

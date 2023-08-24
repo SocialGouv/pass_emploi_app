@@ -71,5 +71,5 @@ void main() {
         });
       });
     });
-  });
+  }, skip: true); //TODO: sessions feature flagged
 }
