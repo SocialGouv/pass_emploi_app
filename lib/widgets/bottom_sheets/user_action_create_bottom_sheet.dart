@@ -82,6 +82,7 @@ class __CreateActionFormState extends State<_CreateActionForm> {
             Expanded(
               child: ListView(
                 shrinkWrap: true,
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 children: [
                   ..._actionContentAndComment(viewModel),
                   SizedBox(height: Margins.spacing_xl),
@@ -170,7 +171,6 @@ class __CreateActionFormState extends State<_CreateActionForm> {
               onChanged: state.intituleChanged,
               isMandatory: true,
               errorText: state.showIntituleError ? Strings.mandatoryActionLabelError : null,
-              textInputAction: TextInputAction.next,
             ),
           ],
         ),
@@ -182,7 +182,6 @@ class __CreateActionFormState extends State<_CreateActionForm> {
         isEnabled: viewModel.displayState is! DisplayLoading,
         errorText: null,
         onChanged: state.descriptionChanged,
-        textInputAction: TextInputAction.done,
       ),
     ];
   }
