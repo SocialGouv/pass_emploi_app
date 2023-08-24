@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/pages/accueil/accueil_alertes.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_cette_semaine.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_evenements.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_favoris.dart';
+import 'package:pass_emploi_app/pages/accueil/accueil_loading.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_outils.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
@@ -17,6 +18,7 @@ import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -70,11 +72,14 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return switch (viewModel.displayState) {
-      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-      DisplayState.CONTENT => _Blocs(viewModel),
-      DisplayState.EMPTY || DisplayState.FAILURE => _Retry(viewModel: viewModel),
-    };
+    return AnimatedSwitcher(
+      duration: AnimationDurations.fast,
+      child: switch (viewModel.displayState) {
+        DisplayState.LOADING => AccueilLoading(),
+        DisplayState.CONTENT => _Blocs(viewModel),
+        DisplayState.EMPTY || DisplayState.FAILURE => _Retry(viewModel: viewModel),
+      },
+    );
   }
 }
 

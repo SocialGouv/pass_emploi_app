@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:shimmer/shimmer.dart';
@@ -16,6 +17,7 @@ class AccueilLoading extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_base),
         itemCount: placeholders.length,
         itemBuilder: (context, index) => AnimationConfiguration.staggeredList(
+          duration: AnimationDurations.medium,
           position: index,
           child: FadeInAnimation(
             child: SlideAnimation(
@@ -35,7 +37,7 @@ class AccueilLoading extends StatelessWidget {
         SizedBox(height: Margins.spacing_base),
         _placeholderBuilder(
           width: screenWidth,
-          height: 350,
+          height: 320,
         ),
         SizedBox(height: Margins.spacing_m),
         _placeholderBuilder(
