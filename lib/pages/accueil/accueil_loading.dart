@@ -53,11 +53,11 @@ class AccueilLoading extends StatelessWidget {
     required double width,
     required double height,
   }) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Shimmer.fromColors(
-        baseColor: Color(0xFFE7E7E7),
-        highlightColor: AppColors.grey100,
+    return Shimmer.fromColors(
+      baseColor: Color(0xFFE7E7E7),
+      highlightColor: AppColors.grey100,
+      child: Align(
+        alignment: Alignment.centerLeft,
         child: Container(
           width: width,
           height: height,
@@ -66,14 +66,6 @@ class AccueilLoading extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
-            shadows: [
-              BoxShadow(
-                color: Color(0x0C000000),
-                blurRadius: 16,
-                offset: Offset(0, 4),
-                spreadRadius: 0,
-              )
-            ],
           ),
         ),
       ),
