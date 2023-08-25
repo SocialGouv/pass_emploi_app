@@ -143,33 +143,37 @@ class _Filtres extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: Margins.spacing_m),
-          _TypeFiltre(
-            initialTypeValue: viewModel.initialTypeValue,
-            onValueChange: (value) => onTypeValueChange(value),
-          ),
-          SizedBox(height: Margins.spacing_m),
-          CheckBoxGroup<EvenementEmploiModalite>(
-            contentPadding: EdgeInsets.only(left: Margins.spacing_base, right: Margins.spacing_s),
-            title: Strings.evenementEmploiFiltresModalites,
-            options: viewModel.modalitesFiltres,
-            onSelectedOptionsUpdated: (selectedOptions) {
-              onModalitesValueChange(selectedOptions as List<CheckboxValueViewModel<EvenementEmploiModalite>>);
-            },
-          ),
-          SizedBox(height: Margins.spacing_m),
-          _DateFiltres(
-            onDateDebutValueChange: onDateDebutValueChange,
-            onDateFinValueChange: onDateFinValueChange,
-            initialDateDebut: currentDateDebut,
-            initialDateFin: currentDateFin,
-          ),
-          if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
-          SizedBox(height: 160),
-        ],
+    return ColoredBox(
+      color: Colors.white,
+      child: SingleChildScrollView(
+        clipBehavior: Clip.none,
+        child: Column(
+          children: [
+            SizedBox(height: Margins.spacing_m),
+            _TypeFiltre(
+              initialTypeValue: viewModel.initialTypeValue,
+              onValueChange: (value) => onTypeValueChange(value),
+            ),
+            SizedBox(height: Margins.spacing_m),
+            CheckBoxGroup<EvenementEmploiModalite>(
+              contentPadding: EdgeInsets.only(left: Margins.spacing_base, right: Margins.spacing_s),
+              title: Strings.evenementEmploiFiltresModalites,
+              options: viewModel.modalitesFiltres,
+              onSelectedOptionsUpdated: (selectedOptions) {
+                onModalitesValueChange(selectedOptions as List<CheckboxValueViewModel<EvenementEmploiModalite>>);
+              },
+            ),
+            SizedBox(height: Margins.spacing_m),
+            _DateFiltres(
+              onDateDebutValueChange: onDateDebutValueChange,
+              onDateFinValueChange: onDateFinValueChange,
+              initialDateDebut: currentDateDebut,
+              initialDateFin: currentDateFin,
+            ),
+            if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
+            SizedBox(height: 160),
+          ],
+        ),
       ),
     );
   }
@@ -207,18 +211,21 @@ class _TypeFiltreState extends State<_TypeFiltre> {
             borderRadius: BorderRadius.all(Radius.circular(Dimens.radius_base)),
             boxShadow: [Shadows.radius_base],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [null, ...EvenementEmploiType.values]
-                .map((type) => RadioGroup<EvenementEmploiType?>(
-                    title: type?.label ?? Strings.evenementEmploiTypeAll,
-                    value: type,
-                    groupValue: _currentValue,
-                    onChanged: (value) {
-                      widget.onValueChange(value);
-                      setState(() => _currentValue = value);
-                    }))
-                .toList(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_s),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [null, ...EvenementEmploiType.values]
+                  .map((type) => RadioGroup<EvenementEmploiType?>(
+                      title: type?.label ?? Strings.evenementEmploiTypeAll,
+                      value: type,
+                      groupValue: _currentValue,
+                      onChanged: (value) {
+                        widget.onValueChange(value);
+                        setState(() => _currentValue = value);
+                      }))
+                  .toList(),
+            ),
           ),
         ),
       ],
