@@ -25,8 +25,9 @@ class BottomSheetHeader extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Semantics(
       header: true,
-      child: Padding(
+      child: Container(
         padding: padding ?? EdgeInsets.zero,
+        color: Colors.white,
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
