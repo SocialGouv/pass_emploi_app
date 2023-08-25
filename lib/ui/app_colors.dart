@@ -69,4 +69,7 @@ class AppColors {
   // Brands
   static const Color poleEmploi = Color(0xFF073A82);
   static const Color missionLocale = Color(0xFF942258);
+
+  // Unreferenced colors
+  static const Color loadingGreyPlaceholder = Color(0xFFE7E7E7);
 }

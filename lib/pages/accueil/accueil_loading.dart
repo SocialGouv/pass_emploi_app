@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 
 class AccueilLoading extends StatelessWidget {
   const AccueilLoading({super.key});
@@ -11,65 +9,30 @@ class AccueilLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final placeholders = _placeholders(screenWidth);
-    return AnimationLimiter(
-      child: Shimmer.fromColors(
-        baseColor: Color(0xFFE7E7E7),
-        highlightColor: Colors.white,
-        child: ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_base),
-          itemCount: placeholders.length,
-          itemBuilder: (context, index) => AnimationConfiguration.staggeredList(
-            duration: AnimationDurations.medium,
-            position: index,
-            child: FadeInAnimation(
-              child: SlideAnimation(
-                child: placeholders[index],
-              ),
-            ),
-          ),
-        ),
-      ),
+    return AnimatedListLoader(
+      placeholders: placeholders,
     );
   }
 
   List<Widget> _placeholders(double screenWidth) => [
-        _placeholderBuilder(
+        AnimatedListLoader.placeholderBuilder(
           width: screenWidth * 0.5,
           height: 35,
         ),
         SizedBox(height: Margins.spacing_base),
-        _placeholderBuilder(
+        AnimatedListLoader.placeholderBuilder(
           width: screenWidth,
           height: 320,
         ),
         SizedBox(height: Margins.spacing_m),
-        _placeholderBuilder(
+        AnimatedListLoader.placeholderBuilder(
           width: screenWidth * 0.8,
           height: 35,
         ),
         SizedBox(height: Margins.spacing_base),
-        _placeholderBuilder(
+        AnimatedListLoader.placeholderBuilder(
           width: screenWidth,
           height: 200,
         ),
       ];
-
-  Widget _placeholderBuilder({
-    required double width,
-    required double height,
-  }) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        width: width,
-        height: height,
-        decoration: ShapeDecoration(
-          color: Color(0xFFE6E6E6),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-        ),
-      ),
-    );
-  }
 }
