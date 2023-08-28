@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/apparition_animation.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_text_message.dart';
@@ -36,6 +37,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   TextEditingController? _controller;
+  bool _animateMessage = false;
 
   @override
   void initState() {
@@ -73,7 +75,10 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         onDispose: (store) => _onDispose(store),
         converter: (store) => ChatPageViewModel.create(store),
         builder: (context, viewModel) => _scaffold(viewModel, _body(context, viewModel)),
-        onDidChange: (previousVm, newVm) => StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction()),
+        onDidChange: (previousVm, newVm) {
+          StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction());
+          _animateMessage = true;
+        },
         distinct: true,
       ),
     );
@@ -110,32 +115,32 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   Widget _content(BuildContext context, ChatPageViewModel viewModel) {
     _controller = (_controller != null) ? _controller : TextEditingController(text: viewModel.brouillon);
+    final reversedList = viewModel.items.reversed.toList();
     return Stack(
       children: [
         Container(
           color: Colors.white,
-          child: viewModel.items.isEmpty
+          child: reversedList.isEmpty
               ? _EmptyChatPlaceholder()
-              : ListView(
+              : ListView.builder(
                   reverse: true,
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 100.0),
                   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                  children: viewModel.items.reversed.map((item) {
-                    if (item is DayItem) {
-                      return Center(child: Text(item.dayLabel, style: TextStyles.textSRegular()));
-                    } else if (item is TextMessageItem) {
-                      return ChatTextMessage(item);
-                    } else if (item is InformationItem) {
-                      return ChatInformation(item.title, item.description);
-                    } else if (item is PieceJointeConseillerMessageItem) {
-                      return ChatPieceJointe(item);
-                    } else if (item is PartageMessageItem) {
-                      return PartageMessage(item);
-                    } else {
-                      return Container();
+                  itemCount: reversedList.length,
+                  itemBuilder: (context, index) {
+                    final item = reversedList[index];
+
+                    if (index == 0 && _animateMessage) {
+                      return ApparitionAnimation(
+                        key: ValueKey(item),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: _messageBuilder(item),
+                        ),
+                      );
                     }
-                  }).toList(),
-                ),
+                    return _messageBuilder(item);
+                  }),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -194,6 +199,22 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         )
       ],
     );
+  }
+
+  Widget _messageBuilder(ChatItem item) {
+    if (item is DayItem) {
+      return Center(child: Text(item.dayLabel, style: TextStyles.textSRegular()));
+    } else if (item is TextMessageItem) {
+      return ChatTextMessage(item);
+    } else if (item is InformationItem) {
+      return ChatInformation(item.title, item.description);
+    } else if (item is PieceJointeConseillerMessageItem) {
+      return ChatPieceJointe(item);
+    } else if (item is PartageMessageItem) {
+      return PartageMessage(item);
+    } else {
+      return Container();
+    }
   }
 }
 
