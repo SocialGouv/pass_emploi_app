@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -21,6 +22,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/big_title_separator.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -170,16 +172,15 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (viewModel.displayState) {
-      case DisplayState.LOADING:
-        return Center(child: CircularProgressIndicator());
-      case DisplayState.CONTENT:
-        return _Content(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap);
-      case DisplayState.EMPTY:
-        return _emptyPage(context, viewModel);
-      case DisplayState.FAILURE:
-        return _Retry(viewModel: viewModel);
-    }
+    return AnimatedSwitcher(
+      duration: AnimationDurations.fast,
+      child: switch (viewModel.displayState) {
+        DisplayState.LOADING => _AgendaLoading(),
+        DisplayState.CONTENT => _Content(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap),
+        DisplayState.EMPTY => _emptyPage(context, viewModel),
+        DisplayState.FAILURE => _Retry(viewModel: viewModel),
+      },
+    );
   }
 
   Widget _emptyPage(BuildContext context, AgendaPageViewModel viewModel) {
@@ -493,4 +494,50 @@ class _DemarcheAgendaItem extends StatelessWidget {
       ),
     );
   }
+}
+
+class _AgendaLoading extends StatelessWidget {
+  const _AgendaLoading();
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final placeholders = _placeholders(screenWidth);
+    return AnimatedListLoader(
+      placeholders: placeholders,
+    );
+  }
+
+  List<Widget> _placeholders(double screenWidth) => [
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth * 0.4,
+          height: 35,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 180,
+        ),
+        SizedBox(height: Margins.spacing_m),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth * 0.4,
+          height: 35,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 180,
+        ),
+        SizedBox(height: Margins.spacing_m),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth * 0.4,
+          height: 35,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 180,
+        ),
+      ];
 }
