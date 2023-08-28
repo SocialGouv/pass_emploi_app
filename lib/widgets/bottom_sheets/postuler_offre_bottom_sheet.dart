@@ -15,44 +15,26 @@ class PostulerOffreBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      heightFactor: 0.9,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+    return BottomSheetWrapper(
+      title: Strings.postulerOffreTitle,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
             children: [
-              BottomSheetHeader(title: Strings.postulerOffreTitle),
-              Divider(height: 1),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: Margins.spacing_base),
-                      Row(
-                        children: [
-                          Icon(AppIcons.description_rounded, color: AppColors.primary),
-                          SizedBox(width: Margins.spacing_base),
-                          Expanded(child: Text(Strings.postulerTitle, style: TextStyles.textMBold))
-                        ],
-                      ),
-                      SizedBox(height: Margins.spacing_base),
-                      Expanded(child: CvList()),
-                      PrimaryActionButton(
-                        label: Strings.postulerContinueButton,
-                        icon: AppIcons.open_in_new_rounded,
-                        onPressed: onPostuler,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              Icon(AppIcons.description_rounded, color: AppColors.primary),
+              SizedBox(width: Margins.spacing_base),
+              Expanded(child: Text(Strings.postulerTitle, style: TextStyles.textMBold))
             ],
           ),
-        ),
+          SizedBox(height: Margins.spacing_base),
+          Expanded(child: CvList()),
+          PrimaryActionButton(
+            label: Strings.postulerContinueButton,
+            icon: AppIcons.open_in_new_rounded,
+            onPressed: onPostuler,
+          ),
+        ],
       ),
     );
   }
