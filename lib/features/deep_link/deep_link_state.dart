@@ -19,6 +19,8 @@ class DeepLinkState extends Equatable {
       case "DELETED_RENDEZVOUS":
       case "RAPPEL_RENDEZVOUS":
         return DetailRendezvousDeepLinkState(idRendezvous: data["id"] as String?);
+      case "DETAIL_SESSION_MILO":
+        return DetailSessionMiloDeepLinkState(idSessionMilo: data["id"] as String?);
       case "NOUVELLE_OFFRE":
         return SavedSearchDeepLinkState(idSavedSearch: data["id"] as String);
       case 'NOUVELLES_FONCTIONNALITES':
@@ -66,6 +68,15 @@ class DetailRendezvousDeepLinkState extends DeepLinkState {
 
   @override
   List<Object?> get props => [idRendezvous];
+}
+
+class DetailSessionMiloDeepLinkState extends DeepLinkState {
+  final String? idSessionMilo;
+
+  DetailSessionMiloDeepLinkState({required this.idSessionMilo});
+
+  @override
+  List<Object?> get props => [idSessionMilo];
 }
 
 class NouveauMessageDeepLinkState extends DeepLinkState {}

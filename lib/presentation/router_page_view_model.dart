@@ -77,6 +77,7 @@ MainPageDisplayState _toMainPageDisplayStateByDeepLink(DeepLinkState state) {
   if (state is AgendaDeepLinkState) return MainPageDisplayState.AGENDA_TAB;
   if (state is DetailActionDeepLinkState) return MainPageDisplayState.ACTIONS_TAB;
   if (state is DetailRendezvousDeepLinkState) return MainPageDisplayState.RENDEZVOUS_TAB;
+  if (state is DetailSessionMiloDeepLinkState) return MainPageDisplayState.RENDEZVOUS_TAB;
   if (state is NouveauMessageDeepLinkState) return MainPageDisplayState.CHAT;
   if (state is FavorisDeepLinkState) return MainPageDisplayState.FAVORIS;
   if (state is SavedSearchesDeepLinkState) return MainPageDisplayState.SAVED_SEARCHES;

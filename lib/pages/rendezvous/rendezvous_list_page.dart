@@ -95,10 +95,10 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   }
 
   void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
-    if (viewModel.deeplinkRendezvousId != null) {
+    if (viewModel.deeplink != null) {
       Navigator.push(
         context,
-        RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.rendezvousList, viewModel.deeplinkRendezvousId!),
+        RendezvousDetailsPage.materialPageRoute(viewModel.deeplink!.source, viewModel.deeplink!.deeplinkId),
       );
       viewModel.onDeeplinkUsed();
     }

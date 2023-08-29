@@ -155,6 +155,10 @@ extension AppStateDSL on AppState {
     return copyWith(deepLinkState: DetailRendezvousDeepLinkState(idRendezvous: id));
   }
 
+  AppState deeplinkToSessionMilo(String id) {
+    return copyWith(deepLinkState: DetailSessionMiloDeepLinkState(idSessionMilo: id));
+  }
+
   AppState searchDemarchesSuccess(List<DemarcheDuReferentiel> demarches) {
     return copyWith(searchDemarcheState: SearchDemarcheSuccessState(demarches));
   }
