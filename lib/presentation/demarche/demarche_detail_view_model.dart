@@ -78,7 +78,7 @@ class DemarcheDetailViewModel extends Equatable {
       creationDate: demarche.creationDate?.toDay(),
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
       onModifyStatus: (tag) {
-        final status = _getStatusFromTag(tag);
+        final status = getStatusFromTag(tag);
         if (!tag.isSelected && status != null) {
           store.dispatch(UpdateDemarcheRequestAction(
             demarche.id,
@@ -183,7 +183,7 @@ List<FormattedText> _formattedDate(Demarche demarche) {
   }
 }
 
-DemarcheStatus? _getStatusFromTag(UserActionTagViewModel tag) {
+DemarcheStatus? getStatusFromTag(UserActionTagViewModel tag) {
   switch (tag.title) {
     case Strings.demarcheToDo:
       return DemarcheStatus.NOT_STARTED;
