@@ -13,6 +13,7 @@ void main() {
 
     // When
     final message = Message.fromJson(
+      "uid",
       {
         "content": "toto-chiffré",
         "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
@@ -27,6 +28,7 @@ void main() {
     expect(
         message,
         Message(
+          "uid",
           "toto-chiffré-déchiffré",
           DateTime(2021, 7, 30, 9, 43, 9),
           Sender.jeune,
@@ -41,6 +43,7 @@ void main() {
 
     // When
     final message = Message.fromJson(
+      "uid",
       {
         "content": "toto-chiffré",
         "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
@@ -58,6 +61,7 @@ void main() {
     expect(
         message,
         Message(
+          "uid",
           "toto-chiffré-déchiffré",
           DateTime(2021, 7, 30, 9, 43, 9),
           Sender.jeune,
@@ -77,6 +81,7 @@ void main() {
 
     // When
     final message = Message.fromJson(
+      "uid",
       {
         "content": "qsldmkjqslmdj",
         "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
@@ -100,6 +105,7 @@ void main() {
 
         // When
         final message = Message.fromJson(
+          "uid",
           {
             "content": "toto-chiffré",
             "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
@@ -120,6 +126,7 @@ void main() {
         expect(
             message,
             Message(
+              "uid",
               "toto-chiffré-déchiffré",
               DateTime(2021, 7, 30, 9, 43, 9),
               Sender.jeune,
@@ -149,6 +156,7 @@ void main() {
 
         // When
         final message = Message.fromJson(
+          "uid",
           {
             "content": "toto-chiffré",
             "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
@@ -169,6 +177,7 @@ void main() {
         expect(
             message,
             Message(
+              "uid",
               "toto-chiffré-déchiffré",
               DateTime(2021, 7, 30, 9, 43, 9),
               Sender.jeune,
@@ -198,6 +207,7 @@ void main() {
 
       // When
       final message = Message.fromJson(
+        "uid",
         {
           "content": "toto-chiffré",
           "creationDate": Timestamp.fromDate(DateTime(2022, 7, 30, 9, 43, 9)),
@@ -218,6 +228,7 @@ void main() {
       expect(
           message,
           Message(
+            "uid",
             "toto-chiffré-déchiffré",
             DateTime(2022, 7, 30, 9, 43, 9),
             Sender.jeune,
@@ -240,6 +251,7 @@ void main() {
 
     // When
     final message = Message.fromJson(
+      "uid",
       {
         "content": "qsldmkjqslmdj",
         "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
@@ -261,6 +273,7 @@ void main() {
 
     // When
     final message = Message.fromJson(
+      "uid",
       {
         "content": "qsldmkjqslmdj",
         "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
@@ -282,6 +295,7 @@ void main() {
 
     // When
     final message = Message.fromJson(
+      "uid",
       {
         "content": "qsldmkjqslmdj",
         "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
@@ -301,6 +315,7 @@ void main() {
 
     // When
     final message = Message.fromJson(
+      "uid",
       {
         "content": "qsldmkjqslmdj",
         "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),

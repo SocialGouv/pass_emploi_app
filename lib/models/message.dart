@@ -22,6 +22,7 @@ enum MessageType {
 enum OffreType { emploi, alternance, immersion, civique, inconnu }
 
 class Message extends Equatable {
+  final String id;
   final String content;
   final DateTime creationDate;
   final Sender sentBy;
@@ -33,6 +34,7 @@ class Message extends Equatable {
   final ChatSessionMilo? sessionMilo;
 
   Message(
+    this.id,
     this.content,
     this.creationDate,
     this.sentBy,
@@ -44,12 +46,13 @@ class Message extends Equatable {
     this.sessionMilo,
   ]);
 
-  static Message? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
+  static Message? fromJson(String id, dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
     final creationDateValue = json['creationDate'];
     final creationDate = creationDateValue is Timestamp ? creationDateValue.toDate() : DateTime.now();
     final content = _content(json, chatCrypto, crashlytics);
     if (content == null) return null;
     return Message(
+      id,
       content,
       creationDate,
       json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
@@ -133,7 +136,7 @@ class Message extends Equatable {
   }
 
   @override
-  List<Object?> get props => [content, creationDate, sentBy, type, pieceJointes, offre, event, evenementEmploi];
+  List<Object?> get props => [id, content, creationDate, sentBy, type, pieceJointes, offre, event, evenementEmploi];
 }
 
 extension _DecryptString on String {

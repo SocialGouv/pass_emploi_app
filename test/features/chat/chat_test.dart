@@ -290,6 +290,7 @@ void main() {
 
 Message _mockMessage([String id = '1']) {
   return Message(
+    "uid",
     "content $id",
     DateTime.utc(2022, 1, 1),
     Sender.conseiller,

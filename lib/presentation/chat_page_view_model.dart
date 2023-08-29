@@ -81,6 +81,7 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
 
 ChatItem _sessionMiloItem(Message message, DateTime lastConseillerReading) {
   return SessionMiloMessageItem(
+    messageId: message.id,
     content: message.content,
     idPartage: message.sessionMilo?.id ?? "",
     titrePartage: message.sessionMilo?.titre ?? "",
@@ -91,6 +92,7 @@ ChatItem _sessionMiloItem(Message message, DateTime lastConseillerReading) {
 
 ChatItem _evenementEmploiItem(Message message, DateTime lastConseillerReading) {
   return EvenementEmploiMessageItem(
+    messageId: message.id,
     content: message.content,
     idPartage: message.evenementEmploi?.id ?? "",
     titrePartage: message.evenementEmploi?.titre ?? "",
@@ -101,6 +103,7 @@ ChatItem _evenementEmploiItem(Message message, DateTime lastConseillerReading) {
 
 ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
   return OffreMessageItem(
+    messageId: message.id,
     content: message.content,
     idPartage: message.offre?.id ?? "",
     titrePartage: message.offre?.titre ?? "",
@@ -112,6 +115,7 @@ ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
 
 ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
   return EventMessageItem(
+    messageId: message.id,
     content: message.content,
     idPartage: message.event?.id ?? "",
     titrePartage: message.event?.titre ?? "",
@@ -123,7 +127,8 @@ ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
 ChatItem _pieceJointeItem(Message message) {
   if (message.sentBy == Sender.conseiller) {
     return PieceJointeConseillerMessageItem(
-      id: message.pieceJointes[0].id,
+      messageId: message.id,
+      pieceJointeId: message.pieceJointes[0].id,
       message: message.content,
       filename: message.pieceJointes.first.nom,
       caption: message.creationDate.toHour(),
@@ -145,6 +150,7 @@ String caption(Message message, DateTime lastConseillerReading) {
 
 TextMessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
   return TextMessageItem(
+    messageId: message.id,
     content: message.content,
     caption: caption(message, lastConseillerReading),
     sender: message.sentBy,

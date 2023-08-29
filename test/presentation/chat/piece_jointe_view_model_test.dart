@@ -67,7 +67,13 @@ void main() {
     // Given
     final store = StoreSpy();
     final viewModel = PieceJointeViewModel.create(store);
-    final item = PieceJointeConseillerMessageItem(id: "id-1", message: "Super PJ", filename: "super.pdf", caption: "");
+    final item = PieceJointeConseillerMessageItem(
+      messageId: "uid",
+      pieceJointeId: "id-1",
+      message: "Super PJ",
+      filename: "super.pdf",
+      caption: "",
+    );
 
     // When
     viewModel.onClick(item);

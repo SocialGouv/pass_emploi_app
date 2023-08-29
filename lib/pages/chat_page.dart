@@ -132,7 +132,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
                     if (index == 0 && _animateMessage) {
                       return ApparitionAnimation(
-                        key: ValueKey(item),
+                        key: ValueKey(item.messageId),
                         child: SizedBox(
                           width: double.infinity,
                           child: _messageBuilder(item),

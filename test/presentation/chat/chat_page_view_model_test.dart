@@ -46,11 +46,11 @@ void main() {
       chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
       chatState: ChatSuccessState(
         [
-          Message('1', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.message, []),
-          Message('2', DateTime(2021, 1, 1, 15, 30), Sender.conseiller, MessageType.message, []),
-          Message('3', DateTime(2021, 1, 2, 16, 00), Sender.jeune, MessageType.message, []),
-          Message('4', DateTime(2021, 1, 2, 18, 30), Sender.conseiller, MessageType.message, []),
-          Message('5', todayAtNoon, Sender.jeune, MessageType.message, []),
+          Message("uid1", '1', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.message, []),
+          Message("uid2", '2', DateTime(2021, 1, 1, 15, 30), Sender.conseiller, MessageType.message, []),
+          Message("uid3", '3', DateTime(2021, 1, 2, 16, 00), Sender.jeune, MessageType.message, []),
+          Message("uid4", '4', DateTime(2021, 1, 2, 18, 30), Sender.conseiller, MessageType.message, []),
+          Message("uid5", '5', todayAtNoon, Sender.jeune, MessageType.message, []),
         ],
       ),
     );
@@ -63,13 +63,13 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Le 01/01/2021'),
-      TextMessageItem(content: '1', caption: '12:30 · Lu', sender: Sender.jeune),
-      TextMessageItem(content: '2', caption: '15:30', sender: Sender.conseiller),
+      TextMessageItem(messageId: "uid1", content: '1', caption: '12:30 · Lu', sender: Sender.jeune),
+      TextMessageItem(messageId: "uid2", content: '2', caption: '15:30', sender: Sender.conseiller),
       DayItem('Le 02/01/2021'),
-      TextMessageItem(content: '3', caption: '16:00 · Lu', sender: Sender.jeune),
-      TextMessageItem(content: '4', caption: '18:30', sender: Sender.conseiller),
+      TextMessageItem(messageId: "uid3", content: '3', caption: '16:00 · Lu', sender: Sender.jeune),
+      TextMessageItem(messageId: "uid4", content: '4', caption: '18:30', sender: Sender.conseiller),
       DayItem('Aujourd\'hui'),
-      TextMessageItem(content: '5', caption: '12:00 · Envoyé', sender: Sender.jeune),
+      TextMessageItem(messageId: "uid5", content: '5', caption: '12:00 · Envoyé', sender: Sender.jeune),
     ]);
   });
 
@@ -101,7 +101,14 @@ void main() {
       chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
       chatState: ChatSuccessState(
         [
-          Message('Une PJ', todayAtNoon, Sender.conseiller, MessageType.messagePj, [PieceJointe("id-1", "super.pdf")]),
+          Message(
+            "uid",
+            'Une PJ',
+            todayAtNoon,
+            Sender.conseiller,
+            MessageType.messagePj,
+            [PieceJointe("id-1", "super.pdf")],
+          ),
         ],
       ),
     );
@@ -114,7 +121,13 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Aujourd\'hui'),
-      PieceJointeConseillerMessageItem(id: "id-1", message: "Une PJ", filename: "super.pdf", caption: "12:00"),
+      PieceJointeConseillerMessageItem(
+        messageId: "uid",
+        pieceJointeId: "id-1",
+        message: "Une PJ",
+        filename: "super.pdf",
+        caption: "12:00",
+      ),
     ]);
   });
 
@@ -123,6 +136,7 @@ void main() {
       // Given
       final messages = [
         Message(
+          "uid",
           'Super offre',
           todayAtNoon,
           Sender.jeune,
@@ -145,6 +159,7 @@ void main() {
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         OffreMessageItem(
+          messageId: "uid",
           content: "Super offre",
           idPartage: "343",
           titrePartage: "Chevalier",
@@ -159,6 +174,7 @@ void main() {
       // Given
       final messages = [
         Message(
+          "uid",
           'Super offre',
           todayAtNoon,
           Sender.conseiller,
@@ -177,6 +193,7 @@ void main() {
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         OffreMessageItem(
+          messageId: "uid",
           content: "Super offre",
           idPartage: "343",
           titrePartage: "Chevalier",
@@ -193,6 +210,7 @@ void main() {
       // Given
       final messages = [
         Message(
+          "uid",
           'Super session milo',
           todayAtNoon,
           Sender.jeune,
@@ -215,6 +233,7 @@ void main() {
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         SessionMiloMessageItem(
+          messageId: "uid",
           content: "Super session milo",
           idPartage: "id-1",
           titrePartage: "Salon de l'emploi",
@@ -228,6 +247,7 @@ void main() {
       // Given
       final messages = [
         Message(
+          "uid",
           'Super session milo',
           todayAtNoon,
           Sender.conseiller,
@@ -250,6 +270,7 @@ void main() {
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         SessionMiloMessageItem(
+          messageId: "uid",
           content: "Super session milo",
           idPartage: "id-1",
           titrePartage: "Salon de l'emploi",
@@ -265,6 +286,7 @@ void main() {
       // Given
       final messages = [
         Message(
+          "uid",
           'Super event',
           todayAtNoon,
           Sender.jeune,
@@ -288,6 +310,7 @@ void main() {
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         EventMessageItem(
+          messageId: "uid",
           content: "Super event",
           idPartage: "id-1",
           titrePartage: "atelier catapulte",
@@ -301,6 +324,7 @@ void main() {
       // Given
       final messages = [
         Message(
+          "uid",
           'Super event',
           todayAtNoon,
           Sender.conseiller,
@@ -324,6 +348,7 @@ void main() {
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         EventMessageItem(
+          messageId: "uid",
           content: "Super event",
           idPartage: "id-1",
           titrePartage: "atelier catapulte",
@@ -339,6 +364,7 @@ void main() {
       // Given
       final messages = [
         Message(
+          "uid",
           'Super evenement emploi',
           todayAtNoon,
           Sender.jeune,
@@ -359,6 +385,7 @@ void main() {
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         EvenementEmploiMessageItem(
+          messageId: "uid",
           content: "Super evenement emploi",
           idPartage: "oinzinfz98dqz",
           titrePartage: "Salon de l'emploi",
@@ -372,6 +399,7 @@ void main() {
       // Given
       final messages = [
         Message(
+          "uid",
           'Super evenement emploi',
           todayAtNoon,
           Sender.conseiller,
@@ -392,6 +420,7 @@ void main() {
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         EvenementEmploiMessageItem(
+          messageId: "uid",
           content: "Super evenement emploi",
           idPartage: "oinzinfz98dqz",
           titrePartage: "Salon de l'emploi",
@@ -406,7 +435,16 @@ void main() {
     // Given
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState(
-        [Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.nouveauConseiller, [])],
+        [
+          Message(
+            "uid",
+            'Jean-Paul',
+            DateTime(2021, 1, 1, 12, 30),
+            Sender.conseiller,
+            MessageType.nouveauConseiller,
+            [],
+          )
+        ],
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);
@@ -426,7 +464,10 @@ void main() {
     // Given
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState(
-        [Message('Jean', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.nouveauConseillerTemporaire, [])],
+        [
+          Message("uid", 'Jean', DateTime(2021, 1, 1, 12, 30), Sender.conseiller,
+              MessageType.nouveauConseillerTemporaire, [])
+        ],
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);
@@ -447,7 +488,7 @@ void main() {
     // Given
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState(
-        [Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.inconnu, [])],
+        [Message("uid", 'Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.inconnu, [])],
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);
@@ -470,7 +511,8 @@ void main() {
     // Given
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState([
-        Message('PJ', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.messagePj, [PieceJointe("1", "a.pdf")]),
+        Message("uid", 'PJ', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.messagePj,
+            [PieceJointe("1", "a.pdf")]),
       ]),
     );
     final store = Store<AppState>(reducer, initialState: state);

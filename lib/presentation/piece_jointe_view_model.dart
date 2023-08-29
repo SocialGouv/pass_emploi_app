@@ -19,7 +19,7 @@ class PieceJointeViewModel extends Equatable {
     final piecesJointesState = store.state.piecesJointesState;
     return PieceJointeViewModel._(
       displayState: (fileId) => _displayState(fileId, piecesJointesState),
-      onClick: (item) => store.dispatch(PieceJointeRequestAction(item.id, item.filename)),
+      onClick: (item) => store.dispatch(PieceJointeRequestAction(item.pieceJointeId, item.filename)),
     );
   }
 

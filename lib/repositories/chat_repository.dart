@@ -183,7 +183,7 @@ class ChatRepository {
 
   List<Message> _getMessageList(QuerySnapshot<Map<String, dynamic>> snapshot) {
     return snapshot.docs
-        .map((document) => Message.fromJson(document.data(), _chatCrypto, _crashlytics))
+        .map((document) => Message.fromJson(document.id, document.data(), _chatCrypto, _crashlytics))
         .whereType<Message>()
         .toList();
   }
