@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/comment.dart';
+import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
@@ -53,23 +54,27 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.userActionDetails,
-      child: Scaffold(
-        appBar: SecondaryAppBar(title: Strings.actionDetails),
-        body: StoreConnector<AppState, UserActionDetailsViewModel>(
-          onInit: (store) {
-            store.dispatch(UserActionUpdateResetAction());
-            store.dispatch(UserActionDeleteResetAction());
-          },
-          converter: (store) => UserActionDetailsViewModel.create(store, widget.source, widget.userActionId),
-          builder: _build,
-          onDidChange: (previousVm, newVm) => _pageNavigationHandling(newVm),
-          distinct: true,
-        ),
+      child: ConfettiWrapper(
+        builder: (context, confettiController) {
+          return Scaffold(
+            appBar: SecondaryAppBar(title: Strings.actionDetails),
+            body: StoreConnector<AppState, UserActionDetailsViewModel>(
+              onInit: (store) {
+                store.dispatch(UserActionUpdateResetAction());
+                store.dispatch(UserActionDeleteResetAction());
+              },
+              converter: (store) => UserActionDetailsViewModel.create(store, widget.source, widget.userActionId),
+              builder: (context, viewModel) => _build(context, viewModel, () => confettiController.play()),
+              onDidChange: (previousVm, newVm) => _pageNavigationHandling(newVm),
+              distinct: true,
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget _build(BuildContext context, UserActionDetailsViewModel viewModel) {
+  Widget _build(BuildContext context, UserActionDetailsViewModel viewModel, VoidCallback onActionDone) {
     _initializeNewStatus(viewModel);
     return Stack(
       children: [
@@ -113,7 +118,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                       SizedBox(height: Margins.spacing_l),
                       _Separator(),
                       SizedBox(height: Margins.spacing_base),
-                      _changeStatus(),
+                      _changeStatus(onActionDone),
                     ],
                   ),
                 ),
@@ -170,7 +175,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
     }
   }
 
-  Widget _changeStatus() {
+  Widget _changeStatus(VoidCallback onActionDone) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -183,6 +188,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
           child: UserActionStatusGroup(
             status: newStatus!,
+            onActionDone: onActionDone,
             update: (status) {
               setState(() {
                 newStatus = status;

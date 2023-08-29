@@ -1,41 +1,23 @@
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class UserActionStatusGroup extends StatefulWidget {
+class UserActionStatusGroup extends StatelessWidget {
   final UserActionStatus status;
   final bool isCreated;
   final bool isEnabled;
   final Function(UserActionStatus newStatus) update;
+  final VoidCallback onActionDone;
 
   const UserActionStatusGroup({
     required this.status,
     required this.update,
+    required this.onActionDone,
     this.isCreated = false,
     this.isEnabled = true,
   }) : super();
-
-  @override
-  State<UserActionStatusGroup> createState() => _UserActionStatusGroupState();
-}
-
-class _UserActionStatusGroupState extends State<UserActionStatusGroup> {
-  late ConfettiController _confettiController;
-
-  @override
-  void initState() {
-    super.initState();
-    _confettiController = ConfettiController(duration: const Duration(seconds: 2));
-  }
-
-  @override
-  void dispose() {
-    _confettiController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,39 +28,29 @@ class _UserActionStatusGroupState extends State<UserActionStatusGroup> {
       children: [
         UserActionStatusButton(
           label: Strings.actionToDo,
-          onPressed: widget.isEnabled ? () => {widget.update(UserActionStatus.NOT_STARTED)} : null,
-          isSelected: widget.status == UserActionStatus.NOT_STARTED,
+          onPressed: isEnabled ? () => {update(UserActionStatus.NOT_STARTED)} : null,
+          isSelected: status == UserActionStatus.NOT_STARTED,
         ),
         UserActionStatusButton(
           label: Strings.actionInProgress,
-          onPressed: widget.isEnabled ? () => widget.update(UserActionStatus.IN_PROGRESS) : null,
-          isSelected: widget.status == UserActionStatus.IN_PROGRESS,
+          onPressed: isEnabled ? () => update(UserActionStatus.IN_PROGRESS) : null,
+          isSelected: status == UserActionStatus.IN_PROGRESS,
         ),
-        Stack(
-          children: [
-            Center(
-              child: ConfettiWidget(
-                confettiController: _confettiController,
-                blastDirectionality: BlastDirectionality.explosive,
-              ),
-            ),
-            UserActionStatusButton(
-              label: Strings.actionDone,
-              onPressed: widget.isEnabled
-                  ? () {
-                      _confettiController.play();
-                      widget.update(UserActionStatus.DONE);
-                    }
-                  : null,
-              isSelected: widget.status == UserActionStatus.DONE,
-            ),
-          ],
+        UserActionStatusButton(
+          label: Strings.actionDone,
+          onPressed: isEnabled
+              ? () {
+                  onActionDone();
+                  update(UserActionStatus.DONE);
+                }
+              : null,
+          isSelected: status == UserActionStatus.DONE,
         ),
-        if (!widget.isCreated)
+        if (!isCreated)
           UserActionStatusButton(
             label: Strings.actionCanceled,
-            onPressed: widget.isEnabled ? () => widget.update(UserActionStatus.CANCELED) : null,
-            isSelected: widget.status == UserActionStatus.CANCELED,
+            onPressed: isEnabled ? () => update(UserActionStatus.CANCELED) : null,
+            isSelected: status == UserActionStatus.CANCELED,
           ),
       ],
     );
