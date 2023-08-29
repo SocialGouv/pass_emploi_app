@@ -105,6 +105,10 @@ void main() {
         DetailRendezvousDeepLinkState(idRendezvous: 'id'),
       );
       assertState(
+        DeepLinkAction(RemoteMessage(data: {"type": "DETAIL_SESSION_MILO", "id": "id"})),
+        DetailSessionMiloDeepLinkState(idSessionMilo: 'id'),
+      );
+      assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "NOUVELLE_OFFRE", "id": "id"})),
         SavedSearchDeepLinkState(idSavedSearch: 'id'),
       );

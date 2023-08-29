@@ -21,8 +21,7 @@ import '../dsl/app_state_dsl.dart';
 void main() {
   test('RouterPageViewModel.create when login not initialized should display splash screen', () {
     Brand.setBrand(Brand.cej);
-    final state = AppState.initialState().copyWith(loginState: LoginNotInitializedState());
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = givenState().store();
 
     final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -31,8 +30,7 @@ void main() {
 
   group("RouterPageViewModel.create when user not logged in…", () {
     test('…with not logged state in should display login page', () {
-      final state = AppState.initialState().copyWith(loginState: LoginFailureState());
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState().copyWith(loginState: UserNotLoggedInState()).store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -40,8 +38,7 @@ void main() {
     });
 
     test('…with login loading state should display login page', () {
-      final state = AppState.initialState().copyWith(loginState: LoginLoadingState());
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState().copyWith(loginState: LoginLoadingState()).store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -49,8 +46,7 @@ void main() {
     });
 
     test('…with login failure state should display login page', () {
-      final state = AppState.initialState().copyWith(loginState: LoginFailureState());
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState().copyWith(loginState: LoginFailureState()).store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -60,11 +56,7 @@ void main() {
 
   group("RouterPageViewModel.create when user logged in…", () {
     test('…and deep link not set should display main page with default display state', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        deepLinkState: NotInitializedDeepLinkState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState().loggedInUser().deepLink(NotInitializedDeepLinkState()).store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -73,11 +65,7 @@ void main() {
     });
 
     test('…and deep link is set to rendezvous should display main page with agenda display state', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        deepLinkState: AgendaDeepLinkState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState().loggedInUser().deepLink(AgendaDeepLinkState()).store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -86,11 +74,19 @@ void main() {
     });
 
     test('…and deep link is set to rendezvous should display main page with rendezvous display state', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        deepLinkState: DetailRendezvousDeepLinkState(idRendezvous: null),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInUser()
+          .deepLink(DetailRendezvousDeepLinkState(idRendezvous: null))
+          .store();
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.RENDEZVOUS_TAB);
+    });
+
+    test('…and deep link is set to Detail Session Milo should display main page with rendezvous display state', () {
+      final store = givenState().loggedInMiloUser().deeplinkToSessionMilo('1').store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -99,11 +95,10 @@ void main() {
     });
 
     test('…and deep link is set to actions should display main page with actions display state', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        deepLinkState: DetailActionDeepLinkState(idAction: null),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInUser()
+          .deepLink(DetailActionDeepLinkState(idAction: null))
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -112,11 +107,10 @@ void main() {
     });
 
     test('…and deep link is set to chat should display main page with chat display state', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        deepLinkState: NouveauMessageDeepLinkState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInUser()
+          .deepLink(NouveauMessageDeepLinkState())
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -125,11 +119,10 @@ void main() {
     });
 
     test('…and deep link is set to event list should display main page with event list display state', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        deepLinkState: EventListDeepLinkState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInUser()
+          .deepLink(EventListDeepLinkState())
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -138,11 +131,10 @@ void main() {
     });
 
     test('…and deep link is set to favoris should display main page with favoris display state', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        deepLinkState: FavorisDeepLinkState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInUser()
+          .deepLink(FavorisDeepLinkState())
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -151,11 +143,10 @@ void main() {
     });
 
     test('…and deep link is set to saved searches should display main page with saved searches display state', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        deepLinkState: SavedSearchesDeepLinkState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInUser()
+          .deepLink(SavedSearchesDeepLinkState())
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -165,11 +156,10 @@ void main() {
 
     test('…and deep link is set to actualisation pole emploi should display main page with actualisation pole emploi',
         () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        deepLinkState: ActualisationPeDeepLinkState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInUser()
+          .deepLink(ActualisationPeDeepLinkState())
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -177,11 +167,10 @@ void main() {
     });
 
     test('…and deep link is set to recherche should display main page with recherche', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        deepLinkState: RechercheDeepLinkState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInUser()
+          .deepLink(RechercheDeepLinkState())
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -189,11 +178,10 @@ void main() {
     });
 
     test('…and deep link is set to outils should display main page with outils', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        deepLinkState: OutilsDeepLinkState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInUser()
+          .deepLink(OutilsDeepLinkState())
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -201,11 +189,10 @@ void main() {
     });
 
     test('should show tutorial if user didn`t read it yet', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        tutorialState: ShowTutorialState(Tutorial.milo),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInUser()
+          .copyWith(tutorialState: ShowTutorialState(Tutorial.milo))
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.IOS);
 

@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.d
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
@@ -659,8 +660,10 @@ void main() {
       // Then
       expect(viewModel.dateLabel, "");
     });
+  });
 
-    test('should handle deeplink with valid ID', () {
+  group('deeplink', (){
+    test('should handle rendezvous with valid ID', () {
       // Given
       final store = givenState().rendezvous(rendezvous: [mockRendezvous(id: '1')]).deeplinkToRendezvous('1').store();
 
@@ -668,10 +671,21 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
       // Then
-      expect(viewModel.deeplinkRendezvousId, '1');
+      expect(viewModel.deeplink, RendezvousDeeplink(RendezvousStateSource.rendezvousList, '1'));
     });
 
-    test('should handle deeplink with invalid ID', () {
+    test('should handle session Milo with non null ID', () {
+      // Given
+      final store = givenState().deeplinkToSessionMilo('1').store();
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+
+      // Then
+      expect(viewModel.deeplink, RendezvousDeeplink(RendezvousStateSource.sessionMiloDetails, '1'));
+    });
+
+    test('should handle invalid ID', () {
       // Given
       final store = givenState().rendezvous(rendezvous: [mockRendezvous(id: '1')]).deeplinkToRendezvous('22').store();
 
@@ -679,7 +693,7 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
       // Then
-      expect(viewModel.deeplinkRendezvousId, isNull);
+      expect(viewModel.deeplink, isNull);
     });
   });
 

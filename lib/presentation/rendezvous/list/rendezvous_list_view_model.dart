@@ -5,14 +5,25 @@ import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_builder.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
+
+class RendezvousDeeplink extends Equatable {
+  final RendezvousStateSource source;
+  final String deeplinkId;
+
+  RendezvousDeeplink(this.source, this.deeplinkId);
+
+  @override
+  List<Object?> get props => [source, deeplinkId];
+}
 
 class RendezvousListViewModel extends Equatable {
   final int pageOffset;
   final DisplayState displayState;
   final List<RendezvousItem> rendezvousItems;
-  final String? deeplinkRendezvousId;
+  final RendezvousDeeplink? deeplink;
   final Function() onRetry;
   final Function() onDeeplinkUsed;
   final bool withPreviousPageButton;
@@ -29,7 +40,7 @@ class RendezvousListViewModel extends Equatable {
     required this.pageOffset,
     required this.displayState,
     required this.rendezvousItems,
-    required this.deeplinkRendezvousId,
+    required this.deeplink,
     required this.onRetry,
     required this.onDeeplinkUsed,
     required this.withPreviousPageButton,
@@ -51,7 +62,7 @@ class RendezvousListViewModel extends Equatable {
       displayState: _displayState(rendezvousListState, pageOffset),
       rendezvousItems: _makeRendezvousItems(
           rendezvous: builder.makeSections(), dateDerniereMiseAJour: rendezvousListState.dateDerniereMiseAJour),
-      deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousListState),
+      deeplink: _deeplink(store.state.deepLinkState, rendezvousListState),
       onRetry: () => _retry(store, pageOffset),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: builder.makeTitle(),
@@ -84,7 +95,7 @@ class RendezvousListViewModel extends Equatable {
         pageOffset,
         displayState,
         rendezvousItems,
-        deeplinkRendezvousId,
+        deeplink,
         withPreviousPageButton,
         withNextPageButton,
         isReloading,
@@ -124,9 +135,17 @@ void _retry(Store<AppState> store, int pageOffset) {
   }
 }
 
-String? _deeplinkRendezvousId(DeepLinkState state, RendezvousListState rendezvousListState) {
-  final rdvIds = rendezvousListState.rendezvous.map((e) => e.id);
-  return (state is DetailRendezvousDeepLinkState && rdvIds.contains(state.idRendezvous)) ? state.idRendezvous : null;
+RendezvousDeeplink? _deeplink(DeepLinkState state, RendezvousListState rendezvousListState) {
+  if (state is DetailRendezvousDeepLinkState && state.idRendezvous != null) {
+    final rdvIds = rendezvousListState.rendezvous.map((e) => e.id);
+    if (rdvIds.contains(state.idRendezvous)) {
+      return RendezvousDeeplink(RendezvousStateSource.rendezvousList, state.idRendezvous!);
+    }
+  }
+  if (state is DetailSessionMiloDeepLinkState && state.idSessionMilo != null) {
+    return RendezvousDeeplink(RendezvousStateSource.sessionMiloDetails, state.idSessionMilo!);
+  }
+  return null;
 }
 
 abstract class RendezvousItem extends Equatable {
@@ -165,6 +184,7 @@ class RendezvousNotUpToDateItem extends RendezvousItem {}
 
 sealed class RendezvousListId extends Equatable {
   final String id;
+
   RendezvousListId(this.id);
 
   @override
