@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
+import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_loader.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -134,7 +135,7 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (viewModel.displayState) {
       case DisplayState.LOADING:
-        return CircularProgressIndicator();
+        return RendezVousListLoader();
       case DisplayState.CONTENT:
         return _Content(
           viewModel: viewModel,

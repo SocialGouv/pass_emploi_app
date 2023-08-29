@@ -36,9 +36,10 @@ class AnimatedListLoader extends StatelessWidget {
   static Widget placeholderBuilder({
     required double width,
     required double height,
+    AlignmentGeometry alignment = Alignment.centerLeft,
   }) {
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: alignment,
       child: Container(
         width: width,
         height: height,
