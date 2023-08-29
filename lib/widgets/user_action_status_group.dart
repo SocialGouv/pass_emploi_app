@@ -9,10 +9,12 @@ class UserActionStatusGroup extends StatelessWidget {
   final bool isCreated;
   final bool isEnabled;
   final Function(UserActionStatus newStatus) update;
+  final VoidCallback onActionDone;
 
   const UserActionStatusGroup({
     required this.status,
     required this.update,
+    required this.onActionDone,
     this.isCreated = false,
     this.isEnabled = true,
   }) : super();
@@ -36,7 +38,12 @@ class UserActionStatusGroup extends StatelessWidget {
         ),
         UserActionStatusButton(
           label: Strings.actionDone,
-          onPressed: isEnabled ? () => update(UserActionStatus.DONE) : null,
+          onPressed: isEnabled
+              ? () {
+                  onActionDone();
+                  update(UserActionStatus.DONE);
+                }
+              : null,
           isSelected: status == UserActionStatus.DONE,
         ),
         if (!isCreated)

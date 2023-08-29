@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   # Flutter
+  confetti: "0.7.0"
   dotted_border: "2.0.0+2"
   flutter:
     sdk: flutter

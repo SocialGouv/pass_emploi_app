@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_detail_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -14,6 +15,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
@@ -35,28 +37,33 @@ class DemarcheDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.userActionDetails,
-      child: Scaffold(
-        appBar: SecondaryAppBar(title: Strings.demarcheDetails),
-        body: StoreConnector<AppState, DemarcheDetailViewModel>(
-          converter: (store) => DemarcheDetailViewModel.create(store, source, id),
-          onDidChange: (oldViewModel, newViewModel) async {
-            if (newViewModel.updateDisplayState == DisplayState.FAILURE) {
-              showFailedSnackBar(context, Strings.updateStatusError);
-              newViewModel.resetUpdateStatus();
-            }
-          },
-          onDispose: (store) => store.dispatch(UpdateDemarcheResetAction()),
-          builder: (context, viewModel) => _Body(viewModel),
-        ),
-      ),
+      child: ConfettiWrapper(builder: (context, conffetiController) {
+        return Scaffold(
+          appBar: SecondaryAppBar(title: Strings.demarcheDetails),
+          body: StoreConnector<AppState, DemarcheDetailViewModel>(
+            converter: (store) => DemarcheDetailViewModel.create(store, source, id),
+            onDidChange: (oldViewModel, newViewModel) async {
+              if (newViewModel.updateDisplayState == DisplayState.FAILURE) {
+                showFailedSnackBar(context, Strings.updateStatusError);
+                newViewModel.resetUpdateStatus();
+              }
+            },
+            onDispose: (store) => store.dispatch(UpdateDemarcheResetAction()),
+            builder: (context, viewModel) => _Body(viewModel, onDemarcheDone: () {
+              conffetiController.play();
+            }),
+          ),
+        );
+      }),
     );
   }
 }
 
 class _Body extends StatelessWidget {
   final DemarcheDetailViewModel viewModel;
+  final VoidCallback onDemarcheDone;
 
-  _Body(this.viewModel);
+  _Body(this.viewModel, {required this.onDemarcheDone});
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +102,7 @@ class _Body extends StatelessWidget {
                   backgroundColor: viewModel.dateBackgroundColor,
                   textColor: viewModel.dateTextColor,
                 ),
-                _StatusSelector(viewModel: viewModel),
+                _StatusSelector(viewModel: viewModel, onDemarcheDone: onDemarcheDone),
                 SizedBox(height: Margins.spacing_base),
                 _HistoriqueTitle(),
                 SizedBox(height: Margins.spacing_base),
@@ -113,7 +120,8 @@ class _Body extends StatelessWidget {
 
 class _StatusSelector extends StatelessWidget {
   final DemarcheDetailViewModel viewModel;
-  const _StatusSelector({Key? key, required this.viewModel}) : super(key: key);
+  final VoidCallback onDemarcheDone;
+  const _StatusSelector({Key? key, required this.viewModel, required this.onDemarcheDone}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +133,7 @@ class _StatusSelector extends StatelessWidget {
         ],
         if (viewModel.statutsPossibles.isNotEmpty) ...[
           SizedBox(height: Margins.spacing_base),
-          _StatutList(viewModel),
+          _StatutList(viewModel, onDemarcheDone: onDemarcheDone),
           SizedBox(height: Margins.spacing_base),
         ],
       ],
@@ -256,15 +264,17 @@ class _StatutTitle extends StatelessWidget {
 
 class _StatutList extends StatelessWidget {
   final DemarcheDetailViewModel viewModel;
+  final VoidCallback onDemarcheDone;
 
-  _StatutList(this.viewModel);
+  _StatutList(this.viewModel, {required this.onDemarcheDone});
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 20,
       runSpacing: 20,
-      children: viewModel.statutsPossibles.map((e) => _StatutItem(e, viewModel)).toList(),
+      children:
+          viewModel.statutsPossibles.map((e) => _StatutItem(e, viewModel, onDemarcheDone: onDemarcheDone)).toList(),
     );
   }
 }
@@ -272,8 +282,9 @@ class _StatutList extends StatelessWidget {
 class _StatutItem extends StatelessWidget {
   final UserActionTagViewModel statut;
   final DemarcheDetailViewModel viewModel;
+  final VoidCallback onDemarcheDone;
 
-  _StatutItem(this.statut, this.viewModel);
+  _StatutItem(this.statut, this.viewModel, {required this.onDemarcheDone});
 
   @override
   Widget build(BuildContext context) {
@@ -287,6 +298,10 @@ class _StatutItem extends StatelessWidget {
           child: InkWell(
             onTap: () {
               if (isActive) viewModel.onModifyStatus(statut);
+              final status = getStatusFromTag(statut);
+              if (status == DemarcheStatus.DONE) {
+                onDemarcheDone();
+              }
             },
             child: Container(
               decoration: BoxDecoration(

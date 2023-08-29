@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -66,49 +67,51 @@ class __CreateActionFormState extends State<_CreateActionForm> {
   @override
   Widget build(BuildContext context) {
     final viewModel = widget.viewModel;
-    return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.addAnAction),
-      floatingActionButton: _createButton(viewModel),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _Mandatory(),
-            SizedBox(height: Margins.spacing_base),
-            SepLine(0, 0),
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                children: [
-                  ..._actionContentAndComment(viewModel),
-                  SizedBox(height: Margins.spacing_xl),
-                  _DateEcheance(
-                    dateEcheance: state.dateEcheance,
-                    onDateEcheanceChange: state.dateEcheanceChanged,
-                    validator: state.showDateEcheanceError ? Strings.mandatoryDateEcheanceError : null,
-                  ),
-                  SizedBox(height: Margins.spacing_xl),
-                  _Rappel(
-                    value: state.withRappel,
-                    isActive: viewModel.isRappelActive(state.dateEcheance),
-                    onChanged: state.rappelChanged,
-                  ),
-                  SizedBox(height: Margins.spacing_xl),
-                  SepLine(0, 0),
-                  _defineStatus(viewModel),
-                  SizedBox(height: Margins.spacing_xl),
-                  SizedBox(height: Margins.spacing_xl),
-                ],
+    return ConfettiWrapper(builder: (context, confettiController) {
+      return Scaffold(
+        appBar: SecondaryAppBar(title: Strings.addAnAction),
+        floatingActionButton: _createButton(viewModel),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _Mandatory(),
+              SizedBox(height: Margins.spacing_base),
+              SepLine(0, 0),
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  children: [
+                    ..._actionContentAndComment(viewModel),
+                    SizedBox(height: Margins.spacing_xl),
+                    _DateEcheance(
+                      dateEcheance: state.dateEcheance,
+                      onDateEcheanceChange: state.dateEcheanceChanged,
+                      validator: state.showDateEcheanceError ? Strings.mandatoryDateEcheanceError : null,
+                    ),
+                    SizedBox(height: Margins.spacing_xl),
+                    _Rappel(
+                      value: state.withRappel,
+                      isActive: viewModel.isRappelActive(state.dateEcheance),
+                      onChanged: state.rappelChanged,
+                    ),
+                    SizedBox(height: Margins.spacing_xl),
+                    SepLine(0, 0),
+                    _defineStatus(viewModel, () => confettiController.play()),
+                    SizedBox(height: Margins.spacing_xl),
+                    SizedBox(height: Margins.spacing_xl),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _createButton(UserActionCreateViewModel viewModel) {
@@ -138,7 +141,7 @@ class __CreateActionFormState extends State<_CreateActionForm> {
     );
   }
 
-  Widget _defineStatus(UserActionCreateViewModel viewModel) {
+  Widget _defineStatus(UserActionCreateViewModel viewModel, VoidCallback onActionDone) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -146,6 +149,7 @@ class __CreateActionFormState extends State<_CreateActionForm> {
         Text(Strings.defineActionStatus, style: TextStyles.textXsRegular()),
         SizedBox(height: Margins.spacing_base),
         UserActionStatusGroup(
+          onActionDone: onActionDone,
           status: state.status,
           update: state.statusChanged,
           isCreated: true,
