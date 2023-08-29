@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
@@ -46,31 +48,43 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
   Widget build(BuildContext context) {
     return FavorisStateContext<Result>(
       selectState: (store) => widget.favorisState(store.state),
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
-        controller: _scrollController,
-        itemCount: widget.viewModel.items.length,
-        itemBuilder: (context, index) {
-          final isLastItem = index == widget.viewModel.items.length - 1;
-          return Column(
-            children: [
-              widget.buildResultItem(
-                context,
-                widget.viewModel.items[index],
-                index,
-                widget.viewModel,
+      child: AnimationLimiter(
+        child: ListView.separated(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
+          controller: _scrollController,
+          itemCount: widget.viewModel.items.length,
+          itemBuilder: (context, index) {
+            final isLastItem = index == widget.viewModel.items.length - 1;
+            return AnimationConfiguration.staggeredList(
+              position: index,
+              duration: AnimationDurations.verySlow,
+              delay: AnimationDurations.veryFast,
+              child: SlideAnimation(
+                verticalOffset: 50.0,
+                child: FadeInAnimation(
+                  child: Column(
+                    children: [
+                      widget.buildResultItem(
+                        context,
+                        widget.viewModel.items[index],
+                        index,
+                        widget.viewModel,
+                      ),
+                      if (widget.viewModel.withLoadMore && isLastItem) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _LoadMoreButton(onPressed: () => _onLoadMorePressed(context)),
+                        SizedBox(height: Margins.spacing_huge),
+                      ]
+                    ],
+                  ),
+                ),
               ),
-              if (widget.viewModel.withLoadMore && isLastItem) ...[
-                SizedBox(height: Margins.spacing_base),
-                _LoadMoreButton(onPressed: () => _onLoadMorePressed(context)),
-                SizedBox(height: Margins.spacing_huge),
-              ]
-            ],
-          );
-        },
-        separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
+            );
+          },
+          separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
+        ),
       ),
     );
   }
