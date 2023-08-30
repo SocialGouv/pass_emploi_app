@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
+import 'package:pass_emploi_app/pages/user_action/user_actions_loading.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -28,7 +29,10 @@ class UserActionListPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(
       builder: (context) {
-        return Scaffold(appBar: SecondaryAppBar(title: Strings.actionsTabTitle), body: UserActionListPage());
+        return Scaffold(
+          appBar: SecondaryAppBar(title: Strings.actionsTabTitle),
+          body: UserActionListPage(),
+        );
       },
     );
   }
@@ -79,7 +83,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   Widget _animatedBody(BuildContext context, UserActionListPageViewModel viewModel) {
-    if (viewModel.withLoading) return Center(child: CircularProgressIndicator());
+    if (viewModel.withLoading) return UserActionsLoading();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     if (viewModel.withEmptyMessage) return Empty(description: Strings.noActionsYet);
     return _userActionsList(context, viewModel);
