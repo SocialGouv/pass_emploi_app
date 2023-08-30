@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
+import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
@@ -32,7 +33,6 @@ import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_reposit
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -369,7 +369,7 @@ class DummyAnimationsCollectivesRepository extends AnimationsCollectivesReposito
 }
 
 class DummySessionMiloRepository extends SessionMiloRepository {
-  DummySessionMiloRepository() : super(DioMock());
+  DummySessionMiloRepository() : super(DioMock(), DummyDetailsJeuneRepository());
 }
 
 class DummyMetierRepository extends MetierRepository {

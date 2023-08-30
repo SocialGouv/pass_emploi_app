@@ -36,6 +36,7 @@ import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
+import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
@@ -52,7 +53,6 @@ import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_reposit
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -189,6 +189,7 @@ class AppInitializer {
     logoutRepository.setCacheManager(requestCacheManager);
     final chatCrypto = ChatCrypto();
     final firebaseInstanceIdGetter = FirebaseInstanceIdGetter();
+    final detailsJeuneRepository = DetailsJeuneRepository(dioClient, crashlytics);
     final reduxStore = StoreFactory(
       configuration,
       authenticator,
@@ -218,7 +219,7 @@ class AppInitializer {
       SavedSearchDeleteRepository(dioClient, requestCacheManager, crashlytics),
       ServiceCiviqueRepository(dioClient, crashlytics),
       ServiceCiviqueDetailRepository(dioClient, crashlytics),
-      DetailsJeuneRepository(dioClient, crashlytics),
+      detailsJeuneRepository,
       SuppressionCompteRepository(dioClient, crashlytics),
       modeDemoRepository,
       CampagneRepository(dioClient, crashlytics),
@@ -234,7 +235,8 @@ class AppInitializer {
       AgendaRepository(dioClient, crashlytics),
       SuggestionsRechercheRepository(dioClient, requestCacheManager, crashlytics),
       AnimationsCollectivesRepository(dioClient, crashlytics),
-      SessionMiloRepository(dioClient, crashlytics),
+      // TODO(août 2023) : supprimer detailsJeuneRepository et remoteConfig quand les sessions milo seront 100% OK
+      SessionMiloRepository(dioClient, detailsJeuneRepository, firebaseRemoteConfig, crashlytics),
       installationIdRepository,
       DiagorienteUrlsRepository(dioClient, crashlytics),
       DiagorienteMetiersFavorisRepository(dioClient, requestCacheManager, crashlytics),

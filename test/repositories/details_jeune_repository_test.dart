@@ -33,6 +33,7 @@ void main() {
                   lastname: "Tavernier",
                   sinceDate: parseDateTimeUtcWithCurrentTimeZone('2022-02-15T0:0:0.0Z'),
                 ),
+                structure: StructureMilo("ID-STRUCTURE", "Mission locale Brest"),
               ));
         });
       });
