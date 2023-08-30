@@ -8,9 +8,11 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/events/event_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
@@ -38,18 +40,14 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      switch (viewModel.displayState) {
-        case DisplayState.LOADING:
-          return Center(child: CircularProgressIndicator());
-        case DisplayState.EMPTY:
-          return _EmptyListPlaceholder();
-        case DisplayState.CONTENT:
-          return _Content(viewModel);
-        case DisplayState.FAILURE:
-          return Center(child: Retry(Strings.eventListError, () => viewModel.onRetry()));
-      }
-    });
+    return AnimatedSwitcher(
+        duration: AnimationDurations.fast,
+        child: switch (viewModel.displayState) {
+          DisplayState.LOADING => _EventListLoading(),
+          DisplayState.EMPTY => _EmptyListPlaceholder(),
+          DisplayState.CONTENT => _Content(viewModel),
+          DisplayState.FAILURE => Center(child: Retry(Strings.eventListError, () => viewModel.onRetry())),
+        });
   }
 }
 
@@ -108,4 +106,44 @@ class _Content extends StatelessWidget {
       ),
     );
   }
+}
+
+class _EventListLoading extends StatelessWidget {
+  const _EventListLoading();
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final placeholders = _placeholders(screenWidth);
+    return AnimatedListLoader(
+      placeholders: placeholders,
+    );
+  }
+
+  List<Widget> _placeholders(double screenWidth) => [
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 30,
+        ),
+        SizedBox(height: Margins.spacing_s),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 30,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+      ];
 }
