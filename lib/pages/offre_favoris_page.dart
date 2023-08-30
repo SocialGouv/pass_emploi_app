@@ -14,13 +14,16 @@ import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dar
 import 'package:pass_emploi_app/pages/offre_filters_bottom_sheet.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/favori_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -73,10 +76,16 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
   }
 
   Widget _content(FavoriListViewModel viewModel) {
-    if (viewModel.displayState.isLoading()) return CircularProgressIndicator();
-    if (viewModel.displayState.isFailure()) return Retry(Strings.favorisError, () => viewModel.onRetry());
-    if (viewModel.displayState.isEmpty()) return _Empty();
-    return _favoris(viewModel);
+    final displayState = viewModel.displayState;
+    return AnimatedSwitcher(
+      duration: AnimationDurations.fast,
+      child: switch (displayState) {
+        DisplayState.LOADING => _OffreFavorisLoading(),
+        DisplayState.FAILURE => Retry(Strings.favorisError, () => viewModel.onRetry()),
+        DisplayState.EMPTY => _Empty(),
+        DisplayState.CONTENT => _favoris(viewModel),
+      },
+    );
   }
 
   Widget _favoris(FavoriListViewModel viewModel) {
@@ -213,4 +222,44 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
 class _Empty extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(Strings.noFavoris, style: TextStyles.textSRegular());
+}
+
+class _OffreFavorisLoading extends StatelessWidget {
+  const _OffreFavorisLoading();
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final placeholders = _placeholders(screenWidth);
+    return AnimatedListLoader(
+      placeholders: placeholders,
+    );
+  }
+
+  List<Widget> _placeholders(double screenWidth) => [
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+      ];
 }
