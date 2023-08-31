@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dar
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_list_loading.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -73,7 +74,7 @@ class DemarcheListPage extends StatelessWidget {
       case DisplayState.CONTENT:
         return _userActionsList(context, viewModel);
       case DisplayState.LOADING:
-        return Center(child: CircularProgressIndicator());
+        return DemarcheListLoading();
       case DisplayState.EMPTY:
         return _emptyPage(context, viewModel);
       case DisplayState.FAILURE:
