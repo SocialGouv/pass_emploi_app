@@ -16,14 +16,17 @@ import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -115,11 +118,15 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
   }
 
   Widget _content(SavedSearchListViewModel viewModel) {
-    if (viewModel.displayState.isLoading()) return Center(child: CircularProgressIndicator());
-    if (viewModel.displayState.isFailure()) {
-      return Center(child: Retry(Strings.savedSearchGetError, () => viewModel.onRetry()));
-    }
-    return _savedSearches(viewModel);
+    final displayState = viewModel.displayState;
+    return AnimatedSwitcher(
+      duration: AnimationDurations.fast,
+      child: switch (displayState) {
+        DisplayState.LOADING => _SavedSearchLoading(),
+        DisplayState.FAILURE => Center(child: Retry(Strings.savedSearchGetError, () => viewModel.onRetry())),
+        _ => _savedSearches(viewModel),
+      },
+    );
   }
 
   Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi, SavedSearchListViewModel viewModel) {
@@ -269,4 +276,44 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
     }
     PassEmploiMatomoTracker.instance.trackScreen(tracking);
   }
+}
+
+class _SavedSearchLoading extends StatelessWidget {
+  const _SavedSearchLoading();
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final placeholders = _placeholders(screenWidth);
+    return AnimatedListLoader(
+      placeholders: placeholders,
+    );
+  }
+
+  List<Widget> _placeholders(double screenWidth) => [
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+        SizedBox(height: Margins.spacing_base),
+        AnimatedListLoader.placeholderBuilder(
+          width: screenWidth,
+          height: 170,
+        ),
+      ];
 }
