@@ -14,9 +14,12 @@ class SessionMiloRepository {
 
   SessionMiloRepository(this._httpClient, [this._jeuneRepository, this._remoteConfig, this._crashlytics]);
 
-  Future<List<SessionMilo>?> getList({required String userId, bool filtrerEstInscrit = false}) async {
+  Future<List<SessionMilo>?> getList({required String userId, bool? filtrerEstInscrit}) async {
     if (await featureIsActive(userId) == false) return [];
-    final url = "/jeunes/milo/$userId/sessions?filtrerEstInscrit=$filtrerEstInscrit";
+
+    final param = filtrerEstInscrit != null ? "?filtrerEstInscrit=$filtrerEstInscrit" : "";
+    final url = "/jeunes/milo/$userId/sessions$param";
+
     try {
       final response = await _httpClient.get(url);
       return response.asListOf((session) => SessionMilo.fromJson(session));

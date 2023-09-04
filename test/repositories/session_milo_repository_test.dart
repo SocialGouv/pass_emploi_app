@@ -11,8 +11,8 @@ void main() {
     final sut = DioRepositorySut<SessionMiloRepository>();
     sut.givenRepository((client) => SessionMiloRepository(client));
 
-    group('getList', () {
-      sut.when((repository) => repository.getList(userId: "userId", filtrerEstInscrit: false));
+    group('getList with filtre est inscrit', () {
+      sut.when((repository) => repository.getList(userId: "userId", filtrerEstInscrit: true));
 
       group('when response is valid', () {
         sut.givenJsonResponse(fromJson: "session_milo_list.json");
@@ -20,7 +20,7 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: HttpMethod.get,
-            url: "/jeunes/milo/userId/sessions?filtrerEstInscrit=false",
+            url: "/jeunes/milo/userId/sessions?filtrerEstInscrit=true",
           );
         });
 
@@ -39,6 +39,38 @@ void main() {
         });
       });
     });
+
+    group('getList with filtre n\'est pas inscrit', () {
+      sut.when((repository) => repository.getList(userId: "userId", filtrerEstInscrit: false));
+
+      group('when response is valid', () {
+        sut.givenJsonResponse(fromJson: "session_milo_list.json");
+
+        test('request should be valid', () async {
+          await sut.expectRequestBody(
+            method: HttpMethod.get,
+            url: "/jeunes/milo/userId/sessions?filtrerEstInscrit=false",
+          );
+        });
+      });
+    });
+    
+
+    group('getList without filtre', () {
+      sut.when((repository) => repository.getList(userId: "userId"));
+
+      group('when response is valid', () {
+        sut.givenJsonResponse(fromJson: "session_milo_list.json");
+
+        test('request should be valid', () async {
+          await sut.expectRequestBody(
+            method: HttpMethod.get,
+            url: "/jeunes/milo/userId/sessions",
+          );
+        });
+      });
+    });
+    
     group('getDetails', () {
       group('get', () {
         sut.when((repository) => repository.getDetails(userId: "userId", sessionId: "sessionId"));

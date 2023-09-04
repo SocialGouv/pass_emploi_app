@@ -41,7 +41,7 @@ class EventListMiddleware extends MiddlewareClass<AppState> {
 
     final Future<List<SessionMilo>?> fetchSessions = //
         _shouldFetchSessions(loginMode) //
-            ? _sessionMiloRepository.getList(userId: userId, filtrerEstInscrit: false)
+            ? _sessionMiloRepository.getList(userId: userId)
             : Future.value([]);
 
     await Future.wait([
