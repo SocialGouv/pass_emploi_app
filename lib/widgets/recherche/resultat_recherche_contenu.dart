@@ -59,7 +59,7 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
             final isLastItem = index == widget.viewModel.items.length - 1;
             return AnimationConfiguration.staggeredList(
               position: index,
-              duration: AnimationDurations.verySlow,
+              duration: AnimationDurations.fast,
               delay: AnimationDurations.veryFast,
               child: SlideAnimation(
                 verticalOffset: 50.0,

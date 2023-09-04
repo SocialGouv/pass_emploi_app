@@ -20,7 +20,7 @@ class AnimatedListLoader extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_base),
           itemCount: placeholders.length,
           itemBuilder: (context, index) => AnimationConfiguration.staggeredList(
-            duration: AnimationDurations.medium,
+            duration: AnimationDurations.fast,
             position: index,
             child: FadeInAnimation(
               child: SlideAnimation(
