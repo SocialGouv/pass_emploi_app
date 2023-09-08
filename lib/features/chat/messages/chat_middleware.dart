@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_history_aggregator.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
@@ -21,6 +22,7 @@ import 'package:redux/redux.dart';
 class ChatMiddleware extends MiddlewareClass<AppState> {
   final ChatRepository _repository;
   StreamSubscription<List<Message>>? _subscription;
+  final ChatHistoryAggregatorSimple _chatHistoryAggregator = ChatHistoryAggregatorSimple();
 
   ChatMiddleware(this._repository);
 
@@ -28,6 +30,9 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
+    if (action is LoginSuccessAction || action is RequestLogoutAction || action is NotLoggedInAction) {
+      _chatHistoryAggregator.reset();
+    }
     if (loginState is LoginSuccessState) {
       final userId = loginState.user.id;
       if (action is SubscribeToChatAction) {
@@ -52,6 +57,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _partageSessionMilo(store, userId, action.sessionMilo);
         } else if (action is LastMessageSeenAction) {
           _repository.setLastMessageSeen(userId);
+        } else if (action is ChatRequestMorePastAction) {
+          _loadOldMessages(userId, store);
         }
       }
     }
@@ -112,7 +119,10 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
 
   void _subscribeToChatStream(String userId, Store<AppState> store) {
     _subscription = _repository.messagesStream(userId).listen(
-      (messages) => store.dispatch(ChatSuccessAction(messages)),
+      (messages) {
+        _chatHistoryAggregator.onNewMessages(messages);
+        _dispatchAllMessages(store);
+      },
       onError: (Object error) {
         if (error is ChatNotInitializedError) {
           store.dispatch(TryConnectChatAgainAction());
@@ -120,6 +130,21 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
         return store.dispatch(ChatFailureAction());
       },
     );
+  }
+
+  void _loadOldMessages(String userId, Store<AppState> store) async {
+    if (_chatHistoryAggregator.historyEnded) return;
+
+    final oldestMessageDate = _chatHistoryAggregator.oldestMessageDate();
+    if (oldestMessageDate == null) return;
+
+    final messages = await _repository.oldMessages(userId, oldestMessageDate);
+    _chatHistoryAggregator.onOldMessages(messages, _repository.numberOfHistoryMessage);
+    _dispatchAllMessages(store);
+  }
+
+  void _dispatchAllMessages(Store<AppState> store) {
+    store.dispatch(ChatSuccessAction(_chatHistoryAggregator.messages));
   }
 }
 

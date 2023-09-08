@@ -36,17 +36,27 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
+  final ScrollController _scrollController = ScrollController();
   TextEditingController? _controller;
   bool _animateMessage = false;
+  bool _isLoadingMorePast = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _scrollController.addListener(() {
+      final hasReachedTop = _scrollController.position.pixels >= _scrollController.position.maxScrollExtent * 0.9;
+      if (hasReachedTop && _isLoadingMorePast == false) {
+        _isLoadingMorePast = true;
+        StoreProvider.of<AppState>(context).dispatch(ChatRequestMorePastAction());
+      }
+    });
   }
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _controller?.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -78,6 +88,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         onDidChange: (previousVm, newVm) {
           StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction());
           _animateMessage = true;
+          _isLoadingMorePast = false;
         },
         distinct: true,
       ),
@@ -126,6 +137,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   reverse: true,
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 100.0),
                   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  controller: _scrollController,
                   itemCount: reversedList.length,
                   itemBuilder: (context, index) {
                     final item = reversedList[index];

@@ -58,6 +58,8 @@ class ChatPartagerSessionMiloAction extends Equatable {
   List<Object?> get props => [sessionMilo];
 }
 
+class ChatRequestMorePastAction {}
+
 class LastMessageSeenAction {}
 
 class SubscribeToChatAction {}

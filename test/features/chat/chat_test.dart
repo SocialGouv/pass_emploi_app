@@ -89,6 +89,129 @@ void main() {
     expect((await newState).chatState, ChatFailureState());
   });
 
+  //TODO: du refacto :)
+  group("Pagination du chat", () {
+    group("quand de nouveaux messages arrivent", () {
+      test("on voit pour la première fois les messages", () async {
+        // Given
+        final repository = ChatRepositoryMock();
+        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
+        final newState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 2);
+
+        await store.dispatch(SubscribeToChatAction());
+
+        // When
+        repository.publishMessagesOnStream([_message(1), _message(2)]);
+
+        // Then
+        expect(((await newState).chatState as ChatSuccessState).messages, [_message(1), _message(2)]);
+      });
+
+      test("on voit les nouveaux messages reçus ainsi que ceux précédement reçus, ordre ASC, sans doublon", () async {
+        // Given
+        final repository = ChatRepositoryMock();
+        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
+        final newState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 3);
+
+        await store.dispatch(SubscribeToChatAction());
+        repository.publishMessagesOnStream([_message(1), _message(2)]);
+
+        // When
+        repository.publishMessagesOnStream([_message(2), _message(3)]);
+
+        // Then
+        expect(((await newState).chatState as ChatSuccessState).messages, [_message(1), _message(2), _message(3)]);
+      });
+
+      test("on voit les nouveaux messages reçus et la pagination dans le passé, ordre ASC, sans doublon", () async {
+        // Given
+        final repository = ChatRepositoryMock();
+        repository.oldMessagesRequested = [_message(4), _message(5), _message(6)];
+        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
+        final newState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 2);
+        final newOldState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 5);
+
+        await store.dispatch(SubscribeToChatAction());
+        repository.publishMessagesOnStream([_message(11), _message(12)]);
+        await newState; // on ne peut pas charger le passé tant que le stream n'est pas arrivé
+
+        // When
+        await store.dispatch(ChatRequestMorePastAction());
+
+        // Then
+        expect(
+          ((await newOldState).chatState as ChatSuccessState).messages,
+          [_message(4), _message(5), _message(6), _message(11), _message(12)],
+        );
+      });
+
+      test("on peut charger plusieurs fois le passé, ordre ASC, sans doublon", () async {
+        // Given
+        final repository = ChatRepositoryMock();
+        repository.numberOfHistoryMessage = 3;
+        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
+        final newState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 2);
+        final newOldState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 8);
+
+        await store.dispatch(SubscribeToChatAction());
+        repository.publishMessagesOnStream([_message(11), _message(12)]);
+        await newState; // on ne peut pas charger le passé tant que le stream n'est pas arrivé
+
+        repository.oldMessagesRequested = [_message(4), _message(5), _message(6)];
+        await store.dispatch(ChatRequestMorePastAction());
+
+        // When
+        repository.oldMessagesRequested = [_message(1), _message(2), _message(3)];
+        await store.dispatch(ChatRequestMorePastAction());
+
+        // Then
+        expect(
+          ((await newOldState).chatState as ChatSuccessState).messages,
+          [_message(1), _message(2), _message(3), _message(4), _message(5), _message(6), _message(11), _message(12)],
+        );
+      });
+
+      test("on ne peut plus charger le passé quand on arrive au début", () async {
+        // Given
+        final repository = ChatRepositoryMock();
+        repository.numberOfHistoryMessage = 3;
+        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
+        final newState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 2);
+
+        await store.dispatch(SubscribeToChatAction());
+        repository.publishMessagesOnStream([_message(11), _message(12)]);
+        await newState; // on ne peut pas charger le passé tant que le stream n'est pas arrivé
+
+        repository.oldMessagesRequested = [_message(5), _message(6)];
+        await store.dispatch(ChatRequestMorePastAction());
+
+        // When
+        repository.oldMessagesRequested = [_message(3), _message(4)];
+        await store.dispatch(ChatRequestMorePastAction());
+
+        // Then
+        expect(repository.numberOfOldMessagesCalled, 1);
+      });
+
+      test("on voit uniquement les nouveaux messages lorsque l'historique est cassé", () async {
+        // Given
+        final repository = ChatRepositoryMock();
+        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
+        final newState =
+            store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.contains(_message(8)));
+
+        await store.dispatch(SubscribeToChatAction());
+        repository.publishMessagesOnStream([_message(1), _message(2)]);
+
+        // When
+        repository.publishMessagesOnStream([_message(8), _message(9)]);
+
+        // Then
+        expect(((await newState).chatState as ChatSuccessState).messages, [_message(8), _message(9)]);
+      });
+    });
+  });
+
   test("should keep a brouillon message", () async {
     // Given
     final store = givenState().store();
@@ -293,6 +416,17 @@ Message _mockMessage([String id = '1']) {
     "uid",
     "content $id",
     DateTime.utc(2022, 1, 1),
+    Sender.conseiller,
+    MessageType.message,
+    [],
+  );
+}
+
+Message _message(int date) {
+  return Message(
+    "uid $date",
+    "content $date",
+    DateTime.utc(date),
     Sender.conseiller,
     MessageType.message,
     [],
