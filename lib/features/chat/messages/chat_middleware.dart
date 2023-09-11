@@ -22,7 +22,7 @@ import 'package:redux/redux.dart';
 class ChatMiddleware extends MiddlewareClass<AppState> {
   final ChatRepository _repository;
   StreamSubscription<List<Message>>? _subscription;
-  final ChatHistoryAggregatorSimple _chatHistoryAggregator = ChatHistoryAggregatorSimple();
+  final ChatHistoryAggregator _chatHistoryAggregator = ChatHistoryAggregator();
 
   ChatMiddleware(this._repository);
 
