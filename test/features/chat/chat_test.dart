@@ -107,6 +107,21 @@ void main() {
       });
     }
 
+    void whenMessagesSent(List<Message> messages) {
+      repository.publishMessagesOnStream(messages);
+    }
+
+    Future<void> givenMessagesAlreadySent(List<Message> messages) async {
+      final waitingState = waitingChange((messages) => messages.length == messages.length);
+      whenMessagesSent(messages);
+      await waitingState;
+    }
+
+    Future<void> givenPastMessagesAlreadyFetched(List<Message> messages) async {
+      repository.oldMessagesRequested = messages;
+      await store.dispatch(ChatRequestMorePastAction());
+    }
+
     group("quand de nouveaux messages arrivent", () {
       test("on voit pour la première fois les messages", () async {
         // Given
@@ -114,7 +129,7 @@ void main() {
         final newState = waitingChange((messages) => messages.length >= 2);
 
         // When
-        repository.publishMessagesOnStream(messageSent);
+        whenMessagesSent(messageSent);
 
         // Then
         expect(((await newState).chatState as ChatSuccessState).messages, messageSent);
@@ -122,11 +137,11 @@ void main() {
 
       test("on voit les nouveaux messages reçus ainsi que ceux précédement reçus, ordre ASC, sans doublon", () async {
         // Given
+        await givenMessagesAlreadySent([_message(1), _message(2)]);
         final newState = waitingChange((messages) => messages.length >= 3);
-        repository.publishMessagesOnStream([_message(1), _message(2)]);
 
         // When
-        repository.publishMessagesOnStream([_message(2), _message(3)]);
+        whenMessagesSent([_message(2), _message(3)]);
 
         // Then
         expect(((await newState).chatState as ChatSuccessState).messages, [_message(1), _message(2), _message(3)]);
@@ -134,19 +149,16 @@ void main() {
 
       test("on voit les nouveaux messages reçus et la pagination dans le passé, ordre ASC, sans doublon", () async {
         // Given
+        await givenMessagesAlreadySent([_message(11), _message(12)]);
         repository.oldMessagesRequested = [_message(4), _message(5), _message(6)];
-        final newState = waitingChange((messages) => messages.length >= 2);
-        final newOldState = waitingChange((messages) => messages.length >= 5);
-
-        repository.publishMessagesOnStream([_message(11), _message(12)]);
-        await newState; // on ne peut pas charger le passé tant que le stream n'est pas arrivé
+        final newState = waitingChange((messages) => messages.length >= 5);
 
         // When
         await store.dispatch(ChatRequestMorePastAction());
 
         // Then
         expect(
-          ((await newOldState).chatState as ChatSuccessState).messages,
+          ((await newState).chatState as ChatSuccessState).messages,
           [_message(4), _message(5), _message(6), _message(11), _message(12)],
         );
       });
@@ -154,50 +166,39 @@ void main() {
       test("on peut charger plusieurs fois le passé, ordre ASC, sans doublon", () async {
         // Given
         repository.numberOfHistoryMessage = 3;
-        final newState = waitingChange((messages) => messages.length >= 2);
-        final newOldState = waitingChange((messages) => messages.length >= 8);
-
-        repository.publishMessagesOnStream([_message(11), _message(12)]);
-        await newState; // on ne peut pas charger le passé tant que le stream n'est pas arrivé
-
-        repository.oldMessagesRequested = [_message(4), _message(5), _message(6)];
-        await store.dispatch(ChatRequestMorePastAction());
+        await givenMessagesAlreadySent([_message(11), _message(12)]);
+        await givenPastMessagesAlreadyFetched([_message(4), _message(5), _message(6)]);
+        repository.oldMessagesRequested = [_message(1), _message(2), _message(3)];
+        final newState = waitingChange((messages) => messages.length >= 8);
 
         // When
-        repository.oldMessagesRequested = [_message(1), _message(2), _message(3)];
         await store.dispatch(ChatRequestMorePastAction());
 
         // Then
         expect(
-          ((await newOldState).chatState as ChatSuccessState).messages,
+          ((await newState).chatState as ChatSuccessState).messages,
           [_message(1), _message(2), _message(3), _message(4), _message(5), _message(6), _message(11), _message(12)],
         );
       });
 
-      test("on ne peut plus charger le passé quand on arrive au début", () async {
+      test("on ne charge pas le passé quand on est arrivé au tout début de l'historique", () async {
         // Given
         repository.numberOfHistoryMessage = 3;
-        final newState = waitingChange((messages) => messages.length >= 2);
-
-        repository.publishMessagesOnStream([_message(11), _message(12)]);
-        await newState; // on ne peut pas charger le passé tant que le stream n'est pas arrivé
-
-        repository.oldMessagesRequested = [_message(5), _message(6)];
-        await store.dispatch(ChatRequestMorePastAction());
+        await givenMessagesAlreadySent([_message(11), _message(12)]);
+        await givenPastMessagesAlreadyFetched([_message(5), _message(6)]); // 2 reçus < 3 demandés
+        repository.oldMessagesRequested = [_message(3), _message(4)];
 
         // When
-        repository.oldMessagesRequested = [_message(3), _message(4)];
         await store.dispatch(ChatRequestMorePastAction());
 
         // Then
         expect(repository.numberOfOldMessagesCalled, 1);
       });
 
-      test("on voit uniquement les nouveaux messages lorsque l'historique est cassé", () async {
+      test("on voit uniquement les derniers nouveaux messages reçus lorsque l'historique est cassé", () async {
         // Given
+        await givenMessagesAlreadySent([_message(1), _message(2)]);
         final newState = waitingChange((messages) => messages.contains(_message(8)));
-
-        repository.publishMessagesOnStream([_message(1), _message(2)]);
 
         // When
         repository.publishMessagesOnStream([_message(8), _message(9)]);
