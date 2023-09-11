@@ -256,7 +256,7 @@ class Strings {
       Brand.isCej() ? _CejStrings.shouldInformConseiller : _BrsaStrings.shouldInformConseiller;
 
   static String noUpcomingRendezVous =
-      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
+      "Vous n’avez pas de rendez-vous prévu.\nContactez votre conseiller pour prendre rendez-vous";
   static String rendezVousListError = "Erreur lors de la récupération de vos rendez-vous";
   static String rendezVousDetailsError = "Erreur lors de la récupération de l'évènement";
   static String conseillerIsPresent = "Votre conseiller sera présent";
@@ -271,14 +271,11 @@ class Strings {
   static String rendezVousCetteSemaineTitre = "Cette semaine";
   static String rendezSemaineTitre = "Semaine du";
   static String rendezVousFutursTitre = "Rendez-vous futurs";
-  static String noRendezVousCetteSemaineTitre = "Vous n'avez pas encore de rendez-vous prévus cette semaine";
-  static String noRendezYet = "Vous n'avez pas encore de rendez-vous prévus";
-  static String noMoreRendezVousThisWeek = "Vous n'avez pas d'autres rendez-vous prévus cette semaine.";
-  static String noRendezYetSubtitle =
-      "Vous pouvez consulter ceux passés et à venir en utilisant les flèches en haut de page.";
-  static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévus pour la semaine du ";
+  static String noRendezVousThisWeek = "Vous n’avez pas encore de rendez-vous prévu cette semaine";
+  static String noRendezVousThisWeekSubtitle = "Retrouvez vos rendez-vous passés ou à venir avec les flèches en haut de page.";
+  static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévu pour la semaine du ";
   static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
-  static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévus";
+  static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévu";
   static String withConseiller = "avec";
   static String goToNextRendezvous = "Aller au prochain rendez-vous";
   static String seeMoreRendezvous = "Voir plus de rendez-vous";

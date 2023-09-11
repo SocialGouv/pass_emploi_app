@@ -28,28 +28,12 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeEmptyLabel() {
-    if (_futurRendezVousStatus == RendezvousListStatus.SUCCESS) {
-      if (_allRendezvous.isEmpty) {
-        return Strings.noRendezYet;
-      } else if (_haveRendezvousPreviousThisWeek()) {
-        return Strings.noMoreRendezVousThisWeek;
-      }
-    }
-    return Strings.noRendezVousCetteSemaineTitre;
-  }
-
-  bool _haveRendezvousPreviousThisWeek() {
-    return _allRendezvous.any((element) {
-      return element.date.isAfter(_now.toMondayOnThisWeek()) && element.date.isBefore(_now);
-    });
+    return Strings.noRendezVousThisWeek;
   }
 
   @override
   String? makeEmptySubtitleLabel() {
-    if (_futurRendezVousStatus == RendezvousListStatus.SUCCESS && _allRendezvous.isEmpty) {
-      return Strings.noRendezYetSubtitle;
-    }
-    return null;
+    return Strings.noRendezVousThisWeekSubtitle;
   }
 
   @override
