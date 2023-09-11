@@ -20,8 +20,6 @@ class LoginSuccessAction {
 
 class LoginFailureAction {}
 
-class LoginResetAction {}
-
 class NotLoggedInAction {}
 
 class RequestLoginAction {

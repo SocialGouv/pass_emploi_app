@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/utils/iterable_extensions.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
 const String _collectionPath = "chat";
@@ -22,24 +23,47 @@ class ChatRepository {
   final ChatCrypto _chatCrypto;
   final ModeDemoRepository _demoRepository;
 
+  int get numberOfStreamedMessage => 20;
+  int get numberOfHistoryMessage => 20;
+
   ChatRepository(this._chatCrypto, this._crashlytics, this._demoRepository);
 
   Stream<List<Message>> messagesStream(String userId) async* {
     if (!_chatCrypto.isInitialized()) {
       throw ChatNotInitializedError();
     }
+
     final chatDocumentId = await _getChatDocumentId(userId);
     if (chatDocumentId == null) return;
 
     final Stream<List<Message>> stream = _chatCollection(chatDocumentId)
         .collection('messages')
-        .orderBy('creationDate')
+        .orderBy('creationDate', descending: true)
+        .limit(numberOfStreamedMessage)
         .snapshots()
         .map((snapshot) => _getMessageList(snapshot))
         .distinct();
     await for (final messages in stream) {
       yield messages;
     }
+  }
+
+  Future<List<Message>> oldMessages(String userId, DateTime date) async {
+    if (!_chatCrypto.isInitialized()) {
+      throw ChatNotInitializedError();
+    }
+
+    final chatDocumentId = await _getChatDocumentId(userId);
+    if (chatDocumentId == null) return [];
+
+    final snapshot = await _chatCollection(chatDocumentId)
+        .collection('messages')
+        .orderBy('creationDate', descending: true)
+        .startAfter([Timestamp.fromDate(date)])
+        .limit(numberOfHistoryMessage)
+        .get();
+
+    return _getMessageList(snapshot).distinct().toList();
   }
 
   Stream<ConseillerMessageInfo> chatStatusStream(String userId) async* {

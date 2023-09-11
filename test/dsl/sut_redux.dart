@@ -14,15 +14,15 @@ class StoreSut {
 
   Future<void> thenExpectChangingStatesThroughOrder(List<Matcher> matchers) async {
     expect(givenStore.onChange, emitsInOrder(matchers.map((matcher) => emitsThrough(matcher))));
-    await givenStore.dispatch(_whenDispatching());
+    await dispatch();
   }
 
   Future<void> dispatch() async {
     await givenStore.dispatch(_whenDispatching());
   }
 
-  void debug(dynamic Function(AppState) info) {
+  Future<void> debug(dynamic Function(AppState) info) async {
     expect(givenStore.onChange, emitsThrough(DebugMatcher(info)));
-    givenStore.dispatch(_whenDispatching());
+    await dispatch();
   }
 }
