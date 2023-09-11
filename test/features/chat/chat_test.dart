@@ -1,3 +1,4 @@
+import 'package:redux/redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
@@ -89,31 +90,39 @@ void main() {
     expect((await newState).chatState, ChatFailureState());
   });
 
-  //TODO: du refacto :)
   group("Pagination du chat", () {
+    late ChatRepositoryMock repository;
+    late Store<AppState> store;
+
+    setUp(() async {
+      repository = ChatRepositoryMock();
+      store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
+      await store.dispatch(SubscribeToChatAction());
+    });
+
+    Future<AppState> waitingChange(bool Function(List<Message>) callback) async {
+      return store.onChange.firstWhere((appState) {
+        final chatState = appState.chatState as ChatSuccessState;
+        return callback(chatState.messages);
+      });
+    }
+
     group("quand de nouveaux messages arrivent", () {
       test("on voit pour la première fois les messages", () async {
         // Given
-        final repository = ChatRepositoryMock();
-        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
-        final newState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 2);
-
-        await store.dispatch(SubscribeToChatAction());
+        final messageSent = [_message(1), _message(2)];
+        final newState = waitingChange((messages) => messages.length >= 2);
 
         // When
-        repository.publishMessagesOnStream([_message(1), _message(2)]);
+        repository.publishMessagesOnStream(messageSent);
 
         // Then
-        expect(((await newState).chatState as ChatSuccessState).messages, [_message(1), _message(2)]);
+        expect(((await newState).chatState as ChatSuccessState).messages, messageSent);
       });
 
       test("on voit les nouveaux messages reçus ainsi que ceux précédement reçus, ordre ASC, sans doublon", () async {
         // Given
-        final repository = ChatRepositoryMock();
-        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
-        final newState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 3);
-
-        await store.dispatch(SubscribeToChatAction());
+        final newState = waitingChange((messages) => messages.length >= 3);
         repository.publishMessagesOnStream([_message(1), _message(2)]);
 
         // When
@@ -125,13 +134,10 @@ void main() {
 
       test("on voit les nouveaux messages reçus et la pagination dans le passé, ordre ASC, sans doublon", () async {
         // Given
-        final repository = ChatRepositoryMock();
         repository.oldMessagesRequested = [_message(4), _message(5), _message(6)];
-        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
-        final newState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 2);
-        final newOldState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 5);
+        final newState = waitingChange((messages) => messages.length >= 2);
+        final newOldState = waitingChange((messages) => messages.length >= 5);
 
-        await store.dispatch(SubscribeToChatAction());
         repository.publishMessagesOnStream([_message(11), _message(12)]);
         await newState; // on ne peut pas charger le passé tant que le stream n'est pas arrivé
 
@@ -147,13 +153,10 @@ void main() {
 
       test("on peut charger plusieurs fois le passé, ordre ASC, sans doublon", () async {
         // Given
-        final repository = ChatRepositoryMock();
         repository.numberOfHistoryMessage = 3;
-        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
-        final newState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 2);
-        final newOldState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 8);
+        final newState = waitingChange((messages) => messages.length >= 2);
+        final newOldState = waitingChange((messages) => messages.length >= 8);
 
-        await store.dispatch(SubscribeToChatAction());
         repository.publishMessagesOnStream([_message(11), _message(12)]);
         await newState; // on ne peut pas charger le passé tant que le stream n'est pas arrivé
 
@@ -173,12 +176,9 @@ void main() {
 
       test("on ne peut plus charger le passé quand on arrive au début", () async {
         // Given
-        final repository = ChatRepositoryMock();
         repository.numberOfHistoryMessage = 3;
-        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
-        final newState = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length >= 2);
+        final newState = waitingChange((messages) => messages.length >= 2);
 
-        await store.dispatch(SubscribeToChatAction());
         repository.publishMessagesOnStream([_message(11), _message(12)]);
         await newState; // on ne peut pas charger le passé tant que le stream n'est pas arrivé
 
@@ -195,12 +195,8 @@ void main() {
 
       test("on voit uniquement les nouveaux messages lorsque l'historique est cassé", () async {
         // Given
-        final repository = ChatRepositoryMock();
-        final store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
-        final newState =
-            store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.contains(_message(8)));
+        final newState = waitingChange((messages) => messages.contains(_message(8)));
 
-        await store.dispatch(SubscribeToChatAction());
         repository.publishMessagesOnStream([_message(1), _message(2)]);
 
         // When
