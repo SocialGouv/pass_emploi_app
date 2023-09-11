@@ -211,11 +211,11 @@ class Strings {
   static String accueilVoirMesAlertes = "Voir toutes mes alertes";
   static String accueilPasDalerteDescription =
       "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
-  static String accueilPasDalerteBouton = "Rechercher une offre";
+  static String accueilPasDalerteBouton = "Commencer une recherche";
   static String accueilMesFavorisSection = "Mes favoris";
   static String accueilVoirMesFavoris = "Voir tous mes favoris";
   static String accueilPasDeFavorisDescription = "Retrouvez ici les offres que vous avez enregistrées";
-  static String accueilPasDeFavorisBouton = "Rechercher une offre";
+  static String accueilPasDeFavorisBouton = "Commencer une recherche";
   static String accueilOutilsSection = "Boîte à outils";
   static String accueilOutilsSectionDescription = "Découvrez des outils pour vous aider dans vos projets";
   static String accueilVoirLesOutils = "Voir tous les outils";
