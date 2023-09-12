@@ -228,11 +228,18 @@ class Strings {
   static String demarcheTabTitle = "Démarches";
 
   // Agenda
-  static String agendaEmptyMilo = "Vous n'avez pas encore d'actions ni de rendez-vous prévus cette semaine.";
-  static String agendaEmptyPoleEmploi = "Vous n'avez pas encore de démarches ni de rendez-vous prévus cette semaine.";
+  static String agendaEmptyTitle = "Vous n’avez rien de prévu cette semaine";
+  static String agendaEmptySubtitleMilo =
+      "Commencez en créant une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran";
+  static String agendaEmptySubtitlePoleEmploi =
+      "Commencez en ajoutant une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran";
   static String agendaError = "Erreur lors de la récupération de vos actions et rendez-vous";
   static String agendaEmptyForDayMilo = "Pas d’action ni de rendez-vous";
   static String agendaEmptyForDayPoleEmploi = "Pas de démarche ni de rendez-vous";
+  static String agendaEmptyForWeekMilo =
+      "Pas d’action ni de rendez-vous. Créez une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran.";
+  static String agendaEmptyForWeekPoleEmploi =
+      "Pas de démarche ni de rendez-vous. Ajoutez une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran.";
   static String nextWeek = "Semaine prochaine";
   static String semaineEnCours = "Semaine en cours";
   static String agendaNoActionThisWeekTitle = "Vous n’avez pas d’action ni de rendez-vous prévus cette semaine";

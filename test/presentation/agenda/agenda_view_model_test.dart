@@ -69,7 +69,8 @@ void main() {
       viewModel.events,
       [
         WeekSeparatorAgendaItem("Semaine en cours"),
-        EmptyMessageAgendaItem("Pas de démarche ni de rendez-vous"),
+        EmptyMessageAgendaItem(
+            "Pas de démarche ni de rendez-vous. Ajoutez une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran."),
         WeekSeparatorAgendaItem("Semaine prochaine"),
         RendezvousAgendaItem(rendezvousLundiProchain.id, collapsed: true),
         RendezvousAgendaItem(rendezvousMardiProchain.id, collapsed: true),
@@ -116,8 +117,78 @@ void main() {
     );
   });
 
+  group('for Pole emploi users', () {
+    test('should display empty current week when there is nothing this week but something next week', () {
+      // Given
+      final actions = [actionSamediProchain];
+      final rendezvous = [rendezvousLundiProchain];
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: lundi22)
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.events,
+        [
+          WeekSeparatorAgendaItem("Semaine en cours"),
+          EmptyMessageAgendaItem(
+              "Pas de démarche ni de rendez-vous. Ajoutez une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran."),
+          WeekSeparatorAgendaItem("Semaine prochaine"),
+          RendezvousAgendaItem(rendezvousLundiProchain.id, collapsed: true),
+          UserActionAgendaItem(actionSamediProchain.id, collapsed: true),
+        ],
+      );
+    });
+    test('when empty should display empty item', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .agenda(dateDeDebut: lundi22)
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.events, [
+        EmptyAgendaItem(
+          title: "Vous n’avez rien de prévu cette semaine",
+          subtitle:
+              "Commencez en ajoutant une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran",
+        ),
+      ]);
+    });
+
+    test('when empty with delayed démarches should display empty item and delayed actions banner', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .agenda(dateDeDebut: lundi22, delayedActions: 3)
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.events, [
+        DelayedActionsBannerAgendaItem("3 démarches"),
+        EmptyAgendaItem(
+          title: "Vous n’avez rien de prévu cette semaine",
+          subtitle:
+              "Commencez en ajoutant une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran",
+        ),
+      ]);
+    });
+  });
+
   group('for Milo users', () {
-    test('should display events call to action when there is nothing this week but something next week', () {
+    test('should display empty current week when there is nothing this week but something next week', () {
       // Given
       final actions = [actionSamediProchain];
       final rendezvous = [rendezvousLundiProchain];
@@ -133,14 +204,16 @@ void main() {
       expect(
         viewModel.events,
         [
-          CallToActionEventMiloAgendaItem(),
+          WeekSeparatorAgendaItem("Semaine en cours"),
+          EmptyMessageAgendaItem(
+              "Pas d’action ni de rendez-vous. Créez une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran."),
           WeekSeparatorAgendaItem("Semaine prochaine"),
           RendezvousAgendaItem(rendezvousLundiProchain.id, collapsed: true),
           UserActionAgendaItem(actionSamediProchain.id, collapsed: true),
         ],
       );
     });
-    test('when empty should always display events call to action', () {
+    test('when empty should display empty item', () {
       // Given
       final store = givenState() //
           .loggedInMiloUser()
@@ -152,10 +225,16 @@ void main() {
 
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
-      expect(viewModel.events, [CallToActionEventMiloAgendaItem()]);
+      expect(viewModel.events, [
+        EmptyAgendaItem(
+          title: "Vous n’avez rien de prévu cette semaine",
+          subtitle:
+              "Commencez en créant une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran",
+        ),
+      ]);
     });
 
-    test('when empty with delayed actions should always display events call to action and delayed actions banner', () {
+    test('when empty with delayed actions should display empty item and delayed actions banner', () {
       // Given
       final store = givenState() //
           .loggedInMiloUser()
@@ -169,10 +248,15 @@ void main() {
       expect(viewModel.displayState, DisplayState.CONTENT);
       expect(viewModel.events, [
         DelayedActionsBannerAgendaItem("3 actions"),
-        CallToActionEventMiloAgendaItem(),
+        EmptyAgendaItem(
+          title: "Vous n’avez rien de prévu cette semaine",
+          subtitle:
+              "Commencez en créant une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran",
+        ),
       ]);
     });
   });
+
   group('isPoleEmploi', () {
     test('true when logged in with PE account', () {
       // Given
@@ -253,18 +337,6 @@ void main() {
 
       // Then
       expect(viewModel.displayState, DisplayState.FAILURE);
-    });
-
-    test('when user is from Pole Emploi should be empty on success state without content', () {
-      // Given
-      final store = givenState().loggedInPoleEmploiUser().emptyAgenda().store();
-
-      // When
-      final viewModel = AgendaPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.displayState, DisplayState.EMPTY);
-      expect(viewModel.emptyMessage, "Vous n'avez pas encore de démarches ni de rendez-vous prévus cette semaine.");
     });
 
     test('should be content on success state with content for Mission Locale', () {
