@@ -21,13 +21,14 @@ class CreateDemarcheStep2ViewModel extends Equatable {
 
 List<CreateDemarcheStep2Item> _items(List<DemarcheDuReferentiel> demarches) {
   return [
-    CreateDemarcheStep2TitleItem(demarches.isNotEmpty ? Strings.selectDemarche : Strings.noDemarcheFound),
+    if (demarches.isEmpty) CreateDemarcheStep2EmptyItem(),
+    if (demarches.isNotEmpty) CreateDemarcheStep2TitleItem(Strings.selectDemarche),
     ...demarches.map((demarche) => CreateDemarcheStep2DemarcheFoundItem(demarche.id)),
     CreateDemarcheStep2ButtonItem(),
   ];
 }
 
-abstract class CreateDemarcheStep2Item extends Equatable {
+sealed class CreateDemarcheStep2Item extends Equatable {
   @override
   List<Object?> get props => [];
 }
@@ -51,3 +52,5 @@ class CreateDemarcheStep2DemarcheFoundItem extends CreateDemarcheStep2Item {
 }
 
 class CreateDemarcheStep2ButtonItem extends CreateDemarcheStep2Item {}
+
+class CreateDemarcheStep2EmptyItem extends CreateDemarcheStep2Item {}

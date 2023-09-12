@@ -7,7 +7,7 @@ import '../../dsl/app_state_dsl.dart';
 
 void main() {
   group('when source is recherche', () {
-    test('create when state is successful without result should only display specific title and button', () {
+    test('create when state is successful without result should display empty item and button', () {
       // Given
       final store = givenState() //
           .loggedInUser() //
@@ -18,15 +18,10 @@ void main() {
       final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
 
       // Then
-      expect(viewModel.items.length, 2);
-
-      expect(viewModel.items[0], isA<CreateDemarcheStep2TitleItem>());
-      expect(
-        (viewModel.items[0] as CreateDemarcheStep2TitleItem).title,
-        'Aucune démarche pre-renseignée n’a été trouvée',
-      );
-
-      expect(viewModel.items[1], isA<CreateDemarcheStep2ButtonItem>());
+      expect(viewModel.items, [
+        CreateDemarcheStep2EmptyItem(),
+        CreateDemarcheStep2ButtonItem(),
+      ]);
     });
 
     test('create when state is successful with result should display specific title, items and button', () {

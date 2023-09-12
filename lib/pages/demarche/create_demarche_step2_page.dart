@@ -12,6 +12,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_du_referentiel_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 class CreateDemarcheStep2Page extends StatelessWidget {
   const CreateDemarcheStep2Page({super.key, required this.source, this.analyticsDetailsName});
@@ -45,23 +47,22 @@ class CreateDemarcheStep2Page extends StatelessWidget {
         separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
         itemBuilder: (context, index) {
           final item = viewModel.items[index];
-          if (item is CreateDemarcheStep2TitleItem) {
-            return Text(item.title, style: TextStyles.textBaseMedium);
-          }
-          if (item is CreateDemarcheStep2DemarcheFoundItem) {
-            return DemarcheDuReferentielCard(
-              source: source,
-              idDemarche: item.idDemarche,
-              onTap: () {
-                Navigator.push(context, CreateDemarcheStep3Page.materialPageRoute(item.idDemarche, source))
-                    .then((value) {
-                  // forward result to previous page
-                  if (value != null) Navigator.pop(context, value);
-                });
-              },
-            );
-          }
-          return CreateCustomDemarche();
+          return switch (item) {
+            final CreateDemarcheStep2TitleItem item => Text(item.title, style: TextStyles.textBaseMedium),
+            final CreateDemarcheStep2DemarcheFoundItem item => DemarcheDuReferentielCard(
+                source: source,
+                idDemarche: item.idDemarche,
+                onTap: () {
+                  Navigator.push(context, CreateDemarcheStep3Page.materialPageRoute(item.idDemarche, source))
+                      .then((value) {
+                    // forward result to previous page
+                    if (value != null) Navigator.pop(context, value);
+                  });
+                },
+              ),
+            CreateDemarcheStep2ButtonItem() => CreateCustomDemarche(),
+            CreateDemarcheStep2EmptyItem() => _EmptyPlaceholder(),
+          };
         },
       ),
     );
@@ -73,5 +74,20 @@ class CreateDemarcheStep2Page extends StatelessWidget {
       ThematiqueDemarcheSource() => AnalyticsScreenNames.thematiquesDemarcheDetails(sanitizedName),
       _ => AnalyticsScreenNames.searchDemarcheStep2,
     };
+  }
+}
+
+class _EmptyPlaceholder extends StatelessWidget {
+  _EmptyPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: EmptyStatePlaceholder(
+        illustration: Illustration.grey(Icons.search, withWhiteBackground: true),
+        title: Strings.createDemarcheStep2EmptyTitle,
+        subtitle: Strings.createDemarcheStep2EmptySubtitle,
+      ),
+    );
   }
 }
