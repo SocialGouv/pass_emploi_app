@@ -21,13 +21,16 @@ import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
+import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:redux/redux.dart';
 
@@ -64,15 +67,30 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       body: Center(child: _content(viewModel)),
-      floatingActionButton: FiltreButton.primary(
+      floatingActionButton: _floatingActionButton(context, viewModel),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  Widget? _floatingActionButton(BuildContext context, FavoriListViewModel viewModel) {
+    if (viewModel.displayState == DisplayState.CONTENT) {
+      return FiltreButton.primary(
         onPressed: () async {
           OffreFiltersBottomSheet.show(context, _selectedFilter).then((result) {
             if (result != null) _filterSelected(result);
           });
         },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
+      );
+    }
+    if (viewModel.displayState == DisplayState.EMPTY) {
+      return PrimaryActionButton(label: Strings.favorisListEmptyButton, onPressed: () => _goToRecherche(context));
+    }
+    return null;
+  }
+
+  void _goToRecherche(BuildContext context) {
+    Navigator.of(context).pop();
+    StoreProvider.of<AppState>(context).dispatchRechercheDeeplink();
   }
 
   Widget _content(FavoriListViewModel viewModel) {
@@ -82,7 +100,7 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
       child: switch (displayState) {
         DisplayState.LOADING => _OffreFavorisLoading(),
         DisplayState.FAILURE => Retry(Strings.favorisError, () => viewModel.onRetry()),
-        DisplayState.EMPTY => _Empty(),
+        DisplayState.EMPTY => _EmptyListPlaceholder.noFavori(),
         DisplayState.CONTENT => _favoris(viewModel),
       },
     );
@@ -90,7 +108,7 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
 
   Widget _favoris(FavoriListViewModel viewModel) {
     final favoris = _getFavorisFiltered(viewModel);
-    if (favoris.isEmpty) return _Empty();
+    if (favoris.isEmpty) return _EmptyListPlaceholder.noFavoriFiltered();
     return ListView.separated(
       padding: const EdgeInsets.only(
         left: Margins.spacing_base,
@@ -219,9 +237,36 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
   }
 }
 
-class _Empty extends StatelessWidget {
+class _EmptyListPlaceholder extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  _EmptyListPlaceholder({required this.title, required this.subtitle});
+
+  factory _EmptyListPlaceholder.noFavori() {
+    return _EmptyListPlaceholder(
+      title: Strings.favorisListEmptyTitle,
+      subtitle: Strings.favorisListEmptySubtitle,
+    );
+  }
+
+  factory _EmptyListPlaceholder.noFavoriFiltered() {
+    return _EmptyListPlaceholder(
+      title: Strings.favorisFilteredListEmptyTitle,
+      subtitle: Strings.favorisFilteredListEmptySubtitle,
+    );
+  }
+
   @override
-  Widget build(BuildContext context) => Text(Strings.noFavoris, style: TextStyles.textSRegular());
+  Widget build(BuildContext context) {
+    return Center(
+      child: EmptyStatePlaceholder(
+        illustration: Illustration.grey(Icons.search, withWhiteBackground: true),
+        title: title,
+        subtitle: subtitle,
+      ),
+    );
+  }
 }
 
 class _OffreFavorisLoading extends StatelessWidget {

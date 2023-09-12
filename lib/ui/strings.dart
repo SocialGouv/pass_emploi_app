@@ -272,7 +272,8 @@ class Strings {
   static String rendezSemaineTitre = "Semaine du";
   static String rendezVousFutursTitre = "Rendez-vous futurs";
   static String noRendezVousThisWeek = "Vous n’avez pas encore de rendez-vous prévu cette semaine";
-  static String noRendezVousThisWeekSubtitle = "Retrouvez vos rendez-vous passés ou à venir avec les flèches en haut de page.";
+  static String noRendezVousThisWeekSubtitle =
+      "Retrouvez vos rendez-vous passés ou à venir avec les flèches en haut de page.";
   static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévu pour la semaine du ";
   static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
   static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévu";
@@ -654,7 +655,12 @@ class Strings {
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
 
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
-  static String noFavoris = "Aucun favori";
+  static String favorisListEmptyTitle = "Vous n’avez pas encore d’offre en favori";
+  static String favorisListEmptySubtitle =
+      "Découvrez et sauvegardez des offres d’emploi, alternance, immersion et service civique qui vous intéressent";
+  static String favorisListEmptyButton = "Rechercher une offre";
+  static String favorisFilteredListEmptyTitle = "Aucun favori ne correspond à vos critères";
+  static String favorisFilteredListEmptySubtitle = "Essayez de modifier vos filtres";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
   static String favorisUnknownContractType = 'Type de contrat inconnu';
   static String favorisUnknownSecteur = 'Secteur d\'activité inconnu';
