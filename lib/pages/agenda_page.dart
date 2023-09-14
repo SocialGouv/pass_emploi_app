@@ -31,11 +31,9 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
-import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
-import 'package:pass_emploi_app/widgets/reloadable_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
