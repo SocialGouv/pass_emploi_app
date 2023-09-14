@@ -794,8 +794,13 @@ class Strings {
       "Votre recherche a bien été enregistrée. Retrouvez-la dans la section Mes Alertes sur votre page d'accueil.";
   static String creationSavedSearchError = "Erreur lors de la création de l'alerte. Veuillez réessayer";
   static String savedSearchGetError = "Erreur lors de la récupération des recherches sauvegardées.";
-  static String noSavedSearchYet = "Aucune alerte.";
   static String savedSearchTabName = "Mes alertes";
+  static String alertesListEmptyTitle = "Vous n’avez pas encore d’alerte sauvegardée";
+  static String alertesListEmptySubtitle =
+      "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
+  static String alertesListEmptyButton = "Rechercher une offre";
+  static String alertesFilteredListEmptyTitle = "Aucune alerte ne correspond à vos critères";
+  static String alertesFilteredListEmptySubtitle = "Essayez de modifier vos filtres";
   static String favorisTabName = "Mes offres";
   static String savedSearchSeeResults = "Voir les résultats";
 
