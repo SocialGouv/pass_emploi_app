@@ -28,7 +28,7 @@ class PostulerOffreBottomSheet extends StatelessWidget {
             ],
           ),
           SizedBox(height: Margins.spacing_base),
-          Expanded(child: CvList()),
+          Expanded(child: CvList(insideBottomSheet: true)),
           PrimaryActionButton(
             label: Strings.postulerContinueButton,
             icon: AppIcons.open_in_new_rounded,

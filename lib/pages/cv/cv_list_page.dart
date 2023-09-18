@@ -14,16 +14,29 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/preview_file_invisible_handler.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class CvListPage extends StatelessWidget {
-  static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => CvListPage());
+  final bool insideBottomSheet;
 
-  const CvListPage({super.key});
+  static MaterialPageRoute<void> materialPageRoute({bool insideBottomSheet = false}) {
+    return MaterialPageRoute(
+      builder: (context) => CvListPage(
+        insideBottomSheet: insideBottomSheet,
+      ),
+    );
+  }
+
+  CvListPage({required this.insideBottomSheet});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +46,7 @@ class CvListPage extends StatelessWidget {
         appBar: SecondaryAppBar(title: Strings.cvListPageTitle),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-          child: CvList(),
+          child: CvList(insideBottomSheet: insideBottomSheet),
         ),
       ),
     );
@@ -41,21 +54,26 @@ class CvListPage extends StatelessWidget {
 }
 
 class CvList extends StatelessWidget {
+  final bool insideBottomSheet;
+
+  const CvList({required this.insideBottomSheet});
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CvViewModel>(
       onInit: (store) => store.dispatch(CvRequestAction()),
       converter: (store) => CvViewModel.create(store),
-      builder: (context, viewModel) => _Body(viewModel),
+      builder: (context, viewModel) => _Body(viewModel, insideBottomSheet),
       distinct: true,
     );
   }
 }
 
 class _Body extends StatelessWidget {
+  final bool insideBottomSheet;
   final CvViewModel viewModel;
 
-  const _Body(this.viewModel);
+  const _Body(this.viewModel, this.insideBottomSheet);
 
   @override
   Widget build(BuildContext context) {
@@ -68,39 +86,10 @@ class _Body extends StatelessWidget {
       case DisplayState.CONTENT:
         return _Content(viewModel);
       case DisplayState.EMPTY:
-        return _Empty();
+        return _EmptyListPlaceholder(insideBottomSheet);
       case DisplayState.FAILURE:
         return Center(child: Retry(Strings.cvError, () => viewModel.retry()));
     }
-  }
-}
-
-class _Empty extends StatelessWidget {
-  const _Empty({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            AppIcons.folder_off,
-            size: 80,
-            color: AppColors.primary,
-          ),
-          SizedBox(height: Margins.spacing_m),
-          Text(
-            Strings.cvEmpty,
-            style: TextStyles.textBaseMedium.copyWith(color: AppColors.grey800),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
   }
 }
 
@@ -202,5 +191,64 @@ class _ApiPeKo extends StatelessWidget {
         SizedBox(height: Margins.spacing_huge),
       ],
     );
+  }
+}
+
+class _EmptyListPlaceholder extends StatelessWidget {
+  static const espaceCandidatLink = "https://candidat.pole-emploi.fr/espacepersonnel/";
+
+  final bool insideBottomSheet;
+
+  _EmptyListPlaceholder(this.insideBottomSheet);
+
+  @override
+  Widget build(BuildContext context) {
+    if (insideBottomSheet) return _minimalistEmpty();
+
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          EmptyStatePlaceholder(
+            illustration: Illustration.grey(Icons.send),
+            title: Strings.cvListEmptyTitle,
+            subtitle: Strings.cvListEmptySubitle,
+          ),
+          SizedBox(height: Margins.spacing_l),
+          PrimaryActionButton(
+            label: Strings.cvEmptyButton,
+            icon: AppIcons.open_in_new_rounded,
+            onPressed: () => _launchAndTrackExternalLink(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _minimalistEmpty() {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            Strings.cvListEmptyTitle,
+            style: TextStyles.textBaseMedium,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: Margins.spacing_l),
+          SecondaryButton(
+            label: Strings.cvEmptyButton,
+            icon: AppIcons.open_in_new_rounded,
+            onPressed: () => _launchAndTrackExternalLink(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _launchAndTrackExternalLink() {
+    PassEmploiMatomoTracker.instance.trackOutlink(espaceCandidatLink);
+    launchExternalUrl(espaceCandidatLink);
   }
 }
