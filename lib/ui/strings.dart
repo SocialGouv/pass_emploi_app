@@ -687,13 +687,17 @@ class Strings {
   // Empty Content (actions & rdv)
   static String rendezvous = "rendez-vous";
   static String actions = "actions";
-  static String demarchesToDo = "démarches à réaliser.";
+  static String action = "action";
+
+  static String demarchesToDo = "démarche prévue.";
   static String demarches = "démarches";
+  static String demarche = "démarche";
 
   static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 
   static String emptyContentTitle(String content) => "Vous n’avez pas encore de $content";
+  static String emptyContentSubtitle(String content) => "Commencez en ajoutant une nouvelle $content !";
 
   static String emptyContentDescription(String content) =>
       "Vous pouvez créer vos $content en autonomie depuis votre espace Pôle emploi.";

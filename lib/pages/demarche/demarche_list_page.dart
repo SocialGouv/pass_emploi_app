@@ -132,7 +132,10 @@ class DemarcheListPage extends StatelessWidget {
     return showNotUpToDateMessage
         ? ReloadablePage(
             reloadMessage: Strings.demarchesNotUpToDateMessage, onReload: viewModel.onRetry, emptyMessage: emptyMessage)
-        : Empty(description: emptyMessage);
+        : Empty(
+            title: emptyMessage,
+            subtitle: Strings.emptyContentSubtitle(Strings.demarche),
+          );
   }
 }
 
