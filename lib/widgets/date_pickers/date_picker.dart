@@ -30,7 +30,10 @@ class DatePicker extends StatelessWidget {
     return TextFormField(
       enabled: isActiveDate,
       decoration: InputDecoration(
-          suffixIcon: Icon(AppIcons.today_rounded, color: AppColors.grey800),
+          suffixIcon: IconButton(
+            onPressed: () => openDatePicker(context),
+            icon: Icon(AppIcons.today_rounded, color: AppColors.grey800),
+          ),
           hintText: _hintText(),
           errorText: errorText,
           contentPadding: const EdgeInsets.all(Margins.spacing_base),
@@ -40,11 +43,14 @@ class DatePicker extends StatelessWidget {
           )),
       keyboardType: TextInputType.none,
       textCapitalization: TextCapitalization.sentences,
-      onTap: () => Platform.isIOS ? _iOSDatePicker(context) : _androidDatePicker(context),
+      onTap: () => openDatePicker(context),
       showCursor: false,
       readOnly: true,
     );
   }
+
+  Future<void> openDatePicker(BuildContext context) =>
+      Platform.isIOS ? _iOSDatePicker(context) : _androidDatePicker(context);
 
   Future<void> _iOSDatePicker(BuildContext context) async {
     showCupertinoModalPopup(
