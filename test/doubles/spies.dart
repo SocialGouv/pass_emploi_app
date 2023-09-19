@@ -90,7 +90,7 @@ class SpyPassEmploiCacheManager extends PassEmploiCacheManager {
   bool removeSuggestionsRechercheResourceWasCalled = false;
 
   @override
-  void removeResource(CachedResource resourceToRemove, String userId) {
+  Future<void> removeResource(CachedResource resourceToRemove, String userId) async {
     removeResourceParams = resourceToRemove;
   }
 

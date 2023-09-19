@@ -19,13 +19,15 @@ class CacheDioInterceptor extends PassEmploiBaseDioInterceptor {
       return;
     }
 
-    final fileFromCache = await cacheManager.getFileFromCache(stringUrl);
+    final cacheKey = CachedResource.fromUrl(stringUrl)?.toString() ?? stringUrl;
+    final fileFromCache = await cacheManager.getFileFromCache(cacheKey);
     if (fileFromCache != null && await fileFromCache.file.exists() && isCacheStillUpToDate(fileFromCache)) {
       Log.i("""Dio Request - cache interceptor - return cached data
       - ${options.method} ${options.uri.toString()}
       - queryParams: ${options.queryParameters}
       - headers: ${options.headers}
       """);
+      print("@@@ Resource $cacheKey : CACHE a été utilisé"); //TODO: temp
       handler.resolve(await _response(options, fileFromCache.file));
     } else {
       Log.i("""Dio Request - cache interceptor - return fresh data
@@ -33,9 +35,10 @@ class CacheDioInterceptor extends PassEmploiBaseDioInterceptor {
       - queryParams: ${options.queryParameters}
       - headers: ${options.headers}
       """);
+      print("@@@ Resource $cacheKey : INTERNET a été utilisé"); //TODO: temp
       final headers = options.headers.map((key, value) => MapEntry(key, value.toString()));
       await cacheManager
-          .downloadFile(stringUrl, key: stringUrl, authHeaders: headers)
+          .downloadFile(stringUrl, key: cacheKey, authHeaders: headers)
           .then((downloadedFile) => _response(options, downloadedFile.file))
           .then((response) => handler.resolve(response))
           .catchError((e) => handler.reject(DioError(requestOptions: options, error: e)));

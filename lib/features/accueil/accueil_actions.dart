@@ -1,6 +1,10 @@
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 
-class AccueilRequestAction {}
+class AccueilRequestAction {
+  final bool forceRefresh;
+
+  AccueilRequestAction({this.forceRefresh = false});
+}
 
 class AccueilLoadingAction {}
 

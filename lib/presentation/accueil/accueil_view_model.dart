@@ -33,7 +33,7 @@ class AccueilViewModel extends Equatable {
       items: _items(store),
       deepLinkState: store.state.deepLinkState,
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
-      retry: () => store.dispatch(AccueilRequestAction()),
+      retry: () => store.dispatch(AccueilRequestAction(forceRefresh: true)),
     );
   }
 

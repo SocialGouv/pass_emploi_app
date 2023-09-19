@@ -195,6 +195,7 @@ class AppInitializer {
       authenticator,
       crashlytics,
       chatCrypto,
+      requestCacheManager,
       PageActionRepository(dioClient, crashlytics),
       PageDemarcheRepository(dioClient, crashlytics),
       RendezvousRepository(dioClient, crashlytics),

@@ -86,20 +86,32 @@ class _UserActionListPageState extends State<UserActionListPage> {
     if (viewModel.withLoading) return UserActionsLoading();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     if (viewModel.withEmptyMessage) {
-      return Empty(
-        title: Strings.noActionsYet,
-        subtitle: Strings.emptyContentSubtitle(Strings.action),
+      return RefreshIndicator.adaptive(
+        onRefresh: () async => viewModel.onRetry(),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverFillRemaining(
+              child: Empty(
+                title: Strings.noActionsYet,
+                subtitle: Strings.emptyContentSubtitle(Strings.action),
+              ),
+            )
+          ],
+        ),
       );
     }
     return _userActionsList(context, viewModel);
   }
 
   Widget _userActionsList(BuildContext context, UserActionListPageViewModel viewModel) {
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
-      itemCount: viewModel.items.length,
-      itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
-      separatorBuilder: (context, i) => _listSeparator(),
+    return RefreshIndicator.adaptive(
+      onRefresh: () async => viewModel.onRetry(),
+      child: ListView.separated(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+        itemCount: viewModel.items.length,
+        itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
+        separatorBuilder: (context, i) => _listSeparator(),
+      ),
     );
   }
 

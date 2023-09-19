@@ -27,19 +27,28 @@ class PassEmploiCacheManager extends CacheManager {
     );
   }
 
-  void removeResource(CachedResource resourceToRemove, String userId) {
+  Future<void> removeResource(CachedResource resourceToRemove, String userId) async {
+    //TODO: quand on aura géré les legacy cache, il suffirait d'une seule ligne
+    // removeFile(resourceToRemove.toString());
     switch (resourceToRemove) {
+      case CachedResource.ACCUEIL:
+        await removeFile(resourceToRemove.toString());
+        break;
+      case CachedResource.USER_ACTIONS_LIST:
+        await removeFile(resourceToRemove.toString());
+        break;
       case CachedResource.FAVORIS:
-        removeFile(baseUrl + GetFavorisRepository.getFavorisUrl(userId: userId));
-        removeFile(baseUrl + ImmersionFavorisRepository.getFavorisIdUrl(userId: userId));
-        removeFile(baseUrl + OffreEmploiFavorisRepository.getFavorisIdUrl(userId: userId));
-        removeFile(baseUrl + ServiceCiviqueFavorisRepository.getFavorisIdUrl(userId: userId));
+        //TODO: un case d'enum par type de favoris. Et éventuellement on fait une fonction qui appelle les 4 remove
+        await removeFile(baseUrl + GetFavorisRepository.getFavorisUrl(userId: userId));
+        await removeFile(baseUrl + ImmersionFavorisRepository.getFavorisIdUrl(userId: userId));
+        await removeFile(baseUrl + OffreEmploiFavorisRepository.getFavorisIdUrl(userId: userId));
+        await removeFile(baseUrl + ServiceCiviqueFavorisRepository.getFavorisIdUrl(userId: userId));
         break;
       case CachedResource.SAVED_SEARCH:
-        removeFile(baseUrl + GetSavedSearchRepository.getSavedSearchUrl(userId: userId));
+        await removeFile(baseUrl + GetSavedSearchRepository.getSavedSearchUrl(userId: userId));
         break;
       case CachedResource.UPDATE_PARTAGE_ACTIVITE:
-        removeFile(baseUrl + PartageActiviteRepository.getPartageActiviteUrl(userId: userId));
+        await removeFile(baseUrl + PartageActiviteRepository.getPartageActiviteUrl(userId: userId));
         break;
     }
   }
@@ -58,18 +67,25 @@ class PassEmploiCacheManager extends CacheManager {
 }
 
 enum CachedResource {
+  ACCUEIL,
+  USER_ACTIONS_LIST,
   FAVORIS,
   SAVED_SEARCH,
-  UPDATE_PARTAGE_ACTIVITE,
+  UPDATE_PARTAGE_ACTIVITE;
+
+  static CachedResource? fromUrl(String url) {
+    //TODO: est-ce qu'on a envie de dupliquer avec l'adresse en dur dans le repo ?
+    // ou est-ce qu'on ferait un truc du genre url contains Repo.getUri().path (le path sans query selon les urls pour éviter les dates)
+    if (url.contains('accueil')) return ACCUEIL;
+    if (url.contains('/home/actions')) return USER_ACTIONS_LIST;
+    return null;
+  }
 }
 
 const _blacklistedRoutes = [
   '/rendezvous',
   '/home/agenda',
   '/home/agenda/pole-emploi',
-  '/milo/accueil',
-  '/pole-emploi/accueil',
-  '/home/actions',
   '/home/demarches',
   '/fichiers',
   '/docnums/',

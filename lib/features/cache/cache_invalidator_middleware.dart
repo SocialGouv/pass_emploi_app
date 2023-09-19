@@ -1,6 +1,4 @@
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
-import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
@@ -9,48 +7,47 @@ import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
-import 'package:pass_emploi_app/models/accueil/accueil.dart';
-import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:redux/redux.dart';
 
-class AccueilMiddleware extends MiddlewareClass<AppState> {
-  final AccueilRepository _repository;
+//TODO: Reste à faire
+// Accueil : OK ?
+// Actions : OK ?
+// Démarches
+// Agenda
+// Rendezvous
+// Favoris
+// Alertes
+// Events
 
-  AccueilMiddleware(this._repository);
+class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
+  final PassEmploiCacheManager cacheManager;
+
+  CacheInvalidatorMiddleware(this.cacheManager);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
+    final userId = store.state.userId() ?? "";
+
+    if (_shouldInvalidateAccueil(action)) {
+      await cacheManager.removeResource(CachedResource.ACCUEIL, userId);
+    }
+    if (_shouldInvalidateUserActionsList(action)) {
+      await cacheManager.removeResource(CachedResource.USER_ACTIONS_LIST, userId);
+    }
+
     next(action);
-
-    final user = store.state.user();
-    if (user == null) return;
-
-    if (_needFetchingAccueil(action)) {
-      store.dispatch(AccueilLoadingAction());
-      final result = await getAccueil(user);
-      if (result != null) {
-        store.dispatch(AccueilSuccessAction(result));
-      } else {
-        store.dispatch(AccueilFailureAction());
-      }
-      store.dispatch(CampagneFetchedAction(result?.campagne));
-    }
-  }
-
-  Future<Accueil?> getAccueil(User user) {
-    if (user.loginMode.isPe()) {
-      return _repository.getAccueilPoleEmploi(user.id, DateTime.now());
-    }
-    return _repository.getAccueilMissionLocale(user.id, DateTime.now());
   }
 }
 
-//TODO: mutualiser avec l'invalidation de cache ?
-bool _needFetchingAccueil(dynamic action) {
-  return action is AccueilRequestAction ||
+//TODO: il va y avoir des doublons, peut-être qu'il y aura des choses à regrouper
+// exemple : Accueil = action request de l'accueil + actions de modif de démarche + actions de modif favoris + ...
+
+bool _shouldInvalidateAccueil(action) {
+  return (action is AccueilRequestAction && action.forceRefresh) ||
       action is UserActionCreateSuccessAction ||
       action is UserActionDeleteSuccessAction ||
       action is UserActionUpdateSuccessAction ||
@@ -61,4 +58,11 @@ bool _needFetchingAccueil(dynamic action) {
       action is SavedSearchDeleteSuccessAction ||
       action is AccepterSuggestionRechercheSuccessAction ||
       action is RefuserSuggestionRechercheSuccessAction;
+}
+
+bool _shouldInvalidateUserActionsList(action) {
+  return (action is UserActionListRequestAction && action.forceRefresh) ||
+      action is UserActionCreateSuccessAction ||
+      action is UserActionDeleteSuccessAction ||
+      action is UserActionUpdateSuccessAction;
 }
