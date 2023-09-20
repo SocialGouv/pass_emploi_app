@@ -18,7 +18,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class CreateDemarcheStep1Page extends StatefulWidget {
@@ -40,7 +39,6 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
       child: StoreConnector<AppState, CreateDemarcheStep1ViewModel>(
         builder: _buildBody,
         converter: (store) => CreateDemarcheStep1ViewModel.create(store),
-        onDidChange: _onDidChange,
         onDispose: (store) => store.dispatch(SearchDemarcheResetAction()),
         distinct: true,
       ),
@@ -69,14 +67,13 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
                   });
                 },
               ),
-              if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
               SizedBox(height: Margins.spacing_xl),
               SizedBox(
                 width: double.infinity,
                 child: PrimaryActionButton(
                   icon: AppIcons.search_rounded,
                   label: Strings.searchDemarcheButton,
-                  onPressed: _buttonIsActive(viewModel) ? () => viewModel.onSearchDemarche(_query) : null,
+                  onPressed: () => _onSearchStarted(viewModel, context),
                 ),
               ),
               SizedBox(height: Margins.spacing_xl),
@@ -93,22 +90,18 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
     );
   }
 
-  void _onDidChange(CreateDemarcheStep1ViewModel? oldVm, CreateDemarcheStep1ViewModel newVm) {
-    if (newVm.shouldGoToStep2) {
-      Navigator.push(
-          context,
-          CreateDemarcheStep2Page.materialPageRoute(
-            source: RechercheDemarcheSource(),
-            query: _query,
-          )).then((value) {
-        // forward result to previous page
-        if (value != null) Navigator.pop(context, value);
-      });
-    }
-  }
+  void _onSearchStarted(CreateDemarcheStep1ViewModel viewModel, BuildContext context) {
+    viewModel.onSearchDemarche(_query);
 
-  bool _buttonIsActive(CreateDemarcheStep1ViewModel viewModel) {
-    return _query.trim().isNotEmpty && !viewModel.displayState.isLoading();
+    Navigator.push(
+        context,
+        CreateDemarcheStep2Page.materialPageRoute(
+          source: RechercheDemarcheSource(),
+          query: _query,
+        )).then((value) {
+      // forward result to previous page
+      if (value != null) Navigator.pop(context, value);
+    });
   }
 }
 
