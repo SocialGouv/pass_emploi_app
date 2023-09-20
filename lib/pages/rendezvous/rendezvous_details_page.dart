@@ -84,11 +84,7 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
   }
 
   Widget _scaffold(BuildContext context, RendezvousDetailsViewModel viewModel) {
-    // Required here has we need retrieval from state to determine proper tracking page name
-    if (!_hasBeenTracked && viewModel.trackingPageName != null) {
-      PassEmploiMatomoTracker.instance.trackScreen(viewModel.trackingPageName!);
-      _hasBeenTracked = true;
-    }
+    _trackPageOnRendezvousRetrievalFromState(viewModel);
     const backgroundColor = Colors.white;
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -145,6 +141,13 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
         ),
       ),
     );
+  }
+
+  void _trackPageOnRendezvousRetrievalFromState(RendezvousDetailsViewModel viewModel) {
+    if (!_hasBeenTracked && viewModel.trackingPageName != null) {
+      PassEmploiMatomoTracker.instance.trackScreen(viewModel.trackingPageName!);
+      _hasBeenTracked = true;
+    }
   }
 }
 
