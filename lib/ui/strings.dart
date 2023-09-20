@@ -332,7 +332,7 @@ class Strings {
   static String refreshActionStatus = "Valider le statut";
   static const String actionToDo = "À réaliser";
   static const String actionInProgress = "Commencée";
-  static String noActionsYet = "Vous n'avez pas encore d’actions.";
+  static String noActionsYet = "Vous n'avez pas encore d’action prévue.";
   static String addAnAction = "Créer une action";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
@@ -698,7 +698,7 @@ class Strings {
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 
   static String emptyContentTitle(String content) => "Vous n’avez pas encore de $content";
-  static String emptyContentSubtitle(String content) => "Commencez en ajoutant une nouvelle $content !";
+  static String emptyContentSubtitle(String content) => "Commencez en créant une nouvelle $content !";
 
   static String emptyContentDescription(String content) =>
       "Vous pouvez créer vos $content en autonomie depuis votre espace Pôle emploi.";
