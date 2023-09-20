@@ -841,7 +841,7 @@ void main() {
           isInVisio: false,
           withConseiller: true,
           isAnnule: false,
-          type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
+          type: RendezvousType(RendezvousTypeCode.ENTRETIEN_PARTENAIRE, 'Entretien Partenaire'),
           comment: 'comment',
           organism: 'organism',
           address: 'address',
@@ -863,7 +863,7 @@ void main() {
             displayState: DisplayState.CONTENT,
             navbarTitle: "Mon rendez-vous",
             id: "1",
-            tag: "Atelier",
+            tag: "Entretien Partenaire",
             greenTag: false,
             date: '01 mars 2022',
             hourAndDuration: '00:00 (30min)',
@@ -877,7 +877,7 @@ void main() {
             withIfAbsentPart: true,
             visioButtonState: VisioButtonState.HIDDEN,
             onRetry: () => {},
-            trackingPageName: 'rdv/atelier',
+            trackingPageName: 'rdv/detail',
             modality: 'Le rendez-vous se fera sur place : Mission Locale',
             conseiller: 'votre conseiller Nils Tavernier',
             commentTitle: 'Commentaire de mon conseiller',
@@ -966,7 +966,7 @@ void main() {
               onRetry: () => {},
               commentTitle: 'Commentaire',
               title: 'ANIMATION COLLECTIVE POUR TEST - SESSION TEST',
-              trackingPageName: "rdv/atelier",
+              trackingPageName: "session_milo/detail",
               comment: 'Lorem ipsus',
               address: 'Paris',
               addressRedirectUri: Uri.parse('https://maps.apple.com/maps?q=Paris'),
@@ -1073,82 +1073,83 @@ void main() {
     });
   });
 
-  group("tracking should be set correctly depending on rendezvous type", () {
-    void assertTrackingPageName(Rendezvous rdv, String trackingPageName) {
-      test("${rdv.type.code} -> $trackingPageName", () async {
-        // Given
-        final store = _store(rdv);
+  group("tracking when rendezvous…", () {
+    test('source state is Session Milo Details should be track as a Session Milo', () {
+      // Given
+      final store = givenState().loggedInUser().withSuccessSessionMiloDetails().store();
 
-        // When
-        final viewModel = RendezvousDetailsViewModel.create(
-          store: store,
-          source: RendezvousStateSource.rendezvousList,
-          rdvId: '1',
-          platform: Platform.IOS,
-        );
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.sessionMiloDetails,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
 
-        // Then
-        expect(viewModel.trackingPageName, trackingPageName);
-      });
-    }
+      // Then
+      expect(viewModel.trackingPageName, 'session_milo/detail');
+    });
 
-    assertTrackingPageName(
-      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ACTIVITE_EXTERIEURES, '')),
-      'rdv/activites-exterieures',
-    );
+    test('is of type ATELIER should be track as an Animation Collective', () {
+      // Given
+      final rdv = mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ATELIER, ''));
+      final store = givenState().loggedInUser().rendezvous(rendezvous: [rdv]).store();
 
-    assertTrackingPageName(
-      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ATELIER, '')),
-      'rdv/atelier',
-    );
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.rendezvousList,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
 
-    assertTrackingPageName(
-      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, '')),
-      'rdv/entretien-individuel',
-    );
+      // Then
+      expect(viewModel.trackingPageName, 'animation_collective/detail');
+    });
 
-    assertTrackingPageName(
-      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ENTRETIEN_PARTENAIRE, '')),
-      'rdv/entretien-partenaire',
-    );
+    test('is of type INFORMATION_COLLECTIVE should be track as an Animation Collective', () {
+      // Given
+      final rdv = mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.INFORMATION_COLLECTIVE, ''));
+      final store = givenState().loggedInUser().rendezvous(rendezvous: [rdv]).store();
 
-    assertTrackingPageName(
-      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.INFORMATION_COLLECTIVE, '')),
-      'rdv/information-collective',
-    );
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.rendezvousList,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
 
-    assertTrackingPageName(
-      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.VISITE, '')),
-      'rdv/visite',
-    );
+      // Then
+      expect(viewModel.trackingPageName, 'animation_collective/detail');
+    });
 
-    assertTrackingPageName(
-      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.PRESTATION, '')),
-      'rdv/prestation',
-    );
+    test('otherwise should be track as a Rendezvous', () {
+      // Given
+      final rdv = mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, ''));
+      final store = givenState().loggedInUser().rendezvous(rendezvous: [rdv]).store();
 
-    assertTrackingPageName(
-      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.AUTRE, '')),
-      'rdv/autre',
-    );
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.rendezvousList,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.trackingPageName, 'rdv/detail');
+    });
   });
 }
 
 Store<AppState> _store(Rendezvous rendezvous) {
-  return TestStoreFactory().initializeReduxStore(
-    initialState: loggedInState().copyWith(
-      rendezvousListState: RendezvousListState.successfulFuture(rendezvous: [rendezvous]),
-    ),
-  );
+  return givenState().loggedInUser().rendezvous(rendezvous: [rendezvous]).store();
 }
 
 Store<AppState> _storeNotUpToDate(Rendezvous rendezvous, DateTime dateDerniereMiseAJour) {
-  return TestStoreFactory().initializeReduxStore(
-    initialState: loggedInState().copyWith(
-      rendezvousListState: RendezvousListState.successfulFuture(
-        rendezvous: [rendezvous],
-        dateDerniereMiseAJour: dateDerniereMiseAJour,
-      ),
-    ),
-  );
+  return givenState()
+      .loggedInUser()
+      .rendezvous(rendezvous: [rendezvous], dateDerniereMiseAJour: dateDerniereMiseAJour) //
+      .store();
 }

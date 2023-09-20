@@ -135,7 +135,7 @@ class RendezvousDetailsViewModel extends Equatable {
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       onRetry: () => {},
-      trackingPageName: _trackingPageName(rdv.type.code),
+      trackingPageName: _trackingPageName(source, rdv.type.code),
       title: rdv.title,
       commentTitle: _commentTitle(source, rdv, comment),
       comment: _comment(source, comment),
@@ -153,10 +153,7 @@ class RendezvousDetailsViewModel extends Equatable {
     RendezvousStateSource source,
     String rdvId,
   ) {
-    final fromSession = [
-      RendezvousStateSource.sessionMiloDetails,
-    ].contains(source);
-    final isFailure = fromSession
+    final isFailure = source.isMiloDetails
         ? store.state.sessionMiloDetailsState is SessionMiloDetailsFailureState
         : store.state.rendezvousDetailsState is RendezvousDetailsFailureState;
     return RendezvousDetailsViewModel(
@@ -177,7 +174,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withIfAbsentPart: false,
       visioButtonState: VisioButtonState.HIDDEN,
       onRetry: () {
-        fromSession
+        source.isMiloDetails
             ? store.dispatch(SessionMiloDetailsRequestAction(rdvId))
             : store.dispatch(RendezvousDetailsRequestAction(rdvId));
       },
@@ -335,25 +332,12 @@ VisioButtonState _visioButtonState(Rendezvous rdv) {
   return VisioButtonState.HIDDEN;
 }
 
-String? _trackingPageName(RendezvousTypeCode code) {
-  switch (code) {
-    case RendezvousTypeCode.ACTIVITE_EXTERIEURES:
-      return AnalyticsScreenNames.rendezvousActivitesExterieures;
-    case RendezvousTypeCode.ATELIER:
-      return AnalyticsScreenNames.rendezvousAtelier;
-    case RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER:
-      return AnalyticsScreenNames.rendezvousEntretienIndividuel;
-    case RendezvousTypeCode.ENTRETIEN_PARTENAIRE:
-      return AnalyticsScreenNames.rendezvousEntretienPartenaire;
-    case RendezvousTypeCode.INFORMATION_COLLECTIVE:
-      return AnalyticsScreenNames.rendezvousInformationCollective;
-    case RendezvousTypeCode.VISITE:
-      return AnalyticsScreenNames.rendezvousVisite;
-    case RendezvousTypeCode.PRESTATION:
-      return AnalyticsScreenNames.rendezvousPrestation;
-    case RendezvousTypeCode.AUTRE:
-      return AnalyticsScreenNames.rendezvousAutre;
+String? _trackingPageName(RendezvousStateSource source, RendezvousTypeCode type) {
+  if (source.isMiloDetails) return AnalyticsScreenNames.sessionMiloDetails;
+  if ([RendezvousTypeCode.ATELIER, RendezvousTypeCode.INFORMATION_COLLECTIVE].contains(type)) {
+    return AnalyticsScreenNames.animationCollectiveDetails;
   }
+  return AnalyticsScreenNames.rendezvousDetails;
 }
 
 String? _withAnimateur(RendezvousStateSource source, String? animateur) {
