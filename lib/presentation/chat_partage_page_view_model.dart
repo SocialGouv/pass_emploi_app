@@ -133,7 +133,7 @@ class ChatPartagePageViewModel extends Equatable {
       snackbarState: _snackbarState(store),
       snackbarDisplayed: () => store.dispatch(ChatPartageResetAction()),
       snackbarSuccessText: Strings.partageEventSuccess,
-      snackbarSuccessTracking: AnalyticsScreenNames.eventPartagePageSuccess,
+      snackbarSuccessTracking: AnalyticsScreenNames.animationCollectivePartagePageSuccess,
     );
   }
 
