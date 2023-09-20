@@ -16,14 +16,24 @@ import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dar
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 class CreateDemarcheStep2Page extends StatelessWidget {
-  const CreateDemarcheStep2Page({super.key, required this.source, this.analyticsDetailsName});
+  const CreateDemarcheStep2Page({super.key, required this.source, this.query, this.analyticsDetailsName});
 
-  static MaterialPageRoute<String?> materialPageRoute({required DemarcheSource source, String? analyticsDetailsName}) {
+  static MaterialPageRoute<String?> materialPageRoute({
+    required DemarcheSource source,
+    String? query,
+    String? analyticsDetailsName,
+  }) {
     return MaterialPageRoute(
-        builder: (context) => CreateDemarcheStep2Page(source: source, analyticsDetailsName: analyticsDetailsName));
+      builder: (context) => CreateDemarcheStep2Page(
+        source: source,
+        query: query,
+        analyticsDetailsName: analyticsDetailsName,
+      ),
+    );
   }
 
   final DemarcheSource source;
+  final String? query;
   final String? analyticsDetailsName;
 
   @override
@@ -61,7 +71,7 @@ class CreateDemarcheStep2Page extends StatelessWidget {
                 },
               ),
             CreateDemarcheStep2ButtonItem() => CreateCustomDemarche(),
-            CreateDemarcheStep2EmptyItem() => _EmptyPlaceholder(),
+            CreateDemarcheStep2EmptyItem() => _EmptyPlaceholder(query: query),
           };
         },
       ),
@@ -78,14 +88,18 @@ class CreateDemarcheStep2Page extends StatelessWidget {
 }
 
 class _EmptyPlaceholder extends StatelessWidget {
-  _EmptyPlaceholder();
+  final String? query;
+
+  _EmptyPlaceholder({this.query});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: EmptyStatePlaceholder(
         illustration: Illustration.grey(Icons.search, withWhiteBackground: true),
-        title: Strings.createDemarcheStep2EmptyTitle,
+        title: query != null
+            ? Strings.createDemarcheStep2EmptyTitleWithQuery(query!)
+            : Strings.createDemarcheStep2EmptyTitle,
         subtitle: Strings.createDemarcheStep2EmptySubtitle,
       ),
     );

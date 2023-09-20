@@ -95,8 +95,12 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
 
   void _onDidChange(CreateDemarcheStep1ViewModel? oldVm, CreateDemarcheStep1ViewModel newVm) {
     if (newVm.shouldGoToStep2) {
-      Navigator.push(context, CreateDemarcheStep2Page.materialPageRoute(source: RechercheDemarcheSource()))
-          .then((value) {
+      Navigator.push(
+          context,
+          CreateDemarcheStep2Page.materialPageRoute(
+            source: RechercheDemarcheSource(),
+            query: _query,
+          )).then((value) {
         // forward result to previous page
         if (value != null) Navigator.pop(context, value);
       });

@@ -399,8 +399,9 @@ class Strings {
   static const String selectEcheance = "*Sélectionner une date d'échéance";
   static const String addADemarche = "Ajouter une démarche";
   static const String createDemarcheTitle = "Création d'une démarche";
-  static const String createDemarcheStep2EmptyTitle =
-      "Aucune démarche ne correspond à votre recherche “[terme de recherche]”";
+  static const String createDemarcheStep2EmptyTitle = "Aucune démarche ne correspond à votre recherche";
+  static String createDemarcheStep2EmptyTitleWithQuery(String query) =>
+      "Aucune démarche ne correspond à votre recherche “$query”";
   static const String createDemarcheStep2EmptySubtitle = "Essayez de reformuler ou lancez une nouvelle recherche";
   static const String noDemarcheFound = "Aucune démarche pre-renseignée n’a été trouvée";
   static const String selectDemarche = "Sélectionnez une démarche ou créez une démarche personnalisée";
