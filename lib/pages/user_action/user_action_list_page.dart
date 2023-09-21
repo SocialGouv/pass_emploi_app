@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
 
 class UserActionListPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -86,17 +87,11 @@ class _UserActionListPageState extends State<UserActionListPage> {
     if (viewModel.withLoading) return UserActionsLoading();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     if (viewModel.withEmptyMessage) {
-      return RefreshIndicator.adaptive(
+      return RefreshIndicatorAddingScrollview(
         onRefresh: () async => viewModel.onRetry(),
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverFillRemaining(
-              child: Empty(
-                title: Strings.noActionsYet,
-                subtitle: Strings.emptyContentSubtitle(Strings.action),
-              ),
-            )
-          ],
+        child: Empty(
+          title: Strings.noActionsYet,
+          subtitle: Strings.emptyContentSubtitle(Strings.action),
         ),
       );
     }

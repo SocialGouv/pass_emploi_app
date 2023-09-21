@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
@@ -44,6 +45,17 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
       await cacheManager.removeResource(CachedResource.AGENDA, userId);
     }
 
+    if (_shouldInvalidateRendezvous(action)) {
+      await cacheManager.removeResource(CachedResource.RENDEZVOUS_FUTURS, userId);
+      await cacheManager.removeResource(CachedResource.RENDEZVOUS_PASSES, userId);
+      await cacheManager.removeResource(CachedResource.SESSIONS_MILO_LIST, userId);
+      next(RendezvousListResetAction());
+    }
+
+    // TODO: plutôt un shouldInvalidate Sessions ?
+    // serait fait uniquement sur Reload Rdv et Events. Pas besoin d'invalider session si on update une action & co.
+    // à mettre AVANT le reset RDV ? ou osef de l'ordre ? (le loading sera a priori toujours fait après le next(action) tout en bas)
+
     next(action);
   }
 }
@@ -79,4 +91,8 @@ bool _shouldInvalidateAgenda(action) {
       action is UserActionUpdateSuccessAction ||
       action is CreateDemarcheSuccessAction ||
       action is UpdateDemarcheSuccessAction;
+}
+
+bool _shouldInvalidateRendezvous(action) {
+  return (action is RendezvousListRequestReloadAction && action.forceRefresh);
 }

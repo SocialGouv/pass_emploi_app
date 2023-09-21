@@ -17,8 +17,9 @@ class RendezvousListLoadingAction {
 
 class RendezvousListRequestReloadAction {
   final RendezvousPeriod period;
+  final bool forceRefresh;
 
-  RendezvousListRequestReloadAction(this.period);
+  RendezvousListRequestReloadAction(this.period, {this.forceRefresh = false});
 }
 
 class RendezvousListReloadingAction {
