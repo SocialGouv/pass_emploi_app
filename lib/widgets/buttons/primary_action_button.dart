@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class PrimaryActionButton extends StatelessWidget {
+class PrimaryActionButton extends StatefulWidget {
   final Color backgroundColor;
   final Color disabledBackgroundColor;
   final Color textColor;
@@ -39,35 +39,62 @@ class PrimaryActionButton extends StatelessWidget {
         super(key: key);
 
   @override
+  State<PrimaryActionButton> createState() => _PrimaryActionButtonState();
+}
+
+class _PrimaryActionButtonState extends State<PrimaryActionButton> {
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+    _focusNode.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final baseTextStyle = TextStyles.textPrimaryButton;
-    final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
-    return TextButton(
-      style: ButtonStyle(
-        padding: MaterialStateProperty.all(EdgeInsets.zero),
-        foregroundColor: MaterialStateProperty.all(textColor),
-        textStyle: MaterialStateProperty.all(usedTextStyle),
-        backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-          return states.contains(MaterialState.disabled) ? disabledBackgroundColor : backgroundColor;
-        }),
-        elevation: MaterialStateProperty.resolveWith((states) {
-          return (states.contains(MaterialState.disabled) || !withShadow) ? 0 : 10;
-        }),
-        alignment: Alignment.center,
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(200)))),
-        overlayColor: MaterialStateProperty.resolveWith(
-          (states) {
-            if (states.contains(MaterialState.pressed)) {
-              return rippleColor;
-            }
-            return null;
-          },
-        ),
+    final usedTextStyle = widget.fontSize != null ? baseTextStyle.copyWith(fontSize: widget.fontSize) : baseTextStyle;
+    return Container(
+      padding: _focusNode.hasFocus ? EdgeInsets.all(2) : null,
+      margin: !_focusNode.hasFocus ? EdgeInsets.all(2) : null,
+      decoration: BoxDecoration(
+        color: _focusNode.hasFocus ? Colors.white : widget.backgroundColor,
+        border: Border.all(color: _focusNode.hasFocus ? AppColors.primary : Colors.transparent, width: 2),
+        borderRadius: BorderRadius.circular(360),
       ),
-      onPressed: onPressed,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: widthPadding, vertical: heightPadding),
-        child: _getRow(),
+      child: TextButton(
+        focusNode: _focusNode,
+        style: ButtonStyle(
+          padding: MaterialStateProperty.all(EdgeInsets.zero),
+          foregroundColor: MaterialStateProperty.all(widget.textColor),
+          textStyle: MaterialStateProperty.all(usedTextStyle),
+          backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            return states.contains(MaterialState.disabled) ? widget.disabledBackgroundColor : widget.backgroundColor;
+          }),
+          elevation: MaterialStateProperty.resolveWith((states) {
+            return (states.contains(MaterialState.disabled) || !widget.withShadow) ? 0 : 10;
+          }),
+          alignment: Alignment.center,
+          shape:
+              MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(200)))),
+          overlayColor: MaterialStateProperty.resolveWith(
+            (states) {
+              if (states.contains(MaterialState.pressed)) {
+                return widget.rippleColor;
+              }
+              return null;
+            },
+          ),
+        ),
+        onPressed: widget.onPressed,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: widget.widthPadding, vertical: widget.heightPadding),
+          child: _getRow(),
+        ),
       ),
     );
   }
@@ -76,17 +103,17 @@ class PrimaryActionButton extends StatelessWidget {
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        if (icon != null)
+        if (widget.icon != null)
           Padding(
-            padding: EdgeInsets.only(right: iconRightPadding),
+            padding: EdgeInsets.only(right: widget.iconRightPadding),
             child: Icon(
-              icon,
-              size: iconSize,
-              color: iconColor,
+              widget.icon,
+              size: widget.iconSize,
+              color: widget.iconColor,
             ),
           ),
         Text(
-          label,
+          widget.label,
           textAlign: TextAlign.center,
         ),
       ],
