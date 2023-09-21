@@ -54,7 +54,7 @@ void main() {
       });
     });
     group('when reloading agenda', () {
-      sut.when(() => AgendaRequestReloadAction(DateTime(2022, 7, 7)));
+      sut.when(() => AgendaRequestReloadAction(maintenant: DateTime(2022, 7, 7), forceRefresh: true));
 
       test('should reload then succeed when request succeed', () {
         sut.givenStore = givenState()

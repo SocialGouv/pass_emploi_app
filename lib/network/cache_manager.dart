@@ -34,6 +34,9 @@ class PassEmploiCacheManager extends CacheManager {
       case CachedResource.ACCUEIL:
         await removeFile(resourceToRemove.toString());
         break;
+      case CachedResource.AGENDA:
+        await removeFile(resourceToRemove.toString());
+        break;
       case CachedResource.USER_ACTIONS_LIST:
         await removeFile(resourceToRemove.toString());
         break;
@@ -68,6 +71,7 @@ class PassEmploiCacheManager extends CacheManager {
 
 enum CachedResource {
   ACCUEIL,
+  AGENDA,
   USER_ACTIONS_LIST,
   FAVORIS,
   SAVED_SEARCH,
@@ -77,6 +81,7 @@ enum CachedResource {
     //TODO: est-ce qu'on a envie de dupliquer avec l'adresse en dur dans le repo ?
     // ou est-ce qu'on ferait un truc du genre url contains Repo.getUri().path (le path sans query selon les urls pour éviter les dates)
     if (url.contains('accueil')) return ACCUEIL;
+    if (url.contains('/home/agenda')) return AGENDA;
     if (url.contains('/home/actions')) return USER_ACTIONS_LIST;
     return null;
   }
@@ -84,8 +89,6 @@ enum CachedResource {
 
 const _blacklistedRoutes = [
   '/rendezvous',
-  '/home/agenda',
-  '/home/agenda/pole-emploi',
   '/home/demarches',
   '/fichiers',
   '/docnums/',

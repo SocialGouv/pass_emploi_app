@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
@@ -17,7 +18,7 @@ import 'package:redux/redux.dart';
 // Accueil : OK ?
 // Actions : OK ?
 // Démarches
-// Agenda
+// Agenda : OK ?
 // Rendezvous
 // Favoris
 // Alertes
@@ -37,6 +38,10 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
     }
     if (_shouldInvalidateUserActionsList(action)) {
       await cacheManager.removeResource(CachedResource.USER_ACTIONS_LIST, userId);
+    }
+
+    if (_shouldInvalidateAgenda(action)) {
+      await cacheManager.removeResource(CachedResource.AGENDA, userId);
     }
 
     next(action);
@@ -65,4 +70,13 @@ bool _shouldInvalidateUserActionsList(action) {
       action is UserActionCreateSuccessAction ||
       action is UserActionDeleteSuccessAction ||
       action is UserActionUpdateSuccessAction;
+}
+
+bool _shouldInvalidateAgenda(action) {
+  return (action is AgendaRequestReloadAction && action.forceRefresh) ||
+      action is UserActionCreateSuccessAction ||
+      action is UserActionDeleteSuccessAction ||
+      action is UserActionUpdateSuccessAction ||
+      action is CreateDemarcheSuccessAction ||
+      action is UpdateDemarcheSuccessAction;
 }
