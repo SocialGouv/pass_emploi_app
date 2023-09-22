@@ -61,7 +61,7 @@ class TextStyles {
 
   static final textPrimaryButton = TextStyle(
     color: Colors.white,
-    fontSize: FontSizes.medium,
+    fontSize: FontSizes.normal,
     fontWeight: FontWeight.w700,
     fontFamily: 'Marianne',
   );

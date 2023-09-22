@@ -93,6 +93,7 @@ class PrimaryActionButton extends StatelessWidget {
         Text(
           label,
           textAlign: TextAlign.center,
+          style: TextStyles.textPrimaryButton,
         ),
       ],
     );
