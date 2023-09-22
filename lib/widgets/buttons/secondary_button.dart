@@ -24,35 +24,33 @@ class SecondaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final baseTextStyle = TextStyles.textSecondaryButton;
     final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
-    return FocusedBorderBuilder(
-        bgColor: backgroundColor,
-        builder: (focusNode) {
-          return OutlinedButton(
-            focusNode: focusNode,
-            onPressed: onPressed,
-            style: OutlinedButton.styleFrom(
-              shape: StadiumBorder(),
-              backgroundColor: backgroundColor,
-              side: BorderSide(color: AppColors.primary, width: 2),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (icon != null)
-                    Padding(
-                        padding: const EdgeInsets.only(right: 12),
-                        child: Icon(
-                          icon,
-                          color: AppColors.primary,
-                          size: Dimens.icon_size_base,
-                        )),
-                  Flexible(child: Text(label, textAlign: TextAlign.center, style: usedTextStyle)),
-                ],
-              ),
-            ),
-          );
-        });
+    return FocusedBorderBuilder(builder: (focusNode) {
+      return OutlinedButton(
+        focusNode: focusNode,
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          shape: StadiumBorder(),
+          backgroundColor: backgroundColor,
+          side: BorderSide(color: AppColors.primary, width: 2),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null)
+                Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: Icon(
+                      icon,
+                      color: AppColors.primary,
+                      size: Dimens.icon_size_base,
+                    )),
+              Flexible(child: Text(label, textAlign: TextAlign.center, style: usedTextStyle)),
+            ],
+          ),
+        ),
+      );
+    });
   }
 }

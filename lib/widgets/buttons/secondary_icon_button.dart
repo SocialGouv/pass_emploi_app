@@ -25,23 +25,21 @@ class SecondaryIconButton extends StatelessWidget {
     const double width = 59;
     const double height = 59;
 
-    return FocusedBorderBuilder(
-        bgColor: Colors.transparent,
-        builder: (focusNode) {
-          return Container(
-            width: width,
-            height: height,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: borderColor ?? iconColor),
-            ),
-            child: IconButton(
-              focusNode: focusNode,
-              onPressed: onTap,
-              icon: Icon(icon, size: iconSize, color: iconColor),
-              padding: EdgeInsets.all(0),
-            ),
-          );
-        });
+    return FocusedBorderBuilder(builder: (focusNode) {
+      return Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: borderColor ?? iconColor),
+        ),
+        child: IconButton(
+          focusNode: focusNode,
+          onPressed: onTap,
+          icon: Icon(icon, size: iconSize, color: iconColor),
+          padding: EdgeInsets.all(0),
+        ),
+      );
+    });
   }
 }

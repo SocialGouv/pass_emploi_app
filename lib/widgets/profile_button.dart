@@ -12,37 +12,35 @@ class ProfileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FocusedBorderBuilder(
-        bgColor: Colors.transparent,
-        builder: (focusNode) {
-          return Semantics(
-            label: Strings.profilButtonSemanticsLabel,
-            child: Container(
-              width: 48,
-              height: 48,
-              clipBehavior: Clip.none,
-              decoration: BoxDecoration(
-                boxShadow: [Shadows.radius_base],
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                focusNode: focusNode,
-                onPressed: () => Navigator.of(context).push(ProfilPage.materialPageRoute()),
-                padding: const EdgeInsets.all(0),
-                icon: SizedBox.expand(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      boxShadow: [Shadows.radius_base],
-                      shape: BoxShape.circle,
-                      color: isDarkColor ? AppColors.primary : AppColors.grey100,
-                    ),
-                    child: Icon(Icons.person_outline_rounded,
-                        size: 24, color: isDarkColor ? AppColors.grey100 : AppColors.primary),
-                  ),
+    return FocusedBorderBuilder(builder: (focusNode) {
+      return Semantics(
+        label: Strings.profilButtonSemanticsLabel,
+        child: Container(
+          width: 48,
+          height: 48,
+          clipBehavior: Clip.none,
+          decoration: BoxDecoration(
+            boxShadow: [Shadows.radius_base],
+            shape: BoxShape.circle,
+          ),
+          child: IconButton(
+            focusNode: focusNode,
+            onPressed: () => Navigator.of(context).push(ProfilPage.materialPageRoute()),
+            padding: const EdgeInsets.all(0),
+            icon: SizedBox.expand(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  boxShadow: [Shadows.radius_base],
+                  shape: BoxShape.circle,
+                  color: isDarkColor ? AppColors.primary : AppColors.grey100,
                 ),
+                child: Icon(Icons.person_outline_rounded,
+                    size: 24, color: isDarkColor ? AppColors.grey100 : AppColors.primary),
               ),
             ),
-          );
-        });
+          ),
+        ),
+      );
+    });
   }
 }
