@@ -33,6 +33,7 @@ class PassEmploiCacheManager extends CacheManager {
     switch (resourceToRemove) {
       case CachedResource.ACCUEIL:
       case CachedResource.AGENDA:
+      case CachedResource.ANIMATIONS_COLLECTIVES:
       case CachedResource.RENDEZVOUS_FUTURS:
       case CachedResource.RENDEZVOUS_PASSES:
       case CachedResource.USER_ACTIONS_LIST:
@@ -71,6 +72,7 @@ class PassEmploiCacheManager extends CacheManager {
 enum CachedResource {
   ACCUEIL,
   AGENDA,
+  ANIMATIONS_COLLECTIVES,
   RENDEZVOUS_FUTURS,
   RENDEZVOUS_PASSES,
   SESSIONS_MILO_LIST,
@@ -82,8 +84,9 @@ enum CachedResource {
   static CachedResource? fromUrl(String url) {
     //TODO: est-ce qu'on a envie de dupliquer avec l'adresse en dur dans le repo ?
     // ou est-ce qu'on ferait un truc du genre url contains Repo.getUri().path (le path sans query selon les urls pour éviter les dates)
-    if (url.contains('accueil')) return ACCUEIL;
+    if (url.contains('/accueil')) return ACCUEIL;
     if (url.contains('/home/agenda')) return AGENDA;
+    if (url.contains('/animations-collectives')) return ANIMATIONS_COLLECTIVES;
     if (url.contains('/rendezvous') && url.contains('FUTURS')) return RENDEZVOUS_FUTURS;
     if (url.contains('/rendezvous') && url.contains('PASSES')) return RENDEZVOUS_PASSES;
     if (url.contains('/milo') && url.contains('sessions') && !url.contains('sessions/')) return SESSIONS_MILO_LIST;
@@ -92,6 +95,7 @@ enum CachedResource {
   }
 }
 
+//TODO: à garder ?
 const _blacklistedRoutes = [
   '/home/demarches',
   '/fichiers',

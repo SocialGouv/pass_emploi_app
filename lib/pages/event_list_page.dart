@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
+import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class EventListPage extends StatelessWidget {
@@ -44,7 +45,7 @@ class _Body extends StatelessWidget {
         duration: AnimationDurations.fast,
         child: switch (viewModel.displayState) {
           DisplayState.LOADING => _EventListLoading(),
-          DisplayState.EMPTY => _EmptyListPlaceholder(),
+          DisplayState.EMPTY => _EmptyListPlaceholder(viewModel),
           DisplayState.CONTENT => _Content(viewModel),
           DisplayState.FAILURE => Center(child: Retry(Strings.eventListError, () => viewModel.onRetry())),
         });
@@ -52,15 +53,20 @@ class _Body extends StatelessWidget {
 }
 
 class _EmptyListPlaceholder extends StatelessWidget {
-  const _EmptyListPlaceholder();
+  final EventListPageViewModel viewModel;
+
+  _EmptyListPlaceholder(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: EmptyStatePlaceholder(
-        illustration: Illustration.grey(Icons.event, withWhiteBackground: true),
-        title: Strings.eventListEmpty,
-        subtitle: Strings.eventListEmptySubtitle,
+    return RefreshIndicatorAddingScrollview(
+      onRefresh: () async => viewModel.onRetry(),
+      child: Center(
+        child: EmptyStatePlaceholder(
+          illustration: Illustration.grey(Icons.event, withWhiteBackground: true),
+          title: Strings.eventListEmpty,
+          subtitle: Strings.eventListEmptySubtitle,
+        ),
       ),
     );
   }
@@ -82,24 +88,27 @@ class _Content extends StatelessWidget {
             child: Text(Strings.eventListHeaderText, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
           ),
           Expanded(
-            child: ListView.separated(
-              itemCount: viewModel.eventIds.length,
-              separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
-              itemBuilder: (context, index) {
-                final eventId = viewModel.eventIds[index];
-                return switch (eventId) {
-                  final AnimationCollectiveId a => a.id.rendezvousCard(
-                      context: context,
-                      stateSource: RendezvousStateSource.eventListAnimationsCollectives,
-                      trackedEvent: EventType.ANIMATION_COLLECTIVE_AFFICHEE,
-                    ),
-                  final SessionMiloId s => s.id.rendezvousCard(
-                      context: context,
-                      stateSource: RendezvousStateSource.eventListSessionsMilo,
-                      trackedEvent: EventType.ANIMATION_COLLECTIVE_AFFICHEE,
-                    ),
-                };
-              },
+            child: RefreshIndicator.adaptive(
+              onRefresh: () async => viewModel.onRetry(),
+              child: ListView.separated(
+                itemCount: viewModel.eventIds.length,
+                separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
+                itemBuilder: (context, index) {
+                  final eventId = viewModel.eventIds[index];
+                  return switch (eventId) {
+                    final AnimationCollectiveId a => a.id.rendezvousCard(
+                        context: context,
+                        stateSource: RendezvousStateSource.eventListAnimationsCollectives,
+                        trackedEvent: EventType.ANIMATION_COLLECTIVE_AFFICHEE,
+                      ),
+                    final SessionMiloId s => s.id.rendezvousCard(
+                        context: context,
+                        stateSource: RendezvousStateSource.eventListSessionsMilo,
+                        trackedEvent: EventType.ANIMATION_COLLECTIVE_AFFICHEE,
+                      ),
+                  };
+                },
+              ),
             ),
           ),
         ],

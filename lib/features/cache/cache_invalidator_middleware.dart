@@ -2,6 +2,7 @@ import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
+import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
@@ -16,14 +17,14 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 //TODO: Reste à faire
-// Accueil : OK ?
-// Actions : OK ?
+// Accueil : OK
+// Actions : OK
 // Démarches
-// Agenda : OK ?
-// Rendezvous
+// Agenda : OK
+// Rendezvous : OK
 // Favoris
 // Alertes
-// Events
+// Events : OK
 
 class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
   final PassEmploiCacheManager cacheManager;
@@ -52,9 +53,10 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
       next(RendezvousListResetAction());
     }
 
-    // TODO: plutôt un shouldInvalidate Sessions ?
-    // serait fait uniquement sur Reload Rdv et Events. Pas besoin d'invalider session si on update une action & co.
-    // à mettre AVANT le reset RDV ? ou osef de l'ordre ? (le loading sera a priori toujours fait après le next(action) tout en bas)
+    if (_shouldInvalidateEvents(action)) {
+      await cacheManager.removeResource(CachedResource.ANIMATIONS_COLLECTIVES, userId);
+      await cacheManager.removeResource(CachedResource.SESSIONS_MILO_LIST, userId);
+    }
 
     next(action);
   }
@@ -95,4 +97,8 @@ bool _shouldInvalidateAgenda(action) {
 
 bool _shouldInvalidateRendezvous(action) {
   return (action is RendezvousListRequestReloadAction && action.forceRefresh);
+}
+
+bool _shouldInvalidateEvents(action) {
+  return (action is EventListRequestAction && action.forceRefresh);
 }
