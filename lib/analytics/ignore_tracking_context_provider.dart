@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/ui/theme.dart';
+import 'package:pass_emploi_app/widgets/pass_emploi_material_app.dart';
 
 /// An additional `MaterialApp`, around main `PassEmploiApp`.
 /// Can be used to offre another context, specially not track specific navigation routes.
@@ -12,14 +12,13 @@ class IgnoreTrackingContextProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return PassEmploiMaterialApp(
       home: Builder(builder: (materialAppContext) {
         return IgnoreTrackingContext(
           nonTrackingContext: materialAppContext,
           child: child,
         );
       }),
-      theme: PassEmploiTheme.data,
     );
   }
 }
