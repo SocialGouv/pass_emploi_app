@@ -396,7 +396,7 @@ class Strings {
   static const String descriptionDemarche = "*Description de la démarche";
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
-  static const String selectEcheance = "*Sélectionner une date d'échéance";
+  static const String selectEcheance = "*Sélectionner une date d'échéance format: jj/mm/aaaa";
   static const String addADemarche = "Ajouter une démarche";
   static const String createDemarcheTitle = "Création d'une démarche";
   static const String createDemarcheStep2EmptyTitle = "Aucune démarche ne correspond à votre recherche";
@@ -411,7 +411,7 @@ class Strings {
   static const String mandatoryField = "Le champ est obligatoire";
   static const String comment = "Comment";
   static const String selectComment = "*Sélectionner un des moyens";
-  static const String selectQuand = "*Sélectionner une date d’échéance";
+  static const String selectQuand = "*Sélectionner une date d’échéance format: jj/mm/aaaa";
   static const String demarchePressedTip = "Choisir cette démarche";
 
   static String demarcheActiveLabel = "À réaliser pour le ";
@@ -600,7 +600,7 @@ class Strings {
 
   // Service Civique
   static String serviceCiviqueFiltresTitle = "Filtrer les missions";
-  static String startDateFiltreTitle = "Date de début";
+  static String startDateFiltreTitle = "Date de début format: jj/mm/aaaa";
   static String startDate = "Dès le";
   static String domainFiltreTitle = "Domaine";
   static String asSoonAs = "Dès le ";
@@ -927,8 +927,8 @@ class Strings {
   static const String evenementEmploiFiltresModalites = "Modalités d'accès";
   static const String evenementEmploiFiltresType = "Par type d’événement";
   static const String evenementEmploiFiltresDate = "Période";
-  static const String evenementEmploiFiltresDateDebut = "Date de début";
-  static const String evenementEmploiFiltresDateFin = "Date de fin";
+  static const String evenementEmploiFiltresDateDebut = "Date de début format: jj/mm/aaaa";
+  static const String evenementEmploiFiltresDateFin = "Date de fin format: jj/mm/aaaa";
 
   // Mode dégradé Pôle emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
