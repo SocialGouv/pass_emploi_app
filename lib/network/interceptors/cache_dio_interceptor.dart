@@ -27,7 +27,6 @@ class CacheDioInterceptor extends PassEmploiBaseDioInterceptor {
       - queryParams: ${options.queryParameters}
       - headers: ${options.headers}
       """);
-      print("@@@ Resource $cacheKey : CACHE a été utilisé"); //TODO: temp
       handler.resolve(await _response(options, fileFromCache.file));
     } else {
       Log.i("""Dio Request - cache interceptor - return fresh data
@@ -35,7 +34,6 @@ class CacheDioInterceptor extends PassEmploiBaseDioInterceptor {
       - queryParams: ${options.queryParameters}
       - headers: ${options.headers}
       """);
-      print("@@@ Resource $cacheKey : INTERNET a été utilisé"); //TODO: temp
       final headers = options.headers.map((key, value) => MapEntry(key, value.toString()));
       await cacheManager
           .downloadFile(stringUrl, key: cacheKey, authHeaders: headers)

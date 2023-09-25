@@ -46,7 +46,6 @@ class AgendaPageViewModel extends Equatable {
       createButton: isPoleEmploi ? CreateButton.demarche : CreateButton.userAction,
       isReloading: store.state.agendaState is AgendaReloadingState,
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
-      //TODO: on reste sur action Reload ? (déclenche snackbar) ou on passe par l'action Request ?
       reload: (date) => store.dispatch(AgendaRequestReloadAction(maintenant: date, forceRefresh: true)),
       goToEventList: () => store.dispatch(LocalDeeplinkAction({"type": "EVENT_LIST"})),
     );
