@@ -4,7 +4,11 @@ class DemarcheListRequestAction {}
 
 class DemarcheListLoadingAction {}
 
-class DemarcheListRequestReloadAction {}
+class DemarcheListRequestReloadAction {
+  final bool forceRefresh;
+
+  DemarcheListRequestReloadAction({this.forceRefresh = false});
+}
 
 class DemarcheListReloadingAction {}
 

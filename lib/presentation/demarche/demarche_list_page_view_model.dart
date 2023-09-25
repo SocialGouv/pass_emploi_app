@@ -29,7 +29,7 @@ class DemarcheListPageViewModel extends Equatable {
         withNotUpToDateItem: state is DemarcheListSuccessState && state.dateDerniereMiseAJour != null,
       ),
       isReloading: state is DemarcheListReloadingState,
-      onRetry: () => store.dispatch(DemarcheListRequestReloadAction()),
+      onRetry: () => store.dispatch(DemarcheListRequestReloadAction(forceRefresh: true)),
     );
   }
 

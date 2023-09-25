@@ -51,7 +51,7 @@ class SuggestionsRechercheRepository {
           : await _httpClient.post(uri);
 
       final savedSearch = SavedSearchJsonExtractor().extract(SavedSearchResponse.fromJson(response.data));
-      _cacheManager.invalidateSuggestionsAndSavedSearch(userId: userId);
+      _cacheManager.invalidateSuggestionsCache(userId: userId);
       return savedSearch;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, uri);
@@ -63,7 +63,7 @@ class SuggestionsRechercheRepository {
     final uri = "/jeunes/$userId/recherches/suggestions/$suggestionId/refuser";
     try {
       await _httpClient.post(uri);
-      _cacheManager.invalidateSuggestionsAndSavedSearch(userId: userId);
+      _cacheManager.invalidateSuggestionsCache(userId: userId);
       return true;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, uri);
@@ -83,8 +83,7 @@ class SuggestionsRechercheRepository {
 }
 
 extension _CacheExt on PassEmploiCacheManager {
-  void invalidateSuggestionsAndSavedSearch({required String userId}) {
+  void invalidateSuggestionsCache({required String userId}) {
     removeSuggestionsRechercheResource(userId: userId);
-    removeResource(CachedResource.SAVED_SEARCH, userId);
   }
 }

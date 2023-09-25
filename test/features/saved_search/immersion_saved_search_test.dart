@@ -282,7 +282,7 @@ class ImmersionSuccessStub extends ImmersionRepository {
 }
 
 class ImmersionSavedSearchRepositorySuccessStub extends ImmersionSavedSearchRepository {
-  ImmersionSavedSearchRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
+  ImmersionSavedSearchRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch, String title) async {
@@ -291,7 +291,7 @@ class ImmersionSavedSearchRepositorySuccessStub extends ImmersionSavedSearchRepo
 }
 
 class ImmersionSavedSearchRepositoryFailureStub extends ImmersionSavedSearchRepository {
-  ImmersionSavedSearchRepositoryFailureStub() : super(DioMock(), DummyPassEmploiCacheManager());
+  ImmersionSavedSearchRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch, String title) async {

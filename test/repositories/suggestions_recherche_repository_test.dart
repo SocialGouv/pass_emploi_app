@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
-import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -72,7 +71,6 @@ void main() {
 
       test('cache for saved search and suggestions should be reset', () async {
         await sut.expectResult<dynamic>((result) {
-          expect(cacheManager.removeResourceParams, CachedResource.SAVED_SEARCH);
           expect(cacheManager.removeSuggestionsRechercheResourceWasCalled, true);
         });
       });
@@ -143,7 +141,6 @@ void main() {
 
       test('cache for saved search and suggestions should be reset', () async {
         await sut.expectResult<dynamic>((result) {
-          expect(cacheManager.removeResourceParams, CachedResource.SAVED_SEARCH);
           expect(cacheManager.removeSuggestionsRechercheResourceWasCalled, true);
         });
       });

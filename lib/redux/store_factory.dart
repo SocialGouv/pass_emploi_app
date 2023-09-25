@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_middleware.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_middleware.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
+import 'package:pass_emploi_app/features/cache/cache_invalidator_middleware.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
@@ -74,6 +75,7 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_m
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
@@ -136,6 +138,7 @@ class StoreFactory {
   final Authenticator authenticator;
   final Crashlytics crashlytics;
   final ChatCrypto chatCrypto;
+  final PassEmploiCacheManager cacheManager;
   final PageActionRepository pageActionRepository;
   final PageDemarcheRepository pageDemarcheRepository;
   final RendezvousRepository rendezvousRepository;
@@ -196,6 +199,7 @@ class StoreFactory {
     this.authenticator,
     this.crashlytics,
     this.chatCrypto,
+    this.cacheManager,
     this.pageActionRepository,
     this.pageDemarcheRepository,
     this.rendezvousRepository,
@@ -260,6 +264,7 @@ class StoreFactory {
         CrashlyticsMiddleware(crashlytics, installationIdRepository),
         BootstrapMiddleware(),
         LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker),
+        CacheInvalidatorMiddleware(cacheManager),
         UserActionListMiddleware(pageActionRepository),
         UserActionCreateMiddleware(pageActionRepository),
         UserActionUpdateMiddleware(pageActionRepository),

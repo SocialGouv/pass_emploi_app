@@ -12,7 +12,6 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:redux/src/store.dart';
 
 import '../../doubles/dio_mock.dart';
-import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -162,7 +161,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
 }
 
 class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisRepository {
-  OffreEmploiFavorisRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
+  OffreEmploiFavorisRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
@@ -181,7 +180,7 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
 }
 
 class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisRepository {
-  OffreEmploiFavorisRepositoryFailureStub() : super(DioMock(), DummyPassEmploiCacheManager());
+  OffreEmploiFavorisRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {

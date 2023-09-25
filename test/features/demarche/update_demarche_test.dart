@@ -14,10 +14,17 @@ void main() {
   test("update demarche when repo succeeds should display loading and then update demarche", () async {
     // Given
     final now = DateTime.now();
+    final repository = UpdateDemarcheRepositorySuccessStub();
+    repository.withArgsResolves('id', '2', DemarcheStatus.DONE, now, now);
     final store = givenState()
-        .loggedInPoleEmploiUser()
-        .updateDemarcheSuccess()
-        .store((factory) => {factory.updateDemarcheRepository = UpdateDemarcheRepositorySuccessStub()});
+        .loggedInPoleEmploiUser() //
+        .withDemarches(
+      [
+        mockDemarche(id: '1', status: DemarcheStatus.IN_PROGRESS),
+        mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
+        mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
+      ],
+    ).store((factory) => {factory.updateDemarcheRepository = repository});
 
     final updateDisplayedLoading = store.onChange.any((e) => e.updateDemarcheState is UpdateDemarcheLoadingState);
     final successUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheSuccessState);
@@ -36,7 +43,9 @@ void main() {
     final now = DateTime.now();
     final repository = UpdateDemarcheRepositorySuccessStub();
     repository.withArgsResolves('id', '2', DemarcheStatus.DONE, now, now);
-    final store = givenState().loggedInPoleEmploiUser().updateDemarcheSuccess().withDemarches(
+    final store = givenState()
+        .loggedInPoleEmploiUser() //
+        .withDemarches(
       [
         mockDemarche(id: '1', status: DemarcheStatus.IN_PROGRESS),
         mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
@@ -85,7 +94,7 @@ void main() {
   test("update demarche when repo fails should not update demarches' list", () async {
     // Given
     final now = DateTime.now();
-    final store = givenState().loggedInPoleEmploiUser().updateDemarcheSuccess().withDemarches(
+    final store = givenState().loggedInPoleEmploiUser().withDemarches(
       [
         mockDemarche(id: '1', status: DemarcheStatus.IN_PROGRESS),
         mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
@@ -123,7 +132,6 @@ void main() {
     repository.withArgsResolves('id', '1', DemarcheStatus.DONE, now, now);
     final store = givenState()
         .loggedInPoleEmploiUser()
-        .updateDemarcheSuccess()
         .agenda(demarches: demarches)
         .withDemarches(demarches)
         .store((factory) => {factory.updateDemarcheRepository = repository});

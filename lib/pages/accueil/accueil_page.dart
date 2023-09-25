@@ -90,11 +90,14 @@ class _Blocs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_base),
-      itemCount: viewModel.items.length,
-      itemBuilder: _itemBuilder,
-      separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_m),
+    return RefreshIndicator.adaptive(
+      onRefresh: () async => viewModel.retry(),
+      child: ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_base),
+        itemCount: viewModel.items.length,
+        itemBuilder: _itemBuilder,
+        separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_m),
+      ),
     );
   }
 

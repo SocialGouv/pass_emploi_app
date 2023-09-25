@@ -44,7 +44,7 @@ class UserActionListPageViewModel extends Equatable {
         activeItemIds: _activeActions(state: actionState),
         doneOrCanceledItemIds: _doneOrCanceledActions(state: actionState),
       ),
-      onRetry: () => store.dispatch(UserActionListRequestAction()),
+      onRetry: () => store.dispatch(UserActionListRequestAction(forceRefresh: true)),
       onUserActionDetailsDismissed: () {
         store.dispatch(UserActionUpdateResetAction());
         store.dispatch(UserActionDeleteResetAction());

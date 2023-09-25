@@ -12,7 +12,6 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:redux/src/store.dart';
 
 import '../../doubles/dio_mock.dart';
-import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -165,7 +164,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
 }
 
 class ServiceCiviqueFavorisRepositorySuccessStub extends ServiceCiviqueFavorisRepository {
-  ServiceCiviqueFavorisRepositorySuccessStub() : super(DioMock(), DummyPassEmploiCacheManager());
+  ServiceCiviqueFavorisRepositorySuccessStub() : super(DioMock());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
@@ -184,7 +183,7 @@ class ServiceCiviqueFavorisRepositorySuccessStub extends ServiceCiviqueFavorisRe
 }
 
 class ServiceCiviqueFavorisRepositoryFailureStub extends ServiceCiviqueFavorisRepository {
-  ServiceCiviqueFavorisRepositoryFailureStub() : super(DioMock(), DummyPassEmploiCacheManager());
+  ServiceCiviqueFavorisRepositoryFailureStub() : super(DioMock());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {

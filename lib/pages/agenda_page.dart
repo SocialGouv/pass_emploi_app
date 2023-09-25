@@ -209,24 +209,27 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: ListView.builder(
-          padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
-          itemCount: viewModel.events.length,
-          itemBuilder: (context, index) {
-            final item = viewModel.events[index];
-            return switch (item) {
-              final WeekSeparatorAgendaItem item => _WeekSeparator(item),
-              final DaySeparatorAgendaItem item => _DaySeparatorAgendaItem(item),
-              final EmptyMessageAgendaItem item => _MessageAgendaItem(item),
-              final RendezvousAgendaItem item => _RendezvousAgendaItem(item),
-              final SessionMiloAgendaItem item => _SessionMiloAgendaItem(item),
-              final DemarcheAgendaItem item => _DemarcheAgendaItem(item),
-              final UserActionAgendaItem item => _UserActionAgendaItem(item),
-              final DelayedActionsBannerAgendaItem item => _DelayedActionsBanner(item, onActionDelayedTap),
-              final EmptyAgendaItem item => _EmptyPlaceholder(item),
-              NotUpToDateAgendaItem _ => _NotUpToDateMessage(viewModel),
-            };
-          }),
+      child: RefreshIndicator.adaptive(
+        onRefresh: () async => viewModel.reload(DateTime.now()),
+        child: ListView.builder(
+            padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
+            itemCount: viewModel.events.length,
+            itemBuilder: (context, index) {
+              final item = viewModel.events[index];
+              return switch (item) {
+                final WeekSeparatorAgendaItem item => _WeekSeparator(item),
+                final DaySeparatorAgendaItem item => _DaySeparatorAgendaItem(item),
+                final EmptyMessageAgendaItem item => _MessageAgendaItem(item),
+                final RendezvousAgendaItem item => _RendezvousAgendaItem(item),
+                final SessionMiloAgendaItem item => _SessionMiloAgendaItem(item),
+                final DemarcheAgendaItem item => _DemarcheAgendaItem(item),
+                final UserActionAgendaItem item => _UserActionAgendaItem(item),
+                final DelayedActionsBannerAgendaItem item => _DelayedActionsBanner(item, onActionDelayedTap),
+                final EmptyAgendaItem item => _EmptyPlaceholder(item),
+                NotUpToDateAgendaItem _ => _NotUpToDateMessage(viewModel),
+              };
+            }),
+      ),
     );
   }
 }

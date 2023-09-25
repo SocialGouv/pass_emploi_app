@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
+import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
 import 'package:pass_emploi_app/widgets/reloadable_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -83,17 +84,20 @@ class DemarcheListPage extends StatelessWidget {
   }
 
   Widget _userActionsList(BuildContext context, DemarcheListPageViewModel viewModel) {
-    return ListView.separated(
-      controller: _scrollController,
-      padding: const EdgeInsets.fromLTRB(
-        Margins.spacing_base,
-        Margins.spacing_base,
-        Margins.spacing_base,
-        Margins.spacing_huge,
+    return RefreshIndicator.adaptive(
+      onRefresh: () async => viewModel.onRetry(),
+      child: ListView.separated(
+        controller: _scrollController,
+        padding: const EdgeInsets.fromLTRB(
+          Margins.spacing_base,
+          Margins.spacing_base,
+          Margins.spacing_base,
+          Margins.spacing_huge,
+        ),
+        itemCount: viewModel.items.length,
+        itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
+        separatorBuilder: (context, i) => _listSeparator(),
       ),
-      itemCount: viewModel.items.length,
-      itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
-      separatorBuilder: (context, i) => _listSeparator(),
     );
   }
 
@@ -132,9 +136,12 @@ class DemarcheListPage extends StatelessWidget {
     return showNotUpToDateMessage
         ? ReloadablePage(
             reloadMessage: Strings.demarchesNotUpToDateMessage, onReload: viewModel.onRetry, emptyMessage: emptyMessage)
-        : Empty(
-            title: emptyMessage,
-            subtitle: Strings.emptyContentSubtitle(Strings.demarche),
+        : RefreshIndicatorAddingScrollview(
+            onRefresh: () async => viewModel.onRetry(),
+            child: Empty(
+              title: emptyMessage,
+              subtitle: Strings.emptyContentSubtitle(Strings.demarche),
+            ),
           );
   }
 }
