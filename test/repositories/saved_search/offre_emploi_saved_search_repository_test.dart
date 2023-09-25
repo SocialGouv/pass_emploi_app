@@ -1,14 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 
-import '../../doubles/dummies.dart';
+
 import '../../doubles/fixtures.dart';
 import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('OffreEmploiSavedSearchRepository', () {
     final sut = DioRepositorySut<OffreEmploiSavedSearchRepository>();
-    sut.givenRepository((client) => OffreEmploiSavedSearchRepository(client, DummyPassEmploiCacheManager()));
+    sut.givenRepository((client) => OffreEmploiSavedSearchRepository(client));
 
     void testPostSavedSearch({required bool isAlternance}) {
       group('postSavedSearch isAlternance: $isAlternance', () {

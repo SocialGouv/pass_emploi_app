@@ -2,7 +2,6 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
 class PassEmploiCacheManager extends CacheManager {
@@ -37,12 +36,10 @@ class PassEmploiCacheManager extends CacheManager {
       case CachedResource.FAVORIS_SERVICE_CIVIQUE:
       case CachedResource.RENDEZVOUS_FUTURS:
       case CachedResource.RENDEZVOUS_PASSES:
-      case CachedResource.USER_ACTIONS_LIST:
-      case CachedResource.SESSIONS_MILO_LIST:
-        await removeFile(resourceToRemove.toString());
-        break;
       case CachedResource.SAVED_SEARCH:
-        await removeFile(baseUrl + GetSavedSearchRepository.getSavedSearchUrl(userId: userId));
+      case CachedResource.SESSIONS_MILO_LIST:
+      case CachedResource.USER_ACTIONS_LIST:
+        await removeFile(resourceToRemove.toString());
         break;
       case CachedResource.UPDATE_PARTAGE_ACTIVITE:
         await removeFile(baseUrl + PartageActiviteRepository.getPartageActiviteUrl(userId: userId));
@@ -91,15 +88,16 @@ enum CachedResource {
     // ou est-ce qu'on ferait un truc du genre url contains Repo.getUri().path (le path sans query selon les urls pour éviter les dates)
     // Risque de la duplication : l'url change dans le repo mais pas ici, le cache devient KO
     if (url.contains('/accueil')) return ACCUEIL;
+    if (url.contains('/home/agenda')) return AGENDA;
+    if (url.contains('/animations-collectives')) return ANIMATIONS_COLLECTIVES;
     if (url.contains('/home/demarches')) return DEMARCHES_LIST;
     if (url.endsWith('/favoris')) return FAVORIS;
     if (url.endsWith('/favoris/offres-emploi')) return FAVORIS_EMPLOI;
     if (url.endsWith('/favoris/offres-immersion')) return FAVORIS_IMMERSION;
     if (url.endsWith('/favoris/services-civique')) return FAVORIS_SERVICE_CIVIQUE;
-    if (url.contains('/home/agenda')) return AGENDA;
-    if (url.contains('/animations-collectives')) return ANIMATIONS_COLLECTIVES;
     if (url.contains('/rendezvous') && url.contains('FUTURS')) return RENDEZVOUS_FUTURS;
     if (url.contains('/rendezvous') && url.contains('PASSES')) return RENDEZVOUS_PASSES;
+    if (url.endsWith('/recherches')) return SAVED_SEARCH;
     if (url.contains('/milo') && url.contains('sessions') && !url.contains('sessions/')) return SESSIONS_MILO_LIST;
     if (url.contains('/home/actions')) return USER_ACTIONS_LIST;
     return null;

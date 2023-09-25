@@ -241,15 +241,15 @@ class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
 }
 
 class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
-  DummyOffreEmploiSavedSearchRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyOffreEmploiSavedSearchRepository() : super(DioMock());
 }
 
 class DummyImmersionSavedSearchRepository extends ImmersionSavedSearchRepository {
-  DummyImmersionSavedSearchRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyImmersionSavedSearchRepository() : super(DioMock());
 }
 
 class DummyServiceCiviqueSavedSearchRepository extends ServiceCiviqueSavedSearchRepository {
-  DummyServiceCiviqueSavedSearchRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyServiceCiviqueSavedSearchRepository() : super(DioMock());
 }
 
 class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
@@ -257,7 +257,7 @@ class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
 }
 
 class DummySavedSearchDeleteRepository extends SavedSearchDeleteRepository {
-  DummySavedSearchDeleteRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummySavedSearchDeleteRepository() : super(DioMock());
 }
 
 class DummyServiceCiviqueRepository extends ServiceCiviqueRepository {
