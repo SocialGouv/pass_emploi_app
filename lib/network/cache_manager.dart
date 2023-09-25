@@ -30,6 +30,7 @@ class PassEmploiCacheManager extends CacheManager {
       case CachedResource.ACCUEIL:
       case CachedResource.AGENDA:
       case CachedResource.ANIMATIONS_COLLECTIVES:
+      case CachedResource.DEMARCHES_LIST:
       case CachedResource.FAVORIS:
       case CachedResource.FAVORIS_EMPLOI:
       case CachedResource.FAVORIS_IMMERSION:
@@ -73,6 +74,7 @@ enum CachedResource {
   ACCUEIL,
   AGENDA,
   ANIMATIONS_COLLECTIVES,
+  DEMARCHES_LIST,
   RENDEZVOUS_FUTURS,
   RENDEZVOUS_PASSES,
   SESSIONS_MILO_LIST,
@@ -87,7 +89,9 @@ enum CachedResource {
   static CachedResource? fromUrl(String url) {
     //TODO: est-ce qu'on a envie de dupliquer avec l'adresse en dur dans le repo ?
     // ou est-ce qu'on ferait un truc du genre url contains Repo.getUri().path (le path sans query selon les urls pour éviter les dates)
+    // Risque de la duplication : l'url change dans le repo mais pas ici, le cache devient KO
     if (url.contains('/accueil')) return ACCUEIL;
+    if (url.contains('/home/demarches')) return DEMARCHES_LIST;
     if (url.endsWith('/favoris')) return FAVORIS;
     if (url.endsWith('/favoris/offres-emploi')) return FAVORIS_EMPLOI;
     if (url.endsWith('/favoris/offres-immersion')) return FAVORIS_IMMERSION;
@@ -104,7 +108,6 @@ enum CachedResource {
 
 //TODO: à garder ?
 const _blacklistedRoutes = [
-  '/home/demarches',
   '/fichiers',
   '/docnums/',
 ];

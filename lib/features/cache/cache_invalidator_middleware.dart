@@ -1,6 +1,7 @@
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
@@ -19,7 +20,7 @@ import 'package:redux/redux.dart';
 //TODO: Reste à faire
 // Accueil : OK
 // Actions : OK
-// Démarches
+// Démarches : OK
 // Agenda : OK
 // Rendezvous : OK
 // Favoris : refacto OK mais pas besoin de pull-to-refresh car ne change qu'avec le mobile ?
@@ -40,6 +41,10 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
     }
     if (_shouldInvalidateUserActionsList(action)) {
       await cacheManager.removeResource(CachedResource.USER_ACTIONS_LIST, userId);
+    }
+
+    if (_shouldInvalidateDemarchesList(action)) {
+      await cacheManager.removeResource(CachedResource.DEMARCHES_LIST, userId);
     }
 
     if (_shouldInvalidateAgenda(action)) {
@@ -90,6 +95,12 @@ bool _shouldInvalidateUserActionsList(action) {
       action is UserActionCreateSuccessAction ||
       action is UserActionDeleteSuccessAction ||
       action is UserActionUpdateSuccessAction;
+}
+
+bool _shouldInvalidateDemarchesList(action) {
+  return (action is DemarcheListRequestReloadAction && action.forceRefresh) ||
+      action is CreateDemarcheSuccessAction ||
+      action is UpdateDemarcheSuccessAction;
 }
 
 bool _shouldInvalidateAgenda(action) {
