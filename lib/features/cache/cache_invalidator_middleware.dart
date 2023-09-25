@@ -22,7 +22,7 @@ import 'package:redux/redux.dart';
 // Démarches
 // Agenda : OK
 // Rendezvous : OK
-// Favoris
+// Favoris : refacto OK mais pas besoin de pull-to-refresh car ne change qu'avec le mobile ?
 // Alertes
 // Events : OK
 
@@ -56,6 +56,12 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
     if (_shouldInvalidateEvents(action)) {
       await cacheManager.removeResource(CachedResource.ANIMATIONS_COLLECTIVES, userId);
       await cacheManager.removeResource(CachedResource.SESSIONS_MILO_LIST, userId);
+    }
+
+    if (_shouldInvalidateFavoris(action)) {
+      //TODO: en optim réseau, on pourrait se contenter de supprimer le favori concerné
+      // ex: sur un FavoriUpdateSuccessAction de Service Civique, on supprime que le cache de Service Civique et le cache des ids
+      await cacheManager.removeAllFavorisResources();
     }
 
     next(action);
@@ -101,4 +107,8 @@ bool _shouldInvalidateRendezvous(action) {
 
 bool _shouldInvalidateEvents(action) {
   return (action is EventListRequestAction && action.forceRefresh);
+}
+
+bool _shouldInvalidateFavoris(action) {
+  return action is FavoriUpdateSuccessAction;
 }

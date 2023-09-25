@@ -188,7 +188,7 @@ class DummyDetailedRepository extends OffreEmploiDetailsRepository {
 }
 
 class DummyOffreEmploiFavorisRepository extends OffreEmploiFavorisRepository {
-  DummyOffreEmploiFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyOffreEmploiFavorisRepository() : super(DioMock());
 }
 
 class DummySearchLocationRepository extends SearchLocationRepository {
@@ -237,7 +237,7 @@ class DummyTrackingEventRepository extends TrackingEventRepository {
 }
 
 class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
-  DummyImmersionFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyImmersionFavorisRepository() : super(DioMock());
 }
 
 class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
@@ -269,7 +269,7 @@ class DummyServiceCiviqueDetailRepository extends ServiceCiviqueDetailRepository
 }
 
 class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisRepository {
-  DummyServiceCiviqueFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyServiceCiviqueFavorisRepository() : super(DioMock());
 }
 
 class DummyDetailsJeuneRepository extends DetailsJeuneRepository {
@@ -285,6 +285,9 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
 
   @override
   Future<void> removeResource(CachedResource resourceToRemove, String userId) async {}
+
+  @override
+  Future<void> removeAllFavorisResources() async {}
 
   @override
   void removeActionCommentaireResource(String actionId) {}

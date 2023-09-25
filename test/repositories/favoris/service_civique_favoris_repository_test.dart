@@ -2,12 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 
-import '../../doubles/dummies.dart';
 import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   final sut = DioRepositorySut<ServiceCiviqueFavorisRepository>();
-  sut.givenRepository((client) => ServiceCiviqueFavorisRepository(client, DummyPassEmploiCacheManager()));
+  sut.givenRepository((client) => ServiceCiviqueFavorisRepository(client));
 
   group("getFavorisId", () {
     sut.when((repository) => repository.getFavorisId("jeuneId"));

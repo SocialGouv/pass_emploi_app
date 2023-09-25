@@ -1,10 +1,6 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
@@ -34,18 +30,15 @@ class PassEmploiCacheManager extends CacheManager {
       case CachedResource.ACCUEIL:
       case CachedResource.AGENDA:
       case CachedResource.ANIMATIONS_COLLECTIVES:
+      case CachedResource.FAVORIS:
+      case CachedResource.FAVORIS_EMPLOI:
+      case CachedResource.FAVORIS_IMMERSION:
+      case CachedResource.FAVORIS_SERVICE_CIVIQUE:
       case CachedResource.RENDEZVOUS_FUTURS:
       case CachedResource.RENDEZVOUS_PASSES:
       case CachedResource.USER_ACTIONS_LIST:
       case CachedResource.SESSIONS_MILO_LIST:
         await removeFile(resourceToRemove.toString());
-        break;
-      case CachedResource.FAVORIS:
-        //TODO: un case d'enum par type de favoris. Et éventuellement on fait une fonction qui appelle les 4 remove
-        await removeFile(baseUrl + GetFavorisRepository.getFavorisUrl(userId: userId));
-        await removeFile(baseUrl + ImmersionFavorisRepository.getFavorisIdUrl(userId: userId));
-        await removeFile(baseUrl + OffreEmploiFavorisRepository.getFavorisIdUrl(userId: userId));
-        await removeFile(baseUrl + ServiceCiviqueFavorisRepository.getFavorisIdUrl(userId: userId));
         break;
       case CachedResource.SAVED_SEARCH:
         await removeFile(baseUrl + GetSavedSearchRepository.getSavedSearchUrl(userId: userId));
@@ -54,6 +47,13 @@ class PassEmploiCacheManager extends CacheManager {
         await removeFile(baseUrl + PartageActiviteRepository.getPartageActiviteUrl(userId: userId));
         break;
     }
+  }
+
+  Future<void> removeAllFavorisResources() async {
+    await removeFile(CachedResource.FAVORIS.toString());
+    await removeFile(CachedResource.FAVORIS_EMPLOI.toString());
+    await removeFile(CachedResource.FAVORIS_IMMERSION.toString());
+    await removeFile(CachedResource.FAVORIS_SERVICE_CIVIQUE.toString());
   }
 
   void removeActionCommentaireResource(String actionId) {
@@ -78,6 +78,9 @@ enum CachedResource {
   SESSIONS_MILO_LIST,
   USER_ACTIONS_LIST,
   FAVORIS,
+  FAVORIS_EMPLOI,
+  FAVORIS_IMMERSION,
+  FAVORIS_SERVICE_CIVIQUE,
   SAVED_SEARCH,
   UPDATE_PARTAGE_ACTIVITE;
 
@@ -85,6 +88,10 @@ enum CachedResource {
     //TODO: est-ce qu'on a envie de dupliquer avec l'adresse en dur dans le repo ?
     // ou est-ce qu'on ferait un truc du genre url contains Repo.getUri().path (le path sans query selon les urls pour éviter les dates)
     if (url.contains('/accueil')) return ACCUEIL;
+    if (url.endsWith('/favoris')) return FAVORIS;
+    if (url.endsWith('/favoris/offres-emploi')) return FAVORIS_EMPLOI;
+    if (url.endsWith('/favoris/offres-immersion')) return FAVORIS_IMMERSION;
+    if (url.endsWith('/favoris/services-civique')) return FAVORIS_SERVICE_CIVIQUE;
     if (url.contains('/home/agenda')) return AGENDA;
     if (url.contains('/animations-collectives')) return ANIMATIONS_COLLECTIVES;
     if (url.contains('/rendezvous') && url.contains('FUTURS')) return RENDEZVOUS_FUTURS;
