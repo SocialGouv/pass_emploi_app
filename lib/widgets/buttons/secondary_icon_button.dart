@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
+import 'package:pass_emploi_app/widgets/buttons/focused_border_builder.dart';
 
 class SecondaryIconButton extends StatelessWidget {
   final IconData? icon;
@@ -23,21 +24,22 @@ class SecondaryIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     const double width = 59;
     const double height = 59;
-    return ClipOval(
-      child: Material(
-        color: Colors.transparent,
-        shape: CircleBorder(side: BorderSide(color: borderColor ?? iconColor)),
-        child: InkWell(
-          onTap: onTap,
-          child: SizedBox(
-            width: width,
-            height: height,
-            child: Center(
-              child: Icon(icon, size: iconSize, color: iconColor),
-            ),
-          ),
+
+    return FocusedBorderBuilder(builder: (focusNode) {
+      return Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: borderColor ?? iconColor),
         ),
-      ),
-    );
+        child: IconButton(
+          focusNode: focusNode,
+          onPressed: onTap,
+          icon: Icon(icon, size: iconSize, color: iconColor),
+          padding: EdgeInsets.all(0),
+        ),
+      );
+    });
   }
 }

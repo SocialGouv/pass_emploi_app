@@ -48,6 +48,7 @@ class _AvecAlertes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ...item.savedSearches.map((search) => _AlerteCard(search)),
         SizedBox(height: Margins.spacing_s),

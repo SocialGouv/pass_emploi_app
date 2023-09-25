@@ -48,6 +48,7 @@ class _AvecFavoris extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ...item.favoris.map((favori) => _FavorisCard(favori)),
         SizedBox(height: Margins.spacing_s),
