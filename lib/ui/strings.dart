@@ -938,9 +938,12 @@ class Strings {
   static String demarchesNotUpToDateMessage =
       "Une erreur technique s’est produite. Certaines de vos démarches ne sont peut-être pas à jour.";
   static String reloadPage = "Recharger la page";
-  static String agendaUpToDate = "Vos rendez-vous et démarches sont à jour";
-  static String agendaNotUpToDate =
+  static String agendaPeUpToDate = "Vos rendez-vous et démarches sont à jour";
+  static String agendaPeNotUpToDate =
       "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
+  static String agendaMiloUpToDate = "Vos rendez-vous et actions sont à jour";
+  static String agendaMiloNotUpToDate =
+      "Une erreur technique s’est produite. Certains de vos rendez-vous et actions ne sont peut-être pas à jour.";
 
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 

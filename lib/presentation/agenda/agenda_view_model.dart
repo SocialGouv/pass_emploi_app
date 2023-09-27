@@ -21,6 +21,8 @@ class AgendaPageViewModel extends Equatable {
   final List<AgendaItem> events;
   final CreateButton? createButton;
   final bool isReloading;
+  final String upToDateLabel;
+  final String notUpToDateLabel;
   final Function() resetCreateAction;
   final Function(DateTime) reload;
   final Function() goToEventList;
@@ -31,6 +33,8 @@ class AgendaPageViewModel extends Equatable {
     required this.events,
     this.createButton,
     required this.isReloading,
+    required this.upToDateLabel,
+    required this.notUpToDateLabel,
     required this.resetCreateAction,
     required this.reload,
     required this.goToEventList,
@@ -45,6 +49,8 @@ class AgendaPageViewModel extends Equatable {
       events: _events(store, isPoleEmploi),
       createButton: isPoleEmploi ? CreateButton.demarche : CreateButton.userAction,
       isReloading: store.state.agendaState is AgendaReloadingState,
+      upToDateLabel: isPoleEmploi ? Strings.agendaPeUpToDate : Strings.agendaMiloUpToDate,
+      notUpToDateLabel: isPoleEmploi ? Strings.agendaPeNotUpToDate : Strings.agendaMiloNotUpToDate,
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
       reload: (date) => store.dispatch(AgendaRequestReloadAction(maintenant: date, forceRefresh: true)),
       goToEventList: () => store.dispatch(LocalDeeplinkAction({"type": "EVENT_LIST"})),
@@ -52,7 +58,15 @@ class AgendaPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, isPoleEmploi, events, createButton, isReloading];
+  List<Object?> get props => [
+        displayState,
+        isPoleEmploi,
+        events,
+        createButton,
+        isReloading,
+        upToDateLabel,
+        notUpToDateLabel,
+      ];
 }
 
 DisplayState _displayState(Store<AppState> store, bool isPoleEmploi) {

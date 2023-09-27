@@ -143,6 +143,7 @@ void main() {
         ],
       );
     });
+
     test('when empty should display empty item', () {
       // Given
       final store = givenState() //
@@ -184,6 +185,22 @@ void main() {
               "Commencez en ajoutant une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran",
         ),
       ]);
+    });
+
+    test('should display proper messages', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .agenda()
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.upToDateLabel, 'Vos rendez-vous et démarches sont à jour');
+      expect(viewModel.notUpToDateLabel,
+          'Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.');
     });
   });
 
@@ -254,6 +271,22 @@ void main() {
               "Commencez en créant une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran",
         ),
       ]);
+    });
+
+    test('should display proper messages', () {
+      // Given
+      final store = givenState() //
+          .loggedInMiloUser()
+          .agenda()
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.upToDateLabel, 'Vos rendez-vous et actions sont à jour');
+      expect(viewModel.notUpToDateLabel,
+          'Une erreur technique s’est produite. Certains de vos rendez-vous et actions ne sont peut-être pas à jour.');
     });
   });
 

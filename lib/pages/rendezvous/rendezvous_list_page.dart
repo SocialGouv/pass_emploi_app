@@ -291,34 +291,32 @@ class _EmptyWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 130, maxWidth: 130),
-            child: Illustration.grey(Icons.calendar_today_rounded, withWhiteBackground: true),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 24, right: 24, bottom: 20),
-            child: Column(
-              children: [
-                Text(title, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
-                if (subtitle != null) ...[
-                  SepLine(Margins.spacing_s, Margins.spacing_s),
-                  Text(subtitle ?? "", style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
-                ],
-                if (withNextRendezvousButton)
-                  Padding(
-                    padding: const EdgeInsets.only(top: Margins.spacing_base),
-                    child: PrimaryActionButton(onPressed: onNextRendezvousButtonTap, label: Strings.goToNextRendezvous),
-                  ),
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: 130, maxWidth: 130),
+          child: Illustration.grey(Icons.calendar_today_rounded, withWhiteBackground: true),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 20, left: 24, right: 24, bottom: 20),
+          child: Column(
+            children: [
+              Text(title, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+              if (subtitle != null) ...[
+                SepLine(Margins.spacing_s, Margins.spacing_s),
+                Text(subtitle ?? "", style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
               ],
-            ),
+              if (withNextRendezvousButton)
+                Padding(
+                  padding: const EdgeInsets.only(top: Margins.spacing_base),
+                  child: PrimaryActionButton(onPressed: onNextRendezvousButtonTap, label: Strings.goToNextRendezvous),
+                ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

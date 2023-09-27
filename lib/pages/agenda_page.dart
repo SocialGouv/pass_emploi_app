@@ -58,7 +58,7 @@ class AgendaPage extends StatelessWidget {
 
   void _onDidChange(BuildContext context, AgendaPageViewModel? previous, AgendaPageViewModel current) {
     if (previous?.isReloading == true && _currentAgendaIsUpToDate(current)) {
-      showSuccessfulSnackBar(context, Strings.agendaUpToDate);
+      showSuccessfulSnackBar(context, current.upToDateLabel);
     }
   }
 
@@ -252,16 +252,16 @@ class _EmptyPlaceholder extends StatelessWidget {
 }
 
 class _NotUpToDateMessage extends StatelessWidget {
-  final AgendaPageViewModel agendaPageViewModel;
+  final AgendaPageViewModel _viewModel;
 
-  const _NotUpToDateMessage(this.agendaPageViewModel);
+  const _NotUpToDateMessage(this._viewModel);
 
   @override
   Widget build(BuildContext context) {
     return NotUpToDateMessage(
-      message: Strings.agendaNotUpToDate,
+      message: _viewModel.notUpToDateLabel,
       margin: EdgeInsets.only(bottom: Margins.spacing_base),
-      onRefresh: () => agendaPageViewModel.reload(DateTime.now()),
+      onRefresh: () => _viewModel.reload(DateTime.now()),
     );
   }
 }
