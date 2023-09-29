@@ -93,7 +93,7 @@ class PrimaryActionButton extends StatelessWidget {
         Text(
           label,
           textAlign: TextAlign.center,
-          style: TextStyles.textPrimaryButton,
+          style: TextStyles.textPrimaryButton.copyWith(color: textColor),
         ),
       ],
     );
