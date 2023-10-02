@@ -71,6 +71,8 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
                 if (viewModel.isCommentMandatory) _SelectLabel(Strings.selectComment),
                 ..._buildComments(viewModel.comments),
                 _Section(Strings.quand),
+                Text(Strings.allMandatoryFields, style: TextStyles.textSRegular()),
+                SizedBox(height: Margins.spacing_base),
                 _SelectLabel(Strings.selectQuand),
                 DatePicker(
                   onValueChange: (date) {
