@@ -135,7 +135,7 @@ class _SecondTitre extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
       child: Text(
-        Strings.mandatoryFields,
+        Strings.allMandatoryFields,
         style: TextStyles.textSRegular(),
       ),
     );

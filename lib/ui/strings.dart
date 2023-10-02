@@ -78,6 +78,7 @@ class Strings {
   static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
+  static const String allMandatoryFields = "Tous les champs sont obligatoires";
 
   // Menu
   static String menuAccueil = "Accueil";
@@ -393,10 +394,10 @@ class Strings {
   static const String late = "En retard : ";
   static const String createDemarchePersonnalisee = "Créer une démarche";
   static const String commentaire = "Commentaire";
-  static const String descriptionDemarche = "*Description de la démarche";
+  static const String descriptionDemarche = "Description de la démarche";
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
-  static const String selectEcheance = "*Sélectionner une date d'échéance format: jj/mm/aaaa";
+  static const String selectEcheance = "Sélectionner une date d'échéance format: jj/mm/aaaa";
   static const String addADemarche = "Ajouter une démarche";
   static const String createDemarcheTitle = "Création d'une démarche";
   static const String createDemarcheStep2EmptyTitle = "Aucune démarche ne correspond à votre recherche";
@@ -484,7 +485,7 @@ class Strings {
   static String keywordTitle = "Mot clé";
   static String keywordEmploiHint = "Saisissez un métier, une compétence, un secteur d'activité…";
   static String keywordAlternanceHint = "Saisissez un métier, une compétence, un secteur d'activité…";
-  static String metierMandatoryLabel = "*Métier";
+  static String metierLabel = "Métier";
   static String metierImmersionHint = "Renseignez le métier pour lequel vous souhaitez faire une immersion.";
   static String jobLocationTitle = "Localisation";
   static String jobLocationMandatoryTitle = "*Localisation";

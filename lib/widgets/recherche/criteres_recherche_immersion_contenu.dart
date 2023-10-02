@@ -55,10 +55,10 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(Strings.mandatoryFields, style: TextStyles.textSRegular()),
+          Text(Strings.allMandatoryFields, style: TextStyles.textSRegular()),
           const SizedBox(height: Margins.spacing_base),
           MetierAutocomplete(
-            title: Strings.metierMandatoryLabel,
+            title: Strings.metierLabel,
             hint: Strings.metierImmersionHint,
             initialValue: viewModel.initialMetier,
             onMetierSelected: (metier) {
@@ -68,7 +68,7 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
           ),
           SizedBox(height: Margins.spacing_m),
           LocationAutocomplete(
-            title: Strings.jobLocationMandatoryTitle,
+            title: Strings.jobLocationTitle,
             hint: Strings.jobLocationImmersionHint,
             villesOnly: true,
             initialValue: viewModel.initialLocation,
