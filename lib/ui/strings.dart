@@ -485,7 +485,7 @@ class Strings {
   static String keywordTitle = "Mot clé";
   static String keywordEmploiHint = "Saisissez un métier, une compétence, un secteur d'activité…";
   static String keywordAlternanceHint = "Saisissez un métier, une compétence, un secteur d'activité…";
-  static String metierMandatoryLabel = "*Métier";
+  static String metierLabel = "Métier";
   static String metierImmersionHint = "Renseignez le métier pour lequel vous souhaitez faire une immersion.";
   static String jobLocationTitle = "Localisation";
   static String jobLocationMandatoryTitle = "*Localisation";
