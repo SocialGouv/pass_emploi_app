@@ -16,7 +16,7 @@ class LocalOutilRepository {
       Outils.diagoriente,
       Outils.aides,
       Outils.mentor,
-      Outils.benevolat,
+      Outils.benevolatCej,
       Outils.formation,
       Outils.evenement,
       Outils.emploiStore,
@@ -29,7 +29,7 @@ class LocalOutilRepository {
   List<Outil> _getOutilsBrsa() {
     return [
       Outils.aides,
-      Outils.benevolat,
+      Outils.benevolatBrsa,
       Outils.emploiStore,
       Outils.emploiSolidaire,
       Outils.laBonneBoite,
@@ -64,11 +64,19 @@ class Outils {
     imagePath: "mentor.png",
   );
 
-  static Outil benevolat = Outil(
+  static Outil benevolatCej = Outil(
     title: "Je m’engage bénévolement",
     description: "Trouvez une mission de bénévolat près de chez vous ou à distance grâce à JeVeuxAider.gouv.fr",
     actionLabel: "Je recherche une mission",
-    urlRedirect: "http://api.api-engagement.beta.gouv.fr/r/campaign/62bd908f38442607276c515e",
+    urlRedirect: "http://api.api-engagement.beta.gouv.fr/r/campaign/64ddc9185331346074141cb1",
+    imagePath: "boite_outil_benevolat.png",
+  );
+
+  static Outil benevolatBrsa = Outil(
+    title: "Je m’engage bénévolement",
+    description: "Trouvez une mission de bénévolat près de chez vous ou à distance grâce à JeVeuxAider.gouv.fr",
+    actionLabel: "Je recherche une mission",
+    urlRedirect: "http://api.api-engagement.beta.gouv.fr/r/campaign/64ddca09533134607414370b",
     imagePath: "boite_outil_benevolat.png",
   );
 

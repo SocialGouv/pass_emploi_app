@@ -114,12 +114,12 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Brand brand) {
     Brand.cej => AccueilOutilsItem([
         Outils.diagoriente.withoutImage(),
         Outils.aides.withoutImage(),
-        Outils.benevolat.withoutImage(),
+        Outils.benevolatCej.withoutImage(),
       ]),
     Brand.brsa => AccueilOutilsItem([
         Outils.emploiSolidaire.withoutImage(),
         Outils.emploiStore.withoutImage(),
-        Outils.benevolat.withoutImage(),
+        Outils.benevolatBrsa.withoutImage(),
       ]),
   };
 }
