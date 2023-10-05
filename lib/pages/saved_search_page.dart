@@ -24,13 +24,16 @@ import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/dialogs/saved_search_delete_dialog.dart';
+import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_card.dart';
@@ -101,20 +104,31 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
   Widget _body(SavedSearchListViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      body: Column(
-        children: [
-          Expanded(child: _content(viewModel)),
-        ],
-      ),
-      floatingActionButton: FiltreButton.primary(
-        onPressed: () async {
-          OffreFiltersBottomSheet.show(context, _selectedFilter).then((result) {
-            if (result != null) _filterSelected(result);
-          });
-        },
-      ),
+      body: _content(viewModel),
+      floatingActionButton: _floatingActionButton(context, viewModel),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  Widget? _floatingActionButton(BuildContext context, SavedSearchListViewModel viewModel) {
+    if (viewModel.displayState != DisplayState.CONTENT) return null;
+
+    if (_selectedFilter == OffreFilter.tous && viewModel.savedSearches.isEmpty) {
+      return PrimaryActionButton(label: Strings.alertesListEmptyButton, onPressed: () => _goToRecherche(context));
+    }
+
+    return FiltreButton.primary(
+      onPressed: () async {
+        OffreFiltersBottomSheet.show(context, _selectedFilter).then((result) {
+          if (result != null) _filterSelected(result);
+        });
+      },
+    );
+  }
+
+  void _goToRecherche(BuildContext context) {
+    Navigator.of(context).pop();
+    StoreProvider.of<AppState>(context).dispatchRechercheDeeplink();
   }
 
   Widget _content(SavedSearchListViewModel viewModel) {
@@ -195,10 +209,11 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
       child: Column(
         children: [
           _suggestionsRechercheCard(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: Margins.spacing_l),
-            child: Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSRegular())),
-          ),
+          SizedBox(height: Margins.spacing_base),
+          _selectedFilter == OffreFilter.tous
+              ? _EmptyListPlaceholder.noFavori()
+              : _EmptyListPlaceholder.noFavoriFiltered(),
+          SizedBox(height: Margins.spacing_huge),
         ],
       ),
     );
@@ -275,6 +290,38 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
         break;
     }
     PassEmploiMatomoTracker.instance.trackScreen(tracking);
+  }
+}
+
+class _EmptyListPlaceholder extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  _EmptyListPlaceholder({required this.title, required this.subtitle});
+
+  factory _EmptyListPlaceholder.noFavori() {
+    return _EmptyListPlaceholder(
+      title: Strings.alertesListEmptyTitle,
+      subtitle: Strings.alertesListEmptySubtitle,
+    );
+  }
+
+  factory _EmptyListPlaceholder.noFavoriFiltered() {
+    return _EmptyListPlaceholder(
+      title: Strings.alertesFilteredListEmptyTitle,
+      subtitle: Strings.alertesFilteredListEmptySubtitle,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: EmptyStatePlaceholder(
+        illustration: Illustration.grey(Icons.search, withWhiteBackground: true),
+        title: title,
+        subtitle: subtitle,
+      ),
+    );
   }
 }
 

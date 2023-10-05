@@ -224,8 +224,9 @@ void main() {
         expect(viewModel.withPreviousPageButton, true);
         expect(viewModel.title, "Cette semaine");
         expect(viewModel.dateLabel, "31/01/2022 au 06/02/2022");
-        expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus cette semaine");
-        expect(viewModel.emptySubtitleLabel, isNull);
+        expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévu cette semaine");
+        expect(viewModel.emptySubtitleLabel,
+            "Retrouvez vos rendez-vous passés ou à venir avec les flèches en haut de page.");
         expect(viewModel.analyticsLabel, "rdv/list-week-0");
         expect(viewModel.rendezvousItems, [
           RendezvousSection(
@@ -253,7 +254,7 @@ void main() {
         expect(viewModel.title, "Semaine du");
         expect(viewModel.dateLabel, "07/02/2022 au 13/02/2022");
         expect(viewModel.emptyLabel,
-            "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 07/02/2022 au 13/02/2022");
+            "Vous n’avez pas encore de rendez-vous prévu pour la semaine du 07/02/2022 au 13/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-1");
         expect(viewModel.rendezvousItems, [
@@ -287,7 +288,7 @@ void main() {
         expect(viewModel.title, "Semaine du");
         expect(viewModel.dateLabel, "14/02/2022 au 20/02/2022");
         expect(viewModel.emptyLabel,
-            "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 14/02/2022 au 20/02/2022");
+            "Vous n’avez pas encore de rendez-vous prévu pour la semaine du 14/02/2022 au 20/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-2");
         expect(viewModel.rendezvousItems, [
@@ -317,7 +318,7 @@ void main() {
         expect(viewModel.title, "Semaine du");
         expect(viewModel.dateLabel, "21/02/2022 au 27/02/2022");
         expect(viewModel.emptyLabel,
-            "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 21/02/2022 au 27/02/2022");
+            "Vous n’avez pas encore de rendez-vous prévu pour la semaine du 21/02/2022 au 27/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-3");
         expect(viewModel.rendezvousItems, [
@@ -347,7 +348,7 @@ void main() {
         expect(viewModel.title, "Semaine du");
         expect(viewModel.dateLabel, "28/02/2022 au 06/03/2022");
         expect(viewModel.emptyLabel,
-            "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 28/02/2022 au 06/03/2022");
+            "Vous n’avez pas encore de rendez-vous prévu pour la semaine du 28/02/2022 au 06/03/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-4");
         expect(viewModel.rendezvousItems, [
@@ -376,7 +377,7 @@ void main() {
         expect(viewModel.withPreviousPageButton, true);
         expect(viewModel.title, "Rendez-vous futurs");
         expect(viewModel.dateLabel, "à partir du 07/03/2022");
-        expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus");
+        expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévu");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-future");
         expect(viewModel.rendezvousItems, [
@@ -523,9 +524,9 @@ void main() {
       expect(viewModel.displayState, DisplayState.CONTENT);
       expect(viewModel.withPreviousPageButton, true);
       expect(viewModel.withNextPageButton, true);
-      expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus");
+      expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévu cette semaine");
       expect(viewModel.emptySubtitleLabel,
-          "Vous pouvez consulter ceux passés et à venir en utilisant les flèches en haut de page.");
+          "Retrouvez vos rendez-vous passés ou à venir avec les flèches en haut de page.");
     });
 
     group('should handle next rendezvous button…', () {
@@ -662,7 +663,7 @@ void main() {
     });
   });
 
-  group('deeplink', (){
+  group('deeplink', () {
     test('should handle rendezvous with valid ID', () {
       // Given
       final store = givenState().rendezvous(rendezvous: [mockRendezvous(id: '1')]).deeplinkToRendezvous('1').store();

@@ -17,6 +17,8 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class ThematiqueDemarchePage extends StatelessWidget {
@@ -73,21 +75,23 @@ class _ErrorMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(AppIcons.construction, color: AppColors.primary, size: 80),
-          const SizedBox(height: Margins.spacing_xl),
-          Text(Strings.thematiquesErrorTitle, style: TextStyles.textBaseBold),
-          const SizedBox(height: Margins.spacing_m),
-          Text(Strings.thematiquesErrorSubtitle, style: TextStyles.textBaseRegular),
-          const SizedBox(height: Margins.spacing_m),
-          PrimaryActionButton(label: Strings.retry, onPressed: viewModel.onRetry),
-          const SizedBox(height: Margins.spacing_xl),
-          CreateCustomDemarche(),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            EmptyStatePlaceholder(
+              illustration: Illustration.orange(AppIcons.construction),
+              title: Strings.thematiquesErrorTitle,
+              subtitle: Strings.thematiquesErrorSubtitle,
+            ),
+            const SizedBox(height: Margins.spacing_m),
+            PrimaryActionButton(label: Strings.retry, onPressed: viewModel.onRetry),
+            const SizedBox(height: Margins.spacing_xl),
+            CreateCustomDemarche(),
+          ],
+        ),
       ),
     );
   }

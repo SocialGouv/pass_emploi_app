@@ -1,17 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
-import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_serializable.dart';
 import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 
 class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> {
   final Dio _httpClient;
-  final PassEmploiCacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
-  ServiceCiviqueFavorisRepository(this._httpClient, this._cacheManager, [this._crashlytics]);
+  ServiceCiviqueFavorisRepository(this._httpClient, [this._crashlytics]);
 
   static String getFavorisIdUrl({required String userId}) => '/jeunes/$userId/favoris/services-civique';
 
@@ -20,12 +18,10 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
     final url = '/jeunes/$userId/favoris/services-civique/$favoriId';
     try {
       await _httpClient.delete(url);
-      _cacheManager.removeResource(CachedResource.FAVORIS, userId);
       return true;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
       if (e is DioError && e.response?.statusCode == 404) {
-        _cacheManager.removeResource(CachedResource.FAVORIS, userId);
         return true;
       }
     }
@@ -61,12 +57,10 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
               dateDeDebut: favori.startDate),
         ),
       );
-      _cacheManager.removeResource(CachedResource.FAVORIS, userId);
       return true;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
       if (e is DioError && e.response?.statusCode == 409) {
-        _cacheManager.removeResource(CachedResource.FAVORIS, userId);
         return true;
       }
     }

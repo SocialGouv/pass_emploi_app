@@ -32,22 +32,20 @@ class AnalyticsScreenNames {
   static const searchDemarcheStep3Success = "/demarches/createSuccess";
   static const createDemarchePersonnalisee = "demarches/creer_demarche_personalisee";
   static const thematiquesDemarche = "demarches/thematiques";
+
   static String thematiquesDemarcheDetails(String thematique) => "demarches/thematiques/$thematique";
   static const topDemarches = "demarches/top-demarches";
+
   static String topDemarcheDetails(String demarche) => "demarches/top-demarches/$demarche";
 
   static const rendezvousListPast = "rdv/list-past";
   static const rendezvousListFuture = "rdv/list-future";
   static const rendezvousListWeek = "rdv/list-week-";
-  static const rendezvousActivitesExterieures = "rdv/activites-exterieures";
-  static const rendezvousAtelier = "rdv/atelier";
-  static const rendezvousEntretienIndividuel = "rdv/entretien-individuel";
-  static const rendezvousEntretienPartenaire = "rdv/entretien-partenaire";
-  static const rendezvousInformationCollective = "rdv/information-collective";
-  static const rendezvousVisite = "rdv/visite";
-  static const rendezvousPrestation = "rdv/prestation";
-  static const rendezvousAutre = "rdv/autre";
+  static const rendezvousDetails = "rdv/detail";
+  static const animationCollectiveDetails = "animation_collective/detail";
+  static const sessionMiloDetails = "session_milo/detail";
 
+  static const animationCollectivePartagePageSuccess = "animation_collective/detail?partage-conseiller=true";
   static const sessionMiloPartagePageSuccess = "session_milo/detail?partage-conseiller=true";
 
   static const rechercheV2Home = "recherche/home";
@@ -89,7 +87,6 @@ class AnalyticsScreenNames {
   static const toolbox = "recherche/boite_a_outils";
 
   static const eventList = "events/list";
-  static const eventPartagePageSuccess = "events/detail?partage-conseiller=true";
 
   static const evenementEmploiRecherche = "evenement_emploi";
   static const evenementEmploiDetails = "evenement_emploi/detail";

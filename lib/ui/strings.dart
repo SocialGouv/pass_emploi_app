@@ -78,6 +78,7 @@ class Strings {
   static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
+  static const String allMandatoryFields = "Tous les champs sont obligatoires";
 
   // Menu
   static String menuAccueil = "Accueil";
@@ -211,11 +212,11 @@ class Strings {
   static String accueilVoirMesAlertes = "Voir toutes mes alertes";
   static String accueilPasDalerteDescription =
       "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
-  static String accueilPasDalerteBouton = "Rechercher une offre";
+  static String accueilPasDalerteBouton = "Commencer une recherche";
   static String accueilMesFavorisSection = "Mes favoris";
   static String accueilVoirMesFavoris = "Voir tous mes favoris";
   static String accueilPasDeFavorisDescription = "Retrouvez ici les offres que vous avez enregistrées";
-  static String accueilPasDeFavorisBouton = "Rechercher une offre";
+  static String accueilPasDeFavorisBouton = "Commencer une recherche";
   static String accueilOutilsSection = "Boîte à outils";
   static String accueilOutilsSectionDescription = "Découvrez des outils pour vous aider dans vos projets";
   static String accueilVoirLesOutils = "Voir tous les outils";
@@ -228,11 +229,18 @@ class Strings {
   static String demarcheTabTitle = "Démarches";
 
   // Agenda
-  static String agendaEmptyMilo = "Vous n'avez pas encore d'actions ni de rendez-vous prévus cette semaine.";
-  static String agendaEmptyPoleEmploi = "Vous n'avez pas encore de démarches ni de rendez-vous prévus cette semaine.";
+  static String agendaEmptyTitle = "Vous n’avez rien de prévu cette semaine";
+  static String agendaEmptySubtitleMilo =
+      "Commencez en créant une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran";
+  static String agendaEmptySubtitlePoleEmploi =
+      "Commencez en ajoutant une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran";
   static String agendaError = "Erreur lors de la récupération de vos actions et rendez-vous";
   static String agendaEmptyForDayMilo = "Pas d’action ni de rendez-vous";
   static String agendaEmptyForDayPoleEmploi = "Pas de démarche ni de rendez-vous";
+  static String agendaEmptyForWeekMilo =
+      "Pas d’action ni de rendez-vous. Créez une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran.";
+  static String agendaEmptyForWeekPoleEmploi =
+      "Pas de démarche ni de rendez-vous. Ajoutez une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran.";
   static String nextWeek = "Semaine prochaine";
   static String semaineEnCours = "Semaine en cours";
   static String agendaNoActionThisWeekTitle = "Vous n’avez pas d’action ni de rendez-vous prévus cette semaine";
@@ -256,7 +264,7 @@ class Strings {
       Brand.isCej() ? _CejStrings.shouldInformConseiller : _BrsaStrings.shouldInformConseiller;
 
   static String noUpcomingRendezVous =
-      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
+      "Vous n’avez pas de rendez-vous prévu.\nContactez votre conseiller pour prendre rendez-vous";
   static String rendezVousListError = "Erreur lors de la récupération de vos rendez-vous";
   static String rendezVousDetailsError = "Erreur lors de la récupération de l'évènement";
   static String conseillerIsPresent = "Votre conseiller sera présent";
@@ -271,14 +279,12 @@ class Strings {
   static String rendezVousCetteSemaineTitre = "Cette semaine";
   static String rendezSemaineTitre = "Semaine du";
   static String rendezVousFutursTitre = "Rendez-vous futurs";
-  static String noRendezVousCetteSemaineTitre = "Vous n'avez pas encore de rendez-vous prévus cette semaine";
-  static String noRendezYet = "Vous n'avez pas encore de rendez-vous prévus";
-  static String noMoreRendezVousThisWeek = "Vous n'avez pas d'autres rendez-vous prévus cette semaine.";
-  static String noRendezYetSubtitle =
-      "Vous pouvez consulter ceux passés et à venir en utilisant les flèches en haut de page.";
-  static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévus pour la semaine du ";
+  static String noRendezVousThisWeek = "Vous n’avez pas encore de rendez-vous prévu cette semaine";
+  static String noRendezVousThisWeekSubtitle =
+      "Retrouvez vos rendez-vous passés ou à venir avec les flèches en haut de page.";
+  static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévu pour la semaine du ";
   static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
-  static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévus";
+  static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévu";
   static String withConseiller = "avec";
   static String goToNextRendezvous = "Aller au prochain rendez-vous";
   static String seeMoreRendezvous = "Voir plus de rendez-vous";
@@ -327,7 +333,7 @@ class Strings {
   static String refreshActionStatus = "Valider le statut";
   static const String actionToDo = "À réaliser";
   static const String actionInProgress = "Commencée";
-  static String noActionsYet = "Vous n'avez pas encore d’actions.";
+  static String noActionsYet = "Vous n'avez pas encore d’action prévue.";
   static String addAnAction = "Créer une action";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
@@ -388,12 +394,16 @@ class Strings {
   static const String late = "En retard : ";
   static const String createDemarchePersonnalisee = "Créer une démarche";
   static const String commentaire = "Commentaire";
-  static const String descriptionDemarche = "*Description de la démarche";
+  static const String descriptionDemarche = "Description de la démarche";
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
-  static const String selectEcheance = "*Sélectionner une date d'échéance";
+  static const String selectEcheance = "Sélectionner une date d'échéance format: jj/mm/aaaa";
   static const String addADemarche = "Ajouter une démarche";
   static const String createDemarcheTitle = "Création d'une démarche";
+  static const String createDemarcheStep2EmptyTitle = "Aucune démarche ne correspond à votre recherche";
+  static String createDemarcheStep2EmptyTitleWithQuery(String query) =>
+      "Aucune démarche ne correspond à votre recherche “$query”";
+  static const String createDemarcheStep2EmptySubtitle = "Essayez de reformuler ou lancez une nouvelle recherche";
   static const String noDemarcheFound = "Aucune démarche pre-renseignée n’a été trouvée";
   static const String selectDemarche = "Sélectionnez une démarche ou créez une démarche personnalisée";
   static const String addALaDemarche = "Créer la démarche";
@@ -402,7 +412,7 @@ class Strings {
   static const String mandatoryField = "Le champ est obligatoire";
   static const String comment = "Comment";
   static const String selectComment = "*Sélectionner un des moyens";
-  static const String selectQuand = "*Sélectionner une date d’échéance";
+  static const String selectQuand = "*Sélectionner une date d’échéance format: jj/mm/aaaa";
   static const String demarchePressedTip = "Choisir cette démarche";
 
   static String demarcheActiveLabel = "À réaliser pour le ";
@@ -434,7 +444,7 @@ class Strings {
       "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise…";
   static String thematiquesDemarcheDescription = "Choisissez une thématique parmi les thématiques suivantes :";
   static String thematiquesDemarchePressedTip = "Parcourir les démarches";
-  static String thematiquesErrorTitle = "Il y a un problème technique de notre côté !";
+  static String thematiquesErrorTitle = "Il y a un problème de notre côté !";
   static String thematiquesErrorSubtitle =
       "Nous sommes en train de régler le problème. Réessayez plus tard ou créez une démarche personnalisée.";
 
@@ -475,7 +485,7 @@ class Strings {
   static String keywordTitle = "Mot clé";
   static String keywordEmploiHint = "Saisissez un métier, une compétence, un secteur d'activité…";
   static String keywordAlternanceHint = "Saisissez un métier, une compétence, un secteur d'activité…";
-  static String metierMandatoryLabel = "*Métier";
+  static String metierLabel = "Métier";
   static String metierImmersionHint = "Renseignez le métier pour lequel vous souhaitez faire une immersion.";
   static String jobLocationTitle = "Localisation";
   static String jobLocationMandatoryTitle = "*Localisation";
@@ -591,7 +601,7 @@ class Strings {
 
   // Service Civique
   static String serviceCiviqueFiltresTitle = "Filtrer les missions";
-  static String startDateFiltreTitle = "Date de début";
+  static String startDateFiltreTitle = "Date de début format: jj/mm/aaaa";
   static String startDate = "Dès le";
   static String domainFiltreTitle = "Domaine";
   static String asSoonAs = "Dès le ";
@@ -657,7 +667,12 @@ class Strings {
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
 
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
-  static String noFavoris = "Aucun favori";
+  static String favorisListEmptyTitle = "Vous n’avez pas encore d’offre en favori";
+  static String favorisListEmptySubtitle =
+      "Découvrez et sauvegardez des offres d’emploi, alternance, immersion et service civique qui vous intéressent";
+  static String favorisListEmptyButton = "Rechercher une offre";
+  static String favorisFilteredListEmptyTitle = "Aucun favori ne correspond à vos critères";
+  static String favorisFilteredListEmptySubtitle = "Essayez de modifier vos filtres";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
   static String favorisUnknownContractType = 'Type de contrat inconnu';
   static String favorisUnknownSecteur = 'Secteur d\'activité inconnu';
@@ -674,13 +689,17 @@ class Strings {
   // Empty Content (actions & rdv)
   static String rendezvous = "rendez-vous";
   static String actions = "actions";
-  static String demarchesToDo = "démarches à réaliser.";
+  static String action = "action";
+
+  static String demarchesToDo = "démarche prévue.";
   static String demarches = "démarches";
+  static String demarche = "démarche";
 
   static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 
   static String emptyContentTitle(String content) => "Vous n’avez pas encore de $content";
+  static String emptyContentSubtitle(String content) => "Commencez en créant une nouvelle $content !";
 
   static String emptyContentDescription(String content) =>
       "Vous pouvez créer vos $content en autonomie depuis votre espace Pôle emploi.";
@@ -781,8 +800,13 @@ class Strings {
       "Votre recherche a bien été enregistrée. Retrouvez-la dans la section Mes Alertes sur votre page d'accueil.";
   static String creationSavedSearchError = "Erreur lors de la création de l'alerte. Veuillez réessayer";
   static String savedSearchGetError = "Erreur lors de la récupération des recherches sauvegardées.";
-  static String noSavedSearchYet = "Aucune alerte.";
   static String savedSearchTabName = "Mes alertes";
+  static String alertesListEmptyTitle = "Vous n’avez pas encore d’alerte sauvegardée";
+  static String alertesListEmptySubtitle =
+      "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
+  static String alertesListEmptyButton = "Rechercher une offre";
+  static String alertesFilteredListEmptyTitle = "Aucune alerte ne correspond à vos critères";
+  static String alertesFilteredListEmptySubtitle = "Essayez de modifier vos filtres";
   static String favorisTabName = "Mes offres";
   static String savedSearchSeeResults = "Voir les résultats";
 
@@ -904,8 +928,8 @@ class Strings {
   static const String evenementEmploiFiltresModalites = "Modalités d'accès";
   static const String evenementEmploiFiltresType = "Par type d’événement";
   static const String evenementEmploiFiltresDate = "Période";
-  static const String evenementEmploiFiltresDateDebut = "Date de début";
-  static const String evenementEmploiFiltresDateFin = "Date de fin";
+  static const String evenementEmploiFiltresDateDebut = "Date de début format: jj/mm/aaaa";
+  static const String evenementEmploiFiltresDateFin = "Date de fin format: jj/mm/aaaa";
 
   // Mode dégradé Pôle emploi
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
@@ -915,9 +939,12 @@ class Strings {
   static String demarchesNotUpToDateMessage =
       "Une erreur technique s’est produite. Certaines de vos démarches ne sont peut-être pas à jour.";
   static String reloadPage = "Recharger la page";
-  static String agendaUpToDate = "Vos rendez-vous et démarches sont à jour";
-  static String agendaNotUpToDate =
+  static String agendaPeUpToDate = "Vos rendez-vous et démarches sont à jour";
+  static String agendaPeNotUpToDate =
       "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
+  static String agendaMiloUpToDate = "Vos rendez-vous et actions sont à jour";
+  static String agendaMiloNotUpToDate =
+      "Une erreur technique s’est produite. Certains de vos rendez-vous et actions ne sont peut-être pas à jour.";
 
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 
@@ -952,8 +979,10 @@ class Strings {
   static String cvListPageSubtitle =
       "Téléchargez vos CV Pôle emploi sur votre téléphone pour préparer votre candidature";
   static String cvError = "Erreur lors de la récupération des CVs Pôle emploi";
-  static String cvEmpty = "Vous n’avez pas de CV sur votre espace Pôle emploi";
-  static String cvEmptyButton = "Retour";
+  static String cvListEmptyTitle = "Vous n’avez pas de CV dans votre espace Pôle emploi";
+  static String cvListEmptySubitle =
+      "Déposez votre CV dans votre espace Pôle emploi pour le récupérer automatiquement quand vous postulerez à des offres";
+  static String cvEmptyButton = "Mon espace Pôle emploi";
   static String cvDownload = "Télécharger";
   static String cvErrorApiPeKoMessage = "Impossible de se synchroniser avec votre espace Pôle emploi";
   static String cvErrorApiPeKoButton = "Recharger la page";

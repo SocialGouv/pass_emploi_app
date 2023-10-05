@@ -6,6 +6,5 @@ LoginState loginReducer(LoginState current, dynamic action) {
   if (action is LoginLoadingAction) return LoginLoadingState();
   if (action is LoginFailureAction) return LoginFailureState();
   if (action is LoginSuccessAction) return LoginSuccessState(action.user);
-  if (action is LoginResetAction) return LoginNotInitializedState();
   return current;
 }

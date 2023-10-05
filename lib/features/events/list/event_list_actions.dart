@@ -3,8 +3,9 @@ import 'package:pass_emploi_app/models/session_milo.dart';
 
 class EventListRequestAction {
   final DateTime maintenant;
+  final bool forceRefresh;
 
-  EventListRequestAction(this.maintenant);
+  EventListRequestAction(this.maintenant, {this.forceRefresh = false});
 }
 
 class EventListLoadingAction {}

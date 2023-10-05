@@ -1,33 +1,51 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 class CreateDemarcheStep2ViewModel extends Equatable {
   final List<CreateDemarcheStep2Item> items;
+  final DisplayState displayState;
+  final void Function() onRetry;
 
-  CreateDemarcheStep2ViewModel(this.items);
+  CreateDemarcheStep2ViewModel({required this.items, required this.displayState, required this.onRetry});
 
-  factory CreateDemarcheStep2ViewModel.create(Store<AppState> store, DemarcheSource source) {
+  factory CreateDemarcheStep2ViewModel.create(Store<AppState> store, DemarcheSource source, {String? query}) {
     final List<DemarcheDuReferentiel> demarches = source.demarcheList(store);
-    return CreateDemarcheStep2ViewModel(_items(demarches));
+    final state = store.state.searchDemarcheState;
+
+    return CreateDemarcheStep2ViewModel(
+      items: _items(demarches),
+      displayState: _displayState(state),
+      onRetry: () => _onRetry(store, source, query),
+    );
   }
 
   @override
-  List<Object?> get props => [items];
+  List<Object?> get props => [items, displayState];
 }
 
 List<CreateDemarcheStep2Item> _items(List<DemarcheDuReferentiel> demarches) {
   return [
-    CreateDemarcheStep2TitleItem(demarches.isNotEmpty ? Strings.selectDemarche : Strings.noDemarcheFound),
+    if (demarches.isEmpty) CreateDemarcheStep2EmptyItem(),
+    if (demarches.isNotEmpty) CreateDemarcheStep2TitleItem(Strings.selectDemarche),
     ...demarches.map((demarche) => CreateDemarcheStep2DemarcheFoundItem(demarche.id)),
     CreateDemarcheStep2ButtonItem(),
   ];
 }
 
-abstract class CreateDemarcheStep2Item extends Equatable {
+void _onRetry(Store<AppState> store, DemarcheSource source, String? query) {
+  if (source is RechercheDemarcheSource) {
+    store.dispatch(SearchDemarcheRequestAction(query!));
+  }
+}
+
+sealed class CreateDemarcheStep2Item extends Equatable {
   @override
   List<Object?> get props => [];
 }
@@ -51,3 +69,11 @@ class CreateDemarcheStep2DemarcheFoundItem extends CreateDemarcheStep2Item {
 }
 
 class CreateDemarcheStep2ButtonItem extends CreateDemarcheStep2Item {}
+
+class CreateDemarcheStep2EmptyItem extends CreateDemarcheStep2Item {}
+
+DisplayState _displayState(SearchDemarcheState state) {
+  if (state is SearchDemarcheLoadingState || state is SearchDemarcheNotInitializedState) return DisplayState.LOADING;
+  if (state is SearchDemarcheFailureState) return DisplayState.FAILURE;
+  return DisplayState.CONTENT;
+}

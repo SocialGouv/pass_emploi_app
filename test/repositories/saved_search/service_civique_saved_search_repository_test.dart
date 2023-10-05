@@ -1,14 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
 
-import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('ServiceCiviqueSavedSearchRepository', () {
     final sut = DioRepositorySut<ServiceCiviqueSavedSearchRepository>();
-    sut.givenRepository((client) => ServiceCiviqueSavedSearchRepository(client, DummyPassEmploiCacheManager()));
+    sut.givenRepository((client) => ServiceCiviqueSavedSearchRepository(client));
 
     group('postSavedSearch', () {
       sut.when(

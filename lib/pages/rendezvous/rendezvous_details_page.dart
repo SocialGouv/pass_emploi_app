@@ -27,7 +27,7 @@ import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:redux/redux.dart';
 
-class RendezvousDetailsPage extends StatelessWidget {
+class RendezvousDetailsPage extends StatefulWidget {
   final String _rendezvousId;
   final RendezvousStateSource _source;
   final RendezvousDetailsViewModel Function(Store<AppState>) _converter;
@@ -53,33 +53,38 @@ class RendezvousDetailsPage extends StatelessWidget {
   }
 
   @override
+  State<RendezvousDetailsPage> createState() => _RendezvousDetailsPageState();
+}
+
+class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
+  bool _hasBeenTracked = false;
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousDetailsViewModel>(
       onInit: _onInit,
-      converter: _converter,
+      converter: widget._converter,
       builder: _scaffold,
-      onInitialBuild: (viewModel) {
-        if (viewModel.trackingPageName != null) {
-          PassEmploiMatomoTracker.instance.trackScreen(viewModel.trackingPageName!);
-        }
-      },
       onDispose: (store) {
-        _source == RendezvousStateSource.noSource ? store.dispatch(RendezvousDetailsResetAction()) : {};
-        _source == RendezvousStateSource.sessionMiloDetails ? store.dispatch(SessionMiloDetailsResetAction()) : {};
+        widget._source == RendezvousStateSource.noSource ? store.dispatch(RendezvousDetailsResetAction()) : {};
+        widget._source == RendezvousStateSource.sessionMiloDetails
+            ? store.dispatch(SessionMiloDetailsResetAction())
+            : {};
       },
       distinct: true,
     );
   }
 
   void _onInit(Store<AppState> store) {
-    if (_source == RendezvousStateSource.sessionMiloDetails) {
-      store.dispatch(SessionMiloDetailsRequestAction(_rendezvousId));
-    } else if (_source == RendezvousStateSource.noSource) {
-      store.dispatch(RendezvousDetailsRequestAction(_rendezvousId));
+    if (widget._source == RendezvousStateSource.sessionMiloDetails) {
+      store.dispatch(SessionMiloDetailsRequestAction(widget._rendezvousId));
+    } else if (widget._source == RendezvousStateSource.noSource) {
+      store.dispatch(RendezvousDetailsRequestAction(widget._rendezvousId));
     }
   }
 
   Widget _scaffold(BuildContext context, RendezvousDetailsViewModel viewModel) {
+    _trackPageOnRendezvousRetrievalFromState(viewModel);
     const backgroundColor = Colors.white;
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -136,6 +141,13 @@ class RendezvousDetailsPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _trackPageOnRendezvousRetrievalFromState(RendezvousDetailsViewModel viewModel) {
+    if (!_hasBeenTracked && viewModel.trackingPageName != null) {
+      PassEmploiMatomoTracker.instance.trackScreen(viewModel.trackingPageName!);
+      _hasBeenTracked = true;
+    }
   }
 }
 

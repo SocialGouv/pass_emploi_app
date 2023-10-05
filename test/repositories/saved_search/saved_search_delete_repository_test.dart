@@ -1,13 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 
-import '../../doubles/dummies.dart';
 import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('SavedSearchDeleteRepository', () {
     final sut = DioRepositorySut<SavedSearchDeleteRepository>();
-    sut.givenRepository((client) => SavedSearchDeleteRepository(client, DummyPassEmploiCacheManager()));
+    sut.givenRepository((client) => SavedSearchDeleteRepository(client));
 
     group('delete', () {
       sut.when((repository) => repository.delete("userId", "savedSearchId"));

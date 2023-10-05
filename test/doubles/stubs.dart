@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
@@ -270,6 +272,34 @@ class ChatRepositoryStub extends ChatRepository {
   @override
   Future<bool> sendOffrePartagee(String userId, OffrePartagee offrePartagee) async {
     return true;
+  }
+}
+
+class ChatRepositoryMock extends ChatRepository {
+  ChatRepositoryMock() : super(DummyChatCrypto(), DummyCrashlytics(), ModeDemoRepository());
+
+  final _streamController = StreamController<List<Message>>();
+  List<Message> oldMessagesRequested = [];
+  int numberOfOldMessagesCalled = 0;
+
+  @override
+  int numberOfHistoryMessage = 20;
+
+  @override
+  Stream<List<Message>> messagesStream(String userId) async* {
+    await for (final messages in _streamController.stream) {
+      yield messages;
+    }
+  }
+
+  @override
+  Future<List<Message>> oldMessages(String userId, DateTime date) async {
+    numberOfOldMessagesCalled++;
+    return oldMessagesRequested;
+  }
+
+  void publishMessagesOnStream(List<Message> messages) {
+    _streamController.add(messages);
   }
 }
 

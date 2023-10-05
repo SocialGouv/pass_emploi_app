@@ -117,6 +117,7 @@ DisplayState _displayState(RendezvousListState state, int pageOffset) {
   if (state.isNotInitialized()) return DisplayState.LOADING;
   if (pageOffset.isInPast()) {
     if (state.pastRendezVousStatus == RendezvousListStatus.LOADING) return DisplayState.LOADING;
+    if (state.pastRendezVousStatus == RendezvousListStatus.RELOADING) return DisplayState.LOADING;
     if (state.pastRendezVousStatus == RendezvousListStatus.SUCCESS) return DisplayState.CONTENT;
     return DisplayState.FAILURE;
   } else {
@@ -129,9 +130,9 @@ DisplayState _displayState(RendezvousListState state, int pageOffset) {
 
 void _retry(Store<AppState> store, int pageOffset) {
   if (pageOffset.isInPast()) {
-    store.dispatch(RendezvousListRequestReloadAction(RendezvousPeriod.PASSE));
+    store.dispatch(RendezvousListRequestReloadAction(RendezvousPeriod.PASSE, forceRefresh: true));
   } else {
-    store.dispatch(RendezvousListRequestReloadAction(RendezvousPeriod.FUTUR));
+    store.dispatch(RendezvousListRequestReloadAction(RendezvousPeriod.FUTUR, forceRefresh: true));
   }
 }
 

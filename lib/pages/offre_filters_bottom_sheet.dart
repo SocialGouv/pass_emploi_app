@@ -56,6 +56,7 @@ class _OffreFiltersBottomSheetState extends State<OffreFiltersBottomSheet> {
     return BottomSheetWrapper(
       title: Strings.filterList,
       body: Scaffold(
+        backgroundColor: Colors.white,
         body: _Body(
           onFilterSelected: _onFilterSelected,
           offreFilter: _selectedFilter,

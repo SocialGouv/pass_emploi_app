@@ -73,7 +73,7 @@ class Tutorial:
     def __str__(self):
         result = "import 'package:pass_emploi_app/models/tutorial/tutorial_page.dart';\n"
         result += "class Tutorial {\n"
-        result += f"static const String version = '{self.version()}';\n"
+        result += f"static const String versionTimestamp = '{self.version()}';\n"
         result += self.pages_to_dart("milo", self.milo)
         result += self.pages_to_dart("pe", self.pe)
         result += "}"

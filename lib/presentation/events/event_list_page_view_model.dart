@@ -38,7 +38,7 @@ class EventListPageViewModel extends Equatable {
     return EventListPageViewModel(
       displayState: _displayState(eventListState),
       eventIds: _eventIds(eventListState),
-      onRetry: () => {store.dispatch(EventListRequestAction(DateTime.now()))},
+      onRetry: () => {store.dispatch(EventListRequestAction(DateTime.now(), forceRefresh: true))},
     );
   }
 

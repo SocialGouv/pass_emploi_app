@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
 
 class UserActionListPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -85,16 +86,27 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget _animatedBody(BuildContext context, UserActionListPageViewModel viewModel) {
     if (viewModel.withLoading) return UserActionsLoading();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
-    if (viewModel.withEmptyMessage) return Empty(description: Strings.noActionsYet);
+    if (viewModel.withEmptyMessage) {
+      return RefreshIndicatorAddingScrollview(
+        onRefresh: () async => viewModel.onRetry(),
+        child: Empty(
+          title: Strings.noActionsYet,
+          subtitle: Strings.emptyContentSubtitle(Strings.action),
+        ),
+      );
+    }
     return _userActionsList(context, viewModel);
   }
 
   Widget _userActionsList(BuildContext context, UserActionListPageViewModel viewModel) {
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
-      itemCount: viewModel.items.length,
-      itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
-      separatorBuilder: (context, i) => _listSeparator(),
+    return RefreshIndicator.adaptive(
+      onRefresh: () async => viewModel.onRetry(),
+      child: ListView.separated(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+        itemCount: viewModel.items.length,
+        itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
+        separatorBuilder: (context, i) => _listSeparator(),
+      ),
     );
   }
 

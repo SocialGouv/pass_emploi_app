@@ -238,7 +238,7 @@ class _DateEcheance extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.selectEcheance, style: TextStyles.textBaseMedium),
+        Text("*" + Strings.selectEcheance, style: TextStyles.textBaseMedium),
         SizedBox(height: Margins.spacing_s),
         DatePicker(
           onValueChange: (date) => onDateEcheanceChange(date),

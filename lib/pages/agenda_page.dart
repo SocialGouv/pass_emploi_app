@@ -31,9 +31,9 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
-import 'package:pass_emploi_app/widgets/empty_page.dart';
+import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
-import 'package:pass_emploi_app/widgets/reloadable_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
@@ -58,7 +58,7 @@ class AgendaPage extends StatelessWidget {
 
   void _onDidChange(BuildContext context, AgendaPageViewModel? previous, AgendaPageViewModel current) {
     if (previous?.isReloading == true && _currentAgendaIsUpToDate(current)) {
-      showSuccessfulSnackBar(context, Strings.agendaUpToDate);
+      showSuccessfulSnackBar(context, current.upToDateLabel);
     }
   }
 
@@ -177,21 +177,10 @@ class _Body extends StatelessWidget {
       child: switch (viewModel.displayState) {
         DisplayState.LOADING => _AgendaLoading(),
         DisplayState.CONTENT => _Content(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap),
-        DisplayState.EMPTY => _emptyPage(context, viewModel),
+        DisplayState.EMPTY => SizedBox.shrink(),
         DisplayState.FAILURE => _Retry(viewModel: viewModel),
       },
     );
-  }
-
-  Widget _emptyPage(BuildContext context, AgendaPageViewModel viewModel) {
-    final showNotUpToDateMessage = viewModel.events.isNotEmpty && viewModel.events.first is NotUpToDateAgendaItem;
-    return showNotUpToDateMessage
-        ? ReloadablePage(
-            reloadMessage: Strings.agendaNotUpToDate,
-            emptyMessage: viewModel.emptyMessage,
-            onReload: () => viewModel.reload(DateTime.now()),
-          )
-        : Empty(description: viewModel.emptyMessage);
   }
 }
 
@@ -220,39 +209,59 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: ListView.builder(
-        padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
-        itemCount: viewModel.events.length,
-        itemBuilder: (context, index) {
-          final item = viewModel.events[index];
-          if (item is WeekSeparatorAgendaItem) return _WeekSeparator(item);
-          if (item is DaySeparatorAgendaItem) return _DaySeparatorAgendaItem(item);
-          if (item is EmptyMessageAgendaItem) return _MessageAgendaItem(item);
-          if (item is RendezvousAgendaItem) return _RendezvousAgendaItem(item);
-          if (item is SessionMiloAgendaItem) return _SessionMiloAgendaItem(item);
-          if (item is DemarcheAgendaItem) return _DemarcheAgendaItem(item);
-          if (item is UserActionAgendaItem) return _UserActionAgendaItem(item);
-          if (item is CallToActionEventMiloAgendaItem) return _CurrentWeekEmptyMiloCard(agendaPageViewModel: viewModel);
-          if (item is DelayedActionsBannerAgendaItem) return _DelayedActionsBanner(item, onActionDelayedTap);
-          if (item is NotUpToDateAgendaItem) return _NotUpToDateMessage(viewModel);
-          return SizedBox(height: 0);
-        },
+      child: RefreshIndicator.adaptive(
+        onRefresh: () async => viewModel.reload(DateTime.now()),
+        child: ListView.builder(
+            padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
+            itemCount: viewModel.events.length,
+            itemBuilder: (context, index) {
+              final item = viewModel.events[index];
+              return switch (item) {
+                final WeekSeparatorAgendaItem item => _WeekSeparator(item),
+                final DaySeparatorAgendaItem item => _DaySeparatorAgendaItem(item),
+                final EmptyMessageAgendaItem item => _MessageAgendaItem(item),
+                final RendezvousAgendaItem item => _RendezvousAgendaItem(item),
+                final SessionMiloAgendaItem item => _SessionMiloAgendaItem(item),
+                final DemarcheAgendaItem item => _DemarcheAgendaItem(item),
+                final UserActionAgendaItem item => _UserActionAgendaItem(item),
+                final DelayedActionsBannerAgendaItem item => _DelayedActionsBanner(item, onActionDelayedTap),
+                final EmptyAgendaItem item => _EmptyPlaceholder(item),
+                NotUpToDateAgendaItem _ => _NotUpToDateMessage(viewModel),
+              };
+            }),
+      ),
+    );
+  }
+}
+
+class _EmptyPlaceholder extends StatelessWidget {
+  final EmptyAgendaItem item;
+
+  _EmptyPlaceholder(this.item);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: EmptyStatePlaceholder(
+        illustration: Illustration.grey(Icons.calendar_today_rounded, withWhiteBackground: true),
+        title: item.title,
+        subtitle: item.subtitle,
       ),
     );
   }
 }
 
 class _NotUpToDateMessage extends StatelessWidget {
-  final AgendaPageViewModel agendaPageViewModel;
+  final AgendaPageViewModel _viewModel;
 
-  const _NotUpToDateMessage(this.agendaPageViewModel);
+  const _NotUpToDateMessage(this._viewModel);
 
   @override
   Widget build(BuildContext context) {
     return NotUpToDateMessage(
-      message: Strings.agendaNotUpToDate,
+      message: _viewModel.notUpToDateLabel,
       margin: EdgeInsets.only(bottom: Margins.spacing_base),
-      onRefresh: () => agendaPageViewModel.reload(DateTime.now()),
+      onRefresh: () => _viewModel.reload(DateTime.now()),
     );
   }
 }
@@ -316,49 +325,6 @@ class _NumberOfDelayedActions extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _CurrentWeekEmptyMiloCard extends StatelessWidget {
-  final AgendaPageViewModel agendaPageViewModel;
-
-  const _CurrentWeekEmptyMiloCard({required this.agendaPageViewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: Margins.spacing_base),
-      child: CardContainer(
-          child: Column(
-        children: [
-          Text(
-            Strings.agendaNoActionThisWeekTitle,
-            style: TextStyles.textMBold,
-          ),
-          SizedBox(height: 10),
-          Text(
-            Strings.agendaNoActionThisWeekDescription,
-            style: TextStyles.textBaseRegular,
-          ),
-          SizedBox(height: 10),
-          TextButton(
-              style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              onPressed: agendaPageViewModel.goToEventList,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      Strings.agendaSeeEventInAgenceButton,
-                      style: TextStyles.textBaseUnderline,
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Icon(AppIcons.chevron_right_rounded, color: AppColors.primary)
-                ],
-              ))
-        ],
-      )),
     );
   }
 }

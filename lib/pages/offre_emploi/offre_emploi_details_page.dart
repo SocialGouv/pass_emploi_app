@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/postuler_offre_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
@@ -463,17 +464,10 @@ class _PartageOffre extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: OutlinedButton(
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(StadiumBorder()),
-          side: MaterialStateProperty.all(BorderSide(color: AppColors.primary, width: 1)),
-        ),
+      child: SecondaryButton(
         onPressed: () => ChatPartageBottomSheet.show(
             context, ChatPartageOffreEmploiSource(isAlternance ? OffreType.alternance : OffreType.emploi)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
-          child: Text(Strings.partagerOffreConseiller, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
-        ),
+        label: Strings.partagerOffreConseiller,
       ),
     );
   }

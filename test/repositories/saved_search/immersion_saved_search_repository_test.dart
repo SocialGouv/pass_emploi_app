@@ -1,14 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 
-import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/sut_dio_repository.dart';
 
 void main() {
   group('ImmersionSavedSearchRepository', () {
     final sut = DioRepositorySut<ImmersionSavedSearchRepository>();
-    sut.givenRepository((client) => ImmersionSavedSearchRepository(client, DummyPassEmploiCacheManager()));
+    sut.givenRepository((client) => ImmersionSavedSearchRepository(client));
 
     group('postSavedSearch', () {
       sut.when(

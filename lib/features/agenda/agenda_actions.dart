@@ -8,8 +8,9 @@ class AgendaRequestAction {
 
 class AgendaRequestReloadAction {
   final DateTime maintenant;
+  final bool forceRefresh;
 
-  AgendaRequestReloadAction(this.maintenant);
+  AgendaRequestReloadAction({required this.maintenant, this.forceRefresh = false});
 }
 
 class AgendaReloadingAction {}

@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/presentation/recherche/immersion/criteres_recher
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
@@ -54,8 +55,10 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Text(Strings.allMandatoryFields, style: TextStyles.textSRegular()),
+          const SizedBox(height: Margins.spacing_base),
           MetierAutocomplete(
-            title: Strings.metierMandatoryLabel,
+            title: Strings.metierLabel,
             hint: Strings.metierImmersionHint,
             initialValue: viewModel.initialMetier,
             onMetierSelected: (metier) {
@@ -65,7 +68,7 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
           ),
           SizedBox(height: Margins.spacing_m),
           LocationAutocomplete(
-            title: Strings.jobLocationMandatoryTitle,
+            title: Strings.jobLocationTitle,
             hint: Strings.jobLocationImmersionHint,
             villesOnly: true,
             initialValue: viewModel.initialLocation,

@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
+import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -169,24 +170,32 @@ class _Content extends StatelessWidget {
       children: [
         _DateHeader(viewModel: viewModel, onPageOffsetChanged: onPageOffsetChanged),
         if (viewModel.rendezvousItems.isEmpty)
-          _EmptyWeek(
-            title: viewModel.emptyLabel,
-            subtitle: viewModel.emptySubtitleLabel,
-            withNextRendezvousButton: viewModel.nextRendezvousPageOffset != null,
-            onNextRendezvousButtonTap: onNextRendezvousButtonTap,
+          Expanded(
+            child: RefreshIndicatorAddingScrollview(
+              onRefresh: () async => viewModel.onRetry(),
+              child: _EmptyWeek(
+                title: viewModel.emptyLabel,
+                subtitle: viewModel.emptySubtitleLabel,
+                withNextRendezvousButton: viewModel.nextRendezvousPageOffset != null,
+                onNextRendezvousButtonTap: onNextRendezvousButtonTap,
+              ),
+            ),
           ),
         if (viewModel.rendezvousItems.isNotEmpty)
           Expanded(
-            child: ListView.separated(
-              itemCount: viewModel.rendezvousItems.length,
-              padding: const EdgeInsets.all(Margins.spacing_base),
-              separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
-              itemBuilder: (context, index) {
-                final item = viewModel.rendezvousItems[index];
-                if (item is RendezvousSection) return _RendezvousSection(section: item);
-                if (item is RendezvousNotUpToDateItem) return _NotUpToDate(viewModel: viewModel);
-                return Container();
-              },
+            child: RefreshIndicator.adaptive(
+              onRefresh: () async => viewModel.onRetry(),
+              child: ListView.separated(
+                itemCount: viewModel.rendezvousItems.length,
+                padding: const EdgeInsets.all(Margins.spacing_base),
+                separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
+                itemBuilder: (context, index) {
+                  final item = viewModel.rendezvousItems[index];
+                  if (item is RendezvousSection) return _RendezvousSection(section: item);
+                  if (item is RendezvousNotUpToDateItem) return _NotUpToDate(viewModel: viewModel);
+                  return Container();
+                },
+              ),
             ),
           ),
       ],
@@ -282,34 +291,32 @@ class _EmptyWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 130, maxWidth: 130),
-            child: Illustration.grey(Icons.calendar_today_rounded, withWhiteBackground: true),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 24, right: 24, bottom: 20),
-            child: Column(
-              children: [
-                Text(title, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
-                if (subtitle != null) ...[
-                  SepLine(Margins.spacing_s, Margins.spacing_s),
-                  Text(subtitle ?? "", style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
-                ],
-                if (withNextRendezvousButton)
-                  Padding(
-                    padding: const EdgeInsets.only(top: Margins.spacing_base),
-                    child: PrimaryActionButton(onPressed: onNextRendezvousButtonTap, label: Strings.goToNextRendezvous),
-                  ),
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: 130, maxWidth: 130),
+          child: Illustration.grey(Icons.calendar_today_rounded, withWhiteBackground: true),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 20, left: 24, right: 24, bottom: 20),
+          child: Column(
+            children: [
+              Text(title, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+              if (subtitle != null) ...[
+                SepLine(Margins.spacing_s, Margins.spacing_s),
+                Text(subtitle ?? "", style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
               ],
-            ),
+              if (withNextRendezvousButton)
+                Padding(
+                  padding: const EdgeInsets.only(top: Margins.spacing_base),
+                  child: PrimaryActionButton(onPressed: onNextRendezvousButtonTap, label: Strings.goToNextRendezvous),
+                ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

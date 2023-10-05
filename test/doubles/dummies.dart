@@ -188,7 +188,7 @@ class DummyDetailedRepository extends OffreEmploiDetailsRepository {
 }
 
 class DummyOffreEmploiFavorisRepository extends OffreEmploiFavorisRepository {
-  DummyOffreEmploiFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyOffreEmploiFavorisRepository() : super(DioMock());
 }
 
 class DummySearchLocationRepository extends SearchLocationRepository {
@@ -237,19 +237,19 @@ class DummyTrackingEventRepository extends TrackingEventRepository {
 }
 
 class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
-  DummyImmersionFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyImmersionFavorisRepository() : super(DioMock());
 }
 
 class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
-  DummyOffreEmploiSavedSearchRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyOffreEmploiSavedSearchRepository() : super(DioMock());
 }
 
 class DummyImmersionSavedSearchRepository extends ImmersionSavedSearchRepository {
-  DummyImmersionSavedSearchRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyImmersionSavedSearchRepository() : super(DioMock());
 }
 
 class DummyServiceCiviqueSavedSearchRepository extends ServiceCiviqueSavedSearchRepository {
-  DummyServiceCiviqueSavedSearchRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyServiceCiviqueSavedSearchRepository() : super(DioMock());
 }
 
 class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
@@ -257,7 +257,7 @@ class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
 }
 
 class DummySavedSearchDeleteRepository extends SavedSearchDeleteRepository {
-  DummySavedSearchDeleteRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummySavedSearchDeleteRepository() : super(DioMock());
 }
 
 class DummyServiceCiviqueRepository extends ServiceCiviqueRepository {
@@ -269,7 +269,7 @@ class DummyServiceCiviqueDetailRepository extends ServiceCiviqueDetailRepository
 }
 
 class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisRepository {
-  DummyServiceCiviqueFavorisRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyServiceCiviqueFavorisRepository() : super(DioMock());
 }
 
 class DummyDetailsJeuneRepository extends DetailsJeuneRepository {
@@ -284,7 +284,10 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
   DummyPassEmploiCacheManager() : super(config: DummyConfig(), baseUrl: '');
 
   @override
-  void removeResource(CachedResource resourceToRemove, String userId) {}
+  Future<void> removeResource(CachedResource resourceToRemove, String userId) async {}
+
+  @override
+  Future<void> removeAllFavorisResources() async {}
 
   @override
   void removeActionCommentaireResource(String actionId) {}
