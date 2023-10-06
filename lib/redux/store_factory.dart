@@ -88,6 +88,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/crypto/crypto_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -138,6 +139,7 @@ class StoreFactory {
   final Authenticator authenticator;
   final Crashlytics crashlytics;
   final ChatCrypto chatCrypto;
+  final CryptoStorage cryptoStorage;
   final PassEmploiCacheManager cacheManager;
   final PageActionRepository pageActionRepository;
   final PageDemarcheRepository pageDemarcheRepository;
@@ -199,6 +201,7 @@ class StoreFactory {
     this.authenticator,
     this.crashlytics,
     this.chatCrypto,
+    this.cryptoStorage,
     this.cacheManager,
     this.pageActionRepository,
     this.pageDemarcheRepository,
@@ -274,7 +277,13 @@ class StoreFactory {
         UpdateDemarcheMiddleware(updateDemarcheRepository),
         SearchDemarcheMiddleware(demarcheDuReferentielRepository),
         DetailsJeuneMiddleware(detailsJeuneRepository),
-        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
+        ChatInitializerMiddleware(
+          firebaseAuthRepository,
+          firebaseAuthWrapper,
+          chatCrypto,
+          modeDemoRepository,
+          cryptoStorage,
+        ),
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),
         RendezvousListMiddleware(rendezvousRepository, sessionMiloRepository),

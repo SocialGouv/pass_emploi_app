@@ -44,6 +44,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/crypto/crypto_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -188,6 +189,7 @@ class AppInitializer {
     logoutRepository.setHttpClient(dioClient);
     logoutRepository.setCacheManager(requestCacheManager);
     final chatCrypto = ChatCrypto();
+    final cryptoStorage = CryptoStorage(storage: securedPreferences);
     final firebaseInstanceIdGetter = FirebaseInstanceIdGetter();
     final detailsJeuneRepository = DetailsJeuneRepository(dioClient, crashlytics);
     final reduxStore = StoreFactory(
@@ -195,6 +197,7 @@ class AppInitializer {
       authenticator,
       crashlytics,
       chatCrypto,
+      cryptoStorage,
       requestCacheManager,
       PageActionRepository(dioClient, crashlytics),
       PageDemarcheRepository(dioClient, crashlytics),

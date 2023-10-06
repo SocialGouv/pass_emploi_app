@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
@@ -7,6 +8,7 @@ import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/crypto/crypto_storage.dart';
 import 'package:redux/src/store.dart';
 
 import '../../doubles/dio_mock.dart';
@@ -46,7 +48,9 @@ void main() {
         // Given
         final factory = TestStoreFactory();
         final chatCryptoSpy = _ChatCryptoSpy();
+        final cryptoStorageMock = _MockCryptoStorage();
         factory.chatCrypto = chatCryptoSpy;
+        factory.cryptoStorage = cryptoStorageMock;
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
         final Store<AppState> store = factory.initializeReduxStore(initialState: initialState);
         final Future<AppState> newState = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
@@ -57,6 +61,7 @@ void main() {
         // Then
         await newState;
         expect(chatCryptoSpy.keyWasSet, isTrue);
+        cryptoStorageMock.expectSaveKeyHasBeenCalled();
       });
 
       test("chat status should be subscribed", () async {
@@ -109,7 +114,10 @@ void main() {
         // Given
         final factory = TestStoreFactory();
         final chatCryptoSpy = _ChatCryptoSpy();
+        final cryptoStorageMock = _MockCryptoStorage();
         factory.chatCrypto = chatCryptoSpy;
+        factory.cryptoStorage = cryptoStorageMock;
+
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
         final Store<AppState> store = factory.initializeReduxStore(initialState: initialState);
         final Future<AppState> newState = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
@@ -122,6 +130,29 @@ void main() {
         expect(chatCryptoSpy.keyWasSet, isFalse);
         // Wait some delay to ensure chat crypto is eventually properly set
         await Future.delayed(Duration(milliseconds: 200));
+        expect(chatCryptoSpy.keyWasSet, isTrue);
+        cryptoStorageMock.expectSaveKeyHasBeenCalled();
+      });
+
+      test("chat crypto key should be recovered from local storage if it can't be fetched", () async {
+        // Given
+        final factory = TestStoreFactory();
+        final chatCryptoSpy = _ChatCryptoSpy();
+        final cryptoStorageMock = _MockCryptoStorage();
+        cryptoStorageMock.withMockAnyGetKey();
+        factory.chatCrypto = chatCryptoSpy;
+        factory.cryptoStorage = cryptoStorageMock;
+        factory.firebaseAuthRepository = _FirebaseAuthRepositoryFailureStub();
+        final Store<AppState> store = factory.initializeReduxStore(initialState: initialState);
+        final Future<AppState> newState = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
+
+        // When
+        store.dispatch(LoginSuccessAction(mockUser(id: "id")));
+
+        // Then
+        await newState;
+        await Future.delayed(Duration(milliseconds: 200));
+        cryptoStorageMock.expectGetKeyHasBeenCalled();
         expect(chatCryptoSpy.keyWasSet, isTrue);
       });
 
@@ -157,6 +188,16 @@ class _FirebaseAuthRepositorySuccessStub extends FirebaseAuthRepository {
   }
 }
 
+class _FirebaseAuthRepositoryFailureStub extends FirebaseAuthRepository {
+  _FirebaseAuthRepositoryFailureStub() : super(DioMock());
+
+  @override
+  Future<FirebaseAuthResponse?> getFirebaseAuth(String userId) async {
+    await Future.delayed(Duration(milliseconds: 50));
+    return null;
+  }
+}
+
 class _FirebaseAuthWrapperSpy extends FirebaseAuthWrapper {
   bool signInWithCustomTokenHasBeenCalled = false;
 
@@ -179,5 +220,28 @@ class _ChatCryptoSpy extends ChatCrypto {
   @override
   void setKey(String key) {
     keyWasSet = true;
+  }
+}
+
+class _MockCryptoStorage extends Mock implements CryptoStorage {
+  _MockCryptoStorage() {
+    withMockAnySaveKey();
+    withMockAnyGetKey();
+  }
+
+  void withMockAnySaveKey() {
+    when(() => saveKey(any(), any())).thenAnswer((_) async {});
+  }
+
+  void withMockAnyGetKey() {
+    when(() => getKey(any())).thenAnswer((_) async => "CLE");
+  }
+
+  void expectSaveKeyHasBeenCalled() {
+    verify(() => saveKey(any(), any())).called(1);
+  }
+
+  void expectGetKeyHasBeenCalled() {
+    verify(() => getKey(any())).called(1);
   }
 }
