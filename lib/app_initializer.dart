@@ -37,13 +37,14 @@ import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -188,6 +189,7 @@ class AppInitializer {
     logoutRepository.setHttpClient(dioClient);
     logoutRepository.setCacheManager(requestCacheManager);
     final chatCrypto = ChatCrypto();
+    final cryptoStorage = ChatEncryptionLocalStorage(storage: securedPreferences);
     final firebaseInstanceIdGetter = FirebaseInstanceIdGetter();
     final detailsJeuneRepository = DetailsJeuneRepository(dioClient, crashlytics);
     final reduxStore = StoreFactory(
@@ -195,6 +197,7 @@ class AppInitializer {
       authenticator,
       crashlytics,
       chatCrypto,
+      cryptoStorage,
       requestCacheManager,
       PageActionRepository(dioClient, crashlytics),
       PageDemarcheRepository(dioClient, crashlytics),
@@ -210,7 +213,7 @@ class AppInitializer {
       MetierRepository(dioClient),
       ImmersionRepository(dioClient, crashlytics),
       ImmersionDetailsRepository(dioClient, crashlytics),
-      FirebaseAuthRepository(dioClient, crashlytics),
+      ChatSecurityRepository(dioClient, crashlytics),
       FirebaseAuthWrapper(),
       TrackingEventRepository(dioClient, crashlytics),
       OffreEmploiSavedSearchRepository(dioClient, crashlytics),

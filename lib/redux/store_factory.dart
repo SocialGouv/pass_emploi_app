@@ -82,12 +82,13 @@ import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -138,6 +139,7 @@ class StoreFactory {
   final Authenticator authenticator;
   final Crashlytics crashlytics;
   final ChatCrypto chatCrypto;
+  final ChatEncryptionLocalStorage cryptoStorage;
   final PassEmploiCacheManager cacheManager;
   final PageActionRepository pageActionRepository;
   final PageDemarcheRepository pageDemarcheRepository;
@@ -153,7 +155,7 @@ class StoreFactory {
   final MetierRepository metierRepository;
   final ImmersionRepository immersionRepository;
   final ImmersionDetailsRepository immersionDetailsRepository;
-  final FirebaseAuthRepository firebaseAuthRepository;
+  final ChatSecurityRepository chatSecurityRepository;
   final FirebaseAuthWrapper firebaseAuthWrapper;
   final TrackingEventRepository trackingEventRepository;
   final OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository;
@@ -199,6 +201,7 @@ class StoreFactory {
     this.authenticator,
     this.crashlytics,
     this.chatCrypto,
+    this.cryptoStorage,
     this.cacheManager,
     this.pageActionRepository,
     this.pageDemarcheRepository,
@@ -214,7 +217,7 @@ class StoreFactory {
     this.metierRepository,
     this.immersionRepository,
     this.immersionDetailsRepository,
-    this.firebaseAuthRepository,
+    this.chatSecurityRepository,
     this.firebaseAuthWrapper,
     this.trackingEventRepository,
     this.offreEmploiSavedSearchRepository,
@@ -274,7 +277,13 @@ class StoreFactory {
         UpdateDemarcheMiddleware(updateDemarcheRepository),
         SearchDemarcheMiddleware(demarcheDuReferentielRepository),
         DetailsJeuneMiddleware(detailsJeuneRepository),
-        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
+        ChatInitializerMiddleware(
+          chatSecurityRepository,
+          firebaseAuthWrapper,
+          chatCrypto,
+          modeDemoRepository,
+          cryptoStorage,
+        ),
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),
         RendezvousListMiddleware(rendezvousRepository, sessionMiloRepository),

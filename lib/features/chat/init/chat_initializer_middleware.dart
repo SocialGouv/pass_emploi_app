@@ -6,18 +6,22 @@ import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:redux/redux.dart';
 
 class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
-  final FirebaseAuthRepository _repository;
+  final ChatSecurityRepository _repository;
   final FirebaseAuthWrapper _firebaseAuthWrapper;
   final ChatCrypto _chatCrypto;
   final ModeDemoRepository _demoRepository;
+  final ChatEncryptionLocalStorage _cryptoStorage;
+
   DateTime lastTry = DateTime.now();
 
-  ChatInitializerMiddleware(this._repository, this._firebaseAuthWrapper, this._chatCrypto, this._demoRepository);
+  ChatInitializerMiddleware(
+      this._repository, this._firebaseAuthWrapper, this._chatCrypto, this._demoRepository, this._cryptoStorage);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -69,10 +73,14 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _initializeChatAndSubscribeToChatStatus(String userId) async {
-    final response = await _repository.getFirebaseAuth(userId);
+    final response = await _repository.getChatSecurityInfos(userId);
     if (response != null) {
-      await _firebaseAuthWrapper.signInWithCustomToken(response.token);
-      _chatCrypto.setKey(response.key);
+      await _firebaseAuthWrapper.signInWithCustomToken(response.firebaseAuthToken);
+      _chatCrypto.setKey(response.chatEncryptionKey);
+      _cryptoStorage.saveChatEncryptionKey(response.chatEncryptionKey, userId);
+    } else {
+      final key = await _cryptoStorage.getChatEncryptionKey(userId);
+      _chatCrypto.setKey(key);
     }
   }
 }
