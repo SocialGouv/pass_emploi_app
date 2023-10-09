@@ -23,7 +23,6 @@ dependencies:
   flutter_appauth: "6.0.0"
   flutter_linkify: "5.0.2"
   flutter_secure_storage: "5.0.2"
-  flutter_cache_manager: "3.3.0"
   package_info: "2.0.2"
   url_launcher: "6.1.0"
   share_plus: "7.0.1"
@@ -35,7 +34,6 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   shimmer: ^3.0.0
   # Dart
-  dio: "5.1.0"
   intl: "0.18.0"
   collection: "1.17.1"
   equatable: "2.0.3"
@@ -44,6 +42,10 @@ dependencies:
   synchronized: "3.0.0+2"
   encrypt: "5.0.1"
   matomo_tracker: "2.0.0"
+  # Dio
+  dio: "5.3.3"
+  dio_cache_interceptor: "3.4.4"
+  dio_cache_interceptor_file_store: "1.2.2"
   # Firebase
   firebase_core: "2.13.0"
   firebase_crashlytics: "3.3.1"

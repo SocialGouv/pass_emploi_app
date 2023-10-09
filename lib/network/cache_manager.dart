@@ -1,30 +1,20 @@
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
-class PassEmploiCacheManager extends CacheManager {
+class PassEmploiCacheManager {
   static const Duration requestCacheDuration = Duration(minutes: 20);
 
-  final String baseUrl;
+  final CacheStore _cacheStore;
+  final String _baseUrl;
 
-  PassEmploiCacheManager({required Config config, required this.baseUrl}) : super(config);
-
-  factory PassEmploiCacheManager.requestCache(String baseUrl) {
-    return PassEmploiCacheManager(
-      config: Config(
-        "PassEmploiCacheKey",
-        stalePeriod: requestCacheDuration,
-        maxNrOfCacheObjects: 30,
-      ),
-      baseUrl: baseUrl,
-    );
-  }
+  PassEmploiCacheManager(this._cacheStore, this._baseUrl);
 
   Future<void> removeResource(CachedResource resourceToRemove, String userId) async {
     //TODO: quand on aura géré les legacy cache, il suffirait d'une seule ligne
-    // removeFile(resourceToRemove.toString());
+    // cacheStore.delete(resourceToRemove.toString());
     switch (resourceToRemove) {
       case CachedResource.ACCUEIL:
       case CachedResource.AGENDA:
@@ -39,32 +29,36 @@ class PassEmploiCacheManager extends CacheManager {
       case CachedResource.SAVED_SEARCH:
       case CachedResource.SESSIONS_MILO_LIST:
       case CachedResource.USER_ACTIONS_LIST:
-        await removeFile(resourceToRemove.toString());
+        _delete(resourceToRemove.toString());
         break;
       case CachedResource.UPDATE_PARTAGE_ACTIVITE:
-        await removeFile(baseUrl + PartageActiviteRepository.getPartageActiviteUrl(userId: userId));
+        _delete(_baseUrl + PartageActiviteRepository.getPartageActiviteUrl(userId: userId));
         break;
     }
   }
 
   Future<void> removeAllFavorisResources() async {
-    await removeFile(CachedResource.FAVORIS.toString());
-    await removeFile(CachedResource.FAVORIS_EMPLOI.toString());
-    await removeFile(CachedResource.FAVORIS_IMMERSION.toString());
-    await removeFile(CachedResource.FAVORIS_SERVICE_CIVIQUE.toString());
+    _delete(CachedResource.FAVORIS.toString());
+    _delete(CachedResource.FAVORIS_EMPLOI.toString());
+    _delete(CachedResource.FAVORIS_IMMERSION.toString());
+    _delete(CachedResource.FAVORIS_SERVICE_CIVIQUE.toString());
   }
 
-  void removeActionCommentaireResource(String actionId) {
-    removeFile(baseUrl + ActionCommentaireRepository.getCommentairesUrl(actionId: actionId));
+  Future<void> removeActionCommentaireResource(String actionId) async {
+    _delete(_baseUrl + ActionCommentaireRepository.getCommentairesUrl(actionId: actionId));
   }
 
-  void removeSuggestionsRechercheResource({required String userId}) {
-    removeFile(baseUrl + SuggestionsRechercheRepository.getSuggestionsUrl(userId: userId));
+  Future<void> removeSuggestionsRechercheResource({required String userId}) async {
+    _delete(_baseUrl + SuggestionsRechercheRepository.getSuggestionsUrl(userId: userId));
   }
 
-  void removeDiagorienteFavorisResource({required String userId}) {
-    removeFile(baseUrl + DiagorienteMetiersFavorisRepository.getUrl(userId: userId));
+  Future<void> removeDiagorienteFavorisResource({required String userId}) async {
+    _delete(_baseUrl + DiagorienteMetiersFavorisRepository.getUrl(userId: userId));
   }
+
+  void emptyCache() => _cacheStore.clean();
+
+  Future<void> _delete(String key) async => await _cacheStore.delete(key, staleOnly: true);
 }
 
 enum CachedResource {
@@ -117,13 +111,4 @@ extension Whiteliste on String {
     }
     return true;
   }
-}
-
-bool isCacheStillUpToDate(FileInfo file) {
-  // The lib set a default value to 7-days cache when there isn't cache-control headers in our HTTP responses.
-  // And our backend do not set these headers.
-  // In future : directly use `getSingleFile` without checking date.
-  const defaultCacheDuration = Duration(days: 7);
-  final now = DateTime.now().add(defaultCacheDuration).subtract(PassEmploiCacheManager.requestCacheDuration);
-  return file.validTill.isAfter(now);
 }
