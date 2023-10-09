@@ -8,7 +8,7 @@ class ChatSecurityRepository {
 
   ChatSecurityRepository(this._httpClient, [this._crashlytics]);
 
-  Future<ChatSecurityResponse?> getChatSecurityToken(String userId) async {
+  Future<ChatSecurityResponse?> getChatSecurityInfos(String userId) async {
     const url = '/auth/firebase/token';
     try {
       final response = await _httpClient.post(url);
@@ -21,18 +21,18 @@ class ChatSecurityRepository {
 }
 
 class ChatSecurityResponse extends Equatable {
-  final String token;
-  final String key;
+  final String firebaseAuthToken;
+  final String chatEncryptionKey;
 
-  ChatSecurityResponse({required this.token, required this.key});
+  ChatSecurityResponse({required this.firebaseAuthToken, required this.chatEncryptionKey});
 
   factory ChatSecurityResponse.fromJson(dynamic json) {
     return ChatSecurityResponse(
-      token: json["token"] as String,
-      key: json["cle"] as String,
+      firebaseAuthToken: json["token"] as String,
+      chatEncryptionKey: json["cle"] as String,
     );
   }
 
   @override
-  List<Object> get props => [token, key];
+  List<Object> get props => [firebaseAuthToken, chatEncryptionKey];
 }

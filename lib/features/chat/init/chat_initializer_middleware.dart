@@ -73,11 +73,11 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _initializeChatAndSubscribeToChatStatus(String userId) async {
-    final response = await _repository.getChatSecurityToken(userId);
+    final response = await _repository.getChatSecurityInfos(userId);
     if (response != null) {
-      await _firebaseAuthWrapper.signInWithCustomToken(response.token);
-      _chatCrypto.setKey(response.key);
-      _cryptoStorage.saveChatEncryptionKey(response.key, userId);
+      await _firebaseAuthWrapper.signInWithCustomToken(response.firebaseAuthToken);
+      _chatCrypto.setKey(response.chatEncryptionKey);
+      _cryptoStorage.saveChatEncryptionKey(response.chatEncryptionKey, userId);
     } else {
       final key = await _cryptoStorage.getChatEncryptionKey(userId);
       _chatCrypto.setKey(key);

@@ -2,7 +2,7 @@ import 'package:encrypt/encrypt.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// FlutterSecureStorage ne garantit pas la sécurité des données sur iOS et Android.
-/// C'est pourquoi nous préférons encrypter les données pour ne pas les sotcker en clair.
+/// C'est pourquoi nous préférons chiffrer les données pour ne pas les stocker en clair.
 class ChatEncryptionLocalStorage {
   ChatEncryptionLocalStorage({required this.storage}) {
     _encrypter = Encrypter(AES(Key.fromLength(32)));
@@ -10,7 +10,7 @@ class ChatEncryptionLocalStorage {
   final FlutterSecureStorage storage;
   late final Encrypter _encrypter;
 
-  static String path = "chat_encryption";
+  static const String path = "chat_encryption";
 
   Future<void> saveChatEncryptionKey(String chatEncryptionKey, String vector) async {
     final encrypted = _encrypter.encrypt(chatEncryptionKey, iv: IV.fromUtf8(vector));

@@ -139,7 +139,7 @@ void main() {
         final factory = TestStoreFactory();
         final chatCryptoSpy = _ChatCryptoSpy();
         final cryptoStorageMock = _MockCryptoStorage();
-        cryptoStorageMock.withMockAnyGetKey();
+        cryptoStorageMock.withMockGetChatEncryptionKey();
         factory.chatCrypto = chatCryptoSpy;
         factory.cryptoStorage = cryptoStorageMock;
         factory.chatSecurityRepository = _ChatSecurityRepositoryFailureStub();
@@ -181,9 +181,9 @@ class _ChatSecurityRepositorySuccessStub extends ChatSecurityRepository {
   _ChatSecurityRepositorySuccessStub() : super(DioMock());
 
   @override
-  Future<ChatSecurityResponse?> getChatSecurityToken(String userId) async {
+  Future<ChatSecurityResponse?> getChatSecurityInfos(String userId) async {
     await Future.delayed(Duration(milliseconds: 50));
-    if (userId == "id") return ChatSecurityResponse(token: "FIREBASE-TOKEN", key: "CLE");
+    if (userId == "id") return ChatSecurityResponse(firebaseAuthToken: "FIREBASE-TOKEN", chatEncryptionKey: "CLE");
     return null;
   }
 }
@@ -192,7 +192,7 @@ class _ChatSecurityRepositoryFailureStub extends ChatSecurityRepository {
   _ChatSecurityRepositoryFailureStub() : super(DioMock());
 
   @override
-  Future<ChatSecurityResponse?> getChatSecurityToken(String userId) async {
+  Future<ChatSecurityResponse?> getChatSecurityInfos(String userId) async {
     await Future.delayed(Duration(milliseconds: 50));
     return null;
   }
@@ -225,15 +225,15 @@ class _ChatCryptoSpy extends ChatCrypto {
 
 class _MockCryptoStorage extends Mock implements ChatEncryptionLocalStorage {
   _MockCryptoStorage() {
-    withMockAnySaveKey();
-    withMockAnyGetKey();
+    withMocksaveChatEncryptionKey();
+    withMockGetChatEncryptionKey();
   }
 
-  void withMockAnySaveKey() {
+  void withMocksaveChatEncryptionKey() {
     when(() => saveChatEncryptionKey(any(), any())).thenAnswer((_) async {});
   }
 
-  void withMockAnyGetKey() {
+  void withMockGetChatEncryptionKey() {
     when(() => getChatEncryptionKey(any())).thenAnswer((_) async => "CLE");
   }
 

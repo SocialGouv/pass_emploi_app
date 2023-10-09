@@ -8,7 +8,7 @@ void main() {
   sut.givenRepository((client) => ChatSecurityRepository(client));
 
   group('getFirebaseAuth', () {
-    sut.when((repository) => repository.getChatSecurityToken('userId'));
+    sut.when((repository) => repository.getChatSecurityInfos('userId'));
 
     group('when response is valid', () {
       sut.givenJsonResponse(fromJson: "firebase_auth_token.json");
@@ -22,7 +22,7 @@ void main() {
 
       test('response should be valid', () async {
         await sut.expectResult<ChatSecurityResponse?>((result) {
-          expect(result, ChatSecurityResponse(token: "FIREBASE-TOKEN", key: "CLE"));
+          expect(result, ChatSecurityResponse(firebaseAuthToken: "FIREBASE-TOKEN", chatEncryptionKey: "CLE"));
         });
       });
     });
