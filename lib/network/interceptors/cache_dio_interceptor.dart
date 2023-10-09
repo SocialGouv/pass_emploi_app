@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/interceptors/pass_emploi_base_dio_interceptor.dart';
 import 'package:pass_emploi_app/utils/log.dart';
@@ -27,7 +28,7 @@ class CacheDioInterceptor extends PassEmploiBaseDioInterceptor {
       - queryParams: ${options.queryParameters}
       - headers: ${options.headers}
       """);
-      handler.resolve(await _response(options, fileFromCache.file));
+      handler.resolve(await _response(options, fileFromCache.file), true);
     } else {
       Log.i("""Dio Request - cache interceptor - return fresh data
       - ${options.method} ${options.uri.toString()}
@@ -38,8 +39,17 @@ class CacheDioInterceptor extends PassEmploiBaseDioInterceptor {
       await cacheManager
           .downloadFile(stringUrl, key: cacheKey, authHeaders: headers)
           .then((downloadedFile) => _response(options, downloadedFile.file))
-          .then((response) => handler.resolve(response))
-          .catchError((e) => handler.reject(DioError(requestOptions: options, error: e)));
+          .then((response) => handler.resolve(response, true))
+          .catchError((e) => temporaryResolveHttpException(e, handler, options));
+    }
+  }
+
+  // Rustine en attendant de gérer le cache DIFFEREMMENT
+  void temporaryResolveHttpException(e, RequestInterceptorHandler handler, RequestOptions options) {
+    if (e is HttpExceptionWithStatus && e.statusCode == 401) {
+      handler.next(options);
+    } else {
+      handler.reject(DioError(requestOptions: options, error: e), true);
     }
   }
 }
