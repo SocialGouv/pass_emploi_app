@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
-import 'package:pass_emploi_app/repositories/crypto/crypto_storage.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:redux/src/store.dart';
 
 import '../../doubles/dio_mock.dart';
@@ -223,25 +223,25 @@ class _ChatCryptoSpy extends ChatCrypto {
   }
 }
 
-class _MockCryptoStorage extends Mock implements CryptoStorage {
+class _MockCryptoStorage extends Mock implements ChatEncryptionLocalStorage {
   _MockCryptoStorage() {
     withMockAnySaveKey();
     withMockAnyGetKey();
   }
 
   void withMockAnySaveKey() {
-    when(() => saveKey(any(), any())).thenAnswer((_) async {});
+    when(() => saveChatEncryptionKey(any(), any())).thenAnswer((_) async {});
   }
 
   void withMockAnyGetKey() {
-    when(() => getKey(any())).thenAnswer((_) async => "CLE");
+    when(() => getChatEncryptionKey(any())).thenAnswer((_) async => "CLE");
   }
 
   void expectSaveKeyHasBeenCalled() {
-    verify(() => saveKey(any(), any())).called(1);
+    verify(() => saveChatEncryptionKey(any(), any())).called(1);
   }
 
   void expectGetKeyHasBeenCalled() {
-    verify(() => getKey(any())).called(1);
+    verify(() => getChatEncryptionKey(any())).called(1);
   }
 }

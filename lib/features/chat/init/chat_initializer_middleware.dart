@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart'
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
-import 'package:pass_emploi_app/repositories/crypto/crypto_storage.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:redux/redux.dart';
 
 class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
@@ -16,7 +16,7 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
   final FirebaseAuthWrapper _firebaseAuthWrapper;
   final ChatCrypto _chatCrypto;
   final ModeDemoRepository _demoRepository;
-  final CryptoStorage _cryptoStorage;
+  final ChatEncryptionLocalStorage _cryptoStorage;
 
   DateTime lastTry = DateTime.now();
 
@@ -77,9 +77,9 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
     if (response != null) {
       await _firebaseAuthWrapper.signInWithCustomToken(response.token);
       _chatCrypto.setKey(response.key);
-      _cryptoStorage.saveKey(response.key, userId);
+      _cryptoStorage.saveChatEncryptionKey(response.key, userId);
     } else {
-      final key = await _cryptoStorage.getKey(userId);
+      final key = await _cryptoStorage.getChatEncryptionKey(userId);
       _chatCrypto.setKey(key);
     }
   }

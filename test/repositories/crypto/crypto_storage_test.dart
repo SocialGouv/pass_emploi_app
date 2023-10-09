@@ -1,15 +1,15 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pass_emploi_app/repositories/crypto/crypto_storage.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 
 void main() {
   late MockFlutterSecureStorage storage;
-  late CryptoStorage cryptoStorage;
+  late ChatEncryptionLocalStorage cryptoStorage;
 
   setUp(() {
     storage = MockFlutterSecureStorage();
-    cryptoStorage = CryptoStorage(storage: storage);
+    cryptoStorage = ChatEncryptionLocalStorage(storage: storage);
   });
 
   group('CryptoStorage', () {
@@ -22,11 +22,12 @@ void main() {
         storage.withAnyWrite();
 
         // When
-        await cryptoStorage.saveKey(dummyKey, userId);
+        await cryptoStorage.saveChatEncryptionKey(dummyKey, userId);
 
         // Then
         verify(() => storage.write(
-            key: CryptoStorage.storageKey, value: any(named: "value", that: isDifferentFrom(dummyKey)))).called(1);
+            key: ChatEncryptionLocalStorage.path,
+            value: any(named: "value", that: isDifferentFrom(dummyKey)))).called(1);
       });
     });
     group('getKey', () {
@@ -36,7 +37,7 @@ void main() {
         storage.withRead(encryptedB64);
 
         // When
-        final key = await cryptoStorage.getKey(userId);
+        final key = await cryptoStorage.getChatEncryptionKey(userId);
 
         // Then
         expect(key, dummyKey);
@@ -47,7 +48,7 @@ void main() {
         storage.withRead(null);
 
         // When
-        final key = await cryptoStorage.getKey(userId);
+        final key = await cryptoStorage.getChatEncryptionKey(userId);
 
         // Then
         expect(key, "");

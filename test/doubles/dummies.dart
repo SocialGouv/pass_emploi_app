@@ -25,7 +25,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
-import 'package:pass_emploi_app/repositories/crypto/crypto_storage.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -225,14 +225,14 @@ class DummyChatCrypto extends ChatCrypto {
   DummyChatCrypto() : super();
 }
 
-class DummyCryptoStorage extends Mock implements CryptoStorage {
+class DummyCryptoStorage extends Mock implements ChatEncryptionLocalStorage {
   @override
-  Future<String> getKey(String userId) async {
+  Future<String> getChatEncryptionKey(String userId) async {
     return "";
   }
 
   @override
-  Future<void> saveKey(String secretKey, String userId) async {}
+  Future<void> saveChatEncryptionKey(String secretKey, String userId) async {}
 }
 
 class NotInitializedDummyChatCrypto extends ChatCrypto {
