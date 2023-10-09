@@ -37,7 +37,7 @@ import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -213,7 +213,7 @@ class AppInitializer {
       MetierRepository(dioClient),
       ImmersionRepository(dioClient, crashlytics),
       ImmersionDetailsRepository(dioClient, crashlytics),
-      FirebaseAuthRepository(dioClient, crashlytics),
+      ChatSecurityRepository(dioClient, crashlytics),
       FirebaseAuthWrapper(),
       TrackingEventRepository(dioClient, crashlytics),
       OffreEmploiSavedSearchRepository(dioClient, crashlytics),

@@ -1,14 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 
 import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = DioRepositorySut<FirebaseAuthRepository>();
-  sut.givenRepository((client) => FirebaseAuthRepository(client));
+  final sut = DioRepositorySut<ChatSecurityRepository>();
+  sut.givenRepository((client) => ChatSecurityRepository(client));
 
   group('getFirebaseAuth', () {
-    sut.when((repository) => repository.getFirebaseAuth('userId'));
+    sut.when((repository) => repository.getChatSecurityToken('userId'));
 
     group('when response is valid', () {
       sut.givenJsonResponse(fromJson: "firebase_auth_token.json");
@@ -21,8 +21,8 @@ void main() {
       });
 
       test('response should be valid', () async {
-        await sut.expectResult<FirebaseAuthResponse?>((result) {
-          expect(result, FirebaseAuthResponse(token: "FIREBASE-TOKEN", key: "CLE"));
+        await sut.expectResult<ChatSecurityResponse?>((result) {
+          expect(result, ChatSecurityResponse(token: "FIREBASE-TOKEN", key: "CLE"));
         });
       });
     });

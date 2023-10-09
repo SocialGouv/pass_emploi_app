@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
@@ -84,7 +84,7 @@ class TestStoreFactory {
   ImmersionRepository immersionRepository = DummyImmersionRepository();
   ImmersionDetailsRepository immersionDetailsRepository = DummyImmersionDetailsRepository();
   ImmersionFavorisRepository immersionFavorisRepository = DummyImmersionFavorisRepository();
-  FirebaseAuthRepository firebaseAuthRepository = DummyFirebaseAuthRepository();
+  ChatSecurityRepository chatSecurityRepository = DummyChatSecurityRepository();
   FirebaseAuthWrapper firebaseAuthWrapper = DummyFirebaseAuthWrapper();
   ChatCrypto chatCrypto = DummyChatCrypto();
   CryptoStorage cryptoStorage = DummyCryptoStorage();
@@ -150,7 +150,7 @@ class TestStoreFactory {
       metierRepository,
       immersionRepository,
       immersionDetailsRepository,
-      firebaseAuthRepository,
+      chatSecurityRepository,
       firebaseAuthWrapper,
       trackingEventRepository,
       offreEmploiSavedSearchRepository,

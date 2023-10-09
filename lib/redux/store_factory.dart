@@ -82,7 +82,7 @@ import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
@@ -155,7 +155,7 @@ class StoreFactory {
   final MetierRepository metierRepository;
   final ImmersionRepository immersionRepository;
   final ImmersionDetailsRepository immersionDetailsRepository;
-  final FirebaseAuthRepository firebaseAuthRepository;
+  final ChatSecurityRepository chatSecurityRepository;
   final FirebaseAuthWrapper firebaseAuthWrapper;
   final TrackingEventRepository trackingEventRepository;
   final OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository;
@@ -217,7 +217,7 @@ class StoreFactory {
     this.metierRepository,
     this.immersionRepository,
     this.immersionDetailsRepository,
-    this.firebaseAuthRepository,
+    this.chatSecurityRepository,
     this.firebaseAuthWrapper,
     this.trackingEventRepository,
     this.offreEmploiSavedSearchRepository,
@@ -278,7 +278,7 @@ class StoreFactory {
         SearchDemarcheMiddleware(demarcheDuReferentielRepository),
         DetailsJeuneMiddleware(detailsJeuneRepository),
         ChatInitializerMiddleware(
-          firebaseAuthRepository,
+          chatSecurityRepository,
           firebaseAuthWrapper,
           chatCrypto,
           modeDemoRepository,
