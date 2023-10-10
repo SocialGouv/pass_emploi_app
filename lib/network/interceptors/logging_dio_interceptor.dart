@@ -19,10 +19,10 @@ class LoggingNetworkDioInterceptor extends Interceptor {
     Log.i("""Dio Response 
     - ${response.requestOptions.method} ${response.realUri.toString()}:
     - queryParams: ${response.requestOptions.queryParameters}
+    - code: ${response.statusCode}
     - fromNetwork: ${response.extra[CacheResponse.fromNetwork]}
     - cacheKey: ${response.extra[CacheResponse.cacheKey]}
     - data: ${response.requestOptions.data}
-    - code: ${response.statusCode}
     - response: ${response.toString()}
     """);
     handler.next(response);

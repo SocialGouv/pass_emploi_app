@@ -276,10 +276,10 @@ class AppInitializer {
     MonitoringDioInterceptor monitoringDioInterceptor,
     CacheStore cacheStore,
   ) {
-    // Avec forceCache et rien d'autre, la 401 passe bien à l'intercepteur suivant… si on fait le pull to refresh
     final cacheOptions = CacheOptions(
       store: cacheStore,
       maxStale: const Duration(days: 7),
+      hitCacheOnErrorExcept: [401, 403, 404],
       policy: CachePolicy.forceCache,
       keyBuilder: (request) => PassEmploiCacheManager.getCacheKey(request.uri.toString()),
     );
