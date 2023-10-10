@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart'
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
+import 'package:uuid/uuid.dart';
 
 class PassEmploiCacheManager {
   static const Duration requestCacheDuration = Duration(minutes: 20);
@@ -11,6 +12,11 @@ class PassEmploiCacheManager {
   final String _baseUrl;
 
   PassEmploiCacheManager(this._cacheStore, this._baseUrl);
+
+  /// Required to encode resource to be compatible with file path (i.e. no special characters ":", "/", etc.)
+  static String getCacheKey(String resource) {
+    return Uuid().v5(Uuid.NAMESPACE_URL, CachedResource.fromUrl(resource)?.toString() ?? resource);
+  }
 
   Future<void> removeResource(CachedResource resourceToRemove, String userId) async {
     //TODO: quand on aura géré les legacy cache, il suffirait d'une seule ligne
@@ -29,36 +35,37 @@ class PassEmploiCacheManager {
       case CachedResource.SAVED_SEARCH:
       case CachedResource.SESSIONS_MILO_LIST:
       case CachedResource.USER_ACTIONS_LIST:
-        _delete(resourceToRemove.toString());
+        await _delete(resourceToRemove.toString());
         break;
       case CachedResource.UPDATE_PARTAGE_ACTIVITE:
-        _delete(_baseUrl + PartageActiviteRepository.getPartageActiviteUrl(userId: userId));
+        await _delete(_baseUrl + PartageActiviteRepository.getPartageActiviteUrl(userId: userId));
         break;
     }
   }
 
   Future<void> removeAllFavorisResources() async {
-    _delete(CachedResource.FAVORIS.toString());
-    _delete(CachedResource.FAVORIS_EMPLOI.toString());
-    _delete(CachedResource.FAVORIS_IMMERSION.toString());
-    _delete(CachedResource.FAVORIS_SERVICE_CIVIQUE.toString());
+    await _delete(CachedResource.FAVORIS.toString());
+    await _delete(CachedResource.FAVORIS_EMPLOI.toString());
+    await _delete(CachedResource.FAVORIS_IMMERSION.toString());
+    await _delete(CachedResource.FAVORIS_SERVICE_CIVIQUE.toString());
   }
 
   Future<void> removeActionCommentaireResource(String actionId) async {
-    _delete(_baseUrl + ActionCommentaireRepository.getCommentairesUrl(actionId: actionId));
+    await _delete(_baseUrl + ActionCommentaireRepository.getCommentairesUrl(actionId: actionId));
   }
 
   Future<void> removeSuggestionsRechercheResource({required String userId}) async {
-    _delete(_baseUrl + SuggestionsRechercheRepository.getSuggestionsUrl(userId: userId));
+    await _delete(_baseUrl + SuggestionsRechercheRepository.getSuggestionsUrl(userId: userId));
   }
 
   Future<void> removeDiagorienteFavorisResource({required String userId}) async {
-    _delete(_baseUrl + DiagorienteMetiersFavorisRepository.getUrl(userId: userId));
+    await _delete(_baseUrl + DiagorienteMetiersFavorisRepository.getUrl(userId: userId));
   }
 
   void emptyCache() => _cacheStore.clean();
 
-  Future<void> _delete(String key) async => await _cacheStore.delete(key, staleOnly: true);
+  // TODO-2018 : staleOnly à quoi ???
+  Future<void> _delete(String key) async => await _cacheStore.delete(getCacheKey(key), staleOnly: false);
 }
 
 enum CachedResource {
