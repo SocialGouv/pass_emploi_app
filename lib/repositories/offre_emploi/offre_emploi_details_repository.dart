@@ -32,7 +32,7 @@ class OffreEmploiDetailsRepository {
         );
       }
     } catch (e, stack) {
-      if (e is DioError) {
+      if (e is DioException) {
         return OffreDetailsResponse<OffreEmploiDetails>(
           isGenericFailure: false,
           isOffreNotFound: true,

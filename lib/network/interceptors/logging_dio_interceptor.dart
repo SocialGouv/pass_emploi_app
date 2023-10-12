@@ -29,7 +29,7 @@ class LoggingNetworkDioInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     Log.i("""Dio Error 
     - ${err.requestOptions.method} ${err.requestOptions.uri.toString()}:
     - queryParams: ${err.requestOptions.queryParameters}

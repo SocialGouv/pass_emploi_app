@@ -28,7 +28,7 @@ abstract class PassEmploiBaseDioInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     if (err.requestOptions.isPassEmploiRequest()) {
       onPassEmploiError(err, handler);
     } else {
@@ -36,7 +36,7 @@ abstract class PassEmploiBaseDioInterceptor extends Interceptor {
     }
   }
 
-  void onPassEmploiError(DioError err, ErrorInterceptorHandler handler) {
+  void onPassEmploiError(DioException err, ErrorInterceptorHandler handler) {
     handler.next(err);
   }
 }

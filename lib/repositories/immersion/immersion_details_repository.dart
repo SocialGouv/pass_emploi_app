@@ -22,7 +22,7 @@ class ImmersionDetailsRepository {
         details: ImmersionDetails.fromJson(response.data),
       );
     } catch (e, stack) {
-      if (e is DioError && e.response?.statusCode == HttpStatus.notFound) {
+      if (e is DioException && e.response?.statusCode == HttpStatus.notFound) {
         return OffreDetailsResponse<ImmersionDetails>(
           isGenericFailure: false,
           isOffreNotFound: true,
