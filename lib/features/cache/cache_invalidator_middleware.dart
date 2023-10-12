@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dar
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
+import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
@@ -16,16 +17,6 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_a
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
-
-//TODO: Reste à faire
-// Accueil : OK
-// Actions : OK
-// Démarches : OK
-// Agenda : OK
-// Rendezvous : OK
-// Favoris : refacto OK mais pas besoin de pull-to-refresh car ne change qu'avec le mobile ?
-// Alertes : refacto OK mais pas besoin de pull-to-refresh car ne change qu'avec le mobile ?
-// Events : OK
 
 class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
   final PassEmploiCacheManager cacheManager;
@@ -71,6 +62,10 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
 
     if (_shouldInvalidateAlertes(action)) {
       await cacheManager.removeResource(CachedResource.SAVED_SEARCH, userId);
+    }
+
+    if (_shouldInvalidatePartageActivite(action)) {
+      await cacheManager.removeResource(CachedResource.UPDATE_PARTAGE_ACTIVITE, userId);
     }
 
     next(action);
@@ -133,4 +128,8 @@ bool _shouldInvalidateAlertes(action) {
       action is SavedSearchDeleteSuccessAction ||
       action is AccepterSuggestionRechercheSuccessAction ||
       action is RefuserSuggestionRechercheSuccessAction);
+}
+
+bool _shouldInvalidatePartageActivite(action) {
+  return action is PartageActiviteUpdateRequestAction;
 }

@@ -331,7 +331,7 @@ class DummyTutorialRepository extends TutorialRepository {
 }
 
 class DummyPartageActiviteRepository extends PartageActiviteRepository {
-  DummyPartageActiviteRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyPartageActiviteRepository() : super(DioMock());
 }
 
 class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {

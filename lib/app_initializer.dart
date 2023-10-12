@@ -237,7 +237,7 @@ class AppInitializer {
       SearchDemarcheRepository(dioClient, crashlytics),
       PieceJointeRepository(dioClient, PieceJointeFileSaver(), crashlytics),
       TutorialRepository(securedPreferences),
-      PartageActiviteRepository(dioClient, requestCacheManager, crashlytics),
+      PartageActiviteRepository(dioClient, crashlytics),
       RatingRepository(securedPreferences),
       ActionCommentaireRepository(dioClient, requestCacheManager, crashlytics),
       AgendaRepository(dioClient, crashlytics),

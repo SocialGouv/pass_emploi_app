@@ -1,7 +1,6 @@
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:uuid/uuid.dart';
 
@@ -19,28 +18,7 @@ class PassEmploiCacheManager {
   }
 
   Future<void> removeResource(CachedResource resourceToRemove, String userId) async {
-    //TODO: quand on aura géré les legacy cache, il suffirait d'une seule ligne
-    // cacheStore.delete(resourceToRemove.toString());
-    switch (resourceToRemove) {
-      case CachedResource.ACCUEIL:
-      case CachedResource.AGENDA:
-      case CachedResource.ANIMATIONS_COLLECTIVES:
-      case CachedResource.DEMARCHES_LIST:
-      case CachedResource.FAVORIS:
-      case CachedResource.FAVORIS_EMPLOI:
-      case CachedResource.FAVORIS_IMMERSION:
-      case CachedResource.FAVORIS_SERVICE_CIVIQUE:
-      case CachedResource.RENDEZVOUS_FUTURS:
-      case CachedResource.RENDEZVOUS_PASSES:
-      case CachedResource.SAVED_SEARCH:
-      case CachedResource.SESSIONS_MILO_LIST:
-      case CachedResource.USER_ACTIONS_LIST:
-        await _delete(resourceToRemove.toString());
-        break;
-      case CachedResource.UPDATE_PARTAGE_ACTIVITE:
-        await _delete(_baseUrl + PartageActiviteRepository.getPartageActiviteUrl(userId: userId));
-        break;
-    }
+    await _delete(resourceToRemove.toString());
   }
 
   Future<void> removeAllFavorisResources() async {
@@ -64,7 +42,6 @@ class PassEmploiCacheManager {
 
   void emptyCache() => _cacheStore.clean();
 
-  // TODO-2018 : staleOnly à quoi ???
   Future<void> _delete(String key) async => await _cacheStore.delete(getCacheKey(key), staleOnly: false);
 }
 
@@ -96,26 +73,12 @@ enum CachedResource {
     if (url.endsWith('/favoris/offres-emploi')) return FAVORIS_EMPLOI;
     if (url.endsWith('/favoris/offres-immersion')) return FAVORIS_IMMERSION;
     if (url.endsWith('/favoris/services-civique')) return FAVORIS_SERVICE_CIVIQUE;
+    if (url.contains('/preferences')) return UPDATE_PARTAGE_ACTIVITE;
     if (url.contains('/rendezvous') && url.contains('FUTURS')) return RENDEZVOUS_FUTURS;
     if (url.contains('/rendezvous') && url.contains('PASSES')) return RENDEZVOUS_PASSES;
     if (url.endsWith('/recherches')) return SAVED_SEARCH;
     if (url.contains('/milo') && url.contains('sessions') && !url.contains('sessions/')) return SESSIONS_MILO_LIST;
     if (url.contains('/home/actions')) return USER_ACTIONS_LIST;
     return null;
-  }
-}
-
-//TODO: à garder ?
-const _blacklistedRoutes = [
-  '/fichiers',
-  '/docnums/',
-];
-
-extension Whiteliste on String {
-  bool isWhitelistedForCache() {
-    for (final route in _blacklistedRoutes) {
-      if (contains(route)) return false;
-    }
-    return true;
   }
 }
