@@ -1,4 +1,3 @@
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
@@ -7,6 +6,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import 'fixtures.dart';
+import 'mocks.dart';
 
 class NextDispatcherSpy {
   bool wasCalled = false;
@@ -83,7 +83,7 @@ class SharedPreferencesSpy extends FlutterSecureStorage {
 }
 
 class SpyPassEmploiCacheManager extends PassEmploiCacheManager {
-  SpyPassEmploiCacheManager() : super(MemCacheStore(maxSize: 0, maxEntrySize: 0), '');
+  SpyPassEmploiCacheManager() : super(MockCacheStore(), '');
 
   CachedResource? removeResourceParams;
   bool removeSuggestionsRechercheResourceWasCalled = false;

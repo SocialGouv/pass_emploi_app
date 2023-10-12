@@ -1,4 +1,3 @@
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mocktail/mocktail.dart';
@@ -293,7 +292,7 @@ class DummyLogoutRepository extends LogoutRepository {
 }
 
 class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
-  DummyPassEmploiCacheManager() : super(MemCacheStore(maxSize: 0, maxEntrySize: 0), '');
+  DummyPassEmploiCacheManager() : super(MockCacheStore(), '');
 
   @override
   Future<void> removeResource(CachedResource resourceToRemove, String userId) async {}
