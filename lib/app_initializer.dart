@@ -278,9 +278,8 @@ class AppInitializer {
   ) {
     final cacheOptions = CacheOptions(
       store: cacheStore,
-      maxStale: const Duration(days: 7),
       hitCacheOnErrorExcept: [401, 403, 404],
-      policy: CachePolicy.forceCache,
+      policy: CachePolicy.request,
       keyBuilder: (request) => PassEmploiCacheManager.getCacheKey(request.uri.toString()),
     );
     final options = BaseOptions(baseUrl: baseUrl);
