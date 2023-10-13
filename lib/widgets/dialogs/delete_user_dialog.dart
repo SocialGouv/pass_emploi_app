@@ -41,56 +41,71 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
 
   Widget _build(BuildContext context, SuppressionCompteViewModel viewModel) {
     return AlertDialog(
+      titlePadding: EdgeInsets.zero,
       surfaceTintColor: Colors.white,
       title: Stack(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Center(
-                child: SizedBox.square(
-                  dimension: 100,
-                  child: Illustration.red(AppIcons.delete),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m, vertical: Margins.spacing_m),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                SizedBox(height: Margins.spacing_m),
+                Center(
+                  child: SizedBox.square(
+                    dimension: 100,
+                    child: Illustration.red(AppIcons.delete),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
+                SizedBox(height: Margins.spacing_m),
+                Text(
                   Strings.lastWarningBeforeSuppression,
-                  style: TextStyles.textBaseRegular,
-                  textAlign: TextAlign.start,
+                  style: TextStyles.textBaseBold,
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              _DeleteAlertTextField(
-                controller: _inputController,
-                getFieldContent: () => _fieldContent,
-                setFieldContent: (value) => _fieldContent = value,
-              ),
-            ],
+                SizedBox(height: Margins.spacing_m),
+                _DeleteAlertTextField(
+                  controller: _inputController,
+                  getFieldContent: () => _fieldContent,
+                  setFieldContent: (value) => _fieldContent = value,
+                ),
+              ],
+            ),
           ),
           _DeleteAlertCrossButton(),
         ],
       ),
       actions: [
-        SecondaryButton(
-          label: Strings.cancelLabel,
-          fontSize: FontSizes.medium,
-          onPressed: () => Navigator.pop(context),
+        Padding(
+          padding: const EdgeInsets.only(left: Margins.spacing_m, right: Margins.spacing_m, bottom: Margins.spacing_m),
+          child: Row(
+            children: [
+              Expanded(
+                child: SecondaryButton(
+                  label: Strings.cancelLabel,
+                  fontSize: FontSizes.medium,
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+              SizedBox(width: Margins.spacing_base),
+              Expanded(
+                child: ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: _inputController,
+                    builder: (context, value, child) {
+                      return PrimaryActionButton(
+                        label: Strings.suppressionLabel,
+                        textColor: AppColors.warning,
+                        backgroundColor: AppColors.warningLighten,
+                        disabledBackgroundColor: AppColors.warningLighten,
+                        rippleColor: AppColors.warningLighten,
+                        withShadow: true,
+                        onPressed: _shouldActivateButton(viewModel) ? () => viewModel.onDeleteUser() : null,
+                      );
+                    }),
+              )
+            ],
+          ),
         ),
-        ValueListenableBuilder<TextEditingValue>(
-            valueListenable: _inputController,
-            builder: (context, value, child) {
-              return PrimaryActionButton(
-                label: Strings.suppressionLabel,
-                textColor: AppColors.warning,
-                backgroundColor: AppColors.warningLighten,
-                disabledBackgroundColor: AppColors.warningLighten,
-                rippleColor: AppColors.warningLighten,
-                withShadow: false,
-                heightPadding: Margins.spacing_s,
-                onPressed: _shouldActivateButton(viewModel) ? () => viewModel.onDeleteUser() : null,
-              );
-            })
       ],
       actionsAlignment: MainAxisAlignment.center,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Margins.spacing_m)),
@@ -121,9 +136,12 @@ class _DeleteAlertCrossButton extends StatelessWidget {
       child: IconButton(
         onPressed: () => Navigator.pop(context),
         tooltip: Strings.close,
-        icon: Icon(
-          AppIcons.close_rounded,
-          color: AppColors.contentColor,
+        icon: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_s),
+          child: Icon(
+            AppIcons.close_rounded,
+            color: AppColors.contentColor,
+          ),
         ),
       ),
     );
