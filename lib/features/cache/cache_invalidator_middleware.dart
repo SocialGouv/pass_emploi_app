@@ -55,8 +55,6 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
     }
 
     if (_shouldInvalidateFavoris(action)) {
-      //TODO: en optim réseau, on pourrait se contenter de supprimer le favori concerné
-      // ex: sur un FavoriUpdateSuccessAction de Service Civique, on supprime que le cache de Service Civique et le cache des ids
       await cacheManager.removeAllFavorisResources();
     }
 
@@ -71,9 +69,6 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
     next(action);
   }
 }
-
-//TODO: il va y avoir des doublons, peut-être qu'il y aura des choses à regrouper
-// exemple : Accueil = action request de l'accueil + actions de modif de démarche + actions de modif favoris + ...
 
 bool _shouldInvalidateAccueil(action) {
   return (action is AccueilRequestAction && action.forceRefresh) ||
