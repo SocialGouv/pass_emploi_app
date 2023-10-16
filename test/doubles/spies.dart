@@ -5,8 +5,8 @@ import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-import 'dummies_for_cache.dart';
 import 'fixtures.dart';
+import 'mocks.dart';
 
 class NextDispatcherSpy {
   bool wasCalled = false;
@@ -82,9 +82,8 @@ class SharedPreferencesSpy extends FlutterSecureStorage {
   Future<void> simulateIoOperation() async => await Future.delayed(Duration(milliseconds: 10));
 }
 
-
 class SpyPassEmploiCacheManager extends PassEmploiCacheManager {
-  SpyPassEmploiCacheManager() : super(config: DummyConfig(), baseUrl: '');
+  SpyPassEmploiCacheManager() : super(MockCacheStore(), '');
 
   CachedResource? removeResourceParams;
   bool removeSuggestionsRechercheResourceWasCalled = false;
@@ -95,10 +94,10 @@ class SpyPassEmploiCacheManager extends PassEmploiCacheManager {
   }
 
   @override
-  void removeActionCommentaireResource(String actionId) {}
+  Future<void> removeActionCommentaireResource(String actionId) async {}
 
   @override
-  void removeSuggestionsRechercheResource({required String userId}) {
+  Future<void> removeSuggestionsRechercheResource({required String userId}) async {
     removeSuggestionsRechercheResourceWasCalled = true;
   }
 

@@ -45,7 +45,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
       return true;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
-      if (e is DioError && e.response?.statusCode == 409) {
+      if (e is DioException && e.response?.statusCode == 409) {
         return true;
       }
     }
@@ -60,7 +60,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
       return true;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
-      if (e is DioError && e.response?.statusCode == 404) {
+      if (e is DioException && e.response?.statusCode == 404) {
         return true;
       }
     }

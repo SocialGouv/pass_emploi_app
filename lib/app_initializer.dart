@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_store.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -23,7 +25,6 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/interceptors/auth_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/cache_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/demo_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/expired_token_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_dio_interceptor.dart';
@@ -89,6 +90,7 @@ import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -172,7 +174,8 @@ class AppInitializer {
       Lock(),
     );
     final authAccessChecker = AuthAccessChecker();
-    final requestCacheManager = PassEmploiCacheManager.requestCache(configuration.serverBaseUrl);
+    final cacheStore = FileCacheStore((await getTemporaryDirectory()).path);
+    final requestCacheManager = PassEmploiCacheManager(cacheStore, configuration.serverBaseUrl);
     final modeDemoRepository = ModeDemoRepository();
     final installationIdRepository = InstallationIdRepository(securedPreferences);
     final baseUrl = configuration.serverBaseUrl;
@@ -185,6 +188,7 @@ class AppInitializer {
       requestCacheManager,
       authAccessChecker,
       monitoringDioInterceptor,
+      cacheStore,
     );
     logoutRepository.setHttpClient(dioClient);
     logoutRepository.setCacheManager(requestCacheManager);
@@ -233,7 +237,7 @@ class AppInitializer {
       SearchDemarcheRepository(dioClient, crashlytics),
       PieceJointeRepository(dioClient, PieceJointeFileSaver(), crashlytics),
       TutorialRepository(securedPreferences),
-      PartageActiviteRepository(dioClient, requestCacheManager, crashlytics),
+      PartageActiviteRepository(dioClient, crashlytics),
       RatingRepository(securedPreferences),
       ActionCommentaireRepository(dioClient, requestCacheManager, crashlytics),
       AgendaRepository(dioClient, crashlytics),
@@ -270,13 +274,20 @@ class AppInitializer {
     PassEmploiCacheManager requestCacheManager,
     AuthAccessChecker authAccessChecker,
     MonitoringDioInterceptor monitoringDioInterceptor,
+    CacheStore cacheStore,
   ) {
+    final cacheOptions = CacheOptions(
+      store: cacheStore,
+      hitCacheOnErrorExcept: [401, 403, 404],
+      policy: CachePolicy.request,
+      keyBuilder: (request) => PassEmploiCacheManager.getCacheKey(request.uri.toString()),
+    );
     final options = BaseOptions(baseUrl: baseUrl);
     final dioClient = Dio(options);
     dioClient.interceptors.add(DemoDioInterceptor(modeDemoRepository));
     dioClient.interceptors.add(monitoringDioInterceptor);
     dioClient.interceptors.add(AuthDioInterceptor(accessTokenRetriever));
-    dioClient.interceptors.add(CacheDioInterceptor(requestCacheManager));
+    dioClient.interceptors.add(DioCacheInterceptor(options: cacheOptions));
     dioClient.interceptors.add(LoggingNetworkDioInterceptor());
     dioClient.interceptors.add(ExpiredTokenDioInterceptor(authAccessChecker));
     return dioClient;
@@ -290,9 +301,7 @@ class AppInitializer {
   ) {
     try {
       SecurityContext.defaultContext.setTrustedCertificatesBytes(
-        utf8.encode(
-          configuration.iSRGX1CertificateForOldDevices,
-        ),
+        utf8.encode(configuration.iSRGX1CertificateForOldDevices),
       );
     } catch (e, stack) {
       crashlytics.recordNonNetworkException(e, stack);

@@ -16,7 +16,7 @@ class ServiceCiviqueDetailRepository {
       return SuccessfullServiceCiviqueDetailResponse(ServiceCiviqueDetail.fromJson(response.data, idOffre));
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
-      if (e is DioError && e.response?.statusCode != null) return NotFoundServiceCiviqueDetailResponse();
+      if (e is DioException && e.response?.statusCode != null) return NotFoundServiceCiviqueDetailResponse();
     }
     return FailedServiceCiviqueDetailResponse();
   }

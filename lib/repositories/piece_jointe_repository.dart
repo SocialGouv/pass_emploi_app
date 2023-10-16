@@ -19,7 +19,7 @@ class PieceJointeRepository {
       return await _pieceJointeSaver.saveFile(fileName: fileName, fileId: fileId, response: response);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
-      if (e is DioError && e.response?.statusCode == HttpStatus.notFound) {
+      if (e is DioException && e.response?.statusCode == HttpStatus.notFound) {
         return Strings.fileNotAvailableError;
       }
     }

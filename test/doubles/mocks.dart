@@ -1,3 +1,4 @@
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
@@ -76,3 +77,5 @@ class MockSessionMiloRepository extends Mock implements SessionMiloRepository {
         .thenAnswer((_) async => mockSessionMiloDetails());
   }
 }
+
+class MockCacheStore extends Mock implements CacheStore {}

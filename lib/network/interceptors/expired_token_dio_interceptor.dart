@@ -8,7 +8,7 @@ class ExpiredTokenDioInterceptor extends PassEmploiBaseDioInterceptor {
   ExpiredTokenDioInterceptor(this._authAccessChecker);
 
   @override
-  void onPassEmploiError(DioError err, ErrorInterceptorHandler handler) {
+  void onPassEmploiError(DioException err, ErrorInterceptorHandler handler) {
     const missing_http_code = -1;
     _authAccessChecker.logoutUserIfTokenIsExpired(
       err.response?.toString(),

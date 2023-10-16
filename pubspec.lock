@@ -253,10 +253,26 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: f7c26ddb3a10ff033cf1bfbf2c668feb3472327f48385775f7cf25b104f8bfce
+      sha256: "417e2a6f9d83ab396ec38ff4ea5da6c254da71e4db765ad737a42af6930140b7"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.0"
+    version: "5.3.3"
+  dio_cache_interceptor:
+    dependency: "direct main"
+    description:
+      name: dio_cache_interceptor
+      sha256: "7c0cb435963f08aa751ae8769b360d462f01160adc1d2d5b80e3b8c450b386e3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.4"
+  dio_cache_interceptor_file_store:
+    dependency: "direct main"
+    description:
+      name: dio_cache_interceptor_file_store
+      sha256: c84eefeeb725b44e96d6cb300e86e898bd5026dcf3d468737a8ec209b967fc73
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   dotted_border:
     dependency: "direct main"
     description:
@@ -462,14 +478,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
-  flutter_cache_manager:
-    dependency: "direct main"
-    description:
-      name: flutter_cache_manager
-      sha256: "32cd900555219333326a2d0653aaaf8671264c29befa65bbd9856d204a4c9fb3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.0"
   flutter_dotenv:
     dependency: "direct main"
     description:
@@ -941,14 +949,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.6"
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      sha256: "67fc27ed9639506c856c840ccce7594d0bdcd91bc8d53d6e52359449a1d50602"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.11.1"
   petitparser:
     dependency: transitive
     description:
@@ -1021,14 +1021,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      sha256: bc2d2b17b87fab32e2dca53ca3066d3147de6f96c74d76cfe1a379a24239c46d
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.27.3"
   share_plus:
     dependency: "direct main"
     description:
@@ -1186,22 +1178,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
-  sqflite:
-    dependency: transitive
-    description:
-      name: sqflite
-      sha256: "51c09d414ca74b1cd4a5880d63763ebd2033a4fc6d921708c7c1e98c603735d4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2+1"
-  sqflite_common:
-    dependency: transitive
-    description:
-      name: sqflite_common
-      sha256: b504fc5b4576a05586a0bb99d9bcc0d37a78d9d5ed68b96c361d5d3a8e538275
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.1+1"
   stack_trace:
     dependency: transitive
     description:

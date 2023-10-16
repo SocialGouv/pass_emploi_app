@@ -24,7 +24,7 @@ class DioRepositorySut<REPO> {
 
   void givenResponseCode(int code) {
     dynamic data() {
-      final error = DioError(
+      final error = DioException(
         requestOptions: _makeRequestOptions(),
         response: Response(requestOptions: _makeRequestOptions(), statusCode: code),
         message: "RepositorySut: givenResponseCode $code",

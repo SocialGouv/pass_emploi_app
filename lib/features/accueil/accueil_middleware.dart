@@ -48,7 +48,6 @@ class AccueilMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-//TODO: mutualiser avec l'invalidation de cache ?
 bool _needFetchingAccueil(dynamic action) {
   return action is AccueilRequestAction ||
       action is UserActionCreateSuccessAction ||

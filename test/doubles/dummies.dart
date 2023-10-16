@@ -71,7 +71,6 @@ import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
 import 'dio_mock.dart';
-import 'dummies_for_cache.dart';
 import 'fixtures.dart';
 import 'mocks.dart';
 
@@ -293,7 +292,7 @@ class DummyLogoutRepository extends LogoutRepository {
 }
 
 class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
-  DummyPassEmploiCacheManager() : super(config: DummyConfig(), baseUrl: '');
+  DummyPassEmploiCacheManager() : super(MockCacheStore(), '');
 
   @override
   Future<void> removeResource(CachedResource resourceToRemove, String userId) async {}
@@ -302,10 +301,10 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
   Future<void> removeAllFavorisResources() async {}
 
   @override
-  void removeActionCommentaireResource(String actionId) {}
+  Future<void> removeActionCommentaireResource(String actionId) async {}
 
   @override
-  void removeSuggestionsRechercheResource({required String userId}) {}
+  Future<void> removeSuggestionsRechercheResource({required String userId}) async {}
 
   @override
   Future<void> emptyCache() => Future<void>.value();
@@ -332,20 +331,18 @@ class DummyTutorialRepository extends TutorialRepository {
 }
 
 class DummyPartageActiviteRepository extends PartageActiviteRepository {
-  DummyPartageActiviteRepository() : super(DioMock(), DummyPassEmploiCacheManager());
+  DummyPartageActiviteRepository() : super(DioMock());
 }
 
 class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {
   DummyModifyDemarcheRepository() : super(DioMock());
 
   @override
-  Future<Demarche?> updateDemarche(
-    String userId,
-    String demarcheId,
-    DemarcheStatus status,
-    DateTime? dateFin,
-    DateTime? dateDebut,
-  ) async {
+  Future<Demarche?> updateDemarche(String userId,
+      String demarcheId,
+      DemarcheStatus status,
+      DateTime? dateFin,
+      DateTime? dateDebut,) async {
     return null;
   }
 }
@@ -426,10 +423,10 @@ class DummyCvRepository extends CvRepository {
 class DummyEvenementEmploiRepository extends EvenementEmploiRepository {
   DummyEvenementEmploiRepository()
       : super(
-          DioMock(),
-          MockSecteurActiviteQueryMapper(),
-          MockEvenementEmploiTypeQueryMapper(),
-        );
+    DioMock(),
+    MockSecteurActiviteQueryMapper(),
+    MockEvenementEmploiTypeQueryMapper(),
+  );
 }
 
 class DummyEvenementEmploiDetailsRepository extends EvenementEmploiDetailsRepository {

@@ -2,13 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 
-import '../doubles/dummies.dart';
 import '../dsl/sut_dio_repository.dart';
 
 void main() {
   group('PartageActiviteRepository', () {
     final sut = DioRepositorySut<PartageActiviteRepository>();
-    sut.givenRepository((client) => PartageActiviteRepository(client, DummyPassEmploiCacheManager()));
+    sut.givenRepository((client) => PartageActiviteRepository(client));
 
     group('getPartageActivite', () {
       sut.when(
