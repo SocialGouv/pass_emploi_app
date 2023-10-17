@@ -88,7 +88,7 @@ class _CriteresRechercheBandeau extends StatelessWidget {
                 ),
               ),
               AnimatedRotation(
-                turns: isOpen ? -0.5 : 0,
+                turns: !isOpen ? -0.5 : 0,
                 duration: Duration(milliseconds: 300),
                 curve: Curves.ease,
                 child: Icon(Icons.expand_less_rounded, color: iconColor),
