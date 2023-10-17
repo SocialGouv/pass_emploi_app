@@ -198,7 +198,7 @@ void main() {
       viewModel.dateEcheanceViewModel,
       UserActionDetailDateEcheanceViewModel(
         formattedTexts: [FormattedText("À réaliser pour le "), FormattedText("vendredi 1 janvier", bold: true)],
-        icons: [AppIcons.error_rounded, AppIcons.schedule_rounded],
+        icons: [AppIcons.schedule_rounded],
         textColor: AppColors.warning,
         backgroundColor: AppColors.warningLighten,
       ),
