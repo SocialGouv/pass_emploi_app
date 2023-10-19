@@ -10,6 +10,8 @@ class ContactImmersionLoadingAction {}
 
 class ContactImmersionSuccessAction {}
 
+class ContactImmersionAlreadyDoneAction {}
+
 class ContactImmersionFailureAction {}
 
 class ContactImmersionResetAction {}

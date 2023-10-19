@@ -33,7 +33,19 @@ void main() {
         });
 
         test('response should be valid', () async {
-          await sut.expectTrueAsResult();
+          await sut.expectResult<ContactImmersionResponse>((response) {
+            expect(response, ContactImmersionResponse.success);
+          });
+        });
+      });
+
+      group('when response is 409', () {
+        sut.givenResponseCode(409);
+
+        test('response should be already done', () async {
+          await sut.expectResult<ContactImmersionResponse>((response) {
+            expect(response, ContactImmersionResponse.alreadyDone);
+          });
         });
       });
 
@@ -41,7 +53,9 @@ void main() {
         sut.givenResponseCode(500);
 
         test('response should be null', () async {
-          await sut.expectNullResult();
+          await sut.expectResult<ContactImmersionResponse>((response) {
+            expect(response, ContactImmersionResponse.failure);
+          });
         });
       });
     });
