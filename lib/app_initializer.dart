@@ -90,6 +90,7 @@ import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
+import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -203,6 +204,7 @@ class AppInitializer {
       chatCrypto,
       cryptoStorage,
       requestCacheManager,
+      ConnectivityWrapper.fromConnectivity(),
       PageActionRepository(dioClient, crashlytics),
       PageDemarcheRepository(dioClient, crashlytics),
       RendezvousRepository(dioClient, crashlytics),

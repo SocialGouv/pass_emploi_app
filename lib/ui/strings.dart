@@ -77,6 +77,7 @@ class Strings {
   static String seeDetail = "Voir le détail >";
   static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
+  static String notConnected = "Vous n'avez pas de réseau";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
   static const String allMandatoryFields = "Tous les champs sont obligatoires";
 
@@ -401,6 +402,7 @@ class Strings {
   static const String addADemarche = "Ajouter une démarche";
   static const String createDemarcheTitle = "Création d'une démarche";
   static const String createDemarcheStep2EmptyTitle = "Aucune démarche ne correspond à votre recherche";
+
   static String createDemarcheStep2EmptyTitleWithQuery(String query) =>
       "Aucune démarche ne correspond à votre recherche “$query”";
   static const String createDemarcheStep2EmptySubtitle = "Essayez de reformuler ou lancez une nouvelle recherche";
@@ -699,6 +701,7 @@ class Strings {
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 
   static String emptyContentTitle(String content) => "Vous n’avez pas encore de $content";
+
   static String emptyContentSubtitle(String content) => "Commencez en créant une nouvelle $content !";
 
   static String emptyContentDescription(String content) =>

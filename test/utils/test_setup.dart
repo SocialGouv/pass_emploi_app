@@ -59,6 +59,7 @@ import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -74,6 +75,7 @@ class TestStoreFactory {
   RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
   ChatRepository chatRepository = DummyChatRepository();
   PassEmploiCacheManager cacheManager = DummyPassEmploiCacheManager();
+  ConnectivityWrapper connectivityWrapper = DummyConnectivityWrapper();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
   OffreEmploiDetailsRepository detailedOfferRepository = DummyDetailedRepository();
   ConfigurationApplicationRepository registerTokenRepository = DummyRegisterTokenRepository();
@@ -136,6 +138,7 @@ class TestStoreFactory {
       chatCrypto,
       cryptoStorage,
       cacheManager,
+      connectivityWrapper,
       pageActionRepository,
       pageDemarcheRepository,
       rendezvousRepository,
