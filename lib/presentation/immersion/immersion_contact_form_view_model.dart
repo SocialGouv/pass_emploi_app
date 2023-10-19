@@ -62,6 +62,7 @@ class ImmersionContactFormViewModel extends Equatable {
 SendingState _sendingState(ContactImmersionState state) {
   if (state is ContactImmersionLoadingState) return SendingState.loading;
   if (state is ContactImmersionFailureState) return SendingState.failure;
+  if (state is ContactImmersionAlreadyDoneState) return SendingState.alreadyDone;
   if (state is ContactImmersionSuccessState) return SendingState.success;
   return SendingState.none;
 }

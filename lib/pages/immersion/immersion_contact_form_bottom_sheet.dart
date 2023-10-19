@@ -44,6 +44,10 @@ class ImmersionContactFormBottomSheet extends StatelessWidget {
       PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.immersionFormSent(false));
       showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
       viewModel.resetSendingState();
+    } else if (viewModel.sendingState.isAlreadyDone()) {
+      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.immersionFormSent(false));
+      showFailedSnackBar(context, Strings.contactImmersionAlreadyDone);
+      viewModel.resetSendingState();
     } else if (viewModel.sendingState.isSuccess()) {
       PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.immersionFormSent(true));
       Navigator.pop(context);

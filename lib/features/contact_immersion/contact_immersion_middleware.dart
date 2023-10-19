@@ -14,11 +14,17 @@ class ContactImmersionMiddleware extends MiddlewareClass<AppState> {
     final userId = store.state.userId();
     if (userId != null && action is ContactImmersionRequestAction) {
       store.dispatch(ContactImmersionLoadingAction());
-      final result = await _repository.post(userId, action.request);
-      if (result != null) {
-        store.dispatch(ContactImmersionSuccessAction());
-      } else {
-        store.dispatch(ContactImmersionFailureAction());
+      final response = await _repository.post(userId, action.request);
+      switch (response) {
+        case ContactImmersionResponse.success:
+          store.dispatch(ContactImmersionSuccessAction());
+          break;
+        case ContactImmersionResponse.alreadyDone:
+          store.dispatch(ContactImmersionAlreadyDoneAction());
+          break;
+        case ContactImmersionResponse.failure:
+          store.dispatch(ContactImmersionFailureAction());
+          break;
       }
     }
   }

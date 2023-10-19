@@ -25,6 +25,14 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
       });
 
+      test('should load then fail when request was already done', () {
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.contactImmersionRepository = ContactImmersionRepositoryAlreadyDoneStub()});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFailAlreadyDone()]);
+      });
+
       test('should load then fail when request fail', () {
         sut.givenStore = givenState() //
             .loggedInUser()
@@ -40,6 +48,8 @@ Matcher _shouldLoad() => StateIs<ContactImmersionLoadingState>((state) => state.
 
 Matcher _shouldFail() => StateIs<ContactImmersionFailureState>((state) => state.contactImmersionState);
 
+Matcher _shouldFailAlreadyDone() => StateIs<ContactImmersionAlreadyDoneState>((state) => state.contactImmersionState);
+
 Matcher _shouldSucceed() {
   return StateIs<ContactImmersionSuccessState>(
     (state) => state.contactImmersionState,
@@ -50,8 +60,8 @@ class ContactImmersionRepositorySuccessStub extends ContactImmersionRepository {
   ContactImmersionRepositorySuccessStub() : super(DioMock());
 
   @override
-  Future<bool?> post(String userId, ContactImmersionRequest request) async {
-    return true;
+  Future<ContactImmersionResponse> post(String userId, ContactImmersionRequest request) async {
+    return ContactImmersionResponse.success;
   }
 }
 
@@ -59,7 +69,16 @@ class ContactImmersionRepositoryErrorStub extends ContactImmersionRepository {
   ContactImmersionRepositoryErrorStub() : super(DioMock());
 
   @override
-  Future<bool?> post(String userId, ContactImmersionRequest request) async {
-    return null;
+  Future<ContactImmersionResponse> post(String userId, ContactImmersionRequest request) async {
+    return ContactImmersionResponse.failure;
+  }
+}
+
+class ContactImmersionRepositoryAlreadyDoneStub extends ContactImmersionRepository {
+  ContactImmersionRepositoryAlreadyDoneStub() : super(DioMock());
+
+  @override
+  Future<ContactImmersionResponse> post(String userId, ContactImmersionRequest request) async {
+    return ContactImmersionResponse.alreadyDone;
   }
 }

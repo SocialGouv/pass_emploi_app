@@ -34,6 +34,7 @@ void main() {
     assertFoo(SendingState.loading, ContactImmersionLoadingState());
     assertFoo(SendingState.success, ContactImmersionSuccessState());
     assertFoo(SendingState.failure, ContactImmersionFailureState());
+    assertFoo(SendingState.alreadyDone, ContactImmersionAlreadyDoneState());
   });
 
   test('should send form', () {
