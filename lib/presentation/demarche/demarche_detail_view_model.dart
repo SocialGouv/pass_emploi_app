@@ -68,7 +68,7 @@ class DemarcheDetailViewModel extends Equatable {
       dateFormattedTexts: _formattedDate(demarche),
       dateBackgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
       dateTextColor: isLate ? AppColors.warning : AppColors.accent2,
-      dateIcons: [if (isLate) AppIcons.error_rounded, AppIcons.schedule_rounded],
+      dateIcons: [AppIcons.schedule_rounded],
       label: demarche.label,
       titreDetail: demarche.titre,
       sousTitre: demarche.sousTitre,

@@ -108,7 +108,7 @@ void main() {
       );
       expect(viewModel.dateBackgroundColor, AppColors.warningLighten);
       expect(viewModel.dateTextColor, AppColors.warning);
-      expect(viewModel.dateIcons, [AppIcons.error_rounded, AppIcons.schedule_rounded]);
+      expect(viewModel.dateIcons, [AppIcons.schedule_rounded]);
     });
 
     test("not up to date", () {
