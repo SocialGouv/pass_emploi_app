@@ -11,10 +11,10 @@ class ConnectivityMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is SubscribeToConnectivityUpdates) {
+    if (action is SubscribeToConnectivityUpdatesAction) {
       _connectivityWrapper.subscribeToUpdates((result) => store.dispatch(ConnectivityUpdatedAction(result)));
     }
-    if (action is UnsubscribeFromConnectivityUpdates) {
+    if (action is UnsubscribeFromConnectivityUpdatesAction) {
       _connectivityWrapper.unsubscribeFromUpdates();
     }
   }

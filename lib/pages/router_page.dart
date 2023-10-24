@@ -44,10 +44,10 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
-      StoreProvider.of<AppState>(context).dispatch(UnsubscribeFromConnectivityUpdates());
+      StoreProvider.of<AppState>(context).dispatch(UnsubscribeFromConnectivityUpdatesAction());
     }
     if (state == AppLifecycleState.resumed) {
-      StoreProvider.of<AppState>(context).dispatch(SubscribeToConnectivityUpdates());
+      StoreProvider.of<AppState>(context).dispatch(SubscribeToConnectivityUpdatesAction());
     }
   }
 
@@ -57,7 +57,7 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
     return StoreConnector<AppState, RouterPageViewModel>(
       onInit: (store) {
         store.dispatch(BootstrapAction());
-        store.dispatch(SubscribeToConnectivityUpdates());
+        store.dispatch(SubscribeToConnectivityUpdatesAction());
       },
       converter: (store) => RouterPageViewModel.create(store, platform),
       builder: (context, viewModel) => _content(viewModel),

@@ -16,7 +16,7 @@ void main() {
     final sut = StoreSut();
 
     group("when subscribing to connectivity updates", () {
-      sut.when(() => SubscribeToConnectivityUpdates());
+      sut.when(() => SubscribeToConnectivityUpdatesAction());
 
       test('should receive connectivity updates and change state accordingly', () async {
         // Given
@@ -45,7 +45,7 @@ void main() {
             .store((f) => {f.connectivityWrapper = wrapper});
 
         // When
-        await store.dispatch(UnsubscribeFromConnectivityUpdates());
+        await store.dispatch(UnsubscribeFromConnectivityUpdatesAction());
 
         // Then
         verify(() => wrapper.unsubscribeFromUpdates()).called(1);

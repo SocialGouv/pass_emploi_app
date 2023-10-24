@@ -1,8 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-class SubscribeToConnectivityUpdates {}
+class SubscribeToConnectivityUpdatesAction {}
 
-class UnsubscribeFromConnectivityUpdates {}
+class UnsubscribeFromConnectivityUpdatesAction {}
 
 class ConnectivityUpdatedAction {
   final ConnectivityResult result;
