@@ -18,7 +18,6 @@ void main() {
     // Given
     final store = givenState().store((f) {
       f.matomoTracker = MockMatomoTracker();
-      ;
       f.firebaseAuthWrapper = _firebaseAuthWrapper;
     });
 
