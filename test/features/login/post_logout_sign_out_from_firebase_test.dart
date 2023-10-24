@@ -8,19 +8,17 @@ import '../../dsl/app_state_dsl.dart';
 
 void main() {
   late MockFirebaseAuthWrapper _firebaseAuthWrapper;
-  late MockMatomoTracker _tracker;
 
   setUp(() {
     _firebaseAuthWrapper = MockFirebaseAuthWrapper();
     when(() => _firebaseAuthWrapper.signOut()).thenAnswer((_) async => true);
-    _tracker = MockMatomoTracker();
-    when(() => _tracker.setOptOut(optOut: any(named: 'optout'))).thenAnswer((_) async => true);
   });
 
   test("After logout user should be signed out from Firebase Auth", () async {
     // Given
     final store = givenState().store((f) {
-      f.matomoTracker = _tracker;
+      f.matomoTracker = MockMatomoTracker();
+      ;
       f.firebaseAuthWrapper = _firebaseAuthWrapper;
     });
 

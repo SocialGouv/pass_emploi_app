@@ -30,6 +30,7 @@ class PassEmploiMatomoTracker {
   }
 
   void trackScreen(String widgetName) {
+    if (!_decorated.initialized) return;
     _decorated.trackPageViewWithName(
       actionName: widgetName,
       dimensions: _dimensions,
@@ -38,6 +39,7 @@ class PassEmploiMatomoTracker {
   }
 
   void trackEvent({required String eventCategory, required String action, String? eventName, int? eventValue}) {
+    if (!_decorated.initialized) return;
     _decorated.trackEvent(
       eventInfo: EventInfo(
         category: eventCategory,
@@ -51,6 +53,7 @@ class PassEmploiMatomoTracker {
   }
 
   void trackOutlink(String link) {
+    if (!_decorated.initialized) return;
     _decorated.trackOutlink(link: link, dimensions: _dimensions);
     onTrackScreen?.call('$outLinkLogPrefix $link');
   }
