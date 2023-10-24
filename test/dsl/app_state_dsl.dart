@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
@@ -6,6 +7,7 @@ import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dar
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
+import 'package:pass_emploi_app/features/connectivity/connectivity_state.dart';
 import 'package:pass_emploi_app/features/cv/cv_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
@@ -101,9 +103,9 @@ extension AppStateDSL on AppState {
   }) {
     return copyWith(
         rendezvousListState: RendezvousListState.successfulFuture(
-      rendezvous: rendezvous,
-      sessionsMilo: sessionsMilo,
-    ));
+          rendezvous: rendezvous,
+          sessionsMilo: sessionsMilo,
+        ));
   }
 
   AppState rendezvous({
@@ -113,10 +115,10 @@ extension AppStateDSL on AppState {
   }) {
     return copyWith(
         rendezvousListState: RendezvousListState.successful(
-      rendezvous: rendezvous,
-      sessionsMilo: sessionsMilo,
-      dateDerniereMiseAJour: dateDerniereMiseAJour,
-    ));
+          rendezvous: rendezvous,
+          sessionsMilo: sessionsMilo,
+          dateDerniereMiseAJour: dateDerniereMiseAJour,
+        ));
   }
 
   AppState rendezvousNotInitialized() => copyWith(rendezvousListState: RendezvousListState.notInitialized());
@@ -195,7 +197,7 @@ extension AppStateDSL on AppState {
   AppState serviceCiviqueDetailsSuccess({ServiceCiviqueDetail? serviceCiviqueDetail}) {
     return copyWith(
         serviceCiviqueDetailState:
-            ServiceCiviqueDetailSuccessState(serviceCiviqueDetail ?? mockServiceCiviqueDetail()));
+        ServiceCiviqueDetailSuccessState(serviceCiviqueDetail ?? mockServiceCiviqueDetail()));
   }
 
   AppState serviceCiviqueDetailsFailure() {
@@ -508,14 +510,14 @@ extension AppStateDSL on AppState {
   AppState initialLoadingRechercheServiceCiviqueState() {
     return copyWith(
       rechercheServiceCiviqueState:
-          RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.initialLoading),
+      RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.initialLoading),
     );
   }
 
   AppState updateLoadingRechercheServiceCiviqueState() {
     return copyWith(
       rechercheServiceCiviqueState:
-          RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.updateLoading),
+      RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.updateLoading),
     );
   }
 
@@ -614,14 +616,14 @@ extension AppStateDSL on AppState {
   AppState initialLoadingRechercheEvenementEmploiState() {
     return copyWith(
       rechercheEvenementEmploiState:
-          RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.initialLoading),
+      RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.initialLoading),
     );
   }
 
   AppState updateLoadingRechercheEvenementEmploiState() {
     return copyWith(
       rechercheEvenementEmploiState:
-          RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.updateLoading),
+      RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.updateLoading),
     );
   }
 
@@ -788,5 +790,9 @@ extension AppStateDSL on AppState {
 
   AppState withLoadingSessionMiloDetails() {
     return copyWith(sessionMiloDetailsState: SessionMiloDetailsLoadingState());
+  }
+
+  AppState withConnectivity(ConnectivityResult result) {
+    return copyWith(connectivityState: ConnectivityState.fromResult(result));
   }
 }

@@ -66,6 +66,7 @@ import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dar
 import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -338,11 +339,13 @@ class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {
   DummyModifyDemarcheRepository() : super(DioMock());
 
   @override
-  Future<Demarche?> updateDemarche(String userId,
-      String demarcheId,
-      DemarcheStatus status,
-      DateTime? dateFin,
-      DateTime? dateDebut,) async {
+  Future<Demarche?> updateDemarche(
+    String userId,
+    String demarcheId,
+    DemarcheStatus status,
+    DateTime? dateFin,
+    DateTime? dateDebut,
+  ) async {
     return null;
   }
 }
@@ -423,10 +426,10 @@ class DummyCvRepository extends CvRepository {
 class DummyEvenementEmploiRepository extends EvenementEmploiRepository {
   DummyEvenementEmploiRepository()
       : super(
-    DioMock(),
-    MockSecteurActiviteQueryMapper(),
-    MockEvenementEmploiTypeQueryMapper(),
-  );
+          DioMock(),
+          MockSecteurActiviteQueryMapper(),
+          MockEvenementEmploiTypeQueryMapper(),
+        );
 }
 
 class DummyEvenementEmploiDetailsRepository extends EvenementEmploiDetailsRepository {
@@ -440,4 +443,6 @@ class DummyThematiqueDemarcheRepository extends ThematiqueDemarcheRepository {
 class DummyTopDemarcheRepository extends TopDemarcheRepository {
   DummyTopDemarcheRepository() : super();
 }
+
+class DummyConnectivityWrapper extends Mock implements ConnectivityWrapper {}
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

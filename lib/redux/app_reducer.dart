@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/chat/partage/chat_partage_reducer.dart'
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_reducer.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
+import 'package:pass_emploi_app/features/connectivity/connectivity_reducer.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_reducer.dart';
 import 'package:pass_emploi_app/features/cv/cv_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
@@ -50,9 +51,12 @@ import 'package:pass_emploi_app/features/saved_search/create/saved_search_create
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_reducer.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_reducer.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_reducer.dart';
+import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_reducer.dart';
+import 'package:pass_emploi_app/features/top_demarche/top_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_reducer.dart';
@@ -68,9 +72,6 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_reducer.dart';
-import 'package:pass_emploi_app/features/top_demarche/top_demarche_reducer.dart';
-import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -173,6 +174,7 @@ AppState reducer(AppState current, dynamic action) {
     thematiquesDemarcheState: thematiquesDemarcheReducer(current.thematiquesDemarcheState, action),
     topDemarcheState: topDemarcheReducer(current.topDemarcheState, action),
     sessionMiloDetailsState: sessionMiloDetailsReducer(current.sessionMiloDetailsState, action),
+    connectivityState: connectivityReducer(current.connectivityState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

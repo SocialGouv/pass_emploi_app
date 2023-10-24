@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.d
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
+import 'package:pass_emploi_app/features/connectivity/connectivity_middleware.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_middleware.dart';
 import 'package:pass_emploi_app/features/cv/cv_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
@@ -131,6 +132,7 @@ import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -141,6 +143,7 @@ class StoreFactory {
   final ChatCrypto chatCrypto;
   final ChatEncryptionLocalStorage cryptoStorage;
   final PassEmploiCacheManager cacheManager;
+  final ConnectivityWrapper connectivityWrapper;
   final PageActionRepository pageActionRepository;
   final PageDemarcheRepository pageDemarcheRepository;
   final RendezvousRepository rendezvousRepository;
@@ -203,6 +206,7 @@ class StoreFactory {
     this.chatCrypto,
     this.cryptoStorage,
     this.cacheManager,
+    this.connectivityWrapper,
     this.pageActionRepository,
     this.pageDemarcheRepository,
     this.rendezvousRepository,
@@ -337,6 +341,7 @@ class StoreFactory {
         ThematiqueDemarcheMiddleware(thematiquesDemarcheRepository),
         TopDemarcheMiddleware(topDemarcheRepository),
         SessionMiloDetailsMiddleware(sessionMiloRepository),
+        ConnectivityMiddleware(connectivityWrapper),
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

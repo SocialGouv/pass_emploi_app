@@ -87,6 +87,7 @@ class AppIcons {
   static const IconData construction = Icons.construction;
   static const IconData folder_off = Icons.folder_off;
   static const IconData diversity_3 = Icons.diversity_3_rounded;
+  static const IconData connectivity_off = Icons.wifi_off_rounded;
 
   // Solution
   static const IconData immersion = AppIconsAdditional.immersion;

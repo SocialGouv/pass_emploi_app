@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
+import 'package:pass_emploi_app/features/connectivity/connectivity_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/pages/entree_page.dart';
@@ -25,18 +26,39 @@ class RouterPage extends StatefulWidget {
  * Handling of opened push notifications totally inspired from FlutterFire documentation
  * [https://firebase.flutter.dev/docs/messaging/notifications].
  */
-class _RouterPageState extends State<RouterPage> {
+class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _handleOpeningApplication();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      StoreProvider.of<AppState>(context).dispatch(UnsubscribeFromConnectivityUpdatesAction());
+    }
+    if (state == AppLifecycleState.resumed) {
+      StoreProvider.of<AppState>(context).dispatch(SubscribeToConnectivityUpdatesAction());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final platform = PlatformUtils.getPlatform;
     return StoreConnector<AppState, RouterPageViewModel>(
-      onInit: (store) => store.dispatch(BootstrapAction()),
+      onInit: (store) {
+        store.dispatch(BootstrapAction());
+        store.dispatch(SubscribeToConnectivityUpdatesAction());
+      },
       converter: (store) => RouterPageViewModel.create(store, platform),
       builder: (context, viewModel) => _content(viewModel),
       ignoreChange: (state) => state.deepLinkState is UsedDeepLinkState,
