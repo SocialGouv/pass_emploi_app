@@ -77,7 +77,7 @@ class Strings {
   static String seeDetail = "Voir le détail >";
   static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
-  static String notConnected = "Vous n'avez pas de réseau";
+  static String notConnected = "Vous êtes hors connexion";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
   static const String allMandatoryFields = "Tous les champs sont obligatoires";
 
