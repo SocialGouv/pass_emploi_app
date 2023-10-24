@@ -44,9 +44,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       _modeDemoRepository.setModeDemo(true);
       final user = _modeDemoUser(mode);
       store.dispatch(LoginSuccessAction(user));
-      _matomoTracker.setOptOut(optout: true);
+      _matomoTracker.setOptOut(optOut: true);
     } else {
-      _matomoTracker.setOptOut(optout: false);
+      _matomoTracker.setOptOut(optOut: false);
       _modeDemoRepository.setModeDemo(false);
       final authenticatorResponse = await _authenticator.login(_getAuthenticationMode(mode));
       if (authenticatorResponse == AuthenticatorResponse.SUCCESS) {
@@ -82,7 +82,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _logout(Store<AppState> store) async {
-    _matomoTracker.setOptOut(optout: false);
+    _matomoTracker.setOptOut(optOut: false);
     await _authenticator.logout();
     store.dispatch(UnsubscribeFromChatStatusAction());
     store.dispatch(BootstrapAction());

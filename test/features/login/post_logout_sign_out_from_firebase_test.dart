@@ -14,7 +14,7 @@ void main() {
     _firebaseAuthWrapper = MockFirebaseAuthWrapper();
     when(() => _firebaseAuthWrapper.signOut()).thenAnswer((_) async => true);
     _tracker = MockMatomoTracker();
-    when(() => _tracker.setOptOut(optout: any(named: 'optout'))).thenAnswer((_) async => true);
+    when(() => _tracker.setOptOut(optOut: any(named: 'optout'))).thenAnswer((_) async => true);
   });
 
   test("After logout user should be signed out from Firebase Auth", () async {

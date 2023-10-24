@@ -16,7 +16,7 @@ void main() {
 
   setUp(() {
     _tracker = MockMatomoTracker();
-    when(() => _tracker.setOptOut(optout: any(named: 'optout'))).thenAnswer((_) async => true);
+    when(() => _tracker.setOptOut(optOut: any(named: 'optout'))).thenAnswer((_) async => true);
   });
 
   group("when deleting user", () {

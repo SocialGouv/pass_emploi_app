@@ -23,7 +23,7 @@ void main() {
   final matomoTracker = MockMatomoTracker();
 
   setUp(() {
-    when(() => matomoTracker.setOptOut(optout: any(named: 'optout'))).thenAnswer((_) async => true);
+    when(() => matomoTracker.setOptOut(optOut: any(named: 'optout'))).thenAnswer((_) async => true);
   });
 
   group('On bootstrap…', () {
