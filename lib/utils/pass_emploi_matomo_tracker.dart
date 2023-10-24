@@ -19,6 +19,7 @@ class PassEmploiMatomoTracker {
     return _decorated.initialize(
       siteId: siteId,
       url: url,
+      dispatchSettings: DispatchSettings.persistent(onLoad: DispatchSettings.takeAll),
     );
   }
 
