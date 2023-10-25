@@ -18,6 +18,7 @@ class Configuration extends Equatable {
   final String matomoBaseUrl;
   final String matomoSiteId;
   final String matomoDimensionProduitId;
+  final String matomoDimensionAvecConnexionId;
   final String authClientId;
   final String authLoginRedirectUrl;
   final String authLogoutRedirectUrl;
@@ -36,6 +37,7 @@ class Configuration extends Equatable {
     this.matomoBaseUrl,
     this.matomoSiteId,
     this.matomoDimensionProduitId,
+    this.matomoDimensionAvecConnexionId,
     this.authClientId,
     this.authLoginRedirectUrl,
     this.authLogoutRedirectUrl,
@@ -59,6 +61,7 @@ class Configuration extends Equatable {
     final matomoBaseUrl = getOrThrow('MATOMO_BASE_URL');
     final matomoSiteId = getOrThrow('MATOMO_SITE_ID');
     final matomoDimensionProduitId = getOrThrow('MATOMO_DIMENSION_PRODUIT_ID');
+    final matomoDimensionAvecConnexionId = getOrThrow('MATOMO_DIMENSION_AVEC_CONNEXION_ID');
     final authClientId = getOrThrow('AUTH_CLIENT_ID');
     final authLoginRedirectUrl = getOrThrow('AUTH_LOGIN_URL');
     final authLogoutRedirectUrl = getOrThrow('AUTH_LOGOUT_URL');
@@ -76,6 +79,7 @@ class Configuration extends Equatable {
       matomoBaseUrl,
       matomoSiteId,
       matomoDimensionProduitId,
+      matomoDimensionAvecConnexionId,
       authClientId,
       authLoginRedirectUrl,
       authLogoutRedirectUrl,
@@ -136,6 +140,7 @@ class Configuration extends Equatable {
     String? matomoBaseUrl,
     String? matomoSiteId,
     String? matomoDimensionProduitId,
+    String? matomoDimensionAvecConnexionId,
     String? authClientId,
     String? authLoginRedirectUrl,
     String? authLogoutRedirectUrl,
@@ -154,6 +159,7 @@ class Configuration extends Equatable {
       matomoBaseUrl ?? this.matomoBaseUrl,
       matomoSiteId ?? this.matomoSiteId,
       matomoDimensionProduitId ?? this.matomoDimensionProduitId,
+      matomoDimensionAvecConnexionId ?? this.matomoDimensionAvecConnexionId,
       authClientId ?? this.authClientId,
       authLoginRedirectUrl ?? this.authLoginRedirectUrl,
       authLogoutRedirectUrl ?? this.authLogoutRedirectUrl,

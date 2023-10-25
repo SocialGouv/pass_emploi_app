@@ -1,7 +1,9 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
+import 'package:pass_emploi_app/features/connectivity/connectivity_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 
@@ -73,6 +75,30 @@ void main() {
 
       // Then
       verify(() => _tracker.setDimension('2', 'Pôle emploi')).called(1);
+    });
+  });
+
+  group('on connectivity updated', () {
+    test('with connectivity should properly set avac connexion dimension', () async {
+      // Given
+      final store = givenState(configuration()).store((f) => f.matomoTracker = _tracker);
+
+      // When
+      await store.dispatch(ConnectivityUpdatedAction(ConnectivityResult.wifi));
+
+      // Then
+      verify(() => _tracker.setDimension('matomoDimensionAvecConnexionId', 'true')).called(1);
+    });
+
+    test('without connectivity should properly set avac connexion dimension', () async {
+      // Given
+      final store = givenState(configuration()).store((f) => f.matomoTracker = _tracker);
+
+      // When
+      await store.dispatch(ConnectivityUpdatedAction(ConnectivityResult.none));
+
+      // Then
+      verify(() => _tracker.setDimension('matomoDimensionAvecConnexionId', 'false')).called(1);
     });
   });
 }
