@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
+import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
+import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -17,11 +19,11 @@ class CreateDemarcheStep2ViewModel extends Equatable {
 
   factory CreateDemarcheStep2ViewModel.create(Store<AppState> store, DemarcheSource source, {String? query}) {
     final List<DemarcheDuReferentiel> demarches = source.demarcheList(store);
-    final state = store.state.searchDemarcheState;
+    final state = store.state;
 
     return CreateDemarcheStep2ViewModel(
       items: _items(demarches),
-      displayState: _displayState(state),
+      displayState: _displayState(source, state),
       onRetry: () => _onRetry(store, source, query),
     );
   }
@@ -72,8 +74,29 @@ class CreateDemarcheStep2ButtonItem extends CreateDemarcheStep2Item {}
 
 class CreateDemarcheStep2EmptyItem extends CreateDemarcheStep2Item {}
 
-DisplayState _displayState(SearchDemarcheState state) {
+DisplayState _displayState(DemarcheSource source, AppState state) {
+  return switch (source) {
+    RechercheDemarcheSource() => _displayStateFromRechercheSource(state.searchDemarcheState),
+    ThematiqueDemarcheSource() => _displayStateFromThematiqueSource(state.thematiquesDemarcheState),
+    TopDemarcheSource() => _displayStateFromTopDemarcheSource(state.topDemarcheState),
+  };
+}
+
+DisplayState _displayStateFromRechercheSource(SearchDemarcheState state) {
   if (state is SearchDemarcheLoadingState || state is SearchDemarcheNotInitializedState) return DisplayState.LOADING;
   if (state is SearchDemarcheFailureState) return DisplayState.FAILURE;
+  return DisplayState.CONTENT;
+}
+
+DisplayState _displayStateFromThematiqueSource(ThematiqueDemarcheState state) {
+  if (state is ThematiqueDemarcheLoadingState || state is ThematiqueDemarcheNotInitializedState) {
+    return DisplayState.LOADING;
+  }
+  if (state is ThematiqueDemarcheFailureState) return DisplayState.FAILURE;
+  return DisplayState.CONTENT;
+}
+
+DisplayState _displayStateFromTopDemarcheSource(TopDemarcheState state) {
+  if (state is TopDemarcheNotInitializedState) return DisplayState.LOADING;
   return DisplayState.CONTENT;
 }

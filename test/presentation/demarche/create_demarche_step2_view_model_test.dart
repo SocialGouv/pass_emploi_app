@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
+import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
+import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step2_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -11,60 +13,150 @@ import '../../dsl/app_state_dsl.dart';
 
 void main() {
   group('display state', () {
-    test('create when state is not initialized should display loading', () {
-      // Given
-      final store = givenState() //
-          .loggedInUser() //
-          .copyWith(searchDemarcheState: SearchDemarcheNotInitializedState()) //
-          .store();
+    group('when source is from recherche', () {
+      test('create when state is not initialized should display loading', () {
+        // Given
+        final store = givenState() //
+            .loggedInUser() //
+            .copyWith(searchDemarcheState: SearchDemarcheNotInitializedState()) //
+            .store();
 
-      // When
-      final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
+        // When
+        final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
 
-      // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+        // Then
+        expect(viewModel.displayState, DisplayState.LOADING);
+      });
+
+      test('create when state is loading should display loading', () {
+        // Given
+        final store = givenState() //
+            .loggedInUser() //
+            .copyWith(searchDemarcheState: SearchDemarcheLoadingState()) //
+            .store();
+
+        // When
+        final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
+
+        // Then
+        expect(viewModel.displayState, DisplayState.LOADING);
+      });
+
+      test('create when state is failure should display failure', () {
+        // Given
+        final store = givenState() //
+            .loggedInUser() //
+            .copyWith(searchDemarcheState: SearchDemarcheFailureState()) //
+            .store();
+
+        // When
+        final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
+
+        // Then
+        expect(viewModel.displayState, DisplayState.FAILURE);
+      });
+
+      test('create when state is success should display content', () {
+        // Given
+        final store = givenState() //
+            .loggedInUser() //
+            .searchDemarchesSuccess([]) //
+            .store();
+
+        // When
+        final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
+
+        // Then
+        expect(viewModel.displayState, DisplayState.CONTENT);
+      });
     });
 
-    test('create when state is loading should display loading', () {
-      // Given
-      final store = givenState() //
-          .loggedInUser() //
-          .copyWith(searchDemarcheState: SearchDemarcheLoadingState()) //
-          .store();
+    group('when source is from thematique', () {
+      test('create when state is not initialized should display loading', () {
+        // Given
+        final store = givenState() //
+            .loggedInUser() //
+            .copyWith(thematiquesDemarcheState: ThematiqueDemarcheNotInitializedState()) //
+            .store();
 
-      // When
-      final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
+        // When
+        final viewModel = CreateDemarcheStep2ViewModel.create(store, ThematiqueDemarcheSource("any"));
 
-      // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+        // Then
+        expect(viewModel.displayState, DisplayState.LOADING);
+      });
+
+      test('create when state is loading should display loading', () {
+        // Given
+        final store = givenState() //
+            .loggedInUser() //
+            .copyWith(thematiquesDemarcheState: ThematiqueDemarcheLoadingState()) //
+            .store();
+
+        // When
+        final viewModel = CreateDemarcheStep2ViewModel.create(store, ThematiqueDemarcheSource("any"));
+
+        // Then
+        expect(viewModel.displayState, DisplayState.LOADING);
+      });
+
+      test('create when state is failure should display failure', () {
+        // Given
+        final store = givenState() //
+            .loggedInUser() //
+            .copyWith(thematiquesDemarcheState: ThematiqueDemarcheFailureState()) //
+            .store();
+
+        // When
+        final viewModel = CreateDemarcheStep2ViewModel.create(store, ThematiqueDemarcheSource("any"));
+
+        // Then
+        expect(viewModel.displayState, DisplayState.FAILURE);
+      });
+
+      test('create when state is success should display content', () {
+        // Given
+        final store = givenState() //
+            .loggedInUser() //
+            .withThematiqueDemarcheSuccessState(demarches: []) //
+            .store();
+
+        // When
+        final viewModel = CreateDemarcheStep2ViewModel.create(store, ThematiqueDemarcheSource("any"));
+
+        // Then
+        expect(viewModel.displayState, DisplayState.CONTENT);
+      });
     });
 
-    test('create when state is failure should display failure', () {
-      // Given
-      final store = givenState() //
-          .loggedInUser() //
-          .copyWith(searchDemarcheState: SearchDemarcheFailureState()) //
-          .store();
+    group('when source is from top demarches', () {
+      test('create when state is not initialized should display loading', () {
+        // Given
+        final store = givenState() //
+            .loggedInUser() //
+            .copyWith(topDemarcheState: TopDemarcheNotInitializedState()) //
+            .store();
 
-      // When
-      final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
+        // When
+        final viewModel = CreateDemarcheStep2ViewModel.create(store, TopDemarcheSource());
 
-      // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
-    });
+        // Then
+        expect(viewModel.displayState, DisplayState.LOADING);
+      });
 
-    test('create when state is success should display content', () {
-      // Given
-      final store = givenState() //
-          .loggedInUser() //
-          .searchDemarchesSuccess([]) //
-          .store();
+      test('create when state is success should display loading', () {
+        // Given
+        final store = givenState() //
+            .loggedInUser() //
+            .withTopDemarcheSuccessState(demarches: []) //
+            .store();
 
-      // When
-      final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
+        // When
+        final viewModel = CreateDemarcheStep2ViewModel.create(store, TopDemarcheSource());
 
-      // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+        // Then
+        expect(viewModel.displayState, DisplayState.CONTENT);
+      });
     });
   });
 
