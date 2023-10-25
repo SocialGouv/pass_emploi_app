@@ -36,13 +36,13 @@ dependencies:
   connectivity_plus: "4.0.2" # Versions >= 5.0.0 require iOS 12 or higher
   # Dart
   intl: "0.18.0"
-  collection: "1.17.1"
+  collection: "1.17.2"
   equatable: "2.0.3"
   logger: "1.1.0"
   uuid: "3.0.7"
   synchronized: "3.0.0+2"
   encrypt: "5.0.1"
-  matomo_tracker: "2.0.0"
+  matomo_tracker: "4.1.1"
   # Dio
   dio: "5.3.3"
   dio_cache_interceptor: "3.4.4"
@@ -65,6 +65,10 @@ dev_dependencies:
   dart_code_metrics: "5.7.4"
   mocktail: ^0.3.0
   flutter_native_splash: "2.2.18"
+
+dependency_overrides:
+  http: "1.1.0"
+  collection: "1.17.2"
 
 flutter:
   uses-material-design: true

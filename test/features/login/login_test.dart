@@ -22,10 +22,6 @@ void main() {
   final authenticator = MockAuthenticator();
   final matomoTracker = MockMatomoTracker();
 
-  setUp(() {
-    when(() => matomoTracker.setOptOut(optout: any(named: 'optout'))).thenAnswer((_) async => true);
-  });
-
   group('On bootstrap…', () {
     sut.when(() => BootstrapAction());
 

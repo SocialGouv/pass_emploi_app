@@ -23,7 +23,11 @@ class MockImmersionDetailsRepository extends Mock implements ImmersionDetailsRep
 
 class MockOffreEmploiDetailsRepository extends Mock implements OffreEmploiDetailsRepository {}
 
-class MockMatomoTracker extends Mock implements PassEmploiMatomoTracker {}
+class MockMatomoTracker extends Mock implements PassEmploiMatomoTracker {
+  MockMatomoTracker() {
+    when(() => setOptOut(optOut: any(named: 'optOut'))).thenAnswer((_) async => true);
+  }
+}
 
 class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
 

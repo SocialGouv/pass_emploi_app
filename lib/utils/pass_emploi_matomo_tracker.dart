@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:matomo_tracker/matomo_tracker.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PassEmploiMatomoTracker {
   static const String pageLogPrefix = '#page#';
@@ -17,57 +15,46 @@ class PassEmploiMatomoTracker {
 
   PassEmploiMatomoTracker._internal();
 
-  Future<void> initialize({
-    required int siteId,
-    required String url,
-    String? visitorId,
-    String? contentBaseUrl,
-    int dequeueInterval = 10,
-    String? tokenAuth,
-    SharedPreferences? prefs,
-    PackageInfo? packageInfo,
-  }) {
+  Future<void> initialize({required int siteId, required String url}) {
     return _decorated.initialize(
       siteId: siteId,
       url: url,
-      visitorId: visitorId,
-      contentBaseUrl: contentBaseUrl,
-      dequeueInterval: dequeueInterval,
-      tokenAuth: tokenAuth,
-      prefs: prefs,
-      packageInfo: packageInfo,
+      dispatchSettings: DispatchSettings.persistent(onLoad: DispatchSettings.takeAll),
     );
   }
 
-  Future<void> setOptOut({required bool optout}) => _decorated.setOptOut(optout: optout);
+  Future<void> setOptOut({required bool optOut}) => _decorated.setOptOut(optOut: optOut);
 
   void setDimension(String dimensionKey, String dimensionValue) {
     _dimensions['dimension$dimensionKey'] = Uri.encodeComponent(dimensionValue);
   }
 
   void trackScreen(String widgetName) {
-    _decorated.trackScreenWithName(
-      widgetName: widgetName,
-      eventName: widgetName,
-      path: widgetName,
+    if (!_decorated.initialized) return;
+    _decorated.trackPageViewWithName(
+      actionName: widgetName,
       dimensions: _dimensions,
     );
     onTrackScreen?.call('$pageLogPrefix $widgetName');
   }
 
   void trackEvent({required String eventCategory, required String action, String? eventName, int? eventValue}) {
+    if (!_decorated.initialized) return;
     _decorated.trackEvent(
-      eventCategory: eventCategory,
-      action: action,
-      eventName: eventName,
-      eventValue: eventValue,
+      eventInfo: EventInfo(
+        category: eventCategory,
+        action: action,
+        name: eventName,
+        value: eventValue,
+      ),
       dimensions: _dimensions,
     );
     onTrackScreen?.call("$eventLogPrefix - category: $eventCategory \n- action:  $action");
   }
 
-  void trackOutlink(String? link) {
-    _decorated.trackOutlink(link, dimensions: _dimensions);
+  void trackOutlink(String link) {
+    if (!_decorated.initialized) return;
+    _decorated.trackOutlink(link: link, dimensions: _dimensions);
     onTrackScreen?.call('$outLinkLogPrefix $link');
   }
 }
