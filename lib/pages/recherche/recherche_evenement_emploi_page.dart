@@ -10,11 +10,10 @@ import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_mo
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/evenement_emploi/actions_recherche_evenement_emploi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/evenement_emploi_card.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_evenement_emploi_contenu.dart';
+import 'package:pass_emploi_app/widgets/tab_level_container.dart';
 import 'package:redux/redux.dart';
 
 class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
@@ -25,10 +24,8 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
   RechercheEvenementEmploiPage();
 
   static Widget withPrimaryAppBar() {
-    const backgroundColor = AppColors.grey100;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: PrimaryAppBar(title: Strings.eventAppBarTitle, backgroundColor: backgroundColor),
+    return TabLevelContainer(
+      title: Strings.eventAppBarTitle,
       body: RechercheEvenementEmploiPage(),
     );
   }

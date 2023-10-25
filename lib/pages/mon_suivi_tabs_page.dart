@@ -11,11 +11,10 @@ import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
+import 'package:pass_emploi_app/widgets/tab_level_container.dart';
 
 class MonSuiviTabPage extends StatefulWidget {
   final MonSuiviTab? initialTab;
@@ -42,21 +41,17 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
       tracking: AnalyticsScreenNames.monSuivi,
       child: StoreConnector<AppState, MonSuiviViewModel>(
         converter: (store) => MonSuiviViewModel.create(store, widget.initialTab),
-        builder: (context, viewModel) => _scaffold(viewModel),
+        builder: (context, viewModel) => _builder(viewModel),
         distinct: true,
       ),
     );
   }
 
-  Scaffold _scaffold(MonSuiviViewModel viewModel) {
+  Widget _builder(MonSuiviViewModel viewModel) {
     _initializeTabController(viewModel);
-    const backgroundColor = AppColors.grey100;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: PrimaryAppBar(title: Strings.monSuiviAppBarTitle, backgroundColor: backgroundColor),
-      body: SafeArea(
-        child: _getBody(viewModel),
-      ),
+    return TabLevelContainer(
+      title: Strings.monSuiviAppBarTitle,
+      body: _getBody(viewModel),
     );
   }
 

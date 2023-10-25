@@ -9,14 +9,12 @@ import 'package:pass_emploi_app/widgets/profile_button.dart';
 
 class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final Color? backgroundColor;
   final bool withProfileButton;
   final bool canPop;
 
   const PrimaryAppBar({
     super.key,
     required this.title,
-    this.backgroundColor,
     this.withProfileButton = true,
     this.canPop = false,
   });

@@ -18,22 +18,22 @@ class Log {
 
   /// Log a message at level [Level.debug].
   static void d(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _normalLogger.d(message, error, stackTrace);
+    _normalLogger.d(message, error: error, stackTrace: stackTrace);
   }
 
   /// Log a message at level [Level.info].
   static void i(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _normalLogger.i(message, error, stackTrace);
+    _normalLogger.i(message, error: error, stackTrace: stackTrace);
   }
 
   /// Log a message at level [Level.warning].
   static void w(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _exceptionLogger.w(message, error, stackTrace);
+    _exceptionLogger.w(message, error: error, stackTrace: stackTrace);
   }
 
   /// Log a message at level [Level.error].
   static void e(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    _exceptionLogger.e(message, error, stackTrace);
+    _exceptionLogger.e(message, error: error, stackTrace: stackTrace);
   }
 }
 

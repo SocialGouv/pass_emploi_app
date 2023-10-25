@@ -4,10 +4,9 @@ import 'package:pass_emploi_app/pages/boite_a_outils_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_home_page.dart';
 import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
+import 'package:pass_emploi_app/widgets/tab_level_container.dart';
 
 class SolutionsTabPage extends StatelessWidget {
   final SolutionsTab? initialTab;
@@ -32,13 +31,11 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = AppColors.grey100;
     return DefaultTabController(
       initialIndex: viewModel.tabs._index(initialTab),
       length: viewModel.tabs.length,
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: PrimaryAppBar(title: Strings.solutionsAppBarTitle, backgroundColor: backgroundColor),
+      child: TabLevelContainer(
+        title: Strings.solutionsAppBarTitle,
         body: Column(
           children: [
             PassEmploiTabBar(tabLabels: viewModel.tabs.titles()),

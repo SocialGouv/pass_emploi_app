@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_store.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -24,11 +22,8 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/network/interceptors/auth_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/demo_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/expired_token_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/logging_dio_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/pass_emploi_dio_builder.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
@@ -38,6 +33,7 @@ import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
+import 'package:pass_emploi_app/repositories/app_version_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
@@ -180,17 +176,16 @@ class AppInitializer {
     final modeDemoRepository = ModeDemoRepository();
     final installationIdRepository = InstallationIdRepository(securedPreferences);
     final baseUrl = configuration.serverBaseUrl;
-    final monitoringDioInterceptor = MonitoringDioInterceptor(installationIdRepository);
+    final monitoringDioInterceptor = MonitoringDioInterceptor(installationIdRepository, AppVersionRepository());
     _setTrustedCertificatesForOldDevices(configuration, crashlytics);
-    final dioClient = _makeDioClient(
-      baseUrl,
-      modeDemoRepository,
-      accessTokenRetriever,
-      requestCacheManager,
-      authAccessChecker,
-      monitoringDioInterceptor,
-      cacheStore,
-    );
+    final dioClient = PassEmploiDioBuilder(
+      baseUrl: baseUrl,
+      cacheStore: cacheStore,
+      modeDemoRepository: modeDemoRepository,
+      accessTokenRetriever: accessTokenRetriever,
+      authAccessChecker: authAccessChecker,
+      monitoringDioInterceptor: monitoringDioInterceptor,
+    ).build();
     logoutRepository.setHttpClient(dioClient);
     logoutRepository.setCacheManager(requestCacheManager);
     final chatCrypto = ChatCrypto();
@@ -267,32 +262,6 @@ class AppInitializer {
     chatCrypto.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
     return reduxStore;
-  }
-
-  Dio _makeDioClient(
-    String baseUrl,
-    ModeDemoRepository modeDemoRepository,
-    AuthAccessTokenRetriever accessTokenRetriever,
-    PassEmploiCacheManager requestCacheManager,
-    AuthAccessChecker authAccessChecker,
-    MonitoringDioInterceptor monitoringDioInterceptor,
-    CacheStore cacheStore,
-  ) {
-    final cacheOptions = CacheOptions(
-      store: cacheStore,
-      hitCacheOnErrorExcept: [401, 403, 404],
-      policy: CachePolicy.request,
-      keyBuilder: (request) => PassEmploiCacheManager.getCacheKey(request.uri.toString()),
-    );
-    final options = BaseOptions(baseUrl: baseUrl);
-    final dioClient = Dio(options);
-    dioClient.interceptors.add(DemoDioInterceptor(modeDemoRepository));
-    dioClient.interceptors.add(monitoringDioInterceptor);
-    dioClient.interceptors.add(AuthDioInterceptor(accessTokenRetriever));
-    dioClient.interceptors.add(DioCacheInterceptor(options: cacheOptions));
-    dioClient.interceptors.add(LoggingNetworkDioInterceptor());
-    dioClient.interceptors.add(ExpiredTokenDioInterceptor(authAccessChecker));
-    return dioClient;
   }
 
   /// MUST BE called to make http clients work on older Android devices.

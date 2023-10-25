@@ -9,13 +9,33 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class ConnectivityBandeau extends StatelessWidget {
+const double _bandeauHeight = 28;
+
+class ConnectivityContainer extends StatelessWidget {
+  final Widget child;
+
+  const ConnectivityContainer({super.key, required this.child});
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ConnectivityViewModel>(
       converter: (store) => ConnectivityViewModel.create(store),
-      builder: (context, viewModel) => viewModel.isConnected ? SizedBox.shrink() : _Bandeau(),
+      builder: _builder,
       distinct: true,
+    );
+  }
+
+  Widget _builder(BuildContext context, ConnectivityViewModel viewModel) {
+    final bool withBandeau = !viewModel.isConnected;
+    // Stack and padding are used rather than Column to avoid exception with scrollable child
+    return Stack(
+      children: [
+        if (withBandeau) _Bandeau(),
+        Padding(
+          padding: withBandeau ? const EdgeInsets.only(top: _bandeauHeight) : EdgeInsets.zero,
+          child: child,
+        ),
+      ],
     );
   }
 }
@@ -23,10 +43,10 @@ class ConnectivityBandeau extends StatelessWidget {
 class _Bandeau extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
+    return Container(
+      height: _bandeauHeight,
       color: AppColors.disabled,
-      child: Padding(
-        padding: const EdgeInsets.all(Margins.spacing_xs),
+      child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
