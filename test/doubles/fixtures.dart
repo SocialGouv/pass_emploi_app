@@ -193,6 +193,7 @@ Configuration configuration(
     'matomoBaseUrl',
     'matomoSiteId',
     'matomoDimensionProduitId',
+    'matomoDimensionAvecConnexionId',
     'authClientId',
     'authLoginRedirectUrl',
     'authLogoutRedirectUrl',
