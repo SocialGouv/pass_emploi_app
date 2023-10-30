@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
+import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
@@ -52,6 +53,7 @@ class DemarcheDetailPage extends StatelessWidget {
             builder: (context, viewModel) => _Body(viewModel, onDemarcheDone: () {
               conffetiController.play();
             }),
+            distinct: true,
           ),
         );
       }),
@@ -69,48 +71,55 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (viewModel.withDateDerniereMiseAJour != null)
-                  NotUpToDateMessage(message: viewModel.withDateDerniereMiseAJour!),
-                if (viewModel.label != null) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  _Categorie(viewModel.label!),
-                ],
-                if (viewModel.titreDetail != null) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  _Titre(viewModel.titreDetail!),
-                ],
-                if (viewModel.sousTitre != null) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  _SousTitre(viewModel.sousTitre!),
-                ],
-                SizedBox(height: Margins.spacing_base),
-                _DetailDemarcheTitle(),
-                if (viewModel.attributs.isNotEmpty) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  _Attributs(viewModel.attributs),
-                ],
-                SizedBox(height: Margins.spacing_base),
-                DateEcheanceInDetail(
-                  icons: viewModel.dateIcons,
-                  formattedTexts: viewModel.dateFormattedTexts,
-                  backgroundColor: viewModel.dateBackgroundColor,
-                  textColor: viewModel.dateTextColor,
+        Column(
+          children: [
+            if (viewModel.withOfflineBehavior) ConnectivityBandeau(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (viewModel.withDateDerniereMiseAJour != null)
+                        NotUpToDateMessage(message: viewModel.withDateDerniereMiseAJour!),
+                      if (viewModel.label != null) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _Categorie(viewModel.label!),
+                      ],
+                      if (viewModel.titreDetail != null) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _Titre(viewModel.titreDetail!),
+                      ],
+                      if (viewModel.sousTitre != null) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _SousTitre(viewModel.sousTitre!),
+                      ],
+                      SizedBox(height: Margins.spacing_base),
+                      _DetailDemarcheTitle(),
+                      if (viewModel.attributs.isNotEmpty) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _Attributs(viewModel.attributs),
+                      ],
+                      SizedBox(height: Margins.spacing_base),
+                      DateEcheanceInDetail(
+                        icons: viewModel.dateIcons,
+                        formattedTexts: viewModel.dateFormattedTexts,
+                        backgroundColor: viewModel.dateBackgroundColor,
+                        textColor: viewModel.dateTextColor,
+                      ),
+                      _StatusSelector(viewModel: viewModel, onDemarcheDone: onDemarcheDone),
+                      SizedBox(height: Margins.spacing_base),
+                      _HistoriqueTitle(),
+                      SizedBox(height: Margins.spacing_base),
+                      _Historique(viewModel),
+                      SizedBox(height: 40),
+                    ],
+                  ),
                 ),
-                _StatusSelector(viewModel: viewModel, onDemarcheDone: onDemarcheDone),
-                SizedBox(height: Margins.spacing_base),
-                _HistoriqueTitle(),
-                SizedBox(height: Margins.spacing_base),
-                _Historique(viewModel),
-                SizedBox(height: 40),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
         if (viewModel.updateDisplayState == DisplayState.LOADING) LoadingOverlay(),
       ],
@@ -121,6 +130,7 @@ class _Body extends StatelessWidget {
 class _StatusSelector extends StatelessWidget {
   final DemarcheDetailViewModel viewModel;
   final VoidCallback onDemarcheDone;
+
   const _StatusSelector({Key? key, required this.viewModel, required this.onDemarcheDone}) : super(key: key);
 
   @override
@@ -288,7 +298,7 @@ class _StatutItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isActive = viewModel.withDateDerniereMiseAJour == null;
+    final bool isActive = viewModel.withDateDerniereMiseAJour == null && !viewModel.withOfflineBehavior;
     return Opacity(
       opacity: isActive ? 1 : 0.5,
       child: ClipRRect(
@@ -296,13 +306,12 @@ class _StatutItem extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () {
-              if (isActive) viewModel.onModifyStatus(statut);
-              final status = getStatusFromTag(statut);
-              if (status == DemarcheStatus.DONE) {
-                onDemarcheDone();
-              }
-            },
+            onTap: isActive
+                ? () {
+                    viewModel.onModifyStatus(statut);
+                    if (getStatusFromTag(statut) == DemarcheStatus.DONE) onDemarcheDone();
+                  }
+                : null,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(40)),
