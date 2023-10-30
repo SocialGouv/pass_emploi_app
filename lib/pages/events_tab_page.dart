@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/pages/recherche/recherche_evenement_emploi_page.
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/connectivity_container.dart';
+import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 import 'package:redux/redux.dart';

@@ -1,18 +1,16 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class ConnectivityViewModel extends Equatable {
-  final bool isConnected;
+  final bool isOnline;
 
-  ConnectivityViewModel._(this.isConnected);
+  ConnectivityViewModel._(this.isOnline);
 
   factory ConnectivityViewModel.create(Store<AppState> store) {
-    final connectivityResult = store.state.connectivityState.result;
-    return ConnectivityViewModel._(connectivityResult != ConnectivityResult.none);
+    return ConnectivityViewModel._(store.state.connectivityState.isOnline());
   }
 
   @override
-  List<Object?> get props => [isConnected];
+  List<Object?> get props => [isOnline];
 }

@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/comment.dart';
 import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
+import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
@@ -82,6 +83,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if (viewModel.withOfflineBehavior) ConnectivityBandeau(),
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
@@ -114,11 +116,14 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                       SizedBox(height: Margins.spacing_xl),
                       _Separator(),
                       SizedBox(height: Margins.spacing_base),
-                      _CommentCard(actionId: viewModel.id, actionTitle: viewModel.title),
+                      if (viewModel.withOfflineBehavior)
+                        Text(Strings.commentsUnavailableOffline, style: TextStyles.textBaseRegular),
+                      if (!viewModel.withOfflineBehavior)
+                        _CommentCard(actionId: viewModel.id, actionTitle: viewModel.title),
                       SizedBox(height: Margins.spacing_l),
                       _Separator(),
                       SizedBox(height: Margins.spacing_base),
-                      _changeStatus(onActionDone),
+                      _changeStatus(onActionDone, viewModel.withOfflineBehavior),
                     ],
                   ),
                 ),
@@ -127,8 +132,9 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
             Padding(
               padding: const EdgeInsets.all(24),
               child: PrimaryActionButton(
-                onPressed:
-                    (viewModel.status != newStatus) ? () => viewModel.onRefreshStatus(viewModel.id, newStatus!) : null,
+                onPressed: (viewModel.status != newStatus && !viewModel.withOfflineBehavior)
+                    ? () => viewModel.onRefreshStatus(viewModel.id, newStatus!)
+                    : null,
                 label: Strings.refreshActionStatus,
               ),
             ),
@@ -175,7 +181,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
     }
   }
 
-  Widget _changeStatus(VoidCallback onActionDone) {
+  Widget _changeStatus(VoidCallback onActionDone, bool withOfflineBehavior) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -189,6 +195,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
           child: UserActionStatusGroup(
             status: newStatus!,
             onActionDone: onActionDone,
+            isEnabled: !withOfflineBehavior,
             update: (status) {
               setState(() {
                 newStatus = status;
@@ -323,7 +330,7 @@ class _DeleteAction extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryActionButton(
-            onPressed: () => onDeleteAction(viewModel),
+            onPressed: viewModel.withOfflineBehavior ? null : () => onDeleteAction(viewModel),
             label: Strings.deleteAction,
             textColor: AppColors.warning,
             fontSize: FontSizes.normal,

@@ -26,14 +26,14 @@ class ConnectivityContainer extends StatelessWidget {
   Widget _builder(BuildContext context, ConnectivityViewModel viewModel) {
     return Column(
       children: [
-        if (!viewModel.isConnected) _Bandeau(),
+        if (!viewModel.isOnline) ConnectivityBandeau(),
         Expanded(child: child),
       ],
     );
   }
 }
 
-class _Bandeau extends StatelessWidget {
+class ConnectivityBandeau extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(

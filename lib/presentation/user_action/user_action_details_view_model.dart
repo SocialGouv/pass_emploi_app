@@ -49,6 +49,7 @@ class UserActionDetailsViewModel extends Equatable {
   final String creator;
   final bool withDeleteOption;
   final UserActionDetailDateEcheanceViewModel? dateEcheanceViewModel;
+  final bool withOfflineBehavior;
   final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
   final Function(String actionId) onDelete;
   final Function() resetUpdateStatus;
@@ -64,6 +65,7 @@ class UserActionDetailsViewModel extends Equatable {
     required this.creator,
     required this.withDeleteOption,
     required this.dateEcheanceViewModel,
+    required this.withOfflineBehavior,
     required this.onRefreshStatus,
     required this.onDelete,
     required this.resetUpdateStatus,
@@ -86,6 +88,7 @@ class UserActionDetailsViewModel extends Equatable {
       creator: userAction != null ? _displayName(userAction.creator) : '',
       withDeleteOption: _withDeleteOption(userAction, hasComments),
       dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
+      withOfflineBehavior: store.state.connectivityState.isOffline(),
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
       resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
@@ -106,6 +109,7 @@ class UserActionDetailsViewModel extends Equatable {
         dateEcheanceViewModel,
         updateDisplayState,
         deleteDisplayState,
+        withOfflineBehavior,
       ];
 }
 

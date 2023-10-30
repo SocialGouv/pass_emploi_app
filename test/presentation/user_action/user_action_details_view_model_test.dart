@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
@@ -20,18 +21,18 @@ import '../../utils/expects.dart';
 void main() {
   test(
       "UserActionViewModel.create when creator is jeune and action has no comment should create view model properly and autorize delete",
-      () {
-    // Given
-    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
-    final store = givenState().withAction(action).actionWithoutComments().store();
+          () {
+        // Given
+        final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
+        final store = givenState().withAction(action).actionWithoutComments().store();
 
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+        // When
+        final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
-    // Then
-    expect(viewModel.creator, Strings.you);
-    expect(viewModel.withDeleteOption, isTrue);
-  });
+        // Then
+        expect(viewModel.creator, Strings.you);
+        expect(viewModel.withDeleteOption, isTrue);
+      });
 
   test("UserActionViewModel.create when status is done should not autorize delete", () {
     // Given
@@ -47,34 +48,34 @@ void main() {
 
   test(
       "UserActionViewModel.create when creator is jeune and action has comments should create view model properly and not autorize delete",
-      () {
-    // Given
-    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
-    final store = givenState().withAction(action).actionWithComments().store();
+          () {
+        // Given
+        final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
+        final store = givenState().withAction(action).actionWithComments().store();
 
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+        // When
+        final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
-    // Then
-    expect(viewModel.creator, Strings.you);
-    expect(viewModel.withDeleteOption, isFalse);
-  });
+        // Then
+        expect(viewModel.creator, Strings.you);
+        expect(viewModel.withDeleteOption, isFalse);
+      });
 
   test(
       "UserActionViewModel.create when creator is conseiller should create view model properly and not autorize delete",
-      () {
-    // Given
-    final store = givenState()
-        .withAction(mockUserAction(id: 'actionId', creator: ConseillerActionCreator(name: 'Nils Tavernier')))
-        .store();
+          () {
+        // Given
+        final store = givenState()
+            .withAction(mockUserAction(id: 'actionId', creator: ConseillerActionCreator(name: 'Nils Tavernier')))
+            .store();
 
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+        // When
+        final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
-    // Then
-    expect(viewModel.creator, 'Nils Tavernier');
-    expect(viewModel.withDeleteOption, isFalse);
-  });
+        // Then
+        expect(viewModel.creator, 'Nils Tavernier');
+        expect(viewModel.withDeleteOption, isFalse);
+      });
 
   group("create when update action...", () {
     test("set status to NOT_STARTED should dismiss bottom sheet", () {
@@ -225,6 +226,34 @@ void main() {
 
     // Then
     expect(viewModel.dateEcheanceViewModel, isNull);
+  });
+
+  test("UserActionViewModel.create when Connectivity is unavailable should set withOfflineBehavior to false", () {
+    // Given
+    final store = givenState()
+        .withAction(mockUserAction(id: 'actionId', status: UserActionStatus.CANCELED))
+        .withConnectivity(ConnectivityResult.wifi)
+        .store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.withOfflineBehavior, isFalse);
+  });
+
+  test("UserActionViewModel.create when Connectivity is not available should set withOfflineBehavior to true", () {
+    // Given
+    final store = givenState()
+        .withAction(mockUserAction(id: 'actionId', status: UserActionStatus.CANCELED))
+        .withConnectivity(ConnectivityResult.none)
+        .store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.withOfflineBehavior, isTrue);
   });
 
   test("UserActionViewModel.create when source is agenda should create view model properly", () {
