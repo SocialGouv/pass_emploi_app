@@ -78,12 +78,9 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     _chatHistoryAggregator.onNewMessageSent(message);
     _dispatchAllMessages(store);
     await Future.delayed(Duration(seconds: 1));
-    final sendMessageSuceed = await _repository.sendMessage(userId, messageText);
+    final sendMessageSuceed = await _repository.sendMessage(userId, messageText, messageId: message.id);
     if (!sendMessageSuceed) {
       _chatHistoryAggregator.onNewMessageSent(message.copyWith(status: MessageStatus.failed));
-      _dispatchAllMessages(store);
-    } else {
-      _chatHistoryAggregator.removeMessage(message.id);
       _dispatchAllMessages(store);
     }
   }

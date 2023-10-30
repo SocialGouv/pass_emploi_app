@@ -36,10 +36,6 @@ class ChatHistoryAggregator {
     _messages.sortFromOldestToNewest();
   }
 
-  void removeMessage(String messageId) {
-    _messages = _messages.where((element) => element.id != messageId).toList();
-  }
-
   /// Si on reçoit trop de nouveaux messages pendant que le stream est hors-connexion, on peut perdre des messages.
   bool _didNotLooseHistory(List<Message> newMessages) {
     if (messages.isEmpty) return true;
