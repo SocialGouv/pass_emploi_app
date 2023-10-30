@@ -46,11 +46,13 @@ void main() {
       chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
       chatState: ChatSuccessState(
         [
-          Message("uid1", '1', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.message, []),
-          Message("uid2", '2', DateTime(2021, 1, 1, 15, 30), Sender.conseiller, MessageType.message, []),
-          Message("uid3", '3', DateTime(2021, 1, 2, 16, 00), Sender.jeune, MessageType.message, []),
-          Message("uid4", '4', DateTime(2021, 1, 2, 18, 30), Sender.conseiller, MessageType.message, []),
-          Message("uid5", '5', todayAtNoon, Sender.jeune, MessageType.message, []),
+          Message("uid1", '1', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.message, MessageStatus.sent, []),
+          Message("uid2", '2', DateTime(2021, 1, 1, 15, 30), Sender.conseiller, MessageType.message, MessageStatus.sent,
+              []),
+          Message("uid3", '3', DateTime(2021, 1, 2, 16, 00), Sender.jeune, MessageType.message, MessageStatus.sent, []),
+          Message("uid4", '4', DateTime(2021, 1, 2, 18, 30), Sender.conseiller, MessageType.message, MessageStatus.sent,
+              []),
+          Message("uid5", '5', todayAtNoon, Sender.jeune, MessageType.message, MessageStatus.sent, []),
         ],
       ),
     );
@@ -107,6 +109,7 @@ void main() {
             todayAtNoon,
             Sender.conseiller,
             MessageType.messagePj,
+            MessageStatus.sent,
             [PieceJointe("id-1", "super.pdf")],
           ),
         ],
@@ -141,6 +144,7 @@ void main() {
           todayAtNoon,
           Sender.jeune,
           MessageType.offre,
+          MessageStatus.sent,
           [],
           Offre(
             "343",
@@ -179,6 +183,7 @@ void main() {
           todayAtNoon,
           Sender.conseiller,
           MessageType.offre,
+          MessageStatus.sent,
           [],
           Offre("343", "Chevalier", OffreType.emploi),
         )
@@ -215,6 +220,7 @@ void main() {
           todayAtNoon,
           Sender.jeune,
           MessageType.sessionMilo,
+          MessageStatus.sent,
           [],
           null,
           null,
@@ -252,6 +258,7 @@ void main() {
           todayAtNoon,
           Sender.conseiller,
           MessageType.sessionMilo,
+          MessageStatus.sent,
           [],
           null,
           null,
@@ -291,6 +298,7 @@ void main() {
           todayAtNoon,
           Sender.jeune,
           MessageType.event,
+          MessageStatus.sent,
           [],
           null,
           Event(
@@ -329,6 +337,7 @@ void main() {
           todayAtNoon,
           Sender.conseiller,
           MessageType.event,
+          MessageStatus.sent,
           [],
           null,
           Event(
@@ -369,6 +378,7 @@ void main() {
           todayAtNoon,
           Sender.jeune,
           MessageType.evenementEmploi,
+          MessageStatus.sent,
           [],
           null,
           null,
@@ -404,6 +414,7 @@ void main() {
           todayAtNoon,
           Sender.conseiller,
           MessageType.evenementEmploi,
+          MessageStatus.sent,
           [],
           null,
           null,
@@ -442,6 +453,7 @@ void main() {
             DateTime(2021, 1, 1, 12, 30),
             Sender.conseiller,
             MessageType.nouveauConseiller,
+            MessageStatus.sent,
             [],
           )
         ],
@@ -466,7 +478,7 @@ void main() {
       chatState: ChatSuccessState(
         [
           Message("uid", 'Jean', DateTime(2021, 1, 1, 12, 30), Sender.conseiller,
-              MessageType.nouveauConseillerTemporaire, [])
+              MessageType.nouveauConseillerTemporaire, MessageStatus.sent, [])
         ],
       ),
     );
@@ -488,7 +500,10 @@ void main() {
     // Given
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState(
-        [Message("uid", 'Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.inconnu, [])],
+        [
+          Message("uid", 'Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.inconnu,
+              MessageStatus.sent, [])
+        ],
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);
@@ -511,7 +526,7 @@ void main() {
     // Given
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState([
-        Message("uid", 'PJ', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.messagePj,
+        Message("uid", 'PJ', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.messagePj, MessageStatus.sent,
             [PieceJointe("1", "a.pdf")]),
       ]),
     );

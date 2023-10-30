@@ -33,6 +33,7 @@ void main() {
           DateTime(2021, 7, 30, 9, 43, 9),
           Sender.jeune,
           MessageType.message,
+          MessageStatus.sent,
           [],
         ));
   });
@@ -66,6 +67,7 @@ void main() {
           DateTime(2021, 7, 30, 9, 43, 9),
           Sender.jeune,
           MessageType.message,
+          MessageStatus.sent,
           [
             PieceJointe(
               "id-pj-343",
@@ -131,6 +133,7 @@ void main() {
               DateTime(2021, 7, 30, 9, 43, 9),
               Sender.jeune,
               MessageType.offre,
+              MessageStatus.sent,
               [],
               Offre(
                 "343",
@@ -182,6 +185,7 @@ void main() {
               DateTime(2021, 7, 30, 9, 43, 9),
               Sender.jeune,
               MessageType.event,
+              MessageStatus.sent,
               [],
               null,
               Event(
@@ -233,6 +237,7 @@ void main() {
             DateTime(2022, 7, 30, 9, 43, 9),
             Sender.jeune,
             MessageType.evenementEmploi,
+            MessageStatus.sent,
             [],
             null,
             null,

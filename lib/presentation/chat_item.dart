@@ -1,13 +1,15 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/message.dart';
 
 sealed class ChatItem extends Equatable {
   final String messageId;
+  final bool shouldAnimate;
 
-  ChatItem(this.messageId);
+  ChatItem(this.messageId, {this.shouldAnimate = false});
 
   @override
-  List<Object?> get props => [messageId];
+  List<Object?> get props => [messageId, shouldAnimate];
 }
 
 class DayItem extends ChatItem {
@@ -32,11 +34,20 @@ class InformationItem extends ChatItem {
 sealed class MessageItem extends ChatItem {
   final String content;
   final String caption;
+  final Color? captionColor;
+  @override
+  final bool shouldAnimate;
 
-  MessageItem(String messageId, this.content, this.caption) : super(messageId);
+  MessageItem(String messageId, this.content, this.caption, this.captionColor, this.shouldAnimate) : super(messageId);
 
   @override
-  List<Object?> get props => [messageId, content, caption];
+  List<Object?> get props => [
+        messageId,
+        content,
+        caption,
+        captionColor,
+        shouldAnimate,
+      ];
 }
 
 class TextMessageItem extends MessageItem {
@@ -46,11 +57,13 @@ class TextMessageItem extends MessageItem {
     required String messageId,
     required String content,
     required String caption,
+    Color? captionColor,
+    required bool shouldAnimate,
     required this.sender,
-  }) : super(messageId, content, caption);
+  }) : super(messageId, content, caption, captionColor, shouldAnimate);
 
   @override
-  List<Object?> get props => [messageId, content, caption, sender];
+  List<Object?> get props => [messageId, content, caption, captionColor, shouldAnimate, sender];
 }
 
 abstract class PartageMessageItem extends MessageItem {
@@ -58,10 +71,20 @@ abstract class PartageMessageItem extends MessageItem {
   final String titrePartage;
   final Sender sender;
 
-  PartageMessageItem(super.messageId, super.content, super.caption, this.idPartage, this.titrePartage, this.sender);
+  PartageMessageItem(
+    super.messageId,
+    super.content,
+    super.caption,
+    super.captionColor,
+    super.shouldAnimate,
+    this.idPartage,
+    this.titrePartage,
+    this.sender,
+  );
 
   @override
-  List<Object?> get props => [messageId, content, caption, idPartage, titrePartage, sender];
+  List<Object?> get props =>
+      [messageId, content, caption, captionColor, shouldAnimate, idPartage, titrePartage, sender];
 }
 
 class OffreMessageItem extends PartageMessageItem {
@@ -71,14 +94,17 @@ class OffreMessageItem extends PartageMessageItem {
     required String messageId,
     required String content,
     required String caption,
+    Color? captionColor,
+    required bool shouldAnimate,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
     required this.type,
-  }) : super(messageId, content, caption, idPartage, titrePartage, sender);
+  }) : super(messageId, content, caption, captionColor, shouldAnimate, idPartage, titrePartage, sender);
 
   @override
-  List<Object?> get props => [messageId, content, caption, sender, idPartage, titrePartage, type];
+  List<Object?> get props =>
+      [messageId, content, caption, captionColor, shouldAnimate, sender, idPartage, titrePartage, type];
 }
 
 class EventMessageItem extends PartageMessageItem {
@@ -86,13 +112,16 @@ class EventMessageItem extends PartageMessageItem {
     required String messageId,
     required String content,
     required String caption,
+    Color? captionColor,
+    required bool shouldAnimate,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
-  }) : super(messageId, content, caption, idPartage, titrePartage, sender);
+  }) : super(messageId, content, caption, captionColor, shouldAnimate, idPartage, titrePartage, sender);
 
   @override
-  List<Object?> get props => [messageId, content, caption, sender, idPartage, titrePartage];
+  List<Object?> get props =>
+      [messageId, content, caption, captionColor, shouldAnimate, sender, idPartage, titrePartage];
 }
 
 class EvenementEmploiMessageItem extends PartageMessageItem {
@@ -100,13 +129,16 @@ class EvenementEmploiMessageItem extends PartageMessageItem {
     required String messageId,
     required String content,
     required String caption,
+    Color? captionColor,
+    required bool shouldAnimate,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
-  }) : super(messageId, content, caption, idPartage, titrePartage, sender);
+  }) : super(messageId, content, caption, captionColor, shouldAnimate, idPartage, titrePartage, sender);
 
   @override
-  List<Object?> get props => [messageId, content, caption, sender, idPartage, titrePartage];
+  List<Object?> get props =>
+      [messageId, content, caption, captionColor, shouldAnimate, sender, idPartage, titrePartage];
 }
 
 class SessionMiloMessageItem extends PartageMessageItem {
@@ -114,13 +146,16 @@ class SessionMiloMessageItem extends PartageMessageItem {
     required String messageId,
     required String content,
     required String caption,
+    Color? captionColor,
+    required bool shouldAnimate,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
-  }) : super(messageId, content, caption, idPartage, titrePartage, sender);
+  }) : super(messageId, content, caption, captionColor, shouldAnimate, idPartage, titrePartage, sender);
 
   @override
-  List<Object?> get props => [messageId, content, caption, sender, idPartage, titrePartage];
+  List<Object?> get props =>
+      [messageId, content, caption, captionColor, shouldAnimate, sender, idPartage, titrePartage];
 }
 
 class PieceJointeConseillerMessageItem extends ChatItem {
@@ -128,6 +163,9 @@ class PieceJointeConseillerMessageItem extends ChatItem {
   final String message;
   final String filename;
   final String caption;
+  final Color? captionColor;
+  @override
+  final bool shouldAnimate;
 
   PieceJointeConseillerMessageItem({
     required String messageId,
@@ -135,8 +173,10 @@ class PieceJointeConseillerMessageItem extends ChatItem {
     required this.message,
     required this.filename,
     required this.caption,
+    this.captionColor,
+    required this.shouldAnimate,
   }) : super(messageId);
 
   @override
-  List<Object?> get props => [messageId, pieceJointeId, message, filename, caption];
+  List<Object?> get props => [messageId, pieceJointeId, message, filename, caption, captionColor, shouldAnimate];
 }

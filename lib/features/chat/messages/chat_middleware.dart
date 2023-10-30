@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:redux/redux.dart';
+import 'package:uuid/uuid.dart';
 
 class ChatMiddleware extends MiddlewareClass<AppState> {
   final ChatRepository _repository;
@@ -46,7 +47,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
         if (action is UnsubscribeFromChatAction) {
           _subscription?.cancel();
         } else if (action is SendMessageAction) {
-          _repository.sendMessage(userId, action.message);
+          _sendMessage(store, userId, action.message);
         } else if (action is ChatPartagerOffreAction) {
           _partagerOffre(store, userId, action.offre);
         } else if (action is ChatPartagerEventAction) {
@@ -61,6 +62,29 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _loadOldMessages(userId, store);
         }
       }
+    }
+  }
+
+  void _sendMessage(Store<AppState> store, String userId, String messageText) async {
+    final message = Message(
+      Uuid().v1(),
+      messageText,
+      DateTime.now(),
+      Sender.jeune,
+      MessageType.message,
+      MessageStatus.sending,
+      [],
+    );
+    _chatHistoryAggregator.onNewMessageSent(message);
+    _dispatchAllMessages(store);
+    await Future.delayed(Duration(seconds: 1));
+    final sendMessageSuceed = await _repository.sendMessage(userId, messageText);
+    if (!sendMessageSuceed) {
+      _chatHistoryAggregator.onNewMessageSent(message.copyWith(status: MessageStatus.failed));
+      _dispatchAllMessages(store);
+    } else {
+      _chatHistoryAggregator.removeMessage(message.id);
+      _dispatchAllMessages(store);
     }
   }
 

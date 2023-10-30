@@ -90,7 +90,7 @@ class ChatRepository {
     final messageCreationDate = FieldValue.serverTimestamp();
     final encryptedMessage = _chatCrypto.encrypt(message);
     final succeed = await FirebaseFirestore.instance.runTransaction((transaction) async {
-      final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
+      final newDocId = _chatCollection(chatDocumentId).collection('messages').doc();
       transaction
         ..set(newDocId, {
           'iv': encryptedMessage.base64InitializationVector,

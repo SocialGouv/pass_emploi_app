@@ -144,7 +144,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   itemBuilder: (context, index) {
                     final item = reversedList[index];
 
-                    if (index == 0 && _animateMessage) {
+                    if (index == 0 && _animateMessage && item.shouldAnimate) {
                       return ApparitionAnimation(
                         key: ValueKey(item.messageId),
                         child: SizedBox(

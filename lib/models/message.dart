@@ -21,6 +21,8 @@ enum MessageType {
 
 enum OffreType { emploi, alternance, immersion, civique, inconnu }
 
+enum MessageStatus { sent, sending, failed }
+
 class Message extends Equatable {
   final String id;
   final String content;
@@ -32,6 +34,7 @@ class Message extends Equatable {
   final Event? event;
   final ChatEvenementEmploi? evenementEmploi;
   final ChatSessionMilo? sessionMilo;
+  final MessageStatus status;
 
   Message(
     this.id,
@@ -39,12 +42,41 @@ class Message extends Equatable {
     this.creationDate,
     this.sentBy,
     this.type,
+    this.status,
     this.pieceJointes, [
     this.offre,
     this.event,
     this.evenementEmploi,
     this.sessionMilo,
   ]);
+
+  Message copyWith({
+    String? id,
+    String? content,
+    DateTime? creationDate,
+    Sender? sentBy,
+    MessageType? type,
+    List<PieceJointe>? pieceJointes,
+    Offre? offre,
+    Event? event,
+    ChatEvenementEmploi? evenementEmploi,
+    ChatSessionMilo? sessionMilo,
+    MessageStatus? status,
+  }) {
+    return Message(
+      id ?? this.id,
+      content ?? this.content,
+      creationDate ?? this.creationDate,
+      sentBy ?? this.sentBy,
+      type ?? this.type,
+      status ?? this.status,
+      pieceJointes ?? this.pieceJointes,
+      offre ?? this.offre,
+      event ?? this.event,
+      evenementEmploi ?? this.evenementEmploi,
+      sessionMilo ?? this.sessionMilo,
+    );
+  }
 
   static Message? fromJson(String id, dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
     final creationDateValue = json['creationDate'];
@@ -57,6 +89,7 @@ class Message extends Equatable {
       creationDate,
       json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
       _type(json),
+      MessageStatus.sent,
       _pieceJointes(json, chatCrypto, crashlytics),
       _offre(json),
       _event(json),

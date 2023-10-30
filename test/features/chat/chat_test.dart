@@ -1,4 +1,3 @@
-import 'package:redux/redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
@@ -18,6 +17,7 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:redux/redux.dart';
 
 import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
@@ -415,6 +415,7 @@ Message _mockMessage([String id = '1']) {
     DateTime.utc(2022, 1, 1),
     Sender.conseiller,
     MessageType.message,
+    MessageStatus.sent,
     [],
   );
 }
@@ -426,6 +427,7 @@ Message _message(int date) {
     DateTime.utc(date),
     Sender.conseiller,
     MessageType.message,
+    MessageStatus.sent,
     [],
   );
 }
