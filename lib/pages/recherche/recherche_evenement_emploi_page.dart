@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/evenement_emploi_card.dart';
+import 'package:pass_emploi_app/widgets/connectivity_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_evenement_emploi_contenu.dart';
 import 'package:redux/redux.dart';
@@ -25,11 +26,10 @@ class RechercheEvenementEmploiPage extends RechercheOffrePage<EvenementEmploi> {
   RechercheEvenementEmploiPage();
 
   static Widget withPrimaryAppBar() {
-    const backgroundColor = AppColors.grey100;
     return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: PrimaryAppBar(title: Strings.eventAppBarTitle, backgroundColor: backgroundColor),
-      body: RechercheEvenementEmploiPage(),
+      backgroundColor: AppColors.grey100,
+      appBar: PrimaryAppBar(title: Strings.eventAppBarTitle),
+      body: ConnectivityContainer(child: RechercheEvenementEmploiPage()),
     );
   }
 

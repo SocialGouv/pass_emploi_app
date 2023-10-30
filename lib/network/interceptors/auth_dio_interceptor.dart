@@ -9,7 +9,11 @@ class AuthDioInterceptor extends PassEmploiBaseDioInterceptor {
 
   @override
   void onPassEmploiRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    options.headers["Authorization"] = "Bearer ${await _accessTokenRetriever.accessToken()}";
-    handler.next(options);
+    try {
+      options.headers["Authorization"] = "Bearer ${await _accessTokenRetriever.accessToken()}";
+      handler.next(options);
+    } catch (error, stacktrace) {
+      handler.reject(DioException(requestOptions: options, error: error, stackTrace: stacktrace), true);
+    }
   }
 }

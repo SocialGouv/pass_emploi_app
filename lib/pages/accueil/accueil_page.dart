@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
+import 'package:pass_emploi_app/widgets/connectivity_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
@@ -34,10 +35,18 @@ class AccueilPage extends StatelessWidget {
       child: StoreConnector<AppState, AccueilViewModel>(
         onInit: (store) => store.dispatch(AccueilRequestAction()),
         converter: (store) => AccueilViewModel.create(store),
-        builder: (context, viewModel) => _scaffold(context, viewModel),
+        builder: _builder,
         onDidChange: (previousViewModel, viewModel) => _handleDeeplink(context, previousViewModel, viewModel),
         distinct: true,
       ),
+    );
+  }
+
+  Widget _builder(BuildContext context, AccueilViewModel viewModel) {
+    return Scaffold(
+      backgroundColor: AppColors.grey100,
+      appBar: PrimaryAppBar(title: Strings.accueilAppBarTitle),
+      body: ConnectivityContainer(child: _Body(viewModel)),
     );
   }
 
@@ -51,17 +60,6 @@ class AccueilPage extends StatelessWidget {
       return;
     }
     newViewModel.resetDeeplink();
-  }
-
-  Scaffold _scaffold(BuildContext context, AccueilViewModel viewModel) {
-    const backgroundColor = AppColors.grey100;
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: PrimaryAppBar(title: Strings.accueilAppBarTitle, backgroundColor: backgroundColor),
-      body: SafeArea(
-        child: _Body(viewModel),
-      ),
-    );
   }
 }
 

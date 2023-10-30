@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/pages/recherche/recherche_evenement_emploi_page.
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/connectivity_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 import 'package:redux/redux.dart';
@@ -33,22 +34,23 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = AppColors.grey100;
     return DefaultTabController(
       initialIndex: viewModel.tabs._index(initialTab),
       length: viewModel.tabs.length,
       child: Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: PrimaryAppBar(title: Strings.eventAppBarTitle, backgroundColor: backgroundColor),
-        body: Column(
-          children: [
-            PassEmploiTabBar(tabLabels: viewModel.tabs.titles()),
-            Expanded(
-              child: TabBarView(
-                children: viewModel.tabs._pages(),
+        backgroundColor: AppColors.grey100,
+        appBar: PrimaryAppBar(title: Strings.eventAppBarTitle),
+        body: ConnectivityContainer(
+          child: Column(
+            children: [
+              PassEmploiTabBar(tabLabels: viewModel.tabs.titles()),
+              Expanded(
+                child: TabBarView(
+                  children: viewModel.tabs._pages(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

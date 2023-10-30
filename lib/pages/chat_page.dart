@@ -21,7 +21,7 @@ import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_text_message.dart';
 import 'package:pass_emploi_app/widgets/chat/partage_message.dart';
-import 'package:pass_emploi_app/widgets/connectivity_bandeau.dart';
+import 'package:pass_emploi_app/widgets/connectivity_container.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
@@ -85,7 +85,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         },
         onDispose: (store) => _onDispose(store),
         converter: (store) => ChatPageViewModel.create(store),
-        builder: (context, viewModel) => _scaffold(viewModel, _body(context, viewModel)),
+        builder: (context, viewModel) => _builder(viewModel, _body(context, viewModel)),
         onDidChange: (previousVm, newVm) {
           StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction());
           _animateMessage = true;
@@ -101,16 +101,18 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
     if (_controller != null) store.dispatch(SaveChatBrouillonAction(_controller!.value.text));
   }
 
-  Widget _scaffold(ChatPageViewModel viewModel, Widget body) {
+  Widget _builder(ChatPageViewModel viewModel, Widget body) {
     return Scaffold(
+      backgroundColor: AppColors.grey100,
       appBar: PrimaryAppBar(title: Strings.menuChat),
-      body: Column(
-        children: [
-          SepLine(0, 0),
-          ConnectivityBandeau(),
-          Expanded(child: DefaultAnimatedSwitcher(child: body)),
-          PreviewFileInvisibleHandler(),
-        ],
+      body: ConnectivityContainer(
+        child: Column(
+          children: [
+            SepLine(0, 0),
+            Expanded(child: DefaultAnimatedSwitcher(child: body)),
+            PreviewFileInvisibleHandler(),
+          ],
+        ),
       ),
     );
   }

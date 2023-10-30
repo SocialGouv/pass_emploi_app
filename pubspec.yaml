@@ -38,7 +38,7 @@ dependencies:
   intl: "0.18.0"
   collection: "1.17.2"
   equatable: "2.0.3"
-  logger: "1.1.0"
+  logger: "2.0.2+1"
   uuid: "3.0.7"
   synchronized: "3.0.0+2"
   encrypt: "5.0.1"
@@ -65,6 +65,7 @@ dev_dependencies:
   dart_code_metrics: "5.7.4"
   mocktail: ^0.3.0
   flutter_native_splash: "2.2.18"
+  http_mock_adapter: "0.6.0"
 
 dependency_overrides:
   http: "1.1.0"
