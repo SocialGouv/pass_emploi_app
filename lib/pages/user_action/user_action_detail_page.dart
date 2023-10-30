@@ -116,8 +116,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                       SizedBox(height: Margins.spacing_xl),
                       _Separator(),
                       SizedBox(height: Margins.spacing_base),
-                      if (viewModel.withOfflineBehavior)
-                        Text(Strings.commentsUnavailableOffline, style: TextStyles.textBaseRegular),
+                      if (viewModel.withOfflineBehavior) _UnavailableCommentsOffline(),
                       if (!viewModel.withOfflineBehavior)
                         _CommentCard(actionId: viewModel.id, actionTitle: viewModel.title),
                       SizedBox(height: Margins.spacing_l),
@@ -404,6 +403,20 @@ class _CommentCard extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ActionCommentairesPage(actionId: actionId, actionTitle: actionTitle)),
+    );
+  }
+}
+
+class _UnavailableCommentsOffline extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(Strings.lastComment, style: TextStyles.textBaseBold),
+        SizedBox(height: Margins.spacing_base),
+        Text(Strings.commentsUnavailableOffline, style: TextStyles.textBaseRegular),
+      ],
     );
   }
 }
