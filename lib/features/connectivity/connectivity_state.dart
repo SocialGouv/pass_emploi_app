@@ -12,4 +12,8 @@ class ConnectivityState extends Equatable {
   factory ConnectivityState.notInitialized() => ConnectivityState._(ConnectivityResult.none);
 
   factory ConnectivityState.fromResult(ConnectivityResult result) => ConnectivityState._(result);
+
+  bool isOnline() => result != ConnectivityResult.none;
+
+  bool isOffline() => !isOnline();
 }

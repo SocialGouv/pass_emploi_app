@@ -20,6 +20,7 @@ import 'package:redux/redux.dart';
 class DemarcheDetailViewModel extends Equatable {
   final bool createdByAdvisor;
   final bool modifiedByAdvisor;
+  final bool withOfflineBehavior;
   final List<FormattedText> dateFormattedTexts;
   final Color dateTextColor;
   final Color dateBackgroundColor;
@@ -39,6 +40,7 @@ class DemarcheDetailViewModel extends Equatable {
   DemarcheDetailViewModel({
     required this.createdByAdvisor,
     required this.modifiedByAdvisor,
+    required this.withOfflineBehavior,
     required this.dateFormattedTexts,
     required this.dateTextColor,
     required this.dateBackgroundColor,
@@ -65,6 +67,7 @@ class DemarcheDetailViewModel extends Equatable {
     return DemarcheDetailViewModel(
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
+      withOfflineBehavior: store.state.connectivityState.isOffline(),
       dateFormattedTexts: _formattedDate(demarche),
       dateBackgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
       dateTextColor: isLate ? AppColors.warning : AppColors.accent2,
@@ -94,9 +97,11 @@ class DemarcheDetailViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         createdByAdvisor,
         modifiedByAdvisor,
+        withOfflineBehavior,
         dateFormattedTexts,
         dateFormattedTexts,
         dateBackgroundColor,

@@ -21,7 +21,7 @@ import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_text_message.dart';
 import 'package:pass_emploi_app/widgets/chat/partage_message.dart';
-import 'package:pass_emploi_app/widgets/connectivity_container.dart';
+import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';

@@ -6,8 +6,8 @@ import '../../dsl/app_state_dsl.dart';
 
 void main() {
   group('connectivity result should properly update display', () {
-    void assertConnectivity(ConnectivityResult result, bool expectedIsConnected) {
-      test("ConnectivityResult: $result > expectedIsConnected: $expectedIsConnected", () {
+    void assertConnectivity(ConnectivityResult result, bool expectedIsOnline) {
+      test("ConnectivityResult: $result > expectedIsOnline: $expectedIsOnline", () {
         // Given
         final store = givenState().withConnectivity(result).store();
 
@@ -15,13 +15,13 @@ void main() {
         final viewModel = ConnectivityViewModel.create(store);
 
         // Then
-        expect(viewModel.isConnected, expectedIsConnected);
+        expect(viewModel.isOnline, expectedIsOnline);
       });
     }
 
     for (var result in ConnectivityResult.values) {
-      final bool expectedIsConnected = result != ConnectivityResult.none;
-      assertConnectivity(result, expectedIsConnected);
+      final bool expectedIsOnline = result != ConnectivityResult.none;
+      assertConnectivity(result, expectedIsOnline);
     }
   });
 }

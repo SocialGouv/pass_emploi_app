@@ -378,6 +378,7 @@ class Strings {
   static String seeNComments(String n) => "Voir les $n commentaires";
   static String yourComment = "Votre commentaire...";
   static String sendCommentError = "Erreur lors de l'envoi du commentaire. Veuillez réessayer";
+  static String commentsUnavailableOffline = "Les commentaires de l'action ne sont pas disponibles hors connexion.";
 
   // Demarches
   static String demarchesError = "Erreur lors de la récupération de vos démarches";

@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
@@ -116,11 +117,11 @@ void main() {
       final demarche = mockDemarche(id: "8802034");
       final store = givenState()
           .copyWith(
-            demarcheListState: DemarcheListSuccessState(
-              [demarche],
-              DateTime(2023, 1, 1, 12, 30),
-            ),
-          )
+        demarcheListState: DemarcheListSuccessState(
+          [demarche],
+          DateTime(2023, 1, 1, 12, 30),
+        ),
+      )
           .store();
 
       // When
@@ -186,6 +187,36 @@ void main() {
       // Then
       expect(viewModel.updateDisplayState, DisplayState.FAILURE);
     });
+  });
+
+  test("DemarcheDetailViewModel.create when Connectivity is unavailable should set withOfflineBehavior to false", () {
+    // Given
+    final store = givenState()
+        .updateDemarcheSuccess()
+        .withDemarches(mockDemarches())
+        .withConnectivity(ConnectivityResult.wifi)
+        .store();
+
+    // When
+    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
+
+    // Then
+    expect(viewModel.withOfflineBehavior, isFalse);
+  });
+
+  test("DemarcheDetailViewModel.create when Connectivity is not available should set withOfflineBehavior to true", () {
+    // Given
+    final store = givenState()
+        .updateDemarcheSuccess()
+        .withDemarches(mockDemarches())
+        .withConnectivity(ConnectivityResult.none)
+        .store();
+
+    // When
+    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
+
+    // Then
+    expect(viewModel.withOfflineBehavior, isTrue);
   });
 
   test('onModifyStatus should dispatch UpdateDemarcheRequestAction', () {
