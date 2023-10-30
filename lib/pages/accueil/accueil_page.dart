@@ -19,11 +19,13 @@ import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
+import 'package:pass_emploi_app/widgets/connectivity_container.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
-import 'package:pass_emploi_app/widgets/tab_level_container.dart';
 
 class AccueilPage extends StatelessWidget {
   @override
@@ -33,10 +35,18 @@ class AccueilPage extends StatelessWidget {
       child: StoreConnector<AppState, AccueilViewModel>(
         onInit: (store) => store.dispatch(AccueilRequestAction()),
         converter: (store) => AccueilViewModel.create(store),
-        builder: (context, viewModel) => TabLevelContainer(body: _Body(viewModel), title: Strings.accueilAppBarTitle),
+        builder: _builder,
         onDidChange: (previousViewModel, viewModel) => _handleDeeplink(context, previousViewModel, viewModel),
         distinct: true,
       ),
+    );
+  }
+
+  Widget _builder(BuildContext context, AccueilViewModel viewModel) {
+    return Scaffold(
+      backgroundColor: AppColors.grey100,
+      appBar: PrimaryAppBar(title: Strings.accueilAppBarTitle),
+      body: ConnectivityContainer(child: _Body(viewModel)),
     );
   }
 

@@ -11,10 +11,12 @@ import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/connectivity_container.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
-import 'package:pass_emploi_app/widgets/tab_level_container.dart';
 
 class MonSuiviTabPage extends StatefulWidget {
   final MonSuiviTab? initialTab;
@@ -49,9 +51,10 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
 
   Widget _builder(MonSuiviViewModel viewModel) {
     _initializeTabController(viewModel);
-    return TabLevelContainer(
-      title: Strings.monSuiviAppBarTitle,
-      body: _getBody(viewModel),
+    return Scaffold(
+      backgroundColor: AppColors.grey100,
+      appBar: PrimaryAppBar(title: Strings.monSuiviAppBarTitle),
+      body: ConnectivityContainer(child: _getBody(viewModel)),
     );
   }
 

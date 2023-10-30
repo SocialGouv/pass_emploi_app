@@ -9,8 +9,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-const double _bandeauHeight = 28;
-
 class ConnectivityContainer extends StatelessWidget {
   final Widget child;
 
@@ -26,15 +24,10 @@ class ConnectivityContainer extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, ConnectivityViewModel viewModel) {
-    final bool withBandeau = !viewModel.isConnected;
-    // Stack and padding are used rather than Column to avoid exception with scrollable child
-    return Stack(
+    return Column(
       children: [
-        if (withBandeau) _Bandeau(),
-        Padding(
-          padding: withBandeau ? const EdgeInsets.only(top: _bandeauHeight) : EdgeInsets.zero,
-          child: child,
-        ),
+        if (!viewModel.isConnected) _Bandeau(),
+        Expanded(child: child),
       ],
     );
   }
@@ -43,10 +36,10 @@ class ConnectivityContainer extends StatelessWidget {
 class _Bandeau extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: _bandeauHeight,
+    return ColoredBox(
       color: AppColors.disabled,
-      child: Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
