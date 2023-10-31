@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:redux/redux.dart';
 
 import '../../dsl/app_state_dsl.dart';
@@ -46,11 +47,13 @@ void main() {
       chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
       chatState: ChatSuccessState(
         [
-          Message("uid1", '1', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.message, []),
-          Message("uid2", '2', DateTime(2021, 1, 1, 15, 30), Sender.conseiller, MessageType.message, []),
-          Message("uid3", '3', DateTime(2021, 1, 2, 16, 00), Sender.jeune, MessageType.message, []),
-          Message("uid4", '4', DateTime(2021, 1, 2, 18, 30), Sender.conseiller, MessageType.message, []),
-          Message("uid5", '5', todayAtNoon, Sender.jeune, MessageType.message, []),
+          Message("uid1", '1', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.message, MessageStatus.sent, []),
+          Message("uid2", '2', DateTime(2021, 1, 1, 15, 30), Sender.conseiller, MessageType.message, MessageStatus.sent,
+              []),
+          Message("uid3", '3', DateTime(2021, 1, 2, 16, 00), Sender.jeune, MessageType.message, MessageStatus.sent, []),
+          Message("uid4", '4', DateTime(2021, 1, 2, 18, 30), Sender.conseiller, MessageType.message, MessageStatus.sent,
+              []),
+          Message("uid5", '5', todayAtNoon, Sender.jeune, MessageType.message, MessageStatus.sent, []),
         ],
       ),
     );
@@ -107,6 +110,7 @@ void main() {
             todayAtNoon,
             Sender.conseiller,
             MessageType.messagePj,
+            MessageStatus.sent,
             [PieceJointe("id-1", "super.pdf")],
           ),
         ],
@@ -141,6 +145,7 @@ void main() {
           todayAtNoon,
           Sender.jeune,
           MessageType.offre,
+          MessageStatus.sent,
           [],
           Offre(
             "343",
@@ -179,6 +184,7 @@ void main() {
           todayAtNoon,
           Sender.conseiller,
           MessageType.offre,
+          MessageStatus.sent,
           [],
           Offre("343", "Chevalier", OffreType.emploi),
         )
@@ -215,6 +221,7 @@ void main() {
           todayAtNoon,
           Sender.jeune,
           MessageType.sessionMilo,
+          MessageStatus.sent,
           [],
           null,
           null,
@@ -252,6 +259,7 @@ void main() {
           todayAtNoon,
           Sender.conseiller,
           MessageType.sessionMilo,
+          MessageStatus.sent,
           [],
           null,
           null,
@@ -291,6 +299,7 @@ void main() {
           todayAtNoon,
           Sender.jeune,
           MessageType.event,
+          MessageStatus.sent,
           [],
           null,
           Event(
@@ -329,6 +338,7 @@ void main() {
           todayAtNoon,
           Sender.conseiller,
           MessageType.event,
+          MessageStatus.sent,
           [],
           null,
           Event(
@@ -369,6 +379,7 @@ void main() {
           todayAtNoon,
           Sender.jeune,
           MessageType.evenementEmploi,
+          MessageStatus.sent,
           [],
           null,
           null,
@@ -404,6 +415,7 @@ void main() {
           todayAtNoon,
           Sender.conseiller,
           MessageType.evenementEmploi,
+          MessageStatus.sent,
           [],
           null,
           null,
@@ -442,6 +454,7 @@ void main() {
             DateTime(2021, 1, 1, 12, 30),
             Sender.conseiller,
             MessageType.nouveauConseiller,
+            MessageStatus.sent,
             [],
           )
         ],
@@ -466,7 +479,7 @@ void main() {
       chatState: ChatSuccessState(
         [
           Message("uid", 'Jean', DateTime(2021, 1, 1, 12, 30), Sender.conseiller,
-              MessageType.nouveauConseillerTemporaire, [])
+              MessageType.nouveauConseillerTemporaire, MessageStatus.sent, [])
         ],
       ),
     );
@@ -488,7 +501,10 @@ void main() {
     // Given
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState(
-        [Message("uid", 'Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.inconnu, [])],
+        [
+          Message("uid", 'Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.inconnu,
+              MessageStatus.sent, [])
+        ],
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);
@@ -511,7 +527,7 @@ void main() {
     // Given
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState([
-        Message("uid", 'PJ', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.messagePj,
+        Message("uid", 'PJ', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.messagePj, MessageStatus.sent,
             [PieceJointe("1", "a.pdf")]),
       ]),
     );
@@ -530,4 +546,57 @@ void main() {
       ),
     ]);
   });
+
+  group('MessageStatus', () {
+    test('when status is sending should display sending captions', () {
+      // Given
+      final message = _messageWithStatus(MessageStatus.sending);
+      final state = AppState.initialState().copyWith(chatState: ChatSuccessState([message]));
+      final store = Store<AppState>(reducer, initialState: state);
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      final messageItem = viewModel.items[1] as TextMessageItem;
+      expect(messageItem.shouldAnimate, true);
+      expect(messageItem.caption.contains("Envoi en cours"), true);
+      expect(messageItem.captionColor, null);
+    });
+
+    test('when status is sent should display sent captions', () {
+      // Given
+      final message = _messageWithStatus(MessageStatus.sent);
+      final state = AppState.initialState().copyWith(chatState: ChatSuccessState([message]));
+      final store = Store<AppState>(reducer, initialState: state);
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      final messageItem = viewModel.items[1] as TextMessageItem;
+      expect(messageItem.shouldAnimate, false);
+      expect(messageItem.caption.contains("Envoyé"), true);
+      expect(messageItem.captionColor, null);
+    });
+
+    test('when status is failed should display failed captions', () {
+      // Given
+      final message = _messageWithStatus(MessageStatus.failed);
+      final state = AppState.initialState().copyWith(chatState: ChatSuccessState([message]));
+      final store = Store<AppState>(reducer, initialState: state);
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      final messageItem = viewModel.items[1] as TextMessageItem;
+      expect(messageItem.shouldAnimate, false);
+      expect(messageItem.caption.contains("L'envoi a échoué"), true);
+      expect(messageItem.captionColor, AppColors.warning);
+    });
+  });
 }
+
+Message _messageWithStatus(MessageStatus status) =>
+    Message("uid", '1', DateTime(2023, 10, 31), Sender.jeune, MessageType.message, status, []);

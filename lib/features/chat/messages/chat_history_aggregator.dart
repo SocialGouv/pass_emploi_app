@@ -28,6 +28,14 @@ class ChatHistoryAggregator {
     _historyEnded = oldMessages.length < numberOfHistoryMessageRequested;
   }
 
+  void addMessage(Message message) {
+    _messages = [
+      ..._messages.whereMessageIdNotIn([message]),
+      message,
+    ];
+    _messages.sortFromOldestToNewest();
+  }
+
   /// Si on reçoit trop de nouveaux messages pendant que le stream est hors-connexion, on peut perdre des messages.
   bool _didNotLooseHistory(List<Message> newMessages) {
     if (messages.isEmpty) return true;

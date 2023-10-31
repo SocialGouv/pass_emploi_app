@@ -1,13 +1,15 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/message.dart';
 
 sealed class ChatItem extends Equatable {
   final String messageId;
+  final bool shouldAnimate;
 
-  ChatItem(this.messageId);
+  ChatItem(this.messageId, {this.shouldAnimate = false});
 
   @override
-  List<Object?> get props => [messageId];
+  List<Object?> get props => [messageId, shouldAnimate];
 }
 
 class DayItem extends ChatItem {
@@ -32,11 +34,19 @@ class InformationItem extends ChatItem {
 sealed class MessageItem extends ChatItem {
   final String content;
   final String caption;
+  final Color? captionColor;
 
-  MessageItem(String messageId, this.content, this.caption) : super(messageId);
+  MessageItem(String messageId, bool shouldAnimate, this.content, this.caption, this.captionColor)
+      : super(messageId, shouldAnimate: shouldAnimate);
 
   @override
-  List<Object?> get props => [messageId, content, caption];
+  List<Object?> get props => [
+        messageId,
+        content,
+        caption,
+        captionColor,
+        shouldAnimate,
+      ];
 }
 
 class TextMessageItem extends MessageItem {
@@ -47,10 +57,12 @@ class TextMessageItem extends MessageItem {
     required String content,
     required String caption,
     required this.sender,
-  }) : super(messageId, content, caption);
+    Color? captionColor,
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate, content, caption, captionColor);
 
   @override
-  List<Object?> get props => [messageId, content, caption, sender];
+  List<Object?> get props => [messageId, content, caption, captionColor, shouldAnimate, sender];
 }
 
 abstract class PartageMessageItem extends MessageItem {
@@ -58,10 +70,20 @@ abstract class PartageMessageItem extends MessageItem {
   final String titrePartage;
   final Sender sender;
 
-  PartageMessageItem(super.messageId, super.content, super.caption, this.idPartage, this.titrePartage, this.sender);
+  PartageMessageItem(
+    super.messageId,
+    super.content,
+    super.caption,
+    super.captionColor,
+    super.shouldAnimate,
+    this.idPartage,
+    this.titrePartage,
+    this.sender,
+  );
 
   @override
-  List<Object?> get props => [messageId, content, caption, idPartage, titrePartage, sender];
+  List<Object?> get props =>
+      [messageId, content, caption, captionColor, shouldAnimate, idPartage, titrePartage, sender];
 }
 
 class OffreMessageItem extends PartageMessageItem {
@@ -75,10 +97,13 @@ class OffreMessageItem extends PartageMessageItem {
     required String idPartage,
     required String titrePartage,
     required this.type,
-  }) : super(messageId, content, caption, idPartage, titrePartage, sender);
+    Color? captionColor,
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
-  List<Object?> get props => [messageId, content, caption, sender, idPartage, titrePartage, type];
+  List<Object?> get props =>
+      [messageId, content, caption, captionColor, shouldAnimate, sender, idPartage, titrePartage, type];
 }
 
 class EventMessageItem extends PartageMessageItem {
@@ -89,10 +114,13 @@ class EventMessageItem extends PartageMessageItem {
     required Sender sender,
     required String idPartage,
     required String titrePartage,
-  }) : super(messageId, content, caption, idPartage, titrePartage, sender);
+    Color? captionColor,
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
-  List<Object?> get props => [messageId, content, caption, sender, idPartage, titrePartage];
+  List<Object?> get props =>
+      [messageId, content, caption, captionColor, shouldAnimate, sender, idPartage, titrePartage];
 }
 
 class EvenementEmploiMessageItem extends PartageMessageItem {
@@ -103,10 +131,13 @@ class EvenementEmploiMessageItem extends PartageMessageItem {
     required Sender sender,
     required String idPartage,
     required String titrePartage,
-  }) : super(messageId, content, caption, idPartage, titrePartage, sender);
+    Color? captionColor,
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
-  List<Object?> get props => [messageId, content, caption, sender, idPartage, titrePartage];
+  List<Object?> get props =>
+      [messageId, content, caption, captionColor, shouldAnimate, sender, idPartage, titrePartage];
 }
 
 class SessionMiloMessageItem extends PartageMessageItem {
@@ -117,10 +148,13 @@ class SessionMiloMessageItem extends PartageMessageItem {
     required Sender sender,
     required String idPartage,
     required String titrePartage,
-  }) : super(messageId, content, caption, idPartage, titrePartage, sender);
+    Color? captionColor,
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
-  List<Object?> get props => [messageId, content, caption, sender, idPartage, titrePartage];
+  List<Object?> get props =>
+      [messageId, content, caption, captionColor, shouldAnimate, sender, idPartage, titrePartage];
 }
 
 class PieceJointeConseillerMessageItem extends ChatItem {
@@ -128,6 +162,7 @@ class PieceJointeConseillerMessageItem extends ChatItem {
   final String message;
   final String filename;
   final String caption;
+  final Color? captionColor;
 
   PieceJointeConseillerMessageItem({
     required String messageId,
@@ -135,8 +170,10 @@ class PieceJointeConseillerMessageItem extends ChatItem {
     required this.message,
     required this.filename,
     required this.caption,
-  }) : super(messageId);
+    this.captionColor,
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate: shouldAnimate);
 
   @override
-  List<Object?> get props => [messageId, pieceJointeId, message, filename, caption];
+  List<Object?> get props => [messageId, pieceJointeId, message, filename, caption, captionColor, shouldAnimate];
 }

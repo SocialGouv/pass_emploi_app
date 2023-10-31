@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:redux/redux.dart';
 
 class ChatMiddleware extends MiddlewareClass<AppState> {
@@ -46,7 +47,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
         if (action is UnsubscribeFromChatAction) {
           _subscription?.cancel();
         } else if (action is SendMessageAction) {
-          _repository.sendMessage(userId, action.message);
+          _sendMessage(store, userId, action.message);
         } else if (action is ChatPartagerOffreAction) {
           _partagerOffre(store, userId, action.offre);
         } else if (action is ChatPartagerEventAction) {
@@ -61,6 +62,20 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _loadOldMessages(userId, store);
         }
       }
+    }
+  }
+
+  void _sendMessage(Store<AppState> store, String userId, String messageText) async {
+    final message = Message.fromText(messageText);
+    _addMessageToLocal(store, message);
+    // Delayed to show the sending message animation
+    Future.delayed(AnimationDurations.slow, () => _addMessageToRemote(store, userId, message));
+  }
+
+  Future<void> _addMessageToRemote(Store<AppState> store, String userId, Message message) async {
+    final sendMessageSuceed = await _repository.sendMessage(userId, message);
+    if (!sendMessageSuceed) {
+      _addMessageToLocal(store, message.copyWith(status: MessageStatus.failed));
     }
   }
 
@@ -140,6 +155,11 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
 
     final messages = await _repository.oldMessages(userId, oldestMessageDate);
     _chatHistoryAggregator.onOldMessages(messages, _repository.numberOfHistoryMessage);
+    _dispatchAllMessages(store);
+  }
+
+  void _addMessageToLocal(Store<AppState> store, Message message) {
+    _chatHistoryAggregator.addMessage(message);
     _dispatchAllMessages(store);
   }
 

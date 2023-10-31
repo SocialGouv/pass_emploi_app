@@ -31,6 +31,7 @@ class ChatPieceJointe extends StatelessWidget {
       ),
       isMyMessage: false,
       caption: item.caption,
+      captionColor: null,
     );
   }
 }

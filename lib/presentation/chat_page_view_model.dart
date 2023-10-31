@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
@@ -7,6 +8,7 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
@@ -87,6 +89,8 @@ ChatItem _sessionMiloItem(Message message, DateTime lastConseillerReading) {
     titrePartage: message.sessionMilo?.titre ?? "",
     sender: message.sentBy,
     caption: caption(message, lastConseillerReading),
+    captionColor: _captionColor(message),
+    shouldAnimate: _shouldAnimate(message),
   );
 }
 
@@ -98,6 +102,8 @@ ChatItem _evenementEmploiItem(Message message, DateTime lastConseillerReading) {
     titrePartage: message.evenementEmploi?.titre ?? "",
     sender: message.sentBy,
     caption: caption(message, lastConseillerReading),
+    captionColor: _captionColor(message),
+    shouldAnimate: _shouldAnimate(message),
   );
 }
 
@@ -110,6 +116,8 @@ ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
     type: message.offre?.type ?? OffreType.inconnu,
     sender: message.sentBy,
     caption: caption(message, lastConseillerReading),
+    captionColor: _captionColor(message),
+    shouldAnimate: _shouldAnimate(message),
   );
 }
 
@@ -121,6 +129,8 @@ ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
     titrePartage: message.event?.titre ?? "",
     sender: message.sentBy,
     caption: caption(message, lastConseillerReading),
+    captionColor: _captionColor(message),
+    shouldAnimate: _shouldAnimate(message),
   );
 }
 
@@ -132,17 +142,38 @@ ChatItem _pieceJointeItem(Message message) {
       message: message.content,
       filename: message.pieceJointes.first.nom,
       caption: message.creationDate.toHour(),
+      captionColor: _captionColor(message),
+      shouldAnimate: _shouldAnimate(message),
     );
   } else {
     return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
   }
 }
 
+Color? _captionColor(Message message) {
+  return switch (message.status) {
+    MessageStatus.sending => null,
+    MessageStatus.sent => null,
+    MessageStatus.failed => AppColors.warning,
+  };
+}
+
+bool _shouldAnimate(Message message) {
+  return switch (message.status) {
+    MessageStatus.sending => true,
+    _ => false,
+  };
+}
+
 String caption(Message message, DateTime lastConseillerReading) {
   final hourLabel = message.creationDate.toHour();
   if (message.sentBy == Sender.jeune) {
-    final redState = lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent;
-    return "$hourLabel · $redState";
+    final status = switch (message.status) {
+      MessageStatus.sending => Strings.sending,
+      MessageStatus.sent => lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent,
+      MessageStatus.failed => Strings.sendingFailed,
+    };
+    return "$hourLabel · $status";
   } else {
     return hourLabel;
   }
@@ -154,6 +185,8 @@ TextMessageItem _buildMessageItem(Message message, DateTime lastConseillerReadin
     content: message.content,
     caption: caption(message, lastConseillerReading),
     sender: message.sentBy,
+    captionColor: _captionColor(message),
+    shouldAnimate: _shouldAnimate(message),
   );
 }
 

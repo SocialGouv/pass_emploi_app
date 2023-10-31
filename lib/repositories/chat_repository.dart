@@ -82,6 +82,7 @@ class ChatRepository {
   Future<bool> _sendMessage({
     required String userId,
     required String message,
+    String? messageId,
     Map<String, dynamic> customPayload = const {},
   }) async {
     final chatDocumentId = await _getChatDocumentId(userId);
@@ -90,7 +91,7 @@ class ChatRepository {
     final messageCreationDate = FieldValue.serverTimestamp();
     final encryptedMessage = _chatCrypto.encrypt(message);
     final succeed = await FirebaseFirestore.instance.runTransaction((transaction) async {
-      final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
+      final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(messageId);
       transaction
         ..set(newDocId, {
           'iv': encryptedMessage.base64InitializationVector,
@@ -116,8 +117,8 @@ class ChatRepository {
     return succeed;
   }
 
-  Future<bool> sendMessage(String userId, String message) async {
-    return _sendMessage(userId: userId, message: message);
+  Future<bool> sendMessage(String userId, Message message) async {
+    return _sendMessage(userId: userId, message: message.content, messageId: message.id);
   }
 
   Future<bool> sendOffrePartagee(String userId, OffrePartagee offrePartagee) async {

@@ -22,6 +22,7 @@ class ChatTextMessage extends StatelessWidget {
       ),
       isMyMessage: isMyMessage,
       caption: item.caption,
+      captionColor: item.captionColor,
     );
   }
 }

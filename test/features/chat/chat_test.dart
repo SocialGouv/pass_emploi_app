@@ -1,4 +1,3 @@
-import 'package:redux/redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
@@ -18,6 +17,7 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:redux/redux.dart';
 
 import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
@@ -405,7 +405,52 @@ void main() {
         trackingEventRepository.verifyHasBeenCalled();
       });
     });
+
+    group('sendMessage', () {
+      final sut = StoreSut();
+      late _MockChatRepository mockChatRepository;
+
+      setUp(() {
+        mockChatRepository = _MockChatRepository();
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store(
+              (f) => {
+                f.chatRepository = mockChatRepository,
+              },
+            );
+      });
+
+      sut.when(() => SendMessageAction("message"));
+
+      setUpAll(() => registerFallbackValue(_mockMessage()));
+
+      test('should display a message when sending is in progress', () async {
+        // Given
+        mockChatRepository.onSendMessageSuccess();
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          _stateIsChatSuccessStateOfMessageStatus(MessageStatus.sending),
+        ]);
+      });
+
+      test('should display a message when sending failed', () async {
+        // Given
+        mockChatRepository.onSendMessageFailure();
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          _stateIsChatSuccessStateOfMessageStatus(MessageStatus.sending),
+          _stateIsChatSuccessStateOfMessageStatus(MessageStatus.failed),
+        ]);
+      });
+    });
   });
+}
+
+StateIs<ChatSuccessState> _stateIsChatSuccessStateOfMessageStatus(MessageStatus status) {
+  return StateIs<ChatSuccessState>((state) => state.chatState, (state) => expect(state.messages.last.status, status));
 }
 
 Message _mockMessage([String id = '1']) {
@@ -415,6 +460,7 @@ Message _mockMessage([String id = '1']) {
     DateTime.utc(2022, 1, 1),
     Sender.conseiller,
     MessageType.message,
+    MessageStatus.sent,
     [],
   );
 }
@@ -426,6 +472,7 @@ Message _message(int date) {
     DateTime.utc(date),
     Sender.conseiller,
     MessageType.message,
+    MessageStatus.sent,
     [],
   );
 }
@@ -477,5 +524,13 @@ class _MockChatRepository extends Mock implements ChatRepository {
 
   void onPartageSessionMiloFails(SessionMiloPartage sessionMiloPartage) {
     when(() => sendSessionMiloPartage(any(), sessionMiloPartage)).thenAnswer((_) async => false);
+  }
+
+  void onSendMessageSuccess() {
+    when(() => sendMessage(any(), any())).thenAnswer((_) async => true);
+  }
+
+  void onSendMessageFailure() {
+    when(() => sendMessage(any(), any())).thenAnswer((_) async => false);
   }
 }

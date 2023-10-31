@@ -4,9 +4,16 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class ChatMessageContainer extends StatelessWidget {
-  const ChatMessageContainer({super.key, required this.content, required this.caption, required this.isMyMessage});
+  const ChatMessageContainer({
+    super.key,
+    required this.content,
+    required this.caption,
+    required this.captionColor,
+    required this.isMyMessage,
+  });
   final Widget content;
   final String caption;
+  final Color? captionColor;
   final bool isMyMessage;
 
   @override
@@ -20,7 +27,7 @@ class ChatMessageContainer extends StatelessWidget {
             isMyMessage: isMyMessage,
             child: content,
           ),
-          _Caption(caption),
+          _Caption(caption, captionColor),
         ],
       ),
     );
@@ -51,8 +58,9 @@ class _ChatBubble extends StatelessWidget {
 
 class _Caption extends StatelessWidget {
   final String text;
+  final Color? color;
 
-  const _Caption(this.text) : super();
+  const _Caption(this.text, this.color) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +68,7 @@ class _Caption extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: Margins.spacing_xs),
-        Text(text, style: TextStyles.textXsRegular()),
+        Text(text, style: TextStyles.textXsRegular().copyWith(color: color)),
       ],
     );
   }
