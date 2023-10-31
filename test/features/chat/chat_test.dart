@@ -406,6 +406,10 @@ void main() {
       });
     });
   });
+
+  group('sendMessage', () {
+    // TODO:
+  });
 }
 
 Message _mockMessage([String id = '1']) {

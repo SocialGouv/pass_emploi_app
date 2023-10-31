@@ -35,10 +35,9 @@ sealed class MessageItem extends ChatItem {
   final String content;
   final String caption;
   final Color? captionColor;
-  @override
-  final bool shouldAnimate;
 
-  MessageItem(String messageId, this.content, this.caption, this.captionColor, this.shouldAnimate) : super(messageId);
+  MessageItem(String messageId, bool shouldAnimate, this.content, this.caption, this.captionColor)
+      : super(messageId, shouldAnimate: shouldAnimate);
 
   @override
   List<Object?> get props => [
@@ -60,7 +59,7 @@ class TextMessageItem extends MessageItem {
     Color? captionColor,
     bool shouldAnimate = false,
     required this.sender,
-  }) : super(messageId, content, caption, captionColor, shouldAnimate);
+  }) : super(messageId, shouldAnimate, content, caption, captionColor);
 
   @override
   List<Object?> get props => [messageId, content, caption, captionColor, shouldAnimate, sender];
@@ -100,7 +99,7 @@ class OffreMessageItem extends PartageMessageItem {
     required String idPartage,
     required String titrePartage,
     required this.type,
-  }) : super(messageId, content, caption, captionColor, shouldAnimate, idPartage, titrePartage, sender);
+  }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
   List<Object?> get props =>
@@ -117,7 +116,7 @@ class EventMessageItem extends PartageMessageItem {
     required Sender sender,
     required String idPartage,
     required String titrePartage,
-  }) : super(messageId, content, caption, captionColor, shouldAnimate, idPartage, titrePartage, sender);
+  }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
   List<Object?> get props =>
@@ -134,7 +133,7 @@ class EvenementEmploiMessageItem extends PartageMessageItem {
     required Sender sender,
     required String idPartage,
     required String titrePartage,
-  }) : super(messageId, content, caption, captionColor, shouldAnimate, idPartage, titrePartage, sender);
+  }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
   List<Object?> get props =>
@@ -151,7 +150,7 @@ class SessionMiloMessageItem extends PartageMessageItem {
     required Sender sender,
     required String idPartage,
     required String titrePartage,
-  }) : super(messageId, content, caption, captionColor, shouldAnimate, idPartage, titrePartage, sender);
+  }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
   List<Object?> get props =>
