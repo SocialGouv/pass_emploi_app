@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:redux/redux.dart';
 
 import '../../dsl/app_state_dsl.dart';
@@ -544,5 +545,58 @@ void main() {
         "Pour avoir l'accès au contenu veuillez mettre à jour l'application",
       ),
     ]);
+  });
+
+  group('MessageStatus', () {
+    test('when status is sending should display sending captions', () {
+      // Given
+      final message =
+          Message("uid", '1', DateTime(2023, 10, 31), Sender.jeune, MessageType.message, MessageStatus.sending, []);
+      final state = AppState.initialState().copyWith(chatState: ChatSuccessState([message]));
+      final store = Store<AppState>(reducer, initialState: state);
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      final messageItem = viewModel.items[1] as TextMessageItem;
+      expect(messageItem.shouldAnimate, true);
+      expect(messageItem.caption.contains("Envoi en cours"), true);
+      expect(messageItem.captionColor, null);
+    });
+
+    test('when status is sent should display sent captions', () {
+      // Given
+      final message =
+          Message("uid", '1', DateTime(2023, 10, 31), Sender.jeune, MessageType.message, MessageStatus.sent, []);
+      final state = AppState.initialState().copyWith(chatState: ChatSuccessState([message]));
+      final store = Store<AppState>(reducer, initialState: state);
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      final messageItem = viewModel.items[1] as TextMessageItem;
+      expect(messageItem.shouldAnimate, false);
+      expect(messageItem.caption.contains("Envoyé"), true);
+      expect(messageItem.captionColor, null);
+    });
+
+    test('when status is failed should display failed captions', () {
+      // Given
+      final message =
+          Message("uid", '1', DateTime(2023, 10, 31), Sender.jeune, MessageType.message, MessageStatus.failed, []);
+      final state = AppState.initialState().copyWith(chatState: ChatSuccessState([message]));
+      final store = Store<AppState>(reducer, initialState: state);
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      final messageItem = viewModel.items[1] as TextMessageItem;
+      expect(messageItem.shouldAnimate, false);
+      expect(messageItem.caption.contains("L'envoi a échoué"), true);
+      expect(messageItem.captionColor, AppColors.warning);
+    });
   });
 }

@@ -165,14 +165,13 @@ bool _shouldAnimate(Message message) {
   };
 }
 
-// TODO: Test me
 String caption(Message message, DateTime lastConseillerReading) {
   final hourLabel = message.creationDate.toHour();
   if (message.sentBy == Sender.jeune) {
     final status = switch (message.status) {
-      MessageStatus.sending => "Envoi en cours", // TODO: strings
+      MessageStatus.sending => Strings.sending,
       MessageStatus.sent => lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent,
-      MessageStatus.failed => "L'envoi a échoué", // TODO: strings
+      MessageStatus.failed => Strings.sendingFailed,
     };
     return "$hourLabel · $status";
   } else {
