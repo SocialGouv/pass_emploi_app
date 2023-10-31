@@ -408,18 +408,15 @@ void main() {
 
     group('sendMessage', () {
       final sut = StoreSut();
-      late _MockTrackingEventRepository trackingEventRepository;
       late _MockChatRepository mockChatRepository;
 
       setUp(() {
-        trackingEventRepository = _MockTrackingEventRepository();
         mockChatRepository = _MockChatRepository();
         sut.givenStore = givenState() //
             .loggedInUser()
             .store(
               (f) => {
                 f.chatRepository = mockChatRepository,
-                f.trackingEventRepository = trackingEventRepository,
               },
             );
       });
@@ -434,33 +431,26 @@ void main() {
 
         // When & Then
         sut.thenExpectChangingStatesThroughOrder([
-          _stateIsChatSuccessStateWithMessageSendingStatus(),
+          _stateIsChatSuccessStateOfMessageStatus(MessageStatus.sending),
         ]);
       });
 
-      test('should display a message when sending is in progress', () async {
+      test('should display a message when sending failed', () async {
         // Given
         mockChatRepository.onSendMessageFailure();
 
         // When & Then
         sut.thenExpectChangingStatesThroughOrder([
-          _stateIsChatSuccessStateWithMessageSendingStatus(),
-          _stateIsChatSuccessStateWithMessageFailedStatus(),
+          _stateIsChatSuccessStateOfMessageStatus(MessageStatus.sending),
+          _stateIsChatSuccessStateOfMessageStatus(MessageStatus.failed),
         ]);
       });
     });
   });
 }
 
-StateIs<ChatSuccessState> _stateIsChatSuccessStateWithMessageFailedStatus() {
-  return StateIs<ChatSuccessState>(
-      (state) => state.chatState, (state) => expect(state.messages.last.status, MessageStatus.failed));
-}
-
-StateIs<ChatSuccessState> _stateIsChatSuccessStateWithMessageSendingStatus() {
-  return StateIs<ChatSuccessState>((state) => state.chatState, (state) {
-    expect(state.messages.last.status, MessageStatus.sending);
-  });
+StateIs<ChatSuccessState> _stateIsChatSuccessStateOfMessageStatus(MessageStatus status) {
+  return StateIs<ChatSuccessState>((state) => state.chatState, (state) => expect(state.messages.last.status, status));
 }
 
 Message _mockMessage([String id = '1']) {

@@ -550,8 +550,7 @@ void main() {
   group('MessageStatus', () {
     test('when status is sending should display sending captions', () {
       // Given
-      final message =
-          Message("uid", '1', DateTime(2023, 10, 31), Sender.jeune, MessageType.message, MessageStatus.sending, []);
+      final message = _messageWithStatus(MessageStatus.sending);
       final state = AppState.initialState().copyWith(chatState: ChatSuccessState([message]));
       final store = Store<AppState>(reducer, initialState: state);
 
@@ -567,8 +566,7 @@ void main() {
 
     test('when status is sent should display sent captions', () {
       // Given
-      final message =
-          Message("uid", '1', DateTime(2023, 10, 31), Sender.jeune, MessageType.message, MessageStatus.sent, []);
+      final message = _messageWithStatus(MessageStatus.sent);
       final state = AppState.initialState().copyWith(chatState: ChatSuccessState([message]));
       final store = Store<AppState>(reducer, initialState: state);
 
@@ -584,8 +582,7 @@ void main() {
 
     test('when status is failed should display failed captions', () {
       // Given
-      final message =
-          Message("uid", '1', DateTime(2023, 10, 31), Sender.jeune, MessageType.message, MessageStatus.failed, []);
+      final message = _messageWithStatus(MessageStatus.failed);
       final state = AppState.initialState().copyWith(chatState: ChatSuccessState([message]));
       final store = Store<AppState>(reducer, initialState: state);
 
@@ -600,3 +597,6 @@ void main() {
     });
   });
 }
+
+Message _messageWithStatus(MessageStatus status) =>
+    Message("uid", '1', DateTime(2023, 10, 31), Sender.jeune, MessageType.message, status, []);

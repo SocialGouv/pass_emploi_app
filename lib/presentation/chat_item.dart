@@ -56,9 +56,9 @@ class TextMessageItem extends MessageItem {
     required String messageId,
     required String content,
     required String caption,
+    required this.sender,
     Color? captionColor,
     bool shouldAnimate = false,
-    required this.sender,
   }) : super(messageId, shouldAnimate, content, caption, captionColor);
 
   @override
@@ -93,12 +93,12 @@ class OffreMessageItem extends PartageMessageItem {
     required String messageId,
     required String content,
     required String caption,
-    Color? captionColor,
-    bool shouldAnimate = false,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
     required this.type,
+    Color? captionColor,
+    bool shouldAnimate = false,
   }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
@@ -111,11 +111,11 @@ class EventMessageItem extends PartageMessageItem {
     required String messageId,
     required String content,
     required String caption,
-    Color? captionColor,
-    bool shouldAnimate = false,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
+    Color? captionColor,
+    bool shouldAnimate = false,
   }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
@@ -128,11 +128,11 @@ class EvenementEmploiMessageItem extends PartageMessageItem {
     required String messageId,
     required String content,
     required String caption,
-    Color? captionColor,
-    bool shouldAnimate = false,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
+    Color? captionColor,
+    bool shouldAnimate = false,
   }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
@@ -145,11 +145,11 @@ class SessionMiloMessageItem extends PartageMessageItem {
     required String messageId,
     required String content,
     required String caption,
-    Color? captionColor,
-    bool shouldAnimate = false,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
+    Color? captionColor,
+    bool shouldAnimate = false,
   }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
 
   @override
