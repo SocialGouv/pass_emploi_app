@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
@@ -153,7 +154,7 @@ Color? _captionColor(Message message) {
   return switch (message.status) {
     MessageStatus.sending => null,
     MessageStatus.sent => null,
-    MessageStatus.failed => Colors.red
+    MessageStatus.failed => AppColors.warning,
   };
 }
 
@@ -164,6 +165,7 @@ bool _shouldAnimate(Message message) {
   };
 }
 
+// TODO: Test me
 String caption(Message message, DateTime lastConseillerReading) {
   final hourLabel = message.creationDate.toHour();
   if (message.sentBy == Sender.jeune) {

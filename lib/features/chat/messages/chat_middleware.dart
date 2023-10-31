@@ -159,7 +159,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _addMessageToLocal(Store<AppState> store, Message message) {
-    _chatHistoryAggregator.addMessageLocally(message);
+    _chatHistoryAggregator.addMessage(message);
     _dispatchAllMessages(store);
   }
 

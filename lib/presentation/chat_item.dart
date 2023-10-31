@@ -163,8 +163,6 @@ class PieceJointeConseillerMessageItem extends ChatItem {
   final String filename;
   final String caption;
   final Color? captionColor;
-  @override
-  final bool shouldAnimate;
 
   PieceJointeConseillerMessageItem({
     required String messageId,
@@ -173,8 +171,8 @@ class PieceJointeConseillerMessageItem extends ChatItem {
     required this.filename,
     required this.caption,
     this.captionColor,
-    this.shouldAnimate = false,
-  }) : super(messageId);
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate: shouldAnimate);
 
   @override
   List<Object?> get props => [messageId, pieceJointeId, message, filename, caption, captionColor, shouldAnimate];

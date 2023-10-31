@@ -51,10 +51,10 @@ class Message extends Equatable {
     this.sessionMilo,
   ]);
 
-  factory Message.fromText(String content) {
+  factory Message.fromText(String text) {
     return Message(
       Uuid().v1(),
-      content,
+      text,
       DateTime.now(),
       Sender.jeune,
       MessageType.message,
