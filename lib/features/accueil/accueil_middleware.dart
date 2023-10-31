@@ -50,7 +50,7 @@ class AccueilMiddleware extends MiddlewareClass<AppState> {
 
 bool _needFetchingAccueil(dynamic action) {
   return action is AccueilRequestAction ||
-      action is UserActionCreateSuccessAction ||
+      (action is UserActionCreateSuccessAction && !action.localCreationOnly) ||
       action is UserActionDeleteSuccessAction ||
       action is UserActionUpdateSuccessAction ||
       action is CreateDemarcheSuccessAction ||

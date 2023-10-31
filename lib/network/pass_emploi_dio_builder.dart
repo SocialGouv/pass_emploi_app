@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/network/interceptors/demo_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/expired_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/retry_interceptor.dart';
 
 class PassEmploiDioBuilder {
   final String baseUrl;
@@ -41,7 +42,8 @@ class PassEmploiDioBuilder {
       ..add(AuthInterceptor(accessTokenRetriever))
       ..add(DioCacheInterceptor(options: cacheOptions))
       ..add(LoggingNetworkInterceptor())
-      ..add(ExpiredTokenInterceptor(authAccessChecker));
+      ..add(ExpiredTokenInterceptor(authAccessChecker))
+      ..add(RetryInterceptor());
     return dioClient;
   }
 }

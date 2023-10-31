@@ -10,8 +10,9 @@ class UserActionCreateLoadingAction {}
 
 class UserActionCreateSuccessAction {
   final String userActionCreatedId;
+  final bool localCreationOnly;
 
-  UserActionCreateSuccessAction(this.userActionCreatedId);
+  UserActionCreateSuccessAction(this.userActionCreatedId, {this.localCreationOnly = false});
 }
 
 class UserActionCreateFailureAction {}

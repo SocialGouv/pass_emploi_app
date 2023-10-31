@@ -72,7 +72,7 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
 
 bool _shouldInvalidateAccueil(action) {
   return (action is AccueilRequestAction && action.forceRefresh) ||
-      action is UserActionCreateSuccessAction ||
+      (action is UserActionCreateSuccessAction && !action.localCreationOnly) ||
       action is UserActionDeleteSuccessAction ||
       action is UserActionUpdateSuccessAction ||
       action is CreateDemarcheSuccessAction ||
@@ -86,7 +86,7 @@ bool _shouldInvalidateAccueil(action) {
 
 bool _shouldInvalidateUserActionsList(action) {
   return (action is UserActionListRequestAction && action.forceRefresh) ||
-      action is UserActionCreateSuccessAction ||
+      (action is UserActionCreateSuccessAction && !action.localCreationOnly) ||
       action is UserActionDeleteSuccessAction ||
       action is UserActionUpdateSuccessAction;
 }
@@ -99,7 +99,7 @@ bool _shouldInvalidateDemarchesList(action) {
 
 bool _shouldInvalidateAgenda(action) {
   return (action is AgendaRequestReloadAction && action.forceRefresh) ||
-      action is UserActionCreateSuccessAction ||
+      (action is UserActionCreateSuccessAction && !action.localCreationOnly) ||
       action is UserActionDeleteSuccessAction ||
       action is UserActionUpdateSuccessAction ||
       action is CreateDemarcheSuccessAction ||

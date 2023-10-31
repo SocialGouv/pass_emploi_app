@@ -1,16 +1,18 @@
+import 'dart:convert';
+
 import 'package:clock/clock.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
+import 'package:uuid/uuid.dart';
 
 enum UserActionStatus { NOT_STARTED, IN_PROGRESS, CANCELED, DONE }
 
 extension UserActionStatusExtension on UserActionStatus {
-  bool isCanceledOrDone() {
-    return this == UserActionStatus.CANCELED || this == UserActionStatus.DONE;
-  }
+  bool isCanceledOrDone() => this == UserActionStatus.CANCELED || this == UserActionStatus.DONE;
 }
 
 class UserAction extends Equatable {
@@ -20,6 +22,7 @@ class UserAction extends Equatable {
   final UserActionStatus status;
   final DateTime dateEcheance;
   final UserActionCreator creator;
+  final bool rappel;
 
   UserAction({
     required this.id,
@@ -28,6 +31,7 @@ class UserAction extends Equatable {
     required this.status,
     required this.dateEcheance,
     required this.creator,
+    this.rappel = false,
   });
 
   factory UserAction.fromJson(dynamic json) {
@@ -38,6 +42,19 @@ class UserAction extends Equatable {
       status: _statusFromString(statusString: json['status'] as String),
       dateEcheance: (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
       creator: _creator(json),
+    );
+  }
+
+  factory UserAction.fromPostPayload(String postPayload) {
+    final json = jsonDecode(postPayload);
+    return UserAction(
+      id: Uuid().v4(),
+      content: json['content'] as String,
+      comment: json['comment'] as String,
+      status: _statusFromString(statusString: json['status'] as String),
+      dateEcheance: DateFormat("yyyy-MM-DDTHH:mm:ss").parseUtc((json['dateEcheance'] as String).split('+')[0]),
+      creator: JeuneActionCreator(),
+      rappel: json['rappel'] != null ? json['rappel'] as bool : false,
     );
   }
 

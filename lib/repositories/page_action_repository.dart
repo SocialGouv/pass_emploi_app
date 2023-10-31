@@ -7,7 +7,19 @@ import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_user_action_request.dart';
 import 'package:pass_emploi_app/network/put_user_action_request.dart';
 
-typedef UserActionId = String;
+sealed class UserActionCreation {
+  final String userActionId;
+
+  UserActionCreation(this.userActionId);
+}
+
+class LocalUserActionCreation extends UserActionCreation {
+  LocalUserActionCreation(String userActionId) : super(userActionId);
+}
+
+class RemoteUserActionCreation extends UserActionCreation {
+  RemoteUserActionCreation(String userActionId) : super(userActionId);
+}
 
 class PageActionRepository {
   final Dio _httpClient;
@@ -40,14 +52,16 @@ class PageActionRepository {
     return false;
   }
 
-  Future<UserActionId?> createUserAction(String userId, UserActionCreateRequest request) async {
+  Future<UserActionCreation?> createUserAction(String userId, UserActionCreateRequest request) async {
     final url = '/jeunes/$userId/action';
     try {
       final response = await _httpClient.post(
         url,
         data: customJsonEncode(PostUserActionRequest(request)),
       );
-      return response.data['id'] as String;
+      final userActionId = response.data['id'] as String;
+      final local = (response.data['local'] as bool?) ?? false;
+      return local ? LocalUserActionCreation(userActionId) : RemoteUserActionCreation(userActionId);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
