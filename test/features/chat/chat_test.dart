@@ -405,10 +405,61 @@ void main() {
         trackingEventRepository.verifyHasBeenCalled();
       });
     });
-  });
 
-  group('sendMessage', () {
-    // TODO:
+    group('sendMessage', () {
+      final sut = StoreSut();
+      late _MockTrackingEventRepository trackingEventRepository;
+      late _MockChatRepository mockChatRepository;
+
+      setUp(() {
+        trackingEventRepository = _MockTrackingEventRepository();
+        mockChatRepository = _MockChatRepository();
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store(
+              (f) => {
+                f.chatRepository = mockChatRepository,
+                f.trackingEventRepository = trackingEventRepository,
+              },
+            );
+      });
+
+      sut.when(() => SendMessageAction("message"));
+
+      setUpAll(() => registerFallbackValue(_mockMessage()));
+
+      test('should display a message when sending is in progress', () async {
+        // Given
+        mockChatRepository.onSendMessageSuccess();
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          _stateIsChatSuccessStateWithMessageSendingStatus(),
+        ]);
+      });
+
+      test('should display a message when sending is in progress', () async {
+        // Given
+        mockChatRepository.onSendMessageFailure();
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          _stateIsChatSuccessStateWithMessageSendingStatus(),
+          _stateIsChatSuccessStateWithMessageFailedStatus(),
+        ]);
+      });
+    });
+  });
+}
+
+StateIs<ChatSuccessState> _stateIsChatSuccessStateWithMessageFailedStatus() {
+  return StateIs<ChatSuccessState>(
+      (state) => state.chatState, (state) => expect(state.messages.last.status, MessageStatus.failed));
+}
+
+StateIs<ChatSuccessState> _stateIsChatSuccessStateWithMessageSendingStatus() {
+  return StateIs<ChatSuccessState>((state) => state.chatState, (state) {
+    expect(state.messages.last.status, MessageStatus.sending);
   });
 }
 
@@ -483,5 +534,13 @@ class _MockChatRepository extends Mock implements ChatRepository {
 
   void onPartageSessionMiloFails(SessionMiloPartage sessionMiloPartage) {
     when(() => sendSessionMiloPartage(any(), sessionMiloPartage)).thenAnswer((_) async => false);
+  }
+
+  void onSendMessageSuccess() {
+    when(() => sendMessage(any(), any())).thenAnswer((_) async => true);
+  }
+
+  void onSendMessageFailure() {
+    when(() => sendMessage(any(), any())).thenAnswer((_) async => false);
   }
 }
