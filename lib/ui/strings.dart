@@ -97,6 +97,8 @@ class Strings {
   static String today = "Aujourd'hui";
   static String read = "Lu";
   static String sent = "Envoyé";
+  static String sending = "Envoi en cours";
+  static String sendingFailed = "L'envoi a échoué";
   static String chatError = "Erreur lors de la récupération de votre messagerie";
   static String newConseillerTitle = "Vous échangez avec votre nouveau conseiller";
   static String newConseillerTemporaireTitle = "Vous échangez temporairement avec un nouveau conseiller";
