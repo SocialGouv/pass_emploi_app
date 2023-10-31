@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-abstract class PassEmploiBaseDioInterceptor extends Interceptor {
+abstract class PassEmploiBaseInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (options.isPassEmploiRequest()) {

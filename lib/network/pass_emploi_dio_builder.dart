@@ -4,11 +4,11 @@ import 'package:pass_emploi_app/auth/auth_access_checker.dart';
 import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/network/interceptors/auth_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/demo_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/expired_token_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/logging_dio_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/monitoring_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/auth_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/demo_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/expired_token_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
 
 class PassEmploiDioBuilder {
   final String baseUrl;
@@ -16,7 +16,7 @@ class PassEmploiDioBuilder {
   final ModeDemoRepository modeDemoRepository;
   final AuthAccessTokenRetriever accessTokenRetriever;
   final AuthAccessChecker authAccessChecker;
-  final MonitoringDioInterceptor monitoringDioInterceptor;
+  final MonitoringInterceptor monitoringInterceptor;
 
   PassEmploiDioBuilder({
     required this.baseUrl,
@@ -24,7 +24,7 @@ class PassEmploiDioBuilder {
     required this.modeDemoRepository,
     required this.accessTokenRetriever,
     required this.authAccessChecker,
-    required this.monitoringDioInterceptor,
+    required this.monitoringInterceptor,
   });
 
   Dio build() {
@@ -34,14 +34,14 @@ class PassEmploiDioBuilder {
       policy: CachePolicy.request,
       keyBuilder: (request) => PassEmploiCacheManager.getCacheKey(request.uri.toString()),
     );
-    final options = BaseOptions(baseUrl: baseUrl);
-    final dioClient = Dio(options);
-    dioClient.interceptors.add(DemoDioInterceptor(modeDemoRepository));
-    dioClient.interceptors.add(monitoringDioInterceptor);
-    dioClient.interceptors.add(AuthDioInterceptor(accessTokenRetriever));
-    dioClient.interceptors.add(DioCacheInterceptor(options: cacheOptions));
-    dioClient.interceptors.add(LoggingNetworkDioInterceptor());
-    dioClient.interceptors.add(ExpiredTokenDioInterceptor(authAccessChecker));
+    final dioClient = Dio(BaseOptions(baseUrl: baseUrl));
+    dioClient.interceptors
+      ..add(DemoInterceptor(modeDemoRepository))
+      ..add(monitoringInterceptor)
+      ..add(AuthInterceptor(accessTokenRetriever))
+      ..add(DioCacheInterceptor(options: cacheOptions))
+      ..add(LoggingNetworkInterceptor())
+      ..add(ExpiredTokenInterceptor(authAccessChecker));
     return dioClient;
   }
 }
