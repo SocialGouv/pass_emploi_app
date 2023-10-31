@@ -22,7 +22,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/network/interceptors/monitoring_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
 import 'package:pass_emploi_app/network/pass_emploi_dio_builder.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
@@ -176,7 +176,7 @@ class AppInitializer {
     final modeDemoRepository = ModeDemoRepository();
     final installationIdRepository = InstallationIdRepository(securedPreferences);
     final baseUrl = configuration.serverBaseUrl;
-    final monitoringDioInterceptor = MonitoringDioInterceptor(installationIdRepository, AppVersionRepository());
+    final monitoringInterceptor = MonitoringInterceptor(installationIdRepository, AppVersionRepository());
     _setTrustedCertificatesForOldDevices(configuration, crashlytics);
     final dioClient = PassEmploiDioBuilder(
       baseUrl: baseUrl,
@@ -184,7 +184,7 @@ class AppInitializer {
       modeDemoRepository: modeDemoRepository,
       accessTokenRetriever: accessTokenRetriever,
       authAccessChecker: authAccessChecker,
-      monitoringDioInterceptor: monitoringDioInterceptor,
+      monitoringInterceptor: monitoringInterceptor,
     ).build();
     logoutRepository.setHttpClient(dioClient);
     logoutRepository.setCacheManager(requestCacheManager);
@@ -258,7 +258,7 @@ class AppInitializer {
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
-    monitoringDioInterceptor.setStore(reduxStore);
+    monitoringInterceptor.setStore(reduxStore);
     chatCrypto.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
     return reduxStore;

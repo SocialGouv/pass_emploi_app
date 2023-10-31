@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
-class LoggingNetworkDioInterceptor extends Interceptor {
+class LoggingNetworkInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     Log.i("""Dio Request 

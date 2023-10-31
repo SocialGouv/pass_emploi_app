@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/auth/auth_access_checker.dart';
 import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/network/interceptors/monitoring_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
 import 'package:pass_emploi_app/network/pass_emploi_dio_builder.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/app_version_repository.dart';
@@ -23,7 +23,7 @@ void main() {
   late MockModeDemoRepository modeDemoRepository;
   late MockAuthAccessTokenRetriever accessTokenRetriever;
   late MockAuthAccessChecker authAccessChecker;
-  late MonitoringDioInterceptor monitoringDioInterceptor;
+  late MonitoringInterceptor monitoringInterceptor;
 
   setUp(() {
     TestWidgetsFlutterBinding.ensureInitialized();
@@ -31,14 +31,14 @@ void main() {
     modeDemoRepository = MockModeDemoRepository();
     accessTokenRetriever = MockAuthAccessTokenRetriever();
     authAccessChecker = MockAuthAccessChecker();
-    monitoringDioInterceptor = DummyMonitoringDioInterceptor();
+    monitoringInterceptor = DummyMonitoringInterceptor();
     dio = PassEmploiDioBuilder(
       baseUrl: "https://api.test.fr",
       cacheStore: cacheStore,
       modeDemoRepository: modeDemoRepository,
       accessTokenRetriever: accessTokenRetriever,
       authAccessChecker: authAccessChecker,
-      monitoringDioInterceptor: monitoringDioInterceptor,
+      monitoringInterceptor: monitoringInterceptor,
     ).build();
     DioAdapter(dio: dio).onGet(path, (server) => server.reply(200, responseData));
   });
@@ -119,8 +119,8 @@ class MockAuthAccessTokenRetriever extends Mock implements AuthAccessTokenRetrie
 
 class MockAuthAccessChecker extends Mock implements AuthAccessChecker {}
 
-class DummyMonitoringDioInterceptor extends MonitoringDioInterceptor {
-  DummyMonitoringDioInterceptor() : super(MockInstallationIdRepository(), MockAppVersionRepository()) {
+class DummyMonitoringInterceptor extends MonitoringInterceptor {
+  DummyMonitoringInterceptor() : super(MockInstallationIdRepository(), MockAppVersionRepository()) {
     setStore(DummyStore());
   }
 }
