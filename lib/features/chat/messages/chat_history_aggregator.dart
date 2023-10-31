@@ -28,7 +28,7 @@ class ChatHistoryAggregator {
     _historyEnded = oldMessages.length < numberOfHistoryMessageRequested;
   }
 
-  void onNewMessageSent(Message message) {
+  void addMessageLocally(Message message) {
     _messages = [
       ..._messages.whereMessageIdNotIn([message]),
       message,

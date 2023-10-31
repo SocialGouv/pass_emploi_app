@@ -58,7 +58,7 @@ class TextMessageItem extends MessageItem {
     required String content,
     required String caption,
     Color? captionColor,
-    required bool shouldAnimate,
+    bool shouldAnimate = false,
     required this.sender,
   }) : super(messageId, content, caption, captionColor, shouldAnimate);
 
@@ -95,7 +95,7 @@ class OffreMessageItem extends PartageMessageItem {
     required String content,
     required String caption,
     Color? captionColor,
-    required bool shouldAnimate,
+    bool shouldAnimate = false,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
@@ -113,7 +113,7 @@ class EventMessageItem extends PartageMessageItem {
     required String content,
     required String caption,
     Color? captionColor,
-    required bool shouldAnimate,
+    bool shouldAnimate = false,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
@@ -130,7 +130,7 @@ class EvenementEmploiMessageItem extends PartageMessageItem {
     required String content,
     required String caption,
     Color? captionColor,
-    required bool shouldAnimate,
+    bool shouldAnimate = false,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
@@ -147,7 +147,7 @@ class SessionMiloMessageItem extends PartageMessageItem {
     required String content,
     required String caption,
     Color? captionColor,
-    required bool shouldAnimate,
+    bool shouldAnimate = false,
     required Sender sender,
     required String idPartage,
     required String titrePartage,
@@ -174,7 +174,7 @@ class PieceJointeConseillerMessageItem extends ChatItem {
     required this.filename,
     required this.caption,
     this.captionColor,
-    required this.shouldAnimate,
+    this.shouldAnimate = false,
   }) : super(messageId);
 
   @override

@@ -17,8 +17,8 @@ import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:redux/redux.dart';
-import 'package:uuid/uuid.dart';
 
 class ChatMiddleware extends MiddlewareClass<AppState> {
   final ChatRepository _repository;
@@ -66,22 +66,16 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _sendMessage(Store<AppState> store, String userId, String messageText) async {
-    final message = Message(
-      Uuid().v1(),
-      messageText,
-      DateTime.now(),
-      Sender.jeune,
-      MessageType.message,
-      MessageStatus.sending,
-      [],
-    );
-    _chatHistoryAggregator.onNewMessageSent(message);
-    _dispatchAllMessages(store);
-    await Future.delayed(Duration(seconds: 1));
-    final sendMessageSuceed = await _repository.sendMessage(userId, messageText, messageId: message.id);
+    final message = Message.fromText(messageText);
+    _addMessageToLocal(store, message);
+    // Delayed to show the sending message animation
+    Future.delayed(AnimationDurations.slow, () => _addMessageToRemote(store, userId, message));
+  }
+
+  Future<void> _addMessageToRemote(Store<AppState> store, String userId, Message message) async {
+    final sendMessageSuceed = await _repository.sendMessage(userId, message);
     if (!sendMessageSuceed) {
-      _chatHistoryAggregator.onNewMessageSent(message.copyWith(status: MessageStatus.failed));
-      _dispatchAllMessages(store);
+      _addMessageToLocal(store, message.copyWith(status: MessageStatus.failed));
     }
   }
 
@@ -161,6 +155,11 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
 
     final messages = await _repository.oldMessages(userId, oldestMessageDate);
     _chatHistoryAggregator.onOldMessages(messages, _repository.numberOfHistoryMessage);
+    _dispatchAllMessages(store);
+  }
+
+  void _addMessageToLocal(Store<AppState> store, Message message) {
+    _chatHistoryAggregator.addMessageLocally(message);
     _dispatchAllMessages(store);
   }
 

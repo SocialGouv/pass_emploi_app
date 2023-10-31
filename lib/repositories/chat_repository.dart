@@ -117,8 +117,8 @@ class ChatRepository {
     return succeed;
   }
 
-  Future<bool> sendMessage(String userId, String message, {String? messageId}) async {
-    return _sendMessage(userId: userId, message: message, messageId: messageId);
+  Future<bool> sendMessage(String userId, Message message) async {
+    return _sendMessage(userId: userId, message: message.content, messageId: message.id);
   }
 
   Future<bool> sendOffrePartagee(String userId, OffrePartagee offrePartagee) async {

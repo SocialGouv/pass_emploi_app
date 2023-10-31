@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
+import 'package:uuid/uuid.dart';
 
 enum Sender { jeune, conseiller }
 
@@ -49,6 +50,18 @@ class Message extends Equatable {
     this.evenementEmploi,
     this.sessionMilo,
   ]);
+
+  factory Message.fromText(String content) {
+    return Message(
+      Uuid().v1(),
+      content,
+      DateTime.now(),
+      Sender.jeune,
+      MessageType.message,
+      MessageStatus.sending,
+      [],
+    );
+  }
 
   Message copyWith({
     String? id,
