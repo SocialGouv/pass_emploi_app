@@ -14,6 +14,10 @@ class UserActionCreateSuccessAction {
   UserActionCreateSuccessAction(this.userActionCreatedId);
 }
 
-class UserActionCreatePostponedAction {}
+class UserActionCreateFailureAction {
+  final UserActionCreateRequest request;
+
+  UserActionCreateFailureAction(this.request);
+}
 
 class UserActionCreateResetAction {}

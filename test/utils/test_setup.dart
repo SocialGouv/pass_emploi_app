@@ -36,7 +36,6 @@ import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
@@ -58,6 +57,8 @@ import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dar
 import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
@@ -70,12 +71,13 @@ import '../doubles/mocks.dart';
 class TestStoreFactory {
   final Configuration _configuration = configuration();
   Authenticator authenticator = DummyAuthenticator();
-  PageActionRepository pageActionRepository = DummyPageActionRepository();
+  UserActionRepository userActionRepository = DummyUserActionRepository();
+  UserActionPendingCreationRepository userActionPendingCreationRepository = MockUserActionPendingCreationRepository();
   PageDemarcheRepository pageDemarcheRepository = DummyPageDemarcheRepository();
   RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
   ChatRepository chatRepository = DummyChatRepository();
   PassEmploiCacheManager cacheManager = DummyPassEmploiCacheManager();
-  ConnectivityWrapper connectivityWrapper = DummyConnectivityWrapper();
+  ConnectivityWrapper connectivityWrapper = MockConnectivityWrapper();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
   OffreEmploiDetailsRepository detailedOfferRepository = DummyDetailedRepository();
   ConfigurationApplicationRepository registerTokenRepository = DummyRegisterTokenRepository();
@@ -128,6 +130,7 @@ class TestStoreFactory {
   EvenementEmploiDetailsRepository evenementEmploiDetailsRepository = DummyEvenementEmploiDetailsRepository();
   ThematiqueDemarcheRepository thematiquesDemarcheRepository = DummyThematiqueDemarcheRepository();
   TopDemarcheRepository topDemarcheRepository = DummyTopDemarcheRepository();
+
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -139,7 +142,8 @@ class TestStoreFactory {
       cryptoStorage,
       cacheManager,
       connectivityWrapper,
-      pageActionRepository,
+      userActionRepository,
+      userActionPendingCreationRepository,
       pageDemarcheRepository,
       rendezvousRepository,
       offreEmploiRepository,

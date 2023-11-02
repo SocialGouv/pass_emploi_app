@@ -13,7 +13,13 @@ class ConnectivityState extends Equatable {
 
   factory ConnectivityState.fromResult(ConnectivityResult result) => ConnectivityState._(result);
 
-  bool isOnline() => result != ConnectivityResult.none;
+  bool isOnline() => result.isOnline();
+
+  bool isOffline() => result.isOffline();
+}
+
+extension ConnectivityResultExtension on ConnectivityResult {
+  bool isOnline() => this != ConnectivityResult.none;
 
   bool isOffline() => !isOnline();
 }

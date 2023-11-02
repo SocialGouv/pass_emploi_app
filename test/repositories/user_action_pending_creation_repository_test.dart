@@ -29,6 +29,20 @@ void main() {
     expect(pendingCreations[1], request2);
   });
 
+  test('save should return pending action creations count updated', () async {
+    // Given
+    final request1 = dummyUserActionCreateRequest('request1');
+    final request2 = dummyUserActionCreateRequest('request2');
+
+    // When
+    final count1 = await repository.save(request1);
+    final count2 = await repository.save(request2);
+
+    // Then
+    expect(count1, 1);
+    expect(count2, 2);
+  });
+
   test('delete', () async {
     // Given
     final request1 = dummyUserActionCreateRequest('request1');

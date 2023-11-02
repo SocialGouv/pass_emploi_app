@@ -1164,7 +1164,7 @@ UserActionCreateRequest dummyUserActionCreateRequest([String content = "content"
   return UserActionCreateRequest(
     content,
     "comment",
-    DateTime.now(),
+    DateTime(2023),
     true,
     UserActionStatus.NOT_STARTED,
   );

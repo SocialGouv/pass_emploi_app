@@ -9,11 +9,11 @@ import 'package:pass_emploi_app/network/put_user_action_request.dart';
 
 typedef UserActionId = String;
 
-class PageActionRepository {
+class UserActionRepository {
   final Dio _httpClient;
   final Crashlytics? _crashlytics;
 
-  PageActionRepository(this._httpClient, [this._crashlytics]);
+  UserActionRepository(this._httpClient, [this._crashlytics]);
 
   Future<PageActions?> getPageActions(String userId) async {
     final url = '/jeunes/$userId/home/actions';

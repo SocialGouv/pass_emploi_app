@@ -54,7 +54,7 @@ void main() {
 
   test("create when state is failure should display an error", () {
     // Given
-    final state = AppState.initialState().copyWith(userActionCreateState: UserActionCreatePostponedState());
+    final state = AppState.initialState().copyWith(userActionCreateState: UserActionCreateFailureState());
     final store = Store<AppState>(reducer, initialState: state);
 
     // When

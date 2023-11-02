@@ -9,9 +9,10 @@ class UserActionPendingCreationRepository {
 
   UserActionPendingCreationRepository(this._preferences);
 
-  Future<void> save(UserActionCreateRequest request) async {
+  Future<int> save(UserActionCreateRequest request) async {
     final pendingCreations = await load();
     await _save([...pendingCreations, request]);
+    return pendingCreations.length + 1;
   }
 
   Future<List<UserActionCreateRequest>> load() async {

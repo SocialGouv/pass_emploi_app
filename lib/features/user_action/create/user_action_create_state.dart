@@ -10,4 +10,4 @@ class UserActionCreateSuccessState extends UserActionCreateState {
   UserActionCreateSuccessState(this.userActionCreatedId);
 }
 
-class UserActionCreatePostponedState extends UserActionCreateState {}
+class UserActionCreateFailureState extends UserActionCreateState {}

@@ -19,14 +19,14 @@ void main() {
       test("should display loading and success", () {
         sut.givenStore = givenState()
             .loggedInUser() //
-            .store((f) => {f.pageActionRepository = PageActionRepositorySuccessStub()});
+            .store((f) => {f.userActionRepository = PageActionRepositorySuccessStub()});
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldSucceedState()]);
       });
 
       test("should update list", () {
         sut.givenStore = givenState()
             .loggedInUser() //
-            .store((f) => {f.pageActionRepository = PageActionRepositorySuccessStub()});
+            .store((f) => {f.userActionRepository = PageActionRepositorySuccessStub()});
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadList(), _shouldUpdateList()]);
       });
     });
@@ -35,7 +35,7 @@ void main() {
       test("should display loading and failure", () {
         sut.givenStore = givenState()
             .loggedInUser() //
-            .store((f) => {f.pageActionRepository = PageActionRepositoryFailureStub()});
+            .store((f) => {f.userActionRepository = PageActionRepositoryFailureStub()});
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldFailState()]);
       });
     });
@@ -51,7 +51,7 @@ Matcher _shouldSucceedState() {
   );
 }
 
-Matcher _shouldFailState() => StateIs<UserActionCreatePostponedState>((state) => state.userActionCreateState);
+Matcher _shouldFailState() => StateIs<UserActionCreateFailureState>((state) => state.userActionCreateState);
 
 Matcher _shouldLoadList() => StateIs<UserActionListLoadingState>((state) => state.userActionListState);
 

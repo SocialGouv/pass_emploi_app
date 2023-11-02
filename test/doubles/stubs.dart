@@ -20,10 +20,10 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:synchronized/synchronized.dart';
 
 import 'dio_mock.dart';
@@ -32,7 +32,7 @@ import 'fixtures.dart';
 import 'mocks.dart';
 import 'spies.dart';
 
-class PageActionRepositorySuccessStub extends PageActionRepository {
+class PageActionRepositorySuccessStub extends UserActionRepository {
   var isActionUpdated = false;
 
   PageActionRepositorySuccessStub() : super(DioMock());
@@ -74,7 +74,7 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
   }
 }
 
-class PageActionRepositoryFailureStub extends PageActionRepository {
+class PageActionRepositoryFailureStub extends UserActionRepository {
   PageActionRepositoryFailureStub() : super(DioMock());
   var isActionUpdated = false;
 
