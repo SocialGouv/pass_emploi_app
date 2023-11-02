@@ -41,6 +41,7 @@ import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/requests/contact_immersion_request.dart';
+import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/saved_search/evenement_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -1156,5 +1157,15 @@ SessionMiloPartage dummySessionMiloPartage() {
     id: "id-1",
     titre: "titre",
     message: "message",
+  );
+}
+
+UserActionCreateRequest dummyUserActionCreateRequest([String content = "content"]) {
+  return UserActionCreateRequest(
+    content,
+    "comment",
+    DateTime.now(),
+    true,
+    UserActionStatus.NOT_STARTED,
   );
 }

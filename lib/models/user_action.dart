@@ -5,7 +5,21 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
-enum UserActionStatus { NOT_STARTED, IN_PROGRESS, CANCELED, DONE }
+enum UserActionStatus {
+  NOT_STARTED,
+  IN_PROGRESS,
+  CANCELED,
+  DONE;
+
+  static UserActionStatus fromString(String statusString) {
+    return switch (statusString) {
+      'IN_PROGRESS' => UserActionStatus.IN_PROGRESS,
+      'CANCELED' => UserActionStatus.CANCELED,
+      'DONE' => UserActionStatus.DONE,
+      _ => UserActionStatus.NOT_STARTED,
+    };
+  }
+}
 
 extension UserActionStatusExtension on UserActionStatus {
   bool isCanceledOrDone() {

@@ -1,4 +1,4 @@
-abstract class UserActionCreateState {}
+sealed class UserActionCreateState {}
 
 class UserActionCreateNotInitializedState extends UserActionCreateState {}
 
@@ -10,4 +10,4 @@ class UserActionCreateSuccessState extends UserActionCreateState {
   UserActionCreateSuccessState(this.userActionCreatedId);
 }
 
-class UserActionCreateFailureState extends UserActionCreateState {}
+class UserActionCreatePostponedState extends UserActionCreateState {}

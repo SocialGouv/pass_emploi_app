@@ -23,7 +23,7 @@ class UserActionCreateMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(UserActionListRequestAction());
         store.dispatch(AgendaRequestAction(DateTime.now()));
       } else {
-        store.dispatch(UserActionCreateFailureAction());
+        store.dispatch(UserActionCreatePostponedAction());
       }
     }
   }
