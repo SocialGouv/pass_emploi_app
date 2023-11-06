@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
@@ -9,21 +10,20 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_a
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
-import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
-import '../../utils/test_setup.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
   test('create when action state is loading should display loader', () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(userActionListState: UserActionListLoadingState()),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .copyWith(userActionListState: UserActionListLoadingState())
+        .store();
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
@@ -35,10 +35,10 @@ void main() {
 
   test('create when action state is not initialized should display loader', () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(userActionListState: UserActionListNotInitializedState()),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .copyWith(userActionListState: UserActionListNotInitializedState())
+        .store();
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
@@ -50,10 +50,10 @@ void main() {
 
   test('create when action state is a failure should display failure', () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(userActionListState: UserActionListFailureState()),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .copyWith(userActionListState: UserActionListFailureState())
+        .store();
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
@@ -83,24 +83,21 @@ void main() {
       "create when action state is success with active and done user_action should display them separated by done user_action title and campagne in first position",
       () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(
-        userActionListState: UserActionListSuccessState(
-          [
-            mockUserAction(id: 'DONE', status: UserActionStatus.DONE),
-            mockUserAction(id: 'CANCELED', status: UserActionStatus.CANCELED),
-            mockUserAction(id: 'IN_PROGRESS', status: UserActionStatus.IN_PROGRESS),
-            mockUserAction(id: 'DONE', status: UserActionStatus.DONE),
-            mockUserAction(id: 'NOT_STARTED', status: UserActionStatus.NOT_STARTED),
-            mockUserAction(id: 'IN_PROGRESS', status: UserActionStatus.IN_PROGRESS),
-            mockUserAction(id: 'NOT_STARTED', status: UserActionStatus.NOT_STARTED),
-            mockUserAction(id: 'DONE', status: UserActionStatus.DONE),
-            mockUserAction(id: 'IN_PROGRESS', status: UserActionStatus.IN_PROGRESS),
-          ],
-        ),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .withUserActions(
+      [
+        mockUserAction(id: 'DONE', status: UserActionStatus.DONE),
+        mockUserAction(id: 'CANCELED', status: UserActionStatus.CANCELED),
+        mockUserAction(id: 'IN_PROGRESS', status: UserActionStatus.IN_PROGRESS),
+        mockUserAction(id: 'DONE', status: UserActionStatus.DONE),
+        mockUserAction(id: 'NOT_STARTED', status: UserActionStatus.NOT_STARTED),
+        mockUserAction(id: 'IN_PROGRESS', status: UserActionStatus.IN_PROGRESS),
+        mockUserAction(id: 'NOT_STARTED', status: UserActionStatus.NOT_STARTED),
+        mockUserAction(id: 'DONE', status: UserActionStatus.DONE),
+        mockUserAction(id: 'IN_PROGRESS', status: UserActionStatus.IN_PROGRESS),
+      ],
+    ).store();
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
@@ -119,16 +116,11 @@ void main() {
     }
   });
 
-  test(
-      'create when action state is success but there are no user_action should display an empty message',
-      () {
+  test('create when action state is success but there are no user_action should display an empty message', () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(
-        userActionListState: UserActionListSuccessState([]),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .withUserActions([]).store();
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
@@ -142,20 +134,17 @@ void main() {
 
   test("create when action state is success with only active user_action should display them", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(
-        userActionListState: UserActionListSuccessState(
-          [
-            _userAction(status: UserActionStatus.IN_PROGRESS),
-            _userAction(status: UserActionStatus.NOT_STARTED),
-            _userAction(status: UserActionStatus.IN_PROGRESS),
-            _userAction(status: UserActionStatus.NOT_STARTED),
-            _userAction(status: UserActionStatus.IN_PROGRESS),
-          ],
-        ),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .withUserActions(
+      [
+        _userAction(status: UserActionStatus.IN_PROGRESS),
+        _userAction(status: UserActionStatus.NOT_STARTED),
+        _userAction(status: UserActionStatus.IN_PROGRESS),
+        _userAction(status: UserActionStatus.NOT_STARTED),
+        _userAction(status: UserActionStatus.IN_PROGRESS),
+      ],
+    ).store();
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
@@ -170,18 +159,15 @@ void main() {
   test("create when all user_action are done/canceled should set item count to user_action count + 1 to display title",
       () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: loggedInState().copyWith(
-        userActionListState: UserActionListSuccessState(
-          [
-            _userAction(status: UserActionStatus.DONE),
-            _userAction(status: UserActionStatus.DONE),
-            _userAction(status: UserActionStatus.CANCELED),
-          ],
-        ),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .withUserActions(
+      [
+        _userAction(status: UserActionStatus.DONE),
+        _userAction(status: UserActionStatus.DONE),
+        _userAction(status: UserActionStatus.CANCELED),
+      ],
+    ).store();
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
@@ -197,12 +183,11 @@ void main() {
 
   test('create when action state is success and coming from deeplink', () {
     // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(
-        deepLinkState: DetailActionDeepLinkState(idAction: 'id'),
-        userActionListState: UserActionListSuccessState([_userAction(status: UserActionStatus.NOT_STARTED)]),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .deepLink(DetailActionDeepLinkState(idAction: 'id'))
+        .withUserActions([_userAction(status: UserActionStatus.NOT_STARTED)]) //
+        .store();
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
@@ -211,14 +196,64 @@ void main() {
     expect(viewModel.deeplinkActionId, 'id');
   });
 
+  group('pendingCreationCount', () {
+    test('when action creation is not initialized should not display count', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser()
+          .copyWith(userActionCreatePendingState: UserActionCreatePendingNotInitializedState())
+          .withUserActions([]) //
+          .store();
+
+      // When
+      final viewModel = UserActionListPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.pendingCreationCount, null);
+      expect(viewModel.items, isEmpty);
+    });
+
+    test('when no action creation is pending should not display count', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser()
+          .copyWith(userActionCreatePendingState: UserActionCreatePendingSuccessState(0))
+          .withUserActions([]) //
+          .store();
+
+      // When
+      final viewModel = UserActionListPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.pendingCreationCount, null);
+      expect(viewModel.items, isEmpty);
+    });
+
+    test('when action creations are pending should display count', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser()
+          .copyWith(userActionCreatePendingState: UserActionCreatePendingSuccessState(2))
+          .withUserActions([]) //
+          .store();
+
+      // When
+      final viewModel = UserActionListPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.pendingCreationCount, 2);
+      expect(viewModel.items.first is PendingActionCreationItem, isTrue);
+      expect((viewModel.items.first as PendingActionCreationItem).pendingCreationsCount, 2);
+    });
+  });
+
   test('return isNull when action state is success and coming from deeplink but ID is not valid anymore', () {
     // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(
-        deepLinkState: DetailActionDeepLinkState(idAction: '1'),
-        userActionListState: UserActionListSuccessState([_userAction(status: UserActionStatus.NOT_STARTED)]),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser()
+        .deepLink(DetailActionDeepLinkState(idAction: '1'))
+        .withUserActions([_userAction(status: UserActionStatus.NOT_STARTED)]) //
+        .store();
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
@@ -263,7 +298,6 @@ void main() {
   test('onDeeplinkUsed should trigger ResetDeeplinkAction', () {
     // Given
     final store = StoreSpy();
-
     final viewModel = UserActionListPageViewModel.create(store);
 
     // When

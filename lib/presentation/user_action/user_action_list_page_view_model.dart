@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
@@ -21,6 +22,7 @@ class UserActionListPageViewModel extends Equatable {
   final Function() onCreateUserActionDismissed;
   final Function() onDeeplinkUsed;
   final String? deeplinkActionId;
+  final int? pendingCreationCount;
 
   UserActionListPageViewModel({
     required this.withLoading,
@@ -32,15 +34,18 @@ class UserActionListPageViewModel extends Equatable {
     required this.onCreateUserActionDismissed,
     required this.onDeeplinkUsed,
     required this.deeplinkActionId,
+    required this.pendingCreationCount,
   });
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
     final actionState = store.state.userActionListState;
+    final pendingCreationCount = _getPendingCreationCount(store);
     return UserActionListPageViewModel(
       withLoading: actionState is UserActionListLoadingState || actionState is UserActionListNotInitializedState,
       withFailure: actionState is UserActionListFailureState,
       withEmptyMessage: _isEmpty(store.state),
       items: _listItems(
+        pendingCreationCount: pendingCreationCount,
         activeItemIds: _activeActions(state: actionState),
         doneOrCanceledItemIds: _doneOrCanceledActions(state: actionState),
       ),
@@ -52,11 +57,12 @@ class UserActionListPageViewModel extends Equatable {
       onCreateUserActionDismissed: () => store.dispatch(UserActionCreateResetAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       deeplinkActionId: _deeplinkActionId(store.state.deepLinkState, actionState),
+      pendingCreationCount: pendingCreationCount,
     );
   }
 
   @override
-  List<Object?> get props => [withLoading, withFailure, withEmptyMessage, items];
+  List<Object?> get props => [withLoading, withFailure, withEmptyMessage, items, pendingCreationCount];
 }
 
 bool _isEmpty(AppState state) {
@@ -85,10 +91,12 @@ List<String> _doneOrCanceledActions({required UserActionListState state}) {
 }
 
 List<UserActionListPageItem> _listItems({
+  required int? pendingCreationCount,
   required List<String> activeItemIds,
   required List<String> doneOrCanceledItemIds,
 }) {
   return [
+    if (pendingCreationCount != null && pendingCreationCount > 0) PendingActionCreationItem(pendingCreationCount),
     ...activeItemIds.map((e) => IdItem(e)),
     if (doneOrCanceledItemIds.isNotEmpty) ...[
       SubtitleItem(Strings.doneActionsTitle),
@@ -103,7 +111,24 @@ String? _deeplinkActionId(DeepLinkState state, UserActionListState userActionLis
   return (state is DetailActionDeepLinkState && actionsIds.contains(state.idAction)) ? state.idAction : null;
 }
 
-abstract class UserActionListPageItem extends Equatable {}
+int? _getPendingCreationCount(Store<AppState> store) {
+  final pendingCreationState = store.state.userActionCreatePendingState;
+  if (pendingCreationState is UserActionCreatePendingSuccessState) {
+    return pendingCreationState.pendingCreationsCount != 0 ? pendingCreationState.pendingCreationsCount : null;
+  }
+  return null;
+}
+
+sealed class UserActionListPageItem extends Equatable {}
+
+class PendingActionCreationItem extends UserActionListPageItem {
+  final int pendingCreationsCount;
+
+  PendingActionCreationItem(this.pendingCreationsCount);
+
+  @override
+  List<Object?> get props => [pendingCreationsCount];
+}
 
 class SubtitleItem extends UserActionListPageItem {
   final String title;

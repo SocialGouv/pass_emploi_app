@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
+import 'package:pass_emploi_app/widgets/cards/user_actions_postponed_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
@@ -88,11 +89,14 @@ class _UserActionListPageState extends State<UserActionListPage> {
     if (viewModel.withLoading) return UserActionsLoading();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     if (viewModel.withEmptyMessage) {
+      final pendingCreations = viewModel.pendingCreationCount;
       return RefreshIndicatorAddingScrollview(
         onRefresh: () async => viewModel.onRetry(),
-        child: Empty(
-          title: Strings.noActionsYet,
-          subtitle: Strings.emptyContentSubtitle(Strings.action),
+        child: Column(
+          children: [
+            if (pendingCreations != null) UserActionsPostponedCard(userActionsPostponedCount: pendingCreations),
+            Expanded(child: Empty(title: Strings.noActionsYet, subtitle: Strings.emptyContentSubtitle(Strings.action))),
+          ],
         ),
       );
     }
@@ -114,25 +118,24 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
   Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
-    if (item is SubtitleItem) {
-      return Padding(
-        padding: const EdgeInsets.only(top: Margins.spacing_base),
-        child: Text(item.title, style: TextStyles.textMBold),
-      );
-    } else {
-      final actionId = (item as IdItem).userActionId;
-      return UserActionCard(
-        userActionId: actionId,
-        stateSource: UserActionStateSource.list,
-        onTap: () {
-          context.trackEvent(EventType.ACTION_DETAIL);
-          Navigator.push(
-            context,
-            UserActionDetailPage.materialPageRoute(actionId, UserActionStateSource.list),
-          );
-        },
-      );
-    }
+    return switch (item) {
+      PendingActionCreationItem() => UserActionsPostponedCard(userActionsPostponedCount: item.pendingCreationsCount),
+      SubtitleItem() => Padding(
+          padding: const EdgeInsets.only(top: Margins.spacing_base),
+          child: Text(item.title, style: TextStyles.textMBold),
+        ),
+      IdItem() => UserActionCard(
+          userActionId: item.userActionId,
+          stateSource: UserActionStateSource.list,
+          onTap: () {
+            context.trackEvent(EventType.ACTION_DETAIL);
+            Navigator.push(
+              context,
+              UserActionDetailPage.materialPageRoute(item.userActionId, UserActionStateSource.list),
+            );
+          },
+        ),
+    };
   }
 
   Widget _createUserActionButton(UserActionListPageViewModel viewModel) {
