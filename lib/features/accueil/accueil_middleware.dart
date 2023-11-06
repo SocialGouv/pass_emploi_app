@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dar
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
@@ -23,19 +24,18 @@ class AccueilMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
+    // Need to be done before the action is dispatched to the reducer
+    final int currentPendingActionsCount = store.state.userActionCreatePendingState.getPendingCreationsCount();
+
     next(action);
 
     final user = store.state.user();
     if (user == null) return;
 
-    if (_needFetchingAccueil(action)) {
+    if (_needFetchingAccueil(currentPendingActionsCount, action)) {
       store.dispatch(AccueilLoadingAction());
       final result = await getAccueil(user);
-      if (result != null) {
-        store.dispatch(AccueilSuccessAction(result));
-      } else {
-        store.dispatch(AccueilFailureAction());
-      }
+      store.dispatch(result != null ? AccueilSuccessAction(result) : AccueilFailureAction());
       store.dispatch(CampagneFetchedAction(result?.campagne));
     }
   }
@@ -48,7 +48,7 @@ class AccueilMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-bool _needFetchingAccueil(dynamic action) {
+bool _needFetchingAccueil(int currentPendingActionsCount, dynamic action) {
   return action is AccueilRequestAction ||
       action is UserActionCreateSuccessAction ||
       action is UserActionDeleteSuccessAction ||
@@ -59,5 +59,11 @@ bool _needFetchingAccueil(dynamic action) {
       action is SavedSearchCreateSuccessAction ||
       action is SavedSearchDeleteSuccessAction ||
       action is AccepterSuggestionRechercheSuccessAction ||
-      action is RefuserSuggestionRechercheSuccessAction;
+      action is RefuserSuggestionRechercheSuccessAction ||
+      _newUserActionsCreated(currentPendingActionsCount, action);
+}
+
+bool _newUserActionsCreated(int currentPendingActionsCount, dynamic action) {
+  if (action is! UserActionCreatePendingAction) return false;
+  return action.pendingCreationsCount < currentPendingActionsCount;
 }

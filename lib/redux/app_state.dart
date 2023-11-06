@@ -421,8 +421,7 @@ class AppState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         deepLinkState,
         userActionCreateState,
         userActionCreatePendingState,
