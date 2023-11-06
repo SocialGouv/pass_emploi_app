@@ -1,18 +1,18 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:pass_emploi_app/network/interceptors/pass_emploi_base_dio_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/pass_emploi_base_interceptor.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/app_version_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:redux/redux.dart';
 
-class MonitoringDioInterceptor extends PassEmploiBaseDioInterceptor {
+class MonitoringInterceptor extends PassEmploiBaseInterceptor {
   final InstallationIdRepository _installationIdRepository;
   final AppVersionRepository _appVersionRepository;
   late Store<AppState> _store;
 
-  MonitoringDioInterceptor(this._installationIdRepository, this._appVersionRepository);
+  MonitoringInterceptor(this._installationIdRepository, this._appVersionRepository);
 
   @override
   void onPassEmploiRequest(RequestOptions options, RequestInterceptorHandler handler) async {
