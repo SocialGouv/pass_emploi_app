@@ -41,6 +41,7 @@ import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
@@ -312,6 +313,10 @@ extension AppStateDSL on AppState {
 
   AppState withUserActions(List<UserAction> userActions) {
     return copyWith(userActionListState: UserActionListSuccessState(userActions));
+  }
+
+  AppState withPendingUserActions(int count) {
+    return copyWith(userActionCreatePendingState: UserActionCreatePendingSuccessState(count));
   }
 
   AppState withDemarches(List<Demarche> demarches) {

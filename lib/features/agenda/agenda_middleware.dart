@@ -23,7 +23,7 @@ class AgendaMiddleware extends MiddlewareClass<AppState> {
     if (user == null) return;
 
     if (_needFetchingAgenda(currentPendingActionsCount, action)) {
-      final maintenant = action.maintenant as DateTime;
+      final DateTime maintenant = _getMaintenant(action);
       final Agenda? agenda;
       if (user.loginMode.isPe()) {
         agenda = await _repository.getAgendaPoleEmploi(user.id, maintenant);
@@ -33,6 +33,12 @@ class AgendaMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(agenda != null ? AgendaRequestSuccessAction(agenda) : AgendaRequestFailureAction());
     }
   }
+}
+
+DateTime _getMaintenant(dynamic action) {
+  return (action is AgendaRequestAction || action is AgendaRequestReloadAction)
+      ? action.maintenant as DateTime
+      : DateTime.now();
 }
 
 bool _needFetchingAgenda(int currentPendingActionsCount, dynamic action) {

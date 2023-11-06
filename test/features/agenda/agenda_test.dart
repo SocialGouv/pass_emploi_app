@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 
@@ -53,6 +55,7 @@ void main() {
         });
       });
     });
+
     group('when reloading agenda', () {
       sut.when(() => AgendaRequestReloadAction(maintenant: DateTime(2022, 7, 7), forceRefresh: true));
 
@@ -70,6 +73,34 @@ void main() {
             .store((f) => {f.agendaRepository = AgendaRepositoryErrorStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldReload(), _shouldFail()]);
+      });
+    });
+
+    group("when user action have been created", () {
+      sut.when(() => UserActionCreateSuccessAction('USER-ACTION-ID'));
+
+      group("and request succeeds", () {
+        test("should display success", () {
+          sut.givenStore = givenState()
+              .loggedInUser() //
+              .withPendingUserActions(1)
+              .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
+          sut.thenExpectChangingStatesThroughOrder([_shouldSucceedForMissionLocaleUser()]);
+        });
+      });
+    });
+
+    group("when pending user actions have been created", () {
+      sut.when(() => UserActionCreatePendingAction(0));
+
+      group("and request succeeds", () {
+        test("should display success", () {
+          sut.givenStore = givenState()
+              .loggedInMiloUser() //
+              .withPendingUserActions(1)
+              .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
+          sut.thenExpectChangingStatesThroughOrder([_shouldSucceedForMissionLocaleUser()]);
+        });
       });
     });
   });

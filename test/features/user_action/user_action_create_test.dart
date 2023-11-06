@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
-import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
@@ -21,13 +20,6 @@ void main() {
             .loggedInUser() //
             .store((f) => {f.userActionRepository = PageActionRepositorySuccessStub()});
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldSucceedState()]);
-      });
-
-      test("should update list", () {
-        sut.givenStore = givenState()
-            .loggedInUser() //
-            .store((f) => {f.userActionRepository = PageActionRepositorySuccessStub()});
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoadList(), _shouldUpdateList()]);
       });
     });
 
@@ -52,12 +44,3 @@ Matcher _shouldSucceedState() {
 }
 
 Matcher _shouldFailState() => StateIs<UserActionCreateFailureState>((state) => state.userActionCreateState);
-
-Matcher _shouldLoadList() => StateIs<UserActionListLoadingState>((state) => state.userActionListState);
-
-Matcher _shouldUpdateList() {
-  return StateIs<UserActionListSuccessState>(
-    (state) => state.userActionListState,
-    (state) => expect(state.userActions, isNotEmpty),
-  );
-}
