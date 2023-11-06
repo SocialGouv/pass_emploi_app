@@ -346,7 +346,6 @@ class Strings {
   static String mandatoryDateEcheanceError = "La date d'échéance doit être renseignée";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
-  static String actionCreationError = "Erreur lors de la création de l'action. Veuillez réessayer";
   static String you = "Vous";
   static String congratulationsActionUpdated =
       "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte";
@@ -357,6 +356,8 @@ class Strings {
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
   static String createActionSuccess = "Votre action a bien été créée.";
+  static String createActionPostponed =
+      " Votre action a bien été créée. Le détail sera disponible au rétablissement du réseau.";
   static String createDemarcheSuccess = "La démarche a bien été créée";
   static String linkDetailsRendezVous = "Voir les détails du rendez-vous";
 

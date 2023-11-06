@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
@@ -87,8 +88,11 @@ class _Scaffold extends StatelessWidget {
               context,
               CreateUserActionBottomSheet.materialPageRoute(),
             ).then((value) {
-              if (value != null) {
-                _showUserActionSnackBarWithDetail(context, value);
+              if (value is DismissWithSuccess) {
+                _showUserActionSnackBarWithDetail(context, value.userActionCreatedId);
+                viewModel.resetCreateAction();
+              } else if (value is DismissWithFailure) {
+                showSuccessfulSnackBar(context, Strings.createActionPostponed);
                 viewModel.resetCreateAction();
               }
             }),

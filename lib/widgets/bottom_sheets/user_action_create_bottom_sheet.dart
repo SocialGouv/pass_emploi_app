@@ -19,7 +19,7 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 class CreateUserActionBottomSheet extends StatefulWidget {
-  static MaterialPageRoute<String?> materialPageRoute() {
+  static MaterialPageRoute<UserActionCreateDisplayState?> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateUserActionBottomSheet());
   }
 
@@ -42,12 +42,13 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 
   void _dismissBottomSheetIfNeeded(BuildContext context, UserActionCreateViewModel viewModel) {
     final displayState = viewModel.displayState;
-    if (displayState is Dismiss) Navigator.pop(context, displayState.userActionCreatedId);
+    if (displayState is DismissWithSuccess || displayState is DismissWithFailure) Navigator.pop(context, displayState);
   }
 }
 
 class _CreateActionForm extends StatefulWidget {
   final UserActionCreateViewModel viewModel;
+
   const _CreateActionForm(this.viewModel);
 
   @override
@@ -118,24 +119,13 @@ class __CreateActionFormState extends State<_CreateActionForm> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryActionButton(
             label: Strings.create,
             onPressed: _isNotLoading(viewModel) ? () => state.submitForm() : null,
           ),
-          if (viewModel.displayState is DisplayError)
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  Strings.actionCreationError,
-                  textAlign: TextAlign.center,
-                  style: TextStyles.textSRegular(color: AppColors.warning),
-                ),
-              ),
-            ),
         ],
       ),
     );
@@ -328,6 +318,7 @@ class ActionFormState extends ChangeNotifier {
   }
 
   bool isIntituleValid() => intitule.isNotEmpty;
+
   bool isDateEcheanceValid() => dateEcheance != null;
 
   bool isFormValid() => isIntituleValid() && isDateEcheanceValid();

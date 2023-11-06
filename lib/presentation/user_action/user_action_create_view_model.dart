@@ -5,19 +5,19 @@ import 'package:pass_emploi_app/models/requests/user_action_create_request.dart'
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-abstract class UserActionCreateDisplayState {}
+sealed class UserActionCreateDisplayState {}
 
 class DisplayContent extends UserActionCreateDisplayState {}
 
 class DisplayLoading extends UserActionCreateDisplayState {}
 
-class Dismiss extends UserActionCreateDisplayState {
+class DismissWithSuccess extends UserActionCreateDisplayState {
   final String userActionCreatedId;
 
-  Dismiss(this.userActionCreatedId);
+  DismissWithSuccess(this.userActionCreatedId);
 }
 
-class DisplayError extends UserActionCreateDisplayState {}
+class DismissWithFailure extends UserActionCreateDisplayState {}
 
 class UserActionCreateViewModel {
   final UserActionCreateDisplayState displayState;
@@ -38,8 +38,10 @@ class UserActionCreateViewModel {
 }
 
 UserActionCreateDisplayState _displayState(UserActionCreateState state) {
-  if (state is UserActionCreateNotInitializedState) return DisplayContent();
-  if (state is UserActionCreateLoadingState) return DisplayLoading();
-  if (state is UserActionCreateSuccessState) return Dismiss(state.userActionCreatedId);
-  return DisplayError();
+  return switch (state) {
+    UserActionCreateNotInitializedState() => DisplayContent(),
+    UserActionCreateLoadingState() => DisplayLoading(),
+    UserActionCreateSuccessState() => DismissWithSuccess(state.userActionCreatedId),
+    UserActionCreateFailureState() => DismissWithFailure(),
+  };
 }

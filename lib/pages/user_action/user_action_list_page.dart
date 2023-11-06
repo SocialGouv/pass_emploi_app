@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_actio
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_actions_loading.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -22,9 +23,9 @@ import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
+import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
-import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
 
 class UserActionListPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -143,9 +144,12 @@ class _UserActionListPageState extends State<UserActionListPage> {
         context,
         CreateUserActionBottomSheet.materialPageRoute(),
       ).then((value) {
-        if (value != null) {
-          _showSnackBarWithDetail(value);
-          _onCreateUserActionDismissed(viewModel);
+        if (value is DismissWithSuccess) {
+          _showSnackBarWithDetail(value.userActionCreatedId);
+          viewModel.onCreateUserActionDismissed();
+        } else if (value is DismissWithFailure) {
+          showSuccessfulSnackBar(context, Strings.createActionPostponed);
+          viewModel.onCreateUserActionDismissed();
         }
       }),
     );
@@ -167,9 +171,5 @@ class _UserActionListPageState extends State<UserActionListPage> {
         Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.list));
       },
     );
-  }
-
-  void _onCreateUserActionDismissed(UserActionListPageViewModel viewModel) {
-    viewModel.onCreateUserActionDismissed();
   }
 }
