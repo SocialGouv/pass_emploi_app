@@ -88,4 +88,11 @@ class MockCacheStore extends Mock implements CacheStore {}
 
 class MockConnectivityWrapper extends Mock implements ConnectivityWrapper {}
 
-class MockUserActionPendingCreationRepository extends Mock implements UserActionPendingCreationRepository {}
+class MockUserActionPendingCreationRepository extends Mock implements UserActionPendingCreationRepository {
+  MockUserActionPendingCreationRepository() {
+    registerFallbackValue(dummyUserActionCreateRequest());
+    when(() => getPendingActionCount()).thenAnswer((_) async => 0);
+    when(() => save(any())).thenAnswer((_) async => 0);
+    when(() => load()).thenAnswer((_) async => []);
+  }
+}
