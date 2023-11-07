@@ -76,19 +76,23 @@ class SavedSearchDeleteDialog extends StatelessWidget {
         children: [
           Column(
             children: [
+              SizedBox(height: Margins.spacing_m),
               SizedBox.square(
                 dimension: 120,
                 child: Illustration.red(AppIcons.delete),
               ),
               SizedBox(height: Margins.spacing_m),
-              Text(Strings.savedSearchDeleteMessage, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+              Text(Strings.savedSearchDeleteMessageTitle, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+              SizedBox(height: Margins.spacing_m),
+              Text(Strings.savedSearchDeleteMessageSubtitle,
+                  style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
               if (_isLoading(viewModel)) _loader(),
               if (viewModel.displayState == SavedSearchDeleteDisplayState.FAILURE) _error(),
             ],
           ),
           Positioned(
             top: 0,
-            left: 0,
+            right: 0,
             child: IconButton(
               icon: Icon(Icons.close, color: AppColors.nightBlue),
               onPressed: () => Navigator.pop(context),
@@ -102,6 +106,7 @@ class SavedSearchDeleteDialog extends StatelessWidget {
           fontSize: FontSizes.medium,
           onPressed: () => Navigator.pop(context),
         ),
+        SizedBox(width: Margins.spacing_s),
         PrimaryActionButton(
           label: Strings.suppressionLabel,
           onPressed: _isLoading(viewModel) ? null : () => viewModel.onDeleteConfirm(savedSearchId),
