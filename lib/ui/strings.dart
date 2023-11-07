@@ -70,6 +70,7 @@ class Strings {
   static String close = "Fermer";
   static String yes = "Oui";
   static String no = "Non";
+  static String or = "OU";
   static String ajouter = "Ajouter";
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
@@ -132,7 +133,8 @@ class Strings {
 
   // Entree
   static String askAccount = "Demander un compte";
-  static String suiviParConseiller = "Je suis suivi par un conseiller...";
+  static String suiviParConseiller =
+      "Dans le cadre de mon Contrat d'Engagement Jeune, je suis suivi par un conseiller :";
   static String dontHaveAccount = "Vous n’avez pas de compte sur cette application ?";
 
   // Choix organisme

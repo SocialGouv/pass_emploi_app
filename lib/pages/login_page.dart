@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -120,10 +121,14 @@ class LoginPage extends StatelessWidget {
   }
 
   List<Widget> _loginButtons(LoginViewModel viewModel, BuildContext context) {
-    final buttonsWithSpaces = viewModel.loginButtons.expand(
-      (e) => [
-        _loginButton(e, context),
+    final buttonsWithSpaces = viewModel.loginButtons.expandIndexed(
+      (index, vm) => [
+        _loginButton(vm, context),
         SizedBox(height: Margins.spacing_base),
+        if (index < viewModel.loginButtons.length - 1) ...[
+          OrSeperator(),
+          SizedBox(height: Margins.spacing_base),
+        ]
       ],
     );
     return buttonsWithSpaces.toList();
@@ -149,6 +154,24 @@ class LoginPage extends StatelessWidget {
     PassEmploiMatomoTracker.instance.trackEvent(
       eventCategory: AnalyticsEventNames.webAuthPageEventCategory,
       action: successful ? AnalyticsEventNames.webAuthPageSuccessAction : AnalyticsEventNames.webAuthPageErrorAction,
+    );
+  }
+}
+
+class OrSeperator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(width: Margins.spacing_l),
+        Expanded(child: Divider(color: AppColors.grey500)),
+        SizedBox(width: Margins.spacing_base),
+        Text(Strings.or, style: TextStyles.textBaseBold),
+        SizedBox(width: Margins.spacing_base),
+        Expanded(child: Divider(color: AppColors.grey500)),
+        SizedBox(width: Margins.spacing_l),
+      ],
     );
   }
 }
