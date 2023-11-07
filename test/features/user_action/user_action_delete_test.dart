@@ -14,7 +14,7 @@ void main() {
     // Given
     final actions = [mockNotStartedAction(actionId: "1"), mockNotStartedAction(actionId: "2")];
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
+    testStoreFactory.userActionRepository = PageActionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(
       initialState: givenState() //
           .loggedInUser() //
@@ -36,9 +36,9 @@ void main() {
   test("delete user action when repo succeeds should locally remove action from UserActionListState and AgendaState",
       () async {
     // Given
-    final actions = [mockNotStartedAction(actionId: "1"), mockNotStartedAction(actionId: "2")];
+        final actions = [mockNotStartedAction(actionId: "1"), mockNotStartedAction(actionId: "2")];
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
+    testStoreFactory.userActionRepository = PageActionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(
       initialState: givenState() //
           .loggedInUser() //
@@ -63,7 +63,7 @@ void main() {
   test("delete user action when repo fails should display loading and keep user action", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.pageActionRepository = PageActionRepositoryFailureStub();
+    testStoreFactory.userActionRepository = PageActionRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(
       initialState: givenState()
           .loggedInUser()

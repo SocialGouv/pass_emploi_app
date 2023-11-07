@@ -19,7 +19,7 @@ void main() {
     final repository = MockOffreEmploiDetailsRepository();
 
     group('when requesting', () {
-      sut.when(() => OffreEmploiDetailsRequestAction("id"));
+      sut.whenDispatchingAction(() => OffreEmploiDetailsRequestAction("id"));
 
       test('should load then succeed when request succeed', () {
         when(() => repository.getOffreEmploiDetails(offreId: 'id')).thenAnswer((_) async {

@@ -156,7 +156,7 @@ void main() {
 
   group("when user request a specific saved search", () {
     final sut = StoreSut();
-    sut.when(() => FetchSavedSearchResultsFromIdAction('id'));
+    sut.whenDispatchingAction(() => FetchSavedSearchResultsFromIdAction('id'));
 
     test('should retrieve results coming from same criteres and filtres', () {
       sut.givenStore = givenState().loggedInUser().store((factory) {

@@ -15,7 +15,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting", () {
-      sut.when(() => CvRequestAction());
+      sut.whenDispatchingAction(() => CvRequestAction());
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState() //
@@ -36,7 +36,7 @@ void main() {
 
     group("when downloading", () {
       final cv = mockCvPoleEmploi();
-      sut.when(() => CvDownloadRequestAction(cv));
+      sut.whenDispatchingAction(() => CvDownloadRequestAction(cv));
 
       test('status should load then succeed when request succeed', () {
         sut.givenStore = givenState() //

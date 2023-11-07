@@ -17,7 +17,7 @@ void main() {
     final store = givenState()
         .loggedInMiloUser()
         .withAction(mockUserAction(id: "3"))
-        .store((factory) => {factory.pageActionRepository = PageActionRepositorySuccessStub()});
+        .store((factory) => {factory.userActionRepository = PageActionRepositorySuccessStub()});
 
     final updateDisplayedLoading = store.onChange.any((e) => e.userActionUpdateState is UserActionUpdateLoadingState);
     final successUpdateState =
@@ -42,7 +42,7 @@ void main() {
         mockNotStartedAction(actionId: "3"),
         mockNotStartedAction(actionId: "4"),
       ],
-    ).store((factory) => {factory.pageActionRepository = repository});
+    ).store((factory) => {factory.userActionRepository = repository});
     final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateSuccessState);
 
     // When
@@ -63,7 +63,7 @@ void main() {
     final store = givenState()
         .loggedInMiloUser()
         .withAction(mockUserAction(id: "3"))
-        .store((factory) => {factory.pageActionRepository = repository});
+        .store((factory) => {factory.userActionRepository = repository});
 
     final updateDisplayedLoading = store.onChange.any((e) => e.userActionUpdateState is UserActionUpdateLoadingState);
     final failureUpdateState =
@@ -90,7 +90,7 @@ void main() {
         mockNotStartedAction(actionId: "3"),
         mockNotStartedAction(actionId: "4"),
       ],
-    ).store((factory) => {factory.pageActionRepository = repository});
+    ).store((factory) => {factory.userActionRepository = repository});
 
     final failureUpdateState =
         store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateFailureState);
@@ -121,7 +121,7 @@ void main() {
 
     final testStoreFactory = TestStoreFactory();
     final repository = PageActionRepositorySuccessStub();
-    testStoreFactory.pageActionRepository = repository;
+    testStoreFactory.userActionRepository = repository;
     final store = testStoreFactory.initializeReduxStore(initialState: state);
 
     void whenUpdatingAction() async {
@@ -189,7 +189,7 @@ void main() {
 
     final testStoreFactory = TestStoreFactory();
     final repository = PageActionRepositorySuccessStub();
-    testStoreFactory.pageActionRepository = repository;
+    testStoreFactory.userActionRepository = repository;
     final store = testStoreFactory.initializeReduxStore(initialState: state);
 
     void whenUpdatingAction() async {

@@ -16,7 +16,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting in FUTUR", () {
-      sut.when(() => RendezvousListRequestAction(RendezvousPeriod.FUTUR));
+      sut.whenDispatchingAction(() => RendezvousListRequestAction(RendezvousPeriod.FUTUR));
 
       test("should load and succeed when both requests succeeds", () async {
         sut.givenStore = givenState()
@@ -53,7 +53,7 @@ void main() {
     });
 
     group('when reloading in FUTUR', () {
-      sut.when(() => RendezvousListRequestReloadAction(RendezvousPeriod.FUTUR));
+      sut.whenDispatchingAction(() => RendezvousListRequestReloadAction(RendezvousPeriod.FUTUR));
 
       test("should reload and succeed when both request succeeds", () async {
         sut.givenStore = givenState()
@@ -90,7 +90,7 @@ void main() {
     });
 
     group("when requesting in PASSE", () {
-      sut.when(() => RendezvousListRequestAction(RendezvousPeriod.PASSE));
+      sut.whenDispatchingAction(() => RendezvousListRequestAction(RendezvousPeriod.PASSE));
 
       test("should load and succeed with concatenated rendezvous when request succeeds", () async {
         sut.givenStore = givenState()
@@ -115,7 +115,7 @@ void main() {
     });
 
     group("when requesting with PE", () {
-      sut.when(() => RendezvousListRequestAction(RendezvousPeriod.FUTUR));
+      sut.whenDispatchingAction(() => RendezvousListRequestAction(RendezvousPeriod.FUTUR));
 
       test("should have rendezvous only (no milo sessions)", () async {
         sut.givenStore = givenState()

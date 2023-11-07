@@ -18,7 +18,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting", () {
-      sut.when(() => DiagorientePreferencesMetierRequestAction());
+      sut.whenDispatchingAction(() => DiagorientePreferencesMetierRequestAction());
 
       test('should load successfully only if both requests succeed', () {
         sut.givenStore = givenState() //

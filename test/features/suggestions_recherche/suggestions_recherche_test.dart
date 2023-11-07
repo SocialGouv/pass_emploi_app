@@ -15,7 +15,7 @@ void main() {
   final sut = StoreSut();
 
   group("when requesting suggestions", () {
-    sut.when(() => SuggestionsRechercheRequestAction());
+    sut.whenDispatchingAction(() => SuggestionsRechercheRequestAction());
 
     test('should load then succeed when request succeeds', () {
       sut.givenStore = givenState()

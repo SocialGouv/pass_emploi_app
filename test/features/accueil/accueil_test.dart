@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dar
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
@@ -26,7 +27,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting", () {
-      sut.when(() => AccueilRequestAction());
+      sut.whenDispatchingAction(() => AccueilRequestAction());
 
       test('should load then succeed when request succeed for milo', () {
         sut.givenStore = givenState() //
@@ -63,7 +64,7 @@ void main() {
 
     group("when a user change occurs", () {
       void expectLoadingWhen(dynamic action) {
-        sut.when(() => action);
+        sut.whenDispatchingAction(() => action);
 
         test('should load then succeed when request succeed for milo', () {
           sut.givenStore = givenState() //
@@ -84,6 +85,20 @@ void main() {
       expectLoadingWhen(SavedSearchDeleteSuccessAction("id"));
       expectLoadingWhen(AccepterSuggestionRechercheSuccessAction("id", mockOffreEmploiSavedSearch()));
       expectLoadingWhen(RefuserSuggestionRechercheSuccessAction("id"));
+    });
+
+    group("when pending user actions have been created", () {
+      sut.whenDispatchingAction(() => UserActionCreatePendingAction(0));
+
+      group("and request succeeds", () {
+        test("should display loading and success", () {
+          sut.givenStore = givenState()
+              .loggedInUser() //
+              .withPendingUserActions(1)
+              .store((f) => {f.accueilRepository = AccueilRepositorySuccessStub()});
+          sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedMilo()]);
+        });
+      });
     });
   });
 }

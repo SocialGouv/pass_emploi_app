@@ -10,7 +10,9 @@ import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_r
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
 import 'dio_mock.dart';
 import 'fixtures.dart';
@@ -83,3 +85,14 @@ class MockSessionMiloRepository extends Mock implements SessionMiloRepository {
 }
 
 class MockCacheStore extends Mock implements CacheStore {}
+
+class MockConnectivityWrapper extends Mock implements ConnectivityWrapper {}
+
+class MockUserActionPendingCreationRepository extends Mock implements UserActionPendingCreationRepository {
+  MockUserActionPendingCreationRepository() {
+    registerFallbackValue(dummyUserActionCreateRequest());
+    when(() => getPendingActionCount()).thenAnswer((_) async => 0);
+    when(() => save(any())).thenAnswer((_) async => 0);
+    when(() => load()).thenAnswer((_) async => []);
+  }
+}

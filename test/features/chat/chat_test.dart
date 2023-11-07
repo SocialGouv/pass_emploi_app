@@ -254,7 +254,7 @@ void main() {
     });
 
     group('partage event action', () {
-      sut.when(() => ChatPartagerEventAction(dummyEventPartage()));
+      sut.whenDispatchingAction(() => ChatPartagerEventAction(dummyEventPartage()));
 
       test('should dispatch loading then succeed when an event is successfully partagé', () async {
         // Given
@@ -282,16 +282,13 @@ void main() {
         // Given
         mockChatRepository.onSendEventPartageSuccess(dummyEventPartage());
 
-        // When
-        await sut.dispatch();
-
         // Then
-        trackingEventRepository.verifyHasBeenCalled();
+        sut.then(() => trackingEventRepository.verifyHasBeenCalled());
       });
     });
 
     group('partage offre emploi action', () {
-      sut.when(() => ChatPartagerOffreAction(dummyOffrePartagee()));
+      sut.whenDispatchingAction(() => ChatPartagerOffreAction(dummyOffrePartagee()));
 
       setUpAll(() {
         registerFallbackValue(EventType.MESSAGE_EVENEMENT_EMPLOI_PARTAGE);
@@ -324,16 +321,13 @@ void main() {
         // Given
         mockChatRepository.onPartageOffreEmploiSucceeds(dummyOffrePartagee());
 
-        // When
-        await sut.dispatch();
-
         // Then
-        trackingEventRepository.verifyHasBeenCalled();
+        sut.then(() => trackingEventRepository.verifyHasBeenCalled());
       });
     });
 
     group('partage evenement emploi', () {
-      sut.when(() => ChatPartagerEvenementEmploiAction(dummyEvenementEmploiPartage()));
+      sut.whenDispatchingAction(() => ChatPartagerEvenementEmploiAction(dummyEvenementEmploiPartage()));
 
       test('should dispatch loading then succeed action an evenement emploi is successfully partagé', () async {
         // Given
@@ -361,16 +355,13 @@ void main() {
         // Given
         mockChatRepository.onPartageEvenementEmploiSucceeds(dummyEvenementEmploiPartage());
 
-        // When
-        await sut.dispatch();
-
         // Then
-        trackingEventRepository.verifyHasBeenCalled();
+        sut.then(() => trackingEventRepository.verifyHasBeenCalled());
       });
     });
 
     group('partage session milo', () {
-      sut.when(() => ChatPartagerSessionMiloAction(dummySessionMiloPartage()));
+      sut.whenDispatchingAction(() => ChatPartagerSessionMiloAction(dummySessionMiloPartage()));
 
       test('should dispatch loading then succeed action a session milo is successfully partagé', () async {
         // Given
@@ -398,11 +389,8 @@ void main() {
         // Given
         mockChatRepository.onPartageSessionMiloSuccess(dummySessionMiloPartage());
 
-        // When
-        await sut.dispatch();
-
         // Then
-        trackingEventRepository.verifyHasBeenCalled();
+        sut.then(() => trackingEventRepository.verifyHasBeenCalled());
       });
     });
 
@@ -421,7 +409,7 @@ void main() {
             );
       });
 
-      sut.when(() => SendMessageAction("message"));
+      sut.whenDispatchingAction(() => SendMessageAction("message"));
 
       setUpAll(() => registerFallbackValue(_mockMessage()));
 

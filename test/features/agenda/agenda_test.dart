@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 
@@ -15,7 +17,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting agenda", () {
-      sut.when(() => AgendaRequestAction(DateTime(2022, 7, 7)));
+      sut.whenDispatchingAction(() => AgendaRequestAction(DateTime(2022, 7, 7)));
 
       group('for Mission Local user', () {
         test('should load then succeed when request succeed', () {
@@ -53,8 +55,9 @@ void main() {
         });
       });
     });
+
     group('when reloading agenda', () {
-      sut.when(() => AgendaRequestReloadAction(maintenant: DateTime(2022, 7, 7), forceRefresh: true));
+      sut.whenDispatchingAction(() => AgendaRequestReloadAction(maintenant: DateTime(2022, 7, 7), forceRefresh: true));
 
       test('should reload then succeed when request succeed', () {
         sut.givenStore = givenState()
@@ -70,6 +73,34 @@ void main() {
             .store((f) => {f.agendaRepository = AgendaRepositoryErrorStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldReload(), _shouldFail()]);
+      });
+    });
+
+    group("when user action have been created", () {
+      sut.whenDispatchingAction(() => UserActionCreateSuccessAction('USER-ACTION-ID'));
+
+      group("and request succeeds", () {
+        test("should display success", () {
+          sut.givenStore = givenState()
+              .loggedInUser() //
+              .withPendingUserActions(1)
+              .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
+          sut.thenExpectChangingStatesThroughOrder([_shouldSucceedForMissionLocaleUser()]);
+        });
+      });
+    });
+
+    group("when pending user actions have been created", () {
+      sut.whenDispatchingAction(() => UserActionCreatePendingAction(0));
+
+      group("and request succeeds", () {
+        test("should display success", () {
+          sut.givenStore = givenState()
+              .loggedInMiloUser() //
+              .withPendingUserActions(1)
+              .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
+          sut.thenExpectChangingStatesThroughOrder([_shouldSucceedForMissionLocaleUser()]);
+        });
       });
     });
   });

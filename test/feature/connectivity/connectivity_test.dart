@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/connectivity/connectivity_actions.dart'
 import 'package:pass_emploi_app/features/connectivity/connectivity_state.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
+import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
@@ -16,7 +17,7 @@ void main() {
     final sut = StoreSut();
 
     group("when subscribing to connectivity updates", () {
-      sut.when(() => SubscribeToConnectivityUpdatesAction());
+      sut.whenDispatchingAction(() => SubscribeToConnectivityUpdatesAction());
 
       test('should receive connectivity updates and change state accordingly', () async {
         // Given
@@ -39,7 +40,7 @@ void main() {
     group("when subscribing to connectivity updates", () {
       test('should receive connectivity updates and change state accordingly', () async {
         // Given
-        final wrapper = SpyConnectivityWrapper();
+        final wrapper = MockConnectivityWrapper();
         final store = givenState() //
             .loggedInUser()
             .store((f) => {f.connectivityWrapper = wrapper});
@@ -60,5 +61,3 @@ Matcher _shouldHaveConnectivity(ConnectivityResult result) {
     (state) => expect(state.result, result),
   );
 }
-
-class SpyConnectivityWrapper extends Mock implements ConnectivityWrapper {}

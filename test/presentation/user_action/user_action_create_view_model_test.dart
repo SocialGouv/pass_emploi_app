@@ -48,8 +48,8 @@ void main() {
     final viewModel = UserActionCreateViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, isA<Dismiss>());
-    expect((viewModel.displayState as Dismiss).userActionCreatedId, 'USER-ACTION-ID');
+    expect(viewModel.displayState, isA<DismissWithSuccess>());
+    expect((viewModel.displayState as DismissWithSuccess).userActionCreatedId, 'USER-ACTION-ID');
   });
 
   test("create when state is failure should display an error", () {
@@ -61,7 +61,7 @@ void main() {
     final viewModel = UserActionCreateViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, isA<DisplayError>());
+    expect(viewModel.displayState, isA<DismissWithFailure>());
   });
 
   group('isRappelActive', () {

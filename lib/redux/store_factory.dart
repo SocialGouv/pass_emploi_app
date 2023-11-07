@@ -68,6 +68,7 @@ import 'package:pass_emploi_app/features/tracking/tracking_setup_middleware.dart
 import 'package:pass_emploi_app/features/tutorial/tutorial_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_middleware.dart';
+import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
@@ -109,7 +110,6 @@ import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
@@ -131,6 +131,8 @@ import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dar
 import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
@@ -144,7 +146,8 @@ class StoreFactory {
   final ChatEncryptionLocalStorage cryptoStorage;
   final PassEmploiCacheManager cacheManager;
   final ConnectivityWrapper connectivityWrapper;
-  final PageActionRepository pageActionRepository;
+  final UserActionRepository userActionRepository;
+  final UserActionPendingCreationRepository userActionPendingCreationRepository;
   final PageDemarcheRepository pageDemarcheRepository;
   final RendezvousRepository rendezvousRepository;
   final OffreEmploiRepository offreEmploiRepository;
@@ -197,6 +200,7 @@ class StoreFactory {
   final EvenementEmploiDetailsRepository evenementEmploiDetailsRepository;
   final ThematiqueDemarcheRepository thematiquesDemarcheRepository;
   final TopDemarcheRepository topDemarcheRepository;
+
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -207,7 +211,8 @@ class StoreFactory {
     this.cryptoStorage,
     this.cacheManager,
     this.connectivityWrapper,
-    this.pageActionRepository,
+    this.userActionRepository,
+    this.userActionPendingCreationRepository,
     this.pageDemarcheRepository,
     this.rendezvousRepository,
     this.offreEmploiRepository,
@@ -272,10 +277,11 @@ class StoreFactory {
         BootstrapMiddleware(),
         LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker),
         CacheInvalidatorMiddleware(cacheManager),
-        UserActionListMiddleware(pageActionRepository),
-        UserActionCreateMiddleware(pageActionRepository),
-        UserActionUpdateMiddleware(pageActionRepository),
-        UserActionDeleteMiddleware(pageActionRepository),
+        UserActionListMiddleware(userActionRepository),
+        UserActionCreateMiddleware(userActionRepository),
+        UserActionCreatePendingMiddleware(userActionRepository, userActionPendingCreationRepository),
+        UserActionUpdateMiddleware(userActionRepository),
+        UserActionDeleteMiddleware(userActionRepository),
         DemarcheListMiddleware(pageDemarcheRepository),
         CreateDemarcheMiddleware(createDemarcheRepository),
         UpdateDemarcheMiddleware(updateDemarcheRepository),

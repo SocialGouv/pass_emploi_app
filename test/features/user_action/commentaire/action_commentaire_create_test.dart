@@ -13,7 +13,7 @@ void main() {
   final sut = StoreSut();
 
   group("when creating commentaire action", () {
-    sut.when(() => ActionCommentaireCreateRequestAction(actionId: "actionId", comment: "new comment"));
+    sut.whenDispatchingAction(() => ActionCommentaireCreateRequestAction(actionId: "actionId", comment: "new comment"));
 
     group("given request succeed", () {
       void injectedRepository(TestStoreFactory? factory) {

@@ -11,7 +11,7 @@ void main() {
   final sut = StoreSut();
 
   group("when requesting list", () {
-    sut.when(() => ActionCommentaireListRequestAction("actionId"));
+    sut.whenDispatchingAction(() => ActionCommentaireListRequestAction("actionId"));
 
     test("should display loading and list when fetching succeed", () {
       sut.givenStore = givenState()

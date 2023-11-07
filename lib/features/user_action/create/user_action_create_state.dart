@@ -1,4 +1,4 @@
-abstract class UserActionCreateState {}
+sealed class UserActionCreateState {}
 
 class UserActionCreateNotInitializedState extends UserActionCreateState {}
 

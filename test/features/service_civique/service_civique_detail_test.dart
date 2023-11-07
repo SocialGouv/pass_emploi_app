@@ -19,7 +19,7 @@ void main() {
     final repository = MockServiceCiviqueDetailRepository();
 
     group("when requesting", () {
-      sut.when(() => GetServiceCiviqueDetailAction("id"));
+      sut.whenDispatchingAction(() => GetServiceCiviqueDetailAction("id"));
 
       test('should load then succeed when request succeed', () {
         when(() => repository.getServiceCiviqueDetail('id'))

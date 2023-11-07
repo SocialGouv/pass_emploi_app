@@ -15,7 +15,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting", () {
-      sut.when(() => TopDemarcheRequestAction());
+      sut.whenDispatchingAction(() => TopDemarcheRequestAction());
 
       test('should return a success with top demarches', () {
         sut.givenStore = givenState() //

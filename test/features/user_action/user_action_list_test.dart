@@ -1,29 +1,74 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 
-import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
-import '../../utils/test_setup.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 
 void main() {
-  test("user_action should be fetched and displayed when screen loads", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
+  final sut = StoreSut();
 
-    final displayedLoading = store.onChange.any((e) => e.userActionListState is UserActionListLoadingState);
-    final successAppState = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
+  group("when creating user action", () {
+    sut.whenDispatchingAction(() => UserActionListRequestAction());
 
-    // When
-    await store.dispatch(UserActionListRequestAction());
+    group("and request succeeds", () {
+      test("should display loading and success", () {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.userActionRepository = PageActionRepositorySuccessStub()});
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+      });
+    });
 
-    // Then
-    expect(await displayedLoading, true);
-    final appState = await successAppState;
-    expect(appState.userActionListState is UserActionListSuccessState, isTrue);
-    expect((appState.userActionListState as UserActionListSuccessState).userActions.length, 1);
-    expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "id");
+    group("and request fails", () {
+      test("should display loading and failure", () {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.userActionRepository = PageActionRepositoryFailureStub()});
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+      });
+    });
+  });
+
+  group("when user action have been created", () {
+    sut.whenDispatchingAction(() => UserActionCreateSuccessAction('USER-ACTION-ID'));
+
+    group("and request succeeds", () {
+      test("should display loading and success", () {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.userActionRepository = PageActionRepositorySuccessStub()});
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+      });
+    });
+  });
+
+  group("when pending user actions have been created", () {
+    sut.whenDispatchingAction(() => UserActionCreatePendingAction(0));
+
+    group("and request succeeds", () {
+      test("should display loading and success", () {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .withPendingUserActions(1)
+            .store((f) => {f.userActionRepository = PageActionRepositorySuccessStub()});
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+      });
+    });
   });
 }
+
+Matcher _shouldLoad() => StateIs<UserActionListLoadingState>((state) => state.userActionListState);
+
+Matcher _shouldSucceed() {
+  return StateIs<UserActionListSuccessState>(
+    (state) => state.userActionListState,
+    (state) => expect(state.userActions, isNotEmpty),
+  );
+}
+
+Matcher _shouldFail() => StateIs<UserActionListFailureState>((state) => state.userActionListState);

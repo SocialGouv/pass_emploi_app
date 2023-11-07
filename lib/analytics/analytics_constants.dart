@@ -187,6 +187,7 @@ class AnalyticsEventNames {
   static const createActionEventCategory = "Création action/démarche";
   static const createActionDisplaySnackBarAction = "Affichage SnackBar succès";
   static const createActionClickOnSnackBarAction = "Clic détail action/démarche";
+  static const createActionOfflineAction = "Action créée hors connexion";
 
   static const autocompleteMotCleDiagorienteMetiersFavorisEventCategory = "Préférences métiers dans les mots clés";
   static const autocompleteMotCleDiagorienteMetiersFavorisDisplayAction = "Affichage des préférences métiers";

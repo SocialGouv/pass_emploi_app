@@ -230,6 +230,33 @@ void main() {
         ],
       );
     });
+
+    test('when content and pending actions should display content and pending actions banner', () {
+      // Given
+      final actions = [actionSamediProchain];
+      final store = givenState() //
+          .loggedInMiloUser()
+          .withPendingUserActions(4)
+          .agenda(actions: actions, dateDeDebut: lundi22)
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.events,
+        [
+          PendingActionCreationAgendaItem(4),
+          WeekSeparatorAgendaItem("Semaine en cours"),
+          EmptyMessageAgendaItem(
+              "Pas d’action ni de rendez-vous. Créez une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran."),
+          WeekSeparatorAgendaItem("Semaine prochaine"),
+          UserActionAgendaItem(actionSamediProchain.id, collapsed: true),
+        ],
+      );
+    });
+
     test('when empty should display empty item', () {
       // Given
       final store = givenState() //
@@ -265,6 +292,29 @@ void main() {
       expect(viewModel.displayState, DisplayState.CONTENT);
       expect(viewModel.events, [
         DelayedActionsBannerAgendaItem("3 actions"),
+        EmptyAgendaItem(
+          title: "Vous n’avez rien de prévu cette semaine",
+          subtitle:
+              "Commencez en créant une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran",
+        ),
+      ]);
+    });
+
+    test('when empty with pending actions should display empty item and pending actions banner', () {
+      // Given
+      final store = givenState() //
+          .loggedInMiloUser()
+          .withPendingUserActions(3)
+          .agenda(dateDeDebut: lundi22)
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.events, [
+        PendingActionCreationAgendaItem(3),
         EmptyAgendaItem(
           title: "Vous n’avez rien de prévu cette semaine",
           subtitle:

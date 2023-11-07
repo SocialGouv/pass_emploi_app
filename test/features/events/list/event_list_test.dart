@@ -22,7 +22,7 @@ void main() {
     });
 
     group("when requesting agenda", () {
-      sut.when(() => EventListRequestAction(DateTime.now()));
+      sut.whenDispatchingAction(() => EventListRequestAction(DateTime.now()));
 
       test('should load then succeed when both request succeed', () {
         sut.givenStore = givenState()

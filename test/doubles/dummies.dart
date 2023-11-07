@@ -44,7 +44,6 @@ import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
@@ -66,7 +65,7 @@ import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dar
 import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
-import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
+import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -145,8 +144,8 @@ class DummyMaxLivingTimeConfig extends MaxLivingTimeConfig {
 
 class DummyFlutterAppAuth extends FlutterAppAuth {}
 
-class DummyPageActionRepository extends PageActionRepository {
-  DummyPageActionRepository() : super(DioMock());
+class DummyUserActionRepository extends UserActionRepository {
+  DummyUserActionRepository() : super(DioMock());
 }
 
 class DummyPageDemarcheRepository extends PageDemarcheRepository {
@@ -443,6 +442,4 @@ class DummyThematiqueDemarcheRepository extends ThematiqueDemarcheRepository {
 class DummyTopDemarcheRepository extends TopDemarcheRepository {
   DummyTopDemarcheRepository() : super();
 }
-
-class DummyConnectivityWrapper extends Mock implements ConnectivityWrapper {}
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
@@ -27,10 +28,11 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     final userId = store.state.userId() ?? "";
 
-    if (_shouldInvalidateAccueil(action)) {
+    if (_shouldInvalidateAccueil(store, action)) {
       await cacheManager.removeResource(CachedResource.ACCUEIL, userId);
     }
-    if (_shouldInvalidateUserActionsList(action)) {
+
+    if (_shouldInvalidateUserActionsList(store, action)) {
       await cacheManager.removeResource(CachedResource.USER_ACTIONS_LIST, userId);
     }
 
@@ -38,7 +40,7 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
       await cacheManager.removeResource(CachedResource.DEMARCHES_LIST, userId);
     }
 
-    if (_shouldInvalidateAgenda(action)) {
+    if (_shouldInvalidateAgenda(store, action)) {
       await cacheManager.removeResource(CachedResource.AGENDA, userId);
     }
 
@@ -70,7 +72,7 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-bool _shouldInvalidateAccueil(action) {
+bool _shouldInvalidateAccueil(Store<AppState> store, dynamic action) {
   return (action is AccueilRequestAction && action.forceRefresh) ||
       action is UserActionCreateSuccessAction ||
       action is UserActionDeleteSuccessAction ||
@@ -81,50 +83,58 @@ bool _shouldInvalidateAccueil(action) {
       action is SavedSearchCreateSuccessAction ||
       action is SavedSearchDeleteSuccessAction ||
       action is AccepterSuggestionRechercheSuccessAction ||
-      action is RefuserSuggestionRechercheSuccessAction;
+      action is RefuserSuggestionRechercheSuccessAction ||
+      _newUserActionsCreated(store, action);
 }
 
-bool _shouldInvalidateUserActionsList(action) {
-  return (action is UserActionListRequestAction && action.forceRefresh) ||
-      action is UserActionCreateSuccessAction ||
-      action is UserActionDeleteSuccessAction ||
-      action is UserActionUpdateSuccessAction;
-}
-
-bool _shouldInvalidateDemarchesList(action) {
-  return (action is DemarcheListRequestReloadAction && action.forceRefresh) ||
-      action is CreateDemarcheSuccessAction ||
-      action is UpdateDemarcheSuccessAction;
-}
-
-bool _shouldInvalidateAgenda(action) {
+bool _shouldInvalidateAgenda(Store<AppState> store, dynamic action) {
   return (action is AgendaRequestReloadAction && action.forceRefresh) ||
       action is UserActionCreateSuccessAction ||
       action is UserActionDeleteSuccessAction ||
       action is UserActionUpdateSuccessAction ||
       action is CreateDemarcheSuccessAction ||
+      action is UpdateDemarcheSuccessAction ||
+      _newUserActionsCreated(store, action);
+}
+
+bool _shouldInvalidateUserActionsList(Store<AppState> store, dynamic action) {
+  return (action is UserActionListRequestAction && action.forceRefresh) ||
+      action is UserActionCreateSuccessAction ||
+      action is UserActionDeleteSuccessAction ||
+      action is UserActionUpdateSuccessAction ||
+      _newUserActionsCreated(store, action);
+}
+
+bool _shouldInvalidateDemarchesList(dynamic action) {
+  return (action is DemarcheListRequestReloadAction && action.forceRefresh) ||
+      action is CreateDemarcheSuccessAction ||
       action is UpdateDemarcheSuccessAction;
 }
 
-bool _shouldInvalidateRendezvous(action) {
+bool _shouldInvalidateRendezvous(dynamic action) {
   return (action is RendezvousListRequestReloadAction && action.forceRefresh);
 }
 
-bool _shouldInvalidateEvents(action) {
+bool _shouldInvalidateEvents(dynamic action) {
   return (action is EventListRequestAction && action.forceRefresh);
 }
 
-bool _shouldInvalidateFavoris(action) {
+bool _shouldInvalidateFavoris(dynamic action) {
   return action is FavoriUpdateSuccessAction;
 }
 
-bool _shouldInvalidateAlertes(action) {
+bool _shouldInvalidateAlertes(dynamic action) {
   return (action is SavedSearchCreateSuccessAction ||
       action is SavedSearchDeleteSuccessAction ||
       action is AccepterSuggestionRechercheSuccessAction ||
       action is RefuserSuggestionRechercheSuccessAction);
 }
 
-bool _shouldInvalidatePartageActivite(action) {
+bool _shouldInvalidatePartageActivite(dynamic action) {
   return action is PartageActiviteUpdateRequestAction;
+}
+
+bool _newUserActionsCreated(Store<AppState> store, dynamic action) {
+  if (action is! UserActionCreatePendingAction) return false;
+  return action.pendingCreationsCount < store.state.userActionCreatePendingState.getPendingCreationsCount();
 }

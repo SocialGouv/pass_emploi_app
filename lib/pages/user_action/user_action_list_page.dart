@@ -15,16 +15,15 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
+import 'package:pass_emploi_app/widgets/cards/user_actions_pending_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
-import 'package:pass_emploi_app/widgets/retry.dart';
-import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 class UserActionListPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -87,12 +86,9 @@ class _UserActionListPageState extends State<UserActionListPage> {
     if (viewModel.withLoading) return UserActionsLoading();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     if (viewModel.withEmptyMessage) {
-      return RefreshIndicatorAddingScrollview(
-        onRefresh: () async => viewModel.onRetry(),
-        child: Empty(
-          title: Strings.noActionsYet,
-          subtitle: Strings.emptyContentSubtitle(Strings.action),
-        ),
+      return _Empty(
+        pendingCreations: viewModel.pendingCreationCount,
+        onRetry: () => viewModel.onRetry(),
       );
     }
     return _userActionsList(context, viewModel);
@@ -113,25 +109,24 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
   Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
-    if (item is SubtitleItem) {
-      return Padding(
-        padding: const EdgeInsets.only(top: Margins.spacing_base),
-        child: Text(item.title, style: TextStyles.textMBold),
-      );
-    } else {
-      final actionId = (item as IdItem).userActionId;
-      return UserActionCard(
-        userActionId: actionId,
-        stateSource: UserActionStateSource.list,
-        onTap: () {
-          context.trackEvent(EventType.ACTION_DETAIL);
-          Navigator.push(
-            context,
-            UserActionDetailPage.materialPageRoute(actionId, UserActionStateSource.list),
-          );
-        },
-      );
-    }
+    return switch (item) {
+      PendingActionCreationItem() => UserActionsPendingCard(item.pendingCreationsCount),
+      SubtitleItem() => Padding(
+          padding: const EdgeInsets.only(top: Margins.spacing_base),
+          child: Text(item.title, style: TextStyles.textMBold),
+        ),
+      IdItem() => UserActionCard(
+          userActionId: item.userActionId,
+          stateSource: UserActionStateSource.list,
+          onTap: () {
+            context.trackEvent(EventType.ACTION_DETAIL);
+            Navigator.push(
+              context,
+              UserActionDetailPage.materialPageRoute(item.userActionId, UserActionStateSource.list),
+            );
+          },
+        ),
+    };
   }
 
   Widget _createUserActionButton(UserActionListPageViewModel viewModel) {
@@ -139,37 +134,38 @@ class _UserActionListPageState extends State<UserActionListPage> {
       label: Strings.addAnAction,
       icon: AppIcons.add_rounded,
       rippleColor: AppColors.primaryDarken,
-      onPressed: () => Navigator.push(
-        context,
-        CreateUserActionBottomSheet.materialPageRoute(),
-      ).then((value) {
-        if (value != null) {
-          _showSnackBarWithDetail(value);
-          _onCreateUserActionDismissed(viewModel);
-        }
+      onPressed: () => Navigator.push(context, CreateUserActionBottomSheet.materialPageRoute()).then((result) {
+        CreateUserActionBottomSheet.displaySnackBarOnResult(
+          context,
+          result,
+          UserActionStateSource.list,
+          () => viewModel.onCreateUserActionDismissed(),
+        );
       }),
     );
   }
+}
 
-  void _showSnackBarWithDetail(String userActionId) {
-    PassEmploiMatomoTracker.instance.trackEvent(
-      eventCategory: AnalyticsEventNames.createActionEventCategory,
-      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
-    );
-    showSuccessfulSnackBar(
-      context,
-      Strings.createActionSuccess,
-      () {
-        PassEmploiMatomoTracker.instance.trackEvent(
-          eventCategory: AnalyticsEventNames.createActionEventCategory,
-          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
-        );
-        Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.list));
-      },
-    );
-  }
+class _Empty extends StatelessWidget {
+  final int? pendingCreations;
+  final Function() onRetry;
 
-  void _onCreateUserActionDismissed(UserActionListPageViewModel viewModel) {
-    viewModel.onCreateUserActionDismissed();
+  const _Empty({required this.pendingCreations, required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicatorAddingScrollview(
+      onRefresh: () async => onRetry(),
+      child: Column(
+        children: [
+          if (pendingCreations != null)
+            Padding(
+              padding: const EdgeInsets.all(Margins.spacing_base),
+              child: UserActionsPendingCard(pendingCreations!),
+            ),
+          Expanded(child: Empty(title: Strings.noActionsYet, subtitle: Strings.emptyContentSubtitle(Strings.action))),
+        ],
+      ),
+    );
   }
 }

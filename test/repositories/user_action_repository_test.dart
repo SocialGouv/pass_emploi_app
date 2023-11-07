@@ -3,15 +3,15 @@ import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/repositories/page_action_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
 import '../dsl/sut_dio_repository.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  group('PageActionRepository', () {
-    final sut = DioRepositorySut<PageActionRepository>();
-    sut.givenRepository((client) => PageActionRepository(client));
+  group('UserActionRepository', () {
+    final sut = DioRepositorySut<UserActionRepository>();
+    sut.givenRepository((client) => UserActionRepository(client));
 
     group('getPageActions', () {
       sut.when((pageActionRepository) => pageActionRepository.getPageActions("uuid"));

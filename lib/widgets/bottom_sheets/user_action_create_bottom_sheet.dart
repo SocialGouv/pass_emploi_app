@@ -4,23 +4,72 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 class CreateUserActionBottomSheet extends StatefulWidget {
-  static MaterialPageRoute<String?> materialPageRoute() {
+  static MaterialPageRoute<UserActionCreateDisplayState?> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateUserActionBottomSheet());
+  }
+
+  static void displaySnackBarOnResult(
+    BuildContext context,
+    UserActionCreateDisplayState? result,
+    UserActionStateSource source,
+    Function() onResult,
+  ) {
+    if (result is DismissWithSuccess) {
+      _showSnackBarWithDetail(context, source, result.userActionCreatedId);
+      onResult();
+    } else if (result is DismissWithFailure) {
+      _showSnackBarForOfflineCreation(context);
+      onResult();
+    }
+  }
+
+  static void _showSnackBarWithDetail(
+    BuildContext context,
+    UserActionStateSource source,
+    String userActionId,
+  ) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
+    );
+    showSuccessfulSnackBar(
+      context,
+      Strings.createActionSuccess,
+      () {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.createActionEventCategory,
+          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+        );
+        Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, source));
+      },
+    );
+  }
+
+  static void _showSnackBarForOfflineCreation(BuildContext context) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionOfflineAction,
+    );
+    showSuccessfulSnackBar(context, Strings.createActionPostponed);
   }
 
   @override
@@ -42,12 +91,13 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 
   void _dismissBottomSheetIfNeeded(BuildContext context, UserActionCreateViewModel viewModel) {
     final displayState = viewModel.displayState;
-    if (displayState is Dismiss) Navigator.pop(context, displayState.userActionCreatedId);
+    if (displayState is DismissWithSuccess || displayState is DismissWithFailure) Navigator.pop(context, displayState);
   }
 }
 
 class _CreateActionForm extends StatefulWidget {
   final UserActionCreateViewModel viewModel;
+
   const _CreateActionForm(this.viewModel);
 
   @override
@@ -118,24 +168,13 @@ class __CreateActionFormState extends State<_CreateActionForm> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryActionButton(
             label: Strings.create,
             onPressed: _isNotLoading(viewModel) ? () => state.submitForm() : null,
           ),
-          if (viewModel.displayState is DisplayError)
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  Strings.actionCreationError,
-                  textAlign: TextAlign.center,
-                  style: TextStyles.textSRegular(color: AppColors.warning),
-                ),
-              ),
-            ),
         ],
       ),
     );
@@ -328,6 +367,7 @@ class ActionFormState extends ChangeNotifier {
   }
 
   bool isIntituleValid() => intitule.isNotEmpty;
+
   bool isDateEcheanceValid() => dateEcheance != null;
 
   bool isFormValid() => isIntituleValid() && isDateEcheanceValid();

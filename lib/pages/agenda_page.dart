@@ -30,6 +30,7 @@ import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
+import 'package:pass_emploi_app/widgets/cards/user_actions_pending_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
@@ -83,14 +84,13 @@ class _Scaffold extends StatelessWidget {
         if (viewModel.createButton == CreateButton.userAction)
           _CreateButton(
             label: Strings.addAnAction,
-            onPressed: () => Navigator.push(
-              context,
-              CreateUserActionBottomSheet.materialPageRoute(),
-            ).then((value) {
-              if (value != null) {
-                _showUserActionSnackBarWithDetail(context, value);
-                viewModel.resetCreateAction();
-              }
+            onPressed: () => Navigator.push(context, CreateUserActionBottomSheet.materialPageRoute()).then((result) {
+              CreateUserActionBottomSheet.displaySnackBarOnResult(
+                context,
+                result,
+                UserActionStateSource.agenda,
+                () => viewModel.resetCreateAction(),
+              );
             }),
           ),
         if (viewModel.createButton == CreateButton.demarche)
@@ -101,24 +101,6 @@ class _Scaffold extends StatelessWidget {
             }),
           ),
       ]),
-    );
-  }
-
-  void _showUserActionSnackBarWithDetail(BuildContext context, String userActionId) {
-    PassEmploiMatomoTracker.instance.trackEvent(
-      eventCategory: AnalyticsEventNames.createActionEventCategory,
-      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
-    );
-    showSuccessfulSnackBar(
-      context,
-      Strings.createActionSuccess,
-      () {
-        PassEmploiMatomoTracker.instance.trackEvent(
-          eventCategory: AnalyticsEventNames.createActionEventCategory,
-          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
-        );
-        Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.agenda));
-      },
     );
   }
 
@@ -212,23 +194,25 @@ class _Content extends StatelessWidget {
       child: RefreshIndicator.adaptive(
         onRefresh: () async => viewModel.reload(DateTime.now()),
         child: ListView.builder(
-            padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
-            itemCount: viewModel.events.length,
-            itemBuilder: (context, index) {
-              final item = viewModel.events[index];
-              return switch (item) {
-                final WeekSeparatorAgendaItem item => _WeekSeparator(item),
-                final DaySeparatorAgendaItem item => _DaySeparatorAgendaItem(item),
-                final EmptyMessageAgendaItem item => _MessageAgendaItem(item),
-                final RendezvousAgendaItem item => _RendezvousAgendaItem(item),
-                final SessionMiloAgendaItem item => _SessionMiloAgendaItem(item),
-                final DemarcheAgendaItem item => _DemarcheAgendaItem(item),
-                final UserActionAgendaItem item => _UserActionAgendaItem(item),
-                final DelayedActionsBannerAgendaItem item => _DelayedActionsBanner(item, onActionDelayedTap),
-                final EmptyAgendaItem item => _EmptyPlaceholder(item),
-                NotUpToDateAgendaItem _ => _NotUpToDateMessage(viewModel),
-              };
-            }),
+          padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
+          itemCount: viewModel.events.length,
+          itemBuilder: (context, index) {
+            final item = viewModel.events[index];
+            return switch (item) {
+              final WeekSeparatorAgendaItem item => _WeekSeparator(item),
+              final DaySeparatorAgendaItem item => _DaySeparatorAgendaItem(item),
+              final EmptyMessageAgendaItem item => _MessageAgendaItem(item),
+              final RendezvousAgendaItem item => _RendezvousAgendaItem(item),
+              final SessionMiloAgendaItem item => _SessionMiloAgendaItem(item),
+              final DemarcheAgendaItem item => _DemarcheAgendaItem(item),
+              final UserActionAgendaItem item => _UserActionAgendaItem(item),
+              final DelayedActionsBannerAgendaItem item => _DelayedActionsBanner(item, onActionDelayedTap),
+              final EmptyAgendaItem item => _EmptyPlaceholder(item),
+              final NotUpToDateAgendaItem _ => _NotUpToDateMessage(viewModel),
+              final PendingActionCreationAgendaItem item => UserActionsPendingCard(item.pendingCreationsCount)
+            };
+          },
+        ),
       ),
     );
   }
