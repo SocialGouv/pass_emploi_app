@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
+import 'package:pass_emploi_app/features/generic/generic_state.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
+import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -88,12 +89,13 @@ DisplayState _displayStateFromRechercheSource(SearchDemarcheState state) {
   return DisplayState.CONTENT;
 }
 
-DisplayState _displayStateFromThematiqueSource(ThematiqueDemarcheState state) {
-  if (state is ThematiqueDemarcheLoadingState || state is ThematiqueDemarcheNotInitializedState) {
-    return DisplayState.LOADING;
-  }
-  if (state is ThematiqueDemarcheFailureState) return DisplayState.FAILURE;
-  return DisplayState.CONTENT;
+DisplayState _displayStateFromThematiqueSource(State<List<ThematiqueDeDemarche>> state) {
+  return switch (state) {
+    LoadingState() => DisplayState.LOADING,
+    NotInitializedState() => DisplayState.LOADING,
+    FailureState() => DisplayState.FAILURE,
+    SuccessState() => DisplayState.CONTENT,
+  };
 }
 
 DisplayState _displayStateFromTopDemarcheSource(TopDemarcheState state) {

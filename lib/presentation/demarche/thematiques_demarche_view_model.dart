@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
+import 'package:pass_emploi_app/features/generic/generic_actions.dart';
+import 'package:pass_emploi_app/features/generic/generic_state.dart';
+import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -17,7 +18,7 @@ class ThematiqueDemarchePageViewModel extends Equatable {
     return ThematiqueDemarchePageViewModel(
       displayState: _displayState(state),
       thematiques: _thematiques(state),
-      onRetry: () => store.dispatch(ThematiqueDemarcheRequestAction()),
+      onRetry: () => store.dispatch(RequestAction<NoRequest, List<ThematiqueDeDemarche>>(NoRequest())),
     );
   }
 
@@ -25,16 +26,16 @@ class ThematiqueDemarchePageViewModel extends Equatable {
   List<Object?> get props => [displayState, thematiques];
 }
 
-List<ThematiqueDemarcheItem> _thematiques(ThematiqueDemarcheState state) {
-  return state is ThematiqueDemarcheSuccessState
-      ? state.thematiques.map((e) => ThematiqueDemarcheItem(id: e.code, title: e.libelle)).toList()
+List<ThematiqueDemarcheItem> _thematiques(State<List<ThematiqueDeDemarche>> state) {
+  return state is SuccessState<List<ThematiqueDeDemarche>>
+      ? state.data.map((e) => ThematiqueDemarcheItem(id: e.code, title: e.libelle)).toList()
       : <ThematiqueDemarcheItem>[];
 }
 
-DisplayState _displayState(ThematiqueDemarcheState state) {
+DisplayState _displayState(State<List<ThematiqueDeDemarche>> state) {
   return switch (state) {
-    ThematiqueDemarcheFailureState() => DisplayState.FAILURE,
-    ThematiqueDemarcheSuccessState() => DisplayState.CONTENT,
+    FailureState() => DisplayState.FAILURE,
+    SuccessState() => DisplayState.CONTENT,
     _ => DisplayState.LOADING,
   };
 }

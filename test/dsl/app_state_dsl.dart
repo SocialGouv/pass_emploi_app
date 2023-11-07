@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.d
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/generic/generic_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
@@ -36,7 +37,6 @@ import 'package:pass_emploi_app/features/service_civique/detail/service_civique_
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
@@ -64,6 +64,7 @@ import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/session_milo.dart';
+import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -769,15 +770,16 @@ extension AppStateDSL on AppState {
   }
 
   AppState withThematiqueDemarcheLoadingState() {
-    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheLoadingState());
+    return copyWith(thematiquesDemarcheState: LoadingState());
   }
 
   AppState withThematiqueDemarcheFailureState() {
-    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheFailureState());
+    return copyWith(thematiquesDemarcheState: FailureState());
   }
 
   AppState withThematiqueDemarcheSuccessState({List<DemarcheDuReferentiel>? demarches}) {
-    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheSuccessState([dummyThematiqueDeDemarche(demarches)]));
+    return copyWith(
+        thematiquesDemarcheState: SuccessState<List<ThematiqueDeDemarche>>([dummyThematiqueDeDemarche(demarches)]));
   }
 
   AppState withTopDemarcheSuccessState({required List<DemarcheDuReferentiel> demarches}) {

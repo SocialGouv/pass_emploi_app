@@ -56,7 +56,6 @@ import 'package:pass_emploi_app/features/session_milo_details/session_milo_detai
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_reducer.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_reducer.dart';
@@ -74,6 +73,7 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
@@ -175,7 +175,8 @@ AppState reducer(AppState current, dynamic action) {
     accueilState: accueilReducer(current.accueilState, action),
     cvState: cvReducer(current.cvState, action),
     evenementEmploiDetailsState: evenementEmploiDetailsReducer(current.evenementEmploiDetailsState, action),
-    thematiquesDemarcheState: thematiquesDemarcheReducer(current.thematiquesDemarcheState, action),
+    thematiquesDemarcheState:
+        genericReducer<NoRequest, List<ThematiqueDeDemarche>>(current.thematiquesDemarcheState, action),
     topDemarcheState: topDemarcheReducer(current.topDemarcheState, action),
     sessionMiloDetailsState: sessionMiloDetailsReducer(current.sessionMiloDetailsState, action),
     connectivityState: connectivityReducer(current.connectivityState, action),

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
+import 'package:pass_emploi_app/features/generic/generic_actions.dart';
+import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/thematiques_demarche_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
@@ -91,7 +92,7 @@ void main() {
         viewModel.onRetry();
 
         // Then
-        expect(store.dispatchedAction, isA<ThematiqueDemarcheRequestAction>());
+        expect(store.dispatchedAction, isA<RequestAction<NoRequest, List<ThematiqueDeDemarche>>>());
       });
     });
   });

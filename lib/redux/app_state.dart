@@ -48,7 +48,6 @@ import 'package:pass_emploi_app/features/session_milo_details/session_milo_detai
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_state.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
@@ -65,6 +64,7 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/models/user.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
@@ -131,7 +131,7 @@ class AppState extends Equatable {
   final AccueilState accueilState;
   final CvState cvState;
   final EvenementEmploiDetailsState evenementEmploiDetailsState;
-  final ThematiqueDemarcheState thematiquesDemarcheState;
+  final State<List<ThematiqueDeDemarche>> thematiquesDemarcheState;
   final TopDemarcheState topDemarcheState;
   final SessionMiloDetailsState sessionMiloDetailsState;
   final ConnectivityState connectivityState;
@@ -271,7 +271,7 @@ class AppState extends Equatable {
     final AccueilState? accueilState,
     final CvState? cvState,
     final EvenementEmploiDetailsState? evenementEmploiDetailsState,
-    final ThematiqueDemarcheState? thematiquesDemarcheState,
+    final State<List<ThematiqueDeDemarche>>? thematiquesDemarcheState,
     final TopDemarcheState? topDemarcheState,
     final SessionMiloDetailsState? sessionMiloDetailsState,
     final ConnectivityState? connectivityState,
@@ -413,7 +413,7 @@ class AppState extends Equatable {
       accueilState: AccueilNotInitializedState(),
       cvState: CvNotInitializedState(),
       evenementEmploiDetailsState: EvenementEmploiDetailsNotInitializedState(),
-      thematiquesDemarcheState: ThematiqueDemarcheNotInitializedState(),
+      thematiquesDemarcheState: NotInitializedState(),
       topDemarcheState: TopDemarcheNotInitializedState(),
       sessionMiloDetailsState: SessionMiloDetailsNotInitializedState(),
       connectivityState: ConnectivityState.notInitialized(),

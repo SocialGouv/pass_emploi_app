@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
+import 'package:pass_emploi_app/features/generic/generic_actions.dart';
+import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/pages/demarche/create_custom_demarche.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
@@ -33,7 +34,7 @@ class ThematiqueDemarchePage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.thematiquesDemarche,
       child: StoreConnector<AppState, ThematiqueDemarchePageViewModel>(
-        onInit: (store) => store.dispatch(ThematiqueDemarcheRequestAction()),
+        onInit: (store) => store.dispatch(RequestAction<NoRequest, List<ThematiqueDeDemarche>>(NoRequest())),
         converter: (store) => ThematiqueDemarchePageViewModel.create(store),
         builder: (context, viewModel) => _Scaffold(viewModel),
         distinct: true,
@@ -44,6 +45,7 @@ class ThematiqueDemarchePage extends StatelessWidget {
 
 class _Scaffold extends StatelessWidget {
   const _Scaffold(this.viewModel);
+
   final ThematiqueDemarchePageViewModel viewModel;
 
   @override
@@ -57,6 +59,7 @@ class _Scaffold extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   const _Body(this.viewModel);
+
   final ThematiqueDemarchePageViewModel viewModel;
 
   @override
@@ -71,6 +74,7 @@ class _Body extends StatelessWidget {
 
 class _ErrorMessage extends StatelessWidget {
   const _ErrorMessage(this.viewModel);
+
   final ThematiqueDemarchePageViewModel viewModel;
 
   @override
@@ -99,6 +103,7 @@ class _ErrorMessage extends StatelessWidget {
 
 class _Content extends StatelessWidget {
   const _Content(this.viewModel);
+
   final ThematiqueDemarchePageViewModel viewModel;
 
   @override
@@ -134,6 +139,7 @@ class _Content extends StatelessWidget {
 
 class _ThematiqueTile extends StatelessWidget {
   const _ThematiqueTile(this.thematique);
+
   final ThematiqueDemarcheItem thematique;
 
   @override

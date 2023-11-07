@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
+import 'package:pass_emploi_app/features/generic/generic_state.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step2_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
@@ -76,7 +76,7 @@ void main() {
         // Given
         final store = givenState() //
             .loggedInUser() //
-            .copyWith(thematiquesDemarcheState: ThematiqueDemarcheNotInitializedState()) //
+            .copyWith(thematiquesDemarcheState: NotInitializedState()) //
             .store();
 
         // When
@@ -90,7 +90,7 @@ void main() {
         // Given
         final store = givenState() //
             .loggedInUser() //
-            .copyWith(thematiquesDemarcheState: ThematiqueDemarcheLoadingState()) //
+            .copyWith(thematiquesDemarcheState: LoadingState()) //
             .store();
 
         // When
@@ -104,7 +104,7 @@ void main() {
         // Given
         final store = givenState() //
             .loggedInUser() //
-            .copyWith(thematiquesDemarcheState: ThematiqueDemarcheFailureState()) //
+            .copyWith(thematiquesDemarcheState: FailureState()) //
             .store();
 
         // When
