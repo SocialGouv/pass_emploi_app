@@ -23,7 +23,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting", () {
-      sut.when(() => AccueilRequestAction());
+      sut.whenDispatchingAction(() => AccueilRequestAction());
 
       test('should succeed when request succeed for milo', () {
         sut.givenStore = givenState() //
@@ -193,6 +193,7 @@ Campagne mockCampagne() {
     ],
   );
 }
+
 Matcher _shouldLoad() => StateIs<AccueilLoadingState>((state) => state.accueilState);
 
 Matcher _shouldHaveCampagne() {

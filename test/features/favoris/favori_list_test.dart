@@ -15,7 +15,7 @@ void main() {
     final repository = MockGetFavorisRepository();
 
     group("when requesting", () {
-      sut.when(() => FavoriListRequestAction());
+      sut.whenDispatchingAction(() => FavoriListRequestAction());
 
       test('should load then succeed when request succeed', () {
         when(() => repository.getFavoris('id')).thenAnswer((_) async => [mockFavori()]);

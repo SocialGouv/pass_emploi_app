@@ -20,7 +20,7 @@ void main() {
   final sut = StoreSut();
 
   group('when requesting to accepter une suggestion with location and rayon', () {
-    sut.when(() => TraiterSuggestionRechercheRequestAction(
+    sut.whenDispatchingAction(() => TraiterSuggestionRechercheRequestAction(
           suggestionCaristeFromPoleEmploi(),
           TraiterSuggestionType.accepter,
           location: mockLocation(),
@@ -37,7 +37,7 @@ void main() {
   });
 
   group("when requesting to accepter une suggestion", () {
-    sut.when(() =>
+    sut.whenDispatchingAction(() =>
         TraiterSuggestionRechercheRequestAction(suggestionCaristeFromPoleEmploi(), TraiterSuggestionType.accepter));
 
     test('should load then succeed when request succeed', () {
@@ -80,7 +80,7 @@ void main() {
   });
 
   group("when requesting to refuser une suggestion", () {
-    sut.when(() =>
+    sut.whenDispatchingAction(() =>
         TraiterSuggestionRechercheRequestAction(suggestionCaristeFromPoleEmploi(), TraiterSuggestionType.refuser));
 
     test('should load then succeed when request succeed', () {
@@ -110,7 +110,7 @@ void main() {
   });
 
   group("when reseting traiter une suggestion", () {
-    sut.when(() => TraiterSuggestionRechercheResetAction());
+    sut.whenDispatchingAction(() => TraiterSuggestionRechercheResetAction());
 
     test("should reset state", () {
       sut.givenStore = givenState().succeedAccepterSuggestionRecherche().store();

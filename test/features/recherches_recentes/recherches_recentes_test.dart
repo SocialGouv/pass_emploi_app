@@ -16,7 +16,7 @@ void main() {
     final sut = StoreSut();
 
     group("when retrieving last search", () {
-      sut.when(() => LoginSuccessAction(mockUser()));
+      sut.whenDispatchingAction(() => LoginSuccessAction(mockUser()));
 
       test('should return recent searches when data exist', () {
         sut.givenStore = givenState() //
@@ -34,7 +34,8 @@ void main() {
     });
 
     group("when a search succeed", () {
-      sut.when(() => RechercheSuccessAction(rechercheEmploiChevalierValenceCDI(), <OffreEmploi>[], true));
+      sut.whenDispatchingAction(
+          () => RechercheSuccessAction(rechercheEmploiChevalierValenceCDI(), <OffreEmploi>[], true));
 
       test('should add it in recent searches', () {
         sut.givenStore = givenState() //

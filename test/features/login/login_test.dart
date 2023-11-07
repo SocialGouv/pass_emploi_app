@@ -23,7 +23,7 @@ void main() {
   final matomoTracker = MockMatomoTracker();
 
   group('On bootstrap…', () {
-    sut.when(() => BootstrapAction());
+    sut.whenDispatchingAction(() => BootstrapAction());
 
     test('user is properly logged in if she was previously logged in', () async {
       // Given
@@ -62,7 +62,7 @@ void main() {
 
   group('On request login…', () {
     group('with mode PASS_EMPLOI', () {
-      sut.when(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
 
       test('user is properly logged in with GENERIC authentication mode', () async {
         // Given
@@ -80,7 +80,7 @@ void main() {
     });
 
     group('with mode SIMILO', () {
-      sut.when(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
 
       test('user is properly logged in with SIMILO authentication mode', () async {
         // Given
@@ -98,7 +98,7 @@ void main() {
     });
 
     group('with mode POLE_EMPLOI in CEJ application', () {
-      sut.when(() => RequestLoginAction(RequestLoginMode.POLE_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.POLE_EMPLOI));
 
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given
@@ -116,7 +116,7 @@ void main() {
     });
 
     group('with mode POLE_EMPLOI in BRSA application', () {
-      sut.when(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
 
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given
@@ -134,7 +134,7 @@ void main() {
     });
 
     group('when login fails', () {
-      sut.when(() => RequestLoginAction(RequestLoginMode.SIMILO));
+      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.SIMILO));
 
       test('user is not logged in', () async {
         // Given

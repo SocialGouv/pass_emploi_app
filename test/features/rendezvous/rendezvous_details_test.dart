@@ -18,7 +18,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting rendezvous", () {
-      sut.when(() => RendezvousDetailsRequestAction(_rendezvousId));
+      sut.whenDispatchingAction(() => RendezvousDetailsRequestAction(_rendezvousId));
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState()

@@ -12,7 +12,7 @@ void main() {
   final sut = StoreSut();
 
   group('when creating a demarche', () {
-    sut.when(() => CreateDemarcheRequestAction(
+    sut.whenDispatchingAction(() => CreateDemarcheRequestAction(
           codeQuoi: 'codeQuoi',
           codePourquoi: 'codePourquoi',
           codeComment: 'codeComment',
@@ -39,7 +39,7 @@ void main() {
   });
 
   group('when creating a demarche personnalisee', () {
-    sut.when(() => CreateDemarchePersonnaliseeRequestAction('commentaire', DateTime(2022)));
+    sut.whenDispatchingAction(() => CreateDemarchePersonnaliseeRequestAction('commentaire', DateTime(2022)));
 
     group('when request succeeds', () {
       test('should display loading and success', () async {

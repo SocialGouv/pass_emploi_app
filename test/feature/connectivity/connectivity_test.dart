@@ -17,7 +17,7 @@ void main() {
     final sut = StoreSut();
 
     group("when subscribing to connectivity updates", () {
-      sut.when(() => SubscribeToConnectivityUpdatesAction());
+      sut.whenDispatchingAction(() => SubscribeToConnectivityUpdatesAction());
 
       test('should receive connectivity updates and change state accordingly', () async {
         // Given

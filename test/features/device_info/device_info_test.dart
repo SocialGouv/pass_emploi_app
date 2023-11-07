@@ -13,7 +13,7 @@ void main() {
     final sut = StoreSut();
 
     group("when bootstraping", () {
-      sut.when(() => BootstrapAction());
+      sut.whenDispatchingAction(() => BootstrapAction());
 
       test('should set installation id', () {
         sut.givenStore = givenState() //

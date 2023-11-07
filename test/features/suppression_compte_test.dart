@@ -13,7 +13,7 @@ void main() {
   final _sut = StoreSut();
 
   group("when deleting user", () {
-    _sut.when(() => SuppressionCompteRequestAction());
+    _sut.whenDispatchingAction(() => SuppressionCompteRequestAction());
 
     test('should display loading and then delete user and logout when request succeeds', () {
       _sut.givenStore = givenState()

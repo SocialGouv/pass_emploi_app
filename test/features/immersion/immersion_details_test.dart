@@ -19,7 +19,7 @@ void main() {
     final repository = MockImmersionDetailsRepository();
 
     group('when requesting', () {
-      sut.when(() => ImmersionDetailsRequestAction("id"));
+      sut.whenDispatchingAction(() => ImmersionDetailsRequestAction("id"));
 
       test('should load then succeed when request succeed', () {
         when(() => repository.fetch('id')).thenAnswer((_) async {
@@ -65,7 +65,7 @@ void main() {
     });
 
     group('when resetting', () {
-      sut.when(() => ImmersionDetailsResetAction());
+      sut.whenDispatchingAction(() => ImmersionDetailsResetAction());
 
       test('should reset state', () {
         sut.givenStore = givenState() //

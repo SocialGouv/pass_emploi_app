@@ -13,7 +13,7 @@ void main() {
   final sut = StoreSut();
 
   group("when creating user action", () {
-    sut.when(() => UserActionListRequestAction());
+    sut.whenDispatchingAction(() => UserActionListRequestAction());
 
     group("and request succeeds", () {
       test("should display loading and success", () {
@@ -35,7 +35,7 @@ void main() {
   });
 
   group("when user action have been created", () {
-    sut.when(() => UserActionCreateSuccessAction('USER-ACTION-ID'));
+    sut.whenDispatchingAction(() => UserActionCreateSuccessAction('USER-ACTION-ID'));
 
     group("and request succeeds", () {
       test("should display loading and success", () {
@@ -48,7 +48,7 @@ void main() {
   });
 
   group("when pending user actions have been created", () {
-    sut.when(() => UserActionCreatePendingAction(0));
+    sut.whenDispatchingAction(() => UserActionCreatePendingAction(0));
 
     group("and request succeeds", () {
       test("should display loading and success", () {

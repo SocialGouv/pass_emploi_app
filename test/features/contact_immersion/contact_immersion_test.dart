@@ -15,7 +15,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting", () {
-      sut.when(() => ContactImmersionRequestAction(mockContactImmersionRequest()));
+      sut.whenDispatchingAction(() => ContactImmersionRequestAction(mockContactImmersionRequest()));
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState() //

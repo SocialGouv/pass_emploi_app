@@ -12,7 +12,7 @@ void main() {
   final sut = StoreSut();
 
   group("when creating user action", () {
-    sut.when(() => UserActionCreateRequestAction(dummyUserActionCreateRequest()));
+    sut.whenDispatchingAction(() => UserActionCreateRequestAction(dummyUserActionCreateRequest()));
 
     group("when request succeeds", () {
       test("should display loading and success", () {

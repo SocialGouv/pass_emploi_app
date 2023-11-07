@@ -21,7 +21,7 @@ void main() {
     });
 
     group("when requesting a first emploi search", () {
-      sut.when(() => RechercheRequestAction(initialRechercheEmploiRequest()));
+      sut.whenDispatchingAction(() => RechercheRequestAction(initialRechercheEmploiRequest()));
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState()
@@ -45,7 +45,7 @@ void main() {
     });
 
     group("when resetting", () {
-      sut.when(() => RechercheResetAction<OffreEmploi>());
+      sut.whenDispatchingAction(() => RechercheResetAction<OffreEmploi>());
 
       test('should have initial state', () {
         sut.givenStore = givenState() //
@@ -58,7 +58,7 @@ void main() {
     });
 
     group("when re-opening criteres", () {
-      sut.when(() => RechercheOpenCriteresAction<OffreEmploi>());
+      sut.whenDispatchingAction(() => RechercheOpenCriteresAction<OffreEmploi>());
 
       test('should have new search status and previous data', () {
         sut.givenStore = givenState() //
@@ -71,7 +71,7 @@ void main() {
     });
 
     group("when closing criteres", () {
-      sut.when(() => RechercheCloseCriteresAction<OffreEmploi>());
+      sut.whenDispatchingAction(() => RechercheCloseCriteresAction<OffreEmploi>());
 
       test('and previously has result should have success status and previous data', () {
         sut.givenStore = givenState() //
@@ -93,7 +93,7 @@ void main() {
     });
 
     group("when requesting more", () {
-      sut.when(() => RechercheLoadMoreAction<OffreEmploi>());
+      sut.whenDispatchingAction(() => RechercheLoadMoreAction<OffreEmploi>());
 
       test('should load then succeed with concatenated data when request succeed', () {
         sut.givenStore = givenState()
@@ -120,7 +120,7 @@ void main() {
     });
 
     group("when updating filtres", () {
-      sut.when(() => RechercheUpdateFiltresAction(mockEmploiFiltreZeroDistance()));
+      sut.whenDispatchingAction(() => RechercheUpdateFiltresAction(mockEmploiFiltreZeroDistance()));
 
       test('should load then succeed with new request when request succeed', () {
         sut.givenStore = givenState()

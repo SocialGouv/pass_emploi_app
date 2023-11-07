@@ -27,7 +27,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting", () {
-      sut.when(() => AccueilRequestAction());
+      sut.whenDispatchingAction(() => AccueilRequestAction());
 
       test('should load then succeed when request succeed for milo', () {
         sut.givenStore = givenState() //
@@ -64,7 +64,7 @@ void main() {
 
     group("when a user change occurs", () {
       void expectLoadingWhen(dynamic action) {
-        sut.when(() => action);
+        sut.whenDispatchingAction(() => action);
 
         test('should load then succeed when request succeed for milo', () {
           sut.givenStore = givenState() //
@@ -88,7 +88,7 @@ void main() {
     });
 
     group("when pending user actions have been created", () {
-      sut.when(() => UserActionCreatePendingAction(0));
+      sut.whenDispatchingAction(() => UserActionCreatePendingAction(0));
 
       group("and request succeeds", () {
         test("should display loading and success", () {

@@ -28,7 +28,7 @@ void main() {
     final sut = StoreSut();
 
     group("on app bootstrap ", () {
-      sut.when(() => BootstrapAction());
+      sut.whenDispatchingAction(() => BootstrapAction());
 
       test('should init state with proper pending action count', () {
         when(() => repository.getPendingActionCount()).thenAnswer((_) async => 7);
@@ -41,7 +41,7 @@ void main() {
     });
 
     group("when user action creation fails", () {
-      sut.when(() => UserActionCreateFailureAction(request));
+      sut.whenDispatchingAction(() => UserActionCreateFailureAction(request));
 
       test('should save request and update state', () {
         when(() => repository.save(request)).thenAnswer((_) async => 1);
@@ -81,7 +81,7 @@ void main() {
               );
         });
 
-        sut.when(() => ConnectivityUpdatedAction(ConnectivityResult.wifi));
+        sut.whenDispatchingAction(() => ConnectivityUpdatedAction(ConnectivityResult.wifi));
 
         test('should try to synchronize actions and delete them locally if it is successful', () async {
           // Given
@@ -128,7 +128,10 @@ void main() {
               );
         });
 
-        sut.whenMultiple(() => ConnectivityUpdatedAction(ConnectivityResult.wifi));
+        sut.whenDispatchingActions([
+          ConnectivityUpdatedAction(ConnectivityResult.wifi),
+          ConnectivityUpdatedAction(ConnectivityResult.wifi),
+        ]);
 
         test('should not create actions multiple times', () async {
           // Given
