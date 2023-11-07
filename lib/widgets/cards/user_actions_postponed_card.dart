@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 class UserActionsPostponedCard extends StatelessWidget {
   final int userActionsPostponedCount;
 
-  const UserActionsPostponedCard({super.key, required this.userActionsPostponedCount});
+  const UserActionsPostponedCard(this.userActionsPostponedCount);
 
   @override
   Widget build(BuildContext context) {

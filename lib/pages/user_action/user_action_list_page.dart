@@ -113,7 +113,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
     return switch (item) {
-      PendingActionCreationItem() => UserActionsPostponedCard(userActionsPostponedCount: item.pendingCreationsCount),
+      PendingActionCreationItem() => UserActionsPostponedCard(item.pendingCreationsCount),
       SubtitleItem() => Padding(
           padding: const EdgeInsets.only(top: Margins.spacing_base),
           child: Text(item.title, style: TextStyles.textMBold),
@@ -186,7 +186,7 @@ class _Empty extends StatelessWidget {
           if (pendingCreations != null)
             Padding(
               padding: const EdgeInsets.all(Margins.spacing_base),
-              child: UserActionsPostponedCard(userActionsPostponedCount: pendingCreations!),
+              child: UserActionsPostponedCard(pendingCreations!),
             ),
           Expanded(child: Empty(title: Strings.noActionsYet, subtitle: Strings.emptyContentSubtitle(Strings.action))),
         ],
