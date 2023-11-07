@@ -369,9 +369,9 @@ class Strings {
 
   static String numberOfDemarches(int count) => "$count démarches";
   static String see = "Voir";
-  static String pendingActionCreationSingular = "1 action est en attente de XXX.";
+  static String pendingActionCreationSingular = "1 action est en attente de réseau.";
 
-  static String pendingActionCreationPlural(int count) => "$count actions sont en attente de XXX.";
+  static String pendingActionCreationPlural(int count) => "$count actions sont en attente de réseau.";
 
   // Commentaires d'action
   static String actionCommentsTitle = "Commentaire de l’action";

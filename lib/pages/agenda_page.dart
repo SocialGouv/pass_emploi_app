@@ -30,7 +30,7 @@ import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
-import 'package:pass_emploi_app/widgets/cards/user_actions_postponed_card.dart';
+import 'package:pass_emploi_app/widgets/cards/user_actions_pending_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
@@ -209,7 +209,7 @@ class _Content extends StatelessWidget {
               final DelayedActionsBannerAgendaItem item => _DelayedActionsBanner(item, onActionDelayedTap),
               final EmptyAgendaItem item => _EmptyPlaceholder(item),
               final NotUpToDateAgendaItem _ => _NotUpToDateMessage(viewModel),
-              final PendingActionCreationAgendaItem item => UserActionsPostponedCard(item.pendingCreationsCount)
+              final PendingActionCreationAgendaItem item => UserActionsPendingCard(item.pendingCreationsCount)
             };
           },
         ),

@@ -6,10 +6,10 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
-class UserActionsPostponedCard extends StatelessWidget {
+class UserActionsPendingCard extends StatelessWidget {
   final int userActionsPostponedCount;
 
-  const UserActionsPostponedCard(this.userActionsPostponedCount);
+  const UserActionsPendingCard(this.userActionsPostponedCount);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class UserActionsPostponedCard extends StatelessWidget {
         children: [
           Icon(AppIcons.error_rounded, color: Colors.white),
           SizedBox(width: Margins.spacing_s),
-          Text(message, style: TextStyles.textSRegularWithColor(Colors.white)),
+          Flexible(child: Text(message, style: TextStyles.textSRegularWithColor(Colors.white))),
         ],
       ),
     );

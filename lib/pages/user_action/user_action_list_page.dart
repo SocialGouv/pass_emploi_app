@@ -18,7 +18,7 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
-import 'package:pass_emploi_app/widgets/cards/user_actions_postponed_card.dart';
+import 'package:pass_emploi_app/widgets/cards/user_actions_pending_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
@@ -110,7 +110,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
     return switch (item) {
-      PendingActionCreationItem() => UserActionsPostponedCard(item.pendingCreationsCount),
+      PendingActionCreationItem() => UserActionsPendingCard(item.pendingCreationsCount),
       SubtitleItem() => Padding(
           padding: const EdgeInsets.only(top: Margins.spacing_base),
           child: Text(item.title, style: TextStyles.textMBold),
@@ -161,7 +161,7 @@ class _Empty extends StatelessWidget {
           if (pendingCreations != null)
             Padding(
               padding: const EdgeInsets.all(Margins.spacing_base),
-              child: UserActionsPostponedCard(pendingCreations!),
+              child: UserActionsPendingCard(pendingCreations!),
             ),
           Expanded(child: Empty(title: Strings.noActionsYet, subtitle: Strings.emptyContentSubtitle(Strings.action))),
         ],
