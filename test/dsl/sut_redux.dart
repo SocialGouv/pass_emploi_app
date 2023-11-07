@@ -7,9 +7,17 @@ import 'matchers.dart';
 class StoreSut {
   late Store<AppState> givenStore;
   late dynamic Function() _whenDispatching;
+  bool multipleDispatch = false;
 
   void when(dynamic Function() when) {
     setUp(() => _whenDispatching = when);
+  }
+
+  void whenMultiple(dynamic Function() when) {
+    setUp(() {
+      _whenDispatching = when;
+      multipleDispatch = true;
+    });
   }
 
   Future<void> thenExpectChangingStatesThroughOrder(List<Matcher> matchers) async {
@@ -18,6 +26,9 @@ class StoreSut {
   }
 
   Future<void> dispatch() async {
+    if (multipleDispatch) {
+      await Future.delayed(Duration(milliseconds: 10), () => givenStore.dispatch(_whenDispatching()));
+    }
     await givenStore.dispatch(_whenDispatching());
   }
 

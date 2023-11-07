@@ -7,8 +7,10 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
+import 'package:synchronized/synchronized.dart';
 
 class UserActionCreatePendingMiddleware extends MiddlewareClass<AppState> {
+  final Lock _lock = Lock();
   final UserActionRepository _repository;
   final UserActionPendingCreationRepository _pendingCreationRepository;
 
@@ -25,7 +27,7 @@ class UserActionCreatePendingMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(UserActionCreatePendingAction(pendingCreationsCount));
     }
     if (action is ConnectivityUpdatedAction && action.result.isOnline()) {
-      _synchronizePendingUserActions(store);
+      _lock.synchronized(() => _synchronizePendingUserActions(store));
     }
   }
 

@@ -6,10 +6,12 @@ import 'package:pass_emploi_app/features/connectivity/connectivity_actions.dart'
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
+import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
+import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
@@ -34,9 +36,7 @@ void main() {
             .loggedInUser()
             .store((f) => {f.userActionPendingCreationRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([
-          _shouldHavePendingCreations(7),
-        ]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldHavePendingCreations(7)]);
       });
     });
 
@@ -49,9 +49,7 @@ void main() {
             .loggedInUser()
             .store((f) => {f.userActionPendingCreationRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([
-          _shouldHavePendingCreations(1),
-        ]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldHavePendingCreations(1)]);
       });
     });
 
@@ -59,56 +57,99 @@ void main() {
       final request1 = dummyUserActionCreateRequest('1');
       final request2 = dummyUserActionCreateRequest('2');
       late MockUserActionRepository userActionRepository;
-      late MockUserActionPendingCreationRepository pendingRepository;
 
       setUp(() {
         userActionRepository = MockUserActionRepository();
-        pendingRepository = MockUserActionPendingCreationRepository();
-        when(() => pendingRepository.load()).thenAnswer((_) async => [request1, request2]);
-        when(() => pendingRepository.delete(request1)).thenAnswer((_) async {});
-        when(() => pendingRepository.delete(request2)).thenAnswer((_) async {});
-
-        sut.givenStore = givenState() //
-            .loggedInUser()
-            .store(
-              (f) => {
-                f.userActionPendingCreationRepository = pendingRepository,
-                f.userActionRepository = userActionRepository,
-              },
-            );
       });
 
-      sut.when(() => ConnectivityUpdatedAction(ConnectivityResult.wifi));
+      group('With a single connectivity update event', () {
+        late MockUserActionPendingCreationRepository pendingRepository;
+        setUp(() {
+          userActionRepository = MockUserActionRepository();
+          pendingRepository = MockUserActionPendingCreationRepository();
+          when(() => pendingRepository.load()).thenAnswer((_) async => [request1, request2]);
+          when(() => pendingRepository.delete(request1)).thenAnswer((_) async {});
+          when(() => pendingRepository.delete(request2)).thenAnswer((_) async {});
 
-      test('should try to synchronize actions and delete them locally if it is successful', () async {
-        // Given
-        when(() => userActionRepository.createUserAction('id', request1)).thenAnswer((_) async => 'id-1');
-        when(() => userActionRepository.createUserAction('id', request2)).thenAnswer((_) async => 'id-2');
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store(
+                (f) => {
+                  f.userActionPendingCreationRepository = pendingRepository,
+                  f.userActionRepository = userActionRepository
+                },
+              );
+        });
 
-        // Then
-        await sut.thenExpectChangingStatesThroughOrder([_shouldHavePendingCreations(0)]);
-        // small delay is required because sync is totally asynchronous
-        await Future.delayed(Duration(milliseconds: 200), () async {
-          verify(() => pendingRepository.delete(request1)).called(1);
-          verify(() => pendingRepository.delete(request2)).called(1);
+        sut.when(() => ConnectivityUpdatedAction(ConnectivityResult.wifi));
+
+        test('should try to synchronize actions and delete them locally if it is successful', () async {
+          // Given
+          when(() => userActionRepository.createUserAction('id', request1)).thenAnswer((_) async => 'id-1');
+          when(() => userActionRepository.createUserAction('id', request2)).thenAnswer((_) async => 'id-2');
+
+          // Then
+          await sut.thenExpectChangingStatesThroughOrder([_shouldHavePendingCreations(0)]);
+          await _expectAfterAsynchronousProcess(() async {
+            verify(() => pendingRepository.delete(request1)).called(1);
+            verify(() => pendingRepository.delete(request2)).called(1);
+          });
+        });
+
+        test('should try to synchronize actions but not delete them locally if it is not successful', () async {
+          // Given
+          when(() => userActionRepository.createUserAction('id', request1)).thenAnswer((_) async => 'id-1');
+          when(() => userActionRepository.createUserAction('id', request2)).thenAnswer((_) async => null);
+
+          // Then
+          await sut.thenExpectChangingStatesThroughOrder([_shouldHavePendingCreations(1)]);
+          await _expectAfterAsynchronousProcess(() async {
+            verify(() => pendingRepository.delete(request1)).called(1);
+            verifyNever(() => pendingRepository.delete(request2));
+          });
         });
       });
 
-      test('should try to synchronize actions but not delete them locally if it is not successful', () async {
-        // Given
-        when(() => userActionRepository.createUserAction('id', request1)).thenAnswer((_) async => 'id-1');
-        when(() => userActionRepository.createUserAction('id', request2)).thenAnswer((_) async => null);
+      group("With multiple connectivity update events", () {
+        late UserActionPendingCreationRepository pendingRepository;
 
-        // Then
-        await sut.thenExpectChangingStatesThroughOrder([_shouldHavePendingCreations(1)]);
-        // small delay is required because sync is totally asynchronous
-        await Future.delayed(Duration(milliseconds: 200), () async {
-          verify(() => pendingRepository.delete(request1)).called(1);
-          verifyNever(() => pendingRepository.delete(request2));
+        setUp(() async {
+          pendingRepository = UserActionPendingCreationRepository(SharedPreferencesSpy());
+          await pendingRepository.save(request1);
+          await pendingRepository.save(request2);
+
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store(
+                (f) => {
+                  f.userActionPendingCreationRepository = pendingRepository,
+                  f.userActionRepository = userActionRepository
+                },
+              );
+        });
+
+        sut.whenMultiple(() => ConnectivityUpdatedAction(ConnectivityResult.wifi));
+
+        test('should not create actions multiple times', () async {
+          // Given
+          when(() => userActionRepository.createUserAction('id', request1)).thenAnswer((_) async => 'id-1');
+          when(() => userActionRepository.createUserAction('id', request2)).thenAnswer((_) async => 'id-2');
+
+          // Then
+          await sut.thenExpectChangingStatesThroughOrder([_shouldHavePendingCreations(0)]);
+          await _expectAfterAsynchronousProcess(() async {
+            expect(await pendingRepository.getPendingActionCount(), 0);
+            verify(() => userActionRepository.createUserAction('id', request1)).called(1);
+            verify(() => userActionRepository.createUserAction('id', request2)).called(1);
+          });
         });
       });
     });
   });
+}
+
+Future<void> _expectAfterAsynchronousProcess(Future<void> Function() computation) async {
+  await Future.delayed(Duration(milliseconds: 200), computation);
 }
 
 Matcher _shouldHavePendingCreations(int count) {
