@@ -711,7 +711,7 @@ class Strings {
 
   static String emptyContentTitle(String content) => "Vous n’avez pas encore de $content";
 
-  static String emptyContentSubtitle(String content) => "Commencez en créant une nouvelle $content !";
+  static String emptyContentSubtitle(String content) => "Commencez en créant une nouvelle $content\u{00A0}!";
 
   static String emptyContentDescription(String content) =>
       "Vous pouvez créer vos $content en autonomie depuis votre espace Pôle emploi.";

@@ -89,15 +89,9 @@ class _UserActionListPageState extends State<UserActionListPage> {
     if (viewModel.withLoading) return UserActionsLoading();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     if (viewModel.withEmptyMessage) {
-      final pendingCreations = viewModel.pendingCreationCount;
-      return RefreshIndicatorAddingScrollview(
-        onRefresh: () async => viewModel.onRetry(),
-        child: Column(
-          children: [
-            if (pendingCreations != null) UserActionsPostponedCard(userActionsPostponedCount: pendingCreations),
-            Expanded(child: Empty(title: Strings.noActionsYet, subtitle: Strings.emptyContentSubtitle(Strings.action))),
-          ],
-        ),
+      return _Empty(
+        pendingCreations: viewModel.pendingCreationCount,
+        onRetry: () => viewModel.onRetry(),
       );
     }
     return _userActionsList(context, viewModel);
@@ -173,6 +167,30 @@ class _UserActionListPageState extends State<UserActionListPage> {
         );
         Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.list));
       },
+    );
+  }
+}
+
+class _Empty extends StatelessWidget {
+  final int? pendingCreations;
+  final Function() onRetry;
+
+  const _Empty({required this.pendingCreations, required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicatorAddingScrollview(
+      onRefresh: () async => onRetry(),
+      child: Column(
+        children: [
+          if (pendingCreations != null)
+            Padding(
+              padding: const EdgeInsets.all(Margins.spacing_base),
+              child: UserActionsPostponedCard(userActionsPostponedCount: pendingCreations!),
+            ),
+          Expanded(child: Empty(title: Strings.noActionsYet, subtitle: Strings.emptyContentSubtitle(Strings.action))),
+        ],
+      ),
     );
   }
 }
