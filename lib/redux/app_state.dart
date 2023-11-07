@@ -18,7 +18,6 @@ import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.d
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
-import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_state.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_state.dart';
@@ -28,6 +27,7 @@ import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
+import 'package:pass_emploi_app/features/generic/generic_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
@@ -58,6 +58,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -80,7 +81,7 @@ class AppState extends Equatable {
   final CreateDemarcheState createDemarcheState;
   final SearchDemarcheState searchDemarcheState;
   final UpdateDemarcheState updateDemarcheState;
-  final DetailsJeuneState detailsJeuneState;
+  final State<DetailsJeune> detailsJeuneState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
   final OffreEmploiDetailsState offreEmploiDetailsState;
@@ -218,7 +219,7 @@ class AppState extends Equatable {
     final CreateDemarcheState? createDemarcheState,
     final SearchDemarcheState? searchDemarcheState,
     final UpdateDemarcheState? updateDemarcheState,
-    final DetailsJeuneState? detailsJeuneState,
+    final State<DetailsJeune>? detailsJeuneState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
     final DeepLinkState? deepLinkState,
@@ -358,7 +359,7 @@ class AppState extends Equatable {
       userActionUpdateState: UserActionUpdateNotInitializedState(),
       userActionDeleteState: UserActionDeleteNotInitializedState(),
       demarcheListState: DemarcheListNotInitializedState(),
-      detailsJeuneState: DetailsJeuneNotInitializedState(),
+      detailsJeuneState: NotInitializedState<DetailsJeune>(),
       createDemarcheState: CreateDemarcheNotInitializedState(),
       searchDemarcheState: SearchDemarcheNotInitializedState(),
       updateDemarcheState: UpdateDemarcheNotInitializedState(),

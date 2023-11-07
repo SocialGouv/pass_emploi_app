@@ -15,7 +15,6 @@ import 'package:pass_emploi_app/features/demarche/create/create_demarche_reducer
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_reducer.dart';
-import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_reducer.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_reducer.dart';
@@ -25,6 +24,8 @@ import 'package:pass_emploi_app/features/events/list/event_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
+import 'package:pass_emploi_app/features/generic/generic_actions.dart';
+import 'package:pass_emploi_app/features/generic/generic_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/features/location/search_location_reducer.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
@@ -65,6 +66,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_r
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_reducer.dart';
+import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -90,7 +92,7 @@ AppState reducer(AppState current, dynamic action) {
     createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
     searchDemarcheState: searchDemarcheReducer(current.searchDemarcheState, action),
     updateDemarcheState: updateDemarcheReducer(current.updateDemarcheState, action),
-    detailsJeuneState: detailsJeuneReducer(current.detailsJeuneState, action),
+    detailsJeuneState: genericReducer<NoRequest, DetailsJeune>(current.detailsJeuneState, action),
     chatStatusState: chatStatusReducer(current.chatStatusState, action),
     chatState: chatReducer(current.chatState, action),
     deepLinkState: deepLinkReducer(current.deepLinkState, action),

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
+import 'package:pass_emploi_app/features/generic/generic_state.dart';
+import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/conseiller_profil_page_view_model.dart';
 
@@ -10,7 +11,7 @@ void main() {
   test('should display loading', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(detailsJeuneState: DetailsJeuneLoadingState()),
+      initialState: loggedInState().copyWith(detailsJeuneState: LoadingState()),
     );
 
     // When
@@ -24,7 +25,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: loggedInState().copyWith(
-        detailsJeuneState: DetailsJeuneSuccessState(detailsJeune: detailsJeune()),
+        detailsJeuneState: SuccessState<DetailsJeune>(detailsJeune()),
       ),
     );
 
@@ -40,7 +41,7 @@ void main() {
   test('should be hidden (for failure)', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(detailsJeuneState: DetailsJeuneFailureState()),
+      initialState: loggedInState().copyWith(detailsJeuneState: FailureState()),
     );
 
     // When
@@ -53,7 +54,7 @@ void main() {
   test('should be hidden (at initialization)', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(detailsJeuneState: DetailsJeuneNotInitializedState()),
+      initialState: loggedInState().copyWith(detailsJeuneState: NotInitializedState()),
     );
 
     // When

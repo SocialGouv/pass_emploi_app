@@ -1,19 +1,22 @@
-sealed class Action<T> {}
+class NoRequest {}
 
-class RequestAction<T> extends Action<T> {
+sealed class Action<REQUEST, RESPONSE> {}
+
+class RequestAction<REQUEST, RESPONSE> extends Action<REQUEST, RESPONSE> {
+  final REQUEST request;
   final bool forceRefresh;
 
-  RequestAction({this.forceRefresh = false});
+  RequestAction(this.request, {this.forceRefresh = false});
 }
 
-class LoadingAction<T> extends Action<T> {}
+class LoadingAction<REQUEST, RESPONSE> extends Action<REQUEST, RESPONSE> {}
 
-class SuccessAction<T> extends Action<T> {
-  final T data;
+class SuccessAction<REQUEST, RESPONSE> extends Action<REQUEST, RESPONSE> {
+  final RESPONSE data;
 
   SuccessAction(this.data);
 }
 
-class FailureAction<T> extends Action<T> {}
+class FailureAction<REQUEST, RESPONSE> extends Action<REQUEST, RESPONSE> {}
 
-class ResetAction<T> extends Action<T> {}
+class ResetAction<REQUEST, RESPONSE> extends Action<REQUEST, RESPONSE> {}

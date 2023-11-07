@@ -1,13 +1,13 @@
 import 'package:pass_emploi_app/features/generic/generic_actions.dart';
 import 'package:pass_emploi_app/features/generic/generic_state.dart';
 
-State<T> genericReducer<T>(State<T> current, dynamic action) {
-  if (action is Action<T>) {
+State<RESPONSE> genericReducer<REQUEST, RESPONSE>(State<RESPONSE> current, dynamic action) {
+  if (action is Action<REQUEST, RESPONSE>) {
     return switch (action) {
-      LoadingAction() => LoadingState<T>(),
-      SuccessAction() => SuccessState<T>(action.data),
-      FailureAction() => FailureState<T>(),
-      ResetAction() => NotInitializedState<T>(),
+      LoadingAction() => LoadingState<RESPONSE>(),
+      SuccessAction() => SuccessState<RESPONSE>(action.data),
+      FailureAction() => FailureState<RESPONSE>(),
+      ResetAction() => NotInitializedState<RESPONSE>(),
       RequestAction() => current,
     };
   }

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
+import 'package:pass_emploi_app/features/generic/generic_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/pages/cv/cv_list_page.dart';
 import 'package:pass_emploi_app/pages/diagoriente/diagoriente_entry_page.dart';
 import 'package:pass_emploi_app/pages/partage_activite_page.dart';
@@ -43,7 +44,7 @@ class ProfilPage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.profil,
       child: StoreConnector<AppState, ProfilPageViewModel>(
-        onInit: (store) => store.dispatch(DetailsJeuneRequestAction()),
+        onInit: (store) => store.dispatch(RequestAction<NoRequest, DetailsJeune>(NoRequest())),
         converter: (store) => ProfilPageViewModel.create(store),
         builder: (BuildContext context, ProfilPageViewModel vm) => _buildScaffold(context, vm),
         distinct: true,
@@ -111,6 +112,7 @@ class ProfilPage extends StatelessWidget {
 
 class _SeactionTitle extends StatelessWidget {
   const _SeactionTitle(this.title);
+
   final String title;
 
   @override
