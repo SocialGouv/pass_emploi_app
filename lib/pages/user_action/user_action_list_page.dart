@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_actio
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_actions_loading.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -16,7 +15,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
@@ -26,7 +24,6 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
-import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class UserActionListPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -137,36 +134,14 @@ class _UserActionListPageState extends State<UserActionListPage> {
       label: Strings.addAnAction,
       icon: AppIcons.add_rounded,
       rippleColor: AppColors.primaryDarken,
-      onPressed: () => Navigator.push(
-        context,
-        CreateUserActionBottomSheet.materialPageRoute(),
-      ).then((value) {
-        if (value is DismissWithSuccess) {
-          _showSnackBarWithDetail(value.userActionCreatedId);
-          viewModel.onCreateUserActionDismissed();
-        } else if (value is DismissWithFailure) {
-          showSuccessfulSnackBar(context, Strings.createActionPostponed);
-          viewModel.onCreateUserActionDismissed();
-        }
-      }),
-    );
-  }
-
-  void _showSnackBarWithDetail(String userActionId) {
-    PassEmploiMatomoTracker.instance.trackEvent(
-      eventCategory: AnalyticsEventNames.createActionEventCategory,
-      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
-    );
-    showSuccessfulSnackBar(
-      context,
-      Strings.createActionSuccess,
-      () {
-        PassEmploiMatomoTracker.instance.trackEvent(
-          eventCategory: AnalyticsEventNames.createActionEventCategory,
-          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+      onPressed: () => Navigator.push(context, CreateUserActionBottomSheet.materialPageRoute()).then((result) {
+        CreateUserActionBottomSheet.displaySnackBarOnResult(
+          context,
+          result,
+          UserActionStateSource.list,
+          () => viewModel.onCreateUserActionDismissed(),
         );
-        Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.list));
-      },
+      }),
     );
   }
 }

@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
@@ -85,17 +84,13 @@ class _Scaffold extends StatelessWidget {
         if (viewModel.createButton == CreateButton.userAction)
           _CreateButton(
             label: Strings.addAnAction,
-            onPressed: () => Navigator.push(
-              context,
-              CreateUserActionBottomSheet.materialPageRoute(),
-            ).then((value) {
-              if (value is DismissWithSuccess) {
-                _showUserActionSnackBarWithDetail(context, value.userActionCreatedId);
-                viewModel.resetCreateAction();
-              } else if (value is DismissWithFailure) {
-                showSuccessfulSnackBar(context, Strings.createActionPostponed);
-                viewModel.resetCreateAction();
-              }
+            onPressed: () => Navigator.push(context, CreateUserActionBottomSheet.materialPageRoute()).then((result) {
+              CreateUserActionBottomSheet.displaySnackBarOnResult(
+                context,
+                result,
+                UserActionStateSource.agenda,
+                () => viewModel.resetCreateAction(),
+              );
             }),
           ),
         if (viewModel.createButton == CreateButton.demarche)
@@ -106,24 +101,6 @@ class _Scaffold extends StatelessWidget {
             }),
           ),
       ]),
-    );
-  }
-
-  void _showUserActionSnackBarWithDetail(BuildContext context, String userActionId) {
-    PassEmploiMatomoTracker.instance.trackEvent(
-      eventCategory: AnalyticsEventNames.createActionEventCategory,
-      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
-    );
-    showSuccessfulSnackBar(
-      context,
-      Strings.createActionSuccess,
-      () {
-        PassEmploiMatomoTracker.instance.trackEvent(
-          eventCategory: AnalyticsEventNames.createActionEventCategory,
-          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
-        );
-        Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, UserActionStateSource.agenda));
-      },
     );
   }
 
