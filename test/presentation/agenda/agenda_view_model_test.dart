@@ -231,7 +231,7 @@ void main() {
       );
     });
 
-    test('when content and pending actions should display empty item and pending actions banner', () {
+    test('when content and pending actions should display content and pending actions banner', () {
       // Given
       final actions = [actionSamediProchain];
       final store = givenState() //

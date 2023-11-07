@@ -62,7 +62,7 @@ void main() {
         userActionRepository = MockUserActionRepository();
       });
 
-      group('With a single connectivity update event', () {
+      group('with a single connectivity update event', () {
         late MockUserActionPendingCreationRepository pendingRepository;
         setUp(() {
           userActionRepository = MockUserActionRepository();
@@ -110,7 +110,7 @@ void main() {
         });
       });
 
-      group("With multiple connectivity update events", () {
+      group("with multiple connectivity update events", () {
         late UserActionPendingCreationRepository pendingRepository;
 
         setUp(() async {
