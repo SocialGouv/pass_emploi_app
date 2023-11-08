@@ -16,46 +16,68 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class BaseCardS extends StatelessWidget {
-  const BaseCardS();
+  const BaseCardS({
+    required this.title,
+    this.subtitle,
+    this.body,
+    this.tag,
+    this.pillule,
+    this.iconButton,
+    this.withEntrepriseAcceuillante = false,
+  });
+
+  final CardTag? tag;
+  final CardPillule? pillule;
+  final CardIconButton? iconButton;
+  final String title;
+  final String? subtitle;
+  final String? body;
+  final bool withEntrepriseAcceuillante;
 
   @override
   Widget build(BuildContext context) {
+    final bool isSimpleCard = tag == null && pillule == null;
     return CardContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (!isSimpleCard) ...[
+            Row(
+              children: [
+                if (tag != null) tag!,
+                Expanded(child: SizedBox()),
+                if (pillule != null) pillule!,
+                if (iconButton != null) iconButton!,
+              ],
+            ),
+            SizedBox(height: Margins.spacing_base),
+          ],
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CardTag(
-                icon: Icons.business_center_outlined,
-                backgroundColor: AppColors.accent2Lighten,
-                text: "Offre d'emploi",
-                contentColor: AppColors.accent3,
-              ),
-              Expanded(child: SizedBox()),
-              CardPillule(
-                  icon: Icons.bolt,
-                  text: "À réaliser",
-                  contentColor: AppColors.accent2,
-                  backgroundColor: AppColors.accent3Lighten),
-              CardIconButton(AppIcons.delete, color: AppColors.primary, onPressed: () {})
+              Expanded(child: CardTitle(title)),
+              if (isSimpleCard) iconButton!,
             ],
           ),
-          SizedBox(height: Margins.spacing_m),
-          CardTitle("Titre de la carte sur trois lignes ou plus avec troncature auto à trois lignes"),
           SizedBox(height: Margins.spacing_base),
-          CardSubtitle("Sous-titre card"),
-          SizedBox(height: Margins.spacing_base),
-          CardTag(
-            icon: Icons.volunteer_activism,
-            backgroundColor: AppColors.additional1Lighten,
-            text: "Entreprise accueillante",
-            contentColor: AppColors.accent2,
-          ),
-          SizedBox(height: Margins.spacing_base),
-          CardBodyText(
-              "Description texte_s pour apporter du complément, avec troncature automatique au bout de trois lignes si ça veut bien. Lorem ipsus im dorlor"),
-          SizedBox(height: Margins.spacing_base),
+          if (subtitle != null) ...[
+            CardSubtitle(subtitle!),
+            SizedBox(height: Margins.spacing_base),
+          ],
+          if (withEntrepriseAcceuillante) ...[
+            CardTag(
+              // TODO: Custom card tag
+              icon: Icons.volunteer_activism,
+              backgroundColor: AppColors.additional1Lighten,
+              text: "Entreprise accueillante",
+              contentColor: AppColors.accent2,
+            ),
+            SizedBox(height: Margins.spacing_base),
+          ],
+          if (body != null) ...[
+            CardBodyText(body!),
+            SizedBox(height: Margins.spacing_base),
+          ],
           Wrap(
             spacing: Margins.spacing_base,
             runSpacing: Margins.spacing_s,
@@ -88,7 +110,7 @@ class BaseCardS extends StatelessWidget {
               icon: AppIcons.add_rounded,
               onPressed: () {},
             )
-          ]), // TODO:
+          ]),
           SizedBox(height: Margins.spacing_m),
           PressedTip("Voir le détail"),
         ],
