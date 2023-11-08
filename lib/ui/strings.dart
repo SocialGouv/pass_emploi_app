@@ -133,8 +133,9 @@ class Strings {
 
   // Entree
   static String askAccount = "Demander un compte";
-  static String suiviParConseiller =
+  static String suiviParConseillerCEJ =
       "Dans le cadre de mon Contrat d'Engagement Jeune, je suis suivi par un conseiller :";
+  static String suiviParConseillerBRSA = "Je suis suivi par un conseiller :";
   static String dontHaveAccount = "Vous n’avez pas de compte sur cette application ?";
 
   // Choix organisme

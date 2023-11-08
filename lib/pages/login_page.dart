@@ -59,7 +59,7 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(Strings.suiviParConseiller, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+                        Text(viewModel.suiviText, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
                         SizedBox(height: Margins.spacing_m),
                         _body(viewModel, context),
                       ],

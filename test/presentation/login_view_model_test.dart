@@ -170,4 +170,26 @@ void main() {
     // Then
     expect(viewModel.withAskAccountButton, true);
   });
+
+  test("view model when brand is BRSA should have corresponding suivi text", () {
+    // Given
+    final store = givenBrsaState().copyWith(loginState: UserNotLoggedInState()).store();
+
+    // When
+    final viewModel = LoginViewModel.create(store);
+
+    // Then
+    expect(viewModel.suiviText, "Je suis suivi par un conseiller :");
+  });
+
+  test("view model when brand is CEJ should have corresponding suivi text", () {
+    // Given
+    final store = givenState().copyWith(loginState: UserNotLoggedInState()).store();
+
+    // When
+    final viewModel = LoginViewModel.create(store);
+
+    // Then
+    expect(viewModel.suiviText, "Dans le cadre de mon Contrat d'Engagement Jeune, je suis suivi par un conseiller :");
+  });
 }
