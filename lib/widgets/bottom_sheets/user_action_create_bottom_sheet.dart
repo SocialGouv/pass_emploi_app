@@ -301,6 +301,7 @@ class _Rappel extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyle = isActive ? TextStyles.textBaseRegular : TextStyles.textBaseRegularWithColor(AppColors.disabled);
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(child: Text(Strings.rappelSwitch, style: textStyle)),
         SizedBox(width: Margins.spacing_m),
@@ -308,6 +309,7 @@ class _Rappel extends StatelessWidget {
           value: isActive && value,
           onChanged: isActive ? onChanged : null,
         ),
+        SizedBox(width: Margins.spacing_xs),
         Text(isActive && value ? Strings.yes : Strings.no, style: textStyle),
       ],
     );
