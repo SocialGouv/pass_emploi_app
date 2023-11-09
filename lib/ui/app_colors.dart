@@ -65,6 +65,7 @@ class AppColors {
   // Miscellaneous
   static const Color shadowColor = Color.fromARGB(10, 50, 0, 1);
   static const Color favoriteHeartColor = Color(0xFFA44C66);
+  static const Color switchColor = Color(0xFF34C759);
 
   // Brands
   static const Color poleEmploi = Color(0xFF073A82);

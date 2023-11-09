@@ -144,6 +144,7 @@ class _PartageFavorisState extends State<_PartageFavoris> {
                   value: _partageFavorisEnabled,
                   onChanged: _onPartageFavorisValueChange,
                 ),
+                SizedBox(width: Margins.spacing_xs),
                 Text(
                   _partageFavorisEnabled ? Strings.yes : Strings.no,
                   style: TextStyles.textBaseRegularWithColor(
