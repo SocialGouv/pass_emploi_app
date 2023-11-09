@@ -15,11 +15,11 @@ class PassEmploiTheme {
       }),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-        return states.contains(MaterialState.selected) ? Colors.white : null;
-      }),
+      thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) => Colors.white),
       trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-        return states.contains(MaterialState.selected) ? AppColors.primary : null;
+        if (states.contains(MaterialState.disabled)) return AppColors.grey700;
+        if (states.contains(MaterialState.selected)) return AppColors.switchColor;
+        return null;
       }),
     ),
   );
