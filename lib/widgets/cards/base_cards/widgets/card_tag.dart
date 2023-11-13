@@ -6,12 +6,23 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CardTag extends StatelessWidget {
+  final IconData? icon;
+  final Color backgroundColor;
+  final String text;
+  final Color contentColor;
+
   const CardTag({
     this.icon,
     required this.backgroundColor,
     required this.text,
     required this.contentColor,
   });
+
+  CardTag.secondary({
+    this.icon,
+    required this.text,
+  })  : backgroundColor = AppColors.primaryLighten,
+        contentColor = AppColors.primary;
 
   CardTag.offreEmploi()
       : icon = Icons.business_center_outlined,
@@ -42,17 +53,6 @@ class CardTag extends StatelessWidget {
         backgroundColor = AppColors.additional1Lighten,
         text = Strings.entrepriseAccueillante,
         contentColor = AppColors.accent2;
-
-  CardTag.secondary({
-    this.icon,
-    required this.text,
-  })  : backgroundColor = AppColors.primaryLighten,
-        contentColor = AppColors.primary;
-
-  final IconData? icon;
-  final Color backgroundColor;
-  final String text;
-  final Color contentColor;
 
   @override
   Widget build(BuildContext context) {

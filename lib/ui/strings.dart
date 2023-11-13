@@ -190,10 +190,16 @@ class Strings {
   static String logoutAction = "Se déconnecter";
 
   // Card and subcomponents
-  static String emploiTag = "Offre d’emploi";
-  static String alternanceTag = "Alternance";
-  static String immersionTag = "Immersion";
-  static String serviceCiviqueTag = "Service civique";
+  static const String emploiTag = "Offre d’emploi";
+  static const String alternanceTag = "Alternance";
+  static const String immersionTag = "Immersion";
+  static const String serviceCiviqueTag = "Service civique";
+
+  static const String todoPillule = "À réaliser";
+  static const String doingPillule = "En cours";
+  static const String donePillule = "Terminée";
+  static const String latePillule = "En retard";
+  static const String canceledPillule = "Annulée";
 
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
@@ -336,15 +342,11 @@ class Strings {
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
-  static const String actionDone = "Terminée";
-  static const String actionCanceled = "Annulée";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Détail de l'action";
   static String demarcheDetails = "Détail de la démarche";
   static String updateStatus = "Modifier le statut";
   static String refreshActionStatus = "Valider le statut";
-  static const String actionToDo = "À réaliser";
-  static const String actionInProgress = "Commencée";
   static String noActionsYet = "Vous n'avez pas encore d’action prévue.";
   static String addAnAction = "Créer une action";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
@@ -403,11 +405,6 @@ class Strings {
   static String createdBy = "Crée le ";
   static String par = " par ";
   static String votreConseiller = "votre conseiller";
-  static const String demarcheToDo = "À faire";
-  static const String demarcheInProgress = "En cours";
-  static const String demarcheRetarded = "En retard";
-  static const String demarcheDone = "Réalisé";
-  static const String demarcheCancelled = "Annulé";
   static const String late = "En retard : ";
   static const String createDemarchePersonnalisee = "Créer une démarche";
   static const String commentaire = "Commentaire";

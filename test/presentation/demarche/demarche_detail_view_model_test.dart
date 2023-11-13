@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -69,18 +68,18 @@ void main() {
         viewModel.statutsPossibles,
         [
           UserActionTagViewModel(
-            title: Strings.demarcheToDo,
+            title: "À réaliser",
             backgroundColor: AppColors.accent1Lighten,
             textColor: AppColors.accent1,
             isSelected: true,
           ),
           UserActionTagViewModel(
-            title: Strings.demarcheInProgress,
+            title: "En cours",
             backgroundColor: Colors.transparent,
             textColor: AppColors.grey800,
           ),
           UserActionTagViewModel(
-            title: Strings.demarcheDone,
+            title: "Terminée",
             backgroundColor: Colors.transparent,
             textColor: AppColors.grey800,
           ),
@@ -117,11 +116,11 @@ void main() {
       final demarche = mockDemarche(id: "8802034");
       final store = givenState()
           .copyWith(
-        demarcheListState: DemarcheListSuccessState(
-          [demarche],
-          DateTime(2023, 1, 1, 12, 30),
-        ),
-      )
+            demarcheListState: DemarcheListSuccessState(
+              [demarche],
+              DateTime(2023, 1, 1, 12, 30),
+            ),
+          )
           .store();
 
       // When
@@ -227,7 +226,7 @@ void main() {
 
     // When
     viewModel.onModifyStatus(UserActionTagViewModel(
-      title: Strings.demarcheDone,
+      title: "Terminée",
       backgroundColor: Colors.transparent,
       textColor: AppColors.grey800,
     ));

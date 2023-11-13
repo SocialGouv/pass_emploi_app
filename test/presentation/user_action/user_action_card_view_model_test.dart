@@ -54,7 +54,7 @@ void main() {
       expect(
           viewModel.tag,
           UserActionTagViewModel(
-            title: Strings.actionToDo,
+            title: Strings.todoPillule,
             backgroundColor: AppColors.accent1Lighten,
             textColor: AppColors.accent1,
           ));
@@ -77,7 +77,7 @@ void main() {
       expect(
         viewModel.tag,
         UserActionTagViewModel(
-          title: Strings.actionInProgress,
+          title: Strings.doingPillule,
           backgroundColor: AppColors.accent3Lighten,
           textColor: AppColors.accent3,
         ),

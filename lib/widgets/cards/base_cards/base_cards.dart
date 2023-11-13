@@ -22,22 +22,26 @@ class BaseCardS extends StatelessWidget {
     this.tag,
     this.pillule,
     this.iconButton,
-    this.withEntrepriseAcceuillante = false,
+    this.onTap,
+    this.withEntrepriseAccueillante = false,
   });
 
+  final String title;
   final CardTag? tag;
   final CardPillule? pillule;
   final CardIconButton? iconButton;
-  final String title;
   final String? subtitle;
   final String? body;
-  final bool withEntrepriseAcceuillante;
+  final bool withEntrepriseAccueillante;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     final bool isSimpleCard = tag == null && pillule == null;
     return CardContainer(
+      onTap: onTap,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (!isSimpleCard) ...[
@@ -88,7 +92,7 @@ class BaseCardS extends StatelessWidget {
             ],
           ),
           SizedBox(height: Margins.spacing_base),
-          if (withEntrepriseAcceuillante) ...[
+          if (withEntrepriseAccueillante) ...[
             CardTag.entrepriseAccueillante(),
             SizedBox(height: Margins.spacing_base),
           ],
