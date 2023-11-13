@@ -188,7 +188,7 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
         title: favori.titre,
         company: favori.organisation,
         place: favori.localisation,
-        bottomTip: Strings.voirLeDetail,
+        bottomTip: Strings.voirLeDetailCard,
         offreType: favori.type,
         from: OffrePage.offreFavoris,
         id: favori.id,

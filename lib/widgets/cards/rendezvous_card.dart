@@ -85,7 +85,7 @@ class _Content extends StatelessWidget {
           ],
           _Date(viewModel.date),
           SizedBox(height: Margins.spacing_base),
-          PressedTip(Strings.voirLeDetail),
+          PressedTip(Strings.voirLeDetailCard),
         ],
       ),
     );

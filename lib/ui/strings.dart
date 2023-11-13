@@ -76,7 +76,6 @@ class Strings {
   static String suppressionLabel = "Supprimer";
   static String refuserLabel = "Refuser";
   static String seeDetail = "Voir le détail >";
-  static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
   static String notConnected = "Vous êtes hors connexion";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
@@ -200,6 +199,8 @@ class Strings {
   static const String donePillule = "Terminée";
   static const String latePillule = "En retard";
   static const String canceledPillule = "Annulée";
+
+  static const String voirLeDetailCard = "Voir le détail";
 
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";

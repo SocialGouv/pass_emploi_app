@@ -112,7 +112,7 @@ class _FavorisCard extends StatelessWidget {
           title: favori.titre,
           company: favori.organisation,
           place: favori.localisation,
-          bottomTip: Strings.voirLeDetail,
+          bottomTip: Strings.voirLeDetailCard,
           offreType: favori.type,
           onTap: () => _goToFavori(context, favori),
         ),

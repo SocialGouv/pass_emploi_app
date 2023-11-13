@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_actions.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_body.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
@@ -15,6 +13,16 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class BaseCardS extends StatelessWidget {
+  final String title;
+  final CardTag? tag;
+  final CardPillule? pillule;
+  final CardIconButton? iconButton;
+  final String? subtitle;
+  final String? body;
+  final CardActions? actions;
+  final Widget? additionalChild;
+  final void Function()? onTap;
+
   const BaseCardS({
     required this.title,
     this.subtitle,
@@ -23,17 +31,9 @@ class BaseCardS extends StatelessWidget {
     this.pillule,
     this.iconButton,
     this.onTap,
-    this.withEntrepriseAccueillante = false,
+    this.actions,
+    this.additionalChild,
   });
-
-  final String title;
-  final CardTag? tag;
-  final CardPillule? pillule;
-  final CardIconButton? iconButton;
-  final String? subtitle;
-  final String? body;
-  final bool withEntrepriseAccueillante;
-  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -92,25 +92,16 @@ class BaseCardS extends StatelessWidget {
             ],
           ),
           SizedBox(height: Margins.spacing_base),
-          if (withEntrepriseAccueillante) ...[
-            CardTag.entrepriseAccueillante(),
+          if (additionalChild != null) ...[
+            additionalChild!,
             SizedBox(height: Margins.spacing_base),
           ],
-          SizedBox(height: Margins.spacing_s),
-          CardActions(actions: [
-            SecondaryButton(
-              label: "label",
-              icon: AppIcons.delete,
-              onPressed: () {},
-            ),
-            PrimaryActionButton(
-              label: "label",
-              icon: AppIcons.add_rounded,
-              onPressed: () {},
-            )
-          ]),
+          if (actions != null) ...[
+            SizedBox(height: Margins.spacing_s),
+            actions!,
+          ],
           SizedBox(height: Margins.spacing_m),
-          PressedTip("Voir le détail"),
+          PressedTip(Strings.voirLeDetailCard),
         ],
       ),
     );

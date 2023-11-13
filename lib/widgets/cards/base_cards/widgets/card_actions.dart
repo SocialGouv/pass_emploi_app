@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 
 class CardActions extends StatelessWidget {
-  const CardActions({required this.actions});
   final List<Widget> actions;
+
+  const CardActions({required this.actions});
 
   @override
   Widget build(BuildContext context) {
