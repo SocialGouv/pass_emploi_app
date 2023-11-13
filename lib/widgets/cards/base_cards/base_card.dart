@@ -12,27 +12,31 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_title.dart
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
-class BaseCardS extends StatelessWidget {
+class BaseCard extends StatelessWidget {
   final String title;
   final CardTag? tag;
   final CardPillule? pillule;
   final CardIconButton? iconButton;
   final String? subtitle;
   final String? body;
+  final List<CardComplement>? complements;
+  final List<CardTag>? secondaryTags;
   final CardActions? actions;
   final Widget? additionalChild;
   final void Function()? onTap;
 
-  const BaseCardS({
+  const BaseCard({
     required this.title,
     this.subtitle,
     this.body,
     this.tag,
     this.pillule,
     this.iconButton,
-    this.onTap,
+    this.complements,
+    this.secondaryTags,
     this.actions,
     this.additionalChild,
+    this.onTap,
   });
 
   @override
@@ -71,27 +75,10 @@ class BaseCardS extends StatelessWidget {
             CardBodyText(body!),
             SizedBox(height: Margins.spacing_base),
           ],
-          Wrap(
-            spacing: Margins.spacing_base,
-            runSpacing: Margins.spacing_s,
-            children: [
-              CardComplement(text: "Complément 1"),
-              CardComplement(text: "Complément 2"),
-              CardComplement(text: "Complément 3"),
-              CardComplement(text: "Complément 4"),
-            ],
-          ),
-          SizedBox(height: Margins.spacing_base),
-          Wrap(
-            spacing: Margins.spacing_s,
-            runSpacing: Margins.spacing_s,
-            children: [
-              CardTag.secondary(text: "Tag info 1"),
-              CardTag.secondary(text: "Tag info 2"),
-              CardTag.secondary(text: "Tag info 3"),
-            ],
-          ),
-          SizedBox(height: Margins.spacing_base),
+          if (complements != null)
+            Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
+          if (secondaryTags != null)
+            Wrap(spacing: Margins.spacing_s, runSpacing: Margins.spacing_s, children: secondaryTags!),
           if (additionalChild != null) ...[
             additionalChild!,
             SizedBox(height: Margins.spacing_base),

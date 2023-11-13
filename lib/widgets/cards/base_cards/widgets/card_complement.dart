@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CardComplement extends StatelessWidget {
-  const CardComplement({required this.text});
   final String text;
+  final IconData icon;
+
+  const CardComplement({required this.text, required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +16,9 @@ class CardComplement extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          Icons.settings,
-          size: 16,
-          color: contentColor,
-        ),
+        Icon(icon, size: Dimens.icon_size_base, color: contentColor),
         SizedBox(width: Margins.spacing_xs),
-        Text(
-          text,
-          style: TextStyles.textSRegular().copyWith(color: contentColor),
-        )
+        Text(text, style: TextStyles.textSRegular().copyWith(color: contentColor))
       ],
     );
   }

@@ -24,7 +24,7 @@ class CardTag extends StatelessWidget {
   })  : backgroundColor = AppColors.primaryLighten,
         contentColor = AppColors.primary;
 
-  CardTag.offreEmploi()
+  CardTag.emploi()
       : icon = Icons.business_center_outlined,
         backgroundColor = AppColors.additional2Ligthen,
         text = Strings.emploiTag,
