@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -64,16 +63,6 @@ class BaseCardS extends StatelessWidget {
             CardSubtitle(subtitle!),
             SizedBox(height: Margins.spacing_base),
           ],
-          if (withEntrepriseAcceuillante) ...[
-            CardTag(
-              // TODO: Custom card tag
-              icon: Icons.volunteer_activism,
-              backgroundColor: AppColors.additional1Lighten,
-              text: "Entreprise accueillante",
-              contentColor: AppColors.accent2,
-            ),
-            SizedBox(height: Margins.spacing_base),
-          ],
           if (body != null) ...[
             CardBodyText(body!),
             SizedBox(height: Margins.spacing_base),
@@ -98,7 +87,12 @@ class BaseCardS extends StatelessWidget {
               CardTag.secondary(text: "Tag info 3"),
             ],
           ),
-          SizedBox(height: Margins.spacing_m),
+          SizedBox(height: Margins.spacing_base),
+          if (withEntrepriseAcceuillante) ...[
+            CardTag.entrepriseAcceuillante(),
+            SizedBox(height: Margins.spacing_base),
+          ],
+          SizedBox(height: Margins.spacing_s),
           CardActions(actions: [
             SecondaryButton(
               label: "label",

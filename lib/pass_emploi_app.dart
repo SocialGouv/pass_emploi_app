@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
-import 'package:pass_emploi_app/pages/router_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/test_card_page.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_material_app.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -23,7 +23,7 @@ class PassEmploiApp extends StatelessWidget {
           scaffoldMessengerKey: snackBarKey,
           title: Strings.appName,
           navigatorObservers: [routeObserver],
-          home: RouterPage(),
+          home: TestCardPage(),
         ),
       ),
     );

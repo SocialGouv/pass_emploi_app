@@ -20,12 +20,7 @@ class TestCardPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             BaseCardS(
-              tag: CardTag(
-                icon: Icons.business_center_outlined,
-                backgroundColor: AppColors.accent2Lighten,
-                text: "Offre d'emploi",
-                contentColor: AppColors.accent3,
-              ),
+              tag: CardTag.offreEmploi(),
               pillule: CardPillule(
                 icon: Icons.bolt,
                 text: "À réaliser",
