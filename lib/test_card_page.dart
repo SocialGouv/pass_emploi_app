@@ -20,7 +20,7 @@ class TestCardPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             BaseCardS(
-              tag: CardTag.offreEmploi(),
+              tag: CardTag.serviceCivique(),
               pillule: CardPillule(
                 icon: Icons.bolt,
                 text: "À réaliser",

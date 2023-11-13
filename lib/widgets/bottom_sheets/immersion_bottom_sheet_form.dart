@@ -140,7 +140,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
         Text(Strings.savedSearchFilters, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
         _buildDataTags([
-          TagInfo(Strings.savedSearchImmersionTag, false),
+          TagInfo(Strings.immersionTag, false),
           TagInfo(searchViewModel.metier, false),
           TagInfo(searchViewModel.ville, true),
         ]),

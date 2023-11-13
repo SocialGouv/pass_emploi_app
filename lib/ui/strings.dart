@@ -189,6 +189,12 @@ class Strings {
   static String loginAction = "Se connecter";
   static String logoutAction = "Se déconnecter";
 
+  // Card and subcomponents
+  static String emploiTag = "Offre d’emploi";
+  static String alternanceTag = "Alternance";
+  static String immersionTag = "Immersion";
+  static String serviceCiviqueTag = "Service civique";
+
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
   static String accueilCetteSemaineSection = "Cette semaine";
@@ -807,10 +813,6 @@ class Strings {
       "Vous recevrez des notifications pour être alerté des nouvelles offres liées aux critères de votre recherche.";
 
   static String savedSearchTitleField(metier, localisation) => "$metier - $localisation";
-  static String savedSearchEmploiTag = "Offre d’emploi";
-  static String savedSearchAlternanceTag = "Alternance";
-  static String savedSearchImmersionTag = "Immersion";
-  static String savedSearchServiceCiviqueTag = "Service civique";
   static String savedSearchSuccessfullyCreated =
       "Votre recherche a bien été enregistrée. Retrouvez-la dans la section Mes Alertes sur votre page d'accueil.";
   static String creationSavedSearchError = "Erreur lors de la création de l'alerte. Veuillez réessayer";

@@ -89,7 +89,7 @@ class BaseCardS extends StatelessWidget {
           ),
           SizedBox(height: Margins.spacing_base),
           if (withEntrepriseAcceuillante) ...[
-            CardTag.entrepriseAcceuillante(),
+            CardTag.entrepriseAccueillante(),
             SizedBox(height: Margins.spacing_base),
           ],
           SizedBox(height: Margins.spacing_s),

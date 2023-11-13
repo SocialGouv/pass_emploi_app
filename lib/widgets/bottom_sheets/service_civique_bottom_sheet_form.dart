@@ -142,7 +142,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
         Text(Strings.savedSearchFilters, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
         _buildDataTags([
-          TagInfo(Strings.savedSearchServiceCiviqueTag, false),
+          TagInfo(Strings.serviceCiviqueTag, false),
           if (domaine != null && domaine.isNotEmpty) TagInfo(domaine, false),
           if (ville != null && ville.isNotEmpty) TagInfo(ville, true),
         ]),
