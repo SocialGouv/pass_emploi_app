@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -9,6 +10,8 @@ class CardComplement extends StatelessWidget {
   final IconData icon;
 
   const CardComplement({required this.text, required this.icon});
+
+  const CardComplement.place({required this.text}) : icon = AppIcons.location_on_rounded;
 
   @override
   Widget build(BuildContext context) {

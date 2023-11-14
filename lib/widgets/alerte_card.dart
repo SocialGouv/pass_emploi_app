@@ -92,7 +92,7 @@ Widget _buildEmploiAndAlternanceCard(OffreEmploiSavedSearch alerte, SavedSearchC
   return BaseCard(
     tag: alerte.onlyAlternance ? CardTag.alternance() : CardTag.emploi(),
     title: alerte.title,
-    complements: location != null ? [CardComplement(text: location, icon: Icons.place)] : null,
+    complements: location != null ? [CardComplement.place(text: location)] : null,
     onTap: () => viewModel.fetchSavedSearchResult(alerte),
   );
 }
@@ -101,7 +101,7 @@ Widget _buildImmersionCard(ImmersionSavedSearch alerte, SavedSearchCardViewModel
   return BaseCard(
     tag: CardTag.immersion(),
     title: alerte.title,
-    complements: [CardComplement(text: alerte.ville, icon: Icons.place)],
+    complements: [CardComplement.place(text: alerte.ville)],
     onTap: () => viewModel.fetchSavedSearchResult(alerte),
   );
 }
@@ -110,7 +110,7 @@ Widget _buildServiceCiviqueCard(ServiceCiviqueSavedSearch alerte, SavedSearchCar
   return BaseCard(
     tag: CardTag.serviceCivique(),
     title: alerte.titre,
-    complements: alerte.ville?.isNotEmpty == true ? [CardComplement(text: alerte.ville!, icon: Icons.place)] : null,
+    complements: alerte.ville?.isNotEmpty == true ? [CardComplement.place(text: alerte.ville!)] : null,
     onTap: () => viewModel.fetchSavedSearchResult(alerte),
   );
 }

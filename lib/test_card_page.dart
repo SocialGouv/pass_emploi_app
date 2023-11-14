@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_actions.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
-import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_icon_button.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 
@@ -23,7 +22,7 @@ class TestCardPage extends StatelessWidget {
               "Titre de la carte sur trois lignes ou plus avec troncature auto à trois lignes j'adore les champignons by the way. En plus c'est la saison c'est cool pouruqoi ne pas en profiter après tout ?",
           tag: CardTag.serviceCivique(),
           pillule: CardPillule.late(),
-          iconButton: CardIconButton(AppIcons.delete, color: AppColors.primary, onPressed: () {}),
+          iconButton: IconButton(icon: Icon(AppIcons.delete), color: AppColors.primary, onPressed: () {}),
           subtitle: "Sous-titre card",
           body:
               "Description texte_s pour apporter du complément, avec troncature automatique au bout de trois lignes si ça veut bien. Lorem ipsus im dorlor",

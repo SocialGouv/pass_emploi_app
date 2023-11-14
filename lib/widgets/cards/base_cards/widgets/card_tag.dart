@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -72,5 +73,20 @@ class CardTag extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+extension OffreTypeTagExt on OffreType {
+  CardTag toCardTag() {
+    switch (this) {
+      case OffreType.emploi:
+        return CardTag.emploi();
+      case OffreType.alternance:
+        return CardTag.alternance();
+      case OffreType.immersion:
+        return CardTag.immersion();
+      case OffreType.serviceCivique:
+        return CardTag.serviceCivique();
+    }
   }
 }

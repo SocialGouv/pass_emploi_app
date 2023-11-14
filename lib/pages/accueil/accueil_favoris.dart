@@ -16,7 +16,9 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
-import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
 
@@ -108,13 +110,12 @@ class _FavorisCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FavoriCard(
+        BaseCard(
           title: favori.titre,
-          company: favori.organisation,
-          place: favori.localisation,
-          bottomTip: Strings.voirLeDetailCard,
-          offreType: favori.type,
+          tag: favori.type.toCardTag(),
           onTap: () => _goToFavori(context, favori),
+          subtitle: favori.organisation,
+          complements: [if (favori.localisation != null) CardComplement.place(text: favori.localisation!)],
         ),
         SizedBox(height: Margins.spacing_base),
       ],

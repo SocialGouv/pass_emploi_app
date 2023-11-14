@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_actions.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_body.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
-import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_icon_button.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_subtitle.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
@@ -16,7 +15,7 @@ class BaseCard extends StatelessWidget {
   final String title;
   final CardTag? tag;
   final CardPillule? pillule;
-  final CardIconButton? iconButton;
+  final Widget? iconButton;
   final String? subtitle;
   final String? body;
   final List<CardComplement>? complements;
@@ -63,7 +62,7 @@ class BaseCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(child: CardTitle(title)),
-              if (isSimpleCard) iconButton!,
+              if (isSimpleCard && iconButton != null) iconButton!,
             ],
           ),
           SizedBox(height: Margins.spacing_base),
