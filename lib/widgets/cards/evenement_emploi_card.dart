@@ -73,7 +73,7 @@ class _Location extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(AppIcons.location_on_rounded, color: AppColors.grey800, size: Dimens.icon_size_base),
+        Icon(AppIcons.place_outlined, color: AppColors.grey800, size: Dimens.icon_size_base),
         SizedBox(width: Margins.spacing_xs),
         Text(_location, style: TextStyles.textSMedium()),
       ],

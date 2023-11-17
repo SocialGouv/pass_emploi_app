@@ -228,7 +228,7 @@ class _AttributItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Icon(
-            AppIcons.location_on_rounded,
+            AppIcons.place_outlined,
             color: AppColors.grey700,
             size: Dimens.icon_size_m,
           ),

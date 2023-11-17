@@ -151,7 +151,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
           child: DataTag(
               label: detail.codeDepartement != null ? "${detail.codeDepartement} - ${detail.ville}" : detail.ville,
-              icon: AppIcons.location_on_rounded),
+              icon: AppIcons.place_outlined),
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),

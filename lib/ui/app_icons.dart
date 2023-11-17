@@ -50,9 +50,10 @@ class AppIcons {
   static const IconData cancel_rounded = Icons.cancel_rounded;
   static const IconData euro_rounded = Icons.euro_rounded;
   static const IconData help_rounded = Icons.help_rounded;
+  static const IconData event = Icons.event_outlined;
   static const IconData event_repeat_rounded = Icons.event_repeat_rounded;
   static const IconData description_rounded = Icons.description_rounded;
-  static const IconData location_on_rounded = Icons.location_on_rounded;
+  static const IconData place_outlined = Icons.place_outlined;
   static const IconData today_rounded = Icons.today_rounded;
   static const IconData today_outlined = Icons.today_outlined;
   static const IconData account_circle_rounded = Icons.account_circle_rounded;

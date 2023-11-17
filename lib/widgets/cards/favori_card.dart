@@ -147,7 +147,7 @@ class _Place extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(AppIcons.location_on_rounded, color: color, size: Dimens.icon_size_base),
+        Icon(AppIcons.place_outlined, color: color, size: Dimens.icon_size_base),
         SizedBox(width: Margins.spacing_s),
         Text(place, style: TextStyles.textSRegular(color: color)),
       ],
