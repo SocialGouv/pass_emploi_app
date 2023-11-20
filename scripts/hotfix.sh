@@ -14,14 +14,14 @@ tag() {
 }
 
 upgrade_version_hotfix() {
-  upgrade_version()
-  tag()
+  upgrade_version
+  tag
 }
 
 upgrade_version_main() {
   git checkout main
   git pull --rebase
-  upgrade_version()
+  upgrade_version
   git push
 }
 
