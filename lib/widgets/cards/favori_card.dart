@@ -3,13 +3,11 @@ import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
-import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 
 class FavoriCard<T> extends StatelessWidget {
   final OffreType offreType;
@@ -20,7 +18,6 @@ class FavoriCard<T> extends StatelessWidget {
   final String? date;
   final String bottomTip;
   final void Function()? onTap;
-  final List<Widget> dataTags;
 
   FavoriCard({
     super.key,
@@ -29,7 +26,6 @@ class FavoriCard<T> extends StatelessWidget {
     this.company,
     required this.place,
     this.date,
-    this.dataTags = const [],
     required this.bottomTip,
     required this.offreType,
     this.specialAction,
@@ -42,7 +38,6 @@ class FavoriCard<T> extends StatelessWidget {
     this.company,
     required this.place,
     this.date,
-    this.dataTags = const [],
     required this.bottomTip,
     required this.offreType,
     required String id,
@@ -60,7 +55,6 @@ class FavoriCard<T> extends StatelessWidget {
     this.company,
     required this.place,
     this.date,
-    this.dataTags = const [],
     required this.bottomTip,
     required this.offreType,
     required void Function() onDelete,
@@ -72,95 +66,14 @@ class FavoriCard<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardContainer(
+    return BaseCard(
       onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              offreType.toJobTag(),
-              SizedBox.square(
-                  dimension: Dimens.icon_size_m,
-                  child: OverflowBox(
-                    // to avoid extra padding
-                    maxHeight: 40,
-                    maxWidth: 40,
-                    child: specialAction ?? Container(),
-                  )),
-            ],
-          ),
-          SizedBox(height: Margins.spacing_m),
-          _Title(title),
-          SizedBox(height: Margins.spacing_base),
-          if (company != null) ...[
-            _Company(company!),
-            SizedBox(height: Margins.spacing_xs),
-          ],
-          if (place != null) ...[
-            _Place(place!),
-            SizedBox(height: Margins.spacing_base),
-          ],
-          if (date != null) ...[
-            _Date(date!),
-            SizedBox(height: Margins.spacing_base),
-          ],
-          if (dataTags.isNotEmpty) ...[
-            Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_base, children: dataTags),
-            SizedBox(height: Margins.spacing_base),
-          ],
-          PressedTip(bottomTip),
-        ],
-      ),
+      title: title,
+      tag: offreType.toCardTag(),
+      iconButton: specialAction,
+      complements: [if (place != null) CardComplement.place(text: place!)],
+      secondaryTags: [if (company != null) CardTag.secondary(text: company!)],
+      pressedTip: PressedTip(bottomTip),
     );
-  }
-}
-
-class _Title extends StatelessWidget {
-  final String title;
-  const _Title(this.title);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(title, style: TextStyles.textMBold);
-  }
-}
-
-class _Company extends StatelessWidget {
-  final String company;
-  const _Company(this.company);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(company, style: TextStyles.textSBold);
-  }
-}
-
-class _Place extends StatelessWidget {
-  final String place;
-  const _Place(this.place);
-
-  @override
-  Widget build(BuildContext context) {
-    const color = AppColors.grey800;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(AppIcons.place_outlined, color: color, size: Dimens.icon_size_base),
-        SizedBox(width: Margins.spacing_s),
-        Text(place, style: TextStyles.textSRegular(color: color)),
-      ],
-    );
-  }
-}
-
-class _Date extends StatelessWidget {
-  final String date;
-  const _Date(this.date);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(date, style: TextStyles.textSRegular(color: Colors.black));
   }
 }
