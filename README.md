@@ -161,7 +161,7 @@ En se basant sur https://pub.dev/packages/flutter_native_splash
 
 ## Déployer une app sur Firebase App Distribution avec les Github actions
 
-A chaque push sur la brancheð develop, un build et un déploiement sont faits sur Firebase App
+A chaque push sur la branche main, un build et un déploiement sont faits sur Firebase App
 Distribution. Lorsque des variables d'environnement sont modifiées/ajoutées, il faut les ajouter
 dans les secrets github. Le fichier `ci/.env.template` permet de lister les variables nécessaires.
 Pour rappel, elles sont stockées dans les notes partagées Dashlane (`[APP MOBILE] .env.staging`
@@ -202,12 +202,18 @@ l'appli se retrouve disponible :
 
 ## Déployer un hotfix de l'app en bêta test sur les stores publics
 
-1. **Prérequis : avoir corrigé le bug rencontré sur les branches `master` ET `develop`**
-2. Lancer le script `hotfix.sh` avec le numéro de version en paramètre :
+1. Faire un checkout du dernier tag envoyé en prod. 
+(Note : La suite se fera sur un *detached HEAD*).
+
+2. Corriger les problèmes, puis committer en local.
+
+3. En restant sur le HEAD, lancer le script `hotfix.sh` avec le numéro de version en paramètre :
 
 ```shell script
 $ ./scripts/hotfix.sh <major.minor.patch>
 ```
+
+4. Si besoin, appliquer également la correction sur la branche main.
 
 La pipeline de production se lancera automatiquement dans la foulée. À la fin du job, le build de
 l'appli se retrouve disponible :
