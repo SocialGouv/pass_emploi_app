@@ -1,23 +1,27 @@
 #!/usr/bin/env bash
 
 upgrade_version() {
-  git checkout master
-  git pull --rebase
   dart pub global activate release_tools
   export PATH="$PATH":"$HOME/.pub-cache/bin"
   release_tools update_version "$new_version"
   git add pubspec.yaml
   git commit -m "build: bump app version"
-  git push
 }
 
-tag_and_update_develop() {
+tag() {
   git tag -a $new_version -m "$new_version"
   git push --tags
-  version_commit_sha=$(git rev-parse HEAD)
-  git checkout develop
+}
+
+upgrade_version_hotfix() {
+  upgrade_version()
+  tag()
+}
+
+upgrade_version_main() {
+  git checkout main
   git pull --rebase
-  git cherry-pick $version_commit_sha
+  upgrade_version()
   git push
 }
 
@@ -30,5 +34,7 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-upgrade_version
-tag_and_update_develop
+upgrade_version_hotfix
+upgrade_version_main
+
+echo "🔴 WARN: Si besoin, veuillez appliquer le correctif également sur la branche main."

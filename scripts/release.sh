@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 upgrade_version() {
-  git checkout develop
+  git checkout main
   git pull --rebase
   dart pub global activate release_tools
   export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -11,11 +11,7 @@ upgrade_version() {
   git push
 }
 
-update_master_and_tag() {
-  git checkout master
-  git pull --rebase
-  git merge --no-ff --no-edit -Xtheirs develop
-  git push
+tag() {
   git tag -a $new_version -m "$new_version"
   git push --tags
 }
@@ -30,4 +26,4 @@ if [ -z "$1" ]; then
 fi
 
 upgrade_version
-update_master_and_tag
+tag
