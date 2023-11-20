@@ -47,7 +47,7 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
     if (_shouldInvalidateRendezvous(action)) {
       await cacheManager.removeResource(CachedResource.RENDEZVOUS_FUTURS, userId);
       await cacheManager.removeResource(CachedResource.RENDEZVOUS_PASSES, userId);
-      await cacheManager.removeResource(CachedResource.SESSIONS_MILO_LIST, userId);
+      await cacheManager.removeResource(CachedResource.SESSIONS_MILO_INSCRIT, userId);
       next(RendezvousListResetAction());
     }
 
