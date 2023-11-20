@@ -99,11 +99,13 @@ class BaseCard extends StatelessWidget {
             SizedBox(height: Margins.spacing_base),
           ],
           if (actions != null) ...[
-            SizedBox(height: Margins.spacing_s),
+            SizedBox(height: Margins.spacing_base),
             actions!,
           ],
-          SizedBox(height: Margins.spacing_m),
-          pressedTip ?? PressedTip(Strings.voirLeDetailCard),
+          if (onTap != null) ...[
+            SizedBox(height: Margins.spacing_m),
+            pressedTip ?? PressedTip(Strings.voirLeDetailCard),
+          ],
         ],
       ),
     );

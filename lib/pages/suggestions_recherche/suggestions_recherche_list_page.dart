@@ -16,18 +16,20 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_actions.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
-import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 
 class SuggestionsRechercheListPage extends StatelessWidget {
   final bool fetchSuggestions;
@@ -208,25 +210,16 @@ class _Card extends StatelessWidget {
   Widget _builder(BuildContext context, SuggestionRechercheCardViewModel? viewModel) {
     if (viewModel == null) return SizedBox(height: 0);
     final source = viewModel.source;
-    return CardContainer(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              if (source != null) JobTag(label: source, backgroundColor: AppColors.additional2Ligthen),
-              if (source != null) SizedBox(width: Margins.spacing_m),
-              viewModel.type.toJobTag(),
-            ],
-          ),
-          SizedBox(height: Margins.spacing_m),
-          _Titre(viewModel.titre),
-          SizedBox(height: Margins.spacing_base),
-          if (viewModel.localisation != null) ...[
-            _Localisation(viewModel.localisation!),
-            SizedBox(height: Margins.spacing_base)
-          ],
-          SizedBox(height: Margins.spacing_s),
+
+    return BaseCard(
+      title: viewModel.titre,
+      tag: viewModel.type.toCardTag(),
+      complements: [if (viewModel.localisation != null) CardComplement.place(text: viewModel.localisation!)],
+      secondaryTags: [
+        if (source != null) CardTag.secondary(text: source),
+      ],
+      actions: CardActions(
+        actions: [
           _Buttons(
             onTapAjouter: () async {
               if (viewModel.withLocationForm) {
@@ -261,36 +254,6 @@ class _Card extends StatelessWidget {
   }
 }
 
-class _Titre extends StatelessWidget {
-  final String text;
-
-  _Titre(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(text, style: TextStyles.textMBold);
-  }
-}
-
-class _Localisation extends StatelessWidget {
-  final String localisation;
-
-  const _Localisation(this.localisation);
-
-  @override
-  Widget build(BuildContext context) {
-    const color = AppColors.grey800;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(AppIcons.place_outlined, color: color, size: Dimens.icon_size_base),
-        SizedBox(width: Margins.spacing_s),
-        Text(localisation, style: TextStyles.textSRegular(color: color)),
-      ],
-    );
-  }
-}
-
 class _Buttons extends StatelessWidget {
   final Function() onTapAjouter;
   final Function() onTapRefuser;
@@ -302,10 +265,7 @@ class _Buttons extends StatelessWidget {
     return Row(
       children: [
         Expanded(child: _Refuser(onTapRefuser: onTapRefuser)),
-        SizedBox(
-          height: Margins.spacing_l,
-          child: VerticalDivider(width: Margins.spacing_base, thickness: 1, color: AppColors.primaryLighten),
-        ),
+        SizedBox(width: Margins.spacing_base),
         Expanded(child: _Ajouter(onTapAjouter: onTapAjouter)),
       ],
     );
@@ -319,16 +279,9 @@ class _Refuser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PrimaryActionButton(
-      heightPadding: Margins.spacing_base,
-      backgroundColor: AppColors.primaryLighten,
-      rippleColor: Color.alphaBlend(Colors.black12, AppColors.primaryLighten),
-      textColor: AppColors.primary,
-      iconColor: AppColors.primary,
+    return SecondaryButton(
       label: Strings.refuserLabel,
       icon: AppIcons.remove_alert_rounded,
-      iconRightPadding: Margins.spacing_xs,
-      withShadow: false,
       onPressed: onTapRefuser,
     );
   }

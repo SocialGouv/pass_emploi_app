@@ -44,7 +44,7 @@ class SecondaryButton extends StatelessWidget {
                     child: Icon(
                       icon,
                       color: AppColors.primary,
-                      size: Dimens.icon_size_base,
+                      size: Dimens.icon_size_m,
                     )),
               Flexible(child: Text(label, textAlign: TextAlign.center, style: usedTextStyle)),
             ],
