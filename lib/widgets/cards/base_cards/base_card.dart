@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_actions.dart';
@@ -23,6 +24,8 @@ class BaseCard extends StatelessWidget {
   final CardActions? actions;
   final Widget? additionalChild;
   final void Function()? onTap;
+  final PressedTip? pressedTip;
+  final String? imagePath;
 
   const BaseCard({
     required this.title,
@@ -36,6 +39,8 @@ class BaseCard extends StatelessWidget {
     this.actions,
     this.additionalChild,
     this.onTap,
+    this.pressedTip,
+    this.imagePath,
   });
 
   @override
@@ -58,6 +63,10 @@ class BaseCard extends StatelessWidget {
             ),
             SizedBox(height: Margins.spacing_base),
           ],
+          if (imagePath != null) ...[
+            _CardIllustration(imagePath: imagePath!),
+            SizedBox(height: Margins.spacing_base),
+          ],
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -74,10 +83,17 @@ class BaseCard extends StatelessWidget {
             CardBodyText(body!),
             SizedBox(height: Margins.spacing_base),
           ],
-          if (complements != null)
+          if (complements != null) ...[
             Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
-          if (secondaryTags != null)
-            Wrap(spacing: Margins.spacing_s, runSpacing: Margins.spacing_s, children: secondaryTags!),
+            SizedBox(height: Margins.spacing_base),
+          ],
+          if (secondaryTags != null) ...[
+            Wrap(
+              spacing: Margins.spacing_s,
+              runSpacing: Margins.spacing_s,
+              children: secondaryTags!,
+            ),
+          ],
           if (additionalChild != null) ...[
             additionalChild!,
             SizedBox(height: Margins.spacing_base),
@@ -87,8 +103,27 @@ class BaseCard extends StatelessWidget {
             actions!,
           ],
           SizedBox(height: Margins.spacing_m),
-          PressedTip(Strings.voirLeDetailCard),
+          pressedTip ?? PressedTip(Strings.voirLeDetailCard),
         ],
+      ),
+    );
+  }
+}
+
+class _CardIllustration extends StatelessWidget {
+  const _CardIllustration({Key? key, required this.imagePath}) : super(key: key);
+  final String? imagePath;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
+        child: Image.asset(
+          "assets/${imagePath!}",
+          fit: BoxFit.fitWidth,
+        ),
       ),
     );
   }

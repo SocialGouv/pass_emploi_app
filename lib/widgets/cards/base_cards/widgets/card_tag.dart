@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -19,11 +20,23 @@ class CardTag extends StatelessWidget {
     required this.contentColor,
   });
 
+  CardTag.evenement({
+    required this.text,
+  })  : icon = AppIcons.event,
+        backgroundColor = AppColors.accent1Lighten,
+        contentColor = AppColors.additional3;
+
   CardTag.secondary({
     this.icon,
     required this.text,
   })  : backgroundColor = AppColors.primaryLighten,
         contentColor = AppColors.primary;
+
+  CardTag.annule()
+      : icon = AppIcons.error_rounded,
+        backgroundColor = AppColors.warningLighten,
+        text = Strings.rendezvousCardAnnule,
+        contentColor = AppColors.warning;
 
   CardTag.emploi()
       : icon = Icons.business_center_outlined,

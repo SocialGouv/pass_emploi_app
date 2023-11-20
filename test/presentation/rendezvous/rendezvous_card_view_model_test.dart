@@ -35,7 +35,7 @@ void main() {
   });
 
   group('create when rendezvous state is successful and Rendezvous not empty…', () {
-    test('should display precision in tag if type is "Autre" and precision is set', () {
+    test('should display precision in description if type is "Autre" and precision is set', () {
       // Given
       final store = _store(
         mockRendezvous(id: '1', precision: 'Precision', type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre')),
@@ -45,7 +45,8 @@ void main() {
       final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
 
       // Then
-      expect(viewModel.tag, "Precision");
+      expect(viewModel.tag, "Autre");
+      expect(viewModel.description, "Precision");
     });
 
     test('should display type label in tag if type is "Autre" and precision is not set', () {
@@ -98,7 +99,7 @@ void main() {
       expect(viewModel.date, "Le 01/03/2022 à 10h20");
     });
 
-    group("subtitle", () {
+    group("place", () {
       test('should display modality with conseiller when source is pass emploi', () {
         // Given
         final store = _store(mockRendezvous(
@@ -113,7 +114,7 @@ void main() {
         final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
 
         // Then
-        expect(viewModel.subtitle, "En visio avec Nils Tavernier");
+        expect(viewModel.place, "En visio avec Nils Tavernier");
       });
 
       test('should display modality without conseiller', () {
@@ -129,7 +130,7 @@ void main() {
         final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
 
         // Then
-        expect(viewModel.subtitle, "En visio");
+        expect(viewModel.place, "En visio");
       });
 
       test('should not display empty modality', () {
@@ -140,7 +141,7 @@ void main() {
         final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
 
         // Then
-        expect(viewModel.subtitle, isNull);
+        expect(viewModel.place, isNull);
       });
 
       test('should display modality without conseiller when source is milo', () {
@@ -157,7 +158,7 @@ void main() {
         final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
 
         // Then
-        expect(viewModel.subtitle, "En visio");
+        expect(viewModel.place, "En visio");
       });
     });
 
@@ -170,6 +171,17 @@ void main() {
 
       // Then
       expect(viewModel.isAnnule, isTrue);
+    });
+
+    test('should display empty title when rdv title is null', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', title: null));
+
+      // When
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
+
+      // Then
+      expect(viewModel.title, "");
     });
 
     test('full view model test from rendezvous', () {
@@ -203,8 +215,8 @@ void main() {
           isInscrit: false,
           isAnnule: false,
           title: 'Super bio',
-          subtitle: 'Par téléphone',
-          greenTag: false,
+          description: null,
+          place: 'Par téléphone',
         ),
       );
     });
@@ -239,8 +251,8 @@ void main() {
           isInscrit: false,
           isAnnule: false,
           title: 'Super bio',
-          subtitle: 'Par téléphone',
-          greenTag: false,
+          description: null,
+          place: 'Par téléphone',
         ),
       );
     });
@@ -277,8 +289,8 @@ void main() {
           isInscrit: true,
           isAnnule: false,
           title: 'Super bio',
-          subtitle: 'Par téléphone',
-          greenTag: false,
+          description: null,
+          place: 'Par téléphone',
         ),
       );
     });
@@ -302,8 +314,8 @@ void main() {
           isInscrit: true,
           isAnnule: false,
           title: 'nomOffre - nomSession',
-          subtitle: null,
-          greenTag: false,
+          description: null,
+          place: null,
         ),
       );
     });

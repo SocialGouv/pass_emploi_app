@@ -8,7 +8,11 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 class PressedTip extends StatelessWidget {
   final String tip;
   final Color textColor;
-  const PressedTip(this.tip, {this.textColor = AppColors.contentColor});
+  final IconData icon;
+
+  const PressedTip(this.tip, {this.textColor = AppColors.contentColor, this.icon = AppIcons.chevron_right_rounded});
+  const PressedTip.externalLink(this.tip,
+      {this.textColor = AppColors.contentColor, this.icon = AppIcons.open_in_new_rounded});
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +21,12 @@ class PressedTip extends StatelessWidget {
         Expanded(
           child: Text(
             tip,
-            style: TextStyles.textSMedium(color: textColor),
+            style: TextStyles.textSRegular(color: textColor),
             textAlign: TextAlign.end,
           ),
         ),
-        SizedBox(width: Margins.spacing_xs),
-        Icon(AppIcons.chevron_right_rounded, color: textColor, size: Dimens.icon_size_m),
+        SizedBox(width: Margins.spacing_s),
+        Icon(icon, color: textColor, size: Dimens.icon_size_base),
       ],
     );
   }

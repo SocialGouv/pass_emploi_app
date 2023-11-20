@@ -901,6 +901,7 @@ class Strings {
   static String eventListEmptySubtitle = "Vous retrouverez ici tous les événements programmés de votre mission locale";
   static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
+  static String eventInscrivezVousPourParticiper = "Inscrivez-vous pour participer";
   static String eventAppBarTitle = "Événements";
   static String eventTabMaMissionLocale = "Ma Mission Locale";
   static String eventTabExternes = "Externes";

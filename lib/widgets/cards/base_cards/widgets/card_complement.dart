@@ -11,7 +11,8 @@ class CardComplement extends StatelessWidget {
 
   const CardComplement({required this.text, required this.icon});
 
-  const CardComplement.place({required this.text}) : icon = AppIcons.location_on_rounded;
+  const CardComplement.place({required this.text}) : icon = AppIcons.place_outlined;
+  const CardComplement.date({required this.text}) : icon = AppIcons.schedule;
 
   @override
   Widget build(BuildContext context) {
