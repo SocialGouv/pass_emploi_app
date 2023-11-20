@@ -53,6 +53,8 @@ enum CachedResource {
   RENDEZVOUS_FUTURS,
   RENDEZVOUS_PASSES,
   SESSIONS_MILO_LIST,
+  SESSIONS_MILO_INSCRIT,
+  SESSIONS_MILO_NOT_INSCRIT,
   USER_ACTIONS_LIST,
   FAVORIS,
   FAVORIS_EMPLOI,
@@ -74,7 +76,9 @@ enum CachedResource {
     if (url.contains('/rendezvous') && url.contains('FUTURS')) return RENDEZVOUS_FUTURS;
     if (url.contains('/rendezvous') && url.contains('PASSES')) return RENDEZVOUS_PASSES;
     if (url.endsWith('/recherches')) return SAVED_SEARCH;
-    if (url.contains('/milo') && url.contains('sessions') && !url.contains('sessions/')) return SESSIONS_MILO_LIST;
+    if (url.contains('/milo') && url.endsWith('sessions')) return SESSIONS_MILO_LIST;
+    if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=true')) return SESSIONS_MILO_INSCRIT;
+    if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=false')) return SESSIONS_MILO_NOT_INSCRIT;
     if (url.contains('/home/actions')) return USER_ACTIONS_LIST;
     return null;
   }
