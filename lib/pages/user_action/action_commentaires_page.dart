@@ -46,7 +46,7 @@ class _ActionCommentairesPageState extends State<ActionCommentairesPage> {
           converter: (store) => ActionCommentairePageViewModel.create(store, widget.actionId),
           builder: (context, viewModel) => _body(context, viewModel),
           onDidChange: (oldViewModel, newViewModel) {
-            if (newViewModel.errorOnSend) showFailedSnackBar(context, Strings.sendCommentError);
+            if (newViewModel.errorOnSend) showSnackBarWithSystemError(context, Strings.sendCommentError);
           },
           onDispose: (store) => store.dispatch(ActionCommentaireCreateResetAction()),
           distinct: true,

@@ -123,10 +123,10 @@ class _DeleteAccountButton extends StatelessWidget {
       },
     ).then((result) {
       if (result == true) {
-        showSuccessfulSnackBar(context, Strings.accountDeletionSuccess);
+        showSnackBarWithSuccess(context, Strings.accountDeletionSuccess);
         PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.suppressionAccountSucceded);
       } else if (result == false) {
-        showFailedSnackBar(context, Strings.savedSearchDeleteError);
+        showSnackBarWithSystemError(context, Strings.savedSearchDeleteError);
       }
     });
   }

@@ -17,7 +17,7 @@ class TextFormFieldInputDecoration extends InputDecoration {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(color: AppColors.primary, width: 1.0),
+            borderSide: BorderSide(color: AppColors.primary, width: 2.0),
           ),
         );
 }

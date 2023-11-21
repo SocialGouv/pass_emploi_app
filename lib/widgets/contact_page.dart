@@ -77,7 +77,7 @@ class ContactPage extends StatelessWidget {
     );
     mailSent
         ? _contactDone(context)
-        : showFailedSnackBar(
+        : showSnackBarWithSystemError(
             context,
             Strings.miscellaneousErrorRetry,
           );

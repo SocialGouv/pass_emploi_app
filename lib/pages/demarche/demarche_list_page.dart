@@ -121,7 +121,7 @@ class DemarcheListPage extends StatelessWidget {
 
   void _onDidChange(BuildContext context, DemarcheListPageViewModel? previous, DemarcheListPageViewModel current) {
     if (previous?.isReloading == true && _currentDemarchesAreUpToDate(current)) {
-      showSuccessfulSnackBar(context, Strings.demarchesUpToDate);
+      showSnackBarWithInformation(context, Strings.demarchesUpToDate);
     }
   }
 
@@ -189,7 +189,7 @@ class _AddDemarcheButton extends StatelessWidget {
       eventCategory: AnalyticsEventNames.createActionEventCategory,
       action: AnalyticsEventNames.createActionDisplaySnackBarAction,
     );
-    showSuccessfulSnackBar(
+    showSnackBarWithSuccess(
       context,
       Strings.createDemarcheSuccess,
       () {

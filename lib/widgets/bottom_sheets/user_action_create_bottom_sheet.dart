@@ -51,7 +51,7 @@ class CreateUserActionBottomSheet extends StatefulWidget {
       eventCategory: AnalyticsEventNames.createActionEventCategory,
       action: AnalyticsEventNames.createActionDisplaySnackBarAction,
     );
-    showSuccessfulSnackBar(
+    showSnackBarWithSuccess(
       context,
       Strings.createActionSuccess,
       () {
@@ -69,7 +69,7 @@ class CreateUserActionBottomSheet extends StatefulWidget {
       eventCategory: AnalyticsEventNames.createActionEventCategory,
       action: AnalyticsEventNames.createActionOfflineAction,
     );
-    showSuccessfulSnackBar(context, Strings.createActionPostponed);
+    showSnackBarWithSuccess(context, Strings.createActionPostponed);
   }
 
   @override
@@ -247,11 +247,15 @@ class __CreateActionFormState extends State<_CreateActionForm> {
           borderRadius: BorderRadius.circular(Dimens.radius_base),
           borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
+          borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+        ),
       ),
       keyboardType: TextInputType.multiline,
       textCapitalization: TextCapitalization.sentences,
       textInputAction: textInputAction,
-      style: TextStyles.textSBold,
+      style: TextStyles.textBaseRegular,
       onChanged: onChanged,
     );
   }

@@ -86,7 +86,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   void _onDidChange(RendezvousListViewModel? previous, RendezvousListViewModel current) {
     _openDeeplinkIfNeeded(current, context);
     if (previous?.isReloading == true && _currentRendezvousAreUpToDate(current)) {
-      showSuccessfulSnackBar(context, Strings.rendezvousUpToDate);
+      showSnackBarWithInformation(context, Strings.rendezvousUpToDate);
     }
   }
 

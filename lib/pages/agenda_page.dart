@@ -59,7 +59,7 @@ class AgendaPage extends StatelessWidget {
 
   void _onDidChange(BuildContext context, AgendaPageViewModel? previous, AgendaPageViewModel current) {
     if (previous?.isReloading == true && _currentAgendaIsUpToDate(current)) {
-      showSuccessfulSnackBar(context, current.upToDateLabel);
+      showSnackBarWithInformation(context, current.upToDateLabel);
     }
   }
 
@@ -109,7 +109,7 @@ class _Scaffold extends StatelessWidget {
       eventCategory: AnalyticsEventNames.createActionEventCategory,
       action: AnalyticsEventNames.createActionDisplaySnackBarAction,
     );
-    showSuccessfulSnackBar(
+    showSnackBarWithSuccess(
       context,
       Strings.createDemarcheSuccess,
       () {

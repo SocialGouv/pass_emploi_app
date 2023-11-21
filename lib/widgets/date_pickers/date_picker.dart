@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class DatePicker extends StatelessWidget {
@@ -28,19 +29,25 @@ class DatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyles.textBaseRegular,
       enabled: isActiveDate,
       decoration: InputDecoration(
-          suffixIcon: IconButton(
-            onPressed: () => openDatePicker(context),
-            icon: Icon(AppIcons.today_rounded, color: AppColors.grey800),
-          ),
-          hintText: _hintText(),
-          errorText: errorText,
-          contentPadding: const EdgeInsets.all(Margins.spacing_base),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimens.radius_base),
-            borderSide: BorderSide(color: AppColors.grey800, width: 1.0),
-          )),
+        suffixIcon: IconButton(
+          onPressed: () => openDatePicker(context),
+          icon: Icon(AppIcons.today_rounded, color: AppColors.grey800),
+        ),
+        hintText: _hintText(),
+        errorText: errorText,
+        contentPadding: const EdgeInsets.all(Margins.spacing_base),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
+          borderSide: BorderSide(color: AppColors.grey800, width: 1.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
+          borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+        ),
+      ),
       keyboardType: TextInputType.none,
       textCapitalization: TextCapitalization.sentences,
       onTap: () => openDatePicker(context),

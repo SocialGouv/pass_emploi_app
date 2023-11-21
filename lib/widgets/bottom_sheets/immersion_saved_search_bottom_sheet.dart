@@ -32,7 +32,7 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
   void dismissBottomSheetIfNeeded(BuildContext context, ImmersionSavedSearchViewModel newVm) {
     if (newVm.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
       Navigator.pop(context);
-      showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);
+      showSnackBarWithSuccess(context, Strings.savedSearchSuccessfullyCreated);
     }
   }
 }
