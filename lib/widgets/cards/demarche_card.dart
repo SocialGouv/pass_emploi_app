@@ -34,7 +34,7 @@ class DemarcheCard extends StatelessWidget {
     return BaseCard(
       pillule: viewModel.pilluleType?.toCardPillule(),
       title: viewModel.titre,
-      subtitle: viewModel.sousTitre,
+      body: viewModel.sousTitre,
       onTap: onTap,
       complements: [
         viewModel.isLate
