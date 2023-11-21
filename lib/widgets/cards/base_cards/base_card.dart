@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_actions.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_body.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
@@ -21,7 +20,7 @@ class BaseCard extends StatelessWidget {
   final String? body;
   final List<CardComplement>? complements;
   final List<CardTag>? secondaryTags;
-  final CardActions? actions;
+  final List<Widget>? actions;
   final Widget? additionalChild;
   final void Function()? onTap;
   final PressedTip? pressedTip;
@@ -101,7 +100,9 @@ class BaseCard extends StatelessWidget {
           ],
           if (actions != null) ...[
             SizedBox(height: Margins.spacing_base),
-            actions!,
+            Wrap(
+              children: actions!,
+            ),
           ],
           if (onTap != null) ...[
             SizedBox(height: Margins.spacing_m),

@@ -22,7 +22,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
-import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_actions.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -218,24 +217,22 @@ class _Card extends StatelessWidget {
       secondaryTags: [
         if (source != null) CardTag.secondary(text: source),
       ],
-      actions: CardActions(
-        actions: [
-          _Buttons(
-            onTapAjouter: () async {
-              if (viewModel.withLocationForm) {
-                await _selectLocationAndRayon(
-                  context,
-                  viewModel.type,
-                  onSelected: (location, rayon) => viewModel.ajouterSuggestion(location: location, rayon: rayon),
-                );
-              } else {
-                viewModel.ajouterSuggestion();
-              }
-            },
-            onTapRefuser: viewModel.refuserSuggestion,
-          ),
-        ],
-      ),
+      actions: [
+        _Buttons(
+          onTapAjouter: () async {
+            if (viewModel.withLocationForm) {
+              await _selectLocationAndRayon(
+                context,
+                viewModel.type,
+                onSelected: (location, rayon) => viewModel.ajouterSuggestion(location: location, rayon: rayon),
+              );
+            } else {
+              viewModel.ajouterSuggestion();
+            }
+          },
+          onTapRefuser: viewModel.refuserSuggestion,
+        ),
+      ],
     );
   }
 
