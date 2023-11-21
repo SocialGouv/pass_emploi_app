@@ -22,7 +22,12 @@ class CardComplement extends StatelessWidget {
       children: [
         Icon(icon, size: Dimens.icon_size_base, color: contentColor),
         SizedBox(width: Margins.spacing_xs),
-        Text(text, style: TextStyles.textSRegular().copyWith(color: contentColor))
+        Flexible(
+            fit: FlexFit.loose,
+            child: Text(
+              text,
+              style: TextStyles.textSRegular().copyWith(color: contentColor),
+            ))
       ],
     );
   }
