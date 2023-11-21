@@ -108,7 +108,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
       Navigator.push(context, CampagneQuestionPage.materialPageRoute(widget.questionOffset + 1));
     } else {
       Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
-      showSuccessfulSnackBar(context, Strings.evaluationSuccessfullySent);
+      showSnackBarWithSuccess(context, Strings.evaluationSuccessfullySent);
     }
   }
 

@@ -264,7 +264,7 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
       context: context,
       builder: (_) => SavedSearchDeleteDialog(savedSearchId, type),
     ).then((result) {
-      if (result == true) showSuccessfulSnackBar(context, Strings.savedSearchDeleteSuccess);
+      if (result == true) showSnackBarWithSuccess(context, Strings.savedSearchDeleteSuccess);
     });
   }
 

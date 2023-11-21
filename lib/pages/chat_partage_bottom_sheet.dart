@@ -65,12 +65,12 @@ class _ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
     switch (viewModel.snackbarState) {
       case DisplayState.CONTENT:
         PassEmploiMatomoTracker.instance.trackScreen(viewModel.snackbarSuccessTracking);
-        showSuccessfulSnackBar(context, viewModel.snackbarSuccessText);
+        showSnackBarWithSuccess(context, viewModel.snackbarSuccessText);
         viewModel.snackbarDisplayed();
         Navigator.pop(context);
         break;
       case DisplayState.FAILURE:
-        showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
+        showSnackBarWithSystemError(context);
         viewModel.snackbarDisplayed();
         break;
       case DisplayState.EMPTY:

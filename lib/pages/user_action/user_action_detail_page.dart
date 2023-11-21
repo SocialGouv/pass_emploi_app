@@ -167,7 +167,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
 
   void _pageNavigationHandling(UserActionDetailsViewModel viewModel) {
     if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_UPDATE_ERROR) {
-      showFailedSnackBar(context, Strings.updateStatusError);
+      showSnackBarWithSystemError(context, Strings.updateStatusError);
       viewModel.resetUpdateStatus();
     } else if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_SUCCESS) {
       showPassEmploiBottomSheet(context: context, builder: _successBottomSheet).then((value) => Navigator.pop(context));
@@ -176,7 +176,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
       Navigator.pop(context, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
     } else if (viewModel.deleteDisplayState == DeleteDisplayState.TO_DISMISS_AFTER_DELETION) {
       Navigator.pop(context, DeleteDisplayState.TO_DISMISS_AFTER_DELETION);
-      showSuccessfulSnackBar(context, Strings.deleteActionSuccess);
+      showSnackBarWithSuccess(context, Strings.deleteActionSuccess);
     }
   }
 

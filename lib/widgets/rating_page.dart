@@ -76,14 +76,19 @@ class RatingPage extends StatelessWidget {
       inAppReview.requestReview();
       _ratingDone(context, viewModel, true);
     } else {
-      showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
+      showSnackBarWithSystemError(context);
     }
   }
 
   void _sendEmailReview(BuildContext context, RatingViewModel viewModel) async {
     final mailSent = await MailHandler.sendEmail(
-        email: Strings.supportMail, subject: Strings.titleSupportMail, body: Strings.contentSupportMail);
-    mailSent ? _ratingDone(context, viewModel, false) : showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
+      email: Strings.supportMail,
+      subject: Strings.titleSupportMail,
+      body: Strings.contentSupportMail,
+    );
+    mailSent
+        ? _ratingDone(context, viewModel, false)
+        : showSnackBarWithSystemError(context);
   }
 
   void _ratingDone(BuildContext context, RatingViewModel viewModel, bool isPositive) {

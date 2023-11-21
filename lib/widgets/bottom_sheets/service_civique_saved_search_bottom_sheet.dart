@@ -34,7 +34,7 @@ class ServiceCiviqueSavedSearchBottomSheet extends AbstractSavedSearchBottomShee
   void dismissBottomSheetIfNeeded(BuildContext context, ServiceCiviqueSavedSearchViewModel newVm) {
     if (newVm.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
       Navigator.pop(context);
-      showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);
+      showSnackBarWithSuccess(context, Strings.savedSearchSuccessfullyCreated);
     }
   }
 }

@@ -51,7 +51,7 @@ class CreateUserActionBottomSheet extends StatefulWidget {
       eventCategory: AnalyticsEventNames.createActionEventCategory,
       action: AnalyticsEventNames.createActionDisplaySnackBarAction,
     );
-    showSuccessfulSnackBar(
+    showSnackBarWithSuccess(
       context,
       Strings.createActionSuccess,
       () {
@@ -69,7 +69,7 @@ class CreateUserActionBottomSheet extends StatefulWidget {
       eventCategory: AnalyticsEventNames.createActionEventCategory,
       action: AnalyticsEventNames.createActionOfflineAction,
     );
-    showSuccessfulSnackBar(context, Strings.createActionPostponed);
+    showSnackBarWithSuccess(context, Strings.createActionPostponed);
   }
 
   @override

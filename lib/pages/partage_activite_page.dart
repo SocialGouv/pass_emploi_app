@@ -115,7 +115,7 @@ class _PartageFavorisState extends State<_PartageFavoris> {
         _partageFavorisEnabled = value;
       });
     } else if (widget.updatedState == DisplayState.FAILURE) {
-      showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
+      showSnackBarWithSystemError(context);
     }
   }
 

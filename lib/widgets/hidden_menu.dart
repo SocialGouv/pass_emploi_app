@@ -138,7 +138,7 @@ class _DeviceInfosDialog extends StatelessWidget {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: viewmodel.installationId));
                     Navigator.of(context).pop();
-                    showSuccessfulSnackBar(context, Strings.copie);
+                    showSnackBarWithInformation(context, Strings.copie);
                   },
                 ),
               ],
