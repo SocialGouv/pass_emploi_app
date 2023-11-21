@@ -76,6 +76,8 @@ class Strings {
   static String suppressionLabel = "Supprimer";
   static String refuserLabel = "Refuser";
   static String seeDetail = "Voir le détail >";
+  static String voirLeDetail = "Voir le détail";
+  static String consulter = "Consulter";
   static String copie = "Copié";
   static String notConnected = "Vous êtes hors connexion";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";

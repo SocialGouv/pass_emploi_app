@@ -16,6 +16,73 @@ void showFailedSnackBar(BuildContext context, String label, [VoidCallback? onSee
   _showSnackBar(context, label, onSeeDetailTap, success: false);
 }
 
+void showSnackBarWithSuccess(BuildContext context, String label, [VoidCallback? onActionTap]) {
+  _showSnackBarV2(
+    context: context,
+    label: label,
+    backgroundColor: AppColors.secondaryLighten,
+    textColor: AppColors.secondary,
+    onActionTap: onActionTap,
+  );
+}
+
+void showSnackBarWithInformation(BuildContext context, String label) {
+  _showSnackBarV2(
+    context: context,
+    label: label,
+    backgroundColor: AppColors.primaryLighten,
+    textColor: AppColors.primary,
+    onActionTap: null,
+  );
+}
+
+void showSnackBarWithSystemError(BuildContext context, String label) {
+  _showSnackBarV2(
+    context: context,
+    label: label,
+    backgroundColor: AppColors.disabled,
+    textColor: Colors.white,
+    onActionTap: null,
+  );
+}
+
+void showSnackBarWithUserError(BuildContext context, String label) {
+  _showSnackBarV2(
+    context: context,
+    label: label,
+    backgroundColor: AppColors.warningLighten,
+    textColor: AppColors.warning,
+    onActionTap: null,
+  );
+}
+
+void _showSnackBarV2({
+  required BuildContext context,
+  required String label,
+  required Color backgroundColor,
+  required Color textColor,
+  required VoidCallback? onActionTap,
+}) {
+  clearAllSnackBars();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      duration: Duration(seconds: 5),
+      backgroundColor: backgroundColor,
+      content: Text(label, style: TextStyles.textSRegular(color: textColor)),
+      action: onActionTap != null
+          ? SnackBarAction(
+              label: Strings.consulter,
+              textColor: textColor,
+              onPressed: () {
+                clearAllSnackBars();
+                onActionTap.call();
+              },
+            )
+          : null,
+    ),
+  );
+}
+
 void _showSnackBar(BuildContext context, String label, VoidCallback? onSeeDetailTap, {required bool success}) {
   clearAllSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(
