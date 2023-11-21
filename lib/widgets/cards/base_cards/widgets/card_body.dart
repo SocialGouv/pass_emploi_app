@@ -3,8 +3,9 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CardBodyText extends StatelessWidget {
-  const CardBodyText(this.text);
   final String text;
+
+  const CardBodyText(this.text);
 
   @override
   Widget build(BuildContext context) {
