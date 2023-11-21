@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -271,24 +272,42 @@ class _ChampCommentaire extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderColor = _isCommentaireValid ? AppColors.contentColor : AppColors.warning;
     return Padding(
       padding: const EdgeInsets.only(right: 24, left: 24, top: 8),
-      child: Container(
+      child: SizedBox(
         height: 90,
-        decoration: BoxDecoration(
-          border: Border.all(color: borderColor),
-          borderRadius: BorderRadius.circular(Dimens.radius_base),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10),
-          child: TextField(
-            onChanged: _onChanged,
-            expands: true,
-            minLines: null,
-            maxLines: null,
-            decoration: InputDecoration(
-              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+        child: TextField(
+          style: TextStyles.textBaseRegular,
+          onChanged: _onChanged,
+          expands: true,
+          minLines: null,
+          maxLines: null,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(
+              left: Margins.spacing_m,
+              top: Margins.spacing_base,
+              bottom: Margins.spacing_base,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(Dimens.radius_base),
+              borderSide: BorderSide(
+                color: _isCommentaireValid ? AppColors.contentColor : AppColors.warning,
+                width: 1.0,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(Dimens.radius_base),
+              borderSide: BorderSide(
+                color: _isCommentaireValid ? AppColors.contentColor : AppColors.warning,
+                width: 1.0,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(Dimens.radius_base),
+              borderSide: BorderSide(
+                color: _isCommentaireValid ? AppColors.primary : AppColors.warning,
+                width: 2.0,
+              ),
             ),
           ),
         ),

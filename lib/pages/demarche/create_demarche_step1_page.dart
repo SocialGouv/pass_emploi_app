@@ -204,7 +204,7 @@ class _ChampRecherche extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: TextStyles.textBaseBold,
+      style: TextStyles.textBaseRegular,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.done,
       validator: (value) {
@@ -219,9 +219,9 @@ class _ChampRecherche extends StatelessWidget {
           bottom: Margins.spacing_base,
         ),
         border: _Border(AppColors.contentColor),
-        focusedBorder: _Border(AppColors.primary),
+        focusedBorder: _Border(AppColors.primary, width: 2.0),
         errorBorder: _Border(AppColors.warning),
-        focusedErrorBorder: _Border(AppColors.warning),
+        focusedErrorBorder: _Border(AppColors.warning, width: 2.0),
       ),
       onChanged: onChanged,
     );
@@ -229,9 +229,9 @@ class _ChampRecherche extends StatelessWidget {
 }
 
 class _Border extends OutlineInputBorder {
-  _Border(Color color)
+  _Border(Color color, {double width = 1.0})
       : super(
           borderRadius: BorderRadius.circular(Dimens.radius_base),
-          borderSide: BorderSide(color: color, width: 1.0),
+          borderSide: BorderSide(color: color, width: width),
         );
 }

@@ -65,7 +65,7 @@ class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
                 child: TextFormField(
                   focusNode: _focusNode,
                   key: widget.textFormFieldKey,
-                  style: TextStyles.textBaseBold,
+                  style: TextStyles.textBaseRegular,
                   decoration: TextFormFieldInputDecoration(),
                   readOnly: true,
                   initialValue: widget.initialValue,

@@ -120,16 +120,21 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
       minLines: 1,
       maxLines: 1,
       decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(16),
-          errorText: (searchTitle != null && searchTitle!.isEmpty) ? mandatoryError : null,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimens.radius_base),
-            borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
-          )),
+        contentPadding: const EdgeInsets.all(16),
+        errorText: (searchTitle != null && searchTitle!.isEmpty) ? mandatoryError : null,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
+          borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
+          borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+        ),
+      ),
       keyboardType: TextInputType.multiline,
       textCapitalization: TextCapitalization.sentences,
       textInputAction: textInputAction,
-      style: TextStyles.textSBold,
+      style: TextStyles.textBaseRegular,
       validator: (value) {
         if (isMandatory && (value == null || value.isEmpty)) return mandatoryError;
         return null;

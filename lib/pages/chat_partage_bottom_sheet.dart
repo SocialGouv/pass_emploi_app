@@ -137,6 +137,7 @@ class _TextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: TextStyles.textBaseRegular,
       keyboardType: TextInputType.multiline,
       textCapitalization: TextCapitalization.sentences,
       textInputAction: TextInputAction.done,
@@ -145,6 +146,10 @@ class _TextField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(Dimens.radius_base),
           borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
+          borderSide: BorderSide(color: AppColors.primary, width: 2.0),
         ),
       ),
       maxLines: null,
