@@ -85,6 +85,7 @@ class _RechercheOffrePageState<Result> extends State<RechercheOffrePage<Result>>
             right: Margins.spacing_base,
           ),
           child: SingleChildScrollView(
+            clipBehavior: Clip.none,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
