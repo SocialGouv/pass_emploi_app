@@ -5,6 +5,24 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
+enum CardPilluleType {
+  todo,
+  doing,
+  done,
+  late,
+  canceled;
+
+  CardPillule toCardPillule() {
+    return switch (this) {
+      CardPilluleType.todo => CardPillule.todo(),
+      CardPilluleType.doing => CardPillule.doing(),
+      CardPilluleType.done => CardPillule.done(),
+      CardPilluleType.late => CardPillule.late(),
+      CardPilluleType.canceled => CardPillule.canceled(),
+    };
+  }
+}
+
 class CardPillule extends StatelessWidget {
   final IconData? icon;
   final String text;

@@ -7,26 +7,35 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CardComplement extends StatelessWidget {
   final String text;
+  final Color? color;
+  final bool bold;
   final IconData icon;
 
-  const CardComplement({required this.text, required this.icon});
+  const CardComplement({required this.text, required this.icon, this.color, this.bold = false});
 
-  const CardComplement.place({required this.text}) : icon = AppIcons.place_outlined;
-  const CardComplement.date({required this.text}) : icon = AppIcons.schedule;
+  const CardComplement.place({required this.text, this.color})
+      : icon = AppIcons.place_outlined,
+        bold = false;
+  const CardComplement.date({required this.text, this.color})
+      : icon = AppIcons.schedule,
+        bold = false;
+  const CardComplement.dateLate({required this.text})
+      : icon = AppIcons.schedule,
+        color = AppColors.warning,
+        bold = true;
 
   @override
   Widget build(BuildContext context) {
-    const contentColor = AppColors.grey800;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: Dimens.icon_size_base, color: contentColor),
+        Icon(icon, size: Dimens.icon_size_base, color: color),
         SizedBox(width: Margins.spacing_xs),
         Flexible(
             fit: FlexFit.loose,
             child: Text(
               text,
-              style: TextStyles.textSRegular().copyWith(color: contentColor),
+              style: (bold ? TextStyles.textSBold : TextStyles.textSRegular()).copyWith(color: color),
             ))
       ],
     );
