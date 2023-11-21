@@ -137,7 +137,7 @@ class _Header extends StatelessWidget {
         SizedBox(height: Margins.spacing_s),
         Row(
           children: [
-            Icon(AppIcons.location_on_rounded, color: AppColors.primary, size: Dimens.icon_size_base),
+            Icon(AppIcons.place_outlined, color: AppColors.primary, size: Dimens.icon_size_base),
             SizedBox(width: Margins.spacing_xs),
             Text(viewModel.lieu, style: TextStyles.textBaseRegular),
           ],

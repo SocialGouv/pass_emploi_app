@@ -176,7 +176,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       if (location != null)
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: location, icon: AppIcons.location_on_rounded),
+          child: DataTag(label: location, icon: AppIcons.place_outlined),
         ),
       if (contractType != null)
         Padding(

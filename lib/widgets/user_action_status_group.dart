@@ -27,17 +27,17 @@ class UserActionStatusGroup extends StatelessWidget {
       alignment: WrapAlignment.start,
       children: [
         UserActionStatusButton(
-          label: Strings.actionToDo,
+          label: Strings.todoPillule,
           onPressed: isEnabled ? () => {update(UserActionStatus.NOT_STARTED)} : null,
           isSelected: status == UserActionStatus.NOT_STARTED,
         ),
         UserActionStatusButton(
-          label: Strings.actionInProgress,
+          label: Strings.doingPillule,
           onPressed: isEnabled ? () => update(UserActionStatus.IN_PROGRESS) : null,
           isSelected: status == UserActionStatus.IN_PROGRESS,
         ),
         UserActionStatusButton(
-          label: Strings.actionDone,
+          label: Strings.donePillule,
           onPressed: isEnabled
               ? () {
                   onActionDone();
@@ -48,7 +48,7 @@ class UserActionStatusGroup extends StatelessWidget {
         ),
         if (!isCreated)
           UserActionStatusButton(
-            label: Strings.actionCanceled,
+            label: Strings.canceledPillule,
             onPressed: isEnabled ? () => update(UserActionStatus.CANCELED) : null,
             isSelected: status == UserActionStatus.CANCELED,
           ),

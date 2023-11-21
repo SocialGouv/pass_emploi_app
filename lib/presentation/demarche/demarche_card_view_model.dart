@@ -105,25 +105,25 @@ UserActionTagViewModel? _userActionTagViewModel(Demarche demarche, bool isLate) 
   switch (demarche.status) {
     case DemarcheStatus.NOT_STARTED:
       return UserActionTagViewModel(
-        title: Strings.demarcheToDo,
+        title: Strings.todoPillule,
         backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent1Lighten,
         textColor: isLate ? AppColors.warning : AppColors.accent1,
       );
     case DemarcheStatus.IN_PROGRESS:
       return UserActionTagViewModel(
-        title: Strings.demarcheInProgress,
+        title: Strings.doingPillule,
         backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
         textColor: isLate ? AppColors.warning : AppColors.accent3,
       );
     case DemarcheStatus.DONE:
       return UserActionTagViewModel(
-        title: Strings.demarcheDone,
+        title: Strings.donePillule,
         backgroundColor: AppColors.accent2Lighten,
         textColor: AppColors.accent2,
       );
     case DemarcheStatus.CANCELLED:
       return UserActionTagViewModel(
-        title: Strings.demarcheCancelled,
+        title: Strings.canceledPillule,
         backgroundColor: AppColors.accent2Lighten,
         textColor: AppColors.accent2,
       );

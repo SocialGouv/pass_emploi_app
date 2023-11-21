@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/outil.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
+import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class BoiteAOutilsCard extends StatelessWidget {
   const BoiteAOutilsCard({
@@ -18,55 +15,15 @@ class BoiteAOutilsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final roundedCornerShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
-    return Card(
-      color: Colors.white,
-      surfaceTintColor: Colors.white,
-      elevation: 2,
-      shape: roundedCornerShape,
-      child: InkWell(
-        customBorder: roundedCornerShape,
-        onTap: () {
-          PassEmploiMatomoTracker.instance.trackOutlink(outil.urlRedirect);
-          launchExternalUrl(outil.urlRedirect);
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (outil.imagePath != null)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(Dimens.radius_base),
-                  child: Image.asset(
-                    "assets/${outil.imagePath!}",
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
-              ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                SizedBox(height: Margins.spacing_base),
-                Text(outil.title, style: TextStyles.textBaseBold),
-                SizedBox(height: Margins.spacing_base),
-                Text(outil.description, style: TextStyles.textBaseRegular),
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-              child: SepLine(Margins.spacing_base, Margins.spacing_base),
-            ),
-            Center(
-              child: Text(
-                outil.actionLabel,
-                style: TextStyles.textBaseBoldWithColor(AppColors.primary),
-              ),
-            ),
-            SizedBox(height: Margins.spacing_base),
-          ],
-        ),
-      ),
+    return BaseCard(
+      title: outil.title,
+      body: outil.description,
+      imagePath: outil.imagePath,
+      pressedTip: PressedTip.externalLink(outil.actionLabel),
+      onTap: () {
+        PassEmploiMatomoTracker.instance.trackOutlink(outil.urlRedirect);
+        launchExternalUrl(outil.urlRedirect);
+      },
     );
   }
 }

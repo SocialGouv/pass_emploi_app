@@ -12,10 +12,10 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
+import 'package:pass_emploi_app/widgets/alerte_card.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
-import 'package:pass_emploi_app/widgets/saved_search_card.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
 
 class AccueilAlertes extends StatelessWidget {
@@ -26,7 +26,7 @@ class AccueilAlertes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasContent = item.savedSearches.isNotEmpty;
-    return SavedSearchNavigator(
+    return AlerteNavigator(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -109,7 +109,7 @@ class _AlerteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SavedSearchCard(savedSearch),
+        AlerteCard(savedSearch),
         SizedBox(height: Margins.spacing_base),
       ],
     );

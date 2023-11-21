@@ -59,9 +59,18 @@ class TextStyles {
     );
   }
 
+  static TextStyle textXsBold({Color color = AppColors.contentColor}) {
+    return TextStyle(
+      color: color,
+      fontSize: FontSizes.xs,
+      fontWeight: FontWeight.bold,
+      fontFamily: 'Marianne',
+    );
+  }
+
   static final textPrimaryButton = TextStyle(
     color: Colors.white,
-    fontSize: FontSizes.normal,
+    fontSize: FontSizes.medium,
     fontWeight: FontWeight.w700,
     fontFamily: 'Marianne',
   );
@@ -84,7 +93,7 @@ class TextStyles {
 
   static final textSecondaryButton = TextStyle(
     color: AppColors.primary,
-    fontSize: FontSizes.normal,
+    fontSize: FontSizes.medium,
     fontWeight: FontWeight.w700,
     fontFamily: 'Marianne',
   );

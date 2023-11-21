@@ -14,9 +14,9 @@ class RendezvousCardViewModel extends Equatable {
   final String date;
   final bool isInscrit;
   final bool isAnnule;
-  final String? title;
-  final String? subtitle;
-  final bool greenTag;
+  final String title;
+  final String? description;
+  final String? place;
 
   RendezvousCardViewModel({
     required this.id,
@@ -25,31 +25,31 @@ class RendezvousCardViewModel extends Equatable {
     required this.isInscrit,
     required this.isAnnule,
     required this.title,
-    required this.subtitle,
-    required this.greenTag,
+    required this.description,
+    required this.place,
   });
 
   factory RendezvousCardViewModel.create(Store<AppState> store, RendezvousStateSource source, String rdvId) {
     final rdv = getRendezvous(store, source, rdvId);
     return RendezvousCardViewModel(
       id: rdv.id,
-      tag: takeTypeLabelOrPrecision(rdv),
+      tag: rdv.type.label,
       date: rdv.date.toDayAndHourContextualized(),
       isInscrit: rdv.estInscrit ?? false,
       isAnnule: rdv.isAnnule,
-      title: rdv.title,
-      subtitle: _subtitle(rdv),
-      greenTag: isRendezvousGreenTag(rdv),
+      title: rdv.title ?? "",
+      description: rdv.precision,
+      place: _place(rdv),
     );
   }
 
   @override
   List<Object?> get props {
-    return [id, tag, date, isInscrit, isAnnule, title, subtitle, greenTag];
+    return [id, tag, date, isInscrit, isAnnule, title, description, place];
   }
 }
 
-String? _subtitle(Rendezvous rdv) {
+String? _place(Rendezvous rdv) {
   if (rdv.modality == null) return null;
   final modality = rdv.modality!.firstLetterUpperCased();
   final conseiller = rdv.conseiller;

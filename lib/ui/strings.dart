@@ -76,7 +76,6 @@ class Strings {
   static String suppressionLabel = "Supprimer";
   static String refuserLabel = "Refuser";
   static String seeDetail = "Voir le détail >";
-  static String voirLeDetail = "Voir le détail";
   static String copie = "Copié";
   static String notConnected = "Vous êtes hors connexion";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
@@ -188,6 +187,20 @@ class Strings {
   static String loginMissionLocale = "Mission Locale";
   static String loginAction = "Se connecter";
   static String logoutAction = "Se déconnecter";
+
+  // Card and subcomponents
+  static const String emploiTag = "Offre d’emploi";
+  static const String alternanceTag = "Alternance";
+  static const String immersionTag = "Immersion";
+  static const String serviceCiviqueTag = "Service civique";
+
+  static const String todoPillule = "À réaliser";
+  static const String doingPillule = "En cours";
+  static const String donePillule = "Terminée";
+  static const String latePillule = "En retard";
+  static const String canceledPillule = "Annulée";
+
+  static const String voirLeDetailCard = "Voir le détail";
 
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
@@ -330,15 +343,11 @@ class Strings {
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
-  static const String actionDone = "Terminée";
-  static const String actionCanceled = "Annulée";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Détail de l'action";
   static String demarcheDetails = "Détail de la démarche";
   static String updateStatus = "Modifier le statut";
   static String refreshActionStatus = "Valider le statut";
-  static const String actionToDo = "À réaliser";
-  static const String actionInProgress = "Commencée";
   static String noActionsYet = "Vous n'avez pas encore d’action prévue.";
   static String addAnAction = "Créer une action";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
@@ -397,11 +406,6 @@ class Strings {
   static String createdBy = "Crée le ";
   static String par = " par ";
   static String votreConseiller = "votre conseiller";
-  static const String demarcheToDo = "À faire";
-  static const String demarcheInProgress = "En cours";
-  static const String demarcheRetarded = "En retard";
-  static const String demarcheDone = "Réalisé";
-  static const String demarcheCancelled = "Annulé";
   static const String late = "En retard : ";
   static const String createDemarchePersonnalisee = "Créer une démarche";
   static const String commentaire = "Commentaire";
@@ -807,10 +811,6 @@ class Strings {
       "Vous recevrez des notifications pour être alerté des nouvelles offres liées aux critères de votre recherche.";
 
   static String savedSearchTitleField(metier, localisation) => "$metier - $localisation";
-  static String savedSearchEmploiTag = "Offre d’emploi";
-  static String savedSearchAlternanceTag = "Alternance";
-  static String savedSearchImmersionTag = "Immersion";
-  static String savedSearchServiceCiviqueTag = "Service civique";
   static String savedSearchSuccessfullyCreated =
       "Votre recherche a bien été enregistrée. Retrouvez-la dans la section Mes Alertes sur votre page d'accueil.";
   static String creationSavedSearchError = "Erreur lors de la création de l'alerte. Veuillez réessayer";
@@ -901,6 +901,7 @@ class Strings {
   static String eventListEmptySubtitle = "Vous retrouverez ici tous les événements programmés de votre mission locale";
   static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
+  static String eventInscrivezVousPourParticiper = "Inscrivez-vous pour participer";
   static String eventAppBarTitle = "Événements";
   static String eventTabMaMissionLocale = "Ma Mission Locale";
   static String eventTabExternes = "Externes";

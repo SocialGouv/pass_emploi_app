@@ -95,7 +95,7 @@ class DataCard<T> extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(AppIcons.location_on_rounded, color: AppColors.grey800, size: Dimens.icon_size_base),
+          Icon(AppIcons.place_outlined, color: AppColors.grey800, size: Dimens.icon_size_base),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(

@@ -111,25 +111,25 @@ UserActionTagViewModel? _userActionTagViewModel(UserActionStatus status) {
   switch (status) {
     case UserActionStatus.NOT_STARTED:
       return UserActionTagViewModel(
-        title: Strings.actionToDo,
+        title: Strings.todoPillule,
         backgroundColor: AppColors.accent1Lighten,
         textColor: AppColors.accent1,
       );
     case UserActionStatus.IN_PROGRESS:
       return UserActionTagViewModel(
-        title: Strings.actionInProgress,
+        title: Strings.doingPillule,
         backgroundColor: AppColors.accent3Lighten,
         textColor: AppColors.accent3,
       );
     case UserActionStatus.CANCELED:
       return UserActionTagViewModel(
-        title: Strings.actionCanceled,
+        title: Strings.canceledPillule,
         backgroundColor: AppColors.accent2Lighten,
         textColor: AppColors.accent2,
       );
     case UserActionStatus.DONE:
       return UserActionTagViewModel(
-        title: Strings.actionDone,
+        title: Strings.donePillule,
         backgroundColor: AppColors.accent2Lighten,
         textColor: AppColors.accent2,
       );

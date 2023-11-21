@@ -138,28 +138,28 @@ UserActionTagViewModel _getTagViewModel(DemarcheStatus status, DemarcheStatus cu
   switch (status) {
     case DemarcheStatus.NOT_STARTED:
       return UserActionTagViewModel(
-        title: Strings.demarcheToDo,
+        title: Strings.todoPillule,
         backgroundColor: isSelected ? AppColors.accent1Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent1 : AppColors.grey800,
         isSelected: isSelected,
       );
     case DemarcheStatus.IN_PROGRESS:
       return UserActionTagViewModel(
-        title: Strings.demarcheInProgress,
+        title: Strings.doingPillule,
         backgroundColor: isSelected ? AppColors.accent3Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent3 : AppColors.grey800,
         isSelected: isSelected,
       );
     case DemarcheStatus.DONE:
       return UserActionTagViewModel(
-        title: Strings.demarcheDone,
+        title: Strings.donePillule,
         backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
         isSelected: isSelected,
       );
     case DemarcheStatus.CANCELLED:
       return UserActionTagViewModel(
-        title: Strings.demarcheCancelled,
+        title: Strings.canceledPillule,
         backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
         isSelected: isSelected,
@@ -190,13 +190,13 @@ List<FormattedText> _formattedDate(Demarche demarche) {
 
 DemarcheStatus? getStatusFromTag(UserActionTagViewModel tag) {
   switch (tag.title) {
-    case Strings.demarcheToDo:
+    case Strings.todoPillule:
       return DemarcheStatus.NOT_STARTED;
-    case Strings.demarcheInProgress:
+    case Strings.doingPillule:
       return DemarcheStatus.IN_PROGRESS;
-    case Strings.demarcheCancelled:
+    case Strings.canceledPillule:
       return DemarcheStatus.CANCELLED;
-    case Strings.demarcheDone:
+    case Strings.donePillule:
       return DemarcheStatus.DONE;
     default:
       return null;

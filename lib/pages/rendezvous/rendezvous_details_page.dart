@@ -248,7 +248,7 @@ class _Modality extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: Margins.spacing_xs),
-                  child: Icon(AppIcons.location_on_rounded, color: AppColors.grey800),
+                  child: Icon(AppIcons.place_outlined, color: AppColors.grey800),
                 ),
                 SizedBox(width: Margins.spacing_s),
                 Expanded(child: Text(viewModel.address!, style: TextStyles.textBaseRegular)),

@@ -24,7 +24,7 @@ class OffreEmploiSavedSearch extends Equatable implements SavedSearch {
   });
 
   String getSavedSearchTagLabel() {
-    return onlyAlternance ? Strings.savedSearchAlternanceTag : Strings.savedSearchEmploiTag;
+    return onlyAlternance ? Strings.alternanceTag : Strings.emploiTag;
   }
 
   OffreEmploiSavedSearch copyWithTitle(String title) {

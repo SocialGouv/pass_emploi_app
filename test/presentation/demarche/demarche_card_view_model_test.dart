@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -55,7 +54,7 @@ void main() {
         createdByAdvisor: true,
         modifiedByAdvisor: false,
         tag: UserActionTagViewModel(
-          title: Strings.demarcheToDo,
+          title: "À réaliser",
           backgroundColor: AppColors.accent1Lighten,
           textColor: AppColors.accent1,
         ),
@@ -126,7 +125,7 @@ void main() {
     expect(
       viewModel.tag,
       UserActionTagViewModel(
-        title: Strings.demarcheToDo,
+        title: "À réaliser",
         backgroundColor: AppColors.accent1Lighten,
         textColor: AppColors.accent1,
       ),
@@ -161,7 +160,7 @@ void main() {
     expect(
         viewModel.tag,
         UserActionTagViewModel(
-          title: Strings.demarcheToDo,
+          title: "À réaliser",
           backgroundColor: AppColors.warningLighten,
           textColor: AppColors.warning,
         ));
@@ -190,7 +189,7 @@ void main() {
     expect(
       viewModel.tag,
       UserActionTagViewModel(
-        title: Strings.demarcheInProgress,
+        title: "En cours",
         backgroundColor: AppColors.accent3Lighten,
         textColor: AppColors.accent3,
       ),
@@ -225,7 +224,7 @@ void main() {
     expect(
       viewModel.tag,
       UserActionTagViewModel(
-        title: Strings.demarcheInProgress,
+        title: "En cours",
         backgroundColor: AppColors.warningLighten,
         textColor: AppColors.warning,
       ),
@@ -255,7 +254,7 @@ void main() {
     expect(
         viewModel.tag,
         UserActionTagViewModel(
-          title: Strings.demarcheDone,
+          title: "Terminée",
           backgroundColor: AppColors.accent2Lighten,
           textColor: AppColors.accent2,
         ));
@@ -284,7 +283,7 @@ void main() {
     expect(
       viewModel.tag,
       UserActionTagViewModel(
-        title: Strings.demarcheCancelled,
+        title: "Annulée",
         backgroundColor: AppColors.accent2Lighten,
         textColor: AppColors.accent2,
       ),

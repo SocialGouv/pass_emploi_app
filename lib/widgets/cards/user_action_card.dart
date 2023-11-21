@@ -67,7 +67,7 @@ class UserActionCard extends StatelessWidget {
             ),
             SizedBox(height: Margins.spacing_base),
           ],
-          PressedTip(Strings.voirLeDetail)
+          PressedTip(Strings.voirLeDetailCard)
         ],
       ),
     );

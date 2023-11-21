@@ -142,7 +142,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
         Text(Strings.savedSearchFilters, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
         _buildDataTags([
-          TagInfo(Strings.savedSearchServiceCiviqueTag, false),
+          TagInfo(Strings.serviceCiviqueTag, false),
           if (domaine != null && domaine.isNotEmpty) TagInfo(domaine, false),
           if (ville != null && ville.isNotEmpty) TagInfo(ville, true),
         ]),
@@ -160,7 +160,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
   Widget _buildTag(TagInfo tagInfo) {
     return DataTag(
       label: tagInfo.label,
-      icon: tagInfo.withIcon ? AppIcons.location_on_rounded : null,
+      icon: tagInfo.withIcon ? AppIcons.place_outlined : null,
     );
   }
 
