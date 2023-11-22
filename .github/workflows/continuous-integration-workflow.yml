@@ -38,7 +38,7 @@ jobs:
     steps:
       - name: Get current timestamp
         id: getCurrentTimestamp
-        run: echo "::set-output name=date::$(date +%s)"
+        run: echo "date=$(date +%s)" >> "$GITHUB_OUTPUT"
     outputs:
       date: ${{ steps.getCurrentTimestamp.outputs.date }}
 
