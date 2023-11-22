@@ -9,53 +9,55 @@ environment:
   flutter: 3.16.0
 
 dependencies:
-  # Flutter
-  confetti: "0.7.0"
-  dotted_border: "2.0.0+2"
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_svg: "2.0.7"
-  flutter_redux: "0.10.0"
-  flutter_local_notifications: "12.0.4"
-  flutter_dotenv: "5.0.2"
-  flutter_appauth: "6.0.0"
-  flutter_linkify: "5.0.2"
-  flutter_secure_storage: "5.0.2"
-  package_info: "2.0.2"
-  url_launcher: "6.1.0"
-  share_plus: "7.0.1"
-  open_filex: "4.3.1"
-  path_provider: "2.0.11"
-  smooth_page_indicator: "1.0.0+2"
-  in_app_review: "2.0.4"
-  webview_flutter: "4.0.5"
-  flutter_staggered_animations: "1.1.1"
-  shimmer: "3.0.0"
-  connectivity_plus: "4.0.2" # Versions >= 5.0.0 require iOS 12 or higher
   # Dart
   intl: "0.18.1"
   collection: "1.17.2"
   equatable: "2.0.3"
-  logger: "2.0.2+1"
-  uuid: "3.0.7"
   synchronized: "3.0.0+2"
-  encrypt: "5.0.1"
-  matomo_tracker: "4.1.1"
+  uuid: "3.0.7"
   # Dio
   dio: "5.3.3"
   dio_cache_interceptor: "3.4.4"
   dio_cache_interceptor_file_store: "1.2.2"
   # Firebase
-  firebase_core: "2.13.0"
-  firebase_crashlytics: "3.3.1"
-  firebase_remote_config: "4.2.1"
-  firebase_messaging: "14.6.1"
-  firebase_auth: "4.6.1"
-  cloud_firestore: "4.7.1"
-  firebase_app_installations: "0.2.3+1"
+  firebase_core: "2.23.0"
+  firebase_crashlytics: "3.4.5"
+  firebase_remote_config: "4.3.5"
+  firebase_messaging: "14.7.5"
+  firebase_auth: "4.14.1"
+  firebase_app_installations: "0.2.4+5"
+  cloud_firestore: "4.13.2"
+  # UI
+  flutter_svg: "2.0.7"
+  smooth_page_indicator: "1.0.0+2"
+  path_provider: "2.0.11"
+  flutter_staggered_animations: "1.1.1"
+  shimmer: "3.0.0"
+  confetti: "0.7.0"
+  dotted_border: "2.0.0+2"
+  flutter_linkify: "5.0.2"
+  # Native features
+  webview_flutter: "4.0.5"
+  flutter_local_notifications: "12.0.4"
+  flutter_appauth: "6.0.0"
+  flutter_secure_storage: "5.0.2"
+  url_launcher: "6.1.0"
+  share_plus: "7.0.1"
+  open_filex: "4.3.1"
+  in_app_review: "2.0.4"
   flutter_native_timezone: "2.0.0"
+  connectivity_plus: "4.0.2" # Versions >= 5.0.0 require iOS 12 or higher
+  # Others
+  flutter_redux: "0.10.0"
+  flutter_dotenv: "5.0.2"
+  package_info: "2.0.2"
+  encrypt: "5.0.1"
+  matomo_tracker: "4.1.1"
+  logger: "2.0.2+1"
 
 dev_dependencies:
   flutter_test:
