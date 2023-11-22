@@ -59,7 +59,7 @@ dependencies:
   flutter_redux: "0.10.0"
   redux: "5.0.0"
   flutter_dotenv: "5.1.0"
-  package_info: "2.0.2"
+  package_info_plus: "5.0.1"
   encrypt: "5.0.1" # Versions 5.0.3 make 1 test crash
   matomo_tracker: "4.1.1"
   logger: "2.0.2+1"
