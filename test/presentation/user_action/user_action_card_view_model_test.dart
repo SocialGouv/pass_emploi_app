@@ -159,6 +159,40 @@ void main() {
       // Then
       expect(viewModel.dateEcheance, isNull);
     });
+
+    test("and status is in progress and dateEcheance is in past should display it as late", () {
+      // Given
+      final action = mockUserAction(id: '1', status: UserActionStatus.IN_PROGRESS, dateEcheance: DateTime(2022, 1, 2));
+      final store = givenState().withUserActions([action]).store();
+
+      // When
+      final viewModel = UserActionCardViewModel.create(
+        store: store,
+        stateSource: UserActionStateSource.list,
+        actionId: '1',
+      );
+
+      // Then
+      expect(viewModel.dateEcheance, "En retard : À réaliser pour le dimanche 2 janvier");
+      expect(viewModel.pillule, CardPilluleType.late);
+    });
+
+    test("and status is not started and dateEcheance is in past should display it as late", () {
+      // Given
+      final action = mockUserAction(id: '1', status: UserActionStatus.NOT_STARTED, dateEcheance: DateTime(2022, 1, 2));
+      final store = givenState().withUserActions([action]).store();
+
+      // When
+      final viewModel = UserActionCardViewModel.create(
+        store: store,
+        stateSource: UserActionStateSource.list,
+        actionId: '1',
+      );
+
+      // Then
+      expect(viewModel.dateEcheance, "En retard : À réaliser pour le dimanche 2 janvier");
+      expect(viewModel.pillule, CardPilluleType.late);
+    });
   });
 
   group('UserActionCardViewModel.create when state source is agenda', () {
