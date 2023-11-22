@@ -51,10 +51,10 @@ class SessionMiloRepository {
   Future<bool> featureIsActive(String userId) async {
     if (_remoteConfig == null) return true;
 
-    final bool featureIsActive = !(_remoteConfig!.getBool('sessions_milo_desactives'));
+    final bool featureIsActive = !(_remoteConfig.getBool('sessions_milo_desactives'));
     if (featureIsActive) return true;
 
-    final idsStructureEarlyAdopters = _remoteConfig!.getString('ids_structure_early_adopter_sessions').split('|');
+    final idsStructureEarlyAdopters = _remoteConfig.getString('ids_structure_early_adopter_sessions').split('|');
     final idStructureJeune = (await _jeuneRepository?.fetch(userId))?.structure?.id;
 
     if (idsStructureEarlyAdopters.contains(idStructureJeune)) return true;
