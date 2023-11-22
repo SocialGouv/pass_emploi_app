@@ -72,10 +72,8 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
       sousTitre: item.companyName,
       lieu: item.location,
       id: item.id,
-      dataTag: [
-        if (item.startDate != null)
-          Strings.asSoonAs + item.startDate!.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),
-      ],
+      date: item.startDate?.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),
+      dataTag: [],
       from: OffrePage.serviceCiviqueResults,
       onTap: () => _showOffreDetailsPage(context, item.id),
     );
