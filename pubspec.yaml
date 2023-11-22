@@ -5,8 +5,8 @@ publish_to: "none"
 version: 3.7.0
 
 environment:
-  sdk: "3.0.6" # Dart version
-  flutter: 3.10.6
+  sdk: 3.2.0 # Dart version
+  flutter: 3.16.0
 
 dependencies:
   # Flutter
@@ -35,7 +35,7 @@ dependencies:
   shimmer: "3.0.0"
   connectivity_plus: "4.0.2" # Versions >= 5.0.0 require iOS 12 or higher
   # Dart
-  intl: "0.18.0"
+  intl: "0.18.1"
   collection: "1.17.2"
   equatable: "2.0.3"
   logger: "2.0.2+1"
