@@ -17,7 +17,7 @@ class DemarcheCardViewModel extends Equatable {
   final bool createdByAdvisor;
   final bool modifiedByAdvisor;
   final CardPilluleType? pilluleType;
-  final String dateTexts;
+  final String date;
   final bool isLate;
 
   DemarcheCardViewModel({
@@ -28,7 +28,7 @@ class DemarcheCardViewModel extends Equatable {
     required this.createdByAdvisor,
     required this.modifiedByAdvisor,
     required this.pilluleType,
-    required this.dateTexts,
+    required this.date,
     required this.isLate,
   });
 
@@ -47,7 +47,7 @@ class DemarcheCardViewModel extends Equatable {
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
       pilluleType: _pillule(demarche, isLate),
-      dateTexts: _dateFormattedTexts(demarche, isLate),
+      date: _dateFormat(demarche, isLate),
       isLate: isLate,
     );
   }
@@ -61,7 +61,7 @@ class DemarcheCardViewModel extends Equatable {
         createdByAdvisor,
         modifiedByAdvisor,
         pilluleType,
-        dateTexts,
+        date,
         isLate,
       ];
 }
@@ -70,7 +70,7 @@ String? _description(Demarche demarche) {
   return demarche.attributs.firstWhereOrNull((e) => e.key == 'description')?.value;
 }
 
-String _dateFormattedTexts(Demarche demarche, bool isLate) {
+String _dateFormat(Demarche demarche, bool isLate) {
   final String formattedDate;
   if (demarche.status == DemarcheStatus.CANCELLED && demarche.deletionDate != null) {
     formattedDate = Strings.demarcheCancelledDateFormat(demarche.deletionDate!.toDay());

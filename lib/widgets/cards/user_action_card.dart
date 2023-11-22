@@ -40,9 +40,10 @@ class UserActionCard extends StatelessWidget {
       pillule: viewModel.pillule?.toCardPillule(),
       body: viewModel.subtitle,
       complements: [
-        viewModel.isLate
-            ? CardComplement.dateLate(text: viewModel.dateEcheance!)
-            : CardComplement.date(text: viewModel.dateEcheance!),
+        if (viewModel.dateEcheance != null)
+          viewModel.isLate
+              ? CardComplement.dateLate(text: viewModel.dateEcheance!)
+              : CardComplement.date(text: viewModel.dateEcheance!),
       ],
     );
   }

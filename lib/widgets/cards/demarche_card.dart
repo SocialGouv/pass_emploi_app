@@ -37,9 +37,7 @@ class DemarcheCard extends StatelessWidget {
       body: viewModel.sousTitre,
       onTap: onTap,
       complements: [
-        viewModel.isLate
-            ? CardComplement.dateLate(text: viewModel.dateTexts)
-            : CardComplement.date(text: viewModel.dateTexts),
+        viewModel.isLate ? CardComplement.dateLate(text: viewModel.date) : CardComplement.date(text: viewModel.date),
       ],
     );
   }

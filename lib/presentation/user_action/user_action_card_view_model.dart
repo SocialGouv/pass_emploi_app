@@ -54,7 +54,7 @@ class UserActionCardViewModel extends Equatable {
       withSubtitle: action.comment.isNotEmpty,
       dateEcheance: _dateEcheanceFormattedTexts(action, action.isLate()),
       isLate: action.isLate(),
-      pillule: _userActionTagViewModel(action.status),
+      pillule: _userActionTagViewModel(action.status, _isLate(action)),
     );
   }
 
@@ -66,6 +66,13 @@ class UserActionCardViewModel extends Equatable {
         withSubtitle,
         pillule,
       ];
+}
+
+bool _isLate(UserAction action) {
+  if ((action.status == UserActionStatus.NOT_STARTED || action.status == UserActionStatus.IN_PROGRESS)) {
+    return action.isLate();
+  }
+  return false;
 }
 
 UserAction _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
@@ -98,7 +105,10 @@ String? _dateEcheanceFormattedTexts(UserAction userAction, bool isLate) {
   return "${isLate ? Strings.late : ""}${Strings.dateEcheanceFormat(userAction.dateEcheance.toDayOfWeekWithFullMonth())}";
 }
 
-CardPilluleType? _userActionTagViewModel(UserActionStatus status) {
+CardPilluleType? _userActionTagViewModel(UserActionStatus status, bool isLate) {
+  if (isLate) {
+    return CardPilluleType.late;
+  }
   return switch (status) {
     UserActionStatus.NOT_STARTED => CardPilluleType.todo,
     UserActionStatus.IN_PROGRESS => CardPilluleType.doing,

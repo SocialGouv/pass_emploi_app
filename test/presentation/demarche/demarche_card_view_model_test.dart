@@ -51,7 +51,7 @@ void main() {
         createdByAdvisor: true,
         modifiedByAdvisor: false,
         pilluleType: CardPilluleType.todo,
-        dateTexts: "À réaliser pour le 28/04/2032",
+        date: "À réaliser pour le 28/04/2032",
         isLate: false,
       ),
     );
@@ -89,7 +89,7 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.NOT_STARTED);
-    expect(viewModel.dateTexts, "À réaliser pour le 28/04/2050");
+    expect(viewModel.date, "À réaliser pour le 28/04/2050");
     expect(viewModel.pilluleType, CardPilluleType.todo);
   });
 
@@ -111,7 +111,7 @@ void main() {
     // Then
     expect(viewModel.status, DemarcheStatus.NOT_STARTED);
     expect(
-      viewModel.dateTexts,
+      viewModel.date,
       "En retard : À réaliser pour le 28/03/2022",
     );
     expect(viewModel.pilluleType, CardPilluleType.late);
@@ -134,7 +134,7 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
-    expect(viewModel.dateTexts, 'À réaliser pour le 28/03/2050');
+    expect(viewModel.date, 'À réaliser pour le 28/03/2050');
     expect(viewModel.pilluleType, CardPilluleType.doing);
   });
 
@@ -156,7 +156,7 @@ void main() {
     // Then
     expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
     expect(
-      viewModel.dateTexts,
+      viewModel.date,
       "En retard : À réaliser pour le 28/03/2022",
     );
     expect(viewModel.pilluleType, CardPilluleType.late);
@@ -179,7 +179,7 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.DONE);
-    expect(viewModel.dateTexts, "Réalisé le 28/03/2022");
+    expect(viewModel.date, "Réalisé le 28/03/2022");
     expect(viewModel.pilluleType, CardPilluleType.done);
   });
 
@@ -200,7 +200,7 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.CANCELLED);
-    expect(viewModel.dateTexts, 'Annulé le 28/03/2020');
+    expect(viewModel.date, 'Annulé le 28/03/2020');
     expect(viewModel.pilluleType, CardPilluleType.canceled);
   });
 }
