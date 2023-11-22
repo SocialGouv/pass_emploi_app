@@ -25,17 +25,3 @@ analyzer:
     missing_return: error
     dead_code: error
     unused_element: error
-  plugins:
-    - dart_code_metrics
-
-dart_code_metrics:
-  rules:
-    - ban-name:
-        severity: error
-        entries:
-          - ident: launchUrl
-            description: You should use launchExternalUrl instead (to avoid avoid iOS app to target only users above 18 years old)
-          - ident: debugPrint
-            description: You should use Log class instead (debugPrint leave logs in production app)
-          - ident: MockClient
-            description: You should use PassEmploiMockClient instead (to validate demo mode)

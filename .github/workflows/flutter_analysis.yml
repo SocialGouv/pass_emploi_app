@@ -26,5 +26,3 @@ jobs:
       - name: Launch Dart, Flutter & custom analysis
         run: |
           flutter analyze
-          flutter pub run dart_code_metrics:metrics analyze lib
-          flutter pub run dart_code_metrics:metrics analyze test
