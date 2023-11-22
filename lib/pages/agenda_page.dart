@@ -434,7 +434,6 @@ class _DemarcheAgendaItem extends StatelessWidget {
       child: DemarcheCard(
         demarcheId: demarcheAgendaItem.demarcheId,
         stateSource: DemarcheStateSource.agenda,
-        simpleCard: demarcheAgendaItem.collapsed,
         onTap: () {
           context.trackEvent(EventType.ACTION_DETAIL);
           Navigator.push(

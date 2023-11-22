@@ -1,12 +1,9 @@
 import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -23,18 +20,10 @@ void main() {
         store: store,
         stateSource: UserActionStateSource.list,
         actionId: '1',
-        simpleCard: false,
       );
 
       // Then
-      expect(
-        viewModel.tag,
-        UserActionTagViewModel(
-          title: "Terminée",
-          backgroundColor: AppColors.accent2Lighten,
-          textColor: AppColors.accent2,
-        ),
-      );
+      expect(viewModel.pillule, CardPilluleType.done);
     });
 
     test("and status is not started should create view model properly", () {
@@ -47,17 +36,10 @@ void main() {
         store: store,
         stateSource: UserActionStateSource.list,
         actionId: '1',
-        simpleCard: false,
       );
 
       // Then
-      expect(
-          viewModel.tag,
-          UserActionTagViewModel(
-            title: Strings.todoPillule,
-            backgroundColor: AppColors.accent1Lighten,
-            textColor: AppColors.accent1,
-          ));
+      expect(viewModel.pillule, CardPilluleType.todo);
     });
 
     test("and status is in progress should create view model properly", () {
@@ -70,18 +52,10 @@ void main() {
         store: store,
         stateSource: UserActionStateSource.list,
         actionId: '1',
-        simpleCard: false,
       );
 
       // Then
-      expect(
-        viewModel.tag,
-        UserActionTagViewModel(
-          title: Strings.doingPillule,
-          backgroundColor: AppColors.accent3Lighten,
-          textColor: AppColors.accent3,
-        ),
-      );
+      expect(viewModel.pillule, CardPilluleType.doing);
     });
 
     test("and status is canceled should create view model properly", () {
@@ -94,18 +68,10 @@ void main() {
         store: store,
         stateSource: UserActionStateSource.list,
         actionId: '1',
-        simpleCard: false,
       );
 
       // Then
-      expect(
-        viewModel.tag,
-        UserActionTagViewModel(
-          title: "Annulée",
-          backgroundColor: AppColors.accent2Lighten,
-          textColor: AppColors.accent2,
-        ),
-      );
+      expect(viewModel.pillule, CardPilluleType.canceled);
     });
 
     test("and dateEcheance is in future should display it as on time", () {
@@ -118,17 +84,11 @@ void main() {
         store: store,
         stateSource: UserActionStateSource.list,
         actionId: '1',
-        simpleCard: false,
       );
 
       // Then
-      expect(
-        viewModel.dateEcheanceViewModel,
-        UserActionDateEcheanceViewModel(
-          formattedTexts: [FormattedText("À réaliser pour le jeudi 2 janvier")],
-          color: AppColors.contentColor,
-        ),
-      );
+      expect(viewModel.dateEcheance, "À réaliser pour le jeudi 2 janvier");
+      expect(viewModel.isLate, false);
     });
 
     test("and dateEcheance is today should display it as on time", () {
@@ -143,17 +103,11 @@ void main() {
           store: store,
           stateSource: UserActionStateSource.list,
           actionId: '1',
-          simpleCard: false,
         );
 
         // Then
-        expect(
-          viewModel.dateEcheanceViewModel,
-          UserActionDateEcheanceViewModel(
-            formattedTexts: [FormattedText("À réaliser pour le dimanche 2 janvier")],
-            color: AppColors.contentColor,
-          ),
-        );
+        expect(viewModel.dateEcheance, "À réaliser pour le dimanche 2 janvier");
+        expect(viewModel.isLate, false);
       });
     });
 
@@ -167,20 +121,11 @@ void main() {
         store: store,
         stateSource: UserActionStateSource.list,
         actionId: '1',
-        simpleCard: false,
       );
 
       // Then
-      expect(
-        viewModel.dateEcheanceViewModel,
-        UserActionDateEcheanceViewModel(
-          formattedTexts: [
-            FormattedText("En retard : ", bold: true),
-            FormattedText("À réaliser pour le dimanche 2 janvier"),
-          ],
-          color: AppColors.warning,
-        ),
-      );
+      expect(viewModel.dateEcheance, "En retard : À réaliser pour le dimanche 2 janvier");
+      expect(viewModel.isLate, true);
     });
 
     test("and status is DONE should not display date echeance", () {
@@ -193,11 +138,10 @@ void main() {
         store: store,
         stateSource: UserActionStateSource.list,
         actionId: '1',
-        simpleCard: false,
       );
 
       // Then
-      expect(viewModel.dateEcheanceViewModel, isNull);
+      expect(viewModel.dateEcheance, isNull);
     });
 
     test("and status is CANCELED should not display date echeance", () {
@@ -210,11 +154,44 @@ void main() {
         store: store,
         stateSource: UserActionStateSource.list,
         actionId: '1',
-        simpleCard: false,
       );
 
       // Then
-      expect(viewModel.dateEcheanceViewModel, isNull);
+      expect(viewModel.dateEcheance, isNull);
+    });
+
+    test("and status is in progress and dateEcheance is in past should display it as late", () {
+      // Given
+      final action = mockUserAction(id: '1', status: UserActionStatus.IN_PROGRESS, dateEcheance: DateTime(2022, 1, 2));
+      final store = givenState().withUserActions([action]).store();
+
+      // When
+      final viewModel = UserActionCardViewModel.create(
+        store: store,
+        stateSource: UserActionStateSource.list,
+        actionId: '1',
+      );
+
+      // Then
+      expect(viewModel.dateEcheance, "En retard : À réaliser pour le dimanche 2 janvier");
+      expect(viewModel.pillule, CardPilluleType.late);
+    });
+
+    test("and status is not started and dateEcheance is in past should display it as late", () {
+      // Given
+      final action = mockUserAction(id: '1', status: UserActionStatus.NOT_STARTED, dateEcheance: DateTime(2022, 1, 2));
+      final store = givenState().withUserActions([action]).store();
+
+      // When
+      final viewModel = UserActionCardViewModel.create(
+        store: store,
+        stateSource: UserActionStateSource.list,
+        actionId: '1',
+      );
+
+      // Then
+      expect(viewModel.dateEcheance, "En retard : À réaliser pour le dimanche 2 janvier");
+      expect(viewModel.pillule, CardPilluleType.late);
     });
   });
 
@@ -229,31 +206,10 @@ void main() {
         store: store,
         stateSource: UserActionStateSource.agenda,
         actionId: '1',
-        simpleCard: false,
       );
 
       // Then
       expect(viewModel.title, 'content');
-    });
-  });
-
-  group('UserActionCardViewModel.create when simpleCard is true', () {
-    test("should neither display date nor subtitle", () {
-      // Given
-      final action = mockUserAction(id: '1', content: 'content', comment: 'subtitle', dateEcheance: DateTime(2023));
-      final store = givenState().agenda(actions: [action]).store();
-
-      // When
-      final viewModel = UserActionCardViewModel.create(
-        store: store,
-        stateSource: UserActionStateSource.agenda,
-        actionId: '1',
-        simpleCard: true,
-      );
-
-      // Then
-      expect(viewModel.withSubtitle, isFalse);
-      expect(viewModel.dateEcheanceViewModel, isNull);
     });
   });
 }

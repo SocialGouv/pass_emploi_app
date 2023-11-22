@@ -286,7 +286,7 @@ class RendezvousAgendaItem extends AgendaItem {
 
 class DemarcheAgendaItem extends AgendaItem {
   final String demarcheId;
-  final bool collapsed;
+  final bool collapsed; // deprecated
 
   DemarcheAgendaItem(this.demarcheId, {this.collapsed = false});
 

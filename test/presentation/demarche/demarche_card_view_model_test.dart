@@ -2,9 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
-import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -40,7 +38,6 @@ void main() {
       store: store,
       stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
-      simpleCard: false,
     );
 
     // Then
@@ -53,13 +50,9 @@ void main() {
         status: DemarcheStatus.NOT_STARTED,
         createdByAdvisor: true,
         modifiedByAdvisor: false,
-        tag: UserActionTagViewModel(
-          title: "À réaliser",
-          backgroundColor: AppColors.accent1Lighten,
-          textColor: AppColors.accent1,
-        ),
-        dateFormattedTexts: [FormattedText('À réaliser pour le 28/04/2032')],
-        dateColor: AppColors.primary,
+        pilluleType: CardPilluleType.todo,
+        date: "À réaliser pour le 28/04/2032",
+        isLate: false,
       ),
     );
   });
@@ -73,32 +66,10 @@ void main() {
       store: store,
       stateSource: DemarcheStateSource.agenda,
       demarcheId: 'id',
-      simpleCard: false,
     );
 
     // Then
     expect(viewModel, isNotNull);
-  });
-
-  test("create when simple card is set to true should not display subtitle and date", () {
-    // Given
-    final demarche = mockDemarche(
-      attributs: [DemarcheAttribut(key: 'description', value: 'commentaire')],
-      endDate: DateTime(2023),
-    );
-    final store = givenState().agenda(demarches: [(demarche)]).store();
-
-    // When
-    final viewModel = DemarcheCardViewModel.create(
-      store: store,
-      stateSource: DemarcheStateSource.agenda,
-      demarcheId: 'id',
-      simpleCard: true,
-    );
-
-    // Then
-    expect(viewModel.sousTitre, isNull);
-    expect(viewModel.dateFormattedTexts, isNull);
   });
 
   test("create when status is IS_NOT_STARTED and end date is in the future should create view model properly", () {
@@ -114,22 +85,12 @@ void main() {
       store: store,
       stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
-      simpleCard: false,
     );
 
     // Then
     expect(viewModel.status, DemarcheStatus.NOT_STARTED);
-    expect(viewModel.dateFormattedTexts, [FormattedText('À réaliser pour le 28/04/2050')]);
-
-    expect(viewModel.dateColor, AppColors.primary);
-    expect(
-      viewModel.tag,
-      UserActionTagViewModel(
-        title: "À réaliser",
-        backgroundColor: AppColors.accent1Lighten,
-        textColor: AppColors.accent1,
-      ),
-    );
+    expect(viewModel.date, "À réaliser pour le 28/04/2050");
+    expect(viewModel.pilluleType, CardPilluleType.todo);
   });
 
   test("create when status is IS_NOT_STARTED and end date is in the past should create view model properly", () {
@@ -145,25 +106,15 @@ void main() {
       store: store,
       stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
-      simpleCard: false,
     );
 
     // Then
     expect(viewModel.status, DemarcheStatus.NOT_STARTED);
     expect(
-      viewModel.dateFormattedTexts,
-      [
-        FormattedText('En retard : ', bold: true),
-        FormattedText('À réaliser pour le 28/03/2022'),
-      ],
+      viewModel.date,
+      "En retard : À réaliser pour le 28/03/2022",
     );
-    expect(
-        viewModel.tag,
-        UserActionTagViewModel(
-          title: "À réaliser",
-          backgroundColor: AppColors.warningLighten,
-          textColor: AppColors.warning,
-        ));
+    expect(viewModel.pilluleType, CardPilluleType.late);
   });
 
   test("create when status is IN_PROGRESS should create view model properly", () {
@@ -179,21 +130,12 @@ void main() {
       store: store,
       stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
-      simpleCard: false,
     );
 
     // Then
     expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
-    expect(viewModel.dateFormattedTexts, [FormattedText('À réaliser pour le 28/03/2050')]);
-    expect(viewModel.dateColor, AppColors.primary);
-    expect(
-      viewModel.tag,
-      UserActionTagViewModel(
-        title: "En cours",
-        backgroundColor: AppColors.accent3Lighten,
-        textColor: AppColors.accent3,
-      ),
-    );
+    expect(viewModel.date, 'À réaliser pour le 28/03/2050');
+    expect(viewModel.pilluleType, CardPilluleType.doing);
   });
 
   test("create when status is IN_PROGRESS and end date is in the past should create view model properly", () {
@@ -209,26 +151,15 @@ void main() {
       store: store,
       stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
-      simpleCard: false,
     );
 
     // Then
     expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
     expect(
-      viewModel.dateFormattedTexts,
-      [
-        FormattedText('En retard : ', bold: true),
-        FormattedText('À réaliser pour le 28/03/2022'),
-      ],
+      viewModel.date,
+      "En retard : À réaliser pour le 28/03/2022",
     );
-    expect(
-      viewModel.tag,
-      UserActionTagViewModel(
-        title: "En cours",
-        backgroundColor: AppColors.warningLighten,
-        textColor: AppColors.warning,
-      ),
-    );
+    expect(viewModel.pilluleType, CardPilluleType.late);
   });
 
   test("create when status is DONE should create view model properly", () {
@@ -244,20 +175,12 @@ void main() {
       store: store,
       stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
-      simpleCard: false,
     );
 
     // Then
     expect(viewModel.status, DemarcheStatus.DONE);
-    expect(viewModel.dateFormattedTexts, [FormattedText('Réalisé le 28/03/2022')]);
-    expect(viewModel.dateColor, AppColors.grey700);
-    expect(
-        viewModel.tag,
-        UserActionTagViewModel(
-          title: "Terminée",
-          backgroundColor: AppColors.accent2Lighten,
-          textColor: AppColors.accent2,
-        ));
+    expect(viewModel.date, "Réalisé le 28/03/2022");
+    expect(viewModel.pilluleType, CardPilluleType.done);
   });
 
   test("create when status is CANCELLED should create view model properly", () {
@@ -273,20 +196,11 @@ void main() {
       store: store,
       stateSource: DemarcheStateSource.demarcheList,
       demarcheId: 'id',
-      simpleCard: false,
     );
 
     // Then
     expect(viewModel.status, DemarcheStatus.CANCELLED);
-    expect(viewModel.dateFormattedTexts, [FormattedText('Annulé le 28/03/2020')]);
-    expect(viewModel.dateColor, AppColors.grey700);
-    expect(
-      viewModel.tag,
-      UserActionTagViewModel(
-        title: "Annulée",
-        backgroundColor: AppColors.accent2Lighten,
-        textColor: AppColors.accent2,
-      ),
-    );
+    expect(viewModel.date, 'Annulé le 28/03/2020');
+    expect(viewModel.pilluleType, CardPilluleType.canceled);
   });
 }
