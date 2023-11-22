@@ -86,13 +86,12 @@ class _Body extends StatefulWidget {
   final String heroTag;
 
   const _Body({
-    Key? key,
     required this.viewModel,
     required this.title,
     required this.hint,
     required this.selectedKeyword,
     required this.heroTag,
-  }) : super(key: key);
+  });
 
   @override
   State<_Body> createState() => _BodyState();

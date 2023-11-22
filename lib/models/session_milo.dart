@@ -54,7 +54,7 @@ class SessionMilo extends Equatable {
   }
 
   String get displayableTitle {
-    return nomOffre + " - " + nomSession;
+    return "$nomOffre - $nomSession";
   }
 }
 

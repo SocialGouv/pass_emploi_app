@@ -9,7 +9,7 @@ class SavedSearchDeleteRepository {
   SavedSearchDeleteRepository(this._httpClient, [this._crashlytics]);
 
   Future<bool> delete(String userId, String savedSearchId) async {
-    final url = "/jeunes/" + userId + "/recherches/" + savedSearchId;
+    final url = "/jeunes/$userId/recherches/$savedSearchId";
     try {
       await _httpClient.delete(url);
       return true;

@@ -72,9 +72,9 @@ void main() {
         EmptyMessageAgendaItem(
             "Pas de démarche ni de rendez-vous. Ajoutez une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran."),
         WeekSeparatorAgendaItem("Semaine prochaine"),
-        RendezvousAgendaItem(rendezvousLundiProchain.id, collapsed: true),
-        RendezvousAgendaItem(rendezvousMardiProchain.id, collapsed: true),
-        DemarcheAgendaItem(demarcheSamediProchain.id, collapsed: true),
+        RendezvousAgendaItem(rendezvousLundiProchain.id),
+        RendezvousAgendaItem(rendezvousMardiProchain.id),
+        DemarcheAgendaItem(demarcheSamediProchain.id),
       ],
     );
   });
@@ -138,8 +138,8 @@ void main() {
           EmptyMessageAgendaItem(
               "Pas de démarche ni de rendez-vous. Ajoutez une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran."),
           WeekSeparatorAgendaItem("Semaine prochaine"),
-          RendezvousAgendaItem(rendezvousLundiProchain.id, collapsed: true),
-          UserActionAgendaItem(actionSamediProchain.id, collapsed: true),
+          RendezvousAgendaItem(rendezvousLundiProchain.id),
+          UserActionAgendaItem(actionSamediProchain.id),
         ],
       );
     });
@@ -225,8 +225,8 @@ void main() {
           EmptyMessageAgendaItem(
               "Pas d’action ni de rendez-vous. Créez une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran."),
           WeekSeparatorAgendaItem("Semaine prochaine"),
-          RendezvousAgendaItem(rendezvousLundiProchain.id, collapsed: true),
-          UserActionAgendaItem(actionSamediProchain.id, collapsed: true),
+          RendezvousAgendaItem(rendezvousLundiProchain.id),
+          UserActionAgendaItem(actionSamediProchain.id),
         ],
       );
     });
@@ -252,7 +252,7 @@ void main() {
           EmptyMessageAgendaItem(
               "Pas d’action ni de rendez-vous. Créez une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran."),
           WeekSeparatorAgendaItem("Semaine prochaine"),
-          UserActionAgendaItem(actionSamediProchain.id, collapsed: true),
+          UserActionAgendaItem(actionSamediProchain.id),
         ],
       );
     });

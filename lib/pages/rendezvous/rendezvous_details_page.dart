@@ -152,7 +152,7 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
 }
 
 class _Header extends StatelessWidget {
-  const _Header(this.viewModel, {Key? key}) : super(key: key);
+  const _Header(this.viewModel);
 
   final RendezvousDetailsViewModel viewModel;
 
@@ -181,7 +181,7 @@ class _Header extends StatelessWidget {
 }
 
 class _Modality extends StatelessWidget {
-  const _Modality(this.viewModel, {Key? key}) : super(key: key);
+  const _Modality(this.viewModel);
 
   final RendezvousDetailsViewModel viewModel;
 
@@ -281,7 +281,7 @@ class _Modality extends StatelessWidget {
 }
 
 class _DescriptionPart extends StatelessWidget {
-  const _DescriptionPart(this.viewModel, {Key? key}) : super(key: key);
+  const _DescriptionPart(this.viewModel);
 
   final RendezvousDetailsViewModel viewModel;
 
@@ -322,9 +322,9 @@ class _AnimateurPart extends StatelessWidget {
 }
 
 class _ConseillerPart extends StatelessWidget {
-  const _ConseillerPart(this.viewModel, {Key? key}) : super(key: key);
-
   final RendezvousDetailsViewModel viewModel;
+
+  const _ConseillerPart(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -355,8 +355,6 @@ class _ConseillerPart extends StatelessWidget {
 }
 
 class _InformIfAbsent extends StatelessWidget {
-  const _InformIfAbsent({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -371,8 +369,6 @@ class _InformIfAbsent extends StatelessWidget {
 }
 
 class _Annule extends StatelessWidget {
-  const _Annule({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -397,7 +393,7 @@ class _Annule extends StatelessWidget {
 class _Createur extends StatelessWidget {
   final String label;
 
-  const _Createur(this.label, {Key? key}) : super(key: key);
+  const _Createur(this.label);
 
   @override
   Widget build(BuildContext context) {

@@ -77,11 +77,11 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _alerte = alerte;
-    return switch (_alerte) {
-      OffreEmploiSavedSearch() => _buildEmploiAndAlternanceCard(_alerte, viewModel),
-      ImmersionSavedSearch() => _buildImmersionCard(_alerte, viewModel),
-      ServiceCiviqueSavedSearch() => _buildServiceCiviqueCard(_alerte, viewModel),
+    final alerteCast = alerte;
+    return switch (alerteCast) {
+      OffreEmploiSavedSearch() => _buildEmploiAndAlternanceCard(alerteCast, viewModel),
+      ImmersionSavedSearch() => _buildImmersionCard(alerteCast, viewModel),
+      ServiceCiviqueSavedSearch() => _buildServiceCiviqueCard(alerteCast, viewModel),
       _ => Container(),
     };
   }

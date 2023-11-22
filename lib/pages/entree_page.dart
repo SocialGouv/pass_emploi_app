@@ -168,7 +168,7 @@ class Link extends StatelessWidget {
   final String label;
   final String link;
 
-  const Link(this.label, this.link, {Key? key}) : super(key: key);
+  const Link(this.label, this.link, {super.key});
 
   @override
   Widget build(BuildContext context) {

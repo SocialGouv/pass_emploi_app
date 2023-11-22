@@ -147,8 +147,9 @@ class DemarcheListPage extends StatelessWidget {
 }
 
 class _Error extends StatelessWidget {
-  const _Error({Key? key, required this.viewModel}) : super(key: key);
   final DemarcheListPageViewModel viewModel;
+
+  const _Error({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {

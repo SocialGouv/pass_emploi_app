@@ -15,6 +15,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class DiagorienteWebviewPage extends StatelessWidget {
   final DiagorienteWebviewMode mode;
+
   DiagorienteWebviewPage(this.mode);
 
   static MaterialPageRoute<void> materialPageRoute(DiagorienteWebviewMode mode) {
@@ -96,15 +97,13 @@ class _Boutons extends StatelessWidget {
 }
 
 class _ChatBotButtons extends StatelessWidget {
-  const _ChatBotButtons({
-    Key? key,
-    required WebViewController controller,
-    required this.diagorienteBottomButtonsNotifier,
-  })  : _controller = controller,
-        super(key: key);
-
   final WebViewController _controller;
   final DiagorienteBottomButtonsNotifier diagorienteBottomButtonsNotifier;
+
+  const _ChatBotButtons({
+    required WebViewController controller,
+    required this.diagorienteBottomButtonsNotifier,
+  }) : _controller = controller;
 
   @override
   Widget build(BuildContext context) {
@@ -136,10 +135,6 @@ class _ChatBotButtons extends StatelessWidget {
 }
 
 class _MetiersButton extends StatelessWidget {
-  const _MetiersButton({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(

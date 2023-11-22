@@ -10,10 +10,10 @@ class ExternalLink extends StatelessWidget {
   final String url;
 
   const ExternalLink({
-    Key? key,
+    super.key,
     required this.label,
     required this.url,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

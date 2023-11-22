@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 
 class EntreeBrsaBackground extends StatelessWidget {
-  const EntreeBrsaBackground({Key? key}) : super(key: key);
+  const EntreeBrsaBackground({super.key});
 
   @override
   Widget build(BuildContext context) {

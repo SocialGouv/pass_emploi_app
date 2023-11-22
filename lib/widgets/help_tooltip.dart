@@ -7,10 +7,10 @@ class HelpTooltip extends StatelessWidget {
   final IconData icon;
 
   const HelpTooltip({
-    Key? key,
+    super.key,
     required this.message,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

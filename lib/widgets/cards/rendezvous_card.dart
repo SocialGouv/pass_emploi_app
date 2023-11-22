@@ -19,11 +19,11 @@ class RendezvousCard extends StatelessWidget {
   final bool simpleCard;
 
   const RendezvousCard({
-    Key? key,
+    super.key,
     required this.converter,
     required this.onTap,
     this.simpleCard = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _Content extends StatelessWidget {
   final VoidCallback onTap;
   final bool simpleCard;
 
-  const _Content(this.viewModel, this.onTap, this.simpleCard, {Key? key}) : super(key: key);
+  const _Content(this.viewModel, this.onTap, this.simpleCard);
 
   @override
   Widget build(BuildContext context) {

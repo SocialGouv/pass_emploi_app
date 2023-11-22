@@ -36,8 +36,8 @@ sealed class MessageItem extends ChatItem {
   final String caption;
   final Color? captionColor;
 
-  MessageItem(String messageId, bool shouldAnimate, this.content, this.caption, this.captionColor)
-      : super(messageId, shouldAnimate: shouldAnimate);
+  MessageItem(super.messageId, bool shouldAnimate, this.content, this.caption, this.captionColor)
+      : super(shouldAnimate: shouldAnimate);
 
   @override
   List<Object?> get props => [

@@ -21,7 +21,7 @@ class DataCard<T> extends StatelessWidget {
   final Widget? additionalChild;
 
   const DataCard({
-    Key? key,
+    super.key,
     required this.titre,
     required this.sousTitre,
     required this.lieu,
@@ -31,7 +31,7 @@ class DataCard<T> extends StatelessWidget {
     this.from,
     this.category,
     this.additionalChild,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

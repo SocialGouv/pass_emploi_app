@@ -16,7 +16,7 @@ class StoreConnectorAware<ViewModel> extends StatefulWidget {
   final OnInitialBuildCallback<ViewModel>? onInitialBuild;
 
   const StoreConnectorAware({
-    Key? key,
+    super.key,
     required this.builder,
     required this.converter,
     this.distinct = false,
@@ -27,7 +27,7 @@ class StoreConnectorAware<ViewModel> extends StatefulWidget {
     this.onWillChange,
     this.onDidChange,
     this.onInitialBuild,
-  }) : super(key: key);
+  });
 
   @override
   State<StoreConnectorAware<ViewModel>> createState() => _StoreConnectorAwareState<ViewModel>();

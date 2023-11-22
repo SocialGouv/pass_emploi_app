@@ -9,16 +9,14 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement
 class UserActionCard extends StatelessWidget {
   final String userActionId;
   final UserActionStateSource stateSource;
-  final bool simpleCard;
   final VoidCallback onTap;
 
   const UserActionCard({
-    Key? key,
+    super.key,
     required this.userActionId,
     required this.stateSource,
     required this.onTap,
-    this.simpleCard = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

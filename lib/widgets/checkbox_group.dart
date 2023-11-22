@@ -17,18 +17,18 @@ class CheckBoxGroup<T> extends StatefulWidget {
   final EdgeInsetsGeometry? contentPadding;
 
   const CheckBoxGroup({
-    Key? key,
+    super.key,
     required this.title,
     required this.options,
     required this.onSelectedOptionsUpdated,
     this.contentPadding,
-  }) : super(key: key);
+  });
 
   @override
-  _CheckBoxGroupState<CheckboxValueViewModel<T>> createState() => _CheckBoxGroupState();
+  CheckBoxGroupState<CheckboxValueViewModel<T>> createState() => CheckBoxGroupState();
 }
 
-class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckBoxGroup> {
+class CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckBoxGroup> {
   late Map<T, bool> _optionsSelectionStatus;
 
   @override

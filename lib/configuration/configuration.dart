@@ -99,7 +99,7 @@ class Configuration extends Equatable {
   static String getOrThrow(String key) {
     final value = dotenv.get(key, fallback: "");
     if (value == "") {
-      throw (key + " must be set in .env file");
+      throw ("$key must be set in .env file");
     }
     return value;
   }
@@ -107,7 +107,7 @@ class Configuration extends Equatable {
   static List<String> getArrayOrThrow(String key) {
     final value = dotenv.get(key, fallback: "");
     if (value == "") {
-      throw (key + " must be set in .env file");
+      throw ("$key must be set in .env file");
     }
     return value.split(' ');
   }

@@ -58,7 +58,7 @@ class _CredentialsPageState extends State<CredentialsPage> with SingleTickerProv
 }
 
 class AnimatedCredentials extends AnimatedWidget {
-  AnimatedCredentials({required Listenable listenable}) : super(listenable: listenable);
+  AnimatedCredentials({required super.listenable});
 
   @override
   Widget build(BuildContext context) {

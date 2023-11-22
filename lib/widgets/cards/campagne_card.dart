@@ -8,7 +8,7 @@ class CampagneCard extends StatelessWidget {
   final String titre;
   final String description;
 
-  const CampagneCard({Key? key, required this.onTap, required this.titre, required this.description}) : super(key: key);
+  const CampagneCard({super.key, required this.onTap, required this.titre, required this.description});
 
   @override
   Widget build(BuildContext context) {

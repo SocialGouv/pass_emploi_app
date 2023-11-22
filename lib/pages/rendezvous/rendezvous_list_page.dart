@@ -107,9 +107,9 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
 }
 
 class _Scaffold extends StatelessWidget {
-  const _Scaffold({Key? key, required this.body}) : super(key: key);
-
   final Widget body;
+
+  const _Scaffold({required this.body});
 
   @override
   Widget build(BuildContext context) {
@@ -121,16 +121,15 @@ class _Scaffold extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({
-    Key? key,
-    required this.viewModel,
-    required this.onPageOffsetChanged,
-    required this.onNextRendezvousButtonTap,
-  }) : super(key: key);
-
   final RendezvousListViewModel viewModel;
   final Function(int) onPageOffsetChanged;
   final Function() onNextRendezvousButtonTap;
+
+  const _Body({
+    required this.viewModel,
+    required this.onPageOffsetChanged,
+    required this.onNextRendezvousButtonTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -151,16 +150,15 @@ class _Body extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content({
-    Key? key,
-    required this.viewModel,
-    required this.onPageOffsetChanged,
-    required this.onNextRendezvousButtonTap,
-  }) : super(key: key);
-
   final RendezvousListViewModel viewModel;
   final Function(int) onPageOffsetChanged;
   final Function() onNextRendezvousButtonTap;
+
+  const _Content({
+    required this.viewModel,
+    required this.onPageOffsetChanged,
+    required this.onNextRendezvousButtonTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +323,7 @@ class _DateHeader extends StatelessWidget {
   final RendezvousListViewModel viewModel;
   final Function(int) onPageOffsetChanged;
 
-  const _DateHeader({Key? key, required this.viewModel, required this.onPageOffsetChanged}) : super(key: key);
+  const _DateHeader({required this.viewModel, required this.onPageOffsetChanged});
 
   @override
   Widget build(BuildContext context) {

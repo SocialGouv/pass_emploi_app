@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 class TitleSection extends StatelessWidget {
   final String label;
 
-  const TitleSection({Key? key, required this.label}) : super(key: key);
+  const TitleSection({super.key, required this.label});
 
   @override
   Widget build(BuildContext context) {

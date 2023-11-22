@@ -251,7 +251,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _spacer(double _height) => SizedBox(height: _height);
+  Widget _spacer(double height) => SizedBox(height: height);
 
   Widget _descriptionTitle({required String title}) {
     return TitleSection(label: title);
@@ -458,7 +458,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
 class _PartageOffre extends StatelessWidget {
   final bool isAlternance;
 
-  const _PartageOffre({Key? key, required this.isAlternance}) : super(key: key);
+  const _PartageOffre({required this.isAlternance});
 
   @override
   Widget build(BuildContext context) {

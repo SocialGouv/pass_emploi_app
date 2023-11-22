@@ -413,7 +413,7 @@ class _SeeResults extends StatelessWidget {
 class _Retry extends StatelessWidget {
   final SuggestionsRechercheListViewModel viewModel;
 
-  const _Retry({Key? key, required this.viewModel}) : super(key: key);
+  const _Retry({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {

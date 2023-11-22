@@ -21,7 +21,7 @@ class ChatPartageBottomSheet extends StatefulWidget {
   ChatPartageBottomSheet._({required this.source});
 
   @override
-  _ChatPartageBottomSheetState createState() => _ChatPartageBottomSheetState();
+  ChatPartageBottomSheetState createState() => ChatPartageBottomSheetState();
 
   static Future<void> show(BuildContext context, ChatPartageSource source) {
     return showPassEmploiBottomSheet(
@@ -31,7 +31,7 @@ class ChatPartageBottomSheet extends StatefulWidget {
   }
 }
 
-class _ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
+class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
   TextEditingController? _controller;
 
   @override

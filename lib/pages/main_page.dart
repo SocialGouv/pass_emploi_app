@@ -37,10 +37,10 @@ class MainPage extends StatefulWidget {
       : super(key: ValueKey(displayState.hashCode + deepLinkKey));
 
   @override
-  _MainPageState createState() => _MainPageState();
+  MainPageState createState() => MainPageState();
 }
 
-class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
+class MainPageState extends State<MainPage> with WidgetsBindingObserver {
   static const _indexNotInitialized = -1;
 
   bool _deepLinkHandled = false;
@@ -205,10 +205,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 class _ModeDemoWrapper extends StatelessWidget {
   final Widget child;
 
-  const _ModeDemoWrapper({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
+  const _ModeDemoWrapper({required this.child});
 
   @override
   Widget build(BuildContext context) {

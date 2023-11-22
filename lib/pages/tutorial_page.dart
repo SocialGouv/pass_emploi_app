@@ -32,12 +32,12 @@ class _TutorialPageState extends State<TutorialPage> {
   @override
   void initState() {
     _controller.addListener(() {
-      final _controllerPage = _controller.page?.floor();
+      final controllerPage = _controller.page?.floor();
       setState(() {
-        _currentPage = _controllerPage as int;
+        _currentPage = controllerPage as int;
       });
-      if (_controllerPage != null && _controllerPage != _displayedPage) {
-        _displayedPage = _controllerPage;
+      if (controllerPage != null && controllerPage != _displayedPage) {
+        _displayedPage = controllerPage;
       }
     });
     super.initState();
@@ -136,8 +136,7 @@ class _SkipButton extends StatelessWidget {
   const _SkipButton({
     required this.active,
     required this.viewModel,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -179,8 +178,7 @@ class _TutorialContentCard extends StatelessWidget {
     required this.title,
     required this.description,
     required this.image,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -215,7 +213,7 @@ class _TutorialContentCard extends StatelessWidget {
 class _Animation extends StatefulWidget {
   final String image;
 
-  const _Animation({required this.image, Key? key}) : super(key: key);
+  const _Animation({required this.image});
 
   @override
   State<_Animation> createState() => _AnimationState();
@@ -274,7 +272,7 @@ class _AnimationState extends State<_Animation> with SingleTickerProviderStateMi
 class _DelayedButton extends StatelessWidget {
   final TutorialPageViewModel viewModel;
 
-  const _DelayedButton({required this.viewModel, Key? key}) : super(key: key);
+  const _DelayedButton({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 
 class PrimaryRoundedBottomBackground extends StatelessWidget {
-  const PrimaryRoundedBottomBackground({Key? key}) : super(key: key);
+  const PrimaryRoundedBottomBackground({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -16,10 +16,10 @@ class DebouncedButton extends StatefulWidget {
   }) : _duration = Duration(milliseconds: debounceTimeMs);
 
   @override
-  _DebouncedButtonState createState() => _DebouncedButtonState();
+  DebouncedButtonState createState() => DebouncedButtonState();
 }
 
-class _DebouncedButtonState extends State<DebouncedButton> {
+class DebouncedButtonState extends State<DebouncedButton> {
   final ValueNotifier<bool> _isEnabled = ValueNotifier<bool>(true);
   Timer? _timer;
 

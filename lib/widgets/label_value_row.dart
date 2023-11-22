@@ -5,10 +5,10 @@ class LabelValueRow extends StatelessWidget {
   final Widget value;
 
   const LabelValueRow({
-    Key? key,
+    super.key,
     required this.label,
     required this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -452,13 +452,11 @@ extension AppStateDSL on AppState {
     RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>? request,
     bool canLoadMore = true,
   }) {
-    final _results = results ?? mockOffresEmploi10();
-    final _request = request ?? initialRechercheEmploiRequest();
     return copyWith(
       rechercheEmploiState: RechercheEmploiState.initial().copyWith(
         status: status,
-        request: () => _request,
-        results: () => _results,
+        request: () => request ?? initialRechercheEmploiRequest(),
+        results: () => results ?? mockOffresEmploi10(),
         canLoadMore: canLoadMore,
       ),
     );
@@ -537,13 +535,11 @@ extension AppStateDSL on AppState {
     RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>? request,
     bool canLoadMore = true,
   }) {
-    final _results = results ?? mockOffresServiceCivique10();
-    final _request = request ?? initialRechercheServiceCiviqueRequest();
     return copyWith(
       rechercheServiceCiviqueState: RechercheServiceCiviqueState.initial().copyWith(
         status: RechercheStatus.success,
-        request: () => _request,
-        results: () => _results,
+        request: () => request ?? initialRechercheServiceCiviqueRequest(),
+        results: () => results ?? mockOffresServiceCivique10(),
         canLoadMore: canLoadMore,
       ),
     );
@@ -589,13 +585,11 @@ extension AppStateDSL on AppState {
     RechercheRequest<ImmersionCriteresRecherche, ImmersionFiltresRecherche>? request,
     bool canLoadMore = true,
   }) {
-    final _results = results ?? mockOffresImmersion10();
-    final _request = request ?? initialRechercheImmersionRequest();
     return copyWith(
       rechercheImmersionState: RechercheImmersionState.initial().copyWith(
         status: RechercheStatus.success,
-        request: () => _request,
-        results: () => _results,
+        request: () => request ?? initialRechercheImmersionRequest(),
+        results: () => results ?? mockOffresImmersion10(),
         canLoadMore: canLoadMore,
       ),
     );
@@ -643,13 +637,11 @@ extension AppStateDSL on AppState {
     RechercheRequest<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>? request,
     bool canLoadMore = true,
   }) {
-    final _results = results ?? mockEvenementsEmploi();
-    final _request = request ?? initialRechercheEvenementEmploiRequest();
     return copyWith(
       rechercheEvenementEmploiState: RechercheEvenementEmploiState.initial().copyWith(
         status: RechercheStatus.success,
-        request: () => _request,
-        results: () => _results,
+        request: () => request ?? initialRechercheEvenementEmploiRequest(),
+        results: () => results ?? mockEvenementsEmploi(),
         canLoadMore: canLoadMore,
       ),
     );

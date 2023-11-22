@@ -131,7 +131,7 @@ class _StatusSelector extends StatelessWidget {
   final DemarcheDetailViewModel viewModel;
   final VoidCallback onDemarcheDone;
 
-  const _StatusSelector({Key? key, required this.viewModel, required this.onDemarcheDone}) : super(key: key);
+  const _StatusSelector({required this.viewModel, required this.onDemarcheDone});
 
   @override
   Widget build(BuildContext context) {

@@ -7,10 +7,10 @@ class ProfilCard extends StatelessWidget {
   final EdgeInsets padding;
 
   const ProfilCard({
-    Key? key,
+    super.key,
     required this.child,
     this.padding = const EdgeInsets.all(Margins.spacing_base),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ApparitionAnimation extends StatefulWidget {
-  const ApparitionAnimation({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
   final Widget child;
+
+  const ApparitionAnimation({super.key, required this.child});
 
   @override
   State<ApparitionAnimation> createState() => _ApparitionAnimationState();

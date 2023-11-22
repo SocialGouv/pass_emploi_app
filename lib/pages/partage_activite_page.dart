@@ -89,11 +89,10 @@ class _PartageFavoris extends StatefulWidget {
   final DisplayState updatedState;
 
   const _PartageFavoris({
-    Key? key,
     required this.partageFavorisEnabled,
     required this.onPartageFavorisValueChange,
     required this.updatedState,
-  }) : super(key: key);
+  });
 
   @override
   State<_PartageFavoris> createState() => _PartageFavorisState();

@@ -73,7 +73,7 @@ class _Scaffold extends StatelessWidget {
   final AgendaPageViewModel viewModel;
   final Function() onActionDelayedTap;
 
-  const _Scaffold({Key? key, required this.viewModel, required this.onActionDelayedTap}) : super(key: key);
+  const _Scaffold({required this.viewModel, required this.onActionDelayedTap});
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +150,7 @@ class _Body extends StatelessWidget {
   final AgendaPageViewModel viewModel;
   final Function() onActionDelayedTap;
 
-  const _Body({Key? key, required this.viewModel, required this.onActionDelayedTap}) : super(key: key);
+  const _Body({required this.viewModel, required this.onActionDelayedTap});
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +169,7 @@ class _Body extends StatelessWidget {
 class _Retry extends StatelessWidget {
   final AgendaPageViewModel viewModel;
 
-  const _Retry({Key? key, required this.viewModel}) : super(key: key);
+  const _Retry({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +185,7 @@ class _Content extends StatelessWidget {
   final AgendaPageViewModel viewModel;
   final Function() onActionDelayedTap;
 
-  const _Content({Key? key, required this.viewModel, required this.onActionDelayedTap}) : super(key: key);
+  const _Content({required this.viewModel, required this.onActionDelayedTap});
 
   @override
   Widget build(BuildContext context) {
@@ -371,7 +371,6 @@ class _UserActionAgendaItem extends StatelessWidget {
       child: UserActionCard(
         userActionId: userActionAgendaItem.actionId,
         stateSource: UserActionStateSource.agenda,
-        simpleCard: userActionAgendaItem.collapsed,
         onTap: () {
           context.trackEvent(EventType.ACTION_DETAIL);
           Navigator.push(
@@ -416,7 +415,6 @@ class _SessionMiloAgendaItem extends StatelessWidget {
         context: context,
         stateSource: RendezvousStateSource.agendaSessionMilo,
         trackedEvent: EventType.RDV_DETAIL,
-        simpleCard: sessionMiloAgendaItem.collapsed,
       ),
     );
   }

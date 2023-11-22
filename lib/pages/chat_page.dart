@@ -33,10 +33,10 @@ import 'package:redux/redux.dart';
 
 class ChatPage extends StatefulWidget {
   @override
-  _ChatPageState createState() => _ChatPageState();
+  ChatPageState createState() => ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
+class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   final ScrollController _scrollController = ScrollController();
   TextEditingController? _controller;
   bool _animateMessage = false;

@@ -12,8 +12,8 @@ class CejInformationContentCard extends StatelessWidget {
 
   const CejInformationContentCard({
     required this.children,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class CejInformationContentCard extends StatelessWidget {
 }
 
 class CejInformationFirstContentCard extends StatelessWidget {
-  const CejInformationFirstContentCard({Key? key}) : super(key: key);
+  const CejInformationFirstContentCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class CejInformationFirstContentCard extends StatelessWidget {
 }
 
 class CejInformationSecondContentCard extends StatelessWidget {
-  const CejInformationSecondContentCard({Key? key}) : super(key: key);
+  const CejInformationSecondContentCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class CejInformationSecondContentCard extends StatelessWidget {
 }
 
 class CejInformationThirdContentCard extends StatelessWidget {
-  const CejInformationThirdContentCard({Key? key}) : super(key: key);
+  const CejInformationThirdContentCard({super.key});
 
   @override
   Widget build(BuildContext context) {

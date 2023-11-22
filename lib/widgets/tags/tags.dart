@@ -11,13 +11,12 @@ class DataTag extends StatelessWidget {
   final Color backgroundColor;
 
   DataTag({
-    Key? key,
+    super.key,
     required this.label,
     this.icon,
     Color? contentColor,
     this.backgroundColor = AppColors.primaryLighten,
-  })  : contentColor = contentColor ?? AppColors.primary,
-        super(key: key);
+  }) : contentColor = contentColor ?? AppColors.primary;
 
   @override
   Widget build(BuildContext context) {

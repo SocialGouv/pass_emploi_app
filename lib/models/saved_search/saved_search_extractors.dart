@@ -24,10 +24,9 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
     final request = state.request!;
     final metier = request.criteres.keyword;
     final location = request.criteres.location;
-    final String _title = _setTitleForOffer(metier, location?.libelle);
     return OffreEmploiSavedSearch(
       id: "",
-      title: _title,
+      title: _setTitleForOffer(metier, location?.libelle),
       metier: metier,
       location: location,
       keyword: metier,

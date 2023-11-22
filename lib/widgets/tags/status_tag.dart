@@ -10,20 +10,19 @@ class StatutTag extends StatelessWidget {
   final IconData? icon;
 
   const StatutTag({
-    Key? key,
+    super.key,
     required this.backgroundColor,
     required this.textColor,
     required this.title,
-  })  : icon = null,
-        super(key: key);
+  }) : icon = null;
 
   const StatutTag.icon({
-    Key? key,
+    super.key,
     required this.backgroundColor,
     required this.textColor,
     required this.title,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

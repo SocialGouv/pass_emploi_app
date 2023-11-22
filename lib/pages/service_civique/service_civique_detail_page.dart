@@ -140,7 +140,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _spacer(double _height) => SizedBox(height: _height);
+  Widget _spacer(double height) => SizedBox(height: height);
 
   Widget _tags(ServiceCiviqueDetail detail) {
     return Column(
@@ -168,7 +168,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
 
   Widget _description(ServiceCiviqueDetail detail) {
     final String missionFullAdresse = detail.adresseMission != null && detail.codePostal != null
-        ? detail.adresseMission! + ", " + detail.codePostal! + " " + detail.ville
+        ? "${detail.adresseMission!}, ${detail.codePostal!} ${detail.ville}"
         : detail.ville;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
