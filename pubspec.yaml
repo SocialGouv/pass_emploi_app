@@ -25,13 +25,16 @@ dependencies:
   dio_cache_interceptor: "3.4.4"
   dio_cache_interceptor_file_store: "1.2.2"
   # Firebase
-  firebase_core: "2.23.0"
-  firebase_crashlytics: "3.4.5"
-  firebase_remote_config: "4.3.5"
-  firebase_messaging: "14.7.5"
-  firebase_auth: "4.14.1"
-  firebase_app_installations: "0.2.4+5"
-  cloud_firestore: "4.13.2"
+  # firebase_core versions higher than 2.21.0 require iOS Firebase plugins 10.17.0 or higher.
+  # This is problematic since it prevent to use invertase as mentionned in this issue:
+  # https://github.com/invertase/firestore-ios-sdk-frameworks/issues/79
+  firebase_core: "2.21.0"
+  firebase_crashlytics: "3.4.3"
+  firebase_remote_config: "4.3.3"
+  firebase_messaging: "14.7.3"
+  firebase_auth: "4.12.1"
+  firebase_app_installations: "0.2.4+3"
+  cloud_firestore: "4.12.2"
   # UI
   flutter_svg: "2.0.9"
   smooth_page_indicator: "1.1.0"
