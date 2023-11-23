@@ -32,7 +32,7 @@ class DateEcheanceInDetail extends StatelessWidget {
               padding: const EdgeInsets.only(right: 8),
               child: Icon(icon, color: textColor, size: Dimens.icon_size_m),
             );
-          }).toList(),
+          }),
           Expanded(
             child: RichText(
               text: TextSpan(

@@ -160,20 +160,7 @@ List<AgendaItem> _makeCurrentWeekWithEvents(
       currentWeekItems.add(_makeEmptyMessageOnDay(isPoleEmploi));
     } else {
       for (var event in entry.value) {
-        switch (event.runtimeType) {
-          case UserActionEventAgenda:
-            currentWeekItems.add(UserActionAgendaItem(event.id));
-            break;
-          case DemarcheEventAgenda:
-            currentWeekItems.add(DemarcheAgendaItem(event.id));
-            break;
-          case RendezvousEventAgenda:
-            currentWeekItems.add(RendezvousAgendaItem(event.id));
-            break;
-          case SessionMiloEventAgenda:
-            currentWeekItems.add(SessionMiloAgendaItem(event.id));
-            break;
-        }
+        currentWeekItems.add(_agendaItemFromEvent(event));
       }
     }
   }
@@ -201,25 +188,20 @@ List<AgendaItem> _makeNextWeek(List<EventAgenda> events, DateTime dateDeDebutAge
 }
 
 List<AgendaItem> _makeNextWeekWithEvents(List<EventAgenda> nextWeekEvents) {
-  final nextWeekAgendaItems = nextWeekEvents
-      .map((e) {
-        switch (e.runtimeType) {
-          case UserActionEventAgenda:
-            return UserActionAgendaItem(e.id, collapsed: true);
-          case DemarcheEventAgenda:
-            return DemarcheAgendaItem(e.id, collapsed: true);
-          case RendezvousEventAgenda:
-            return RendezvousAgendaItem(e.id, collapsed: true);
-          case SessionMiloEventAgenda:
-            return SessionMiloAgendaItem(e.id, collapsed: true);
-        }
-      })
-      .whereType<AgendaItem>()
-      .toList();
+  final nextWeekAgendaItems = nextWeekEvents.map((e) => _agendaItemFromEvent(e)).whereType<AgendaItem>().toList();
   return [
     WeekSeparatorAgendaItem(Strings.nextWeek),
     ...nextWeekAgendaItems,
   ];
+}
+
+AgendaItem _agendaItemFromEvent(EventAgenda event) {
+  return switch (event) {
+    UserActionEventAgenda() => UserActionAgendaItem(event.id),
+    DemarcheEventAgenda() => DemarcheAgendaItem(event.id),
+    RendezvousEventAgenda() => RendezvousAgendaItem(event.id),
+    SessionMiloEventAgenda() => SessionMiloAgendaItem(event.id),
+  };
 }
 
 sealed class AgendaItem extends Equatable {
@@ -286,32 +268,29 @@ class RendezvousAgendaItem extends AgendaItem {
 
 class DemarcheAgendaItem extends AgendaItem {
   final String demarcheId;
-  final bool collapsed; // deprecated
 
-  DemarcheAgendaItem(this.demarcheId, {this.collapsed = false});
+  DemarcheAgendaItem(this.demarcheId);
 
   @override
-  List<Object?> get props => [demarcheId, collapsed];
+  List<Object?> get props => [demarcheId];
 }
 
 class UserActionAgendaItem extends AgendaItem {
   final String actionId;
-  final bool collapsed;
 
-  UserActionAgendaItem(this.actionId, {this.collapsed = false});
+  UserActionAgendaItem(this.actionId);
 
   @override
-  List<Object?> get props => [actionId, collapsed];
+  List<Object?> get props => [actionId];
 }
 
 class SessionMiloAgendaItem extends AgendaItem {
   final String sessionId;
-  final bool collapsed;
 
-  SessionMiloAgendaItem(this.sessionId, {this.collapsed = false});
+  SessionMiloAgendaItem(this.sessionId);
 
   @override
-  List<Object?> get props => [sessionId, collapsed];
+  List<Object?> get props => [sessionId];
 }
 
 class EmptyAgendaItem extends AgendaItem {
@@ -324,7 +303,7 @@ class EmptyAgendaItem extends AgendaItem {
   List<Object?> get props => [title, subtitle];
 }
 
-abstract class EventAgenda extends Equatable {
+sealed class EventAgenda extends Equatable {
   final String id;
   final DateTime date;
 

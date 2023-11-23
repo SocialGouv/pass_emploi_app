@@ -72,12 +72,10 @@ class RatingPage extends StatelessWidget {
   }
 
   void _sendStoreReview(BuildContext context, RatingViewModel viewModel) async {
-    if (await inAppReview.isAvailable()) {
-      inAppReview.requestReview();
-      _ratingDone(context, viewModel, true);
-    } else {
-      showSnackBarWithSystemError(context);
-    }
+    final isAvailable = await inAppReview.isAvailable();
+    if (isAvailable) inAppReview.requestReview();
+    if (!context.mounted) return;
+    isAvailable ? _ratingDone(context, viewModel, true) : showSnackBarWithSystemError(context);
   }
 
   void _sendEmailReview(BuildContext context, RatingViewModel viewModel) async {
@@ -86,9 +84,8 @@ class RatingPage extends StatelessWidget {
       subject: Strings.titleSupportMail,
       body: Strings.contentSupportMail,
     );
-    mailSent
-        ? _ratingDone(context, viewModel, false)
-        : showSnackBarWithSystemError(context);
+    if (!context.mounted) return;
+    mailSent ? _ratingDone(context, viewModel, false) : showSnackBarWithSystemError(context);
   }
 
   void _ratingDone(BuildContext context, RatingViewModel viewModel, bool isPositive) {

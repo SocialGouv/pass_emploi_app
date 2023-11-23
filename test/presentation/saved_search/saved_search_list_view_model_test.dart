@@ -16,7 +16,7 @@ import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
-  final List<SavedSearch> _savedSearches = [
+  final List<SavedSearch> savedSearches = [
     ImmersionSavedSearch(
       id: "id",
       title: "titreImmersion1",
@@ -107,7 +107,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(savedSearches),
       ),
     );
 
@@ -142,7 +142,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(savedSearches),
       ),
     );
 
@@ -177,7 +177,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(savedSearches),
       ),
     );
 
@@ -212,7 +212,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(savedSearches),
       ),
     );
 
@@ -228,12 +228,12 @@ void main() {
     // Given
     final store1 = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(savedSearches),
       ),
     );
     final store2 = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches.sublist(0, 2)),
+        savedSearchListState: SavedSearchListSuccessState(savedSearches.sublist(0, 2)),
       ),
     );
 
@@ -251,7 +251,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(savedSearches),
       ),
     );
 
@@ -265,7 +265,7 @@ void main() {
   test("ViewModel should set navigation to offres emploi when search results are ready", () {
     // Given
     final store = givenState()
-        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(savedSearches))
         .successRechercheEmploiState()
         .store();
 
@@ -279,7 +279,7 @@ void main() {
   test("ViewModel should set navigation to offres alternances when search results are ready", () {
     // Given
     final store = givenState()
-        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(savedSearches))
         .successRechercheEmploiStateWithRequest(
           criteres: EmploiCriteresRecherche(
             keyword: "keyword",
@@ -299,7 +299,7 @@ void main() {
   test("ViewModel should set navigation to offres immersions when search results are ready", () {
     // Given
     final store = givenState()
-        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(savedSearches))
         .successRechercheImmersionState()
         .store();
 
@@ -313,7 +313,7 @@ void main() {
   test("ViewModel should set navigation to service civique when search results are ready", () {
     // Given
     final store = givenState()
-        .copyWith(savedSearchListState: SavedSearchListSuccessState(_savedSearches))
+        .copyWith(savedSearchListState: SavedSearchListSuccessState(savedSearches))
         .successRechercheServiceCiviqueState()
         .store();
 

@@ -75,12 +75,8 @@ class ContactPage extends StatelessWidget {
       subject: Strings.objetPriseDeContact,
       body: Strings.corpsPriseDeContact,
     );
-    mailSent
-        ? _contactDone(context)
-        : showSnackBarWithSystemError(
-            context,
-            Strings.miscellaneousErrorRetry,
-          );
+    if (!context.mounted) return;
+    mailSent ? _contactDone(context) : showSnackBarWithSystemError(context, Strings.miscellaneousErrorRetry);
   }
 
   void _contactDone(BuildContext context) {

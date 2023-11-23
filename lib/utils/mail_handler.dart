@@ -1,12 +1,11 @@
-import 'package:url_launcher/url_launcher.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
 
 class MailHandler {
   static Future<bool> sendEmail({required String email, required String subject, required String body}) async {
     final mailUrl = _getEmailString(email: email, subject: subject, body: body);
     try {
-      // ignore: ban-name
-      await launchUrl(Uri.parse(mailUrl), mode: LaunchMode.externalApplication);
-      return true;
+      final launched = await launchExternalUrl(mailUrl);
+      return launched;
     } catch (e) {
       return false;
     }

@@ -115,8 +115,9 @@ class BaseCard extends StatelessWidget {
 }
 
 class _CardIllustration extends StatelessWidget {
-  const _CardIllustration({Key? key, required this.imagePath}) : super(key: key);
   final String? imagePath;
+
+  const _CardIllustration({required this.imagePath});
 
   @override
   Widget build(BuildContext context) {

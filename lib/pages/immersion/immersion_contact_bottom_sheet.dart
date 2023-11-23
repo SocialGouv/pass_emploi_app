@@ -41,6 +41,7 @@ class ImmersionContactBottomSheet extends StatelessWidget {
 
 class _Content extends StatelessWidget {
   const _Content(this.callToAction);
+
   final CallToAction callToAction;
 
   @override
@@ -138,12 +139,9 @@ class _InstructionsText extends StatelessWidget {
 }
 
 class _Subtitle extends StatelessWidget {
-  const _Subtitle({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
   final String text;
+
+  const _Subtitle({required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -172,6 +170,7 @@ class _Subtitle extends StatelessWidget {
 
 class _ContactButton extends StatelessWidget {
   const _ContactButton(this.callToAction);
+
   final CallToAction callToAction;
 
   @override

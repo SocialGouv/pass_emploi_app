@@ -156,9 +156,9 @@ ImmersionDetailsViewModel _otherCasesViewModel(ImmersionDetailsState state, Stor
 String _contactLabel(ImmersionDetails immersion) {
   final contact = immersion.contact;
   if (contact == null) return '';
-  final nameLabel = (contact.firstName + ' ' + contact.lastName).trim();
+  final nameLabel = ('${contact.firstName} ${contact.lastName}').trim();
   if (contact.role.isEmpty) return nameLabel;
-  return nameLabel + '\n' + contact.role;
+  return '$nameLabel\n${contact.role}';
 }
 
 bool _withContactForm(ImmersionDetails immersion) => immersion.contact?.mode == ImmersionContactMode.MAIL;

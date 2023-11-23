@@ -13,7 +13,7 @@ class MaxLivingTimeRemoteConfig implements MaxLivingTimeConfig {
   int? maxLivingTimeInSecondsForMilo() {
     if (_firebaseRemoteConfig == null) return null;
 
-    final value = _firebaseRemoteConfig!.getInt("app_milo_max_living_time_in_seconds");
+    final value = _firebaseRemoteConfig.getInt("app_milo_max_living_time_in_seconds");
     return value > 0 ? value : null;
   }
 }

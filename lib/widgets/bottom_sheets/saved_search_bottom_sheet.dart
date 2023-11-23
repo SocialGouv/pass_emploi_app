@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 abstract class AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL> extends StatelessWidget {
   final String analyticsScreenName;
 
-  const AbstractSavedSearchBottomSheet({required this.analyticsScreenName, Key? key}) : super(key: key);
+  const AbstractSavedSearchBottomSheet({required this.analyticsScreenName, super.key});
 
   @override
   Widget build(BuildContext context) {

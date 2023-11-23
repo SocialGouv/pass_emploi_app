@@ -22,7 +22,7 @@ class SavedSearchDeleteDialog extends StatelessWidget {
   final String savedSearchId;
   final SavedSearchType type;
 
-  SavedSearchDeleteDialog(this.savedSearchId, this.type, {Key? key}) : super(key: key);
+  SavedSearchDeleteDialog(this.savedSearchId, this.type, {super.key});
 
   static String _screenName(SavedSearchType type) {
     switch (type) {

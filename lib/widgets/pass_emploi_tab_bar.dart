@@ -9,7 +9,7 @@ class PassEmploiTabBar extends StatelessWidget {
   final List<String> tabLabels;
   final TabController? controller;
 
-  PassEmploiTabBar({Key? key, required this.tabLabels, this.controller}) : super(key: key);
+  PassEmploiTabBar({super.key, required this.tabLabels, this.controller});
 
   @override
   Widget build(BuildContext context) {

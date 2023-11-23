@@ -42,5 +42,5 @@ bool _creator(dynamic json) {
 String _creatorName(dynamic json) {
   final creatorFirstName = json["createur"]["prenom"] as String;
   final creatorLastName = json["createur"]["nom"] as String;
-  return creatorFirstName + " " + creatorLastName;
+  return "$creatorFirstName $creatorLastName";
 }

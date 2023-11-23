@@ -25,8 +25,8 @@ class EvenementEmploiItemViewModel extends Equatable {
       type: evenement.type,
       titre: evenement.titre,
       dateLabel: evenement.dateDebut.toDayWithFullMonth(),
-      heureLabel: evenement.dateDebut.toHourWithHSeparator() + ' - ' + evenement.dateFin.toHourWithHSeparator(),
-      locationLabel: evenement.codePostal + ' ' + evenement.ville,
+      heureLabel: '${evenement.dateDebut.toHourWithHSeparator()} - ${evenement.dateFin.toHourWithHSeparator()}',
+      locationLabel: '${evenement.codePostal} ${evenement.ville}',
     );
   }
 

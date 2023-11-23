@@ -184,7 +184,7 @@ class ImmersionTextFormField extends StatelessWidget {
   final int? maxLength;
 
   const ImmersionTextFormField({
-    Key? key,
+    super.key,
     required this.isMandatory,
     this.mandatoryError,
     this.onChanged,
@@ -193,7 +193,7 @@ class ImmersionTextFormField extends StatelessWidget {
     required this.controller,
     required this.focusNode,
     this.maxLength,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

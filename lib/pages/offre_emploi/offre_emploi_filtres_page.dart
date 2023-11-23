@@ -201,10 +201,9 @@ class _FiltreDebutant extends StatefulWidget {
   final Function(bool) onDebutantOnlyValueChange;
 
   const _FiltreDebutant({
-    Key? key,
     required this.onDebutantOnlyValueChange,
     required this.debutantOnlyEnabled,
-  }) : super(key: key);
+  });
 
   @override
   State<_FiltreDebutant> createState() => _FiltreDebutantState();

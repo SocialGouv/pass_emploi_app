@@ -36,7 +36,7 @@ class CrashlyticsMiddleware extends MiddlewareClass<AppState> {
   }
 
   String _actionToString(dynamic action) {
-    return action.toString().replaceAll('Instance of ', '') + "(${_formatter.format(DateTime.now())})";
+    return "${action.toString().replaceAll('Instance of ', '')}(${_formatter.format(DateTime.now())})";
   }
 
   String _formatQueueForCrashlytics() {

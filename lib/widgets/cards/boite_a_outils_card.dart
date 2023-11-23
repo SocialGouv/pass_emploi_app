@@ -6,12 +6,9 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class BoiteAOutilsCard extends StatelessWidget {
-  const BoiteAOutilsCard({
-    Key? key,
-    required this.outil,
-  }) : super(key: key);
-
   final Outil outil;
+
+  const BoiteAOutilsCard({super.key, required this.outil});
 
   @override
   Widget build(BuildContext context) {

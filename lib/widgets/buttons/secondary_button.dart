@@ -12,13 +12,13 @@ class SecondaryButton extends StatelessWidget {
   final double? fontSize;
 
   const SecondaryButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.onPressed,
     this.icon,
     this.backgroundColor = Colors.transparent,
     this.fontSize,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

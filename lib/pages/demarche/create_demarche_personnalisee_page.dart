@@ -256,7 +256,7 @@ class _NombreCaracteresCompteur extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(right: 24, top: 8),
         child: Text(
-          _nombreCarateres.toString() + "/255",
+          "$_nombreCarateres/255",
           style: TextStyles.textXsRegular(color: textColor),
         ),
       ),

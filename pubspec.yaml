@@ -5,71 +5,76 @@ publish_to: "none"
 version: 3.7.0
 
 environment:
-  sdk: "3.0.6" # Dart version
-  flutter: 3.10.6
+  sdk: 3.2.0 # Dart version
+  flutter: 3.16.0
 
 dependencies:
-  # Flutter
-  confetti: "0.7.0"
-  dotted_border: "2.0.0+2"
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_svg: "2.0.7"
-  flutter_redux: "0.10.0"
-  flutter_local_notifications: "12.0.4"
-  flutter_dotenv: "5.0.2"
-  flutter_appauth: "6.0.0"
-  flutter_linkify: "5.0.2"
-  flutter_secure_storage: "5.0.2"
-  package_info: "2.0.2"
-  url_launcher: "6.1.0"
-  share_plus: "7.0.1"
-  open_filex: "4.3.1"
-  path_provider: "2.0.11"
-  smooth_page_indicator: "1.0.0+2"
-  in_app_review: "2.0.4"
-  webview_flutter: "4.0.5"
-  flutter_staggered_animations: "1.1.1"
-  shimmer: "3.0.0"
-  connectivity_plus: "4.0.2" # Versions >= 5.0.0 require iOS 12 or higher
   # Dart
-  intl: "0.18.0"
-  collection: "1.17.2"
-  equatable: "2.0.3"
-  logger: "2.0.2+1"
+  intl: "0.18.1"
+  collection: "1.18.0"
+  equatable: "2.0.5"
+  synchronized: "3.1.0"
   uuid: "3.0.7"
-  synchronized: "3.0.0+2"
-  encrypt: "5.0.1"
-  matomo_tracker: "4.1.1"
+  clock: "1.1.1"
   # Dio
-  dio: "5.3.3"
+  dio: "5.3.4"
   dio_cache_interceptor: "3.4.4"
   dio_cache_interceptor_file_store: "1.2.2"
   # Firebase
-  firebase_core: "2.13.0"
-  firebase_crashlytics: "3.3.1"
-  firebase_remote_config: "4.2.1"
-  firebase_messaging: "14.6.1"
-  firebase_auth: "4.6.1"
-  cloud_firestore: "4.7.1"
-  firebase_app_installations: "0.2.3+1"
+  # firebase_core versions higher than 2.21.0 require iOS Firebase plugins 10.17.0 or higher.
+  # This is problematic since it prevent to use invertase as mentionned in this issue:
+  # https://github.com/invertase/firestore-ios-sdk-frameworks/issues/79
+  firebase_core: "2.21.0"
+  firebase_crashlytics: "3.4.3"
+  firebase_remote_config: "4.3.3"
+  firebase_messaging: "14.7.3"
+  firebase_auth: "4.12.1"
+  firebase_app_installations: "0.2.4+3"
+  cloud_firestore: "4.12.2"
+  # UI
+  flutter_svg: "2.0.9"
+  smooth_page_indicator: "1.1.0"
+  path_provider: "2.1.1"
+  flutter_staggered_animations: "1.1.1"
+  shimmer: "3.0.0"
+  confetti: "0.7.0"
+  dotted_border: "2.1.0"
+  flutter_linkify: "6.0.0"
+  # Native features
+  webview_flutter: "4.4.2"
+  flutter_local_notifications: "16.1.0"
+  flutter_appauth: "6.0.2"
+  flutter_secure_storage: "9.0.0"
+  url_launcher: "6.2.1"
+  share_plus: "7.2.1"
+  open_filex: "4.3.4"
+  in_app_review: "2.0.8"
   flutter_native_timezone: "2.0.0"
+  connectivity_plus: "4.0.2" # Versions >= 5.0.0 require iOS 12 or higher
+  # Others
+  flutter_redux: "0.10.0"
+  redux: "5.0.0"
+  flutter_dotenv: "5.1.0"
+  package_info_plus: "5.0.1"
+  encrypt: "5.0.1" # Versions 5.0.3 make 1 test crash
+  matomo_tracker: "4.1.1"
+  logger: "2.0.2+1"
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.12.0"
-  flutter_lints: ^1.0.4
-  dart_code_metrics: "5.7.4"
-  mocktail: ^0.3.0
-  flutter_native_splash: "2.2.18"
-  http_mock_adapter: "0.6.0"
-
-dependency_overrides:
-  http: "1.1.0"
-  collection: "1.17.2"
+  # Assets generation
+  flutter_native_splash: "2.3.6"
+  flutter_launcher_icons: "0.13.1"
+  # Test
+  mocktail: "1.0.1"
+  http_mock_adapter: "0.6.1"
+  # Static analysis
+  flutter_lints: "3.0.1"
 
 flutter:
   uses-material-design: true

@@ -29,10 +29,10 @@ class _CejInformationPageState extends State<CejInformationPage> {
   @override
   void initState() {
     _controller.addListener(() {
-      final _controllerPage = _controller.page?.floor();
-      if (_controllerPage != null && _controllerPage != _displayedPage) {
-        _displayedPage = _controllerPage;
-        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.cejInformationPage(_controllerPage + 1));
+      final controllerPage = _controller.page?.floor();
+      if (controllerPage != null && controllerPage != _displayedPage) {
+        _displayedPage = controllerPage;
+        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.cejInformationPage(controllerPage + 1));
       }
     });
     super.initState();

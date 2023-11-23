@@ -4,9 +4,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class FavoriNotFoundError extends StatelessWidget {
-  const FavoriNotFoundError({
-    Key? key,
-  }) : super(key: key);
+  const FavoriNotFoundError({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -12,11 +12,11 @@ class TutorialRepository {
   List<TutorialPage> getPoleEmploiTutorial() => Tutorial.pe;
 
   Future<void> setTutorialRead() async {
-    await _preferences.write(key: 'tutorialRead-' + Tutorial.versionTimestamp, value: 'read');
+    await _preferences.write(key: 'tutorialRead-${Tutorial.versionTimestamp}', value: 'read');
   }
 
   Future<bool> shouldShowTutorial() async {
-    final String? tutorialRead = await _preferences.read(key: 'tutorialRead-' + Tutorial.versionTimestamp);
+    final String? tutorialRead = await _preferences.read(key: 'tutorialRead-${Tutorial.versionTimestamp}');
     return tutorialRead == null;
   }
 }

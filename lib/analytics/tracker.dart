@@ -6,7 +6,7 @@ class Tracker extends StatefulWidget {
   final String tracking;
   final Widget child;
 
-  const Tracker({Key? key, required this.tracking, required this.child}) : super(key: key);
+  const Tracker({super.key, required this.tracking, required this.child});
 
   @override
   State<Tracker> createState() => _TrackerState();

@@ -19,7 +19,7 @@ class MonitoringInterceptor extends PassEmploiBaseInterceptor {
     final userId = _store.state.userId() ?? 'NOT_LOGIN_USER';
     options.headers['X-UserId'] = userId;
     options.headers['X-InstallationId'] = await _installationIdRepository.getInstallationId();
-    options.headers['X-CorrelationId'] = userId + '-' + DateTime.now().millisecondsSinceEpoch.toString();
+    options.headers['X-CorrelationId'] = '$userId-${DateTime.now().millisecondsSinceEpoch}';
     options.headers['X-AppVersion'] = await _appVersionRepository.getAppVersion();
     options.headers['X-Platform'] = Platform.operatingSystem;
     if (_contentTypeIsNotValid(options)) options.headers['Content-Type'] = 'application/json; charset=utf-8';

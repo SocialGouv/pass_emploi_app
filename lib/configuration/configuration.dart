@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/utils/log.dart';
@@ -99,7 +99,7 @@ class Configuration extends Equatable {
   static String getOrThrow(String key) {
     final value = dotenv.get(key, fallback: "");
     if (value == "") {
-      throw (key + " must be set in .env file");
+      throw ("$key must be set in .env file");
     }
     return value;
   }
@@ -107,7 +107,7 @@ class Configuration extends Equatable {
   static List<String> getArrayOrThrow(String key) {
     final value = dotenv.get(key, fallback: "");
     if (value == "") {
-      throw (key + " must be set in .env file");
+      throw ("$key must be set in .env file");
     }
     return value.split(' ');
   }

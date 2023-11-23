@@ -10,7 +10,7 @@ class ChatInformation extends StatelessWidget {
   final String title;
   final String description;
 
-  const ChatInformation(this.title, this.description, {Key? key}) : super(key: key);
+  const ChatInformation(this.title, this.description, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class ChatInformation extends StatelessWidget {
 class _Title extends StatelessWidget {
   final String title;
 
-  const _Title({Key? key, required this.title}) : super(key: key);
+  const _Title({required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class _Title extends StatelessWidget {
 class _Description extends StatelessWidget {
   final String description;
 
-  const _Description({Key? key, required this.description}) : super(key: key);
+  const _Description({required this.description});
 
   @override
   Widget build(BuildContext context) {

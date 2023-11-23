@@ -10,32 +10,32 @@ import '../dsl/matchers.dart';
 import '../dsl/sut_redux.dart';
 
 void main() {
-  final _sut = StoreSut();
+  final sut = StoreSut();
 
   group("when deleting user", () {
-    _sut.whenDispatchingAction(() => SuppressionCompteRequestAction());
+    sut.whenDispatchingAction(() => SuppressionCompteRequestAction());
 
     test('should display loading and then delete user and logout when request succeeds', () {
-      _sut.givenStore = givenState()
+      sut.givenStore = givenState()
           .loggedInMiloUser() //
           .store((f) {
         f.suppressionCompteRepository = SuppressionCompteRepositorySuccessStub();
         f.matomoTracker = MockMatomoTracker();
       });
 
-      _sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed(), _shouldLogout()]);
+      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed(), _shouldLogout()]);
     });
 
     test('should display loading then fail and not logout user when request fails', () async {
-      _sut.givenStore = givenState()
+      sut.givenStore = givenState()
           .loggedInMiloUser() //
           .store((f) {
         f.suppressionCompteRepository = SuppressionCompteRepositoryFailureStub();
         f.matomoTracker = MockMatomoTracker();
       });
 
-      await _sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
-      expect(_sut.givenStore.state.loginState, isA<LoginSuccessState>());
+      await sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+      expect(sut.givenStore.state.loginState, isA<LoginSuccessState>());
     });
   });
 }

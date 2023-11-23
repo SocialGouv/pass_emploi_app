@@ -116,7 +116,7 @@ class _Blocs extends StatelessWidget {
 class _Retry extends StatelessWidget {
   final AccueilViewModel viewModel;
 
-  const _Retry({Key? key, required this.viewModel}) : super(key: key);
+  const _Retry({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {

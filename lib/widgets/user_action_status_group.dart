@@ -63,11 +63,11 @@ class UserActionStatusButton extends StatelessWidget {
   final bool isSelected;
 
   const UserActionStatusButton({
+    super.key,
     required this.isSelected,
-    Key? key,
     required this.onPressed,
     required this.label,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

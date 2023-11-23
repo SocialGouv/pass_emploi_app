@@ -12,11 +12,11 @@ class JobTag extends StatelessWidget {
   final Color backgroundColor;
 
   const JobTag({
-    Key? key,
+    super.key,
     required this.label,
     this.contentColor = AppColors.contentColor,
     this.backgroundColor = AppColors.additional1Lighten,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
