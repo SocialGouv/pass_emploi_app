@@ -1,12 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
+import 'package:pass_emploi_app/features/alerte/list/alerte_list_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
+import 'package:pass_emploi_app/repositories/alerte/get_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
 import '../../doubles/dio_mock.dart';
@@ -57,16 +57,16 @@ void main() {
       sut.thenExpectChangingStatesThroughOrder([_suggestionShouldBeRemoved()]);
     });
 
-    test('should refresh saved search list when request succeed', () {
+    test('should refresh alerte list when request succeed', () {
       sut.givenStore = givenState()
           .loggedInUser() //
           .withSuggestionsRecherche()
           .store((f) => {
                 f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: true),
-                f.getSavedSearchRepository = SavedSearchRepositorySuccessStub(),
+                f.getAlerteRepository = AlerteRepositorySuccessStub(),
               });
 
-      sut.thenExpectChangingStatesThroughOrder([_shouldReloadSavedSearchList()]);
+      sut.thenExpectChangingStatesThroughOrder([_shouldReloadAlerteList()]);
     });
 
     test('should load then fail when request fail', () {
@@ -130,7 +130,7 @@ Matcher _shouldSucceedAccepter() {
   return StateIs<AccepterSuggestionRechercheSuccessState>(
     (state) => state.traiterSuggestionRechercheState,
     (state) {
-      expect(state.savedSearch, offreEmploiSavedSearch());
+      expect(state.alerte, offreEmploiAlerte());
     },
   );
 }
@@ -147,7 +147,7 @@ Matcher _suggestionShouldBeRemoved() {
   });
 }
 
-Matcher _shouldReloadSavedSearchList() => StateIs<SavedSearchListSuccessState>((state) => state.savedSearchListState);
+Matcher _shouldReloadAlerteList() => StateIs<AlerteListSuccessState>((state) => state.alerteListState);
 
 Matcher _shouldResetTraiterState() =>
     StateIs<TraiterSuggestionRechercheNotInitializedState>((state) => state.traiterSuggestionRechercheState);
@@ -160,13 +160,13 @@ class SuggestionsRechercheRepositoryStub extends SuggestionsRechercheRepository 
       : super(DioMock(), DummyPassEmploiCacheManager());
 
   @override
-  Future<SavedSearch?> accepterSuggestion({
+  Future<Alerte?> accepterSuggestion({
     required String userId,
     required String suggestionId,
     Location? location,
     double? rayon,
   }) async {
-    return accepterSucceed ? offreEmploiSavedSearch() : null;
+    return accepterSucceed ? offreEmploiAlerte() : null;
   }
 
   @override
@@ -175,11 +175,11 @@ class SuggestionsRechercheRepositoryStub extends SuggestionsRechercheRepository 
   }
 }
 
-class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
-  SavedSearchRepositorySuccessStub() : super(DioMock(), DummyCrashlytics());
+class AlerteRepositorySuccessStub extends GetAlerteRepository {
+  AlerteRepositorySuccessStub() : super(DioMock(), DummyCrashlytics());
 
   @override
-  Future<List<SavedSearch>?> getSavedSearch(String userId) async {
+  Future<List<Alerte>?> getAlerte(String userId) async {
     return [];
   }
 }

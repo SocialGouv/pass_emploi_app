@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/features/alerte/get/alerte_get_action.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
+import 'package:pass_emploi_app/presentation/alerte/alerte_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -16,7 +16,7 @@ class SuggestionsRechercheListViewModel extends Equatable {
   final List<String> suggestionIds;
   final LoginMode? loginMode;
   final DisplayState traiterDisplayState;
-  final SavedSearchNavigationState searchNavigationState;
+  final AlerteNavigationState searchNavigationState;
   final Function() resetTraiterState;
   final Function() seeOffreResults;
   final Function() retryFetchSuggestions;
@@ -39,7 +39,7 @@ class SuggestionsRechercheListViewModel extends Equatable {
       suggestionIds: _ids(store),
       loginMode: loginState is LoginSuccessState ? loginState.user.loginMode : null,
       traiterDisplayState: _traiterDisplayState(store),
-      searchNavigationState: SavedSearchNavigationState.fromAppState(store.state),
+      searchNavigationState: AlerteNavigationState.fromAppState(store.state),
       resetTraiterState: () => store.dispatch(TraiterSuggestionRechercheResetAction()),
       seeOffreResults: () => _seeOffreResults(store),
       retryFetchSuggestions: () => store.dispatch(SuggestionsRechercheRequestAction()),
@@ -78,5 +78,5 @@ DisplayState _traiterDisplayState(Store<AppState> store) {
 void _seeOffreResults(Store<AppState> store) {
   final state = store.state.traiterSuggestionRechercheState;
   if (state is! AccepterSuggestionRechercheSuccessState) return;
-  store.dispatch(FetchSavedSearchResultsFromIdAction(state.savedSearch.getId()));
+  store.dispatch(FetchAlerteResultsFromIdAction(state.alerte.getId()));
 }

@@ -2,8 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
+import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
 import 'package:pass_emploi_app/models/metier.dart';
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/iterable_extensions.dart';
@@ -86,7 +86,7 @@ List<MetierItem> _dernierMetierItems(List<Metier> metiers) {
 
 List<Metier> _derniersMetiers(Store<AppState> store) {
   return store.state.recherchesRecentesState.recentSearches
-      .whereType<ImmersionSavedSearch>()
+      .whereType<ImmersionAlerte>()
       .map((offre) => Metier(codeRome: offre.codeRome, libelle: offre.metier))
       .distinct()
       .take(3)

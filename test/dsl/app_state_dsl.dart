@@ -47,6 +47,7 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_state
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
@@ -60,7 +61,6 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/session_milo.dart';
@@ -405,7 +405,7 @@ extension AppStateDSL on AppState {
 
   AppState succeedAccepterSuggestionRecherche() {
     return copyWith(
-      traiterSuggestionRechercheState: AccepterSuggestionRechercheSuccessState(offreEmploiSavedSearch()),
+      traiterSuggestionRechercheState: AccepterSuggestionRechercheSuccessState(offreEmploiAlerte()),
     );
   }
 
@@ -691,7 +691,7 @@ extension AppStateDSL on AppState {
 
   AppState favoriListSuccessState(List<Favori> favoris) => copyWith(favoriListState: FavoriListSuccessState(favoris));
 
-  AppState withRecentsSearches(List<SavedSearch> recherchesRecentes) {
+  AppState withRecentsSearches(List<Alerte> recherchesRecentes) {
     return copyWith(recherchesRecentesState: RecherchesRecentesState(recherchesRecentes));
   }
 

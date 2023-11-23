@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
+import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
-import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
-import 'package:pass_emploi_app/presentation/saved_search_card_view_model.dart';
-import 'package:pass_emploi_app/presentation/saved_search_navigator_view_model.dart';
+import 'package:pass_emploi_app/presentation/alerte/alerte_navigation_state.dart';
+import 'package:pass_emploi_app/presentation/alerte_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/alerte_navigator_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
@@ -30,22 +30,22 @@ class _AlerteNavigatorState extends State<AlerteNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnectorAware<SavedSearchNavigatorViewModel>(
-      converter: (store) => SavedSearchNavigatorViewModel.create(store),
+    return StoreConnectorAware<AlerteNavigatorViewModel>(
+      converter: (store) => AlerteNavigatorViewModel.create(store),
       builder: (_, __) => widget.child,
       onWillChange: _onWillChange,
       distinct: true,
     );
   }
 
-  void _onWillChange(SavedSearchNavigatorViewModel? _, SavedSearchNavigatorViewModel? newViewModel) {
+  void _onWillChange(AlerteNavigatorViewModel? _, AlerteNavigatorViewModel? newViewModel) {
     if (!_shouldNavigate || newViewModel == null) return;
     final Widget? page = switch (newViewModel.searchNavigationState) {
-      SavedSearchNavigationState.OFFRE_EMPLOI => RechercheOffreEmploiPage(onlyAlternance: false),
-      SavedSearchNavigationState.OFFRE_ALTERNANCE => RechercheOffreEmploiPage(onlyAlternance: true),
-      SavedSearchNavigationState.OFFRE_IMMERSION => RechercheOffreImmersionPage(),
-      SavedSearchNavigationState.SERVICE_CIVIQUE => RechercheOffreServiceCiviquePage(),
-      SavedSearchNavigationState.NONE => null,
+      AlerteNavigationState.OFFRE_EMPLOI => RechercheOffreEmploiPage(onlyAlternance: false),
+      AlerteNavigationState.OFFRE_ALTERNANCE => RechercheOffreEmploiPage(onlyAlternance: true),
+      AlerteNavigationState.OFFRE_IMMERSION => RechercheOffreImmersionPage(),
+      AlerteNavigationState.SERVICE_CIVIQUE => RechercheOffreServiceCiviquePage(),
+      AlerteNavigationState.NONE => null,
     };
     if (page != null) {
       _shouldNavigate = false;
@@ -55,23 +55,23 @@ class _AlerteNavigatorState extends State<AlerteNavigator> {
 }
 
 class AlerteCard extends StatelessWidget {
-  final SavedSearch savedSearch;
+  final Alerte alerte;
 
-  AlerteCard(this.savedSearch);
+  AlerteCard(this.alerte);
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, SavedSearchCardViewModel>(
-      converter: (store) => SavedSearchCardViewModel.create(store),
-      builder: (context_, viewModel) => _Body(savedSearch, viewModel),
+    return StoreConnector<AppState, AlerteCardViewModel>(
+      converter: (store) => AlerteCardViewModel.create(store),
+      builder: (context_, viewModel) => _Body(alerte, viewModel),
       distinct: true,
     );
   }
 }
 
 class _Body extends StatelessWidget {
-  final SavedSearch alerte;
-  final SavedSearchCardViewModel viewModel;
+  final Alerte alerte;
+  final AlerteCardViewModel viewModel;
 
   _Body(this.alerte, this.viewModel);
 
@@ -79,38 +79,38 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final alerteCast = alerte;
     return switch (alerteCast) {
-      OffreEmploiSavedSearch() => _buildEmploiAndAlternanceCard(alerteCast, viewModel),
-      ImmersionSavedSearch() => _buildImmersionCard(alerteCast, viewModel),
-      ServiceCiviqueSavedSearch() => _buildServiceCiviqueCard(alerteCast, viewModel),
+      OffreEmploiAlerte() => _buildEmploiAndAlternanceCard(alerteCast, viewModel),
+      ImmersionAlerte() => _buildImmersionCard(alerteCast, viewModel),
+      ServiceCiviqueAlerte() => _buildServiceCiviqueCard(alerteCast, viewModel),
       _ => Container(),
     };
   }
 }
 
-Widget _buildEmploiAndAlternanceCard(OffreEmploiSavedSearch alerte, SavedSearchCardViewModel viewModel) {
+Widget _buildEmploiAndAlternanceCard(OffreEmploiAlerte alerte, AlerteCardViewModel viewModel) {
   final location = alerte.location?.libelle;
   return BaseCard(
     tag: alerte.onlyAlternance ? CardTag.alternance() : CardTag.emploi(),
     title: alerte.title,
     complements: location != null ? [CardComplement.place(text: location)] : null,
-    onTap: () => viewModel.fetchSavedSearchResult(alerte),
+    onTap: () => viewModel.fetchAlerteResult(alerte),
   );
 }
 
-Widget _buildImmersionCard(ImmersionSavedSearch alerte, SavedSearchCardViewModel viewModel) {
+Widget _buildImmersionCard(ImmersionAlerte alerte, AlerteCardViewModel viewModel) {
   return BaseCard(
     tag: CardTag.immersion(),
     title: alerte.title,
     complements: [CardComplement.place(text: alerte.ville)],
-    onTap: () => viewModel.fetchSavedSearchResult(alerte),
+    onTap: () => viewModel.fetchAlerteResult(alerte),
   );
 }
 
-Widget _buildServiceCiviqueCard(ServiceCiviqueSavedSearch alerte, SavedSearchCardViewModel viewModel) {
+Widget _buildServiceCiviqueCard(ServiceCiviqueAlerte alerte, AlerteCardViewModel viewModel) {
   return BaseCard(
     tag: CardTag.serviceCivique(),
     title: alerte.titre,
     complements: alerte.ville?.isNotEmpty == true ? [CardComplement.place(text: alerte.ville!)] : null,
-    onTap: () => viewModel.fetchSavedSearchResult(alerte),
+    onTap: () => viewModel.fetchAlerteResult(alerte),
   );
 }

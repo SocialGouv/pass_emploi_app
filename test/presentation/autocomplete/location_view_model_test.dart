@@ -36,7 +36,7 @@ void main() {
     test('with 1 recherche recente', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockOffreEmploiSavedSearch(location: mockLocation()),
+        mockOffreEmploiAlerte(location: mockLocation()),
       ]).store();
       // When
       final viewModel = LocationViewModel.create(store, villesOnly: false);
@@ -50,16 +50,16 @@ void main() {
     test('with many recherches recentes should only take 3', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
         ),
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '2', code: '2', codePostal: '2', type: LocationType.COMMUNE),
         ),
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '3', code: '3', codePostal: '3', type: LocationType.COMMUNE),
         ),
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '4', code: '4', codePostal: '4', type: LocationType.COMMUNE),
         ),
       ]).store();
@@ -86,13 +86,13 @@ void main() {
     test('with null location in recherches recentes should remove them', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
         ),
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '2', code: '2', codePostal: '2', type: LocationType.COMMUNE),
         ),
-        mockOffreEmploiSavedSearch(location: null),
+        mockOffreEmploiAlerte(location: null),
       ]).store();
       // When
       final viewModel = LocationViewModel.create(store, villesOnly: false);
@@ -113,13 +113,13 @@ void main() {
     test('with invalid location in recherches recentes should remove them - REQUIRED WHEN COMING FROM SUGGESTIONS', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '1', code: '', codePostal: '1', type: LocationType.COMMUNE),
         ),
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '2', code: '2', codePostal: null, type: LocationType.COMMUNE),
         ),
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '3', code: '3', codePostal: '3', type: LocationType.COMMUNE),
         ),
       ]).store();
@@ -138,13 +138,13 @@ void main() {
     test('with duplicated location in recherches recentes should remove them', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
         ),
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '2', code: '2', codePostal: '2', type: LocationType.COMMUNE),
         ),
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
         ),
       ]).store();
@@ -167,13 +167,13 @@ void main() {
     test('with villesOnly should only return villes', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
         ),
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '2', code: '2', codePostal: '2', type: LocationType.DEPARTMENT),
         ),
-        mockOffreEmploiSavedSearch(
+        mockOffreEmploiAlerte(
           location: Location(libelle: '3', code: '3', codePostal: '3', type: LocationType.COMMUNE),
         ),
       ]).store();

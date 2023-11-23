@@ -1,5 +1,8 @@
 import 'package:pass_emploi_app/features/accueil/accueil_reducer.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_reducer.dart';
+import 'package:pass_emploi_app/features/alerte/create/alerte_create_reducer.dart';
+import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_reducer.dart';
+import 'package:pass_emploi_app/features/alerte/list/alerte_list_reducer.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_reducer.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
@@ -47,9 +50,6 @@ import 'package:pass_emploi_app/features/recherche/service_civique/service_civiq
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_reducer.dart';
-import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_reducer.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
-import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_reducer.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_reducer.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_reducer.dart';
@@ -65,12 +65,12 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_r
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_reducer.dart';
+import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
@@ -113,20 +113,20 @@ AppState reducer(AppState current, dynamic action) {
     rendezvousListState: rendezvousListReducer(current.rendezvousListState, action),
     rendezvousDetailsState: rendezvousDetailsReducer(current.rendezvousDetailsState, action),
     immersionDetailsState: immersionDetailsReducer(current.immersionDetailsState, action),
-    offreEmploiSavedSearchCreateState: savedSearchCreateReducer<OffreEmploiSavedSearch>(
-      current.offreEmploiSavedSearchCreateState,
+    offreEmploiAlerteCreateState: alerteCreateReducer<OffreEmploiAlerte>(
+      current.offreEmploiAlerteCreateState,
       action,
     ),
-    immersionSavedSearchCreateState: savedSearchCreateReducer<ImmersionSavedSearch>(
-      current.immersionSavedSearchCreateState,
+    immersionAlerteCreateState: alerteCreateReducer<ImmersionAlerte>(
+      current.immersionAlerteCreateState,
       action,
     ),
-    serviceCiviqueSavedSearchCreateState: savedSearchCreateReducer<ServiceCiviqueSavedSearch>(
-      current.serviceCiviqueSavedSearchCreateState,
+    serviceCiviqueAlerteCreateState: alerteCreateReducer<ServiceCiviqueAlerte>(
+      current.serviceCiviqueAlerteCreateState,
       action,
     ),
-    savedSearchListState: savedSearchListReducer(current.savedSearchListState, action),
-    savedSearchDeleteState: savedSearchDeleteReducer(current.savedSearchDeleteState, action),
+    alerteListState: alerteListReducer(current.alerteListState, action),
+    alerteDeleteState: alerteDeleteReducer(current.alerteDeleteState, action),
     serviceCiviqueDetailState: serviceCiviqueDetailReducer(current.serviceCiviqueDetailState, action),
     suppressionCompteState: suppressionCompteReducer(current.suppressionCompteState, action),
     demoState: modeDemoReducer(current, action),

@@ -9,7 +9,7 @@ String? getDemoFileName(String url, String query) {
   if (url.endsWith('/favoris/offres-emploi')) return 'favoris_ids_offres_emploi';
   if (url.endsWith('/favoris/services-civique')) return 'favoris_ids_service_civique';
   if (url.endsWith('/rendezvous')) return 'rendez_vous_list';
-  if (url.endsWith('/recherches')) return 'saved_search';
+  if (url.endsWith('/recherches')) return 'alertes';
   if (url.endsWith('/offres-emploi') && query.contains('alternance=true')) return 'alternance_list';
   if (url.endsWith('/offres-emploi')) return 'offres_emploi_list';
   if (url.endsWith('alternance_detail')) return 'alternance_detail';

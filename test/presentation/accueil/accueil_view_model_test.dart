@@ -71,7 +71,7 @@ void main() {
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
           AccueilEvenementsItem([mockAnimationCollective().id]),
-          AccueilAlertesItem(getMockedSavedSearch()),
+          AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
             Outils.diagoriente.withoutImage(),
@@ -109,7 +109,7 @@ void main() {
           ),
           AccueilProchaineSessionMiloItem(sessionMilo.id),
           AccueilEvenementsItem([mockAnimationCollective().id]),
-          AccueilAlertesItem(getMockedSavedSearch()),
+          AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
             Outils.diagoriente.withoutImage(),
@@ -145,7 +145,7 @@ void main() {
             actionsDemarchesARealiser: "1 démarche à réaliser",
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
-          AccueilAlertesItem(getMockedSavedSearch()),
+          AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
             Outils.diagoriente.withoutImage(),

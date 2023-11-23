@@ -12,6 +12,11 @@ import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_r
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
+import 'package:pass_emploi_app/models/alerte/evenement_emploi_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
@@ -42,11 +47,6 @@ import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/requests/contact_immersion_request.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
-import 'package:pass_emploi_app/models/saved_search/evenement_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
@@ -769,7 +769,7 @@ SuggestionRecherche suggestionCoiffeurFormDiagoriente() => SuggestionRecherche(
 List<SuggestionRecherche> mockSuggestionsRecherche() =>
     [suggestionCaristeFromPoleEmploi(), suggestionBoulangerFromConseiller()];
 
-OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
+OffreEmploiAlerte offreEmploiAlerte() => OffreEmploiAlerte(
       id: "id",
       title: "Maître-chien / Maîtresse-chien d'avalanche",
       metier: "Sécurité civile et secours",
@@ -779,8 +779,8 @@ OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
       filters: EmploiFiltresRecherche.withFiltres(distance: 0),
     );
 
-OffreEmploiSavedSearch mockOffreEmploiSavedSearchWithFilters({required bool isAlternance}) {
-  return OffreEmploiSavedSearch(
+OffreEmploiAlerte mockOffreEmploiAlerteWithFilters({required bool isAlternance}) {
+  return OffreEmploiAlerte(
     id: "id",
     title: "title",
     metier: "plombier",
@@ -796,8 +796,8 @@ OffreEmploiSavedSearch mockOffreEmploiSavedSearchWithFilters({required bool isAl
   );
 }
 
-ServiceCiviqueSavedSearch mockServiceCiviqueSavedSearchWithFiltres() {
-  return ServiceCiviqueSavedSearch(
+ServiceCiviqueAlerte mockServiceCiviqueAlerteWithFiltres() {
+  return ServiceCiviqueAlerte(
     id: "id",
     titre: "ronaldo",
     domaine: Domaine.values[2],
@@ -807,8 +807,8 @@ ServiceCiviqueSavedSearch mockServiceCiviqueSavedSearchWithFiltres() {
   );
 }
 
-ImmersionSavedSearch mockImmersionSavedSearchWithFiltres() {
-  return ImmersionSavedSearch(
+ImmersionAlerte mockImmersionAlerteWithFiltres() {
+  return ImmersionAlerte(
     id: "id",
     title: "title",
     metier: "plombier",
@@ -829,7 +829,7 @@ List<Metier> mockAutocompleteMetiers() {
   ];
 }
 
-SavedSearch mockOffreEmploiSavedSearch({String? keyword = 'keyword', Location? location}) => OffreEmploiSavedSearch(
+Alerte mockOffreEmploiAlerte({String? keyword = 'keyword', Location? location}) => OffreEmploiAlerte(
       id: 'id',
       title: 'title',
       metier: 'metier',
@@ -839,7 +839,7 @@ SavedSearch mockOffreEmploiSavedSearch({String? keyword = 'keyword', Location? l
       filters: EmploiFiltresRecherche.noFiltre(),
     );
 
-SavedSearch mockImmersionSavedSearch({String metier = 'metier', String codeRome = 'codeRome'}) => ImmersionSavedSearch(
+Alerte mockImmersionAlerte({String metier = 'metier', String codeRome = 'codeRome'}) => ImmersionAlerte(
       id: 'id',
       title: 'title',
       metier: metier,
@@ -849,7 +849,7 @@ SavedSearch mockImmersionSavedSearch({String metier = 'metier', String codeRome 
       ville: '',
     );
 
-OffreEmploiSavedSearch rechercheEmploiSauvegardeeChevalierValenceCDI() => OffreEmploiSavedSearch(
+OffreEmploiAlerte rechercheEmploiSauvegardeeChevalierValenceCDI() => OffreEmploiAlerte(
       id: "recherche-recente-id",
       title: "chevalier - Valence",
       metier: null,
@@ -966,13 +966,13 @@ List<Favori> mock3Favoris() {
   ];
 }
 
-EvenementEmploiSavedSearch mockEvenementEmploiSavedSearch() {
-  return EvenementEmploiSavedSearch(id: "id-117", titre: "Ermont", location: mockLocation());
+EvenementEmploiAlerte mockEvenementEmploiAlerte() {
+  return EvenementEmploiAlerte(id: "id-117", titre: "Ermont", location: mockLocation());
 }
 
-List<SavedSearch> getMockedSavedSearch() {
+List<Alerte> getMockedAlerte() {
   return [
-    OffreEmploiSavedSearch(
+    OffreEmploiAlerte(
       id: "9ea85cc4-c92f-4f91-b5a3-b600f364faf1",
       title: "Boulangerie",
       metier: "Boulangerie",
@@ -987,7 +987,7 @@ List<SavedSearch> getMockedSavedSearch() {
         duree: [],
       ),
     ),
-    OffreEmploiSavedSearch(
+    OffreEmploiAlerte(
       id: "25f317c7-f28a-4f50-a629-013bb960484d",
       title: "Boulangerie - NANTES",
       metier: "Boulangerie",
@@ -1001,7 +1001,7 @@ List<SavedSearch> getMockedSavedSearch() {
         duree: [],
       ),
     ),
-    OffreEmploiSavedSearch(
+    OffreEmploiAlerte(
       id: "6b51e128-000b-4125-a09a-c38a32a8b886",
       title: "Flutter",
       metier: "Flutter",
@@ -1015,7 +1015,7 @@ List<SavedSearch> getMockedSavedSearch() {
         duree: [],
       ),
     ),
-    ImmersionSavedSearch(
+    ImmersionAlerte(
       id: "670c413e-b669-4228-850a-9a7307fe79ea",
       title: "Boulangerie - viennoiserie - PARIS-14",
       metier: "Boulangerie - viennoiserie",
@@ -1045,7 +1045,7 @@ Accueil mockAccueilMilo() {
     prochainRendezVous: mockRendezvousMiloCV(),
     prochaineSessionMilo: mockSessionMiloAtelierCv(),
     evenements: [mockAnimationCollective()],
-    alertes: getMockedSavedSearch(),
+    alertes: getMockedAlerte(),
     favoris: mock3Favoris(),
     campagne: mockCampagne(),
   );
@@ -1060,7 +1060,7 @@ Accueil mockAccueilPoleEmploi() {
       nombreActionsDemarchesARealiser: 1,
     ),
     prochainRendezVous: mockRendezvousPoleEmploi(),
-    alertes: getMockedSavedSearch(),
+    alertes: getMockedAlerte(),
     favoris: mock3Favoris(),
     campagne: mockCampagne(),
   );

@@ -5,6 +5,13 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_middleware.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_middleware.dart';
+import 'package:pass_emploi_app/features/alerte/create/immersion_alerte_create_middleware.dart';
+import 'package:pass_emploi_app/features/alerte/create/offre_emploi_alerte_create_middleware.dart';
+import 'package:pass_emploi_app/features/alerte/create/service_civique_alerte_create_middleware.dart';
+import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_middleware.dart';
+import 'package:pass_emploi_app/features/alerte/get/alerte_get_middleware.dart';
+import 'package:pass_emploi_app/features/alerte/init/alerte_initialize_middleware.dart';
+import 'package:pass_emploi_app/features/alerte/list/alerte_list_middleware.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
 import 'package:pass_emploi_app/features/cache/cache_invalidator_middleware.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
@@ -47,13 +54,6 @@ import 'package:pass_emploi_app/features/recherche/service_civique/recherche_ser
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_middleware.dart';
-import 'package:pass_emploi_app/features/saved_search/create/immersion_saved_search_create_middleware.dart';
-import 'package:pass_emploi_app/features/saved_search/create/offre_emploi_saved_search_create_middleware.dart';
-import 'package:pass_emploi_app/features/saved_search/create/service_civique_saved_search_create_middleware.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_middleware.dart';
-import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_middleware.dart';
-import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_middleware.dart';
-import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_middleware.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_middleware.dart';
@@ -83,6 +83,11 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
+import 'package:pass_emploi_app/repositories/alerte/alerte_delete_repository.dart';
+import 'package:pass_emploi_app/repositories/alerte/get_alerte_repository.dart';
+import 'package:pass_emploi_app/repositories/alerte/immersion_alerte_repository.dart';
+import 'package:pass_emploi_app/repositories/alerte/offre_emploi_alerte_repository.dart';
+import 'package:pass_emploi_app/repositories/alerte/service_civique_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
@@ -116,11 +121,6 @@ import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
@@ -164,11 +164,11 @@ class StoreFactory {
   final ChatSecurityRepository chatSecurityRepository;
   final FirebaseAuthWrapper firebaseAuthWrapper;
   final TrackingEventRepository trackingEventRepository;
-  final OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository;
-  final ImmersionSavedSearchRepository immersionSavedSearchRepository;
-  final ServiceCiviqueSavedSearchRepository serviceCiviqueSavedSearchRepository;
-  final GetSavedSearchRepository getSavedSearchRepository;
-  final SavedSearchDeleteRepository savedSearchDeleteRepository;
+  final OffreEmploiAlerteRepository offreEmploiAlerteRepository;
+  final ImmersionAlerteRepository immersionAlerteRepository;
+  final ServiceCiviqueAlerteRepository serviceCiviqueAlerteRepository;
+  final GetAlerteRepository getAlerteRepository;
+  final AlerteDeleteRepository alerteDeleteRepository;
   final ServiceCiviqueRepository serviceCiviqueRepository;
   final ServiceCiviqueDetailRepository serviceCiviqueDetailRepository;
   final DetailsJeuneRepository detailsJeuneRepository;
@@ -229,11 +229,11 @@ class StoreFactory {
     this.chatSecurityRepository,
     this.firebaseAuthWrapper,
     this.trackingEventRepository,
-    this.offreEmploiSavedSearchRepository,
-    this.immersionSavedSearchRepository,
-    this.serviceCiviqueSavedSearchRepository,
-    this.getSavedSearchRepository,
-    this.savedSearchDeleteRepository,
+    this.offreEmploiAlerteRepository,
+    this.immersionAlerteRepository,
+    this.serviceCiviqueAlerteRepository,
+    this.getAlerteRepository,
+    this.alerteDeleteRepository,
     this.serviceCiviqueRepository,
     this.serviceCiviqueDetailRepository,
     this.detailsJeuneRepository,
@@ -314,13 +314,13 @@ class StoreFactory {
         TrackingEventMiddleware(trackingEventRepository).call,
         TrackingSetupMiddleware(matomoTracker).call,
         ImmersionDetailsMiddleware(immersionDetailsRepository).call,
-        OffreEmploiSavedSearchCreateMiddleware(offreEmploiSavedSearchRepository).call,
-        ImmersionSavedSearchCreateMiddleware(immersionSavedSearchRepository).call,
-        ServiceCiviqueSavedSearchCreateMiddleware(serviceCiviqueSavedSearchRepository).call,
-        SavedSearchInitializeMiddleware().call,
-        SavedSearchListMiddleware(getSavedSearchRepository).call,
-        SavedSearchGetMiddleware(getSavedSearchRepository).call,
-        SavedSearchDeleteMiddleware(savedSearchDeleteRepository).call,
+        OffreEmploiAlerteCreateMiddleware(offreEmploiAlerteRepository).call,
+        ImmersionAlerteCreateMiddleware(immersionAlerteRepository).call,
+        ServiceCiviqueAlerteCreateMiddleware(serviceCiviqueAlerteRepository).call,
+        AlerteInitializeMiddleware().call,
+        AlerteListMiddleware(getAlerteRepository).call,
+        AlerteGetMiddleware(getAlerteRepository).call,
+        AlerteDeleteMiddleware(alerteDeleteRepository).call,
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository).call,
         SuppressionCompteMiddleware(suppressionCompteRepository).call,
         CampagneMiddleware(campagneRepository).call,

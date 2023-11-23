@@ -22,7 +22,7 @@ class DeepLinkState extends Equatable {
       case "DETAIL_SESSION_MILO":
         return DetailSessionMiloDeepLinkState(idSessionMilo: data["id"] as String?);
       case "NOUVELLE_OFFRE":
-        return SavedSearchDeepLinkState(idSavedSearch: data["id"] as String);
+        return AlerteDeepLinkState(idAlerte: data["id"] as String);
       case 'NOUVELLES_FONCTIONNALITES':
         return NouvellesFonctionnalitesDeepLinkState(lastVersion: Version.fromString(data["version"] as String));
       case "EVENT_LIST":
@@ -34,7 +34,7 @@ class DeepLinkState extends Equatable {
       case "FAVORIS":
         return FavorisDeepLinkState();
       case "SAVED_SEARCHES":
-        return SavedSearchesDeepLinkState();
+        return AlertesDeepLinkState();
       case "RECHERCHE":
         return RechercheDeepLinkState();
       case "OUTILS":
@@ -92,10 +92,10 @@ class NouvellesFonctionnalitesDeepLinkState extends DeepLinkState {
   List<Object?> get props => [lastVersion];
 }
 
-class SavedSearchDeepLinkState extends DeepLinkState {
-  final String idSavedSearch;
+class AlerteDeepLinkState extends DeepLinkState {
+  final String idAlerte;
 
-  SavedSearchDeepLinkState({required this.idSavedSearch});
+  AlerteDeepLinkState({required this.idAlerte});
 }
 
 class UsedDeepLinkState extends DeepLinkState {}
@@ -108,7 +108,7 @@ class AgendaDeepLinkState extends DeepLinkState {}
 
 class FavorisDeepLinkState extends DeepLinkState {}
 
-class SavedSearchesDeepLinkState extends DeepLinkState {}
+class AlertesDeepLinkState extends DeepLinkState {}
 
 class RechercheDeepLinkState extends DeepLinkState {}
 

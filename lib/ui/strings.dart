@@ -801,22 +801,23 @@ class Strings {
       : "Prise de contact avec l’équipe de l’application pass emploi";
   static String corpsPriseDeContact = "Décrivez nous votre problème ou vos suggestions d’évolution : ";
 
-  // saved search
+  // alertes
   static String createAlert = "Créer une alerte";
-  static String createSavedSearchTitle = "Enregistrer la recherche en favoris";
-  static String savedSearchTitle = "* Nom de la recherche";
-  static String mandatorySavedSearchTitleError = "Renseigner un nom pour votre recherche";
-  static String savedSearchFilters = "Critères de la recherche";
-  static String savedSearchInfo = "Les filtres appliqués seront aussi enregistrés.";
+  static String createAlerteTitle = "Enregistrer la recherche en favoris";
+  static String alerteTitle = "* Nom de la recherche";
+  static String mandatoryAlerteTitleError = "Renseigner un nom pour votre recherche";
+  static String alerteFilters = "Critères de la recherche";
+  static String createAlerteButton = "Créer une alerte";
+  static String alerteInfo = "Les filtres appliqués seront aussi enregistrés.";
   static String searchNotificationInfo =
       "Vous recevrez des notifications pour être alerté des nouvelles offres liées aux critères de votre recherche.";
 
-  static String savedSearchTitleField(metier, localisation) => "$metier - $localisation";
-  static String savedSearchSuccessfullyCreated =
+  static String alerteTitleField(metier, localisation) => "$metier - $localisation";
+  static String alerteSuccessfullyCreated =
       "Votre recherche a bien été enregistrée. Retrouvez-la dans la section Mes Alertes sur votre page d'accueil.";
-  static String creationSavedSearchError = "Erreur lors de la création de l'alerte. Veuillez réessayer";
-  static String savedSearchGetError = "Erreur lors de la récupération des recherches sauvegardées.";
-  static String savedSearchTabName = "Mes alertes";
+  static String creationAlerteError = "Erreur lors de la création de l'alerte. Veuillez réessayer";
+  static String alerteGetError = "Erreur lors de la récupération des recherches sauvegardées.";
+  static String alerteTabName = "Mes alertes";
   static String alertesListEmptyTitle = "Vous n’avez pas encore d’alerte sauvegardée";
   static String alertesListEmptySubtitle =
       "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
@@ -824,13 +825,12 @@ class Strings {
   static String alertesFilteredListEmptyTitle = "Aucune alerte ne correspond à vos critères";
   static String alertesFilteredListEmptySubtitle = "Essayez de modifier vos filtres";
   static String favorisTabName = "Mes offres";
-  static String savedSearchSeeResults = "Voir les résultats";
+  static String alerteSeeResults = "Voir les résultats";
 
-  static String savedSearchDeleteMessageTitle = "Souhaitez-vous supprimer l’alerte ?";
-  static String savedSearchDeleteMessageSubtitle =
-      "Vous n’aurez plus accès à la page de résultats ni aux notifications.";
-  static String savedSearchDeleteError = "Erreur lors de la suppression de la recherche.";
-  static String savedSearchDeleteSuccess = "Votre alerte a été supprimée avec succès.";
+  static String alerteDeleteMessageTitle = "Souhaitez-vous supprimer l’alerte ?";
+  static String alerteDeleteMessageSubtitle = "Vous n’aurez plus accès à la page de résultats ni aux notifications.";
+  static String alerteDeleteError = "Erreur lors de la suppression de la recherche.";
+  static String alerteDeleteSuccess = "Votre alerte a été supprimée avec succès.";
 
   // Mode support
   static String supportInformations = "Infos pour le support";

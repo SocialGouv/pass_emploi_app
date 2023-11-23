@@ -1,7 +1,7 @@
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
 
 class RecherchesRecentesSuccessAction {
-  final List<SavedSearch> recentSearches;
+  final List<Alerte> recentSearches;
 
   RecherchesRecentesSuccessAction(this.recentSearches);
 }

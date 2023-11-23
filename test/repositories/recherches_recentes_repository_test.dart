@@ -25,22 +25,22 @@ void main() {
         expect(result, []);
       });
 
-      test('should return saved searches when data exist', () async {
+      test('should return alertes when data exist', () async {
         // Given
-        prefs.write(key: 'recent_searches', value: loadTestAssets("saved_search_data.json"));
+        prefs.write(key: 'recent_searches', value: loadTestAssets("alertes.json"));
 
         // When
         final result = await repository.get();
 
         // Then
-        expect(result, getMockedSavedSearch());
+        expect(result, getMockedAlerte());
       });
     });
 
     group('save', () {
       test('should save searches', () async {
         // Given
-        final searches = getMockedSavedSearch();
+        final searches = getMockedAlerte();
 
         // When
         await repository.save(searches);
@@ -60,7 +60,7 @@ void main() {
           latitude: 1.0,
           longitude: 2.0,
         );
-        final searches = [mockOffreEmploiSavedSearch(location: location)];
+        final searches = [mockOffreEmploiAlerte(location: location)];
 
         // When
         await repository.save(searches);

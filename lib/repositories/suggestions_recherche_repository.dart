@@ -1,16 +1,16 @@
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/dio_ext.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_accepter_suggestion_alerte.dart';
-import 'package:pass_emploi_app/repositories/saved_search/saved_search_json_extractor.dart';
-import 'package:pass_emploi_app/repositories/saved_search/saved_search_response.dart';
+import 'package:pass_emploi_app/repositories/alerte/alerte_json_extractor.dart';
+import 'package:pass_emploi_app/repositories/alerte/alerte_response.dart';
 
 class SuggestionsRechercheRepository {
   final Dio _httpClient;
@@ -35,7 +35,7 @@ class SuggestionsRechercheRepository {
     return null;
   }
 
-  Future<SavedSearch?> accepterSuggestion({
+  Future<Alerte?> accepterSuggestion({
     required String userId,
     required String suggestionId,
     Location? location,
@@ -50,9 +50,9 @@ class SuggestionsRechercheRepository {
             )
           : await _httpClient.post(uri);
 
-      final savedSearch = SavedSearchJsonExtractor().extract(SavedSearchResponse.fromJson(response.data));
+      final alerte = AlerteJsonExtractor().extract(AlerteResponse.fromJson(response.data));
       _cacheManager.invalidateSuggestionsCache(userId: userId);
-      return savedSearch;
+      return alerte;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, uri);
     }

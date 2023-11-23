@@ -11,7 +11,7 @@ void main() {
     final sut = DioRepositorySut<ServiceCiviqueRepository>();
     sut.givenRepository((client) => ServiceCiviqueRepository(client));
 
-    group('postSavedSearch', () {
+    group('postAlerte', () {
       sut.when(
         (repository) => repository.rechercher(
           userId: "userId",

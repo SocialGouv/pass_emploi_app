@@ -45,7 +45,7 @@ void main() {
     // Given
     final store = givenState() //
         .loggedInUser() //
-        .withRecentsSearches(getMockedSavedSearch()) //
+        .withRecentsSearches(getMockedAlerte()) //
         .withDiagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers()) //
         .store();
     // When
@@ -68,7 +68,7 @@ void main() {
   test('create view model with 1 recherche recente', () {
     // Given
     final store = givenState().loggedInUser().withRecentsSearches([
-      mockOffreEmploiSavedSearch(keyword: "chevalier"),
+      mockOffreEmploiAlerte(keyword: "chevalier"),
     ]).store();
     // When
     final result = MotsClesViewModel.create(store);
@@ -84,10 +84,10 @@ void main() {
   test('create view model with many recherche recente should only take 3', () {
     // Given
     final store = givenState().loggedInUser().withRecentsSearches([
-      mockOffreEmploiSavedSearch(keyword: "1"),
-      mockOffreEmploiSavedSearch(keyword: "2"),
-      mockOffreEmploiSavedSearch(keyword: "3"),
-      mockOffreEmploiSavedSearch(keyword: "4"),
+      mockOffreEmploiAlerte(keyword: "1"),
+      mockOffreEmploiAlerte(keyword: "2"),
+      mockOffreEmploiAlerte(keyword: "3"),
+      mockOffreEmploiAlerte(keyword: "4"),
     ]).store();
     // When
     final result = MotsClesViewModel.create(store);
@@ -103,9 +103,9 @@ void main() {
   test('create view model with duplicated keywords in dernières recherches should remove them', () {
     // Given
     final store = givenState().loggedInUser().withRecentsSearches([
-      mockOffreEmploiSavedSearch(keyword: "1"),
-      mockOffreEmploiSavedSearch(keyword: "2"),
-      mockOffreEmploiSavedSearch(keyword: "1"),
+      mockOffreEmploiAlerte(keyword: "1"),
+      mockOffreEmploiAlerte(keyword: "2"),
+      mockOffreEmploiAlerte(keyword: "1"),
     ]).store();
     // When
     final result = MotsClesViewModel.create(store);
@@ -120,9 +120,9 @@ void main() {
   test('create view model with null keyword in dernières recherches should remove them', () {
     // Given
     final store = givenState().loggedInUser().withRecentsSearches([
-      mockOffreEmploiSavedSearch(keyword: "1"),
-      mockOffreEmploiSavedSearch(keyword: null),
-      mockOffreEmploiSavedSearch(keyword: "2"),
+      mockOffreEmploiAlerte(keyword: "1"),
+      mockOffreEmploiAlerte(keyword: null),
+      mockOffreEmploiAlerte(keyword: "2"),
     ]).store();
     // When
     final result = MotsClesViewModel.create(store);

@@ -99,18 +99,18 @@ class AnalyticsScreenNames {
   static const offreFavorisListFilterImmersion = "favoris/list?filtre=immersion";
   static const offreFavorisListFilterServiceCivique = "favoris/list?filtre=service_civique";
 
-  static const savedSearchSuggestionsListe = "saved_searches/suggested_list";
-  static const savedSearchList = "saved_searches/list";
-  static const savedSearchListFromAccueil = "saved_searches/list/from-accueil";
-  static const savedSearchListFilterEmploi = "saved_searches/list?filtre=emploi";
-  static const savedSearchListFilterAlternance = "saved_searches/list?filtre=alternance";
-  static const savedSearchListFilterImmersion = "saved_searches/list?filtre=immersion";
-  static const savedSearchListFilterServiceCivique = "saved_searches/list?filtre=service_civique";
+  static const alerteSuggestionsListe = "saved_searches/suggested_list";
+  static const alerteList = "saved_searches/list";
+  static const alerteListFromAccueil = "saved_searches/list/from-accueil";
+  static const alerteListFilterEmploi = "saved_searches/list?filtre=emploi";
+  static const alerteListFilterAlternance = "saved_searches/list?filtre=alternance";
+  static const alerteListFilterImmersion = "saved_searches/list?filtre=immersion";
+  static const alerteListFilterServiceCivique = "saved_searches/list?filtre=service_civique";
 
-  static const savedSearchEmploiDelete = "/saved_searches/emploi/delete";
-  static const savedSearchAlternanceDelete = "/saved_searches/alternance/delete";
-  static const savedSearchImmersionDelete = "/saved_searches/immersion/delete";
-  static const savedSearchServiceCiviqueDelete = "/saved_searches/service-civique/delete";
+  static const alerteEmploiDelete = "/saved_searches/emploi/delete";
+  static const alerteAlternanceDelete = "/saved_searches/alternance/delete";
+  static const alerteImmersionDelete = "/saved_searches/immersion/delete";
+  static const alerteServiceCiviqueDelete = "/saved_searches/service-civique/delete";
 
   static const suppressionAccount = "/profil/suppression-compte";
   static const shareActivity = "/profil/autorisation-partage-conseiller";
@@ -153,15 +153,15 @@ class AnalyticsActionNames {
 
   static const deleteUserAction = "actions/list?deleteSuccess=true";
 
-  static String createSavedSearchEmploi = "/recherche/emploi/search_results?create_saved_search=true";
-  static String createSavedSearchAlternance = "/recherche/alternance/search_results?create_saved_search=true";
-  static String createSavedSearchImmersion = "/recherche/immersion/search_results?create_saved_search=true";
-  static String createSavedSearchServiceCivique = "/recherche/service-civique/search_results?create_saved_search=true";
+  static String createAlerteEmploi = "/recherche/emploi/search_results?create_saved_search=true";
+  static String createAlerteAlternance = "/recherche/alternance/search_results?create_saved_search=true";
+  static String createAlerteImmersion = "/recherche/immersion/search_results?create_saved_search=true";
+  static String createAlerteServiceCivique = "/recherche/service-civique/search_results?create_saved_search=true";
 
-  static String deleteSavedSearchEmploi = "/saved_searches/emploi/list?deleteSuccess=true";
-  static String deleteSavedSearchAlternance = "/saved_searches/alternance/list?deleteSuccess=true";
-  static String deleteSavedSearchImmersion = "/saved_searches/immersion/list?deleteSuccess=true";
-  static String deleteSavedSearchServiceCivique = "/saved_searches/service_civique/list?deleteSuccess=true";
+  static String deleteAlerteEmploi = "/saved_searches/emploi/list?deleteSuccess=true";
+  static String deleteAlerteAlternance = "/saved_searches/alternance/list?deleteSuccess=true";
+  static String deleteAlerteImmersion = "/saved_searches/immersion/list?deleteSuccess=true";
+  static String deleteAlerteServiceCivique = "/saved_searches/service_civique/list?deleteSuccess=true";
 
   static const suppressionAccountConfirmation = "/profil/suppression-compte/confirm";
   static const suppressionAccountSucceded = "/login?deleteSuccess=true";

@@ -10,12 +10,12 @@ import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_actions.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
+import 'package:pass_emploi_app/models/alerte/evenement_emploi_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
-import 'package:pass_emploi_app/models/saved_search/evenement_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
@@ -42,10 +42,10 @@ class RecherchesRecentesMiddleware extends MiddlewareClass<AppState> {
     RechercheSuccessAction<Equatable, Equatable, dynamic> action,
     Store<AppState> store,
   ) async {
-    final search = createSavedSearchFromRequest(action.request);
+    final search = createAlerteFromRequest(action.request);
     if (search == null) return;
 
-    var newList = List<SavedSearch>.from(store.state.recherchesRecentesState.recentSearches);
+    var newList = List<Alerte>.from(store.state.recherchesRecentesState.recentSearches);
     newList.insert(0, search);
     newList = newList.take(50).toList();
 
@@ -54,10 +54,10 @@ class RecherchesRecentesMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-SavedSearch? createSavedSearchFromRequest(RechercheRequest request) {
+Alerte? createAlerteFromRequest(RechercheRequest request) {
   const id = "recherche-recente-id";
   if (request is RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche>) {
-    return OffreEmploiSavedSearch(
+    return OffreEmploiAlerte(
       id: id,
       title: "${request.criteres.keyword} - ${request.criteres.location?.libelle ?? ''}",
       metier: null,
@@ -68,7 +68,7 @@ SavedSearch? createSavedSearchFromRequest(RechercheRequest request) {
     );
   }
   if (request is RechercheRequest<ImmersionCriteresRecherche, ImmersionFiltresRecherche>) {
-    return ImmersionSavedSearch(
+    return ImmersionAlerte(
       id: id,
       title: "${request.criteres.metier.libelle} - ${request.criteres.location.libelle}",
       codeRome: request.criteres.metier.codeRome,
@@ -79,7 +79,7 @@ SavedSearch? createSavedSearchFromRequest(RechercheRequest request) {
     );
   }
   if (request is RechercheRequest<ServiceCiviqueCriteresRecherche, ServiceCiviqueFiltresRecherche>) {
-    return ServiceCiviqueSavedSearch(
+    return ServiceCiviqueAlerte(
       id: id,
       titre: request.criteres.location?.libelle ?? "",
       ville: request.criteres.location?.libelle,
@@ -90,7 +90,7 @@ SavedSearch? createSavedSearchFromRequest(RechercheRequest request) {
     );
   }
   if (request is RechercheRequest<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>) {
-    return EvenementEmploiSavedSearch(
+    return EvenementEmploiAlerte(
       id: id,
       titre: request.criteres.location.libelle,
       location: request.criteres.location,

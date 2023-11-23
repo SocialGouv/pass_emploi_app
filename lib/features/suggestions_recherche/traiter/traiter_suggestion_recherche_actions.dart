@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 
 enum TraiterSuggestionType { accepter, refuser }
@@ -23,9 +23,9 @@ class TraiterSuggestionRechercheFailureAction {}
 
 class AccepterSuggestionRechercheSuccessAction {
   final String suggestionId;
-  final SavedSearch savedSearch;
+  final Alerte alerte;
 
-  AccepterSuggestionRechercheSuccessAction(this.suggestionId, this.savedSearch);
+  AccepterSuggestionRechercheSuccessAction(this.suggestionId, this.alerte);
 }
 
 class RefuserSuggestionRechercheSuccessAction {

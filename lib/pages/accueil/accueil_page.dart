@@ -11,9 +11,9 @@ import 'package:pass_emploi_app/pages/accueil/accueil_favoris.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_loading.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_outils.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
+import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
-import 'package:pass_emploi_app/pages/saved_search_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -54,8 +54,8 @@ class AccueilPage extends StatelessWidget {
     final deepLinkState = newViewModel.deepLinkState;
     if (deepLinkState is FavorisDeepLinkState) {
       Navigator.push(context, OffreFavorisPage.materialPageRoute());
-    } else if (deepLinkState is SavedSearchesDeepLinkState) {
-      Navigator.push(context, SavedSearchPage.materialPageRoute());
+    } else if (deepLinkState is AlerteDeepLinkState) {
+      Navigator.push(context, AlertePage.materialPageRoute());
     } else {
       return;
     }

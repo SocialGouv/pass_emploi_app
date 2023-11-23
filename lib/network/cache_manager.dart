@@ -60,7 +60,7 @@ enum CachedResource {
   FAVORIS_EMPLOI,
   FAVORIS_IMMERSION,
   FAVORIS_SERVICE_CIVIQUE,
-  SAVED_SEARCH,
+  alerte,
   UPDATE_PARTAGE_ACTIVITE;
 
   static CachedResource? fromUrl(String url) {
@@ -75,7 +75,7 @@ enum CachedResource {
     if (url.contains('/preferences')) return UPDATE_PARTAGE_ACTIVITE;
     if (url.contains('/rendezvous') && url.contains('FUTURS')) return RENDEZVOUS_FUTURS;
     if (url.contains('/rendezvous') && url.contains('PASSES')) return RENDEZVOUS_PASSES;
-    if (url.endsWith('/recherches')) return SAVED_SEARCH;
+    if (url.endsWith('/recherches')) return alerte;
     if (url.contains('/milo') && url.endsWith('sessions')) return SESSIONS_MILO_LIST;
     if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=true')) return SESSIONS_MILO_INSCRIT;
     if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=false')) return SESSIONS_MILO_NOT_INSCRIT;

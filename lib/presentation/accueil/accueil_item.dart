@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/outil.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 enum MonSuiviType { actions, demarches }
@@ -85,12 +85,12 @@ class AccueilEvenementsItem extends AccueilItem {
 }
 
 class AccueilAlertesItem extends AccueilItem {
-  final List<SavedSearch> savedSearches;
+  final List<Alerte> alertes;
 
-  AccueilAlertesItem(this.savedSearches);
+  AccueilAlertesItem(this.alertes);
 
   @override
-  List<Object?> get props => [savedSearches];
+  List<Object?> get props => [alertes];
 }
 
 class AccueilFavorisItem extends AccueilItem {

@@ -1,9 +1,9 @@
 import 'package:clock/clock.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/alerte/get/alerte_get_action.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
-import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
@@ -50,7 +50,7 @@ void main() {
       );
       assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "SAVED_SEARCHES"})),
-        SavedSearchesDeepLinkState(),
+        AlertesDeepLinkState(),
       );
       assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "RECHERCHE"})),
@@ -110,7 +110,7 @@ void main() {
       );
       assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "NOUVELLE_OFFRE", "id": "id"})),
-        SavedSearchDeepLinkState(idSavedSearch: 'id'),
+        AlerteDeepLinkState(idAlerte: 'id'),
       );
       assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "NOUVELLES_FONCTIONNALITES", "version": "1.9.0"})),
@@ -121,7 +121,7 @@ void main() {
         UsedDeepLinkState(),
       );
       assertState(
-        FetchSavedSearchResultsFromIdAction(''),
+        FetchAlerteResultsFromIdAction(''),
         UsedDeepLinkState(),
       );
     });
@@ -138,7 +138,7 @@ void main() {
       await store.dispatch(LocalDeeplinkAction({"type": "NOUVELLE_OFFRE", "id": "id"}));
 
       // Then
-      final expectedState = SavedSearchDeepLinkState(idSavedSearch: 'id');
+      final expectedState = AlerteDeepLinkState(idAlerte: 'id');
       final appState = await outputAppState;
       expect(appState.deepLinkState, expectedState);
     });

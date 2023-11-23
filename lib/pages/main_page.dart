@@ -178,8 +178,8 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case MainPageDisplayState.DEFAULT:
       case MainPageDisplayState.ACTUALISATION_PE:
       case MainPageDisplayState.FAVORIS:
-      case MainPageDisplayState.SAVED_SEARCH:
-      case MainPageDisplayState.SAVED_SEARCHES:
+      case MainPageDisplayState.ALERTE:
+      case MainPageDisplayState.ALERTES:
         initialIndex = 0;
         break;
       case MainPageDisplayState.AGENDA_TAB:

@@ -24,14 +24,14 @@ class TraiterSuggestionRechercheMiddleware extends MiddlewareClass<AppState> {
       TraiterSuggestionRechercheRequestAction action, String userId, Store<AppState> store) async {
     switch (action.type) {
       case TraiterSuggestionType.accepter:
-        final savedSearch = await _repository.accepterSuggestion(
+        final alerte = await _repository.accepterSuggestion(
           userId: userId,
           suggestionId: action.suggestion.id,
           location: action.location,
           rayon: action.rayon,
         );
-        if (savedSearch != null) {
-          store.dispatch(AccepterSuggestionRechercheSuccessAction(action.suggestion.id, savedSearch));
+        if (alerte != null) {
+          store.dispatch(AccepterSuggestionRechercheSuccessAction(action.suggestion.id, alerte));
         } else {
           store.dispatch(TraiterSuggestionRechercheFailureAction());
         }

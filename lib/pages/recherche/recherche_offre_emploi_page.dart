@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_v
 import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_saved_search_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_alerte_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_emploi_contenu.dart';
 import 'package:redux/redux.dart';
@@ -59,7 +59,7 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   FavoriIdsState<OffreEmploi> favorisState(AppState appState) => appState.offreEmploiFavorisIdsState;
 
   @override
-  Widget buildAlertBottomSheet() => OffreEmploiSavedSearchBottomSheet(onlyAlternance: onlyAlternance);
+  Widget buildAlertBottomSheet() => OffreEmploiAlerteBottomSheet(onlyAlternance: onlyAlternance);
 
   @override
   Future<bool?>? buildFiltresBottomSheet(BuildContext context) => OffreEmploiFiltresPage.show(context, onlyAlternance);
