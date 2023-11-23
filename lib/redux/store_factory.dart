@@ -305,8 +305,10 @@ class StoreFactory {
         FavoriIdsMiddleware<Immersion>(immersionFavorisRepository).call,
         FavoriUpdateMiddleware<Immersion>(immersionFavorisRepository, ImmersionDataFromIdExtractor()).call,
         FavoriIdsMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository).call,
-        FavoriUpdateMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository, ServiceCiviqueDataFromIdExtractor())
-            .call,
+        FavoriUpdateMiddleware<ServiceCivique>(
+          serviceCiviqueFavorisRepository,
+          ServiceCiviqueDataFromIdExtractor(),
+        ).call,
         SearchLocationMiddleware(searchLocationRepository).call,
         SearchMetierMiddleware(metierRepository).call,
         TrackingEventMiddleware(trackingEventRepository).call,

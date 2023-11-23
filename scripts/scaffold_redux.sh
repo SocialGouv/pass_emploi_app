@@ -245,7 +245,7 @@ addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSI
 value="this.${repositoryVariable},"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY" "$value"
 
-value="${middlewareClass}(${repositoryVariable}),"
+value="${middlewareClass}(${repositoryVariable}).call,"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE" "$value"
 
 dart format "$editing_file" -l $dart_max_char_in_line
