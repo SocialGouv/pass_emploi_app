@@ -27,6 +27,9 @@ jobs:
           cache: true
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
+      - name: Launch tests
+        run: flutter test
+
   pre-build:
     if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
