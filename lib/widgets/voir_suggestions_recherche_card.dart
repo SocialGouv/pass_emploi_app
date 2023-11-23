@@ -13,9 +13,8 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class VoirSuggestionsRechercheCard extends StatelessWidget {
   final Function() onTapShowSuggestions;
-  final EdgeInsets? padding;
 
-  VoirSuggestionsRechercheCard({required this.onTapShowSuggestions, this.padding});
+  VoirSuggestionsRechercheCard({required this.onTapShowSuggestions});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,6 @@ class VoirSuggestionsRechercheCard extends StatelessWidget {
       converter: (store) => VoirSuggestionsRechercheViewModel.create(store),
       builder: (context, viewModel) => _Body(
         viewModel: viewModel,
-        padding: padding,
         onTapShowSuggestions: onTapShowSuggestions,
       ),
       distinct: true,
@@ -34,28 +32,24 @@ class VoirSuggestionsRechercheCard extends StatelessWidget {
 class _Body extends StatelessWidget {
   final VoirSuggestionsRechercheViewModel viewModel;
   final Function() onTapShowSuggestions;
-  final EdgeInsets? padding;
 
-  _Body({required this.viewModel, required this.onTapShowSuggestions, this.padding});
+  _Body({required this.viewModel, required this.onTapShowSuggestions});
 
   @override
   Widget build(BuildContext context) {
     if (viewModel.hasSuggestionsRecherche) {
-      return Padding(
-        padding: padding ?? const EdgeInsets.all(0),
-        child: CardContainer(
-          child: Column(
-            children: [
-              _Icon(),
-              _Title(),
-              _Subitle(),
-              _Button(onTapShowSuggestions: onTapShowSuggestions),
-            ],
-          ),
+      return CardContainer(
+        child: Column(
+          children: [
+            _Icon(),
+            _Title(),
+            _Subitle(),
+            _Button(onTapShowSuggestions: onTapShowSuggestions),
+          ],
         ),
       );
     } else {
-      return SizedBox(height: 0);
+      return SizedBox.shrink();
     }
   }
 }
