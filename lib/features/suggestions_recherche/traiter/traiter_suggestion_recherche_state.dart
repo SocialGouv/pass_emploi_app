@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
 
 abstract class TraiterSuggestionRechercheState extends Equatable {
   @override
@@ -13,12 +13,12 @@ class TraiterSuggestionRechercheLoadingState extends TraiterSuggestionRechercheS
 class TraiterSuggestionRechercheFailureState extends TraiterSuggestionRechercheState {}
 
 class AccepterSuggestionRechercheSuccessState extends TraiterSuggestionRechercheState {
-  final SavedSearch savedSearch;
+  final Alerte alerte;
 
-  AccepterSuggestionRechercheSuccessState(this.savedSearch);
+  AccepterSuggestionRechercheSuccessState(this.alerte);
 
   @override
-  List<Object?> get props => [savedSearch];
+  List<Object?> get props => [alerte];
 }
 
 class RefuserSuggestionRechercheSuccessState extends TraiterSuggestionRechercheState {}

@@ -16,21 +16,21 @@ void main() {
 
   test('should display recents searches', () {
     // Given
-    final store = givenState().loggedInUser().withRecentsSearches(getMockedSavedSearch()).store();
+    final store = givenState().loggedInUser().withRecentsSearches(getMockedAlerte()).store();
     // When
     final viewModel = RecherchesRecentesViewModel.create(store);
     // Then
-    expect(viewModel.rechercheRecente, getMockedSavedSearch().first);
+    expect(viewModel.rechercheRecente, getMockedAlerte().first);
   });
 
   test('should only display recents offer searches', () {
     // Given
-    final searches = getMockedSavedSearch();
-    searches.insert(0, mockEvenementEmploiSavedSearch());
+    final searches = getMockedAlerte();
+    searches.insert(0, mockEvenementEmploiAlerte());
     final store = givenState().loggedInUser().withRecentsSearches(searches).store();
     // When
     final viewModel = RecherchesRecentesViewModel.create(store);
     // Then
-    expect(viewModel.rechercheRecente, getMockedSavedSearch().first);
+    expect(viewModel.rechercheRecente, getMockedAlerte().first);
   });
 }

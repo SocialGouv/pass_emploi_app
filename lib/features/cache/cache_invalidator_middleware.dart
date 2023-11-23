@@ -1,5 +1,7 @@
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
+import 'package:pass_emploi_app/features/alerte/create/alerte_create_actions.dart';
+import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
@@ -7,8 +9,6 @@ import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
-import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
@@ -61,7 +61,7 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
     }
 
     if (_shouldInvalidateAlertes(action)) {
-      await cacheManager.removeResource(CachedResource.SAVED_SEARCH, userId);
+      await cacheManager.removeResource(CachedResource.alerte, userId);
     }
 
     if (_shouldInvalidatePartageActivite(action)) {
@@ -80,8 +80,8 @@ bool _shouldInvalidateAccueil(Store<AppState> store, dynamic action) {
       action is CreateDemarcheSuccessAction ||
       action is UpdateDemarcheSuccessAction ||
       action is FavoriUpdateSuccessAction ||
-      action is SavedSearchCreateSuccessAction ||
-      action is SavedSearchDeleteSuccessAction ||
+      action is AlerteCreateSuccessAction ||
+      action is AlerteDeleteSuccessAction ||
       action is AccepterSuggestionRechercheSuccessAction ||
       action is RefuserSuggestionRechercheSuccessAction ||
       _newUserActionsCreated(store, action);
@@ -124,8 +124,8 @@ bool _shouldInvalidateFavoris(dynamic action) {
 }
 
 bool _shouldInvalidateAlertes(dynamic action) {
-  return (action is SavedSearchCreateSuccessAction ||
-      action is SavedSearchDeleteSuccessAction ||
+  return (action is AlerteCreateSuccessAction ||
+      action is AlerteDeleteSuccessAction ||
       action is AccepterSuggestionRechercheSuccessAction ||
       action is RefuserSuggestionRechercheSuccessAction);
 }

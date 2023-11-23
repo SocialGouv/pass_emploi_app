@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
+import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
+import 'package:pass_emploi_app/presentation/alerte_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class OffreEmploiBottomSheetForm extends StatefulWidget {
-  final SavedSearchViewModel<OffreEmploiSavedSearch> viewModel;
+  final AlerteViewModel<OffreEmploiAlerte> viewModel;
   final bool onlyAlternance;
 
   OffreEmploiBottomSheetForm(this.viewModel, this.onlyAlternance);
@@ -42,11 +42,11 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
           child: ListView(
             shrinkWrap: true,
             children: [
-              _savedSearchTitle(widget.viewModel.searchModel),
+              _alerteTitle(widget.viewModel.searchModel),
               SizedBox(height: Margins.spacing_m),
-              _savedSearchFilters(widget.viewModel.searchModel),
+              _alerteFilters(widget.viewModel.searchModel),
               SizedBox(height: Margins.spacing_m),
-              _savedSearchInfo(),
+              _alerteInfo(),
             ],
           ),
         ),
@@ -55,7 +55,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
     );
   }
 
-  Widget _createButton(OffreEmploiSavedSearchViewModel viewModel) {
+  Widget _createButton(OffreEmploiAlerteViewModel viewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -65,11 +65,11 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
           iconSize: Dimens.icon_size_m,
           onPressed: (_isFormValid())
               ? () {
-                  viewModel.createSavedSearch(searchTitle!);
+                  viewModel.createAlerte(searchTitle!);
                   PassEmploiMatomoTracker.instance.trackScreen(
                     widget.onlyAlternance
-                        ? AnalyticsActionNames.createSavedSearchAlternance
-                        : AnalyticsActionNames.createSavedSearchEmploi,
+                        ? AnalyticsActionNames.createAlerteAlternance
+                        : AnalyticsActionNames.createAlerteEmploi,
                   );
                 }
               : null,
@@ -81,18 +81,18 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
 
   bool _isFormValid() => searchTitle != null && searchTitle!.isNotEmpty;
 
-  Widget _savedSearchTitle(OffreEmploiSavedSearch searchViewModel) {
+  Widget _alerteTitle(OffreEmploiAlerte searchViewModel) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.savedSearchTitle, style: TextStyles.textBaseBold),
+        Text(Strings.alerteTitle, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
         _textField(
           initialValue: searchViewModel.title,
           onChanged: _updateTitle,
           isMandatory: true,
-          mandatoryError: Strings.mandatorySavedSearchTitleError,
+          mandatoryError: Strings.mandatoryAlerteTitleError,
           textInputAction: TextInputAction.next,
           isEnabled: true,
         ),
@@ -143,8 +143,8 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
     );
   }
 
-  Widget _savedSearchFilters(OffreEmploiSavedSearch searchViewModel) {
-    final List<TagInfo> tags = [TagInfo(searchViewModel.getSavedSearchTagLabel(), false)];
+  Widget _alerteFilters(OffreEmploiAlerte searchViewModel) {
+    final List<TagInfo> tags = [TagInfo(searchViewModel.getAlerteTagLabel(), false)];
     final String? keyWords = searchViewModel.keyword;
     final String? location = searchViewModel.location?.libelle;
     if (keyWords != null && keyWords.isNotEmpty) tags.add(TagInfo(keyWords, false));
@@ -153,7 +153,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.savedSearchFilters, style: TextStyles.textBaseBold),
+        Text(Strings.alerteFilters, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
         _buildDataTags(tags),
       ],
@@ -174,12 +174,12 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
     );
   }
 
-  Widget _savedSearchInfo() {
+  Widget _alerteInfo() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.savedSearchInfo)),
+        Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.alerteInfo)),
         SizedBox(height: Margins.spacing_base),
         Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.searchNotificationInfo)),
       ],
@@ -216,7 +216,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Text(
-        Strings.creationSavedSearchError,
+        Strings.creationAlerteError,
         textAlign: TextAlign.center,
         style: TextStyles.textSRegular(color: AppColors.warning),
       ),

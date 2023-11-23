@@ -1,14 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
+import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class RecherchesRecentesViewModel extends Equatable {
-  final SavedSearch? rechercheRecente;
+  final Alerte? rechercheRecente;
 
   RecherchesRecentesViewModel({
     required this.rechercheRecente,
@@ -25,12 +25,10 @@ class RecherchesRecentesViewModel extends Equatable {
   List<Object?> get props => [rechercheRecente];
 }
 
-extension _RechercheRecentesList on List<SavedSearch> {
-  SavedSearch? derniereRechercheOffre() {
+extension _RechercheRecentesList on List<Alerte> {
+  Alerte? derniereRechercheOffre() {
     return firstWhereOrNull((element) {
-      return element is OffreEmploiSavedSearch ||
-          element is ImmersionSavedSearch ||
-          element is ServiceCiviqueSavedSearch;
+      return element is OffreEmploiAlerte || element is ImmersionAlerte || element is ServiceCiviqueAlerte;
     });
   }
 }

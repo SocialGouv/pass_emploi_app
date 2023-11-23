@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
-import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
+import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
+import 'package:pass_emploi_app/presentation/alerte_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class ServiceCiviqueBottomSheetForm extends StatefulWidget {
-  final SavedSearchViewModel<ServiceCiviqueSavedSearch> viewModel;
+  final AlerteViewModel<ServiceCiviqueAlerte> viewModel;
 
   ServiceCiviqueBottomSheetForm(this.viewModel);
 
@@ -40,11 +40,11 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
           child: ListView(
             shrinkWrap: true,
             children: [
-              _savedSearchTitle(widget.viewModel.searchModel),
+              _alerteTitle(widget.viewModel.searchModel),
               SizedBox(height: Margins.spacing_m),
-              _savedSearchFilters(widget.viewModel.searchModel),
+              _alerteFilters(widget.viewModel.searchModel),
               SizedBox(height: Margins.spacing_m),
-              _savedSearchInfo(),
+              _alerteInfo(),
             ],
           ),
         ),
@@ -53,7 +53,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
     );
   }
 
-  Widget _createButton(ServiceCiviqueSavedSearchViewModel viewModel) {
+  Widget _createButton(ServiceCiviqueAlerteViewModel viewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -63,8 +63,8 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
           iconSize: Dimens.icon_size_base,
           onPressed: (_isFormValid())
               ? () {
-                  viewModel.createSavedSearch(searchTitle!);
-                  PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.createSavedSearchServiceCivique);
+                  viewModel.createAlerte(searchTitle!);
+                  PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.createAlerteServiceCivique);
                 }
               : null,
         ),
@@ -75,18 +75,18 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
 
   bool _isFormValid() => searchTitle != null && searchTitle!.isNotEmpty;
 
-  Widget _savedSearchTitle(ServiceCiviqueSavedSearch searchViewModel) {
+  Widget _alerteTitle(ServiceCiviqueAlerte searchViewModel) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.savedSearchTitle, style: TextStyles.textBaseBold),
+        Text(Strings.alerteTitle, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
         _textField(
           initialValue: searchViewModel.titre,
           onChanged: _updateTitle,
           isMandatory: true,
-          mandatoryError: Strings.mandatorySavedSearchTitleError,
+          mandatoryError: Strings.mandatoryAlerteTitleError,
           textInputAction: TextInputAction.next,
           isEnabled: true,
         ),
@@ -137,14 +137,14 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
     );
   }
 
-  Widget _savedSearchFilters(ServiceCiviqueSavedSearch searchViewModel) {
+  Widget _alerteFilters(ServiceCiviqueAlerte searchViewModel) {
     final domaine = searchViewModel.domaine?.titre;
     final ville = searchViewModel.ville;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.savedSearchFilters, style: TextStyles.textBaseBold),
+        Text(Strings.alerteFilters, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
         _buildDataTags([
           TagInfo(Strings.serviceCiviqueTag, false),
@@ -169,12 +169,12 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
     );
   }
 
-  Widget _savedSearchInfo() {
+  Widget _alerteInfo() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.savedSearchInfo)),
+        Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.alerteInfo)),
         SizedBox(height: Margins.spacing_base),
         Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.searchNotificationInfo)),
       ],
@@ -211,7 +211,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Text(
-        Strings.creationSavedSearchError,
+        Strings.creationAlerteError,
         textAlign: TextAlign.center,
         style: TextStyles.textSRegular(color: AppColors.warning),
       ),

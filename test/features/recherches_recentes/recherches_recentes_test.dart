@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -58,7 +58,7 @@ Matcher _shouldRetreiveRecentSearches() {
   return StateMatch(
     (state) => state.recherchesRecentesState.recentSearches.isNotEmpty,
     (state) {
-      expect(state.recherchesRecentesState.recentSearches, [offreEmploiSavedSearch()]);
+      expect(state.recherchesRecentesState.recentSearches, [offreEmploiAlerte()]);
     },
   );
 }
@@ -76,8 +76,8 @@ class RecherchesRecentesRepositorySuccessStub extends RecherchesRecentesReposito
   RecherchesRecentesRepositorySuccessStub() : super(DummySharedPreferences());
 
   @override
-  Future<List<SavedSearch>> get() async {
-    return [offreEmploiSavedSearch()];
+  Future<List<Alerte>> get() async {
+    return [offreEmploiAlerte()];
   }
 }
 
@@ -85,7 +85,7 @@ class RecherchesRecentesRepositoryEmptyStub extends RecherchesRecentesRepository
   RecherchesRecentesRepositoryEmptyStub() : super(DummySharedPreferences());
 
   @override
-  Future<List<SavedSearch>> get() async {
+  Future<List<Alerte>> get() async {
     return [];
   }
 }

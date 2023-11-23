@@ -8,8 +8,8 @@ import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_alerte_location_form.dart';
+import 'package:pass_emploi_app/presentation/alerte/alerte_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -59,21 +59,21 @@ class SuggestionsRechercheListPage extends StatelessWidget {
     _navigateToSearch(context, newViewModel.searchNavigationState);
   }
 
-  void _navigateToSearch(BuildContext context, SavedSearchNavigationState searchNavigationState) {
+  void _navigateToSearch(BuildContext context, AlerteNavigationState searchNavigationState) {
     switch (searchNavigationState) {
-      case SavedSearchNavigationState.OFFRE_EMPLOI:
+      case AlerteNavigationState.OFFRE_EMPLOI:
         _goToPage(context, RechercheOffreEmploiPage(onlyAlternance: false));
         break;
-      case SavedSearchNavigationState.OFFRE_ALTERNANCE:
+      case AlerteNavigationState.OFFRE_ALTERNANCE:
         _goToPage(context, RechercheOffreEmploiPage(onlyAlternance: true));
         break;
-      case SavedSearchNavigationState.OFFRE_IMMERSION:
+      case AlerteNavigationState.OFFRE_IMMERSION:
         _goToPage(context, RechercheOffreImmersionPage());
         break;
-      case SavedSearchNavigationState.SERVICE_CIVIQUE:
+      case AlerteNavigationState.SERVICE_CIVIQUE:
         _goToPage(context, RechercheOffreServiceCiviquePage());
         break;
-      case SavedSearchNavigationState.NONE:
+      case AlerteNavigationState.NONE:
         break;
     }
   }

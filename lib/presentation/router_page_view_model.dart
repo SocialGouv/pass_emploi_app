@@ -80,8 +80,8 @@ MainPageDisplayState _toMainPageDisplayStateByDeepLink(DeepLinkState state) {
   if (state is DetailSessionMiloDeepLinkState) return MainPageDisplayState.RENDEZVOUS_TAB;
   if (state is NouveauMessageDeepLinkState) return MainPageDisplayState.CHAT;
   if (state is FavorisDeepLinkState) return MainPageDisplayState.FAVORIS;
-  if (state is SavedSearchesDeepLinkState) return MainPageDisplayState.SAVED_SEARCHES;
-  if (state is SavedSearchDeepLinkState) return MainPageDisplayState.SAVED_SEARCH;
+  if (state is AlerteDeepLinkState) return MainPageDisplayState.ALERTE;
+  if (state is AlertesDeepLinkState) return MainPageDisplayState.ALERTES;
   if (state is EventListDeepLinkState) return MainPageDisplayState.EVENT_LIST;
   if (state is ActualisationPeDeepLinkState) return MainPageDisplayState.ACTUALISATION_PE;
   if (state is RechercheDeepLinkState) return MainPageDisplayState.RECHERCHE;

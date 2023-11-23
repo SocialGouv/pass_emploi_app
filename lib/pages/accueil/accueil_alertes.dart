@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
-import 'package:pass_emploi_app/pages/saved_search_page.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
+import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -25,7 +25,7 @@ class AccueilAlertes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasContent = item.savedSearches.isNotEmpty;
+    final hasContent = item.alertes.isNotEmpty;
     return AlerteNavigator(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -50,16 +50,16 @@ class _AvecAlertes extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ...item.savedSearches.map((search) => _AlerteCard(search)),
+        ...item.alertes.map((search) => _AlerteCard(search)),
         SizedBox(height: Margins.spacing_s),
-        SecondaryButton(label: Strings.accueilVoirMesAlertes, onPressed: () => goToSavedSearches(context)),
+        SecondaryButton(label: Strings.accueilVoirMesAlertes, onPressed: () => goToAlerte(context)),
       ],
     );
   }
 
-  void goToSavedSearches(BuildContext context) {
-    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.savedSearchListFromAccueil);
-    Navigator.push(context, SavedSearchPage.materialPageRoute());
+  void goToAlerte(BuildContext context) {
+    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.alerteListFromAccueil);
+    Navigator.push(context, AlertePage.materialPageRoute());
   }
 }
 
@@ -101,15 +101,15 @@ class _SansAlerte extends StatelessWidget {
 }
 
 class _AlerteCard extends StatelessWidget {
-  final SavedSearch savedSearch;
+  final Alerte alerte;
 
-  _AlerteCard(this.savedSearch);
+  _AlerteCard(this.alerte);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AlerteCard(savedSearch),
+        AlerteCard(alerte),
         SizedBox(height: Margins.spacing_base),
       ],
     );

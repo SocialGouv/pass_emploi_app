@@ -142,16 +142,16 @@ void main() {
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.FAVORIS);
     });
 
-    test('…and deep link is set to saved searches should display main page with saved searches display state', () {
+    test('…and deep link is set to alertes should display main page with alertes display state', () {
       final store = givenState() //
           .loggedInUser()
-          .deepLink(SavedSearchesDeepLinkState())
+          .deepLink(AlertesDeepLinkState())
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
       expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.SAVED_SEARCHES);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.ALERTES);
     });
 
     test('…and deep link is set to actualisation pole emploi should display main page with actualisation pole emploi',

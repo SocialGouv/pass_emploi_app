@@ -30,7 +30,7 @@ void main() {
       // Given
       final store = givenState() //
           .loggedInUser() //
-          .withRecentsSearches(getMockedSavedSearch()) //
+          .withRecentsSearches(getMockedAlerte()) //
           .withDiagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers()) //
           .store();
       // When
@@ -103,7 +103,7 @@ void main() {
     test('with 1 recherche recente', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockImmersionSavedSearch(metier: "chevalier", codeRome: '1'),
+        mockImmersionAlerte(metier: "chevalier", codeRome: '1'),
       ]).store();
       // When
       final viewModel = MetierViewModel.create(store);
@@ -119,10 +119,10 @@ void main() {
     test('with many recherches recentes should only take 3', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockImmersionSavedSearch(metier: '1', codeRome: '1'),
-        mockImmersionSavedSearch(metier: '2', codeRome: '2'),
-        mockImmersionSavedSearch(metier: '3', codeRome: '3'),
-        mockImmersionSavedSearch(metier: '4', codeRome: '4'),
+        mockImmersionAlerte(metier: '1', codeRome: '1'),
+        mockImmersionAlerte(metier: '2', codeRome: '2'),
+        mockImmersionAlerte(metier: '3', codeRome: '3'),
+        mockImmersionAlerte(metier: '4', codeRome: '4'),
       ]).store();
       // When
       final viewModel = MetierViewModel.create(store);
@@ -138,9 +138,9 @@ void main() {
     test('with duplicated metiers in recherches recentes should remove them', () {
       // Given
       final store = givenState().loggedInUser().withRecentsSearches([
-        mockImmersionSavedSearch(metier: '1', codeRome: '1'),
-        mockImmersionSavedSearch(metier: '2', codeRome: '2'),
-        mockImmersionSavedSearch(metier: '1', codeRome: '1'),
+        mockImmersionAlerte(metier: '1', codeRome: '1'),
+        mockImmersionAlerte(metier: '2', codeRome: '2'),
+        mockImmersionAlerte(metier: '1', codeRome: '1'),
       ]).store();
       // When
       final viewModel = MetierViewModel.create(store);

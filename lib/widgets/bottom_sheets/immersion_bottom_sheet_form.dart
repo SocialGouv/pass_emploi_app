@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
+import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
+import 'package:pass_emploi_app/presentation/alerte_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class ImmersionBottomSheetForm extends StatefulWidget {
-  final SavedSearchViewModel<ImmersionSavedSearch> viewModel;
+  final AlerteViewModel<ImmersionAlerte> viewModel;
 
   ImmersionBottomSheetForm(this.viewModel);
 
@@ -40,11 +40,11 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
           child: ListView(
             shrinkWrap: true,
             children: [
-              _savedSearchTitle(widget.viewModel.searchModel),
+              _alerteTitle(widget.viewModel.searchModel),
               SizedBox(height: Margins.spacing_m),
-              _savedSearchFilters(widget.viewModel.searchModel),
+              _alerteFilters(widget.viewModel.searchModel),
               SizedBox(height: Margins.spacing_m),
-              _savedSearchInfo(),
+              _alerteInfo(),
             ],
           ),
         ),
@@ -53,7 +53,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
     );
   }
 
-  Widget _createButton(ImmersionSavedSearchViewModel viewModel) {
+  Widget _createButton(ImmersionAlerteViewModel viewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -63,8 +63,8 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
           iconSize: Dimens.icon_size_base,
           onPressed: (_isFormValid())
               ? () {
-                  viewModel.createSavedSearch(searchTitle!);
-                  PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.createSavedSearchImmersion);
+                  viewModel.createAlerte(searchTitle!);
+                  PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.createAlerteImmersion);
                 }
               : null,
         ),
@@ -75,18 +75,18 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
 
   bool _isFormValid() => searchTitle != null && searchTitle!.isNotEmpty;
 
-  Widget _savedSearchTitle(ImmersionSavedSearch searchViewModel) {
+  Widget _alerteTitle(ImmersionAlerte searchViewModel) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.savedSearchTitle, style: TextStyles.textBaseBold),
+        Text(Strings.alerteTitle, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
         _textField(
           initialValue: searchViewModel.title,
           onChanged: _updateTitle,
           isMandatory: true,
-          mandatoryError: Strings.mandatorySavedSearchTitleError,
+          mandatoryError: Strings.mandatoryAlerteTitleError,
           textInputAction: TextInputAction.next,
           isEnabled: true,
         ),
@@ -137,12 +137,12 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
     );
   }
 
-  Widget _savedSearchFilters(ImmersionSavedSearch searchViewModel) {
+  Widget _alerteFilters(ImmersionAlerte searchViewModel) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.savedSearchFilters, style: TextStyles.textBaseBold),
+        Text(Strings.alerteFilters, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
         _buildDataTags([
           TagInfo(Strings.immersionTag, false),
@@ -167,12 +167,12 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
     );
   }
 
-  Widget _savedSearchInfo() {
+  Widget _alerteInfo() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.savedSearchInfo)),
+        Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.alerteInfo)),
         SizedBox(height: Margins.spacing_base),
         Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.searchNotificationInfo)),
       ],
@@ -209,7 +209,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Text(
-        Strings.creationSavedSearchError,
+        Strings.creationAlerteError,
         textAlign: TextAlign.center,
         style: TextStyles.textSRegular(color: AppColors.warning),
       ),

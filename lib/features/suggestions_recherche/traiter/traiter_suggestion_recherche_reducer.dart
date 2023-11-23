@@ -10,7 +10,7 @@ TraiterSuggestionRechercheState traiterSuggestionRechercheReducer(
   if (action is TraiterSuggestionRechercheFailureAction) return TraiterSuggestionRechercheFailureState();
   if (action is RefuserSuggestionRechercheSuccessAction) return RefuserSuggestionRechercheSuccessState();
   if (action is AccepterSuggestionRechercheSuccessAction) {
-    return AccepterSuggestionRechercheSuccessState(action.savedSearch);
+    return AccepterSuggestionRechercheSuccessState(action.alerte);
   }
   return current;
 }

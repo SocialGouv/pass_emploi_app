@@ -1,13 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/session_milo.dart';
+import 'package:pass_emploi_app/repositories/alerte/alerte_json_extractor.dart';
+import 'package:pass_emploi_app/repositories/alerte/alerte_response.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
-import 'package:pass_emploi_app/repositories/saved_search/saved_search_json_extractor.dart';
-import 'package:pass_emploi_app/repositories/saved_search/saved_search_response.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class Accueil extends Equatable {
@@ -16,7 +16,7 @@ class Accueil extends Equatable {
   final Rendezvous? prochainRendezVous;
   final SessionMilo? prochaineSessionMilo;
   final List<Rendezvous>? evenements;
-  final List<SavedSearch>? alertes;
+  final List<Alerte>? alertes;
   final List<Favori>? favoris;
   final Campagne? campagne;
 
@@ -59,7 +59,7 @@ class Accueil extends Equatable {
     final Rendezvous? prochainRendezVous,
     final SessionMilo? prochaineSessionMilo,
     final List<Rendezvous>? evenements,
-    final List<SavedSearch>? alertes,
+    final List<Alerte>? alertes,
     final List<Favori>? favoris,
   }) {
     return Accueil(
@@ -111,13 +111,13 @@ List<Rendezvous>? _evenements(dynamic json) {
   return events.map((event) => JsonRendezvous.fromJson(event).toRendezvous()).toList();
 }
 
-List<SavedSearch>? _alertes(dynamic json) {
+List<Alerte>? _alertes(dynamic json) {
   final alertes = json["mesAlertes"] as List?;
   if (alertes == null) return null;
 
   return alertes
-      .map((search) => SavedSearchResponse.fromJson(search))
-      .map((e) => SavedSearchJsonExtractor().extract(e))
+      .map((search) => AlerteResponse.fromJson(search))
+      .map((e) => AlerteJsonExtractor().extract(e))
       .whereNotNull()
       .toList();
 }

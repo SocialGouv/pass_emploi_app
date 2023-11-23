@@ -15,7 +15,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/service_civique_saved_search_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/service_civique_alerte_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_service_civique_contenu.dart';
 import 'package:redux/redux.dart';
@@ -49,7 +49,7 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
   FavoriIdsState<ServiceCivique> favorisState(AppState appState) => appState.serviceCiviqueFavorisIdsState;
 
   @override
-  Widget buildAlertBottomSheet() => ServiceCiviqueSavedSearchBottomSheet();
+  Widget buildAlertBottomSheet() => ServiceCiviqueAlerteBottomSheet();
 
   @override
   Future<bool?>? buildFiltresBottomSheet(BuildContext context) => ServiceCiviqueFiltresPage.show(context);

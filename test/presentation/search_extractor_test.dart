@@ -4,11 +4,11 @@ import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recher
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
+import 'package:pass_emploi_app/models/alerte/alerte_extractors.dart';
+import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search_extractors.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../doubles/fixtures.dart';
@@ -40,7 +40,7 @@ void main() {
     final result = OffreEmploiSearchExtractor().getSearchFilters(store);
 
     // Then
-    final expected = OffreEmploiSavedSearch(
+    final expected = OffreEmploiAlerte(
       id: "",
       title: "Je suis un keyword",
       metier: "Je suis un keyword",
@@ -85,7 +85,7 @@ void main() {
     // Then
     expect(
       result,
-      ImmersionSavedSearch(
+      ImmersionAlerte(
         id: "",
         title: "Chevrier / Chevrière - ville",
         metier: "Chevrier / Chevrière",

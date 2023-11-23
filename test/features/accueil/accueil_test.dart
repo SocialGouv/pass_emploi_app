@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
+import 'package:pass_emploi_app/features/alerte/create/alerte_create_actions.dart';
+import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
-import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
@@ -81,9 +81,9 @@ void main() {
       expectLoadingWhen(CreateDemarcheSuccessAction("id"));
       expectLoadingWhen(UpdateDemarcheSuccessAction(mockDemarche()));
       expectLoadingWhen(FavoriUpdateSuccessAction("id", FavoriStatus.removed));
-      expectLoadingWhen(SavedSearchCreateSuccessAction(mockOffreEmploiSavedSearch()));
-      expectLoadingWhen(SavedSearchDeleteSuccessAction("id"));
-      expectLoadingWhen(AccepterSuggestionRechercheSuccessAction("id", mockOffreEmploiSavedSearch()));
+      expectLoadingWhen(AlerteCreateSuccessAction(mockOffreEmploiAlerte()));
+      expectLoadingWhen(AlerteDeleteSuccessAction("id"));
+      expectLoadingWhen(AccepterSuggestionRechercheSuccessAction("id", mockOffreEmploiAlerte()));
       expectLoadingWhen(RefuserSuggestionRechercheSuccessAction("id"));
     });
 

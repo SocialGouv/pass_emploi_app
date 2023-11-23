@@ -321,7 +321,7 @@ void main() {
     });
 
     group(
-        ("MANDATORY FOR RETRO-COMPATIBILITY IN SAVED SEARCHES : when experience filtre is applied should set proper values"),
+        ("MANDATORY FOR RETRO-COMPATIBILITY IN alertes : when experience filtre is applied should set proper values"),
         () {
       assertFiltres(
         "when experience is De 0 à 1 an",

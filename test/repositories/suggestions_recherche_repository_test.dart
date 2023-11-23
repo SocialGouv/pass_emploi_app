@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
@@ -63,13 +63,13 @@ void main() {
       });
 
       test('response should be valid', () async {
-        await sut.expectResult<OffreEmploiSavedSearch?>((response) {
+        await sut.expectResult<OffreEmploiAlerte?>((response) {
           expect(response, isNotNull);
-          expect(response, offreEmploiSavedSearch());
+          expect(response, offreEmploiAlerte());
         });
       });
 
-      test('cache for saved search and suggestions should be reset', () async {
+      test('cache for alerte and suggestions should be reset', () async {
         await sut.expectResult<dynamic>((result) {
           expect(cacheManager.removeSuggestionsRechercheResourceWasCalled, true);
         });
@@ -139,7 +139,7 @@ void main() {
         await sut.expectTrueAsResult();
       });
 
-      test('cache for saved search and suggestions should be reset', () async {
+      test('cache for alerte and suggestions should be reset', () async {
         await sut.expectResult<dynamic>((result) {
           expect(cacheManager.removeSuggestionsRechercheResourceWasCalled, true);
         });

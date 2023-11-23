@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/iterable_extensions.dart';
@@ -82,7 +82,7 @@ List<MotsClesItem> _motsClesFromRechercheRecentes(Store<AppState> store) {
 
 List<String> _derniersMotsCles(Store<AppState> store) {
   return store.state.recherchesRecentesState.recentSearches
-      .whereType<OffreEmploiSavedSearch>()
+      .whereType<OffreEmploiAlerte>()
       .map((offre) => offre.keyword)
       .whereNotNull()
       .whereNot((keyword) => keyword.isEmpty)

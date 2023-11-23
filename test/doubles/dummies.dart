@@ -17,6 +17,11 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
+import 'package:pass_emploi_app/repositories/alerte/alerte_delete_repository.dart';
+import 'package:pass_emploi_app/repositories/alerte/get_alerte_repository.dart';
+import 'package:pass_emploi_app/repositories/alerte/immersion_alerte_repository.dart';
+import 'package:pass_emploi_app/repositories/alerte/offre_emploi_alerte_repository.dart';
+import 'package:pass_emploi_app/repositories/alerte/service_civique_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
@@ -50,11 +55,6 @@ import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
@@ -251,24 +251,24 @@ class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
   DummyImmersionFavorisRepository() : super(DioMock());
 }
 
-class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
-  DummyOffreEmploiSavedSearchRepository() : super(DioMock());
+class DummyOffreEmploiAlerteRepository extends OffreEmploiAlerteRepository {
+  DummyOffreEmploiAlerteRepository() : super(DioMock());
 }
 
-class DummyImmersionSavedSearchRepository extends ImmersionSavedSearchRepository {
-  DummyImmersionSavedSearchRepository() : super(DioMock());
+class DummyImmersionAlerteRepository extends ImmersionAlerteRepository {
+  DummyImmersionAlerteRepository() : super(DioMock());
 }
 
-class DummyServiceCiviqueSavedSearchRepository extends ServiceCiviqueSavedSearchRepository {
-  DummyServiceCiviqueSavedSearchRepository() : super(DioMock());
+class DummyServiceCiviqueAlerteRepository extends ServiceCiviqueAlerteRepository {
+  DummyServiceCiviqueAlerteRepository() : super(DioMock());
 }
 
-class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
-  DummyGetSavedSearchRepository() : super(DioMock(), null);
+class DummyGetAlerteRepository extends GetAlerteRepository {
+  DummyGetAlerteRepository() : super(DioMock(), null);
 }
 
-class DummySavedSearchDeleteRepository extends SavedSearchDeleteRepository {
-  DummySavedSearchDeleteRepository() : super(DioMock());
+class DummyAlerteDeleteRepository extends AlerteDeleteRepository {
+  DummyAlerteDeleteRepository() : super(DioMock());
 }
 
 class DummyServiceCiviqueRepository extends ServiceCiviqueRepository {

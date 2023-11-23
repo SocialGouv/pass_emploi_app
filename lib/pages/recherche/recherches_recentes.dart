@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/presentation/recherches_recentes_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -23,9 +23,9 @@ class RecherchesRecentes extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  final SavedSearch savedSearch;
+  final Alerte alerte;
 
-  _Body(this.savedSearch);
+  _Body(this.alerte);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _Body extends StatelessWidget {
         children: [
           MediumSectionTitle(Strings.derniereRecherche),
           SizedBox(height: Margins.spacing_base),
-          AlerteCard(savedSearch),
+          AlerteCard(alerte),
           SizedBox(height: Margins.spacing_base),
         ],
       ),

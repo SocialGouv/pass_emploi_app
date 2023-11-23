@@ -2,6 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/alerte/create/alerte_create_state.dart';
+import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_state.dart';
+import 'package:pass_emploi_app/features/alerte/list/alerte_list_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
@@ -40,9 +43,6 @@ import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
-import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
-import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
@@ -58,11 +58,11 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
+import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
@@ -94,11 +94,11 @@ class AppState extends Equatable {
   final RendezvousListState rendezvousListState;
   final RendezvousDetailsState rendezvousDetailsState;
   final ImmersionDetailsState immersionDetailsState;
-  final SavedSearchCreateState<OffreEmploiSavedSearch> offreEmploiSavedSearchCreateState;
-  final SavedSearchCreateState<ImmersionSavedSearch> immersionSavedSearchCreateState;
-  final SavedSearchCreateState<ServiceCiviqueSavedSearch> serviceCiviqueSavedSearchCreateState;
-  final SavedSearchListState savedSearchListState;
-  final SavedSearchDeleteState savedSearchDeleteState;
+  final AlerteCreateState<OffreEmploiAlerte> offreEmploiAlerteCreateState;
+  final AlerteCreateState<ImmersionAlerte> immersionAlerteCreateState;
+  final AlerteCreateState<ServiceCiviqueAlerte> serviceCiviqueAlerteCreateState;
+  final AlerteListState alerteListState;
+  final AlerteDeleteState alerteDeleteState;
   final ServiceCiviqueDetailState serviceCiviqueDetailState;
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
@@ -164,11 +164,11 @@ class AppState extends Equatable {
     required this.rendezvousListState,
     required this.rendezvousDetailsState,
     required this.immersionDetailsState,
-    required this.offreEmploiSavedSearchCreateState,
-    required this.immersionSavedSearchCreateState,
-    required this.serviceCiviqueSavedSearchCreateState,
-    required this.savedSearchListState,
-    required this.savedSearchDeleteState,
+    required this.offreEmploiAlerteCreateState,
+    required this.immersionAlerteCreateState,
+    required this.serviceCiviqueAlerteCreateState,
+    required this.alerteListState,
+    required this.alerteDeleteState,
     required this.serviceCiviqueDetailState,
     required this.suppressionCompteState,
     required this.demoState,
@@ -233,12 +233,12 @@ class AppState extends Equatable {
     final RendezvousDetailsState? rendezvousDetailsState,
     final OffreEmploiDetailsState? offreEmploiDetailsState,
     final ImmersionDetailsState? immersionDetailsState,
-    final SavedSearchCreateState<OffreEmploiSavedSearch>? offreEmploiSavedSearchCreateState,
-    final SavedSearchCreateState<ImmersionSavedSearch>? immersionSavedSearchCreateState,
-    final SavedSearchCreateState<ServiceCiviqueSavedSearch>? serviceCiviqueSavedSearchCreateState,
+    final AlerteCreateState<OffreEmploiAlerte>? offreEmploiAlerteCreateState,
+    final AlerteCreateState<ImmersionAlerte>? immersionAlerteCreateState,
+    final AlerteCreateState<ServiceCiviqueAlerte>? serviceCiviqueAlerteCreateState,
     final ConfigurationState? configurationState,
-    final SavedSearchListState? savedSearchListState,
-    final SavedSearchDeleteState? savedSearchDeleteState,
+    final AlerteListState? alerteListState,
+    final AlerteDeleteState? alerteDeleteState,
     final ServiceCiviqueDetailState? serviceCiviqueDetailState,
     final SuppressionCompteState? suppressionCompteState,
     final bool? demoState,
@@ -302,13 +302,12 @@ class AppState extends Equatable {
       rendezvousListState: rendezvousListState ?? this.rendezvousListState,
       rendezvousDetailsState: rendezvousDetailsState ?? this.rendezvousDetailsState,
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
-      offreEmploiSavedSearchCreateState: offreEmploiSavedSearchCreateState ?? this.offreEmploiSavedSearchCreateState,
-      immersionSavedSearchCreateState: immersionSavedSearchCreateState ?? this.immersionSavedSearchCreateState,
-      serviceCiviqueSavedSearchCreateState:
-          serviceCiviqueSavedSearchCreateState ?? this.serviceCiviqueSavedSearchCreateState,
+      offreEmploiAlerteCreateState: offreEmploiAlerteCreateState ?? this.offreEmploiAlerteCreateState,
+      immersionAlerteCreateState: immersionAlerteCreateState ?? this.immersionAlerteCreateState,
+      serviceCiviqueAlerteCreateState: serviceCiviqueAlerteCreateState ?? this.serviceCiviqueAlerteCreateState,
       configurationState: configurationState ?? this.configurationState,
-      savedSearchListState: savedSearchListState ?? this.savedSearchListState,
-      savedSearchDeleteState: savedSearchDeleteState ?? this.savedSearchDeleteState,
+      alerteListState: alerteListState ?? this.alerteListState,
+      alerteDeleteState: alerteDeleteState ?? this.alerteDeleteState,
       serviceCiviqueDetailState: serviceCiviqueDetailState ?? this.serviceCiviqueDetailState,
       suppressionCompteState: suppressionCompteState ?? this.suppressionCompteState,
       demoState: demoState ?? this.demoState,
@@ -375,12 +374,12 @@ class AppState extends Equatable {
       rendezvousListState: RendezvousListState.notInitialized(),
       rendezvousDetailsState: RendezvousDetailsNotInitializedState(),
       immersionDetailsState: ImmersionDetailsNotInitializedState(),
-      offreEmploiSavedSearchCreateState: SavedSearchCreateState<OffreEmploiSavedSearch>.notInitialized(),
-      immersionSavedSearchCreateState: SavedSearchCreateState<ImmersionSavedSearch>.notInitialized(),
-      serviceCiviqueSavedSearchCreateState: SavedSearchCreateState<ServiceCiviqueSavedSearch>.notInitialized(),
+      offreEmploiAlerteCreateState: AlerteCreateState<OffreEmploiAlerte>.notInitialized(),
+      immersionAlerteCreateState: AlerteCreateState<ImmersionAlerte>.notInitialized(),
+      serviceCiviqueAlerteCreateState: AlerteCreateState<ServiceCiviqueAlerte>.notInitialized(),
       configurationState: ConfigurationState(configuration),
-      savedSearchListState: SavedSearchListNotInitializedState(),
-      savedSearchDeleteState: SavedSearchDeleteNotInitializedState(),
+      alerteListState: AlerteListNotInitializedState(),
+      alerteDeleteState: AlerteDeleteNotInitializedState(),
       serviceCiviqueDetailState: ServiceCiviqueDetailNotInitializedState(),
       demoState: false,
       suppressionCompteState: SuppressionCompteNotInitializedState(),
@@ -444,10 +443,10 @@ class AppState extends Equatable {
         rendezvousListState,
         rendezvousDetailsState,
         immersionDetailsState,
-        offreEmploiSavedSearchCreateState,
-        immersionSavedSearchCreateState,
-        savedSearchListState,
-        savedSearchDeleteState,
+        offreEmploiAlerteCreateState,
+        immersionAlerteCreateState,
+        alerteListState,
+        alerteDeleteState,
         serviceCiviqueDetailState,
         suppressionCompteState,
         demoState,

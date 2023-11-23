@@ -1,11 +1,11 @@
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/features/alerte/create/alerte_create_actions.dart';
+import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_actions.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
-import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
@@ -56,8 +56,8 @@ bool _needFetchingAccueil(int currentPendingActionsCount, dynamic action) {
       action is CreateDemarcheSuccessAction ||
       action is UpdateDemarcheSuccessAction ||
       action is FavoriUpdateSuccessAction ||
-      action is SavedSearchCreateSuccessAction ||
-      action is SavedSearchDeleteSuccessAction ||
+      action is AlerteCreateSuccessAction ||
+      action is AlerteDeleteSuccessAction ||
       action is AccepterSuggestionRechercheSuccessAction ||
       action is RefuserSuggestionRechercheSuccessAction ||
       _newUserActionsCreated(currentPendingActionsCount, action);
