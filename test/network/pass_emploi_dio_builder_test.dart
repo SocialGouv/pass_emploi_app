@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_access_checker.dart';
 import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
@@ -39,9 +40,7 @@ void main() {
       authAccessChecker: authAccessChecker,
       monitoringInterceptor: monitoringInterceptor,
     ).build();
-    // TODO : uncomment l.44  and remove skips on those tests when http-mock-adapter will be fixed on version 0.6.1
-    // https://github.com/lomsa-dev/http-mock-adapter/issues/164
-    // DioAdapter(dio: dio).onGet(path, (server) => server.reply(200, responseData));
+    DioAdapter(dio: dio).onGet(path, (server) => server.reply(200, responseData));
   });
 
   test('full test', () async {
@@ -53,7 +52,7 @@ void main() {
 
     // Then
     expect(response.data, responseData);
-  }, skip: true);
+  });
 
   test('when access token throws exception should handle it and forward to next interceptors to return cached data',
       () async {
@@ -78,7 +77,7 @@ void main() {
 
     // Then
     expect(response.requestOptions.headers['Authorization'], 'Bearer accessToken');
-  }, skip: true);
+  });
 
   test('should add monitoring info', () async {
     // Given
@@ -93,7 +92,7 @@ void main() {
     expect(response.requestOptions.headers['X-AppVersion'], '1.0.0');
     expect(response.requestOptions.headers['X-CorrelationId'], isNotNull);
     expect(response.requestOptions.headers['X-Platform'], isNotNull);
-  }, skip: true);
+  });
 }
 
 class MockCacheStore extends Mock implements CacheStore {
