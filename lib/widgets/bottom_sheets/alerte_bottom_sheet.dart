@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 abstract class AbstractAlerteBottomSheet<ALERTE_MODEL> extends StatelessWidget {
   final String analyticsScreenName;
 
-  const AbstractAlerteBottomSheet({required this.analyticsScreenName, Key? key}) : super(key: key);
+  const AbstractAlerteBottomSheet({required this.analyticsScreenName, super.key});
 
   @override
   Widget build(BuildContext context) {
