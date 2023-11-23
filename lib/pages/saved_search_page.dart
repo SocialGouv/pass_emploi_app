@@ -78,22 +78,14 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
 
   void _onWillChange(SavedSearchListViewModel? _, SavedSearchListViewModel? newViewModel) {
     if (!_shouldNavigate || newViewModel == null) return;
-    switch (newViewModel.searchNavigationState) {
-      case SavedSearchNavigationState.OFFRE_EMPLOI:
-        _goToPage(RechercheOffreEmploiPage(onlyAlternance: false));
-        break;
-      case SavedSearchNavigationState.OFFRE_ALTERNANCE:
-        _goToPage(RechercheOffreEmploiPage(onlyAlternance: true));
-        break;
-      case SavedSearchNavigationState.OFFRE_IMMERSION:
-        _goToPage(RechercheOffreImmersionPage());
-        break;
-      case SavedSearchNavigationState.SERVICE_CIVIQUE:
-        _goToPage(RechercheOffreServiceCiviquePage());
-        break;
-      case SavedSearchNavigationState.NONE:
-        break;
-    }
+    final page = switch (newViewModel.searchNavigationState) {
+      SavedSearchNavigationState.OFFRE_EMPLOI => RechercheOffreEmploiPage(onlyAlternance: false),
+      SavedSearchNavigationState.OFFRE_ALTERNANCE => RechercheOffreEmploiPage(onlyAlternance: true),
+      SavedSearchNavigationState.OFFRE_IMMERSION => RechercheOffreImmersionPage(),
+      SavedSearchNavigationState.SERVICE_CIVIQUE => RechercheOffreServiceCiviquePage(),
+      SavedSearchNavigationState.NONE => null,
+    };
+    if (page != null) _goToPage(page);
   }
 
   Future<bool> _goToPage(Widget page) {
@@ -151,15 +143,12 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
           return Column(
             children: [
               Builder(builder: (context) {
-                if (savedSearch is OffreEmploiSavedSearch) {
-                  return _buildEmploiCard(context, savedSearch, viewModel);
-                } else if (savedSearch is ImmersionSavedSearch) {
-                  return _buildImmersionCard(context, savedSearch, viewModel);
-                } else if (savedSearch is ServiceCiviqueSavedSearch) {
-                  return _buildServiceCiviqueCard(context, savedSearch, viewModel);
-                } else {
-                  return Container();
-                }
+                return switch (savedSearch) {
+                  OffreEmploiSavedSearch() => _buildEmploiCard(context, savedSearch, viewModel),
+                  ImmersionSavedSearch() => _buildImmersionCard(context, savedSearch, viewModel),
+                  ServiceCiviqueSavedSearch() => _buildServiceCiviqueCard(context, savedSearch, viewModel),
+                  _ => SizedBox.shrink(),
+                };
               }),
               if (index == savedSearches.length - 1) ...[
                 SizedBox(height: Margins.spacing_base),
@@ -172,18 +161,14 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
   }
 
   List<SavedSearch> _getSavedSearchesFiltered(SavedSearchListViewModel viewModel) {
-    switch (_selectedFilter) {
-      case OffreFilter.immersion:
-        return viewModel.getImmersions();
-      case OffreFilter.serviceCivique:
-        return viewModel.getServiceCivique();
-      case OffreFilter.emploi:
-        return viewModel.getOffresEmploi();
-      case OffreFilter.alternance:
-        return viewModel.getAlternance();
-      default:
-        return viewModel.savedSearches;
-    }
+    final savedSearches = switch (_selectedFilter) {
+      OffreFilter.immersion => viewModel.getAlternance(),
+      OffreFilter.serviceCivique => viewModel.getImmersions(),
+      OffreFilter.emploi => viewModel.getAlternance(),
+      OffreFilter.alternance => viewModel.getAlternance(),
+      OffreFilter.tous => viewModel.getAlternance(),
+    };
+    return savedSearches as List<SavedSearch>;
   }
 
   Widget _noSavedSearch() {
