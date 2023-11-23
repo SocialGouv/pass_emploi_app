@@ -78,22 +78,14 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
 
   void _onWillChange(SavedSearchListViewModel? _, SavedSearchListViewModel? newViewModel) {
     if (!_shouldNavigate || newViewModel == null) return;
-    switch (newViewModel.searchNavigationState) {
-      case SavedSearchNavigationState.OFFRE_EMPLOI:
-        _goToPage(RechercheOffreEmploiPage(onlyAlternance: false));
-        break;
-      case SavedSearchNavigationState.OFFRE_ALTERNANCE:
-        _goToPage(RechercheOffreEmploiPage(onlyAlternance: true));
-        break;
-      case SavedSearchNavigationState.OFFRE_IMMERSION:
-        _goToPage(RechercheOffreImmersionPage());
-        break;
-      case SavedSearchNavigationState.SERVICE_CIVIQUE:
-        _goToPage(RechercheOffreServiceCiviquePage());
-        break;
-      case SavedSearchNavigationState.NONE:
-        break;
-    }
+    final page = switch (newViewModel.searchNavigationState) {
+      SavedSearchNavigationState.OFFRE_EMPLOI => RechercheOffreEmploiPage(onlyAlternance: false),
+      SavedSearchNavigationState.OFFRE_ALTERNANCE => RechercheOffreEmploiPage(onlyAlternance: true),
+      SavedSearchNavigationState.OFFRE_IMMERSION => RechercheOffreImmersionPage(),
+      SavedSearchNavigationState.SERVICE_CIVIQUE => RechercheOffreServiceCiviquePage(),
+      SavedSearchNavigationState.NONE => null,
+    };
+    if (page != null) _goToPage(page);
   }
 
   Future<bool> _goToPage(Widget page) {
@@ -126,11 +118,6 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
     );
   }
 
-  void _goToRecherche(BuildContext context) {
-    Navigator.of(context).pop();
-    StoreProvider.of<AppState>(context).dispatchRechercheDeeplink();
-  }
-
   Widget _content(SavedSearchListViewModel viewModel) {
     final displayState = viewModel.displayState;
     return AnimatedSwitcher(
@@ -143,72 +130,55 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
     );
   }
 
-  Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi, SavedSearchListViewModel viewModel) {
-    final type = offreEmploi.onlyAlternance ? SavedSearchType.ALTERNANCE : SavedSearchType.EMPLOI;
-    return FavoriCard.deletable(
-      offreType: offreEmploi.onlyAlternance ? OffreType.alternance : OffreType.emploi,
-      onTap: () => viewModel.offreEmploiSelected(offreEmploi),
-      onDelete: () => _showDeleteDialog(viewModel, offreEmploi.id, type),
-      title: offreEmploi.title,
-      place: offreEmploi.location?.libelle,
-      bottomTip: Strings.voirResultatsSuggestion,
-    );
-  }
-
   Widget _savedSearches(SavedSearchListViewModel viewModel) {
     final List<SavedSearch> savedSearches = _getSavedSearchesFiltered(viewModel);
     if (savedSearches.isEmpty) return _noSavedSearch();
-    return ListView.builder(
+    return ListView.separated(
+        separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
+        padding: EdgeInsets.all(Margins.spacing_base),
         itemCount: savedSearches.length,
         controller: _scrollController,
         itemBuilder: (context, index) {
           final savedSearch = savedSearches[index];
           return Column(
             children: [
-              if (index == 0) ...[
-                _suggestionsRechercheCard(),
+              Builder(builder: (context) {
+                return switch (savedSearch) {
+                  OffreEmploiSavedSearch() => _buildEmploiCard(context, savedSearch, viewModel),
+                  ImmersionSavedSearch() => _buildImmersionCard(context, savedSearch, viewModel),
+                  ServiceCiviqueSavedSearch() => _buildServiceCiviqueCard(context, savedSearch, viewModel),
+                  _ => SizedBox.shrink(),
+                };
+              }),
+              if (index == savedSearches.length - 1) ...[
                 SizedBox(height: Margins.spacing_base),
+                VoirSuggestionsRechercheCard(onTapShowSuggestions: _onTapShowSuggestions),
+                SizedBox(height: Margins.spacing_huge),
               ],
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_s),
-                child: Builder(builder: (context) {
-                  if (savedSearch is OffreEmploiSavedSearch) {
-                    return _buildCard(context, savedSearch, viewModel);
-                  } else if (savedSearch is ImmersionSavedSearch) {
-                    return _buildImmersionCard(context, savedSearch, viewModel);
-                  } else if (savedSearch is ServiceCiviqueSavedSearch) {
-                    return _buildServiceCiviqueCard(context, savedSearch, viewModel);
-                  } else {
-                    return Container();
-                  }
-                }),
-              ),
-              if (index == savedSearches.length - 1) SizedBox(height: Margins.spacing_huge),
             ],
           );
         });
   }
 
   List<SavedSearch> _getSavedSearchesFiltered(SavedSearchListViewModel viewModel) {
-    switch (_selectedFilter) {
-      case OffreFilter.immersion:
-        return viewModel.getImmersions();
-      case OffreFilter.serviceCivique:
-        return viewModel.getServiceCivique();
-      case OffreFilter.emploi:
-        return viewModel.getOffresEmploi();
-      case OffreFilter.alternance:
-        return viewModel.getAlternance();
-      default:
-        return viewModel.savedSearches;
-    }
+    final savedSearches = switch (_selectedFilter) {
+      OffreFilter.immersion => viewModel.getAlternance(),
+      OffreFilter.serviceCivique => viewModel.getImmersions(),
+      OffreFilter.emploi => viewModel.getAlternance(),
+      OffreFilter.alternance => viewModel.getAlternance(),
+      OffreFilter.tous => viewModel.getAlternance(),
+    };
+    return savedSearches as List<SavedSearch>;
   }
 
   Widget _noSavedSearch() {
     return SingleChildScrollView(
       child: Column(
         children: [
-          _suggestionsRechercheCard(),
+          Padding(
+            padding: const EdgeInsets.all(Margins.spacing_base),
+            child: VoirSuggestionsRechercheCard(onTapShowSuggestions: _onTapShowSuggestions),
+          ),
           SizedBox(height: Margins.spacing_base),
           _selectedFilter == OffreFilter.tous
               ? _EmptyListPlaceholder.noFavori()
@@ -219,13 +189,16 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
     );
   }
 
-  Widget _suggestionsRechercheCard() {
-    return VoirSuggestionsRechercheCard(
-      padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_m, Margins.spacing_base, 0),
-      onTapShowSuggestions: () {
-        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.savedSearchSuggestionsListe);
-        Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
-      },
+  Widget _buildEmploiCard(
+      BuildContext context, OffreEmploiSavedSearch offreEmploi, SavedSearchListViewModel viewModel) {
+    final type = offreEmploi.onlyAlternance ? SavedSearchType.ALTERNANCE : SavedSearchType.EMPLOI;
+    return FavoriCard.deletable(
+      offreType: offreEmploi.onlyAlternance ? OffreType.alternance : OffreType.emploi,
+      onTap: () => viewModel.offreEmploiSelected(offreEmploi),
+      onDelete: () => _showDeleteDialog(viewModel, offreEmploi.id, type),
+      title: offreEmploi.title,
+      place: offreEmploi.location?.libelle,
+      bottomTip: Strings.voirResultatsSuggestion,
     );
   }
 
@@ -257,6 +230,16 @@ class _SavedSearchPageState extends State<SavedSearchPage> {
       place: savedSearchsServiceCivique.ville?.isNotEmpty == true ? savedSearchsServiceCivique.ville : null,
       bottomTip: Strings.voirResultatsSuggestion,
     );
+  }
+
+  void _goToRecherche(BuildContext context) {
+    Navigator.of(context).pop();
+    StoreProvider.of<AppState>(context).dispatchRechercheDeeplink();
+  }
+
+  void _onTapShowSuggestions() {
+    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.savedSearchSuggestionsListe);
+    Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
   }
 
   void _showDeleteDialog(SavedSearchListViewModel viewModel, String savedSearchId, SavedSearchType type) {
@@ -326,8 +309,6 @@ class _EmptyListPlaceholder extends StatelessWidget {
 }
 
 class _SavedSearchLoading extends StatelessWidget {
-  const _SavedSearchLoading();
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
