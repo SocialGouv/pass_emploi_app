@@ -58,8 +58,8 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         PrimaryActionButton(
-          label: Strings.createSavedSearchButton,
-          icon: AppIcons.error_rounded,
+          label: Strings.createAlert,
+          icon: AppIcons.notifications_rounded,
           iconSize: Dimens.icon_size_base,
           onPressed: (_isFormValid())
               ? () {

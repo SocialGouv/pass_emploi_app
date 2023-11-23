@@ -807,7 +807,6 @@ class Strings {
   static String savedSearchTitle = "* Nom de la recherche";
   static String mandatorySavedSearchTitleError = "Renseigner un nom pour votre recherche";
   static String savedSearchFilters = "Critères de la recherche";
-  static String createSavedSearchButton = "Créer une alerte";
   static String savedSearchInfo = "Les filtres appliqués seront aussi enregistrés.";
   static String searchNotificationInfo =
       "Vous recevrez des notifications pour être alerté des nouvelles offres liées aux critères de votre recherche.";
