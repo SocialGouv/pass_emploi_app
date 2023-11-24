@@ -81,7 +81,9 @@ class CardTag extends StatelessWidget {
               Icon(icon, size: Dimens.icon_size_base, color: contentColor),
               SizedBox(width: Margins.spacing_xs),
             ],
-            Text(text, style: TextStyles.textXsBold().copyWith(color: contentColor))
+            Flexible(
+              child: Text(text, style: TextStyles.textXsBold().copyWith(color: contentColor)),
+            )
           ],
         ),
       ),

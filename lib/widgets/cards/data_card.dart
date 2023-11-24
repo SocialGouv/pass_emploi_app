@@ -22,9 +22,9 @@ class DataCard<T> extends StatelessWidget {
     required this.titre,
     required this.sousTitre,
     required this.lieu,
-    this.date,
     required this.dataTag,
     required this.onTap,
+    this.date,
     this.id,
     this.from,
     this.category,
@@ -46,11 +46,11 @@ class DataCard<T> extends StatelessWidget {
         if (category != null && category!.isNotEmpty) CardTag.secondary(text: category!),
         ...nonEmptyDataTags.map((e) => CardTag.secondary(text: e)).toList(),
       ],
-      iconButton: FavoriHeart<T>(
+      iconButton:  (id != null && from != null) ? FavoriHeart<T>(
         offreId: id!,
         withBorder: false,
         from: from!,
-      ),
+      ) : null,
       additionalChild: additionalChild,
     );
   }

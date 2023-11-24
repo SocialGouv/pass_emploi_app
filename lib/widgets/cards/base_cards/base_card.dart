@@ -45,71 +45,83 @@ class BaseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isSimpleCard = tag == null && pillule == null;
-    return CardContainer(
-      onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (!isSimpleCard) ...[
-            Row(
-              children: [
-                if (tag != null) tag!,
-                Expanded(child: SizedBox()),
-                if (pillule != null) pillule!,
-                if (iconButton != null) iconButton!,
-              ],
-            ),
-            SizedBox(height: Margins.spacing_base),
-          ],
-          if (imagePath != null) ...[
-            _CardIllustration(imagePath: imagePath!),
-            SizedBox(height: Margins.spacing_base),
-          ],
-          Row(
+    return Stack(
+      children: [
+        CardContainer(
+          onTap: onTap,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(child: CardTitle(title)),
-              if (isSimpleCard && iconButton != null) iconButton!,
+              if (!isSimpleCard) ...[
+                Row(
+                  children: [
+                    if (tag != null) tag!,
+                    Expanded(child: SizedBox()),
+                    if (pillule != null) pillule!,
+                    if (iconButton != null) iconButton!,
+                  ],
+                ),
+                SizedBox(height: Margins.spacing_base),
+              ],
+              if (imagePath != null) ...[
+                _CardIllustration(imagePath: imagePath!),
+                SizedBox(height: Margins.spacing_base),
+              ],
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: CardTitle(title)),
+                  if (isSimpleCard && iconButton != null)
+                    // This is a hack to make the iconButton appear aligned on the right of the title
+                    SizedBox.square(dimension: kMinInteractiveDimension),
+                ],
+              ),
+              SizedBox(height: Margins.spacing_base),
+              if (subtitle != null) ...[
+                CardSubtitle(subtitle!),
+                SizedBox(height: Margins.spacing_base),
+              ],
+              if (body != null) ...[
+                CardBodyText(body!),
+                SizedBox(height: Margins.spacing_base),
+              ],
+              if (complements != null) ...[
+                Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
+                SizedBox(height: Margins.spacing_base),
+              ],
+              if (secondaryTags != null) ...[
+                Wrap(
+                  spacing: Margins.spacing_s,
+                  runSpacing: Margins.spacing_s,
+                  children: secondaryTags!,
+                ),
+                SizedBox(height: Margins.spacing_base),
+              ],
+              if (additionalChild != null) ...[
+                additionalChild!,
+                SizedBox(height: Margins.spacing_base),
+              ],
+              if (actions != null) ...[
+                SizedBox(height: Margins.spacing_base),
+                Wrap(
+                  children: actions!,
+                ),
+              ],
+              if (onTap != null) ...[
+                SizedBox(height: Margins.spacing_s),
+                pressedTip ?? PressedTip(Strings.voirLeDetailCard),
+              ],
             ],
           ),
-          SizedBox(height: Margins.spacing_base),
-          if (subtitle != null) ...[
-            CardSubtitle(subtitle!),
-            SizedBox(height: Margins.spacing_base),
-          ],
-          if (body != null) ...[
-            CardBodyText(body!),
-            SizedBox(height: Margins.spacing_base),
-          ],
-          if (complements != null) ...[
-            Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
-            SizedBox(height: Margins.spacing_base),
-          ],
-          if (secondaryTags != null) ...[
-            Wrap(
-              spacing: Margins.spacing_s,
-              runSpacing: Margins.spacing_s,
-              children: secondaryTags!,
-            ),
-            SizedBox(height: Margins.spacing_base),
-          ],
-          if (additionalChild != null) ...[
-            additionalChild!,
-            SizedBox(height: Margins.spacing_base),
-          ],
-          if (actions != null) ...[
-            SizedBox(height: Margins.spacing_base),
-            Wrap(
-              children: actions!,
-            ),
-          ],
-          if (onTap != null) ...[
-            SizedBox(height: Margins.spacing_s),
-            pressedTip ?? PressedTip(Strings.voirLeDetailCard),
-          ],
-        ],
-      ),
+        ),
+        if (isSimpleCard && iconButton != null)
+          Positioned(
+            top: 0,
+            right: 0,
+            child: iconButton!,
+          ),
+      ],
     );
   }
 }

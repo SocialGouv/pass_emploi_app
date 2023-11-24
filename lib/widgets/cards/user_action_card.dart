@@ -34,9 +34,9 @@ class UserActionCard extends StatelessWidget {
   Widget _body(BuildContext context, UserActionCardViewModel viewModel) {
     return BaseCard(
       title: viewModel.title,
+      body: viewModel.withSubtitle ? viewModel.subtitle : null,
       onTap: onTap,
       pillule: viewModel.pillule?.toCardPillule(),
-      body: viewModel.subtitle,
       complements: [
         if (viewModel.dateEcheance != null)
           viewModel.isLate
