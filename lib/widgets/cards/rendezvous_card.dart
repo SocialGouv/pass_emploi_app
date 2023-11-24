@@ -49,7 +49,7 @@ class _Content extends StatelessWidget {
       additionalChild: viewModel.isAnnule ? CardTag.annule() : null,
       tag: CardTag.evenement(text: viewModel.tag),
       complements: [
-        CardComplement.date(text: viewModel.date),
+        CardComplement.dateTime(text: viewModel.date),
         if (viewModel.place != null) CardComplement.place(text: viewModel.place!)
       ],
       secondaryTags: [

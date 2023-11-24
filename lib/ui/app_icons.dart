@@ -92,5 +92,5 @@ class AppIcons {
 
   // Solution
   static const IconData immersion = AppIconsAdditional.immersion;
-  static const IconData service_civique = AppIconsAdditional.service_civique;
+  static const IconData service_civique = Icons.diversity_3;
 }

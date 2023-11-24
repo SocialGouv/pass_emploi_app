@@ -96,7 +96,7 @@ void main() {
       final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, '1');
 
       // Then
-      expect(viewModel.date, "Le 01/03/2022 à 10h20");
+      expect(viewModel.date, "01/03/2022 à 10h20");
     });
 
     group("place", () {
@@ -211,7 +211,7 @@ void main() {
         RendezvousCardViewModel(
           id: '1',
           tag: 'Atelier',
-          date: 'Le 23/12/2021 à 10h20',
+          date: '23/12/2021 à 10h20',
           isInscrit: false,
           isAnnule: false,
           title: 'Super bio',
@@ -247,7 +247,7 @@ void main() {
         RendezvousCardViewModel(
           id: '1',
           tag: 'Atelier',
-          date: 'Le 23/12/2021 à 10h20',
+          date: '23/12/2021 à 10h20',
           isInscrit: false,
           isAnnule: false,
           title: 'Super bio',
@@ -285,7 +285,7 @@ void main() {
         RendezvousCardViewModel(
           id: '1',
           tag: 'Atelier',
-          date: 'Le 23/12/2021 à 10h20',
+          date: '23/12/2021 à 10h20',
           isInscrit: true,
           isAnnule: false,
           title: 'Super bio',
@@ -310,7 +310,7 @@ void main() {
         RendezvousCardViewModel(
           id: '1',
           tag: 'Atelier',
-          date: 'Le 01/01/2023 à 00h00',
+          date: '01/01/2023 à 00h00',
           isInscrit: true,
           isAnnule: false,
           title: 'nomOffre - nomSession',

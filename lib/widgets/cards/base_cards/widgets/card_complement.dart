@@ -11,18 +11,24 @@ class CardComplement extends StatelessWidget {
   final bool bold;
   final IconData icon;
 
-  const CardComplement({required this.text, required this.icon, this.color, this.bold = false});
+  const CardComplement({required this.text, required this.icon, this.color = AppColors.grey800, this.bold = false});
 
   const CardComplement.place({required this.text, this.color})
       : icon = AppIcons.place_outlined,
         bold = false;
+
   const CardComplement.date({required this.text, this.color})
-      : icon = AppIcons.schedule,
+      : icon = AppIcons.event,
         bold = false;
+
   const CardComplement.dateLate({required this.text})
-      : icon = AppIcons.schedule,
+      : icon = AppIcons.event,
         color = AppColors.warning,
         bold = true;
+
+  const CardComplement.dateTime({required this.text, this.color})
+      : icon = AppIcons.schedule,
+        bold = false;
 
   @override
   Widget build(BuildContext context) {
