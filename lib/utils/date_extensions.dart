@@ -20,7 +20,7 @@ extension DateExtensions on DateTime {
   String toDayAndHourContextualized() {
     if (isTomorrow()) return "Demain ${DateFormat('à HH\'h\'mm').format(this)}";
     if (isToday()) return "Aujourd'hui ${DateFormat('à HH\'h\'mm').format(this)}";
-    return DateFormat('\'Le\' dd/MM/yyyy à HH\'h\'mm').format(this);
+    return DateFormat('dd/MM/yyyy à HH\'h\'mm').format(this);
   }
 
   String toDayandHour() => DateFormat("DD/MM/yyyy à HH'h'mm").format(this);
