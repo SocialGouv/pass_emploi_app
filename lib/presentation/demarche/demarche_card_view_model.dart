@@ -73,16 +73,13 @@ String? _description(Demarche demarche) {
 String _dateFormat(Demarche demarche, bool isLate) {
   final String formattedDate;
   if (demarche.status == DemarcheStatus.CANCELLED && demarche.deletionDate != null) {
-    formattedDate = Strings.demarcheCancelledDateFormat(demarche.deletionDate!.toDay());
-  } else if (demarche.status == DemarcheStatus.DONE && demarche.endDate != null) {
-    formattedDate = Strings.demarcheDoneDateFormat(demarche.endDate!.toDay());
+    formattedDate = demarche.deletionDate!.toDay();
   } else if (demarche.endDate != null) {
-    formattedDate = Strings.demarcheActiveDateFormat(demarche.endDate!.toDay());
+    formattedDate = demarche.endDate!.toDay();
   } else {
     formattedDate = Strings.withoutDate;
   }
-
-  return "${isLate ? Strings.late : ""}$formattedDate";
+  return formattedDate;
 }
 
 CardPilluleType? _pillule(Demarche demarche, bool isLate) {
