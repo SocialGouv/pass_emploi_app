@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 import 'package:redux/redux.dart';
@@ -102,7 +101,7 @@ UserAction _getFromUserActionState(Store<AppState> store, String actionId) {
 
 String? _dateEcheanceFormattedTexts(UserAction userAction, bool isLate) {
   if (userAction.status == UserActionStatus.DONE || userAction.status == UserActionStatus.CANCELED) return null;
-  return "${isLate ? Strings.late : ""}${Strings.dateEcheanceFormat(userAction.dateEcheance.toDayOfWeekWithFullMonth())}";
+  return userAction.dateEcheance.toDay();
 }
 
 CardPilluleType? _userActionTagViewModel(UserActionStatus status, bool isLate) {

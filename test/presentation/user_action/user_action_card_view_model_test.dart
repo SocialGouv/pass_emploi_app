@@ -87,7 +87,7 @@ void main() {
       );
 
       // Then
-      expect(viewModel.dateEcheance, "À réaliser pour le jeudi 2 janvier");
+      expect(viewModel.dateEcheance, "02/01/2042");
       expect(viewModel.isLate, false);
     });
 
@@ -106,7 +106,7 @@ void main() {
         );
 
         // Then
-        expect(viewModel.dateEcheance, "À réaliser pour le dimanche 2 janvier");
+        expect(viewModel.dateEcheance, "02/01/2022");
         expect(viewModel.isLate, false);
       });
     });
@@ -124,7 +124,7 @@ void main() {
       );
 
       // Then
-      expect(viewModel.dateEcheance, "En retard : À réaliser pour le dimanche 2 janvier");
+      expect(viewModel.dateEcheance, "02/01/2022");
       expect(viewModel.isLate, true);
     });
 
@@ -173,7 +173,7 @@ void main() {
       );
 
       // Then
-      expect(viewModel.dateEcheance, "En retard : À réaliser pour le dimanche 2 janvier");
+      expect(viewModel.dateEcheance, "02/01/2022");
       expect(viewModel.pillule, CardPilluleType.late);
     });
 
@@ -190,7 +190,7 @@ void main() {
       );
 
       // Then
-      expect(viewModel.dateEcheance, "En retard : À réaliser pour le dimanche 2 janvier");
+      expect(viewModel.dateEcheance, "02/01/2022");
       expect(viewModel.pillule, CardPilluleType.late);
     });
   });
