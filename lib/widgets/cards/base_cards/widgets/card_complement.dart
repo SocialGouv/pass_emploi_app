@@ -11,7 +11,7 @@ class CardComplement extends StatelessWidget {
   final bool bold;
   final IconData icon;
 
-  const CardComplement({required this.text, required this.icon, this.color, this.bold = false});
+  const CardComplement({required this.text, required this.icon, this.color = AppColors.grey800, this.bold = false});
 
   const CardComplement.place({required this.text, this.color})
       : icon = AppIcons.place_outlined,
