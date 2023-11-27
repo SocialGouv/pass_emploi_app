@@ -323,25 +323,20 @@ void main() {
     group('inscription status', () {
       test('should display isInscrit when source is from event list and rdv is inscrit', () {
         // Given
-        final rdv = Rendezvous(
+        final rdv = mockRendezvous(
           id: '1',
           source: RendezvousSource.passEmploi,
-          date: DateTime(2021, 12, 23, 10, 20),
-          title: "Super bio",
-          duration: 60,
-          modality: 'par téléphone',
-          isInVisio: false,
-          withConseiller: false,
           estInscrit: true,
-          isAnnule: false,
-          organism: 'Entreprise Bio Carburant',
-          type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
         );
+
         final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [rdv]).store();
 
         // When
-        final viewModel =
-            RendezvousCardViewModel.create(store, RendezvousStateSource.eventListAnimationsCollectives, '1');
+        final viewModel = RendezvousCardViewModel.create(
+          store,
+          RendezvousStateSource.eventListAnimationsCollectives,
+          '1',
+        );
 
         // Then
         expect(viewModel.inscriptionStatus, InscriptionStatus.inscrit);
@@ -349,25 +344,20 @@ void main() {
 
       test('should display notInscrit when source is from event list and rdv is not inscrit', () {
         // Given
-        final rdv = Rendezvous(
+        final rdv = mockRendezvous(
           id: '1',
           source: RendezvousSource.passEmploi,
-          date: DateTime(2021, 12, 23, 10, 20),
-          title: "Super bio",
-          duration: 60,
-          modality: 'par téléphone',
-          isInVisio: false,
-          withConseiller: false,
           estInscrit: false,
-          isAnnule: false,
-          organism: 'Entreprise Bio Carburant',
-          type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
         );
+
         final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [rdv]).store();
 
         // When
-        final viewModel =
-            RendezvousCardViewModel.create(store, RendezvousStateSource.eventListAnimationsCollectives, '1');
+        final viewModel = RendezvousCardViewModel.create(
+          store,
+          RendezvousStateSource.eventListAnimationsCollectives,
+          '1',
+        );
 
         // Then
         expect(viewModel.inscriptionStatus, InscriptionStatus.notInscrit);
@@ -375,25 +365,19 @@ void main() {
 
       test('should hide inscription status when source is from event list and rdv is not inscrit', () {
         // Given
-        final rdv = Rendezvous(
+        final rdv = mockRendezvous(
           id: '1',
           source: RendezvousSource.passEmploi,
-          date: DateTime(2021, 12, 23, 10, 20),
-          title: "Super bio",
-          duration: 60,
-          modality: 'par téléphone',
-          isInVisio: false,
-          withConseiller: false,
           estInscrit: false,
-          isAnnule: false,
-          organism: 'Entreprise Bio Carburant',
-          type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
         );
         final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [rdv]).store();
 
         // When
-        final viewModel =
-            RendezvousCardViewModel.create(store, RendezvousStateSource.eventListAnimationsCollectives, '1');
+        final viewModel = RendezvousCardViewModel.create(
+          store,
+          RendezvousStateSource.eventListAnimationsCollectives,
+          '1',
+        );
 
         // Then
         expect(viewModel.inscriptionStatus, InscriptionStatus.notInscrit);

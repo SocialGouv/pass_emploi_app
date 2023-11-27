@@ -698,7 +698,7 @@ void main() {
         // Given
         final store = givenState()
             .loggedInUser()
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: false)]).store();
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: false)]).store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
@@ -716,7 +716,7 @@ void main() {
         // Given
         final store = givenState()
             .loggedInUser() //
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: true)]) //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: true)]) //
             .store();
 
         // When
@@ -735,7 +735,7 @@ void main() {
         // Given
         final store = givenState()
             .loggedInUser() //
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: true)]) //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: true)]) //
             .store();
 
         // When
@@ -774,7 +774,7 @@ void main() {
         // Given
         final store = givenState()
             .loggedInUser() //
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: false)]) //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: false)]) //
             .store();
 
         // When
@@ -794,7 +794,7 @@ void main() {
         // Given
         final store = givenState()
             .loggedInUser() //
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: true)]) //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: true)]) //
             .store();
 
         // When
@@ -814,7 +814,7 @@ void main() {
         // Given
         final store = givenState()
             .loggedInUser() //
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', isInscrit: false)]) //
+            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: false)]) //
             .store();
 
         // When
