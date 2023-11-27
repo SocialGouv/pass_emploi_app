@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -35,7 +36,7 @@ class ActionsRecherche extends StatelessWidget {
 
   Widget _builder(BuildContext context, ActionsRechercheViewModel viewModel) {
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 400),
+      duration: AnimationDurations.slow,
       transitionBuilder: (child, animation) {
         final offsetAnimation = Tween<Offset>(begin: Offset(0.0, 1), end: Offset(0.0, 0)).animate(animation);
         return SlideTransition(position: offsetAnimation, child: child);

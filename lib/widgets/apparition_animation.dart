@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 
 class ApparitionAnimation extends StatefulWidget {
   final Widget child;
@@ -16,9 +17,7 @@ class _ApparitionAnimationState extends State<ApparitionAnimation> {
   void initState() {
     super.initState();
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      setState(() {
-        animationStarted = true;
-      });
+      setState(() => animationStarted = true);
     });
   }
 
@@ -27,7 +26,7 @@ class _ApparitionAnimationState extends State<ApparitionAnimation> {
     return AnimatedCrossFade(
       crossFadeState: animationStarted ? CrossFadeState.showSecond : CrossFadeState.showFirst,
       sizeCurve: Curves.ease,
-      duration: const Duration(milliseconds: 300),
+      duration: AnimationDurations.medium,
       firstChild: SizedBox.shrink(),
       secondChild: widget.child,
     );
