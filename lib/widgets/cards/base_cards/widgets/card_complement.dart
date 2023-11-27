@@ -33,6 +33,11 @@ class CardComplement extends StatelessWidget {
         bold = false,
         color = AppColors.grey800;
 
+  const CardComplement.time({required this.text})
+      : icon = AppIcons.schedule,
+        bold = false,
+        color = AppColors.grey800;
+
   @override
   Widget build(BuildContext context) {
     return Row(

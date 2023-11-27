@@ -27,7 +27,7 @@ void main() {
         type: 'Atelier',
         titre: 'Titre',
         locationLabel: '21000 Dijon',
-        dateLabel: '20 janvier 2021',
+        dateLabel: '20/01/2021',
         heureLabel: '10h - 12h30',
       ),
     );

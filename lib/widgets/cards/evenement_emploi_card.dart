@@ -17,6 +17,7 @@ class EvenementEmploiCard extends StatelessWidget {
       tag: CardTag.evenement(text: _viewModel.type),
       complements: [
         CardComplement.date(text: _viewModel.dateLabel),
+        CardComplement.time(text: _viewModel.heureLabel),
         CardComplement.place(text: _viewModel.locationLabel),
       ],
       onTap: () => Navigator.of(context).push(EvenementEmploiDetailsPage.materialPageRoute(_viewModel.id)),
