@@ -13,22 +13,25 @@ class CardComplement extends StatelessWidget {
 
   const CardComplement({required this.text, required this.icon, this.color = AppColors.grey800, this.bold = false});
 
-  const CardComplement.place({required this.text, this.color})
+  const CardComplement.place({required this.text})
       : icon = AppIcons.place_outlined,
-        bold = false;
+        bold = false,
+        color = AppColors.grey800;
 
-  const CardComplement.date({required this.text, this.color})
+  const CardComplement.date({required this.text})
       : icon = AppIcons.event,
-        bold = false;
+        bold = false,
+        color = AppColors.grey800;
 
   const CardComplement.dateLate({required this.text})
       : icon = AppIcons.event,
         color = AppColors.warning,
         bold = true;
 
-  const CardComplement.dateTime({required this.text, this.color})
+  const CardComplement.dateTime({required this.text})
       : icon = AppIcons.schedule,
-        bold = false;
+        bold = false,
+        color = AppColors.grey800;
 
   @override
   Widget build(BuildContext context) {
