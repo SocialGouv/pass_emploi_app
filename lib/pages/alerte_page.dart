@@ -166,7 +166,7 @@ class _AlertePageState extends State<AlertePage> {
       OffreFilter.serviceCivique => viewModel.getImmersions(),
       OffreFilter.emploi => viewModel.getAlternance(),
       OffreFilter.alternance => viewModel.getAlternance(),
-      OffreFilter.tous => viewModel.getAlternance(),
+      OffreFilter.tous => viewModel.alertes,
     };
     return alertes as List<Alerte>;
   }
