@@ -12,7 +12,6 @@ class CardBodyText extends StatelessWidget {
     return Text(
       text,
       style: TextStyles.textSRegular(color: AppColors.contentColor).copyWith(height: 1.7),
-      overflow: TextOverflow.ellipsis,
     );
   }
 }
