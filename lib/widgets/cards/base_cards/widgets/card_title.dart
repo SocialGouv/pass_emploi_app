@@ -14,7 +14,6 @@ class CardTitle extends StatelessWidget {
         fontSize: 16,
         color: AppColors.contentColor,
       ),
-      maxLines: 3,
       overflow: TextOverflow.ellipsis,
     );
   }
