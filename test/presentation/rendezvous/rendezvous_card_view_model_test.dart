@@ -212,7 +212,7 @@ void main() {
           id: '1',
           tag: 'Atelier',
           date: '23/12/2021 à 10h20',
-          isInscrit: false,
+          inscriptionStatus: InscriptionStatus.hidden,
           isAnnule: false,
           title: 'Super bio',
           description: null,
@@ -248,7 +248,7 @@ void main() {
           id: '1',
           tag: 'Atelier',
           date: '23/12/2021 à 10h20',
-          isInscrit: false,
+          inscriptionStatus: InscriptionStatus.hidden,
           isAnnule: false,
           title: 'Super bio',
           description: null,
@@ -286,7 +286,7 @@ void main() {
           id: '1',
           tag: 'Atelier',
           date: '23/12/2021 à 10h20',
-          isInscrit: true,
+          inscriptionStatus: InscriptionStatus.inscrit,
           isAnnule: false,
           title: 'Super bio',
           description: null,
@@ -311,13 +311,77 @@ void main() {
           id: '1',
           tag: 'Atelier',
           date: '01/01/2023 à 00h00',
-          isInscrit: true,
+          inscriptionStatus: InscriptionStatus.inscrit,
           isAnnule: false,
           title: 'nomOffre - nomSession',
           description: null,
           place: null,
         ),
       );
+    });
+
+    group('inscription status', () {
+      test('should display isInscrit when source is from event list and rdv is inscrit', () {
+        // Given
+        final rdv = mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          estInscrit: true,
+        );
+
+        final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [rdv]).store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(
+          store,
+          RendezvousStateSource.eventListAnimationsCollectives,
+          '1',
+        );
+
+        // Then
+        expect(viewModel.inscriptionStatus, InscriptionStatus.inscrit);
+      });
+
+      test('should display notInscrit when source is from event list and rdv is not inscrit', () {
+        // Given
+        final rdv = mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          estInscrit: false,
+        );
+
+        final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [rdv]).store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(
+          store,
+          RendezvousStateSource.eventListAnimationsCollectives,
+          '1',
+        );
+
+        // Then
+        expect(viewModel.inscriptionStatus, InscriptionStatus.notInscrit);
+      });
+
+      test('should hide inscription status when source is from event list and rdv is not inscrit', () {
+        // Given
+        final rdv = mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          estInscrit: false,
+        );
+        final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [rdv]).store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(
+          store,
+          RendezvousStateSource.eventListAnimationsCollectives,
+          '1',
+        );
+
+        // Then
+        expect(viewModel.inscriptionStatus, InscriptionStatus.notInscrit);
+      });
     });
   });
 }

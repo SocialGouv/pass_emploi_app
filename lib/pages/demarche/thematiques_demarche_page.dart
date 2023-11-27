@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/demarche/thematiques_demarche_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -140,18 +139,9 @@ class _ThematiqueTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardContainer(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.circle,
-                  color: AppColors.primary,
-                  size: 12,
-                ),
-                const SizedBox(width: Margins.spacing_s),
-                Expanded(child: Text(thematique.title, style: TextStyles.textMBold)),
-              ],
-            ),
+            Text(thematique.title, style: TextStyles.textMBold),
             const SizedBox(height: Margins.spacing_base),
             PressedTip(Strings.thematiquesDemarchePressedTip),
           ],

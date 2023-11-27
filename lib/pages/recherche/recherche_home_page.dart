@@ -133,7 +133,7 @@ class _BlocSolution extends StatelessWidget {
           SizedBox(height: Margins.spacing_s),
           Text(title, style: TextStyles.textMBold),
           SizedBox(height: Margins.spacing_m),
-          Text(title, style: TextStyles.textBaseRegular),
+          Text(subtitle, style: TextStyles.textBaseRegular),
           SizedBox(height: Margins.spacing_base),
           PressedTip(Strings.rechercheHomeCardLink)
         ],
