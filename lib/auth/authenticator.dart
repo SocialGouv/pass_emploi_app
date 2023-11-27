@@ -44,7 +44,7 @@ class Authenticator {
           _additionalParams(mode),
         ),
       );
-      _saveToken(response);
+      await _saveToken(response);
       return AuthenticatorResponse.SUCCESS;
     } catch (e) {
       return (e is UserCanceledLoginException) ? AuthenticatorResponse.CANCELLED : AuthenticatorResponse.FAILURE;
@@ -82,12 +82,12 @@ class Authenticator {
           _configuration.authClientSecret,
         ),
       );
-      _saveToken(response);
+      await _saveToken(response);
       return RefreshTokenStatus.SUCCESSFUL;
     } on AuthWrapperNetworkException {
       return RefreshTokenStatus.NETWORK_UNREACHABLE;
     } on AuthWrapperRefreshTokenExpiredException {
-      _deleteToken();
+      await _deleteToken();
       return RefreshTokenStatus.EXPIRED_REFRESH_TOKEN;
     } on AuthWrapperRefreshTokenException {
       return RefreshTokenStatus.GENERIC_ERROR;
@@ -98,20 +98,20 @@ class Authenticator {
     final String? refreshToken = await _preferences.read(key: _refreshTokenKey);
     if (refreshToken == null) return false;
     await _logoutRepository.logout(refreshToken);
-    _deleteToken();
+    await _deleteToken();
     return true;
   }
 
-  void _saveToken(AuthTokenResponse response) {
-    _preferences.write(key: _idTokenKey, value: response.idToken);
-    _preferences.write(key: _accessTokenKey, value: response.accessToken);
-    _preferences.write(key: _refreshTokenKey, value: response.refreshToken);
+  Future<void> _saveToken(AuthTokenResponse response) async {
+    await _preferences.write(key: _idTokenKey, value: response.idToken);
+    await _preferences.write(key: _accessTokenKey, value: response.accessToken);
+    await _preferences.write(key: _refreshTokenKey, value: response.refreshToken);
   }
 
-  void _deleteToken() {
-    _preferences.delete(key: _idTokenKey);
-    _preferences.delete(key: _accessTokenKey);
-    _preferences.delete(key: _refreshTokenKey);
+  Future<void> _deleteToken() async {
+    await _preferences.delete(key: _idTokenKey);
+    await _preferences.delete(key: _accessTokenKey);
+    await _preferences.delete(key: _refreshTokenKey);
   }
 
   Map<String, String>? _additionalParams(AuthenticationMode mode) {
