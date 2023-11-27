@@ -8,11 +8,13 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
 
+enum InscriptionStatus { inscrit, notInscrit, hidden }
+
 class RendezvousCardViewModel extends Equatable {
   final String id;
   final String tag;
   final String date;
-  final bool isInscrit;
+  final InscriptionStatus inscriptionStatus;
   final bool isAnnule;
   final String title;
   final String? description;
@@ -22,7 +24,7 @@ class RendezvousCardViewModel extends Equatable {
     required this.id,
     required this.tag,
     required this.date,
-    required this.isInscrit,
+    required this.inscriptionStatus,
     required this.isAnnule,
     required this.title,
     required this.description,
@@ -35,7 +37,7 @@ class RendezvousCardViewModel extends Equatable {
       id: rdv.id,
       tag: rdv.type.label,
       date: rdv.date.toDayAndHourContextualized(),
-      isInscrit: rdv.estInscrit ?? false,
+      inscriptionStatus: _inscription(rdv, source),
       isAnnule: rdv.isAnnule,
       title: rdv.title ?? "",
       description: rdv.precision,
@@ -45,8 +47,15 @@ class RendezvousCardViewModel extends Equatable {
 
   @override
   List<Object?> get props {
-    return [id, tag, date, isInscrit, isAnnule, title, description, place];
+    return [id, tag, date, inscriptionStatus, isAnnule, title, description, place];
   }
+}
+
+InscriptionStatus _inscription(Rendezvous rdv, RendezvousStateSource source) {
+  if (source.isFromEvenements) {
+    return rdv.estInscrit == true ? InscriptionStatus.inscrit : InscriptionStatus.notInscrit;
+  }
+  return InscriptionStatus.hidden;
 }
 
 String? _place(Rendezvous rdv) {

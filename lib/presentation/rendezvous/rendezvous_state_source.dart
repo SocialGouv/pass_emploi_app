@@ -14,4 +14,10 @@ enum RendezvousStateSource {
 
 extension RendezvousStateSourceExt on RendezvousStateSource {
   bool get isMiloDetails => this == RendezvousStateSource.sessionMiloDetails;
+
+  bool get isFromEvenements => [
+        RendezvousStateSource.eventListAnimationsCollectives,
+        RendezvousStateSource.eventListSessionsMilo,
+        RendezvousStateSource.accueilLesEvenements,
+      ].contains(this);
 }

@@ -53,12 +53,12 @@ class _Content extends StatelessWidget {
         if (viewModel.place != null) CardComplement.place(text: viewModel.place!)
       ],
       secondaryTags: [
-        if (viewModel.isInscrit)
+        if (viewModel.inscriptionStatus == InscriptionStatus.inscrit)
           CardTag.secondary(
             text: Strings.eventVousEtesDejaInscrit,
             icon: AppIcons.check_circle_outline_rounded,
           ),
-        if (!viewModel.isInscrit)
+        if (viewModel.inscriptionStatus == InscriptionStatus.notInscrit)
           CardTag.secondary(
             text: Strings.eventInscrivezVousPourParticiper,
           )
