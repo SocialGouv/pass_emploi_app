@@ -109,7 +109,7 @@ class _DownloadButtonState extends State<_DownloadButton> {
 class _Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+    return Center(child: CircularProgressIndicator());
   }
 }
 

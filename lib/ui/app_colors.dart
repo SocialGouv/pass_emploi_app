@@ -4,22 +4,11 @@ import 'package:pass_emploi_app/models/brand.dart';
 class AppColors {
   AppColors._();
 
-  static const Color lightBlue = Color.fromARGB(255, 246, 249, 252);
-  static const Color lightPurple = Color.fromARGB(255, 237, 238, 255);
-  static const Color borderGrey = Color.fromARGB(255, 238, 238, 238);
-  static const Color blueGrey = Color.fromARGB(255, 200, 203, 228);
-  static const Color bluePurple = Color.fromARGB(255, 118, 123, 168);
-  static const Color bluePurpleAlpha20 = Color.fromARGB(51, 118, 123, 168);
-  static const Color nightBlue = Color.fromARGB(255, 51, 56, 102);
-  static const Color nightBlueAlpha05 = Color.fromARGB(13, 51, 56, 102);
-  static const Color purple = Color.fromARGB(255, 151, 98, 218);
-
-  // Colors from zero height
   // Primary colors
-  static final Color primary = Brand.isBrsa() ? primaryDarken : Color.fromARGB(255, 59, 105, 209);
-  static const Color primaryDarken = Color.fromARGB(255, 39, 73, 150);
-  static const Color primaryLighten = Color.fromARGB(255, 238, 241, 248);
-  static const Color primaryWithAlpha50 = Color.fromARGB(122, 59, 105, 209);
+  static final Color primary = Brand.isBrsa() ? primaryDarken : Color(0xFF3B69D1);
+  static const Color primaryDarken = Color(0xFF274996);
+  static const Color primaryLighten = Color(0xFFEEF1F8);
+  static const Color primaryWithAlpha50 = Color(0x7A3B69D1);
 
   // Secondary colors
   static const Color secondary = Color(0xFF0D7F50);
@@ -53,17 +42,15 @@ class AppColors {
   // Additional colors
   static const Color additional1Lighten = Color(0xFFFFD88D);
   static const Color additional1 = Color(0xFFFCBF49);
-  static const Color additional2Ligthen = Color(0xFFDDFFED);
+  static const Color additional2Lighten = Color(0xFFDDFFED);
   static const Color additional2 = Color(0xFF15616D);
-  static const Color additional3Ligthen = Color(0xFFD2CEF6);
+  static const Color additional3Lighten = Color(0xFFD2CEF6);
   static const Color additional3 = Color(0xFF5149A8);
-  static const Color additional4Ligten = Color(0xFFDBEDF9);
+  static const Color additional4Lighten = Color(0xFFDBEDF9);
   static const Color additional4 = Color(0xFF2186C7);
-  static const Color additional5Ligten = Color(0xFFCEF0F1);
+  static const Color additional5Lighten = Color(0xFFCEF0F1);
   static const Color additional5 = Color(0xFF49BBBF);
 
-  // Miscellaneous
-  static const Color shadowColor = Color.fromARGB(10, 50, 0, 1);
   static const Color favoriteHeartColor = Color(0xFFA44C66);
   static const Color switchColor = Color(0xFF34C759);
 

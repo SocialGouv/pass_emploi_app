@@ -91,7 +91,7 @@ class ImmersionDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+  Widget _loading() => Center(child: CircularProgressIndicator());
 
   Center _retry(ImmersionDetailsViewModel viewModel) =>
       Center(child: Retry(Strings.offreDetailsError, () => viewModel.onRetry(_immersionId)));

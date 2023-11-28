@@ -40,13 +40,13 @@ class CardTag extends StatelessWidget {
 
   CardTag.emploi()
       : icon = Icons.business_center_outlined,
-        backgroundColor = AppColors.additional2Ligthen,
+        backgroundColor = AppColors.additional2Lighten,
         text = Strings.emploiTag,
         contentColor = AppColors.accent3;
 
   CardTag.alternance()
       : icon = Icons.business_center_outlined,
-        backgroundColor = AppColors.additional4Ligten,
+        backgroundColor = AppColors.additional4Lighten,
         text = Strings.alternanceTag,
         contentColor = AppColors.accent3;
 
@@ -58,7 +58,7 @@ class CardTag extends StatelessWidget {
 
   CardTag.serviceCivique()
       : icon = Icons.business_center_outlined,
-        backgroundColor = AppColors.additional5Ligten,
+        backgroundColor = AppColors.additional5Lighten,
         text = Strings.serviceCiviqueTag,
         contentColor = AppColors.accent3;
 

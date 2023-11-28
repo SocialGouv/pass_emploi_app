@@ -35,13 +35,13 @@ extension JobOffreTypeExt on OffreType {
   Widget toJobTag() {
     switch (this) {
       case OffreType.emploi:
-        return JobTag(label: Strings.emploiTag, backgroundColor: AppColors.additional4Ligten);
+        return JobTag(label: Strings.emploiTag, backgroundColor: AppColors.additional4Lighten);
       case OffreType.alternance:
-        return JobTag(label: Strings.alternanceTag, backgroundColor: AppColors.additional3Ligthen);
+        return JobTag(label: Strings.alternanceTag, backgroundColor: AppColors.additional3Lighten);
       case OffreType.immersion:
         return JobTag(label: Strings.immersionTag, backgroundColor: AppColors.additional1Lighten);
       case OffreType.serviceCivique:
-        return JobTag(label: Strings.serviceCiviqueTag, backgroundColor: AppColors.additional2Ligthen);
+        return JobTag(label: Strings.serviceCiviqueTag, backgroundColor: AppColors.additional2Lighten);
     }
   }
 }
