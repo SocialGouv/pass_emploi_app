@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class CampagneQuestionPage extends StatefulWidget {
   final int questionOffset;
@@ -69,18 +70,11 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
                 border: Border.all(color: AppColors.grey700, width: 1.0),
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
-              child: TextField(
-                onChanged: (value) {
-                  setState(() {
-                    _pourquoi = value;
-                  });
-                },
+              child: BaseTextF(
+                onChanged: (value) => setState(() => _pourquoi = value),
                 textInputAction: TextInputAction.newline,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                ),
               ),
             ),
             Padding(

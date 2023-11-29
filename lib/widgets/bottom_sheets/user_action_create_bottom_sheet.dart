@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/presentation/user_action/user_action_create_view
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -20,6 +19,7 @@ import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 class CreateUserActionBottomSheet extends StatefulWidget {
@@ -209,11 +209,12 @@ class __CreateActionFormState extends State<_CreateActionForm> {
           children: [
             ExcludeSemantics(child: Text(Strings.actionLabel, style: TextStyles.textBaseBold)),
             SizedBox(height: Margins.spacing_base),
-            _textField(
+            BaseTextF(
               isEnabled: viewModel.displayState is! DisplayLoading,
               onChanged: state.intituleChanged,
-              isMandatory: true,
               errorText: state.showIntituleError ? Strings.mandatoryActionLabelError : null,
+              maxLines: 3,
+              minLines: 3,
             ),
           ],
         ),
@@ -221,43 +222,14 @@ class __CreateActionFormState extends State<_CreateActionForm> {
       SizedBox(height: Margins.spacing_base),
       Text(Strings.actionDescription, style: TextStyles.textBaseBold),
       SizedBox(height: Margins.spacing_base),
-      _textField(
+      BaseTextF(
         isEnabled: viewModel.displayState is! DisplayLoading,
         errorText: null,
         onChanged: state.descriptionChanged,
+        maxLines: 3,
+        minLines: 3,
       ),
     ];
-  }
-
-  TextFormField _textField({
-    required ValueChanged<String>? onChanged,
-    bool isMandatory = false,
-    required String? errorText,
-    TextInputAction? textInputAction,
-    required bool isEnabled,
-  }) {
-    return TextFormField(
-      enabled: isEnabled,
-      minLines: 3,
-      maxLines: 3,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(16),
-        errorText: errorText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimens.radius_base),
-          borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimens.radius_base),
-          borderSide: BorderSide(color: AppColors.primary, width: 2.0),
-        ),
-      ),
-      keyboardType: TextInputType.multiline,
-      textCapitalization: TextCapitalization.sentences,
-      textInputAction: textInputAction,
-      style: TextStyles.textBaseRegular,
-      onChanged: onChanged,
-    );
   }
 }
 

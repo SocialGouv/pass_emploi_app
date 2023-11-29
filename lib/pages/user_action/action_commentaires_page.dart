@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class ActionCommentairesPage extends StatefulWidget {
   final String actionId;
@@ -160,40 +161,25 @@ class _CreateCommentaireWidgetState extends State<_CreateCommentaireWidget> {
       alignment: Alignment.bottomCenter,
       child: Container(
         color: AppColors.primaryLighten,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(Margins.spacing_m),
         child: Row(
           children: [
             Flexible(
               flex: 1,
-              child: TextField(
+              child: BaseTextF(
                 controller: _controller,
                 autofocus: widget.viewModel.comments.isEmpty && !_loading(),
-                enabled: !_loading(),
+                isEnabled: !_loading(),
                 keyboardType: TextInputType.multiline,
-                textCapitalization: TextCapitalization.sentences,
                 textInputAction: TextInputAction.done,
                 maxLines: null,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(left: 16, right: 16, top: 13, bottom: 13),
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: Strings.yourComment,
-                  hintStyle: TextStyles.textSRegular(),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(34.0),
-                    borderSide: BorderSide(width: 1, color: AppColors.contentColor),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(34.0),
-                    borderSide: BorderSide(width: 1, color: AppColors.contentColor),
-                  ),
-                ),
+                hintText: Strings.yourComment,
               ),
             ),
             SizedBox(width: Margins.spacing_s),
             FloatingActionButton(
               backgroundColor: AppColors.primary,
-              child: Icon(AppIcons.send_rounded),
+              child: Icon(AppIcons.send_rounded, color: Colors.white),
               onPressed: () {
                 if (_controller.value.text.isNotEmpty && !_loading()) {
                   widget.viewModel.onSend(_controller.value.text);

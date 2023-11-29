@@ -10,13 +10,13 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class CreateDemarchePersonnaliseePage extends StatefulWidget {
   static MaterialPageRoute<String?> materialPageRoute() {
@@ -49,6 +49,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
     return Scaffold(
       appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
       body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -274,43 +275,11 @@ class _ChampCommentaire extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 24, left: 24, top: 8),
-      child: SizedBox(
-        height: 90,
-        child: TextField(
-          style: TextStyles.textBaseRegular,
-          onChanged: _onChanged,
-          expands: true,
-          minLines: null,
-          maxLines: null,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.only(
-              left: Margins.spacing_m,
-              top: Margins.spacing_base,
-              bottom: Margins.spacing_base,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(Dimens.radius_base),
-              borderSide: BorderSide(
-                color: _isCommentaireValid ? AppColors.contentColor : AppColors.warning,
-                width: 1.0,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(Dimens.radius_base),
-              borderSide: BorderSide(
-                color: _isCommentaireValid ? AppColors.contentColor : AppColors.warning,
-                width: 1.0,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(Dimens.radius_base),
-              borderSide: BorderSide(
-                color: _isCommentaireValid ? AppColors.primary : AppColors.warning,
-                width: 2.0,
-              ),
-            ),
-          ),
-        ),
+      child: BaseTextF(
+        onChanged: _onChanged,
+        minLines: null,
+        maxLines: null,
+        isInvalid: !_isCommentaireValid,
       ),
     );
   }

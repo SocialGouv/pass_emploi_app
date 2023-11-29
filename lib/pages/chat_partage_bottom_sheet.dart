@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class ChatPartageBottomSheet extends StatefulWidget {
   final ChatPartageSource source;
@@ -136,22 +137,9 @@ class _TextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      style: TextStyles.textBaseRegular,
+    return BaseTextF(
       keyboardType: TextInputType.multiline,
-      textCapitalization: TextCapitalization.sentences,
       textInputAction: TextInputAction.done,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(Margins.spacing_base),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimens.radius_base),
-          borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimens.radius_base),
-          borderSide: BorderSide(color: AppColors.primary, width: 2.0),
-        ),
-      ),
       maxLines: null,
       controller: _controller,
     );
