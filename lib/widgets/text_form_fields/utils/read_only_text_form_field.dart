@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/text_form_fields/utils/text_form_field_input_decoration.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class ReadOnlyTextFormField extends StatefulWidget {
   final String title;
@@ -62,11 +62,9 @@ class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
               tag: widget.heroTag,
               child: Material(
                 type: MaterialType.transparency,
-                child: TextFormField(
+                child: BaseTextField(
                   focusNode: _focusNode,
                   key: widget.textFormFieldKey,
-                  style: TextStyles.textBaseRegular,
-                  decoration: TextFormFieldInputDecoration(),
                   readOnly: true,
                   initialValue: widget.initialValue,
                   onTap: widget.onTextTap,

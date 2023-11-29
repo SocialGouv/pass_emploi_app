@@ -29,6 +29,7 @@ import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/preview_file_invisible_handler.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 import 'package:redux/redux.dart';
 
 class ChatPage extends StatefulWidget {
@@ -167,27 +168,12 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
               children: [
                 Flexible(
                   flex: 1,
-                  child: TextField(
+                  child: BaseTextField(
                     controller: _controller,
                     keyboardType: TextInputType.multiline,
-                    textCapitalization: TextCapitalization.sentences,
                     minLines: 1,
                     maxLines: 5,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.only(left: 16, right: 16, top: 13, bottom: 13),
-                      filled: true,
-                      fillColor: AppColors.primaryLighten,
-                      hintText: Strings.yourMessage,
-                      hintStyle: TextStyles.textSRegular(),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(34.0),
-                        borderSide: BorderSide(width: 1, color: AppColors.primaryLighten),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(34.0),
-                        borderSide: BorderSide(color: AppColors.primaryLighten, width: 1),
-                      ),
-                    ),
+                    hintText: Strings.yourMessage,
                   ),
                 ),
                 SizedBox(width: Margins.spacing_s),

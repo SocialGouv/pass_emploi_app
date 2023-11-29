@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/presentation/profil/suppression_compte_view_mode
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -13,6 +12,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class DeleteAlertDialog extends StatefulWidget {
   @override
@@ -162,20 +162,11 @@ class _DeleteAlertTextField extends StatefulWidget {
 class _DeleteAlertTextFieldState extends State<_DeleteAlertTextField> {
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return BaseTextField(
       controller: widget.controller,
-      decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(16),
-          errorText: (_isNotValid()) ? Strings.mandatorySuppressionLabelError : null,
-          errorMaxLines: 3,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimens.radius_base),
-            borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
-          )),
+      errorText: (_isNotValid()) ? Strings.mandatorySuppressionLabelError : null,
       keyboardType: TextInputType.multiline,
-      textCapitalization: TextCapitalization.none,
       textInputAction: TextInputAction.done,
-      style: TextStyles.textSBold,
       onChanged: (value) {
         setState(() {
           widget.setFieldContent(value);
