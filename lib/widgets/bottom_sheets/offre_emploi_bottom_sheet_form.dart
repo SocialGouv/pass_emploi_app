@@ -122,6 +122,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
       maxLines: 1,
       keyboardType: TextInputType.multiline,
       textInputAction: textInputAction,
+      errorText: (searchTitle != null && searchTitle!.isEmpty) ? mandatoryError : null,
       validator: (value) {
         if (isMandatory && (value == null || value.isEmpty)) return mandatoryError;
         return null;

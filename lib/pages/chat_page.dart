@@ -173,6 +173,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                     keyboardType: TextInputType.multiline,
                     minLines: 1,
                     maxLines: 5,
+                    hintText: Strings.yourMessage,
                   ),
                 ),
                 SizedBox(width: Margins.spacing_s),

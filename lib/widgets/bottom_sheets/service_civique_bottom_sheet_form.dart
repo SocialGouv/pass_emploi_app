@@ -115,6 +115,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
       minLines: 1,
       maxLines: 1,
       keyboardType: TextInputType.multiline,
+      errorText: (searchTitle != null && searchTitle!.isEmpty) ? mandatoryError : null,
       textInputAction: textInputAction,
       validator: (value) {
         if (isMandatory && (value == null || value.isEmpty)) return mandatoryError;

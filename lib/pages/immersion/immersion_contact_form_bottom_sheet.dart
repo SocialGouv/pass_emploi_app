@@ -207,6 +207,7 @@ class ImmersionTextFormField extends StatelessWidget {
           maxLength: maxLength,
           maxLines: maxLines,
           controller: controller,
+          errorText: focusNode.hasFocus ? null : mandatoryError,
           keyboardType: TextInputType.multiline,
           onChanged: onChanged,
         ),
