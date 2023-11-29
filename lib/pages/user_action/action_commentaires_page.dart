@@ -166,7 +166,7 @@ class _CreateCommentaireWidgetState extends State<_CreateCommentaireWidget> {
           children: [
             Flexible(
               flex: 1,
-              child: BaseTextF(
+              child: BaseTextField(
                 controller: _controller,
                 autofocus: widget.viewModel.comments.isEmpty && !_loading(),
                 enabled: !_loading(),

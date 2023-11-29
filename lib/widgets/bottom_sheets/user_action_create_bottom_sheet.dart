@@ -209,7 +209,7 @@ class __CreateActionFormState extends State<_CreateActionForm> {
           children: [
             ExcludeSemantics(child: Text(Strings.actionLabel, style: TextStyles.textBaseBold)),
             SizedBox(height: Margins.spacing_base),
-            BaseTextF(
+            BaseTextField(
               enabled: viewModel.displayState is! DisplayLoading,
               onChanged: state.intituleChanged,
               errorText: state.showIntituleError ? Strings.mandatoryActionLabelError : null,
@@ -222,7 +222,7 @@ class __CreateActionFormState extends State<_CreateActionForm> {
       SizedBox(height: Margins.spacing_base),
       Text(Strings.actionDescription, style: TextStyles.textBaseBold),
       SizedBox(height: Margins.spacing_base),
-      BaseTextF(
+      BaseTextField(
         enabled: viewModel.displayState is! DisplayLoading,
         errorText: null,
         onChanged: state.descriptionChanged,

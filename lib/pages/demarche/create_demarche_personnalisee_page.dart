@@ -275,7 +275,7 @@ class _ChampCommentaire extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 24, left: 24, top: 8),
-      child: BaseTextF(
+      child: BaseTextField(
         onChanged: _onChanged,
         minLines: null,
         maxLines: null,

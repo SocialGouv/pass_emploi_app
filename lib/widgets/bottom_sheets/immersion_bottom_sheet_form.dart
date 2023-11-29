@@ -109,7 +109,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
     required bool isEnabled,
     String? initialValue,
   }) {
-    return BaseTextF(
+    return BaseTextField(
       initialValue: initialValue,
       enabled: isEnabled,
       minLines: 1,

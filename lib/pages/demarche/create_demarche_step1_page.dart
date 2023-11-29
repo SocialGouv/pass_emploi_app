@@ -203,7 +203,7 @@ class _ChampRecherche extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseTextF(
+    return BaseTextField(
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.done,
       validator: (value) {

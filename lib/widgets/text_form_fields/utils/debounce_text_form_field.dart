@@ -25,7 +25,7 @@ class DebounceTextFormField extends StatelessWidget {
         tag: heroTag,
         child: Material(
           type: MaterialType.transparency,
-          child: BaseTextF(
+          child: BaseTextField(
             keyboardType: TextInputType.name,
             textCapitalization: TextCapitalization.words,
             textInputAction: TextInputAction.done,

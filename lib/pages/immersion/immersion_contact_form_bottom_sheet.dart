@@ -201,7 +201,7 @@ class ImmersionTextFormField extends StatelessWidget {
       children: [
         Text("${isMandatory ? "*" : null}$label", style: TextStyles.textBaseMedium),
         SizedBox(height: Margins.spacing_base),
-        BaseTextF(
+        BaseTextField(
           focusNode: focusNode,
           minLines: 1,
           maxLength: maxLength,

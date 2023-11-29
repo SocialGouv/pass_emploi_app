@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class BaseTextF extends StatelessWidget {
+class BaseTextField extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final bool enabled;
@@ -28,7 +28,7 @@ class BaseTextF extends StatelessWidget {
   final Widget? suffixIcon;
   final TextCapitalization textCapitalization;
 
-  const BaseTextF({
+  const BaseTextField({
     super.key,
     this.controller,
     this.focusNode,

@@ -70,7 +70,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
                 border: Border.all(color: AppColors.grey700, width: 1.0),
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
-              child: BaseTextF(
+              child: BaseTextField(
                 onChanged: (value) => setState(() => _pourquoi = value),
                 textInputAction: TextInputAction.newline,
                 keyboardType: TextInputType.multiline,

@@ -62,7 +62,7 @@ class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
               tag: widget.heroTag,
               child: Material(
                 type: MaterialType.transparency,
-                child: BaseTextF(
+                child: BaseTextField(
                   focusNode: _focusNode,
                   key: widget.textFormFieldKey,
                   readOnly: true,

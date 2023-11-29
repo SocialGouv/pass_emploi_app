@@ -168,7 +168,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
               children: [
                 Flexible(
                   flex: 1,
-                  child: BaseTextF(
+                  child: BaseTextField(
                     controller: _controller,
                     keyboardType: TextInputType.multiline,
                     minLines: 1,

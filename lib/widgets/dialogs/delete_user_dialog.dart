@@ -162,7 +162,7 @@ class _DeleteAlertTextField extends StatefulWidget {
 class _DeleteAlertTextFieldState extends State<_DeleteAlertTextField> {
   @override
   Widget build(BuildContext context) {
-    return BaseTextF(
+    return BaseTextField(
       controller: widget.controller,
       errorText: (_isNotValid()) ? Strings.mandatorySuppressionLabelError : null,
       keyboardType: TextInputType.multiline,
