@@ -84,11 +84,11 @@ class UserActionStatusButton extends StatelessWidget {
     );
   }
 
-  Color _borderColor() => isSelected ? AppColors.nightBlue : AppColors.bluePurpleAlpha20;
+  Color _borderColor() => isSelected ? AppColors.primaryDarken : AppColors.primaryDarken.withAlpha(50);
 
   double _borderWidth() => isSelected ? 2 : 1;
 
   TextStyle _textStyle() => isSelected ? TextStyles.textSMedium() : TextStyles.textSRegular();
 
-  Color _backgroundColor() => isSelected ? AppColors.nightBlueAlpha05 : Colors.transparent;
+  Color _backgroundColor() => isSelected ? AppColors.primaryDarken.withAlpha(5) : Colors.transparent;
 }

@@ -117,7 +117,7 @@ class _Header extends StatelessWidget {
         if (viewModel.tag != null) ...[
           JobTag(
             label: viewModel.tag!,
-            backgroundColor: AppColors.additional5Ligten,
+            backgroundColor: AppColors.additional5Lighten,
           ),
           SizedBox(height: Margins.spacing_s),
         ],

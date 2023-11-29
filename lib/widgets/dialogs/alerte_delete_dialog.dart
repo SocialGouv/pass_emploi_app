@@ -93,7 +93,7 @@ class AlerteDeleteDialog extends StatelessWidget {
             top: 0,
             right: 0,
             child: IconButton(
-              icon: Icon(Icons.close, color: AppColors.nightBlue),
+              icon: Icon(Icons.close, color: AppColors.primaryDarken),
               onPressed: () => Navigator.pop(context),
             ),
           )
@@ -136,7 +136,7 @@ class AlerteDeleteDialog extends StatelessWidget {
       child: SizedBox(
         height: Margins.spacing_m,
         width: Margins.spacing_m,
-        child: CircularProgressIndicator(color: AppColors.nightBlue, strokeWidth: 2),
+        child: CircularProgressIndicator(strokeWidth: 2),
       ),
     );
   }
