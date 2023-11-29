@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
+import 'package:pass_emploi_app/features/connectivity/connectivity_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -85,6 +86,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     _matomoTracker.setOptOut(optOut: false);
     await _authenticator.logout();
     store.dispatch(UnsubscribeFromChatStatusAction());
+    store.dispatch(UnsubscribeFromConnectivityUpdatesAction());
     store.dispatch(BootstrapAction());
     _firebaseAuthWrapper.signOut();
   }
