@@ -169,7 +169,7 @@ class _CreateCommentaireWidgetState extends State<_CreateCommentaireWidget> {
               child: BaseTextF(
                 controller: _controller,
                 autofocus: widget.viewModel.comments.isEmpty && !_loading(),
-                isEnabled: !_loading(),
+                enabled: !_loading(),
                 keyboardType: TextInputType.multiline,
                 textInputAction: TextInputAction.done,
                 maxLines: null,

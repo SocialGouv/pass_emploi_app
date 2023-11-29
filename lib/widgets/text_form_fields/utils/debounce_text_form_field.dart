@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/debouncer.dart';
-import 'package:pass_emploi_app/widgets/text_form_fields/utils/text_form_field_input_decoration.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class DebounceTextFormField extends StatelessWidget {
   final String heroTag;
@@ -26,14 +25,12 @@ class DebounceTextFormField extends StatelessWidget {
         tag: heroTag,
         child: Material(
           type: MaterialType.transparency,
-          child: TextFormField(
-            style: TextStyles.textBaseRegular,
+          child: BaseTextF(
             keyboardType: TextInputType.name,
             textCapitalization: TextCapitalization.words,
             textInputAction: TextInputAction.done,
             onFieldSubmitted: onFieldSubmitted,
             initialValue: initialValue,
-            decoration: TextFormFieldInputDecoration(),
             autofocus: true,
             onChanged: (value) {
               if (onChanged != null) _debouncer.run(() => onChanged!(value));

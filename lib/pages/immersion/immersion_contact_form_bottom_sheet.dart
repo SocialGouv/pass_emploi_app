@@ -5,9 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_actions.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_contact_form_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -16,6 +14,7 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class ImmersionContactFormBottomSheet extends StatelessWidget {
   static Future<void> show(BuildContext context) {
@@ -202,23 +201,13 @@ class ImmersionTextFormField extends StatelessWidget {
       children: [
         Text("${isMandatory ? "*" : null}$label", style: TextStyles.textBaseMedium),
         SizedBox(height: Margins.spacing_base),
-        TextFormField(
+        BaseTextF(
           focusNode: focusNode,
           minLines: 1,
           maxLength: maxLength,
           maxLines: maxLines,
           controller: controller,
-          decoration: InputDecoration(
-              contentPadding: const EdgeInsets.all(Dimens.radius_base),
-              errorText: focusNode.hasFocus ? null : mandatoryError,
-              errorMaxLines: 3,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(Dimens.radius_base),
-                borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
-              )),
           keyboardType: TextInputType.multiline,
-          textCapitalization: TextCapitalization.sentences,
-          style: TextStyles.textBaseMedium,
           onChanged: onChanged,
         ),
       ],

@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -19,6 +18,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class CreateDemarcheStep1Page extends StatefulWidget {
   static MaterialPageRoute<String?> materialPageRoute() {
@@ -203,8 +203,7 @@ class _ChampRecherche extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      style: TextStyles.textBaseRegular,
+    return BaseTextF(
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.done,
       validator: (value) {
@@ -212,26 +211,7 @@ class _ChampRecherche extends StatelessWidget {
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.only(
-          left: Margins.spacing_m,
-          top: Margins.spacing_base,
-          bottom: Margins.spacing_base,
-        ),
-        border: _Border(AppColors.contentColor),
-        focusedBorder: _Border(AppColors.primary, width: 2.0),
-        errorBorder: _Border(AppColors.warning),
-        focusedErrorBorder: _Border(AppColors.warning, width: 2.0),
-      ),
       onChanged: onChanged,
     );
   }
-}
-
-class _Border extends OutlineInputBorder {
-  _Border(Color color, {double width = 1.0})
-      : super(
-          borderRadius: BorderRadius.circular(Dimens.radius_base),
-          borderSide: BorderSide(color: color, width: width),
-        );
 }

@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class ServiceCiviqueBottomSheetForm extends StatefulWidget {
   final AlerteViewModel<ServiceCiviqueAlerte> viewModel;
@@ -100,7 +101,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
     });
   }
 
-  TextFormField _textField({
+  Widget _textField({
     required ValueChanged<String>? onChanged,
     bool isMandatory = false,
     String? mandatoryError,
@@ -108,27 +109,13 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
     required bool isEnabled,
     String? initialValue,
   }) {
-    return TextFormField(
+    return BaseTextF(
       initialValue: initialValue,
       enabled: isEnabled,
       minLines: 1,
       maxLines: 1,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(16),
-        errorText: (searchTitle != null && searchTitle!.isEmpty) ? mandatoryError : null,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimens.radius_base),
-          borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimens.radius_base),
-          borderSide: BorderSide(color: AppColors.primary, width: 2.0),
-        ),
-      ),
       keyboardType: TextInputType.multiline,
-      textCapitalization: TextCapitalization.sentences,
       textInputAction: textInputAction,
-      style: TextStyles.textBaseRegular,
       validator: (value) {
         if (isMandatory && (value == null || value.isEmpty)) return mandatoryError;
         return null;
