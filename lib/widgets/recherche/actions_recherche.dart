@@ -58,7 +58,7 @@ class ActionsRecherche extends StatelessWidget {
               onPressed: () => _onAlertButtonPressed(context),
             ),
           if (viewModel.withFiltreButton)
-            FiltreButton.primary(
+            FiltreButton(
               filtresCount: viewModel.filtresCount,
               onPressed: () => _onFiltreButtonPressed(context),
             ),

@@ -807,7 +807,6 @@ class Strings {
   static String alerteTitle = "* Nom de la recherche";
   static String mandatoryAlerteTitleError = "Renseigner un nom pour votre recherche";
   static String alerteFilters = "Critères de la recherche";
-  static String createAlerteButton = "Créer une alerte";
   static String alerteInfo = "Les filtres appliqués seront aussi enregistrés.";
   static String searchNotificationInfo =
       "Vous recevrez des notifications pour être alerté des nouvelles offres liées aux critères de votre recherche.";
