@@ -50,7 +50,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
         onInit: (store) => store.dispatch(UserActionListRequestAction()),
         builder: (context, viewModel) => _scaffold(context, viewModel),
         converter: (store) => UserActionListPageViewModel.create(store),
-        distinct: true,
         onDidChange: (previousViewModel, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
         onDispose: (store) => store.dispatch(UserActionListResetAction()),
       ),
