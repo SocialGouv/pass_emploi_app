@@ -109,7 +109,7 @@ class _AlertePageState extends State<AlertePage> {
       return PrimaryActionButton(label: Strings.alertesListEmptyButton, onPressed: () => _goToRecherche(context));
     }
 
-    return FiltreButton.primary(
+    return FiltreButton(
       onPressed: () async {
         OffreFiltersBottomSheet.show(context, _selectedFilter).then((result) {
           if (result != null) _filterSelected(result);
