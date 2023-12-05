@@ -99,7 +99,7 @@ class PrimaryActionButton extends StatelessWidget {
         ),
         if (suffix != null)
           Padding(
-            padding: EdgeInsets.only(left: iconRightPadding),
+            padding: EdgeInsets.only(left: Margins.spacing_base),
             child: suffix!,
           ),
       ],

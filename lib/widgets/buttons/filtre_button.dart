@@ -19,15 +19,21 @@ class FiltreButton extends StatelessWidget {
       icon: AppIcons.tune_rounded,
       onPressed: onPressed,
       suffix: filtresCount != null && filtresCount! > 0
-          ? Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              padding: EdgeInsets.all(Margins.spacing_xs),
-              child: Text(
-                filtresCount!.toString(),
-                style: TextStyles.textBaseBoldWithColor(AppColors.primary),
+          ? SizedBox.shrink(
+              child: OverflowBox(
+                maxWidth: double.infinity,
+                maxHeight: double.infinity,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  padding: EdgeInsets.all(Margins.spacing_xs),
+                  child: Text(
+                    filtresCount.toString(),
+                    style: TextStyles.textBaseBoldWithColor(AppColors.primary),
+                  ),
+                ),
               ),
             )
           : null,
