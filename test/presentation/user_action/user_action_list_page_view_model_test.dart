@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
@@ -185,7 +185,7 @@ void main() {
     // Given
     final store = givenState() //
         .loggedInUser()
-        .deepLink(DetailActionDeepLinkState(idAction: 'id'))
+        .withHandleDeepLink(DetailActionDeepLink(idAction: 'id'))
         .withUserActions([_userAction(status: UserActionStatus.NOT_STARTED)]) //
         .store();
 
@@ -251,7 +251,7 @@ void main() {
     // Given
     final store = givenState() //
         .loggedInUser()
-        .deepLink(DetailActionDeepLinkState(idAction: '1'))
+        .withHandleDeepLink(DetailActionDeepLink(idAction: '1'))
         .withUserActions([_userAction(status: UserActionStatus.NOT_STARTED)]) //
         .store();
 

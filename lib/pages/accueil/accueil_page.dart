@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_alertes.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_cette_semaine.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_evenements.dart';
@@ -51,10 +51,10 @@ class AccueilPage extends StatelessWidget {
   }
 
   void _handleDeeplink(BuildContext context, AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) {
-    final deepLinkState = newViewModel.deepLinkState;
-    if (deepLinkState is FavorisDeepLinkState) {
+    final deepLink = newViewModel.deepLink;
+    if (deepLink is FavorisDeepLink) {
       Navigator.push(context, OffreFavorisPage.materialPageRoute());
-    } else if (deepLinkState is AlerteDeepLinkState) {
+    } else if (deepLink is AlerteDeepLink) {
       Navigator.push(context, AlertePage.materialPageRoute());
     } else {
       return;

@@ -1,12 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousDeeplink extends Equatable {
@@ -62,7 +63,7 @@ class RendezvousListViewModel extends Equatable {
       displayState: _displayState(rendezvousListState, pageOffset),
       rendezvousItems: _makeRendezvousItems(
           rendezvous: builder.makeSections(), dateDerniereMiseAJour: rendezvousListState.dateDerniereMiseAJour),
-      deeplink: _deeplink(store.state.deepLinkState, rendezvousListState),
+      deeplink: _deeplink(store, rendezvousListState),
       onRetry: () => _retry(store, pageOffset),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: builder.makeTitle(),
@@ -136,15 +137,16 @@ void _retry(Store<AppState> store, int pageOffset) {
   }
 }
 
-RendezvousDeeplink? _deeplink(DeepLinkState state, RendezvousListState rendezvousListState) {
-  if (state is DetailRendezvousDeepLinkState && state.idRendezvous != null) {
+RendezvousDeeplink? _deeplink(Store<AppState> store, RendezvousListState rendezvousListState) {
+  final deepLink = store.getDeepLink();
+
+  if (deepLink is DetailRendezvousDeepLink && deepLink.idRendezvous != null) {
     final rdvIds = rendezvousListState.rendezvous.map((e) => e.id);
-    if (rdvIds.contains(state.idRendezvous)) {
-      return RendezvousDeeplink(RendezvousStateSource.rendezvousList, state.idRendezvous!);
+    if (rdvIds.contains(deepLink.idRendezvous)) {
+      return RendezvousDeeplink(RendezvousStateSource.rendezvousList, deepLink.idRendezvous!);
     }
-  }
-  if (state is DetailSessionMiloDeepLinkState && state.idSessionMilo != null) {
-    return RendezvousDeeplink(RendezvousStateSource.sessionMiloDetails, state.idSessionMilo!);
+  } else if (deepLink is DetailSessionMiloDeepLink && deepLink.idSessionMilo != null) {
+    return RendezvousDeeplink(RendezvousStateSource.sessionMiloDetails, deepLink.idSessionMilo!);
   }
   return null;
 }

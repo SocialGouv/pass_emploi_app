@@ -1,14 +1,15 @@
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
+import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:redux/redux.dart';
 
 class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
@@ -42,7 +43,7 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(SubscribeToChatAction());
       }
     } else if (action is LoginSuccessAction) {
-      if (store.state.deepLinkState is NouveauMessageDeepLinkState) {
+      if (store.shouldHandleDeeplink<NouveauMessageDeepLink>()) {
         await _initializeChatFirstThenDispatchLogin(action, next, store);
       } else {
         await _dispatchLoginFirstThenInitializeChat(action, next, store);

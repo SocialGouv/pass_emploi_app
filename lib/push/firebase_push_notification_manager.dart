@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/push/deep_link_factory.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/log.dart';
@@ -99,9 +100,12 @@ class FirebasePushNotificationManager extends PushNotificationManager {
   }
 
   void _onLocalNotificationOpened(String? payload, Store<AppState> store) {
-    if (payload != null) {
-      store.dispatch(LocalDeeplinkAction(jsonDecode(payload) as Map<String, dynamic>));
-    }
+    if (payload == null) return;
+
+    final deepLink = DeepLinkFactory.fromJson(jsonDecode(payload) as Map<String, dynamic>);
+    if (deepLink == null) return;
+
+    store.dispatch(HandleDeepLinkAction(deepLink));
   }
 
   void _trackAuthorizationStatus(AuthorizationStatus status) {

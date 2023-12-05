@@ -1,15 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:redux/redux.dart';
 
 class UserActionListPageViewModel extends Equatable {
@@ -56,7 +57,7 @@ class UserActionListPageViewModel extends Equatable {
       },
       onCreateUserActionDismissed: () => store.dispatch(UserActionCreateResetAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
-      deeplinkActionId: _deeplinkActionId(store.state.deepLinkState, actionState),
+      deeplinkActionId: _deeplinkActionId(store.getDeepLinkAs<DetailActionDeepLink>(), actionState),
       pendingCreationCount: pendingCreationCount,
     );
   }
@@ -105,10 +106,11 @@ List<UserActionListPageItem> _listItems({
   ];
 }
 
-String? _deeplinkActionId(DeepLinkState state, UserActionListState userActionListStateState) {
+String? _deeplinkActionId(DetailActionDeepLink? deepLink, UserActionListState userActionListStateState) {
+  if (deepLink == null) return null;
   if (userActionListStateState is! UserActionListSuccessState) return null;
   final actionsIds = userActionListStateState.userActions.map((e) => e.id);
-  return (state is DetailActionDeepLinkState && actionsIds.contains(state.idAction)) ? state.idAction : null;
+  return actionsIds.contains(deepLink.idAction) ? deepLink.idAction : null;
 }
 
 int? _getPendingCreationCount(Store<AppState> store) {

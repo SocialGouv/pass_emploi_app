@@ -4,12 +4,13 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/alerte/get/alerte_get_action.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_actions.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/offre_filters_bottom_sheet.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
@@ -62,9 +63,9 @@ class _AlertePageState extends State<AlertePage> {
           onInit: (store) {
             store.dispatch(AlerteListRequestAction());
             store.dispatch(SuggestionsRechercheRequestAction());
-            final DeepLinkState state = store.state.deepLinkState;
-            if (state is AlerteDeepLinkState) {
-              store.dispatch(FetchAlerteResultsFromIdAction(state.idAlerte));
+            final deepLink = store.getDeepLinkAs<AlerteDeepLink>();
+            if (deepLink != null) {
+              store.dispatch(FetchAlerteResultsFromIdAction(deepLink.idAlerte));
             }
           },
           onWillChange: (_, newVM) => _onWillChange(_, newVM),
@@ -233,7 +234,7 @@ class _AlertePageState extends State<AlertePage> {
 
   void _goToRecherche(BuildContext context) {
     Navigator.of(context).pop();
-    StoreProvider.of<AppState>(context).dispatchRechercheDeeplink();
+    StoreProvider.of<AppState>(context).dispatch(HandleDeepLinkAction(RechercheDeepLink()));
   }
 
   void _onTapShowSuggestions() {

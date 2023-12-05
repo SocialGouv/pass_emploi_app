@@ -7,10 +7,8 @@ DeepLinkState deepLinkReducer(DeepLinkState current, dynamic action) {
     return DeepLinkState.used();
   } else if (action is ResetDeeplinkAction) {
     return DeepLinkState.used();
-  } else if (action is DeepLinkAction) {
-    return DeepLinkState.fromJson(action.message.data);
-  } else if (action is LocalDeeplinkAction) {
-    return DeepLinkState.fromJson(action.data);
+  } else if (action is HandleDeepLinkAction) {
+    return DeepLinkState.handle(action.deepLink);
   } else {
     return current;
   }

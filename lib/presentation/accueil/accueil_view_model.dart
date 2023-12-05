@@ -4,25 +4,26 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
+import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:redux/redux.dart';
 
 class AccueilViewModel extends Equatable {
   final DisplayState displayState;
   final List<AccueilItem> items;
-  final DeepLinkState deepLinkState;
+  final DeepLink? deepLink;
   final Function() resetDeeplink;
   final Function() retry;
 
   AccueilViewModel({
     required this.displayState,
     required this.items,
-    required this.deepLinkState,
+    required this.deepLink,
     required this.resetDeeplink,
     required this.retry,
   });
@@ -31,14 +32,14 @@ class AccueilViewModel extends Equatable {
     return AccueilViewModel(
       displayState: _displayState(store),
       items: _items(store),
-      deepLinkState: store.state.deepLinkState,
+      deepLink: store.getDeepLink(),
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction(forceRefresh: true)),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items, deepLinkState];
+  List<Object?> get props => [displayState, items, deepLink];
 }
 
 DisplayState _displayState(Store<AppState> store) {
