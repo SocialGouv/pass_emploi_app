@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
@@ -56,7 +57,7 @@ void main() {
 
   group("RouterPageViewModel.create when user logged in…", () {
     test('…and deep link not set should display main page with default display state', () {
-      final store = givenState().loggedInUser().deepLink(NotInitializedDeepLinkState()).store();
+      final store = givenState().loggedInUser().withDeepLink(NotInitializedDeepLinkState()).store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -65,7 +66,7 @@ void main() {
     });
 
     test('…and deep link is set to rendezvous should display main page with agenda display state', () {
-      final store = givenState().loggedInUser().deepLink(AgendaDeepLinkState()).store();
+      final store = givenState().loggedInUser().withHandleDeepLink(AgendaDeepLink()).store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -76,7 +77,7 @@ void main() {
     test('…and deep link is set to rendezvous should display main page with rendezvous display state', () {
       final store = givenState() //
           .loggedInUser()
-          .deepLink(DetailRendezvousDeepLinkState(idRendezvous: null))
+          .withHandleDeepLink(DetailRendezvousDeepLink(idRendezvous: null))
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -97,7 +98,7 @@ void main() {
     test('…and deep link is set to actions should display main page with actions display state', () {
       final store = givenState() //
           .loggedInUser()
-          .deepLink(DetailActionDeepLinkState(idAction: null))
+          .withHandleDeepLink(DetailActionDeepLink(idAction: null))
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -109,7 +110,7 @@ void main() {
     test('…and deep link is set to chat should display main page with chat display state', () {
       final store = givenState() //
           .loggedInUser()
-          .deepLink(NouveauMessageDeepLinkState())
+          .withHandleDeepLink(NouveauMessageDeepLink())
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -121,7 +122,7 @@ void main() {
     test('…and deep link is set to event list should display main page with event list display state', () {
       final store = givenState() //
           .loggedInUser()
-          .deepLink(EventListDeepLinkState())
+          .withHandleDeepLink(EventListDeepLink())
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -133,7 +134,7 @@ void main() {
     test('…and deep link is set to favoris should display main page with favoris display state', () {
       final store = givenState() //
           .loggedInUser()
-          .deepLink(FavorisDeepLinkState())
+          .withHandleDeepLink(FavorisDeepLink())
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -145,7 +146,7 @@ void main() {
     test('…and deep link is set to alertes should display main page with alertes display state', () {
       final store = givenState() //
           .loggedInUser()
-          .deepLink(AlertesDeepLinkState())
+          .withHandleDeepLink(AlertesDeepLink())
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -158,7 +159,7 @@ void main() {
         () {
       final store = givenState() //
           .loggedInUser()
-          .deepLink(ActualisationPeDeepLinkState())
+          .withHandleDeepLink(ActualisationPeDeepLink())
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -169,7 +170,7 @@ void main() {
     test('…and deep link is set to recherche should display main page with recherche', () {
       final store = givenState() //
           .loggedInUser()
-          .deepLink(RechercheDeepLinkState())
+          .withHandleDeepLink(RechercheDeepLink())
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -180,7 +181,7 @@ void main() {
     test('…and deep link is set to outils should display main page with outils', () {
       final store = givenState() //
           .loggedInUser()
-          .deepLink(OutilsDeepLinkState())
+          .withHandleDeepLink(OutilsDeepLink())
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -203,7 +204,7 @@ void main() {
   group("RouterPageViewModel.create when user comes from deep link", () {
     test("it does nothing when the version is same", () {
       final store = givenState(configuration(version: Version(1, 0, 0)))
-          .deepLink(NouvellesFonctionnalitesDeepLinkState(lastVersion: Version(1, 0, 0)))
+          .withHandleDeepLink(NouvellesFonctionnalitesDeepLink(lastVersion: Version(1, 0, 0)))
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -213,7 +214,7 @@ void main() {
 
     test("it does nothing when the version is greater", () {
       final store = givenState(configuration(version: Version(1, 2, 3)))
-          .deepLink(NouvellesFonctionnalitesDeepLinkState(lastVersion: Version(1, 0, 0)))
+          .withHandleDeepLink(NouvellesFonctionnalitesDeepLink(lastVersion: Version(1, 0, 0)))
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -223,7 +224,7 @@ void main() {
 
     test("it redirect to the android store when the version is too old", () {
       final store = givenState(configuration(version: Version(1, 0, 0)))
-          .deepLink(NouvellesFonctionnalitesDeepLinkState(lastVersion: Version(2, 1, 2)))
+          .withHandleDeepLink(NouvellesFonctionnalitesDeepLink(lastVersion: Version(2, 1, 2)))
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -233,7 +234,7 @@ void main() {
 
     test("it redirect to the ios store when the version is too old", () {
       final store = givenState(configuration(version: Version(1, 0, 0)))
-          .deepLink(NouvellesFonctionnalitesDeepLinkState(lastVersion: Version(2, 1, 2)))
+          .withHandleDeepLink(NouvellesFonctionnalitesDeepLink(lastVersion: Version(2, 1, 2)))
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.IOS);
@@ -257,13 +258,13 @@ void main() {
     withClock(Clock.fixed(DateTime(2022)), () {
       final state1 = AppState.initialState().copyWith(
         loginState: successMiloUserState(),
-        deepLinkState: NouveauMessageDeepLinkState(),
+        deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink()),
       );
       final store1 = Store<AppState>(reducer, initialState: state1);
 
       final state2 = AppState.initialState().copyWith(
         loginState: successMiloUserState(),
-        deepLinkState: NouveauMessageDeepLinkState(),
+        deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink()),
       );
       final store2 = Store<AppState>(reducer, initialState: state2);
 
@@ -277,13 +278,13 @@ void main() {
   test('2 RouterPageViewModel with same login states and different deep link should be different', () {
     final state1 = AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      deepLinkState: NouveauMessageDeepLinkState(),
+      deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink()),
     );
     final store1 = Store<AppState>(reducer, initialState: state1);
 
     final state2 = AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      deepLinkState: DetailActionDeepLinkState(idAction: 'id'),
+      deepLinkState: HandleDeepLinkState(DetailActionDeepLink(idAction: 'id')),
     );
     final store2 = Store<AppState>(reducer, initialState: state2);
 
@@ -298,13 +299,13 @@ void main() {
       () {
     final state1 = AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      deepLinkState: NouveauMessageDeepLinkState(),
+      deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink()),
     );
     final store1 = Store<AppState>(reducer, initialState: state1);
 
     final state2 = AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      deepLinkState: NouveauMessageDeepLinkState(),
+      deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink()),
     );
     final store2 = Store<AppState>(reducer, initialState: state2);
 

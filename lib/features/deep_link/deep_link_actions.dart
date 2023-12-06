@@ -1,19 +1,13 @@
 import 'package:equatable/equatable.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 
-class DeepLinkAction {
-  final RemoteMessage message;
+class HandleDeepLinkAction extends Equatable {
+  final DeepLink deepLink;
 
-  DeepLinkAction(this.message);
-}
-
-class LocalDeeplinkAction extends Equatable {
-  final Map<String, dynamic> data;
-
-  LocalDeeplinkAction(this.data);
+  HandleDeepLinkAction(this.deepLink);
 
   @override
-  List<Object?> get props => [data];
+  List<Object?> get props => [deepLink];
 }
 
 class ResetDeeplinkAction {}

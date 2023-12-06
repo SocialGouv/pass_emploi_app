@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -21,7 +22,7 @@ void main() {
     group('when coming from a chat deep link…', () {
       final initialState = AppState.initialState().copyWith(
         loginState: LoginFailureState(),
-        deepLinkState: NouveauMessageDeepLinkState(),
+        deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink()),
       );
 
       test(

@@ -1,10 +1,11 @@
 import 'package:clock/clock.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/alerte/get/alerte_get_action.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/version.dart';
+import 'package:pass_emploi_app/push/deep_link_factory.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../utils/test_setup.dart';
@@ -12,10 +13,10 @@ import '../../utils/test_setup.dart';
 void main() {
   final fixedDateTime = DateTime(2021);
 
-  group('deep links actions should properly update state', () {
-    void assertState(dynamic action, DeepLinkState expectedState) {
-      final testName = action is DeepLinkAction
-          ? "${action.message.data["type"]} -> ${expectedState.runtimeType}"
+  group('deep links should properly update state', () {
+    void assertStateWithAction(dynamic action, DeepLinkState expectedState) {
+      final testName = action is HandleDeepLinkAction
+          ? expectedState.runtimeType
           : "${action.runtimeType} -> ${expectedState.runtimeType}";
 
       test(testName, () {
@@ -35,112 +36,107 @@ void main() {
       });
     }
 
+    void assertStateWithJson(Map<String, dynamic> json, DeepLinkState expectedState) {
+      final deepLink = DeepLinkFactory.fromJson(json)!;
+      assertStateWithAction(HandleDeepLinkAction(deepLink), expectedState);
+    }
+
+    void assertDeepLinkIsnotExisting(String testName, Map<String, dynamic> json) {
+      test(testName, () {
+        final deepLink = DeepLinkFactory.fromJson(json);
+        expect(deepLink, isNull);
+      });
+    }
+
     withClock(Clock.fixed(fixedDateTime), () async {
-      assertState(
-        DeepLinkAction(RemoteMessage()),
-        NotInitializedDeepLinkState(),
+      assertDeepLinkIsnotExisting(
+        "with empty json",
+        {},
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "UNKNOWN"})),
-        NotInitializedDeepLinkState(),
+      assertDeepLinkIsnotExisting(
+        "with unknown deeplink type",
+        {"type": "UNKNOWN"},
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "FAVORIS"})),
-        FavorisDeepLinkState(),
+      assertStateWithJson(
+        {"type": "FAVORIS"},
+        HandleDeepLinkState(FavorisDeepLink()),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "SAVED_SEARCHES"})),
-        AlertesDeepLinkState(),
+      assertStateWithJson(
+        {"type": "SAVED_SEARCHES"},
+        HandleDeepLinkState(AlertesDeepLink()),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "RECHERCHE"})),
-        RechercheDeepLinkState(),
+      assertStateWithJson(
+        {"type": "RECHERCHE"},
+        HandleDeepLinkState(RechercheDeepLink()),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "OUTILS"})),
-        OutilsDeepLinkState(),
+      assertStateWithJson(
+        {"type": "OUTILS"},
+        HandleDeepLinkState(OutilsDeepLink()),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "AGENDA"})),
-        AgendaDeepLinkState(),
+      assertStateWithJson(
+        {"type": "AGENDA"},
+        HandleDeepLinkState(AgendaDeepLink()),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "NEW_ACTION"})),
-        DetailActionDeepLinkState(idAction: null),
+      assertStateWithJson(
+        {"type": "NEW_ACTION"},
+        HandleDeepLinkState(DetailActionDeepLink(idAction: null)),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "NEW_ACTION", "id": "id"})),
-        DetailActionDeepLinkState(idAction: 'id'),
+      assertStateWithJson(
+        {"type": "NEW_ACTION", "id": "id"},
+        HandleDeepLinkState(DetailActionDeepLink(idAction: 'id')),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "DETAIL_ACTION", "id": "id"})),
-        DetailActionDeepLinkState(idAction: 'id'),
+      assertStateWithJson(
+        {"type": "DETAIL_ACTION", "id": "id"},
+        HandleDeepLinkState(DetailActionDeepLink(idAction: 'id')),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "NEW_MESSAGE"})),
-        NouveauMessageDeepLinkState(),
+      assertStateWithJson(
+        {"type": "NEW_MESSAGE"},
+        HandleDeepLinkState(NouveauMessageDeepLink()),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "EVENT_LIST"})),
-        EventListDeepLinkState(),
+      assertStateWithJson(
+        {"type": "EVENT_LIST"},
+        HandleDeepLinkState(EventListDeepLink()),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "ACTUALISATION_PE"})),
-        ActualisationPeDeepLinkState(),
+      assertStateWithJson(
+        {"type": "ACTUALISATION_PE"},
+        HandleDeepLinkState(ActualisationPeDeepLink()),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "DELETED_RENDEZVOUS"})),
-        DetailRendezvousDeepLinkState(idRendezvous: null),
+      assertStateWithJson(
+        {"type": "DELETED_RENDEZVOUS"},
+        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: null)),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "DETAIL_RENDEZVOUS", "id": "id"})),
-        DetailRendezvousDeepLinkState(idRendezvous: 'id'),
+      assertStateWithJson(
+        {"type": "DETAIL_RENDEZVOUS", "id": "id"},
+        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: 'id')),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "NEW_RENDEZVOUS", "id": "id"})),
-        DetailRendezvousDeepLinkState(idRendezvous: 'id'),
+      assertStateWithJson(
+        {"type": "NEW_RENDEZVOUS", "id": "id"},
+        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: 'id')),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "RAPPEL_RENDEZVOUS", "id": "id"})),
-        DetailRendezvousDeepLinkState(idRendezvous: 'id'),
+      assertStateWithJson(
+        {"type": "RAPPEL_RENDEZVOUS", "id": "id"},
+        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: 'id')),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "DETAIL_SESSION_MILO", "id": "id"})),
-        DetailSessionMiloDeepLinkState(idSessionMilo: 'id'),
+      assertStateWithJson(
+        {"type": "DETAIL_SESSION_MILO", "id": "id"},
+        HandleDeepLinkState(DetailSessionMiloDeepLink(idSessionMilo: 'id')),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "NOUVELLE_OFFRE", "id": "id"})),
-        AlerteDeepLinkState(idAlerte: 'id'),
+      assertStateWithJson(
+        {"type": "NOUVELLE_OFFRE", "id": "id"},
+        HandleDeepLinkState(AlerteDeepLink(idAlerte: 'id')),
       );
-      assertState(
-        DeepLinkAction(RemoteMessage(data: {"type": "NOUVELLES_FONCTIONNALITES", "version": "1.9.0"})),
-        NouvellesFonctionnalitesDeepLinkState(lastVersion: Version(1, 9, 0)),
+      assertStateWithJson(
+        {"type": "NOUVELLES_FONCTIONNALITES", "version": "1.9.0"},
+        HandleDeepLinkState(NouvellesFonctionnalitesDeepLink(lastVersion: Version(1, 9, 0))),
       );
-      assertState(
+      assertStateWithAction(
         ResetDeeplinkAction(),
         UsedDeepLinkState(),
       );
-      assertState(
+      assertStateWithAction(
         FetchAlerteResultsFromIdAction(''),
         UsedDeepLinkState(),
       );
-    });
-  });
-
-  test("Notification en foreground", () async {
-    withClock(Clock.fixed(fixedDateTime), () async {
-      // Given
-      final testStoreFactory = TestStoreFactory();
-      final store = testStoreFactory.initializeReduxStore(initialState: AppState.initialState());
-
-      // When
-      final outputAppState = store.onChange.first;
-      await store.dispatch(LocalDeeplinkAction({"type": "NOUVELLE_OFFRE", "id": "id"}));
-
-      // Then
-      final expectedState = AlerteDeepLinkState(idAlerte: 'id');
-      final appState = await outputAppState;
-      expect(appState.deepLinkState, expectedState);
     });
   });
 }

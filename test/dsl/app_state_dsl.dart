@@ -49,6 +49,7 @@ import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
@@ -90,7 +91,9 @@ extension AppStateDSL on AppState {
 
   AppState loggedInUser() => copyWith(loginState: successMiloUserState());
 
-  AppState deepLink(DeepLinkState deepLinkState) => copyWith(deepLinkState: deepLinkState);
+  AppState withDeepLink(DeepLinkState deepLinkState) => copyWith(deepLinkState: deepLinkState);
+
+  AppState withHandleDeepLink(DeepLink deepLink) => withDeepLink(HandleDeepLinkState(deepLink));
 
   AppState loggedInMiloUser() => copyWith(loginState: successMiloUserState());
 
@@ -104,9 +107,9 @@ extension AppStateDSL on AppState {
   }) {
     return copyWith(
         rendezvousListState: RendezvousListState.successfulFuture(
-          rendezvous: rendezvous,
-          sessionsMilo: sessionsMilo,
-        ));
+      rendezvous: rendezvous,
+      sessionsMilo: sessionsMilo,
+    ));
   }
 
   AppState rendezvous({
@@ -116,10 +119,10 @@ extension AppStateDSL on AppState {
   }) {
     return copyWith(
         rendezvousListState: RendezvousListState.successful(
-          rendezvous: rendezvous,
-          sessionsMilo: sessionsMilo,
-          dateDerniereMiseAJour: dateDerniereMiseAJour,
-        ));
+      rendezvous: rendezvous,
+      sessionsMilo: sessionsMilo,
+      dateDerniereMiseAJour: dateDerniereMiseAJour,
+    ));
   }
 
   AppState rendezvousNotInitialized() => copyWith(rendezvousListState: RendezvousListState.notInitialized());
@@ -155,11 +158,11 @@ extension AppStateDSL on AppState {
   AppState chatBrouillon(String message) => copyWith(chatBrouillonState: ChatBrouillonState(message));
 
   AppState deeplinkToRendezvous(String id) {
-    return copyWith(deepLinkState: DetailRendezvousDeepLinkState(idRendezvous: id));
+    return copyWith(deepLinkState: HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: id)));
   }
 
   AppState deeplinkToSessionMilo(String id) {
-    return copyWith(deepLinkState: DetailSessionMiloDeepLinkState(idSessionMilo: id));
+    return copyWith(deepLinkState: HandleDeepLinkState(DetailSessionMiloDeepLink(idSessionMilo: id)));
   }
 
   AppState searchDemarchesSuccess(List<DemarcheDuReferentiel> demarches) {
@@ -198,7 +201,7 @@ extension AppStateDSL on AppState {
   AppState serviceCiviqueDetailsSuccess({ServiceCiviqueDetail? serviceCiviqueDetail}) {
     return copyWith(
         serviceCiviqueDetailState:
-        ServiceCiviqueDetailSuccessState(serviceCiviqueDetail ?? mockServiceCiviqueDetail()));
+            ServiceCiviqueDetailSuccessState(serviceCiviqueDetail ?? mockServiceCiviqueDetail()));
   }
 
   AppState serviceCiviqueDetailsFailure() {
@@ -513,14 +516,14 @@ extension AppStateDSL on AppState {
   AppState initialLoadingRechercheServiceCiviqueState() {
     return copyWith(
       rechercheServiceCiviqueState:
-      RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.initialLoading),
+          RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.initialLoading),
     );
   }
 
   AppState updateLoadingRechercheServiceCiviqueState() {
     return copyWith(
       rechercheServiceCiviqueState:
-      RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.updateLoading),
+          RechercheServiceCiviqueState.initial().copyWith(status: RechercheStatus.updateLoading),
     );
   }
 
@@ -615,14 +618,14 @@ extension AppStateDSL on AppState {
   AppState initialLoadingRechercheEvenementEmploiState() {
     return copyWith(
       rechercheEvenementEmploiState:
-      RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.initialLoading),
+          RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.initialLoading),
     );
   }
 
   AppState updateLoadingRechercheEvenementEmploiState() {
     return copyWith(
       rechercheEvenementEmploiState:
-      RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.updateLoading),
+          RechercheEvenementEmploiState.initial().copyWith(status: RechercheStatus.updateLoading),
     );
   }
 

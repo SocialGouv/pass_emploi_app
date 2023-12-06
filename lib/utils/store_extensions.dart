@@ -1,17 +1,32 @@
-import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 extension StoreDeeplinks on Store<AppState> {
-  void dispatchAgendaDeeplink() => dispatch(LocalDeeplinkAction({"type": "AGENDA"}));
+  bool shouldHandleDeeplink<T>() {
+    final deeplinkState = state.deepLinkState;
+    if (deeplinkState is HandleDeepLinkState) {
+      return deeplinkState.deepLink is T;
+    }
+    return false;
+  }
 
-  void dispatchFavorisDeeplink() => dispatch(LocalDeeplinkAction({"type": "FAVORIS"}));
+  DeepLink? getDeepLink() {
+    final deeplinkState = state.deepLinkState;
+    if (deeplinkState is HandleDeepLinkState) {
+      return deeplinkState.deepLink;
+    }
+    return null;
+  }
 
-  void dispatchAlerteDeeplink() => dispatch(LocalDeeplinkAction({"type": "SAVED_SEARCHES"}));
-
-  void dispatchRechercheDeeplink() => dispatch(LocalDeeplinkAction({"type": "RECHERCHE"}));
-
-  void dispatchOutilsDeeplink() => dispatch(LocalDeeplinkAction({"type": "OUTILS"}));
-
-  void dispatchEventListDeeplink() => dispatch(LocalDeeplinkAction({"type": "EVENT_LIST"}));
+  T? getDeepLinkAs<T>() {
+    final deeplinkState = state.deepLinkState;
+    if (deeplinkState is HandleDeepLinkState) {
+      if (deeplinkState.deepLink is T) {
+        return deeplinkState.deepLink as T;
+      }
+    }
+    return null;
+  }
 }

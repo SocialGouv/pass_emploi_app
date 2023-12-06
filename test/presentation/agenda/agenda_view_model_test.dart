@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
@@ -560,7 +561,7 @@ void main() {
     viewModel.goToEventList();
 
     // Then
-    expect(store.dispatchedAction, LocalDeeplinkAction({"type": "EVENT_LIST"}));
+    expect(store.dispatchedAction, HandleDeepLinkAction(EventListDeepLink()));
   });
 
   test('should reload agenda', () {

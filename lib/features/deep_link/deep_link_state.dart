@@ -1,115 +1,29 @@
 import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/version.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 
 class DeepLinkState extends Equatable {
   final DateTime deepLinkOpenedAt;
 
   DeepLinkState() : deepLinkOpenedAt = clock.now();
 
-  factory DeepLinkState.fromJson(Map<String, dynamic> data) {
-    switch (data["type"]) {
-      case "DETAIL_ACTION":
-      case "NEW_ACTION":
-        return DetailActionDeepLinkState(idAction: data["id"] as String?);
-      case "NEW_MESSAGE":
-        return NouveauMessageDeepLinkState();
-      case "DETAIL_RENDEZVOUS":
-      case "NEW_RENDEZVOUS":
-      case "DELETED_RENDEZVOUS":
-      case "RAPPEL_RENDEZVOUS":
-        return DetailRendezvousDeepLinkState(idRendezvous: data["id"] as String?);
-      case "DETAIL_SESSION_MILO":
-        return DetailSessionMiloDeepLinkState(idSessionMilo: data["id"] as String?);
-      case "NOUVELLE_OFFRE":
-        return AlerteDeepLinkState(idAlerte: data["id"] as String);
-      case 'NOUVELLES_FONCTIONNALITES':
-        return NouvellesFonctionnalitesDeepLinkState(lastVersion: Version.fromString(data["version"] as String));
-      case "EVENT_LIST":
-        return EventListDeepLinkState();
-      case "ACTUALISATION_PE":
-        return ActualisationPeDeepLinkState();
-      case "AGENDA":
-        return AgendaDeepLinkState();
-      case "FAVORIS":
-        return FavorisDeepLinkState();
-      case "SAVED_SEARCHES":
-        return AlertesDeepLinkState();
-      case "RECHERCHE":
-        return RechercheDeepLinkState();
-      case "OUTILS":
-        return OutilsDeepLinkState();
-      default:
-        return NotInitializedDeepLinkState();
-    }
-  }
-
   factory DeepLinkState.notInitialized() => NotInitializedDeepLinkState();
-
+  factory DeepLinkState.handle(DeepLink deepLink) => HandleDeepLinkState(deepLink);
   factory DeepLinkState.used() => UsedDeepLinkState();
 
   @override
   List<Object?> get props => [deepLinkOpenedAt];
 }
 
-class DetailActionDeepLinkState extends DeepLinkState {
-  final String? idAction;
-
-  DetailActionDeepLinkState({required this.idAction});
-
-  @override
-  List<Object?> get props => [idAction];
-}
-
-class DetailRendezvousDeepLinkState extends DeepLinkState {
-  final String? idRendezvous;
-
-  DetailRendezvousDeepLinkState({required this.idRendezvous});
-
-  @override
-  List<Object?> get props => [idRendezvous];
-}
-
-class DetailSessionMiloDeepLinkState extends DeepLinkState {
-  final String? idSessionMilo;
-
-  DetailSessionMiloDeepLinkState({required this.idSessionMilo});
-
-  @override
-  List<Object?> get props => [idSessionMilo];
-}
-
-class NouveauMessageDeepLinkState extends DeepLinkState {}
-
-class EventListDeepLinkState extends DeepLinkState {}
-
-class NouvellesFonctionnalitesDeepLinkState extends DeepLinkState {
-  final Version? lastVersion;
-
-  NouvellesFonctionnalitesDeepLinkState({required this.lastVersion});
-
-  @override
-  List<Object?> get props => [lastVersion];
-}
-
-class AlerteDeepLinkState extends DeepLinkState {
-  final String idAlerte;
-
-  AlerteDeepLinkState({required this.idAlerte});
-}
-
 class UsedDeepLinkState extends DeepLinkState {}
 
+class HandleDeepLinkState extends DeepLinkState {
+  final DeepLink deepLink;
+
+  HandleDeepLinkState(this.deepLink);
+
+  @override
+  List<Object?> get props => [deepLink];
+}
+
 class NotInitializedDeepLinkState extends DeepLinkState {}
-
-class ActualisationPeDeepLinkState extends DeepLinkState {}
-
-class AgendaDeepLinkState extends DeepLinkState {}
-
-class FavorisDeepLinkState extends DeepLinkState {}
-
-class AlertesDeepLinkState extends DeepLinkState {}
-
-class RechercheDeepLinkState extends DeepLinkState {}
-
-class OutilsDeepLinkState extends DeepLinkState {}
