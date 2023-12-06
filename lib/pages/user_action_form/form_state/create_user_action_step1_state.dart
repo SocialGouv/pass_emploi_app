@@ -1,17 +1,7 @@
 part of 'create_user_action_form_state.dart';
 
-enum UserActionCategory {
-  emploi,
-  projetPro,
-  sportLoisir,
-  citoyennete,
-  formation,
-  logement,
-  sante,
-}
-
 class CreateUserActionStep1State extends CreateUserActionPageState {
-  final UserActionCategory? actionCategory;
+  final UserActionReferentielType? actionCategory;
 
   CreateUserActionStep1State({this.actionCategory});
 
@@ -22,10 +12,10 @@ class CreateUserActionStep1State extends CreateUserActionPageState {
   List<Object?> get props => [actionCategory];
 
   CreateUserActionStep1State copyWith({
-    UserActionCategory? actionCategory,
+    UserActionReferentielType? type,
   }) {
     return CreateUserActionStep1State(
-      actionCategory: actionCategory ?? this.actionCategory,
+      actionCategory: type ?? actionCategory,
     );
   }
 }

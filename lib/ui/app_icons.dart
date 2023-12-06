@@ -93,4 +93,13 @@ class AppIcons {
   // Solution
   static const IconData immersion = AppIconsAdditional.immersion;
   static const IconData service_civique = Icons.diversity_3;
+
+  // Actions du référentiel
+  static const IconData emploi = Icons.work_outline_rounded;
+  static const IconData projetPro = Icons.ads_click_rounded;
+  static const IconData sportLoisirs = Icons.sports_football_outlined;
+  static const IconData citoyennete = Icons.attach_file;
+  static const IconData formation = Icons.school_outlined;
+  static const IconData logement = Icons.door_front_door_outlined;
+  static const IconData sante = Icons.local_hospital_outlined;
 }
