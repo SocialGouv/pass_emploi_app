@@ -258,13 +258,13 @@ void main() {
     withClock(Clock.fixed(DateTime(2022)), () {
       final state1 = AppState.initialState().copyWith(
         loginState: successMiloUserState(),
-        deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink()),
+        deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink(), DeepLinkOrigin.pushNotification),
       );
       final store1 = Store<AppState>(reducer, initialState: state1);
 
       final state2 = AppState.initialState().copyWith(
         loginState: successMiloUserState(),
-        deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink()),
+        deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink(), DeepLinkOrigin.pushNotification),
       );
       final store2 = Store<AppState>(reducer, initialState: state2);
 
@@ -278,13 +278,13 @@ void main() {
   test('2 RouterPageViewModel with same login states and different deep link should be different', () {
     final state1 = AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink()),
+      deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink(), DeepLinkOrigin.pushNotification),
     );
     final store1 = Store<AppState>(reducer, initialState: state1);
 
     final state2 = AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      deepLinkState: HandleDeepLinkState(DetailActionDeepLink(idAction: 'id')),
+      deepLinkState: HandleDeepLinkState(DetailActionDeepLink(idAction: 'id'), DeepLinkOrigin.pushNotification),
     );
     final store2 = Store<AppState>(reducer, initialState: state2);
 
@@ -299,13 +299,13 @@ void main() {
       () {
     final state1 = AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink()),
+      deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink(), DeepLinkOrigin.pushNotification),
     );
     final store1 = Store<AppState>(reducer, initialState: state1);
 
     final state2 = AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink()),
+      deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink(), DeepLinkOrigin.pushNotification),
     );
     final store2 = Store<AppState>(reducer, initialState: state2);
 

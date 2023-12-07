@@ -32,7 +32,12 @@ class AccueilEvenements extends StatelessWidget {
   }
 
   void goToEventList(BuildContext context) {
-    StoreProvider.of<AppState>(context).dispatch(HandleDeepLinkAction(EventListDeepLink()));
+    StoreProvider.of<AppState>(context).dispatch(
+      HandleDeepLinkAction(
+        EventListDeepLink(),
+        DeepLinkOrigin.inAppNavigation,
+      ),
+    );
   }
 }
 

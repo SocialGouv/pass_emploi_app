@@ -38,7 +38,7 @@ void main() {
 
     void assertStateWithJson(Map<String, dynamic> json, DeepLinkState expectedState) {
       final deepLink = DeepLinkFactory.fromJson(json)!;
-      assertStateWithAction(HandleDeepLinkAction(deepLink), expectedState);
+      assertStateWithAction(HandleDeepLinkAction(deepLink, DeepLinkOrigin.pushNotification), expectedState);
     }
 
     void assertDeepLinkIsnotExisting(String testName, Map<String, dynamic> json) {
@@ -59,75 +59,78 @@ void main() {
       );
       assertStateWithJson(
         {"type": "FAVORIS"},
-        HandleDeepLinkState(FavorisDeepLink()),
+        HandleDeepLinkState(FavorisDeepLink(), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "SAVED_SEARCHES"},
-        HandleDeepLinkState(AlertesDeepLink()),
+        HandleDeepLinkState(AlertesDeepLink(), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "RECHERCHE"},
-        HandleDeepLinkState(RechercheDeepLink()),
+        HandleDeepLinkState(RechercheDeepLink(), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "OUTILS"},
-        HandleDeepLinkState(OutilsDeepLink()),
+        HandleDeepLinkState(OutilsDeepLink(), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "AGENDA"},
-        HandleDeepLinkState(AgendaDeepLink()),
+        HandleDeepLinkState(AgendaDeepLink(), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "NEW_ACTION"},
-        HandleDeepLinkState(DetailActionDeepLink(idAction: null)),
+        HandleDeepLinkState(DetailActionDeepLink(idAction: null), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "NEW_ACTION", "id": "id"},
-        HandleDeepLinkState(DetailActionDeepLink(idAction: 'id')),
+        HandleDeepLinkState(DetailActionDeepLink(idAction: 'id'), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "DETAIL_ACTION", "id": "id"},
-        HandleDeepLinkState(DetailActionDeepLink(idAction: 'id')),
+        HandleDeepLinkState(DetailActionDeepLink(idAction: 'id'), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "NEW_MESSAGE"},
-        HandleDeepLinkState(NouveauMessageDeepLink()),
+        HandleDeepLinkState(NouveauMessageDeepLink(), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "EVENT_LIST"},
-        HandleDeepLinkState(EventListDeepLink()),
+        HandleDeepLinkState(EventListDeepLink(), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "ACTUALISATION_PE"},
-        HandleDeepLinkState(ActualisationPeDeepLink()),
+        HandleDeepLinkState(ActualisationPeDeepLink(), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "DELETED_RENDEZVOUS"},
-        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: null)),
+        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: null), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "DETAIL_RENDEZVOUS", "id": "id"},
-        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: 'id')),
+        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: 'id'), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "NEW_RENDEZVOUS", "id": "id"},
-        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: 'id')),
+        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: 'id'), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "RAPPEL_RENDEZVOUS", "id": "id"},
-        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: 'id')),
+        HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: 'id'), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "DETAIL_SESSION_MILO", "id": "id"},
-        HandleDeepLinkState(DetailSessionMiloDeepLink(idSessionMilo: 'id')),
+        HandleDeepLinkState(DetailSessionMiloDeepLink(idSessionMilo: 'id'), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "NOUVELLE_OFFRE", "id": "id"},
-        HandleDeepLinkState(AlerteDeepLink(idAlerte: 'id')),
+        HandleDeepLinkState(AlerteDeepLink(idAlerte: 'id'), DeepLinkOrigin.pushNotification),
       );
       assertStateWithJson(
         {"type": "NOUVELLES_FONCTIONNALITES", "version": "1.9.0"},
-        HandleDeepLinkState(NouvellesFonctionnalitesDeepLink(lastVersion: Version(1, 9, 0))),
+        HandleDeepLinkState(
+          NouvellesFonctionnalitesDeepLink(lastVersion: Version(1, 9, 0)),
+          DeepLinkOrigin.pushNotification,
+        ),
       );
       assertStateWithAction(
         ResetDeeplinkAction(),

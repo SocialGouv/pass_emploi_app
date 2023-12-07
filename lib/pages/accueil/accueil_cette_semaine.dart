@@ -79,7 +79,12 @@ class AccueilCetteSemaine extends StatelessWidget {
                   },
                 ),
                 _CetteSemaineVoirDetails(
-                  onTap: () => StoreProvider.of<AppState>(context).dispatch(HandleDeepLinkAction(AgendaDeepLink())),
+                  onTap: () => StoreProvider.of<AppState>(context).dispatch(
+                    HandleDeepLinkAction(
+                      AgendaDeepLink(),
+                      DeepLinkOrigin.inAppNavigation,
+                    ),
+                  ),
                 ),
               ],
             ),
