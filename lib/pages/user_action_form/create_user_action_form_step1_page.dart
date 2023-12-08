@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
@@ -11,7 +12,16 @@ class CreateUserActionFormStep1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ActionCategorySelector(onActionSelected: onActionTypeSelected);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: Margins.spacing_m),
+        Text(Strings.user_action_subtitle_step_1, style: TextStyles.textBaseBold),
+        const SizedBox(height: Margins.spacing_m),
+        ActionCategorySelector(onActionSelected: onActionTypeSelected),
+        const SizedBox(height: Margins.spacing_huge),
+      ],
+    );
   }
 }
 
@@ -22,7 +32,8 @@ class ActionCategorySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.all(Margins.spacing_base),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: Margins.spacing_base,

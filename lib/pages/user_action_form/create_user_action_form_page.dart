@@ -3,17 +3,12 @@ import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_s
 import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step2_page.dart';
 import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step3_page.dart';
 import 'package:pass_emploi_app/pages/user_action_form/form_state/create_user_action_form_state.dart';
+import 'package:pass_emploi_app/pages/user_action_form/widgets/user_action_stepper.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-
-class Strings {
-  // TODO: merge to strings
-  static const String createActionAppBarTitle = 'Créer une action';
-  static const String back = 'Retour';
-  static const String next = 'Continuer';
-}
 
 class CreateUserActionFromPage extends StatefulWidget {
   const CreateUserActionFromPage({super.key});
@@ -40,7 +35,7 @@ class _CreateUserActionFromPageState extends State<CreateUserActionFromPage> {
     if (_formState.isAborted) {
       Navigator.of(context).pop();
     } else if (_formState.isSubmitted) {
-      // TODO: submit
+      // TODO: onSubmit
       Navigator.of(context).pop();
     }
     setState(() {});
@@ -102,7 +97,7 @@ class _BackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SecondaryButton(
-      label: Strings.back,
+      label: Strings.user_action_back_button,
       onPressed: onPressed,
     );
   }
@@ -115,7 +110,7 @@ class _NextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PrimaryActionButton(
-      label: Strings.next,
+      label: Strings.user_action_next_button,
       suffix: SizedBox.shrink(
         child: OverflowBox(
           maxWidth: double.infinity,
@@ -137,13 +132,24 @@ class _CreateUserActionForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return switch (formState.currentView) {
-      CreateUserActionView.step1 => CreateUserActionFormStep1(onActionTypeSelected: (type) {
-          formState.userActionTypeSelected(type);
-        }),
-      CreateUserActionView.step2 => CreateUserActionFormStep2(formState.step2),
-      CreateUserActionView.step3 => CreateUserActionFormStep3(formState.step3),
-      _ => const SizedBox.shrink(),
-    };
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            UserActionStepper(view: formState.currentView),
+            switch (formState.currentView) {
+              CreateUserActionView.step1 => CreateUserActionFormStep1(onActionTypeSelected: (type) {
+                  formState.userActionTypeSelected(type);
+                }),
+              CreateUserActionView.step2 => CreateUserActionFormStep2(formState.step2),
+              CreateUserActionView.step3 => CreateUserActionFormStep3(formState.step3),
+              _ => const SizedBox.shrink(),
+            }
+          ],
+        ),
+      ),
+    );
   }
 }

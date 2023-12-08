@@ -82,6 +82,7 @@ class Strings {
   static String notConnected = "Vous êtes hors connexion";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
   static const String allMandatoryFields = "Tous les champs sont obligatoires";
+  static String stepCounter(int current, int total) => "Étape $current sur $total";
 
   // Menu
   static String menuAccueil = "Accueil";
@@ -342,6 +343,17 @@ class Strings {
   static String mandatory = "Les questions marquées d'une * sont obligatoires";
   static String pourquoiTitle = "Pourquoi ?";
   static String evaluationSuccessfullySent = "Vous avez répondu aux questions, merci !";
+
+  // User action form
+  static const String createActionAppBarTitle = 'Créer une action';
+  static const String user_action_back_button = 'Retour';
+  static const String user_action_next_button = 'Continuer';
+
+  static const String user_action_title_step_1 = 'Catégorie';
+  static const String user_action_title_step_2 = 'Mon action emploi';
+  static const String user_action_title_step_3 = 'Statut et date';
+
+  static const String user_action_subtitle_step_1 = '*Choisissez une catégorie';
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
