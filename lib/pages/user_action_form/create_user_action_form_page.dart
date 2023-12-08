@@ -148,7 +148,12 @@ class _CreateUserActionForm extends StatelessWidget {
                   onTitleChanged: (value) => formState.titleChanged(value),
                   onDescriptionChanged: (value) => formState.descriptionChanged(value),
                 ),
-              CreateUserActionView.step3 => CreateUserActionFormStep3(formState.step3),
+              CreateUserActionView.step3 => CreateUserActionFormStep3(
+                  state: formState.step3,
+                  onStatusChanged: (value) => formState.statusChanged(value),
+                  onDateChanged: (value) => formState.dateChanged(value),
+                  withRappelChanged: (value) => formState.withRappelChanged(value),
+                ),
               _ => const SizedBox.shrink(),
             }
           ],

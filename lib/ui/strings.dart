@@ -354,9 +354,19 @@ class Strings {
   static const String user_action_title_step_3 = 'Statut et date';
 
   static const String user_action_subtitle_step_1 = '*Choisissez une catégorie';
+
   static const String user_action_subtitle_step_2 = '*Pouvez-vous nous en dire plus ?';
   static const String user_action_title_textfield_step_2 = '*Pouvez-vous nous en dire plus ?';
   static const String user_action_description_textfield_step_2 = 'Décrire mon action';
+
+  static const String user_action_status_radio_step_3 = '*L’action est :';
+  static const String user_action_status_radio_completed_step_3 = 'Terminée';
+  static const String user_action_status_radio_todo_step_3 = 'À faire ou en cours';
+  static const String user_action_date_step_3 = '*Date';
+
+  static const String user_action_date_suggestion_1 = 'Aujourd’hui';
+  static const String user_action_date_suggestion_2 = 'Demain';
+  static const String user_action_date_suggestion_3 = 'Semaine prochaine';
 
   static const String user_action_suggestion_titre_1 = "Faire mon CV";
   static const String user_action_suggestion_titre_2 = "Enquête métier";

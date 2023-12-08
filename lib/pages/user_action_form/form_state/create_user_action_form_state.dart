@@ -79,6 +79,21 @@ class CreateUserActionFormState extends ChangeNotifier {
     step2 = step2.copyWith(description: description);
     notifyListeners();
   }
+
+  void statusChanged(bool isCompleted) {
+    step3 = step3.copyWith(estTerminee: isCompleted);
+    notifyListeners();
+  }
+
+  void dateChanged(CreateActionDateSource date) {
+    step3 = step3.copyWith(date: date);
+    notifyListeners();
+  }
+
+  void withRappelChanged(bool value) {
+    step3 = step3.copyWith(withRappel: value);
+    notifyListeners();
+  }
 }
 
 sealed class CreateUserActionPageState extends Equatable {
