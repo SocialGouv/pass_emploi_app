@@ -354,6 +354,20 @@ class Strings {
   static const String user_action_title_step_3 = 'Statut et date';
 
   static const String user_action_subtitle_step_1 = '*Choisissez une catégorie';
+  static const String user_action_subtitle_step_2 = '*Pouvez-vous nous en dire plus ?';
+  static const String user_action_title_textfield_step_2 = '*Pouvez-vous nous en dire plus ?';
+  static const String user_action_description_textfield_step_2 = 'Décrire mon action';
+
+  static const String user_action_suggestion_titre_1 = "Faire mon CV";
+  static const String user_action_suggestion_titre_2 = "Enquête métier";
+  static const String user_action_suggestion_titre_3 = "Lettre de motivation";
+  static const String user_action_suggestion_titre_4 = "Recherches";
+  static const String user_action_suggestion_titre_5 = "Salons/forums";
+  static const String user_action_suggestion_titre_6 = "Prise de contact";
+  static const String user_action_suggestion_titre_7 = "Candidature";
+  static const String user_action_suggestion_titre_8 = "Trouver une entreprise";
+  static const String user_action_suggestion_titre_9 = "Entretien d’embauche";
+  static const String user_action_other = "Autre";
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";

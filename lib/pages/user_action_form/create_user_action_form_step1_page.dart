@@ -107,43 +107,43 @@ class UserActionReferentiel {
 
   static const emploi = UserActionReferentiel(
     UserActionReferentielType.emploi,
-    'Emploi',
+    'Emploi', // TODO: Strings
     "Recherches, candidatures",
     AppIcons.emploi,
   );
   static const projetProfessionnel = UserActionReferentiel(
     UserActionReferentielType.projetProfessionnel,
-    'Projet Pro',
+    'Projet Pro', // TODO: Strings
     "Définir un projet professionnel",
     AppIcons.projetPro,
   );
   static const cultureSportLoisirs = UserActionReferentiel(
     UserActionReferentielType.cultureSportLoisirs,
-    'Sport, loisirs',
+    'Sport, loisirs', // TODO: Strings
     "Cours de sport, salle, sorties",
     AppIcons.sportLoisirs,
   );
   static const citoyennete = UserActionReferentiel(
     UserActionReferentielType.citoyennete,
-    'Citoyenneté',
+    'Citoyenneté', // TODO: Strings
     "Démarches, passer le permis",
     AppIcons.citoyennete,
   );
   static const formation = UserActionReferentiel(
     UserActionReferentielType.formation,
-    'Formation',
+    'Formation', // TODO: Strings
     "En présentiel ou en ligne",
     AppIcons.formation,
   );
   static const logement = UserActionReferentiel(
     UserActionReferentielType.logement,
-    'Logement',
+    'Logement', // TODO: Strings
     "Recherches de logement",
     AppIcons.logement,
   );
   static const sante = UserActionReferentiel(
     UserActionReferentielType.sante,
-    'Santé',
+    'Santé', // TODO: Strings
     "Rendez-vous médicaux",
     AppIcons.sante,
   );

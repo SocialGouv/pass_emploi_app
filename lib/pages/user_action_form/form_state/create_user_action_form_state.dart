@@ -69,6 +69,16 @@ class CreateUserActionFormState extends ChangeNotifier {
     step1 = step1.copyWith(type: type);
     viewChangedForward();
   }
+
+  void titleChanged(CreateActionTitleSource titleSource) {
+    step2 = step2.copyWith(titleSource: titleSource);
+    notifyListeners();
+  }
+
+  void descriptionChanged(String description) {
+    step2 = step2.copyWith(description: description);
+    notifyListeners();
+  }
 }
 
 sealed class CreateUserActionPageState extends Equatable {
