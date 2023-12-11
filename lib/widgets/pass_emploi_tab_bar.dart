@@ -32,6 +32,7 @@ class PassEmploiTabBar extends StatelessWidget {
               labelPadding: const EdgeInsets.only(right: 32),
               indicatorPadding: const EdgeInsets.only(right: 32),
               unselectedLabelColor: Brand.isCej() ? AppColors.grey800 : Colors.grey[350],
+              tabAlignment: TabAlignment.start,
               tabs: _tabs(),
             ),
           ),
