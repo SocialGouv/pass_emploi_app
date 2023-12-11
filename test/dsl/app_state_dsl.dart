@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.da
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_state.dart';
 import 'package:pass_emploi_app/features/cv/cv_state.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
@@ -93,7 +94,10 @@ extension AppStateDSL on AppState {
 
   AppState withDeepLink(DeepLinkState deepLinkState) => copyWith(deepLinkState: deepLinkState);
 
-  AppState withHandleDeepLink(DeepLink deepLink) => withDeepLink(HandleDeepLinkState(deepLink));
+  AppState withHandleDeepLink(DeepLink deepLink) => withDeepLink(HandleDeepLinkState(
+        deepLink,
+        DeepLinkOrigin.inAppNavigation,
+      ));
 
   AppState loggedInMiloUser() => copyWith(loginState: successMiloUserState());
 
@@ -158,11 +162,19 @@ extension AppStateDSL on AppState {
   AppState chatBrouillon(String message) => copyWith(chatBrouillonState: ChatBrouillonState(message));
 
   AppState deeplinkToRendezvous(String id) {
-    return copyWith(deepLinkState: HandleDeepLinkState(DetailRendezvousDeepLink(idRendezvous: id)));
+    return copyWith(
+        deepLinkState: HandleDeepLinkState(
+      DetailRendezvousDeepLink(idRendezvous: id),
+      DeepLinkOrigin.inAppNavigation,
+    ));
   }
 
   AppState deeplinkToSessionMilo(String id) {
-    return copyWith(deepLinkState: HandleDeepLinkState(DetailSessionMiloDeepLink(idSessionMilo: id)));
+    return copyWith(
+        deepLinkState: HandleDeepLinkState(
+      DetailSessionMiloDeepLink(idSessionMilo: id),
+      DeepLinkOrigin.inAppNavigation,
+    ));
   }
 
   AppState searchDemarchesSuccess(List<DemarcheDuReferentiel> demarches) {

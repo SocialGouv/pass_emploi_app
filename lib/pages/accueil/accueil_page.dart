@@ -56,6 +56,8 @@ class AccueilPage extends StatelessWidget {
       Navigator.push(context, OffreFavorisPage.materialPageRoute());
     } else if (deepLink is AlerteDeepLink) {
       Navigator.push(context, AlertePage.materialPageRoute());
+    } else if (deepLink is AlertesDeepLink) {
+      Navigator.push(context, AlertePage.materialPageRoute());
     } else {
       return;
     }

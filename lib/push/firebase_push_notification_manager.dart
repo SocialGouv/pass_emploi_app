@@ -105,7 +105,7 @@ class FirebasePushNotificationManager extends PushNotificationManager {
     final deepLink = DeepLinkFactory.fromJson(jsonDecode(payload) as Map<String, dynamic>);
     if (deepLink == null) return;
 
-    store.dispatch(HandleDeepLinkAction(deepLink));
+    store.dispatch(HandleDeepLinkAction(deepLink, DeepLinkOrigin.pushNotification));
   }
 
   void _trackAuthorizationStatus(AuthorizationStatus status) {

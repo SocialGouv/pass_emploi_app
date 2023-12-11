@@ -54,7 +54,7 @@ class AgendaPageViewModel extends Equatable {
       notUpToDateLabel: isPoleEmploi ? Strings.agendaPeNotUpToDate : Strings.agendaMiloNotUpToDate,
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
       reload: (date) => store.dispatch(AgendaRequestReloadAction(maintenant: date, forceRefresh: true)),
-      goToEventList: () => store.dispatch(HandleDeepLinkAction(EventListDeepLink())),
+      goToEventList: () => store.dispatch(HandleDeepLinkAction(EventListDeepLink(), DeepLinkOrigin.inAppNavigation)),
     );
   }
 

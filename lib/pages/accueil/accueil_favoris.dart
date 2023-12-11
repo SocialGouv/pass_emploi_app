@@ -98,7 +98,12 @@ class _SansFavori extends StatelessWidget {
   }
 
   void goToRecherche(BuildContext context) {
-    StoreProvider.of<AppState>(context).dispatch(HandleDeepLinkAction(RechercheDeepLink()));
+    StoreProvider.of<AppState>(context).dispatch(
+      HandleDeepLinkAction(
+        RechercheDeepLink(),
+        DeepLinkOrigin.inAppNavigation,
+      ),
+    );
   }
 }
 

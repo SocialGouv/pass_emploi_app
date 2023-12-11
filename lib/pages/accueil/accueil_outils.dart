@@ -34,7 +34,12 @@ class AccueilOutils extends StatelessWidget {
   }
 
   void goToOutils(BuildContext context) {
-    StoreProvider.of<AppState>(context).dispatch(HandleDeepLinkAction(OutilsDeepLink()));
+    StoreProvider.of<AppState>(context).dispatch(
+      HandleDeepLinkAction(
+        OutilsDeepLink(),
+        DeepLinkOrigin.inAppNavigation,
+      ),
+    );
   }
 }
 

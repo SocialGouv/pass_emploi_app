@@ -234,7 +234,12 @@ class _AlertePageState extends State<AlertePage> {
 
   void _goToRecherche(BuildContext context) {
     Navigator.of(context).pop();
-    StoreProvider.of<AppState>(context).dispatch(HandleDeepLinkAction(RechercheDeepLink()));
+    StoreProvider.of<AppState>(context).dispatch(
+      HandleDeepLinkAction(
+        RechercheDeepLink(),
+        DeepLinkOrigin.inAppNavigation,
+      ),
+    );
   }
 
   void _onTapShowSuggestions() {

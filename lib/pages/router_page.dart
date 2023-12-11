@@ -130,7 +130,12 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
     }
     final deepLink = DeepLinkFactory.fromJson(message.data);
     if (deepLink != null) {
-      StoreProvider.of<AppState>(context).dispatch(HandleDeepLinkAction(deepLink));
+      StoreProvider.of<AppState>(context).dispatch(
+        HandleDeepLinkAction(
+          deepLink,
+          DeepLinkOrigin.pushNotification,
+        ),
+      );
     }
   }
 }

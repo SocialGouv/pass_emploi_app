@@ -561,7 +561,7 @@ void main() {
     viewModel.goToEventList();
 
     // Then
-    expect(store.dispatchedAction, HandleDeepLinkAction(EventListDeepLink()));
+    expect(store.dispatchedAction, HandleDeepLinkAction(EventListDeepLink(), DeepLinkOrigin.inAppNavigation));
   });
 
   test('should reload agenda', () {
