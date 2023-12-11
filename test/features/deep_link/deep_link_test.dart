@@ -6,38 +6,44 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/push/deep_link_factory.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 
-import '../../utils/test_setup.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 
 void main() {
+  final sut = StoreSut();
   final fixedDateTime = DateTime(2021);
 
   group('deep links should properly update state', () {
     void assertStateWithAction(dynamic action, DeepLinkState expectedState) {
       final testName = action is HandleDeepLinkAction
-          ? expectedState.runtimeType
+          ? "${action.runtimeType} ${action.deepLink.runtimeType} -> ${expectedState.runtimeType} with deeplink"
           : "${action.runtimeType} -> ${expectedState.runtimeType}";
 
-      test(testName, () {
-        withClock(Clock.fixed(fixedDateTime), () async {
-          // Given
-          final testStoreFactory = TestStoreFactory();
-          final store = testStoreFactory.initializeReduxStore(initialState: AppState.initialState());
+      group("when dispatching", () {
+        sut.whenDispatchingAction(() => action);
 
-          // When
-          final outputAppState = store.onChange.first;
-          await store.dispatch(action);
+        test(testName, () async {
+          await withClock(Clock.fixed(fixedDateTime), () async {
+            sut.givenStore = givenState().store();
 
-          // Then
-          final appState = await outputAppState;
-          expect(appState.deepLinkState, expectedState);
+            sut.thenExpectChangingStatesThroughOrder([_shouldHaveDeepLinkState(expectedState)]);
+          });
         });
       });
     }
 
     void assertStateWithJson(Map<String, dynamic> json, DeepLinkState expectedState) {
-      final deepLink = DeepLinkFactory.fromJson(json)!;
+      final deepLink = DeepLinkFactory.fromJson(json);
+
+      if (deepLink == null) {
+        test("with $json", () {
+          fail("Avec cet fonction assert, le JSON doit être un DeepLink valide. Sinon, utiliser un autre assert.");
+        });
+        return;
+      }
+
       assertStateWithAction(HandleDeepLinkAction(deepLink, DeepLinkOrigin.pushNotification), expectedState);
     }
 
@@ -48,7 +54,7 @@ void main() {
       });
     }
 
-    withClock(Clock.fixed(fixedDateTime), () async {
+    withClock(Clock.fixed(fixedDateTime), () {
       assertDeepLinkIsnotExisting(
         "with empty json",
         {},
@@ -142,4 +148,8 @@ void main() {
       );
     });
   });
+}
+
+Matcher _shouldHaveDeepLinkState(DeepLinkState expectedState) {
+  return StateMatch((p0) => p0.deepLinkState == expectedState);
 }
