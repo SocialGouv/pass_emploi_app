@@ -130,7 +130,7 @@ DateTime? _getDateDerniereMiseAJour(Store<AppState> store, DemarcheStateSource s
 
 String? _withDateDerniereMiseAJour(DateTime? dateDerniereMiseAJour) {
   if (dateDerniereMiseAJour == null) return null;
-  return Strings.dateDerniereMiseAJourDemarches(dateDerniereMiseAJour.toDayandHour());
+  return Strings.dateDerniereMiseAJourDemarches(dateDerniereMiseAJour.toDayAndHour());
 }
 
 UserActionTagViewModel _getTagViewModel(DemarcheStatus status, DemarcheStatus currentStatus) {

@@ -118,7 +118,7 @@ void main() {
           .copyWith(
             demarcheListState: DemarcheListSuccessState(
               [demarche],
-              DateTime(2023, 1, 1, 12, 30),
+              DateTime(2022, 12, 25, 12, 30),
             ),
           )
           .store();
@@ -127,7 +127,7 @@ void main() {
       final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "8802034");
 
       // Then
-      expect(viewModel.withDateDerniereMiseAJour, "Dernière actualisation de vos démarches le 01/01/2023 à 12h30");
+      expect(viewModel.withDateDerniereMiseAJour, "Dernière actualisation de vos démarches le 25/12/2022 à 12h30");
     });
   });
 

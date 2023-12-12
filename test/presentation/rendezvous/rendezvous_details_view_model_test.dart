@@ -191,7 +191,7 @@ void main() {
 
       test('and dateDerniereMiseAJour is present', () {
         // Given
-        final store = _storeNotUpToDate(mockRendezvous(id: '1'), DateTime(2023, 1, 1, 12, 30));
+        final store = _storeNotUpToDate(mockRendezvous(id: '1'), DateTime(2022, 12, 25, 12, 30));
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
@@ -202,7 +202,7 @@ void main() {
         );
 
         // Then
-        expect(viewModel.withDateDerniereMiseAJour, "Dernière actualisation de vos rendez-vous le 01/01/2023 à 12h30");
+        expect(viewModel.withDateDerniereMiseAJour, "Dernière actualisation de vos rendez-vous le 25/12/2022 à 12h30");
       });
 
       group('should hide conseiller presence', () {

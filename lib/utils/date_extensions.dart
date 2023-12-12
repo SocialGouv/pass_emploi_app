@@ -23,7 +23,7 @@ extension DateExtensions on DateTime {
     return DateFormat('dd/MM/yyyy à HH\'h\'mm').format(this);
   }
 
-  String toDayandHour() => DateFormat("DD/MM/yyyy à HH'h'mm").format(this);
+  String toDayAndHour() => DateFormat("dd/MM/yyyy à HH'h'mm").format(this);
 
   String toDay() => DateFormat('dd/MM/yyyy').format(this);
 
