@@ -33,6 +33,7 @@ class PassEmploiMatomoTracker {
     if (!_decorated.initialized) return;
     _decorated.trackPageViewWithName(
       actionName: widgetName,
+      path: widgetName,
       dimensions: _dimensions,
     );
     onTrackScreen?.call('$pageLogPrefix $widgetName');
