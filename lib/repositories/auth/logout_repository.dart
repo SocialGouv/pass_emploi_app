@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 
 class LogoutRepository {
@@ -17,7 +18,7 @@ class LogoutRepository {
     this.crashlytics,
   });
 
-  Future<void> logout(String refreshToken) async {
+  Future<void> logout(String refreshToken, String userId, LogoutReason reason) async {
     final url = '$authIssuer/protocol/openid-connect/logout';
     try {
       await _httpClient.post(
@@ -30,6 +31,7 @@ class LogoutRepository {
     } finally {
       _cacheManager.emptyCache();
     }
+    await _traceLogoutReasonToElastic(userId, reason);
   }
 
   void setHttpClient(Dio httpClient) {
@@ -38,5 +40,11 @@ class LogoutRepository {
 
   void setCacheManager(PassEmploiCacheManager cacheManager) {
     _cacheManager = cacheManager;
+  }
+
+  Future<void> _traceLogoutReasonToElastic(String userId, LogoutReason reason) async {
+    try {
+      await _httpClient.post('/app/logs/logout/$userId/$reason');
+    } catch (_) {}
   }
 }

@@ -31,7 +31,7 @@ class AuthAccessTokenRetriever {
       case RefreshTokenStatus.SUCCESSFUL:
         return (await _authenticator.accessToken())!;
       case RefreshTokenStatus.EXPIRED_REFRESH_TOKEN:
-        _store.dispatch(RequestLogoutAction());
+        _store.dispatch(RequestLogoutAction(LogoutReason.expiredRefreshToken));
         throw Exception("Refresh token is expired");
       default:
         throw Exception(refreshTokenStatus);

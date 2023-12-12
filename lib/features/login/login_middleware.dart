@@ -21,13 +21,14 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
+    final userId = store.state.userId();
     next(action);
     if (action is BootstrapAction) {
       _checkIfUserIsLoggedIn(store);
     } else if (action is RequestLoginAction) {
       _logUser(store, action.mode);
     } else if (action is RequestLogoutAction) {
-      _logout(store);
+      _logout(store, userId, action.reason);
     }
   }
 
@@ -82,9 +83,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(LoginSuccessAction(user));
   }
 
-  void _logout(Store<AppState> store) async {
+  void _logout(Store<AppState> store, String? userId, LogoutReason reason) async {
     _matomoTracker.setOptOut(optOut: false);
-    await _authenticator.logout();
+    await _authenticator.logout(userId ?? 'NOT_LOGIN_USER', reason);
     store.dispatch(UnsubscribeFromChatStatusAction());
     store.dispatch(UnsubscribeFromConnectivityUpdatesAction());
     store.dispatch(BootstrapAction());

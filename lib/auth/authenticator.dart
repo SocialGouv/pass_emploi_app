@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
@@ -94,10 +95,10 @@ class Authenticator {
     }
   }
 
-  Future<bool> logout() async {
+  Future<bool> logout(String userId, LogoutReason reason) async {
     final String? refreshToken = await _preferences.read(key: _refreshTokenKey);
     if (refreshToken == null) return false;
-    await _logoutRepository.logout(refreshToken);
+    await _logoutRepository.logout(refreshToken, userId, reason);
     await _deleteToken();
     return true;
   }

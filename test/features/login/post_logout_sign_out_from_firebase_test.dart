@@ -22,7 +22,7 @@ void main() {
     });
 
     // When
-    await store.dispatch(RequestLogoutAction());
+    await store.dispatch(RequestLogoutAction(LogoutReason.userLogout));
 
     // Then
     verify(() => firebaseAuthWrapper.signOut()).called(1);

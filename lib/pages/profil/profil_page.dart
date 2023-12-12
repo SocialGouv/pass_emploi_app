@@ -79,25 +79,27 @@ class ProfilPage extends StatelessWidget {
                 _ProfileCard(userEmail: viewModel.userEmail),
                 SizedBox(height: Margins.spacing_m),
                 if (viewModel.displayMonConseiller) MonConseillerCard(),
-                _SeactionTitle(Strings.settingsLabel),
+                _SectionTitle(Strings.settingsLabel),
                 SizedBox(height: Margins.spacing_m),
                 _SuppressionAccountCard(),
                 _ActivityShareCard(),
-                _SeactionTitle(Strings.legalInformation),
+                _SectionTitle(Strings.legalInformation),
                 SizedBox(height: Margins.spacing_m),
                 _LegalInformationCard(),
                 SizedBox(height: Margins.spacing_m),
-                _SeactionTitle(Strings.helpTitle),
+                _SectionTitle(Strings.helpTitle),
                 SizedBox(height: Margins.spacing_m),
                 _RatingCard(),
                 SizedBox(height: Margins.spacing_m),
                 if (viewModel.displayDeveloperOptions) ...[
-                  _SeactionTitle(Strings.developerOptions),
+                  _SectionTitle(Strings.developerOptions),
                   SizedBox(height: Margins.spacing_m),
                   _MatomoCard(),
                 ],
                 SecondaryButton(
-                  onPressed: () => StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction()),
+                  onPressed: () {
+                    StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction(LogoutReason.userLogout));
+                  },
                   label: Strings.logoutAction,
                 ),
               ],
@@ -109,9 +111,10 @@ class ProfilPage extends StatelessWidget {
   }
 }
 
-class _SeactionTitle extends StatelessWidget {
-  const _SeactionTitle(this.title);
+class _SectionTitle extends StatelessWidget {
   final String title;
+
+  const _SectionTitle(this.title);
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +177,7 @@ class _UsernameTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onDoubleTap: onTitleTap,
-      child: _SeactionTitle(userName),
+      child: _SectionTitle(userName),
     );
   }
 }
