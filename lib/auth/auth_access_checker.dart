@@ -9,7 +9,7 @@ class AuthAccessChecker {
   void logoutUserIfTokenIsExpired(String? message, int statusCode) {
     if (message?.containsExpiredToken() == true && statusCode == 401) {
       Log.i("Logout user on token expired: $message.");
-      _store.dispatch(RequestLogoutAction());
+      _store.dispatch(RequestLogoutAction(LogoutReason.apiResponse401));
     }
   }
 

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -21,7 +22,7 @@ void main() {
   });
 
   group('logout', () {
-    sut.when((repository) => repository.logout('REFRESH_TOKEN'));
+    sut.when((repository) => repository.logout('REFRESH_TOKEN', 'userId', LogoutReason.userLogout));
 
     group('when response is valid', () {
       sut.givenResponseCode(HttpStatus.noContent);

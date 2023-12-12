@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
@@ -228,7 +229,7 @@ void main() {
       await authenticator.login(AuthenticationMode.GENERIC);
 
       // When
-      final result = await authenticator.logout();
+      final result = await authenticator.logout('userId', LogoutReason.expiredRefreshToken);
 
       // Then
       expect(result, isTrue);
@@ -239,7 +240,7 @@ void main() {
       // Given user not logged in
 
       // When
-      final result = await authenticator.logout();
+      final result = await authenticator.logout('NOT_LOGIN_USER', LogoutReason.expiredRefreshToken);
 
       // Then
       expect(result, isFalse);
