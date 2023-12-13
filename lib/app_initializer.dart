@@ -192,7 +192,6 @@ class AppInitializer {
     final chatCrypto = ChatCrypto();
     final cryptoStorage = ChatEncryptionLocalStorage(storage: securedPreferences);
     final firebaseInstanceIdGetter = FirebaseInstanceIdGetter();
-    final detailsJeuneRepository = DetailsJeuneRepository(dioClient, crashlytics);
     final reduxStore = StoreFactory(
       configuration,
       authenticator,
@@ -226,7 +225,7 @@ class AppInitializer {
       AlerteDeleteRepository(dioClient, crashlytics),
       ServiceCiviqueRepository(dioClient, crashlytics),
       ServiceCiviqueDetailRepository(dioClient, crashlytics),
-      detailsJeuneRepository,
+      DetailsJeuneRepository(dioClient, crashlytics),
       SuppressionCompteRepository(dioClient, crashlytics),
       modeDemoRepository,
       CampagneRepository(dioClient, crashlytics),
@@ -242,8 +241,7 @@ class AppInitializer {
       AgendaRepository(dioClient, crashlytics),
       SuggestionsRechercheRepository(dioClient, requestCacheManager, crashlytics),
       AnimationsCollectivesRepository(dioClient, crashlytics),
-      // TODO(août 2023) : supprimer detailsJeuneRepository et remoteConfig quand les sessions milo seront 100% OK
-      SessionMiloRepository(dioClient, detailsJeuneRepository, firebaseRemoteConfig, crashlytics),
+      SessionMiloRepository(dioClient, crashlytics),
       installationIdRepository,
       DiagorienteUrlsRepository(dioClient, crashlytics),
       DiagorienteMetiersFavorisRepository(dioClient, requestCacheManager, crashlytics),
