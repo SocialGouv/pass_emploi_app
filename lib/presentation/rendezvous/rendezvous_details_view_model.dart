@@ -144,7 +144,7 @@ class RendezvousDetailsViewModel extends Equatable {
       phone: rdv.phone != null ? Strings.phone(rdv.phone!) : null,
       addressRedirectUri: address != null ? UriHandler().mapsUri(address, platform) : null,
       theme: rdv.theme,
-      description: _descriptionFromSoruce(source, rdv),
+      description: _descriptionFromSource(source, rdv),
     );
   }
 
@@ -254,9 +254,7 @@ bool _shouldGetRendezvous(RendezvousStateSource source, Store<AppState> store) {
 }
 
 String _navbarTitle(RendezvousStateSource source, Rendezvous rendezvous) {
-  if (source != RendezvousStateSource.eventListAnimationsCollectives && !source.isMiloDetails) {
-    return Strings.myRendezVous;
-  }
+  if (!source.isFromEvenements && !source.isMiloDetails) return Strings.myRendezVous;
   return rendezvous.estInscrit == true ? Strings.myRendezVous : Strings.eventTitle;
 }
 
@@ -352,7 +350,7 @@ bool _withDescription(RendezvousStateSource source, Rendezvous rdv) {
   return rdv.description != null || rdv.theme != null;
 }
 
-String? _descriptionFromSoruce(RendezvousStateSource source, Rendezvous rdv) {
+String? _descriptionFromSource(RendezvousStateSource source, Rendezvous rdv) {
   if (source.isMiloDetails) return rdv.description ?? "--";
   return rdv.description;
 }
@@ -362,18 +360,15 @@ String? _comment(RendezvousStateSource source, String? comment) {
   return comment;
 }
 
-bool _estCeQueMaPresenceEstRequise(RendezvousStateSource source, bool isInscrit) =>
-    (source != RendezvousStateSource.eventListAnimationsCollectives &&
-        source != RendezvousStateSource.sessionMiloDetails) ||
-    isInscrit;
+bool _estCeQueMaPresenceEstRequise(RendezvousStateSource source, bool isInscrit) {
+  return (!source.isFromEvenements && !source.isMiloDetails) || isInscrit;
+}
 
 ChatPartageSource? _shareToConseillerSource(RendezvousStateSource source, Rendezvous rdv) {
   if (rdv.estInscrit == true) return null;
-  return switch (source) {
-    RendezvousStateSource.eventListAnimationsCollectives => ChatPartageEventSource(rdv.id),
-    RendezvousStateSource.sessionMiloDetails => ChatPartageSessionMiloSource(rdv.id),
-    _ => null,
-  };
+  if (source.isFromEvenements) return ChatPartageEventSource(rdv.id);
+  if (source.isMiloDetails) return ChatPartageSessionMiloSource(rdv.id);
+  return null;
 }
 
 String? _shareTitle(ChatPartageSource? source) {
