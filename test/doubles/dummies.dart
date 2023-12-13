@@ -383,7 +383,7 @@ class DummyAnimationsCollectivesRepository extends AnimationsCollectivesReposito
 }
 
 class DummySessionMiloRepository extends SessionMiloRepository {
-  DummySessionMiloRepository() : super(DioMock(), DummyDetailsJeuneRepository());
+  DummySessionMiloRepository() : super(DioMock());
 }
 
 class DummyMetierRepository extends MetierRepository {
