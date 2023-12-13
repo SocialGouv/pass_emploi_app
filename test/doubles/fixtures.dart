@@ -1034,7 +1034,7 @@ List<Alerte> getMockedAlerte() {
   ];
 }
 
-Accueil mockAccueilMilo() {
+Accueil mockAccueilMilo({List<Rendezvous>? evenements}) {
   return Accueil(
     dateDerniereMiseAJour: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
     cetteSemaine: AccueilCetteSemaine(
@@ -1044,7 +1044,7 @@ Accueil mockAccueilMilo() {
     ),
     prochainRendezVous: mockRendezvousMiloCV(),
     prochaineSessionMilo: mockSessionMiloAtelierCv(),
-    evenements: [mockAnimationCollective()],
+    evenements: evenements ?? [mockAnimationCollective()],
     alertes: getMockedAlerte(),
     favoris: mock3Favoris(),
     campagne: mockCampagne(),

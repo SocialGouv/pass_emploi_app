@@ -694,60 +694,105 @@ void main() {
         expect(viewModel.withAnimateur, "SIMILO SIMILO");
       });
 
-      test('should not display absent part if vm created from event list and is not inscrit', () {
-        // Given
-        final store = givenState()
-            .loggedInUser()
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: false)]).store();
+      group('Événements special display', () {
+        late RendezvousDetailsViewModel viewModel;
 
-        // When
-        final viewModel = RendezvousDetailsViewModel.create(
-          store: store,
-          source: RendezvousStateSource.eventListAnimationsCollectives,
-          rdvId: '1',
-          platform: Platform.IOS,
-        );
+        group('when événement is from Accueil > Evénements pouvant vous intéresser (user not inscrit)', () {
+          setUp(() {
+            final store = givenState()
+                .loggedInUser()
+                .withAccueilMiloSuccess(mockAccueilMilo(evenements: [mockRendezvous(id: '1', estInscrit: false)]))
+                .store();
 
-        // Then
-        expect(viewModel.withIfAbsentPart, false);
-      });
+            viewModel = RendezvousDetailsViewModel.create(
+              store: store,
+              source: RendezvousStateSource.accueilLesEvenements,
+              rdvId: '1',
+              platform: Platform.IOS,
+            );
+          });
 
-      test('should display absent part if vm created from event list and is inscrit', () {
-        // Given
-        final store = givenState()
-            .loggedInUser() //
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: true)]) //
-            .store();
+          test('should display "Événement" page title', () {
+            expect(viewModel.navbarTitle, "Événement");
+          });
 
-        // When
-        final viewModel = RendezvousDetailsViewModel.create(
-          store: store,
-          source: RendezvousStateSource.eventListAnimationsCollectives,
-          rdvId: '1',
-          platform: Platform.IOS,
-        );
+          test('should not display absent part', () {
+            expect(viewModel.withIfAbsentPart, false);
+          });
 
-        // Then
-        expect(viewModel.withIfAbsentPart, true);
-      });
+          test('should be shareable', () {
+            expect(viewModel.shareToConseillerSource, ChatPartageEventSource("1"));
+            expect(viewModel.shareToConseillerButtonTitle, "Partager à mon conseiller");
+          });
+        });
 
-      test('should be inscrit when rendezvous is marked as inscrit', () {
-        // Given
-        final store = givenState()
-            .loggedInUser() //
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: true)]) //
-            .store();
+        group('when événement is from Evénements list', () {
+          group('and user is inscrit', () {
+            setUp(() {
+              final store = givenState()
+                  .loggedInUser() //
+                  .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: true)]) //
+                  .store();
 
-        // When
-        final viewModel = RendezvousDetailsViewModel.create(
-          store: store,
-          source: RendezvousStateSource.eventListAnimationsCollectives,
-          rdvId: '1',
-          platform: Platform.IOS,
-        );
+              viewModel = RendezvousDetailsViewModel.create(
+                store: store,
+                source: RendezvousStateSource.eventListAnimationsCollectives,
+                rdvId: '1',
+                platform: Platform.IOS,
+              );
+            });
 
-        // Then
-        expect(viewModel.isInscrit, true);
+            test('should display "Mon rendez-vous" page title', () {
+              expect(viewModel.navbarTitle, "Mon rendez-vous");
+            });
+
+            test('should display absent part', () {
+              expect(viewModel.withIfAbsentPart, isTrue);
+            });
+
+            test('should be inscrit', () {
+              expect(viewModel.isInscrit, isTrue);
+            });
+
+            test('should not be shareable', () {
+              expect(viewModel.shareToConseillerSource, null);
+              expect(viewModel.shareToConseillerButtonTitle, null);
+            });
+          });
+
+          group('and user is not inscrit', () {
+            setUp(() {
+              final store = givenState()
+                  .loggedInUser() //
+                  .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: false)]) //
+                  .store();
+
+              viewModel = RendezvousDetailsViewModel.create(
+                store: store,
+                source: RendezvousStateSource.eventListAnimationsCollectives,
+                rdvId: '1',
+                platform: Platform.IOS,
+              );
+            });
+
+            test('should display "Événement" page title', () {
+              expect(viewModel.navbarTitle, "Événement");
+            });
+
+            test('should not display absent part', () {
+              expect(viewModel.withIfAbsentPart, isFalse);
+            });
+
+            test('should not be inscrit', () {
+              expect(viewModel.isInscrit, isFalse);
+            });
+
+            test('should be shareable', () {
+              expect(viewModel.shareToConseillerSource, ChatPartageEventSource("1"));
+              expect(viewModel.shareToConseillerButtonTitle, "Partager à mon conseiller");
+            });
+          });
+        });
       });
 
       test('should be shareable if vm created from session milo details', () {
@@ -768,65 +813,6 @@ void main() {
         // Then
         expect(viewModel.shareToConseillerSource, ChatPartageSessionMiloSource("1"));
         expect(viewModel.shareToConseillerButtonTitle, "Faire une demande d’inscription");
-      });
-
-      test('should be shareable if vm created from event list and is not inscrit', () {
-        // Given
-        final store = givenState()
-            .loggedInUser() //
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: false)]) //
-            .store();
-
-        // When
-        final viewModel = RendezvousDetailsViewModel.create(
-          store: store,
-          source: RendezvousStateSource.eventListAnimationsCollectives,
-          rdvId: '1',
-          platform: Platform.IOS,
-        );
-
-        // Then
-        expect(viewModel.shareToConseillerSource, ChatPartageEventSource("1"));
-        expect(viewModel.shareToConseillerButtonTitle, "Partager à mon conseiller");
-      });
-
-      test('should not be shareable if vm created from event list and is inscrit', () {
-        // Given
-        final store = givenState()
-            .loggedInUser() //
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: true)]) //
-            .store();
-
-        // When
-        final viewModel = RendezvousDetailsViewModel.create(
-          store: store,
-          source: RendezvousStateSource.eventListAnimationsCollectives,
-          rdvId: '1',
-          platform: Platform.IOS,
-        );
-
-        // Then
-        expect(viewModel.shareToConseillerSource, null);
-        expect(viewModel.shareToConseillerButtonTitle, null);
-      });
-
-      test('should display "événement" page title if vm created from event list and is not inscrit', () {
-        // Given
-        final store = givenState()
-            .loggedInUser() //
-            .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: false)]) //
-            .store();
-
-        // When
-        final viewModel = RendezvousDetailsViewModel.create(
-          store: store,
-          source: RendezvousStateSource.eventListAnimationsCollectives,
-          rdvId: '1',
-          platform: Platform.IOS,
-        );
-
-        // Then
-        expect(viewModel.navbarTitle, "Événement");
       });
 
       test('full view model test', () {

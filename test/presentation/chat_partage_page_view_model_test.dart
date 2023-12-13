@@ -35,6 +35,19 @@ void main() {
       expect(viewModel.snackbarSuccessTracking, "animation_collective/detail?partage-conseiller=true");
     });
 
+    test('should properly return a view modem when event is coming from Accueil', () {
+      // Given
+      final store = givenState()
+          .withAccueilMiloSuccess(mockAccueilMilo(evenements: [mockRendezvous(id: "id-1")])) //
+          .store();
+
+      // When
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEventSource("id-1"));
+
+      // Then
+      expect(viewModel, isNotNull);
+    });
+
     test('should partager event', () {
       // Given
       final rdv = mockRendezvous(

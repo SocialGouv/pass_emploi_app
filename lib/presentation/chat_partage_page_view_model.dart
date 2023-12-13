@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
@@ -115,10 +116,19 @@ class ChatPartagePageViewModel extends Equatable {
 
   factory ChatPartagePageViewModel.sharingEvent(Store<AppState> store, ChatPartageEventSource source) {
     final eventListState = store.state.eventListState;
-    if (eventListState is! EventListSuccessState) {
-      throw Exception("ChatPartagePageViewModel must be created with a EventListSuccessState.");
+    final accueilState = store.state.accueilState;
+    final Rendezvous? event;
+
+    if (eventListState is EventListSuccessState) {
+      event = eventListState.animationsCollectives.firstWhereOrNull((e) => e.id == source.eventId);
+    } else if (accueilState is AccueilSuccessState) {
+      event = accueilState.accueil.evenements?.firstWhereOrNull((e) => e.id == source.eventId);
+    } else {
+      throw Exception(
+        "ChatPartagePageViewModel must be created with an EventListSuccessState or an AccueilSuccessState.",
+      );
     }
-    final event = eventListState.animationsCollectives.firstWhereOrNull((element) => element.id == source.eventId);
+
     if (event == null) {
       throw Exception("Event not found.");
     }
@@ -129,7 +139,7 @@ class ChatPartagePageViewModel extends Equatable {
       information: Strings.infoEventPartageChat,
       shareButtonTitle: Strings.partagerAuConseiller,
       shareableTitle: event.title ?? "",
-      onShare: (message) => _partagerEvent(store, event, message),
+      onShare: (message) => _partagerEvent(store, event!, message),
       snackbarState: _snackbarState(store),
       snackbarDisplayed: () => store.dispatch(ChatPartageResetAction()),
       snackbarSuccessText: Strings.partageEventSuccess,
@@ -138,7 +148,9 @@ class ChatPartagePageViewModel extends Equatable {
   }
 
   factory ChatPartagePageViewModel.sharingEvenementEmploi(
-      Store<AppState> store, ChatPartageEvenementEmploiSource source) {
+    Store<AppState> store,
+    ChatPartageEvenementEmploiSource source,
+  ) {
     final evenementEmploiDetailsState = store.state.evenementEmploiDetailsState;
     if (evenementEmploiDetailsState is! EvenementEmploiDetailsSuccessState) {
       throw Exception("ChatPartagePageViewModel must be created with a EvenementEmploiDetailsSuccessState.");
