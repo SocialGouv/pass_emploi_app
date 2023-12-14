@@ -1,15 +1,14 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/event_list_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_evenement_emploi_page.dart';
+import 'package:pass_emploi_app/presentation/events/event_tab_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
-import 'package:redux/redux.dart';
 
 class EventsTabPage extends StatelessWidget {
   final EventTab? initialTab;
@@ -43,7 +42,7 @@ class _Body extends StatelessWidget {
         body: ConnectivityContainer(
           child: Column(
             children: [
-              PassEmploiTabBar(tabLabels: viewModel.tabs.titles()),
+              PassEmploiTabBar(tabLabels: viewModel.tabs._titles()),
               Expanded(
                 child: TabBarView(
                   children: viewModel.tabs._pages(),
@@ -66,48 +65,19 @@ extension _Tabs on List<EventTab> {
 
   List<Widget> _pages() {
     return map((tab) {
-      switch (tab) {
-        case EventTab.maMissionLocale:
-          return EventListPage();
-        case EventTab.rechercheExternes:
-          return RechercheEvenementEmploiPage();
-      }
+      return switch (tab) {
+        EventTab.maMissionLocale => EventListPage(),
+        EventTab.rechercheExternes => RechercheEvenementEmploiPage()
+      };
     }).toList();
   }
-}
 
-// to extract
-
-enum EventTab { maMissionLocale, rechercheExternes }
-
-class EventsTabPageViewModel extends Equatable {
-  final List<EventTab> tabs;
-
-  EventsTabPageViewModel._({
-    required this.tabs,
-  });
-
-  factory EventsTabPageViewModel.create(Store<AppState> store) {
-    final tabs = [
-      EventTab.maMissionLocale,
-      EventTab.rechercheExternes,
-    ];
-    return EventsTabPageViewModel._(tabs: tabs);
-  }
-
-  @override
-  List<Object?> get props => [tabs];
-}
-
-extension EventTabTitles on List<EventTab> {
-  List<String> titles() {
+  List<String> _titles() {
     return map((tab) {
-      switch (tab) {
-        case EventTab.maMissionLocale:
-          return Strings.eventTabMaMissionLocale;
-        case EventTab.rechercheExternes:
-          return Strings.eventTabExternes;
-      }
+      return switch (tab) {
+        EventTab.maMissionLocale => Strings.eventTabMaMissionLocale,
+        EventTab.rechercheExternes => Strings.eventTabExternes
+      };
     }).toList();
   }
 }
