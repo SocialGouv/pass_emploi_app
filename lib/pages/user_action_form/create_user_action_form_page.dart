@@ -98,6 +98,7 @@ class _BackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SecondaryButton(
       label: Strings.user_action_back_button,
+      backgroundColor: Colors.white,
       onPressed: onPressed,
     );
   }
@@ -155,7 +156,8 @@ class _CreateUserActionForm extends StatelessWidget {
                   withRappelChanged: (value) => formState.withRappelChanged(value),
                 ),
               _ => const SizedBox.shrink(),
-            }
+            },
+            SizedBox(height: Margins.spacing_huge),
           ],
         ),
       ),
