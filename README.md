@@ -184,54 +184,62 @@ ou `[APP MOBILE] .env.prod`).
    fichier `ci/env.ci`.
 4. Mettre à jour le secret de Github action 'STAGING_RUNTIME_ENV_B64' (Github > Settings > Secrets).
 
+## Release notes pour la soumission sur les stores Apple et Google
+
+- Pour l'app **CEJ**, mettre à jour le contenu du fichier `release-notes/cej/whatsnew-fr-FR`.
+- Pour l'app **pass emploi**, mettre à jour le contenu du fichier `release-notes/brsa/whatsnew-fr-FR`.
+- Commiter les changements
+
+```shell script
+$ git add release-notes
+$ git commit -m "build: Update release notes"
+```
+
 ## Déployer une nouvelle version de l'app en bêta test sur les stores publics
 
-Lancer le script `release.sh` avec le numéro de version en paramètre :
+1. Mettre à jour les release notes
+   comme [dans la section dédiée](#release-notes-pour-la-soumission-sur-les-stores-apple-et-google).
+2. Lancer le script `release.sh` avec le numéro de version en paramètre :
 
 ```shell script
 $ ./scripts/release.sh <major.minor.patch>
 ```
 
-La pipeline de production se lancera automatiquement dans la foulée. À la fin du job, le build de
-l'appli se retrouve disponible :
+La pipeline de production se lancera automatiquement dans la foulée. À la fin du job, le build des
+apps **CEJ** et **pass emploi** se retrouvent :
 
-- Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
-  avant que les utilisateurs internes puissent le voir dans le Play Store.
-- Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
-  groupe de testeurs internes "Équipe projet".
+- Soumises à validation sur le Play Store Android.
+- Prêtes à soumission sur App Store Connect, mais la soumission doit être faite manuellement. (il faut environ 10
+  minutes pour que les builds soient disponibles).
+  Pour rappel, les fiches stores sont configurées pour que les mises à jour ne soient pas automatiques après validation.
+  C'est à nous d'aller les déployer une fois la validation reçue.
 
 ## Déployer un hotfix de l'app en bêta test sur les stores publics
 
-1. Faire un checkout du dernier tag envoyé en prod. 
-(Note : La suite se fera sur un *detached HEAD*).
-
+1. Faire un checkout du dernier tag envoyé en prod.
+   (Note : La suite se fera sur un *detached HEAD*).
 2. Corriger les problèmes, puis committer en local.
-
-3. En restant sur le HEAD, lancer le script `hotfix.sh` avec le numéro de version en paramètre :
+3. Mettre à jour les release notes
+   comme [dans la section dédiée](#release-notes-pour-la-soumission-sur-les-stores-apple-et-google).
+4. En restant sur le HEAD, lancer le script `hotfix.sh` avec le numéro de version en paramètre :
 
 ```shell script
 $ ./scripts/hotfix.sh <major.minor.patch>
 ```
 
-4. Si besoin, appliquer également la correction sur la branche main.
+5. Si besoin, appliquer également la correction sur la branche main.
 
-La pipeline de production se lancera automatiquement dans la foulée. À la fin du job, le build de
-l'appli se retrouve disponible :
+La pipeline de production se lancera automatiquement dans la foulée. À la fin du job, le build des
+apps **CEJ** et **pass emploi** se retrouvent :
 
-- Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
-  avant que les utilisateurs internes puissent le voir dans le Play Store.
-- Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
-  groupe de testeurs internes "Équipe projet".
+- Soumises à validation sur le Play Store Android.
+- Prêtes à soumission sur App Store Connect, mais la soumission doit être faite manuellement. (il faut environ 10
+  minutes pour que les builds soient disponibles).
 
-## Promouvoir la version pour tous les utilisateurs
+- Pour rappel, les fiches stores sont configurées pour que les mises à jour ne soient pas automatiques après validation.
+  C'est à nous d'aller les déployer une fois la validation reçue.
 
-### Pour Android
-
-1. Aller sur la console Google Play de l'application.
-2. Dans le pannel de gauche, aller sur `Tests internes`, puis `Promouvoir la release`.
-3. La validation peut prendre _jusqu'à 48h_.
-
-### Pour iOS
+## Soumettre les build iOS à validation sur App Store Connect
 
 1. Aller sur [App Store Connect](https://appstoreconnect.apple.com/apps).
 2. Créer une version sur l'onglet App Store à partir du build idoine.
