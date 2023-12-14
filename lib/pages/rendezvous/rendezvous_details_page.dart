@@ -128,8 +128,10 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
             if (viewModel.withModalityPart) _Modality(viewModel),
             if (viewModel.withDescriptionPart) _DescriptionPart(viewModel),
             SepLine(Margins.spacing_m, Margins.spacing_m),
-            if (viewModel.withAnimateur != null) _AnimateurPart(viewModel.withAnimateur!),
-            SepLine(Margins.spacing_m, Margins.spacing_m),
+            if (viewModel.withAnimateur != null) ...[
+              _AnimateurPart(viewModel.withAnimateur!),
+              SepLine(Margins.spacing_m, Margins.spacing_m),
+            ],
             _ConseillerPart(viewModel),
             if (viewModel.withIfAbsentPart) _InformIfAbsent(),
             if (viewModel.shareToConseillerSource != null)
@@ -303,8 +305,9 @@ class _DescriptionPart extends StatelessWidget {
 }
 
 class _AnimateurPart extends StatelessWidget {
-  const _AnimateurPart(this.withAnimateur);
   final String withAnimateur;
+
+  const _AnimateurPart(this.withAnimateur);
 
   @override
   Widget build(BuildContext context) {

@@ -700,8 +700,15 @@ void main() {
         group('when événement is from Accueil > Evénements pouvant vous intéresser (user not inscrit)', () {
           setUp(() {
             final store = givenState()
-                .loggedInUser()
-                .withAccueilMiloSuccess(mockAccueilMilo(evenements: [mockRendezvous(id: '1', estInscrit: false)]))
+                .withAccueilMiloSuccess(mockAccueilMilo(
+                  evenements: [
+                    mockRendezvous(
+                      id: '1',
+                      estInscrit: false,
+                      createur: const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
+                    )
+                  ],
+                ))
                 .store();
 
             viewModel = RendezvousDetailsViewModel.create(
@@ -717,7 +724,11 @@ void main() {
           });
 
           test('should not display absent part', () {
-            expect(viewModel.withIfAbsentPart, false);
+            expect(viewModel.withIfAbsentPart, isFalse);
+          });
+
+          test('should not display créateur part', () {
+            expect(viewModel.createur, isNull);
           });
 
           test('should be shareable', () {
@@ -729,10 +740,15 @@ void main() {
         group('when événement is from Evénements list', () {
           group('and user is inscrit', () {
             setUp(() {
-              final store = givenState()
-                  .loggedInUser() //
-                  .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: true)]) //
-                  .store();
+              final store = givenState().succeedEventList(
+                animationsCollectives: [
+                  mockRendezvous(
+                    id: '1',
+                    estInscrit: true,
+                    createur: const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
+                  )
+                ],
+              ).store();
 
               viewModel = RendezvousDetailsViewModel.create(
                 store: store,
@@ -754,18 +770,25 @@ void main() {
               expect(viewModel.isInscrit, isTrue);
             });
 
+            test('should not display créateur part', () {
+              expect(viewModel.createur, isNull);
+            });
+
             test('should not be shareable', () {
-              expect(viewModel.shareToConseillerSource, null);
-              expect(viewModel.shareToConseillerButtonTitle, null);
+              expect(viewModel.shareToConseillerSource, isNull);
+              expect(viewModel.shareToConseillerButtonTitle, isNull);
             });
           });
 
           group('and user is not inscrit', () {
             setUp(() {
-              final store = givenState()
-                  .loggedInUser() //
-                  .succeedEventList(animationsCollectives: [mockRendezvous(id: '1', estInscrit: false)]) //
-                  .store();
+              final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [
+                mockRendezvous(
+                  id: '1',
+                  estInscrit: false,
+                  createur: const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
+                ),
+              ]).store();
 
               viewModel = RendezvousDetailsViewModel.create(
                 store: store,
@@ -781,6 +804,10 @@ void main() {
 
             test('should not display absent part', () {
               expect(viewModel.withIfAbsentPart, isFalse);
+            });
+
+            test('should not display créateur part', () {
+              expect(viewModel.createur, isNull);
             });
 
             test('should not be inscrit', () {

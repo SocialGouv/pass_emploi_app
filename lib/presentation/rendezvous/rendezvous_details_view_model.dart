@@ -119,7 +119,7 @@ class RendezvousDetailsViewModel extends Equatable {
       hourAndDuration: _hourAndDuration(rdv),
       modality: _modality(rdv),
       conseiller: _conseiller(rdv),
-      createur: _createur(rdv),
+      createur: _createur(source, rdv),
       conseillerPresenceLabel: isConseillerPresent ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: isConseillerPresent ? AppColors.secondary : AppColors.warning,
       isInscrit: isInscrit,
@@ -314,7 +314,8 @@ String? _conseiller(Rendezvous rdv) {
   return null;
 }
 
-String? _createur(Rendezvous rdv) {
+String? _createur(RendezvousStateSource source, Rendezvous rdv) {
+  if (source.isFromEvenements) return null;
   if (rdv.source.isMilo) return null;
   final createur = rdv.createur;
   return createur != null ? Strings.rendezvousCreateur('${createur.firstName} ${createur.lastName}') : null;
