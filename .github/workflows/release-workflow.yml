@@ -103,9 +103,11 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.PROD_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: fr.fabrique.social.gouv.passemploi
+          releaseName: ${{github.ref_name}}
           releaseFiles: build/app/outputs/bundle/release/app.aab
-          track: internal
+          track: production
           status: completed
+          whatsNewDirectory: release-notes/cej
 
       - name: BRSA - Build Android appbundle
         run: |
@@ -125,9 +127,11 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.PROD_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: fr.fabrique.social.gouv.passemploi.rsa
+          releaseName: ${{github.ref_name}}
           releaseFiles: build/app/outputs/bundle/release/app.aab
-          track: internal
+          track: production
           status: completed
+          whatsNewDirectory: release-notes/brsa
 
   build-ios-prod:
     runs-on: macos-12
