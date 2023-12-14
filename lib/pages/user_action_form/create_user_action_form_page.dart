@@ -138,7 +138,7 @@ class _CreateUserActionForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            UserActionStepper(view: formState.currentView),
+            UserActionStepper(view: formState.currentView, category: formState.step1.actionCategory?.label ?? ""),
             switch (formState.currentView) {
               CreateUserActionView.step1 => CreateUserActionFormStep1(onActionTypeSelected: (type) {
                   formState.userActionTypeSelected(type);

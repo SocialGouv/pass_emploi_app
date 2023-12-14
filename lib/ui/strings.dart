@@ -350,7 +350,7 @@ class Strings {
   static const String user_action_next_button = 'Continuer';
 
   static const String user_action_title_step_1 = 'Catégorie';
-  static const String user_action_title_step_2 = 'Mon action emploi';
+  static const String user_action_title_step_2 = 'Mon action';
   static const String user_action_title_step_3 = 'Statut et date';
 
   static const String user_action_subtitle_step_1 = '*Choisissez une catégorie';

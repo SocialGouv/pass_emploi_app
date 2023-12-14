@@ -4,8 +4,9 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_stepper.dart';
 
 class UserActionStepper extends StatelessWidget {
-  const UserActionStepper({super.key, required this.view});
+  const UserActionStepper({super.key, required this.view, required this.category});
   final CreateUserActionView view;
+  final String category;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class UserActionStepper extends StatelessWidget {
         },
         stepTitle: switch (view) {
           CreateUserActionView.step1 => Strings.user_action_title_step_1,
-          CreateUserActionView.step2 => Strings.user_action_title_step_2,
+          CreateUserActionView.step2 => "${Strings.user_action_title_step_2} $category",
           CreateUserActionView.step3 => Strings.user_action_title_step_3,
           _ => '',
         });

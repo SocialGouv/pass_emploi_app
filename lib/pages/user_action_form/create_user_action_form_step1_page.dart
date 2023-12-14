@@ -39,11 +39,11 @@ class ActionCategorySelector extends StatelessWidget {
         mainAxisSpacing: Margins.spacing_base,
         crossAxisSpacing: Margins.spacing_base,
       ),
-      itemCount: UserActionReferentiel.all.length,
+      itemCount: UserActionReferentielType.all.length,
       itemBuilder: (context, index) {
-        final type = UserActionReferentiel.all[index];
+        final type = UserActionReferentielType.all[index];
         return ActionCategoryCard(
-          onTap: () => onActionSelected?.call(type.type),
+          onTap: () => onActionSelected?.call(type),
           icon: type.icon,
           label: type.label,
           description: type.description,
@@ -94,67 +94,47 @@ enum UserActionReferentielType {
   citoyennete,
   formation,
   logement,
-  sante,
+  sante;
+
+  static List<UserActionReferentielType> get all => [
+        emploi,
+        projetProfessionnel,
+        cultureSportLoisirs,
+        citoyennete,
+        formation,
+        logement,
+        sante,
+      ];
 }
 
-class UserActionReferentiel {
-  final UserActionReferentielType type;
-  final String label;
-  final String description;
-  final IconData icon;
+extension UserActionReferentielTypeExt on UserActionReferentielType {
+  String get label => switch (this) {
+        UserActionReferentielType.emploi => 'Emploi',
+        UserActionReferentielType.projetProfessionnel => 'Projet',
+        UserActionReferentielType.cultureSportLoisirs => 'Sport',
+        UserActionReferentielType.citoyennete => 'Citoyenneté',
+        UserActionReferentielType.formation => 'Formation',
+        UserActionReferentielType.logement => 'Logement',
+        UserActionReferentielType.sante => 'Santé',
+      };
 
-  const UserActionReferentiel(this.type, this.label, this.description, this.icon);
+  String get description => switch (this) {
+        UserActionReferentielType.emploi => "Recherches, candidatures",
+        UserActionReferentielType.projetProfessionnel => "Définir un projet professionnel",
+        UserActionReferentielType.cultureSportLoisirs => "Cours de sport, salle, sorties",
+        UserActionReferentielType.citoyennete => "Démarches, passer le permis",
+        UserActionReferentielType.formation => "En présentiel ou en ligne",
+        UserActionReferentielType.logement => "Recherches de logement",
+        UserActionReferentielType.sante => "Rendez-vous médicaux",
+      };
 
-  static const emploi = UserActionReferentiel(
-    UserActionReferentielType.emploi,
-    'Emploi', // TODO: Strings
-    "Recherches, candidatures",
-    AppIcons.emploi,
-  );
-  static const projetProfessionnel = UserActionReferentiel(
-    UserActionReferentielType.projetProfessionnel,
-    'Projet Pro', // TODO: Strings
-    "Définir un projet professionnel",
-    AppIcons.projetPro,
-  );
-  static const cultureSportLoisirs = UserActionReferentiel(
-    UserActionReferentielType.cultureSportLoisirs,
-    'Sport, loisirs', // TODO: Strings
-    "Cours de sport, salle, sorties",
-    AppIcons.sportLoisirs,
-  );
-  static const citoyennete = UserActionReferentiel(
-    UserActionReferentielType.citoyennete,
-    'Citoyenneté', // TODO: Strings
-    "Démarches, passer le permis",
-    AppIcons.citoyennete,
-  );
-  static const formation = UserActionReferentiel(
-    UserActionReferentielType.formation,
-    'Formation', // TODO: Strings
-    "En présentiel ou en ligne",
-    AppIcons.formation,
-  );
-  static const logement = UserActionReferentiel(
-    UserActionReferentielType.logement,
-    'Logement', // TODO: Strings
-    "Recherches de logement",
-    AppIcons.logement,
-  );
-  static const sante = UserActionReferentiel(
-    UserActionReferentielType.sante,
-    'Santé', // TODO: Strings
-    "Rendez-vous médicaux",
-    AppIcons.sante,
-  );
-
-  static const all = [
-    emploi,
-    projetProfessionnel,
-    cultureSportLoisirs,
-    citoyennete,
-    formation,
-    logement,
-    sante,
-  ];
+  IconData get icon => switch (this) {
+        UserActionReferentielType.emploi => AppIcons.emploi,
+        UserActionReferentielType.projetProfessionnel => AppIcons.projetPro,
+        UserActionReferentielType.cultureSportLoisirs => AppIcons.sportLoisirs,
+        UserActionReferentielType.citoyennete => AppIcons.citoyennete,
+        UserActionReferentielType.formation => AppIcons.formation,
+        UserActionReferentielType.logement => AppIcons.logement,
+        UserActionReferentielType.sante => AppIcons.sante,
+      };
 }
