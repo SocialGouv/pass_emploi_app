@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 
@@ -98,14 +99,17 @@ class _DateSuggestions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final today = DateTime.now();
+    final tomorrow = DateTime.now().add(Duration(days: 1));
+    final nextWeek = DateTime.now().add(Duration(days: 7));
     return Wrap(
       spacing: Margins.spacing_s,
       runSpacing: Margins.spacing_s,
       children: switch (dateSource) {
         CreateActionDateNone() => [
             PassEmploiChip<DateTime>(
-              label: Strings.user_action_date_suggestion_1,
-              value: DateTime.now(),
+              label: "${Strings.user_action_date_suggestion_1} (${today.toDayOfWeek()})",
+              value: today,
               isSelected: false,
               onTagSelected: (value) => onSelected(CreateActionDateFromSuggestions(
                 value,
@@ -114,8 +118,8 @@ class _DateSuggestions extends StatelessWidget {
               onTagDeleted: () => onSelected(CreateActionDateNone()),
             ),
             PassEmploiChip<DateTime>(
-              label: Strings.user_action_date_suggestion_2,
-              value: DateTime.now().add(Duration(days: 1)),
+              label: "${Strings.user_action_date_suggestion_2} (${tomorrow.toDayOfWeek()})",
+              value: tomorrow,
               isSelected: false,
               onTagSelected: (value) => onSelected(CreateActionDateFromSuggestions(
                 value,
@@ -124,8 +128,8 @@ class _DateSuggestions extends StatelessWidget {
               onTagDeleted: () => onSelected(CreateActionDateNone()),
             ),
             PassEmploiChip<DateTime>(
-              label: Strings.user_action_date_suggestion_3,
-              value: DateTime.now().add(Duration(days: 7)),
+              label: "${Strings.user_action_date_suggestion_3} (${nextWeek.toDayOfWeek()})",
+              value: nextWeek,
               isSelected: false,
               onTagSelected: (value) => onSelected(CreateActionDateFromSuggestions(
                 value,

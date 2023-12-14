@@ -27,6 +27,8 @@ extension DateExtensions on DateTime {
 
   String toDay() => DateFormat('dd/MM/yyyy').format(this);
 
+  String toDayOfWeek() => DateFormat('EEEE d', 'fr').format(this);
+
   String toDayWithFullMonth() => DateFormat('dd MMMM yyyy', 'fr').format(this);
 
   String toDayWithFullMonthContextualized() {
