@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -39,9 +40,9 @@ class ActionCategorySelector extends StatelessWidget {
         mainAxisSpacing: Margins.spacing_base,
         crossAxisSpacing: Margins.spacing_base,
       ),
-      itemCount: UserActionReferentielType.all.length,
+      itemCount: UserActionReferentielTypePresentation.all.length,
       itemBuilder: (context, index) {
-        final type = UserActionReferentielType.all[index];
+        final type = UserActionReferentielTypePresentation.all[index];
         return ActionCategoryCard(
           onTap: () => onActionSelected?.call(type),
           icon: type.icon,
@@ -87,27 +88,16 @@ class ActionCategoryCard extends StatelessWidget {
   }
 }
 
-enum UserActionReferentielType {
-  emploi,
-  projetProfessionnel,
-  cultureSportLoisirs,
-  citoyennete,
-  formation,
-  logement,
-  sante;
-
+extension UserActionReferentielTypePresentation on UserActionReferentielType {
   static List<UserActionReferentielType> get all => [
-        emploi,
-        projetProfessionnel,
-        cultureSportLoisirs,
-        citoyennete,
-        formation,
-        logement,
-        sante,
+        UserActionReferentielType.emploi,
+        UserActionReferentielType.projetProfessionnel,
+        UserActionReferentielType.cultureSportLoisirs,
+        UserActionReferentielType.citoyennete,
+        UserActionReferentielType.formation,
+        UserActionReferentielType.logement,
+        UserActionReferentielType.sante,
       ];
-}
-
-extension UserActionReferentielTypeExt on UserActionReferentielType {
   String get label => switch (this) {
         UserActionReferentielType.emploi => 'Emploi',
         UserActionReferentielType.projetProfessionnel => 'Projet',

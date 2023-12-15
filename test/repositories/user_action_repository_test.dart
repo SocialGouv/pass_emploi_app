@@ -67,7 +67,7 @@ void main() {
       sut.when(
         (repository) => repository.createUserAction(
           "UID",
-          UserActionCreateRequest("content", "comment", DateTime.utc(2022, 1, 1), true, UserActionStatus.DONE),
+          UserActionCreateRequest("content", "comment", DateTime.utc(2022, 1, 1), true, UserActionStatus.DONE, null),
         ),
       );
 

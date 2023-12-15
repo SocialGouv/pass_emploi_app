@@ -1,13 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
-import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 
 void main() {
@@ -68,7 +67,7 @@ void main() {
     final viewModel = UserActionCreateViewModel.create(store);
 
     // When
-    final request = UserActionCreateRequest("content", "comment", DateTime(2022), true, UserActionStatus.DONE);
+    final request = dummyUserActionCreateRequest();
     viewModel.createUserAction(request);
 
     // Then

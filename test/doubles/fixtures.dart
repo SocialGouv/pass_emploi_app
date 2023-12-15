@@ -59,6 +59,7 @@ import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_contact_form_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_item_view_model.dart';
@@ -1167,5 +1168,6 @@ UserActionCreateRequest dummyUserActionCreateRequest([String content = "content"
     DateTime(2023),
     true,
     UserActionStatus.NOT_STARTED,
+    UserActionReferentielType.emploi,
   );
 }

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step1_page.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/pages/user_action_form/form_state/create_user_action_form_state.dart';
 
 void main() {

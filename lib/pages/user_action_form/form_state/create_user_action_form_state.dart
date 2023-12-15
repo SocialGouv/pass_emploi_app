@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step1_page.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 
 part 'create_user_action_step1_state.dart';
 part 'create_user_action_step2_state.dart';
@@ -118,5 +118,6 @@ extension CreateUserActionFormStateExt on CreateUserActionFormState {
         step3.date.selectedDate,
         step3.withRappel,
         step3.estTerminee ? UserActionStatus.DONE : UserActionStatus.IN_PROGRESS,
+        step1.actionCategory,
       );
 }
