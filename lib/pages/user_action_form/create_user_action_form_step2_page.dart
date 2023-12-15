@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pages/user_action_form/form_state/create_user_action_form_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -7,7 +8,7 @@ import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class CreateUserActionFormStep2 extends StatelessWidget {
-  const CreateUserActionFormStep2({
+  CreateUserActionFormStep2({
     required this.state,
     required this.onTitleChanged,
     required this.onDescriptionChanged,
@@ -16,6 +17,8 @@ class CreateUserActionFormStep2 extends StatelessWidget {
   final CreateUserActionStep2State state;
   final void Function(CreateActionTitleSource) onTitleChanged;
   final void Function(String) onDescriptionChanged;
+
+  final descriptionKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +41,28 @@ class CreateUserActionFormStep2 extends StatelessWidget {
           ),
         ],
         const SizedBox(height: Margins.spacing_m),
-        Text(Strings.user_action_description_textfield_step_2, style: TextStyles.textBaseBold),
+        Text(
+          Strings.user_action_description_textfield_step_2,
+          key: descriptionKey,
+          style: TextStyles.textBaseBold,
+        ),
         const SizedBox(height: Margins.spacing_s),
         BaseTextField(
           initialValue: state.description,
           maxLines: 5,
-          onChanged: (value) => onDescriptionChanged(value),
+          onChanged: (value) {
+            onDescriptionChanged(value);
+            _scrollToDescription(context);
+          },
         ),
       ],
+    );
+  }
+
+  Future<void> _scrollToDescription(BuildContext context) {
+    return Scrollable.ensureVisible(
+      descriptionKey.currentContext ?? context,
+      duration: AnimationDurations.fast,
     );
   }
 }
