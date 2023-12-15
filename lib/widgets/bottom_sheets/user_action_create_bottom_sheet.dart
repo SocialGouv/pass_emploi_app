@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
+// TODO: FIXME: Delete this file and all Strings
 class CreateUserActionBottomSheet extends StatefulWidget {
   static MaterialPageRoute<UserActionCreateDisplayState?> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateUserActionBottomSheet());

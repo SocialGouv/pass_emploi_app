@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
+import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_page.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -24,7 +25,6 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/big_title_separator.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -84,14 +84,16 @@ class _Scaffold extends StatelessWidget {
         if (viewModel.createButton == CreateButton.userAction)
           _CreateButton(
             label: Strings.addAnAction,
-            onPressed: () => Navigator.push(context, CreateUserActionBottomSheet.materialPageRoute()).then((result) {
-              CreateUserActionBottomSheet.displaySnackBarOnResult(
-                context,
-                result,
-                UserActionStateSource.agenda,
-                () => viewModel.resetCreateAction(),
-              );
-            }),
+            // TODO:
+            onPressed: () => Navigator.push(context, CreateUserActionFromPage.route()),
+            // onPressed: () => Navigator.push(context, CreateUserActionBottomSheet.materialPageRoute()).then((result) {
+            //   CreateUserActionBottomSheet.displaySnackBarOnResult(
+            //     context,
+            //     result,
+            //     UserActionStateSource.agenda,
+            //     () => viewModel.resetCreateAction(),
+            //   );
+            // }),
           ),
         if (viewModel.createButton == CreateButton.demarche)
           _CreateButton(
