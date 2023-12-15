@@ -133,16 +133,16 @@ class _UserActionListPageState extends State<UserActionListPage> {
       label: Strings.addAnAction,
       icon: AppIcons.add_rounded,
       rippleColor: AppColors.primaryDarken,
-      onPressed: () => Navigator.push(context, CreateUserActionFromPage.route()),
-      // TODO: Réutiliser user_action_create_view_model.dart et afficher un loader
-      // onPressed: () => Navigator.push(context, CreateUserActionBottomSheet.materialPageRoute()).then((result) {
-      //   CreateUserActionBottomSheet.displaySnackBarOnResult(
-      //     context,
-      //     result,
-      //     UserActionStateSource.list,
-      //     () => viewModel.onCreateUserActionDismissed(),
-      //   );
-      // }),
+      onPressed: () => Navigator.push(context, CreateUserActionFormPage.route(
+        onPop: (displayState) {
+          CreateUserActionFormPage.displaySnackBarOnResult(
+            context,
+            displayState,
+            UserActionStateSource.list,
+            () => viewModel.onCreateUserActionDismissed(),
+          );
+        },
+      )),
     );
   }
 }

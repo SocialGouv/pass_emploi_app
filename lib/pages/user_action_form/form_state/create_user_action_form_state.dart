@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step1_page.dart';
 
 part 'create_user_action_step1_state.dart';
@@ -108,4 +110,13 @@ extension CreateUserActionFormStateExt on CreateUserActionFormState {
   bool get isStep2 => currentView == CreateUserActionView.step2;
   bool get isStep3 => currentView == CreateUserActionView.step3;
   bool get isSubmitted => currentView == CreateUserActionView.submitted;
+
+  UserActionCreateRequest get toRequest => UserActionCreateRequest(
+        // TODO: Vérifier ces champs + ajouter le type
+        step2.titleSource.title,
+        step2.description,
+        step3.date.selectedDate,
+        step3.withRappel,
+        step3.estTerminee ? UserActionStatus.DONE : UserActionStatus.IN_PROGRESS,
+      );
 }

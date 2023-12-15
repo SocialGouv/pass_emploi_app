@@ -84,16 +84,16 @@ class _Scaffold extends StatelessWidget {
         if (viewModel.createButton == CreateButton.userAction)
           _CreateButton(
             label: Strings.addAnAction,
-            // TODO:
-            onPressed: () => Navigator.push(context, CreateUserActionFromPage.route()),
-            // onPressed: () => Navigator.push(context, CreateUserActionBottomSheet.materialPageRoute()).then((result) {
-            //   CreateUserActionBottomSheet.displaySnackBarOnResult(
-            //     context,
-            //     result,
-            //     UserActionStateSource.agenda,
-            //     () => viewModel.resetCreateAction(),
-            //   );
-            // }),
+            onPressed: () => Navigator.push(context, CreateUserActionFormPage.route(
+              onPop: (displayState) {
+                CreateUserActionFormPage.displaySnackBarOnResult(
+                  context,
+                  displayState,
+                  UserActionStateSource.agenda,
+                  () => viewModel.resetCreateAction(),
+                );
+              },
+            )),
           ),
         if (viewModel.createButton == CreateButton.demarche)
           _CreateButton(

@@ -1,166 +1,112 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step1_page.dart';
-import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step2_page.dart';
-import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step3_page.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
+import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form.dart';
 import 'package:pass_emploi_app/pages/user_action_form/form_state/create_user_action_form_state.dart';
-import 'package:pass_emploi_app/pages/user_action_form/widgets/user_action_stepper.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class CreateUserActionFromPage extends StatefulWidget {
-  const CreateUserActionFromPage({super.key});
+class CreateUserActionFormPage extends StatelessWidget {
+  const CreateUserActionFormPage({super.key, required this.onPop});
+  final void Function(UserActionCreateDisplayState displayState)? onPop;
 
-  static Route<dynamic> route() {
-    return MaterialPageRoute<void>(builder: (_) => const CreateUserActionFromPage());
+  static Route<dynamic> route({required void Function(UserActionCreateDisplayState displayState) onPop}) {
+    return MaterialPageRoute<void>(
+      builder: (_) => CreateUserActionFormPage(onPop: onPop),
+    );
   }
 
-  @override
-  State<CreateUserActionFromPage> createState() => _CreateUserActionFromPageState();
-}
-
-class _CreateUserActionFromPageState extends State<CreateUserActionFromPage> {
-  late final CreateUserActionFormState _formState;
-
-  @override
-  void initState() {
-    super.initState();
-    _formState = CreateUserActionFormState();
-    _formState.addListener(_onFormStateChanged);
-  }
-
-  void _onFormStateChanged() {
-    if (_formState.isAborted) {
-      Navigator.of(context).pop();
-    } else if (_formState.isSubmitted) {
-      // TODO: onSubmit
-      Navigator.of(context).pop();
+  static void displaySnackBarOnResult(
+    BuildContext context,
+    UserActionCreateDisplayState? result,
+    UserActionStateSource source,
+    Function() onResult,
+  ) {
+    if (result is DismissWithSuccess) {
+      _showSnackBarWithDetail(context, source, result.userActionCreatedId);
+      onResult();
+    } else if (result is DismissWithFailure) {
+      _showSnackBarForOfflineCreation(context);
+      onResult();
     }
-    setState(() {});
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: SecondaryAppBar(
-        title: Strings.createActionAppBarTitle,
-        leading: BackButton(onPressed: () => _formState.viewChangedBackward()),
-      ),
-      floatingActionButton: _formState.shouldDisplayNavigationButtons
-          ? _NavButtons(
-              onGoBackPressed: () => _formState.viewChangedBackward(),
-              onGoForwardPressed: _formState.canGoForward ? () => _formState.viewChangedForward() : null,
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: _CreateUserActionForm(_formState),
+  static void _showSnackBarWithDetail(
+    BuildContext context,
+    UserActionStateSource source,
+    String userActionId,
+  ) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
+    );
+    showSnackBarWithSuccess(
+      context,
+      Strings.createActionSuccess,
+      () {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.createActionEventCategory,
+          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+        );
+        Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, source));
+      },
     );
   }
-}
 
-class _NavButtons extends StatelessWidget {
-  const _NavButtons({
-    required this.onGoBackPressed,
-    required this.onGoForwardPressed,
-  });
-  final void Function()? onGoBackPressed;
-  final void Function()? onGoForwardPressed;
+  static void _showSnackBarForOfflineCreation(BuildContext context) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionOfflineAction,
+    );
+    showSnackBarWithSuccess(context, Strings.createActionPostponed);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            flex: 1,
-            child: _BackButton(onPressed: onGoBackPressed),
-          ),
-          const SizedBox(width: Margins.spacing_base),
-          Expanded(
-            flex: 2,
-            child: _NextButton(onPressed: onGoForwardPressed),
-          ),
-        ],
+    return Tracker(
+      tracking: AnalyticsScreenNames.createUserAction,
+      child: StoreConnector<AppState, UserActionCreateViewModel>(
+        converter: (state) => UserActionCreateViewModel.create(state),
+        builder: (context, viewModel) => _Body(viewModel),
+        onWillChange: (previousVm, newVm) => _shouldPop(context, newVm),
       ),
     );
   }
-}
 
-class _BackButton extends StatelessWidget {
-  const _BackButton({required this.onPressed});
-  final void Function()? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return SecondaryButton(
-      label: Strings.user_action_back_button,
-      backgroundColor: Colors.white,
-      onPressed: onPressed,
-    );
+  void _shouldPop(BuildContext context, UserActionCreateViewModel viewModel) {
+    final displayState = viewModel.displayState;
+    if (displayState is DismissWithSuccess || displayState is DismissWithFailure) {
+      onPop?.call(displayState);
+      Navigator.pop(context, displayState);
+    }
   }
 }
 
-class _NextButton extends StatelessWidget {
-  const _NextButton({required this.onPressed});
-  final void Function()? onPressed;
+class _Body extends StatelessWidget {
+  const _Body(this.viewModel);
+  final UserActionCreateViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
-    return PrimaryActionButton(
-      label: Strings.user_action_next_button,
-      suffix: SizedBox.shrink(
-        child: OverflowBox(
-          maxWidth: double.infinity,
-          maxHeight: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.only(left: Margins.spacing_base),
-            child: Icon(Icons.arrow_forward_rounded),
-          ),
+    return Stack(
+      children: [
+        CreateUserActionForm(
+          onSubmit: (state) {
+            viewModel.createUserAction(state.toRequest);
+          },
+          onAbort: () => Navigator.pop(context),
         ),
-      ),
-      onPressed: onPressed,
-    );
-  }
-}
-
-class _CreateUserActionForm extends StatelessWidget {
-  const _CreateUserActionForm(this.formState);
-  final CreateUserActionFormState formState;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            UserActionStepper(view: formState.currentView, category: formState.step1.actionCategory?.label ?? ""),
-            switch (formState.currentView) {
-              CreateUserActionView.step1 => CreateUserActionFormStep1(onActionTypeSelected: (type) {
-                  formState.userActionTypeSelected(type);
-                }),
-              CreateUserActionView.step2 => CreateUserActionFormStep2(
-                  state: formState.step2,
-                  onTitleChanged: (value) => formState.titleChanged(value),
-                  onDescriptionChanged: (value) => formState.descriptionChanged(value),
-                ),
-              CreateUserActionView.step3 => CreateUserActionFormStep3(
-                  state: formState.step3,
-                  onStatusChanged: (value) => formState.statusChanged(value),
-                  onDateChanged: (value) => formState.dateChanged(value),
-                  withRappelChanged: (value) => formState.withRappelChanged(value),
-                ),
-              _ => const SizedBox.shrink(),
-            },
-            SizedBox(height: Margins.spacing_huge),
-          ],
-        ),
-      ),
+        if (viewModel.displayState.isLoading)
+          const Center(
+            child: CircularProgressIndicator(),
+          ),
+      ],
     );
   }
 }
