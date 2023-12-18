@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/pages/user_action_form/create_action_form_view_models/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step1_page.dart';
 import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step2_page.dart';
 import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step3_page.dart';
-import 'package:pass_emploi_app/pages/user_action_form/form_state/create_user_action_form_state.dart';
 import 'package:pass_emploi_app/pages/user_action_form/widgets/user_action_stepper.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class CreateUserActionForm extends StatefulWidget {
   const CreateUserActionForm({super.key, required this.onSubmit, required this.onAbort});
-  final void Function(CreateUserActionFormState state) onSubmit;
+  final void Function(CreateUserActionFormViewModel state) onSubmit;
   final void Function() onAbort;
 
   @override
@@ -20,12 +20,12 @@ class CreateUserActionForm extends StatefulWidget {
 }
 
 class _CreateUserActionFormState extends State<CreateUserActionForm> {
-  late final CreateUserActionFormState _formState;
+  late final CreateUserActionFormViewModel _formState;
 
   @override
   void initState() {
     super.initState();
-    _formState = CreateUserActionFormState();
+    _formState = CreateUserActionFormViewModel();
     _formState.addListener(_onFormStateChanged);
   }
 
@@ -126,7 +126,7 @@ class _NextButton extends StatelessWidget {
 
 class _CreateUserActionForm extends StatelessWidget {
   const _CreateUserActionForm(this.formState);
-  final CreateUserActionFormState formState;
+  final CreateUserActionFormViewModel formState;
 
   @override
   Widget build(BuildContext context) {
@@ -139,15 +139,15 @@ class _CreateUserActionForm extends StatelessWidget {
           children: [
             UserActionStepper(view: formState.currentView, category: formState.step1.actionCategory?.label ?? ""),
             switch (formState.currentView) {
-              CreateUserActionView.step1 => CreateUserActionFormStep1(onActionTypeSelected: (type) {
+              CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(onActionTypeSelected: (type) {
                   formState.userActionTypeSelected(type);
                 }),
-              CreateUserActionView.step2 => CreateUserActionFormStep2(
+              CreateUserActionDisplayState.step2 => CreateUserActionFormStep2(
                   state: formState.step2,
                   onTitleChanged: (value) => formState.titleChanged(value),
                   onDescriptionChanged: (value) => formState.descriptionChanged(value),
                 ),
-              CreateUserActionView.step3 => CreateUserActionFormStep3(
+              CreateUserActionDisplayState.step3 => CreateUserActionFormStep3(
                   state: formState.step3,
                   onStatusChanged: (value) => formState.statusChanged(value),
                   onDateChanged: (value) => formState.dateChanged(value),

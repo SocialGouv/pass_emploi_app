@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/pages/user_action_form/form_state/create_user_action_form_state.dart';
+import 'package:pass_emploi_app/pages/user_action_form/create_action_form_view_models/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -15,7 +15,7 @@ class CreateUserActionFormStep3 extends StatelessWidget {
     required this.withRappelChanged,
     required this.onDateChanged,
   });
-  final CreateUserActionStep3State state;
+  final CreateUserActionStep3ViewModel state;
   final void Function(bool) onStatusChanged;
   final void Function(bool) withRappelChanged;
   final void Function(CreateActionDateSource) onDateChanged;
@@ -37,7 +37,7 @@ class CreateUserActionFormStep3 extends StatelessWidget {
         DatePicker(
           onValueChange: (date) => onDateChanged(CreateActionDateFromUserInput(date)),
           initialDateValue: switch (state.date) {
-            CreateActionDateNone() => null,
+            CreateActionDateNotInitialized() => null,
             CreateActionDateFromSuggestions() => (state.date as CreateActionDateFromSuggestions).date,
             CreateActionDateFromUserInput() => (state.date as CreateActionDateFromUserInput).date,
           },
@@ -106,7 +106,7 @@ class _DateSuggestions extends StatelessWidget {
       spacing: Margins.spacing_s,
       runSpacing: Margins.spacing_s,
       children: switch (dateSource) {
-        CreateActionDateNone() => [
+        CreateActionDateNotInitialized() => [
             PassEmploiChip<DateTime>(
               label: "${Strings.user_action_date_suggestion_1} (${today.toDayOfWeek()})",
               value: today,
@@ -115,7 +115,7 @@ class _DateSuggestions extends StatelessWidget {
                 value,
                 Strings.user_action_date_suggestion_1,
               )),
-              onTagDeleted: () => onSelected(CreateActionDateNone()),
+              onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
             ),
             PassEmploiChip<DateTime>(
               label: "${Strings.user_action_date_suggestion_2} (${tomorrow.toDayOfWeek()})",
@@ -125,7 +125,7 @@ class _DateSuggestions extends StatelessWidget {
                 value,
                 Strings.user_action_date_suggestion_2,
               )),
-              onTagDeleted: () => onSelected(CreateActionDateNone()),
+              onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
             ),
             PassEmploiChip<DateTime>(
               label: "${Strings.user_action_date_suggestion_3} (${nextWeek.toDayOfWeek()})",
@@ -135,7 +135,7 @@ class _DateSuggestions extends StatelessWidget {
                 value,
                 Strings.user_action_date_suggestion_3,
               )),
-              onTagDeleted: () => onSelected(CreateActionDateNone()),
+              onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
             ),
           ],
         CreateActionDateFromSuggestions() => [
@@ -144,7 +144,7 @@ class _DateSuggestions extends StatelessWidget {
               value: DateTime.now().add(Duration(days: 7)),
               isSelected: true,
               onTagSelected: (_) {},
-              onTagDeleted: () => onSelected(CreateActionDateNone()),
+              onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
             ),
           ],
         CreateActionDateFromUserInput() => [],

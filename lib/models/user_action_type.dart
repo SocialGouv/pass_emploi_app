@@ -1,4 +1,5 @@
 enum UserActionReferentielType {
+  // TODO: revoir le static
   emploi,
   projetProfessionnel,
   cultureSportLoisirs,
@@ -19,7 +20,7 @@ extension UserActionReferentielTypeExt on UserActionReferentielType {
         UserActionReferentielType.sante => "SANTE",
       };
 
-  static UserActionReferentielType? fromCode(String? value) => switch (value) {
+  static UserActionReferentielType fromCode(String? value) => switch (value) {
         "EMPLOI" => UserActionReferentielType.emploi,
         "PROJET_PROFESSIONNEL" => UserActionReferentielType.projetProfessionnel,
         "CULTURE_SPORT_LOISIRS" => UserActionReferentielType.cultureSportLoisirs,
@@ -27,6 +28,6 @@ extension UserActionReferentielTypeExt on UserActionReferentielType {
         "FORMATION" => UserActionReferentielType.formation,
         "LOGEMENT" => UserActionReferentielType.logement,
         "SANTE" => UserActionReferentielType.sante,
-        _ => null,
+        _ => UserActionReferentielType.emploi, // retrocompatibility for offline actions (<v3.9.0)
       };
 }

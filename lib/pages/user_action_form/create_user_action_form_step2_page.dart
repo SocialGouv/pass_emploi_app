@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/pages/user_action_form/form_state/create_user_action_form_state.dart';
+import 'package:pass_emploi_app/pages/user_action_form/create_action_form_view_models/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -14,7 +14,7 @@ class CreateUserActionFormStep2 extends StatelessWidget {
     required this.onDescriptionChanged,
   });
 
-  final CreateUserActionStep2State state;
+  final CreateUserActionStep2ViewModel state;
   final void Function(CreateActionTitleSource) onTitleChanged;
   final void Function(String) onDescriptionChanged;
 
@@ -90,14 +90,14 @@ class _SugestionTagWrap extends StatelessWidget {
       spacing: Margins.spacing_s,
       runSpacing: Margins.spacing_s,
       children: switch (titleSource) {
-        CreateActionTitleNone() => [
+        CreateActionTitleNotInitialized() => [
             ...suggestionList.map(
               (suggestion) => PassEmploiChip<String>(
                 label: suggestion,
                 value: suggestion,
                 isSelected: false,
                 onTagSelected: (value) => onSelected(CreateActionTitleFromSuggestions(value)),
-                onTagDeleted: () => onSelected(CreateActionTitleNone()),
+                onTagDeleted: () => onSelected(CreateActionTitleNotInitialized()),
               ),
             ),
             PassEmploiChip<String>(
@@ -105,7 +105,7 @@ class _SugestionTagWrap extends StatelessWidget {
                 value: "",
                 isSelected: false,
                 onTagSelected: (value) => onSelected(CreateActionTitleFromUserInput(value)),
-                onTagDeleted: () => onSelected(CreateActionTitleNone()))
+                onTagDeleted: () => onSelected(CreateActionTitleNotInitialized()))
           ],
         CreateActionTitleFromSuggestions() => [
             PassEmploiChip<String>(
@@ -113,7 +113,7 @@ class _SugestionTagWrap extends StatelessWidget {
                 value: titleSource.title,
                 isSelected: true,
                 onTagSelected: (value) => onSelected(CreateActionTitleFromUserInput(value)),
-                onTagDeleted: () => onSelected(CreateActionTitleNone()))
+                onTagDeleted: () => onSelected(CreateActionTitleNotInitialized()))
           ],
         CreateActionTitleFromUserInput() => [
             PassEmploiChip<String>(
@@ -121,7 +121,7 @@ class _SugestionTagWrap extends StatelessWidget {
                 value: "",
                 isSelected: true,
                 onTagSelected: (value) => onSelected(CreateActionTitleFromUserInput(value)),
-                onTagDeleted: () => onSelected(CreateActionTitleNone()))
+                onTagDeleted: () => onSelected(CreateActionTitleNotInitialized()))
           ],
       },
     );

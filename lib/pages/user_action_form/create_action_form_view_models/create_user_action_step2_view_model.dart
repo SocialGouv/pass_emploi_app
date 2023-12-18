@@ -1,18 +1,18 @@
-part of 'create_user_action_form_state.dart';
+part of 'create_user_action_form_view_model.dart';
 
 sealed class CreateActionTitleSource {
   bool get isFromSuggestions => this is CreateActionTitleFromSuggestions;
   bool get isFromUserInput => this is CreateActionTitleFromUserInput;
-  bool get isNone => this is CreateActionTitleNone;
+  bool get isNone => this is CreateActionTitleNotInitialized;
 
   String get title => switch (this) {
-        CreateActionTitleNone() => "",
+        CreateActionTitleNotInitialized() => "",
         CreateActionTitleFromSuggestions() => (this as CreateActionTitleFromSuggestions).suggestion,
         CreateActionTitleFromUserInput() => (this as CreateActionTitleFromUserInput).userInput,
       };
 }
 
-class CreateActionTitleNone extends CreateActionTitleSource {}
+class CreateActionTitleNotInitialized extends CreateActionTitleSource {}
 
 class CreateActionTitleFromSuggestions extends CreateActionTitleSource {
   final String suggestion;
@@ -26,16 +26,17 @@ class CreateActionTitleFromUserInput extends CreateActionTitleSource {
   CreateActionTitleFromUserInput(this.userInput);
 }
 
-class CreateUserActionStep2State extends CreateUserActionPageState {
+class CreateUserActionStep2ViewModel extends CreateUserActionPageState {
   final CreateActionTitleSource titleSource;
   final String? description;
 
-  CreateUserActionStep2State({this.description, CreateActionTitleSource? titleSource})
-      : titleSource = titleSource ?? CreateActionTitleNone();
+  CreateUserActionStep2ViewModel({this.description, CreateActionTitleSource? titleSource})
+      : titleSource = titleSource ?? CreateActionTitleNotInitialized();
 
   @override
   bool get isValid => switch (titleSource) {
-        CreateActionTitleNone() => false,
+        // TODO: déplacer la logique de isValid dans le CreateActionTitleSource
+        CreateActionTitleNotInitialized() => false,
         CreateActionTitleFromSuggestions() => true,
         CreateActionTitleFromUserInput() => (titleSource as CreateActionTitleFromUserInput).userInput.isNotEmpty,
       };
@@ -43,12 +44,12 @@ class CreateUserActionStep2State extends CreateUserActionPageState {
   @override
   List<Object?> get props => [description, titleSource];
 
-  CreateUserActionStep2State copyWith({
+  CreateUserActionStep2ViewModel copyWith({
     String? title,
     String? description,
     CreateActionTitleSource? titleSource,
   }) {
-    return CreateUserActionStep2State(
+    return CreateUserActionStep2ViewModel(
       description: description ?? this.description,
       titleSource: titleSource ?? this.titleSource,
     );

@@ -1,9 +1,9 @@
-part of 'create_user_action_form_state.dart';
+part of 'create_user_action_form_view_model.dart';
 
-class CreateUserActionStep1State extends CreateUserActionPageState {
+class CreateUserActionStep1ViewModel extends CreateUserActionPageState {
   final UserActionReferentielType? actionCategory;
 
-  CreateUserActionStep1State({this.actionCategory});
+  CreateUserActionStep1ViewModel({this.actionCategory});
 
   @override
   bool get isValid => actionCategory != null;
@@ -11,10 +11,10 @@ class CreateUserActionStep1State extends CreateUserActionPageState {
   @override
   List<Object?> get props => [actionCategory];
 
-  CreateUserActionStep1State copyWith({
+  CreateUserActionStep1ViewModel copyWith({
     UserActionReferentielType? type,
   }) {
-    return CreateUserActionStep1State(
+    return CreateUserActionStep1ViewModel(
       actionCategory: type ?? actionCategory,
     );
   }

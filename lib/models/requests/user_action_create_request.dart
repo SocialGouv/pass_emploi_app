@@ -8,7 +8,7 @@ class UserActionCreateRequest extends Equatable {
   final DateTime dateEcheance;
   final bool rappel;
   final UserActionStatus initialStatus;
-  final UserActionReferentielType? codeQualification;
+  final UserActionReferentielType codeQualification;
 
   UserActionCreateRequest(
     this.content,
@@ -29,7 +29,7 @@ class UserActionCreateRequest extends Equatable {
       'dateEcheance': dateEcheance.microsecondsSinceEpoch,
       'rappel': rappel,
       'initialStatus': initialStatus.toString(),
-      'codeQualification': codeQualification?.toCode
+      'codeQualification': codeQualification.toCode
     };
   }
 

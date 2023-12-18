@@ -1,18 +1,19 @@
-part of 'create_user_action_form_state.dart';
+part of 'create_user_action_form_view_model.dart';
 
 sealed class CreateActionDateSource {
   bool get isFromSuggestions => this is CreateActionDateFromSuggestions;
   bool get isFromUserInput => this is CreateActionDateFromUserInput;
-  bool get isNone => this is CreateActionDateNone;
+  bool get isNone => this is CreateActionDateNotInitialized;
 
   DateTime get selectedDate => switch (this) {
-        CreateActionDateNone() => DateTime.now(),
+        // TODO: décharger la responsabilité aux enfants
+        CreateActionDateNotInitialized() => DateTime.now(),
         CreateActionDateFromSuggestions() => (this as CreateActionDateFromSuggestions).date,
         CreateActionDateFromUserInput() => (this as CreateActionDateFromUserInput).date,
       };
 }
 
-class CreateActionDateNone extends CreateActionDateSource {}
+class CreateActionDateNotInitialized extends CreateActionDateSource {}
 
 class CreateActionDateFromSuggestions extends CreateActionDateSource {
   final DateTime date;
@@ -27,20 +28,20 @@ class CreateActionDateFromUserInput extends CreateActionDateSource {
   CreateActionDateFromUserInput(this.date);
 }
 
-class CreateUserActionStep3State extends CreateUserActionPageState {
+class CreateUserActionStep3ViewModel extends CreateUserActionPageState {
   final bool estTerminee;
   final CreateActionDateSource date;
   final bool withRappel;
 
-  CreateUserActionStep3State({
+  CreateUserActionStep3ViewModel({
     this.estTerminee = true,
     CreateActionDateSource? date,
     this.withRappel = false,
-  }) : date = date ?? CreateActionDateNone();
+  }) : date = date ?? CreateActionDateNotInitialized();
 
   @override
   bool get isValid => switch (date) {
-        CreateActionDateNone() => false,
+        CreateActionDateNotInitialized() => false,
         CreateActionDateFromSuggestions() => true,
         CreateActionDateFromUserInput() => true,
       };
@@ -51,12 +52,12 @@ class CreateUserActionStep3State extends CreateUserActionPageState {
   @override
   List<Object?> get props => [estTerminee, date, withRappel];
 
-  CreateUserActionStep3State copyWith({
+  CreateUserActionStep3ViewModel copyWith({
     bool? estTerminee,
     CreateActionDateSource? date,
     bool? withRappel,
   }) {
-    return CreateUserActionStep3State(
+    return CreateUserActionStep3ViewModel(
       estTerminee: estTerminee ?? this.estTerminee,
       date: date ?? this.date,
       withRappel: withRappel ?? this.withRappel,
