@@ -2,21 +2,19 @@ part of 'create_user_action_form_view_model.dart';
 
 sealed class CreateActionTitleSource {
   bool get isValid;
+  String get title;
 
   bool get isFromSuggestions => this is CreateActionTitleFromSuggestions;
   bool get isFromUserInput => this is CreateActionTitleFromUserInput;
   bool get isNone => this is CreateActionTitleNotInitialized;
-
-  String get title => switch (this) {
-        CreateActionTitleNotInitialized() => "",
-        CreateActionTitleFromSuggestions() => (this as CreateActionTitleFromSuggestions).suggestion,
-        CreateActionTitleFromUserInput() => (this as CreateActionTitleFromUserInput).userInput,
-      };
 }
 
 class CreateActionTitleNotInitialized extends CreateActionTitleSource {
   @override
   bool get isValid => false;
+
+  @override
+  String get title => "";
 }
 
 class CreateActionTitleFromSuggestions extends CreateActionTitleSource {
@@ -26,6 +24,9 @@ class CreateActionTitleFromSuggestions extends CreateActionTitleSource {
 
   @override
   bool get isValid => true;
+
+  @override
+  String get title => suggestion;
 }
 
 class CreateActionTitleFromUserInput extends CreateActionTitleSource {
@@ -35,6 +36,9 @@ class CreateActionTitleFromUserInput extends CreateActionTitleSource {
 
   @override
   bool get isValid => userInput.trim().isNotEmpty;
+
+  @override
+  String get title => userInput;
 }
 
 class CreateUserActionStep2ViewModel extends CreateUserActionPageViewModel {
