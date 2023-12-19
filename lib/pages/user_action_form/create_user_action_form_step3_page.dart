@@ -36,16 +36,16 @@ class CreateUserActionFormStep3 extends StatelessWidget {
         const SizedBox(height: Margins.spacing_m),
         DatePicker(
           onValueChange: (date) => onDateChanged(CreateActionDateFromUserInput(date)),
-          initialDateValue: switch (state.date) {
+          initialDateValue: switch (state.dateSource) {
             CreateActionDateNotInitialized() => null,
-            CreateActionDateFromSuggestions() => (state.date as CreateActionDateFromSuggestions).date,
-            CreateActionDateFromUserInput() => (state.date as CreateActionDateFromUserInput).date,
+            CreateActionDateFromSuggestions() => (state.dateSource as CreateActionDateFromSuggestions).date,
+            CreateActionDateFromUserInput() => (state.dateSource as CreateActionDateFromUserInput).date,
           },
           isActiveDate: true,
         ),
         const SizedBox(height: Margins.spacing_m),
         _DateSuggestions(
-          dateSource: state.date,
+          dateSource: state.dateSource,
           onSelected: onDateChanged,
         ),
         const SizedBox(height: Margins.spacing_m),

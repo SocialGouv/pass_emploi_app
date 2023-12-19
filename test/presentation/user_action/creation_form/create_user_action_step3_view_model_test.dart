@@ -13,7 +13,7 @@ void main() {
 
     test('should be invalid if date is empty', () {
       // Given
-      final viewModel = CreateUserActionStep3ViewModel(date: CreateActionDateNotInitialized());
+      final viewModel = CreateUserActionStep3ViewModel(dateSource: CreateActionDateNotInitialized());
 
       // When & Then
       expect(viewModel.isValid, false);
@@ -21,7 +21,8 @@ void main() {
 
     test('should be valid if date is from suggestions', () {
       // Given
-      final viewModel = CreateUserActionStep3ViewModel(date: CreateActionDateFromSuggestions(DateTime.now(), "test"));
+      final viewModel =
+          CreateUserActionStep3ViewModel(dateSource: CreateActionDateFromSuggestions(DateTime.now(), "test"));
 
       // When & Then
       expect(viewModel.isValid, true);
@@ -29,7 +30,7 @@ void main() {
 
     test('should be valid if date is from input', () {
       // Given
-      final viewModel = CreateUserActionStep3ViewModel(date: CreateActionDateFromUserInput(DateTime.now()));
+      final viewModel = CreateUserActionStep3ViewModel(dateSource: CreateActionDateFromUserInput(DateTime.now()));
 
       // When & Then
       expect(viewModel.isValid, true);

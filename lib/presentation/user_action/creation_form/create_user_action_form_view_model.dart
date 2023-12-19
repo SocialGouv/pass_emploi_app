@@ -89,7 +89,7 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
   }
 
   void dateChanged(CreateActionDateSource date) {
-    step3 = step3.copyWith(date: date);
+    step3 = step3.copyWith(dateSource: date);
     notifyListeners();
   }
 
@@ -115,7 +115,7 @@ extension CreateUserActionFormStateExt on CreateUserActionFormViewModel {
   UserActionCreateRequest get toRequest => UserActionCreateRequest(
         step2.titleSource.title,
         step2.description,
-        step3.date.selectedDate,
+        step3.dateSource.selectedDate,
         step3.withRappel,
         step3.estTerminee ? UserActionStatus.DONE : UserActionStatus.IN_PROGRESS,
         step1.actionCategory ?? UserActionReferentielType.emploi,
