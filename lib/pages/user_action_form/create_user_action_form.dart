@@ -94,7 +94,7 @@ class _BackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SecondaryButton(
-      label: Strings.user_action_back_button,
+      label: Strings.userActionBackButton,
       backgroundColor: Colors.white,
       onPressed: onPressed,
     );
@@ -108,7 +108,7 @@ class _NextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PrimaryActionButton(
-      label: Strings.user_action_next_button,
+      label: Strings.userActionNextButton,
       suffix: SizedBox.shrink(
         child: OverflowBox(
           maxWidth: double.infinity,
@@ -144,12 +144,13 @@ class _CreateUserActionForm extends StatelessWidget {
                   formState.userActionTypeSelected(type);
                 }),
               CreateUserActionDisplayState.step2 => CreateUserActionFormStep2(
-                  state: formState.step2,
+                  actionType: formState.step1.actionCategory!,
+                  viewModel: formState.step2,
                   onTitleChanged: (value) => formState.titleChanged(value),
                   onDescriptionChanged: (value) => formState.descriptionChanged(value),
                 ),
               CreateUserActionDisplayState.step3 => CreateUserActionFormStep3(
-                  state: formState.step3,
+                  viewModel: formState.step3,
                   onStatusChanged: (value) => formState.statusChanged(value),
                   onDateChanged: (value) => formState.dateChanged(value),
                   withRappelChanged: (value) => formState.withRappelChanged(value),

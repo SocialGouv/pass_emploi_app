@@ -17,7 +17,7 @@ class CreateUserActionFormStep1 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: Margins.spacing_m),
-        Text(Strings.user_action_subtitle_step_1, style: TextStyles.textBaseBold),
+        Text(Strings.userActionSubtitleStep1, style: TextStyles.textBaseBold),
         const SizedBox(height: Margins.spacing_m),
         ActionCategorySelector(onActionSelected: onActionTypeSelected),
         const SizedBox(height: Margins.spacing_huge),

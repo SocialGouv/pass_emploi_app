@@ -346,38 +346,88 @@ class Strings {
 
   // User action form
   static const String createActionAppBarTitle = 'Créer une action';
-  static const String user_action_back_button = 'Retour';
-  static const String user_action_next_button = 'Continuer';
+  static const String userActionBackButton = 'Retour';
+  static const String userActionNextButton = 'Continuer';
 
-  static const String user_action_title_step_1 = 'Catégorie';
-  static const String user_action_title_step_2 = 'Mon action';
-  static const String user_action_title_step_3 = 'Statut et date';
+  static const String userActionTitleStep1 = 'Catégorie';
+  static const String userActionTitleStep2 = 'Mon action';
+  static const String userActionTitleStep3 = 'Statut et date';
 
-  static const String user_action_subtitle_step_1 = '*Choisissez une catégorie';
+  static const String userActionSubtitleStep1 = '*Choisissez une catégorie';
 
-  static const String user_action_subtitle_step_2 = '*Pouvez-vous nous en dire plus ?';
-  static const String user_action_title_textfield_step_2 = '*Pouvez-vous nous en dire plus ?';
-  static const String user_action_description_textfield_step_2 = 'Décrire mon action';
+  static const String userActionSubtitleStep2 = '*Pouvez-vous nous en dire plus ?';
+  static const String userActionTitleTextfieldStep2 = '*Pouvez-vous nous en dire plus ?';
+  static const String userActionDescriptionTextfieldStep2 = 'Décrire mon action';
 
-  static const String user_action_status_radio_step_3 = '*L’action est :';
-  static const String user_action_status_radio_completed_step_3 = 'Terminée';
-  static const String user_action_status_radio_todo_step_3 = 'À faire ou en cours';
-  static const String user_action_date_step_3 = '*Date';
+  static const String userActionStatusRadioStep3 = '*L’action est :';
+  static const String userActionStatusRadioCompletedStep3 = 'Terminée';
+  static const String userActionStatusRadioTodoStep3 = 'À faire ou en cours';
+  static const String userActionDateStep3 = '*Date';
 
-  static const String user_action_date_suggestion_1 = 'Aujourd’hui';
-  static const String user_action_date_suggestion_2 = 'Demain';
-  static const String user_action_date_suggestion_3 = 'Semaine prochaine';
+  static const String userActionDateSuggestion1 = 'Aujourd’hui';
+  static const String userActionDateSuggestion2 = 'Demain';
+  static const String userActionDateSuggestion3 = 'Semaine prochaine';
 
-  static const String user_action_suggestion_titre_1 = "Faire mon CV";
-  static const String user_action_suggestion_titre_2 = "Enquête métier";
-  static const String user_action_suggestion_titre_3 = "Lettre de motivation";
-  static const String user_action_suggestion_titre_4 = "Recherches";
-  static const String user_action_suggestion_titre_5 = "Salons/forums";
-  static const String user_action_suggestion_titre_6 = "Prise de contact";
-  static const String user_action_suggestion_titre_7 = "Candidature";
-  static const String user_action_suggestion_titre_8 = "Trouver une entreprise";
-  static const String user_action_suggestion_titre_9 = "Entretien d’embauche";
-  static const String user_action_other = "Autre";
+  static const String userActionOther = "Autre";
+
+  static const List<String> userActionEmploiSuggestions = [
+    "Faire mon CV",
+    "Recherche d'emploi",
+    "Candidature",
+    "Entretien d'embauche",
+    "Lettre de motivation",
+    "Recherche de stage",
+  ];
+
+  static const List<String> userActionProjetProSuggestions = [
+    "Recherche de stage",
+    "Formation",
+    "Révisions",
+    "Recherche d'alternance",
+    "Enquête métier",
+    "Lettre de motivation",
+  ];
+
+  static const List<String> userActionCitoyenneteSuggestions = [
+    "Examen permis, code",
+    "Code de la route",
+    "Conduite",
+    "Démarches administratives",
+    "Demande d'allocations",
+    "Bénévolat",
+  ];
+
+  static const List<String> userActionSanteSuggestions = [
+    "Rendez-vous médical",
+    "Bilan de santé",
+    "Carte vitale",
+    "Démarches de santé",
+    "Hospitalisation",
+    "Rééducation",
+  ];
+
+  static const List<String> userActionLogementSuggestions = [
+    "Recherche de logement",
+    "Constitution d'un dossier",
+    "Visite de logement",
+    "Achat immobilier",
+    "Demande d'aide logement",
+  ];
+
+  static const List<String> userActionFormationSuggestions = [
+    "Recherche de formation",
+    "Recherche d'apprentissage",
+    "Atelier",
+    "Recherche de subvention",
+  ];
+
+  static const List<String> userActionLoisirsSportCultureSuggestions = [
+    "Sport",
+    "Cinéma",
+    "Sorties culturelles : exposition, musées",
+    "Spectacles, concert",
+    "Dessin, musique, lecture",
+  ];
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";

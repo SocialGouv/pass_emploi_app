@@ -19,9 +19,9 @@ class UserActionStepper extends StatelessWidget {
           _ => 0,
         },
         stepTitle: switch (displayState) {
-          CreateUserActionDisplayState.step1 => Strings.user_action_title_step_1,
-          CreateUserActionDisplayState.step2 => "${Strings.user_action_title_step_2} $category",
-          CreateUserActionDisplayState.step3 => Strings.user_action_title_step_3,
+          CreateUserActionDisplayState.step1 => Strings.userActionTitleStep1,
+          CreateUserActionDisplayState.step2 => "${Strings.userActionTitleStep2} $category",
+          CreateUserActionDisplayState.step3 => Strings.userActionTitleStep3,
           _ => '',
         });
   }

@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/ui/strings.dart';
+
 enum UserActionReferentielType {
   emploi("EMPLOI"),
   projetProfessionnel("PROJET_PROFESSIONNEL"),
@@ -15,4 +17,14 @@ enum UserActionReferentielType {
         (element) => element.code == value,
         orElse: () => emploi,
       );
+
+  List<String> get suggestionList => switch (this) {
+        UserActionReferentielType.emploi => Strings.userActionEmploiSuggestions,
+        UserActionReferentielType.projetProfessionnel => Strings.userActionProjetProSuggestions,
+        UserActionReferentielType.cultureSportLoisirs => Strings.userActionLoisirsSportCultureSuggestions,
+        UserActionReferentielType.citoyennete => Strings.userActionCitoyenneteSuggestions,
+        UserActionReferentielType.formation => Strings.userActionFormationSuggestions,
+        UserActionReferentielType.logement => Strings.userActionLogementSuggestions,
+        UserActionReferentielType.sante => Strings.userActionSanteSuggestions,
+      };
 }

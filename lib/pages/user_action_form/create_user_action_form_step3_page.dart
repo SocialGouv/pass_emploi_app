@@ -10,12 +10,12 @@ import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 
 class CreateUserActionFormStep3 extends StatelessWidget {
   const CreateUserActionFormStep3({
-    required this.state,
+    required this.viewModel,
     required this.onStatusChanged,
     required this.withRappelChanged,
     required this.onDateChanged,
   });
-  final CreateUserActionStep3ViewModel state;
+  final CreateUserActionStep3ViewModel viewModel;
   final void Function(bool) onStatusChanged;
   final void Function(bool) withRappelChanged;
   final void Function(CreateActionDateSource) onDateChanged;
@@ -28,30 +28,30 @@ class CreateUserActionFormStep3 extends StatelessWidget {
         const SizedBox(height: Margins.spacing_m),
         Text(Strings.allMandatoryFields, style: TextStyles.textSRegular()),
         const SizedBox(height: Margins.spacing_m),
-        Text(Strings.user_action_status_radio_step_3, style: TextStyles.textBaseBold),
+        Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
         const SizedBox(height: Margins.spacing_m),
-        _ActionStatusRadios(isCompleted: state.estTerminee, onStatusChanged: onStatusChanged),
+        _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
         const SizedBox(height: Margins.spacing_m),
-        Text(Strings.user_action_date_step_3, style: TextStyles.textBaseBold),
+        Text(Strings.userActionDateStep3, style: TextStyles.textBaseBold),
         const SizedBox(height: Margins.spacing_m),
         DatePicker(
           onValueChange: (date) => onDateChanged(CreateActionDateFromUserInput(date)),
-          initialDateValue: switch (state.dateSource) {
+          initialDateValue: switch (viewModel.dateSource) {
             CreateActionDateNotInitialized() => null,
-            CreateActionDateFromSuggestions() => (state.dateSource as CreateActionDateFromSuggestions).date,
-            CreateActionDateFromUserInput() => (state.dateSource as CreateActionDateFromUserInput).date,
+            CreateActionDateFromSuggestions() => (viewModel.dateSource as CreateActionDateFromSuggestions).date,
+            CreateActionDateFromUserInput() => (viewModel.dateSource as CreateActionDateFromUserInput).date,
           },
           isActiveDate: true,
         ),
         const SizedBox(height: Margins.spacing_m),
         _DateSuggestions(
-          dateSource: state.dateSource,
+          dateSource: viewModel.dateSource,
           onSelected: onDateChanged,
         ),
         const SizedBox(height: Margins.spacing_m),
         _RappelsSwitcher(
-          value: state.withRappel,
-          isActive: state.shouldDisplayRappelNotification(),
+          value: viewModel.withRappel,
+          isActive: viewModel.shouldDisplayRappelNotification(),
           onChanged: (value) => withRappelChanged(value),
         )
       ],
@@ -70,14 +70,14 @@ class _ActionStatusRadios extends StatelessWidget {
       children: [
         RadioListTile<bool>(
           contentPadding: EdgeInsets.zero,
-          title: Text(Strings.user_action_status_radio_completed_step_3),
+          title: Text(Strings.userActionStatusRadioCompletedStep3),
           value: true,
           groupValue: isCompleted,
           onChanged: _onStatusChanged,
         ),
         RadioListTile<bool>(
           contentPadding: EdgeInsets.zero,
-          title: Text(Strings.user_action_status_radio_todo_step_3),
+          title: Text(Strings.userActionStatusRadioTodoStep3),
           value: false,
           groupValue: isCompleted,
           onChanged: _onStatusChanged,
@@ -108,32 +108,32 @@ class _DateSuggestions extends StatelessWidget {
       children: switch (dateSource) {
         CreateActionDateNotInitialized() => [
             PassEmploiChip<DateTime>(
-              label: "${Strings.user_action_date_suggestion_1} (${today.toDayOfWeek()})",
+              label: "${Strings.userActionDateSuggestion1} (${today.toDayOfWeek()})",
               value: today,
               isSelected: false,
               onTagSelected: (value) => onSelected(CreateActionDateFromSuggestions(
                 value,
-                Strings.user_action_date_suggestion_1,
+                Strings.userActionDateSuggestion1,
               )),
               onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
             ),
             PassEmploiChip<DateTime>(
-              label: "${Strings.user_action_date_suggestion_2} (${tomorrow.toDayOfWeek()})",
+              label: "${Strings.userActionDateSuggestion2} (${tomorrow.toDayOfWeek()})",
               value: tomorrow,
               isSelected: false,
               onTagSelected: (value) => onSelected(CreateActionDateFromSuggestions(
                 value,
-                Strings.user_action_date_suggestion_2,
+                Strings.userActionDateSuggestion2,
               )),
               onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
             ),
             PassEmploiChip<DateTime>(
-              label: "${Strings.user_action_date_suggestion_3} (${nextWeek.toDayOfWeek()})",
+              label: "${Strings.userActionDateSuggestion3} (${nextWeek.toDayOfWeek()})",
               value: nextWeek,
               isSelected: false,
               onTagSelected: (value) => onSelected(CreateActionDateFromSuggestions(
                 value,
-                Strings.user_action_date_suggestion_3,
+                Strings.userActionDateSuggestion3,
               )),
               onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
             ),

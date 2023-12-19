@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -8,15 +9,17 @@ import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class CreateUserActionFormStep2 extends StatelessWidget {
+  final UserActionReferentielType actionType;
+  final CreateUserActionStep2ViewModel viewModel;
+  final void Function(CreateActionTitleSource) onTitleChanged;
+  final void Function(String) onDescriptionChanged;
+
   CreateUserActionFormStep2({
-    required this.state,
+    required this.actionType,
+    required this.viewModel,
     required this.onTitleChanged,
     required this.onDescriptionChanged,
   });
-
-  final CreateUserActionStep2ViewModel state;
-  final void Function(CreateActionTitleSource) onTitleChanged;
-  final void Function(String) onDescriptionChanged;
 
   final descriptionKey = GlobalKey();
 
@@ -28,27 +31,31 @@ class CreateUserActionFormStep2 extends StatelessWidget {
         const SizedBox(height: Margins.spacing_m),
         Text(Strings.mandatoryFields, style: TextStyles.textSRegular()),
         const SizedBox(height: Margins.spacing_m),
-        Text(Strings.user_action_subtitle_step_2, style: TextStyles.textBaseBold),
+        Text(Strings.userActionSubtitleStep2, style: TextStyles.textBaseBold),
         const SizedBox(height: Margins.spacing_m),
-        _SugestionTagWrap(titleSource: state.titleSource, onSelected: onTitleChanged),
-        if (state.titleSource.isFromUserInput) ...[
+        _SugestionTagWrap(
+          titleSource: viewModel.titleSource,
+          onSelected: onTitleChanged,
+          actionType: actionType,
+        ),
+        if (viewModel.titleSource.isFromUserInput) ...[
           const SizedBox(height: Margins.spacing_m),
-          Text(Strings.user_action_title_textfield_step_2, style: TextStyles.textBaseBold),
+          Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
           const SizedBox(height: Margins.spacing_s),
           BaseTextField(
-            initialValue: state.titleSource.title,
+            initialValue: viewModel.titleSource.title,
             onChanged: (value) => onTitleChanged(CreateActionTitleFromUserInput(value)),
           ),
         ],
         const SizedBox(height: Margins.spacing_m),
         Text(
-          Strings.user_action_description_textfield_step_2,
+          Strings.userActionDescriptionTextfieldStep2,
           key: descriptionKey,
           style: TextStyles.textBaseBold,
         ),
         const SizedBox(height: Margins.spacing_s),
         BaseTextField(
-          initialValue: state.description,
+          initialValue: viewModel.description,
           maxLines: 5,
           onChanged: (value) {
             onDescriptionChanged(value);
@@ -68,24 +75,19 @@ class CreateUserActionFormStep2 extends StatelessWidget {
 }
 
 class _SugestionTagWrap extends StatelessWidget {
-  const _SugestionTagWrap({required this.titleSource, required this.onSelected});
   final void Function(CreateActionTitleSource) onSelected;
   final CreateActionTitleSource titleSource;
+  final UserActionReferentielType actionType;
 
-  static List<String> suggestionList = [
-    Strings.user_action_suggestion_titre_1,
-    Strings.user_action_suggestion_titre_2,
-    Strings.user_action_suggestion_titre_3,
-    Strings.user_action_suggestion_titre_4,
-    Strings.user_action_suggestion_titre_5,
-    Strings.user_action_suggestion_titre_6,
-    Strings.user_action_suggestion_titre_7,
-    Strings.user_action_suggestion_titre_8,
-    Strings.user_action_suggestion_titre_9,
-  ];
+  const _SugestionTagWrap({
+    required this.titleSource,
+    required this.onSelected,
+    required this.actionType,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final List<String> suggestionList = actionType.suggestionList;
     return Wrap(
       spacing: Margins.spacing_s,
       runSpacing: Margins.spacing_s,
@@ -101,7 +103,7 @@ class _SugestionTagWrap extends StatelessWidget {
               ),
             ),
             PassEmploiChip<String>(
-                label: Strings.user_action_other,
+                label: Strings.userActionOther,
                 value: "",
                 isSelected: false,
                 onTagSelected: (value) => onSelected(CreateActionTitleFromUserInput(value)),
@@ -117,7 +119,7 @@ class _SugestionTagWrap extends StatelessWidget {
           ],
         CreateActionTitleFromUserInput() => [
             PassEmploiChip<String>(
-                label: Strings.user_action_other,
+                label: Strings.userActionOther,
                 value: "",
                 isSelected: true,
                 onTagSelected: (value) => onSelected(CreateActionTitleFromUserInput(value)),
