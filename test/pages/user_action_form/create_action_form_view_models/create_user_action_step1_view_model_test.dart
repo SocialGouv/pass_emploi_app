@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/pages/user_action_form/create_action_form_view_models/create_user_action_form_view_model.dart';
 
 void main() {
-  group('CreateUserActionStep1State', () {
+  group('CreateUserActionStep1ViewModel', () {
     test('initial state should be invalid', () {
       // Given
       final state = CreateUserActionStep1ViewModel();

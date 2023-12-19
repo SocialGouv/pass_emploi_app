@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/pages/user_action_form/create_action_form_view_models/create_user_action_form_view_model.dart';
 
 void main() {
-  group('CreateUserActionStep2State', () {
+  group('CreateUserActionStep2ViewModel', () {
     test('initial state should be invalid', () {
       // Given
       final state = CreateUserActionStep2ViewModel();
