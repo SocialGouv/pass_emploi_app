@@ -41,19 +41,24 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: SecondaryAppBar(
         title: Strings.createActionAppBarTitle,
         leading: BackButton(onPressed: () => _formState.viewChangedBackward()),
       ),
-      floatingActionButton: _formState.shouldDisplayNavigationButtons
-          ? _NavButtons(
-              onGoBackPressed: () => _formState.viewChangedBackward(),
-              onGoForwardPressed: _formState.canGoForward ? () => _formState.viewChangedForward() : null,
-            )
-          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: _buttons(),
       body: _CreateUserActionForm(_formState),
     );
+  }
+
+  _NavButtons? _buttons() {
+    return _formState.shouldDisplayNavigationButtons
+        ? _NavButtons(
+            onGoBackPressed: () => _formState.viewChangedBackward(),
+            onGoForwardPressed: _formState.canGoForward ? () => _formState.viewChangedForward() : null,
+          )
+        : null;
   }
 }
 
@@ -130,36 +135,44 @@ class _CreateUserActionForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            UserActionStepper(
-                displayState: formState.displayState, category: formState.step1.actionCategory?.label ?? ""),
-            switch (formState.displayState) {
-              CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(onActionTypeSelected: (type) {
-                  formState.userActionTypeSelected(type);
-                }),
-              CreateUserActionDisplayState.step2 => CreateUserActionFormStep2(
-                  actionType: formState.step1.actionCategory!,
-                  viewModel: formState.step2,
-                  onTitleChanged: (value) => formState.titleChanged(value),
-                  onDescriptionChanged: (value) => formState.descriptionChanged(value),
-                ),
-              CreateUserActionDisplayState.step3 => CreateUserActionFormStep3(
-                  viewModel: formState.step3,
-                  onStatusChanged: (value) => formState.statusChanged(value),
-                  onDateChanged: (value) => formState.dateChanged(value),
-                  withRappelChanged: (value) => formState.withRappelChanged(value),
-                ),
-              _ => const SizedBox.shrink(),
-            },
-            SizedBox(height: Margins.spacing_huge),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Column(
+        children: [
+          UserActionStepper(
+            displayState: formState.displayState,
+            category: formState.step1.actionCategory?.label ?? "",
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  switch (formState.displayState) {
+                    CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(onActionTypeSelected: (type) {
+                        formState.userActionTypeSelected(type);
+                      }),
+                    CreateUserActionDisplayState.step2 => CreateUserActionFormStep2(
+                        actionType: formState.step1.actionCategory!,
+                        viewModel: formState.step2,
+                        onTitleChanged: (value) => formState.titleChanged(value),
+                        onDescriptionChanged: (value) => formState.descriptionChanged(value),
+                      ),
+                    CreateUserActionDisplayState.step3 => CreateUserActionFormStep3(
+                        viewModel: formState.step3,
+                        onStatusChanged: (value) => formState.statusChanged(value),
+                        onDateChanged: (value) => formState.dateChanged(value),
+                        withRappelChanged: (value) => formState.withRappelChanged(value),
+                      ),
+                    _ => const SizedBox.shrink(),
+                  },
+                  SizedBox(height: Margins.spacing_huge),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
