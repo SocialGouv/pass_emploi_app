@@ -29,7 +29,7 @@ class UserActionCreateRequest extends Equatable {
       'dateEcheance': dateEcheance.microsecondsSinceEpoch,
       'rappel': rappel,
       'initialStatus': initialStatus.toString(),
-      'codeQualification': codeQualification.toCode
+      'codeQualification': codeQualification.code
     };
   }
 
@@ -40,7 +40,7 @@ class UserActionCreateRequest extends Equatable {
       DateTime.fromMicrosecondsSinceEpoch(json['dateEcheance'] as int),
       json['rappel'] as bool,
       UserActionStatus.fromString(json['initialStatus'] as String),
-      UserActionReferentielTypeExt.fromCode(json['codeQualification'] as String?),
+      UserActionReferentielType.fromCode(json['codeQualification'] as String?),
     );
   }
 }
