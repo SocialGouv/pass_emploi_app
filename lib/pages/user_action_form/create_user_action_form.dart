@@ -20,20 +20,20 @@ class CreateUserActionForm extends StatefulWidget {
 }
 
 class _CreateUserActionFormState extends State<CreateUserActionForm> {
-  late final CreateUserActionFormViewModel _formState;
+  late final CreateUserActionFormViewModel _viewModel;
 
   @override
   void initState() {
     super.initState();
-    _formState = CreateUserActionFormViewModel();
-    _formState.addListener(_onFormStateChanged);
+    _viewModel = CreateUserActionFormViewModel();
+    _viewModel.addListener(_onFormStateChanged);
   }
 
   void _onFormStateChanged() {
-    if (_formState.isAborted) {
+    if (_viewModel.isAborted) {
       widget.onAbort();
-    } else if (_formState.isSubmitted) {
-      widget.onSubmit(_formState);
+    } else if (_viewModel.isSubmitted) {
+      widget.onSubmit(_viewModel);
     }
     setState(() {});
   }
@@ -44,19 +44,19 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
       resizeToAvoidBottomInset: false,
       appBar: SecondaryAppBar(
         title: Strings.createActionAppBarTitle,
-        leading: BackButton(onPressed: () => _formState.viewChangedBackward()),
+        leading: BackButton(onPressed: () => _viewModel.viewChangedBackward()),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: _buttons(),
-      body: _CreateUserActionForm(_formState),
+      body: _CreateUserActionForm(_viewModel),
     );
   }
 
   _NavButtons? _buttons() {
-    return _formState.shouldDisplayNavigationButtons
+    return _viewModel.shouldDisplayNavigationButtons
         ? _NavButtons(
-            onGoBackPressed: () => _formState.viewChangedBackward(),
-            onGoForwardPressed: _formState.canGoForward ? () => _formState.viewChangedForward() : null,
+            onGoBackPressed: () => _viewModel.viewChangedBackward(),
+            onGoForwardPressed: _viewModel.canGoForward ? () => _viewModel.viewChangedForward() : null,
           )
         : null;
   }
