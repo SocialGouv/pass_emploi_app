@@ -3,8 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
-import 'package:pass_emploi_app/pages/user_action_form/create_action_form_view_models/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form.dart';
+import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -97,9 +97,7 @@ class _Body extends StatelessWidget {
     return Stack(
       children: [
         CreateUserActionForm(
-          onSubmit: (state) {
-            viewModel.createUserAction(state.toRequest);
-          },
+          onSubmit: (state) => viewModel.createUserAction(state.toRequest),
           onAbort: () => Navigator.pop(context),
         ),
         if (viewModel.displayState.isLoading)

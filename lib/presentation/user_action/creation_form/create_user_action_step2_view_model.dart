@@ -37,7 +37,7 @@ class CreateActionTitleFromUserInput extends CreateActionTitleSource {
   bool get isValid => userInput.trim().isNotEmpty;
 }
 
-class CreateUserActionStep2ViewModel extends CreateUserActionPageState {
+class CreateUserActionStep2ViewModel extends CreateUserActionPageViewModel {
   final CreateActionTitleSource titleSource;
   final String? description;
 

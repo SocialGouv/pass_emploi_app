@@ -1,6 +1,6 @@
 part of 'create_user_action_form_view_model.dart';
 
-class CreateUserActionStep1ViewModel extends CreateUserActionPageState {
+class CreateUserActionStep1ViewModel extends CreateUserActionPageViewModel {
   final UserActionReferentielType? actionCategory;
 
   CreateUserActionStep1ViewModel({this.actionCategory});

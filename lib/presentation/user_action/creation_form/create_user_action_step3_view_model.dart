@@ -28,7 +28,7 @@ class CreateActionDateFromUserInput extends CreateActionDateSource {
   CreateActionDateFromUserInput(this.date);
 }
 
-class CreateUserActionStep3ViewModel extends CreateUserActionPageState {
+class CreateUserActionStep3ViewModel extends CreateUserActionPageViewModel {
   final bool estTerminee;
   final CreateActionDateSource date;
   final bool withRappel;

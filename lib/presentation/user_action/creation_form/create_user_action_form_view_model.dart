@@ -8,6 +8,7 @@ part 'create_user_action_step1_view_model.dart';
 part 'create_user_action_step2_view_model.dart';
 part 'create_user_action_step3_view_model.dart';
 
+// TODO: tester
 enum CreateUserActionDisplayState {
   aborted,
   step1,
@@ -59,7 +60,7 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
         _ => false,
       };
 
-  CreateUserActionPageState get currentstate => switch (currentView) {
+  CreateUserActionPageViewModel get currentstate => switch (currentView) {
         CreateUserActionDisplayState.aborted => step1,
         CreateUserActionDisplayState.step1 => step1,
         CreateUserActionDisplayState.step2 => step2,
@@ -98,7 +99,7 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
   }
 }
 
-sealed class CreateUserActionPageState extends Equatable {
+sealed class CreateUserActionPageViewModel extends Equatable {
   bool get isValid;
 }
 
