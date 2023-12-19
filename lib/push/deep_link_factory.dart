@@ -26,42 +26,25 @@ class DeepLinkFactory {
 }
 
 enum _DeepLink {
-  rendezvous([
-    _Type("DETAIL_RENDEZVOUS", _Issuer.inApp),
-    _Type("NEW_RENDEZVOUS", _Issuer.backend),
-    _Type("DELETED_RENDEZVOUS", _Issuer.backend),
-    _Type("RAPPEL_RENDEZVOUS", _Issuer.backend),
-  ]),
-  action([
-    _Type("DETAIL_ACTION", _Issuer.backend),
-    _Type("NEW_ACTION", _Issuer.backend),
-  ]),
-  message([_Type("NEW_MESSAGE", _Issuer.backend)]),
-  sessionMilo([_Type("DETAIL_SESSION_MILO", _Issuer.backend)]),
-  alerte([_Type("NOUVELLE_OFFRE", _Issuer.backend)]),
-  fonctionnalites([_Type("NOUVELLES_FONCTIONNALITES", _Issuer.firebase)]),
-  eventList([_Type("EVENT_LIST", _Issuer.inApp)]),
-  actualisationPe([_Type("ACTUALISATION_PE", _Issuer.firebase)]),
-  agenda([_Type("AGENDA", _Issuer.inApp)]),
-  favoris([_Type("FAVORIS", _Issuer.maybeUnused)]),
-  savedSearches([_Type("SAVED_SEARCHES", _Issuer.maybeUnused)]),
-  recherche([_Type("RECHERCHE", _Issuer.inApp)]),
-  outils([_Type("OUTILS", _Issuer.inApp)]);
+  rendezvous(["DETAIL_RENDEZVOUS", "NEW_RENDEZVOUS", "DELETED_RENDEZVOUS", "RAPPEL_RENDEZVOUS"]),
+  action(["DETAIL_ACTION", "NEW_ACTION"]),
+  message(["NEW_MESSAGE"]),
+  sessionMilo(["DETAIL_SESSION_MILO"]),
+  alerte(["NOUVELLE_OFFRE"]),
+  fonctionnalites(["NOUVELLES_FONCTIONNALITES"]),
+  eventList(["EVENT_LIST"]),
+  actualisationPe(["ACTUALISATION_PE"]),
+  agenda(["AGENDA"]),
+  favoris(["FAVORIS"]),
+  savedSearches(["SAVED_SEARCHES"]),
+  recherche(["RECHERCHE"]),
+  outils(["OUTILS"]);
 
-  final List<_Type> types;
+  final List<String> possibleTypes;
 
-  const _DeepLink(this.types);
+  const _DeepLink(this.possibleTypes);
 
   static _DeepLink? fromType(String? type) {
-    return _DeepLink.values.firstWhereOrNull((e) => e.types.map((t) => t.value).contains(type));
+    return _DeepLink.values.firstWhereOrNull((e) => e.possibleTypes.contains(type));
   }
 }
-
-class _Type {
-  final String value;
-  final _Issuer issuer;
-
-  const _Type(this.value, this.issuer);
-}
-
-enum _Issuer { backend, inApp, firebase, maybeUnused }
