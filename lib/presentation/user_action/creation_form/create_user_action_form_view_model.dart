@@ -8,7 +8,6 @@ part 'create_user_action_step1_view_model.dart';
 part 'create_user_action_step2_view_model.dart';
 part 'create_user_action_step3_view_model.dart';
 
-// TODO: tester
 enum CreateUserActionDisplayState {
   aborted,
   step1,
@@ -21,7 +20,7 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
   CreateUserActionStep1ViewModel step1;
   CreateUserActionStep2ViewModel step2;
   CreateUserActionStep3ViewModel step3;
-  CreateUserActionDisplayState currentView;
+  CreateUserActionDisplayState displayState;
 
   CreateUserActionFormViewModel({
     CreateUserActionStep1ViewModel? initialStep1,
@@ -31,36 +30,36 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
   })  : step1 = initialStep1 ?? CreateUserActionStep1ViewModel(),
         step2 = initialStep2 ?? CreateUserActionStep2ViewModel(),
         step3 = initialStep3 ?? CreateUserActionStep3ViewModel(),
-        currentView = initialStep ?? CreateUserActionDisplayState.step1;
+        displayState = initialStep ?? CreateUserActionDisplayState.step1;
 
   void viewChangedForward() {
-    currentView = switch (currentView) {
+    displayState = switch (displayState) {
       CreateUserActionDisplayState.step1 => CreateUserActionDisplayState.step2,
       CreateUserActionDisplayState.step2 => CreateUserActionDisplayState.step3,
       CreateUserActionDisplayState.step3 => CreateUserActionDisplayState.submitted,
-      _ => currentView,
+      _ => displayState,
     };
     notifyListeners();
   }
 
   void viewChangedBackward() {
-    currentView = switch (currentView) {
+    displayState = switch (displayState) {
       CreateUserActionDisplayState.step1 => CreateUserActionDisplayState.aborted,
       CreateUserActionDisplayState.step2 => CreateUserActionDisplayState.step1,
       CreateUserActionDisplayState.step3 => CreateUserActionDisplayState.step2,
-      _ => currentView,
+      _ => displayState,
     };
     notifyListeners();
   }
 
-  bool get canGoForward => switch (currentView) {
+  bool get canGoForward => switch (displayState) {
         CreateUserActionDisplayState.step1 => step1.isValid,
         CreateUserActionDisplayState.step2 => step2.isValid,
         CreateUserActionDisplayState.step3 => step3.isValid,
         _ => false,
       };
 
-  CreateUserActionPageViewModel get currentstate => switch (currentView) {
+  CreateUserActionPageViewModel get currentstate => switch (displayState) {
         CreateUserActionDisplayState.aborted => step1,
         CreateUserActionDisplayState.step1 => step1,
         CreateUserActionDisplayState.step2 => step2,
@@ -106,11 +105,11 @@ sealed class CreateUserActionPageViewModel extends Equatable {
 extension CreateUserActionFormStateExt on CreateUserActionFormViewModel {
   bool get shouldDisplayNavigationButtons => isStep2 || isStep3;
 
-  bool get isAborted => currentView == CreateUserActionDisplayState.aborted;
-  bool get isStep1 => currentView == CreateUserActionDisplayState.step1;
-  bool get isStep2 => currentView == CreateUserActionDisplayState.step2;
-  bool get isStep3 => currentView == CreateUserActionDisplayState.step3;
-  bool get isSubmitted => currentView == CreateUserActionDisplayState.submitted;
+  bool get isAborted => displayState == CreateUserActionDisplayState.aborted;
+  bool get isStep1 => displayState == CreateUserActionDisplayState.step1;
+  bool get isStep2 => displayState == CreateUserActionDisplayState.step2;
+  bool get isStep3 => displayState == CreateUserActionDisplayState.step3;
+  bool get isSubmitted => displayState == CreateUserActionDisplayState.submitted;
 
   UserActionCreateRequest get toRequest => UserActionCreateRequest(
         step2.titleSource.title,
