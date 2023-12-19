@@ -26,11 +26,11 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
     CreateUserActionStep1ViewModel? initialStep1,
     CreateUserActionStep2ViewModel? initialStep2,
     CreateUserActionStep3ViewModel? initialStep3,
-    CreateUserActionDisplayState? initialStep,
+    CreateUserActionDisplayState? initialDisplayState,
   })  : step1 = initialStep1 ?? CreateUserActionStep1ViewModel(),
         step2 = initialStep2 ?? CreateUserActionStep2ViewModel(),
         step3 = initialStep3 ?? CreateUserActionStep3ViewModel(),
-        displayState = initialStep ?? CreateUserActionDisplayState.step1;
+        displayState = initialDisplayState ?? CreateUserActionDisplayState.step1;
 
   void viewChangedForward() {
     displayState = switch (displayState) {
