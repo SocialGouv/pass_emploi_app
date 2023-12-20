@@ -1,11 +1,12 @@
-import 'package:clock/clock.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-sealed class UserActionCreateDisplayState {}
+sealed class UserActionCreateDisplayState {
+  bool get isLoading => this is DisplayLoading;
+}
 
 class DisplayContent extends UserActionCreateDisplayState {}
 
@@ -30,10 +31,6 @@ class UserActionCreateViewModel {
       displayState: _displayState(store.state.userActionCreateState),
       createUserAction: (request) => store.dispatch(UserActionCreateRequestAction(request)),
     );
-  }
-
-  bool isRappelActive(DateTime? dateEcheance) {
-    return dateEcheance != null ? dateEcheance.isAfter(clock.now().add(Duration(days: 3))) : false;
   }
 }
 

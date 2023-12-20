@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 
 class UserActionCreateRequest extends Equatable {
   final String content;
@@ -7,6 +8,7 @@ class UserActionCreateRequest extends Equatable {
   final DateTime dateEcheance;
   final bool rappel;
   final UserActionStatus initialStatus;
+  final UserActionReferentielType codeQualification;
 
   UserActionCreateRequest(
     this.content,
@@ -14,10 +16,11 @@ class UserActionCreateRequest extends Equatable {
     this.dateEcheance,
     this.rappel,
     this.initialStatus,
+    this.codeQualification,
   );
 
   @override
-  List<Object?> get props => [content, comment, dateEcheance, rappel, initialStatus];
+  List<Object?> get props => [content, comment, dateEcheance, rappel, initialStatus, codeQualification];
 
   Map<String, dynamic> toJson() {
     return {
@@ -26,6 +29,7 @@ class UserActionCreateRequest extends Equatable {
       'dateEcheance': dateEcheance.microsecondsSinceEpoch,
       'rappel': rappel,
       'initialStatus': initialStatus.toString(),
+      'codeQualification': codeQualification.code
     };
   }
 
@@ -36,6 +40,7 @@ class UserActionCreateRequest extends Equatable {
       DateTime.fromMicrosecondsSinceEpoch(json['dateEcheance'] as int),
       json['rappel'] as bool,
       UserActionStatus.fromString(json['initialStatus'] as String),
+      UserActionReferentielType.fromCode(json['codeQualification'] as String?),
     );
   }
 }

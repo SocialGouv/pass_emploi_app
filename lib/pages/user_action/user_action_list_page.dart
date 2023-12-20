@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_actio
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_actions_loading.dart';
+import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -15,7 +16,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_actions_pending_card.dart';
@@ -133,14 +133,16 @@ class _UserActionListPageState extends State<UserActionListPage> {
       label: Strings.addAnAction,
       icon: AppIcons.add_rounded,
       rippleColor: AppColors.primaryDarken,
-      onPressed: () => Navigator.push(context, CreateUserActionBottomSheet.materialPageRoute()).then((result) {
-        CreateUserActionBottomSheet.displaySnackBarOnResult(
-          context,
-          result,
-          UserActionStateSource.list,
-          () => viewModel.onCreateUserActionDismissed(),
-        );
-      }),
+      onPressed: () => Navigator.push(context, CreateUserActionFormPage.route(
+        onPop: (displayState) {
+          CreateUserActionFormPage.displaySnackBarOnResult(
+            context,
+            displayState,
+            UserActionStateSource.list,
+            () => viewModel.onCreateUserActionDismissed(),
+          );
+        },
+      )),
     );
   }
 }

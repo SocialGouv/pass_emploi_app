@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
 import '../dsl/sut_dio_repository.dart';
@@ -67,7 +68,14 @@ void main() {
       sut.when(
         (repository) => repository.createUserAction(
           "UID",
-          UserActionCreateRequest("content", "comment", DateTime.utc(2022, 1, 1), true, UserActionStatus.DONE),
+          UserActionCreateRequest(
+            "content",
+            "comment",
+            DateTime.utc(2022, 1, 1),
+            true,
+            UserActionStatus.DONE,
+            UserActionReferentielType.emploi,
+          ),
         ),
       );
 
