@@ -370,6 +370,22 @@ class Strings {
 
   static const String userActionOther = "Autre";
 
+  static const String userActionEmploiLabel = 'Emploi';
+  static const String userActionProjetProfessionnelLabel = 'Projet';
+  static const String userActionCultureSportLoisirsLabel = 'Sport';
+  static const String userActionCitoyenneteLabel = 'Citoyenneté';
+  static const String userActionFormationLabel = 'Formation';
+  static const String userActionLogementLabel = 'Logement';
+  static const String userActionSanteLabel = 'Santé';
+
+  static const String userActionEmploiDescription = 'Recherches, candidatures';
+  static const String userActionProjetProfessionnelDescription = 'Définir un projet professionnel';
+  static const String userActionCultureSportLoisirsDescription = 'Cours de sport, salle, sorties';
+  static const String userActionCitoyenneteDescription = 'Démarches, passer le permis';
+  static const String userActionFormationDescription = 'En présentiel ou en ligne';
+  static const String userActionLogementDescription = 'Recherches de logement';
+  static const String userActionSanteDescription = 'Rendez-vous médicaux';
+
   static const List<String> userActionEmploiSuggestions = [
     "Faire mon CV",
     "Recherche d'emploi",

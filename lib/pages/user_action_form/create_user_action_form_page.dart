@@ -14,7 +14,8 @@ import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class CreateUserActionFormPage extends StatelessWidget {
   const CreateUserActionFormPage({super.key, required this.onPop});
-  final void Function(UserActionCreateDisplayState displayState)? onPop;
+
+  final void Function(UserActionCreateDisplayState displayState) onPop;
 
   static Route<dynamic> route({required void Function(UserActionCreateDisplayState displayState) onPop}) {
     return MaterialPageRoute<void>(
@@ -82,7 +83,7 @@ class CreateUserActionFormPage extends StatelessWidget {
   void _shouldPop(BuildContext context, UserActionCreateViewModel viewModel) {
     final displayState = viewModel.displayState;
     if (displayState is DismissWithSuccess || displayState is DismissWithFailure) {
-      onPop?.call(displayState);
+      onPop.call(displayState);
       Navigator.pop(context, displayState);
     }
   }

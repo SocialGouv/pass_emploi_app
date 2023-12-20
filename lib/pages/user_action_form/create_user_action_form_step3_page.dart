@@ -15,6 +15,7 @@ class CreateUserActionFormStep3 extends StatelessWidget {
     required this.withRappelChanged,
     required this.onDateChanged,
   });
+
   final CreateUserActionStep3ViewModel viewModel;
   final void Function(bool) onStatusChanged;
   final void Function(bool) withRappelChanged;
@@ -37,9 +38,9 @@ class CreateUserActionFormStep3 extends StatelessWidget {
         DatePicker(
           onValueChange: (date) => onDateChanged(CreateActionDateFromUserInput(date)),
           initialDateValue: switch (viewModel.dateSource) {
-            CreateActionDateNotInitialized() => null,
-            CreateActionDateFromSuggestions() => (viewModel.dateSource as CreateActionDateFromSuggestions).date,
-            CreateActionDateFromUserInput() => (viewModel.dateSource as CreateActionDateFromUserInput).date,
+            CreateActionDateNotInitialized _ => null,
+            final CreateActionDateFromSuggestions dateSource => dateSource.date,
+            final CreateActionDateFromUserInput dateSource => dateSource.date,
           },
           isActiveDate: true,
         ),
@@ -61,6 +62,7 @@ class CreateUserActionFormStep3 extends StatelessWidget {
 
 class _ActionStatusRadios extends StatelessWidget {
   const _ActionStatusRadios({required this.isCompleted, required this.onStatusChanged});
+
   final bool isCompleted;
   final void Function(bool) onStatusChanged;
 

@@ -33,7 +33,7 @@ class CreateUserActionFormStep2 extends StatelessWidget {
         const SizedBox(height: Margins.spacing_m),
         Text(Strings.userActionSubtitleStep2, style: TextStyles.textBaseBold),
         const SizedBox(height: Margins.spacing_m),
-        _SugestionTagWrap(
+        _SuggestionTagWrap(
           titleSource: viewModel.titleSource,
           onSelected: onTitleChanged,
           actionType: actionType,
@@ -74,12 +74,12 @@ class CreateUserActionFormStep2 extends StatelessWidget {
   }
 }
 
-class _SugestionTagWrap extends StatelessWidget {
+class _SuggestionTagWrap extends StatelessWidget {
   final void Function(CreateActionTitleSource) onSelected;
   final CreateActionTitleSource titleSource;
   final UserActionReferentielType actionType;
 
-  const _SugestionTagWrap({
+  const _SuggestionTagWrap({
     required this.titleSource,
     required this.onSelected,
     required this.actionType,
@@ -104,7 +104,7 @@ class _SugestionTagWrap extends StatelessWidget {
             ),
             PassEmploiChip<String>(
                 label: Strings.userActionOther,
-                value: "",
+                value: Strings.userActionOther,
                 isSelected: false,
                 onTagSelected: (value) => onSelected(CreateActionTitleFromUserInput(value)),
                 onTagDeleted: () => onSelected(CreateActionTitleNotInitialized()))
@@ -120,7 +120,7 @@ class _SugestionTagWrap extends StatelessWidget {
         CreateActionTitleFromUserInput() => [
             PassEmploiChip<String>(
                 label: Strings.userActionOther,
-                value: "",
+                value: Strings.userActionOther,
                 isSelected: true,
                 onTagSelected: (value) => onSelected(CreateActionTitleFromUserInput(value)),
                 onTagDeleted: () => onSelected(CreateActionTitleNotInitialized()))

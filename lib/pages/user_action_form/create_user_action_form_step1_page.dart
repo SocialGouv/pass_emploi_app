@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class CreateUserActionFormStep1 extends StatelessWidget {
   const CreateUserActionFormStep1({super.key, required this.onActionTypeSelected});
+
   final void Function(UserActionReferentielType) onActionTypeSelected;
 
   @override
@@ -27,8 +28,9 @@ class CreateUserActionFormStep1 extends StatelessWidget {
 }
 
 class ActionCategorySelector extends StatelessWidget {
-  const ActionCategorySelector({super.key, this.onActionSelected});
-  final void Function(UserActionReferentielType)? onActionSelected;
+  const ActionCategorySelector({super.key, required this.onActionSelected});
+
+  final void Function(UserActionReferentielType) onActionSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class ActionCategorySelector extends StatelessWidget {
       itemBuilder: (context, index) {
         final type = UserActionReferentielTypePresentation.all[index];
         return ActionCategoryCard(
-          onTap: () => onActionSelected?.call(type),
+          onTap: () => onActionSelected.call(type),
           icon: type.icon,
           label: type.label,
           description: type.description,
@@ -55,8 +57,14 @@ class ActionCategorySelector extends StatelessWidget {
 }
 
 class ActionCategoryCard extends StatelessWidget {
-  const ActionCategoryCard(
-      {super.key, required this.icon, required this.label, required this.description, required this.onTap});
+  const ActionCategoryCard({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.description,
+    required this.onTap,
+  });
+
   final IconData icon;
   final String label;
   final String description;
@@ -98,24 +106,27 @@ extension UserActionReferentielTypePresentation on UserActionReferentielType {
         UserActionReferentielType.logement,
         UserActionReferentielType.sante,
       ];
-  String get label => switch (this) {
-        UserActionReferentielType.emploi => 'Emploi',
-        UserActionReferentielType.projetProfessionnel => 'Projet',
-        UserActionReferentielType.cultureSportLoisirs => 'Sport',
-        UserActionReferentielType.citoyennete => 'Citoyenneté',
-        UserActionReferentielType.formation => 'Formation',
-        UserActionReferentielType.logement => 'Logement',
-        UserActionReferentielType.sante => 'Santé',
+
+  String get label =>
+      switch (this) {
+        UserActionReferentielType.emploi => Strings.userActionEmploiLabel,
+        UserActionReferentielType.projetProfessionnel => Strings.userActionProjetProfessionnelLabel,
+        UserActionReferentielType.cultureSportLoisirs => Strings.userActionCultureSportLoisirsLabel,
+        UserActionReferentielType.citoyennete => Strings.userActionCitoyenneteLabel,
+        UserActionReferentielType.formation => Strings.userActionFormationLabel,
+        UserActionReferentielType.logement => Strings.userActionLogementLabel,
+        UserActionReferentielType.sante => Strings.userActionSanteLabel,
       };
 
-  String get description => switch (this) {
-        UserActionReferentielType.emploi => "Recherches, candidatures",
-        UserActionReferentielType.projetProfessionnel => "Définir un projet professionnel",
-        UserActionReferentielType.cultureSportLoisirs => "Cours de sport, salle, sorties",
-        UserActionReferentielType.citoyennete => "Démarches, passer le permis",
-        UserActionReferentielType.formation => "En présentiel ou en ligne",
-        UserActionReferentielType.logement => "Recherches de logement",
-        UserActionReferentielType.sante => "Rendez-vous médicaux",
+  String get description =>
+      switch (this) {
+        UserActionReferentielType.emploi => Strings.userActionEmploiDescription,
+        UserActionReferentielType.projetProfessionnel => Strings.userActionProjetProfessionnelDescription,
+        UserActionReferentielType.cultureSportLoisirs => Strings.userActionCultureSportLoisirsDescription,
+        UserActionReferentielType.citoyennete => Strings.userActionCitoyenneteDescription,
+        UserActionReferentielType.formation => Strings.userActionFormationDescription,
+        UserActionReferentielType.logement => Strings.userActionLogementDescription,
+        UserActionReferentielType.sante => Strings.userActionSanteDescription,
       };
 
   IconData get icon => switch (this) {

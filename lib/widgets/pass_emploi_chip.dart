@@ -14,6 +14,7 @@ class PassEmploiChip<T> extends StatelessWidget {
     this.isDisabled = false,
     this.onTagDeleted,
   });
+
   final String label;
   final T value;
   final void Function(T) onTagSelected;
@@ -74,6 +75,7 @@ class _CustomChip extends StatelessWidget {
     required this.onSelected,
     required this.textstyle,
   });
+
   final String label;
   final Color bgColor;
   final Color borderColor;
@@ -90,7 +92,9 @@ class _CustomChip extends StatelessWidget {
         onTap: onSelected,
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Dimens.radius_base), border: Border.all(color: borderColor)),
+            borderRadius: BorderRadius.circular(Dimens.radius_base),
+            border: Border.all(color: borderColor),
+          ),
           padding: EdgeInsets.symmetric(horizontal: Margins.spacing_s, vertical: Margins.spacing_xs),
           child: Text(
             label,
