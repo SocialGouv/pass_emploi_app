@@ -18,6 +18,7 @@ void main() {
       // When & Then
       expect(viewModel.isValid, false);
     });
+
     test('should be valid when titleSource is from suggestions', () {
       // Given
       final viewModel = CreateUserActionStep2ViewModel(titleSource: CreateActionTitleFromSuggestions(""));
