@@ -44,7 +44,10 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
       resizeToAvoidBottomInset: false,
       appBar: SecondaryAppBar(
         title: Strings.createActionAppBarTitle,
-        leading: BackButton(onPressed: () => _viewModel.viewChangedBackward()),
+        leading: IconButton(
+          icon: Icon(Icons.close_rounded),
+          onPressed: () => _viewModel.viewChangedBackward(),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: _buttons(),

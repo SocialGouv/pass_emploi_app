@@ -19,6 +19,7 @@ class CreateUserActionFormPage extends StatelessWidget {
 
   static Route<dynamic> route({required void Function(UserActionCreateDisplayState displayState) onPop}) {
     return MaterialPageRoute<void>(
+      fullscreenDialog: true,
       builder: (_) => CreateUserActionFormPage(onPop: onPop),
     );
   }
