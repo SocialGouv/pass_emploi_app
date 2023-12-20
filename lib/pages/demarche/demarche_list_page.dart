@@ -33,7 +33,7 @@ class DemarcheListPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(
       builder: (context) {
-        return Scaffold(appBar: SecondaryAppBar(title: Strings.demarcheTabTitle), body: DemarcheListPage());
+        return Scaffold(appBar: SecondaryAppBar(title: "Démarches"), body: DemarcheListPage());
       },
     );
   }

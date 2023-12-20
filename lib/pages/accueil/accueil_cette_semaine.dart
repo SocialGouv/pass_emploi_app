@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
-import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -30,13 +29,10 @@ class AccueilCetteSemaine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MaterialPageRoute<void> actionsDemarchesPageRoute() => item.monSuiviType == MonSuiviType.actions
-        ? UserActionListPage.materialPageRoute()
-        : DemarcheListPage.materialPageRoute();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        LargeSectionTitle(Strings.accueilCetteSemaineSection),
+        LargeSectionTitle("Cette semaine"),
         SizedBox(height: Margins.spacing_base),
         Semantics(
           label: Strings.listSemanticsLabel,
@@ -57,7 +53,7 @@ class AccueilCetteSemaine extends StatelessWidget {
                   text: item.actionsDemarchesEnRetard,
                   onTap: () {
                     context.trackEvent(EventType.ACTION_LISTE);
-                    Navigator.of(context).push(actionsDemarchesPageRoute());
+                    Navigator.of(context).push(DemarcheListPage.materialPageRoute());
                   },
                 ),
                 SepLine(0, 0),
@@ -66,13 +62,13 @@ class AccueilCetteSemaine extends StatelessWidget {
                   text: item.actionsDemarchesARealiser,
                   onTap: () {
                     context.trackEvent(EventType.ACTION_LISTE);
-                    Navigator.of(context).push(actionsDemarchesPageRoute());
+                    Navigator.of(context).push(DemarcheListPage.materialPageRoute());
                   },
                 ),
                 SepLine(0, 0),
                 _CetteSemaineRow(
                   icon: Icon(AppIcons.add_alert_rounded, color: AppColors.primary),
-                  text: Strings.vosSuggestionsAlertes,
+                  text: "Vos suggestions d'alertes",
                   onTap: () {
                     PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.accueilSuggestionsListe);
                     Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute(fetchSuggestions: true));
