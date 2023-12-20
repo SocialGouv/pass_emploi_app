@@ -1,41 +1,50 @@
+import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/version.dart';
 
 class DeepLinkFactory {
   static DeepLink? fromJson(Map<String, dynamic> data) {
-    switch (data["type"]) {
-      case "DETAIL_ACTION": // Backend
-      case "NEW_ACTION": // Backend
-        return DetailActionDeepLink(idAction: data["id"] as String?);
-      case "NEW_MESSAGE": // Backend
-        return NouveauMessageDeepLink();
-      case "DETAIL_RENDEZVOUS": // In-App
-      case "NEW_RENDEZVOUS": // Backend
-      case "DELETED_RENDEZVOUS": // Backend
-      case "RAPPEL_RENDEZVOUS": // Backend
-        return DetailRendezvousDeepLink(idRendezvous: data["id"] as String?);
-      case "DETAIL_SESSION_MILO": // Backend
-        return DetailSessionMiloDeepLink(idSessionMilo: data["id"] as String?);
-      case "NOUVELLE_OFFRE": // Backend
-        return AlerteDeepLink(idAlerte: data["id"] as String);
-      case 'NOUVELLES_FONCTIONNALITES': // Firebase (mais pas utilisé ?)
-        return NouvellesFonctionnalitesDeepLink(lastVersion: Version.fromString(data["version"] as String));
-      case "EVENT_LIST": // In-App
-        return EventListDeepLink();
-      case "ACTUALISATION_PE": // Firebase
-        return ActualisationPeDeepLink();
-      case "AGENDA": // In-App
-        return AgendaDeepLink();
-      case "FAVORIS": // Unused ?
-        return FavorisDeepLink();
-      case "SAVED_SEARCHES": // Unused ?
-        return AlertesDeepLink();
-      case "RECHERCHE": // In-App
-        return RechercheDeepLink();
-      case "OUTILS": // In-App
-        return OutilsDeepLink();
-      default:
-        return null;
-    }
+    final deepLink = _DeepLink.fromType(data["type"] as String?);
+    return switch (deepLink) {
+      _DeepLink.action => DetailActionDeepLink(idAction: data["id"] as String?),
+      _DeepLink.message => NouveauMessageDeepLink(),
+      _DeepLink.rendezvous => DetailRendezvousDeepLink(idRendezvous: data["id"] as String?),
+      _DeepLink.sessionMilo => DetailSessionMiloDeepLink(idSessionMilo: data["id"] as String?),
+      _DeepLink.alerte => AlerteDeepLink(idAlerte: data["id"] as String),
+      _DeepLink.fonctionnalites =>
+        NouvellesFonctionnalitesDeepLink(lastVersion: Version.fromString(data["version"] as String)),
+      _DeepLink.eventList => EventListDeepLink(),
+      _DeepLink.actualisationPe => ActualisationPeDeepLink(),
+      _DeepLink.agenda => AgendaDeepLink(),
+      _DeepLink.favoris => FavorisDeepLink(),
+      _DeepLink.savedSearches => AlertesDeepLink(),
+      _DeepLink.recherche => RechercheDeepLink(),
+      _DeepLink.outils => OutilsDeepLink(),
+      null => null,
+    };
+  }
+}
+
+enum _DeepLink {
+  rendezvous(["DETAIL_RENDEZVOUS", "NEW_RENDEZVOUS", "DELETED_RENDEZVOUS", "RAPPEL_RENDEZVOUS"]),
+  action(["DETAIL_ACTION", "NEW_ACTION"]),
+  message(["NEW_MESSAGE"]),
+  sessionMilo(["DETAIL_SESSION_MILO"]),
+  alerte(["NOUVELLE_OFFRE"]),
+  fonctionnalites(["NOUVELLES_FONCTIONNALITES"]),
+  eventList(["EVENT_LIST"]),
+  actualisationPe(["ACTUALISATION_PE"]),
+  agenda(["AGENDA"]),
+  favoris(["FAVORIS"]),
+  savedSearches(["SAVED_SEARCHES"]),
+  recherche(["RECHERCHE"]),
+  outils(["OUTILS"]);
+
+  final List<String> possibleTypes;
+
+  const _DeepLink(this.possibleTypes);
+
+  static _DeepLink? fromType(String? type) {
+    return _DeepLink.values.firstWhereOrNull((e) => e.possibleTypes.contains(type));
   }
 }
