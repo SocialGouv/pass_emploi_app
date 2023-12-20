@@ -3,21 +3,16 @@ import 'package:pass_emploi_app/presentation/user_action/creation_form/create_us
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_stepper.dart';
 
-class UserActionStepper extends StatelessWidget {
-  const UserActionStepper({super.key, required this.displayState, required this.category});
+class UserActionStepperTexts extends StatelessWidget {
+  const UserActionStepperTexts({super.key, required this.displayState, required this.category});
   final CreateUserActionDisplayState displayState;
   final String category;
 
   @override
   Widget build(BuildContext context) {
-    return PassEmploiStepper(
+    return PassEmploiStepperTexts(
         stepCount: 3,
-        currentStep: switch (displayState) {
-          CreateUserActionDisplayState.step1 => 0,
-          CreateUserActionDisplayState.step2 => 1,
-          CreateUserActionDisplayState.step3 => 2,
-          _ => 0,
-        },
+        currentStep: displayState.stepIndex,
         stepTitle: switch (displayState) {
           CreateUserActionDisplayState.step1 => Strings.userActionTitleStep1,
           CreateUserActionDisplayState.step2 => "${Strings.userActionTitleStep2} $category",

@@ -9,11 +9,17 @@ part 'create_user_action_step2_view_model.dart';
 part 'create_user_action_step3_view_model.dart';
 
 enum CreateUserActionDisplayState {
-  aborted,
-  step1,
-  step2,
-  step3,
-  submitted,
+  aborted(0),
+  step1(0),
+  step2(1),
+  step3(2),
+  submitted(2);
+
+  final int stepIndex;
+
+  const CreateUserActionDisplayState(this.stepIndex);
+
+  static int get stepCount => 3;
 }
 
 class CreateUserActionFormViewModel extends ChangeNotifier {

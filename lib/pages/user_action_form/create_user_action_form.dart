@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/pass_emploi_stepper.dart';
 
 class CreateUserActionForm extends StatefulWidget {
   const CreateUserActionForm({super.key, required this.onSubmit, required this.onAbort});
@@ -142,16 +143,22 @@ class _CreateUserActionForm extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: Column(
         children: [
-          UserActionStepper(
-            displayState: formState.displayState,
-            category: formState.step1.actionCategory?.label ?? "",
+          PassEmploiStepperProgressBar(
+            stepCount: CreateUserActionDisplayState.stepCount,
+            currentStep: formState.displayState.stepIndex,
           ),
           Expanded(
             child: SingleChildScrollView(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: Margins.spacing_s),
+                  UserActionStepperTexts(
+                    displayState: formState.displayState,
+                    category: formState.step1.actionCategory?.label ?? "",
+                  ),
                   switch (formState.displayState) {
                     CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(onActionTypeSelected: (type) {
                         formState.userActionTypeSelected(type);
@@ -170,7 +177,7 @@ class _CreateUserActionForm extends StatelessWidget {
                       ),
                     _ => const SizedBox.shrink(),
                   },
-                  SizedBox(height: Margins.spacing_huge),
+                  SizedBox(height: Margins.spacing_huge * 4),
                 ],
               ),
             ),

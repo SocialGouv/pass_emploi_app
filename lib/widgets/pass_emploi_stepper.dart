@@ -4,8 +4,13 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class PassEmploiStepper extends StatelessWidget {
-  const PassEmploiStepper({super.key, required this.stepCount, required this.currentStep, required this.stepTitle});
+class PassEmploiStepperTexts extends StatelessWidget {
+  const PassEmploiStepperTexts({
+    super.key,
+    required this.stepCount,
+    required this.currentStep,
+    required this.stepTitle,
+  });
   final int stepCount;
   final int currentStep;
   final String stepTitle;
@@ -15,18 +20,16 @@ class PassEmploiStepper extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.stepCounter(currentStep + 1, stepCount), style: TextStyles.textSRegular()),
-        const SizedBox(height: Margins.spacing_xs),
+        Text(Strings.stepCounter(currentStep + 1, stepCount), style: TextStyles.textSRegular(color: AppColors.grey800)),
+        const SizedBox(height: Margins.spacing_s),
         Text(stepTitle, style: TextStyles.textMBold),
-        const SizedBox(height: Margins.spacing_base),
-        _StepProgressBar(stepCount: stepCount, currentStep: currentStep),
       ],
     );
   }
 }
 
-class _StepProgressBar extends StatelessWidget {
-  const _StepProgressBar({required this.stepCount, required this.currentStep});
+class PassEmploiStepperProgressBar extends StatelessWidget {
+  const PassEmploiStepperProgressBar({required this.stepCount, required this.currentStep});
   final int stepCount;
   final int currentStep;
 
