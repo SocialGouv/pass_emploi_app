@@ -44,7 +44,7 @@ class UserAction extends Equatable {
     required this.status,
     required this.dateEcheance,
     required this.creator,
-    required this.type,
+    this.type,
   });
 
   factory UserAction.fromJson(dynamic json) {
