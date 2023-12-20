@@ -2,6 +2,7 @@ import 'package:clock/clock.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
@@ -34,6 +35,7 @@ class UserAction extends Equatable {
   final UserActionStatus status;
   final DateTime dateEcheance;
   final UserActionCreator creator;
+  final UserActionReferentielType? type;
 
   UserAction({
     required this.id,
@@ -42,6 +44,7 @@ class UserAction extends Equatable {
     required this.status,
     required this.dateEcheance,
     required this.creator,
+    required this.type,
   });
 
   factory UserAction.fromJson(dynamic json) {
@@ -52,6 +55,7 @@ class UserAction extends Equatable {
       status: _statusFromString(statusString: json['status'] as String),
       dateEcheance: (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
       creator: _creator(json),
+      type: json['type'] != null ? UserActionReferentielType.fromCode(json['type'] as String) : null,
     );
   }
 
@@ -62,6 +66,7 @@ class UserAction extends Equatable {
     final UserActionStatus? status,
     final DateTime? dateEcheance,
     final UserActionCreator? creator,
+    final UserActionReferentielType? type,
   }) {
     return UserAction(
       id: id ?? this.id,
@@ -70,13 +75,14 @@ class UserAction extends Equatable {
       status: status ?? this.status,
       dateEcheance: dateEcheance ?? this.dateEcheance,
       creator: creator ?? this.creator,
+      type: type ?? this.type,
     );
   }
 
   bool isLate() => !(dateEcheance.isToday() || dateEcheance.isAfter(clock.now()));
 
   @override
-  List<Object?> get props => [id, comment, content, status, dateEcheance, creator];
+  List<Object?> get props => [id, comment, content, status, dateEcheance, creator, type];
 }
 
 UserActionStatus _statusFromString({required String statusString}) {
