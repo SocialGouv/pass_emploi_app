@@ -47,7 +47,7 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
         title: Strings.createActionAppBarTitle,
         leading: IconButton(
           icon: Icon(Icons.close_rounded),
-          onPressed: () => _viewModel.viewChangedBackward(),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
