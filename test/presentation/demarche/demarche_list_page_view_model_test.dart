@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
@@ -48,6 +49,37 @@ void main() {
     for (var i = 6; i < 11; ++i) {
       expect((viewModel.demarcheListItems[i]).demarcheId, isIn(['TERMINEE', 'ANNULEE']));
     }
+  });
+
+  test("Quand le filtre en retard est présent, ne remonter que les démarches en retard", () {
+    // Given
+    final aujourdhui = DateTime.now();
+    final demain = aujourdhui.add(Duration(days: 1));
+    final hier = aujourdhui.subtract(Duration(days: 1));
+
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(
+          demarcheListState: DemarcheListSuccessState(
+            [
+              uneDemarche(id: '', status: DemarcheStatus.enCours, endDate: demain),
+              uneDemarche(id: 'EN RETARD 1', status: DemarcheStatus.enCours, endDate: hier),
+              uneDemarche(id: '', status: DemarcheStatus.pasCommencee, endDate: demain),
+              uneDemarche(id: 'EN RETARD 2', status: DemarcheStatus.pasCommencee, endDate: hier),
+              uneDemarche(id: '', status: DemarcheStatus.terminee),
+              uneDemarche(id: '', status: DemarcheStatus.annulee),
+            ],
+          ),
+        )
+        .store();
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store, Filtre.enRetard);
+
+    // Then
+    expect(viewModel.demarcheListItems.length, 2);
+    expect((viewModel.demarcheListItems[0]).demarcheId, 'EN RETARD 1');
+    expect((viewModel.demarcheListItems[1]).demarcheId, 'EN RETARD 2');
   });
 
   test('create when demarche state is loading should display loader', () {

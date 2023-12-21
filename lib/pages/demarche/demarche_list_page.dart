@@ -46,7 +46,7 @@ class DemarcheListPage extends StatelessWidget {
     return StoreConnector<AppState, DemarcheListPageViewModel>(
       onInit: (store) => store.dispatch(DemarcheListRequestAction()),
       builder: (context, viewModel) => _scaffold(context, viewModel),
-      converter: (store) => DemarcheListPageViewModel.create(store),
+      converter: (store) => DemarcheListPageViewModel.create(store, filtre),
       onDispose: (store) => store.dispatch(DemarcheListResetAction()),
       distinct: true,
     );

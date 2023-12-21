@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -19,12 +20,13 @@ class DemarcheListPageViewModel extends Equatable {
     required this.onRetry,
   });
 
-  factory DemarcheListPageViewModel.create(Store<AppState> store) {
+  factory DemarcheListPageViewModel.create(Store<AppState> store, [Filtre filtre = Filtre.aucun]) {
     final state = store.state.demarcheListState;
-    final items = _activeDemarcheItems(state: state) + _inactiveDemarcheItems(state: state);
+    final itemsSansFiltre = _activeDemarcheItems(state: state) + _inactiveDemarcheItems(state: state);
+    final itemsEnRetard = _enRetardDemarcheItems(state: state);
 
     return DemarcheListPageViewModel(
-      demarcheListItems: items,
+      demarcheListItems: filtre == Filtre.aucun ? itemsSansFiltre : itemsEnRetard,
       displayState: _displayState(store.state),
       isReloading: state is DemarcheListReloadingState,
       onRetry: () => store.dispatch(DemarcheListRequestReloadAction(forceRefresh: true)),
@@ -39,6 +41,19 @@ List<DemarcheListItem> _activeDemarcheItems({required DemarcheListState state}) 
   if (state is DemarcheListSuccessState) {
     return state.demarches
         .where((demarche) => [DemarcheStatus.pasCommencee, DemarcheStatus.enCours].contains(demarche.status))
+        .map((demarche) => demarche.id)
+        .map((e) => DemarcheListItem(e))
+        .toList();
+  }
+  return [];
+}
+
+List<DemarcheListItem> _enRetardDemarcheItems({required DemarcheListState state}) {
+  if (state is DemarcheListSuccessState) {
+    return state.demarches
+        .where((demarche) => [DemarcheStatus.pasCommencee, DemarcheStatus.enCours].contains(demarche.status))
+        .where((demarche) => demarche.endDate != null)
+        .where((demarche) => demarche.endDate!.isBefore(DateTime.now()))
         .map((demarche) => demarche.id)
         .map((e) => DemarcheListItem(e))
         .toList();
