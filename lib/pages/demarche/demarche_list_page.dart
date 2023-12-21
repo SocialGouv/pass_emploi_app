@@ -23,17 +23,23 @@ import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
+enum Filtre {
+  aucun,
+  enRetard,
+}
+
 class DemarcheListPage extends StatelessWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
+  static MaterialPageRoute<void> materialPageRoute(Filtre filtre) {
     return MaterialPageRoute(
-      builder: (context) => DemarcheListPage(fullScreen: true),
+      builder: (context) => DemarcheListPage(fullScreen: true, filtre: filtre),
     );
   }
 
   final bool fullScreen;
+  final Filtre filtre;
   final ScrollController _scrollController = ScrollController();
 
-  DemarcheListPage({this.fullScreen = false});
+  DemarcheListPage({this.fullScreen = false, this.filtre = Filtre.aucun});
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +53,10 @@ class DemarcheListPage extends StatelessWidget {
   }
 
   Widget _scaffold(BuildContext context, DemarcheListPageViewModel viewModel) {
+    final titre = filtre == Filtre.enRetard ? "Démarches en retard" : "Démarches";
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      appBar: fullScreen ? SecondaryAppBar(title: "Démarches") : null,
+      appBar: fullScreen ? SecondaryAppBar(title: titre) : null,
       body: Stack(
         children: [
           DefaultAnimatedSwitcher(child: _body(context, viewModel)),

@@ -49,14 +49,14 @@ class AccueilCetteSemaine extends StatelessWidget {
                 _CetteSemaineRow(
                   icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
                   text: item.actionsDemarchesEnRetard,
-                  onTap: () => Navigator.of(context).push(DemarcheListPage.materialPageRoute()),
+                  onTap: () => Navigator.of(context).push(DemarcheListPage.materialPageRoute(Filtre.enRetard)),
                 ),
                 SepLine(0, 0),
                 // Démarches à réaliser
                 _CetteSemaineRow(
                   icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
                   text: item.actionsDemarchesARealiser,
-                  onTap: () => Navigator.of(context).push(DemarcheListPage.materialPageRoute()),
+                  onTap: () => Navigator.of(context).push(DemarcheListPage.materialPageRoute(Filtre.aucun)),
                 ),
                 SepLine(0, 0),
                 _CetteSemaineRow(
