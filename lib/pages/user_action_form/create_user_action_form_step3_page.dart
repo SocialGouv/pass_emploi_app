@@ -111,7 +111,7 @@ class _DateSuggestions extends StatelessWidget {
   Widget build(BuildContext context) {
     final today = DateTime.now();
     final tomorrow = DateTime.now().add(Duration(days: 1));
-    final nextWeek = DateTime.now().add(Duration(days: 7));
+    final nextWeek = DateTime.now().toMondayOnNextWeek();
     return Wrap(
       spacing: Margins.spacing_s,
       runSpacing: Margins.spacing_s,
