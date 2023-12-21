@@ -361,7 +361,7 @@ class Strings {
 
   static const String userActionStatusRadioStep3 = '*L’action est :';
   static const String userActionStatusRadioCompletedStep3 = 'Terminée';
-  static const String userActionStatusRadioTodoStep3 = 'À faire ou en cours';
+  static const String userActionStatusRadioTodoStep3 = 'En cours';
   static const String userActionDateStep3 = '*Date';
 
   static const String userActionDateSuggestion1 = 'Aujourd’hui';
