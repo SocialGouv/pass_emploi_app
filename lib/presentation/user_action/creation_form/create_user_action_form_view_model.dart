@@ -88,18 +88,18 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void statusChanged(bool isCompleted) {
-    step3 = step3.copyWith(estTerminee: isCompleted);
+  void statusChanged(bool estTerminee) {
+    step3 = step3.copyWith(estTerminee: estTerminee);
     notifyListeners();
   }
 
-  void dateChanged(CreateActionDateSource date) {
-    step3 = step3.copyWith(dateSource: date);
+  void dateChanged(CreateActionDateSource dateSource) {
+    step3 = step3.copyWith(dateSource: dateSource);
     notifyListeners();
   }
 
-  void withRappelChanged(bool value) {
-    step3 = step3.copyWith(withRappel: value);
+  void withRappelChanged(bool withRappel) {
+    step3 = step3.copyWith(withRappel: withRappel);
     notifyListeners();
   }
 }
