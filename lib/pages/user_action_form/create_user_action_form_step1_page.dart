@@ -18,15 +18,18 @@ class CreateUserActionFormStep1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.createUserActionStep1,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: Margins.spacing_m),
-          Text(Strings.userActionSubtitleStep1, style: TextStyles.textBaseBold),
-          const SizedBox(height: Margins.spacing_m),
-          ActionCategorySelector(onActionSelected: onActionTypeSelected),
-          const SizedBox(height: Margins.spacing_huge),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: Margins.spacing_m),
+            Text(Strings.userActionSubtitleStep1, style: TextStyles.textBaseBold),
+            const SizedBox(height: Margins.spacing_m),
+            ActionCategorySelector(onActionSelected: onActionTypeSelected),
+            const SizedBox(height: Margins.spacing_huge),
+          ],
+        ),
       ),
     );
   }
