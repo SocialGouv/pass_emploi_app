@@ -35,11 +35,8 @@ class SuggestionsRechercheListPage extends StatelessWidget {
 
   SuggestionsRechercheListPage._({required this.fetchSuggestions}) : super();
 
-  static MaterialPageRoute<void> materialPageRoute({bool fetchSuggestions = false}) {
-    return MaterialPageRoute(
-        builder: (context) => SuggestionsRechercheListPage._(
-              fetchSuggestions: fetchSuggestions,
-            ));
+  static MaterialPageRoute<void> materialPageRoute({bool fetch = false}) {
+    return MaterialPageRoute(builder: (context) => SuggestionsRechercheListPage._(fetchSuggestions: fetch));
   }
 
   @override
