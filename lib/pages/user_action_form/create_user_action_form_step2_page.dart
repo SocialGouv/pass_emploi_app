@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
@@ -25,44 +27,47 @@ class CreateUserActionFormStep2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const SizedBox(height: Margins.spacing_m),
-        Text(Strings.mandatoryFields, style: TextStyles.textSRegular()),
-        const SizedBox(height: Margins.spacing_m),
-        Text(Strings.userActionSubtitleStep2, style: TextStyles.textBaseBold),
-        const SizedBox(height: Margins.spacing_m),
-        _SuggestionTagWrap(
-          titleSource: viewModel.titleSource,
-          onSelected: onTitleChanged,
-          actionType: actionType,
-        ),
-        if (viewModel.titleSource.isFromUserInput) ...[
+    return Tracker(
+      tracking: AnalyticsScreenNames.createUserActionStep2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
           const SizedBox(height: Margins.spacing_m),
-          Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
+          Text(Strings.mandatoryFields, style: TextStyles.textSRegular()),
+          const SizedBox(height: Margins.spacing_m),
+          Text(Strings.userActionSubtitleStep2, style: TextStyles.textBaseBold),
+          const SizedBox(height: Margins.spacing_m),
+          _SuggestionTagWrap(
+            titleSource: viewModel.titleSource,
+            onSelected: onTitleChanged,
+            actionType: actionType,
+          ),
+          if (viewModel.titleSource.isFromUserInput) ...[
+            const SizedBox(height: Margins.spacing_m),
+            Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
+            const SizedBox(height: Margins.spacing_s),
+            BaseTextField(
+              initialValue: viewModel.titleSource.title,
+              onChanged: (value) => onTitleChanged(CreateActionTitleFromUserInput(value)),
+            ),
+          ],
+          const SizedBox(height: Margins.spacing_m),
+          Text(
+            Strings.userActionDescriptionTextfieldStep2,
+            key: descriptionKey,
+            style: TextStyles.textBaseBold,
+          ),
           const SizedBox(height: Margins.spacing_s),
           BaseTextField(
-            initialValue: viewModel.titleSource.title,
-            onChanged: (value) => onTitleChanged(CreateActionTitleFromUserInput(value)),
+            initialValue: viewModel.description,
+            maxLines: 5,
+            onChanged: (value) {
+              onDescriptionChanged(value);
+              _scrollToDescription(context);
+            },
           ),
         ],
-        const SizedBox(height: Margins.spacing_m),
-        Text(
-          Strings.userActionDescriptionTextfieldStep2,
-          key: descriptionKey,
-          style: TextStyles.textBaseBold,
-        ),
-        const SizedBox(height: Margins.spacing_s),
-        BaseTextField(
-          initialValue: viewModel.description,
-          maxLines: 5,
-          onChanged: (value) {
-            onDescriptionChanged(value);
-            _scrollToDescription(context);
-          },
-        ),
-      ],
+      ),
     );
   }
 

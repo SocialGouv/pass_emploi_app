@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -14,15 +16,18 @@ class CreateUserActionFormStep1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: Margins.spacing_m),
-        Text(Strings.userActionSubtitleStep1, style: TextStyles.textBaseBold),
-        const SizedBox(height: Margins.spacing_m),
-        ActionCategorySelector(onActionSelected: onActionTypeSelected),
-        const SizedBox(height: Margins.spacing_huge),
-      ],
+    return Tracker(
+      tracking: AnalyticsScreenNames.createUserActionStep1,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: Margins.spacing_m),
+          Text(Strings.userActionSubtitleStep1, style: TextStyles.textBaseBold),
+          const SizedBox(height: Margins.spacing_m),
+          ActionCategorySelector(onActionSelected: onActionTypeSelected),
+          const SizedBox(height: Margins.spacing_huge),
+        ],
+      ),
     );
   }
 }

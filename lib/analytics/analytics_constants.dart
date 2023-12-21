@@ -25,7 +25,9 @@ class AnalyticsScreenNames {
   static const userActionList = "actions/list";
   static const userActionDetails = "actions/detail";
   static const updateUserAction = "actions/detail?modifySuccess=true";
-  static const createUserAction = "actions/create";
+  static const createUserActionStep1 = "actions/create/v2/step1";
+  static const createUserActionStep2 = "actions/create/v2/step2";
+  static const createUserActionStep3 = "actions/create/v2/step3";
   static const searchDemarcheStep1 = "/demarches/search";
   static const searchDemarcheStep2 = "/demarches/search-results";
   static const searchDemarcheStep3 = "/demarches/demarche-renferentiel-create";
@@ -75,6 +77,7 @@ class AnalyticsScreenNames {
   static const immersionDetails = "recherche/immersion/detail";
   static const immersionContact = "recherche/immersion/detail/contact";
   static const immersionForm = "recherche/immersion/detail/formulaire";
+
   static String immersionFormSent(bool succeed) => "recherche/immersion/detail/formulaire?success=$succeed";
   static const immersionFiltres = "recherche/immersion/search_results/filters";
   static const immersionCreateAlert = "/saved_searches/immersion/create";
@@ -188,6 +191,20 @@ class AnalyticsEventNames {
   static const createActionDisplaySnackBarAction = "Affichage SnackBar succès";
   static const createActionClickOnSnackBarAction = "Clic détail action/démarche";
   static const createActionOfflineAction = "Action créée hors connexion";
+
+  static const createActionStep1CategoryCategory = "Création action v2 étape 1 - Catégorie";
+  static const createActionStep2TitleCategory = "Création action v2 étape 2 - Titre";
+  static const createActionStep3StatusCategory = "Création action v2 étape 3 - Statut";
+  static const createActionStep3RappelCategory = "Création action v2 étape 3 - Rappel";
+
+  static String createActionStep1Action(String category) => "Catégorie : $category";
+
+  static const createActionStep2TitleFromSuggestionAction = "Titre provenant d'une suggestion";
+  static const createActionStep2TitleNotFromSuggestionAction = "Titre ne provenant pas d'une suggestion";
+  static const createActionStep3EnCoursAction = "Statut : En cours";
+  static const createActionStep3TermineAction = "Statut : Terminé";
+  static const createActionStep3AvecRappelAction = "Rappel : Oui";
+  static const createActionStep3SansRappelAction = "Rappel : Non";
 
   static const autocompleteMotCleDiagorienteMetiersFavorisEventCategory = "Préférences métiers dans les mots clés";
   static const autocompleteMotCleDiagorienteMetiersFavorisDisplayAction = "Affichage des préférences métiers";

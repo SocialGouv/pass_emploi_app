@@ -13,7 +13,8 @@ import 'package:pass_emploi_app/widgets/pass_emploi_stepper.dart';
 
 class CreateUserActionForm extends StatefulWidget {
   const CreateUserActionForm({super.key, required this.onSubmit, required this.onAbort});
-  final void Function(CreateUserActionFormViewModel state) onSubmit;
+
+  final void Function(CreateUserActionFormViewModel viewModel) onSubmit;
   final void Function() onAbort;
 
   @override
@@ -71,6 +72,7 @@ class _NavButtons extends StatelessWidget {
     required this.onGoBackPressed,
     required this.onGoForwardPressed,
   });
+
   final void Function()? onGoBackPressed;
   final void Function()? onGoForwardPressed;
 
@@ -98,6 +100,7 @@ class _NavButtons extends StatelessWidget {
 
 class _BackButton extends StatelessWidget {
   const _BackButton({required this.onPressed});
+
   final void Function()? onPressed;
 
   @override
@@ -112,6 +115,7 @@ class _BackButton extends StatelessWidget {
 
 class _NextButton extends StatelessWidget {
   const _NextButton({required this.onPressed});
+
   final void Function()? onPressed;
 
   @override
@@ -135,6 +139,7 @@ class _NextButton extends StatelessWidget {
 
 class _CreateUserActionForm extends StatelessWidget {
   const _CreateUserActionForm(this.formState);
+
   final CreateUserActionFormViewModel formState;
 
   @override
@@ -160,20 +165,20 @@ class _CreateUserActionForm extends StatelessWidget {
                     category: formState.step1.actionCategory?.label ?? "",
                   ),
                   switch (formState.displayState) {
-                    CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(onActionTypeSelected: (type) {
-                        formState.userActionTypeSelected(type);
-                      }),
+                    CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(
+                        onActionTypeSelected: (type) => formState.userActionTypeSelected(type),
+                      ),
                     CreateUserActionDisplayState.step2 => CreateUserActionFormStep2(
                         actionType: formState.step1.actionCategory!,
                         viewModel: formState.step2,
-                        onTitleChanged: (value) => formState.titleChanged(value),
-                        onDescriptionChanged: (value) => formState.descriptionChanged(value),
+                        onTitleChanged: (titleSource) => formState.titleChanged(titleSource),
+                        onDescriptionChanged: (description) => formState.descriptionChanged(description),
                       ),
                     CreateUserActionDisplayState.step3 => CreateUserActionFormStep3(
                         viewModel: formState.step3,
-                        onStatusChanged: (value) => formState.statusChanged(value),
-                        onDateChanged: (value) => formState.dateChanged(value),
-                        withRappelChanged: (value) => formState.withRappelChanged(value),
+                        onStatusChanged: (estTerminee) => formState.statusChanged(estTerminee),
+                        onDateChanged: (dateSource) => formState.dateChanged(dateSource),
+                        withRappelChanged: (withRappel) => formState.withRappelChanged(withRappel),
                       ),
                     _ => const SizedBox.shrink(),
                   },

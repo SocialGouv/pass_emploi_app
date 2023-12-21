@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -23,39 +25,42 @@ class CreateUserActionFormStep3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const SizedBox(height: Margins.spacing_m),
-        Text(Strings.allMandatoryFields, style: TextStyles.textSRegular()),
-        const SizedBox(height: Margins.spacing_m),
-        Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
-        const SizedBox(height: Margins.spacing_m),
-        _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
-        const SizedBox(height: Margins.spacing_m),
-        Text(Strings.userActionDateStep3, style: TextStyles.textBaseBold),
-        const SizedBox(height: Margins.spacing_m),
-        DatePicker(
-          onValueChange: (date) => onDateChanged(CreateActionDateFromUserInput(date)),
-          initialDateValue: switch (viewModel.dateSource) {
-            CreateActionDateNotInitialized _ => null,
-            final CreateActionDateFromSuggestions dateSource => dateSource.date,
-            final CreateActionDateFromUserInput dateSource => dateSource.date,
-          },
-          isActiveDate: true,
-        ),
-        const SizedBox(height: Margins.spacing_m),
-        _DateSuggestions(
-          dateSource: viewModel.dateSource,
-          onSelected: onDateChanged,
-        ),
-        const SizedBox(height: Margins.spacing_m),
-        _RappelsSwitcher(
-          value: viewModel.withRappel,
-          isActive: viewModel.shouldDisplayRappelNotification(),
-          onChanged: (value) => withRappelChanged(value),
-        )
-      ],
+    return Tracker(
+      tracking: AnalyticsScreenNames.createUserActionStep3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: Margins.spacing_m),
+          Text(Strings.allMandatoryFields, style: TextStyles.textSRegular()),
+          const SizedBox(height: Margins.spacing_m),
+          Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+          const SizedBox(height: Margins.spacing_m),
+          _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
+          const SizedBox(height: Margins.spacing_m),
+          Text(Strings.userActionDateStep3, style: TextStyles.textBaseBold),
+          const SizedBox(height: Margins.spacing_m),
+          DatePicker(
+            onValueChange: (date) => onDateChanged(CreateActionDateFromUserInput(date)),
+            initialDateValue: switch (viewModel.dateSource) {
+              CreateActionDateNotInitialized _ => null,
+              final CreateActionDateFromSuggestions dateSource => dateSource.date,
+              final CreateActionDateFromUserInput dateSource => dateSource.date,
+            },
+            isActiveDate: true,
+          ),
+          const SizedBox(height: Margins.spacing_m),
+          _DateSuggestions(
+            dateSource: viewModel.dateSource,
+            onSelected: onDateChanged,
+          ),
+          const SizedBox(height: Margins.spacing_m),
+          _RappelsSwitcher(
+            value: viewModel.withRappel,
+            isActive: viewModel.shouldDisplayRappelNotification(),
+            onChanged: (value) => withRappelChanged(value),
+          )
+        ],
+      ),
     );
   }
 }
