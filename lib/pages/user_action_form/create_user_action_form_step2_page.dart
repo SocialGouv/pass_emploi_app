@@ -104,7 +104,7 @@ class _SuggestionTagWrap extends StatelessWidget {
             ),
             PassEmploiChip<String>(
                 label: Strings.userActionOther,
-                value: Strings.userActionOther,
+                value: '',
                 isSelected: false,
                 onTagSelected: (value) => onSelected(CreateActionTitleFromUserInput(value)),
                 onTagDeleted: () => onSelected(CreateActionTitleNotInitialized()))
@@ -120,7 +120,7 @@ class _SuggestionTagWrap extends StatelessWidget {
         CreateActionTitleFromUserInput() => [
             PassEmploiChip<String>(
                 label: Strings.userActionOther,
-                value: Strings.userActionOther,
+                value: '',
                 isSelected: true,
                 onTagSelected: (value) => onSelected(CreateActionTitleFromUserInput(value)),
                 onTagDeleted: () => onSelected(CreateActionTitleNotInitialized()))
