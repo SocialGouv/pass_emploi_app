@@ -59,7 +59,7 @@ void main() {
       final viewModel = DiagorienteEntryPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('when diagoriente preferences metier state is loading should display loading', () {
@@ -70,7 +70,7 @@ void main() {
       final viewModel = DiagorienteEntryPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('when diagoriente preferences metier state is failure should display failure', () {
@@ -81,7 +81,7 @@ void main() {
       final viewModel = DiagorienteEntryPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
 
     test('when diagoriente preferences metier state is success should display chat bot page', () {
@@ -92,7 +92,7 @@ void main() {
       final viewModel = DiagorienteEntryPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
   });
 }

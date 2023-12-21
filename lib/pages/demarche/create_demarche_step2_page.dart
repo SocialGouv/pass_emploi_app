@@ -55,9 +55,9 @@ class CreateDemarcheStep2Page extends StatelessWidget {
     return Scaffold(
         appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
         body: switch (viewModel.displayState) {
-          DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-          DisplayState.FAILURE => _ErrorMessage(viewModel),
-          DisplayState.CONTENT || DisplayState.EMPTY => _Content(
+          DisplayState.chargement => Center(child: CircularProgressIndicator()),
+          DisplayState.erreur => _ErrorMessage(viewModel),
+          DisplayState.contenu || DisplayState.vide => _Content(
               source: source,
               query: query,
               viewModel: viewModel,

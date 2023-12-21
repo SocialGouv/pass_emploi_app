@@ -104,9 +104,9 @@ List<CheckboxValueViewModel<ContratFiltre>> _contrat(EmploiFiltresRecherche? fil
 
 DisplayState _displayState(RechercheState state) {
   return switch (state.status) {
-    RechercheStatus.updateLoading => DisplayState.LOADING,
-    RechercheStatus.success => DisplayState.CONTENT,
-    _ => DisplayState.FAILURE,
+    RechercheStatus.updateLoading => DisplayState.chargement,
+    RechercheStatus.success => DisplayState.contenu,
+    _ => DisplayState.erreur,
   };
 }
 

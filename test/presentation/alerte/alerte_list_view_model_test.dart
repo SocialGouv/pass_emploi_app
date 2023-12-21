@@ -85,7 +85,7 @@ void main() {
     final viewModel = AlerteListViewModel.createFromStore(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   test("create should set failure properly", () {
@@ -100,7 +100,7 @@ void main() {
     final viewModel = AlerteListViewModel.createFromStore(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.erreur);
   });
 
   test("create with success should load immersion list", () {
@@ -115,7 +115,7 @@ void main() {
     final viewModel = AlerteListViewModel.createFromStore(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.getImmersions(), [
       ImmersionAlerte(
         id: "id",
@@ -150,7 +150,7 @@ void main() {
     final viewModel = AlerteListViewModel.createFromStore(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.getOffresEmploi(), [
       OffreEmploiAlerte(
         id: "id",
@@ -185,7 +185,7 @@ void main() {
     final viewModel = AlerteListViewModel.createFromStore(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.getAlternance(), [
       OffreEmploiAlerte(
         id: "id",

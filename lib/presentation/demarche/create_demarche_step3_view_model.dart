@@ -50,7 +50,7 @@ class CreateDemarcheStep3ViewModel extends Equatable {
       );
     }
     return CreateDemarcheStep3ViewModel(
-      displayState: DisplayState.FAILURE,
+      displayState: DisplayState.erreur,
       demarcheCreationState: DemarcheCreationPendingState(),
       pourquoi: '',
       quoi: '',
@@ -65,9 +65,9 @@ class CreateDemarcheStep3ViewModel extends Equatable {
 }
 
 DisplayState _displayState(Store<AppState> store) {
-  if (store.state.createDemarcheState is CreateDemarcheFailureState) return DisplayState.FAILURE;
-  if (store.state.createDemarcheState is CreateDemarcheLoadingState) return DisplayState.LOADING;
-  return DisplayState.CONTENT;
+  if (store.state.createDemarcheState is CreateDemarcheFailureState) return DisplayState.erreur;
+  if (store.state.createDemarcheState is CreateDemarcheLoadingState) return DisplayState.chargement;
+  return DisplayState.contenu;
 }
 
 DemarcheCreationState _demarcheCreationState(Store<AppState> store) {

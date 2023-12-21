@@ -37,7 +37,7 @@ bool _withMetiersFavoris(Store<AppState> store) {
 
 DisplayState _displayState(Store<AppState> store) {
   final state = store.state.diagorientePreferencesMetierState;
-  if (state is DiagorientePreferencesMetierFailureState) return DisplayState.FAILURE;
-  if (state is DiagorientePreferencesMetierSuccessState) return DisplayState.CONTENT;
-  return DisplayState.LOADING;
+  if (state is DiagorientePreferencesMetierFailureState) return DisplayState.erreur;
+  if (state is DiagorientePreferencesMetierSuccessState) return DisplayState.contenu;
+  return DisplayState.chargement;
 }

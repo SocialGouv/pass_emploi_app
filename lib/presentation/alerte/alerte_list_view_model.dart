@@ -43,11 +43,11 @@ class AlerteListViewModel extends Equatable {
 
   factory AlerteListViewModel.createFromStore(Store<AppState> store) {
     final state = store.state.alerteListState;
-    if (state is AlerteListLoadingState) return AlerteListViewModel._(displayState: DisplayState.LOADING);
-    if (state is AlerteListFailureState) return AlerteListViewModel._(displayState: DisplayState.FAILURE);
+    if (state is AlerteListLoadingState) return AlerteListViewModel._(displayState: DisplayState.chargement);
+    if (state is AlerteListFailureState) return AlerteListViewModel._(displayState: DisplayState.erreur);
     if (state is AlerteListSuccessState) {
       return AlerteListViewModel._(
-        displayState: DisplayState.CONTENT,
+        displayState: DisplayState.contenu,
         alertes: state.alertes.toList(),
         searchNavigationState: AlerteNavigationState.fromAppState(store.state),
         immersionsResults: store.state.rechercheImmersionState.results ?? [],
@@ -57,7 +57,7 @@ class AlerteListViewModel extends Equatable {
         onRetry: () => store.dispatch(AlerteListRequestAction()),
       );
     }
-    return AlerteListViewModel._(displayState: DisplayState.LOADING);
+    return AlerteListViewModel._(displayState: DisplayState.chargement);
   }
 
   @override

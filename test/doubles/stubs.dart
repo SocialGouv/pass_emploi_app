@@ -104,7 +104,7 @@ class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
         Demarche(
           id: "id",
           content: "content",
-          status: DemarcheStatus.NOT_STARTED,
+          status: DemarcheStatus.pasCommencee,
           endDate: DateTime(2022, 12, 23, 0, 0, 0),
           deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
           createdByAdvisor: true,
@@ -408,7 +408,7 @@ class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
     DateTime? dateDebut,
   ) async {
     if (_userId == userId && _actionId == demarcheId && _status == status && _debut == dateDebut && _fin == dateFin) {
-      return mockDemarche(id: demarcheId, status: status);
+      return uneDemarche(id: demarcheId, status: status);
     }
     return null;
   }

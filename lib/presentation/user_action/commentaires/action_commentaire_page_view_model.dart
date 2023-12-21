@@ -61,14 +61,14 @@ class ActionCommentairePageViewModel extends Equatable {
 }
 
 DisplayState _commentListDisplayState(ActionCommentaireListState state) {
-  if (state is ActionCommentaireListFailureState) return DisplayState.FAILURE;
-  if (state is ActionCommentaireListSuccessState) return DisplayState.CONTENT;
-  return DisplayState.LOADING;
+  if (state is ActionCommentaireListFailureState) return DisplayState.erreur;
+  if (state is ActionCommentaireListSuccessState) return DisplayState.contenu;
+  return DisplayState.chargement;
 }
 
 DisplayState _commentSendDisplayState(ActionCommentaireCreateState state) {
-  if (state is ActionCommentaireCreateFailureState) return DisplayState.FAILURE;
-  if (state is ActionCommentaireCreateSuccessState) return DisplayState.CONTENT;
-  if (state is ActionCommentaireCreateLoadingState) return DisplayState.LOADING;
-  return DisplayState.EMPTY;
+  if (state is ActionCommentaireCreateFailureState) return DisplayState.erreur;
+  if (state is ActionCommentaireCreateSuccessState) return DisplayState.contenu;
+  if (state is ActionCommentaireCreateLoadingState) return DisplayState.chargement;
+  return DisplayState.vide;
 }

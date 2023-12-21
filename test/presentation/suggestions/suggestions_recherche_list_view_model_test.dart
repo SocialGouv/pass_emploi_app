@@ -18,7 +18,7 @@ void main() {
 
     // Then
     expect(viewModel.suggestionIds, []);
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.erreur);
   });
 
   test("should display loading when loading", () {
@@ -29,7 +29,7 @@ void main() {
     final viewModel = SuggestionsRechercheListViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   test("should display empty when no suggestion", () {
@@ -41,7 +41,7 @@ void main() {
 
     // Then
     expect(viewModel.suggestionIds, []);
-    expect(viewModel.displayState, DisplayState.EMPTY);
+    expect(viewModel.displayState, DisplayState.vide);
   });
 
   test("should display content with suggestions when init", () {
@@ -53,7 +53,7 @@ void main() {
 
     // Then
     expect(viewModel.suggestionIds, ["1", "2"]);
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
   });
 
   test("should display traiter empty with suggestions when not init", () {
@@ -65,7 +65,7 @@ void main() {
 
     // Then
     expect(viewModel.suggestionIds, isNotEmpty);
-    expect(viewModel.traiterDisplayState, DisplayState.EMPTY);
+    expect(viewModel.traiterDisplayState, DisplayState.vide);
   });
 
   test("should display traiter loading with suggestions when loading", () {
@@ -77,7 +77,7 @@ void main() {
 
     // Then
     expect(viewModel.suggestionIds, isNotEmpty);
-    expect(viewModel.traiterDisplayState, DisplayState.LOADING);
+    expect(viewModel.traiterDisplayState, DisplayState.chargement);
   });
 
   test("should display traiter content with suggestions when succeed accepter", () {
@@ -89,7 +89,7 @@ void main() {
 
     // Then
     expect(viewModel.suggestionIds, isNotEmpty);
-    expect(viewModel.traiterDisplayState, DisplayState.CONTENT);
+    expect(viewModel.traiterDisplayState, DisplayState.contenu);
   });
 
   test("should display traiter empty with suggestions when succeed refuser", () {
@@ -101,7 +101,7 @@ void main() {
 
     // Then
     expect(viewModel.suggestionIds, isNotEmpty);
-    expect(viewModel.traiterDisplayState, DisplayState.EMPTY);
+    expect(viewModel.traiterDisplayState, DisplayState.vide);
   });
 
   test("should display traiter empty with suggestions when fail", () {
@@ -113,7 +113,7 @@ void main() {
 
     // Then
     expect(viewModel.suggestionIds, isNotEmpty);
-    expect(viewModel.traiterDisplayState, DisplayState.EMPTY);
+    expect(viewModel.traiterDisplayState, DisplayState.vide);
   });
 
   test("should retry fetch", () {

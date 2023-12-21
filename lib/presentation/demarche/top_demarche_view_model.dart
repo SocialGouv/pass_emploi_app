@@ -21,5 +21,7 @@ class TopDemarchePageViewModel extends Equatable {
 }
 
 List<DemarcheListItem> _thematiques(TopDemarcheState state) {
-  return state is TopDemarcheSuccessState ? state.demarches.map((e) => IdItem(e.id)).toList() : <DemarcheListItem>[];
+  return state is TopDemarcheSuccessState
+      ? state.demarches.map((e) => DemarcheListItem(e.id)).toList()
+      : <DemarcheListItem>[];
 }

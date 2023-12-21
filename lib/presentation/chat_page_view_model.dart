@@ -46,9 +46,9 @@ class ChatPageViewModel extends Equatable {
 }
 
 DisplayState _displayState(ChatState state) {
-  if (state is ChatLoadingState) return DisplayState.LOADING;
-  if (state is ChatFailureState) return DisplayState.FAILURE;
-  return DisplayState.CONTENT;
+  if (state is ChatLoadingState) return DisplayState.chargement;
+  if (state is ChatFailureState) return DisplayState.erreur;
+  return DisplayState.contenu;
 }
 
 List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseillerReading) {

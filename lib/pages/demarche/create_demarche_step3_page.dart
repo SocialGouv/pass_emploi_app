@@ -84,7 +84,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
                   isActiveDate: true,
                 ),
                 SizedBox(height: Margins.spacing_xl),
-                if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
+                if (viewModel.displayState == DisplayState.erreur) ErrorText(Strings.genericCreationError),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -112,7 +112,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
   }
 
   bool _buttonIsActive(CreateDemarcheStep3ViewModel viewModel) {
-    return viewModel.displayState != DisplayState.LOADING &&
+    return viewModel.displayState != DisplayState.chargement &&
         _endDate != null &&
         (_codeComment != null || !viewModel.isCommentMandatory);
   }

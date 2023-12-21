@@ -99,8 +99,8 @@ class LoginPage extends StatelessWidget {
 
   Widget _body(LoginViewModel viewModel, BuildContext context) {
     return switch (viewModel.displayState) {
-      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-      DisplayState.FAILURE => _failure(viewModel, context),
+      DisplayState.chargement => Center(child: CircularProgressIndicator()),
+      DisplayState.erreur => _failure(viewModel, context),
       _ => Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [..._loginButtons(viewModel, context)],
@@ -143,9 +143,9 @@ class LoginPage extends StatelessWidget {
   }
 
   void _onWillChange(LoginViewModel? previousVM, LoginViewModel newVM, BuildContext context) {
-    if (previousVM?.displayState != DisplayState.LOADING) return;
-    if (newVM.displayState == DisplayState.FAILURE) _trackLoginResult(successful: false);
-    if (newVM.displayState == DisplayState.CONTENT) {
+    if (previousVM?.displayState != DisplayState.chargement) return;
+    if (newVM.displayState == DisplayState.erreur) _trackLoginResult(successful: false);
+    if (newVM.displayState == DisplayState.contenu) {
       _trackLoginResult(successful: true);
     }
   }

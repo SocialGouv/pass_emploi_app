@@ -41,6 +41,7 @@ class AccueilCetteSemaine extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // Rendez-vous
                 _CetteSemaineRow(
                   icon: Icon(AppIcons.today_rounded, color: AppColors.primary),
                   text: item.rendezVous,
@@ -48,6 +49,7 @@ class AccueilCetteSemaine extends StatelessWidget {
                   onTap: () => Navigator.of(context).push(RendezvousListPage.materialPageRoute()),
                 ),
                 SepLine(0, 0),
+                // Démarches en retard
                 _CetteSemaineRow(
                   icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
                   text: item.actionsDemarchesEnRetard,
@@ -57,6 +59,7 @@ class AccueilCetteSemaine extends StatelessWidget {
                   },
                 ),
                 SepLine(0, 0),
+                // Démarches à réaliser
                 _CetteSemaineRow(
                   icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
                   text: item.actionsDemarchesARealiser,

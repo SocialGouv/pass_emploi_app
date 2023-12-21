@@ -70,9 +70,9 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
 
 DisplayState _displayState(EvenementEmploiDetailsState state) {
   return switch (state) {
-    EvenementEmploiDetailsSuccessState _ => DisplayState.CONTENT,
-    EvenementEmploiDetailsFailureState _ => DisplayState.FAILURE,
-    _ => DisplayState.LOADING,
+    EvenementEmploiDetailsSuccessState _ => DisplayState.contenu,
+    EvenementEmploiDetailsFailureState _ => DisplayState.erreur,
+    _ => DisplayState.chargement,
   };
 }
 

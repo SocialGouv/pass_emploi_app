@@ -75,9 +75,9 @@ class _Body extends StatelessWidget {
     return AnimatedSwitcher(
       duration: AnimationDurations.fast,
       child: switch (viewModel.displayState) {
-        DisplayState.LOADING => AccueilLoading(),
-        DisplayState.CONTENT => _Blocs(viewModel),
-        DisplayState.EMPTY || DisplayState.FAILURE => _Retry(viewModel: viewModel),
+        DisplayState.chargement => AccueilLoading(),
+        DisplayState.contenu => _Blocs(viewModel),
+        DisplayState.vide || DisplayState.erreur => _Retry(viewModel: viewModel),
       },
     );
   }

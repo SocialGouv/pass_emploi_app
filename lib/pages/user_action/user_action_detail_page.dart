@@ -371,9 +371,9 @@ class _CommentCard extends StatelessWidget {
 
   Widget _build(BuildContext context, ActionCommentaireViewModel viewModel) {
     switch (viewModel.displayState) {
-      case DisplayState.CONTENT:
+      case DisplayState.contenu:
         return _content(context, viewModel, actionId, actionTitle);
-      case DisplayState.FAILURE:
+      case DisplayState.erreur:
         return Center(child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()));
       default:
         return Center(child: CircularProgressIndicator());

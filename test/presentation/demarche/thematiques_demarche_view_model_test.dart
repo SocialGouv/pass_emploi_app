@@ -17,7 +17,7 @@ void main() {
         final viewModel = ThematiqueDemarchePageViewModel.create(store);
 
         // Then
-        expect(viewModel.displayState, DisplayState.LOADING);
+        expect(viewModel.displayState, DisplayState.chargement);
       });
 
       test('when thematiques demarche state is loading should display loading', () {
@@ -28,7 +28,7 @@ void main() {
         final viewModel = ThematiqueDemarchePageViewModel.create(store);
 
         // Then
-        expect(viewModel.displayState, DisplayState.LOADING);
+        expect(viewModel.displayState, DisplayState.chargement);
       });
 
       test('when thematiques demarche state is failure should display failure', () {
@@ -39,7 +39,7 @@ void main() {
         final viewModel = ThematiqueDemarchePageViewModel.create(store);
 
         // Then
-        expect(viewModel.displayState, DisplayState.FAILURE);
+        expect(viewModel.displayState, DisplayState.erreur);
       });
 
       test('when thematiques demarche state is success should display thematic list', () {
@@ -50,7 +50,7 @@ void main() {
         final viewModel = ThematiqueDemarchePageViewModel.create(store);
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
       });
     });
 

@@ -44,7 +44,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
         builder: (context, viewModel) => _scaffold(viewModel),
         distinct: true,
         onWillChange: (previousVM, newVM) {
-          if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
+          if (previousVM?.displayState == DisplayState.chargement && newVM.displayState == DisplayState.contenu) {
             Navigator.pop(context, true);
           }
         },
@@ -122,7 +122,7 @@ class _ContentState extends State<_Content> {
   double _sliderValueToDisplay(double initialDistanceValue) =>
       _currentSliderValue != null ? _currentSliderValue! : initialDistanceValue;
 
-  bool _isButtonEnabled(DisplayState displayState) => displayState != DisplayState.LOADING;
+  bool _isButtonEnabled(DisplayState displayState) => displayState != DisplayState.chargement;
 
   void _onButtonClick(OffreEmploiFiltresViewModel viewModel) {
     viewModel.updateFiltres(

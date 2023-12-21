@@ -115,17 +115,17 @@ List<RendezvousItem> _makeRendezvousItems({
 }
 
 DisplayState _displayState(RendezvousListState state, int pageOffset) {
-  if (state.isNotInitialized()) return DisplayState.LOADING;
+  if (state.isNotInitialized()) return DisplayState.chargement;
   if (pageOffset.isInPast()) {
-    if (state.pastRendezVousStatus == RendezvousListStatus.LOADING) return DisplayState.LOADING;
-    if (state.pastRendezVousStatus == RendezvousListStatus.RELOADING) return DisplayState.LOADING;
-    if (state.pastRendezVousStatus == RendezvousListStatus.SUCCESS) return DisplayState.CONTENT;
-    return DisplayState.FAILURE;
+    if (state.pastRendezVousStatus == RendezvousListStatus.LOADING) return DisplayState.chargement;
+    if (state.pastRendezVousStatus == RendezvousListStatus.RELOADING) return DisplayState.chargement;
+    if (state.pastRendezVousStatus == RendezvousListStatus.SUCCESS) return DisplayState.contenu;
+    return DisplayState.erreur;
   } else {
-    if (state.futurRendezVousStatus == RendezvousListStatus.LOADING) return DisplayState.LOADING;
-    if (state.futurRendezVousStatus == RendezvousListStatus.RELOADING) return DisplayState.LOADING;
-    if (state.futurRendezVousStatus == RendezvousListStatus.SUCCESS) return DisplayState.CONTENT;
-    return DisplayState.FAILURE;
+    if (state.futurRendezVousStatus == RendezvousListStatus.LOADING) return DisplayState.chargement;
+    if (state.futurRendezVousStatus == RendezvousListStatus.RELOADING) return DisplayState.chargement;
+    if (state.futurRendezVousStatus == RendezvousListStatus.SUCCESS) return DisplayState.contenu;
+    return DisplayState.erreur;
   }
 }
 

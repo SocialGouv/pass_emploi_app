@@ -21,7 +21,7 @@ void main() {
       final viewModel = ServiceCiviqueFiltresViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test("create when search state is loading should display loading", () {
@@ -32,7 +32,7 @@ void main() {
       final viewModel = ServiceCiviqueFiltresViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test("create when search state is failure should display failure", () {
@@ -43,7 +43,7 @@ void main() {
       final viewModel = ServiceCiviqueFiltresViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
   });
 
@@ -59,7 +59,7 @@ void main() {
     final viewModel = ServiceCiviqueFiltresViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.initialDistanceValue, 10);
     expect(viewModel.initialDomainValue, Domaine.all);
     expect(viewModel.initialStartDateValue, null);
@@ -81,7 +81,7 @@ void main() {
     final viewModel = ServiceCiviqueFiltresViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.initialDistanceValue, 30);
     expect(viewModel.shouldDisplayDistanceFiltre, true);
     expect(viewModel.initialDomainValue, Domaine.values[2]);

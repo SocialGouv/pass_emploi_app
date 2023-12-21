@@ -20,7 +20,7 @@ void main() {
     final viewModel = EvenementEmploiFiltresViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
   });
 
   test("create when search state is loading should display loading", () {
@@ -31,7 +31,7 @@ void main() {
     final viewModel = EvenementEmploiFiltresViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   test("create when search state is failure should display failure", () {
@@ -42,20 +42,20 @@ void main() {
     final viewModel = EvenementEmploiFiltresViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.erreur);
   });
 
   test(
       "create when search state is success but empty should display content (empty content is directly handled by result page)",
       () {
     // Given
-    final store = givenState().successRechercheEvenementEmploiState(results: []).store();
+        final store = givenState().successRechercheEvenementEmploiState(results: []).store();
 
     // When
     final viewModel = EvenementEmploiFiltresViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
   });
 
   test("create when state has no filtre set should not pre-check any filtre", () {

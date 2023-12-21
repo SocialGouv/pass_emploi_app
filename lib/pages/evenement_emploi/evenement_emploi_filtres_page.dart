@@ -37,7 +37,7 @@ class EvenementEmploiFiltresPage extends StatelessWidget {
         builder: (_, viewModel) => _Scaffold(viewModel),
         distinct: true,
         onWillChange: (previousVM, newVM) {
-          if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
+          if (previousVM?.displayState == DisplayState.chargement && newVM.displayState == DisplayState.contenu) {
             Navigator.pop(context, true);
           }
         },
@@ -115,7 +115,7 @@ class _ScaffoldState extends State<_Scaffold> {
     });
   }
 
-  bool _isButtonEnabled(DisplayState displayState) => displayState != DisplayState.LOADING;
+  bool _isButtonEnabled(DisplayState displayState) => displayState != DisplayState.chargement;
 
   void _onButtonClick(EvenementEmploiFiltresViewModel viewModel) {
     viewModel.updateFiltres(_currentTypeValue, _currentModaliteFiltres, _currentDateDebut, _currentDateFin);

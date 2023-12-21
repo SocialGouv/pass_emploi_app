@@ -62,10 +62,10 @@ List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor, B
 }
 
 DisplayState _displayState(LoginState state) {
-  if (state is UserNotLoggedInState) return DisplayState.CONTENT;
-  if (state is LoginLoadingState) return DisplayState.LOADING;
-  if (state is LoginSuccessState) return DisplayState.CONTENT;
-  return DisplayState.FAILURE;
+  if (state is UserNotLoggedInState) return DisplayState.contenu;
+  if (state is LoginLoadingState) return DisplayState.chargement;
+  if (state is LoginSuccessState) return DisplayState.contenu;
+  return DisplayState.erreur;
 }
 
 class LoginButtonViewModel extends Equatable {

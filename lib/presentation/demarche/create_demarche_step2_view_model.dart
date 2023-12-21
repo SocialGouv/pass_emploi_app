@@ -83,20 +83,20 @@ DisplayState _displayState(DemarcheSource source, AppState state) {
 }
 
 DisplayState _displayStateFromRechercheSource(SearchDemarcheState state) {
-  if (state is SearchDemarcheLoadingState || state is SearchDemarcheNotInitializedState) return DisplayState.LOADING;
-  if (state is SearchDemarcheFailureState) return DisplayState.FAILURE;
-  return DisplayState.CONTENT;
+  if (state is SearchDemarcheLoadingState || state is SearchDemarcheNotInitializedState) return DisplayState.chargement;
+  if (state is SearchDemarcheFailureState) return DisplayState.erreur;
+  return DisplayState.contenu;
 }
 
 DisplayState _displayStateFromThematiqueSource(ThematiqueDemarcheState state) {
   if (state is ThematiqueDemarcheLoadingState || state is ThematiqueDemarcheNotInitializedState) {
-    return DisplayState.LOADING;
+    return DisplayState.chargement;
   }
-  if (state is ThematiqueDemarcheFailureState) return DisplayState.FAILURE;
-  return DisplayState.CONTENT;
+  if (state is ThematiqueDemarcheFailureState) return DisplayState.erreur;
+  return DisplayState.contenu;
 }
 
 DisplayState _displayStateFromTopDemarcheSource(TopDemarcheState state) {
-  if (state is TopDemarcheNotInitializedState) return DisplayState.LOADING;
-  return DisplayState.CONTENT;
+  if (state is TopDemarcheNotInitializedState) return DisplayState.chargement;
+  return DisplayState.contenu;
 }

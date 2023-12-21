@@ -81,7 +81,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
                 isActiveDate: true,
               ),
             ),
-            if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
+            if (viewModel.displayState == DisplayState.erreur) ErrorText(Strings.genericCreationError),
             Padding(
               padding: const EdgeInsets.only(right: 24, left: 24, top: 32),
               child: PrimaryActionButton(
@@ -106,7 +106,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
   }
 
   bool _buttonShouldBeActive(CreateDemarchePersonnaliseeViewModel viewModel) {
-    return _isFormValid() && viewModel.displayState != DisplayState.LOADING;
+    return _isFormValid() && viewModel.displayState != DisplayState.chargement;
   }
 
   bool _isCommentaireValid() {

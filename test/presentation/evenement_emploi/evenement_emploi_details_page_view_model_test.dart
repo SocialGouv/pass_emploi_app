@@ -23,7 +23,7 @@ void main() {
     expect(
       viewModel,
       EvenementEmploiDetailsPageViewModel(
-        displayState: DisplayState.CONTENT,
+        displayState: DisplayState.contenu,
         tag: "Réunion d'information",
         titre: "Devenir conseiller à Pôle emploi",
         date: "15 juin 2023",
@@ -48,7 +48,7 @@ void main() {
       final viewModel = EvenementEmploiDetailsPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('when state is success', () {
@@ -62,7 +62,7 @@ void main() {
       final viewModel = EvenementEmploiDetailsPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test('when state is failure', () {
@@ -76,7 +76,7 @@ void main() {
       final viewModel = EvenementEmploiDetailsPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
   });
 

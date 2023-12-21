@@ -79,7 +79,7 @@ class _ActionCommentairesPageState extends State<ActionCommentairesPage> {
   }
 
   bool _loading(ActionCommentairePageViewModel viewModel) =>
-      viewModel.sendDisplayState == DisplayState.LOADING || viewModel.listDisplayState == DisplayState.LOADING;
+      viewModel.sendDisplayState == DisplayState.chargement || viewModel.listDisplayState == DisplayState.chargement;
 }
 
 class _Title extends StatelessWidget {
@@ -101,9 +101,9 @@ class _CommentsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (viewModel.listDisplayState) {
-      case DisplayState.FAILURE:
+      case DisplayState.erreur:
         return Center(child: Retry(Strings.chatError, () => viewModel.onRetry()));
-      case DisplayState.CONTENT:
+      case DisplayState.contenu:
         return viewModel.comments.isEmpty
             ? Text(Strings.noComments, style: TextStyles.textBaseRegular)
             : _CommentsList(comments: viewModel.comments);
@@ -195,6 +195,6 @@ class _CreateCommentaireWidgetState extends State<_CreateCommentaireWidget> {
   }
 
   bool _loading() =>
-      widget.viewModel.sendDisplayState == DisplayState.LOADING ||
-      widget.viewModel.listDisplayState == DisplayState.LOADING;
+      widget.viewModel.sendDisplayState == DisplayState.chargement ||
+      widget.viewModel.listDisplayState == DisplayState.chargement;
 }

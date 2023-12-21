@@ -15,14 +15,14 @@ void main() {
     // Given
     final now = DateTime.now();
     final repository = UpdateDemarcheRepositorySuccessStub();
-    repository.withArgsResolves('id', '2', DemarcheStatus.DONE, now, now);
+    repository.withArgsResolves('id', '2', DemarcheStatus.terminee, now, now);
     final store = givenState()
         .loggedInPoleEmploiUser() //
         .withDemarches(
       [
-        mockDemarche(id: '1', status: DemarcheStatus.IN_PROGRESS),
-        mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
-        mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
+        uneDemarche(id: '1', status: DemarcheStatus.enCours),
+        uneDemarche(id: '2', status: DemarcheStatus.pasCommencee),
+        uneDemarche(id: '3', status: DemarcheStatus.enCours),
       ],
     ).store((factory) => {factory.updateDemarcheRepository = repository});
 
@@ -30,7 +30,7 @@ void main() {
     final successUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheSuccessState);
 
     // When
-    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.DONE));
+    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.terminee));
 
     // Then
     expect(await updateDisplayedLoading, true);
@@ -42,21 +42,21 @@ void main() {
     // Given
     final now = DateTime.now();
     final repository = UpdateDemarcheRepositorySuccessStub();
-    repository.withArgsResolves('id', '2', DemarcheStatus.DONE, now, now);
+    repository.withArgsResolves('id', '2', DemarcheStatus.terminee, now, now);
     final store = givenState()
         .loggedInPoleEmploiUser() //
         .withDemarches(
       [
-        mockDemarche(id: '1', status: DemarcheStatus.IN_PROGRESS),
-        mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
-        mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
+        uneDemarche(id: '1', status: DemarcheStatus.enCours),
+        uneDemarche(id: '2', status: DemarcheStatus.pasCommencee),
+        uneDemarche(id: '3', status: DemarcheStatus.enCours),
       ],
     ).store((factory) => {factory.updateDemarcheRepository = repository});
 
     final successUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheSuccessState);
 
     // When
-    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.DONE));
+    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.terminee));
 
     // Then
     await successUpdateState;
@@ -64,9 +64,9 @@ void main() {
       store.state.demarcheListState,
       DemarcheListSuccessState(
         [
-          mockDemarche(id: '1', status: DemarcheStatus.IN_PROGRESS),
-          mockDemarche(id: '2', status: DemarcheStatus.DONE),
-          mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
+          uneDemarche(id: '1', status: DemarcheStatus.enCours),
+          uneDemarche(id: '2', status: DemarcheStatus.terminee),
+          uneDemarche(id: '3', status: DemarcheStatus.enCours),
         ],
       ),
     );
@@ -83,7 +83,7 @@ void main() {
     final failureUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheFailureState);
 
     // When
-    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.DONE));
+    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.terminee));
 
     // Then
     expect(await updateDisplayedLoading, true);
@@ -96,16 +96,16 @@ void main() {
     final now = DateTime.now();
     final store = givenState().loggedInPoleEmploiUser().withDemarches(
       [
-        mockDemarche(id: '1', status: DemarcheStatus.IN_PROGRESS),
-        mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
-        mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
+        uneDemarche(id: '1', status: DemarcheStatus.enCours),
+        uneDemarche(id: '2', status: DemarcheStatus.pasCommencee),
+        uneDemarche(id: '3', status: DemarcheStatus.enCours),
       ],
     ).store((factory) => {factory.updateDemarcheRepository = UpdateDemarcheRepositoryFailureStub()});
 
     final failureUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheFailureState);
 
     // When
-    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.DONE));
+    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.terminee));
 
     // Then
     await failureUpdateState;
@@ -113,9 +113,9 @@ void main() {
       store.state.demarcheListState,
       DemarcheListSuccessState(
         [
-          mockDemarche(id: '1', status: DemarcheStatus.IN_PROGRESS),
-          mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
-          mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
+          uneDemarche(id: '1', status: DemarcheStatus.enCours),
+          uneDemarche(id: '2', status: DemarcheStatus.pasCommencee),
+          uneDemarche(id: '3', status: DemarcheStatus.enCours),
         ],
       ),
     );
@@ -124,12 +124,12 @@ void main() {
   test("an edited demarche contained in agenda should be updated", () async {
     // Given
     final demarches = [
-      mockDemarche(id: '1', status: DemarcheStatus.NOT_STARTED),
-      mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
+      uneDemarche(id: '1', status: DemarcheStatus.pasCommencee),
+      uneDemarche(id: '2', status: DemarcheStatus.pasCommencee),
     ];
     final now = DateTime.now();
     final repository = UpdateDemarcheRepositorySuccessStub();
-    repository.withArgsResolves('id', '1', DemarcheStatus.DONE, now, now);
+    repository.withArgsResolves('id', '1', DemarcheStatus.terminee, now, now);
     final store = givenState()
         .loggedInPoleEmploiUser()
         .agenda(demarches: demarches)
@@ -139,13 +139,13 @@ void main() {
     final successUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheSuccessState);
 
     // When
-    await store.dispatch(UpdateDemarcheRequestAction('1', now, now, DemarcheStatus.DONE));
+    await store.dispatch(UpdateDemarcheRequestAction('1', now, now, DemarcheStatus.terminee));
 
     // Then
     await successUpdateState;
     expectTypeThen<AgendaSuccessState>(store.state.agendaState, (agendaState) {
       expect(agendaState.agenda.demarches[0].id, '1');
-      expect(agendaState.agenda.demarches[0].status, DemarcheStatus.DONE);
+      expect(agendaState.agenda.demarches[0].status, DemarcheStatus.terminee);
     });
   });
 }

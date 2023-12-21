@@ -120,9 +120,9 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   Widget _body(BuildContext context, ChatPageViewModel viewModel) {
     switch (viewModel.displayState) {
-      case DisplayState.CONTENT:
+      case DisplayState.contenu:
         return _content(context, viewModel);
-      case DisplayState.LOADING:
+      case DisplayState.chargement:
         return Center(child: CircularProgressIndicator());
       default:
         return Center(child: Retry(Strings.chatError, () => viewModel.onRetry()));

@@ -48,15 +48,15 @@ class EventListPageViewModel extends Equatable {
 
 DisplayState _displayState(EventListState eventListState) {
   if (eventListState is EventListFailureState) {
-    return DisplayState.FAILURE;
+    return DisplayState.erreur;
   } else if (eventListState is EventListSuccessState) {
     if (eventListState.animationsCollectives.isEmpty && eventListState.sessionsMilos.isEmpty) {
-      return DisplayState.EMPTY;
+      return DisplayState.vide;
     } else {
-      return DisplayState.CONTENT;
+      return DisplayState.contenu;
     }
   }
-  return DisplayState.LOADING;
+  return DisplayState.chargement;
 }
 
 List<EventId> _eventIds(EventListState eventListState) {

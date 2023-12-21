@@ -48,7 +48,7 @@ void main() {
       final viewModel = ActionCommentaireViewModel.create(store, 'id');
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test("failure should set display state to FAILURE", () {
@@ -59,7 +59,7 @@ void main() {
       final viewModel = ActionCommentaireViewModel.create(store, 'id');
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
 
     test("loading should set display state to LOADING", () {
@@ -70,7 +70,7 @@ void main() {
       final viewModel = ActionCommentaireViewModel.create(store, 'id');
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test("not initialized should set display state to LOADING", () {
@@ -81,7 +81,7 @@ void main() {
       final viewModel = ActionCommentaireViewModel.create(store, 'id');
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
   });
 

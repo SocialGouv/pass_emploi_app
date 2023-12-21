@@ -605,16 +605,16 @@ Demarche demarcheStub({String? id, DateTime? dateEcheance}) {
   return Demarche(
     id: id ?? "1",
     content: "Identification de ses compétences avec pole-emploi.fr",
-    status: DemarcheStatus.IN_PROGRESS,
+    status: DemarcheStatus.enCours,
     endDate: dateEcheance ?? parseDateTimeUtcWithCurrentTimeZone('2021-12-21T09:00:00.000Z'),
     deletionDate: null,
     createdByAdvisor: true,
     label: "Mon (nouveau) métier",
     possibleStatus: [
-      DemarcheStatus.CANCELLED,
-      DemarcheStatus.DONE,
-      DemarcheStatus.NOT_STARTED,
-      DemarcheStatus.IN_PROGRESS
+      DemarcheStatus.annulee,
+      DemarcheStatus.terminee,
+      DemarcheStatus.pasCommencee,
+      DemarcheStatus.enCours
     ],
     creationDate: parseDateTimeUtcWithCurrentTimeZone('2022-05-11T09:04:00.000Z'),
     modifiedByAdvisor: false,
@@ -646,9 +646,9 @@ UserAction mockUserAction({
   );
 }
 
-Demarche mockDemarche({
+Demarche uneDemarche({
   String id = 'id',
-  DemarcheStatus status = DemarcheStatus.NOT_STARTED,
+  DemarcheStatus status = DemarcheStatus.pasCommencee,
   DateTime? endDate,
   DateTime? deletionDate,
   List<DemarcheAttribut>? attributs,
@@ -706,7 +706,7 @@ List<Demarche> mockDemarches() {
     Demarche(
       id: "demarcheId",
       content: null,
-      status: DemarcheStatus.NOT_STARTED,
+      status: DemarcheStatus.pasCommencee,
       endDate: DateTime.now(),
       deletionDate: null,
       createdByAdvisor: true,

@@ -136,28 +136,28 @@ String? _withDateDerniereMiseAJour(DateTime? dateDerniereMiseAJour) {
 UserActionTagViewModel _getTagViewModel(DemarcheStatus status, DemarcheStatus currentStatus) {
   final bool isSelected = status == currentStatus;
   switch (status) {
-    case DemarcheStatus.NOT_STARTED:
+    case DemarcheStatus.pasCommencee:
       return UserActionTagViewModel(
         title: Strings.todoPillule,
         backgroundColor: isSelected ? AppColors.accent1Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent1 : AppColors.grey800,
         isSelected: isSelected,
       );
-    case DemarcheStatus.IN_PROGRESS:
+    case DemarcheStatus.enCours:
       return UserActionTagViewModel(
         title: Strings.doingPillule,
         backgroundColor: isSelected ? AppColors.accent3Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent3 : AppColors.grey800,
         isSelected: isSelected,
       );
-    case DemarcheStatus.DONE:
+    case DemarcheStatus.terminee:
       return UserActionTagViewModel(
         title: Strings.donePillule,
         backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
         isSelected: isSelected,
       );
-    case DemarcheStatus.CANCELLED:
+    case DemarcheStatus.annulee:
       return UserActionTagViewModel(
         title: Strings.canceledPillule,
         backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
@@ -168,12 +168,12 @@ UserActionTagViewModel _getTagViewModel(DemarcheStatus status, DemarcheStatus cu
 }
 
 List<FormattedText> _formattedDate(Demarche demarche) {
-  if (demarche.status == DemarcheStatus.CANCELLED && demarche.deletionDate != null) {
+  if (demarche.status == DemarcheStatus.annulee && demarche.deletionDate != null) {
     return [
       FormattedText(Strings.demarcheCancelledLabel),
       FormattedText(demarche.deletionDate!.toDay(), bold: true),
     ];
-  } else if (demarche.status == DemarcheStatus.DONE && demarche.endDate != null) {
+  } else if (demarche.status == DemarcheStatus.terminee && demarche.endDate != null) {
     return [
       FormattedText(Strings.demarcheDoneLabel),
       FormattedText(demarche.endDate!.toDay(), bold: true),
@@ -191,27 +191,27 @@ List<FormattedText> _formattedDate(Demarche demarche) {
 DemarcheStatus? getStatusFromTag(UserActionTagViewModel tag) {
   switch (tag.title) {
     case Strings.todoPillule:
-      return DemarcheStatus.NOT_STARTED;
+      return DemarcheStatus.pasCommencee;
     case Strings.doingPillule:
-      return DemarcheStatus.IN_PROGRESS;
+      return DemarcheStatus.enCours;
     case Strings.canceledPillule:
-      return DemarcheStatus.CANCELLED;
+      return DemarcheStatus.annulee;
     case Strings.donePillule:
-      return DemarcheStatus.DONE;
+      return DemarcheStatus.terminee;
     default:
       return null;
   }
 }
 
 bool _isLate(DemarcheStatus status, DateTime? endDate) {
-  if (endDate != null && (status == DemarcheStatus.NOT_STARTED || status == DemarcheStatus.IN_PROGRESS)) {
+  if (endDate != null && (status == DemarcheStatus.pasCommencee || status == DemarcheStatus.enCours)) {
     return endDate.isBefore(DateTime.now()) && (endDate.numberOfDaysUntilToday() > 0);
   }
   return false;
 }
 
 DisplayState _updateStateDisplayState(UpdateDemarcheState state) {
-  if (state is UpdateDemarcheLoadingState) return DisplayState.LOADING;
-  if (state is UpdateDemarcheFailureState) return DisplayState.FAILURE;
-  return DisplayState.EMPTY;
+  if (state is UpdateDemarcheLoadingState) return DisplayState.chargement;
+  if (state is UpdateDemarcheFailureState) return DisplayState.erreur;
+  return DisplayState.vide;
 }

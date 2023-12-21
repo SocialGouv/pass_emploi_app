@@ -43,10 +43,10 @@ class CvViewModel extends Equatable {
 DisplayState _displayState(Store<AppState> store) {
   final cvState = store.state.cvState;
   if (cvState is CvSuccessState) {
-    return cvState.cvList!.isEmpty ? DisplayState.EMPTY : DisplayState.CONTENT;
+    return cvState.cvList!.isEmpty ? DisplayState.vide : DisplayState.contenu;
   }
-  if (cvState is CvFailureState) return DisplayState.FAILURE;
-  return DisplayState.LOADING;
+  if (cvState is CvFailureState) return DisplayState.erreur;
+  return DisplayState.chargement;
 }
 
 List<CvPoleEmploi> _cvList(CvState state) {
@@ -55,14 +55,14 @@ List<CvPoleEmploi> _cvList(CvState state) {
 }
 
 DisplayState _downloadStatus(String url, CvSuccessState? cvSuccessState) {
-  if (cvSuccessState == null) return DisplayState.CONTENT;
+  if (cvSuccessState == null) return DisplayState.contenu;
   final status = cvSuccessState.cvDownloadStatus[url];
   switch (status) {
     case null:
     case CvDownloadStatus.failure:
     case CvDownloadStatus.success:
-      return DisplayState.CONTENT;
+    return DisplayState.contenu;
     case CvDownloadStatus.loading:
-      return DisplayState.LOADING;
+      return DisplayState.chargement;
   }
 }

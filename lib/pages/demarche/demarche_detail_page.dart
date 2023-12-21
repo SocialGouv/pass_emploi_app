@@ -44,7 +44,7 @@ class DemarcheDetailPage extends StatelessWidget {
           body: StoreConnector<AppState, DemarcheDetailViewModel>(
             converter: (store) => DemarcheDetailViewModel.create(store, source, id),
             onDidChange: (oldViewModel, newViewModel) async {
-              if (newViewModel.updateDisplayState == DisplayState.FAILURE) {
+              if (newViewModel.updateDisplayState == DisplayState.erreur) {
                 showSnackBarWithSystemError(context, Strings.updateStatusError);
                 newViewModel.resetUpdateStatus();
               }
@@ -121,7 +121,7 @@ class _Body extends StatelessWidget {
             ),
           ],
         ),
-        if (viewModel.updateDisplayState == DisplayState.LOADING) LoadingOverlay(),
+        if (viewModel.updateDisplayState == DisplayState.chargement) LoadingOverlay(),
       ],
     );
   }
@@ -309,7 +309,7 @@ class _StatutItem extends StatelessWidget {
             onTap: isActive
                 ? () {
                     viewModel.onModifyStatus(statut);
-                    if (getStatusFromTag(statut) == DemarcheStatus.DONE) onDemarcheDone();
+                    if (getStatusFromTag(statut) == DemarcheStatus.terminee) onDemarcheDone();
                   }
                 : null,
             child: Container(

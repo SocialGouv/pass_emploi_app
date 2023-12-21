@@ -74,12 +74,12 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
 
   Widget _body(BuildContext context, ServiceCiviqueDetailViewModel viewModel) {
     switch (viewModel.displayState) {
-      case DisplayState.CONTENT:
-      case DisplayState.EMPTY:
+      case DisplayState.contenu:
+      case DisplayState.vide:
         return _content(context, viewModel);
-      case DisplayState.LOADING:
+      case DisplayState.chargement:
         return _loading();
-      case DisplayState.FAILURE:
+      case DisplayState.erreur:
         return _error();
     }
   }
@@ -103,7 +103,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (viewModel.displayState == DisplayState.EMPTY)
+                if (viewModel.displayState == DisplayState.vide)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: FavoriNotFoundError(),
@@ -122,7 +122,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
                 if (detail != null) _description(detail),
                 if (detail != null) _organisation(detail),
                 if (detail != null) _spacer(60),
-                if (viewModel.displayState == DisplayState.EMPTY)
+                if (viewModel.displayState == DisplayState.vide)
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: _incompleteDataFooter(),

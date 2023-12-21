@@ -41,15 +41,13 @@ class PartageActivitePageViewModel extends Equatable {
 
 
 DisplayState _displayState(PartageActiviteState state) {
-  if (state is PartageActiviteLoadingState) return DisplayState.LOADING;
-  if (state is PartageActiviteFailureState) return DisplayState.FAILURE;
-  return DisplayState.CONTENT;
+  if (state is PartageActiviteLoadingState) return DisplayState.chargement;
+  if (state is PartageActiviteFailureState) return DisplayState.erreur;
+  return DisplayState.contenu;
 }
-
 
 DisplayState _updateState(PartageActiviteUpdateState state) {
-  if (state is PartageActiviteUpdateLoadingState) return DisplayState.LOADING;
-  if (state is PartageActiviteUpdateFailureState) return DisplayState.FAILURE;
-  return DisplayState.CONTENT;
+  if (state is PartageActiviteUpdateLoadingState) return DisplayState.chargement;
+  if (state is PartageActiviteUpdateFailureState) return DisplayState.erreur;
+  return DisplayState.contenu;
 }
-

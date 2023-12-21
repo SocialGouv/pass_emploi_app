@@ -104,7 +104,7 @@ class _AlertePageState extends State<AlertePage> {
   }
 
   Widget? _floatingActionButton(BuildContext context, AlerteListViewModel viewModel) {
-    if (viewModel.displayState != DisplayState.CONTENT) return null;
+    if (viewModel.displayState != DisplayState.contenu) return null;
 
     if (_selectedFilter == OffreFilter.tous && viewModel.alertes.isEmpty) {
       return PrimaryActionButton(label: Strings.alertesListEmptyButton, onPressed: () => _goToRecherche(context));
@@ -124,8 +124,8 @@ class _AlertePageState extends State<AlertePage> {
     return AnimatedSwitcher(
       duration: AnimationDurations.fast,
       child: switch (displayState) {
-        DisplayState.LOADING => _AlerteLoading(),
-        DisplayState.FAILURE => Center(child: Retry(Strings.alerteGetError, () => viewModel.onRetry())),
+        DisplayState.chargement => _AlerteLoading(),
+        DisplayState.erreur => Center(child: Retry(Strings.alerteGetError, () => viewModel.onRetry())),
         _ => _alertes(viewModel),
       },
     );

@@ -61,8 +61,8 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return switch (viewModel.displayState) {
-      DisplayState.FAILURE => _ErrorMessage(viewModel),
-      DisplayState.CONTENT => _Content(viewModel),
+      DisplayState.erreur => _ErrorMessage(viewModel),
+      DisplayState.contenu => _Content(viewModel),
       _ => const Center(child: CircularProgressIndicator()),
     };
   }

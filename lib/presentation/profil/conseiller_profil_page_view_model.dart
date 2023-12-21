@@ -21,14 +21,14 @@ class ConseillerProfilePageViewModel extends Equatable {
     final state = store.state.detailsJeuneState;
     if (state is DetailsJeuneSuccessState) {
       return ConseillerProfilePageViewModel(
-        displayState: DisplayState.CONTENT,
+        displayState: DisplayState.contenu,
         sinceDate: Strings.sinceDate(state.detailsJeune.conseiller.sinceDate.toDay()),
         name: "${state.detailsJeune.conseiller.firstname} ${state.detailsJeune.conseiller.lastname}",
       );
     } else if (state is DetailsJeuneLoadingState) {
-      return ConseillerProfilePageViewModel(displayState: DisplayState.LOADING);
+      return ConseillerProfilePageViewModel(displayState: DisplayState.chargement);
     }
-    return ConseillerProfilePageViewModel(displayState: DisplayState.EMPTY);
+    return ConseillerProfilePageViewModel(displayState: DisplayState.vide);
   }
 
   @override

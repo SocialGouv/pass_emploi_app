@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_custom_demarche.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step3_page.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/demarche/top_demarche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -37,6 +36,7 @@ class TopDemarchePage extends StatelessWidget {
 
 class _Scaffold extends StatelessWidget {
   const _Scaffold(this.viewModel);
+
   final TopDemarchePageViewModel viewModel;
 
   @override
@@ -50,6 +50,7 @@ class _Scaffold extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   const _Body(this.viewModel);
+
   final TopDemarchePageViewModel viewModel;
 
   @override
@@ -86,21 +87,18 @@ class _TopDemarcheList extends StatelessWidget {
       separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
       itemBuilder: (context, index) {
         final demarche = viewModel.demarches[index];
-        if (demarche is IdItem) {
-          final id = demarche.demarcheId;
-          final source = TopDemarcheSource();
-          return DemarcheDuReferentielCard(
-            source: source,
-            idDemarche: id,
-            onTap: () {
-              Navigator.push(context, CreateDemarcheStep3Page.materialPageRoute(id, source)).then((value) {
-                // forward result to previous page
-                if (value != null) Navigator.pop(context, value);
-              });
-            },
-          );
-        }
-        return SizedBox.shrink();
+        final id = demarche.demarcheId;
+        final source = TopDemarcheSource();
+        return DemarcheDuReferentielCard(
+          source: source,
+          idDemarche: id,
+          onTap: () {
+            Navigator.push(context, CreateDemarcheStep3Page.materialPageRoute(id, source)).then((value) {
+              // forward result to previous page
+              if (value != null) Navigator.pop(context, value);
+            });
+          },
+        );
       },
     );
   }

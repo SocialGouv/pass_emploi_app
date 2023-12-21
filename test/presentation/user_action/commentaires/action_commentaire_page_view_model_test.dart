@@ -17,7 +17,7 @@ void main() {
       final viewModel = ActionCommentairePageViewModel.create(store, "actionId");
 
       // Then
-      expect(viewModel.sendDisplayState, DisplayState.EMPTY);
+      expect(viewModel.sendDisplayState, DisplayState.vide);
     });
 
     test("is loading when ActionCommentCreateState is loading", () {
@@ -28,7 +28,7 @@ void main() {
       final viewModel = ActionCommentairePageViewModel.create(store, "actionId");
 
       // Then
-      expect(viewModel.sendDisplayState, DisplayState.LOADING);
+      expect(viewModel.sendDisplayState, DisplayState.chargement);
     });
 
     test("should show content when ActionCommentCreateState succeeds", () {
@@ -39,7 +39,7 @@ void main() {
       final viewModel = ActionCommentairePageViewModel.create(store, "actionId");
 
       // Then
-      expect(viewModel.sendDisplayState, DisplayState.CONTENT);
+      expect(viewModel.sendDisplayState, DisplayState.contenu);
     });
 
     test("should display an error when ActionCommentCreateState failed", () {
@@ -50,7 +50,7 @@ void main() {
       final viewModel = ActionCommentairePageViewModel.create(store, "actionId");
 
       // Then
-      expect(viewModel.sendDisplayState, DisplayState.FAILURE);
+      expect(viewModel.sendDisplayState, DisplayState.erreur);
     });
   });
 
@@ -63,7 +63,7 @@ void main() {
       final viewModel = ActionCommentairePageViewModel.create(store, "actionId");
 
       // Then
-      expect(viewModel.listDisplayState, DisplayState.LOADING);
+      expect(viewModel.listDisplayState, DisplayState.chargement);
     });
 
     test("is loading when ActionCommentListState is loading", () {
@@ -74,7 +74,7 @@ void main() {
       final viewModel = ActionCommentairePageViewModel.create(store, "actionId");
 
       // Then
-      expect(viewModel.listDisplayState, DisplayState.LOADING);
+      expect(viewModel.listDisplayState, DisplayState.chargement);
     });
 
     test("should show content when ActionCommentListState succeeds", () {
@@ -85,7 +85,7 @@ void main() {
       final viewModel = ActionCommentairePageViewModel.create(store, "actionId");
 
       // Then
-      expect(viewModel.listDisplayState, DisplayState.CONTENT);
+      expect(viewModel.listDisplayState, DisplayState.contenu);
     });
 
     test("should display an error when ActionCommentListState failed", () {
@@ -96,7 +96,7 @@ void main() {
       final viewModel = ActionCommentairePageViewModel.create(store, "actionId");
 
       // Then
-      expect(viewModel.listDisplayState, DisplayState.FAILURE);
+      expect(viewModel.listDisplayState, DisplayState.erreur);
     });
   });
 

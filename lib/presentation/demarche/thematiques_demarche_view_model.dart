@@ -33,9 +33,9 @@ List<ThematiqueDemarcheItem> _thematiques(ThematiqueDemarcheState state) {
 
 DisplayState _displayState(ThematiqueDemarcheState state) {
   return switch (state) {
-    ThematiqueDemarcheFailureState() => DisplayState.FAILURE,
-    ThematiqueDemarcheSuccessState() => DisplayState.CONTENT,
-    _ => DisplayState.LOADING,
+    ThematiqueDemarcheFailureState() => DisplayState.erreur,
+    ThematiqueDemarcheSuccessState() => DisplayState.contenu,
+    _ => DisplayState.chargement,
   };
 }
 

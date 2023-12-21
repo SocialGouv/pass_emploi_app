@@ -19,7 +19,7 @@ void main() {
       final viewModel = ImmersionFiltresViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test("create when search state is loading should display loading", () {
@@ -30,7 +30,7 @@ void main() {
       final viewModel = ImmersionFiltresViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test("create when search state is failure should display failure", () {
@@ -41,7 +41,7 @@ void main() {
       final viewModel = ImmersionFiltresViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
       expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
     });
   });

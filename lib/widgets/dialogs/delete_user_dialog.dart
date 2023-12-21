@@ -29,9 +29,9 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
       converter: (store) => SuppressionCompteViewModel.create(store),
       builder: (context, viewModel) => _build(context, viewModel),
       onDidChange: (_, newVM) {
-        if (newVM.displayState == DisplayState.FAILURE) {
+        if (newVM.displayState == DisplayState.erreur) {
           Navigator.pop(context, false);
-        } else if (newVM.displayState == DisplayState.CONTENT) {
+        } else if (newVM.displayState == DisplayState.contenu) {
           Navigator.pop(context, true);
         }
       },
@@ -114,7 +114,7 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
   }
 
   bool _shouldActivateButton(SuppressionCompteViewModel viewModel) {
-    return _isStringValid() && viewModel.displayState != DisplayState.LOADING;
+    return _isStringValid() && viewModel.displayState != DisplayState.chargement;
   }
 
   bool _isStringValid() {

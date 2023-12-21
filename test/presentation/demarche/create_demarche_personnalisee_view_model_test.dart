@@ -20,7 +20,7 @@ void main() {
     final viewModel = CreateDemarchePersonnaliseeViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.erreur);
     expect(viewModel.demarcheCreationState, isA<DemarcheCreationPendingState>());
   });
 
@@ -34,7 +34,7 @@ void main() {
     final viewModel = CreateDemarchePersonnaliseeViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
     expect(viewModel.demarcheCreationState, isA<DemarcheCreationPendingState>());
   });
 

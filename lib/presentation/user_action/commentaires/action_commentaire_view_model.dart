@@ -38,7 +38,7 @@ class ActionCommentaireViewModel extends Equatable {
 
 
 DisplayState _commentDisplayState(ActionCommentaireListState state) {
-  if (state is ActionCommentaireListFailureState) return DisplayState.FAILURE;
-  if (state is ActionCommentaireListSuccessState) return DisplayState.CONTENT;
-  return DisplayState.LOADING;
+  if (state is ActionCommentaireListFailureState) return DisplayState.erreur;
+  if (state is ActionCommentaireListSuccessState) return DisplayState.contenu;
+  return DisplayState.chargement;
 }

@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/suppression_compte_view_model.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -53,7 +53,7 @@ void main() {
     final viewModel = SuppressionCompteViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.erreur);
   });
 
   test('create when state is SUCCESS', () {
@@ -67,7 +67,7 @@ void main() {
     final viewModel = SuppressionCompteViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
   });
 
   test('create when state is LOADING', () {
@@ -81,7 +81,7 @@ void main() {
     final viewModel = SuppressionCompteViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
 }

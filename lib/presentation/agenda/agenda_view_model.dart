@@ -73,11 +73,11 @@ class AgendaPageViewModel extends Equatable {
 DisplayState _displayState(Store<AppState> store, bool isPoleEmploi) {
   final agendaState = store.state.agendaState;
   if (agendaState is AgendaFailureState) {
-    return DisplayState.FAILURE;
+    return DisplayState.erreur;
   } else if (agendaState is AgendaSuccessState) {
-    return DisplayState.CONTENT;
+    return DisplayState.contenu;
   }
-  return DisplayState.LOADING;
+  return DisplayState.chargement;
 }
 
 List<AgendaItem> _events(Store<AppState> store, bool isPoleEmploi) {

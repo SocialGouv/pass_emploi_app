@@ -25,7 +25,7 @@ void main() {
         final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
 
         // Then
-        expect(viewModel.displayState, DisplayState.LOADING);
+        expect(viewModel.displayState, DisplayState.chargement);
       });
 
       test('create when state is loading should display loading', () {
@@ -39,7 +39,7 @@ void main() {
         final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
 
         // Then
-        expect(viewModel.displayState, DisplayState.LOADING);
+        expect(viewModel.displayState, DisplayState.chargement);
       });
 
       test('create when state is failure should display failure', () {
@@ -53,7 +53,7 @@ void main() {
         final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
 
         // Then
-        expect(viewModel.displayState, DisplayState.FAILURE);
+        expect(viewModel.displayState, DisplayState.erreur);
       });
 
       test('create when state is success should display content', () {
@@ -67,7 +67,7 @@ void main() {
         final viewModel = CreateDemarcheStep2ViewModel.create(store, RechercheDemarcheSource());
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
       });
     });
 
@@ -83,7 +83,7 @@ void main() {
         final viewModel = CreateDemarcheStep2ViewModel.create(store, ThematiqueDemarcheSource("any"));
 
         // Then
-        expect(viewModel.displayState, DisplayState.LOADING);
+        expect(viewModel.displayState, DisplayState.chargement);
       });
 
       test('create when state is loading should display loading', () {
@@ -97,7 +97,7 @@ void main() {
         final viewModel = CreateDemarcheStep2ViewModel.create(store, ThematiqueDemarcheSource("any"));
 
         // Then
-        expect(viewModel.displayState, DisplayState.LOADING);
+        expect(viewModel.displayState, DisplayState.chargement);
       });
 
       test('create when state is failure should display failure', () {
@@ -111,7 +111,7 @@ void main() {
         final viewModel = CreateDemarcheStep2ViewModel.create(store, ThematiqueDemarcheSource("any"));
 
         // Then
-        expect(viewModel.displayState, DisplayState.FAILURE);
+        expect(viewModel.displayState, DisplayState.erreur);
       });
 
       test('create when state is success should display content', () {
@@ -125,7 +125,7 @@ void main() {
         final viewModel = CreateDemarcheStep2ViewModel.create(store, ThematiqueDemarcheSource("any"));
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
       });
     });
 
@@ -141,7 +141,7 @@ void main() {
         final viewModel = CreateDemarcheStep2ViewModel.create(store, TopDemarcheSource());
 
         // Then
-        expect(viewModel.displayState, DisplayState.LOADING);
+        expect(viewModel.displayState, DisplayState.chargement);
       });
 
       test('create when state is success should display loading', () {
@@ -155,7 +155,7 @@ void main() {
         final viewModel = CreateDemarcheStep2ViewModel.create(store, TopDemarcheSource());
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
       });
     });
   });

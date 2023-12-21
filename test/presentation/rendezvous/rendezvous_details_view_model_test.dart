@@ -873,7 +873,7 @@ void main() {
         expect(
           viewModel,
           RendezvousDetailsViewModel(
-            displayState: DisplayState.CONTENT,
+            displayState: DisplayState.contenu,
             navbarTitle: "Mon rendez-vous",
             id: "1",
             tag: "Entretien Partenaire",
@@ -960,7 +960,7 @@ void main() {
         expect(
           viewModel,
           RendezvousDetailsViewModel(
-              displayState: DisplayState.CONTENT,
+              displayState: DisplayState.contenu,
               navbarTitle: "Mon rendez-vous",
               id: "1",
               tag: "Atelier",
@@ -1005,7 +1005,7 @@ void main() {
     );
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   group('without RendezvousStateSource', () {
@@ -1025,7 +1025,7 @@ void main() {
       );
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('when rendezvous state is content', () {
@@ -1044,7 +1044,7 @@ void main() {
       );
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test('when rendezvous state is failure', () {
@@ -1063,7 +1063,7 @@ void main() {
       );
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
 
     test('when onRetry is performed RendezvousDetailsRequestAction is dispatched', () {

@@ -24,15 +24,15 @@ void main() {
       final demarche = Demarche(
         id: "8802034",
         content: "Faire le CV",
-        status: DemarcheStatus.NOT_STARTED,
+        status: DemarcheStatus.pasCommencee,
         endDate: parseDateTimeUtcWithCurrentTimeZone('2032-04-28T16:06:48.396Z'),
         deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
         createdByAdvisor: true,
         label: "label",
         possibleStatus: [
-          DemarcheStatus.NOT_STARTED,
-          DemarcheStatus.IN_PROGRESS,
-          DemarcheStatus.DONE,
+          DemarcheStatus.pasCommencee,
+          DemarcheStatus.enCours,
+          DemarcheStatus.terminee,
         ],
         creationDate: DateTime(2022, 12, 23, 0, 0, 0),
         modifiedByAdvisor: false,
@@ -89,7 +89,7 @@ void main() {
 
     test("late", () {
       // Given
-      final demarche = mockDemarche(
+      final demarche = uneDemarche(
         id: '8802034',
         endDate: parseDateTimeUtcWithCurrentTimeZone('2021-04-28T16:06:48.396Z'),
       );
@@ -113,7 +113,7 @@ void main() {
 
     test("not up to date", () {
       // Given
-      final demarche = mockDemarche(id: "8802034");
+      final demarche = uneDemarche(id: "8802034");
       final store = givenState()
           .copyWith(
             demarcheListState: DemarcheListSuccessState(
@@ -133,7 +133,7 @@ void main() {
 
   test('DemarcheDetailViewModel.create when demarche is from agenda should create view model properly', () {
     // Given
-    final store = givenState().agenda(demarches: [(mockDemarche())]).store();
+    final store = givenState().agenda(demarches: [(uneDemarche())]).store();
 
     // When
     final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.agenda, 'id');
@@ -151,7 +151,7 @@ void main() {
       final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
 
       // Then
-      expect(viewModel.updateDisplayState, DisplayState.EMPTY);
+      expect(viewModel.updateDisplayState, DisplayState.vide);
     });
 
     test("is loading when UpdateDemarcheState is loading", () {
@@ -162,7 +162,7 @@ void main() {
       final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
 
       // Then
-      expect(viewModel.updateDisplayState, DisplayState.LOADING);
+      expect(viewModel.updateDisplayState, DisplayState.chargement);
     });
 
     test("is empty when UpdateDemarcheState succeeds", () {
@@ -173,7 +173,7 @@ void main() {
       final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
 
       // Then
-      expect(viewModel.updateDisplayState, DisplayState.EMPTY);
+      expect(viewModel.updateDisplayState, DisplayState.vide);
     });
 
     test("is failure when UpdateDemarcheState failed", () {
@@ -184,7 +184,7 @@ void main() {
       final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.demarcheList, "demarcheId");
 
       // Then
-      expect(viewModel.updateDisplayState, DisplayState.FAILURE);
+      expect(viewModel.updateDisplayState, DisplayState.erreur);
     });
   });
 
@@ -234,7 +234,7 @@ void main() {
     // Then
     expect(store.dispatchedAction, isA<UpdateDemarcheRequestAction>());
     expect((store.dispatchedAction as UpdateDemarcheRequestAction).id, "demarcheId");
-    expect((store.dispatchedAction as UpdateDemarcheRequestAction).status, DemarcheStatus.DONE);
+    expect((store.dispatchedAction as UpdateDemarcheRequestAction).status, DemarcheStatus.terminee);
   });
 
   test('resetUpdateStatus should dispatch UpdateDemarcheResetAction', () {
@@ -248,6 +248,6 @@ void main() {
 
     // Then
     expect(store.dispatchedAction, isA<UpdateDemarcheResetAction>());
-    expect(viewModel.updateDisplayState, DisplayState.EMPTY);
+    expect(viewModel.updateDisplayState, DisplayState.vide);
   });
 }

@@ -34,7 +34,7 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
         builder: (context, viewModel) => _scaffold(viewModel),
         distinct: true,
         onWillChange: (previousVM, newVM) {
-          if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
+          if (previousVM?.displayState == DisplayState.chargement && newVM.displayState == DisplayState.contenu) {
             Navigator.pop(context, true);
           }
         },
@@ -84,13 +84,13 @@ class _ContentState extends State<_Content> {
     setState(() => _currentSliderValue = value);
   }
 
-  bool _isButtonEnabled(ImmersionFiltresViewModel viewModel) => viewModel.displayState != DisplayState.LOADING;
+  bool _isButtonEnabled(ImmersionFiltresViewModel viewModel) => viewModel.displayState != DisplayState.chargement;
 
   void _onButtonClick(ImmersionFiltresViewModel viewModel) =>
       viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt());
 
   bool _isError(ImmersionFiltresViewModel viewModel) {
-    return viewModel.displayState == DisplayState.FAILURE || viewModel.displayState == DisplayState.EMPTY;
+    return viewModel.displayState == DisplayState.erreur || viewModel.displayState == DisplayState.vide;
   }
 
   double _sliderValueToDisplay(ImmersionFiltresViewModel viewModel) =>

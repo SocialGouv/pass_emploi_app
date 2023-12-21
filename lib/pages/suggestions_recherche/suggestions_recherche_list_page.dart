@@ -109,12 +109,12 @@ class _Body extends StatelessWidget {
     return Stack(
       children: [
         switch (viewModel.displayState) {
-          DisplayState.EMPTY => _Empty(viewModel: viewModel),
-          DisplayState.CONTENT => _Content(viewModel: viewModel),
-          DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-          DisplayState.FAILURE => _Retry(viewModel: viewModel),
+          DisplayState.vide => _Empty(viewModel: viewModel),
+          DisplayState.contenu => _Content(viewModel: viewModel),
+          DisplayState.chargement => Center(child: CircularProgressIndicator()),
+          DisplayState.erreur => _Retry(viewModel: viewModel),
         },
-        if (viewModel.traiterDisplayState == DisplayState.LOADING) LoadingOverlay(),
+        if (viewModel.traiterDisplayState == DisplayState.chargement) LoadingOverlay(),
       ],
     );
   }
@@ -307,8 +307,8 @@ void _displaySuccessSnackbar(
   SuggestionsRechercheListViewModel? oldViewModel,
   SuggestionsRechercheListViewModel newViewModel,
 ) {
-  if (newViewModel.traiterDisplayState != DisplayState.CONTENT) return;
-  if (oldViewModel?.traiterDisplayState == DisplayState.CONTENT) return;
+  if (newViewModel.traiterDisplayState != DisplayState.contenu) return;
+  if (oldViewModel?.traiterDisplayState == DisplayState.contenu) return;
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(

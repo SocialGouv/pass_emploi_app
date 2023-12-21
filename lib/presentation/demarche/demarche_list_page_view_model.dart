@@ -8,90 +8,71 @@ import 'package:redux/redux.dart';
 
 class DemarcheListPageViewModel extends Equatable {
   final DisplayState displayState;
-  final List<DemarcheListItem> items;
+  final List<DemarcheListItem> demarcheListItems;
   final bool isReloading;
   final Function() onRetry;
 
   DemarcheListPageViewModel({
     required this.displayState,
-    required this.items,
+    required this.demarcheListItems,
     required this.isReloading,
     required this.onRetry,
   });
 
   factory DemarcheListPageViewModel.create(Store<AppState> store) {
     final state = store.state.demarcheListState;
+    final items = _activeDemarcheItems(state: state) + _inactiveDemarcheItems(state: state);
+
     return DemarcheListPageViewModel(
+      demarcheListItems: items,
       displayState: _displayState(store.state),
-      items: _listItems(
-        activeItemIds: _activeItems(state: state),
-        inactiveIds: _inactiveItems(state: state),
-        withNotUpToDateItem: state is DemarcheListSuccessState && state.dateDerniereMiseAJour != null,
-      ),
       isReloading: state is DemarcheListReloadingState,
       onRetry: () => store.dispatch(DemarcheListRequestReloadAction(forceRefresh: true)),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items, isReloading];
+  List<Object?> get props => [displayState, demarcheListItems, isReloading];
+}
+
+List<DemarcheListItem> _activeDemarcheItems({required DemarcheListState state}) {
+  if (state is DemarcheListSuccessState) {
+    return state.demarches
+        .where((demarche) => [DemarcheStatus.pasCommencee, DemarcheStatus.enCours].contains(demarche.status))
+        .map((demarche) => demarche.id)
+        .map((e) => DemarcheListItem(e))
+        .toList();
+  }
+  return [];
+}
+
+List<DemarcheListItem> _inactiveDemarcheItems({required DemarcheListState state}) {
+  if (state is DemarcheListSuccessState) {
+    return state.demarches
+        .where((demarche) => [DemarcheStatus.terminee, DemarcheStatus.annulee].contains(demarche.status))
+        .map((demarche) => demarche.id)
+        .map((e) => DemarcheListItem(e))
+        .toList();
+  }
+  return [];
 }
 
 DisplayState _displayState(AppState state) {
   final actionState = state.demarcheListState;
   if (actionState is DemarcheListSuccessState) {
-    return actionState.demarches.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
+    return actionState.demarches.isNotEmpty ? DisplayState.contenu : DisplayState.vide;
   } else if (actionState is DemarcheListFailureState) {
-    return DisplayState.FAILURE;
+    return DisplayState.erreur;
   } else {
-    return DisplayState.LOADING;
+    return DisplayState.chargement;
   }
 }
 
-List<String> _activeItems({required DemarcheListState state}) {
-  if (state is DemarcheListSuccessState) {
-    return state.demarches
-        .where((demarche) => [DemarcheStatus.NOT_STARTED, DemarcheStatus.IN_PROGRESS].contains(demarche.status))
-        .map((demarche) => demarche.id)
-        .toList();
-  }
-  return [];
-}
-
-List<String> _inactiveItems({required DemarcheListState state}) {
-  if (state is DemarcheListSuccessState) {
-    return state.demarches
-        .where((demarche) => [DemarcheStatus.DONE, DemarcheStatus.CANCELLED].contains(demarche.status))
-        .map((demarche) => demarche.id)
-        .toList();
-  }
-  return [];
-}
-
-List<DemarcheListItem> _listItems({
-  required List<String> activeItemIds,
-  required List<String> inactiveIds,
-  required bool withNotUpToDateItem,
-}) {
-  return [
-    if (withNotUpToDateItem) DemarcheNotUpToDateItem(),
-    ...activeItemIds.map((e) => IdItem(e)),
-    ...inactiveIds.map((e) => IdItem(e)),
-  ];
-}
-
-abstract class DemarcheListItem extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class IdItem extends DemarcheListItem {
+class DemarcheListItem extends Equatable {
   final String demarcheId;
 
-  IdItem(this.demarcheId);
+  DemarcheListItem(this.demarcheId);
 
   @override
   List<Object?> get props => [demarcheId];
 }
-
-class DemarcheNotUpToDateItem extends DemarcheListItem {}

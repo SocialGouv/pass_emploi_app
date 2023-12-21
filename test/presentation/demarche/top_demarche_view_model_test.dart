@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/top_demarche_view_model.dart';
 
 import '../../doubles/fixtures.dart';
@@ -17,8 +16,7 @@ void main() {
 
       // Then
       expect(viewModel.demarches.length, 1);
-      expect(viewModel.demarches.first, isA<IdItem>());
-      expect((viewModel.demarches.first as IdItem).demarcheId, "id");
+      expect((viewModel.demarches.first).demarcheId, "id");
     });
 
     test('when top demarche state is not success should display empty list', () {

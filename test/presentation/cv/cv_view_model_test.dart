@@ -18,7 +18,7 @@ void main() {
         final viewModel = CvViewModel.create(store);
 
         // Then
-        expect(viewModel.displayState, DisplayState.LOADING);
+        expect(viewModel.displayState, DisplayState.chargement);
       });
 
       test('should be empty when CvListPage is success and there is no CV', () {
@@ -29,7 +29,7 @@ void main() {
         final viewModel = CvViewModel.create(store);
 
         // Then
-        expect(viewModel.displayState, DisplayState.EMPTY);
+        expect(viewModel.displayState, DisplayState.vide);
       });
 
       test('should be content when CvListPage is success', () {
@@ -40,7 +40,7 @@ void main() {
         final viewModel = CvViewModel.create(store);
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
       });
 
       test('should be failure when CvListPage is failure', () {
@@ -51,7 +51,7 @@ void main() {
         final viewModel = CvViewModel.create(store);
 
         // Then
-        expect(viewModel.displayState, DisplayState.FAILURE);
+        expect(viewModel.displayState, DisplayState.erreur);
       });
     }));
 
@@ -64,7 +64,7 @@ void main() {
         final viewModel = CvViewModel.create(store);
 
         // Then
-        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.CONTENT);
+        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.contenu);
       });
 
       test('should display loading when status is loading', () {
@@ -75,7 +75,7 @@ void main() {
         final viewModel = CvViewModel.create(store);
 
         // Then
-        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.LOADING);
+        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.chargement);
       });
 
       test('should display nothing when status is success', () {
@@ -86,7 +86,7 @@ void main() {
         final viewModel = CvViewModel.create(store);
 
         // Then
-        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.CONTENT);
+        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.contenu);
       });
 
       test('should display nothing when status is failure', () {
@@ -97,7 +97,7 @@ void main() {
         final viewModel = CvViewModel.create(store);
 
         // Then
-        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.CONTENT);
+        expect(viewModel.downloadStatus(mockCvPoleEmploi().url), DisplayState.contenu);
       });
     });
 

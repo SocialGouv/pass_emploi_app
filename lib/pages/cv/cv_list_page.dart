@@ -81,13 +81,13 @@ class _Body extends StatelessWidget {
       return _ApiPeKo(viewModel);
     }
     switch (viewModel.displayState) {
-      case DisplayState.LOADING:
+      case DisplayState.chargement:
         return Center(child: CircularProgressIndicator());
-      case DisplayState.CONTENT:
+      case DisplayState.contenu:
         return _Content(viewModel);
-      case DisplayState.EMPTY:
+      case DisplayState.vide:
         return _EmptyListPlaceholder(insideBottomSheet);
-      case DisplayState.FAILURE:
+      case DisplayState.erreur:
         return Center(child: Retry(Strings.cvError, () => viewModel.retry()));
     }
   }

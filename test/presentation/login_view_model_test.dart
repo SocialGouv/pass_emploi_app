@@ -17,7 +17,7 @@ void main() {
 
     final viewModel = LoginViewModel.create(store);
 
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   test('View model displays FAILURE when login state is failure', () {
@@ -25,7 +25,7 @@ void main() {
 
     final viewModel = LoginViewModel.create(store);
 
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.erreur);
   });
 
   test('View model displays CONTENT when login state is not logged in', () {
@@ -33,7 +33,7 @@ void main() {
 
     final viewModel = LoginViewModel.create(store);
 
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
   });
 
   test('View model displays CONTENT when login state is logged in', () {
@@ -41,7 +41,7 @@ void main() {
 
     final viewModel = LoginViewModel.create(store);
 
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
   });
 
   test('View model triggers RequestLoginAction with PASS_EMPLOI mode when pass emploi login is performed', () {

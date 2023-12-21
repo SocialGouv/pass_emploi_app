@@ -44,9 +44,9 @@ class AccueilViewModel extends Equatable {
 
 DisplayState _displayState(Store<AppState> store) {
   return switch (store.state.accueilState) {
-    AccueilSuccessState _ => DisplayState.CONTENT,
-    AccueilFailureState _ => DisplayState.FAILURE,
-    AccueilLoadingState _ || AccueilNotInitializedState _ => DisplayState.LOADING,
+    AccueilSuccessState _ => DisplayState.contenu,
+    AccueilFailureState _ => DisplayState.erreur,
+    AccueilLoadingState _ || AccueilNotInitializedState _ => DisplayState.chargement,
   };
 }
 

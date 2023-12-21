@@ -110,7 +110,7 @@ class RendezvousDetailsViewModel extends Equatable {
     final isInscrit = rdv.estInscrit ?? false;
     final shareSource = _shareToConseillerSource(source, rdv);
     return RendezvousDetailsViewModel(
-      displayState: DisplayState.CONTENT,
+      displayState: DisplayState.contenu,
       navbarTitle: _navbarTitle(source, rdv),
       id: rdv.id,
       tag: takeTypeLabelOrPrecision(rdv),
@@ -157,7 +157,7 @@ class RendezvousDetailsViewModel extends Equatable {
         ? store.state.sessionMiloDetailsState is SessionMiloDetailsFailureState
         : store.state.rendezvousDetailsState is RendezvousDetailsFailureState;
     return RendezvousDetailsViewModel(
-      displayState: isFailure ? DisplayState.FAILURE : DisplayState.LOADING,
+      displayState: isFailure ? DisplayState.erreur : DisplayState.chargement,
       navbarTitle: Strings.eventTitle,
       id: '',
       tag: '',

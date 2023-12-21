@@ -18,7 +18,7 @@ void main() {
 
       // Then
       expect(viewModel.shareFavoris, false);
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test('…should show LOADING if PartageActivite have no data yet', () {
@@ -29,7 +29,7 @@ void main() {
       final viewModel = PartageActivitePageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('…should show FAILURE if PartageActivite fails to load', () {
@@ -40,7 +40,7 @@ void main() {
       final viewModel = PartageActivitePageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
 
     test('…should dispatch UPDATE action correctly', () async {
@@ -78,7 +78,7 @@ void main() {
       viewModel.onPartageFavorisTap(true);
 
       // Then
-      expect(viewModel.updateState, DisplayState.CONTENT);
+      expect(viewModel.updateState, DisplayState.contenu);
     });
 
     test('…should show CONTENT if PartageActivite updated data', () {
@@ -90,7 +90,7 @@ void main() {
       viewModel.onPartageFavorisTap(true);
 
       // Then
-      expect(viewModel.updateState, DisplayState.LOADING);
+      expect(viewModel.updateState, DisplayState.chargement);
     });
 
     test('…should show FAILURE if PartageActivite fails to load', () {
@@ -102,7 +102,7 @@ void main() {
       viewModel.onPartageFavorisTap(false);
 
       // Then
-      expect(viewModel.updateState, DisplayState.FAILURE);
+      expect(viewModel.updateState, DisplayState.erreur);
     });
   });
 }

@@ -16,7 +16,7 @@ void main() {
     final viewModel = ServiceCiviqueDetailViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   test("create when state is not initialized should set display state to loading", () {
@@ -27,7 +27,7 @@ void main() {
     final viewModel = ServiceCiviqueDetailViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   test("create when state is success should set display state to content", () {
@@ -39,7 +39,7 @@ void main() {
     final viewModel = ServiceCiviqueDetailViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.detail, detail);
   });
 
@@ -51,7 +51,7 @@ void main() {
     final viewModel = ServiceCiviqueDetailViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.erreur);
   });
 
   group('shouldShowCvBottomSheet', () {

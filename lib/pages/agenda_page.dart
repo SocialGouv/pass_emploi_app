@@ -64,7 +64,7 @@ class AgendaPage extends StatelessWidget {
   }
 
   bool _currentAgendaIsUpToDate(AgendaPageViewModel current) {
-    return [DisplayState.CONTENT, DisplayState.EMPTY].contains(current.displayState) &&
+    return [DisplayState.contenu, DisplayState.vide].contains(current.displayState) &&
         (current.events.isEmpty || current.events.first is! NotUpToDateAgendaItem);
   }
 }
@@ -157,10 +157,10 @@ class _Body extends StatelessWidget {
     return AnimatedSwitcher(
       duration: AnimationDurations.fast,
       child: switch (viewModel.displayState) {
-        DisplayState.LOADING => _AgendaLoading(),
-        DisplayState.CONTENT => _Content(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap),
-        DisplayState.EMPTY => SizedBox.shrink(),
-        DisplayState.FAILURE => _Retry(viewModel: viewModel),
+        DisplayState.chargement => _AgendaLoading(),
+        DisplayState.contenu => _Content(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap),
+        DisplayState.vide => SizedBox.shrink(),
+        DisplayState.erreur => _Retry(viewModel: viewModel),
       },
     );
   }

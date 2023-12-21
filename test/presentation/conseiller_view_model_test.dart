@@ -17,7 +17,7 @@ void main() {
     final viewModel = ConseillerProfilePageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   test('should display content', () {
@@ -32,7 +32,7 @@ void main() {
     final viewModel = ConseillerProfilePageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.sinceDate, "Depuis le 03/01/2005");
     expect(viewModel.name, "Perceval de Galles");
   });
@@ -47,7 +47,7 @@ void main() {
     final viewModel = ConseillerProfilePageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.EMPTY);
+    expect(viewModel.displayState, DisplayState.vide);
   });
 
   test('should be hidden (at initialization)', () {
@@ -60,6 +60,6 @@ void main() {
     final viewModel = ConseillerProfilePageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.EMPTY);
+    expect(viewModel.displayState, DisplayState.vide);
   });
 }

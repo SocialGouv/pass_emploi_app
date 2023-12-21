@@ -1,12 +1,12 @@
 enum DisplayState {
-  CONTENT,
-  LOADING,
-  FAILURE,
-  EMPTY;
+  contenu,
+  chargement,
+  erreur,
+  vide;
 
-  bool isLoading() => this == DisplayState.LOADING;
+  bool isLoading() => this == DisplayState.chargement;
 
-  bool isFailure() => this == DisplayState.FAILURE;
+  bool isFailure() => this == DisplayState.erreur;
 
-  bool isEmpty() => this == DisplayState.EMPTY;
+  bool isEmpty() => this == DisplayState.vide;
 }

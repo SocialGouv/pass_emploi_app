@@ -74,7 +74,7 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
   }
 
   Widget? _floatingActionButton(BuildContext context, FavoriListViewModel viewModel) {
-    if (viewModel.displayState == DisplayState.CONTENT) {
+    if (viewModel.displayState == DisplayState.contenu) {
       return FiltreButton(
         onPressed: () async {
           OffreFiltersBottomSheet.show(context, _selectedFilter).then((result) {
@@ -83,7 +83,7 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
         },
       );
     }
-    if (viewModel.displayState == DisplayState.EMPTY) {
+    if (viewModel.displayState == DisplayState.vide) {
       return PrimaryActionButton(label: Strings.favorisListEmptyButton, onPressed: () => _goToRecherche(context));
     }
     return null;
@@ -104,10 +104,10 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
     return AnimatedSwitcher(
       duration: AnimationDurations.fast,
       child: switch (displayState) {
-        DisplayState.LOADING => _OffreFavorisLoading(),
-        DisplayState.FAILURE => Retry(Strings.favorisError, () => viewModel.onRetry()),
-        DisplayState.EMPTY => _EmptyListPlaceholder.noFavori(),
-        DisplayState.CONTENT => _favoris(viewModel),
+        DisplayState.chargement => _OffreFavorisLoading(),
+        DisplayState.erreur => Retry(Strings.favorisError, () => viewModel.onRetry()),
+        DisplayState.vide => _EmptyListPlaceholder.noFavori(),
+        DisplayState.contenu => _favoris(viewModel),
       },
     );
   }

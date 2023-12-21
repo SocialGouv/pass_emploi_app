@@ -26,7 +26,7 @@ void main() {
     final viewModel = ChatPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   test('create when chat state is FAILURE', () {
@@ -38,7 +38,7 @@ void main() {
     final viewModel = ChatPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.erreur);
   });
 
   test('create when chat state is SUCCESS', () {
@@ -63,7 +63,7 @@ void main() {
     final viewModel = ChatPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.items, [
       DayItem('Le 01/01/2021'),
       TextMessageItem(messageId: "uid1", content: '1', caption: '12:30 · Lu', sender: Sender.jeune),
@@ -122,7 +122,7 @@ void main() {
     final viewModel = ChatPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.items, [
       DayItem('Aujourd\'hui'),
       PieceJointeConseillerMessageItem(
@@ -160,7 +160,7 @@ void main() {
       final viewModel = ChatPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         OffreMessageItem(
@@ -195,7 +195,7 @@ void main() {
       final viewModel = ChatPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         OffreMessageItem(
@@ -236,7 +236,7 @@ void main() {
       final viewModel = ChatPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         SessionMiloMessageItem(
@@ -274,7 +274,7 @@ void main() {
       final viewModel = ChatPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         SessionMiloMessageItem(
@@ -315,7 +315,7 @@ void main() {
       final viewModel = ChatPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         EventMessageItem(
@@ -354,7 +354,7 @@ void main() {
       final viewModel = ChatPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         EventMessageItem(
@@ -392,7 +392,7 @@ void main() {
       final viewModel = ChatPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         EvenementEmploiMessageItem(
@@ -428,7 +428,7 @@ void main() {
       final viewModel = ChatPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.items, [
         DayItem('Aujourd\'hui'),
         EvenementEmploiMessageItem(
@@ -466,7 +466,7 @@ void main() {
     final viewModel = ChatPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.items, [
       DayItem("Le 01/01/2021"),
       InformationItem("Vous échangez avec votre nouveau conseiller", "Il a accès à l’historique de vos échanges"),
@@ -489,7 +489,7 @@ void main() {
     final viewModel = ChatPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.items, [
       DayItem("Le 01/01/2021"),
       InformationItem(
@@ -513,7 +513,7 @@ void main() {
     final viewModel = ChatPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.items, [
       DayItem("Le 01/01/2021"),
       InformationItem(
@@ -537,7 +537,7 @@ void main() {
     final viewModel = ChatPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.contenu);
     expect(viewModel.items, [
       DayItem("Le 01/01/2021"),
       InformationItem(

@@ -20,7 +20,7 @@ void main() {
       final viewModel = CriteresRechercheServiceCiviqueContenuViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test('when recherche status is initial loading should display LOADING', () {
@@ -31,7 +31,7 @@ void main() {
       final viewModel = CriteresRechercheServiceCiviqueContenuViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('when recherche status is failure should display FAILURE', () {
@@ -42,7 +42,7 @@ void main() {
       final viewModel = CriteresRechercheServiceCiviqueContenuViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
   });
 

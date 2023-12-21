@@ -10,6 +10,46 @@ import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
+  test(
+      "Lorsque le bénéficaire a des démarches de différents statuts, "
+      "mettre celles qui sont en cours ou non commencées en premier, puis celles qui sont terminées ou annulées.", () {
+    // Given
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .copyWith(
+          demarcheListState: DemarcheListSuccessState(
+            [
+              uneDemarche(id: 'EN COURS', status: DemarcheStatus.enCours),
+              uneDemarche(id: 'PAS COMMENCE', status: DemarcheStatus.pasCommencee),
+              uneDemarche(id: 'TERMINEE', status: DemarcheStatus.terminee),
+              uneDemarche(id: 'ANNULEE', status: DemarcheStatus.annulee),
+              uneDemarche(id: 'EN COURS', status: DemarcheStatus.enCours),
+              uneDemarche(id: 'PAS COMMENCE', status: DemarcheStatus.pasCommencee),
+              uneDemarche(id: 'TERMINEE', status: DemarcheStatus.terminee),
+              uneDemarche(id: 'ANNULEE', status: DemarcheStatus.annulee),
+              uneDemarche(id: 'EN COURS', status: DemarcheStatus.enCours),
+              uneDemarche(id: 'PAS COMMENCE', status: DemarcheStatus.pasCommencee),
+              uneDemarche(id: 'TERMINEE', status: DemarcheStatus.terminee),
+              uneDemarche(id: 'ANNULEE', status: DemarcheStatus.annulee),
+            ],
+          ),
+        )
+        .store();
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.demarcheListItems.length, 12);
+
+    for (var i = 0; i < 6; ++i) {
+      expect((viewModel.demarcheListItems[i]).demarcheId, isIn(['EN COURS', 'PAS COMMENCE']));
+    }
+    for (var i = 6; i < 11; ++i) {
+      expect((viewModel.demarcheListItems[i]).demarcheId, isIn(['TERMINEE', 'ANNULEE']));
+    }
+  });
+
   test('create when demarche state is loading should display loader', () {
     // Given
     final store = givenState() //
@@ -21,7 +61,7 @@ void main() {
     final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   test('create when demarche state is not initialized should display loader', () {
@@ -35,7 +75,7 @@ void main() {
     final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   test('create when demarche state is a failure should display failure', () {
@@ -49,7 +89,7 @@ void main() {
     final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.erreur);
   });
 
   test('retry, after view model was created with failure, should dispatch a DemarcheListRequestAction', () {
@@ -62,46 +102,6 @@ void main() {
 
     // Then
     expect(storeSpy.dispatchedAction, isA<DemarcheListRequestReloadAction>());
-  });
-
-  test(
-      "create when demarche state is success with active, retarded, done, cancelled demarche should sort it correctly and put campagne in first position",
-      () {
-    // Given
-    final store = givenState() //
-        .loggedInPoleEmploiUser()
-        .copyWith(
-          demarcheListState: DemarcheListSuccessState(
-            [
-              mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
-              mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
-              mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
-              mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
-              mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
-              mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
-              mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
-              mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
-              mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
-              mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
-              mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
-              mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
-            ],
-          ),
-        )
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.items.length, 12);
-
-    for (var i = 0; i < 6; ++i) {
-      expect((viewModel.items[i] as IdItem).demarcheId, isIn(['IN_PROGRESS', 'NOT_STARTED']));
-    }
-    for (var i = 6; i < 11; ++i) {
-      expect((viewModel.items[i] as IdItem).demarcheId, isIn(['DONE', 'CANCELLED']));
-    }
   });
 
   test('create when demarche state is success but there are no demarche should display an empty message', () {
@@ -117,24 +117,8 @@ void main() {
     final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.EMPTY);
-    expect(viewModel.items.length, 0);
-  });
-
-  test("should display technical message when data are not up to date", () {
-    // Given
-    final store = givenState() //
-        .loggedInPoleEmploiUser()
-        .copyWith(
-          demarcheListState: DemarcheListSuccessState([], DateTime(2023, 1, 1)),
-        )
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.items.first, isA<DemarcheNotUpToDateItem>());
+    expect(viewModel.displayState, DisplayState.vide);
+    expect(viewModel.demarcheListItems.length, 0);
   });
 
   test('should be reloading on reload', () {
@@ -162,6 +146,6 @@ void main() {
     final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 }

@@ -85,9 +85,9 @@ class _DownloadButtonState extends State<_DownloadButton> {
 
   Widget _body(PieceJointeViewModel viewModel) {
     switch (viewModel.displayState(widget.item.pieceJointeId)) {
-      case DisplayState.LOADING:
+      case DisplayState.chargement:
         return _Loader();
-      case DisplayState.EMPTY:
+      case DisplayState.vide:
         return _FileWasDeleted();
       default:
         return _downloadButton(viewModel);
@@ -97,7 +97,7 @@ class _DownloadButtonState extends State<_DownloadButton> {
   Widget _downloadButton(PieceJointeViewModel viewModel) {
     return Center(
       child: PrimaryActionButton(
-        label: viewModel.displayState(widget.item.pieceJointeId) == DisplayState.FAILURE ? Strings.retry : Strings.open,
+        label: viewModel.displayState(widget.item.pieceJointeId) == DisplayState.erreur ? Strings.retry : Strings.open,
         icon: AppIcons.download_rounded,
         onPressed: () => viewModel.onClick(widget.item),
         heightPadding: 2,

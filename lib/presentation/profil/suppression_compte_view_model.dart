@@ -38,8 +38,8 @@ class SuppressionCompteViewModel extends Equatable {
 }
 
 DisplayState? _displayState(SuppressionCompteState state) {
-  if (state is SuppressionCompteFailureState) return DisplayState.FAILURE;
-  if (state is SuppressionCompteSuccessState) return DisplayState.CONTENT;
-  if (state is SuppressionCompteLoadingState) return DisplayState.LOADING;
+  if (state is SuppressionCompteFailureState) return DisplayState.erreur;
+  if (state is SuppressionCompteSuccessState) return DisplayState.contenu;
+  if (state is SuppressionCompteLoadingState) return DisplayState.chargement;
   return null;
 }

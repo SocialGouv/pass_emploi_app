@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
-import 'package:pass_emploi_app/presentation/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/piece_jointe_view_model.dart';
 
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -16,7 +16,7 @@ void main() {
     final viewModel = PieceJointeViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState("id-1"), DisplayState.LOADING);
+    expect(viewModel.displayState("id-1"), DisplayState.chargement);
   });
 
   test('should display failure', () {
@@ -27,7 +27,7 @@ void main() {
     final viewModel = PieceJointeViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState("id-1"), DisplayState.FAILURE);
+    expect(viewModel.displayState("id-1"), DisplayState.erreur);
   });
 
   test('should display content', () {
@@ -38,7 +38,7 @@ void main() {
     final viewModel = PieceJointeViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState("id-1"), DisplayState.CONTENT);
+    expect(viewModel.displayState("id-1"), DisplayState.contenu);
   });
 
   test('should display content when no status', () {
@@ -49,7 +49,7 @@ void main() {
     final viewModel = PieceJointeViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState("id-1"), DisplayState.CONTENT);
+    expect(viewModel.displayState("id-1"), DisplayState.contenu);
   });
 
   test('should display empty when file is unavailable', () {
@@ -60,7 +60,7 @@ void main() {
     final viewModel = PieceJointeViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState("id-1"), DisplayState.EMPTY);
+    expect(viewModel.displayState("id-1"), DisplayState.vide);
   });
 
   test('should extract file id and file name correctly', () {

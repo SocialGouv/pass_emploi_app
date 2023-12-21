@@ -61,18 +61,18 @@ List<String> _ids(Store<AppState> store) {
 DisplayState _displayState(Store<AppState> store) {
   final state = store.state.suggestionsRechercheState;
   return switch (state) {
-    SuggestionsRechercheNotInitializedState() => DisplayState.FAILURE,
-    SuggestionsRechercheLoadingState() => DisplayState.LOADING,
-    SuggestionsRechercheFailureState() => DisplayState.FAILURE,
-    final SuggestionsRechercheSuccessState e => e.suggestions.isEmpty ? DisplayState.EMPTY : DisplayState.CONTENT,
+    SuggestionsRechercheNotInitializedState() => DisplayState.erreur,
+    SuggestionsRechercheLoadingState() => DisplayState.chargement,
+    SuggestionsRechercheFailureState() => DisplayState.erreur,
+    final SuggestionsRechercheSuccessState e => e.suggestions.isEmpty ? DisplayState.vide : DisplayState.contenu,
   };
 }
 
 DisplayState _traiterDisplayState(Store<AppState> store) {
   final state = store.state.traiterSuggestionRechercheState;
-  if (state is TraiterSuggestionRechercheLoadingState) return DisplayState.LOADING;
-  if (state is AccepterSuggestionRechercheSuccessState) return DisplayState.CONTENT;
-  return DisplayState.EMPTY;
+  if (state is TraiterSuggestionRechercheLoadingState) return DisplayState.chargement;
+  if (state is AccepterSuggestionRechercheSuccessState) return DisplayState.contenu;
+  return DisplayState.vide;
 }
 
 void _seeOffreResults(Store<AppState> store) {

@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 enum DemarcheStatus {
-  NOT_STARTED,
-  IN_PROGRESS,
-  DONE,
-  CANCELLED;
+  pasCommencee,
+  enCours,
+  terminee,
+  annulee;
 
   int compareTo(DemarcheStatus other) => index.compareTo(other.index);
 }
@@ -90,15 +90,15 @@ class Demarche extends Equatable {
 
 DemarcheStatus _statusFromString({required String statusString}) {
   if (statusString == "A_FAIRE") {
-    return DemarcheStatus.NOT_STARTED;
+    return DemarcheStatus.pasCommencee;
   } else if (statusString == "EN_COURS") {
-    return DemarcheStatus.IN_PROGRESS;
+    return DemarcheStatus.enCours;
   } else if (statusString == "REALISEE") {
-    return DemarcheStatus.DONE;
+    return DemarcheStatus.terminee;
   } else if (statusString == "ANNULEE") {
-    return DemarcheStatus.CANCELLED;
+    return DemarcheStatus.annulee;
   } else {
-    return DemarcheStatus.DONE;
+    return DemarcheStatus.terminee;
   }
 }
 

@@ -64,18 +64,18 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
 
   void _onWillChange(ChatPartagePageViewModel? _, ChatPartagePageViewModel viewModel) {
     switch (viewModel.snackbarState) {
-      case DisplayState.CONTENT:
+      case DisplayState.contenu:
         PassEmploiMatomoTracker.instance.trackScreen(viewModel.snackbarSuccessTracking);
         showSnackBarWithSuccess(context, viewModel.snackbarSuccessText);
         viewModel.snackbarDisplayed();
         Navigator.pop(context);
         break;
-      case DisplayState.FAILURE:
+      case DisplayState.erreur:
         showSnackBarWithSystemError(context);
         viewModel.snackbarDisplayed();
         break;
-      case DisplayState.EMPTY:
-      case DisplayState.LOADING:
+      case DisplayState.vide:
+      case DisplayState.chargement:
         break;
     }
   }
@@ -178,7 +178,7 @@ class _PartageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return switch (_viewModel.snackbarState) {
-      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+      DisplayState.chargement => Center(child: CircularProgressIndicator()),
       _ => PrimaryActionButton(
           label: _viewModel.shareButtonTitle,
           onPressed: () => _viewModel.onShare(_controller?.text ?? ''),

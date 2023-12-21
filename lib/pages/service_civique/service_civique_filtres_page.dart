@@ -101,7 +101,7 @@ class _ContentState extends State<_Content> {
     setState(() => _currentDomainValue = domain);
   }
 
-  bool _isButtonEnabled(ServiceCiviqueFiltresViewModel viewModel) => viewModel.displayState != DisplayState.LOADING;
+  bool _isButtonEnabled(ServiceCiviqueFiltresViewModel viewModel) => viewModel.displayState != DisplayState.chargement;
 
   void _onButtonClick(ServiceCiviqueFiltresViewModel viewModel) {
     viewModel.updateFiltres(

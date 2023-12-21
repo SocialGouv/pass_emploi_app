@@ -20,7 +20,7 @@ void main() {
       final viewModel = AccueilViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('should be content when accueil is success', () {
@@ -31,7 +31,7 @@ void main() {
       final viewModel = AccueilViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test('should be failure when accueil is failure', () {
@@ -42,7 +42,7 @@ void main() {
       final viewModel = AccueilViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
   }));
 

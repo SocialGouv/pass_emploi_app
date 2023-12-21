@@ -26,7 +26,7 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('when loading should display loading', () {
@@ -37,7 +37,7 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('when reloading should display loading', () {
@@ -48,7 +48,7 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('when reloading should be reloading', () {
@@ -70,7 +70,7 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
   });
 
@@ -122,7 +122,7 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('when loading should display loading', () {
@@ -133,7 +133,7 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('should display failure', () {
@@ -144,7 +144,7 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
   });
 
@@ -190,7 +190,7 @@ void main() {
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
         expect(viewModel.withNextPageButton, true);
         expect(viewModel.withPreviousPageButton, false);
         expect(viewModel.title, "Rendez-vous passés");
@@ -219,7 +219,7 @@ void main() {
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
         expect(viewModel.withNextPageButton, true);
         expect(viewModel.withPreviousPageButton, true);
         expect(viewModel.title, "Cette semaine");
@@ -248,7 +248,7 @@ void main() {
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 1);
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
         expect(viewModel.withNextPageButton, true);
         expect(viewModel.withPreviousPageButton, true);
         expect(viewModel.title, "Semaine du");
@@ -282,7 +282,7 @@ void main() {
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 2);
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
         expect(viewModel.withNextPageButton, true);
         expect(viewModel.withPreviousPageButton, true);
         expect(viewModel.title, "Semaine du");
@@ -312,7 +312,7 @@ void main() {
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 3);
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
         expect(viewModel.withNextPageButton, true);
         expect(viewModel.withPreviousPageButton, true);
         expect(viewModel.title, "Semaine du");
@@ -342,7 +342,7 @@ void main() {
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 4);
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
         expect(viewModel.withNextPageButton, true);
         expect(viewModel.withPreviousPageButton, true);
         expect(viewModel.title, "Semaine du");
@@ -372,7 +372,7 @@ void main() {
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 5);
 
         // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.displayState, DisplayState.contenu);
         expect(viewModel.withNextPageButton, false);
         expect(viewModel.withPreviousPageButton, true);
         expect(viewModel.title, "Rendez-vous futurs");
@@ -521,7 +521,7 @@ void main() {
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.withPreviousPageButton, true);
       expect(viewModel.withNextPageButton, true);
       expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévu cette semaine");

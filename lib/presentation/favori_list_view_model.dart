@@ -42,10 +42,10 @@ class FavoriListViewModel extends Equatable {
 
 DisplayState _displayState(Store<AppState> store) {
   final state = store.state.favoriListState;
-  if (state is FavoriListLoadingState) return DisplayState.LOADING;
-  if (state is FavoriListSuccessState && state.results.isNotEmpty) return DisplayState.CONTENT;
-  if (state is FavoriListSuccessState && state.results.isEmpty) return DisplayState.EMPTY;
-  return DisplayState.FAILURE;
+  if (state is FavoriListLoadingState) return DisplayState.chargement;
+  if (state is FavoriListSuccessState && state.results.isNotEmpty) return DisplayState.contenu;
+  if (state is FavoriListSuccessState && state.results.isEmpty) return DisplayState.vide;
+  return DisplayState.erreur;
 }
 
 List<Favori> _favoris(Store<AppState> store) {

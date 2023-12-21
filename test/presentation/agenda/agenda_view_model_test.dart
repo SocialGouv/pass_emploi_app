@@ -156,7 +156,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.events, [
         EmptyAgendaItem(
           title: "Vous n’avez rien de prévu cette semaine",
@@ -177,7 +177,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.events, [
         DelayedActionsBannerAgendaItem("3 démarches"),
         EmptyAgendaItem(
@@ -269,7 +269,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.events, [
         EmptyAgendaItem(
           title: "Vous n’avez rien de prévu cette semaine",
@@ -290,7 +290,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.events, [
         DelayedActionsBannerAgendaItem("3 actions"),
         EmptyAgendaItem(
@@ -313,7 +313,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
       expect(viewModel.events, [
         PendingActionCreationAgendaItem(3),
         EmptyAgendaItem(
@@ -387,7 +387,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('should be loading on loading state', () {
@@ -398,7 +398,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('should be loading on reloading state', () {
@@ -409,7 +409,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('should be failure on failure state', () {
@@ -420,7 +420,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
 
     test('should be content on success state with content for Mission Locale', () {
@@ -431,7 +431,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test('should be content on success state with content for Pole Emploi', () {
@@ -442,7 +442,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
   });
 

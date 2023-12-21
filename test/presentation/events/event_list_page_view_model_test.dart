@@ -43,7 +43,7 @@ void main() {
       final viewModel = EventListPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('should display LOADING when loading', () {
@@ -54,7 +54,7 @@ void main() {
       final viewModel = EventListPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('should display FAILURE when request failed', () {
@@ -65,7 +65,7 @@ void main() {
       final viewModel = EventListPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
 
     test('should display EMPTY when request succeed but has no events', () {
@@ -76,7 +76,7 @@ void main() {
       final viewModel = EventListPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.EMPTY);
+      expect(viewModel.displayState, DisplayState.vide);
     });
 
     test('should display CONTENT when request succeed with some animations collectives', () {
@@ -87,7 +87,7 @@ void main() {
       final viewModel = EventListPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test('should display CONTENT when request succeed with some sessions milo', () {
@@ -98,7 +98,7 @@ void main() {
       final viewModel = EventListPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test('should display CONTENT when request succeed with both sessions milo and animations collectives', () {
@@ -112,7 +112,7 @@ void main() {
       final viewModel = EventListPageViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
   });
 

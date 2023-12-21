@@ -17,7 +17,7 @@ void main() {
       final viewModel = FavoriListViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
+      expect(viewModel.displayState, DisplayState.chargement);
     });
 
     test('when state is failure should display failure', () {
@@ -28,7 +28,7 @@ void main() {
       final viewModel = FavoriListViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.FAILURE);
+      expect(viewModel.displayState, DisplayState.erreur);
     });
 
     test('when state is successful with result should display content', () {
@@ -39,7 +39,7 @@ void main() {
       final viewModel = FavoriListViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.displayState, DisplayState.contenu);
     });
 
     test('when state is successful without result should display empty', () {
@@ -50,7 +50,7 @@ void main() {
       final viewModel = FavoriListViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, DisplayState.EMPTY);
+      expect(viewModel.displayState, DisplayState.vide);
     });
   });
 

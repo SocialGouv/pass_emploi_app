@@ -79,7 +79,7 @@ void main() {
       expectLoadingWhen(UserActionDeleteSuccessAction("id"));
       expectLoadingWhen(UserActionUpdateSuccessAction(actionId: "id", newStatus: UserActionStatus.DONE));
       expectLoadingWhen(CreateDemarcheSuccessAction("id"));
-      expectLoadingWhen(UpdateDemarcheSuccessAction(mockDemarche()));
+      expectLoadingWhen(UpdateDemarcheSuccessAction(uneDemarche()));
       expectLoadingWhen(FavoriUpdateSuccessAction("id", FavoriStatus.removed));
       expectLoadingWhen(AlerteCreateSuccessAction(mockOffreEmploiAlerte()));
       expectLoadingWhen(AlerteDeleteSuccessAction("id"));

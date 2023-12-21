@@ -37,13 +37,13 @@ class UpdateDemarcheRepository {
 
   String _statusToString(DemarcheStatus status) {
     switch (status) {
-      case DemarcheStatus.NOT_STARTED:
+      case DemarcheStatus.pasCommencee:
         return "A_FAIRE";
-      case DemarcheStatus.IN_PROGRESS:
+      case DemarcheStatus.enCours:
         return "EN_COURS";
-      case DemarcheStatus.DONE:
+      case DemarcheStatus.terminee:
         return "REALISEE";
-      case DemarcheStatus.CANCELLED:
+      case DemarcheStatus.annulee:
         return "ANNULEE";
     }
   }

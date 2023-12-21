@@ -91,7 +91,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   }
 
   bool _currentRendezvousAreUpToDate(RendezvousListViewModel current) {
-    return [DisplayState.CONTENT, DisplayState.EMPTY].contains(current.displayState) &&
+    return [DisplayState.contenu, DisplayState.vide].contains(current.displayState) &&
         (current.rendezvousItems.isEmpty || current.rendezvousItems.first is! RendezvousNotUpToDateItem);
   }
 
@@ -134,15 +134,15 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (viewModel.displayState) {
-      case DisplayState.LOADING:
+      case DisplayState.chargement:
         return RendezVousListLoader();
-      case DisplayState.CONTENT:
+      case DisplayState.contenu:
         return _Content(
           viewModel: viewModel,
           onPageOffsetChanged: onPageOffsetChanged,
           onNextRendezvousButtonTap: onNextRendezvousButtonTap,
         );
-      case DisplayState.FAILURE:
+      case DisplayState.erreur:
       default:
         return Retry(Strings.rendezVousListError, () => viewModel.onRetry());
     }

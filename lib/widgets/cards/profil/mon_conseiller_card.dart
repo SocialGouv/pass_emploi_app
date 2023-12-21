@@ -21,9 +21,9 @@ class MonConseillerCard extends StatelessWidget {
 
   Widget _build(BuildContext context, ConseillerProfilePageViewModel vm) {
     final displayState = vm.displayState;
-    if (displayState == DisplayState.CONTENT) {
+    if (displayState == DisplayState.contenu) {
       return _contentCard(vm.sinceDate, vm.name);
-    } else if (displayState == DisplayState.LOADING) {
+    } else if (displayState == DisplayState.chargement) {
       return _loading();
     }
     return Container();

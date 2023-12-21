@@ -72,7 +72,7 @@ String? _description(Demarche demarche) {
 
 String _dateFormat(Demarche demarche, bool isLate) {
   final String formattedDate;
-  if (demarche.status == DemarcheStatus.CANCELLED && demarche.deletionDate != null) {
+  if (demarche.status == DemarcheStatus.annulee && demarche.deletionDate != null) {
     formattedDate = demarche.deletionDate!.toDay();
   } else if (demarche.endDate != null) {
     formattedDate = demarche.endDate!.toDay();
@@ -87,16 +87,16 @@ CardPilluleType? _pillule(Demarche demarche, bool isLate) {
     return CardPilluleType.late;
   }
   return switch (demarche.status) {
-    DemarcheStatus.CANCELLED => CardPilluleType.canceled,
-    DemarcheStatus.DONE => CardPilluleType.done,
-    DemarcheStatus.IN_PROGRESS => CardPilluleType.doing,
-    DemarcheStatus.NOT_STARTED => CardPilluleType.todo,
+    DemarcheStatus.annulee => CardPilluleType.canceled,
+    DemarcheStatus.terminee => CardPilluleType.done,
+    DemarcheStatus.enCours => CardPilluleType.doing,
+    DemarcheStatus.pasCommencee => CardPilluleType.todo,
   };
 }
 
 bool _isLate(Demarche demarche) {
   if (demarche.endDate != null &&
-      (demarche.status == DemarcheStatus.NOT_STARTED || demarche.status == DemarcheStatus.IN_PROGRESS)) {
+      (demarche.status == DemarcheStatus.pasCommencee || demarche.status == DemarcheStatus.enCours)) {
     return demarche.endDate!.isBefore(DateTime.now()) && (demarche.endDate!.numberOfDaysUntilToday() > 0);
   }
   return false;

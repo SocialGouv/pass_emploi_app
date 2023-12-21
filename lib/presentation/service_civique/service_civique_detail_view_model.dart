@@ -46,11 +46,11 @@ class ServiceCiviqueDetailViewModel {
   }
 
   static DisplayState _displayState(ServiceCiviqueDetailState state) {
-    if (state is ServiceCiviqueDetailLoadingState) return DisplayState.LOADING;
-    if (state is ServiceCiviqueDetailNotInitializedState) return DisplayState.LOADING;
-    if (state is ServiceCiviqueDetailFailureState) return DisplayState.FAILURE;
-    if (state is ServiceCiviqueDetailSuccessState) return DisplayState.CONTENT;
-    if (state is ServiceCiviqueDetailNotFoundState) return DisplayState.EMPTY;
-    return DisplayState.FAILURE;
+    if (state is ServiceCiviqueDetailLoadingState) return DisplayState.chargement;
+    if (state is ServiceCiviqueDetailNotInitializedState) return DisplayState.chargement;
+    if (state is ServiceCiviqueDetailFailureState) return DisplayState.erreur;
+    if (state is ServiceCiviqueDetailSuccessState) return DisplayState.contenu;
+    if (state is ServiceCiviqueDetailNotFoundState) return DisplayState.vide;
+    return DisplayState.erreur;
   }
 }

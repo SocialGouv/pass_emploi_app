@@ -184,7 +184,7 @@ void main() {
     final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.chargement);
   });
 
   test('create when create demarche state is failure', () {
@@ -199,7 +199,7 @@ void main() {
     final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
 
     // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.erreur);
   });
 
   test('create when create demarche state is success should go back to demarches list', () {

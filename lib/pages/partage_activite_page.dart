@@ -40,9 +40,9 @@ class PartageActivitePage extends StatelessWidget {
 
   Widget _body(PartageActivitePageViewModel viewModel) {
     switch (viewModel.displayState) {
-      case DisplayState.LOADING:
+      case DisplayState.chargement:
         return Center(child: CircularProgressIndicator());
-      case DisplayState.CONTENT:
+      case DisplayState.contenu:
         return _content(viewModel);
       default:
         return Center(child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()));
@@ -108,12 +108,12 @@ class _PartageFavorisState extends State<_PartageFavoris> {
   }
 
   void _onPartageFavorisValueChange(bool value) {
-    if (widget.updatedState == DisplayState.CONTENT) {
+    if (widget.updatedState == DisplayState.contenu) {
       setState(() {
         widget.onPartageFavorisValueChange(value);
         _partageFavorisEnabled = value;
       });
-    } else if (widget.updatedState == DisplayState.FAILURE) {
+    } else if (widget.updatedState == DisplayState.erreur) {
       showSnackBarWithSystemError(context);
     }
   }
@@ -136,7 +136,7 @@ class _PartageFavorisState extends State<_PartageFavoris> {
                     child: Text(
                   Strings.shareFavoriteLabel,
                   style: TextStyles.textBaseRegularWithColor(
-                    widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor,
+                    widget.updatedState == DisplayState.chargement ? AppColors.grey500 : AppColors.contentColor,
                   ),
                 )),
                 Switch(
@@ -147,7 +147,7 @@ class _PartageFavorisState extends State<_PartageFavoris> {
                 Text(
                   _partageFavorisEnabled ? Strings.yes : Strings.no,
                   style: TextStyles.textBaseRegularWithColor(
-                      widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor),
+                      widget.updatedState == DisplayState.chargement ? AppColors.grey500 : AppColors.contentColor),
                 ),
               ],
             ),

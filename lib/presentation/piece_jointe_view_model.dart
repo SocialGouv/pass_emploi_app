@@ -32,12 +32,12 @@ DisplayState _displayState(String id, PiecesJointesState piecesJointesState) {
   switch (status) {
     case null:
     case PieceJointeStatus.success:
-      return DisplayState.CONTENT;
+      return DisplayState.contenu;
     case PieceJointeStatus.loading:
-      return DisplayState.LOADING;
+      return DisplayState.chargement;
     case PieceJointeStatus.failure:
-      return DisplayState.FAILURE;
+      return DisplayState.erreur;
     case PieceJointeStatus.unavailable:
-      return DisplayState.EMPTY;
+      return DisplayState.vide;
   }
 }

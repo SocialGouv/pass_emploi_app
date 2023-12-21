@@ -13,7 +13,7 @@ void main() {
       (repository) => repository.updateDemarche(
         'user-id',
         '8802034',
-        DemarcheStatus.NOT_STARTED,
+        DemarcheStatus.pasCommencee,
         DateTime.utc(2021, 12, 24, 12, 8, 10),
         DateTime.utc(2021, 12, 23, 12, 8, 10),
       ),

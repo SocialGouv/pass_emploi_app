@@ -68,9 +68,9 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return switch (viewModel.displayState) {
-      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-      DisplayState.CONTENT => _Content(viewModel: viewModel),
-      DisplayState.EMPTY || DisplayState.FAILURE => _Retry(viewModel: viewModel, eventId: eventId),
+      DisplayState.chargement => Center(child: CircularProgressIndicator()),
+      DisplayState.contenu => _Content(viewModel: viewModel),
+      DisplayState.vide || DisplayState.erreur => _Retry(viewModel: viewModel, eventId: eventId),
     };
   }
 }
