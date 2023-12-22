@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -40,7 +39,9 @@ class CreateUserActionFormStep3 extends StatelessWidget {
             _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
             const SizedBox(height: Margins.spacing_m),
             Text(Strings.userActionDateStep3, style: TextStyles.textBaseBold),
-            const SizedBox(height: Margins.spacing_m),
+            const SizedBox(height: Margins.spacing_s),
+            Text(Strings.dateFormat, style: TextStyles.textXsRegular()),
+            const SizedBox(height: Margins.spacing_s),
             DatePicker(
               onValueChange: (date) => onDateChanged(CreateActionDateFromUserInput(date)),
               initialDateValue: switch (viewModel.dateSource) {
@@ -56,11 +57,11 @@ class CreateUserActionFormStep3 extends StatelessWidget {
               onSelected: onDateChanged,
             ),
             const SizedBox(height: Margins.spacing_m),
-            _RappelsSwitcher(
-              value: viewModel.withRappel,
-              isActive: viewModel.shouldDisplayRappelNotification(),
-              onChanged: (value) => withRappelChanged(value),
-            )
+            if (viewModel.shouldDisplayRappelNotification())
+              _RappelsSwitcher(
+                value: viewModel.withRappel,
+                onChanged: (value) => withRappelChanged(value),
+              )
           ],
         ),
       ),
@@ -148,7 +149,8 @@ class _DateSuggestions extends StatelessWidget {
           ],
         CreateActionDateFromSuggestions() => [
             PassEmploiChip<DateTime>(
-              label: (dateSource as CreateActionDateFromSuggestions).label,
+              label:
+                  "${(dateSource as CreateActionDateFromSuggestions).label} (${(dateSource as CreateActionDateFromSuggestions).date.toDayOfWeek()})",
               value: DateTime.now().add(Duration(days: 7)),
               isSelected: true,
               onTagSelected: (_) {},
@@ -163,25 +165,24 @@ class _DateSuggestions extends StatelessWidget {
 
 class _RappelsSwitcher extends StatelessWidget {
   final bool value;
-  final bool isActive;
   final ValueChanged<bool> onChanged;
 
-  const _RappelsSwitcher({required this.value, required this.isActive, required this.onChanged});
+  const _RappelsSwitcher({required this.value, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = isActive ? TextStyles.textBaseRegular : TextStyles.textBaseRegularWithColor(AppColors.disabled);
+    final textStyle = TextStyles.textBaseRegular;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(child: Text(Strings.rappelSwitch, style: textStyle)),
         SizedBox(width: Margins.spacing_m),
         Switch(
-          value: isActive && value,
-          onChanged: isActive ? onChanged : null,
+          value: value,
+          onChanged: onChanged,
         ),
         SizedBox(width: Margins.spacing_xs),
-        Text(isActive && value ? Strings.yes : Strings.no, style: textStyle),
+        Text(value ? Strings.yes : Strings.no, style: textStyle),
       ],
     );
   }

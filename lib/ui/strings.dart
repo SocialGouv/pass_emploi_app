@@ -363,6 +363,7 @@ class Strings {
   static const String userActionStatusRadioCompletedStep3 = 'Terminée';
   static const String userActionStatusRadioTodoStep3 = 'En cours';
   static const String userActionDateStep3 = '*Date';
+  static const String dateFormat = "Format de date attendu : JJ/MM/AAAA";
 
   static const String userActionDateSuggestion1 = 'Aujourd’hui';
   static const String userActionDateSuggestion2 = 'Demain';
