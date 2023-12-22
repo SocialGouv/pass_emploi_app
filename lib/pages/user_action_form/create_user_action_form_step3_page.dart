@@ -36,7 +36,7 @@ class CreateUserActionFormStep3 extends StatelessWidget {
             Text(Strings.allMandatoryFields, style: TextStyles.textSRegular()),
             const SizedBox(height: Margins.spacing_m),
             Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
-            const SizedBox(height: Margins.spacing_m),
+            const SizedBox(height: Margins.spacing_base),
             _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
             const SizedBox(height: Margins.spacing_m),
             Text(Strings.userActionDateStep3, style: TextStyles.textBaseBold),
@@ -78,19 +78,17 @@ class _ActionStatusRadios extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        RadioListTile<bool>(
-          contentPadding: EdgeInsets.zero,
-          title: Text(Strings.userActionStatusRadioCompletedStep3),
+        _PassEmploiRadio<bool>(
+          title: Strings.userActionStatusRadioCompletedStep3,
           value: true,
           groupValue: isCompleted,
-          onChanged: _onStatusChanged,
+          onPressed: _onStatusChanged,
         ),
-        RadioListTile<bool>(
-          contentPadding: EdgeInsets.zero,
-          title: Text(Strings.userActionStatusRadioTodoStep3),
+        _PassEmploiRadio<bool>(
+          title: Strings.userActionStatusRadioTodoStep3,
           value: false,
           groupValue: isCompleted,
-          onChanged: _onStatusChanged,
+          onPressed: _onStatusChanged,
         ),
       ],
     );
@@ -185,6 +183,41 @@ class _RappelsSwitcher extends StatelessWidget {
         SizedBox(width: Margins.spacing_xs),
         Text(isActive && value ? Strings.yes : Strings.no, style: textStyle),
       ],
+    );
+  }
+}
+
+class _PassEmploiRadio<T> extends StatelessWidget {
+  const _PassEmploiRadio({
+    super.key,
+    required this.onPressed,
+    required this.value,
+    required this.groupValue,
+    required this.title,
+  });
+  final void Function(T?) onPressed;
+  final T value;
+  final T groupValue;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => onPressed(value),
+      child: Row(
+        children: [
+          SizedBox(
+            height: 40,
+            width: 40,
+            child: Radio<T>(
+              value: value,
+              groupValue: groupValue,
+              onChanged: (value) => onPressed(value),
+            ),
+          ),
+          Text(title, style: TextStyles.textBaseRegular),
+        ],
+      ),
     );
   }
 }
