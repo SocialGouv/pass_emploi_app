@@ -146,6 +146,7 @@ class _CreateUserActionForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: Margins.spacing_base),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
           child: PassEmploiStepperProgressBar(

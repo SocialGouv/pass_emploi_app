@@ -20,9 +20,14 @@ class PassEmploiStepperTexts extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.stepCounter(currentStep + 1, stepCount), style: TextStyles.textSRegular(color: AppColors.grey800)),
+        Text(
+          Strings.stepCounter(currentStep + 1, stepCount),
+          style: TextStyles.textSRegular(
+            color: AppColors.contentColor,
+          ),
+        ),
         const SizedBox(height: Margins.spacing_s),
-        Text(stepTitle, style: TextStyles.textMBold),
+        Text(stepTitle, style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
       ],
     );
   }
