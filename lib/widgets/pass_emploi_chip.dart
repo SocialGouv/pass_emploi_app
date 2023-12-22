@@ -29,10 +29,10 @@ class PassEmploiChip<T> extends StatelessWidget {
       children: [
         _CustomChip(
           label: label,
-          bgColor: isSelected ? AppColors.primary : Colors.white,
+          bgColor: isSelected ? AppColors.primaryDarken : Colors.white,
           onSelected: () => isSelected ? onTagDeleted?.call() : onTagSelected(value),
           textstyle: isSelected ? TextStyles.textSBold.copyWith(color: Colors.white) : TextStyles.textSMedium(),
-          borderColor: isSelected ? AppColors.primary : AppColors.grey700,
+          borderColor: isSelected ? AppColors.primaryDarken : AppColors.grey700,
         ),
         if (isSelected)
           Positioned(
@@ -55,7 +55,7 @@ class PassEmploiChip<T> extends StatelessWidget {
                     child: Icon(
                       Icons.cancel_outlined,
                       size: Dimens.icon_size_base,
-                      color: AppColors.primary,
+                      color: AppColors.primaryDarken,
                     ),
                   ),
                 ),

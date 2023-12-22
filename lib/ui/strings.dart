@@ -371,8 +371,8 @@ class Strings {
   static const String userActionOther = "Autre";
 
   static const String userActionEmploiLabel = 'Emploi';
-  static const String userActionProjetProfessionnelLabel = 'Projet';
-  static const String userActionCultureSportLoisirsLabel = 'Sport';
+  static const String userActionProjetProfessionnelLabel = 'Projet pro';
+  static const String userActionCultureSportLoisirsLabel = 'Sport et loisirs';
   static const String userActionCitoyenneteLabel = 'Citoyenneté';
   static const String userActionFormationLabel = 'Formation';
   static const String userActionLogementLabel = 'Logement';

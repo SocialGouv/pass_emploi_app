@@ -43,6 +43,7 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: SecondaryAppBar(
         title: Strings.createActionAppBarTitle,
