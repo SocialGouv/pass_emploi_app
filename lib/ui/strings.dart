@@ -441,8 +441,8 @@ class Strings {
   static const List<String> userActionLoisirsSportCultureSuggestions = [
     "Sport",
     "Cinéma",
-    "Sorties culturelles : exposition, musées",
-    "Spectacles, concert",
+    "Exposition, musée",
+    "Spectacle, concert",
     "Dessin, musique, lecture",
   ];
 
