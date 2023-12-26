@@ -24,45 +24,13 @@ class PassEmploiChip<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        _CustomChip(
-          label: label,
-          bgColor: isSelected ? AppColors.primaryDarken : Colors.white,
-          onSelected: () => isSelected ? onTagDeleted?.call() : onTagSelected(value),
-          textstyle: isSelected ? TextStyles.textSBold.copyWith(color: Colors.white) : TextStyles.textSMedium(),
-          borderColor: isSelected ? AppColors.primaryDarken : AppColors.grey700,
-        ),
-        if (isSelected)
-          Positioned(
-            top: -0,
-            right: -0,
-            child: SizedBox(
-              width: 0,
-              height: 0,
-              child: OverflowBox(
-                maxHeight: double.infinity,
-                maxWidth: double.infinity,
-                child: IconButton(
-                  onPressed: onTagDeleted,
-                  icon: Container(
-                    padding: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: Icon(
-                      Icons.cancel_outlined,
-                      size: Dimens.icon_size_base,
-                      color: AppColors.primaryDarken,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-      ],
+    return _CustomChip(
+      isSelected: isSelected,
+      label: label,
+      bgColor: isSelected ? AppColors.primaryDarken : Colors.white,
+      onSelected: () => isSelected ? onTagDeleted?.call() : onTagSelected(value),
+      textstyle: isSelected ? TextStyles.textSBold.copyWith(color: Colors.white) : TextStyles.textSMedium(),
+      borderColor: isSelected ? AppColors.primaryDarken : AppColors.grey700,
     );
   }
 }
@@ -74,6 +42,7 @@ class _CustomChip extends StatelessWidget {
     required this.borderColor,
     required this.onSelected,
     required this.textstyle,
+    required this.isSelected,
   });
 
   final String label;
@@ -81,6 +50,7 @@ class _CustomChip extends StatelessWidget {
   final Color borderColor;
   final TextStyle textstyle;
   final void Function()? onSelected;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -96,9 +66,23 @@ class _CustomChip extends StatelessWidget {
             border: Border.all(color: borderColor),
           ),
           padding: EdgeInsets.symmetric(horizontal: Margins.spacing_s, vertical: Margins.spacing_xs),
-          child: Text(
-            label,
-            style: textstyle,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                label,
+                style: textstyle,
+              ),
+              if (isSelected) ...[
+                SizedBox(width: Margins.spacing_s),
+                Icon(
+                  Icons.close_rounded,
+                  size: Dimens.icon_size_base,
+                  color: Colors.white,
+                ),
+              ]
+            ],
           ),
         ),
       ),
