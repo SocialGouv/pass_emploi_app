@@ -61,6 +61,7 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
   _NavButtons? _buttons() {
     return _viewModel.shouldDisplayNavigationButtons
         ? _NavButtons(
+            displayState: _viewModel.displayState,
             onGoBackPressed: () => _viewModel.viewChangedBackward(),
             onGoForwardPressed: _viewModel.canGoForward ? () => _viewModel.viewChangedForward() : null,
           )
@@ -70,10 +71,12 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
 
 class _NavButtons extends StatelessWidget {
   const _NavButtons({
+    required this.displayState,
     required this.onGoBackPressed,
     required this.onGoForwardPressed,
   });
 
+  final CreateUserActionDisplayState displayState;
   final void Function()? onGoBackPressed;
   final void Function()? onGoForwardPressed;
 
@@ -91,7 +94,10 @@ class _NavButtons extends StatelessWidget {
           const SizedBox(width: Margins.spacing_base),
           Expanded(
             flex: 2,
-            child: _NextButton(onPressed: onGoForwardPressed),
+            child: _NextButton(
+              label: displayState.nextLabel,
+              onPressed: onGoForwardPressed,
+            ),
           ),
         ],
       ),
@@ -115,14 +121,15 @@ class _BackButton extends StatelessWidget {
 }
 
 class _NextButton extends StatelessWidget {
-  const _NextButton({required this.onPressed});
+  const _NextButton({required this.onPressed, required this.label});
 
+  final String label;
   final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return PrimaryActionButton(
-      label: Strings.userActionNextButton,
+      label: label,
       suffix: SizedBox.shrink(
         child: OverflowBox(
           maxWidth: double.infinity,

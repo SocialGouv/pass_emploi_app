@@ -348,6 +348,7 @@ class Strings {
   static const String createActionAppBarTitle = 'Créer une action';
   static const String userActionBackButton = 'Retour';
   static const String userActionNextButton = 'Continuer';
+  static const String userActionFinishButton = 'Terminer';
 
   static const String userActionTitleStep1 = 'Catégorie';
   static const String userActionTitleStep2 = 'Mon action';
