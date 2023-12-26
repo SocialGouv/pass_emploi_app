@@ -348,6 +348,7 @@ class Strings {
   static const String createActionAppBarTitle = 'Créer une action';
   static const String userActionBackButton = 'Retour';
   static const String userActionNextButton = 'Continuer';
+  static const String userActionFinishButton = 'Terminer';
 
   static const String userActionTitleStep1 = 'Catégorie';
   static const String userActionTitleStep2 = 'Mon action';
@@ -361,8 +362,9 @@ class Strings {
 
   static const String userActionStatusRadioStep3 = '*L’action est :';
   static const String userActionStatusRadioCompletedStep3 = 'Terminée';
-  static const String userActionStatusRadioTodoStep3 = 'À faire ou en cours';
+  static const String userActionStatusRadioTodoStep3 = 'En cours';
   static const String userActionDateStep3 = '*Date';
+  static const String dateFormat = "Format de date attendu : JJ/MM/AAAA";
 
   static const String userActionDateSuggestion1 = 'Aujourd’hui';
   static const String userActionDateSuggestion2 = 'Demain';
@@ -371,8 +373,8 @@ class Strings {
   static const String userActionOther = "Autre";
 
   static const String userActionEmploiLabel = 'Emploi';
-  static const String userActionProjetProfessionnelLabel = 'Projet';
-  static const String userActionCultureSportLoisirsLabel = 'Sport';
+  static const String userActionProjetProfessionnelLabel = 'Projet pro';
+  static const String userActionCultureSportLoisirsLabel = 'Sport et loisirs';
   static const String userActionCitoyenneteLabel = 'Citoyenneté';
   static const String userActionFormationLabel = 'Formation';
   static const String userActionLogementLabel = 'Logement';
@@ -440,8 +442,8 @@ class Strings {
   static const List<String> userActionLoisirsSportCultureSuggestions = [
     "Sport",
     "Cinéma",
-    "Sorties culturelles : exposition, musées",
-    "Spectacles, concert",
+    "Exposition, musée",
+    "Spectacle, concert",
     "Dessin, musique, lecture",
   ];
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 
 part 'create_user_action_step1_view_model.dart';
 part 'create_user_action_step2_view_model.dart';
@@ -20,6 +21,8 @@ enum CreateUserActionDisplayState {
   const CreateUserActionDisplayState(this.stepIndex);
 
   static int get stepCount => 3;
+  String get nextLabel =>
+      this == CreateUserActionDisplayState.step3 ? Strings.userActionFinishButton : Strings.userActionNextButton;
 }
 
 class CreateUserActionFormViewModel extends ChangeNotifier {

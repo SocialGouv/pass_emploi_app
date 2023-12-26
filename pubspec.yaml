@@ -96,5 +96,7 @@ flutter:
         - asset: fonts/Marianne-Regular.otf
         - asset: fonts/Marianne-Regular.otf
           weight: 400
+        - asset: fonts/Marianne-Medium.otf
+          weight: 500
         - asset: fonts/Marianne-Bold.otf
           weight: 700
