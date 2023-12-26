@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/creation_form/date_suggestions_view_model.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 
@@ -108,49 +108,28 @@ class _DateSuggestions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final today = DateTime.now();
-    final tomorrow = DateTime.now().add(Duration(days: 1));
-    final nextWeek = DateTime.now().toMondayOnNextWeek();
+    final dateSuggestionsViewModel = CreateUserActionStep3DateSuggestions.create(DateTime.now());
     return Wrap(
       spacing: Margins.spacing_s,
       runSpacing: Margins.spacing_s,
       children: switch (dateSource) {
-        CreateActionDateNotInitialized() => [
-            PassEmploiChip<DateTime>(
-              label: "${Strings.userActionDateSuggestion1} (${today.toDayOfWeek()})",
-              value: today,
-              isSelected: false,
-              onTagSelected: (value) => onSelected(CreateActionDateFromSuggestions(
-                value,
-                Strings.userActionDateSuggestion1,
-              )),
-              onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
-            ),
-            PassEmploiChip<DateTime>(
-              label: "${Strings.userActionDateSuggestion2} (${tomorrow.toDayOfWeek()})",
-              value: tomorrow,
-              isSelected: false,
-              onTagSelected: (value) => onSelected(CreateActionDateFromSuggestions(
-                value,
-                Strings.userActionDateSuggestion2,
-              )),
-              onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
-            ),
-            PassEmploiChip<DateTime>(
-              label: "${Strings.userActionDateSuggestion3} (${nextWeek.toDayOfWeek()})",
-              value: nextWeek,
-              isSelected: false,
-              onTagSelected: (value) => onSelected(CreateActionDateFromSuggestions(
-                value,
-                Strings.userActionDateSuggestion3,
-              )),
-              onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
-            ),
-          ],
+        CreateActionDateNotInitialized() => dateSuggestionsViewModel.suggestions
+            .map(
+              (suggestion) => PassEmploiChip<DateTime>(
+                label: suggestion.label,
+                value: suggestion.date,
+                isSelected: false,
+                onTagSelected: (value) => onSelected(CreateActionDateFromSuggestions(
+                  value,
+                  suggestion.label,
+                )),
+                onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
+              ),
+            )
+            .toList(),
         CreateActionDateFromSuggestions() => [
             PassEmploiChip<DateTime>(
-              label:
-                  "${(dateSource as CreateActionDateFromSuggestions).label} (${(dateSource as CreateActionDateFromSuggestions).date.toDayOfWeek()})",
+              label: (dateSource as CreateActionDateFromSuggestions).label,
               value: DateTime.now().add(Duration(days: 7)),
               isSelected: true,
               onTagSelected: (_) {},

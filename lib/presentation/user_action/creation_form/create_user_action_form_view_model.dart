@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 part 'create_user_action_step1_view_model.dart';
 part 'create_user_action_step2_view_model.dart';
