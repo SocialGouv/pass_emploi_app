@@ -450,7 +450,7 @@ class Strings {
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
   static String aboutThisAction = "À propos de cette action";
-  static String actionDetails = "Détail de l'action";
+  static String actionDetails = "Mon action";
   static String demarcheDetails = "Détail de la démarche";
   static String updateStatus = "Modifier le statut";
   static String refreshActionStatus = "Valider le statut";
