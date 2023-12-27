@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -21,18 +22,18 @@ import '../../utils/expects.dart';
 void main() {
   test(
       "UserActionViewModel.create when creator is jeune and action has no comment should create view model properly and autorize delete",
-          () {
-        // Given
-        final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
-        final store = givenState().withAction(action).actionWithoutComments().store();
+      () {
+    // Given
+    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
+    final store = givenState().withAction(action).actionWithoutComments().store();
 
-        // When
-        final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
-        // Then
-        expect(viewModel.creator, Strings.you);
-        expect(viewModel.withDeleteOption, isTrue);
-      });
+    // Then
+    expect(viewModel.creator, Strings.you);
+    expect(viewModel.withDeleteOption, isTrue);
+  });
 
   test("UserActionViewModel.create when status is done should not autorize delete", () {
     // Given
@@ -48,34 +49,34 @@ void main() {
 
   test(
       "UserActionViewModel.create when creator is jeune and action has comments should create view model properly and not autorize delete",
-          () {
-        // Given
-        final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
-        final store = givenState().withAction(action).actionWithComments().store();
+      () {
+    // Given
+    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
+    final store = givenState().withAction(action).actionWithComments().store();
 
-        // When
-        final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
-        // Then
-        expect(viewModel.creator, Strings.you);
-        expect(viewModel.withDeleteOption, isFalse);
-      });
+    // Then
+    expect(viewModel.creator, Strings.you);
+    expect(viewModel.withDeleteOption, isFalse);
+  });
 
   test(
       "UserActionViewModel.create when creator is conseiller should create view model properly and not autorize delete",
-          () {
-        // Given
-        final store = givenState()
-            .withAction(mockUserAction(id: 'actionId', creator: ConseillerActionCreator(name: 'Nils Tavernier')))
-            .store();
+      () {
+    // Given
+    final store = givenState()
+        .withAction(mockUserAction(id: 'actionId', creator: ConseillerActionCreator(name: 'Nils Tavernier')))
+        .store();
 
-        // When
-        final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
-        // Then
-        expect(viewModel.creator, 'Nils Tavernier');
-        expect(viewModel.withDeleteOption, isFalse);
-      });
+    // Then
+    expect(viewModel.creator, 'Nils Tavernier');
+    expect(viewModel.withDeleteOption, isFalse);
+  });
 
   group("create when update action...", () {
     test("set status to NOT_STARTED should dismiss bottom sheet", () {
@@ -266,6 +267,56 @@ void main() {
 
     // Then
     expect(viewModel.title, 'content');
+  });
+
+  test("should display doign pill when status is not done", () {
+    // Given
+    final action = mockUserAction(id: 'actionId', content: 'content', status: UserActionStatus.IN_PROGRESS);
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.pillule, CardPilluleType.todo);
+  });
+
+  test("should display done pill when status is done", () {
+    // Given
+    final action = mockUserAction(id: 'actionId', content: 'content', status: UserActionStatus.DONE);
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.pillule, CardPilluleType.done);
+  });
+
+  test("should display finished button when status is not done", () {
+    // Given
+    final action = mockUserAction(id: 'actionId', content: 'content', status: UserActionStatus.IN_PROGRESS);
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.withFinishedButton, true);
+    expect(viewModel.withUnfinishedButton, false);
+  });
+
+  test("should display finished button when status is not done", () {
+    // Given
+    final action = mockUserAction(id: 'actionId', content: 'content', status: UserActionStatus.DONE);
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.withFinishedButton, false);
+    expect(viewModel.withUnfinishedButton, true);
   });
 
   group("create when delete action ...", () {

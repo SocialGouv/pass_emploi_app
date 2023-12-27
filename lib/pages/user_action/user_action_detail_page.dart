@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 import 'package:pass_emploi_app/widgets/comment.dart';
 import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
@@ -90,11 +91,16 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                   padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: Margins.spacing_l),
+                      if (viewModel.pillule != null) ...[
+                        _StatusPillule(pilluleType: viewModel.pillule!),
+                        SizedBox(height: Margins.spacing_base),
+                      ],
                       _Title(title: viewModel.title),
-                      SizedBox(height: Margins.spacing_m),
+                      SizedBox(height: Margins.spacing_base),
+                      if (viewModel.withFinishedButton) _FinishActionButton(viewModel),
+                      // ------------------->  <-------------------
                       _Description(
                         withSubtitle: viewModel.withSubtitle,
                         subtitle: viewModel.subtitle,
@@ -215,6 +221,33 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   }
 }
 
+class _StatusPillule extends StatelessWidget {
+  const _StatusPillule({required this.pilluleType});
+  final CardPilluleType pilluleType;
+
+  @override
+  Widget build(BuildContext context) {
+    return pilluleType.toCardPillule();
+  }
+}
+
+class _FinishActionButton extends StatelessWidget {
+  const _FinishActionButton(this.viewModel);
+  final UserActionDetailsViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: PrimaryActionButton(
+        label: Strings.completeAction,
+        suffix: Icon(AppIcons.celebration_rounded, color: Colors.white),
+        onPressed: () => viewModel.updateStatus(UserActionStatus.DONE),
+      ),
+    );
+  }
+}
+
 class _Separator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -274,7 +307,7 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(title, style: TextStyles.textLBold());
+    return Text(title, style: TextStyles.textMBold);
   }
 }
 

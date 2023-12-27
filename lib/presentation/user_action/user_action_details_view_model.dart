@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 import 'package:redux/redux.dart';
 
 enum DeleteDisplayState { NOT_INIT, SHOW_LOADING, SHOW_DELETE_ERROR, TO_DISMISS_AFTER_DELETION }
@@ -45,7 +46,10 @@ class UserActionDetailsViewModel extends Equatable {
   final String title;
   final String subtitle;
   final bool withSubtitle;
-  final UserActionStatus status;
+  final UserActionStatus status; // TODO: Remove
+  final CardPilluleType? pillule;
+  final bool withFinishedButton;
+  final bool withUnfinishedButton;
   final String creator;
   final bool withDeleteOption;
   final UserActionDetailDateEcheanceViewModel? dateEcheanceViewModel;
@@ -53,6 +57,7 @@ class UserActionDetailsViewModel extends Equatable {
   final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
   final Function(String actionId) onDelete;
   final Function() resetUpdateStatus;
+  final Function(UserActionStatus) updateStatus;
   final UpdateDisplayState updateDisplayState;
   final DeleteDisplayState deleteDisplayState;
 
@@ -62,6 +67,9 @@ class UserActionDetailsViewModel extends Equatable {
     required this.subtitle,
     required this.withSubtitle,
     required this.status,
+    required this.pillule,
+    required this.withFinishedButton,
+    required this.withUnfinishedButton,
     required this.creator,
     required this.withDeleteOption,
     required this.dateEcheanceViewModel,
@@ -69,6 +77,7 @@ class UserActionDetailsViewModel extends Equatable {
     required this.onRefreshStatus,
     required this.onDelete,
     required this.resetUpdateStatus,
+    required this.updateStatus,
     required this.updateDisplayState,
     required this.deleteDisplayState,
   });
@@ -85,6 +94,9 @@ class UserActionDetailsViewModel extends Equatable {
       subtitle: userAction != null ? userAction.comment : '',
       withSubtitle: userAction != null ? userAction.comment.isNotEmpty : false,
       status: userAction != null ? userAction.status : UserActionStatus.DONE,
+      pillule: _pilluleViewModel(userAction?.status),
+      withFinishedButton: userAction != null ? userAction.status != UserActionStatus.DONE : false,
+      withUnfinishedButton: userAction != null ? userAction.status == UserActionStatus.DONE : false,
       creator: userAction != null ? _displayName(userAction.creator) : '',
       withDeleteOption: _withDeleteOption(userAction, hasComments),
       dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
@@ -92,6 +104,8 @@ class UserActionDetailsViewModel extends Equatable {
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
       resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
+      updateStatus: (status) =>
+          store.dispatch(UserActionUpdateRequestAction(actionId: userActionId, newStatus: status)),
       updateDisplayState: _updateStateDisplayState(updateState),
       deleteDisplayState: _deleteStateDisplayState(deleteState),
     );
@@ -104,6 +118,9 @@ class UserActionDetailsViewModel extends Equatable {
         subtitle,
         withSubtitle,
         status,
+        pillule,
+        withFinishedButton,
+        withUnfinishedButton,
         creator,
         withDeleteOption,
         dateEcheanceViewModel,
@@ -177,4 +194,12 @@ String _displayName(UserActionCreator creator) => creator is ConseillerActionCre
 
 void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
   store.dispatch(UserActionUpdateRequestAction(actionId: actionId, newStatus: newStatus));
+}
+
+CardPilluleType? _pilluleViewModel(UserActionStatus? status) {
+  if (status == null) return null;
+  return switch (status) {
+    UserActionStatus.DONE => CardPilluleType.done,
+    _ => CardPilluleType.doing,
+  };
 }
