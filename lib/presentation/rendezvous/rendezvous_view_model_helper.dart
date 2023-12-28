@@ -28,6 +28,8 @@ Rendezvous getRendezvous(Store<AppState> store, RendezvousStateSource source, St
       return _getRendezvousFromAccueilProchaineSessionState(store, rdvId);
     case RendezvousStateSource.accueilLesEvenements:
       return _getRendezvousFromAccueilLesEvenementsState(store, rdvId);
+    case RendezvousStateSource.accueilLesEvenementsSession:
+      return _getRendezvousFromAccueilSessionsMiloAVenirState(store, rdvId);
     case RendezvousStateSource.agenda:
       return _getRendezvousFromAgendaState(store, rdvId);
     case RendezvousStateSource.agendaSessionMilo:
@@ -119,9 +121,17 @@ Rendezvous _getRendezvousFromAccueilProchaineSessionState(Store<AppState> store,
 Rendezvous _getRendezvousFromAccueilLesEvenementsState(Store<AppState> store, String rdvId) {
   final state = store.state.accueilState;
   if (state is! AccueilSuccessState) throw Exception('Invalid state.');
-  final rendezvous = state.accueil.evenements?.where((e) => e.id == rdvId).firstOrNull;
+  final rendezvous = state.accueil.animationsCollectives?.where((e) => e.id == rdvId).firstOrNull;
   if (rendezvous == null) throw Exception('No event');
   return rendezvous;
+}
+
+Rendezvous _getRendezvousFromAccueilSessionsMiloAVenirState(Store<AppState> store, String sessionId) {
+  final state = store.state.accueilState;
+  if (state is! AccueilSuccessState) throw Exception('Invalid state.');
+  final session = state.accueil.sessionsMiloAVenir?.where((e) => e.id == sessionId).firstOrNull;
+  if (session == null) throw Exception('No event');
+  return session.toRendezVous;
 }
 
 Rendezvous _getRendezvousFromDetailsState(Store<AppState> store) {

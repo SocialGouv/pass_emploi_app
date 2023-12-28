@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
+import 'package:pass_emploi_app/utils/iterable_extensions.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:redux/redux.dart';
 
@@ -94,10 +95,21 @@ AccueilItem? _prochainRendezvousItem(AccueilSuccessState successState) {
 }
 
 AccueilItem? _evenementsItem(AccueilSuccessState successState) {
-  final evenements = successState.accueil.evenements;
-  return evenements != null && evenements.isNotEmpty
-      ? AccueilEvenementsItem(evenements.map((e) => e.id).toList())
-      : null;
+  final animations = successState.accueil.animationsCollectives
+      .orEmpty()
+      .map((e) => (e.id, e.date, AccueilEvenementsType.animationCollective))
+      .toList();
+  final sessions = successState.accueil.sessionsMiloAVenir
+      .orEmpty()
+      .map((e) => (e.id, e.dateDeDebut, AccueilEvenementsType.sessionMilo))
+      .toList();
+
+  final events = [
+    ...animations,
+    ...sessions,
+  ].sorted((a, b) => a.$2.compareTo(b.$2)).take(3).map((e) => (e.$1, e.$3)).toList();
+
+  return events.isNotEmpty ? AccueilEvenementsItem(events) : null;
 }
 
 AccueilItem? _alertesItem(AccueilSuccessState successState) {

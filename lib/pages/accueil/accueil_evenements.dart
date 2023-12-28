@@ -24,7 +24,7 @@ class AccueilEvenements extends StatelessWidget {
       children: [
         LargeSectionTitle(Strings.accueilEvenementsSection),
         SizedBox(height: Margins.spacing_base),
-        ...item.evenementIds.map((id) => _EventCard(id)),
+        ...item.evenements.map((event) => _EventCard(event.$1, event.$2)),
         SizedBox(height: Margins.spacing_s),
         SecondaryButton(label: Strings.accueilVoirLesEvenements, onPressed: () => goToEventList(context)),
       ],
@@ -43,8 +43,9 @@ class AccueilEvenements extends StatelessWidget {
 
 class _EventCard extends StatelessWidget {
   final String id;
+  final AccueilEvenementsType type;
 
-  _EventCard(this.id);
+  _EventCard(this.id, this.type);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,9 @@ class _EventCard extends StatelessWidget {
       children: [
         id.rendezvousCard(
           context: context,
-          stateSource: RendezvousStateSource.accueilLesEvenements,
+          stateSource: type == AccueilEvenementsType.sessionMilo
+              ? RendezvousStateSource.accueilLesEvenementsSession
+              : RendezvousStateSource.accueilLesEvenements,
           trackedEvent: EventType.RDV_DETAIL,
         ),
         SizedBox(height: Margins.spacing_base),

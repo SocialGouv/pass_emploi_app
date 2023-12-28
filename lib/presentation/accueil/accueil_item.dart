@@ -75,13 +75,15 @@ class AccueilProchaineSessionMiloItem extends AccueilItem {
   List<Object?> get props => [sessionId];
 }
 
-class AccueilEvenementsItem extends AccueilItem {
-  final List<String> evenementIds;
+enum AccueilEvenementsType { animationCollective, sessionMilo }
 
-  AccueilEvenementsItem(this.evenementIds);
+class AccueilEvenementsItem extends AccueilItem {
+  final List<(String, AccueilEvenementsType)> evenements;
+
+  AccueilEvenementsItem(this.evenements);
 
   @override
-  List<Object?> get props => [evenementIds];
+  List<Object?> get props => [evenements];
 }
 
 class AccueilAlertesItem extends AccueilItem {

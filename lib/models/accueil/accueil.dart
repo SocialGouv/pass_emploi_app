@@ -15,7 +15,8 @@ class Accueil extends Equatable {
   final AccueilCetteSemaine? cetteSemaine;
   final Rendezvous? prochainRendezVous;
   final SessionMilo? prochaineSessionMilo;
-  final List<Rendezvous>? evenements;
+  final List<Rendezvous>? animationsCollectives;
+  final List<SessionMilo>? sessionsMiloAVenir;
   final List<Alerte>? alertes;
   final List<Favori>? favoris;
   final Campagne? campagne;
@@ -25,7 +26,8 @@ class Accueil extends Equatable {
     this.cetteSemaine,
     this.prochainRendezVous,
     this.prochaineSessionMilo,
-    this.evenements,
+    this.animationsCollectives,
+    this.sessionsMiloAVenir,
     this.alertes,
     this.favoris,
     this.campagne,
@@ -36,7 +38,8 @@ class Accueil extends Equatable {
     final cetteSemaine = _cetteSemaine(json);
     final prochainRendezVous = _prochainRendezVous(json);
     final prochaineSessionMilo = _prochaineSessionMilo(json);
-    final evenements = _evenements(json);
+    final animationsCollectives = _animationsCollectivesAVenir(json);
+    final sessionsMiloAVenir = _sessionsMiloAVenir(json);
     final alertes = _alertes(json);
     final favoris = _favoris(json);
     final campagne = json["campagne"] != null ? Campagne.fromJson(json["campagne"]) : null;
@@ -46,7 +49,8 @@ class Accueil extends Equatable {
       cetteSemaine: cetteSemaine,
       prochainRendezVous: prochainRendezVous,
       prochaineSessionMilo: prochaineSessionMilo,
-      evenements: evenements,
+      animationsCollectives: animationsCollectives,
+      sessionsMiloAVenir: sessionsMiloAVenir,
       alertes: alertes,
       favoris: favoris,
       campagne: campagne,
@@ -58,7 +62,8 @@ class Accueil extends Equatable {
     final AccueilCetteSemaine? cetteSemaine,
     final Rendezvous? prochainRendezVous,
     final SessionMilo? prochaineSessionMilo,
-    final List<Rendezvous>? evenements,
+    final List<Rendezvous>? animationsCollectives,
+    final List<SessionMilo>? sessionsMiloAVenir,
     final List<Alerte>? alertes,
     final List<Favori>? favoris,
   }) {
@@ -67,7 +72,8 @@ class Accueil extends Equatable {
       cetteSemaine: cetteSemaine ?? this.cetteSemaine,
       prochainRendezVous: prochainRendezVous ?? this.prochainRendezVous,
       prochaineSessionMilo: prochaineSessionMilo ?? this.prochaineSessionMilo,
-      evenements: evenements ?? this.evenements,
+      animationsCollectives: animationsCollectives ?? this.animationsCollectives,
+      sessionsMiloAVenir: sessionsMiloAVenir ?? this.sessionsMiloAVenir,
       alertes: alertes ?? this.alertes,
       favoris: favoris ?? this.favoris,
     );
@@ -79,7 +85,8 @@ class Accueil extends Equatable {
         cetteSemaine,
         prochainRendezVous,
         prochaineSessionMilo,
-        evenements,
+        animationsCollectives,
+        sessionsMiloAVenir,
         alertes,
         favoris,
       ];
@@ -104,11 +111,18 @@ SessionMilo? _prochaineSessionMilo(dynamic json) {
   return sessionMilo != null ? SessionMilo.fromJson(sessionMilo) : null;
 }
 
-List<Rendezvous>? _evenements(dynamic json) {
+List<Rendezvous>? _animationsCollectivesAVenir(dynamic json) {
   final events = json["evenementsAVenir"] as List?;
   if (events == null) return null;
 
   return events.map((event) => JsonRendezvous.fromJson(event).toRendezvous()).toList();
+}
+
+List<SessionMilo>? _sessionsMiloAVenir(dynamic json) {
+  final sessions = json["sessionsMiloAVenir"] as List?;
+  if (sessions == null) return null;
+
+  return sessions.map((session) => SessionMilo.fromJson(session)).toList();
 }
 
 List<Alerte>? _alertes(dynamic json) {

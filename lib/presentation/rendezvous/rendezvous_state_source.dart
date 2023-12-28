@@ -2,6 +2,7 @@ enum RendezvousStateSource {
   noSource,
   accueilProchainRendezvous,
   accueilLesEvenements,
+  accueilLesEvenementsSession,
   agenda,
   rendezvousList,
   rendezvousListSession,
@@ -19,5 +20,6 @@ extension RendezvousStateSourceExt on RendezvousStateSource {
         RendezvousStateSource.eventListAnimationsCollectives,
         RendezvousStateSource.eventListSessionsMilo,
         RendezvousStateSource.accueilLesEvenements,
+        RendezvousStateSource.accueilLesEvenementsSession,
       ].contains(this);
 }
