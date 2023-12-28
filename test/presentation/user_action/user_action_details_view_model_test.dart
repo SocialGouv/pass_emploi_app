@@ -225,6 +225,19 @@ void main() {
     expect(viewModel.pillule, CardPilluleType.done);
   });
 
+  test("should display late pill when action is late", () {
+    // Given
+    final action = mockUserAction(
+        id: 'actionId', content: 'content', status: UserActionStatus.IN_PROGRESS, dateEcheance: DateTime(2020, 1, 1));
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.pillule, CardPilluleType.late);
+  });
+
   test("should display finished button when status is not done", () {
     // Given
     final action = mockUserAction(id: 'actionId', content: 'content', status: UserActionStatus.IN_PROGRESS);

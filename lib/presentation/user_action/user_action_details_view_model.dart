@@ -76,7 +76,7 @@ class UserActionDetailsViewModel extends Equatable {
       subtitle: userAction != null ? userAction.comment : '',
       withSubtitle: userAction != null ? userAction.comment.isNotEmpty : false,
       status: userAction != null ? userAction.status : UserActionStatus.DONE,
-      pillule: _pilluleViewModel(userAction?.status),
+      pillule: _pilluleViewModel(userAction),
       category: _category(userAction),
       date: _date(userAction),
       withFinishedButton: _withFinishedButton(userAction),
@@ -173,12 +173,16 @@ UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {
   return UpdateDisplayState.NOT_INIT;
 }
 
-CardPilluleType? _pilluleViewModel(UserActionStatus? status) {
-  if (status == null) return null;
-  return switch (status) {
-    UserActionStatus.DONE => CardPilluleType.done,
-    _ => CardPilluleType.doing,
-  };
+CardPilluleType? _pilluleViewModel(UserAction? action) {
+  if (action?.isLate() == true) {
+    return CardPilluleType.late;
+  }
+
+  if (action?.status == UserActionStatus.DONE) {
+    return CardPilluleType.done;
+  } else {
+    return CardPilluleType.doing;
+  }
 }
 
 String _creationDetails(UserAction? action) {
