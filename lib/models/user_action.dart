@@ -27,11 +27,12 @@ enum UserActionQualificationStatus {
   NON_QUALIFIABLE,
   QUALIFIEE;
 
-  static UserActionQualificationStatus fromString(String? qualificationString) {
+  static UserActionQualificationStatus? fromString(String? qualificationString) {
     return switch (qualificationString) {
       'NON_QUALIFIABLE' => UserActionQualificationStatus.NON_QUALIFIABLE,
       'QUALIFIEE' => UserActionQualificationStatus.QUALIFIEE,
-      _ => UserActionQualificationStatus.A_QUALIFIER,
+      'A_QUALIFIER' => UserActionQualificationStatus.A_QUALIFIER,
+      _ => null,
     };
   }
 }
