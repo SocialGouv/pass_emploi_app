@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_a
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step1_page.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -48,6 +49,8 @@ class UserActionDetailsViewModel extends Equatable {
   final bool withSubtitle;
   final UserActionStatus status; // TODO: Remove
   final CardPilluleType? pillule;
+  final String category;
+  final String date;
   final bool withFinishedButton;
   final bool withUnfinishedButton;
   final String creator;
@@ -68,6 +71,8 @@ class UserActionDetailsViewModel extends Equatable {
     required this.withSubtitle,
     required this.status,
     required this.pillule,
+    required this.category,
+    required this.date,
     required this.withFinishedButton,
     required this.withUnfinishedButton,
     required this.creator,
@@ -95,6 +100,8 @@ class UserActionDetailsViewModel extends Equatable {
       withSubtitle: userAction != null ? userAction.comment.isNotEmpty : false,
       status: userAction != null ? userAction.status : UserActionStatus.DONE,
       pillule: _pilluleViewModel(userAction?.status),
+      category: _category(userAction),
+      date: _date(userAction),
       withFinishedButton: userAction != null ? userAction.status != UserActionStatus.DONE : false,
       withUnfinishedButton: userAction != null ? userAction.status == UserActionStatus.DONE : false,
       creator: userAction != null ? _displayName(userAction.creator) : '',
@@ -119,6 +126,8 @@ class UserActionDetailsViewModel extends Equatable {
         withSubtitle,
         status,
         pillule,
+        category,
+        date,
         withFinishedButton,
         withUnfinishedButton,
         creator,
@@ -129,6 +138,10 @@ class UserActionDetailsViewModel extends Equatable {
         withOfflineBehavior,
       ];
 }
+
+String _category(UserAction? action) => action?.type?.label ?? Strings.userActionNoCategory;
+
+String _date(UserAction? action) => action?.dateEcheance.toDay() ?? '';
 
 bool _withDeleteOption(UserAction? userAction, bool hasComments) =>
     userAction?.creator is JeuneActionCreator && !hasComments && userAction?.status != UserActionStatus.DONE;

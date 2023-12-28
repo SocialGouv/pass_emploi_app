@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_state
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
@@ -317,6 +318,46 @@ void main() {
     // Then
     expect(viewModel.withFinishedButton, false);
     expect(viewModel.withUnfinishedButton, true);
+  });
+
+  group('Category', () {
+    test("should display Aucune category when no category is provided", () {
+      // Given
+      final action = mockUserAction(id: 'actionId', type: null);
+      final store = givenState().withAction(action).store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+      // Then
+      expect(viewModel.category, "Aucune");
+    });
+
+    test("should display category when provided", () {
+      // Given
+      final action = mockUserAction(id: 'actionId', type: UserActionReferentielType.formation);
+      final store = givenState().withAction(action).store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+      // Then
+      expect(viewModel.category, "Formation");
+    });
+  });
+
+  group('date', () {
+    test("should display date when provided", () {
+      // Given
+      final action = mockUserAction(id: 'actionId', dateEcheance: DateTime(2021, 1, 1));
+      final store = givenState().withAction(action).store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+      // Then
+      expect(viewModel.date, "01/01/2021");
+    });
   });
 
   group("create when delete action ...", () {

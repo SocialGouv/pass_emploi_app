@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/presentation/user_action/user_action_state_sourc
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -100,12 +101,20 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                       _Title(title: viewModel.title),
                       SizedBox(height: Margins.spacing_base),
                       if (viewModel.withFinishedButton) _FinishActionButton(viewModel),
-                      // ------------------->  <-------------------
+                      SizedBox(height: Margins.spacing_m),
+                      _Separator(),
+                      SizedBox(height: Margins.spacing_m),
+                      Text(Strings.userActionDetailsSection, style: TextStyles.textBaseBold),
+                      SizedBox(height: Margins.spacing_base),
                       _Description(
                         withSubtitle: viewModel.withSubtitle,
                         subtitle: viewModel.subtitle,
                       ),
-                      SizedBox(height: Margins.spacing_base),
+                      SizedBox(height: Margins.spacing_l),
+                      _DateAndCategory(viewModel),
+                      SizedBox(height: Margins.spacing_l),
+
+                      // ------------------->  <-------------------
                       _Separator(),
                       SizedBox(height: Margins.spacing_m),
                       _Creator(name: viewModel.creator),
@@ -251,7 +260,7 @@ class _FinishActionButton extends StatelessWidget {
 class _Separator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(height: 1, color: AppColors.primaryLighten);
+    return Divider(height: 1, color: AppColors.primaryLighten);
   }
 }
 
@@ -449,6 +458,48 @@ class _UnavailableCommentsOffline extends StatelessWidget {
         Text(Strings.lastComment, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
         Text(Strings.commentsUnavailableOffline, style: TextStyles.textBaseRegular),
+      ],
+    );
+  }
+}
+
+class _DateAndCategory extends StatelessWidget {
+  const _DateAndCategory(this.viewModel);
+  final UserActionDetailsViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        _section(
+          sectionIcon: AppIcons.event,
+          sectionTitle: Strings.userActionDate,
+          value: viewModel.date,
+        ),
+        _section(
+          sectionIcon: Icons.account_tree_rounded,
+          sectionTitle: Strings.userActionCategory,
+          value: viewModel.category,
+        ),
+      ],
+    );
+  }
+
+  Widget _section({required IconData sectionIcon, required String sectionTitle, required String value}) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Icon(sectionIcon, color: AppColors.grey500, size: Dimens.icon_size_base),
+            SizedBox(width: Margins.spacing_xs),
+            Text(sectionTitle, style: TextStyles.textSRegular(color: AppColors.grey700)),
+          ],
+        ),
+        SizedBox(height: Margins.spacing_xs),
+        Text(value, style: TextStyles.textSBold)
       ],
     );
   }

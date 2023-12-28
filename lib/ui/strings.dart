@@ -453,6 +453,10 @@ class Strings {
   static String actionDetails = "Mon action";
   static String demarcheDetails = "Détail de la démarche";
   static String completeAction = "J’ai terminé mon action";
+  static String userActionDetailsSection = "Détails";
+  static String userActionDate = "Date";
+  static String userActionCategory = "Catégorie";
+  static String userActionNoCategory = "Aucune";
   static String updateStatus = "Modifier le statut";
   static String refreshActionStatus = "Valider le statut";
   static String noActionsYet = "Vous n'avez pas encore d’action prévue.";
