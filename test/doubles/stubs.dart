@@ -47,6 +47,7 @@ class PageActionRepositorySuccessStub extends UserActionRepository {
           comment: "comment",
           status: UserActionStatus.NOT_STARTED,
           dateEcheance: DateTime(2042),
+          creationDate: DateTime(2021),
           creator: JeuneActionCreator(),
         ),
       ],
@@ -355,11 +356,6 @@ class ActionCommentaireRepositorySuccessStub extends ActionCommentaireRepository
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
     return mockCommentaires();
   }
-
-  @override
-  Future<bool> sendCommentaire({required String actionId, required String comment}) async {
-    return comment == 'new comment' && actionId == 'actionId';
-  }
 }
 
 class ActionCommentaireRepositoryFailureStub extends ActionCommentaireRepository {
@@ -368,11 +364,6 @@ class ActionCommentaireRepositoryFailureStub extends ActionCommentaireRepository
   @override
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
     return null;
-  }
-
-  @override
-  Future<bool> sendCommentaire({required String actionId, required String comment}) async {
-    return false;
   }
 }
 

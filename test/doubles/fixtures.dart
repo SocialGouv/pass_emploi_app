@@ -598,6 +598,7 @@ UserAction userActionStub({String? id, DateTime? dateEcheance}) {
     comment: "comment",
     status: UserActionStatus.IN_PROGRESS,
     dateEcheance: dateEcheance ?? parseDateTimeUtcWithCurrentTimeZone("2007-07-07T01:01:07.000Z"),
+    creationDate: DateTime(2021),
     creator: JeuneActionCreator(),
   );
 }
@@ -633,17 +634,22 @@ UserAction mockUserAction({
   String? content,
   String? comment,
   UserActionStatus? status,
-  DateTime? lastUpdate,
+  DateTime? creationDate,
   DateTime? dateEcheance,
   UserActionCreator? creator,
+  UserActionReferentielType? type,
+  UserActionQualificationStatus? qualificationStatus,
 }) {
   return UserAction(
     id: id ?? '',
     content: content ?? '',
     comment: comment ?? '',
     status: status ?? UserActionStatus.IN_PROGRESS,
+    creationDate: creationDate ?? DateTime.now(),
     dateEcheance: dateEcheance ?? DateTime.now(),
     creator: creator ?? JeuneActionCreator(),
+    qualificationStatus: qualificationStatus ?? UserActionQualificationStatus.A_QUALIFIER,
+    type: type,
   );
 }
 
@@ -678,6 +684,7 @@ UserAction mockNotStartedAction({required String actionId}) {
     content: "content",
     comment: "comment",
     status: UserActionStatus.NOT_STARTED,
+    creationDate: DateTime(2021),
     dateEcheance: DateTime(2042),
     creator: JeuneActionCreator(),
   );

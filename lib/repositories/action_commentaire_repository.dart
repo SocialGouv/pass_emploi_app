@@ -3,8 +3,6 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/dio_ext.dart';
-import 'package:pass_emploi_app/network/json_encoder.dart';
-import 'package:pass_emploi_app/network/post_action_commentaire.dart';
 
 class ActionCommentaireRepository {
   final Dio _httpClient;
@@ -25,19 +23,5 @@ class ActionCommentaireRepository {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return null;
-  }
-
-  Future<bool> sendCommentaire({required String actionId, required String comment}) async {
-    final url = getCommentairesUrl(actionId: actionId);
-    try {
-      await _httpClient.post(
-        url,
-        data: customJsonEncode(PostSendCommentaire(comment)),
-      );
-      return true;
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
-    }
-    return false;
   }
 }

@@ -37,6 +37,7 @@ void main() {
                 comment: "Commentaire",
                 status: UserActionStatus.NOT_STARTED,
                 dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
+                creationDate: DateTime(2021),
                 creator: JeuneActionCreator(),
               ),
             );
@@ -48,6 +49,7 @@ void main() {
                 comment: "",
                 status: UserActionStatus.IN_PROGRESS,
                 dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2041-07-19T10:00:00.000Z"),
+                creationDate: DateTime(2021),
                 creator: ConseillerActionCreator(name: "Nils Tavernier"),
               ),
             );

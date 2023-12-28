@@ -450,8 +450,13 @@ class Strings {
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
   static String aboutThisAction = "À propos de cette action";
-  static String actionDetails = "Détail de l'action";
+  static String actionDetails = "Mon action";
   static String demarcheDetails = "Détail de la démarche";
+  static String completeAction = "J’ai terminé mon action";
+  static String userActionDetailsSection = "Détails";
+  static String userActionDate = "Date";
+  static String userActionCategory = "Catégorie";
+  static String userActionNoCategory = "Aucune";
   static String updateStatus = "Modifier le statut";
   static String refreshActionStatus = "Valider le statut";
   static String noActionsYet = "Vous n'avez pas encore d’action prévue.";
@@ -464,7 +469,10 @@ class Strings {
   static String mandatoryDateEcheanceError = "La date d'échéance doit être renseignée";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
+  static String actionCreationInfos(String creator, String date) => "Ajouté par $creator le $date";
+  static String youLowercase = "vous";
   static String you = "Vous";
+  static String yourConseillerLowercase = "votre conseiller";
   static String congratulationsActionUpdated =
       "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte";
   static String conseillerNotifiedActionUpdated =

@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
@@ -10,35 +9,17 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_a
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
+import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step1_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 import 'package:redux/redux.dart';
 
 enum DeleteDisplayState { NOT_INIT, SHOW_LOADING, SHOW_DELETE_ERROR, TO_DISMISS_AFTER_DELETION }
 
 enum UpdateDisplayState { NOT_INIT, SHOW_SUCCESS, SHOW_LOADING, SHOW_UPDATE_ERROR, TO_DISMISS_AFTER_UPDATE }
-
-class UserActionDetailDateEcheanceViewModel extends Equatable {
-  final List<FormattedText> formattedTexts;
-  final List<IconData> icons;
-  final Color textColor;
-  final Color backgroundColor;
-
-  UserActionDetailDateEcheanceViewModel({
-    required this.formattedTexts,
-    required this.icons,
-    required this.textColor,
-    required this.backgroundColor,
-  });
-
-  @override
-  List<Object?> get props => [formattedTexts, icons, textColor, backgroundColor];
-}
 
 class UserActionDetailsViewModel extends Equatable {
   final String id;
@@ -46,13 +27,18 @@ class UserActionDetailsViewModel extends Equatable {
   final String subtitle;
   final bool withSubtitle;
   final UserActionStatus status;
-  final String creator;
+  final CardPilluleType? pillule;
+  final String category;
+  final String date;
+  final bool withFinishedButton;
+  final bool withUnfinishedButton;
+  final String creationDetails;
+  final bool withComments;
   final bool withDeleteOption;
-  final UserActionDetailDateEcheanceViewModel? dateEcheanceViewModel;
   final bool withOfflineBehavior;
-  final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
   final Function(String actionId) onDelete;
   final Function() resetUpdateStatus;
+  final Function(UserActionStatus) updateStatus;
   final UpdateDisplayState updateDisplayState;
   final DeleteDisplayState deleteDisplayState;
 
@@ -62,13 +48,18 @@ class UserActionDetailsViewModel extends Equatable {
     required this.subtitle,
     required this.withSubtitle,
     required this.status,
-    required this.creator,
+    required this.pillule,
+    required this.category,
+    required this.date,
+    required this.withFinishedButton,
+    required this.withUnfinishedButton,
+    required this.creationDetails,
+    required this.withComments,
     required this.withDeleteOption,
-    required this.dateEcheanceViewModel,
     required this.withOfflineBehavior,
-    required this.onRefreshStatus,
     required this.onDelete,
     required this.resetUpdateStatus,
+    required this.updateStatus,
     required this.updateDisplayState,
     required this.deleteDisplayState,
   });
@@ -85,13 +76,19 @@ class UserActionDetailsViewModel extends Equatable {
       subtitle: userAction != null ? userAction.comment : '',
       withSubtitle: userAction != null ? userAction.comment.isNotEmpty : false,
       status: userAction != null ? userAction.status : UserActionStatus.DONE,
-      creator: userAction != null ? _displayName(userAction.creator) : '',
+      pillule: _pilluleViewModel(userAction),
+      category: _category(userAction),
+      date: _date(userAction),
+      withFinishedButton: _withFinishedButton(userAction),
+      withUnfinishedButton: _withUnfinishedButton(userAction),
+      creationDetails: _creationDetails(userAction),
+      withComments: hasComments,
       withDeleteOption: _withDeleteOption(userAction, hasComments),
-      dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
       withOfflineBehavior: store.state.connectivityState.isOffline(),
-      onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
       resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
+      updateStatus: (status) =>
+          store.dispatch(UserActionUpdateRequestAction(actionId: userActionId, newStatus: status)),
       updateDisplayState: _updateStateDisplayState(updateState),
       deleteDisplayState: _deleteStateDisplayState(deleteState),
     );
@@ -104,14 +101,36 @@ class UserActionDetailsViewModel extends Equatable {
         subtitle,
         withSubtitle,
         status,
-        creator,
+        pillule,
+        category,
+        date,
+        withFinishedButton,
+        withUnfinishedButton,
+        creationDetails,
         withDeleteOption,
-        dateEcheanceViewModel,
         updateDisplayState,
         deleteDisplayState,
         withOfflineBehavior,
       ];
 }
+
+bool _withFinishedButton(UserAction? userAction) {
+  if (userAction?.qualificationStatus == UserActionQualificationStatus.QUALIFIEE) {
+    return false;
+  }
+  return userAction?.status != UserActionStatus.DONE;
+}
+
+bool _withUnfinishedButton(UserAction? userAction) {
+  if (userAction?.qualificationStatus == UserActionQualificationStatus.QUALIFIEE) {
+    return false;
+  }
+  return userAction?.status == UserActionStatus.DONE;
+}
+
+String _category(UserAction? action) => action?.type?.label ?? Strings.userActionNoCategory;
+
+String _date(UserAction? action) => action?.dateEcheance.toDay() ?? '';
 
 bool _withDeleteOption(UserAction? userAction, bool hasComments) =>
     userAction?.creator is JeuneActionCreator && !hasComments && userAction?.status != UserActionStatus.DONE;
@@ -125,25 +144,6 @@ UserAction? _getAction(Store<AppState> store, UserActionStateSource stateSource,
       final state = store.state.userActionListState as UserActionListSuccessState;
       return state.userActions.firstWhereOrNull((e) => e.id == actionId);
   }
-}
-
-UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction? userAction) {
-  if (userAction == null) return null;
-  if ([UserActionStatus.DONE, UserActionStatus.CANCELED].contains(userAction.status)) return null;
-  final isLate = userAction.isLate();
-  return UserActionDetailDateEcheanceViewModel(
-    formattedTexts: _formattedDate(userAction),
-    icons: [AppIcons.schedule_rounded],
-    textColor: isLate ? AppColors.warning : AppColors.accent2,
-    backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
-  );
-}
-
-List<FormattedText> _formattedDate(UserAction action) {
-  return [
-    FormattedText(Strings.demarcheActiveLabel),
-    FormattedText(action.dateEcheance.toDayOfWeekWithFullMonth(), bold: true),
-  ];
 }
 
 DeleteDisplayState _deleteStateDisplayState(UserActionDeleteState state) {
@@ -173,8 +173,22 @@ UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {
   return UpdateDisplayState.NOT_INIT;
 }
 
-String _displayName(UserActionCreator creator) => creator is ConseillerActionCreator ? creator.name : Strings.you;
+CardPilluleType? _pilluleViewModel(UserAction? action) {
+  if (action?.isLate() == true) {
+    return CardPilluleType.late;
+  }
 
-void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
-  store.dispatch(UserActionUpdateRequestAction(actionId: actionId, newStatus: newStatus));
+  if (action?.status == UserActionStatus.DONE) {
+    return CardPilluleType.done;
+  } else {
+    return CardPilluleType.doing;
+  }
+}
+
+String _creationDetails(UserAction? action) {
+  if (action == null) return '';
+  final creationDate = action.creationDate.toDay();
+  final creatorName =
+      action.creator is ConseillerActionCreator ? Strings.yourConseillerLowercase : Strings.youLowercase;
+  return Strings.actionCreationInfos(creatorName, creationDate);
 }

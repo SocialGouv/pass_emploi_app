@@ -2,6 +2,7 @@ import 'package:clock/clock.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
@@ -21,6 +22,21 @@ enum UserActionStatus {
   }
 }
 
+enum UserActionQualificationStatus {
+  A_QUALIFIER,
+  NON_QUALIFIABLE,
+  QUALIFIEE;
+
+  static UserActionQualificationStatus? fromString(String? qualificationString) {
+    return switch (qualificationString) {
+      'NON_QUALIFIABLE' => UserActionQualificationStatus.NON_QUALIFIABLE,
+      'QUALIFIEE' => UserActionQualificationStatus.QUALIFIEE,
+      'A_QUALIFIER' => UserActionQualificationStatus.A_QUALIFIER,
+      _ => null,
+    };
+  }
+}
+
 extension UserActionStatusExtension on UserActionStatus {
   bool isCanceledOrDone() {
     return this == UserActionStatus.CANCELED || this == UserActionStatus.DONE;
@@ -33,7 +49,10 @@ class UserAction extends Equatable {
   final String comment;
   final UserActionStatus status;
   final DateTime dateEcheance;
+  final DateTime creationDate;
   final UserActionCreator creator;
+  final UserActionReferentielType? type;
+  final UserActionQualificationStatus? qualificationStatus;
 
   UserAction({
     required this.id,
@@ -41,7 +60,10 @@ class UserAction extends Equatable {
     required this.comment,
     required this.status,
     required this.dateEcheance,
+    required this.creationDate,
     required this.creator,
+    this.qualificationStatus,
+    this.type,
   });
 
   factory UserAction.fromJson(dynamic json) {
@@ -51,7 +73,10 @@ class UserAction extends Equatable {
       comment: json['comment'] as String,
       status: _statusFromString(statusString: json['status'] as String),
       dateEcheance: (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
+      creationDate: (json['creationDate'] as String).toDateTimeUtcOnLocalTimeZone(),
       creator: _creator(json),
+      qualificationStatus: UserActionQualificationStatus.fromString(json['qualificationStatus'] as String?),
+      type: json['type'] != null ? UserActionReferentielType.fromCode(json['type'] as String) : null,
     );
   }
 
@@ -61,7 +86,10 @@ class UserAction extends Equatable {
     final String? comment,
     final UserActionStatus? status,
     final DateTime? dateEcheance,
+    final DateTime? creationDate,
     final UserActionCreator? creator,
+    final UserActionQualificationStatus? qualificationStatus,
+    final UserActionReferentielType? type,
   }) {
     return UserAction(
       id: id ?? this.id,
@@ -69,14 +97,17 @@ class UserAction extends Equatable {
       comment: comment ?? this.comment,
       status: status ?? this.status,
       dateEcheance: dateEcheance ?? this.dateEcheance,
+      creationDate: creationDate ?? this.creationDate,
       creator: creator ?? this.creator,
+      qualificationStatus: qualificationStatus ?? this.qualificationStatus,
+      type: type ?? this.type,
     );
   }
 
   bool isLate() => !(dateEcheance.isToday() || dateEcheance.isAfter(clock.now()));
 
   @override
-  List<Object?> get props => [id, comment, content, status, dateEcheance, creator];
+  List<Object?> get props => [id, comment, content, status, dateEcheance, creator, qualificationStatus, type];
 }
 
 UserActionStatus _statusFromString({required String statusString}) {
