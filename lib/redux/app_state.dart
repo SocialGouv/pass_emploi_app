@@ -51,7 +51,6 @@ import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_s
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
-import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
@@ -114,7 +113,6 @@ class AppState extends Equatable {
   final PartageActiviteUpdateState partageActiviteUpdateState;
   final RatingState ratingState;
   final ActionCommentaireListState actionCommentaireListState;
-  final ActionCommentaireCreateState actionCommentaireCreateState;
   final AgendaState agendaState;
   final SuggestionsRechercheState suggestionsRechercheState;
   final TraiterSuggestionRechercheState traiterSuggestionRechercheState;
@@ -184,7 +182,6 @@ class AppState extends Equatable {
     required this.partageActiviteUpdateState,
     required this.ratingState,
     required this.actionCommentaireListState,
-    required this.actionCommentaireCreateState,
     required this.agendaState,
     required this.suggestionsRechercheState,
     required this.traiterSuggestionRechercheState,
@@ -254,7 +251,6 @@ class AppState extends Equatable {
     final PartageActiviteUpdateState? partageActiviteUpdateState,
     final RatingState? ratingState,
     final ActionCommentaireListState? actionCommentaireListState,
-    final ActionCommentaireCreateState? actionCommentaireCreateState,
     final AgendaState? agendaState,
     final SuggestionsRechercheState? suggestionsRechercheState,
     final TraiterSuggestionRechercheState? traiterSuggestionRechercheState,
@@ -323,7 +319,6 @@ class AppState extends Equatable {
       partageActiviteUpdateState: partageActiviteUpdateState ?? this.partageActiviteUpdateState,
       ratingState: ratingState ?? this.ratingState,
       actionCommentaireListState: actionCommentaireListState ?? this.actionCommentaireListState,
-      actionCommentaireCreateState: actionCommentaireCreateState ?? this.actionCommentaireCreateState,
       agendaState: agendaState ?? this.agendaState,
       suggestionsRechercheState: suggestionsRechercheState ?? this.suggestionsRechercheState,
       traiterSuggestionRechercheState: traiterSuggestionRechercheState ?? this.traiterSuggestionRechercheState,
@@ -395,7 +390,6 @@ class AppState extends Equatable {
       partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),
       ratingState: RatingNotInitializedState(),
       actionCommentaireListState: ActionCommentaireListNotInitializedState(),
-      actionCommentaireCreateState: ActionCommentaireCreateNotInitializedState(),
       agendaState: AgendaNotInitializedState(),
       suggestionsRechercheState: SuggestionsRechercheNotInitializedState(),
       traiterSuggestionRechercheState: TraiterSuggestionRechercheNotInitializedState(),
@@ -460,7 +454,6 @@ class AppState extends Equatable {
         partageActiviteUpdateState,
         ratingState,
         actionCommentaireListState,
-        actionCommentaireCreateState,
         agendaState,
         suggestionsRechercheState,
         traiterSuggestionRechercheState,

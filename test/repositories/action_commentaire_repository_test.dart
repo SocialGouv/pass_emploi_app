@@ -59,39 +59,4 @@ void main() {
       });
     });
   });
-
-  group("sendCommentaires", () {
-    sut.when(
-      (repository) => repository.sendCommentaire(
-        actionId: 'actionId',
-        comment: 'Commentaire à envoyer',
-      ),
-    );
-
-    group('when response is valid', () {
-      sut.givenResponseCode(200);
-
-      test('request should be valid', () async {
-        await sut.expectRequestBody(
-          method: HttpMethod.post,
-          url: "/actions/actionId/commentaires",
-          jsonBody: {
-            "commentaire": "Commentaire à envoyer",
-          },
-        );
-      });
-
-      test('response should be valid', () async {
-        await sut.expectTrueAsResult();
-      });
-    });
-
-    group('when response is invalid', () {
-      sut.givenResponseCode(500);
-
-      test('response should be null', () async {
-        await sut.expectFalseAsResult();
-      });
-    });
-  });
 }

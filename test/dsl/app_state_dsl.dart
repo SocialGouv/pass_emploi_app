@@ -40,7 +40,6 @@ import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_s
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
-import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
@@ -274,22 +273,6 @@ extension AppStateDSL on AppState {
 
   AppState actionCommentsNotInitState() {
     return copyWith(actionCommentaireListState: ActionCommentaireListNotInitializedState());
-  }
-
-  AppState createCommentSuccessState() {
-    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateSuccessState());
-  }
-
-  AppState createCommentFailureState([String? comment]) {
-    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateFailureState(comment ?? ""));
-  }
-
-  AppState createCommentLoadingState() {
-    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateLoadingState());
-  }
-
-  AppState createCommentNotInitState() {
-    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateNotInitializedState());
   }
 
   AppState emptyAgenda() {
