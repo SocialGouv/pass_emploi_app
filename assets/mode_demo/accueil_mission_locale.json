@@ -66,6 +66,18 @@
         "invitation": false
       }
     ],
+    "sessionsMiloAVenir": [
+      {
+        "id": "id-cv-2023-2",
+        "nomSession": "Session Découverte",
+        "nomOffre": "Découverte des métiers",
+        "dateHeureDebut": "<NOW_PLUS_5>",
+        "type": {
+          "code": "WORKSHOP",
+          "label": "Atelier"
+        }
+      }
+    ],
     "mesAlertes": [
       {
         "id": "9ea85cc4-c92f-4f91-b5a3-b600f364faf1",

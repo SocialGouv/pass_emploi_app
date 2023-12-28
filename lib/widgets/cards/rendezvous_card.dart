@@ -93,6 +93,7 @@ RendezvousStateSource _stateSource(RendezvousStateSource stateSource) {
   return switch (stateSource) {
     RendezvousStateSource.eventListSessionsMilo ||
     RendezvousStateSource.accueilProchaineSession ||
+    RendezvousStateSource.accueilLesEvenementsSession ||
     RendezvousStateSource.agendaSessionMilo ||
     RendezvousStateSource.rendezvousListSession ||
     RendezvousStateSource.sessionMiloDetails =>

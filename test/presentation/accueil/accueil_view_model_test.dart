@@ -70,7 +70,10 @@ void main() {
             actionsDemarchesARealiser: "1 action à réaliser",
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
-          AccueilEvenementsItem([mockAnimationCollective().id]),
+          AccueilEvenementsItem([
+            (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
+            (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
+          ]),
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
@@ -108,7 +111,10 @@ void main() {
             actionsDemarchesARealiser: "1 action à réaliser",
           ),
           AccueilProchaineSessionMiloItem(sessionMilo.id),
-          AccueilEvenementsItem([mockAnimationCollective().id]),
+          AccueilEvenementsItem([
+            (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
+            (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
+          ]),
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([

@@ -8,3 +8,7 @@ extension IterableExtension<T> on Iterable<T> {
 
   Iterable<T> take(int max) => whereIndexed((index, element) => index < max);
 }
+
+extension OrEmptyIterable<T> on Iterable<T>? {
+  Iterable<T> orEmpty() => this ?? [];
+}

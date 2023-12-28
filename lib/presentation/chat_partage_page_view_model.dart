@@ -122,7 +122,7 @@ class ChatPartagePageViewModel extends Equatable {
     if (eventListState is EventListSuccessState) {
       event = eventListState.animationsCollectives.firstWhereOrNull((e) => e.id == source.eventId);
     } else if (accueilState is AccueilSuccessState) {
-      event = accueilState.accueil.evenements?.firstWhereOrNull((e) => e.id == source.eventId);
+      event = accueilState.accueil.animationsCollectives?.firstWhereOrNull((e) => e.id == source.eventId);
     } else {
       throw Exception(
         "ChatPartagePageViewModel must be created with an EventListSuccessState or an AccueilSuccessState.",

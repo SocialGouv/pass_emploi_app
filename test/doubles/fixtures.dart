@@ -1045,7 +1045,8 @@ Accueil mockAccueilMilo({List<Rendezvous>? evenements}) {
     ),
     prochainRendezVous: mockRendezvousMiloCV(),
     prochaineSessionMilo: mockSessionMiloAtelierCv(),
-    evenements: evenements ?? [mockAnimationCollective()],
+    animationsCollectives: evenements ?? [mockAnimationCollective()],
+    sessionsMiloAVenir: [mockSessionMiloAtelierDecouverte()],
     alertes: getMockedAlerte(),
     favoris: mock3Favoris(),
     campagne: mockCampagne(),
@@ -1116,6 +1117,15 @@ SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
       dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
       type: mockSessionMiloType(),
       estInscrit: true,
+    );
+
+SessionMilo mockSessionMiloAtelierDecouverte() => SessionMilo(
+      id: "id-cv-2023-2",
+      nomSession: "Session Découverte",
+      nomOffre: "Découverte des métiers",
+      dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-02T00:00:00.000Z'),
+      type: mockSessionMiloType(),
+      estInscrit: false,
     );
 
 SessionMiloDetails mockSessionMiloDetails({
