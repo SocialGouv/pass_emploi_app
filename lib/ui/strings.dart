@@ -469,7 +469,10 @@ class Strings {
   static String mandatoryDateEcheanceError = "La date d'échéance doit être renseignée";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
+  static String actionCreationInfos(String creator, String date) => "Ajouté par $creator le $date";
+  static String youLowercase = "vous";
   static String you = "Vous";
+  static String yourConseillerLowercase = "votre conseiller";
   static String congratulationsActionUpdated =
       "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte";
   static String conseillerNotifiedActionUpdated =

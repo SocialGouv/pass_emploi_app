@@ -27,14 +27,12 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.da
 import 'package:pass_emploi_app/widgets/comment.dart';
 import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
-import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
-import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 class UserActionDetailPage extends StatefulWidget {
   final String userActionId;
@@ -51,8 +49,6 @@ class UserActionDetailPage extends StatefulWidget {
 }
 
 class _ActionDetailPageState extends State<UserActionDetailPage> {
-  UserActionStatus? newStatus;
-
   @override
   Widget build(BuildContext context) {
     return Tracker(
@@ -78,7 +74,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   }
 
   Widget _build(BuildContext context, UserActionDetailsViewModel viewModel, VoidCallback onActionDone) {
-    _initializeNewStatus(viewModel);
     return Stack(
       children: [
         Column(
@@ -100,7 +95,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                       ],
                       _Title(title: viewModel.title),
                       SizedBox(height: Margins.spacing_base),
-                      if (viewModel.withFinishedButton) _FinishActionButton(viewModel),
+                      if (viewModel.withFinishedButton) _FinishActionButton(viewModel, onActionDone),
                       SizedBox(height: Margins.spacing_m),
                       _Separator(),
                       SizedBox(height: Margins.spacing_m),
@@ -113,59 +108,34 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                       SizedBox(height: Margins.spacing_l),
                       _DateAndCategory(viewModel),
                       SizedBox(height: Margins.spacing_l),
-
-                      // ------------------->  <-------------------
+                      Text(viewModel.creationDetails, style: TextStyles.textSRegular(color: AppColors.grey800)),
+                      SizedBox(height: Margins.spacing_m),
                       _Separator(),
-                      SizedBox(height: Margins.spacing_m),
-                      _Creator(name: viewModel.creator),
-                      SizedBox(height: Margins.spacing_m),
-                      if (viewModel.dateEcheanceViewModel != null) ...[
+                      if (viewModel.withComments) ...[
                         SizedBox(height: Margins.spacing_base),
-                        DateEcheanceInDetail(
-                          icons: viewModel.dateEcheanceViewModel!.icons,
-                          formattedTexts: viewModel.dateEcheanceViewModel!.formattedTexts,
-                          textColor: viewModel.dateEcheanceViewModel!.textColor,
-                          backgroundColor: viewModel.dateEcheanceViewModel!.backgroundColor,
-                        ),
+                        _CommentSection(viewModel),
                       ],
-                      SizedBox(height: Margins.spacing_xl),
-                      _Separator(),
-                      SizedBox(height: Margins.spacing_base),
-                      if (viewModel.withOfflineBehavior) _UnavailableCommentsOffline(),
-                      if (!viewModel.withOfflineBehavior)
-                        _CommentCard(actionId: viewModel.id, actionTitle: viewModel.title),
+                      if (viewModel.withUnfinishedButton) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _UnfinishedActionButton(viewModel),
+                      ],
+                      if (viewModel.withDeleteOption) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _Separator(),
+                        SizedBox(height: Margins.spacing_base),
+                        _DeleteAction(viewModel: viewModel, onDeleteAction: _onDeleteAction),
+                      ],
                       SizedBox(height: Margins.spacing_l),
-                      _Separator(),
-                      SizedBox(height: Margins.spacing_base),
-                      _changeStatus(onActionDone, viewModel.withOfflineBehavior),
                     ],
                   ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: PrimaryActionButton(
-                onPressed: (viewModel.status != newStatus && !viewModel.withOfflineBehavior)
-                    ? () => viewModel.onRefreshStatus(viewModel.id, newStatus!)
-                    : null,
-                label: Strings.refreshActionStatus,
-              ),
-            ),
-            if (viewModel.withDeleteOption)
-              _DeleteAction(
-                viewModel: viewModel,
-                onDeleteAction: _onDeleteAction,
-              ),
           ],
         ),
         if (_isLoading(viewModel)) LoadingOverlay(),
       ],
     );
-  }
-
-  void _initializeNewStatus(UserActionDetailsViewModel viewModel) {
-    newStatus ??= viewModel.status;
   }
 
   bool _isLoading(UserActionDetailsViewModel viewModel) {
@@ -195,32 +165,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
     }
   }
 
-  Widget _changeStatus(VoidCallback onActionDone, bool withOfflineBehavior) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: Text(Strings.updateStatus, style: TextStyles.textBaseBold),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: UserActionStatusGroup(
-            status: newStatus!,
-            onActionDone: onActionDone,
-            isEnabled: !withOfflineBehavior,
-            update: (status) {
-              setState(() {
-                newStatus = status;
-              });
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _successBottomSheet(BuildContext context) {
     return _SuccessBottomSheet();
   }
@@ -241,7 +185,28 @@ class _StatusPillule extends StatelessWidget {
 }
 
 class _FinishActionButton extends StatelessWidget {
-  const _FinishActionButton(this.viewModel);
+  const _FinishActionButton(this.viewModel, this.onActionDone);
+  final UserActionDetailsViewModel viewModel;
+  final VoidCallback onActionDone;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: PrimaryActionButton(
+        label: Strings.completeAction,
+        suffix: Icon(AppIcons.celebration_rounded, color: Colors.white),
+        onPressed: () {
+          onActionDone();
+          viewModel.updateStatus(UserActionStatus.DONE);
+        },
+      ),
+    );
+  }
+}
+
+class _UnfinishedActionButton extends StatelessWidget {
+  const _UnfinishedActionButton(this.viewModel);
   final UserActionDetailsViewModel viewModel;
 
   @override
@@ -251,7 +216,7 @@ class _FinishActionButton extends StatelessWidget {
       child: PrimaryActionButton(
         label: Strings.completeAction,
         suffix: Icon(AppIcons.celebration_rounded, color: Colors.white),
-        onPressed: () => viewModel.updateStatus(UserActionStatus.DONE),
+        onPressed: () => viewModel.updateStatus(UserActionStatus.IN_PROGRESS),
       ),
     );
   }
@@ -336,27 +301,6 @@ class _Description extends StatelessWidget {
   }
 }
 
-class _Creator extends StatelessWidget {
-  final String name;
-
-  _Creator({required this.name});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(Strings.actionCreatedBy, style: TextStyles.textBaseBold),
-        Expanded(
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(name, style: TextStyles.textSBold),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class _DeleteAction extends StatelessWidget {
   final UserActionDetailsViewModel viewModel;
   final Function(UserActionDetailsViewModel) onDeleteAction;
@@ -392,6 +336,20 @@ class _DeleteAction extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _CommentSection extends StatelessWidget {
+  const _CommentSection(this.viewModel);
+  final UserActionDetailsViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    if (viewModel.withOfflineBehavior) {
+      return _UnavailableCommentsOffline();
+    } else {
+      return _CommentCard(actionId: viewModel.id, actionTitle: viewModel.title);
+    }
   }
 }
 

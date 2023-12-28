@@ -34,6 +34,7 @@ class UserAction extends Equatable {
   final String comment;
   final UserActionStatus status;
   final DateTime dateEcheance;
+  final DateTime creationDate;
   final UserActionCreator creator;
   final UserActionReferentielType? type;
 
@@ -43,6 +44,7 @@ class UserAction extends Equatable {
     required this.comment,
     required this.status,
     required this.dateEcheance,
+    required this.creationDate,
     required this.creator,
     this.type,
   });
@@ -54,6 +56,7 @@ class UserAction extends Equatable {
       comment: json['comment'] as String,
       status: _statusFromString(statusString: json['status'] as String),
       dateEcheance: (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
+      creationDate: (json['creationDate'] as String).toDateTimeUtcOnLocalTimeZone(),
       creator: _creator(json),
       type: json['type'] != null ? UserActionReferentielType.fromCode(json['type'] as String) : null,
     );
@@ -65,6 +68,7 @@ class UserAction extends Equatable {
     final String? comment,
     final UserActionStatus? status,
     final DateTime? dateEcheance,
+    final DateTime? creationDate,
     final UserActionCreator? creator,
     final UserActionReferentielType? type,
   }) {
@@ -74,6 +78,7 @@ class UserAction extends Equatable {
       comment: comment ?? this.comment,
       status: status ?? this.status,
       dateEcheance: dateEcheance ?? this.dateEcheance,
+      creationDate: creationDate ?? this.creationDate,
       creator: creator ?? this.creator,
       type: type ?? this.type,
     );
