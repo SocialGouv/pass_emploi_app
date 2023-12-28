@@ -58,7 +58,7 @@ class JsonEvenementEmploi {
       titre: json['titre'] as String,
       ville: json['ville'] as String,
       codePostal: json['codePostal'] as String,
-      date: (json['dateEvenement'] as String).toDateTimeUtcOnLocalTimeZone(),
+      date: (json['dateEvenement'] as String).toDateTimeUnconsideringTimeZone(),
       heureDebut: json['heureDebut'] as String,
       heureFin: json['heureFin'] as String,
       modalites: (json['modalites'] as List<dynamic>).map((modalite) => (modalite as String)).toList(),

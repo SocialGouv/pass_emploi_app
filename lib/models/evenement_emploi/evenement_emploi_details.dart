@@ -34,7 +34,7 @@ class EvenementEmploiDetails extends Equatable {
       description: json['description'] as String?,
       titre: json['titre'] as String?,
       typeEvenement: json['typeEvenement'] as String?,
-      dateEvenement: (json['dateEvenement'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+      dateEvenement: (json['dateEvenement'] as String?)?.toDateTimeUnconsideringTimeZone(),
       heureDebut: (json['heureDebut'] as String?)?.timeToDateTime(),
       heureFin: (json['heureFin'] as String?)?.timeToDateTime(),
       url: json['url'] as String?,

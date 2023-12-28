@@ -522,7 +522,7 @@ EvenementEmploiDetails mockEvenementEmploiDetails() {
     description: "Information collective pour découvrir les métiers de pôle emploi en vu d'un recrutement...",
     titre: "Devenir conseiller à Pôle emploi",
     typeEvenement: "Réunion d'information",
-    dateEvenement: parseDateTimeUtcWithCurrentTimeZone("2023-06-15T12:00:00.000+00:00"),
+    dateEvenement: parseDateTimeUnconsideringTimeZone("2023-06-15T12:00:00.000+00:00"),
     heureDebut: DateTime(1970, 1, 1, 12, 0, 0),
     heureFin: DateTime(1970, 1, 1, 15, 0, 0),
     url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
