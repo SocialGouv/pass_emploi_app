@@ -251,6 +251,40 @@ void main() {
     expect(viewModel.withUnfinishedButton, true);
   });
 
+  test("should not display finished button when status is not done and action is qualified", () {
+    // Given
+    final action = mockUserAction(
+        id: 'actionId',
+        content: 'content',
+        status: UserActionStatus.IN_PROGRESS,
+        qualificationStatus: UserActionQualificationStatus.QUALIFIEE);
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.withFinishedButton, false);
+    expect(viewModel.withUnfinishedButton, false);
+  });
+
+  test("should not display finished button when status is not done and action is qualified", () {
+    // Given
+    final action = mockUserAction(
+        id: 'actionId',
+        content: 'content',
+        status: UserActionStatus.DONE,
+        qualificationStatus: UserActionQualificationStatus.QUALIFIEE);
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.withFinishedButton, false);
+    expect(viewModel.withUnfinishedButton, false);
+  });
+
   group('Category', () {
     test("should display Aucune category when no category is provided", () {
       // Given
@@ -292,9 +326,6 @@ void main() {
   });
 
   group('creationDetails', () {
-    // should display creation details when created by me
-    // should display creation details when created by conseiller
-
     test("should display creation details when created by me", () {
       // Given
       final action = mockUserAction(

@@ -22,6 +22,20 @@ enum UserActionStatus {
   }
 }
 
+enum UserActionQualificationStatus {
+  A_QUALIFIER,
+  NON_QUALIFIABLE,
+  QUALIFIEE;
+
+  static UserActionQualificationStatus fromString(String? qualificationString) {
+    return switch (qualificationString) {
+      'NON_QUALIFIABLE' => UserActionQualificationStatus.NON_QUALIFIABLE,
+      'QUALIFIEE' => UserActionQualificationStatus.QUALIFIEE,
+      _ => UserActionQualificationStatus.A_QUALIFIER,
+    };
+  }
+}
+
 extension UserActionStatusExtension on UserActionStatus {
   bool isCanceledOrDone() {
     return this == UserActionStatus.CANCELED || this == UserActionStatus.DONE;
@@ -37,6 +51,7 @@ class UserAction extends Equatable {
   final DateTime creationDate;
   final UserActionCreator creator;
   final UserActionReferentielType? type;
+  final UserActionQualificationStatus? qualificationStatus;
 
   UserAction({
     required this.id,
@@ -46,6 +61,7 @@ class UserAction extends Equatable {
     required this.dateEcheance,
     required this.creationDate,
     required this.creator,
+    this.qualificationStatus,
     this.type,
   });
 
@@ -58,6 +74,7 @@ class UserAction extends Equatable {
       dateEcheance: (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
       creationDate: (json['creationDate'] as String).toDateTimeUtcOnLocalTimeZone(),
       creator: _creator(json),
+      qualificationStatus: UserActionQualificationStatus.fromString(json['qualificationStatus'] as String?),
       type: json['type'] != null ? UserActionReferentielType.fromCode(json['type'] as String) : null,
     );
   }
@@ -70,6 +87,7 @@ class UserAction extends Equatable {
     final DateTime? dateEcheance,
     final DateTime? creationDate,
     final UserActionCreator? creator,
+    final UserActionQualificationStatus? qualificationStatus,
     final UserActionReferentielType? type,
   }) {
     return UserAction(
@@ -80,6 +98,7 @@ class UserAction extends Equatable {
       dateEcheance: dateEcheance ?? this.dateEcheance,
       creationDate: creationDate ?? this.creationDate,
       creator: creator ?? this.creator,
+      qualificationStatus: qualificationStatus ?? this.qualificationStatus,
       type: type ?? this.type,
     );
   }
@@ -87,7 +106,7 @@ class UserAction extends Equatable {
   bool isLate() => !(dateEcheance.isToday() || dateEcheance.isAfter(clock.now()));
 
   @override
-  List<Object?> get props => [id, comment, content, status, dateEcheance, creator, type];
+  List<Object?> get props => [id, comment, content, status, dateEcheance, creator, qualificationStatus, type];
 }
 
 UserActionStatus _statusFromString({required String statusString}) {

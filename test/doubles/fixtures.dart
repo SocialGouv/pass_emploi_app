@@ -638,6 +638,7 @@ UserAction mockUserAction({
   DateTime? dateEcheance,
   UserActionCreator? creator,
   UserActionReferentielType? type,
+  UserActionQualificationStatus? qualificationStatus,
 }) {
   return UserAction(
     id: id ?? '',
@@ -647,6 +648,7 @@ UserAction mockUserAction({
     creationDate: creationDate ?? DateTime.now(),
     dateEcheance: dateEcheance ?? DateTime.now(),
     creator: creator ?? JeuneActionCreator(),
+    qualificationStatus: qualificationStatus ?? UserActionQualificationStatus.A_QUALIFIER,
     type: type,
   );
 }

@@ -79,8 +79,8 @@ class UserActionDetailsViewModel extends Equatable {
       pillule: _pilluleViewModel(userAction?.status),
       category: _category(userAction),
       date: _date(userAction),
-      withFinishedButton: userAction != null ? userAction.status != UserActionStatus.DONE : false,
-      withUnfinishedButton: userAction != null ? userAction.status == UserActionStatus.DONE : false,
+      withFinishedButton: _withFinishedButton(userAction),
+      withUnfinishedButton: _withUnfinishedButton(userAction),
       creationDetails: _creationDetails(userAction),
       withComments: hasComments,
       withDeleteOption: _withDeleteOption(userAction, hasComments),
@@ -112,6 +112,20 @@ class UserActionDetailsViewModel extends Equatable {
         deleteDisplayState,
         withOfflineBehavior,
       ];
+}
+
+bool _withFinishedButton(UserAction? userAction) {
+  if (userAction?.qualificationStatus == UserActionQualificationStatus.QUALIFIEE) {
+    return false;
+  }
+  return userAction?.status != UserActionStatus.DONE;
+}
+
+bool _withUnfinishedButton(UserAction? userAction) {
+  if (userAction?.qualificationStatus == UserActionQualificationStatus.QUALIFIEE) {
+    return false;
+  }
+  return userAction?.status == UserActionStatus.DONE;
 }
 
 String _category(UserAction? action) => action?.type?.label ?? Strings.userActionNoCategory;
