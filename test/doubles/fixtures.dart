@@ -47,6 +47,7 @@ import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/requests/contact_immersion_request.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
@@ -1186,5 +1187,15 @@ UserActionCreateRequest dummyUserActionCreateRequest([String content = "content"
     true,
     UserActionStatus.NOT_STARTED,
     UserActionReferentielType.emploi,
+  );
+}
+
+UserActionUpdateRequest mockUserActionUpdateRequest([UserActionStatus status = UserActionStatus.DONE]) {
+  return UserActionUpdateRequest(
+    status: status,
+    contenu: "titre",
+    description: "description",
+    dateEcheance: DateTime(2024),
+    type: UserActionReferentielType.emploi,
   );
 }

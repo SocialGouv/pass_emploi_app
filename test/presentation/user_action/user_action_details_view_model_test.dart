@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
@@ -75,7 +76,7 @@ void main() {
       // Given
       final store = givenState()
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(UserActionStatus.NOT_STARTED)
+          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.NOT_STARTED))
           .store();
 
       // When
@@ -89,7 +90,7 @@ void main() {
       // Given
       final store = givenState()
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(UserActionStatus.IN_PROGRESS)
+          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.IN_PROGRESS))
           .store();
 
       // When
@@ -103,7 +104,7 @@ void main() {
       // Given
       final store = givenState()
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(UserActionStatus.CANCELED)
+          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.CANCELED))
           .store();
 
       // When
@@ -117,7 +118,7 @@ void main() {
       // Given
       final store = givenState() //
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(UserActionStatus.DONE)
+          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.DONE))
           .store();
 
       // When
@@ -405,7 +406,8 @@ void main() {
 
   test('updateStatus when update status has changed should dispatch a UserActionUpdateRequestAction', () {
     // Given
-    final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(mockUserAction(id: 'actionId')));
+    final action = mockUserAction(id: 'actionId');
+    final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(action));
 
     // When
     final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
@@ -413,6 +415,15 @@ void main() {
 
     // Then
     expect(store.dispatchedAction, isA<UserActionUpdateRequestAction>());
+    expect(
+        (store.dispatchedAction as UserActionUpdateRequestAction).request,
+        UserActionUpdateRequest(
+          status: UserActionStatus.NOT_STARTED,
+          contenu: action.content,
+          description: action.comment,
+          dateEcheance: action.dateEcheance,
+          type: action.type ?? UserActionReferentielType.emploi,
+        ));
   });
 
   test('onDelete should dispatch UserActionDeleteRequestAction', () {

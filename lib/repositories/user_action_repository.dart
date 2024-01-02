@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_user_action_request.dart';
 import 'package:pass_emploi_app/network/put_user_action_request.dart';
@@ -26,12 +26,12 @@ class UserActionRepository {
     return null;
   }
 
-  Future<bool> updateActionStatus(String actionId, UserActionStatus newStatus) async {
+  Future<bool> updateUserAction(String actionId, UserActionUpdateRequest request) async {
     final url = '/actions/$actionId';
     try {
       await _httpClient.put(
         url,
-        data: customJsonEncode(PutUserActionRequest(status: newStatus)),
+        data: customJsonEncode(PutUserActionRequest(request)),
       );
       return true;
     } catch (e, stack) {

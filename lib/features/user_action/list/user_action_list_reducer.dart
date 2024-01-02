@@ -21,6 +21,6 @@ UserActionListState _listWithDeletedAction(UserActionListState current, UserActi
 
 UserActionListState _listWithUpdatedAction(UserActionListState current, UserActionUpdateSuccessAction action) {
   if (current is! UserActionListSuccessState) return current;
-  final newActions = current.userActions.withUpdatedAction(action.actionId, action.newStatus);
+  final newActions = current.userActions.withUpdatedAction(action.actionId, action.request);
   return UserActionListSuccessState(newActions);
 }

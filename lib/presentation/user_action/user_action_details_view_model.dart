@@ -7,8 +7,10 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_s
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step1_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -87,8 +89,15 @@ class UserActionDetailsViewModel extends Equatable {
       withOfflineBehavior: store.state.connectivityState.isOffline(),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
       resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
-      updateStatus: (status) =>
-          store.dispatch(UserActionUpdateRequestAction(actionId: userActionId, newStatus: status)),
+      updateStatus: (status) => store.dispatch(UserActionUpdateRequestAction(
+          actionId: userActionId,
+          request: UserActionUpdateRequest(
+            status: status,
+            contenu: userAction?.content ?? '',
+            description: userAction?.comment,
+            dateEcheance: userAction?.dateEcheance ?? DateTime.now(),
+            type: userAction?.type ?? UserActionReferentielType.emploi,
+          ))),
       updateDisplayState: _updateStateDisplayState(updateState),
       deleteDisplayState: _deleteStateDisplayState(deleteState),
     );
@@ -160,7 +169,7 @@ DeleteDisplayState _deleteStateDisplayState(UserActionDeleteState state) {
 
 UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {
   if (state is UserActionUpdateSuccessState) {
-    if (state.newStatus == UserActionStatus.DONE) {
+    if (state.request.status == UserActionStatus.DONE) {
       return UpdateDisplayState.SHOW_SUCCESS;
     } else {
       return UpdateDisplayState.TO_DISMISS_AFTER_UPDATE;

@@ -13,7 +13,6 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_a
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/favori.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 
 import '../../doubles/dio_mock.dart';
@@ -77,7 +76,7 @@ void main() {
 
       expectLoadingWhen(UserActionCreateSuccessAction("id"));
       expectLoadingWhen(UserActionDeleteSuccessAction("id"));
-      expectLoadingWhen(UserActionUpdateSuccessAction(actionId: "id", newStatus: UserActionStatus.DONE));
+      expectLoadingWhen(UserActionUpdateSuccessAction(actionId: "id", request: mockUserActionUpdateRequest()));
       expectLoadingWhen(CreateDemarcheSuccessAction("id"));
       expectLoadingWhen(UpdateDemarcheSuccessAction(mockDemarche()));
       expectLoadingWhen(FavoriUpdateSuccessAction("id", FavoriStatus.removed));

@@ -1,6 +1,7 @@
 import 'package:clock/clock.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
@@ -137,11 +138,17 @@ UserActionCreator _creator(dynamic json) {
 }
 
 extension UpdateActionList on List<UserAction> {
-  List<UserAction> withUpdatedAction(String actionId, UserActionStatus status) {
+  List<UserAction> withUpdatedAction(String actionId, UserActionUpdateRequest request) {
     final actionToUpdate = firstWhereOrNull((a) => a.id == actionId);
     if (actionToUpdate == null) return this;
 
-    final updatedAction = actionToUpdate.copyWith(status: status);
+    final updatedAction = actionToUpdate.copyWith(
+      status: request.status,
+      content: request.contenu,
+      comment: request.description,
+      dateEcheance: request.dateEcheance,
+      type: request.type,
+    );
     return List<UserAction>.from(this) //
         .where((a) => a.id != actionId)
         .toList()
