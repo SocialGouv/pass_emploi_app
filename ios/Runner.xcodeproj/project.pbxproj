@@ -287,7 +287,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Starting [firebase_crashlytics] Crashlytics Upload Symbols build phase.\"\n\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"- plist path ${PLIST_DESTINATION}\"\n\necho \"- find dSYM from BUILT_PRODUCTS_DIR ${BUILT_PRODUCTS_DIR}\"\nfind ${BUILT_PRODUCTS_DIR} -name \"*.dSYM\" | xargs -I \\{\\} $PODS_ROOT/FirebaseCrashlytics/upload-symbols -gsp ${PLIST_DESTINATION}/GoogleService-Info.plist -p ios \\{\\}\n\necho \"Ending [firebase_crashlytics] Crashlytics Upload Symbols build phase.\"\n";
+			shellScript = "echo \"Starting [firebase_crashlytics] Crashlytics Upload Symbols build phase.\"\n\nESCAPED_PRODUCT_NAME=$(echo $PRODUCT_NAME | sed 's/ /\\\\ /g')\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${ESCAPED_PRODUCT_NAME}.app\necho \"- plist path ${PLIST_DESTINATION}\"\n\necho \"- find dSYM from BUILT_PRODUCTS_DIR ${BUILT_PRODUCTS_DIR}\"\nfind ${BUILT_PRODUCTS_DIR} -name \"*.dSYM\"\n\necho \"- find then execute upload\"\nfind ${BUILT_PRODUCTS_DIR} -name \"*.dSYM\" | xargs -I \\{\\} $PODS_ROOT/FirebaseCrashlytics/upload-symbols -gsp ${PLIST_DESTINATION}/GoogleService-Info.plist -p ios \\{\\}\n\necho \"Ending [firebase_crashlytics] Crashlytics Upload Symbols build phase.\"\n";
 		};
 		72EE6D38E43DBD8A7EFE6806 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
