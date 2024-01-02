@@ -422,7 +422,7 @@ void main() {
           contenu: action.content,
           description: action.comment,
           dateEcheance: action.dateEcheance,
-          type: action.type ?? UserActionReferentielType.emploi,
+          type: action.type,
         ));
   });
 

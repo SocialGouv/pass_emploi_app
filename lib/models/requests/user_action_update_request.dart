@@ -7,7 +7,7 @@ class UserActionUpdateRequest extends Equatable {
   final String contenu;
   final String? description;
   final DateTime dateEcheance;
-  final UserActionReferentielType type;
+  final UserActionReferentielType? type;
 
   UserActionUpdateRequest({
     required this.status,

@@ -10,7 +10,6 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_s
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step1_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -96,7 +95,7 @@ class UserActionDetailsViewModel extends Equatable {
             contenu: userAction?.content ?? '',
             description: userAction?.comment,
             dateEcheance: userAction?.dateEcheance ?? DateTime.now(),
-            type: userAction?.type ?? UserActionReferentielType.emploi,
+            type: userAction?.type,
           ))),
       updateDisplayState: _updateStateDisplayState(updateState),
       deleteDisplayState: _deleteStateDisplayState(deleteState),
