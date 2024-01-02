@@ -88,7 +88,8 @@ class UserActionDetailsViewModel extends Equatable {
       withOfflineBehavior: store.state.connectivityState.isOffline(),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
       resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
-      updateStatus: (status) => store.dispatch(UserActionUpdateRequestAction(
+      updateStatus: (status) => store.dispatch(
+        UserActionUpdateRequestAction(
           actionId: userActionId,
           request: UserActionUpdateRequest(
             status: status,
@@ -96,7 +97,9 @@ class UserActionDetailsViewModel extends Equatable {
             description: userAction?.comment,
             dateEcheance: userAction?.dateEcheance ?? DateTime.now(),
             type: userAction?.type,
-          ))),
+          ),
+        ),
+      ),
       updateDisplayState: _updateStateDisplayState(updateState),
       deleteDisplayState: _deleteStateDisplayState(deleteState),
     );
