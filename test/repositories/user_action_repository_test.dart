@@ -94,6 +94,7 @@ void main() {
               "status": "done",
               "rappel": true,
               "dateEcheance": "2022-01-01T00:00:00+00:00",
+              "codeQualification": "EMPLOI",
             },
           );
         });

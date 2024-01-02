@@ -15,6 +15,7 @@ class PostUserActionRequest implements JsonSerializable {
         "status": _toString(request.initialStatus),
         "dateEcheance": request.dateEcheance.toIso8601WithOffsetDateTime(),
         "rappel": request.rappel,
+        "codeQualification": request.codeQualification.code,
       };
 
   String _toString(UserActionStatus status) {

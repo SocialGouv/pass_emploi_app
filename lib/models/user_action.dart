@@ -76,7 +76,9 @@ class UserAction extends Equatable {
       creationDate: (json['creationDate'] as String).toDateTimeOnLocalTimeZone(),
       creator: _creator(json),
       qualificationStatus: UserActionQualificationStatus.fromString(json['qualificationStatus'] as String?),
-      type: json['type'] != null ? UserActionReferentielType.fromCode(json['type'] as String) : null,
+      type: json['qualification'] != null
+          ? UserActionReferentielType.fromCode(json['qualification']["code"] as String)
+          : null,
     );
   }
 
