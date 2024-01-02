@@ -7,7 +7,7 @@
       "creator": "Paul Sevier",
       "creatorType": "jeune",
       "dateEcheance": "<NOW_PLUS_7>",
-      "creationDate": "2021-07-19T13:10:00.000Z",
+      "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
       "status": "in_progress"
     },
     {
@@ -17,7 +17,7 @@
       "creator": "Paul Sevier",
       "creatorType": "jeune",
       "dateEcheance": "<NOW_PLUS_18>",
-      "creationDate": "2021-07-19T13:10:00.000Z",
+      "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
       "status": "not_started"
     },
     {
@@ -27,7 +27,7 @@
       "creator": "Nils Tavernier",
       "creatorType": "conseiller",
       "dateEcheance": "<NOW_LESS_15>",
-      "creationDate": "2021-07-19T13:10:00.000Z",
+      "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
       "status": "not_started"
     },
     {
@@ -37,7 +37,7 @@
       "creator": "Paul Sevier",
       "creatorType": "jeune",
       "dateEcheance": "<NOW_LESS_2>",
-      "creationDate": "2021-07-19T13:10:00.000Z",
+      "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
       "status": "not_started"
     },
     {
@@ -47,7 +47,7 @@
       "creator": "Nils Tavernier",
       "creatorType": "conseiller",
       "dateEcheance": "<NOW_LESS_30>",
-      "creationDate": "2021-07-19T13:10:00.000Z",
+      "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
       "status": "done"
     },
     {
@@ -57,7 +57,7 @@
       "creator": "Nils Tavernier",
       "creatorType": "conseiller",
       "dateEcheance": "<NOW_LESS_45>",
-      "creationDate": "2021-07-19T13:10:00.000Z",
+      "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
       "status": "done"
     }
   ]
