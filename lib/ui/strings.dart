@@ -499,6 +499,9 @@ class Strings {
 
   static String pendingActionCreationPlural(int count) => "$count actions sont en attente de réseau.";
 
+  // Update user action
+  static String updateUserActionPageTitle = "Modifier l'action";
+
   // Commentaires d'action
   static String actionCommentsTitle = "Commentaire de l’action";
   static String lastComment = "Dernier commentaire";
