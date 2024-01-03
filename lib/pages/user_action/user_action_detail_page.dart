@@ -355,7 +355,7 @@ class _UpdateButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: SecondaryButton(
-        label: Strings.updateAction,
+        label: Strings.updateUserAction,
         onPressed: () => Navigator.push(context, UpdateUserActionForm.route(source, userActionId)),
       ),
     );

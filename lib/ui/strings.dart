@@ -479,11 +479,6 @@ class Strings {
       "Votre conseiller a reçu une notification de la mise à jour de votre action";
   static String understood = "Bien compris";
   static String deleteAction = "Supprimer l'action";
-  static String updateAction = "Modifier l'action";
-  static String updateActionTitle = "*Titre de l'action";
-  static String updateActionDescriptionTitle = "Décrire mon action";
-  static String updateActionDescriptionSubtitle = "Des précisions à partager à votre conseiller ?";
-  static String updateActionCategory = "Catégorie";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
   static String createActionSuccess = "Votre action a bien été créée.";
@@ -506,6 +501,11 @@ class Strings {
 
   // Update user action
   static String updateUserActionPageTitle = "Modifier l'action";
+  static String updateUserAction = "Modifier l'action";
+  static String updateUserActionTitle = "*Titre de l'action";
+  static String updateUserActionDescriptionTitle = "Décrire mon action";
+  static String updateUserActionDescriptionSubtitle = "Des précisions à partager à votre conseiller ?";
+  static String updateUserActionCategory = "Catégorie";
 
   // Commentaires d'action
   static String actionCommentsTitle = "Commentaire de l’action";
