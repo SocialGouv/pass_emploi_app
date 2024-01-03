@@ -1,6 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
@@ -11,15 +16,21 @@ class UpdateUserActionViewModel extends Equatable {
   final String id;
   final DateTime date;
   final String title;
-  final String subtitle;
+  final String description;
   final UserActionReferentielType? type;
+  final void Function(DateTime date, String title, String description, UserActionReferentielType? type) save;
+  final void Function() delete;
+  final bool showLoading;
 
   UpdateUserActionViewModel._({
     required this.id,
     required this.date,
     required this.title,
-    required this.subtitle,
+    required this.description,
     required this.type,
+    required this.save,
+    required this.delete,
+    required this.showLoading,
   });
 
   factory UpdateUserActionViewModel.create(Store<AppState> store, UserActionStateSource source, String userActionId) {
@@ -28,8 +39,22 @@ class UpdateUserActionViewModel extends Equatable {
       id: userAction.id,
       date: userAction.dateEcheance,
       title: userAction.content,
-      subtitle: userAction.comment,
+      description: userAction.comment,
       type: userAction.type,
+      save: (date, title, description, type) => store.dispatch(
+        UserActionUpdateRequestAction(
+          actionId: userActionId,
+          request: UserActionUpdateRequest(
+            status: userAction.status,
+            dateEcheance: date,
+            contenu: title,
+            description: description,
+            type: type,
+          ),
+        ),
+      ),
+      delete: () => store.dispatch(UserActionDeleteRequestAction(userActionId)),
+      showLoading: _showLoading(store.state.userActionUpdateState, store.state.userActionDeleteState),
     );
   }
 
@@ -38,8 +63,11 @@ class UpdateUserActionViewModel extends Equatable {
         id,
         date,
         title,
-        subtitle,
+        description,
         type,
+        save,
+        delete,
+        showLoading,
       ];
 }
 
@@ -52,4 +80,8 @@ UserAction _getAction(Store<AppState> store, UserActionStateSource stateSource, 
       final state = store.state.userActionListState as UserActionListSuccessState;
       return state.userActions.firstWhere((e) => e.id == actionId);
   }
+}
+
+bool _showLoading(UserActionUpdateState updateState, UserActionDeleteState deleteState) {
+  return updateState is UserActionUpdateLoadingState || deleteState is UserActionDeleteLoadingState;
 }
