@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
@@ -72,11 +71,11 @@ class UserActionDetailsViewModel extends Equatable {
     final commentsState = store.state.actionCommentaireListState;
     final hasComments = commentsState is ActionCommentaireListSuccessState ? commentsState.comments.isNotEmpty : false;
     return UserActionDetailsViewModel._(
-      id: userAction != null ? userAction.id : '',
-      title: userAction != null ? userAction.content : '',
-      subtitle: userAction != null ? userAction.comment : '',
-      withSubtitle: userAction != null ? userAction.comment.isNotEmpty : false,
-      status: userAction != null ? userAction.status : UserActionStatus.DONE,
+      id: userAction.id,
+      title: userAction.content,
+      subtitle: userAction.comment,
+      withSubtitle: userAction.comment.isNotEmpty,
+      status: userAction.status,
       pillule: _pilluleViewModel(userAction),
       category: _category(userAction),
       date: _date(userAction),
@@ -93,10 +92,10 @@ class UserActionDetailsViewModel extends Equatable {
           actionId: userActionId,
           request: UserActionUpdateRequest(
             status: status,
-            contenu: userAction?.content ?? '',
-            description: userAction?.comment,
-            dateEcheance: userAction?.dateEcheance ?? DateTime.now(),
-            type: userAction?.type,
+            contenu: userAction.content,
+            description: userAction.comment,
+            dateEcheance: userAction.dateEcheance,
+            type: userAction.type,
           ),
         ),
       ),
@@ -146,14 +145,14 @@ String _date(UserAction? action) => action?.dateEcheance.toDay() ?? '';
 bool _withDeleteOption(UserAction? userAction, bool hasComments) =>
     userAction?.creator is JeuneActionCreator && !hasComments && userAction?.status != UserActionStatus.DONE;
 
-UserAction? _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
+UserAction _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
   switch (stateSource) {
     case UserActionStateSource.agenda:
       final state = store.state.agendaState as AgendaSuccessState;
-      return state.agenda.actions.firstWhereOrNull((e) => e.id == actionId);
+      return state.agenda.actions.firstWhere((e) => e.id == actionId);
     case UserActionStateSource.list:
       final state = store.state.userActionListState as UserActionListSuccessState;
-      return state.userActions.firstWhereOrNull((e) => e.id == actionId);
+      return state.userActions.firstWhere((e) => e.id == actionId);
   }
 }
 
