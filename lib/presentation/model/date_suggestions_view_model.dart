@@ -1,11 +1,11 @@
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-class CreateUserActionStep3DateSuggestions {
+class DateSuggestionListViewModel {
   final List<DateSuggestionViewModel> suggestions;
 
-  factory CreateUserActionStep3DateSuggestions.create(DateTime now) {
-    return CreateUserActionStep3DateSuggestions(suggestions: [
+  factory DateSuggestionListViewModel.create(DateTime now) {
+    return DateSuggestionListViewModel(suggestions: [
       DateSuggestionViewModel("${Strings.userActionDateSuggestion1} (${now.toDayOfWeek()})", now),
       DateSuggestionViewModel("${Strings.userActionDateSuggestion2} (${now.add(Duration(days: 1)).toDayOfWeek()})",
           now.add(Duration(days: 1))),
@@ -14,7 +14,7 @@ class CreateUserActionStep3DateSuggestions {
     ]);
   }
 
-  CreateUserActionStep3DateSuggestions({required this.suggestions});
+  DateSuggestionListViewModel({required this.suggestions});
 }
 
 class DateSuggestionViewModel {

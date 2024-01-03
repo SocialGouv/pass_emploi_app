@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
+import 'package:pass_emploi_app/presentation/model/date_input_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 
 void main() {
@@ -267,7 +268,7 @@ void main() {
           final viewModel = CreateUserActionFormViewModel()..addListener(notify);
 
           // When
-          viewModel.dateChanged(CreateActionDateFromUserInput(DateTime(2023)));
+          viewModel.dateChanged(DateFromPicker(DateTime(2023)));
 
           // Then
           expect(viewModel.step3.dateSource.selectedDate, DateTime(2023));
