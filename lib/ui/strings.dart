@@ -480,6 +480,10 @@ class Strings {
   static String understood = "Bien compris";
   static String deleteAction = "Supprimer l'action";
   static String updateAction = "Modifier l'action";
+  static String updateActionTitle = "*Titre de l'action";
+  static String updateActionDescriptionTitle = "Décrire mon action";
+  static String updateActionDescriptionSubtitle = "Des précisions à partager à votre conseiller ?";
+  static String updateActionCategory = "Catégorie";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
   static String createActionSuccess = "Votre action a bien été créée.";
