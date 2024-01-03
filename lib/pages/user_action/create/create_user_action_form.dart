@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step1_page.dart';
-import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step2_page.dart';
-import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step3_page.dart';
-import 'package:pass_emploi_app/pages/user_action_form/widgets/user_action_stepper.dart';
+import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step1_page.dart';
+import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step2_page.dart';
+import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step3_page.dart';
+import 'package:pass_emploi_app/pages/user_action/create/widgets/user_action_stepper.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
