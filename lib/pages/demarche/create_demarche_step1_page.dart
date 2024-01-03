@@ -20,6 +20,8 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
+const _minQueryLength = 2;
+
 class CreateDemarcheStep1Page extends StatefulWidget {
   static MaterialPageRoute<String?> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateDemarcheStep1Page());
@@ -61,11 +63,7 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
               Text(Strings.searchDemarcheHint, style: TextStyles.textBaseMedium),
               SizedBox(height: Margins.spacing_base),
               _ChampRecherche(
-                onChanged: (value) {
-                  setState(() {
-                    _query = value;
-                  });
-                },
+                onChanged: (value) => setState(() => _query = value),
               ),
               SizedBox(height: Margins.spacing_xl),
               SizedBox(
@@ -73,7 +71,9 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
                 child: PrimaryActionButton(
                   icon: AppIcons.search_rounded,
                   label: Strings.searchDemarcheButton,
-                  onPressed: () => _onSearchStarted(viewModel, context),
+                  onPressed: _query.trim().length >= _minQueryLength
+                      ? () => _onSearchStarted(viewModel, context) //
+                      : null,
                 ),
               ),
               SizedBox(height: Margins.spacing_xl),
@@ -146,8 +146,14 @@ class _TopDemarcheCard extends StatelessWidget {
 }
 
 class _DemarcheCardBase extends StatelessWidget {
-  const _DemarcheCardBase(
-      {required this.icon, required this.title, required this.description, required this.pressedTip, this.onTap});
+  const _DemarcheCardBase({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.pressedTip,
+    this.onTap,
+  });
+
   final IconData icon;
   final String title;
   final String description;
