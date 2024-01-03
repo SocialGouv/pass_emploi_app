@@ -9,9 +9,17 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class UpdateUserActionForm extends StatelessWidget {
-  const UpdateUserActionForm({super.key, required this.source, required this.userActionId});
   final UserActionStateSource source;
   final String userActionId;
+
+  const UpdateUserActionForm({super.key, required this.source, required this.userActionId});
+
+  static MaterialPageRoute<void> route(UserActionStateSource source, String userActionId) {
+    return MaterialPageRoute<void>(
+      builder: (_) => UpdateUserActionForm(source: source, userActionId: userActionId),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UpdateUserActionViewModel>(
@@ -29,7 +37,7 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PrimaryAppBar(title: Strings.updateUserActionPageTitle),
+      appBar: SecondaryAppBar(title: Strings.updateUserActionPageTitle),
       body: SingleChildScrollView(
         child: Column(
           children: [

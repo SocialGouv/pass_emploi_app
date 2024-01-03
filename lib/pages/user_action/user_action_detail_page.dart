@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/user_action/commentaire/list/action_com
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/pages/update_user_action_form/update_user_action_form.dart';
 import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
@@ -124,6 +125,10 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                         _Separator(),
                         SizedBox(height: Margins.spacing_base),
                         _DeleteAction(viewModel: viewModel, onDeleteAction: _onDeleteAction),
+                      ],
+                      if (viewModel.withUpdateButton) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _UpdateButton(widget.source, widget.userActionId),
                       ],
                       SizedBox(height: Margins.spacing_l),
                     ],
@@ -334,6 +339,24 @@ class _DeleteAction extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class _UpdateButton extends StatelessWidget {
+  final UserActionStateSource source;
+  final String userActionId;
+
+  const _UpdateButton(this.source, this.userActionId);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: SecondaryButton(
+        label: Strings.updateAction,
+        onPressed: () => Navigator.push(context, UpdateUserActionForm.route(source, userActionId)),
       ),
     );
   }

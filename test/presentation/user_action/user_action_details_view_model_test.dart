@@ -299,6 +299,36 @@ void main() {
     expect(viewModel.withUnfinishedButton, false);
   });
 
+  test("should display update button when action is not qualified", () {
+    // Given
+    final action = mockUserAction(id: 'actionId', content: 'content');
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final shouldDisplayUpdateButton = viewModel.withUpdateButton;
+
+    // Then
+    expect(shouldDisplayUpdateButton, true);
+  });
+
+  test("should not display update button when action is qualified", () {
+    // Given
+    final action = mockUserAction(
+      id: 'actionId',
+      content: 'content',
+      qualificationStatus: UserActionQualificationStatus.QUALIFIEE,
+    );
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final shouldDisplayUpdateButton = viewModel.withUpdateButton;
+
+    // Then
+    expect(shouldDisplayUpdateButton, false);
+  });
+
   group('Category', () {
     test("should display Aucune category when no category is provided", () {
       // Given

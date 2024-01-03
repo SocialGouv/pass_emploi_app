@@ -479,6 +479,7 @@ class Strings {
       "Votre conseiller a reçu une notification de la mise à jour de votre action";
   static String understood = "Bien compris";
   static String deleteAction = "Supprimer l'action";
+  static String updateAction = "Modifier l'action";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
   static String createActionSuccess = "Votre action a bien été créée.";

@@ -32,6 +32,7 @@ class UserActionDetailsViewModel extends Equatable {
   final String date;
   final bool withFinishedButton;
   final bool withUnfinishedButton;
+  final bool withUpdateButton;
   final String creationDetails;
   final bool withComments;
   final bool withDeleteOption;
@@ -53,6 +54,7 @@ class UserActionDetailsViewModel extends Equatable {
     required this.date,
     required this.withFinishedButton,
     required this.withUnfinishedButton,
+    required this.withUpdateButton,
     required this.creationDetails,
     required this.withComments,
     required this.withDeleteOption,
@@ -81,6 +83,7 @@ class UserActionDetailsViewModel extends Equatable {
       date: _date(userAction),
       withFinishedButton: _withFinishedButton(userAction),
       withUnfinishedButton: _withUnfinishedButton(userAction),
+      withUpdateButton: _withUpdateButton(userAction),
       creationDetails: _creationDetails(userAction),
       withComments: hasComments,
       withDeleteOption: _withDeleteOption(userAction, hasComments),
@@ -116,6 +119,7 @@ class UserActionDetailsViewModel extends Equatable {
         date,
         withFinishedButton,
         withUnfinishedButton,
+        withUpdateButton,
         creationDetails,
         withDeleteOption,
         updateDisplayState,
@@ -136,6 +140,10 @@ bool _withUnfinishedButton(UserAction? userAction) {
     return false;
   }
   return userAction?.status == UserActionStatus.DONE;
+}
+
+bool _withUpdateButton(UserAction? userAction) {
+  return userAction?.qualificationStatus != UserActionQualificationStatus.QUALIFIEE;
 }
 
 String _category(UserAction? action) => action?.type?.label ?? Strings.userActionNoCategory;
