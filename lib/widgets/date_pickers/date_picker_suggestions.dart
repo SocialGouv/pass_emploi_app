@@ -23,7 +23,8 @@ class DatePickerSuggestions extends StatelessWidget {
         Text(Strings.dateFormat, style: TextStyles.textXsRegular()),
         const SizedBox(height: Margins.spacing_s),
         DatePicker(
-          onValueChange: (date) => onDateChanged(DateFromPicker(date)),
+          onDateSelected: (date) => onDateChanged(DateFromPicker(date)),
+          onDateDeleted: () => onDateChanged(DateNotInitialized()),
           initialDateValue: switch (dateSource) {
             DateNotInitialized _ => null,
             final DateFromSuggestion dateSource => dateSource.date,
@@ -31,7 +32,7 @@ class DatePickerSuggestions extends StatelessWidget {
           },
           isActiveDate: true,
         ),
-        const SizedBox(height: Margins.spacing_m),
+        const SizedBox(height: Margins.spacing_s),
         _DateSuggestions(
           dateSource: dateSource,
           onSelected: onDateChanged,

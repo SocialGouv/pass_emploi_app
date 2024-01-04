@@ -75,7 +75,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
                 SizedBox(height: Margins.spacing_base),
                 _SelectLabel(Strings.selectQuand),
                 DatePicker(
-                  onValueChange: (date) {
+                  onDateSelected: (date) {
                     setState(() {
                       _endDate = date;
                     });

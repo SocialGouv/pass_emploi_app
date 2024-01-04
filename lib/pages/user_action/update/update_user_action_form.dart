@@ -108,6 +108,7 @@ class _BodyState extends State<_Body> {
                     onDateChanged: (dateSource) => _changeNotifier.updateDate(dateSource),
                     dateSource: _changeNotifier.dateInputSource,
                   ),
+                  const SizedBox(height: Margins.spacing_m),
                   Text(Strings.updateUserActionTitle, style: TextStyles.textBaseBold),
                   const SizedBox(height: Margins.spacing_s),
                   BaseTextField(

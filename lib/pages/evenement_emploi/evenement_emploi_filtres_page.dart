@@ -268,7 +268,7 @@ class _DateFiltres extends StatelessWidget {
                 Text(Strings.evenementEmploiFiltresDateDebut, style: TextStyles.textBaseMedium),
                 SizedBox(height: Margins.spacing_s),
                 DatePicker(
-                  onValueChange: onDateDebutValueChange,
+                  onDateSelected: onDateDebutValueChange,
                   initialDateValue: initialDateDebut,
                   isActiveDate: true,
                   firstDate: DateTime.now(),
@@ -277,7 +277,7 @@ class _DateFiltres extends StatelessWidget {
                 Text(Strings.evenementEmploiFiltresDateFin, style: TextStyles.textBaseMedium),
                 SizedBox(height: Margins.spacing_s),
                 DatePicker(
-                  onValueChange: onDateFinValueChange,
+                  onDateSelected: onDateFinValueChange,
                   initialDateValue: initialDateFin,
                   isActiveDate: true,
                   firstDate: firstDateFin,

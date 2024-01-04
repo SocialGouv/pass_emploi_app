@@ -25,6 +25,7 @@ class BaseTextField extends StatelessWidget {
   final dynamic Function(String)? onFieldSubmitted;
   final bool? showCursor;
   final bool readOnly;
+  final Widget? prefixIcon;
   final Widget? suffixIcon;
   final TextCapitalization textCapitalization;
 
@@ -50,6 +51,7 @@ class BaseTextField extends StatelessWidget {
     this.onFieldSubmitted,
     this.showCursor,
     this.readOnly = false,
+    this.prefixIcon,
     this.suffixIcon,
     this.textCapitalization = TextCapitalization.sentences,
   });
@@ -70,6 +72,7 @@ class BaseTextField extends StatelessWidget {
       readOnly: readOnly,
       decoration: InputDecoration(
         hintText: hintText,
+        prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         hintStyle: TextStyles.textSRegular(),
         contentPadding: const EdgeInsets.all(Margins.spacing_base),
