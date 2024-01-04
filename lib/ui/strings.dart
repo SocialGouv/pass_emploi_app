@@ -569,7 +569,7 @@ class Strings {
 
   static String demarcheCancelledDateFormat(String formattedDate) => demarcheCancelledLabel + formattedDate;
 
-  static String updateStatusError = "Erreur lors du changement du statut. Veuillez réessayer";
+  static String updateStatusError = "Erreur lors de la modification de l'action. Veuillez réessayer";
 
   static String withoutDate = "Date indéterminée";
   static String withoutContent = "Démarche indéterminée";

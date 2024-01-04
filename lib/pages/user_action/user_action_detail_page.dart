@@ -153,6 +153,8 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
     } else if (viewModel.deleteDisplayState == DeleteDisplayState.TO_DISMISS_AFTER_DELETION) {
       _popBothUpdateAndDetailsPages();
       showSnackBarWithSuccess(context, Strings.deleteActionSuccess);
+    } else if (viewModel.deleteDisplayState == DeleteDisplayState.SHOW_DELETE_ERROR) {
+      showSnackBarWithSystemError(context, Strings.deleteActionError);
     }
   }
 

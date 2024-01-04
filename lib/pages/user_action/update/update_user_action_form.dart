@@ -89,6 +89,7 @@ class _BodyState extends State<_Body> {
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           body: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
               child: Column(
