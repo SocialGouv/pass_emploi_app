@@ -15,6 +15,39 @@ import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
+  test('create should work when state source is list', () {
+    // Given
+    final store = givenState().withAction(mockUserAction(id: 'id')).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'id');
+
+    // Then
+    expect(viewModel, isNotNull);
+  });
+
+  test('create should work when state source is agenda', () {
+    // Given
+    final store = givenState().agenda(actions: [mockUserAction(id: 'id')]).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.agenda, 'id');
+
+    // Then
+    expect(viewModel, isNotNull);
+  });
+
+  test('create should work when no action is found to handle the case where user delete the action', () {
+    // Given
+    final store = givenState().agenda(actions: []).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.agenda, 'id');
+
+    // Then
+    expect(viewModel, isNotNull);
+  });
+
   group("create when update action...", () {
     test("set status to NOT_STARTED should dismiss bottom sheet", () {
       // Given
@@ -106,7 +139,7 @@ void main() {
     });
   });
 
-  test("UserActionViewModel.create when Connectivity is unavailable should set withOfflineBehavior to false", () {
+  test("create when Connectivity is unavailable should set withOfflineBehavior to false", () {
     // Given
     final store = givenState()
         .withAction(mockUserAction(id: 'actionId', status: UserActionStatus.CANCELED))
@@ -120,7 +153,7 @@ void main() {
     expect(viewModel.withOfflineBehavior, isFalse);
   });
 
-  test("UserActionViewModel.create when Connectivity is not available should set withOfflineBehavior to true", () {
+  test("create when Connectivity is not available should set withOfflineBehavior to true", () {
     // Given
     final store = givenState()
         .withAction(mockUserAction(id: 'actionId', status: UserActionStatus.CANCELED))
@@ -134,7 +167,7 @@ void main() {
     expect(viewModel.withOfflineBehavior, isTrue);
   });
 
-  test("UserActionViewModel.create when source is agenda should create view model properly", () {
+  test("create when source is agenda should create view model properly", () {
     // Given
     final action = mockUserAction(id: 'actionId', content: 'content');
     final store = givenState().agenda(actions: [action]).store();

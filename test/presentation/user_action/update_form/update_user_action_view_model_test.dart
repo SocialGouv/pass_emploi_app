@@ -37,6 +37,17 @@ void main() {
     expect(viewModel, isNotNull);
   });
 
+  test('create should work when no action is found to handle the case where user delete the action', () {
+    // Given
+    final store = givenState().agenda(actions: []).store();
+
+    // When
+    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.agenda, 'id');
+
+    // Then
+    expect(viewModel, isNotNull);
+  });
+
   test("create should return all user action's attributes", () {
     // Given
     final store = givenState()

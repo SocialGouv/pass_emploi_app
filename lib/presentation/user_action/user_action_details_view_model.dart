@@ -67,16 +67,11 @@ class UserActionDetailsViewModel extends Equatable {
 
   factory UserActionDetailsViewModel.create(Store<AppState> store, UserActionStateSource source, String userActionId) {
     final userAction = _getAction(store, source, userActionId);
-
     final updateState = store.state.userActionUpdateState;
     final deleteState = store.state.userActionDeleteState;
 
-    if (userAction == null) {
-      return UserActionDetailsViewModel.empty(
-        updateState,
-        deleteState,
-      );
-    }
+    if (userAction == null) return UserActionDetailsViewModel.empty(updateState, deleteState);
+
     final commentsState = store.state.actionCommentaireListState;
     final hasComments = commentsState is ActionCommentaireListSuccessState ? commentsState.comments.isNotEmpty : false;
     return UserActionDetailsViewModel._(
