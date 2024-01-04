@@ -151,9 +151,13 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
       _trackSuccessfulUpdate();
       Navigator.pop(context, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
     } else if (viewModel.deleteDisplayState == DeleteDisplayState.TO_DISMISS_AFTER_DELETION) {
-      Navigator.pop(context, DeleteDisplayState.TO_DISMISS_AFTER_DELETION);
+      _popBothUpdateAndDetailsPages();
       showSnackBarWithSuccess(context, Strings.deleteActionSuccess);
     }
+  }
+
+  void _popBothUpdateAndDetailsPages() {
+    Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
   }
 
   Widget _successBottomSheet(BuildContext context) {

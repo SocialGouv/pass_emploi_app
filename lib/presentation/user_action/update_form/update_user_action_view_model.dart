@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
@@ -38,6 +39,9 @@ class UpdateUserActionViewModel extends Equatable {
 
   factory UpdateUserActionViewModel.create(Store<AppState> store, UserActionStateSource source, String userActionId) {
     final userAction = _getAction(store, source, userActionId);
+
+    if (userAction == null) return UpdateUserActionViewModel.empty();
+
     return UpdateUserActionViewModel._(
       id: userAction.id,
       date: userAction.dateEcheance,
@@ -62,18 +66,32 @@ class UpdateUserActionViewModel extends Equatable {
     );
   }
 
+  factory UpdateUserActionViewModel.empty() {
+    return UpdateUserActionViewModel._(
+      id: "",
+      date: DateTime.now(),
+      title: "",
+      description: "",
+      type: null,
+      showDelete: false,
+      showLoading: false,
+      save: (date, title, description, type) {},
+      delete: () {},
+    );
+  }
+
   @override
   List<Object?> get props => [id, date, title, description, type, showLoading, showDelete, save, delete];
 }
 
-UserAction _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
+UserAction? _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
   switch (stateSource) {
     case UserActionStateSource.agenda:
       final state = store.state.agendaState as AgendaSuccessState;
-      return state.agenda.actions.firstWhere((e) => e.id == actionId);
+      return state.agenda.actions.firstWhereOrNull((e) => e.id == actionId);
     case UserActionStateSource.list:
       final state = store.state.userActionListState as UserActionListSuccessState;
-      return state.userActions.firstWhere((e) => e.id == actionId);
+      return state.userActions.firstWhereOrNull((e) => e.id == actionId);
   }
 }
 

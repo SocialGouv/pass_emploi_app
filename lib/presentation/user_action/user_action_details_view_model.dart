@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
@@ -66,8 +67,16 @@ class UserActionDetailsViewModel extends Equatable {
 
   factory UserActionDetailsViewModel.create(Store<AppState> store, UserActionStateSource source, String userActionId) {
     final userAction = _getAction(store, source, userActionId);
+
     final updateState = store.state.userActionUpdateState;
     final deleteState = store.state.userActionDeleteState;
+
+    if (userAction == null) {
+      return UserActionDetailsViewModel.empty(
+        updateState,
+        deleteState,
+      );
+    }
     final commentsState = store.state.actionCommentaireListState;
     final hasComments = commentsState is ActionCommentaireListSuccessState ? commentsState.comments.isNotEmpty : false;
     return UserActionDetailsViewModel._(
@@ -103,6 +112,32 @@ class UserActionDetailsViewModel extends Equatable {
       deleteDisplayState: _deleteStateDisplayState(deleteState),
     );
   }
+
+  factory UserActionDetailsViewModel.empty(
+    UserActionUpdateState updateState,
+    UserActionDeleteState deleteState,
+  ) =>
+      UserActionDetailsViewModel._(
+        id: '',
+        title: '',
+        subtitle: '',
+        withSubtitle: false,
+        status: UserActionStatus.DONE,
+        pillule: null,
+        category: '',
+        date: '',
+        withFinishedButton: false,
+        withUnfinishedButton: false,
+        withUpdateButton: false,
+        creationDetails: '',
+        withComments: false,
+        withOfflineBehavior: false,
+        onDelete: (actionId) {},
+        resetUpdateStatus: () {},
+        updateStatus: (status) {},
+        updateDisplayState: _updateStateDisplayState(updateState),
+        deleteDisplayState: _deleteStateDisplayState(deleteState),
+      );
 
   @override
   List<Object?> get props => [
@@ -146,14 +181,14 @@ String _category(UserAction? action) => action?.type?.label ?? Strings.userActio
 
 String _date(UserAction? action) => action?.dateEcheance.toDay() ?? '';
 
-UserAction _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
+UserAction? _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
   switch (stateSource) {
     case UserActionStateSource.agenda:
       final state = store.state.agendaState as AgendaSuccessState;
-      return state.agenda.actions.firstWhere((e) => e.id == actionId);
+      return state.agenda.actions.firstWhereOrNull((e) => e.id == actionId);
     case UserActionStateSource.list:
       final state = store.state.userActionListState as UserActionListSuccessState;
-      return state.userActions.firstWhere((e) => e.id == actionId);
+      return state.userActions.firstWhereOrNull((e) => e.id == actionId);
   }
 }
 
