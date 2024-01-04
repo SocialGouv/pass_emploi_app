@@ -16,7 +16,6 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -120,12 +119,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                         SizedBox(height: Margins.spacing_base),
                         _UnfinishedActionButton(viewModel),
                       ],
-                      if (viewModel.withDeleteOption) ...[
-                        SizedBox(height: Margins.spacing_base),
-                        _Separator(),
-                        SizedBox(height: Margins.spacing_base),
-                        _DeleteAction(viewModel: viewModel, onDeleteAction: _onDeleteAction),
-                      ],
                       if (viewModel.withUpdateButton) ...[
                         SizedBox(height: Margins.spacing_base),
                         _UpdateButton(widget.source, widget.userActionId),
@@ -146,13 +139,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   bool _isLoading(UserActionDetailsViewModel viewModel) {
     return viewModel.updateDisplayState == UpdateDisplayState.SHOW_LOADING ||
         viewModel.deleteDisplayState == DeleteDisplayState.SHOW_LOADING;
-  }
-
-  void _onDeleteAction(UserActionDetailsViewModel viewModel) {
-    if (viewModel.deleteDisplayState != DeleteDisplayState.SHOW_LOADING) {
-      viewModel.onDelete(viewModel.id);
-      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.deleteUserAction);
-    }
   }
 
   void _pageNavigationHandling(UserActionDetailsViewModel viewModel) {
@@ -181,6 +167,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
 
 class _StatusPillule extends StatelessWidget {
   const _StatusPillule({required this.pilluleType});
+
   final CardPilluleType pilluleType;
 
   @override
@@ -191,6 +178,7 @@ class _StatusPillule extends StatelessWidget {
 
 class _FinishActionButton extends StatelessWidget {
   const _FinishActionButton(this.viewModel, this.onActionDone);
+
   final UserActionDetailsViewModel viewModel;
   final VoidCallback onActionDone;
 
@@ -212,6 +200,7 @@ class _FinishActionButton extends StatelessWidget {
 
 class _UnfinishedActionButton extends StatelessWidget {
   const _UnfinishedActionButton(this.viewModel);
+
   final UserActionDetailsViewModel viewModel;
 
   @override
@@ -306,44 +295,6 @@ class _Description extends StatelessWidget {
   }
 }
 
-class _DeleteAction extends StatelessWidget {
-  final UserActionDetailsViewModel viewModel;
-  final Function(UserActionDetailsViewModel) onDeleteAction;
-
-  _DeleteAction({required this.viewModel, required this.onDeleteAction});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, Margins.spacing_base, 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          PrimaryActionButton(
-            onPressed: viewModel.withOfflineBehavior ? null : () => onDeleteAction(viewModel),
-            label: Strings.deleteAction,
-            textColor: AppColors.warning,
-            fontSize: FontSizes.normal,
-            backgroundColor: AppColors.warningLighten,
-            disabledBackgroundColor: AppColors.warningLighten,
-            rippleColor: AppColors.warningLighten,
-            withShadow: false,
-          ),
-          if (viewModel.deleteDisplayState == DeleteDisplayState.SHOW_DELETE_ERROR)
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Text(
-                Strings.deleteActionError,
-                textAlign: TextAlign.center,
-                style: TextStyles.textSRegular(color: AppColors.warning),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
 class _UpdateButton extends StatelessWidget {
   final UserActionStateSource source;
   final String userActionId;
@@ -364,6 +315,7 @@ class _UpdateButton extends StatelessWidget {
 
 class _CommentSection extends StatelessWidget {
   const _CommentSection(this.viewModel);
+
   final UserActionDetailsViewModel viewModel;
 
   @override
@@ -446,6 +398,7 @@ class _UnavailableCommentsOffline extends StatelessWidget {
 
 class _DateAndCategory extends StatelessWidget {
   const _DateAndCategory(this.viewModel);
+
   final UserActionDetailsViewModel viewModel;
 
   @override

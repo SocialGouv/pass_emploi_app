@@ -35,7 +35,6 @@ class UserActionDetailsViewModel extends Equatable {
   final bool withUpdateButton;
   final String creationDetails;
   final bool withComments;
-  final bool withDeleteOption;
   final bool withOfflineBehavior;
   final Function(String actionId) onDelete;
   final Function() resetUpdateStatus;
@@ -57,7 +56,6 @@ class UserActionDetailsViewModel extends Equatable {
     required this.withUpdateButton,
     required this.creationDetails,
     required this.withComments,
-    required this.withDeleteOption,
     required this.withOfflineBehavior,
     required this.onDelete,
     required this.resetUpdateStatus,
@@ -86,7 +84,6 @@ class UserActionDetailsViewModel extends Equatable {
       withUpdateButton: _withUpdateButton(userAction),
       creationDetails: _creationDetails(userAction),
       withComments: hasComments,
-      withDeleteOption: _withDeleteOption(userAction, hasComments),
       withOfflineBehavior: store.state.connectivityState.isOffline(),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
       resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
@@ -121,7 +118,6 @@ class UserActionDetailsViewModel extends Equatable {
         withUnfinishedButton,
         withUpdateButton,
         creationDetails,
-        withDeleteOption,
         updateDisplayState,
         deleteDisplayState,
         withOfflineBehavior,
@@ -149,9 +145,6 @@ bool _withUpdateButton(UserAction? userAction) {
 String _category(UserAction? action) => action?.type?.label ?? Strings.userActionNoCategory;
 
 String _date(UserAction? action) => action?.dateEcheance.toDay() ?? '';
-
-bool _withDeleteOption(UserAction? userAction, bool hasComments) =>
-    userAction?.creator is JeuneActionCreator && !hasComments && userAction?.status != UserActionStatus.DONE;
 
 UserAction _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
   switch (stateSource) {

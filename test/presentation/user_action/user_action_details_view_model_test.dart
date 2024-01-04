@@ -15,62 +15,6 @@ import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  test(
-      "UserActionViewModel.create when creator is jeune and action has no comment should create view model properly and autorize delete",
-      () {
-    // Given
-    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
-    final store = givenState().withAction(action).actionWithoutComments().store();
-
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
-
-    // Then
-    expect(viewModel.withComments, false);
-    expect(viewModel.withDeleteOption, isTrue);
-  });
-
-  test("UserActionViewModel.create when status is done should not autorize delete", () {
-    // Given
-    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator(), status: UserActionStatus.DONE);
-    final store = givenState().withAction(action).store();
-
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
-
-    // Then
-    expect(viewModel.withDeleteOption, isFalse);
-  });
-
-  test(
-      "UserActionViewModel.create when creator is jeune and action has comments should create view model properly and not autorize delete",
-      () {
-    // Given
-    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
-    final store = givenState().withAction(action).actionWithComments().store();
-
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
-
-    // Then
-    expect(viewModel.withDeleteOption, isFalse);
-  });
-
-  test(
-      "UserActionViewModel.create when creator is conseiller should create view model properly and not autorize delete",
-      () {
-    // Given
-    final store = givenState()
-        .withAction(mockUserAction(id: 'actionId', creator: ConseillerActionCreator(name: 'Nils Tavernier')))
-        .store();
-
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
-
-    // Then
-    expect(viewModel.withDeleteOption, isFalse);
-  });
-
   group("create when update action...", () {
     test("set status to NOT_STARTED should dismiss bottom sheet", () {
       // Given

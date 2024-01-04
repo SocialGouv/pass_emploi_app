@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_a
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -18,9 +19,10 @@ class UpdateUserActionViewModel extends Equatable {
   final String title;
   final String description;
   final UserActionReferentielType? type;
+  final bool showDelete;
+  final bool showLoading;
   final void Function(DateTime date, String title, String description, UserActionReferentielType? type) save;
   final void Function() delete;
-  final bool showLoading;
 
   UpdateUserActionViewModel._({
     required this.id,
@@ -28,9 +30,10 @@ class UpdateUserActionViewModel extends Equatable {
     required this.title,
     required this.description,
     required this.type,
+    required this.showDelete,
+    required this.showLoading,
     required this.save,
     required this.delete,
-    required this.showLoading,
   });
 
   factory UpdateUserActionViewModel.create(Store<AppState> store, UserActionStateSource source, String userActionId) {
@@ -41,6 +44,8 @@ class UpdateUserActionViewModel extends Equatable {
       title: userAction.content,
       description: userAction.comment,
       type: userAction.type,
+      showDelete: _showDelete(userAction),
+      showLoading: _showLoading(store.state.userActionUpdateState, store.state.userActionDeleteState),
       save: (date, title, description, type) => store.dispatch(
         UserActionUpdateRequestAction(
           actionId: userActionId,
@@ -54,21 +59,11 @@ class UpdateUserActionViewModel extends Equatable {
         ),
       ),
       delete: () => store.dispatch(UserActionDeleteRequestAction(userActionId)),
-      showLoading: _showLoading(store.state.userActionUpdateState, store.state.userActionDeleteState),
     );
   }
 
   @override
-  List<Object?> get props => [
-        id,
-        date,
-        title,
-        description,
-        type,
-        save,
-        delete,
-        showLoading,
-      ];
+  List<Object?> get props => [id, date, title, description, type, showLoading, showDelete, save, delete];
 }
 
 UserAction _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
@@ -80,6 +75,11 @@ UserAction _getAction(Store<AppState> store, UserActionStateSource stateSource, 
       final state = store.state.userActionListState as UserActionListSuccessState;
       return state.userActions.firstWhere((e) => e.id == actionId);
   }
+}
+
+bool _showDelete(UserAction userAction) {
+  return userAction.creator is JeuneActionCreator &&
+      userAction.qualificationStatus != UserActionQualificationStatus.QUALIFIEE;
 }
 
 bool _showLoading(UserActionUpdateState updateState, UserActionDeleteState deleteState) {
