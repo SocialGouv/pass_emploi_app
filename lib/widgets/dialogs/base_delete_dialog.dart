@@ -9,9 +9,20 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 class BaseDeleteDialog extends StatelessWidget {
-  const BaseDeleteDialog({super.key, required this.title, required this.subtitle});
+  const BaseDeleteDialog({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    this.onDelete,
+    this.withLoading = false,
+    this.withError = false,
+  });
+
   final String title;
   final String subtitle;
+  final bool withLoading;
+  final bool withError;
+  final void Function()? onDelete;
 
   static Future<bool?> show(
     BuildContext context, {
@@ -44,6 +55,8 @@ class BaseDeleteDialog extends StatelessWidget {
               Text(title, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
               SizedBox(height: Margins.spacing_m),
               Text(subtitle, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+              if (withLoading) _Loader(),
+              if (withError) _Error(),
             ],
           ),
           Positioned(
@@ -62,11 +75,44 @@ class BaseDeleteDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context, false),
         ),
         SizedBox(width: Margins.spacing_s),
-        PrimaryActionButton(label: Strings.suppressionLabel, onPressed: () => Navigator.pop(context, true)),
+        PrimaryActionButton(
+          label: Strings.suppressionLabel,
+          onPressed: withLoading ? null : () => _onDelete(context),
+        ),
       ],
       actionsAlignment: MainAxisAlignment.center,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Margins.spacing_m)),
       actionsPadding: EdgeInsets.only(bottom: Margins.spacing_base),
+    );
+  }
+
+  void _onDelete(BuildContext context) => onDelete != null ? onDelete!.call() : Navigator.pop(context, true);
+}
+
+class _Loader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(Margins.spacing_s),
+      child: SizedBox(
+        height: Margins.spacing_m,
+        width: Margins.spacing_m,
+        child: CircularProgressIndicator(strokeWidth: 2),
+      ),
+    );
+  }
+}
+
+class _Error extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(Margins.spacing_s),
+      child: Text(
+        Strings.alerteDeleteError,
+        textAlign: TextAlign.center,
+        style: TextStyles.textSRegular(color: AppColors.warning),
+      ),
     );
   }
 }
