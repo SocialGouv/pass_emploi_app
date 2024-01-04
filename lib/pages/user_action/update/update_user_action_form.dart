@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step1.dart';
 import 'package:pass_emploi_app/pages/user_action/update/update_user_action_form_change_notifier.dart';
@@ -34,10 +35,13 @@ class UpdateUserActionForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, UpdateUserActionViewModel>(
-      converter: (store) => UpdateUserActionViewModel.create(store, source, userActionId),
-      builder: (context, viewModel) => _Body(viewModel),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.userActionUpdate,
+      child: StoreConnector<AppState, UpdateUserActionViewModel>(
+        converter: (store) => UpdateUserActionViewModel.create(store, source, userActionId),
+        builder: (context, viewModel) => _Body(viewModel),
+        distinct: true,
+      ),
     );
   }
 }
