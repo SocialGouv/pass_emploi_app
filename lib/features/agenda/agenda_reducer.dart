@@ -26,7 +26,7 @@ AgendaState _listWithDeletedAction(AgendaState current, UserActionDeleteSuccessA
 
 AgendaState _listWithUpdatedAction(AgendaState current, UserActionUpdateSuccessAction action) {
   if (current is! AgendaSuccessState) return current;
-  final newActions = current.agenda.actions.withUpdatedAction(action.actionId, action.newStatus);
+  final newActions = current.agenda.actions.withUpdatedAction(action.actionId, action.request);
   final newAgenda = current.agenda.copyWith(actions: newActions);
   return AgendaSuccessState(newAgenda);
 }

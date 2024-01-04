@@ -1,15 +1,23 @@
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/network/json_serializable.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class PutUserActionRequest implements JsonSerializable {
-  final UserActionStatus status;
+  final UserActionUpdateRequest request;
 
-  PutUserActionRequest({required this.status});
+  PutUserActionRequest(this.request);
 
   @override
-  Map<String, dynamic> toJson() => {"status": _toString(status)};
+  Map<String, dynamic> toJson() => {
+        "status": _statusToString(request.status),
+        "contenu": request.contenu,
+        if (request.description != null) "description": request.description,
+        "dateEcheance": request.dateEcheance.toIso8601WithOffsetDateTime(),
+        if (request.type != null) "codeQualification": request.type!.code,
+      };
 
-  String _toString(UserActionStatus status) {
+  String _statusToString(UserActionStatus status) {
     switch (status) {
       case UserActionStatus.NOT_STARTED:
         return "not_started";

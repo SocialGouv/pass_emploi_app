@@ -1,22 +1,21 @@
-import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 
 class UserActionUpdateRequestAction {
   final String actionId;
-  final UserActionStatus newStatus;
+  final UserActionUpdateRequest request;
 
-  UserActionUpdateRequestAction({required this.actionId, required this.newStatus});
+  UserActionUpdateRequestAction({required this.actionId, required this.request});
 }
 
 class UserActionUpdateLoadingAction {}
 
 class UserActionUpdateSuccessAction {
   final String actionId;
-  final UserActionStatus newStatus;
+  final UserActionUpdateRequest request;
 
-  UserActionUpdateSuccessAction({required this.actionId, required this.newStatus});
+  UserActionUpdateSuccessAction({required this.actionId, required this.request});
 }
 
 class UserActionUpdateFailureAction {}
 
 class UserActionUpdateResetAction {}
-

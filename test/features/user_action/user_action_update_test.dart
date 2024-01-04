@@ -24,7 +24,7 @@ void main() {
         store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateSuccessState);
 
     // When
-    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
+    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", request: mockUserActionUpdateRequest()));
 
     // Then
     expect(await updateDisplayedLoading, isTrue);
@@ -46,7 +46,7 @@ void main() {
     final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateSuccessState);
 
     // When
-    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
+    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", request: mockUserActionUpdateRequest()));
 
     // Then
     final appState = await successAppState;
@@ -70,7 +70,7 @@ void main() {
         store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateFailureState);
 
     // When
-    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
+    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", request: mockUserActionUpdateRequest()));
 
     // Then
     expect(await updateDisplayedLoading, isTrue);
@@ -96,7 +96,7 @@ void main() {
         store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateFailureState);
 
     // When
-    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
+    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", request: mockUserActionUpdateRequest()));
 
     // Then
 
@@ -125,7 +125,7 @@ void main() {
     final store = testStoreFactory.initializeReduxStore(initialState: state);
 
     void whenUpdatingAction() async {
-      await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
+      await store.dispatch(UserActionUpdateRequestAction(actionId: "3", request: mockUserActionUpdateRequest()));
     }
 
     test("should update on repository", () async {
@@ -193,7 +193,7 @@ void main() {
     final store = testStoreFactory.initializeReduxStore(initialState: state);
 
     void whenUpdatingAction() async {
-      await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
+      await store.dispatch(UserActionUpdateRequestAction(actionId: "3", request: mockUserActionUpdateRequest()));
     }
 
     test("on repository", () async {

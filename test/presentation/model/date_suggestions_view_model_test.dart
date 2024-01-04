@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/presentation/user_action/creation_form/date_suggestions_view_model.dart';
+import 'package:pass_emploi_app/presentation/model/date_suggestions_view_model.dart';
 
 void main() {
-  group('CreateUserActionStep3DateSuggestions', () {
+  group('DateSuggestionListViewModel', () {
     test('should create suggestions with today, tomorrow and next monday', () {
       // Given
       final now = DateTime(2021, 1, 1);
-      final suggestions = CreateUserActionStep3DateSuggestions.create(now);
+      final suggestions = DateSuggestionListViewModel.create(now);
 
       // When & Then
       expect(suggestions.suggestions.length, 3);

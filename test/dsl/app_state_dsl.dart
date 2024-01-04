@@ -62,6 +62,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/session_milo.dart';
@@ -349,8 +350,8 @@ extension AppStateDSL on AppState {
     return copyWith(userActionUpdateState: UserActionUpdateNotInitializedState());
   }
 
-  AppState updateActionSuccess(UserActionStatus newStatus) {
-    return copyWith(userActionUpdateState: UserActionUpdateSuccessState(newStatus));
+  AppState updateActionSuccess(UserActionUpdateRequest request) {
+    return copyWith(userActionUpdateState: UserActionUpdateSuccessState(request));
   }
 
   AppState updateActionLoading() {

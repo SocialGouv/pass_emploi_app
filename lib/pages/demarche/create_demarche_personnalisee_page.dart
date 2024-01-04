@@ -72,7 +72,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
             Padding(
               padding: const EdgeInsets.only(right: 24, left: 24, top: 12),
               child: DatePicker(
-                onValueChange: (date) {
+                onDateSelected: (date) {
                   setState(() {
                     _dateEcheance = date;
                   });

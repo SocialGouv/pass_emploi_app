@@ -214,7 +214,7 @@ class _StartDateFilters extends StatelessWidget {
           isActiveDate: isActiveDate,
         ),
         DatePicker(
-          onValueChange: onDateChange,
+          onDateSelected: onDateChange,
           initialDateValue: initialDateValue,
           isActiveDate: isActiveDate,
         )

@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
@@ -64,7 +65,7 @@ class PageActionRepositorySuccessStub extends UserActionRepository {
   }
 
   @override
-  Future<bool> updateActionStatus(String actionId, UserActionStatus newStatus) async {
+  Future<bool> updateUserAction(String actionId, UserActionUpdateRequest request) async {
     isActionUpdated = true;
     return true;
   }
@@ -85,7 +86,7 @@ class PageActionRepositoryFailureStub extends UserActionRepository {
   }
 
   @override
-  Future<bool> updateActionStatus(String actionId, UserActionStatus newStatus) async {
+  Future<bool> updateUserAction(String actionId, UserActionUpdateRequest request) async {
     return false;
   }
 

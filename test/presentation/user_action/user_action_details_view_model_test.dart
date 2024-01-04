@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
@@ -14,60 +15,37 @@ import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  test(
-      "UserActionViewModel.create when creator is jeune and action has no comment should create view model properly and autorize delete",
-      () {
+  test('create should work when state source is list', () {
     // Given
-    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
-    final store = givenState().withAction(action).actionWithoutComments().store();
+    final store = givenState().withAction(mockUserAction(id: 'id')).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'id');
 
     // Then
-    expect(viewModel.withComments, false);
-    expect(viewModel.withDeleteOption, isTrue);
+    expect(viewModel, isNotNull);
   });
 
-  test("UserActionViewModel.create when status is done should not autorize delete", () {
+  test('create should work when state source is agenda', () {
     // Given
-    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator(), status: UserActionStatus.DONE);
-    final store = givenState().withAction(action).store();
+    final store = givenState().agenda(actions: [mockUserAction(id: 'id')]).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.agenda, 'id');
 
     // Then
-    expect(viewModel.withDeleteOption, isFalse);
+    expect(viewModel, isNotNull);
   });
 
-  test(
-      "UserActionViewModel.create when creator is jeune and action has comments should create view model properly and not autorize delete",
-      () {
+  test('create should work when no action is found to handle the case where user delete the action', () {
     // Given
-    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
-    final store = givenState().withAction(action).actionWithComments().store();
+    final store = givenState().agenda(actions: []).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.agenda, 'id');
 
     // Then
-    expect(viewModel.withDeleteOption, isFalse);
-  });
-
-  test(
-      "UserActionViewModel.create when creator is conseiller should create view model properly and not autorize delete",
-      () {
-    // Given
-    final store = givenState()
-        .withAction(mockUserAction(id: 'actionId', creator: ConseillerActionCreator(name: 'Nils Tavernier')))
-        .store();
-
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
-
-    // Then
-    expect(viewModel.withDeleteOption, isFalse);
+    expect(viewModel, isNotNull);
   });
 
   group("create when update action...", () {
@@ -75,7 +53,7 @@ void main() {
       // Given
       final store = givenState()
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(UserActionStatus.NOT_STARTED)
+          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.NOT_STARTED))
           .store();
 
       // When
@@ -89,7 +67,7 @@ void main() {
       // Given
       final store = givenState()
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(UserActionStatus.IN_PROGRESS)
+          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.IN_PROGRESS))
           .store();
 
       // When
@@ -103,7 +81,7 @@ void main() {
       // Given
       final store = givenState()
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(UserActionStatus.CANCELED)
+          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.CANCELED))
           .store();
 
       // When
@@ -117,7 +95,7 @@ void main() {
       // Given
       final store = givenState() //
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(UserActionStatus.DONE)
+          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.DONE))
           .store();
 
       // When
@@ -161,7 +139,7 @@ void main() {
     });
   });
 
-  test("UserActionViewModel.create when Connectivity is unavailable should set withOfflineBehavior to false", () {
+  test("create when Connectivity is unavailable should set withOfflineBehavior to false", () {
     // Given
     final store = givenState()
         .withAction(mockUserAction(id: 'actionId', status: UserActionStatus.CANCELED))
@@ -175,7 +153,7 @@ void main() {
     expect(viewModel.withOfflineBehavior, isFalse);
   });
 
-  test("UserActionViewModel.create when Connectivity is not available should set withOfflineBehavior to true", () {
+  test("create when Connectivity is not available should set withOfflineBehavior to true", () {
     // Given
     final store = givenState()
         .withAction(mockUserAction(id: 'actionId', status: UserActionStatus.CANCELED))
@@ -189,7 +167,7 @@ void main() {
     expect(viewModel.withOfflineBehavior, isTrue);
   });
 
-  test("UserActionViewModel.create when source is agenda should create view model properly", () {
+  test("create when source is agenda should create view model properly", () {
     // Given
     final action = mockUserAction(id: 'actionId', content: 'content');
     final store = givenState().agenda(actions: [action]).store();
@@ -201,7 +179,7 @@ void main() {
     expect(viewModel.title, 'content');
   });
 
-  test("should display doign pill when status is not done", () {
+  test("should display doing pill when status is not done and action is not late", () {
     // Given
     final action = mockUserAction(id: 'actionId', content: 'content', status: UserActionStatus.IN_PROGRESS);
     final store = givenState().withAction(action).store();
@@ -228,7 +206,11 @@ void main() {
   test("should display late pill when action is late", () {
     // Given
     final action = mockUserAction(
-        id: 'actionId', content: 'content', status: UserActionStatus.IN_PROGRESS, dateEcheance: DateTime(2020, 1, 1));
+      id: 'actionId',
+      content: 'content',
+      status: UserActionStatus.IN_PROGRESS,
+      dateEcheance: DateTime(2020, 1, 1),
+    );
     final store = givenState().withAction(action).store();
 
     // When
@@ -236,6 +218,23 @@ void main() {
 
     // Then
     expect(viewModel.pillule, CardPilluleType.late);
+  });
+
+  test("should display done pill when action is late and done", () {
+    // Given
+    final action = mockUserAction(
+      id: 'actionId',
+      content: 'content',
+      status: UserActionStatus.DONE,
+      dateEcheance: DateTime(2020, 1, 1),
+    );
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.pillule, CardPilluleType.done);
   });
 
   test("should display finished button when status is not done", () {
@@ -296,6 +295,36 @@ void main() {
     // Then
     expect(viewModel.withFinishedButton, false);
     expect(viewModel.withUnfinishedButton, false);
+  });
+
+  test("should display update button when action is not qualified", () {
+    // Given
+    final action = mockUserAction(id: 'actionId', content: 'content');
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final shouldDisplayUpdateButton = viewModel.withUpdateButton;
+
+    // Then
+    expect(shouldDisplayUpdateButton, true);
+  });
+
+  test("should not display update button when action is qualified", () {
+    // Given
+    final action = mockUserAction(
+      id: 'actionId',
+      content: 'content',
+      qualificationStatus: UserActionQualificationStatus.QUALIFIEE,
+    );
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final shouldDisplayUpdateButton = viewModel.withUpdateButton;
+
+    // Then
+    expect(shouldDisplayUpdateButton, false);
   });
 
   group('Category', () {
@@ -405,7 +434,8 @@ void main() {
 
   test('updateStatus when update status has changed should dispatch a UserActionUpdateRequestAction', () {
     // Given
-    final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(mockUserAction(id: 'actionId')));
+    final action = mockUserAction(id: 'actionId');
+    final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(action));
 
     // When
     final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
@@ -413,6 +443,15 @@ void main() {
 
     // Then
     expect(store.dispatchedAction, isA<UserActionUpdateRequestAction>());
+    expect(
+        (store.dispatchedAction as UserActionUpdateRequestAction).request,
+        UserActionUpdateRequest(
+          status: UserActionStatus.NOT_STARTED,
+          contenu: action.content,
+          description: action.comment,
+          dateEcheance: action.dateEcheance,
+          type: action.type,
+        ));
   });
 
   test('onDelete should dispatch UserActionDeleteRequestAction', () {

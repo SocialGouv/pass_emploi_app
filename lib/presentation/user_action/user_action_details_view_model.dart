@@ -7,9 +7,10 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_s
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/pages/user_action_form/create_user_action_form_step1_page.dart';
+import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step1.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -32,9 +33,9 @@ class UserActionDetailsViewModel extends Equatable {
   final String date;
   final bool withFinishedButton;
   final bool withUnfinishedButton;
+  final bool withUpdateButton;
   final String creationDetails;
   final bool withComments;
-  final bool withDeleteOption;
   final bool withOfflineBehavior;
   final Function(String actionId) onDelete;
   final Function() resetUpdateStatus;
@@ -53,9 +54,9 @@ class UserActionDetailsViewModel extends Equatable {
     required this.date,
     required this.withFinishedButton,
     required this.withUnfinishedButton,
+    required this.withUpdateButton,
     required this.creationDetails,
     required this.withComments,
-    required this.withDeleteOption,
     required this.withOfflineBehavior,
     required this.onDelete,
     required this.resetUpdateStatus,
@@ -68,31 +69,70 @@ class UserActionDetailsViewModel extends Equatable {
     final userAction = _getAction(store, source, userActionId);
     final updateState = store.state.userActionUpdateState;
     final deleteState = store.state.userActionDeleteState;
+
+    if (userAction == null) return UserActionDetailsViewModel.empty(updateState, deleteState);
+
     final commentsState = store.state.actionCommentaireListState;
     final hasComments = commentsState is ActionCommentaireListSuccessState ? commentsState.comments.isNotEmpty : false;
     return UserActionDetailsViewModel._(
-      id: userAction != null ? userAction.id : '',
-      title: userAction != null ? userAction.content : '',
-      subtitle: userAction != null ? userAction.comment : '',
-      withSubtitle: userAction != null ? userAction.comment.isNotEmpty : false,
-      status: userAction != null ? userAction.status : UserActionStatus.DONE,
+      id: userAction.id,
+      title: userAction.content,
+      subtitle: userAction.comment,
+      withSubtitle: userAction.comment.isNotEmpty,
+      status: userAction.status,
       pillule: _pilluleViewModel(userAction),
       category: _category(userAction),
       date: _date(userAction),
       withFinishedButton: _withFinishedButton(userAction),
       withUnfinishedButton: _withUnfinishedButton(userAction),
+      withUpdateButton: _withUpdateButton(userAction),
       creationDetails: _creationDetails(userAction),
       withComments: hasComments,
-      withDeleteOption: _withDeleteOption(userAction, hasComments),
       withOfflineBehavior: store.state.connectivityState.isOffline(),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
       resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
-      updateStatus: (status) =>
-          store.dispatch(UserActionUpdateRequestAction(actionId: userActionId, newStatus: status)),
+      updateStatus: (status) => store.dispatch(
+        UserActionUpdateRequestAction(
+          actionId: userActionId,
+          request: UserActionUpdateRequest(
+            status: status,
+            contenu: userAction.content,
+            description: userAction.comment,
+            dateEcheance: userAction.dateEcheance,
+            type: userAction.type,
+          ),
+        ),
+      ),
       updateDisplayState: _updateStateDisplayState(updateState),
       deleteDisplayState: _deleteStateDisplayState(deleteState),
     );
   }
+
+  factory UserActionDetailsViewModel.empty(
+    UserActionUpdateState updateState,
+    UserActionDeleteState deleteState,
+  ) =>
+      UserActionDetailsViewModel._(
+        id: '',
+        title: '',
+        subtitle: '',
+        withSubtitle: false,
+        status: UserActionStatus.DONE,
+        pillule: null,
+        category: '',
+        date: '',
+        withFinishedButton: false,
+        withUnfinishedButton: false,
+        withUpdateButton: false,
+        creationDetails: '',
+        withComments: false,
+        withOfflineBehavior: false,
+        onDelete: (actionId) {},
+        resetUpdateStatus: () {},
+        updateStatus: (status) {},
+        updateDisplayState: _updateStateDisplayState(updateState),
+        deleteDisplayState: _deleteStateDisplayState(deleteState),
+      );
 
   @override
   List<Object?> get props => [
@@ -106,8 +146,8 @@ class UserActionDetailsViewModel extends Equatable {
         date,
         withFinishedButton,
         withUnfinishedButton,
+        withUpdateButton,
         creationDetails,
-        withDeleteOption,
         updateDisplayState,
         deleteDisplayState,
         withOfflineBehavior,
@@ -128,12 +168,13 @@ bool _withUnfinishedButton(UserAction? userAction) {
   return userAction?.status == UserActionStatus.DONE;
 }
 
+bool _withUpdateButton(UserAction? userAction) {
+  return userAction?.qualificationStatus != UserActionQualificationStatus.QUALIFIEE;
+}
+
 String _category(UserAction? action) => action?.type?.label ?? Strings.userActionNoCategory;
 
 String _date(UserAction? action) => action?.dateEcheance.toDay() ?? '';
-
-bool _withDeleteOption(UserAction? userAction, bool hasComments) =>
-    userAction?.creator is JeuneActionCreator && !hasComments && userAction?.status != UserActionStatus.DONE;
 
 UserAction? _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
   switch (stateSource) {
@@ -160,7 +201,7 @@ DeleteDisplayState _deleteStateDisplayState(UserActionDeleteState state) {
 
 UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {
   if (state is UserActionUpdateSuccessState) {
-    if (state.newStatus == UserActionStatus.DONE) {
+    if (state.request.status == UserActionStatus.DONE) {
       return UpdateDisplayState.SHOW_SUCCESS;
     } else {
       return UpdateDisplayState.TO_DISMISS_AFTER_UPDATE;
@@ -173,16 +214,10 @@ UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {
   return UpdateDisplayState.NOT_INIT;
 }
 
-CardPilluleType? _pilluleViewModel(UserAction? action) {
-  if (action?.isLate() == true) {
-    return CardPilluleType.late;
-  }
-
-  if (action?.status == UserActionStatus.DONE) {
-    return CardPilluleType.done;
-  } else {
-    return CardPilluleType.doing;
-  }
+CardPilluleType? _pilluleViewModel(UserAction action) {
+  if (action.status == UserActionStatus.DONE) return CardPilluleType.done;
+  if (action.isLate() == true) return CardPilluleType.late;
+  return CardPilluleType.doing;
 }
 
 String _creationDetails(UserAction? action) {

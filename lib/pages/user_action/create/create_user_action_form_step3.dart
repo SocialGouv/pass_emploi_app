@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/presentation/model/date_input_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action/creation_form/date_suggestions_view_model.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
-import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
+import 'package:pass_emploi_app/widgets/date_pickers/date_picker_suggestions.dart';
 
 class CreateUserActionFormStep3 extends StatelessWidget {
   const CreateUserActionFormStep3({
@@ -20,7 +19,7 @@ class CreateUserActionFormStep3 extends StatelessWidget {
   final CreateUserActionStep3ViewModel viewModel;
   final void Function(bool) onStatusChanged;
   final void Function(bool) withRappelChanged;
-  final void Function(CreateActionDateSource) onDateChanged;
+  final void Function(DateInputSource) onDateChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -38,23 +37,9 @@ class CreateUserActionFormStep3 extends StatelessWidget {
             const SizedBox(height: Margins.spacing_base),
             _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
             const SizedBox(height: Margins.spacing_m),
-            Text(Strings.userActionDateStep3, style: TextStyles.textBaseBold),
-            const SizedBox(height: Margins.spacing_s),
-            Text(Strings.dateFormat, style: TextStyles.textXsRegular()),
-            const SizedBox(height: Margins.spacing_s),
-            DatePicker(
-              onValueChange: (date) => onDateChanged(CreateActionDateFromUserInput(date)),
-              initialDateValue: switch (viewModel.dateSource) {
-                CreateActionDateNotInitialized _ => null,
-                final CreateActionDateFromSuggestions dateSource => dateSource.date,
-                final CreateActionDateFromUserInput dateSource => dateSource.date,
-              },
-              isActiveDate: true,
-            ),
-            const SizedBox(height: Margins.spacing_m),
-            _DateSuggestions(
+            DatePickerSuggestions(
+              onDateChanged: onDateChanged,
               dateSource: viewModel.dateSource,
-              onSelected: onDateChanged,
             ),
             const SizedBox(height: Margins.spacing_m),
             if (viewModel.shouldDisplayRappelNotification())
@@ -97,48 +82,6 @@ class _ActionStatusRadios extends StatelessWidget {
 
   void _onStatusChanged(bool? value) {
     if (value != null) onStatusChanged(value);
-  }
-}
-
-class _DateSuggestions extends StatelessWidget {
-  const _DateSuggestions({required this.onSelected, required this.dateSource});
-
-  final void Function(CreateActionDateSource) onSelected;
-  final CreateActionDateSource dateSource;
-
-  @override
-  Widget build(BuildContext context) {
-    final dateSuggestionsViewModel = CreateUserActionStep3DateSuggestions.create(DateTime.now());
-    return Wrap(
-      spacing: Margins.spacing_s,
-      runSpacing: Margins.spacing_s,
-      children: switch (dateSource) {
-        CreateActionDateNotInitialized() => dateSuggestionsViewModel.suggestions
-            .map(
-              (suggestion) => PassEmploiChip<DateTime>(
-                label: suggestion.label,
-                value: suggestion.date,
-                isSelected: false,
-                onTagSelected: (value) => onSelected(CreateActionDateFromSuggestions(
-                  value,
-                  suggestion.label,
-                )),
-                onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
-              ),
-            )
-            .toList(),
-        CreateActionDateFromSuggestions() => [
-            PassEmploiChip<DateTime>(
-              label: (dateSource as CreateActionDateFromSuggestions).label,
-              value: DateTime.now().add(Duration(days: 7)),
-              isSelected: true,
-              onTagSelected: (_) {},
-              onTagDeleted: () => onSelected(CreateActionDateNotInitialized()),
-            ),
-          ],
-        CreateActionDateFromUserInput() => [],
-      },
-    );
   }
 }
 

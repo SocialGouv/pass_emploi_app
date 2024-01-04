@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
+import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
@@ -137,8 +138,19 @@ void main() {
       });
     });
 
-    group('updateActionStatus', () {
-      sut.when((repository) => repository.updateActionStatus("UID", UserActionStatus.NOT_STARTED));
+    group('updateUserAction', () {
+      sut.when(
+        (repository) => repository.updateUserAction(
+          "UID",
+          UserActionUpdateRequest(
+            status: UserActionStatus.NOT_STARTED,
+            contenu: "titre",
+            description: "description",
+            dateEcheance: DateTime.utc(2024),
+            type: UserActionReferentielType.emploi,
+          ),
+        ),
+      );
 
       group('when response is valid', () {
         sut.givenResponseCode(201);
@@ -149,6 +161,10 @@ void main() {
             url: "/actions/UID",
             jsonBody: {
               "status": "not_started",
+              "contenu": "titre",
+              "description": "description",
+              "dateEcheance": "2024-01-01T00:00:00+00:00",
+              "codeQualification": "EMPLOI"
             },
           );
         });

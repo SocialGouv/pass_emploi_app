@@ -83,6 +83,8 @@ class Strings {
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
   static const String allMandatoryFields = "Tous les champs sont obligatoires";
   static String stepCounter(int current, int total) => "Étape $current sur $total";
+  static String selectDateTooltip = "Sélectionner une date";
+  static String removeDateTooltip = "Supprimer la date";
 
   // Menu
   static String menuAccueil = "Accueil";
@@ -363,7 +365,7 @@ class Strings {
   static const String userActionStatusRadioStep3 = '*L’action est :';
   static const String userActionStatusRadioCompletedStep3 = 'Terminée';
   static const String userActionStatusRadioTodoStep3 = 'En cours';
-  static const String userActionDateStep3 = '*Date';
+  static const String datePickerTitle = '*Date';
   static const String dateFormat = "Format de date attendu : JJ/MM/AAAA";
 
   static const String userActionDateSuggestion1 = 'Aujourd’hui';
@@ -453,6 +455,7 @@ class Strings {
   static String actionDetails = "Mon action";
   static String demarcheDetails = "Détail de la démarche";
   static String completeAction = "J’ai terminé mon action";
+  static String unCompleteAction = "Je n’ai pas terminé mon action";
   static String userActionDetailsSection = "Détails";
   static String userActionDate = "Date";
   static String userActionCategory = "Catégorie";
@@ -478,7 +481,6 @@ class Strings {
   static String conseillerNotifiedActionUpdated =
       "Votre conseiller a reçu une notification de la mise à jour de votre action";
   static String understood = "Bien compris";
-  static String deleteAction = "Supprimer l'action";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
   static String createActionSuccess = "Votre action a bien été créée.";
@@ -498,6 +500,18 @@ class Strings {
   static String pendingActionCreationSingular = "1 action est en attente de réseau.";
 
   static String pendingActionCreationPlural(int count) => "$count actions sont en attente de réseau.";
+
+  // Update user action
+  static String updateUserActionPageTitle = "Modifier l'action";
+  static String updateUserAction = "Modifier l'action";
+  static String updateUserActionTitle = "*Titre de l'action";
+  static String updateUserActionDescriptionTitle = "Décrire mon action";
+  static String updateUserActionDescriptionSubtitle = "Des précisions à partager à votre conseiller ?";
+  static String updateUserActionCategory = "Catégorie";
+  static String updateUserActionCategoryPressedTip = "Modifier";
+  static String updateUserActionSaveButton = "Enregistrer les modifications";
+  static String deleteAction = "Supprimer l'action";
+  static String deleteActionDescription = "Vous ne pourrez plus consulter ni modifier l'action.";
 
   // Commentaires d'action
   static String actionCommentsTitle = "Commentaire de l’action";
@@ -557,7 +571,7 @@ class Strings {
 
   static String demarcheCancelledDateFormat(String formattedDate) => demarcheCancelledLabel + formattedDate;
 
-  static String updateStatusError = "Erreur lors du changement du statut. Veuillez réessayer";
+  static String updateStatusError = "Erreur lors de la modification de l'action. Veuillez réessayer";
 
   static String withoutDate = "Date indéterminée";
   static String withoutContent = "Démarche indéterminée";

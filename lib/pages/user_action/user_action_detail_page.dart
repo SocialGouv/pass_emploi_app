@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_a
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
+import 'package:pass_emploi_app/pages/user_action/update/update_user_action_form.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
@@ -15,7 +16,6 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -119,11 +119,9 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                         SizedBox(height: Margins.spacing_base),
                         _UnfinishedActionButton(viewModel),
                       ],
-                      if (viewModel.withDeleteOption) ...[
+                      if (viewModel.withUpdateButton) ...[
                         SizedBox(height: Margins.spacing_base),
-                        _Separator(),
-                        SizedBox(height: Margins.spacing_base),
-                        _DeleteAction(viewModel: viewModel, onDeleteAction: _onDeleteAction),
+                        _UpdateButton(widget.source, widget.userActionId),
                       ],
                       SizedBox(height: Margins.spacing_l),
                     ],
@@ -143,13 +141,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
         viewModel.deleteDisplayState == DeleteDisplayState.SHOW_LOADING;
   }
 
-  void _onDeleteAction(UserActionDetailsViewModel viewModel) {
-    if (viewModel.deleteDisplayState != DeleteDisplayState.SHOW_LOADING) {
-      viewModel.onDelete(viewModel.id);
-      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.deleteUserAction);
-    }
-  }
-
   void _pageNavigationHandling(UserActionDetailsViewModel viewModel) {
     if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_UPDATE_ERROR) {
       showSnackBarWithSystemError(context, Strings.updateStatusError);
@@ -160,9 +151,15 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
       _trackSuccessfulUpdate();
       Navigator.pop(context, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
     } else if (viewModel.deleteDisplayState == DeleteDisplayState.TO_DISMISS_AFTER_DELETION) {
-      Navigator.pop(context, DeleteDisplayState.TO_DISMISS_AFTER_DELETION);
+      _popBothUpdateAndDetailsPages();
       showSnackBarWithSuccess(context, Strings.deleteActionSuccess);
+    } else if (viewModel.deleteDisplayState == DeleteDisplayState.SHOW_DELETE_ERROR) {
+      showSnackBarWithSystemError(context, Strings.deleteActionError);
     }
+  }
+
+  void _popBothUpdateAndDetailsPages() {
+    Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
   }
 
   Widget _successBottomSheet(BuildContext context) {
@@ -176,6 +173,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
 
 class _StatusPillule extends StatelessWidget {
   const _StatusPillule({required this.pilluleType});
+
   final CardPilluleType pilluleType;
 
   @override
@@ -186,6 +184,7 @@ class _StatusPillule extends StatelessWidget {
 
 class _FinishActionButton extends StatelessWidget {
   const _FinishActionButton(this.viewModel, this.onActionDone);
+
   final UserActionDetailsViewModel viewModel;
   final VoidCallback onActionDone;
 
@@ -207,6 +206,7 @@ class _FinishActionButton extends StatelessWidget {
 
 class _UnfinishedActionButton extends StatelessWidget {
   const _UnfinishedActionButton(this.viewModel);
+
   final UserActionDetailsViewModel viewModel;
 
   @override
@@ -214,8 +214,8 @@ class _UnfinishedActionButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: PrimaryActionButton(
-        label: Strings.completeAction,
-        suffix: Icon(AppIcons.celebration_rounded, color: Colors.white),
+        label: Strings.unCompleteAction,
+        suffix: Icon(AppIcons.schedule, color: Colors.white),
         onPressed: () => viewModel.updateStatus(UserActionStatus.IN_PROGRESS),
       ),
     );
@@ -301,39 +301,19 @@ class _Description extends StatelessWidget {
   }
 }
 
-class _DeleteAction extends StatelessWidget {
-  final UserActionDetailsViewModel viewModel;
-  final Function(UserActionDetailsViewModel) onDeleteAction;
+class _UpdateButton extends StatelessWidget {
+  final UserActionStateSource source;
+  final String userActionId;
 
-  _DeleteAction({required this.viewModel, required this.onDeleteAction});
+  const _UpdateButton(this.source, this.userActionId);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, Margins.spacing_base, 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          PrimaryActionButton(
-            onPressed: viewModel.withOfflineBehavior ? null : () => onDeleteAction(viewModel),
-            label: Strings.deleteAction,
-            textColor: AppColors.warning,
-            fontSize: FontSizes.normal,
-            backgroundColor: AppColors.warningLighten,
-            disabledBackgroundColor: AppColors.warningLighten,
-            rippleColor: AppColors.warningLighten,
-            withShadow: false,
-          ),
-          if (viewModel.deleteDisplayState == DeleteDisplayState.SHOW_DELETE_ERROR)
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Text(
-                Strings.deleteActionError,
-                textAlign: TextAlign.center,
-                style: TextStyles.textSRegular(color: AppColors.warning),
-              ),
-            ),
-        ],
+    return SizedBox(
+      width: double.infinity,
+      child: SecondaryButton(
+        label: Strings.updateUserAction,
+        onPressed: () => Navigator.push(context, UpdateUserActionForm.route(source, userActionId)),
       ),
     );
   }
@@ -341,6 +321,7 @@ class _DeleteAction extends StatelessWidget {
 
 class _CommentSection extends StatelessWidget {
   const _CommentSection(this.viewModel);
+
   final UserActionDetailsViewModel viewModel;
 
   @override
@@ -423,6 +404,7 @@ class _UnavailableCommentsOffline extends StatelessWidget {
 
 class _DateAndCategory extends StatelessWidget {
   const _DateAndCategory(this.viewModel);
+
   final UserActionDetailsViewModel viewModel;
 
   @override
