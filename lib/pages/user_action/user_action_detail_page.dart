@@ -219,8 +219,8 @@ class _UnfinishedActionButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: PrimaryActionButton(
-        label: Strings.completeAction,
-        suffix: Icon(AppIcons.celebration_rounded, color: Colors.white),
+        label: Strings.unCompleteAction,
+        suffix: Icon(AppIcons.schedule, color: Colors.white),
         onPressed: () => viewModel.updateStatus(UserActionStatus.IN_PROGRESS),
       ),
     );

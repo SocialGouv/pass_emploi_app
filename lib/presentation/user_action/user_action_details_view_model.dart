@@ -191,16 +191,10 @@ UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {
   return UpdateDisplayState.NOT_INIT;
 }
 
-CardPilluleType? _pilluleViewModel(UserAction? action) {
-  if (action?.isLate() == true) {
-    return CardPilluleType.late;
-  }
-
-  if (action?.status == UserActionStatus.DONE) {
-    return CardPilluleType.done;
-  } else {
-    return CardPilluleType.doing;
-  }
+CardPilluleType? _pilluleViewModel(UserAction action) {
+  if (action.status == UserActionStatus.DONE) return CardPilluleType.done;
+  if (action.isLate() == true) return CardPilluleType.late;
+  return CardPilluleType.doing;
 }
 
 String _creationDetails(UserAction? action) {
