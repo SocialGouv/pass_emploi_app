@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker_suggestions.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/dialogs/base_delete_dialog.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
@@ -74,7 +75,7 @@ class _BodyState extends State<_Body> {
         Scaffold(
           appBar: SecondaryAppBar(title: Strings.updateUserActionPageTitle),
           floatingActionButton: _Buttons(
-            changeNotifier: _changeNotifier,
+            canSave: _changeNotifier.hasChanged,
             onSave: () => widget.viewModel.save(
               _changeNotifier.dateInputSource.selectedDate,
               _changeNotifier.title,
@@ -177,9 +178,9 @@ class _CategorySelectionPage extends StatelessWidget {
 }
 
 class _Buttons extends StatelessWidget {
-  const _Buttons({required this.changeNotifier, required this.onSave, required this.onDelete});
+  const _Buttons({required this.canSave, required this.onSave, required this.onDelete});
 
-  final UpdateUserActionFormChangeNotifier changeNotifier;
+  final bool canSave;
   final void Function() onSave;
   final void Function() onDelete;
 
@@ -191,18 +192,54 @@ class _Buttons extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          PrimaryActionButton(
-            label: Strings.updateUserActionSaveButton,
-            onPressed: changeNotifier.hasChanged ? onSave : null,
-          ),
+          _SaveButton(isActive: canSave, onSave: onSave),
           const SizedBox(height: Margins.spacing_s),
-          SecondaryButton(
-            label: Strings.deleteAction,
-            backgroundColor: Colors.white,
-            onPressed: onDelete,
-          ),
+          _DeleteButton(onDelete: onDelete),
         ],
       ),
+    );
+  }
+}
+
+class _DeleteButton extends StatelessWidget {
+  const _DeleteButton({
+    required this.onDelete,
+  });
+
+  final void Function() onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    return SecondaryButton(
+      label: Strings.deleteAction,
+      backgroundColor: Colors.white,
+      onPressed: () async {
+        final result = await BaseDeleteDialog.show(
+          context,
+          title: Strings.deleteAction,
+          subtitle: Strings.deleteActionDescription,
+        );
+
+        if (result == true) onDelete();
+      },
+    );
+  }
+}
+
+class _SaveButton extends StatelessWidget {
+  const _SaveButton({
+    required this.isActive,
+    required this.onSave,
+  });
+
+  final bool isActive;
+  final void Function() onSave;
+
+  @override
+  Widget build(BuildContext context) {
+    return PrimaryActionButton(
+      label: Strings.updateUserActionSaveButton,
+      onPressed: isActive ? onSave : null,
     );
   }
 }
