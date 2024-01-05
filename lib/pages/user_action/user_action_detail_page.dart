@@ -100,11 +100,13 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                       _Separator(),
                       SizedBox(height: Margins.spacing_m),
                       Text(Strings.userActionDetailsSection, style: TextStyles.textBaseBold),
-                      SizedBox(height: Margins.spacing_base),
-                      _Description(
-                        withSubtitle: viewModel.withSubtitle,
-                        subtitle: viewModel.subtitle,
-                      ),
+                      if (viewModel.withSubtitle) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _Description(
+                          withSubtitle: viewModel.withSubtitle,
+                          subtitle: viewModel.subtitle,
+                        ),
+                      ],
                       SizedBox(height: Margins.spacing_l),
                       _DateAndCategory(viewModel),
                       SizedBox(height: Margins.spacing_l),
@@ -411,36 +413,60 @@ class _DateAndCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _section(
-          sectionIcon: AppIcons.event,
-          sectionTitle: Strings.userActionDate,
-          value: viewModel.date,
+        Expanded(
+          child: _section(
+            sectionIcon: AppIcons.event,
+            sectionTitle: Strings.userActionDate,
+            value: viewModel.date,
+          ),
         ),
-        _section(
-          sectionIcon: Icons.account_tree_rounded,
-          sectionTitle: Strings.userActionCategory,
-          value: viewModel.category,
+        Expanded(
+          child: _section(
+            sectionIcon: Icons.account_tree_rounded,
+            sectionTitle: Strings.userActionCategory,
+            value: viewModel.category,
+          ),
         ),
       ],
     );
   }
 
   Widget _section({required IconData sectionIcon, required String sectionTitle, required String value}) {
-    return Column(
+    return Row(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Icon(sectionIcon, color: AppColors.grey500, size: Dimens.icon_size_base),
-            SizedBox(width: Margins.spacing_xs),
-            Text(sectionTitle, style: TextStyles.textSRegular(color: AppColors.grey700)),
-          ],
+        Padding(
+          padding: const EdgeInsets.only(top: Margins.spacing_xs / 2),
+          child: Icon(sectionIcon, color: AppColors.grey500, size: Dimens.icon_size_base),
         ),
-        SizedBox(height: Margins.spacing_xs),
-        Text(value, style: TextStyles.textSBold)
+        SizedBox(width: Margins.spacing_xs),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(sectionTitle, style: TextStyles.textSRegular(color: AppColors.grey700)),
+            SizedBox(height: Margins.spacing_xs),
+            Text(value, style: TextStyles.textSBold)
+          ],
+        )
       ],
     );
+    // return Column(
+    //   mainAxisSize: MainAxisSize.min,
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: [
+    //     Row(
+    //       children: [
+    //         Icon(sectionIcon, color: AppColors.grey500, size: Dimens.icon_size_base),
+    //         SizedBox(width: Margins.spacing_xs),
+    //         Text(sectionTitle, style: TextStyles.textSRegular(color: AppColors.grey700)),
+    //       ],
+    //     ),
+    //     SizedBox(height: Margins.spacing_xs),
+    //     Text(value, style: TextStyles.textSBold)
+    //   ],
+    // );
   }
 }

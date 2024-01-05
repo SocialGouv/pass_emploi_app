@@ -363,7 +363,7 @@ void main() {
       final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
-      expect(viewModel.date, "01/01/2021");
+      expect(viewModel.date, "01 janvier 2021");
     });
   });
 

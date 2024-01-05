@@ -174,7 +174,7 @@ bool _withUpdateButton(UserAction? userAction) {
 
 String _category(UserAction? action) => action?.type?.label ?? Strings.userActionNoCategory;
 
-String _date(UserAction? action) => action?.dateEcheance.toDay() ?? '';
+String _date(UserAction? action) => action?.dateEcheance.toDayWithFullMonth() ?? '';
 
 UserAction? _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
   switch (stateSource) {
