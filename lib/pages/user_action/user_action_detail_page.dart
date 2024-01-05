@@ -55,18 +55,15 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
       tracking: AnalyticsScreenNames.userActionDetails,
       child: ConfettiWrapper(
         builder: (context, confettiController) {
-          return Scaffold(
-            appBar: SecondaryAppBar(title: Strings.actionDetails),
-            body: StoreConnector<AppState, UserActionDetailsViewModel>(
-              onInit: (store) {
-                store.dispatch(UserActionUpdateResetAction());
-                store.dispatch(UserActionDeleteResetAction());
-              },
-              converter: (store) => UserActionDetailsViewModel.create(store, widget.source, widget.userActionId),
-              builder: (context, viewModel) => _build(context, viewModel, () => confettiController.play()),
-              onDidChange: (previousVm, newVm) => _pageNavigationHandling(newVm),
-              distinct: true,
-            ),
+          return StoreConnector<AppState, UserActionDetailsViewModel>(
+            onInit: (store) {
+              store.dispatch(UserActionUpdateResetAction());
+              store.dispatch(UserActionDeleteResetAction());
+            },
+            converter: (store) => UserActionDetailsViewModel.create(store, widget.source, widget.userActionId),
+            builder: (context, viewModel) => _build(context, viewModel, () => confettiController.play()),
+            onDidChange: (previousVm, newVm) => _pageNavigationHandling(newVm),
+            distinct: true,
           );
         },
       ),
@@ -74,67 +71,79 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   }
 
   Widget _build(BuildContext context, UserActionDetailsViewModel viewModel, VoidCallback onActionDone) {
-    return Stack(
-      children: [
-        Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Scaffold(
+      appBar: SecondaryAppBar(title: Strings.actionDetails),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            if (viewModel.withOfflineBehavior) ConnectivityBandeau(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (viewModel.pillule != null) ...[
-                        _StatusPillule(pilluleType: viewModel.pillule!),
+            if (viewModel.withUnfinishedButton) ...[
+              SizedBox(height: Margins.spacing_base),
+              _UnfinishedActionButton(viewModel),
+            ],
+            if (viewModel.withUpdateButton) ...[
+              SizedBox(height: Margins.spacing_base),
+              _UpdateButton(widget.source, widget.userActionId),
+            ],
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: Stack(
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (viewModel.withOfflineBehavior) ConnectivityBandeau(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (viewModel.pillule != null) ...[
+                          _StatusPillule(pilluleType: viewModel.pillule!),
+                          SizedBox(height: Margins.spacing_base),
+                        ],
+                        _Title(title: viewModel.title),
                         SizedBox(height: Margins.spacing_base),
+                        if (viewModel.withFinishedButton) _FinishActionButton(viewModel, onActionDone),
+                        SizedBox(height: Margins.spacing_m),
+                        _Separator(),
+                        SizedBox(height: Margins.spacing_m),
+                        Text(Strings.userActionDetailsSection, style: TextStyles.textBaseBold),
+                        if (viewModel.withSubtitle) ...[
+                          SizedBox(height: Margins.spacing_base),
+                          _Description(
+                            withSubtitle: viewModel.withSubtitle,
+                            subtitle: viewModel.subtitle,
+                          ),
+                        ],
+                        SizedBox(height: Margins.spacing_l),
+                        _DateAndCategory(viewModel),
+                        SizedBox(height: Margins.spacing_l),
+                        Text(viewModel.creationDetails, style: TextStyles.textSRegular(color: AppColors.grey800)),
+                        SizedBox(height: Margins.spacing_m),
+                        _Separator(),
+                        if (viewModel.withComments) ...[
+                          SizedBox(height: Margins.spacing_base),
+                          _CommentSection(viewModel),
+                        ],
+                        SizedBox(height: Margins.spacing_l),
                       ],
-                      _Title(title: viewModel.title),
-                      SizedBox(height: Margins.spacing_base),
-                      if (viewModel.withFinishedButton) _FinishActionButton(viewModel, onActionDone),
-                      SizedBox(height: Margins.spacing_m),
-                      _Separator(),
-                      SizedBox(height: Margins.spacing_m),
-                      Text(Strings.userActionDetailsSection, style: TextStyles.textBaseBold),
-                      if (viewModel.withSubtitle) ...[
-                        SizedBox(height: Margins.spacing_base),
-                        _Description(
-                          withSubtitle: viewModel.withSubtitle,
-                          subtitle: viewModel.subtitle,
-                        ),
-                      ],
-                      SizedBox(height: Margins.spacing_l),
-                      _DateAndCategory(viewModel),
-                      SizedBox(height: Margins.spacing_l),
-                      Text(viewModel.creationDetails, style: TextStyles.textSRegular(color: AppColors.grey800)),
-                      SizedBox(height: Margins.spacing_m),
-                      _Separator(),
-                      if (viewModel.withComments) ...[
-                        SizedBox(height: Margins.spacing_base),
-                        _CommentSection(viewModel),
-                      ],
-                      if (viewModel.withUnfinishedButton) ...[
-                        SizedBox(height: Margins.spacing_base),
-                        _UnfinishedActionButton(viewModel),
-                      ],
-                      if (viewModel.withUpdateButton) ...[
-                        SizedBox(height: Margins.spacing_base),
-                        _UpdateButton(widget.source, widget.userActionId),
-                      ],
-                      SizedBox(height: Margins.spacing_l),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-        if (_isLoading(viewModel)) LoadingOverlay(),
-      ],
+            ],
+          ),
+          if (_isLoading(viewModel)) LoadingOverlay(),
+        ],
+      ),
     );
   }
 

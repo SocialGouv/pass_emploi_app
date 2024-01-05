@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/pages/user_action/update/update_user_action_form
 import 'package:pass_emploi_app/presentation/user_action/update_form/update_user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -74,22 +75,14 @@ class _BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
+    const bgColor = Colors.white;
     return Stack(
       children: [
         Scaffold(
-          appBar: SecondaryAppBar(title: Strings.updateUserActionPageTitle),
-          floatingActionButton: _Buttons(
-            canSave: _changeNotifier.hasChanged,
-            onSave: () => widget.viewModel.save(
-              _changeNotifier.dateInputSource.selectedDate,
-              _changeNotifier.title,
-              _changeNotifier.description,
-              _changeNotifier.type,
-            ),
-            onDelete: () {
-              widget.viewModel.delete();
-              PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.deleteUserAction);
-            },
+          backgroundColor: bgColor,
+          appBar: SecondaryAppBar(
+            title: Strings.updateUserActionPageTitle,
+            backgroundColor: bgColor,
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           body: SingleChildScrollView(
@@ -128,6 +121,22 @@ class _BodyState extends State<_Body> {
                   Text(Strings.updateUserActionCategory, style: TextStyles.textBaseBold),
                   const SizedBox(height: Margins.spacing_s),
                   _CategorySelector(_changeNotifier),
+                  const SizedBox(height: Margins.spacing_m),
+                  Divider(height: 1, color: AppColors.primaryLighten),
+                  const SizedBox(height: Margins.spacing_base),
+                  _Buttons(
+                    canSave: _changeNotifier.hasChanged,
+                    onSave: () => widget.viewModel.save(
+                      _changeNotifier.dateInputSource.selectedDate,
+                      _changeNotifier.title,
+                      _changeNotifier.description,
+                      _changeNotifier.type,
+                    ),
+                    onDelete: () {
+                      widget.viewModel.delete();
+                      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.deleteUserAction);
+                    },
+                  ),
                   const SizedBox(height: Margins.spacing_huge * 4),
                 ],
               ),
@@ -156,7 +165,7 @@ class _CategorySelector extends StatelessWidget {
     return CardContainer(
       child: Row(
         children: [
-          Text(changeNotifier.type?.label ?? Strings.userActionNoCategory),
+          Text(changeNotifier.type?.label ?? Strings.userActionNoCategory, style: TextStyles.textBaseRegular),
           Expanded(child: PressedTip(Strings.updateUserActionCategoryPressedTip)),
         ],
       ),
@@ -192,17 +201,14 @@ class _Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _SaveButton(isActive: canSave, onSave: onSave),
-          const SizedBox(height: Margins.spacing_s),
-          _DeleteButton(onDelete: onDelete),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _SaveButton(isActive: canSave, onSave: onSave),
+        const SizedBox(height: Margins.spacing_s),
+        _DeleteButton(onDelete: onDelete),
+      ],
     );
   }
 }
