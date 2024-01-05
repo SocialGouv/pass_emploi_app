@@ -217,7 +217,7 @@ UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {
 CardPilluleType? _pilluleViewModel(UserAction action) {
   if (action.status == UserActionStatus.DONE) return CardPilluleType.done;
   if (action.isLate() == true) return CardPilluleType.late;
-  return CardPilluleType.doing;
+  return CardPilluleType.todo;
 }
 
 String _creationDetails(UserAction? action) {

@@ -179,7 +179,7 @@ void main() {
     expect(viewModel.title, 'content');
   });
 
-  test("should display doing pill when status is not done and action is not late", () {
+  test("should display todo pill when status is not done and action is not late", () {
     // Given
     final action = mockUserAction(id: 'actionId', content: 'content', status: UserActionStatus.IN_PROGRESS);
     final store = givenState().withAction(action).store();
@@ -188,7 +188,7 @@ void main() {
     final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
     // Then
-    expect(viewModel.pillule, CardPilluleType.doing);
+    expect(viewModel.pillule, CardPilluleType.todo);
   });
 
   test("should display done pill when status is done", () {

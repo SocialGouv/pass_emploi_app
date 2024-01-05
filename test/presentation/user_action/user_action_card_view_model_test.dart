@@ -26,7 +26,7 @@ void main() {
       expect(viewModel.pillule, CardPilluleType.done);
     });
 
-    test("and status is not started should create view model properly", () {
+    test("and status is not started should create view model properly with todo pill", () {
       // Given
       final action = mockUserAction(id: '1', status: UserActionStatus.NOT_STARTED);
       final store = givenState().withUserActions([action]).store();
@@ -42,7 +42,7 @@ void main() {
       expect(viewModel.pillule, CardPilluleType.todo);
     });
 
-    test("and status is in progress should create view model properly", () {
+    test("and status is in progress should create view model properly with todo pill", () {
       // Given
       final action = mockUserAction(id: '1', status: UserActionStatus.IN_PROGRESS);
       final store = givenState().withUserActions([action]).store();
@@ -55,10 +55,10 @@ void main() {
       );
 
       // Then
-      expect(viewModel.pillule, CardPilluleType.doing);
+      expect(viewModel.pillule, CardPilluleType.todo);
     });
 
-    test("and status is canceled should create view model properly", () {
+    test("and status is canceled should create view model properly with todo pill", () {
       // Given
       final action = mockUserAction(id: '1', status: UserActionStatus.CANCELED);
       final store = givenState().withUserActions([action]).store();
@@ -71,7 +71,7 @@ void main() {
       );
 
       // Then
-      expect(viewModel.pillule, CardPilluleType.canceled);
+      expect(viewModel.pillule, CardPilluleType.todo);
     });
 
     test("and dateEcheance is in future should display it as on time", () {

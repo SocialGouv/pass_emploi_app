@@ -109,9 +109,7 @@ CardPilluleType? _userActionTagViewModel(UserActionStatus status, bool isLate) {
     return CardPilluleType.late;
   }
   return switch (status) {
-    UserActionStatus.NOT_STARTED => CardPilluleType.todo,
-    UserActionStatus.IN_PROGRESS => CardPilluleType.doing,
-    UserActionStatus.CANCELED => CardPilluleType.canceled,
     UserActionStatus.DONE => CardPilluleType.done,
+    _ => CardPilluleType.todo,
   };
 }
