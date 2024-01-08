@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
@@ -51,7 +52,10 @@ class _UserActionListPageState extends State<UserActionListPage> {
         builder: (context, viewModel) => _scaffold(context, viewModel),
         converter: (store) => UserActionListPageViewModel.create(store),
         onDidChange: (previousViewModel, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
-        onDispose: (store) => store.dispatch(UserActionListResetAction()),
+        onDispose: (store) {
+          store.dispatch(UserActionListResetAction());
+          store.dispatch(UserActionCreateResetAction());
+        },
       ),
     );
   }
@@ -133,16 +137,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
       label: Strings.addAnAction,
       icon: AppIcons.add_rounded,
       rippleColor: AppColors.primaryDarken,
-      onPressed: () => Navigator.push(context, CreateUserActionFormPage.route(
-        onPop: (displayState) {
-          CreateUserActionFormPage.displaySnackBarOnResult(
-            context,
-            displayState,
-            UserActionStateSource.list,
-            () => viewModel.onCreateUserActionDismissed(),
-          );
-        },
-      )),
+      onPressed: () => CreateUserActionFormPage.pushUserActionCreationTunnel(context, UserActionStateSource.list),
     );
   }
 }

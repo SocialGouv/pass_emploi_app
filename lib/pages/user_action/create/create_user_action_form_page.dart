@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
+import 'package:pass_emploi_app/pages/user_action/create/create_user_action_confirmation_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step1.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
@@ -13,53 +14,56 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
+sealed class CreateActionFormResult {}
+
+class CreateNewUserAction extends CreateActionFormResult {}
+
+class NavigateToUserActionDetails extends CreateActionFormResult {
+  final String userActionId;
+  final UserActionStateSource source;
+
+  NavigateToUserActionDetails(this.userActionId, this.source);
+}
+
 class CreateUserActionFormPage extends StatelessWidget {
-  const CreateUserActionFormPage({super.key, required this.onPop});
+  const CreateUserActionFormPage(this.source);
+  final UserActionStateSource source;
 
-  final void Function(UserActionCreateDisplayState displayState) onPop;
+  static void pushUserActionCreationTunnel(BuildContext context, UserActionStateSource source) {
+    Navigator.push(context, _route(source)) //
+        .then((result) => _handleResult(context, result, source));
+  }
 
-  static Route<dynamic> route({required void Function(UserActionCreateDisplayState displayState) onPop}) {
-    return MaterialPageRoute<void>(
+  static Route<CreateActionFormResult> _route(UserActionStateSource source) {
+    return MaterialPageRoute<CreateActionFormResult>(
       fullscreenDialog: true,
-      builder: (_) => CreateUserActionFormPage(onPop: onPop),
+      builder: (_) => CreateUserActionFormPage(source),
     );
   }
 
-  static void displaySnackBarOnResult(
-    BuildContext context,
-    UserActionCreateDisplayState? result,
-    UserActionStateSource source,
-    Function() onResult,
-  ) {
-    if (result is DismissWithSuccess) {
-      _showSnackBarWithDetail(context, source, result.userActionCreatedId);
-      onResult();
-    } else if (result is DismissWithFailure) {
-      _showSnackBarForOfflineCreation(context);
-      onResult();
+  static void _handleResult(BuildContext context, CreateActionFormResult? result, UserActionStateSource source) {
+    if (result is CreateNewUserAction) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.createActionv2EventCategory,
+        action: AnalyticsEventNames.createActionResultAnotherAction,
+      );
+      pushUserActionCreationTunnel(context, source);
+    } else if (result is NavigateToUserActionDetails) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.createActionv2EventCategory,
+        action: AnalyticsEventNames.createActionResultDetailsAction,
+      );
+      _openDetails(context, result.userActionId, result.source);
+    } else {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.createActionv2EventCategory,
+        action: AnalyticsEventNames.createActionResultDismissAction,
+      );
     }
   }
 
-  static void _showSnackBarWithDetail(
-    BuildContext context,
-    UserActionStateSource source,
-    String userActionId,
-  ) {
-    PassEmploiMatomoTracker.instance.trackEvent(
-      eventCategory: AnalyticsEventNames.createActionEventCategory,
-      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
-    );
-    showSnackBarWithSuccess(
-      context,
-      Strings.createActionSuccess,
-      () {
-        PassEmploiMatomoTracker.instance.trackEvent(
-          eventCategory: AnalyticsEventNames.createActionEventCategory,
-          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
-        );
-        Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, source));
-      },
-    );
+  static void _openDetails(BuildContext context, String userActionId, UserActionStateSource source) {
+    Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, source));
   }
 
   static void _showSnackBarForOfflineCreation(BuildContext context) {
@@ -75,15 +79,24 @@ class CreateUserActionFormPage extends StatelessWidget {
     return StoreConnector<AppState, UserActionCreateViewModel>(
       converter: (state) => UserActionCreateViewModel.create(state),
       builder: (context, viewModel) => _Body(viewModel),
-      onWillChange: (previousVm, newVm) => _shouldPop(context, newVm),
+      onWillChange: (previousVm, newVm) => _handleDisplayState(context, newVm),
+      distinct: true,
     );
   }
 
-  void _shouldPop(BuildContext context, UserActionCreateViewModel viewModel) {
+  Future<void> _handleDisplayState(BuildContext context, UserActionCreateViewModel viewModel) async {
     final displayState = viewModel.displayState;
-    if (displayState is DismissWithSuccess || displayState is DismissWithFailure) {
-      onPop.call(displayState);
-      Navigator.pop(context, displayState);
+    if (displayState is DismissWithFailure) {
+      _showSnackBarForOfflineCreation(context);
+      Navigator.pop(context);
+    } else if (displayState is ShowConfirmationPage) {
+      Navigator.push(
+        context,
+        CreateUserActionConfirmationPage.route(
+          displayState.userActionCreatedId,
+          source,
+        ),
+      ).then((result) => Navigator.pop(context, result));
     }
   }
 }

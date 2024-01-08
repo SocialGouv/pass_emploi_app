@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
-import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
@@ -20,7 +19,6 @@ class UserActionListPageViewModel extends Equatable {
   final List<UserActionListPageItem> items;
   final Function() onRetry;
   final Function() onUserActionDetailsDismissed;
-  final Function() onCreateUserActionDismissed;
   final Function() onDeeplinkUsed;
   final String? deeplinkActionId;
   final int? pendingCreationCount;
@@ -32,7 +30,6 @@ class UserActionListPageViewModel extends Equatable {
     required this.items,
     required this.onRetry,
     required this.onUserActionDetailsDismissed,
-    required this.onCreateUserActionDismissed,
     required this.onDeeplinkUsed,
     required this.deeplinkActionId,
     required this.pendingCreationCount,
@@ -55,7 +52,6 @@ class UserActionListPageViewModel extends Equatable {
         store.dispatch(UserActionUpdateResetAction());
         store.dispatch(UserActionDeleteResetAction());
       },
-      onCreateUserActionDismissed: () => store.dispatch(UserActionCreateResetAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       deeplinkActionId: _deeplinkActionId(store.getDeepLinkAs<DetailActionDeepLink>(), actionState),
       pendingCreationCount: pendingCreationCount,
