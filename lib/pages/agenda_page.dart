@@ -84,16 +84,9 @@ class _Scaffold extends StatelessWidget {
         if (viewModel.createButton == CreateButton.userAction)
           _CreateButton(
             label: Strings.addAnAction,
-            onPressed: () => Navigator.push(context, CreateUserActionFormPage.route(
-              onPop: (displayState) {
-                CreateUserActionFormPage.displaySnackBarOnResult(
-                  context,
-                  displayState,
-                  UserActionStateSource.agenda,
-                  () => viewModel.resetCreateAction(),
-                );
-              },
-            )),
+            onPressed: () {
+              CreateUserActionFormPage.pushUserActionCreationTunnel(context, UserActionStateSource.agenda);
+            },
           ),
         if (viewModel.createButton == CreateButton.demarche)
           _CreateButton(

@@ -193,6 +193,11 @@ class AnalyticsEventNames {
   static const createActionClickOnSnackBarAction = "Clic détail action/démarche";
   static const createActionOfflineAction = "Action créée hors connexion";
 
+  static const createActionv2EventCategory = "Création action v2";
+  static const createActionResultDetailsAction = "Ouvrir le détails d'une action créée";
+  static const createActionResultAnotherAction = "Créer une autre action";
+  static const createActionResultDismissAction = "Fermer la page de résultat d'une action créée";
+
   static const createActionStep1CategoryCategory = "Création action v2 étape 1 - Catégorie";
   static const createActionStep2TitleCategory = "Création action v2 étape 2 - Titre";
   static const createActionStep3StatusCategory = "Création action v2 étape 3 - Statut";

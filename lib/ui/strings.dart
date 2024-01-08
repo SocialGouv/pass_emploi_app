@@ -390,6 +390,13 @@ class Strings {
   static const String userActionLogementDescription = 'Recherches de logement';
   static const String userActionSanteDescription = 'Rendez-vous médicaux';
 
+  static const String userActionConfirmationTitle = "Action enregistrée";
+  static const String userActionConfirmatioSubtitle =
+      "L’action est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous !";
+
+  static const String userActionConfirmationSeeDetailButton = "Consulter mon action";
+  static const String userActionConfirmationCreateMoreButton = "Créer une autre action";
+
   static const List<String> userActionEmploiSuggestions = [
     "Faire mon CV",
     "Recherche d'emploi",
@@ -480,7 +487,7 @@ class Strings {
       "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte";
   static String conseillerNotifiedActionUpdated =
       "Votre conseiller a reçu une notification de la mise à jour de votre action";
-  static String understood = "Bien compris";
+  static String understood = "J'ai compris";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
   static String createActionSuccess = "Votre action a bien été créée.";

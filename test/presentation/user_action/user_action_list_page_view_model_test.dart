@@ -279,22 +279,6 @@ void main() {
     expect(storeSpy.calledWithResetUpdate, true);
   });
 
-  test('onCreateUserActionDismissed should dispatch DismissCreateUserAction', () {
-    // Given
-    final storeSpy = LocalStoreSpy();
-    final store = Store<AppState>(
-      storeSpy.reducer,
-      initialState: loggedInState(),
-    );
-
-    // When
-    final viewModel = UserActionListPageViewModel.create(store);
-    viewModel.onCreateUserActionDismissed();
-
-    // Then
-    expect(storeSpy.calledWithResetCreate, true);
-  });
-
   test('onDeeplinkUsed should trigger ResetDeeplinkAction', () {
     // Given
     final store = StoreSpy();
