@@ -184,8 +184,11 @@ class _CategorySelectionPage extends StatelessWidget {
     return Scaffold(
       appBar: SecondaryAppBar(title: Strings.updateUserActionCategory),
       body: SingleChildScrollView(
-        child: ActionCategorySelector(
-          onActionSelected: (type) => Navigator.of(context).pop(type),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+          child: ActionCategorySelector(
+            onActionSelected: (type) => Navigator.of(context).pop(type),
+          ),
         ),
       ),
     );
