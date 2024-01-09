@@ -33,7 +33,8 @@ class CreateUserActionConfirmationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SecondaryAppBar(title: Strings.createActionAppBarTitle),
+        backgroundColor: Colors.white,
+        appBar: SecondaryAppBar(title: Strings.createActionAppBarTitle, backgroundColor: Colors.white),
         floatingActionButton: _Buttons(
           onGoActionDetail: () => Navigator.pop(context, NavigateToUserActionDetails(userActionId, source)),
           onCreateMore: () => Navigator.pop(context, CreateNewUserAction()),
