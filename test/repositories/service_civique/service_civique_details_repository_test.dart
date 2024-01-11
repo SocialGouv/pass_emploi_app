@@ -10,7 +10,7 @@ void main() {
     sut.givenRepository((client) => ServiceCiviqueDetailRepository(client));
 
     group('getServiceCiviqueDetail', () {
-      sut.when((repository) => repository.getServiceCiviqueDetail("je_suis_un_id"));
+      sut.when((repository) => repository.getServiceCiviqueDetail('id'));
 
       group('when response is valid', () {
         sut.givenJsonResponse(fromJson: "service_civique_detail.json");
@@ -18,7 +18,7 @@ void main() {
         test('request should be valid', () {
           sut.expectRequestBody(
             method: HttpMethod.get,
-            url: "/services-civique/je_suis_un_id",
+            url: "/services-civique/id",
           );
         });
 
@@ -48,6 +48,16 @@ void main() {
                 ),
               ),
             );
+          });
+        });
+      });
+
+      group('when response is valid with code department as int', () {
+        sut.givenJsonResponse(fromJson: "service_civique_detail_2.json");
+
+        test('result should be valid', () {
+          sut.expectResult<SuccessfullServiceCiviqueDetailResponse>((response) {
+            expect(response.detail.codeDepartement, '13');
           });
         });
       });

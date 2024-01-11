@@ -53,7 +53,7 @@ class ServiceCiviqueDetail extends Equatable {
       urlOrganisation: json["urlOrganisation"] as String?,
       adresseMission: json["adresseMission"] as String?,
       adresseOrganisation: json["adresseOrganisation"] as String?,
-      codeDepartement: json["codeDepartement"] as String?,
+      codeDepartement: _codeDepartment(json["codeDepartement"]),
       description: json["description"] as String?,
       descriptionOrganisation: json["descriptionOrganisation"] as String?,
       codePostal: json["codePostal"] as String?,
@@ -77,6 +77,12 @@ class ServiceCiviqueDetail extends Equatable {
         descriptionOrganisation,
         codePostal,
       ];
+}
+
+String? _codeDepartment(dynamic codeFromJson) {
+  if (codeFromJson is String) return codeFromJson;
+  if (codeFromJson is int) return codeFromJson.toString();
+  return null;
 }
 
 extension ServiceCiviqueDetailExt on ServiceCiviqueDetail {
