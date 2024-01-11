@@ -267,7 +267,7 @@ jobs:
           export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
           app-store-connect publish \
             --path $(find $(pwd) -name "CEJ.ipa") \
-            --whats-new @file:release-notes/cej/whatsnew-fr
+            --whats-new @file:release-notes/cej/whatsnew-fr-FR
         env:
           APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
@@ -325,7 +325,7 @@ jobs:
           export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
           app-store-connect publish \
             --path $(find $(pwd) -name "pass-emploi.ipa") \
-            --whats-new @file:release-notes/cej/whatsnew-fr
+            --whats-new @file:release-notes/brsa/whatsnew-fr-FR
         env:
           APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
