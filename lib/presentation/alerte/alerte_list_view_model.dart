@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
-import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/pages/offre_filters_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/alerte/alerte_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -28,7 +28,6 @@ class AlerteListViewModel extends Equatable {
   final Function(ServiceCiviqueAlerte) offreServiceCiviqueSelected;
   final AlerteNavigationState searchNavigationState;
   final Function onRetry;
-  final List<Immersion> immersionsResults;
 
   AlerteListViewModel._({
     required this.displayState,
@@ -37,7 +36,6 @@ class AlerteListViewModel extends Equatable {
     this.offreImmersionSelected = _emptyImmersionFunction,
     this.offreServiceCiviqueSelected = _emptyServiceCiviqueFunction,
     this.searchNavigationState = AlerteNavigationState.NONE,
-    this.immersionsResults = const [],
     this.onRetry = _emptyVoidFunction,
   });
 
@@ -50,7 +48,6 @@ class AlerteListViewModel extends Equatable {
         displayState: DisplayState.CONTENT,
         alertes: state.alertes.toList(),
         searchNavigationState: AlerteNavigationState.fromAppState(store.state),
-        immersionsResults: store.state.rechercheImmersionState.results ?? [],
         offreEmploiSelected: (alerte) => store.dispatch(FetchAlerteResultsFromIdAction(alerte.id)),
         offreImmersionSelected: (alerte) => store.dispatch(FetchAlerteResultsFromIdAction(alerte.id)),
         offreServiceCiviqueSelected: (alerte) => store.dispatch(FetchAlerteResultsFromIdAction(alerte.id)),
@@ -61,23 +58,16 @@ class AlerteListViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-        displayState,
-        alertes,
-        immersionsResults,
-        searchNavigationState,
-        immersionsResults,
-      ];
+  List<Object?> get props => [displayState, alertes, searchNavigationState];
 
-  List<OffreEmploiAlerte> getOffresEmploi() {
-    return alertes.whereType<OffreEmploiAlerte>().where((element) => element.onlyAlternance == false).toList();
+  List<Alerte> getAlertesFiltered(OffreFilter filter) {
+    final alertesFiltered = switch (filter) {
+      OffreFilter.emploi => alertes.whereType<OffreEmploiAlerte>().where((e) => e.onlyAlternance == false).toList(),
+      OffreFilter.alternance => alertes.whereType<OffreEmploiAlerte>().where((e) => e.onlyAlternance == true).toList(),
+      OffreFilter.immersion => alertes.whereType<ImmersionAlerte>().toList(),
+      OffreFilter.serviceCivique => alertes.whereType<ServiceCiviqueAlerte>().toList(),
+      OffreFilter.tous => alertes,
+    };
+    return alertesFiltered as List<Alerte>;
   }
-
-  List<OffreEmploiAlerte> getAlternance() {
-    return alertes.whereType<OffreEmploiAlerte>().where((element) => element.onlyAlternance == true).toList();
-  }
-
-  List<ImmersionAlerte> getImmersions() => alertes.whereType<ImmersionAlerte>().toList();
-
-  List<ServiceCiviqueAlerte> getServiceCivique() => alertes.whereType<ServiceCiviqueAlerte>().toList();
 }

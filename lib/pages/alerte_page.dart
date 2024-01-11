@@ -132,7 +132,7 @@ class _AlertePageState extends State<AlertePage> {
   }
 
   Widget _alertes(AlerteListViewModel viewModel) {
-    final List<Alerte> alertes = _getAlerteFiltered(viewModel);
+    final List<Alerte> alertes = viewModel.getAlertesFiltered(_selectedFilter);
     if (alertes.isEmpty) return _noAlerte();
     return ListView.separated(
         separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
@@ -159,17 +159,6 @@ class _AlertePageState extends State<AlertePage> {
             ],
           );
         });
-  }
-
-  List<Alerte> _getAlerteFiltered(AlerteListViewModel viewModel) {
-    final alertes = switch (_selectedFilter) {
-      OffreFilter.immersion => viewModel.getAlternance(),
-      OffreFilter.serviceCivique => viewModel.getImmersions(),
-      OffreFilter.emploi => viewModel.getAlternance(),
-      OffreFilter.alternance => viewModel.getAlternance(),
-      OffreFilter.tous => viewModel.alertes,
-    };
-    return alertes as List<Alerte>;
   }
 
   Widget _noAlerte() {
@@ -259,25 +248,13 @@ class _AlertePageState extends State<AlertePage> {
   void _filterSelected(OffreFilter filter) {
     setState(() => _selectedFilter = filter);
     _scrollController.jumpTo(0);
-    final String tracking;
-    switch (filter) {
-      case OffreFilter.tous:
-        tracking = AnalyticsScreenNames.alerteList;
-        break;
-      case OffreFilter.emploi:
-        tracking = AnalyticsScreenNames.alerteListFilterEmploi;
-        break;
-      case OffreFilter.alternance:
-        tracking = AnalyticsScreenNames.alerteListFilterAlternance;
-        break;
-      case OffreFilter.immersion:
-        tracking = AnalyticsScreenNames.alerteListFilterImmersion;
-        break;
-      case OffreFilter.serviceCivique:
-        tracking = AnalyticsScreenNames.alerteListFilterServiceCivique;
-        break;
-    }
-    PassEmploiMatomoTracker.instance.trackScreen(tracking);
+    PassEmploiMatomoTracker.instance.trackScreen(switch (filter) {
+      OffreFilter.tous => AnalyticsScreenNames.alerteList,
+      OffreFilter.emploi => AnalyticsScreenNames.alerteListFilterEmploi,
+      OffreFilter.alternance => AnalyticsScreenNames.alerteListFilterAlternance,
+      OffreFilter.immersion => AnalyticsScreenNames.alerteListFilterImmersion,
+      OffreFilter.serviceCivique => AnalyticsScreenNames.alerteListFilterServiceCivique
+    });
   }
 }
 
