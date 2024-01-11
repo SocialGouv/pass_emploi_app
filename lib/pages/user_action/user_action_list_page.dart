@@ -31,7 +31,7 @@ class UserActionListPage extends StatefulWidget {
     return MaterialPageRoute(
       builder: (context) {
         return Scaffold(
-          appBar: SecondaryAppBar(title: Strings.actionsTabTitle),
+          appBar: SecondaryAppBar(title: "Actions"),
           body: UserActionListPage(),
         );
       },

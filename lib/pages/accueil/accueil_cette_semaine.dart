@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
@@ -30,9 +29,6 @@ class AccueilCetteSemaine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MaterialPageRoute<void> actionsDemarchesPageRoute() => item.monSuiviType == MonSuiviType.actions
-        ? UserActionListPage.materialPageRoute()
-        : DemarcheListPage.materialPageRoute();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -45,6 +41,7 @@ class AccueilCetteSemaine extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // Rendez-vous
                 _CetteSemaineRow(
                   icon: Icon(AppIcons.today_rounded, color: AppColors.primary),
                   text: item.rendezVous,
@@ -52,24 +49,27 @@ class AccueilCetteSemaine extends StatelessWidget {
                   onTap: () => Navigator.of(context).push(RendezvousListPage.materialPageRoute()),
                 ),
                 SepLine(0, 0),
+                // X Actions en retard
                 _CetteSemaineRow(
                   icon: Icon(AppIcons.error_rounded, color: AppColors.warning),
                   text: item.actionsDemarchesEnRetard,
                   onTap: () {
                     context.trackEvent(EventType.ACTION_LISTE);
-                    Navigator.of(context).push(actionsDemarchesPageRoute());
+                    Navigator.of(context).push(UserActionListPage.materialPageRoute());
                   },
                 ),
                 SepLine(0, 0),
+                // X Actions à réaliser
                 _CetteSemaineRow(
                   icon: Icon(AppIcons.description_rounded, color: AppColors.accent1),
                   text: item.actionsDemarchesARealiser,
                   onTap: () {
                     context.trackEvent(EventType.ACTION_LISTE);
-                    Navigator.of(context).push(actionsDemarchesPageRoute());
+                    Navigator.of(context).push(UserActionListPage.materialPageRoute());
                   },
                 ),
                 SepLine(0, 0),
+                // Suggestions d'alertes
                 _CetteSemaineRow(
                   icon: Icon(AppIcons.add_alert_rounded, color: AppColors.primary),
                   text: Strings.vosSuggestionsAlertes,
@@ -144,6 +144,7 @@ class _CetteSemaineVoirDetails extends StatelessWidget {
   final Function() onTap;
 
   const _CetteSemaineVoirDetails({required this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return Padding(

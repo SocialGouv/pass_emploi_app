@@ -8,7 +8,6 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_a
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:redux/redux.dart';
 
@@ -37,16 +36,12 @@ class UserActionListPageViewModel extends Equatable {
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
     final actionState = store.state.userActionListState;
-    final pendingCreationCount = _getPendingCreationCount(store);
+    final listItems = _activeActions(state: actionState) + _inactiveActions(state: actionState);
     return UserActionListPageViewModel(
       withLoading: actionState is UserActionListLoadingState || actionState is UserActionListNotInitializedState,
       withFailure: actionState is UserActionListFailureState,
       withEmptyMessage: _isEmpty(store.state),
-      items: _listItems(
-        pendingCreationCount: pendingCreationCount,
-        activeItemIds: _activeActions(state: actionState),
-        doneOrCanceledItemIds: _doneOrCanceledActions(state: actionState),
-      ),
+      items: listItems,
       onRetry: () => store.dispatch(UserActionListRequestAction(forceRefresh: true)),
       onUserActionDetailsDismissed: () {
         store.dispatch(UserActionUpdateResetAction());
@@ -54,7 +49,7 @@ class UserActionListPageViewModel extends Equatable {
       },
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       deeplinkActionId: _deeplinkActionId(store.getDeepLinkAs<DetailActionDeepLink>(), actionState),
-      pendingCreationCount: pendingCreationCount,
+      pendingCreationCount: _getPendingCreationCount(store),
     );
   }
 
@@ -67,39 +62,26 @@ bool _isEmpty(AppState state) {
   return actionState is UserActionListSuccessState && actionState.userActions.isEmpty;
 }
 
-List<String> _activeActions({required UserActionListState state}) {
+List<UserActionListPageItem> _activeActions({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
         .where((action) => !action.status.isCanceledOrDone()) //
         .map((action) => action.id)
+        .map((e) => IdItem(e))
         .toList();
   }
   return [];
 }
 
-List<String> _doneOrCanceledActions({required UserActionListState state}) {
+List<UserActionListPageItem> _inactiveActions({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
         .where((action) => action.status.isCanceledOrDone()) //
         .map((action) => action.id)
+        .map((e) => IdItem(e))
         .toList();
   }
   return [];
-}
-
-List<UserActionListPageItem> _listItems({
-  required int? pendingCreationCount,
-  required List<String> activeItemIds,
-  required List<String> doneOrCanceledItemIds,
-}) {
-  return [
-    if (pendingCreationCount != null && pendingCreationCount > 0) PendingActionCreationItem(pendingCreationCount),
-    ...activeItemIds.map((e) => IdItem(e)),
-    if (doneOrCanceledItemIds.isNotEmpty) ...[
-      SubtitleItem(Strings.doneActionsTitle),
-      ...doneOrCanceledItemIds.map((e) => IdItem(e)),
-    ]
-  ];
 }
 
 String? _deeplinkActionId(DetailActionDeepLink? deepLink, UserActionListState userActionListStateState) {
