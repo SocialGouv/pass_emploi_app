@@ -188,11 +188,11 @@ ou `[APP MOBILE] .env.prod`).
 
 - Pour l'app **CEJ**, mettre à jour le contenu du fichier `release-notes/cej/whatsnew-fr-FR`.
 - Pour l'app **pass emploi**, mettre à jour le contenu du fichier `release-notes/brsa/whatsnew-fr-FR`.
-- Commiter les changements
+- Lancer le script `release_notes.sh` (ce script valide que la taille est inférieure à 500
+  caractères - contrainte Google - et commit les changements) :
 
 ```shell script
-$ git add release-notes
-$ git commit -m "build: Update release notes"
+$ ./scripts/release_notes.sh
 ```
 
 ## Déployer une nouvelle version de l'app en bêta test sur les stores publics

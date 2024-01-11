@@ -1,29 +1,23 @@
 #!/usr/bin/env bash
 
-upgrade_version() {
-  git checkout main
-  git pull --rebase
-  dart pub global activate release_tools
-  export PATH="$PATH":"$HOME/.pub-cache/bin"
-  release_tools update_version "$new_version"
-  git add pubspec.yaml
-  git commit -m "build: bump app version"
-  git push
-}
+echo "Check release notes lengths…"
 
-tag() {
-  git tag -a $new_version -m "$new_version"
-  git push --tags
-}
+MAX_GOOGLE_RN_LENGTH=500
+CEJ_RN_LENGTH=$(cat release-notes/cej/whatsnew-fr-FR | wc -m)
+BRSA_RN_LENGTH=$(cat release-notes/brsa/whatsnew-fr-FR | wc -m)
 
-new_version=$1
-
-echo "Release version"
-
-if [ -z "$1" ]; then
-  echo "error: a version number must be passed in parameter"
+if [ "$CEJ_RN_LENGTH" -gt "$MAX_GOOGLE_RN_LENGTH" ]; then
+  echo "Release note for CEJ is too long: $CEJ_RN_LENGTH (max: $MAX_GOOGLE_RN_LENGTH)."
   exit 1
 fi
 
-upgrade_version
-tag
+if [ "$BRSA_RN_LENGTH" -gt "$MAX_GOOGLE_RN_LENGTH" ]; then
+  echo "Release note for CEJ is too long: $BRSA_RN_LENGTH (max: $MAX_GOOGLE_RN_LENGTH)."
+  exit 1
+fi
+
+echo "Release notes lengths OK"
+git add release-notes
+git commit -m "build: Update release notes"
+echo "Release notes commited"
+
