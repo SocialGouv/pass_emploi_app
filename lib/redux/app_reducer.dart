@@ -74,6 +74,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/features/cvm/cvm_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -179,6 +180,7 @@ AppState reducer(AppState current, dynamic action) {
     sessionMiloDetailsState: sessionMiloDetailsReducer(current.sessionMiloDetailsState, action),
     connectivityState: connectivityReducer(current.connectivityState, action),
     monSuiviState: monSuiviReducer(current.monSuiviState, action),
+    cvmState: cvmReducer(current.cvmState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

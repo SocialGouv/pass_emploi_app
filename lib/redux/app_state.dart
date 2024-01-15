@@ -66,6 +66,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -137,6 +138,7 @@ class AppState extends Equatable {
   final ConnectivityState connectivityState;
   final MonSuiviState monSuiviState;
 
+  final CvmState cvmState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -207,6 +209,7 @@ class AppState extends Equatable {
     required this.sessionMiloDetailsState,
     required this.connectivityState,
     required this.monSuiviState,
+    required this.cvmState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -278,6 +281,7 @@ class AppState extends Equatable {
     final SessionMiloDetailsState? sessionMiloDetailsState,
     final ConnectivityState? connectivityState,
     final MonSuiviState? monSuiviState,
+    final CvmState? cvmState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -348,6 +352,7 @@ class AppState extends Equatable {
       sessionMiloDetailsState: sessionMiloDetailsState ?? this.sessionMiloDetailsState,
       connectivityState: connectivityState ?? this.connectivityState,
       monSuiviState: monSuiviState ?? this.monSuiviState,
+      cvmState: cvmState ?? this.cvmState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -421,6 +426,7 @@ class AppState extends Equatable {
       sessionMiloDetailsState: SessionMiloDetailsNotInitializedState(),
       connectivityState: ConnectivityState.notInitialized(),
       monSuiviState: MonSuiviNotInitializedState(),
+      cvmState: CvmNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -488,6 +494,7 @@ class AppState extends Equatable {
         sessionMiloDetailsState,
         connectivityState,
         monSuiviState,
+        cvmState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

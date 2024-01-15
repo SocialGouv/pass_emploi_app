@@ -18,21 +18,50 @@ class CvmRepository(
 
     var room: Room? = null
 
-    fun initCvm(token: String) {
+    fun initCvm(token: String, onInit: () -> Unit) {
         MatrixManager.initContext(context)
         MatrixManager.getInstance().loginAndStartSession(token, EX_160_URL_NEW)
         MatrixManager.getInstance().joinFirstRoom(lifecycleOwner) {
-            room = it
+            this.room = it
+            println("✅ init done ${room?.id}")
+            onInit()
         }
     }
 
     suspend fun sendMessage(message: String) {
-        room?.let {
-            MatrixManager.getInstance().sendMessage(
-                room!!.id!!,
-                message,
-                { a: String -> Unit },
-                { a: Int, b: String -> Unit })
+        try {
+            this.room?.let {
+                MatrixManager.getInstance().sendMessage(
+                    room!!.id!!,
+                    message,
+                    { a: String -> Unit },
+                    { a: Int, b: String -> Unit })
+            }
+        } catch (e: Exception) {
+            print("🔴 sendMessage error: $e")
         }
     }
+
+    fun listenMessage(callback: (List<Map<String, Any>>) -> Unit) {
+       try {
+           MatrixManager.getInstance().startListenMessage(room!!.id!!) { events ->
+               val allMessages = events.map { event ->
+                   mapOf(
+                       "id" to (event.eventId ?: ""),
+                       "isFromUser" to (event.senderId == SessionManager.matrixUserId),
+                       "content" to (event.message ?: ""),
+                       "date" to (event.date?.time ?: 0L)
+                   )
+               }
+               callback(allMessages)
+           }
+       } catch (e: Exception) {
+           print("🔴 listenMessage error: $e")
+       }
+    }
+
+    fun stopListenMessage() {
+        MatrixManager.getInstance().stopListenMessage()
+    }
+
 }
