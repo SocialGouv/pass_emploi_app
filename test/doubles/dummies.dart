@@ -442,4 +442,6 @@ class DummyThematiqueDemarcheRepository extends ThematiqueDemarcheRepository {
 class DummyTopDemarcheRepository extends TopDemarcheRepository {
   DummyTopDemarcheRepository() : super();
 }
+
+
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/

@@ -11,11 +11,12 @@ import kotlinx.coroutines.launch
 
 class MethodChannelHandler(
     private val flutterEngine: FlutterEngine,
-    private val cvmRepository: CvmRepository
+    private val cvmRepository: CvmRepository,
+    private val eventChannelHandler: EventChannelHandler,
 ) : MethodCallHandler {
 
     companion object {
-        const val CHANNEL = "fr.fabrique.social.gouv.pass_emploi_app"
+        const val CHANNEL = "fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/methods"
     }
 
     init {
@@ -32,6 +33,7 @@ class MethodChannelHandler(
                 initializeCvm(token, result)
             }
             "sendMessage" -> {
+                println("🔴 sendMessage")
                 val message: String = call.argument("message") ?: run {
                     result.error("ARGUMENT_ERROR", "Message is missing", null)
                     return
@@ -45,7 +47,9 @@ class MethodChannelHandler(
     }
 
     private fun initializeCvm(token: String, result: Result) {
-        cvmRepository.initCvm(token)
+        cvmRepository.initCvm(token, onInit = {
+            eventChannelHandler.startListeningMessages()
+        })
         result.success(null)
     }
 
