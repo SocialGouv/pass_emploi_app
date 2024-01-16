@@ -1,11 +1,13 @@
 import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi/mon_suivi_view_model.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 final lundi1Janvier = DateTime(2024, 1, 1);
@@ -138,5 +140,18 @@ void main() {
         ]);
       });
     });
+  });
+
+  test('onRetry', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = MonSuiviViewModel.create(store);
+
+    // When
+    viewModel.onRetry();
+
+    // Then
+    expect(store.dispatchedAction is MonSuiviRequestAction, isTrue);
+    expect((store.dispatchedAction as MonSuiviRequestAction).period, Period.current);
   });
 }
