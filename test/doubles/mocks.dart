@@ -15,6 +15,8 @@ import 'package:pass_emploi_app/repositories/user_action_pending_creation_reposi
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
+/*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
+
 import 'dio_mock.dart';
 import 'fixtures.dart';
 
@@ -99,3 +101,5 @@ class MockUserActionPendingCreationRepository extends Mock implements UserAction
     when(() => load()).thenAnswer((_) async => []);
   }
 }
+
+/*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/
