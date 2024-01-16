@@ -19,6 +19,7 @@ String? getDemoFileName(String url, String query) {
   if (url.endsWith('/referentiels/pole-emploi/types-demarches')) return 'referentiel_demarches';
   if (url.endsWith('/commentaires')) return 'commentaires';
   if (url.endsWith('/favoris')) return 'favoris';
+  if (url.endsWith('/mon-suivi')) return 'mon_suivi_mission_locale';
   if (url.contains('recherches/suggestions')) return 'suggestions_recherche';
   if (url.removeLastPath().endsWith('/services-civique')) return 'service_civique_detail';
   if (url.removeLastPath().endsWith('/offres-immersion')) return 'immersion_detail';

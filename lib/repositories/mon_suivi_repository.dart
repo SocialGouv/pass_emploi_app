@@ -9,10 +9,11 @@ class MonSuiviRepository {
   MonSuiviRepository(this._httpClient, [this._crashlytics]);
 
   Future<MonSuivi?> getMonSuivi({required String userId, required DateTime debut, required DateTime fin}) async {
-    final url = "/jeunes/todo";
+    final url = "/jeunes/milo/$userId/mon-suivi";
+
     try {
-      final response = await _httpClient.get(url);
-      return null;
+      final response = await _httpClient.get(url, queryParameters: {"debut": debut, "fin": fin});
+      return MonSuivi.fromJson(response.data);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
