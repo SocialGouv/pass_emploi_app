@@ -35,6 +35,7 @@ import 'package:pass_emploi_app/features/immersion/details/immersion_details_sta
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
@@ -133,6 +134,8 @@ class AppState extends Equatable {
   final SessionMiloDetailsState sessionMiloDetailsState;
   final ConnectivityState connectivityState;
 
+  final MonSuiviState monSuiviState;
+
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -201,6 +204,7 @@ class AppState extends Equatable {
     required this.topDemarcheState,
     required this.sessionMiloDetailsState,
     required this.connectivityState,
+    required this.monSuiviState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -270,6 +274,7 @@ class AppState extends Equatable {
     final TopDemarcheState? topDemarcheState,
     final SessionMiloDetailsState? sessionMiloDetailsState,
     final ConnectivityState? connectivityState,
+    final MonSuiviState? monSuiviState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -338,6 +343,7 @@ class AppState extends Equatable {
       topDemarcheState: topDemarcheState ?? this.topDemarcheState,
       sessionMiloDetailsState: sessionMiloDetailsState ?? this.sessionMiloDetailsState,
       connectivityState: connectivityState ?? this.connectivityState,
+      monSuiviState: monSuiviState ?? this.monSuiviState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -409,6 +415,7 @@ class AppState extends Equatable {
       topDemarcheState: TopDemarcheNotInitializedState(),
       sessionMiloDetailsState: SessionMiloDetailsNotInitializedState(),
       connectivityState: ConnectivityState.notInitialized(),
+      monSuiviState: MonSuiviNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -473,6 +480,7 @@ class AppState extends Equatable {
         topDemarcheState,
         sessionMiloDetailsState,
         connectivityState,
+        monSuiviState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 
