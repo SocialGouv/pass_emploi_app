@@ -367,7 +367,7 @@ void main() {
     group("when requesting", () {
       sut.whenDispatchingAction(() => ${feature_camel_case}RequestAction());
 
-      test('should load then succeed when request succeed', () {
+      test('should load then succeed when request succeeds', () {
         when(() => repository.get()).thenAnswer((_) async => true);
 
         sut.givenStore = givenState() //
@@ -377,7 +377,7 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
       });
 
-      test('should load then fail when request fail', () {
+      test('should load then fail when request fails', () {
         when(() => repository.get()).thenAnswer((_) async => null);
 
         sut.givenStore = givenState() //
