@@ -46,7 +46,7 @@ Interval _getPreviousPeriodInterval(Store<AppState> store) {
   final state = store.state.monSuiviState;
   if (state is MonSuiviSuccessState) {
     return Interval(
-      state.interval.debut.subtract(Duration(days: 28)),
+      state.interval.debut.subtract(Duration(days: 7 * 4)),
       state.interval.debut.subtract(Duration(milliseconds: 1)),
     );
   } else {
@@ -59,7 +59,7 @@ Interval _getNextPeriodInterval(Store<AppState> store) {
   if (state is MonSuiviSuccessState) {
     return Interval(
       state.interval.fin.add(Duration(milliseconds: 1)),
-      state.interval.fin.add(Duration(days: 28)),
+      state.interval.fin.add(Duration(days: 7 * 4)),
     );
   } else {
     throw Exception("Cannot get next period if current period is not loaded");
