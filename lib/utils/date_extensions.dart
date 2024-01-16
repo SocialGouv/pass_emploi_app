@@ -74,7 +74,11 @@ extension DateExtensions on DateTime {
 
   DateTime toMondayOnThisWeek() => subtract(Duration(days: weekday - 1));
 
+  DateTime toMondayOn2PreviousWeeks() => toMondayOnThisWeek().subtract(Duration(days: 14)).toStartOfDay();
+
   DateTime toSundayOnThisWeek() => add(Duration(days: 7 - weekday));
+
+  DateTime toSundayOn2NextWeeks() => toSundayOnThisWeek().add(Duration(days: 14)).toEndOfDay();
 
   DateTime toMondayOnNextWeek() => add(Duration(days: 7 - weekday + 1));
 

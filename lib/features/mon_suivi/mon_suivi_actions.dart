@@ -1,18 +1,31 @@
+import 'package:pass_emploi_app/models/date/interval.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
 
-class MonSuiviRequestAction {
-  final DateTime debut;
-  final DateTime fin;
+enum Period {
+  previous,
+  current,
+  next;
 
-  MonSuiviRequestAction({required this.debut, required this.fin});
+  bool isCurrent() => this == Period.current;
+
+  bool isPrevious() => this == Period.previous;
+
+  bool isNext() => this == Period.next;
+}
+
+class MonSuiviRequestAction {
+  final Period period;
+
+  MonSuiviRequestAction(this.period);
 }
 
 class MonSuiviLoadingAction {}
 
 class MonSuiviSuccessAction {
+  final Interval interval;
   final MonSuivi monSuivi;
 
-  MonSuiviSuccessAction(this.monSuivi);
+  MonSuiviSuccessAction(this.interval, this.monSuivi);
 }
 
 class MonSuiviFailureAction {}
