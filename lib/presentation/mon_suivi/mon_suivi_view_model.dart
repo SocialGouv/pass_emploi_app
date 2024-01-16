@@ -1,5 +1,6 @@
 import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -10,14 +11,16 @@ import 'package:redux/redux.dart';
 class MonSuiviViewModel extends Equatable {
   final DisplayState displayState;
   final List<MonSuiviItem> items;
+  final Function() onRetry;
 
-  MonSuiviViewModel._({required this.displayState, required this.items});
+  MonSuiviViewModel._({required this.displayState, required this.items, required this.onRetry});
 
   factory MonSuiviViewModel.create(Store<AppState> store) {
     final state = store.state.monSuiviState;
     return MonSuiviViewModel._(
       displayState: _displayState(state),
       items: _items(state),
+      onRetry: () => store.dispatch(MonSuiviRequestAction(Period.current)),
     );
   }
 

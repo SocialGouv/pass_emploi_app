@@ -190,7 +190,7 @@ class _Content extends StatelessWidget {
         onRefresh: () async => viewModel.reload(DateTime.now()),
         child: ListView.builder(
           clipBehavior: Clip.none,
-          padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
+          padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: Margins.spacing_x_huge),
           itemCount: viewModel.events.length,
           itemBuilder: (context, index) {
             final item = viewModel.events[index];
