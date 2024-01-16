@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/repositories/configuration_application_repositor
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
+import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
@@ -87,6 +88,8 @@ class MockSessionMiloRepository extends Mock implements SessionMiloRepository {
 class MockCacheStore extends Mock implements CacheStore {}
 
 class MockConnectivityWrapper extends Mock implements ConnectivityWrapper {}
+
+class MockMonSuiviRepository extends Mock implements MonSuiviRepository {}
 
 class MockUserActionPendingCreationRepository extends Mock implements UserActionPendingCreationRepository {
   MockUserActionPendingCreationRepository() {

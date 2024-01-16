@@ -47,6 +47,7 @@ import 'package:pass_emploi_app/repositories/immersion/immersion_details_reposit
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
+import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
@@ -441,5 +442,9 @@ class DummyThematiqueDemarcheRepository extends ThematiqueDemarcheRepository {
 
 class DummyTopDemarcheRepository extends TopDemarcheRepository {
   DummyTopDemarcheRepository() : super();
+}
+
+class DummyMonSuiviRepository extends MonSuiviRepository {
+  DummyMonSuiviRepository() : super(DioMock());
 }
 /*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION*/
