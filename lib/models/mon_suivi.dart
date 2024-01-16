@@ -23,6 +23,14 @@ class MonSuivi extends Equatable {
     );
   }
 
+  MonSuivi append(MonSuivi monSuivi) {
+    return MonSuivi(
+      actions: [...actions, ...monSuivi.actions],
+      rendezvous: [...rendezvous, ...monSuivi.rendezvous],
+      sessionsMilo: [...sessionsMilo, ...monSuivi.sessionsMilo],
+    );
+  }
+
   @override
   List<Object?> get props => [actions, rendezvous, sessionsMilo];
 }

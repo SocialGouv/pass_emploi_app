@@ -313,23 +313,8 @@ extension AppStateDSL on AppState {
     );
   }
 
-  AppState monSuivi({
-    required Interval interval,
-    required DateTime fin,
-    List<UserAction>? actions,
-    List<Rendezvous>? rendezvous,
-    List<SessionMilo>? sessionsMilo,
-  }) {
-    return copyWith(
-      monSuiviState: MonSuiviSuccessState(
-        interval,
-        MonSuivi(
-          actions: actions ?? [],
-          rendezvous: rendezvous ?? [],
-          sessionsMilo: sessionsMilo ?? [],
-        ),
-      ),
-    );
+  AppState monSuivi(Interval interval, MonSuivi monSuivi) {
+    return copyWith(monSuiviState: MonSuiviSuccessState(interval, monSuivi));
   }
 
   AppState withUserActions(List<UserAction> userActions) {

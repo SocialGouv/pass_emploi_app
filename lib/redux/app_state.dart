@@ -133,7 +133,6 @@ class AppState extends Equatable {
   final TopDemarcheState topDemarcheState;
   final SessionMiloDetailsState sessionMiloDetailsState;
   final ConnectivityState connectivityState;
-
   final MonSuiviState monSuiviState;
 
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
