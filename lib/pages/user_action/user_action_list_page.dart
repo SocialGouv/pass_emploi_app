@@ -29,12 +29,18 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 enum Filtre { enRetard, aucun }
 
 class UserActionListPage extends StatefulWidget {
+  final Filtre filtre;
+
+  const UserActionListPage({super.key, required this.filtre});
+
   static MaterialPageRoute<void> materialPageRoute([Filtre filtre = Filtre.aucun]) {
     return MaterialPageRoute(
       builder: (context) {
         return Scaffold(
           appBar: SecondaryAppBar(title: filtre == Filtre.enRetard ? "Actions en retard" : "Actions"),
-          body: UserActionListPage(),
+          body: UserActionListPage(
+            filtre: filtre,
+          ),
         );
       },
     );
@@ -52,7 +58,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
       child: StoreConnector<AppState, UserActionListPageViewModel>(
         onInit: (store) => store.dispatch(UserActionListRequestAction()),
         builder: (context, viewModel) => _scaffold(context, viewModel),
-        converter: (store) => UserActionListPageViewModel.create(store),
+        converter: (store) => UserActionListPageViewModel.create(store, widget.filtre),
         onDidChange: (previousViewModel, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
         onDispose: (store) {
           store.dispatch(UserActionListResetAction());

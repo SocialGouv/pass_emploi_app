@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_state
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:redux/redux.dart';
@@ -34,14 +35,15 @@ class UserActionListPageViewModel extends Equatable {
     required this.pendingCreationCount,
   });
 
-  factory UserActionListPageViewModel.create(Store<AppState> store) {
+  factory UserActionListPageViewModel.create(Store<AppState> store, [Filtre filtre = Filtre.aucun]) {
     final actionState = store.state.userActionListState;
-    final listItems = _activeActions(state: actionState) + _inactiveActions(state: actionState);
+    final toutesLesActions = _activeActions(state: actionState) + _inactiveActions(state: actionState);
+    final actionsEnRetard = _actionEnRetard(state: actionState);
     return UserActionListPageViewModel(
       withLoading: actionState is UserActionListLoadingState || actionState is UserActionListNotInitializedState,
       withFailure: actionState is UserActionListFailureState,
       withEmptyMessage: _isEmpty(store.state),
-      items: listItems,
+      items: filtre == Filtre.enRetard ? actionsEnRetard : toutesLesActions,
       onRetry: () => store.dispatch(UserActionListRequestAction(forceRefresh: true)),
       onUserActionDetailsDismissed: () {
         store.dispatch(UserActionUpdateResetAction());
@@ -60,6 +62,18 @@ class UserActionListPageViewModel extends Equatable {
 bool _isEmpty(AppState state) {
   final actionState = state.userActionListState;
   return actionState is UserActionListSuccessState && actionState.userActions.isEmpty;
+}
+
+List<UserActionListPageItem> _actionEnRetard({required UserActionListState state}) {
+  if (state is UserActionListSuccessState) {
+    return state.userActions
+        .where((action) => action.status.estNonCommenceeOuEnCours()) //
+        .where((action) => action.dateEcheance.isBefore(DateTime.now())) //
+        .map((action) => action.id)
+        .map((e) => IdItem(e))
+        .toList();
+  }
+  return [];
 }
 
 List<UserActionListPageItem> _activeActions({required UserActionListState state}) {

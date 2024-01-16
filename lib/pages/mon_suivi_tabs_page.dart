@@ -92,7 +92,7 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
           case MonSuiviTab.AGENDA:
             return AgendaPage(() => _tabController?.animateTo(1));
           case MonSuiviTab.ACTIONS:
-            return UserActionListPage();
+            return UserActionListPage(filtre: Filtre.aucun);
           case MonSuiviTab.DEMARCHE:
             return DemarcheListPage();
           case MonSuiviTab.RENDEZVOUS:
