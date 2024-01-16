@@ -22,10 +22,11 @@ class MonSuiviRequestAction {
 class MonSuiviLoadingAction {}
 
 class MonSuiviSuccessAction {
+  final Period period;
   final Interval interval;
   final MonSuivi monSuivi;
 
-  MonSuiviSuccessAction(this.interval, this.monSuivi);
+  MonSuiviSuccessAction(this.period, this.interval, this.monSuivi);
 }
 
 class MonSuiviFailureAction {}

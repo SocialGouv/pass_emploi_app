@@ -38,6 +38,7 @@ import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/message.dart' as message;
 import 'package:pass_emploi_app/models/metier.dart';
+import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
@@ -1197,5 +1198,17 @@ UserActionUpdateRequest mockUserActionUpdateRequest([UserActionStatus status = U
     description: "description",
     dateEcheance: DateTime(2024),
     type: UserActionReferentielType.emploi,
+  );
+}
+
+MonSuivi mockMonSuivi({
+  List<UserAction>? actions,
+  List<Rendezvous>? rendezvous,
+  List<SessionMilo>? sessionsMilo,
+}) {
+  return MonSuivi(
+    actions: actions ?? [],
+    rendezvous: rendezvous ?? [],
+    sessionsMilo: sessionsMilo ?? [],
   );
 }
