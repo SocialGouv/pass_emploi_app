@@ -39,8 +39,12 @@ enum UserActionQualificationStatus {
 }
 
 extension UserActionStatusExtension on UserActionStatus {
-  bool isCanceledOrDone() {
+  bool estAnnuleeOuRealisee() {
     return this == UserActionStatus.CANCELED || this == UserActionStatus.DONE;
+  }
+
+  bool estNonCommenceeOuEnCours() {
+    return this == UserActionStatus.IN_PROGRESS || this == UserActionStatus.NOT_STARTED;
   }
 }
 

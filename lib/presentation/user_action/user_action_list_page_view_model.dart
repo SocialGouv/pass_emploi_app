@@ -65,7 +65,7 @@ bool _isEmpty(AppState state) {
 List<UserActionListPageItem> _activeActions({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
-        .where((action) => !action.status.isCanceledOrDone()) //
+        .where((action) => action.status.estNonCommenceeOuEnCours()) //
         .map((action) => action.id)
         .map((e) => IdItem(e))
         .toList();
@@ -76,7 +76,7 @@ List<UserActionListPageItem> _activeActions({required UserActionListState state}
 List<UserActionListPageItem> _inactiveActions({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
-        .where((action) => action.status.isCanceledOrDone()) //
+        .where((action) => action.status.estAnnuleeOuRealisee()) //
         .map((action) => action.id)
         .map((e) => IdItem(e))
         .toList();
