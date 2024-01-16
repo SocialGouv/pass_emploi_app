@@ -313,8 +313,13 @@ extension AppStateDSL on AppState {
     );
   }
 
-  AppState monSuivi(Interval interval, MonSuivi monSuivi) {
-    return copyWith(monSuiviState: MonSuiviSuccessState(interval, monSuivi));
+  AppState monSuivi({Interval? interval, MonSuivi? monSuivi}) {
+    return copyWith(
+      monSuiviState: MonSuiviSuccessState(
+        interval ?? Interval(DateTime(2022), DateTime(2023)),
+        monSuivi ?? mockMonSuivi(),
+      ),
+    );
   }
 
   AppState withUserActions(List<UserAction> userActions) {
