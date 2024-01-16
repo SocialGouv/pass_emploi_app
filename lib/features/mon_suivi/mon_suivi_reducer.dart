@@ -14,7 +14,7 @@ MonSuiviSuccessState _successState(MonSuiviState current, MonSuiviSuccessAction 
   return switch (action.period) {
     Period.current => MonSuiviSuccessState(action.interval, action.monSuivi),
     Period.previous => _successStateForPreviousPeriod(current, action),
-    Period.next => throw Exception("TODO"),
+    Period.next => _successStateForNextPeriod(current, action),
   };
 }
 
@@ -26,5 +26,16 @@ MonSuiviSuccessState _successStateForPreviousPeriod(MonSuiviState current, MonSu
     );
   } else {
     throw Exception("Cannot get previous period if current period is not loaded");
+  }
+}
+
+MonSuiviSuccessState _successStateForNextPeriod(MonSuiviState current, MonSuiviSuccessAction action) {
+  if (current is MonSuiviSuccessState) {
+    return MonSuiviSuccessState(
+      Interval(current.interval.debut, action.interval.fin),
+      current.monSuivi.append(action.monSuivi),
+    );
+  } else {
+    throw Exception("Cannot get next period if current period is not loaded");
   }
 }
