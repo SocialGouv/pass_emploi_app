@@ -29,6 +29,8 @@ extension DateExtensions on DateTime {
 
   String toDayOfWeek() => DateFormat('EEEE d', 'fr').format(this);
 
+  String toDayShortened() => DateFormat('EEE', 'fr').format(this);
+
   String toDayWithFullMonth() => DateFormat('dd MMMM yyyy', 'fr').format(this);
 
   String toDayWithFullMonthContextualized() {
@@ -45,6 +47,8 @@ extension DateExtensions on DateTime {
     return toDayOfWeekWithFullMonth().firstLetterUpperCased();
   }
 
+  String toMonth() => DateFormat('MMMM', 'fr').format(this);
+
   String toFullMonthAndYear() {
     return DateFormat('MMMM yyyy', 'fr').format(this);
   }
@@ -59,6 +63,12 @@ extension DateExtensions on DateTime {
   }
 
   bool isAtSameDayAs(DateTime other) => day == other.day && month == other.month && year == other.year;
+
+  bool isAtSameWeekAs(DateTime other) {
+    final thisMonday = toMondayOnThisWeek();
+    final otherMonday = other.toMondayOnThisWeek();
+    return thisMonday.isAtSameDayAs(otherMonday);
+  }
 
   bool isToday() => isAtSameDayAs(clock.now());
 
