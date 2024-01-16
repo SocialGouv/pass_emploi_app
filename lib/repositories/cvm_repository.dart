@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 
 abstract class CvmRepository {
   Future<void> init();
@@ -33,31 +34,39 @@ class CvmRepositoryImpl implements CvmRepository {
   static const _cvmMethodChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/methods';
   static const _cvmEventChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/events';
 
+  final Crashlytics? _crashlytics;
+
+  CvmRepositoryImpl({Crashlytics? crashlytics}) : _crashlytics = crashlytics;
+
   @override
   Future<void> init() async {
     try {
-      const token = "zxjlJxYIMOyYnjij7RmqB12gy9Y";
-      await MethodChannel(_cvmMethodChannel).invokeMethod('initializeCvm', {'token': token});
-    } on PlatformException catch (e) {
-      print(e);
+      const ex160 = "zefzefEJ";
+      const token = "tQx99lBl3xm9zwRVtPKErd1TVZo";
+      await MethodChannel(_cvmMethodChannel).invokeMethod('initializeCvm', {'token': token, 'ex160': ex160});
+    } on PlatformException catch (e, s) {
+      _crashlytics?.recordCvmException(e, s);
     }
   }
 
   @override
   Stream<CvmMessage> getMessages() {
-    return EventChannel(_cvmEventChannel).receiveBroadcastStream().map((event) {
-      print("📩 CVM Message received");
-      return CvmMessage.fromJson(event);
-    });
+    try {
+      return EventChannel(_cvmEventChannel).receiveBroadcastStream().map((event) {
+        return CvmMessage.fromJson(event);
+      });
+    } on PlatformException catch (e, s) {
+      _crashlytics?.recordCvmException(e, s);
+      return Stream.empty();
+    }
   }
 
   @override
   Future<void> sendMessage(String message) async {
     try {
-      print("📬 Sending message to CVM: $message");
       await MethodChannel(_cvmMethodChannel).invokeMethod('sendMessage', {'message': message});
-    } on PlatformException catch (e) {
-      print(e);
+    } on PlatformException catch (e, s) {
+      _crashlytics?.recordCvmException(e, s);
     }
   }
 }

@@ -42,14 +42,6 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
       _initCvm(store, _repository);
     } else if (action is CvmSendMessageAction) {
       _repository.sendMessage(action.message);
-    } else if (action is CvmLoadingAction) {
-      // Do nothing
-    } else if (action is CvmSuccessAction) {
-      // Do nothing
-    } else if (action is CvmFailureAction) {
-      // Do nothing
-    } else if (action is CvmResetAction) {
-      // Do nothing
     }
   }
 
