@@ -26,14 +26,17 @@ class MethodChannelHandler(
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             "initializeCvm" -> {
+                val ex160: String = call.argument("ex160") ?: run {
+                    result.error("ARGUMENT_ERROR", "ex160 is missing", null)
+                    return
+                }
                 val token: String = call.argument("token") ?: run {
                     result.error("ARGUMENT_ERROR", "Token is missing", null)
                     return
                 }
-                initializeCvm(token, result)
+                initializeCvm(ex160, token, result)
             }
             "sendMessage" -> {
-                println("🔴 sendMessage")
                 val message: String = call.argument("message") ?: run {
                     result.error("ARGUMENT_ERROR", "Message is missing", null)
                     return
@@ -46,8 +49,8 @@ class MethodChannelHandler(
         }
     }
 
-    private fun initializeCvm(token: String, result: Result) {
-        cvmRepository.initCvm(token, onInit = {
+    private fun initializeCvm(url: String, token: String, result: Result) {
+        cvmRepository.initCvm(url, token, onInit = {
             eventChannelHandler.startListeningMessages()
         })
         result.success(null)
