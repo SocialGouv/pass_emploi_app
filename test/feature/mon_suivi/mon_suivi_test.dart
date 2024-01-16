@@ -87,7 +87,7 @@ void main() {
 
           sut.givenStore = givenState() //
               .loggedInUser()
-              .monSuivi(currentPeriodInterval, currentPeriodSuivi)
+              .monSuivi(interval: currentPeriodInterval, monSuivi: currentPeriodSuivi)
               .store((f) => {f.monSuiviRepository = repository});
 
           sut.thenExpectChangingStatesThroughOrder([
@@ -103,7 +103,7 @@ void main() {
 
           sut.givenStore = givenState() //
               .loggedInUser()
-              .monSuivi(currentPeriodInterval, currentPeriodSuivi)
+              .monSuivi(interval: currentPeriodInterval, monSuivi: currentPeriodSuivi)
               .store((f) => {f.monSuiviRepository = repository});
 
           sut.thenExpectChangingStatesThroughOrder([_shouldSucceedForCurrentPeriod()]);
@@ -120,7 +120,7 @@ void main() {
 
           sut.givenStore = givenState() //
               .loggedInUser()
-              .monSuivi(currentPeriodInterval, currentPeriodSuivi)
+              .monSuivi(interval: currentPeriodInterval, monSuivi: currentPeriodSuivi)
               .store((f) => {f.monSuiviRepository = repository});
 
           sut.thenExpectChangingStatesThroughOrder([
@@ -136,7 +136,7 @@ void main() {
 
           sut.givenStore = givenState() //
               .loggedInUser()
-              .monSuivi(currentPeriodInterval, currentPeriodSuivi)
+              .monSuivi(interval: currentPeriodInterval, monSuivi: currentPeriodSuivi)
               .store((f) => {f.monSuiviRepository = repository});
 
           sut.thenExpectChangingStatesThroughOrder([_shouldSucceedForCurrentPeriod()]);
