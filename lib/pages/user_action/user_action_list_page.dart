@@ -26,12 +26,14 @@ import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
+enum Filtre { enRetard, aucun }
+
 class UserActionListPage extends StatefulWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
+  static MaterialPageRoute<void> materialPageRoute([Filtre filtre = Filtre.aucun]) {
     return MaterialPageRoute(
       builder: (context) {
         return Scaffold(
-          appBar: SecondaryAppBar(title: "Actions"),
+          appBar: SecondaryAppBar(title: filtre == Filtre.enRetard ? "Actions en retard" : "Actions"),
           body: UserActionListPage(),
         );
       },

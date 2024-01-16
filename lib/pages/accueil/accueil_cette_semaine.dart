@@ -55,7 +55,7 @@ class AccueilCetteSemaine extends StatelessWidget {
                   text: item.actionsDemarchesEnRetard,
                   onTap: () {
                     context.trackEvent(EventType.ACTION_LISTE);
-                    Navigator.of(context).push(UserActionListPage.materialPageRoute());
+                    Navigator.of(context).push(UserActionListPage.materialPageRoute(Filtre.enRetard));
                   },
                 ),
                 SepLine(0, 0),
