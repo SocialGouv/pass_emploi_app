@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/date/interval.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 
@@ -12,7 +13,7 @@ void main() {
 
     group('get', () {
       sut.when(
-        (repository) => repository.getMonSuivi(userId: 'user-id', debut: DateTime(2024, 1), fin: DateTime(2024, 2)),
+            (repository) => repository.getMonSuivi('user-id', Interval(DateTime(2024, 1), DateTime(2024, 2))),
       );
 
       group('when response is valid', () {
