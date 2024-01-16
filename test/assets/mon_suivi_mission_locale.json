@@ -1,0 +1,51 @@
+{
+  "actions": [
+    {
+      "id": "id-1",
+      "comment": "comment",
+      "content": "content",
+      "creatorType": "jeune",
+      "status": "in_progress",
+      "dateEcheance": "2007-07-07T01:01:07.000Z",
+      "creationDate": "Wed, 19 Jul 2006 13:10:00 +0000"
+    }
+  ],
+  "rendezVous": [
+    {
+      "id": "id-1",
+      "source": "PASS_EMPLOI",
+      "date": "2021-07-21T00:00:00.000Z",
+      "isLocaleDate": true,
+      "modality": "par visio",
+      "duration": 120,
+      "type": {
+        "code": "VISITE",
+        "label": "Visite"
+      },
+      "presenceConseiller": true,
+      "createur": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      },
+      "conseiller": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      }
+    }
+  ],
+  "sessionsMilo": [
+    {
+      "id": "id-cv-2023",
+      "nomSession": "Session CV",
+      "nomOffre": "Mon premier CV",
+      "dateHeureDebut": "2023-01-01T00:00:00.000Z",
+      "type": {
+        "code": "WORKSHOP",
+        "label": "Atelier"
+      },
+      "inscription": "INSCRIT"
+    }
+  ]
+}

@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 
+import '../doubles/fixtures.dart';
 import '../dsl/sut_dio_repository.dart';
 
 void main() {
@@ -14,17 +16,27 @@ void main() {
       );
 
       group('when response is valid', () {
-        sut.givenResponseCode(200);
+        sut.givenJsonResponse(fromJson: "agenda_mission_locale.json");
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: HttpMethod.get,
-            url: "/jeunes/todo",
+            url: "/jeunes/milo/user-id/mon-suivi",
+            queryParameters: {"debut": DateTime(2024, 1), "fin": DateTime(2024, 2)},
           );
         });
 
         test('response should be valid', () async {
-          await sut.expectTrueAsResult();
+          await sut.expectResult<MonSuivi?>((result) {
+            expect(result, isNotNull);
+            expect(
+                result,
+                MonSuivi(
+                  actions: [userActionStub()],
+                  rendezvous: [rendezvousStub()],
+                  sessionsMilo: [mockSessionMiloAtelierCv()],
+                ));
+          });
         });
       });
 
