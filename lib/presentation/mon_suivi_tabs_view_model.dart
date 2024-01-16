@@ -7,20 +7,20 @@ import 'package:redux/redux.dart';
 
 enum MonSuiviTab { AGENDA, ACTIONS, DEMARCHE, RENDEZVOUS }
 
-class MonSuiviViewModel extends Equatable {
+class MonSuiviTabsViewModel extends Equatable {
   final List<MonSuiviTab> tabs;
   final List<String> tabTitles;
   final int initialTabIndex;
   final bool isModeDemo;
 
-  MonSuiviViewModel._({
+  MonSuiviTabsViewModel._({
     required this.tabs,
     required this.tabTitles,
     required this.initialTabIndex,
     required this.isModeDemo,
   });
 
-  factory MonSuiviViewModel.create(Store<AppState> store, [MonSuiviTab? initialTab]) {
+  factory MonSuiviTabsViewModel.create(Store<AppState> store, [MonSuiviTab? initialTab]) {
     final loginState = store.state.loginState;
     final loginMode = loginState is LoginSuccessState ? loginState.user.loginMode : null;
     final tabs = [
@@ -28,7 +28,7 @@ class MonSuiviViewModel extends Equatable {
       loginMode.isPe() ? MonSuiviTab.DEMARCHE : MonSuiviTab.ACTIONS,
       MonSuiviTab.RENDEZVOUS,
     ];
-    return MonSuiviViewModel._(
+    return MonSuiviTabsViewModel._(
       tabs: tabs,
       tabTitles: _tabTitles(tabs),
       initialTabIndex: _initialTabIndex(tabs, initialTab),

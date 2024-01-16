@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
+import 'package:pass_emploi_app/presentation/mon_suivi_tabs_view_model.dart';
 
 import '../dsl/app_state_dsl.dart';
 
@@ -10,7 +10,7 @@ void main() {
       final store = givenState().loggedInPoleEmploiUser().store();
 
       // When
-      final viewModel = MonSuiviViewModel.create(store);
+      final viewModel = MonSuiviTabsViewModel.create(store);
 
       // Then
       expect(viewModel.tabs, [MonSuiviTab.AGENDA, MonSuiviTab.DEMARCHE, MonSuiviTab.RENDEZVOUS]);
@@ -22,7 +22,7 @@ void main() {
       final store = givenState().loggedInMiloUser().store();
 
       // When
-      final viewModel = MonSuiviViewModel.create(store);
+      final viewModel = MonSuiviTabsViewModel.create(store);
 
       // Then
       expect(viewModel.tabs, [MonSuiviTab.AGENDA, MonSuiviTab.ACTIONS, MonSuiviTab.RENDEZVOUS]);
@@ -35,7 +35,7 @@ void main() {
     final store = givenState().loggedInPoleEmploiUser().store();
 
     // When
-    final viewModel = MonSuiviViewModel.create(store, MonSuiviTab.RENDEZVOUS);
+    final viewModel = MonSuiviTabsViewModel.create(store, MonSuiviTab.RENDEZVOUS);
 
     // Then
     expect(viewModel.initialTabIndex, 2);
@@ -46,7 +46,7 @@ void main() {
     final store = givenState().withDemoMode().store();
 
     // When
-    final viewModel = MonSuiviViewModel.create(store);
+    final viewModel = MonSuiviTabsViewModel.create(store);
 
     // Then
     expect(viewModel.isModeDemo, isTrue);
