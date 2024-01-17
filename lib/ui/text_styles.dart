@@ -41,20 +41,20 @@ class TextStyles {
     );
   }
 
-  static TextStyle textMenuRegular(Color color) {
-    return TextStyle(
-      color: color,
-      fontSize: FontSizes.xs,
-      fontWeight: FontWeight.normal,
-      fontFamily: 'Marianne',
-    );
-  }
-
   static TextStyle textXsRegular({Color color = AppColors.contentColor}) {
     return TextStyle(
       color: color,
       fontSize: FontSizes.xs,
       fontWeight: FontWeight.w400,
+      fontFamily: 'Marianne',
+    );
+  }
+
+  static TextStyle textXsMedium({Color color = AppColors.contentColor}) {
+    return TextStyle(
+      color: color,
+      fontSize: FontSizes.xs,
+      fontWeight: FontWeight.normal,
       fontFamily: 'Marianne',
     );
   }
