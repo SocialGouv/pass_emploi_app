@@ -45,6 +45,7 @@ feature_first_char_lower_case="$(tr '[:upper:]' '[:lower:]' <<< ${feature_camel_
 
 repositoryClass="${feature_camel_case}Repository"
 repositoryDummyClass="Dummy${repositoryClass}"
+repositoryMockClass="Mock${repositoryClass}"
 repositoryVariable="${feature_first_char_lower_case}Repository"
 repositoryImport=$(generateImport "repositories/${feature_snake_case}_repository.dart")
 
@@ -58,7 +59,6 @@ reducerImport=$(generateImport "features/$feature_snake_case/${feature_snake_cas
 reducerFunction="${feature_first_char_lower_case}Reducer"
 
 middlewareImport=$(generateImport "features/$feature_snake_case/${feature_snake_case}_middleware.dart")
-middlewareVariable="${feature_first_char_lower_case}Middleware"
 middlewareClass="${feature_camel_case}Middleware"
 
 notInitState="${feature_camel_case}NotInitializedState"
@@ -291,16 +291,28 @@ dart format "$editing_file" -l $dart_max_char_in_line
 
 
 
+editing_file="test/doubles/mocks.dart"
+echo "Editing $editing_file"
+
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT" "$repositoryImport"
+
+value="class ${repositoryMockClass} extends Mock implements ${repositoryClass} {}"
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION" "$value"
+
+dart format "$editing_file" -l $dart_max_char_in_line
+
+
+
 echo "Creating repository test…"
 cat > "test/repositories/${feature_snake_case}_repository_test.dart" <<- EOM
 import 'package:flutter_test/flutter_test.dart';
 ${repositoryImport}
 
-import '../dsl/sut_repository2.dart';
+import '../dsl/sut_dio_repository.dart';
 
 void main() {
   group('${repositoryClass}', () {
-    final sut = RepositorySut2<${repositoryClass}>();
+    final sut = DioRepositorySut<${repositoryClass}>();
     sut.givenRepository((client) => ${repositoryClass}(client));
 
     group('get', () {
@@ -338,11 +350,11 @@ EOM
 echo "Creating redux test…"
 cat > "test/feature/${feature_snake_case}/${feature_snake_case}_test.dart" <<- EOM
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 ${actionImport}
 ${stateImport}
-${repositoryImport}
 
-import '../../doubles/dio_mock.dart';
+import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
@@ -350,22 +362,27 @@ import '../../dsl/sut_redux.dart';
 void main() {
   group('${feature_camel_case}', () {
     final sut = StoreSut();
+    final repository = ${repositoryMockClass}();
 
     group("when requesting", () {
-      sut.when(() => ${feature_camel_case}RequestAction());
+      sut.whenDispatchingAction(() => ${feature_camel_case}RequestAction());
 
-      test('should load then succeed when request succeed', () {
+      test('should load then succeed when request succeeds', () {
+        when(() => repository.get()).thenAnswer((_) async => true);
+
         sut.givenStore = givenState() //
             .loggedInUser()
-            .store((f) => {f.${repositoryVariable} = ${repositoryClass}SuccessStub()});
+            .store((f) => {f.${repositoryVariable} = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
       });
 
-      test('should load then fail when request fail', () {
+      test('should load then fail when request fails', () {
+        when(() => repository.get()).thenAnswer((_) async => null);
+
         sut.givenStore = givenState() //
             .loggedInUser()
-            .store((f) => {f.${repositoryVariable} = ${repositoryClass}ErrorStub()});
+            .store((f) => {f.${repositoryVariable} = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
       });
@@ -384,23 +401,5 @@ Matcher _shouldSucceed() {
       expect(state.result, true);
     },
   );
-}
-
-class ${repositoryClass}SuccessStub extends ${repositoryClass} {
-  ${repositoryClass}SuccessStub() : super(DioMock());
-
-  @override
-  Future<bool?> get() async {
-    return true;
-  }
-}
-
-class ${repositoryClass}ErrorStub extends ${repositoryClass} {
-  ${repositoryClass}ErrorStub() : super(DioMock());
-
-  @override
-  Future<bool?> get() async {
-    return null;
-  }
 }
 EOM

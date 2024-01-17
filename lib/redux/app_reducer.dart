@@ -34,6 +34,7 @@ import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_reducer.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_reducer.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
@@ -175,6 +176,7 @@ AppState reducer(AppState current, dynamic action) {
     topDemarcheState: topDemarcheReducer(current.topDemarcheState, action),
     sessionMiloDetailsState: sessionMiloDetailsReducer(current.sessionMiloDetailsState, action),
     connectivityState: connectivityReducer(current.connectivityState, action),
+    monSuiviState: monSuiviReducer(current.monSuiviState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

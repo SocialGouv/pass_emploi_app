@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagorie
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
@@ -49,6 +50,7 @@ import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/date/interval.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
@@ -58,6 +60,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/metier.dart';
+import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
@@ -307,6 +310,15 @@ extension AppStateDSL on AppState {
         dateDeDebut: dateDeDebut ?? DateTime(2042),
         dateDerniereMiseAJour: dateDerniereMiseAjour,
       )),
+    );
+  }
+
+  AppState monSuivi({Interval? interval, MonSuivi? monSuivi}) {
+    return copyWith(
+      monSuiviState: MonSuiviSuccessState(
+        interval ?? Interval(DateTime(2022), DateTime(2023)),
+        monSuivi ?? mockMonSuivi(),
+      ),
     );
   }
 

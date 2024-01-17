@@ -245,12 +245,18 @@ class Strings {
   static String accueilOutilsSectionDescription = "Découvrez des outils pour vous aider dans vos projets";
   static String accueilVoirLesOutils = "Voir tous les outils";
 
-  // Mon Suivi
+  // Mon Suivi Tabs
   static String monSuiviAppBarTitle = "Mon suivi";
   static String agendaTabTitle = "Cette semaine";
   static String actionsTabTitle = "Actions";
   static String rendezvousTabTitle = "Rendez-vous";
   static String demarcheTabTitle = "Démarches";
+
+  // Mon Suivi Milo
+  static String monSuiviCetteSemaine = "Cette semaine";
+  static String monSuiviSemaineProchaine = "Semaine prochaine";
+  static String monSuiviEmptyDay = "Rien de prevu";
+  static String monSuiviError = "Erreur lors de la récupération de votre suivi";
 
   // Agenda
   static String agendaEmptyTitle = "Vous n’avez rien de prévu cette semaine";

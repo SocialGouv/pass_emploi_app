@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/pages/agenda_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
-import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
+import 'package:pass_emploi_app/presentation/mon_suivi_tabs_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -41,15 +41,15 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.monSuivi,
-      child: StoreConnector<AppState, MonSuiviViewModel>(
-        converter: (store) => MonSuiviViewModel.create(store, widget.initialTab),
+      child: StoreConnector<AppState, MonSuiviTabsViewModel>(
+        converter: (store) => MonSuiviTabsViewModel.create(store, widget.initialTab),
         builder: (context, viewModel) => _builder(viewModel),
         distinct: true,
       ),
     );
   }
 
-  Widget _builder(MonSuiviViewModel viewModel) {
+  Widget _builder(MonSuiviTabsViewModel viewModel) {
     _initializeTabController(viewModel);
     return Scaffold(
       backgroundColor: AppColors.grey100,
@@ -58,7 +58,7 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
     );
   }
 
-  void _initializeTabController(MonSuiviViewModel viewModel) {
+  void _initializeTabController(MonSuiviTabsViewModel viewModel) {
     if (_tabController == null) {
       _tabController = TabController(
         vsync: this,
@@ -70,7 +70,7 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
     }
   }
 
-  void _trackTabIfNeeded(MonSuiviViewModel viewModel) {
+  void _trackTabIfNeeded(MonSuiviTabsViewModel viewModel) {
     if (_tabController == null) return;
     _tabController!.addListener(() {
       if (_tabController!.index != _currentTab) {
@@ -84,7 +84,7 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
     });
   }
 
-  Widget _setTabContent(MonSuiviViewModel viewModel) {
+  Widget _setTabContent(MonSuiviTabsViewModel viewModel) {
     return TabBarView(
       controller: _tabController,
       children: viewModel.tabs.map((tab) {
@@ -102,7 +102,7 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
     );
   }
 
-  Widget _getBody(MonSuiviViewModel viewModel) {
+  Widget _getBody(MonSuiviTabsViewModel viewModel) {
     return Column(
       children: [
         PassEmploiTabBar(

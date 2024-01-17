@@ -5,11 +5,12 @@ import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_page.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/events_tab_page.dart';
+import 'package:pass_emploi_app/pages/mon_suivi_milo_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_evenement_emploi_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
-import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
+import 'package:pass_emploi_app/presentation/mon_suivi_tabs_view_model.dart';
 import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -127,26 +128,31 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   Widget _content(int index, MainPageViewModel viewModel) {
-    switch (viewModel.tabs[index]) {
-      case MainTab.accueil:
-        return AccueilPage();
-      case MainTab.monSuivi:
-        final initialTab = !_deepLinkHandled ? _initialMonSuiviTab() : null;
-        _deepLinkHandled = true;
-        return MonSuiviTabPage(initialTab);
-      case MainTab.chat:
-        return ChatPage();
-      case MainTab.solutions:
-        final initialTab = !_deepLinkHandled ? _initialSolutionsTab() : null;
-        _deepLinkHandled = true;
-        return SolutionsTabPage(initialTab: initialTab);
-      case MainTab.evenements:
-        if (viewModel.loginMode?.isMiLo() == true) return EventsTabPage();
-        if (viewModel.loginMode?.isPe() == true) return RechercheEvenementEmploiPage.withPrimaryAppBar();
-        return SizedBox.shrink();
-      default:
-        return MonSuiviTabPage();
-    }
+    return switch (viewModel.tabs[index]) {
+      MainTab.accueil => AccueilPage(),
+      MainTab.monSuivi => _monSuiviPage(viewModel),
+      MainTab.chat => ChatPage(),
+      MainTab.solutions => _solutionsPage(viewModel),
+      MainTab.evenements => _evenementsPage(viewModel),
+    };
+  }
+
+  Widget _monSuiviPage(MainPageViewModel viewModel) {
+    if (viewModel.loginMode?.isMiLo() == true) return MonSuiviMiloPage();
+    final initialTab = !_deepLinkHandled ? _initialMonSuiviTab() : null;
+    _deepLinkHandled = true;
+    return MonSuiviTabPage(initialTab);
+  }
+
+  Widget _solutionsPage(MainPageViewModel viewModel) {
+    final initialTab = !_deepLinkHandled ? _initialSolutionsTab() : null;
+    _deepLinkHandled = true;
+    return SolutionsTabPage(initialTab: initialTab);
+  }
+
+  Widget _evenementsPage(MainPageViewModel viewModel) {
+    if (viewModel.loginMode?.isMiLo() == true) return EventsTabPage();
+    return RechercheEvenementEmploiPage.withPrimaryAppBar();
   }
 
   MonSuiviTab? _initialMonSuiviTab() {
