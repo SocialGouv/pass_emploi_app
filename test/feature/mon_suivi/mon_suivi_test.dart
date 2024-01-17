@@ -11,24 +11,27 @@ import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
+/// For this test, we will use UTC dates to avoid any timezone issue on local machines and CI.
+/// In production, local dates are used. We assume intervals don't perfectly match monday to sunday if
+/// daylight saving time occurs during interval.
+
 // Today
-final mercredi14Fevrier12h00 = DateTime(2024, 2, 14, 12);
+final mercredi14Fevrier12h00 = DateTime.utc(2024, 2, 14, 12);
 
 // Current period : 2 weeks before and 2 weeks after current week
 final currentPeriodInterval = Interval(lundi29Janvier00h00, dimanche3Mars23h59);
-final lundi29Janvier00h00 = DateTime(2024, 1, 29);
-final dimanche3Mars23h59 = DateTime(2024, 3, 3, 23, 59, 59, 999);
+final lundi29Janvier00h00 = DateTime.utc(2024, 1, 29);
+final dimanche3Mars23h59 = DateTime.utc(2024, 3, 3, 23, 59, 59, 999);
 
 // Previous period : 4 weeks before current period
 final previousPeriodInterval = Interval(lundi1Janvier00h00, dimanche28Janvier23h59);
-final lundi1Janvier00h00 = DateTime(2024, 1, 1);
-final dimanche28Janvier23h59 = DateTime(2024, 1, 28, 23, 59, 59, 999);
+final lundi1Janvier00h00 = DateTime.utc(2024, 1, 1);
+final dimanche28Janvier23h59 = DateTime.utc(2024, 1, 28, 23, 59, 59, 999);
 
 // NextPeriod : 4 weeks after current period
 final nextPeriodInterval = Interval(lundi4Mars00h00, lundi1Avril00h59);
-final lundi4Mars00h00 = DateTime(2024, 3, 4);
-// Daylight saving time on 31st March, we assume it, no need to perfectly match a sunday
-final lundi1Avril00h59 = DateTime(2024, 4, 1, 0, 59, 59, 999);
+final lundi4Mars00h00 = DateTime.utc(2024, 3, 4);
+final lundi1Avril00h59 = DateTime.utc(2024, 3, 31, 23, 59, 59, 999);
 
 final currentPeriodSuivi = mockMonSuivi(
   actions: [mockUserAction(dateEcheance: mercredi14Fevrier12h00)],
