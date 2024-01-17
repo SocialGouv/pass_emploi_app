@@ -155,4 +155,30 @@ void main() {
     expect(store.dispatchedAction is MonSuiviRequestAction, isTrue);
     expect((store.dispatchedAction as MonSuiviRequestAction).period, MonSuiviPeriod.current);
   });
+
+  test('onLoadPreviousPeriod', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = MonSuiviViewModel.create(store);
+
+    // When
+    viewModel.onLoadPreviousPeriod();
+
+    // Then
+    expect(store.dispatchedAction is MonSuiviRequestAction, isTrue);
+    expect((store.dispatchedAction as MonSuiviRequestAction).period, MonSuiviPeriod.previous);
+  });
+
+  test('onLoadNextPeriod', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = MonSuiviViewModel.create(store);
+
+    // When
+    viewModel.onLoadNextPeriod();
+
+    // Then
+    expect(store.dispatchedAction is MonSuiviRequestAction, isTrue);
+    expect((store.dispatchedAction as MonSuiviRequestAction).period, MonSuiviPeriod.next);
+  });
 }
