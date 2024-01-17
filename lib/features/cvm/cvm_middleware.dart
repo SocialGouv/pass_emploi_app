@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/cvm_repository.dart';
@@ -15,12 +14,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
 
   void _subscribeToChatStream(Store<AppState> store) {
     _repository.getMessages().listen(
-      (message) {
-        final bool messageAlreadyExists = messages.any((element) => element.id == message.id);
-        if (!messageAlreadyExists) {
-          messages.add(message);
-          messages.sortBy((element) => element.date);
-        }
+      (messages) {
         store.dispatch(CvmSuccessAction(messages));
       },
       onError: (Object error) {

@@ -31,7 +31,7 @@ import Flutter
         channel?.setStreamHandler(self)
     }
     
-    private func onCvmMessages(messages: [String]) {
+    private func onCvmMessages(messages: [EventJson]) {
         print("#CVM CvmEventChannel.onCvmMessages \(messages)")
         
         guard let eventSink = eventSink else {
@@ -39,13 +39,7 @@ import Flutter
             return
         }
         
-        let message: [String : Any] = [
-            "id": "id1",
-            "isFromUser": true,
-            "content": messages[0],
-            "date": 1641031200000,
-        ]
-        eventSink(message)
+        eventSink(messages)
     }
     
     public func onListen(withArguments arguments: Any?, eventSink: @escaping FlutterEventSink) -> FlutterError? {
