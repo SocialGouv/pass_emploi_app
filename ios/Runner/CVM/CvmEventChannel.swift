@@ -32,7 +32,7 @@ import Flutter
     }
     
     private func onCvmMessages(messages: [EventJson]) {
-        print("#CVM CvmEventChannel.onCvmMessages \(messages)")
+        print("#CVM CvmEventChannel.onCvmMessages (\(messages.count) \(messages)")
         
         guard let eventSink = eventSink else {
             print("#CVM CvmEventChannel.onCvmMessages NULL SINK!")

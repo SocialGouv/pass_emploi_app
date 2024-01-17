@@ -17,7 +17,7 @@ class CvmRepository {
     private var onMessages: EventsReceived?
     
     func initializeCvm() {
-        MatrixManager.sharedInstance.initialize(paginationPageSize: 20)
+        MatrixManager.sharedInstance.initialize(paginationPageSize: 5)
     }
     
     func setMessageCallback(_ onMessages: @escaping EventsReceived) {
@@ -35,7 +35,7 @@ class CvmRepository {
                     self?.room = room
                     if let room = room {
                         MatrixManager.sharedInstance.startMessageListener(room: room) { [weak self] events in
-                            print("#CVM CvmRepository.startListenMessage events ? \(events)")
+                            print("#CVM CvmRepository.startListenMessage events callback - count(\(events.count) - \(events)")
                             
                             //TODO: que faire si pas toutes les valeurs ?
                             let eventsJson = events.compactMap { event in
@@ -62,9 +62,21 @@ class CvmRepository {
     
     func stopListenMessages() {}
     
-    func sendMessage(message: String) {
+    func sendMessage(_ message: String) {
         print("#CVM CvmRepository.sendMessage \(message)")
+
+        guard let room = self.room else { return }
+        MatrixManager.sharedInstance.sendMessage(room: room, message: message) { success in
+            print("#CVM CvmRepository.sendMessage success ? \(success)")
+        }
     }
     
-    func loadMore() {}
+    func loadMore() {
+        print("#CVM CvmRepository.loadMore")
+        guard let room = self.room else { return }
+        
+        MatrixManager.sharedInstance.loadMoreMessage(room: room, withPaginationSize: 5) {
+            print("#CVM CvmRepository.loadMore completion")
+        }
+    }
 }
