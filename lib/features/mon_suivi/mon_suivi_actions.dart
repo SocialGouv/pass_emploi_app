@@ -6,7 +6,7 @@ enum Period {
   current,
   next;
 
-  bool isCurrent() => this == Period.current;
+  bool get isCurrent => this == Period.current;
 }
 
 class MonSuiviRequestAction {

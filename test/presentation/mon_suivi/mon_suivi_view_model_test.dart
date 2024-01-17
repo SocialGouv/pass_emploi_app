@@ -71,14 +71,14 @@ void main() {
 
       // Then
       expect(viewModel.items, [
-        SemaineSectionItem('1 - 7 janvier 2024'),
-        EmptyDayItem(Day('lun.', '1')),
-        EmptyDayItem(Day('mar.', '2')),
-        EmptyDayItem(Day('mer.', '3')),
-        EmptyDayItem(Day('jeu.', '4')),
-        EmptyDayItem(Day('ven.', '5')),
-        EmptyDayItem(Day('sam.', '6')),
-        EmptyDayItem(Day('dim.', '7')),
+        SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
+        EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1')),
+        EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2')),
+        EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3')),
+        EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4')),
+        EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5')),
+        EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6')),
+        EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7')),
       ]);
     });
 
@@ -100,14 +100,15 @@ void main() {
 
       // Then
       expect(viewModel.items, [
-        SemaineSectionItem('1 - 7 janvier 2024'),
-        DayItem(Day('lun.', '1'), [UserActionEntry('actionId')]),
-        EmptyDayItem(Day('mar.', '2')),
-        EmptyDayItem(Day('mer.', '3')),
-        EmptyDayItem(Day('jeu.', '4')),
-        EmptyDayItem(Day('ven.', '5')),
-        EmptyDayItem(Day('sam.', '6')),
-        DayItem(Day('dim.', '7'), [RendezvousEntry('rendezvousId'), SessionMiloEntry('sessionMiloId')]),
+        SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
+        DayMonSuiviItem(MonSuiviDay('lun.', '1'), [UserActionMonSuiviEntry('actionId')]),
+        EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2')),
+        EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3')),
+        EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4')),
+        EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5')),
+        EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6')),
+        DayMonSuiviItem(MonSuiviDay('dim.', '7'),
+            [RendezvousMonSuiviEntry('rendezvousId'), SessionMiloMonSuiviEntry('sessionMiloId')]),
       ]);
     });
 
@@ -121,22 +122,22 @@ void main() {
 
         // Then
         expect(viewModel.items, [
-          SemaineSectionItem('1 - 7 janvier 2024', 'Cette semaine'),
-          EmptyDayItem(Day('lun.', '1')),
-          EmptyDayItem(Day('mar.', '2')),
-          EmptyDayItem(Day('mer.', '3')),
-          EmptyDayItem(Day('jeu.', '4')),
-          EmptyDayItem(Day('ven.', '5')),
-          EmptyDayItem(Day('sam.', '6')),
-          EmptyDayItem(Day('dim.', '7')),
-          SemaineSectionItem('8 - 14 janvier 2024', 'Semaine prochaine'),
-          EmptyDayItem(Day('lun.', '8')),
-          EmptyDayItem(Day('mar.', '9')),
-          EmptyDayItem(Day('mer.', '10')),
-          EmptyDayItem(Day('jeu.', '11')),
-          EmptyDayItem(Day('ven.', '12')),
-          EmptyDayItem(Day('sam.', '13')),
-          EmptyDayItem(Day('dim.', '14')),
+          SemaineSectionMonSuiviItem('1 - 7 janvier 2024', 'Cette semaine'),
+          EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1')),
+          EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2')),
+          EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3')),
+          EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4')),
+          EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5')),
+          EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6')),
+          EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7')),
+          SemaineSectionMonSuiviItem('8 - 14 janvier 2024', 'Semaine prochaine'),
+          EmptyDayMonSuiviItem(MonSuiviDay('lun.', '8')),
+          EmptyDayMonSuiviItem(MonSuiviDay('mar.', '9')),
+          EmptyDayMonSuiviItem(MonSuiviDay('mer.', '10')),
+          EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '11')),
+          EmptyDayMonSuiviItem(MonSuiviDay('ven.', '12')),
+          EmptyDayMonSuiviItem(MonSuiviDay('sam.', '13')),
+          EmptyDayMonSuiviItem(MonSuiviDay('dim.', '14')),
         ]);
       });
     });

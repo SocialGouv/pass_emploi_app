@@ -48,22 +48,22 @@ List<MonSuiviItem> _items(MonSuiviState state) {
     }
 
     final entries = entriesByDay[jourCourant];
-    final day = Day.fromDateTime(jourCourant);
-    items.add(entries != null ? DayItem(day, entries) : EmptyDayItem(day));
+    final day = MonSuiviDay.fromDateTime(jourCourant);
+    items.add(entries != null ? DayMonSuiviItem(day, entries) : EmptyDayMonSuiviItem(day));
 
     jourCourant = jourCourant.add(Duration(days: 1));
   }
   return items;
 }
 
-SemaineSectionItem _semaineSectionItem(DateTime jourCourant) {
+SemaineSectionMonSuiviItem _semaineSectionItem(DateTime jourCourant) {
   String? boldTitle;
   if (jourCourant.isAtSameWeekAs(clock.now())) {
     boldTitle = Strings.monSuiviCetteSemaine;
   } else if (jourCourant.isAtSameWeekAs(clock.now().add(Duration(days: 7)))) {
     boldTitle = Strings.monSuiviSemaineProchaine;
   }
-  return SemaineSectionItem(_semaineInterval(jourCourant), boldTitle);
+  return SemaineSectionMonSuiviItem(_semaineInterval(jourCourant), boldTitle);
 }
 
 String _semaineInterval(DateTime monday) {
@@ -74,13 +74,13 @@ Map<DateTime, List<MonSuiviEntry>> _entriesByDay(MonSuiviState state) {
   if (state is! MonSuiviSuccessState) return {};
   final entriesByDay = <DateTime, List<MonSuiviEntry>>{};
   for (var action in state.monSuivi.actions) {
-    entriesByDay.add(action.dateEcheance, UserActionEntry(action.id));
+    entriesByDay.add(action.dateEcheance, UserActionMonSuiviEntry(action.id));
   }
   for (var rdv in state.monSuivi.rendezvous) {
-    entriesByDay.add(rdv.date, RendezvousEntry(rdv.id));
+    entriesByDay.add(rdv.date, RendezvousMonSuiviEntry(rdv.id));
   }
   for (var session in state.monSuivi.sessionsMilo) {
-    entriesByDay.add(session.dateDeDebut, SessionMiloEntry(session.id));
+    entriesByDay.add(session.dateDeDebut, SessionMiloMonSuiviEntry(session.id));
   }
   return entriesByDay;
 }
@@ -97,42 +97,43 @@ sealed class MonSuiviItem extends Equatable {
   List<Object?> get props => [];
 }
 
-class SemaineSectionItem extends MonSuiviItem {
+class SemaineSectionMonSuiviItem extends MonSuiviItem {
   final String interval;
   final String? boldTitle;
 
-  SemaineSectionItem(this.interval, [this.boldTitle]);
+  SemaineSectionMonSuiviItem(this.interval, [this.boldTitle]);
 
   @override
   List<Object?> get props => [interval, boldTitle];
 }
 
-class DayItem extends MonSuiviItem {
-  final Day day;
+class DayMonSuiviItem extends MonSuiviItem {
+  final MonSuiviDay day;
   final List<MonSuiviEntry> entries;
 
-  DayItem(this.day, this.entries);
+  DayMonSuiviItem(this.day, this.entries);
 
   @override
   List<Object?> get props => [day, entries];
 }
 
-class EmptyDayItem extends MonSuiviItem {
-  final Day day;
+class EmptyDayMonSuiviItem extends MonSuiviItem {
+  final MonSuiviDay day;
 
-  EmptyDayItem(this.day);
+  EmptyDayMonSuiviItem(this.day);
 
   @override
   List<Object?> get props => [day];
 }
 
-class Day extends Equatable {
+class MonSuiviDay extends Equatable {
   final String shortened;
   final String number;
 
-  Day(this.shortened, this.number);
+  MonSuiviDay(this.shortened, this.number);
 
-  factory Day.fromDateTime(DateTime dateTime) => Day(dateTime.toDayShortened(), dateTime.day.toString());
+  factory MonSuiviDay.fromDateTime(DateTime dateTime) =>
+      MonSuiviDay(dateTime.toDayShortened(), dateTime.day.toString());
 
   @override
   List<Object?> get props => [shortened, number];
@@ -140,28 +141,28 @@ class Day extends Equatable {
 
 sealed class MonSuiviEntry extends Equatable {}
 
-class UserActionEntry extends MonSuiviEntry {
+class UserActionMonSuiviEntry extends MonSuiviEntry {
   final String id;
 
-  UserActionEntry(this.id);
+  UserActionMonSuiviEntry(this.id);
 
   @override
   List<Object?> get props => [id];
 }
 
-class RendezvousEntry extends MonSuiviEntry {
+class RendezvousMonSuiviEntry extends MonSuiviEntry {
   final String id;
 
-  RendezvousEntry(this.id);
+  RendezvousMonSuiviEntry(this.id);
 
   @override
   List<Object?> get props => [id];
 }
 
-class SessionMiloEntry extends MonSuiviEntry {
+class SessionMiloMonSuiviEntry extends MonSuiviEntry {
   final String id;
 
-  SessionMiloEntry(this.id);
+  SessionMiloMonSuiviEntry(this.id);
 
   @override
   List<Object?> get props => [id];
