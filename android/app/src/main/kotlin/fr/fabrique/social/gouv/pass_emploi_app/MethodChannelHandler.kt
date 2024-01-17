@@ -26,6 +26,7 @@ class MethodChannelHandler(
         when (call.method) {
             "initializeCvm" -> {
                 cvmRepository.initCvm()
+                result.success(null)
             }
             "startListenMessages" -> {
                 val ex160: String = call.argument("ex160") ?: run {

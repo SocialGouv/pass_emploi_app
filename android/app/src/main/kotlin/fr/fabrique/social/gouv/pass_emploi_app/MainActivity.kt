@@ -9,11 +9,10 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 class MainActivity: FlutterActivity() {
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine)
-
         val cvmRepository = CvmRepository(this, this)
         val eventChannelHandler = EventChannelHandler(flutterEngine, cvmRepository)
         eventChannelHandler.initializeEventChannel()
-        MethodChannelHandler(flutterEngine, cvmRepository, eventChannelHandler)
+        MethodChannelHandler(flutterEngine, cvmRepository)
 
     }
 }

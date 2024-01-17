@@ -26,8 +26,8 @@ class CvmRepository(
         MatrixManager.getInstance().loginAndStartSession(token, ex160)
         MatrixManager.getInstance().joinFirstRoom(lifecycleOwner) {
             this.room = it
+            listenMessage()
         }
-        listenMessage()
     }
 
     suspend fun sendMessage(message: String) {
