@@ -27,7 +27,7 @@ class MethodChannelHandler(
             "initializeCvm" -> {
                 cvmRepository.initCvm()
             }
-            "startListenMessage" -> {
+            "startListenMessages" -> {
                 val ex160: String = call.argument("ex160") ?: run {
                     result.error("ARGUMENT_ERROR", "ex160 is missing", null)
                     return
@@ -39,7 +39,7 @@ class MethodChannelHandler(
                 cvmRepository.startListenMessages(ex160, token)
                 result.success(null)
             }
-            "stopListenMessage" -> {
+            "stopListenMessages" -> {
                 cvmRepository.stopListenMessage()
                 result.success(null)
             }
