@@ -32,9 +32,9 @@ class MonSuiviMiddleware extends MiddlewareClass<AppState> {
 
 Interval _getInterval(MonSuiviRequestAction action, Store<AppState> store) {
   return switch (action.period) {
-    Period.current => _getCurrentPeriodInterval(),
-    Period.previous => _getPreviousPeriodInterval(store),
-    Period.next => _getNextPeriodInterval(store),
+    MonSuiviPeriod.current => _getCurrentPeriodInterval(),
+    MonSuiviPeriod.previous => _getPreviousPeriodInterval(store),
+    MonSuiviPeriod.next => _getNextPeriodInterval(store),
   };
 }
 

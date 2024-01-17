@@ -20,7 +20,7 @@ class MonSuiviViewModel extends Equatable {
     return MonSuiviViewModel._(
       displayState: _displayState(state),
       items: _items(state),
-      onRetry: () => store.dispatch(MonSuiviRequestAction(Period.current)),
+      onRetry: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
     );
   }
 

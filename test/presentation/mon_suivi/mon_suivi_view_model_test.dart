@@ -153,6 +153,6 @@ void main() {
 
     // Then
     expect(store.dispatchedAction is MonSuiviRequestAction, isTrue);
-    expect((store.dispatchedAction as MonSuiviRequestAction).period, Period.current);
+    expect((store.dispatchedAction as MonSuiviRequestAction).period, MonSuiviPeriod.current);
   });
 }
