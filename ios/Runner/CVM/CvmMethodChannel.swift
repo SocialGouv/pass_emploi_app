@@ -43,13 +43,14 @@ class CvmMethodChannel {
             //TODO: stop cvm
             result(FlutterMethodNotImplemented)
         case "sendMessage":
-            //TODO: send message cvm
-            let message = args!["message"] as! String
-            repository.sendMessage(message: message)
-            result(FlutterMethodNotImplemented)
+            //TODO: gérer les erreurs
+            guard let message = args?["message"] as? String else { return }
+            repository.sendMessage(message)
+            result(nil)
         case "loadMore":
-            //TODO: load more messages cvm
-            result(FlutterMethodNotImplemented)
+            //TODO: erreurs ?
+            repository.loadMore()
+            result(nil)
         default:
             result(FlutterMethodNotImplemented)
         }

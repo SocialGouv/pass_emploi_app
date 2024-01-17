@@ -6,6 +6,7 @@ abstract class CvmRepository {
   Future<void> startListenMessages();
   Stream<List<CvmMessage>> getMessages();
   Future<void> sendMessage(String message);
+  Future<void> loadMore();
 }
 
 class CvmMessage {
@@ -52,7 +53,7 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<void> startListenMessages() async {
     try {
       const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-      const token = "Dtw_iww0POcwBgm6l89iUGiTKhc";
+      const token = "14roAIElQTOLia6Q5qxtSdi7h5Q";
       await MethodChannel(_cvmMethodChannel).invokeMethod('startListenMessages', {'token': token, 'ex160': ex160});
     } on PlatformException catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
@@ -78,6 +79,15 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<void> sendMessage(String message) async {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('sendMessage', {'message': message});
+    } on PlatformException catch (e, s) {
+      _crashlytics?.recordCvmException(e, s);
+    }
+  }
+
+  @override
+  Future<void> loadMore() async {
+    try {
+      await MethodChannel(_cvmMethodChannel).invokeMethod('loadMore');
     } on PlatformException catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
