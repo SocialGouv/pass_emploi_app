@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
+import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
@@ -65,15 +66,20 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: Margins.spacing_x_huge),
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(
+        Margins.spacing_base,
+        Margins.spacing_base,
+        Margins.spacing_base,
+        Margins.spacing_x_huge,
+      ),
+      separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
       itemCount: viewModel.items.length,
       itemBuilder: (context, index) {
-        final item = viewModel.items[index];
-        return switch (item) {
-          SemaineSectionMonSuiviItem() => _SemaineSectionItem(item.interval, item.boldTitle),
-          EmptyDayMonSuiviItem() => _EmptyDayItem(item.day),
-          DayMonSuiviItem() => _DayItem(item.day, item.entries),
+        return switch (viewModel.items[index]) {
+          final SemaineSectionMonSuiviItem item => _SemaineSectionItem(item.interval, item.boldTitle),
+          final EmptyDayMonSuiviItem item => _EmptyDayItem(item.day),
+          final DayMonSuiviItem item => _DayItem(item.day, item.entries),
         };
       },
     );
@@ -88,12 +94,18 @@ class _SemaineSectionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (boldTitle != null) Text(boldTitle!, style: TextStyles.textMBold),
-        Text(interval, style: TextStyles.textBaseRegular),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (boldTitle != null) ...[
+            Text(boldTitle!, style: TextStyles.textMBold),
+            const SizedBox(height: Margins.spacing_xs),
+          ],
+          Text(interval, style: TextStyles.textXsRegular(color: AppColors.grey800)),
+        ],
+      ),
     );
   }
 }
@@ -129,10 +141,18 @@ class _EmptyDayItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _Day(day),
+        Expanded(child: _Day(day)),
         const SizedBox(width: Margins.spacing_base),
-        Expanded(child: Text(Strings.monSuiviEmptyDay, style: TextStyles.textBaseRegular)),
+        Expanded(
+          flex: 9,
+          child: DashedBox(
+            padding: const EdgeInsets.all(Margins.spacing_base),
+            color: AppColors.disabled,
+            child: Text(Strings.monSuiviEmptyDay, style: TextStyles.textXsMedium(color: AppColors.disabled)),
+          ),
+        ),
       ],
     );
   }
@@ -148,8 +168,8 @@ class _Day extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(day.shortened, style: TextStyles.textBaseRegular),
-        Text(day.number, style: TextStyles.textMBold),
+        Text(day.shortened, style: TextStyles.textXsMedium()),
+        Text(day.number, style: TextStyles.textBaseBold),
       ],
     );
   }
