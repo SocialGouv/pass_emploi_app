@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -53,7 +54,7 @@ class _Body extends StatelessWidget {
       child: switch (viewModel.displayState) {
         DisplayState.FAILURE => Center(child: Retry(Strings.monSuiviError, () => viewModel.onRetry())),
         DisplayState.CONTENT => _Content(viewModel),
-        _ => CircularProgressIndicator(),
+        _ => Center(child: CircularProgressIndicator()),
       },
     );
   }
@@ -74,8 +75,22 @@ class _Content extends StatelessWidget {
         Margins.spacing_x_huge,
       ),
       separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
-      itemCount: viewModel.items.length,
+      itemCount: viewModel.items.length + 1,
       itemBuilder: (context, index) {
+        if (index == 0) {
+          return _LoadMoreButton(
+            key: ValueKey('previous-${viewModel.items.length}'),
+            label: 'Afficher les semaines précédentes',
+            onPressed: () => viewModel.onLoadPreviousPeriod(),
+          );
+        }
+        if (index == viewModel.items.length) {
+          return _LoadMoreButton(
+            key: ValueKey('next-${viewModel.items.length}'),
+            label: 'Afficher les semaines suivantes',
+            onPressed: () => viewModel.onLoadNextPeriod(),
+          );
+        }
         return switch (viewModel.items[index]) {
           final SemaineSectionMonSuiviItem item => _SemaineSectionItem(item.interval, item.boldTitle),
           final EmptyDayMonSuiviItem item => _EmptyDayItem(item.day),
@@ -171,6 +186,46 @@ class _Day extends StatelessWidget {
         Text(day.shortened, style: TextStyles.textXsMedium()),
         Text(day.number, style: TextStyles.textBaseBold),
       ],
+    );
+  }
+}
+
+class _LoadMoreButton extends StatefulWidget {
+  final String label;
+  final VoidCallback onPressed;
+
+  const _LoadMoreButton({super.key, required this.label, required this.onPressed});
+
+  @override
+  State<_LoadMoreButton> createState() => _LoadMoreButtonState();
+}
+
+class _LoadMoreButtonState extends State<_LoadMoreButton> {
+  CrossFadeState crossFadeState = CrossFadeState.showFirst;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedCrossFade(
+      key: widget.key,
+      crossFadeState: crossFadeState,
+      sizeCurve: Curves.ease,
+      duration: Duration(milliseconds: 200),
+      firstChild: SizedBox(
+        width: double.infinity,
+        child: SecondaryButton(
+          label: widget.label,
+          onPressed: () {
+            widget.onPressed();
+            setState(() => crossFadeState = CrossFadeState.showSecond);
+          },
+        ),
+      ),
+      secondChild: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_base),
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 }

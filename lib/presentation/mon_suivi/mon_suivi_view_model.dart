@@ -11,15 +11,25 @@ import 'package:redux/redux.dart';
 class MonSuiviViewModel extends Equatable {
   final DisplayState displayState;
   final List<MonSuiviItem> items;
+  final Function() onLoadPreviousPeriod;
+  final Function() onLoadNextPeriod;
   final Function() onRetry;
 
-  MonSuiviViewModel._({required this.displayState, required this.items, required this.onRetry});
+  MonSuiviViewModel._({
+    required this.displayState,
+    required this.items,
+    required this.onLoadPreviousPeriod,
+    required this.onLoadNextPeriod,
+    required this.onRetry,
+  });
 
   factory MonSuiviViewModel.create(Store<AppState> store) {
     final state = store.state.monSuiviState;
     return MonSuiviViewModel._(
       displayState: _displayState(state),
       items: _items(state),
+      onLoadPreviousPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.previous)),
+      onLoadNextPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.next)),
       onRetry: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
     );
   }
