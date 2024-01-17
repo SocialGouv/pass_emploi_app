@@ -71,9 +71,9 @@ class _Content extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = viewModel.items[index];
         return switch (item) {
-          SemaineSectionItem() => _SemaineSectionItem(item.interval, item.boldTitle),
-          EmptyDayItem() => _EmptyDayItem(item.day),
-          DayItem() => _DayItem(item.day, item.entries),
+          SemaineSectionMonSuiviItem() => _SemaineSectionItem(item.interval, item.boldTitle),
+          EmptyDayMonSuiviItem() => _EmptyDayItem(item.day),
+          DayMonSuiviItem() => _DayItem(item.day, item.entries),
         };
       },
     );
@@ -99,7 +99,7 @@ class _SemaineSectionItem extends StatelessWidget {
 }
 
 class _DayItem extends StatelessWidget {
-  final Day day;
+  final MonSuiviDay day;
   final List<MonSuiviEntry> entries;
 
   const _DayItem(this.day, this.entries);
@@ -122,7 +122,7 @@ class _DayItem extends StatelessWidget {
 }
 
 class _EmptyDayItem extends StatelessWidget {
-  final Day day;
+  final MonSuiviDay day;
 
   const _EmptyDayItem(this.day);
 
@@ -139,7 +139,7 @@ class _EmptyDayItem extends StatelessWidget {
 }
 
 class _Day extends StatelessWidget {
-  final Day day;
+  final MonSuiviDay day;
 
   const _Day(this.day);
 

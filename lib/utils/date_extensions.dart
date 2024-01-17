@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 final DateTime minDateTime = DateTime.fromMicrosecondsSinceEpoch(0);
+const String locale = 'fr';
 
 extension DateExtensions on DateTime {
   String toIso8601WithOffsetDateTime() {
@@ -27,11 +28,11 @@ extension DateExtensions on DateTime {
 
   String toDay() => DateFormat('dd/MM/yyyy').format(this);
 
-  String toDayOfWeek() => DateFormat('EEEE d', 'fr').format(this);
+  String toDayOfWeek() => DateFormat('EEEE d', locale).format(this);
 
-  String toDayShortened() => DateFormat('EEE', 'fr').format(this);
+  String toDayShortened() => DateFormat('EEE', locale).format(this);
 
-  String toDayWithFullMonth() => DateFormat('dd MMMM yyyy', 'fr').format(this);
+  String toDayWithFullMonth() => DateFormat('dd MMMM yyyy', locale).format(this);
 
   String toDayWithFullMonthContextualized() {
     if (isTomorrow()) return "Demain";
@@ -39,7 +40,7 @@ extension DateExtensions on DateTime {
     return toDayWithFullMonth();
   }
 
-  String toDayOfWeekWithFullMonth() => DateFormat('EEEE d MMMM', 'fr').format(this);
+  String toDayOfWeekWithFullMonth() => DateFormat('EEEE d MMMM', locale).format(this);
 
   String toDayOfWeekWithFullMonthContextualized() {
     if (isTomorrow()) return "Demain";
@@ -47,11 +48,9 @@ extension DateExtensions on DateTime {
     return toDayOfWeekWithFullMonth().firstLetterUpperCased();
   }
 
-  String toMonth() => DateFormat('MMMM', 'fr').format(this);
+  String toMonth() => DateFormat('MMMM', locale).format(this);
 
-  String toFullMonthAndYear() {
-    return DateFormat('MMMM yyyy', 'fr').format(this);
-  }
+  String toFullMonthAndYear() => DateFormat('MMMM yyyy', locale).format(this);
 
   String toHour() => DateFormat('HH:mm').format(this);
 

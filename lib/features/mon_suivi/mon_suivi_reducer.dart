@@ -22,7 +22,7 @@ MonSuiviSuccessState _successStateForPreviousPeriod(MonSuiviState current, MonSu
   if (current is MonSuiviSuccessState) {
     return MonSuiviSuccessState(
       Interval(action.interval.debut, current.interval.fin),
-      action.monSuivi.append(current.monSuivi),
+      action.monSuivi.concatenate(current.monSuivi),
     );
   } else {
     throw Exception("Cannot get previous period if current period is not loaded");
@@ -33,7 +33,7 @@ MonSuiviSuccessState _successStateForNextPeriod(MonSuiviState current, MonSuiviS
   if (current is MonSuiviSuccessState) {
     return MonSuiviSuccessState(
       Interval(current.interval.debut, action.interval.fin),
-      current.monSuivi.append(action.monSuivi),
+      current.monSuivi.concatenate(action.monSuivi),
     );
   } else {
     throw Exception("Cannot get next period if current period is not loaded");
