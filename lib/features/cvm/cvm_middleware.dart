@@ -42,7 +42,8 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   Future<void> _initCvm(Store<AppState> store, CvmRepository repository) async {
     store.dispatch(CvmLoadingAction());
     try {
-      await repository.init();
+      await repository.initializeCvm();
+      await repository.startListenMessages();
       _subscribeToChatStream(store);
     } catch (e) {
       store.dispatch(CvmFailureAction());

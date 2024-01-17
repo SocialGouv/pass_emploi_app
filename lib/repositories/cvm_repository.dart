@@ -2,7 +2,8 @@ import 'package:flutter/services.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 
 abstract class CvmRepository {
-  Future<void> init();
+  Future<void> initializeCvm();
+  Future<void> startListenMessages();
   Stream<List<CvmMessage>> getMessages();
   Future<void> sendMessage(String message);
 }
@@ -39,11 +40,20 @@ class CvmRepositoryImpl implements CvmRepository {
   CvmRepositoryImpl({Crashlytics? crashlytics}) : _crashlytics = crashlytics;
 
   @override
-  Future<void> init() async {
+  Future<void> initializeCvm() async {
+    try {
+      await MethodChannel(_cvmMethodChannel).invokeMethod('initializeCvm');
+    } on PlatformException catch (e, s) {
+      _crashlytics?.recordCvmException(e, s);
+    }
+  }
+
+  @override
+  Future<void> startListenMessages() async {
     try {
       const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-      const token = "ZN9KoH8yjSn98SC_IuwTynvJnlc";
-      await MethodChannel(_cvmMethodChannel).invokeMethod('initializeCvm', {'token': token, 'ex160': ex160});
+      const token = "Dtw_iww0POcwBgm6l89iUGiTKhc";
+      await MethodChannel(_cvmMethodChannel).invokeMethod('startListenMessages', {'token': token, 'ex160': ex160});
     } on PlatformException catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }

@@ -25,7 +25,7 @@ class CvmRepository {
         self.onMessages = onMessages
     }
     
-    func startListenMessage(token: String, ex160Url: String) {
+    func startListenMessages(token: String, ex160Url: String) {
         print("#CVM CvmRepository.startListenMessage")
         MatrixManager.sharedInstance.loginAndStartSession(accessToken: token, oauthServer: ex160Url) { success in
             print("#CVM CvmRepository.startListenMessage login ? \(success)")
@@ -60,7 +60,7 @@ class CvmRepository {
         }
     }
     
-    func stopListenMessage() {}
+    func stopListenMessages() {}
     
     func sendMessage(message: String) {
         print("#CVM CvmRepository.sendMessage \(message)")

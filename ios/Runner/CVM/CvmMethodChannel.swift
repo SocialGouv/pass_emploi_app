@@ -33,13 +33,13 @@ class CvmMethodChannel {
         switch (call.method) {
         case "initializeCvm":
             repository.initializeCvm()
-            repository.startListenMessage(token: args!["token"] as! String, ex160Url: args!["ex160"] as! String)
-            //TODO: séparer init et startlisten, et éviter force unwrap, et gérer les erreurs du startListen
             result(nil)
-        case "start":
-            //TODO: start cvm
-            result(FlutterMethodNotImplemented)
-        case "stop":
+        case "startListenMessages":
+            //TODO: gérer les erreurs du startListen, et erreur args
+            guard let token = args?["token"] as? String, let ex160Url = args?["ex160"] as? String else { return }
+            repository.startListenMessages(token: token, ex160Url: ex160Url)
+            result(nil)
+        case "stopListenMessages":
             //TODO: stop cvm
             result(FlutterMethodNotImplemented)
         case "sendMessage":
