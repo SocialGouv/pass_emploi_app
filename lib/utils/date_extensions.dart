@@ -94,9 +94,9 @@ extension DateExtensions on DateTime {
 
   DateTime addWeeks(int weeks) => add(Duration(days: 7 * weeks));
 
-  DateTime toStartOfDay() => DateTime(year, month, day);
+  DateTime toStartOfDay() => copyWith(hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
 
-  DateTime toEndOfDay() => toStartOfDay().add(Duration(hours: 23, minutes: 59, seconds: 59, milliseconds: 999));
+  DateTime toEndOfDay() => copyWith(hour: 23, minute: 59, second: 59, millisecond: 999, microsecond: 0);
 
   int numberOfDaysUntilToday() {
     final from = DateTime(year, month, day);
