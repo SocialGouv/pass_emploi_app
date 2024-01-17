@@ -32,8 +32,10 @@ class CvmMethodChannel {
         
         switch (call.method) {
         case "initializeCvm":
-            //TODO: init cvm
-            result("TODO init")
+            repository.initializeCvm()
+            repository.startListenMessage(token: args!["token"] as! String, ex160Url: args!["ex160"] as! String)
+            //TODO: séparer init et startlisten, et éviter force unwrap, et gérer les erreurs du startListen
+            result(nil)
         case "start":
             //TODO: start cvm
             result(FlutterMethodNotImplemented)
