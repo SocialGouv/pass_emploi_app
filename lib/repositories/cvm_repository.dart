@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 
 abstract class CvmRepository {
   Future<void> init();
-  Stream<CvmMessage> getMessages();
+  Stream<List<CvmMessage>> getMessages();
   Future<void> sendMessage(String message);
 }
 
@@ -42,7 +42,7 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<void> init() async {
     try {
       const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-      const token = "81KMfNeqgW8lEi5F3kYDmuqH5aE";
+      const token = "ZN9KoH8yjSn98SC_IuwTynvJnlc";
       await MethodChannel(_cvmMethodChannel).invokeMethod('initializeCvm', {'token': token, 'ex160': ex160});
     } on PlatformException catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
@@ -50,10 +50,13 @@ class CvmRepositoryImpl implements CvmRepository {
   }
 
   @override
-  Stream<CvmMessage> getMessages() {
+  Stream<List<CvmMessage>> getMessages() {
     try {
-      return EventChannel(_cvmEventChannel).receiveBroadcastStream().map((event) {
-        return CvmMessage.fromJson(event);
+      return EventChannel(_cvmEventChannel).receiveBroadcastStream().map((events) {
+        final eventsJson = events as List<dynamic>;
+        return eventsJson.map((event) {
+          return CvmMessage.fromJson(event);
+        }).toList();
       });
     } on PlatformException catch (e, s) {
       _crashlytics?.recordCvmException(e, s);

@@ -8,16 +8,19 @@
 import Foundation
 import BenedicteSDK
 
+typealias EventJson = Dictionary<String, Any>
+typealias EventsReceived = ([EventJson]) -> Void
+
 class CvmRepository {
     
     private var room: Room?
-    private var onMessages: (([String]) -> Void)?
+    private var onMessages: EventsReceived?
     
     func initializeCvm() {
         MatrixManager.sharedInstance.initialize(paginationPageSize: 20)
     }
     
-    func setMessageCallback(_ onMessages: @escaping (([String]) -> Void)) {
+    func setMessageCallback(_ onMessages: @escaping EventsReceived) {
         print("#CVM CvmRepository.setMessageCallback")
         self.onMessages = onMessages
     }
@@ -33,10 +36,18 @@ class CvmRepository {
                     if let room = room {
                         MatrixManager.sharedInstance.startMessageListener(room: room) { [weak self] events in
                             print("#CVM CvmRepository.startListenMessage events ? \(events)")
-                            let messages = events.compactMap { event in
-                                event.message
+                            
+                            //TODO: que faire si pas toutes les valeurs ?
+                            let eventsJson = events.compactMap { event in
+                                [
+                                    "id": event.eventId ?? "no-id",
+                                    "isFromUser": event.senderID == SessionManager.sharedInstance.userId,
+                                    "content": event.message ?? "no-message",
+                                    "date": Int64((event.date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970) * 1000),
+                                ]
                             }
-                            self?.onMessages?(messages)
+                            
+                            self?.onMessages?(eventsJson)
                         }
                     } else {
                         //TODO: ?

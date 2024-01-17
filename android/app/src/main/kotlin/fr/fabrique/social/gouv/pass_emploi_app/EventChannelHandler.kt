@@ -31,6 +31,7 @@ class EventChannelHandler(
 
     fun startListeningMessages() {
         cvmRepository.listenMessage { messages ->
+            //TODO: passer en liste
             messages.forEach { message ->
                 eventsSink?.success(message)
             }
