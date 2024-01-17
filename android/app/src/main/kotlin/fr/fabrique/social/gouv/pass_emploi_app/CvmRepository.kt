@@ -8,18 +8,26 @@ import com.poleemploi.matrixlib.Model.Room
 
 class CvmRepository(
     private val context: Context,
-    private val lifecycleOwner: LifecycleOwner
+    private val lifecycleOwner: LifecycleOwner,
 ) {
 
-    var room: Room? = null
+    private var room: Room? = null
+    private var callback: (List<Map<String, Any>>) -> Unit = {}
 
-    fun initCvm(ex160: String, token: String, onInit: () -> Unit) {
+    fun setCallback(callback: (List<Map<String, Any>>) -> Unit) {
+        this.callback = callback
+    }
+
+    fun initCvm() {
         MatrixManager.initContext(context)
+    }
+
+    fun startListenMessages(ex160: String, token: String) {
         MatrixManager.getInstance().loginAndStartSession(token, ex160)
         MatrixManager.getInstance().joinFirstRoom(lifecycleOwner) {
             this.room = it
-            onInit()
         }
+        listenMessage()
     }
 
     suspend fun sendMessage(message: String) {
@@ -27,12 +35,12 @@ class CvmRepository(
             MatrixManager.getInstance().sendMessage(
                 room!!.id!!,
                 message,
-                { a: String -> Unit },
-                { a: Int, b: String -> Unit })
+                { _: String -> Unit },
+                { _: Int, _: String -> Unit })
         }
     }
 
-    fun listenMessage(callback: (List<Map<String, Any>>) -> Unit) {
+    private fun listenMessage() {
         MatrixManager.getInstance().startListenMessage(room!!.id!!) { events ->
             val allMessages = events.map { event ->
                 mapOf(
@@ -42,12 +50,13 @@ class CvmRepository(
                     "date" to (event.date?.time ?: 0L)
                 )
             }
-            callback(allMessages)
+            this.callback(allMessages)
         }
     }
 
     fun stopListenMessage() {
         MatrixManager.getInstance().stopListenMessage()
+        MatrixManager.getInstance().stopSession()
     }
 
 }

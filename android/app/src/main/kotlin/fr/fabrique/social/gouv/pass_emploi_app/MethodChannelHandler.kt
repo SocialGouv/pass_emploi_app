@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 class MethodChannelHandler(
     private val flutterEngine: FlutterEngine,
     private val cvmRepository: CvmRepository,
-    private val eventChannelHandler: EventChannelHandler,
 ) : MethodCallHandler {
 
     companion object {
@@ -26,6 +25,9 @@ class MethodChannelHandler(
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             "initializeCvm" -> {
+                cvmRepository.initCvm()
+            }
+            "startListenMessage" -> {
                 val ex160: String = call.argument("ex160") ?: run {
                     result.error("ARGUMENT_ERROR", "ex160 is missing", null)
                     return
@@ -34,7 +36,12 @@ class MethodChannelHandler(
                     result.error("ARGUMENT_ERROR", "Token is missing", null)
                     return
                 }
-                initializeCvm(ex160, token, result)
+                cvmRepository.startListenMessages(ex160, token)
+                result.success(null)
+            }
+            "stopListenMessage" -> {
+                cvmRepository.stopListenMessage()
+                result.success(null)
             }
             "sendMessage" -> {
                 val message: String = call.argument("message") ?: run {
@@ -47,13 +54,6 @@ class MethodChannelHandler(
             }
             else -> result.notImplemented()
         }
-    }
-
-    private fun initializeCvm(url: String, token: String, result: Result) {
-        cvmRepository.initCvm(url, token, onInit = {
-            eventChannelHandler.startListeningMessages()
-        })
-        result.success(null)
     }
 
     private suspend fun sendMessage(message: String, result: Result) {
