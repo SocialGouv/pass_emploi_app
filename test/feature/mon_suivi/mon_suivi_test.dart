@@ -54,7 +54,7 @@ void main() {
     final repository = MockMonSuiviRepository();
 
     group("when requesting current period ([START OF 2 WEEKS BEFORE CURRENT, END OF 2 WEEKS AFTER CURRENT])", () {
-      sut.whenDispatchingAction(() => MonSuiviRequestAction(Period.current));
+      sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.current));
 
       test('should load, then request interval, then succeed when request succeeds', () {
         withClock(Clock.fixed(mercredi14Fevrier12h00), () {
@@ -82,7 +82,7 @@ void main() {
     });
 
     group("when requesting previous period (4 WEEKS BEFORE START OF CURRENT PERIOD)", () {
-      sut.whenDispatchingAction(() => MonSuiviRequestAction(Period.previous));
+      sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.previous));
 
       test('should request interval, aggregate data, then succeed when request succeeds', () {
         withClock(Clock.fixed(mercredi14Fevrier12h00), () {
@@ -115,7 +115,7 @@ void main() {
     });
 
     group("when requesting next period (4 WEEKS AFTER END OF CURRENT PERIOD)", () {
-      sut.whenDispatchingAction(() => MonSuiviRequestAction(Period.next));
+      sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.next));
 
       test('should request interval, aggregate data, then succeed when request succeeds', () {
         withClock(Clock.fixed(mercredi14Fevrier12h00), () {

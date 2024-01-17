@@ -12,9 +12,9 @@ MonSuiviState monSuiviReducer(MonSuiviState current, dynamic action) {
 
 MonSuiviSuccessState _successState(MonSuiviState current, MonSuiviSuccessAction action) {
   return switch (action.period) {
-    Period.current => MonSuiviSuccessState(action.interval, action.monSuivi),
-    Period.previous => _successStateForPreviousPeriod(current, action),
-    Period.next => _successStateForNextPeriod(current, action),
+    MonSuiviPeriod.current => MonSuiviSuccessState(action.interval, action.monSuivi),
+    MonSuiviPeriod.previous => _successStateForPreviousPeriod(current, action),
+    MonSuiviPeriod.next => _successStateForNextPeriod(current, action),
   };
 }
 

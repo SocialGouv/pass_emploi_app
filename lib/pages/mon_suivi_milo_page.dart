@@ -17,7 +17,7 @@ class MonSuiviMiloPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MonSuiviViewModel>(
-      onInit: (store) => store.dispatch(MonSuiviRequestAction(Period.current)),
+      onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
       converter: (store) => MonSuiviViewModel.create(store),
       builder: (context, viewModel) => _Scaffold(_Body(viewModel)),
       onDispose: (store) => store.dispatch(MonSuiviResetAction()),
