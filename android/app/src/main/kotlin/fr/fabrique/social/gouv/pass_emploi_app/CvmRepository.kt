@@ -57,6 +57,12 @@ class CvmRepository(
         }
     }
 
+    fun loadMore() {
+        if (MatrixManager.getInstance().hasMoreMessages == true) {
+            MatrixManager.getInstance().loadMoreMessages(20)
+        }
+    }
+
     fun stopListenMessage() {
         //TODO: room à null, stop roomlistener ?
         MatrixManager.getInstance().stopListenMessage()

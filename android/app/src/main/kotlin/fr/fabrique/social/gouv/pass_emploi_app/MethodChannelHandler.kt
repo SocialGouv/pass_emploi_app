@@ -55,6 +55,10 @@ class MethodChannelHandler(
                     sendMessage(message, result)
                 }
             }
+            "loadMore" -> {
+                cvmRepository.loadMore()
+                result.success(null)
+            }
             else -> result.notImplemented()
         }
     }
