@@ -26,6 +26,7 @@ class CvmRepository {
     }
     
     func startListenMessages(token: String, ex160Url: String) {
+        //TODO: refactoring
         print("#CVM CvmRepository.startListenMessage")
         MatrixManager.sharedInstance.loginAndStartSession(accessToken: token, oauthServer: ex160Url) { success in
             print("#CVM CvmRepository.startListenMessage login ? \(success)")
@@ -37,30 +38,39 @@ class CvmRepository {
                         MatrixManager.sharedInstance.startMessageListener(room: room) { [weak self] events in
                             print("#CVM CvmRepository.startListenMessage events callback - count(\(events.count) - \(events)")
                             
-                            //TODO: que faire si pas toutes les valeurs ?
+                            //TODO: gestion erreurs - json sans toutes les valeurs
                             let eventsJson = events.compactMap { event in
                                 [
                                     "id": event.eventId ?? "no-id",
                                     "isFromUser": event.senderID == SessionManager.sharedInstance.userId,
                                     "content": event.message ?? "no-message",
                                     "date": Int64((event.date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970) * 1000),
+                                    //TODO: d'autres champs ?
                                 ]
                             }
                             
                             self?.onMessages?(eventsJson)
                         }
                     } else {
-                        //TODO: ?
+                        //TODO: gestion erreurs - pas de room
+                        //TODO: listen room ?
                     }
                     
                 }
             } else {
-                //TODO: ?
+                //TODO: gestion erreurs - login échec
             }
         }
     }
     
-    func stopListenMessages() {}
+    func stopListenMessages() {
+        //TODO: MatrixManager.sharedInstance.stopRoomListener() ?
+        if let room = room {
+            MatrixManager.sharedInstance.stopMessageListener(room: room)
+        }
+        MatrixManager.sharedInstance.stopSession()
+        self.room = nil
+    }
     
     func sendMessage(_ message: String) {
         print("#CVM CvmRepository.sendMessage \(message)")
@@ -68,6 +78,7 @@ class CvmRepository {
         guard let room = self.room else { return }
         MatrixManager.sharedInstance.sendMessage(room: room, message: message) { success in
             print("#CVM CvmRepository.sendMessage success ? \(success)")
+            //TODO: erreur
         }
     }
     
