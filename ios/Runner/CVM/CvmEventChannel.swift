@@ -17,14 +17,10 @@ import Flutter
     private var eventSink: FlutterEventSink?
     
     init(repository: CvmRepository) {
-        print("#CVM CvmEventChannel.init")
-        
         self.repository = repository
     }
     
     func setupChannel(messenger: FlutterBinaryMessenger) {
-        print("#CVM CvmEventChannel.setupChannel")
-        
         repository.setMessageCallback(onCvmMessages)
         
         channel = FlutterEventChannel(name: CvmEventChannel.CHANNEL_NAME, binaryMessenger: messenger)
@@ -32,24 +28,16 @@ import Flutter
     }
     
     private func onCvmMessages(messages: [EventJson]) {
-        print("#CVM CvmEventChannel.onCvmMessages (\(messages.count) \(messages)")
-        
-        guard let eventSink = eventSink else {
-            print("#CVM CvmEventChannel.onCvmMessages NULL SINK!")
-            return
-        }
-        
+        guard let eventSink = eventSink else { return }
         eventSink(messages)
     }
     
     public func onListen(withArguments arguments: Any?, eventSink: @escaping FlutterEventSink) -> FlutterError? {
-        print("#CVM CvmEventChannel.onListen")
         self.eventSink = eventSink
         return nil
     }
 
     public func onCancel(withArguments arguments: Any?) -> FlutterError? {
-        print("#CVM CvmEventChannel.onCancel")
         eventSink = nil
         return nil
     }

@@ -16,8 +16,6 @@ class CvmMethodChannel {
     private let channel: FlutterMethodChannel
     
     init(repository: CvmRepository, messenger: FlutterBinaryMessenger) {
-        print("#CVM CvmMethodChannel.init")
-        
         self.repository = repository
         
         channel = FlutterMethodChannel(name: CvmMethodChannel.CHANNEL_NAME, binaryMessenger: messenger)
@@ -26,33 +24,58 @@ class CvmMethodChannel {
         })
     }
     
-    private func handleMethod(call: FlutterMethodCall, result: FlutterResult) {
-        print("#CVM CvmMethodChannel.handleMethod \(call.method)")
+    private func handleMethod(call: FlutterMethodCall, result: @escaping FlutterResult) {
         let args = call.arguments as? Dictionary<String, Any>
-        
+
         switch (call.method) {
         case "initializeCvm":
-            repository.initializeCvm()
-            result(true)
+            initializeCvm(result: result)
         case "startListenMessages":
-            //TODO: gérer les erreurs du startListen, et erreur args
-            guard let token = args?["token"] as? String, let ex160Url = args?["ex160"] as? String else { return }
-            repository.startListenMessages(token: token, ex160Url: ex160Url)
-            result(nil) //TODO: result(success) qui vient du callback de starListenMessages
+            startListenMessages(args: args, result: result)
         case "stopListenMessages":
-            repository.stopListenMessages()
-            result(true)
+            stopListenMessages(result: result)
         case "sendMessage":
-            //TODO: gérer les erreurs
-            guard let message = args?["message"] as? String else { return }
-            repository.sendMessage(message)
-            result(nil) //TODO: result(success) qui vient du callback de sendMessage
+            sendMessage(args: args, result: result)
         case "loadMore":
-            //TODO: erreurs ?
-            repository.loadMore()
-            result(true)
+            loadMore(result: result)
         default:
             result(FlutterMethodNotImplemented)
+        }
+    }
+    
+    private func initializeCvm(result: FlutterResult) {
+        repository.initializeCvm()
+        result(true)
+    }
+
+    private func startListenMessages(args: Dictionary<String, Any>?, result: @escaping FlutterResult) {
+        guard let token = args?["token"] as? String, let ex160Url = args?["ex160"] as? String else {
+            result(FlutterMethodNotImplemented)
+            return
+        }
+        repository.startListenMessages(token: token, ex160Url: ex160Url) { success in
+            result(success)
+        }
+    }
+
+    private func stopListenMessages(result: FlutterResult) {
+        repository.stopListenMessages()
+        result(true)
+    }
+
+    private func sendMessage(args: Dictionary<String, Any>?, result: @escaping FlutterResult) {
+        guard let message = args?["message"] as? String else {
+            result(FlutterMethodNotImplemented)
+            return
+        }
+        repository.sendMessage(message) { success in
+            result(success)
+        }
+    }
+
+    private func loadMore(result: @escaping FlutterResult) {
+        repository.loadMore() {
+            result(true)
         }
     }
 }
