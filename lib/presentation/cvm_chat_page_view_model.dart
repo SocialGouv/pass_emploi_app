@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 
 class CvmChatPageViewModel extends Equatable {
   final DisplayState displayState;
-  final List<CvmMessage> messages;
+  final List<CvmEvent> messages;
   final Function(String message) onSendMessage;
 
   CvmChatPageViewModel({

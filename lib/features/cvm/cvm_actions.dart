@@ -7,7 +7,7 @@ class CvmRequestAction extends CvmAction {}
 class CvmLoadingAction extends CvmAction {}
 
 class CvmSuccessAction extends CvmAction {
-  final List<CvmMessage> messages;
+  final List<CvmEvent> messages;
 
   CvmSuccessAction(this.messages);
 }

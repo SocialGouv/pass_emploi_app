@@ -10,7 +10,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
 
   CvmMiddleware(this._repository);
 
-  final List<CvmMessage> messages = [];
+  final List<CvmEvent> messages = [];
 
   void _subscribeToChatStream(Store<AppState> store) {
     _repository.getMessages().listen(

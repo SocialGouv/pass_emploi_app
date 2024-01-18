@@ -23,6 +23,8 @@ class MethodChannelHandler(
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
+        //TODO: result true quand c'est ok
+        //TODO: result du booléen success donné par les callback de startListenMessages et sendMessage
         when (call.method) {
             "initializeCvm" -> {
                 cvmRepository.initCvm()
