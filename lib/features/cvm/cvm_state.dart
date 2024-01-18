@@ -13,7 +13,7 @@ class CvmLoadingState extends CvmState {}
 class CvmFailureState extends CvmState {}
 
 class CvmSuccessState extends CvmState {
-  final List<CvmMessage> messages;
+  final List<CvmEvent> messages;
 
   CvmSuccessState(this.messages);
 

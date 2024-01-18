@@ -100,14 +100,14 @@ class _MessageInput extends StatelessWidget {
 
 class _MessageTile extends StatelessWidget {
   const _MessageTile({required this.message});
-  final CvmMessage message;
+  final CvmEvent message;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       key: ValueKey(message.id),
-      title: Text(message.content),
-      subtitle: Text(message.date.toDayAndHour()),
+      title: Text(message.message ?? "no-message"),
+      subtitle: Text(message.date?.toDayAndHour() ?? "no-date"),
       leading: CircleAvatar(
         backgroundColor: message.isFromUser ? Colors.blue : Colors.grey,
         child: Text(message.isFromUser ? "Moi" : "PE"),

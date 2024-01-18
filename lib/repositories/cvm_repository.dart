@@ -4,29 +4,29 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 abstract class CvmRepository {
   Future<void> initializeCvm();
   Future<void> startListenMessages();
-  Stream<List<CvmMessage>> getMessages();
+  Stream<List<CvmEvent>> getMessages();
   Future<void> sendMessage(String message);
   Future<void> loadMore();
 }
 
-class CvmMessage {
+class CvmEvent {
   final String id;
   final bool isFromUser;
-  final String content;
-  final DateTime date;
+  final String? message;
+  final DateTime? date;
 
-  CvmMessage({
+  CvmEvent({
     required this.id,
     required this.isFromUser,
-    required this.content,
+    required this.message,
     required this.date,
   });
 
-  static CvmMessage fromJson(dynamic json) {
-    return CvmMessage(
+  static CvmEvent fromJson(dynamic json) {
+    return CvmEvent(
       id: json['id'] as String,
       isFromUser: json['isFromUser'] as bool,
-      content: json['content'] as String,
+      message: json['content'] as String,
       date: DateTime.fromMillisecondsSinceEpoch(json['date'] as int),
     );
   }
@@ -53,7 +53,7 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<void> startListenMessages() async {
     try {
       const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-      const token = "14roAIElQTOLia6Q5qxtSdi7h5Q";
+      const token = "kRvsHz7A5Yb8x13-xP9dvoEgHG0";
       await MethodChannel(_cvmMethodChannel).invokeMethod('startListenMessages', {'token': token, 'ex160': ex160});
     } on PlatformException catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
@@ -61,12 +61,12 @@ class CvmRepositoryImpl implements CvmRepository {
   }
 
   @override
-  Stream<List<CvmMessage>> getMessages() {
+  Stream<List<CvmEvent>> getMessages() {
     try {
       return EventChannel(_cvmEventChannel).receiveBroadcastStream().map((events) {
         final eventsJson = events as List<dynamic>;
         return eventsJson.map((event) {
-          return CvmMessage.fromJson(event);
+          return CvmEvent.fromJson(event);
         }).toList();
       });
     } on PlatformException catch (e, s) {

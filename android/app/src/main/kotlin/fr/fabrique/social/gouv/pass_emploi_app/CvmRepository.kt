@@ -24,9 +24,11 @@ class CvmRepository(
 
     fun startListenMessages(ex160: String, token: String) {
         MatrixManager.getInstance().loginAndStartSession(token, ex160)
+        //TODO: regarder si je suis bien connecté (soit retour de la fonction loginAndStartSession, ou callback, ou peut-être une property dans MatrixManager) avant de faire le joinRoom
         MatrixManager.getInstance().joinFirstRoom(lifecycleOwner) {
             this.room = it
             listenMessage()
+            //TODO: si pas de room, normalement il faut listenRoom
         }
     }
 
@@ -43,6 +45,7 @@ class CvmRepository(
     private fun listenMessage() {
         MatrixManager.getInstance().startListenMessage(room!!.id!!) { events ->
             val allMessages = events.map { event ->
+                //TODO: faire correspondre les champs nullable/pas nullable avec l'objet de CVM
                 mapOf(
                     "id" to (event.eventId ?: ""),
                     "isFromUser" to (event.senderId == SessionManager.matrixUserId),
@@ -55,6 +58,7 @@ class CvmRepository(
     }
 
     fun stopListenMessage() {
+        //TODO: room à null, stop roomlistener ?
         MatrixManager.getInstance().stopListenMessage()
         MatrixManager.getInstance().stopSession()
     }

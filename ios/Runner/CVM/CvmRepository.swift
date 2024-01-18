@@ -46,6 +46,8 @@ class CvmRepository {
                                     "content": event.message ?? "no-message",
                                     "date": Int64((event.date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970) * 1000),
                                     //TODO: d'autres champs ?
+                                    // "readBy": event.readBy,
+                                    // eventType
                                 ]
                             }
                             
