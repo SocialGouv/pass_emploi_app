@@ -40,8 +40,8 @@ class CvmMethodChannel {
             repository.startListenMessages(token: token, ex160Url: ex160Url)
             result(nil)
         case "stopListenMessages":
-            //TODO: stop cvm
-            result(FlutterMethodNotImplemented)
+            repository.stopListenMessages()
+            result(nil)
         case "sendMessage":
             //TODO: gérer les erreurs
             guard let message = args?["message"] as? String else { return }
