@@ -10,9 +10,10 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
-final lundi1Janvier = DateTime(2024, 1, 1);
-final dimanche7Janvier = DateTime(2024, 1, 7, 23, 59);
-final dimanche14Janvier = DateTime(2024, 1, 14, 23, 59);
+final lundi1Janvier = DateTime.utc(2024, 1, 1);
+final dimanche7Janvier = DateTime.utc(2024, 1, 7, 23, 59);
+final dimanche14Janvier = DateTime.utc(2024, 1, 14, 23, 59);
+final jeudi1Fevrier = DateTime.utc(2024, 2, 1, 23, 59);
 
 void main() {
   group('displayState', () {
@@ -101,44 +102,37 @@ void main() {
       // Then
       expect(viewModel.items, [
         SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
-        DayMonSuiviItem(MonSuiviDay('lun.', '1'), [UserActionMonSuiviEntry('actionId')]),
+        DayMonSuiviItem(MonSuiviDay('lun.', '1'), [
+          UserActionMonSuiviEntry('actionId'),
+        ]),
         EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2')),
         EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3')),
         EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4')),
         EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5')),
         EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6')),
-        DayMonSuiviItem(MonSuiviDay('dim.', '7'),
-            [RendezvousMonSuiviEntry('rendezvousId'), SessionMiloMonSuiviEntry('sessionMiloId')]),
+        DayMonSuiviItem(MonSuiviDay('dim.', '7'), [
+          RendezvousMonSuiviEntry('rendezvousId'),
+          SessionMiloMonSuiviEntry('sessionMiloId'),
+        ]),
       ]);
     });
 
     test('when period contains current and next week', () {
       withClock(Clock.fixed(dimanche7Janvier), () {
         // Given
-        final store = givenState().monSuivi(interval: Interval(lundi1Janvier, dimanche14Janvier)).store();
+        final store = givenState().monSuivi(interval: Interval(lundi1Janvier, jeudi1Fevrier)).store();
 
         // When
         final viewModel = MonSuiviViewModel.create(store);
 
         // Then
-        expect(viewModel.items, [
-          SemaineSectionMonSuiviItem('1 - 7 janvier 2024', 'Cette semaine'),
-          EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1')),
-          EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2')),
-          EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3')),
-          EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4')),
-          EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5')),
-          EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6')),
-          EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7')),
-          SemaineSectionMonSuiviItem('8 - 14 janvier 2024', 'Semaine prochaine'),
-          EmptyDayMonSuiviItem(MonSuiviDay('lun.', '8')),
-          EmptyDayMonSuiviItem(MonSuiviDay('mar.', '9')),
-          EmptyDayMonSuiviItem(MonSuiviDay('mer.', '10')),
-          EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '11')),
-          EmptyDayMonSuiviItem(MonSuiviDay('ven.', '12')),
-          EmptyDayMonSuiviItem(MonSuiviDay('sam.', '13')),
-          EmptyDayMonSuiviItem(MonSuiviDay('dim.', '14')),
-        ]);
+        const indexOfWeek = 8;
+        final items = viewModel.items;
+        expect(items[0 * indexOfWeek], SemaineSectionMonSuiviItem('1 - 7 janvier 2024', 'Cette semaine'));
+        expect(items[1 * indexOfWeek], SemaineSectionMonSuiviItem('8 - 14 janvier 2024', 'Semaine prochaine'));
+        expect(items[2 * indexOfWeek], SemaineSectionMonSuiviItem('15 - 21 janvier 2024'));
+        expect(items[3 * indexOfWeek], SemaineSectionMonSuiviItem('22 - 28 janvier 2024'));
+        expect(items[4 * indexOfWeek], SemaineSectionMonSuiviItem('29 - 4 février 2024'));
       });
     });
   });
