@@ -22,4 +22,6 @@ class Interval extends Equatable {
       fin.add(Duration(days: 7 * 4)),
     );
   }
+
+  bool contains(DateTime date) => date.isAfter(debut) && date.isBefore(fin);
 }
