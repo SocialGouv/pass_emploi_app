@@ -104,7 +104,7 @@
     {
       "id": "03f249fb-b3e6-4dce-89c9-361be54a04f5",
       "comment": "Atelier \"Les clés pour réussir votre entretien\" ",
-      "date": "<<NOW_PLUS_10>>",
+      "date": "<NOW_PLUS_10>",
       "isLocaleDate": false,
       "modality": "par visio",
       "duration": 120,
