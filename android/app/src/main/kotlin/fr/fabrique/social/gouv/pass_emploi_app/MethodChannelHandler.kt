@@ -32,6 +32,7 @@ class MethodChannelHandler(
             "startListenMessages" -> startListenMessages(result)
             "stopListenMessages" -> stopListenMessages(result)
             "sendMessage" -> sendMessage(call, result)
+            "loadMore" -> loadMore(result)
             else -> result.notImplemented()
         }
     }
@@ -90,6 +91,12 @@ class MethodChannelHandler(
             cvmRepository.sendMessage(message) {success ->
                 result.success(success)
             }
+        }
+    }
+
+    private fun loadMore(result: Result) {
+        cvmRepository.loadMore { success ->
+            result.success(success)
         }
     }
 }

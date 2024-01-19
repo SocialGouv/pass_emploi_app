@@ -66,10 +66,11 @@ class CvmRepository(
         callback(true)
     }
 
-    fun loadMore() {
+    fun loadMore(callback: (Boolean) -> Unit) {
         if (MatrixManager.getInstance().hasMoreMessages == true) {
             MatrixManager.getInstance().loadMoreMessages(20)
         }
+        callback(true)
     }
 
     fun stopListenMessage() {
