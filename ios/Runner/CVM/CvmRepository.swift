@@ -25,37 +25,24 @@ class CvmRepository {
     func setMessageCallback(_ onMessages: @escaping EventsReceived) {
         self.onMessages = onMessages
     }
-    
-    func startListenMessages(token: String, ex160Url: String, completion: @escaping SuccessCompletion) {
-        loginThenListenEvents(token: token, ex160Url: ex160Url, completion: completion)
+
+    func login(token: String, ex160Url: String, completion: @escaping SuccessCompletion) {
+        MatrixManager.sharedInstance.loginAndStartSession(accessToken: token, oauthServer: ex160Url, completion: completion)
     }
 
-    private func loginThenListenEvents(token: String, ex160Url: String, completion: @escaping SuccessCompletion) {
-        MatrixManager.sharedInstance.loginAndStartSession(accessToken: token, oauthServer: ex160Url) { [weak self] success in
-            if (success) {
-                self?.joinRoomThenListenEvents(completion: completion)
-            } else {
-                completion(false)
-            }
-        }
-    }
-
-    private func joinRoomThenListenEvents(completion: @escaping SuccessCompletion) {
+    func joinFirstRoom(completion: @escaping SuccessCompletion) {
         MatrixManager.sharedInstance.joinFirstRoom { [weak self] room in
             self?.room = room
-            if let room = room {
-                self?.startListenEvents(room: room, completion: completion)
-            } else {
-                completion(false)
-                //TODO: listen room ? c'est peut-être plus complexe que ça
-                // peut-être qu'on veut retourner une erreur, et que c'est au client Flutter de dire
-                // "ok on commence à listen room"
-                // ou peut-être qu'on veut même dire que re-join à chaque fois qu'on affiche la page ?
-            }
+            completion(room != nil)
         }
     }
     
-    private func startListenEvents(room: Room, completion: @escaping SuccessCompletion) {
+    func startListenMessages(completion: @escaping SuccessCompletion) {
+        guard let room = self.room else {
+            completion(false)
+            return
+        }
+
         MatrixManager.sharedInstance.startMessageListener(room: room) { [weak self] events in
             self?.onMessages?(events.map { $0.toJson() })
         }
