@@ -24,54 +24,72 @@ class MethodChannelHandler(
 
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
-            "initializeCvm" -> {
-                cvmRepository.initCvm()
-                result.success(true)
-            }
-            "startListenMessages" -> {
-                val ex160: String = call.argument("ex160") ?: run {
-                    result.error("ARGUMENT_ERROR", "ex160 is missing", null)
-                    return
-                }
-                val token: String = call.argument("token") ?: run {
-                    result.error("ARGUMENT_ERROR", "Token is missing", null)
-                    return
-                }
-                val startResult = cvmRepository.startListenMessages(ex160, token)
-
-                if (startResult) {
-                    result.success(true)
-                } else {
-                    result.error("START_LISTEN_MESSAGES_ERROR", "Error when starting listen messages", null)
-                }
-            }
-            "stopListenMessages" -> {
-                cvmRepository.stopListenMessage()
-                result.success(true)
-            }
-            "sendMessage" -> {
-                val message: String = call.argument("message") ?: run {
-                    result.error("ARGUMENT_ERROR", "Message is missing", null)
-                    return
-                }
-                CoroutineScope(Dispatchers.IO).launch {
-                    val success = sendMessage(message)
-                    if (success) {
-                        result.success(true)
-                    } else {
-                        result.error("SEND_ERROR", "Failed to send message", null)
-                    }
-                }
-            }
-            "loadMore" -> {
-                cvmRepository.loadMore()
-                result.success(null)
-            }
+            "initializeCvm" -> initializeCvm(result)
+            "login" -> login(call, result)
+            "joinFirstRoom" -> joinFirstRoom(result)
+            "startListenRoom" -> startListenRoom(result)
+            "stopListenRoom" -> stopListenRoom(result)
+            "startListenMessages" -> startListenMessages(result)
+            "stopListenMessages" -> stopListenMessages(result)
+            "sendMessage" -> sendMessage(call, result)
             else -> result.notImplemented()
         }
     }
 
-    private suspend fun sendMessage(message: String): Boolean {
-        return cvmRepository.sendMessage(message)
+    private fun initializeCvm(result: Result) {
+        cvmRepository.initCvm()
+        result.success(true)
+    }
+
+    private fun login(call: MethodCall, result: Result) {
+        val ex160: String = call.argument("ex160") ?: run {
+            result.error("ARGUMENT_ERROR", "ex160 is missing", null)
+            return
+        }
+        val token: String = call.argument("token") ?: run {
+            result.error("ARGUMENT_ERROR", "Token is missing", null)
+            return
+        }
+
+        cvmRepository.login(ex160, token) { success ->
+            result.success(success)
+        }
+    }
+
+    private fun joinFirstRoom(result: Result) {
+        cvmRepository.joinFirstRoom { success ->
+            result.success(success)
+        }
+    }
+
+    private fun startListenRoom(result: Result) {
+        result.error("START_LISTEN_ROOM_ERROR", "Error when starting listen room", null)
+    }
+
+    private fun stopListenRoom(result: Result) {
+        result.error("STOP_LISTEN_ROOM_ERROR", "Error when stopping listen room", null)
+    }
+
+    private fun startListenMessages(result: Result) {
+        cvmRepository.startListenMessages { success ->
+            result.success(success)
+        }
+    }
+
+    private fun stopListenMessages(result: Result) {
+        cvmRepository.stopListenMessage()
+        result.success(true)
+    }
+
+    private fun sendMessage(call: MethodCall, result: Result) {
+        val message: String = call.argument("message") ?: run {
+            result.error("ARGUMENT_ERROR", "Message is missing", null)
+            return
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            cvmRepository.sendMessage(message) {success ->
+                result.success(success)
+            }
+        }
     }
 }

@@ -12,42 +12,46 @@ class CvmRepository(
 ) {
 
     private var room: Room? = null
-    private var callback: (List<Map<String, Any>>) -> Unit = {}
+    private var onMessage: (List<Map<String, Any>>) -> Unit = {}
 
     fun setCallback(callback: (List<Map<String, Any>>) -> Unit) {
-        this.callback = callback
+        this.onMessage = callback
     }
 
     fun initCvm() {
         MatrixManager.initContext(context)
     }
 
-    fun startListenMessages(ex160: String, token: String): Boolean {
+    fun login(ex160: String, token: String, onResult: (Boolean) -> Unit) {
         MatrixManager.getInstance().loginAndStartSession(token, ex160)
-        var isSuccess = false
+        onResult(true)
+    }
+
+    fun joinFirstRoom(onResult: (Boolean) -> Unit) {
         MatrixManager.getInstance().joinFirstRoom(lifecycleOwner) {
                 this.room = it
-                listenMessage()
-                isSuccess = true
+                onResult(true)
         }
-        return isSuccess
     }
 
-    suspend fun sendMessage(message: String): Boolean {
-        return this.room?.let {
-            var isSuccess = false
+    suspend fun sendMessage(message: String, callback: (Boolean) -> Unit) {
+        this.room?.let { room ->
             MatrixManager.getInstance().sendMessage(
-                room!!.id!!,
+                room.id!!,
                 message,
-                { _: String -> isSuccess = true },
-                { _: Int, _: String -> isSuccess = false }
+                { _: String -> callback(true) },
+                { _: Int, _: String -> callback(false) }
             )
-            isSuccess
-        } ?: false
+        } ?: callback(false)
     }
 
 
-    private fun listenMessage() {
+
+    fun startListenMessages(callback: (Boolean) -> Unit) {
+        if (this.room == null) {
+            callback(false)
+            return
+        }
         MatrixManager.getInstance().startListenMessage(room!!.id!!) { events ->
             val allMessages = events.map { event ->
                 mapOf(
@@ -57,8 +61,9 @@ class CvmRepository(
                     "date" to (event.date?.time ?: 0L)
                 )
             }
-            this.callback(allMessages)
+            this.onMessage(allMessages)
         }
+        callback(true)
     }
 
     fun loadMore() {
