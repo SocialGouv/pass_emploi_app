@@ -70,7 +70,7 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<bool> _login() async {
     try {
       const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-      const token = "Mm84ToEpcDYSBa64RmvLyT906G8";
+      const token = "a16upvIV-5ewqiIsqNDluc6uk0U";
       final success =
           await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('login', {'token': token, 'ex160': ex160}) ?? false;
       print("CVM LOGIN SUCCESS: $success");
