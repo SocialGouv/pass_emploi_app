@@ -73,6 +73,22 @@ class CvmRepository {
         
         MatrixManager.sharedInstance.loadMoreMessage(room: room, withPaginationSize: 5, completion: completion)
     }
+
+    func startListenRoom(completion: @escaping SuccessCompletion) {
+        // get list of rooms then pick the first one
+        MatrixManager.sharedInstance.startRoomListener { [weak self] rooms in
+            guard let room = rooms.first else {
+                completion(false)
+                return
+            }
+            self?.room = room
+            completion(true)
+        }
+    }
+
+    func stopListenRoom() {
+        MatrixManager.sharedInstance.stopRoomListener()
+    }
 }
 
 private extension Event {

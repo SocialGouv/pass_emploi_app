@@ -73,11 +73,14 @@ class CvmMethodChannel {
     }
 
     private func startListenRoom(result: FlutterResult) {
-        result(FlutterMethodNotImplemented)
+        repository.startListenRoom() { success in
+            result(success)
+        }
     }
 
     private func stopListenRoom(result: FlutterResult) {
-        result(FlutterMethodNotImplemented)
+        repository.stopListenRoom()
+        result(true)
     }
 
     private func startListenMessages(result: @escaping FlutterResult) {
