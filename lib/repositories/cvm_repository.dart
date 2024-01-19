@@ -58,7 +58,10 @@ class CvmRepositoryImpl implements CvmRepository {
       if (loggedIn == false) return false;
 
       final hasRoom = await _joinFirstRoom();
-      if (hasRoom == false) return false;
+      if (hasRoom == false) {
+        final isListeningRoom = await _listenRoom();
+        if (isListeningRoom == false) return false;
+      }
 
       return await _startListenMessages();
     } on PlatformException catch (e, s) {
@@ -85,6 +88,17 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('joinFirstRoom') ?? false;
       print("CVM JOIN ROOM SUCCESS: $success");
+      return success;
+    } on PlatformException catch (e, s) {
+      _crashlytics?.recordCvmException(e, s);
+      return false;
+    }
+  }
+
+  Future<bool> _listenRoom() async {
+    try {
+      final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenRoom') ?? false;
+      print("CVM LISTEN ROOM SUCCESS: $success");
       return success;
     } on PlatformException catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
