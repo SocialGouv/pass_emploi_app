@@ -53,7 +53,7 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<void> startListenMessages() async {
     try {
       const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-      const token = "kRvsHz7A5Yb8x13-xP9dvoEgHG0";
+      const token = "TYNeEpZQFMCY2RLzuCGH59qLhRY";
       await MethodChannel(_cvmMethodChannel).invokeMethod('startListenMessages', {'token': token, 'ex160': ex160});
     } on PlatformException catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
