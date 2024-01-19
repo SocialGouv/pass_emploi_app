@@ -30,8 +30,16 @@ class CvmMethodChannel {
         switch (call.method) {
         case "initializeCvm":
             initializeCvm(result: result)
+        case "login":
+            login(args: args, result: result)
+        case "joinFirstRoom":
+            joinFirstRoom(result: result)
+        case "startListenRoom":
+            startListenRoom(result: result)
+        case "stopListenRoom":
+            startListenRoom(result: result)
         case "startListenMessages":
-            startListenMessages(args: args, result: result)
+            startListenMessages(result: result)
         case "stopListenMessages":
             stopListenMessages(result: result)
         case "sendMessage":
@@ -48,12 +56,32 @@ class CvmMethodChannel {
         result(true)
     }
 
-    private func startListenMessages(args: Dictionary<String, Any>?, result: @escaping FlutterResult) {
+    private func login(args: Dictionary<String, Any>?, result: @escaping FlutterResult) {
         guard let token = args?["token"] as? String, let ex160Url = args?["ex160"] as? String else {
             result(FlutterMethodNotImplemented)
             return
         }
-        repository.startListenMessages(token: token, ex160Url: ex160Url) { success in
+        repository.login(token: token, ex160Url: ex160Url) { success in
+            result(success)
+        }
+    }
+
+    private func joinFirstRoom(result: @escaping FlutterResult) {
+        repository.joinFirstRoom() { success in
+            result(success)
+        }
+    }
+
+    private func startListenRoom(result: FlutterResult) {
+        result(FlutterMethodNotImplemented)
+    }
+
+    private func stopListenRoom(result: FlutterResult) {
+        result(FlutterMethodNotImplemented)
+    }
+
+    private func startListenMessages(result: @escaping FlutterResult) {
+        repository.startListenMessages() { success in
             result(success)
         }
     }
