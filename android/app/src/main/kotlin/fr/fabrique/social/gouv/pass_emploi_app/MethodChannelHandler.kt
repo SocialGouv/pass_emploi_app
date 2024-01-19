@@ -64,11 +64,15 @@ class MethodChannelHandler(
     }
 
     private fun startListenRoom(result: Result) {
-        result.error("START_LISTEN_ROOM_ERROR", "Error when starting listen room", null)
+        cvmRepository.startListenRoom { success ->
+            result.success(success)
+        }
     }
 
     private fun stopListenRoom(result: Result) {
-        result.error("STOP_LISTEN_ROOM_ERROR", "Error when stopping listen room", null)
+        cvmRepository.stopListenRoom { success ->
+            result.success(success)
+        }
     }
 
     private fun startListenMessages(result: Result) {

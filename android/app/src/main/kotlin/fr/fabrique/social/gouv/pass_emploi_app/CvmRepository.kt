@@ -79,4 +79,20 @@ class CvmRepository(
         this.room = null
     }
 
+    fun startListenRoom(callback: (Boolean) -> Unit) {
+        MatrixManager.getInstance().startRoomListener(lifecycleOwner) { rooms ->
+            this.room = rooms.firstOrNull()
+            if (this.room != null) {
+                callback(true)
+            } else {
+                callback(false)
+            }
+        }
+    }
+
+    fun stopListenRoom(callback: (Boolean) -> Unit) {
+        MatrixManager.getInstance().stopRoomListener(lifecycleOwner)
+        callback(true)
+    }
+
 }
