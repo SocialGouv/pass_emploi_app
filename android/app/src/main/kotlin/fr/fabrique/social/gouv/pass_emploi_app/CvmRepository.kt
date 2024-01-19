@@ -22,30 +22,34 @@ class CvmRepository(
         MatrixManager.initContext(context)
     }
 
-    fun startListenMessages(ex160: String, token: String) {
+    fun startListenMessages(ex160: String, token: String): Boolean {
         MatrixManager.getInstance().loginAndStartSession(token, ex160)
-        //TODO: regarder si je suis bien connecté (soit retour de la fonction loginAndStartSession, ou callback, ou peut-être une property dans MatrixManager) avant de faire le joinRoom
+        var isSuccess = false
         MatrixManager.getInstance().joinFirstRoom(lifecycleOwner) {
-            this.room = it
-            listenMessage()
-            //TODO: si pas de room, normalement il faut listenRoom
+                this.room = it
+                listenMessage()
+                isSuccess = true
         }
+        return isSuccess
     }
 
-    suspend fun sendMessage(message: String) {
-        this.room?.let {
+    suspend fun sendMessage(message: String): Boolean {
+        return this.room?.let {
+            var isSuccess = false
             MatrixManager.getInstance().sendMessage(
                 room!!.id!!,
                 message,
-                { _: String -> Unit },
-                { _: Int, _: String -> Unit })
-        }
+                { _: String -> isSuccess = true },
+                { _: Int, _: String -> isSuccess = false }
+            )
+            isSuccess
+        } ?: false
     }
+
 
     private fun listenMessage() {
         MatrixManager.getInstance().startListenMessage(room!!.id!!) { events ->
             val allMessages = events.map { event ->
-                //TODO: faire correspondre les champs nullable/pas nullable avec l'objet de CVM
                 mapOf(
                     "id" to (event.eventId ?: ""),
                     "isFromUser" to (event.senderId == SessionManager.matrixUserId),
@@ -64,9 +68,9 @@ class CvmRepository(
     }
 
     fun stopListenMessage() {
-        //TODO: room à null, stop roomlistener ?
         MatrixManager.getInstance().stopListenMessage()
         MatrixManager.getInstance().stopSession()
+        this.room = null
     }
 
 }
