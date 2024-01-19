@@ -23,12 +23,10 @@ class MethodChannelHandler(
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-        //TODO: result true quand c'est ok
-        //TODO: result du booléen success donné par les callback de startListenMessages et sendMessage
         when (call.method) {
             "initializeCvm" -> {
                 cvmRepository.initCvm()
-                result.success(null)
+                result.success(true)
             }
             "startListenMessages" -> {
                 val ex160: String = call.argument("ex160") ?: run {
@@ -39,12 +37,17 @@ class MethodChannelHandler(
                     result.error("ARGUMENT_ERROR", "Token is missing", null)
                     return
                 }
-                cvmRepository.startListenMessages(ex160, token)
-                result.success(null)
+                val startResult = cvmRepository.startListenMessages(ex160, token)
+
+                if (startResult) {
+                    result.success(true)
+                } else {
+                    result.error("START_LISTEN_MESSAGES_ERROR", "Error when starting listen messages", null)
+                }
             }
             "stopListenMessages" -> {
                 cvmRepository.stopListenMessage()
-                result.success(null)
+                result.success(true)
             }
             "sendMessage" -> {
                 val message: String = call.argument("message") ?: run {
@@ -52,7 +55,12 @@ class MethodChannelHandler(
                     return
                 }
                 CoroutineScope(Dispatchers.IO).launch {
-                    sendMessage(message, result)
+                    val success = sendMessage(message)
+                    if (success) {
+                        result.success(true)
+                    } else {
+                        result.error("SEND_ERROR", "Failed to send message", null)
+                    }
                 }
             }
             "loadMore" -> {
@@ -63,8 +71,7 @@ class MethodChannelHandler(
         }
     }
 
-    private suspend fun sendMessage(message: String, result: Result) {
-        cvmRepository.sendMessage(message)
-        result.success(null)
+    private suspend fun sendMessage(message: String): Boolean {
+        return cvmRepository.sendMessage(message)
     }
 }
