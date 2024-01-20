@@ -102,7 +102,7 @@ void main() {
       // Then
       expect(viewModel.items, [
         SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
-        DayMonSuiviItem(MonSuiviDay('lun.', '1'), [
+        FilledDayMonSuiviItem(MonSuiviDay('lun.', '1'), [
           UserActionMonSuiviEntry('actionId'),
         ]),
         EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2')),
@@ -110,7 +110,7 @@ void main() {
         EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4')),
         EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5')),
         EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6')),
-        DayMonSuiviItem(MonSuiviDay('dim.', '7'), [
+        FilledDayMonSuiviItem(MonSuiviDay('dim.', '7'), [
           RendezvousMonSuiviEntry('rendezvousId'),
           SessionMiloMonSuiviEntry('sessionMiloId'),
         ]),
@@ -134,6 +134,19 @@ void main() {
         expect(items[3 * indexOfWeek], SemaineSectionMonSuiviItem('22 - 28 janvier 2024'));
         expect(items[4 * indexOfWeek], SemaineSectionMonSuiviItem('29 - 4 février 2024'));
       });
+    });
+  });
+
+  test('indexOfTodayItem', () {
+    withClock(Clock.fixed(dimanche7Janvier), () {
+      // Given
+      final store = givenState().monSuivi(interval: Interval(lundi1Janvier, dimanche14Janvier)).store();
+
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
+
+      // Then
+      expect(viewModel.indexOfTodayItem, 7);
     });
   });
 

@@ -11,6 +11,7 @@ import 'package:redux/redux.dart';
 class MonSuiviViewModel extends Equatable {
   final DisplayState displayState;
   final List<MonSuiviItem> items;
+  final int indexOfTodayItem;
   final Function() onLoadPreviousPeriod;
   final Function() onLoadNextPeriod;
   final Function() onRetry;
@@ -18,6 +19,7 @@ class MonSuiviViewModel extends Equatable {
   MonSuiviViewModel._({
     required this.displayState,
     required this.items,
+    required this.indexOfTodayItem,
     required this.onLoadPreviousPeriod,
     required this.onLoadNextPeriod,
     required this.onRetry,
@@ -25,9 +27,11 @@ class MonSuiviViewModel extends Equatable {
 
   factory MonSuiviViewModel.create(Store<AppState> store) {
     final state = store.state.monSuiviState;
+    final items = _items(state);
     return MonSuiviViewModel._(
       displayState: _displayState(state),
-      items: _items(state),
+      items: items,
+      indexOfTodayItem: items.indexWhere((e) => e is DayMonSuiviItem && e.isToday),
       onLoadPreviousPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.previous)),
       onLoadNextPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.next)),
       onRetry: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
@@ -35,7 +39,7 @@ class MonSuiviViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, items];
+  List<Object?> get props => [displayState, items, indexOfTodayItem];
 }
 
 DisplayState _displayState(MonSuiviState state) {
@@ -59,7 +63,10 @@ List<MonSuiviItem> _items(MonSuiviState state) {
 
     final entries = entriesByDay[jourCourant];
     final day = MonSuiviDay.fromDateTime(jourCourant);
-    items.add(entries != null ? DayMonSuiviItem(day, entries) : EmptyDayMonSuiviItem(day));
+    final isToday = jourCourant.isToday();
+    items.add(
+      entries != null ? FilledDayMonSuiviItem(day, entries, isToday) : EmptyDayMonSuiviItem(day, isToday),
+    );
 
     jourCourant = jourCourant.add(Duration(days: 1));
   }
@@ -118,23 +125,27 @@ class SemaineSectionMonSuiviItem extends MonSuiviItem {
   List<Object?> get props => [interval, boldTitle];
 }
 
-class DayMonSuiviItem extends MonSuiviItem {
+sealed class DayMonSuiviItem extends MonSuiviItem {
   final MonSuiviDay day;
-  final List<MonSuiviEntry> entries;
+  final bool isToday;
 
-  DayMonSuiviItem(this.day, this.entries);
-
-  @override
-  List<Object?> get props => [day, entries];
+  DayMonSuiviItem(this.day, this.isToday);
 }
 
-class EmptyDayMonSuiviItem extends MonSuiviItem {
-  final MonSuiviDay day;
+class FilledDayMonSuiviItem extends DayMonSuiviItem {
+  final List<MonSuiviEntry> entries;
 
-  EmptyDayMonSuiviItem(this.day);
+  FilledDayMonSuiviItem(super.day, this.entries, [super.isToday = false]);
 
   @override
-  List<Object?> get props => [day];
+  List<Object?> get props => [day, isToday, entries];
+}
+
+class EmptyDayMonSuiviItem extends DayMonSuiviItem {
+  EmptyDayMonSuiviItem(super.day, [super.isToday = false]);
+
+  @override
+  List<Object?> get props => [day, isToday];
 }
 
 class MonSuiviDay extends Equatable {
@@ -143,8 +154,10 @@ class MonSuiviDay extends Equatable {
 
   MonSuiviDay(this.shortened, this.number);
 
-  factory MonSuiviDay.fromDateTime(DateTime dateTime) =>
-      MonSuiviDay(dateTime.toDayShortened(), dateTime.day.toString());
+  factory MonSuiviDay.fromDateTime(DateTime dateTime) => MonSuiviDay(
+        dateTime.toDayShortened(),
+        dateTime.day.toString(),
+      );
 
   @override
   List<Object?> get props => [shortened, number];
