@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/models/date/interval.dart';
+import 'package:pass_emploi_app/utils/log.dart';
 
 String? getDemoFileName(String url, String query) {
   if (url.contains('/milo/accueil')) return 'accueil_mission_locale';
@@ -43,11 +44,16 @@ String? getDemoFileName(String url, String query) {
 }
 
 bool _queryIntervalContainsNow(String query) {
-  final interval = Interval(
-    DateTime.parse(query.split('debut=')[1].substring(0, 10)),
-    DateTime.parse(query.split('fin=')[1].substring(0, 10)),
-  );
-  return interval.contains(DateTime.now());
+  try {
+    final interval = Interval(
+      DateTime.parse(query.split('debut=')[1].substring(0, 10)),
+      DateTime.parse(query.split('fin=')[1].substring(0, 10)),
+    );
+    return interval.contains(DateTime.now());
+  } catch (_) {
+    Log.e('Could not parse interval from query $query');
+    return false;
+  }
 }
 
 extension UrlExtensions on String {
