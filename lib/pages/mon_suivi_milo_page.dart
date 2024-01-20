@@ -9,11 +9,13 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:shimmer/shimmer.dart';
 
 final _key = GlobalKey();
 
@@ -25,6 +27,7 @@ class MonSuiviMiloPage extends StatelessWidget {
       converter: (store) => MonSuiviViewModel.create(store),
       builder: (context, viewModel) => _Scaffold(_Body(viewModel)),
       onDispose: (store) => store.dispatch(MonSuiviResetAction()),
+      distinct: true,
     );
   }
 }
@@ -56,7 +59,7 @@ class _Body extends StatelessWidget {
       child: switch (viewModel.displayState) {
         DisplayState.FAILURE => Center(child: Retry(Strings.monSuiviError, () => viewModel.onRetry())),
         DisplayState.CONTENT => _TodayAnchoredMonSuiviList(viewModel),
-        _ => Center(child: CircularProgressIndicator()),
+        _ => _MonSuiviLoader(),
       },
     );
   }
@@ -85,10 +88,7 @@ class _TodayAnchoredMonSuiviList extends StatelessWidget {
               if (index == pastItems.length) {
                 return Padding(
                   padding: const EdgeInsets.only(top: Margins.spacing_base),
-                  child: _LoadMoreButton(
-                    label: 'Afficher les semaines précédentes',
-                    onPressed: () => viewModel.onLoadPreviousPeriod(),
-                  ),
+                  child: _PaginationLoader(),
                 );
               }
               return pastItems[index].toWidget();
@@ -101,11 +101,8 @@ class _TodayAnchoredMonSuiviList extends StatelessWidget {
             itemBuilder: (context, index) {
               if (index == presentAndFutureItems.length) {
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: Margins.spacing_x_huge),
-                  child: _LoadMoreButton(
-                    label: 'Afficher les semaines suivantes',
-                    onPressed: () => viewModel.onLoadNextPeriod(),
-                  ),
+                  padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+                  child: _PaginationLoader(),
                 );
               }
               return Padding(
@@ -245,6 +242,70 @@ class _LoadMoreButtonState extends State<_LoadMoreButton> {
           child: CircularProgressIndicator(),
         ),
       ),
+    );
+  }
+}
+
+class _MonSuiviLoader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return AnimatedListLoader(
+      placeholders: [
+        ..._dayItems((7 - DateTime.now().weekday) + 1),
+        ..._semaineSection(screenWidth),
+        ..._dayItems(7),
+        ..._semaineSection(screenWidth),
+      ],
+    );
+  }
+
+  List<Widget> _dayItems(int count) {
+    return [
+      for (var i = 0; i < count; ++i)
+        Padding(
+          padding: EdgeInsets.only(top: Margins.spacing_base),
+          child: _MonSuiviItemLoader(),
+        )
+    ];
+  }
+
+  List<Widget> _semaineSection(double screenWidth) {
+    return [
+      SizedBox(height: Margins.spacing_m),
+      AnimatedListLoader.placeholderBuilder(width: screenWidth * 0.5, height: 24),
+      SizedBox(height: Margins.spacing_s),
+      AnimatedListLoader.placeholderBuilder(width: screenWidth * 0.3, height: 16),
+      SizedBox(height: Margins.spacing_s),
+    ];
+  }
+}
+
+class _PaginationLoader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: AppColors.loadingGreyPlaceholder,
+      highlightColor: Colors.white,
+      child: _MonSuiviItemLoader(),
+    );
+  }
+}
+
+class _MonSuiviItemLoader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(child: AnimatedListLoader.placeholderBuilder(width: screenWidth, height: 40)),
+        const SizedBox(width: Margins.spacing_base),
+        Expanded(
+          flex: 9,
+          child: AnimatedListLoader.placeholderBuilder(width: screenWidth, height: 56),
+        ),
+      ],
     );
   }
 }
