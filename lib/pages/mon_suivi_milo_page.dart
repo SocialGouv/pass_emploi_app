@@ -15,7 +15,7 @@ import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
-final centerKey = GlobalKey();
+final _key = GlobalKey();
 
 class MonSuiviMiloPage extends StatelessWidget {
   @override
@@ -76,33 +76,42 @@ class _TodayAnchoredMonSuiviList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: CustomScrollView(
-        center: centerKey,
+        center: _key,
         slivers: [
           SliverList.separated(
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: pastItems.length + 1,
             itemBuilder: (context, index) {
               if (index == pastItems.length) {
-                return _LoadMoreButton(
-                  label: 'Afficher les semaines précédentes',
-                  onPressed: () => viewModel.onLoadPreviousPeriod(),
+                return Padding(
+                  padding: const EdgeInsets.only(top: Margins.spacing_base),
+                  child: _LoadMoreButton(
+                    label: 'Afficher les semaines précédentes',
+                    onPressed: () => viewModel.onLoadPreviousPeriod(),
+                  ),
                 );
               }
               return pastItems[index].toWidget();
             },
           ),
           SliverList.separated(
-            key: centerKey,
+            key: _key,
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: presentAndFutureItems.length + 1,
             itemBuilder: (context, index) {
               if (index == presentAndFutureItems.length) {
-                return _LoadMoreButton(
-                  label: 'Afficher les semaines suivantes',
-                  onPressed: () => viewModel.onLoadNextPeriod(),
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: Margins.spacing_x_huge),
+                  child: _LoadMoreButton(
+                    label: 'Afficher les semaines suivantes',
+                    onPressed: () => viewModel.onLoadNextPeriod(),
+                  ),
                 );
               }
-              return presentAndFutureItems[index].toWidget();
+              return Padding(
+                padding: EdgeInsets.only(top: index == 0 ? Margins.spacing_base : 0),
+                child: presentAndFutureItems[index].toWidget(),
+              );
             },
           ),
         ],
