@@ -440,8 +440,6 @@ class _DemarcheAgendaItem extends StatelessWidget {
 }
 
 class _AgendaLoading extends StatelessWidget {
-  const _AgendaLoading();
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
