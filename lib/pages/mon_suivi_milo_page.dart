@@ -15,6 +15,8 @@ import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
+final centerKey = GlobalKey();
+
 class MonSuiviMiloPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -53,50 +55,58 @@ class _Body extends StatelessWidget {
       duration: AnimationDurations.fast,
       child: switch (viewModel.displayState) {
         DisplayState.FAILURE => Center(child: Retry(Strings.monSuiviError, () => viewModel.onRetry())),
-        DisplayState.CONTENT => _Content(viewModel),
+        DisplayState.CONTENT => _TodayAnchoredMonSuiviList(viewModel),
         _ => Center(child: CircularProgressIndicator()),
       },
     );
   }
 }
 
-class _Content extends StatelessWidget {
+class _TodayAnchoredMonSuiviList extends StatelessWidget {
   final MonSuiviViewModel viewModel;
+  final List<MonSuiviItem> pastItems;
+  final List<MonSuiviItem> presentAndFutureItems;
 
-  const _Content(this.viewModel);
+  _TodayAnchoredMonSuiviList(this.viewModel)
+      : pastItems = viewModel.items.sublist(0, viewModel.indexOfTodayItem).reversed.toList(),
+        presentAndFutureItems = viewModel.items.sublist(viewModel.indexOfTodayItem);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(
-        Margins.spacing_base,
-        Margins.spacing_base,
-        Margins.spacing_base,
-        Margins.spacing_x_huge,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: CustomScrollView(
+        center: centerKey,
+        slivers: [
+          SliverList.separated(
+            separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
+            itemCount: pastItems.length + 1,
+            itemBuilder: (context, index) {
+              if (index == pastItems.length) {
+                return _LoadMoreButton(
+                  label: 'Afficher les semaines précédentes',
+                  onPressed: () => viewModel.onLoadPreviousPeriod(),
+                );
+              }
+              return pastItems[index].toWidget();
+            },
+          ),
+          SliverList.separated(
+            key: centerKey,
+            separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
+            itemCount: presentAndFutureItems.length + 1,
+            itemBuilder: (context, index) {
+              if (index == presentAndFutureItems.length) {
+                return _LoadMoreButton(
+                  label: 'Afficher les semaines suivantes',
+                  onPressed: () => viewModel.onLoadNextPeriod(),
+                );
+              }
+              return presentAndFutureItems[index].toWidget();
+            },
+          ),
+        ],
       ),
-      separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
-      itemCount: viewModel.items.length + 2,
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return _LoadMoreButton(
-            key: ValueKey('previous-${viewModel.items.length}'),
-            label: 'Afficher les semaines précédentes',
-            onPressed: () => viewModel.onLoadPreviousPeriod(),
-          );
-        }
-        if (index == viewModel.items.length + 1) {
-          return _LoadMoreButton(
-            key: ValueKey('next-${viewModel.items.length}'),
-            label: 'Afficher les semaines suivantes',
-            onPressed: () => viewModel.onLoadNextPeriod(),
-          );
-        }
-        return switch (viewModel.items[index - 1]) {
-          final SemaineSectionMonSuiviItem item => _SemaineSectionItem(item.interval, item.boldTitle),
-          final EmptyDayMonSuiviItem item => _EmptyDayItem(item.day),
-          final DayMonSuiviItem item => _DayItem(item.day, item.entries),
-        };
-      },
     );
   }
 }
@@ -194,7 +204,7 @@ class _LoadMoreButton extends StatefulWidget {
   final String label;
   final VoidCallback onPressed;
 
-  const _LoadMoreButton({super.key, required this.label, required this.onPressed});
+  const _LoadMoreButton({required this.label, required this.onPressed});
 
   @override
   State<_LoadMoreButton> createState() => _LoadMoreButtonState();
@@ -227,5 +237,15 @@ class _LoadMoreButtonState extends State<_LoadMoreButton> {
         ),
       ),
     );
+  }
+}
+
+extension on MonSuiviItem {
+  Widget toWidget() {
+    return switch (this) {
+      final SemaineSectionMonSuiviItem item => _SemaineSectionItem(item.interval, item.boldTitle),
+      final EmptyDayMonSuiviItem item => _EmptyDayItem(item.day),
+      final FilledDayMonSuiviItem item => _DayItem(item.day, item.entries),
+    };
   }
 }
