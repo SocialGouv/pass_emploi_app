@@ -75,7 +75,7 @@ class _Content extends StatelessWidget {
         Margins.spacing_x_huge,
       ),
       separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
-      itemCount: viewModel.items.length + 1,
+      itemCount: viewModel.items.length + 2,
       itemBuilder: (context, index) {
         if (index == 0) {
           return _LoadMoreButton(
@@ -84,14 +84,14 @@ class _Content extends StatelessWidget {
             onPressed: () => viewModel.onLoadPreviousPeriod(),
           );
         }
-        if (index == viewModel.items.length) {
+        if (index == viewModel.items.length + 1) {
           return _LoadMoreButton(
             key: ValueKey('next-${viewModel.items.length}'),
             label: 'Afficher les semaines suivantes',
             onPressed: () => viewModel.onLoadNextPeriod(),
           );
         }
-        return switch (viewModel.items[index]) {
+        return switch (viewModel.items[index - 1]) {
           final SemaineSectionMonSuiviItem item => _SemaineSectionItem(item.interval, item.boldTitle),
           final EmptyDayMonSuiviItem item => _EmptyDayItem(item.day),
           final DayMonSuiviItem item => _DayItem(item.day, item.entries),
