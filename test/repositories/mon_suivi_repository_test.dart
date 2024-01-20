@@ -12,12 +12,10 @@ void main() {
     sut.givenRepository((client) => MonSuiviRepository(client));
 
     group('get', () {
-      sut.when(
-            (repository) => repository.getMonSuivi('user-id', Interval(DateTime(2024, 1), DateTime(2024, 2))),
-      );
+      sut.when((repository) => repository.getMonSuivi('user-id', Interval(DateTime(2024, 1), DateTime(2024, 2))));
 
       group('when response is valid', () {
-        sut.givenJsonResponse(fromJson: "agenda_mission_locale.json");
+        sut.givenJsonResponse(fromJson: "mon_suivi_mission_locale.json");
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
