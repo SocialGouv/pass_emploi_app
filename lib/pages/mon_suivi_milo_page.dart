@@ -76,6 +76,8 @@ class _TodayAnchoredMonSuiviList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool loadingPreviousPeriod = false;
+    bool loadingNextPeriod = false;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: CustomScrollView(
@@ -85,6 +87,10 @@ class _TodayAnchoredMonSuiviList extends StatelessWidget {
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: pastItems.length + 1,
             itemBuilder: (context, index) {
+              if (index > pastItems.length - 2 && !loadingPreviousPeriod) {
+                viewModel.onLoadPreviousPeriod();
+                loadingPreviousPeriod = true;
+              }
               if (index == pastItems.length) {
                 return Padding(
                   padding: const EdgeInsets.only(top: Margins.spacing_base),
@@ -99,6 +105,10 @@ class _TodayAnchoredMonSuiviList extends StatelessWidget {
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: presentAndFutureItems.length + 1,
             itemBuilder: (context, index) {
+              if (index > presentAndFutureItems.length - 2 && !loadingNextPeriod) {
+                viewModel.onLoadNextPeriod();
+                loadingNextPeriod = true;
+              }
               if (index == presentAndFutureItems.length) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: Margins.spacing_base),
