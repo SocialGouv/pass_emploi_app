@@ -150,6 +150,30 @@ void main() {
     });
   });
 
+  group('withCreateButton', () {
+    test('when state is success return true', () {
+      // Given
+      final store = givenState().monSuivi().store();
+
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
+
+      // Then
+      expect(viewModel.withCreateButton, isTrue);
+    });
+
+    test('otherwise return false', () {
+      // Given
+      final store = givenState().store();
+
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
+
+      // Then
+      expect(viewModel.withCreateButton, isFalse);
+    });
+  });
+
   test('onRetry', () {
     // Given
     final store = StoreSpy();

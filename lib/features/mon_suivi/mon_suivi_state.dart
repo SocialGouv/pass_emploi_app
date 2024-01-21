@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 
 sealed class MonSuiviState extends Equatable {
   @override
@@ -21,4 +22,15 @@ class MonSuiviSuccessState extends MonSuiviState {
 
   @override
   List<Object?> get props => [interval, monSuivi];
+
+  MonSuiviSuccessState withUpdatedActions(List<UserAction> actions) {
+    return MonSuiviSuccessState(
+      interval,
+      MonSuivi(
+        actions: actions,
+        rendezvous: monSuivi.rendezvous,
+        sessionsMilo: monSuivi.sessionsMilo,
+      ),
+    );
+  }
 }

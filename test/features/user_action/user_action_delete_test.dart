@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
@@ -33,16 +33,16 @@ void main() {
     expect(successAppState.userActionDeleteState is UserActionDeleteSuccessState, isTrue);
   });
 
-  test("delete user action when repo succeeds should locally remove action from UserActionListState and AgendaState",
+  test("delete user action when repo succeeds should locally remove action from UserActionListState and MonSuiviState",
       () async {
     // Given
-        final actions = [mockNotStartedAction(actionId: "1"), mockNotStartedAction(actionId: "2")];
+    final actions = [mockNotStartedAction(actionId: "1"), mockNotStartedAction(actionId: "2")];
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.userActionRepository = PageActionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(
       initialState: givenState() //
           .loggedInUser() //
-          .agenda(actions: actions) //
+          .monSuivi(monSuivi: mockMonSuivi(actions: actions))
           .withActions(actions),
     );
     final displayedLoading = store.onChange.any((e) => e.userActionDeleteState is UserActionDeleteLoadingState);
@@ -56,8 +56,8 @@ void main() {
     final successAppState = await success;
     expect(successAppState.userActionListState is UserActionListSuccessState, isTrue);
     expect((successAppState.userActionListState as UserActionListSuccessState).userActions.length, 1);
-    expect(successAppState.agendaState is AgendaSuccessState, isTrue);
-    expect((successAppState.agendaState as AgendaSuccessState).agenda.actions.length, 1);
+    expect(successAppState.monSuiviState is MonSuiviSuccessState, isTrue);
+    expect((successAppState.monSuiviState as MonSuiviSuccessState).monSuivi.actions.length, 1);
   });
 
   test("delete user action when repo fails should display loading and keep user action", () async {

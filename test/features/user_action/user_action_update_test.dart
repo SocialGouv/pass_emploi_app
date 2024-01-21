@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
@@ -111,12 +111,12 @@ void main() {
     );
   });
 
-  group("an edited action contained in user action list but not in agenda", () {
+  group("an edited action contained in user action list but not in mon suivi", () {
     final actions = [mockNotStartedAction(actionId: "3")];
 
     final state = givenState() //
         .loggedInUser() //
-        .agenda() //
+        .monSuivi() //
         .withActions(actions);
 
     final testStoreFactory = TestStoreFactory();
@@ -160,16 +160,16 @@ void main() {
       expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
     });
 
-    test("should keep the same agenda state", () async {
-      final successAppState = store.onChange.firstWhere((e) => e.agendaState is AgendaSuccessState);
+    test("should keep the same mon suivi state", () async {
+      final successAppState = store.onChange.firstWhere((e) => e.monSuiviState is MonSuiviSuccessState);
 
       // When
       whenUpdatingAction();
 
       // Then
       final appState = await successAppState;
-      expectTypeThen<AgendaSuccessState>(appState.agendaState, (agendaState) {
-        expect(agendaState.agenda.actions.isEmpty, true);
+      expectTypeThen<MonSuiviSuccessState>(appState.monSuiviState, (monSuiviState) {
+        expect(monSuiviState.monSuivi.actions.isEmpty, true);
       });
     });
   });
@@ -184,7 +184,7 @@ void main() {
 
     final state = givenState() //
         .loggedInUser()
-        .agenda(actions: actions) //
+        .monSuivi(monSuivi: mockMonSuivi(actions: actions))
         .withActions(actions);
 
     final testStoreFactory = TestStoreFactory();
@@ -228,17 +228,17 @@ void main() {
       expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
     });
 
-    test("on agenda state", () async {
-      final successAppState = store.onChange.firstWhere((e) => e.agendaState is AgendaSuccessState);
+    test("on mon suivi state", () async {
+      final successAppState = store.onChange.firstWhere((e) => e.monSuiviState is MonSuiviSuccessState);
 
       // When
       whenUpdatingAction();
 
       // Then
       final appState = await successAppState;
-      expectTypeThen<AgendaSuccessState>(appState.agendaState, (agendaState) {
-        expect(agendaState.agenda.actions[0].id, "3");
-        expect(agendaState.agenda.actions[0].status, UserActionStatus.DONE);
+      expectTypeThen<MonSuiviSuccessState>(appState.monSuiviState, (monSuiviState) {
+        expect(monSuiviState.monSuivi.actions[0].id, "3");
+        expect(monSuiviState.monSuivi.actions[0].status, UserActionStatus.DONE);
       });
     });
   });

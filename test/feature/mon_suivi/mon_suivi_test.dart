@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
 
 import '../../doubles/fixtures.dart';
@@ -146,6 +147,28 @@ void main() {
         });
       });
     });
+
+    group("when user action is successfully created and mon suivi state is success", () {
+      sut.whenDispatchingAction(() => UserActionCreateSuccessAction('id'));
+
+      test('should re-fetch mon suivi', () {
+        withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+          when(() => repository.getMonSuivi('id', currentPeriodInterval)).thenAnswer((_) async => currentPeriodSuivi);
+
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .monSuivi(interval: currentPeriodInterval, monSuivi: currentPeriodSuivi)
+              .store((f) => {f.monSuiviRepository = repository});
+
+          sut.thenExpectChangingStatesThroughOrder([
+            _shouldSucceedForCurrentPeriod(),
+            _shouldReset(),
+            _shouldLoad(),
+            _shouldSucceedForCurrentPeriod(),
+          ]);
+        });
+      });
+    });
   });
 }
 
@@ -153,9 +176,11 @@ Matcher _shouldLoad() => StateIs<MonSuiviLoadingState>((state) => state.monSuivi
 
 Matcher _shouldFail() => StateIs<MonSuiviFailureState>((state) => state.monSuiviState);
 
+Matcher _shouldReset() => StateIs<MonSuiviNotInitializedState>((state) => state.monSuiviState);
+
 Matcher _shouldSucceedForCurrentPeriod() {
   return StateIs<MonSuiviSuccessState>(
-        (state) => state.monSuiviState,
+    (state) => state.monSuiviState,
     (state) => expect(state, MonSuiviSuccessState(currentPeriodInterval, currentPeriodSuivi)),
   );
 }
