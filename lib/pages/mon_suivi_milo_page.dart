@@ -243,19 +243,16 @@ class _UserActionMonSuiviItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: UserActionCard(
-        userActionId: entry.id,
-        stateSource: UserActionStateSource.monSuivi,
-        onTap: () {
-          context.trackEvent(EventType.ACTION_DETAIL);
-          Navigator.push(
-            context,
-            UserActionDetailPage.materialPageRoute(entry.id, UserActionStateSource.monSuivi),
-          );
-        },
-      ),
+    return UserActionCard(
+      userActionId: entry.id,
+      stateSource: UserActionStateSource.monSuivi,
+      onTap: () {
+        context.trackEvent(EventType.ACTION_DETAIL);
+        Navigator.push(
+          context,
+          UserActionDetailPage.materialPageRoute(entry.id, UserActionStateSource.monSuivi),
+        );
+      },
     );
   }
 }
@@ -267,13 +264,10 @@ class _RendezvousMonSuiviItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: entry.id.rendezvousCard(
-        context: context,
-        stateSource: RendezvousStateSource.monSuivi,
-        trackedEvent: EventType.RDV_DETAIL,
-      ),
+    return entry.id.rendezvousCard(
+      context: context,
+      stateSource: RendezvousStateSource.monSuivi,
+      trackedEvent: EventType.RDV_DETAIL,
     );
   }
 }
@@ -285,13 +279,10 @@ class _SessionMiloMonSuiviItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: entry.id.rendezvousCard(
-        context: context,
-        stateSource: RendezvousStateSource.monSuiviSessionMilo,
-        trackedEvent: EventType.RDV_DETAIL,
-      ),
+    return entry.id.rendezvousCard(
+      context: context,
+      stateSource: RendezvousStateSource.monSuiviSessionMilo,
+      trackedEvent: EventType.RDV_DETAIL,
     );
   }
 }
