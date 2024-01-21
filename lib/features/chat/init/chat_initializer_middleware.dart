@@ -22,12 +22,17 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
   DateTime lastTry = DateTime.now();
 
   ChatInitializerMiddleware(
-      this._repository, this._firebaseAuthWrapper, this._chatCrypto, this._demoRepository, this._cryptoStorage);
+    this._repository,
+    this._firebaseAuthWrapper,
+    this._chatCrypto,
+    this._demoRepository,
+    this._cryptoStorage,
+  );
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     final loginState = store.state.loginState;
-    if (!_demoRepository.getModeDemo()) {
+    if (!_demoRepository.isModeDemo()) {
       await _handleChatInitialization(action, loginState, store, next);
     } else {
       next(action);
