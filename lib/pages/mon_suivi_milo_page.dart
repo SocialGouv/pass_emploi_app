@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi/mon_suivi_view_model.dart';
@@ -11,11 +12,13 @@ import 'package:pass_emploi_app/presentation/user_action/user_action_state_sourc
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
@@ -32,7 +35,7 @@ class MonSuiviMiloPage extends StatelessWidget {
     return StoreConnector<AppState, MonSuiviViewModel>(
       onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
       converter: (store) => MonSuiviViewModel.create(store),
-      builder: (context, viewModel) => _Scaffold(_Body(viewModel)),
+      builder: (context, viewModel) => _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
       onDispose: (store) => store.dispatch(MonSuiviResetAction()),
       distinct: true,
     );
@@ -41,8 +44,9 @@ class MonSuiviMiloPage extends StatelessWidget {
 
 class _Scaffold extends StatelessWidget {
   final Widget body;
+  final bool withCreateButton;
 
-  const _Scaffold(this.body);
+  const _Scaffold({required this.body, required this.withCreateButton});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +54,18 @@ class _Scaffold extends StatelessWidget {
       backgroundColor: AppColors.grey100,
       appBar: PrimaryAppBar(title: Strings.monSuiviAppBarTitle),
       body: ConnectivityContainer(child: body),
+      floatingActionButton: withCreateButton
+          ? PrimaryActionButton(
+              label: Strings.addAnAction,
+              icon: AppIcons.add_rounded,
+              rippleColor: AppColors.primaryDarken,
+              onPressed: () => CreateUserActionFormPage.pushUserActionCreationTunnel(
+                context,
+                UserActionStateSource.monSuivi,
+              ),
+            )
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

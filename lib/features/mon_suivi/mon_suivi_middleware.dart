@@ -1,6 +1,7 @@
 import 'package:clock/clock.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
@@ -26,6 +27,10 @@ class MonSuiviMiddleware extends MiddlewareClass<AppState> {
       } else if (action.period.isCurrent) {
         store.dispatch(MonSuiviFailureAction());
       }
+    }
+    if (_needUpdatingMonSuivi(store, action)) {
+      store.dispatch(MonSuiviResetAction());
+      store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current));
     }
   }
 }
@@ -54,4 +59,8 @@ Interval _getNextPeriodInterval(Store<AppState> store) {
     final MonSuiviSuccessState state => state.interval.toNext4Weeks(),
     _ => throw Exception("Cannot get next period if current period is not loaded"),
   };
+}
+
+bool _needUpdatingMonSuivi(Store<AppState> store, dynamic action) {
+  return action is UserActionCreateSuccessAction && store.state.monSuiviState is MonSuiviSuccessState;
 }
