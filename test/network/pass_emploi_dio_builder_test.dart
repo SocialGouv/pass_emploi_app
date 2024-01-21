@@ -103,7 +103,7 @@ class MockCacheStore extends Mock implements CacheStore {
 
 class MockModeDemoRepository extends Mock implements ModeDemoRepository {
   MockModeDemoRepository() {
-    when(() => getModeDemo()).thenReturn(false);
+    when(() => isModeDemo()).thenReturn(false);
   }
 }
 
