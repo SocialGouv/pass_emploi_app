@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_view_model_helper.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_store_extension.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -113,8 +113,8 @@ class RendezvousDetailsViewModel extends Equatable {
       displayState: DisplayState.CONTENT,
       navbarTitle: _navbarTitle(source, rdv),
       id: rdv.id,
-      tag: takeTypeLabelOrPrecision(rdv),
-      greenTag: isRendezvousGreenTag(rdv),
+      tag: _takeTypeLabelOrPrecision(rdv),
+      greenTag: _isRendezvousGreenTag(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: _hourAndDuration(rdv),
       modality: _modality(rdv),
@@ -238,11 +238,7 @@ String? _withDateDerniereMiseAJour(DateTime? dateDerniereMiseAJour) {
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
 
 Rendezvous? _getRendezvous(Store<AppState> store, RendezvousStateSource source, String rdvId) {
-  if (_shouldGetRendezvous(source, store)) {
-    return getRendezvous(store, source, rdvId);
-  } else {
-    return null;
-  }
+  return _shouldGetRendezvous(source, store) ? store.getRendezvous(source, rdvId) : null;
 }
 
 bool _shouldGetRendezvous(RendezvousStateSource source, Store<AppState> store) {
@@ -271,6 +267,15 @@ bool _shouldDisplayConseillerPresence(Rendezvous rdv) {
 
 String? _address(Rendezvous rdv) {
   return _shouldHidePresentielInformation(rdv) ? null : rdv.address;
+}
+
+String _takeTypeLabelOrPrecision(Rendezvous rdv) {
+  return (rdv.type.code == RendezvousTypeCode.AUTRE && rdv.precision != null) ? rdv.precision! : rdv.type.label;
+}
+
+bool _isRendezvousGreenTag(Rendezvous rdv) {
+  final tag = _takeTypeLabelOrPrecision(rdv);
+  return tag == Strings.individualInterview || tag == Strings.publicInfo;
 }
 
 String _hourAndDuration(Rendezvous rdv) {

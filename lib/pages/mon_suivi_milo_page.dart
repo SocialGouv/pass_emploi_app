@@ -1,16 +1,23 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi/mon_suivi_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
-import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
+import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -151,25 +158,23 @@ class _SemaineSectionItem extends StatelessWidget {
   }
 }
 
-class _DayItem extends StatelessWidget {
+class _FilledDayItem extends StatelessWidget {
   final MonSuiviDay day;
   final List<MonSuiviEntry> entries;
 
-  const _DayItem(this.day, this.entries);
+  const _FilledDayItem(this.day, this.entries);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        _Day(day),
-        const SizedBox(width: Margins.spacing_base),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: entries.map((entry) => Text(entry.toString())).toList(),
-          ),
-        ),
-      ],
+    return _DayRow(
+      day: day,
+      child: Column(
+        children: entries //
+            .map((entry) => [entry.toWidget(), SizedBox(height: Margins.spacing_s)])
+            .flattened
+            .toList()
+          ..removeLast(),
+      ),
     );
   }
 }
@@ -181,19 +186,34 @@ class _EmptyDayItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _DayRow(
+      day: day,
+      child: Expanded(
+        flex: 9,
+        child: DashedBox(
+          padding: const EdgeInsets.all(Margins.spacing_base),
+          color: AppColors.disabled,
+          child: Text(Strings.monSuiviEmptyDay, style: TextStyles.textXsMedium(color: AppColors.disabled)),
+        ),
+      ),
+    );
+  }
+}
+
+class _DayRow extends StatelessWidget {
+  final MonSuiviDay day;
+  final Widget child;
+
+  const _DayRow({required this.day, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(child: _Day(day)),
         const SizedBox(width: Margins.spacing_base),
-        Expanded(
-          flex: 9,
-          child: DashedBox(
-            padding: const EdgeInsets.all(Margins.spacing_base),
-            color: AppColors.disabled,
-            child: Text(Strings.monSuiviEmptyDay, style: TextStyles.textXsMedium(color: AppColors.disabled)),
-          ),
-        ),
+        Expanded(flex: 9, child: child),
       ],
     );
   }
@@ -216,41 +236,61 @@ class _Day extends StatelessWidget {
   }
 }
 
-class _LoadMoreButton extends StatefulWidget {
-  final String label;
-  final VoidCallback onPressed;
+class _UserActionMonSuiviItem extends StatelessWidget {
+  final UserActionMonSuiviEntry entry;
 
-  const _LoadMoreButton({required this.label, required this.onPressed});
-
-  @override
-  State<_LoadMoreButton> createState() => _LoadMoreButtonState();
-}
-
-class _LoadMoreButtonState extends State<_LoadMoreButton> {
-  CrossFadeState crossFadeState = CrossFadeState.showFirst;
+  const _UserActionMonSuiviItem(this.entry);
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedCrossFade(
-      key: widget.key,
-      crossFadeState: crossFadeState,
-      sizeCurve: Curves.ease,
-      duration: Duration(milliseconds: 200),
-      firstChild: SizedBox(
-        width: double.infinity,
-        child: SecondaryButton(
-          label: widget.label,
-          onPressed: () {
-            widget.onPressed();
-            setState(() => crossFadeState = CrossFadeState.showSecond);
-          },
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      child: UserActionCard(
+        userActionId: entry.id,
+        stateSource: UserActionStateSource.monSuivi,
+        onTap: () {
+          context.trackEvent(EventType.ACTION_DETAIL);
+          Navigator.push(
+            context,
+            UserActionDetailPage.materialPageRoute(entry.id, UserActionStateSource.monSuivi),
+          );
+        },
       ),
-      secondChild: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(Margins.spacing_base),
-          child: CircularProgressIndicator(),
-        ),
+    );
+  }
+}
+
+class _RendezvousMonSuiviItem extends StatelessWidget {
+  final RendezvousMonSuiviEntry entry;
+
+  const _RendezvousMonSuiviItem(this.entry);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      child: entry.id.rendezvousCard(
+        context: context,
+        stateSource: RendezvousStateSource.monSuivi,
+        trackedEvent: EventType.RDV_DETAIL,
+      ),
+    );
+  }
+}
+
+class _SessionMiloMonSuiviItem extends StatelessWidget {
+  final SessionMiloMonSuiviEntry entry;
+
+  const _SessionMiloMonSuiviItem(this.entry);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      child: entry.id.rendezvousCard(
+        context: context,
+        stateSource: RendezvousStateSource.monSuiviSessionMilo,
+        trackedEvent: EventType.RDV_DETAIL,
       ),
     );
   }
@@ -325,7 +365,17 @@ extension on MonSuiviItem {
     return switch (this) {
       final SemaineSectionMonSuiviItem item => _SemaineSectionItem(item.interval, item.boldTitle),
       final EmptyDayMonSuiviItem item => _EmptyDayItem(item.day),
-      final FilledDayMonSuiviItem item => _DayItem(item.day, item.entries),
+      final FilledDayMonSuiviItem item => _FilledDayItem(item.day, item.entries),
+    };
+  }
+}
+
+extension on MonSuiviEntry {
+  Widget toWidget() {
+    return switch (this) {
+      final UserActionMonSuiviEntry entry => _UserActionMonSuiviItem(entry),
+      final RendezvousMonSuiviEntry entry => _RendezvousMonSuiviItem(entry),
+      final SessionMiloMonSuiviEntry entry => _SessionMiloMonSuiviItem(entry),
     };
   }
 }
