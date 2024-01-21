@@ -1,10 +1,7 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
-import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
@@ -12,6 +9,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step1.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_store_extension.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
@@ -66,7 +64,7 @@ class UserActionDetailsViewModel extends Equatable {
   });
 
   factory UserActionDetailsViewModel.create(Store<AppState> store, UserActionStateSource source, String userActionId) {
-    final userAction = _getAction(store, source, userActionId);
+    final userAction = store.getAction(source, userActionId);
     final updateState = store.state.userActionUpdateState;
     final deleteState = store.state.userActionDeleteState;
 
@@ -175,17 +173,6 @@ bool _withUpdateButton(UserAction? userAction) {
 String _category(UserAction? action) => action?.type?.label ?? Strings.userActionNoCategory;
 
 String _date(UserAction? action) => action?.dateEcheance.toDayWithFullMonth() ?? '';
-
-UserAction? _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
-  switch (stateSource) {
-    case UserActionStateSource.agenda:
-      final state = store.state.agendaState as AgendaSuccessState;
-      return state.agenda.actions.firstWhereOrNull((e) => e.id == actionId);
-    case UserActionStateSource.list:
-      final state = store.state.userActionListState as UserActionListSuccessState;
-      return state.userActions.firstWhereOrNull((e) => e.id == actionId);
-  }
-}
 
 DeleteDisplayState _deleteStateDisplayState(UserActionDeleteState state) {
   if (state is UserActionDeleteSuccessState) {

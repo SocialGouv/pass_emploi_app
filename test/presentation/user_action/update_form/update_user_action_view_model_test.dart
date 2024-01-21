@@ -26,12 +26,12 @@ void main() {
     expect(viewModel, isNotNull);
   });
 
-  test('create should work when state source is agenda', () {
+  test('create should work when state source is mon suivi', () {
     // Given
-    final store = givenState().agenda(actions: [mockUserAction(id: 'id')]).store();
+    final store = givenState().monSuivi(monSuivi: mockMonSuivi(actions: [mockUserAction(id: 'id')])).store();
 
     // When
-    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.agenda, 'id');
+    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.monSuivi, 'id');
 
     // Then
     expect(viewModel, isNotNull);
@@ -39,10 +39,10 @@ void main() {
 
   test('create should work when no action is found to handle the case where user delete the action', () {
     // Given
-    final store = givenState().agenda(actions: []).store();
+    final store = givenState().monSuivi().store();
 
     // When
-    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.agenda, 'id');
+    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.monSuivi, 'id');
 
     // Then
     expect(viewModel, isNotNull);

@@ -85,7 +85,7 @@ class _Scaffold extends StatelessWidget {
           _CreateButton(
             label: Strings.addAnAction,
             onPressed: () {
-              CreateUserActionFormPage.pushUserActionCreationTunnel(context, UserActionStateSource.agenda);
+              CreateUserActionFormPage.pushUserActionCreationTunnel(context, UserActionStateSource.monSuivi);
             },
           ),
         if (viewModel.createButton == CreateButton.demarche)
@@ -365,12 +365,12 @@ class _UserActionAgendaItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
       child: UserActionCard(
         userActionId: userActionAgendaItem.actionId,
-        stateSource: UserActionStateSource.agenda,
+        stateSource: UserActionStateSource.monSuivi,
         onTap: () {
           context.trackEvent(EventType.ACTION_DETAIL);
           Navigator.push(
             context,
-            UserActionDetailPage.materialPageRoute(userActionAgendaItem.actionId, UserActionStateSource.agenda),
+            UserActionDetailPage.materialPageRoute(userActionAgendaItem.actionId, UserActionStateSource.monSuivi),
           );
         },
       ),
@@ -391,7 +391,6 @@ class _RendezvousAgendaItem extends StatelessWidget {
         context: context,
         stateSource: RendezvousStateSource.agenda,
         trackedEvent: EventType.RDV_DETAIL,
-        simpleCard: rendezvousAgendaItem.collapsed,
       ),
     );
   }
@@ -408,7 +407,7 @@ class _SessionMiloAgendaItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
       child: sessionMiloAgendaItem.sessionId.rendezvousCard(
         context: context,
-        stateSource: RendezvousStateSource.agendaSessionMilo,
+        stateSource: RendezvousStateSource.monSuiviSessionMilo,
         trackedEvent: EventType.RDV_DETAIL,
       ),
     );

@@ -195,16 +195,16 @@ void main() {
     });
   });
 
-  group('UserActionCardViewModel.create when state source is agenda', () {
+  group('UserActionCardViewModel.create when state source is mon suivi', () {
     test("should retrieve action from agenda and create view model properly", () {
       // Given
       final action = mockUserAction(id: '1', content: 'content');
-      final store = givenState().agenda(actions: [action]).store();
+      final store = givenState().monSuivi(monSuivi: mockMonSuivi(actions: [action])).store();
 
       // When
       final viewModel = UserActionCardViewModel.create(
         store: store,
-        stateSource: UserActionStateSource.agenda,
+        stateSource: UserActionStateSource.monSuivi,
         actionId: '1',
       );
 

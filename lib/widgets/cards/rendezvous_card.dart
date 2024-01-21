@@ -16,20 +16,18 @@ import 'package:redux/redux.dart';
 class RendezvousCard extends StatelessWidget {
   final RendezvousCardViewModel Function(Store<AppState>) converter;
   final VoidCallback onTap;
-  final bool simpleCard;
 
   const RendezvousCard({
     super.key,
     required this.converter,
     required this.onTap,
-    this.simpleCard = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousCardViewModel>(
       converter: converter,
-      builder: (context, viewModel) => _Content(viewModel, onTap, simpleCard),
+      builder: (context, viewModel) => _Content(viewModel, onTap),
     );
   }
 }
@@ -37,9 +35,8 @@ class RendezvousCard extends StatelessWidget {
 class _Content extends StatelessWidget {
   final RendezvousCardViewModel viewModel;
   final VoidCallback onTap;
-  final bool simpleCard;
 
-  const _Content(this.viewModel, this.onTap, this.simpleCard);
+  const _Content(this.viewModel, this.onTap);
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +69,9 @@ extension RendezvousCardFromId on String {
     required BuildContext context,
     required RendezvousStateSource stateSource,
     required EventType trackedEvent,
-    bool simpleCard = false,
   }) {
     return RendezvousCard(
       converter: (store) => RendezvousCardViewModel.create(store, stateSource, this),
-      simpleCard: simpleCard,
       onTap: () {
         context.trackEvent(trackedEvent);
         Navigator.push(
@@ -89,18 +84,19 @@ extension RendezvousCardFromId on String {
 }
 
 RendezvousStateSource _stateSource(RendezvousStateSource stateSource) {
-  // Pourquoi un switch ? Pour être sûr (compliation) de ne pas oublier un futur cas ajouté.
+  // Pourquoi un switch ? Pour être sûr (compilation) de ne pas oublier un futur cas ajouté.
   return switch (stateSource) {
     RendezvousStateSource.eventListSessionsMilo ||
     RendezvousStateSource.accueilProchaineSession ||
     RendezvousStateSource.accueilLesEvenementsSession ||
-    RendezvousStateSource.agendaSessionMilo ||
+    RendezvousStateSource.monSuiviSessionMilo ||
     RendezvousStateSource.rendezvousListSession ||
     RendezvousStateSource.sessionMiloDetails =>
       RendezvousStateSource.sessionMiloDetails,
     RendezvousStateSource.noSource ||
     RendezvousStateSource.accueilProchainRendezvous ||
     RendezvousStateSource.agenda ||
+    RendezvousStateSource.monSuivi ||
     RendezvousStateSource.eventListAnimationsCollectives ||
     RendezvousStateSource.accueilLesEvenements ||
     RendezvousStateSource.rendezvousList =>

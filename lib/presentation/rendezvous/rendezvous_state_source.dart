@@ -4,13 +4,14 @@ enum RendezvousStateSource {
   accueilLesEvenements,
   accueilLesEvenementsSession,
   agenda,
+  monSuivi,
   rendezvousList,
   rendezvousListSession,
   eventListAnimationsCollectives,
   eventListSessionsMilo,
   sessionMiloDetails,
   accueilProchaineSession,
-  agendaSessionMilo,
+  monSuiviSessionMilo,
 }
 
 extension RendezvousStateSourceExt on RendezvousStateSource {

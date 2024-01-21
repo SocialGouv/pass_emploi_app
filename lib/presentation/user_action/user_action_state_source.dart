@@ -1,1 +1,1 @@
-enum UserActionStateSource { agenda, list }
+enum UserActionStateSource { monSuivi, list }
