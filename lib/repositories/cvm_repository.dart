@@ -9,6 +9,7 @@ abstract class CvmRepository {
   Future<void> stopListenMessages();
   Future<bool> sendMessage(String message);
   Future<void> loadMore();
+  Future<void> logout();
   Stream<List<CvmEvent>> getMessages();
 }
 
@@ -125,6 +126,17 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('stopListenMessages');
       print("CVM STOP LISTEN MESSAGES SUCCESS");
+    } on PlatformException catch (e, s) {
+      _crashlytics?.recordCvmException(e, s);
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    _aggregator.reset();
+    try {
+      await MethodChannel(_cvmMethodChannel).invokeMethod('logout');
+      print("CVM LOGOUT SUCCESS");
     } on PlatformException catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
