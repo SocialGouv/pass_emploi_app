@@ -50,7 +50,7 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('initializeCvm');
       print("CVM INITIALIZATION SUCCESS");
-    } on PlatformException catch (e, s) {
+    } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
   }
@@ -68,7 +68,7 @@ class CvmRepositoryImpl implements CvmRepository {
       }
 
       return await _startListenMessages();
-    } on PlatformException catch (e, s) {
+    } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -82,7 +82,7 @@ class CvmRepositoryImpl implements CvmRepository {
           await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('login', {'token': token, 'ex160': ex160}) ?? false;
       print("CVM LOGIN SUCCESS: $success");
       return success;
-    } on PlatformException catch (e, s) {
+    } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -93,7 +93,7 @@ class CvmRepositoryImpl implements CvmRepository {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('joinFirstRoom') ?? false;
       print("CVM JOIN ROOM SUCCESS: $success");
       return success;
-    } on PlatformException catch (e, s) {
+    } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -104,7 +104,7 @@ class CvmRepositoryImpl implements CvmRepository {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenRoom') ?? false;
       print("CVM LISTEN ROOM SUCCESS: $success");
       return success;
-    } on PlatformException catch (e, s) {
+    } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -115,7 +115,7 @@ class CvmRepositoryImpl implements CvmRepository {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenMessages') ?? false;
       print("CVM START LISTEN MESSAGES SUCCESS: $success");
       return success;
-    } on PlatformException catch (e, s) {
+    } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -126,7 +126,7 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('stopListenMessages');
       print("CVM STOP LISTEN MESSAGES SUCCESS");
-    } on PlatformException catch (e, s) {
+    } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
   }
@@ -137,7 +137,7 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('logout');
       print("CVM LOGOUT SUCCESS");
-    } on PlatformException catch (e, s) {
+    } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
   }
@@ -153,7 +153,7 @@ class CvmRepositoryImpl implements CvmRepository {
         _aggregator.addEvents(cvmEvents);
         return _aggregator.getEvents();
       });
-    } on PlatformException catch (e, s) {
+    } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
       return Stream.empty();
     }
@@ -166,7 +166,7 @@ class CvmRepositoryImpl implements CvmRepository {
           await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('sendMessage', {'message': message}) ?? false;
       print("CVM SEND MESSAGE SUCCESS: $success");
       return success;
-    } on PlatformException catch (e, s) {
+    } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -177,7 +177,7 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('loadMore');
       print("CVM LOAD MORE SUCCESS");
-    } on PlatformException catch (e, s) {
+    } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
   }
