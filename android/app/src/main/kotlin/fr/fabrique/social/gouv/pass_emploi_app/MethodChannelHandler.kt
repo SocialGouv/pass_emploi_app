@@ -33,6 +33,7 @@ class MethodChannelHandler(
             "stopListenMessages" -> stopListenMessages(result)
             "sendMessage" -> sendMessage(call, result)
             "loadMore" -> loadMore(result)
+            "logout" -> logout(result)
             else -> result.notImplemented()
         }
     }
@@ -102,5 +103,10 @@ class MethodChannelHandler(
         cvmRepository.loadMore { success ->
             result.success(success)
         }
+    }
+
+    private fun logout(result: Result) {
+        cvmRepository.logout()
+        result.success(true)
     }
 }
