@@ -46,6 +46,8 @@ class CvmMethodChannel {
             sendMessage(args: args, result: result)
         case "loadMore":
             loadMore(result: result)
+        case "logout":
+            logout(result: result)
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -108,5 +110,10 @@ class CvmMethodChannel {
         repository.loadMore() {
             result(true)
         }
+    }
+
+    private func logout(result: FlutterResult) {
+        repository.logout()
+        result(true)
     }
 }

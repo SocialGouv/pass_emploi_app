@@ -53,8 +53,6 @@ class CvmRepository {
         if let room = room {
             MatrixManager.sharedInstance.stopMessageListener(room: room)
         }
-        MatrixManager.sharedInstance.stopSession()
-        self.room = nil
     }
     
     func sendMessage(_ message: String, completion: @escaping SuccessCompletion) {
@@ -87,6 +85,11 @@ class CvmRepository {
 
     func stopListenRoom() {
         MatrixManager.sharedInstance.stopRoomListener()
+    }
+
+    func logout() {
+        MatrixManager.sharedInstance.stopSession()
+        self.room = nil
     }
 }
 
