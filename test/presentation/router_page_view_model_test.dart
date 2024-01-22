@@ -56,25 +56,25 @@ void main() {
   });
 
   group("RouterPageViewModel.create when user logged in…", () {
-    test('…and deep link not set should display main page with default display state', () {
+    test('…and deep link not set should display main page with accueil display state', () {
       final store = givenState().loggedInUser().withDeepLink(NotInitializedDeepLinkState()).store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
       expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.DEFAULT);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
-    test('…and deep link is set to rendezvous should display main page with agenda display state', () {
+    test('…and deep link is set to rendezvous should display main page with monSuivi display state', () {
       final store = givenState().loggedInUser().withHandleDeepLink(AgendaDeepLink()).store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
       expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.AGENDA_TAB);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.monSuivi);
     });
 
-    test('…and deep link is set to rendezvous should display main page with rendezvous display state', () {
+    test('…and deep link is set to rendezvous should display main page with accueil display state', () {
       final store = givenState() //
           .loggedInUser()
           .withHandleDeepLink(DetailRendezvousDeepLink(idRendezvous: null))
@@ -83,19 +83,19 @@ void main() {
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
       expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.RENDEZVOUS_TAB);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
-    test('…and deep link is set to Detail Session Milo should display main page with rendezvous display state', () {
+    test('…and deep link is set to Detail Session Milo should display main page with accueil display state', () {
       final store = givenState().loggedInMiloUser().deeplinkToSessionMilo('1').store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
       expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.RENDEZVOUS_TAB);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
-    test('…and deep link is set to actions should display main page with actions display state', () {
+    test('…and deep link is set to actions should display main page with accueil display state', () {
       final store = givenState() //
           .loggedInUser()
           .withHandleDeepLink(DetailActionDeepLink(idAction: null))
@@ -104,34 +104,10 @@ void main() {
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
       expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.ACTIONS_TAB);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
-    test('…and deep link is set to chat should display main page with chat display state', () {
-      final store = givenState() //
-          .loggedInUser()
-          .withHandleDeepLink(NouveauMessageDeepLink())
-          .store();
-
-      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
-
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.CHAT);
-    });
-
-    test('…and deep link is set to event list should display main page with event list display state', () {
-      final store = givenState() //
-          .loggedInUser()
-          .withHandleDeepLink(EventListDeepLink())
-          .store();
-
-      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
-
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.EVENT_LIST);
-    });
-
-    test('…and deep link is set to favoris should display main page with favoris display state', () {
+    test('…and deep link is set to favoris should display main page with accueil display state', () {
       final store = givenState() //
           .loggedInUser()
           .withHandleDeepLink(FavorisDeepLink())
@@ -140,10 +116,10 @@ void main() {
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
       expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.FAVORIS);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
-    test('…and deep link is set to alertes should display main page with alertes display state', () {
+    test('…and deep link is set to alertes should display main page with accueil display state', () {
       final store = givenState() //
           .loggedInUser()
           .withHandleDeepLink(AlertesDeepLink())
@@ -152,7 +128,7 @@ void main() {
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
       expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.ALERTES);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
     test('…and deep link is set to actualisation pole emploi should display main page with actualisation pole emploi',
@@ -164,7 +140,19 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.ACTUALISATION_PE);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.actualisationPoleEmploi);
+    });
+
+    test('…and deep link is set to chat should display main page with chat display state', () {
+      final store = givenState() //
+          .loggedInUser()
+          .withHandleDeepLink(NouveauMessageDeepLink())
+          .store();
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.chat);
     });
 
     test('…and deep link is set to recherche should display main page with recherche', () {
@@ -175,7 +163,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.RECHERCHE);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.solutionsRecherche);
     });
 
     test('…and deep link is set to outils should display main page with outils', () {
@@ -186,10 +174,22 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.OUTILS);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.solutionsOutils);
     });
 
-    test('should show tutorial if user didn`t read it yet', () {
+    test('…and deep link is set to event list should display main page with event list display state', () {
+      final store = givenState() //
+          .loggedInUser()
+          .withHandleDeepLink(EventListDeepLink())
+          .store();
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.evenements);
+    });
+
+    test('should show tutorial if user did not read it yet', () {
       final store = givenState() //
           .loggedInUser()
           .copyWith(tutorialState: ShowTutorialState(Tutorial.milo))

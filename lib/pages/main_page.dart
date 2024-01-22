@@ -10,7 +10,6 @@ import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_evenement_emploi_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
-import 'package:pass_emploi_app/presentation/mon_suivi_tabs_view_model.dart';
 import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -34,7 +33,7 @@ class MainPage extends StatefulWidget {
   final MainPageDisplayState displayState;
   final int deepLinkKey;
 
-  MainPage({this.displayState = MainPageDisplayState.DEFAULT, this.deepLinkKey = 0})
+  MainPage({this.displayState = MainPageDisplayState.accueil, this.deepLinkKey = 0})
       : super(key: ValueKey(displayState.hashCode + deepLinkKey));
 
   @override
@@ -75,7 +74,7 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
     return StoreConnector<AppState, MainPageViewModel>(
       converter: (store) => MainPageViewModel.create(store),
       onInitialBuild: (viewModel) {
-        if (widget.displayState == MainPageDisplayState.ACTUALISATION_PE) {
+        if (widget.displayState == MainPageDisplayState.actualisationPoleEmploi) {
           viewModel.resetDeeplink();
           _showActualisationPeDialog(viewModel.actualisationPoleEmploiUrl);
         }
@@ -128,20 +127,14 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   Widget _content(int index, MainPageViewModel viewModel) {
+    final isMilo = viewModel.loginMode?.isMiLo() == true;
     return switch (viewModel.tabs[index]) {
       MainTab.accueil => AccueilPage(),
-      MainTab.monSuivi => _monSuiviPage(viewModel),
+      MainTab.monSuivi => isMilo ? MonSuiviMiloPage() : MonSuiviTabPage(),
       MainTab.chat => ChatPage(),
       MainTab.solutions => _solutionsPage(viewModel),
-      MainTab.evenements => _evenementsPage(viewModel),
+      MainTab.evenements => isMilo ? EventsTabPage() : RechercheEvenementEmploiPage.withPrimaryAppBar(),
     };
-  }
-
-  Widget _monSuiviPage(MainPageViewModel viewModel) {
-    if (viewModel.loginMode?.isMiLo() == true) return MonSuiviMiloPage();
-    final initialTab = !_deepLinkHandled ? _initialMonSuiviTab() : null;
-    _deepLinkHandled = true;
-    return MonSuiviTabPage(initialTab);
   }
 
   Widget _solutionsPage(MainPageViewModel viewModel) {
@@ -150,60 +143,26 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
     return SolutionsTabPage(initialTab: initialTab);
   }
 
-  Widget _evenementsPage(MainPageViewModel viewModel) {
-    if (viewModel.loginMode?.isMiLo() == true) return EventsTabPage();
-    return RechercheEvenementEmploiPage.withPrimaryAppBar();
-  }
-
-  MonSuiviTab? _initialMonSuiviTab() {
-    switch (widget.displayState) {
-      case MainPageDisplayState.AGENDA_TAB:
-        return MonSuiviTab.AGENDA;
-      case MainPageDisplayState.ACTIONS_TAB:
-        return MonSuiviTab.ACTIONS;
-      case MainPageDisplayState.RENDEZVOUS_TAB:
-        return MonSuiviTab.RENDEZVOUS;
-      default:
-        return null;
-    }
-  }
-
   SolutionsTab? _initialSolutionsTab() {
-    switch (widget.displayState) {
-      case MainPageDisplayState.OUTILS:
-        return SolutionsTab.outils;
-      default:
-        return null;
-    }
+    return switch (widget.displayState) {
+      MainPageDisplayState.solutionsOutils => SolutionsTab.outils,
+      _ => null,
+    };
   }
 
   void _setInitIndexPage(MainPageViewModel viewModel) {
     if (_selectedIndex != _indexNotInitialized) return;
-    late int initialIndex;
-    switch (widget.displayState) {
-      case MainPageDisplayState.DEFAULT:
-      case MainPageDisplayState.ACTUALISATION_PE:
-      case MainPageDisplayState.FAVORIS:
-      case MainPageDisplayState.ALERTE:
-      case MainPageDisplayState.ALERTES:
-        initialIndex = 0;
-        break;
-      case MainPageDisplayState.AGENDA_TAB:
-      case MainPageDisplayState.ACTIONS_TAB:
-      case MainPageDisplayState.RENDEZVOUS_TAB:
-        initialIndex = viewModel.tabs.indexOf(MainTab.monSuivi);
-        break;
-      case MainPageDisplayState.CHAT:
-        initialIndex = viewModel.tabs.indexOf(MainTab.chat);
-        break;
-      case MainPageDisplayState.OUTILS:
-      case MainPageDisplayState.RECHERCHE:
-        initialIndex = viewModel.tabs.indexOf(MainTab.solutions);
-        break;
-      case MainPageDisplayState.EVENT_LIST:
-        initialIndex = viewModel.tabs.indexOf(MainTab.evenements);
-        break;
-    }
+
+    final tabs = viewModel.tabs;
+    final int initialIndex = switch (widget.displayState) {
+      MainPageDisplayState.accueil => tabs.indexOf(MainTab.accueil),
+      MainPageDisplayState.actualisationPoleEmploi => tabs.indexOf(MainTab.accueil),
+      MainPageDisplayState.monSuivi => tabs.indexOf(MainTab.monSuivi),
+      MainPageDisplayState.chat => tabs.indexOf(MainTab.chat),
+      MainPageDisplayState.solutionsOutils => tabs.indexOf(MainTab.solutions),
+      MainPageDisplayState.solutionsRecherche => tabs.indexOf(MainTab.solutions),
+      MainPageDisplayState.evenements => tabs.indexOf(MainTab.evenements),
+    };
     _selectedIndex = initialIndex != -1 ? initialIndex : 0;
   }
 }

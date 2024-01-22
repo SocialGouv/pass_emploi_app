@@ -14,6 +14,8 @@ import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
 import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
+import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
+import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -51,17 +53,17 @@ class AccueilPage extends StatelessWidget {
   }
 
   void _handleDeeplink(BuildContext context, AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) {
-    final deepLink = newViewModel.deepLink;
-    if (deepLink is FavorisDeepLink) {
-      Navigator.push(context, OffreFavorisPage.materialPageRoute());
-    } else if (deepLink is AlerteDeepLink) {
-      Navigator.push(context, AlertePage.materialPageRoute());
-    } else if (deepLink is AlertesDeepLink) {
-      Navigator.push(context, AlertePage.materialPageRoute());
-    } else {
-      return;
-    }
-    newViewModel.resetDeeplink();
+    final route = switch (newViewModel.deepLink) {
+      DetailActionDeepLink() => UserActionListPage.materialPageRoute(),
+      DetailRendezvousDeepLink() => RendezvousListPage.materialPageRoute(),
+      AlerteDeepLink() => AlertePage.materialPageRoute(),
+      AlertesDeepLink() => AlertePage.materialPageRoute(),
+      FavorisDeepLink() => OffreFavorisPage.materialPageRoute(),
+      _ => null,
+    };
+
+    if (route != null) Navigator.push(context, route);
+    if (newViewModel.shouldResetDeeplink) newViewModel.resetDeeplink();
   }
 }
 

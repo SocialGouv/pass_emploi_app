@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -202,6 +203,67 @@ void main() {
           Outils.benevolatBrsa.withoutImage(),
         ],
       );
+    });
+  });
+
+  group('shouldResetDeeplink', () {
+    group('should return true when deeplink only needs one page to be opened', () {
+      test('FavorisDeepLink > no detail page required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(FavorisDeepLink()).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isTrue);
+      });
+
+      test('AlertesDeepLink > no detail page required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(AlertesDeepLink()).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isTrue);
+      });
+    });
+
+    group('should return false when deeplink needs two pages to be opened', () {
+      test('AlerteDeepLink > detail page required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(AlerteDeepLink(idAlerte: 'id')).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isFalse);
+      });
+
+      test('DetailActionDeepLink > detail page required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(DetailActionDeepLink(idAction: 'id')).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isFalse);
+      });
+
+      test('DetailRendezvousDeepLink > detail page required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(DetailRendezvousDeepLink(idRendezvous: 'id')).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isFalse);
+      });
     });
   });
 
