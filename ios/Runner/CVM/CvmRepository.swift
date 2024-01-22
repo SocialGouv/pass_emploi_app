@@ -75,9 +75,8 @@ class CvmRepository {
     }
 
     func startListenRoom(completion: @escaping SuccessCompletion) {
-        // get list of rooms then pick the first one
         MatrixManager.sharedInstance.startRoomListener { [weak self] rooms in
-            guard let room = rooms.first else {
+            guard let room = rooms?.first else {
                 completion(false)
                 return
             }
