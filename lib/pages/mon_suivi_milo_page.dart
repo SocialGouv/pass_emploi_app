@@ -204,13 +204,10 @@ class _EmptyDayItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return _DayRow(
       day: day,
-      child: Expanded(
-        flex: 9,
-        child: DashedBox(
-          padding: const EdgeInsets.all(Margins.spacing_base),
-          color: AppColors.disabled,
-          child: Text(Strings.monSuiviEmptyDay, style: TextStyles.textXsMedium(color: AppColors.disabled)),
-        ),
+      child: DashedBox(
+        padding: const EdgeInsets.all(Margins.spacing_base),
+        color: AppColors.disabled,
+        child: Text(Strings.monSuiviEmptyDay, style: TextStyles.textXsMedium(color: AppColors.disabled)),
       ),
     );
   }
