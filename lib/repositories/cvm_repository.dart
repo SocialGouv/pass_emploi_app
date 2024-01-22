@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 
@@ -37,6 +39,7 @@ class CvmRepositoryImpl implements CvmRepository {
   static const _cvmMethodChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/methods';
   static const _cvmEventChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/events';
 
+  final _aggregator = _CvmEventsAggregator();
   final Crashlytics? _crashlytics;
 
   CvmRepositoryImpl({Crashlytics? crashlytics}) : _crashlytics = crashlytics;
@@ -73,7 +76,7 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<bool> _login() async {
     try {
       const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-      const token = "a16upvIV-5ewqiIsqNDluc6uk0U";
+      const token = "2dtJ_5YLdgRIODU5p3TeNhiUPx8";
       final success =
           await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('login', {'token': token, 'ex160': ex160}) ?? false;
       print("CVM LOGIN SUCCESS: $success");
@@ -132,9 +135,11 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       return EventChannel(_cvmEventChannel).receiveBroadcastStream().map((events) {
         final eventsJson = events as List<dynamic>;
-        return eventsJson.map((event) {
+        final cvmEvents = eventsJson.map((event) {
           return CvmEvent.fromJson(event);
         }).toList();
+        _aggregator.addEvents(cvmEvents);
+        return _aggregator.getEvents();
       });
     } on PlatformException catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
@@ -163,5 +168,46 @@ class CvmRepositoryImpl implements CvmRepository {
     } on PlatformException catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
+  }
+}
+
+class _CvmEventsAggregator {
+  List<CvmEvent> _events = [];
+
+  void addEvents(List<CvmEvent> events) {
+    if (Platform.isIOS) {
+      _events = [
+        ..._events.whereEventIdNotIn(events),
+        ...events,
+      ];
+      _events.sortFromOldestToNewest();
+    } else {
+      _events = events;
+    }
+  }
+
+  List<CvmEvent> getEvents() {
+    return _events;
+  }
+
+  void reset() {
+    _events = [];
+  }
+}
+
+extension _IterableMessage on Iterable<CvmEvent> {
+  Iterable<CvmEvent> whereEventIdNotIn(Iterable<CvmEvent> events) {
+    return where((element) => !events.containsId(element.id));
+  }
+
+  bool containsId(String id) {
+    return any((element) => element.id == id);
+  }
+}
+
+extension _ListMessage on List<CvmEvent> {
+  void sortFromOldestToNewest() {
+    //TODO: la date est-elle vraiment nullable ?
+    sort((a, b) => a.date!.compareTo(b.date!));
   }
 }
