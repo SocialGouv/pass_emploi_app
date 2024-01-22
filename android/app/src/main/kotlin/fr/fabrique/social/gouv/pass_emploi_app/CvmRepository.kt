@@ -13,9 +13,14 @@ class CvmRepository(
 
     private var room: Room? = null
     private var onMessage: (List<Map<String, Any>>) -> Unit = {}
+    private var onRoom : (Boolean) -> Unit = {}
 
-    fun setCallback(callback: (List<Map<String, Any>>) -> Unit) {
+    fun setEventCallback(callback: (List<Map<String, Any>>) -> Unit) {
         this.onMessage = callback
+    }
+
+    fun setRoomsCallback(callback: (Boolean) -> Unit) {
+        this.onRoom = callback
     }
 
     fun initCvm() {
@@ -77,20 +82,15 @@ class CvmRepository(
         MatrixManager.getInstance().stopListenMessage()
     }
 
-    fun startListenRoom(callback: (Boolean) -> Unit) {
+    fun startListenRoom() {
         MatrixManager.getInstance().startRoomListener(lifecycleOwner) { rooms ->
             this.room = rooms.firstOrNull()
-            if (this.room != null) {
-                callback(true)
-            } else {
-                callback(false)
-            }
+            this.onRoom(this.room != null)
         }
     }
 
-    fun stopListenRoom(callback: (Boolean) -> Unit) {
+    fun stopListenRoom() {
         MatrixManager.getInstance().stopRoomListener(lifecycleOwner)
-        callback(true)
     }
 
     fun logout() {

@@ -65,15 +65,13 @@ class MethodChannelHandler(
     }
 
     private fun startListenRoom(result: Result) {
-        cvmRepository.startListenRoom { success ->
-            result.success(success)
-        }
+        cvmRepository.startListenRoom()
+        result.success(true)
     }
 
     private fun stopListenRoom(result: Result) {
-        cvmRepository.stopListenRoom { success ->
-            result.success(success)
-        }
+        cvmRepository.stopListenRoom()
+        result.success(true)
     }
 
     private fun startListenMessages(result: Result) {
