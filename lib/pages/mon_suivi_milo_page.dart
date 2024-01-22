@@ -54,17 +54,18 @@ class _Scaffold extends StatelessWidget {
       backgroundColor: AppColors.grey100,
       appBar: PrimaryAppBar(title: Strings.monSuiviAppBarTitle),
       body: ConnectivityContainer(child: body),
-      floatingActionButton: withCreateButton
-          ? PrimaryActionButton(
-              label: Strings.addAnAction,
-              icon: AppIcons.add_rounded,
-              rippleColor: AppColors.primaryDarken,
-              onPressed: () => CreateUserActionFormPage.pushUserActionCreationTunnel(
-                context,
-                UserActionStateSource.monSuivi,
-              ),
-            )
-          : null,
+      floatingActionButton: Visibility(
+        visible: withCreateButton,
+        child: PrimaryActionButton(
+          label: Strings.addAnAction,
+          icon: AppIcons.add_rounded,
+          rippleColor: AppColors.primaryDarken,
+          onPressed: () => CreateUserActionFormPage.pushUserActionCreationTunnel(
+            context,
+            UserActionStateSource.monSuivi,
+          ),
+        ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
