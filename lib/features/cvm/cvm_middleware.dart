@@ -54,3 +54,21 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     }
   }
 }
+
+//TODO:
+// action init (quand: lancement de l'app)
+// => repo.initCvm
+// => repo.subscribeToChatStream
+// ===> quand un stream arrive, dispatch CvmSuccessAction(messages)
+// => repo.subscribeToRooms
+// ===> quand un stream arrive, dispatch CvmRoomsSuccessAction)
+
+// action écouter les messages (quand: au login)
+// => await repo.login
+// => await repo.joinFirstRoom
+// ===> si room, repo.startListenMessages
+// ===> si pas de room, repo.startListenRooms
+
+// action rejoindre une room (quand: au CvmRoomsSuccessAction)
+// => repo.joinFirstRoom
+// => repo.startListenMessages

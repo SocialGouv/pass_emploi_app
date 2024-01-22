@@ -5,12 +5,17 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 
 abstract class CvmRepository {
   Future<void> initializeCvm();
+  Future<bool> login();
+  Future<void> logout();
+  Future<bool> startListenRooms();
+  Future<void> stopListenRooms();
+  Future<void> joinFirstRoom();
   Future<bool> startListenMessages();
   Future<void> stopListenMessages();
   Future<bool> sendMessage(String message);
   Future<void> loadMore();
-  Future<void> logout();
   Stream<List<CvmEvent>> getMessages();
+  Stream<bool> hasRoom();
 }
 
 class CvmEvent {
@@ -39,6 +44,7 @@ class CvmEvent {
 class CvmRepositoryImpl implements CvmRepository {
   static const _cvmMethodChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/methods';
   static const _cvmEventChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/events';
+  static const _cvmRoomsChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/rooms';
 
   final _aggregator = _CvmEventsAggregator();
   final Crashlytics? _crashlytics;
@@ -56,25 +62,7 @@ class CvmRepositoryImpl implements CvmRepository {
   }
 
   @override
-  Future<bool> startListenMessages() async {
-    try {
-      final loggedIn = await _login();
-      if (loggedIn == false) return false;
-
-      final hasRoom = await _joinFirstRoom();
-      if (hasRoom == false) {
-        final isListeningRoom = await _listenRoom();
-        if (isListeningRoom == false) return false;
-      }
-
-      return await _startListenMessages();
-    } catch (e, s) {
-      _crashlytics?.recordCvmException(e, s);
-      return false;
-    }
-  }
-
-  Future<bool> _login() async {
+  Future<bool> login() async {
     try {
       const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
       const token = "XANmody4MvSZDulGc1g9JVv0RZI";
@@ -88,7 +76,19 @@ class CvmRepositoryImpl implements CvmRepository {
     }
   }
 
-  Future<bool> _joinFirstRoom() async {
+  @override
+  Future<void> logout() async {
+    _aggregator.reset();
+    try {
+      await MethodChannel(_cvmMethodChannel).invokeMethod('logout');
+      print("CVM LOGOUT SUCCESS");
+    } catch (e, s) {
+      _crashlytics?.recordCvmException(e, s);
+    }
+  }
+
+  @override
+  Future<bool> joinFirstRoom() async {
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('joinFirstRoom') ?? false;
       print("CVM JOIN ROOM SUCCESS: $success");
@@ -99,10 +99,12 @@ class CvmRepositoryImpl implements CvmRepository {
     }
   }
 
-  Future<bool> _listenRoom() async {
+  @override
+  Future<bool> startListenRooms() async {
+    //TODO: faire en natif
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenRoom') ?? false;
-      print("CVM LISTEN ROOM SUCCESS: $success");
+      print("CVM START LISTEN ROOM SUCCESS: $success");
       return success;
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
@@ -110,7 +112,34 @@ class CvmRepositoryImpl implements CvmRepository {
     }
   }
 
-  Future<bool> _startListenMessages() async {
+  @override
+  Future<bool> stopListenRooms() async {
+    //TODO: faire en natif
+    try {
+      final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('_stopListenRoom') ?? false;
+      print("CVM STOP LISTEN ROOM SUCCESS: $success");
+      return success;
+    } catch (e, s) {
+      _crashlytics?.recordCvmException(e, s);
+      return false;
+    }
+  }
+
+  @override
+  Stream<bool> hasRoom() {
+    //TODO: faire en natif
+    try {
+      return EventChannel(_cvmRoomsChannel).receiveBroadcastStream().map((hasRoom) {
+        return hasRoom as bool;
+      });
+    } catch (e, s) {
+      _crashlytics?.recordCvmException(e, s);
+      return Stream.empty();
+    }
+  }
+
+  @override
+  Future<bool> startListenMessages() async {
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenMessages') ?? false;
       print("CVM START LISTEN MESSAGES SUCCESS: $success");
@@ -126,17 +155,6 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('stopListenMessages');
       print("CVM STOP LISTEN MESSAGES SUCCESS");
-    } catch (e, s) {
-      _crashlytics?.recordCvmException(e, s);
-    }
-  }
-
-  @override
-  Future<void> logout() async {
-    _aggregator.reset();
-    try {
-      await MethodChannel(_cvmMethodChannel).invokeMethod('logout');
-      print("CVM LOGOUT SUCCESS");
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
