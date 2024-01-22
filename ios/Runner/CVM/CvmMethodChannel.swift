@@ -75,9 +75,8 @@ class CvmMethodChannel {
     }
 
     private func startListenRoom(result: @escaping FlutterResult) {
-        repository.startListenRoom() { success in
-            result(success)
-        }
+        repository.startListenRoom()
+        result(true)
     }
 
     private func stopListenRoom(result: FlutterResult) {

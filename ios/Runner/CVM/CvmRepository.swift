@@ -10,6 +10,7 @@ import BenedicteSDK
 
 typealias EventJson = Dictionary<String, Any>
 typealias EventsReceived = ([EventJson]) -> Void
+typealias RoomsReceived = (Bool) -> Void
 typealias SuccessCompletion = (Bool) -> Void
 typealias VoidCompletion = () -> Void
 
@@ -17,6 +18,7 @@ class CvmRepository {
     
     private var room: Room?
     private var onMessages: EventsReceived?
+    private var onHasRooms: RoomsReceived?
     
     func initializeCvm() {
         MatrixManager.sharedInstance.initialize(paginationPageSize: 5)
@@ -24,6 +26,10 @@ class CvmRepository {
     
     func setMessageCallback(_ onMessages: @escaping EventsReceived) {
         self.onMessages = onMessages
+    }
+    
+    func setHasRoomCallback(_ onHasRooms: @escaping RoomsReceived) {
+        self.onHasRooms = onHasRooms
     }
 
     func login(token: String, ex160Url: String, completion: @escaping SuccessCompletion) {
@@ -72,14 +78,9 @@ class CvmRepository {
         MatrixManager.sharedInstance.loadMoreMessage(room: room, withPaginationSize: 5, completion: completion)
     }
 
-    func startListenRoom(completion: @escaping SuccessCompletion) {
+    func startListenRoom() {
         MatrixManager.sharedInstance.startRoomListener { [weak self] rooms in
-            guard let room = rooms?.first else {
-                completion(false)
-                return
-            }
-            self?.room = room
-            completion(true)
+            onHasRooms(rooms?.first != nil)
         }
     }
 
