@@ -3,13 +3,13 @@ package fr.fabrique.social.gouv.pass_emploi_app
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 
-class EventChannelHandler(
-        private val flutterEngine: FlutterEngine,
-        private val cvmRepository: CvmRepository
+class RoomsChannelHandler(
+    private val flutterEngine: FlutterEngine,
+    private val cvmRepository: CvmRepository
 ) : EventChannel.StreamHandler {
 
     companion object {
-        const val CHANNEL = "fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/events"
+        const val CHANNEL = "fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/rooms"
     }
 
     private var eventsSink: EventChannel.EventSink? = null
@@ -17,7 +17,7 @@ class EventChannelHandler(
     fun initialize() {
         val eventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
         eventChannel.setStreamHandler(this)
-        cvmRepository.setEventCallback { events -> eventsSink?.success(events) }
+        cvmRepository.setRoomsCallback { hasRoom -> eventsSink?.success(hasRoom) }
     }
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
@@ -25,7 +25,7 @@ class EventChannelHandler(
     }
 
     override fun onCancel(arguments: Any?) {
-        cvmRepository.stopListenMessage()
+        cvmRepository.stopListenRoom()
         eventsSink = null
     }
 }
