@@ -56,6 +56,7 @@ class AccueilPage extends StatelessWidget {
     final route = switch (newViewModel.deepLink) {
       DetailActionDeepLink() => UserActionListPage.materialPageRoute(),
       DetailRendezvousDeepLink() => RendezvousListPage.materialPageRoute(),
+      DetailSessionMiloDeepLink() => RendezvousListPage.materialPageRoute(),
       AlerteDeepLink() => AlertePage.materialPageRoute(),
       AlertesDeepLink() => AlertePage.materialPageRoute(),
       FavorisDeepLink() => OffreFavorisPage.materialPageRoute(),
