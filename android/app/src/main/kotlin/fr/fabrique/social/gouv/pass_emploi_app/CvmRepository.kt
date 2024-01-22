@@ -75,8 +75,6 @@ class CvmRepository(
 
     fun stopListenMessage() {
         MatrixManager.getInstance().stopListenMessage()
-        MatrixManager.getInstance().stopSession()
-        this.room = null
     }
 
     fun startListenRoom(callback: (Boolean) -> Unit) {
@@ -93,6 +91,11 @@ class CvmRepository(
     fun stopListenRoom(callback: (Boolean) -> Unit) {
         MatrixManager.getInstance().stopRoomListener(lifecycleOwner)
         callback(true)
+    }
+
+    fun logout() {
+        MatrixManager.getInstance().stopSession()
+        this.room = null
     }
 
 }
