@@ -6,6 +6,7 @@ import Flutter
     
     private var repository: CvmRepository!
     private var eventChannel: CvmEventChannel!
+    private var roomChannel: CvmRoomChannel!
     private var methodChannel: CvmMethodChannel!
     
     
@@ -22,14 +23,14 @@ import Flutter
     }
     
     private func setupCvm() {
-        print("#CVM AppDelegate.setupCvm")
-        
         let controller: FlutterViewController = window?.rootViewController as! FlutterViewController
         
         repository = CvmRepository()
         
         eventChannel = CvmEventChannel(repository: repository)
         eventChannel.setupChannel(messenger: controller.binaryMessenger)
+        roomChannel = CvmRoomChannel(repository: repository)
+        roomChannel.setupChannel(messenger: controller.binaryMessenger)
         
         methodChannel = CvmMethodChannel(repository: repository, messenger: controller.binaryMessenger)
     }
