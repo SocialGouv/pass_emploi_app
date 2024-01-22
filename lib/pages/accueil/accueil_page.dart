@@ -14,11 +14,12 @@ import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
 import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
-import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
+import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -54,9 +55,13 @@ class AccueilPage extends StatelessWidget {
 
   void _handleDeeplink(BuildContext context, AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) {
     final route = switch (newViewModel.deepLink) {
+      final DetailRendezvousDeepLink deeplink => deeplink.idRendezvous != null
+          ? RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.noSource, deeplink.idRendezvous!)
+          : null,
+      final DetailSessionMiloDeepLink deeplink => deeplink.idSessionMilo != null
+          ? RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.sessionMiloDetails, deeplink.idSessionMilo!)
+          : null,
       DetailActionDeepLink() => UserActionListPage.materialPageRoute(),
-      DetailRendezvousDeepLink() => RendezvousListPage.materialPageRoute(),
-      DetailSessionMiloDeepLink() => RendezvousListPage.materialPageRoute(),
       AlerteDeepLink() => AlertePage.materialPageRoute(),
       AlertesDeepLink() => AlertePage.materialPageRoute(),
       FavorisDeepLink() => OffreFavorisPage.materialPageRoute(),

@@ -1,12 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
@@ -663,41 +661,6 @@ void main() {
     });
   });
 
-  group('deeplink', () {
-    test('should handle rendezvous with valid ID', () {
-      // Given
-      final store = givenState().rendezvous(rendezvous: [mockRendezvous(id: '1')]).deeplinkToRendezvous('1').store();
-
-      // When
-      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
-
-      // Then
-      expect(viewModel.deeplink, RendezvousDeeplink(RendezvousStateSource.rendezvousList, '1'));
-    });
-
-    test('should handle session Milo with non null ID', () {
-      // Given
-      final store = givenState().deeplinkToSessionMilo('1').store();
-
-      // When
-      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
-
-      // Then
-      expect(viewModel.deeplink, RendezvousDeeplink(RendezvousStateSource.sessionMiloDetails, '1'));
-    });
-
-    test('should handle invalid ID', () {
-      // Given
-      final store = givenState().rendezvous(rendezvous: [mockRendezvous(id: '1')]).deeplinkToRendezvous('22').store();
-
-      // When
-      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
-
-      // Then
-      expect(viewModel.deeplink, isNull);
-    });
-  });
-
   group('onRetry should trigger RequestRendezvousAction', () {
     void assertOn({required int pageOffset, required RendezvousPeriod expectedPeriod}) {
       // Given
@@ -801,17 +764,5 @@ void main() {
       assertOn(pageOffset: 4, hasFetchedFuture: true, shouldRequestFuture: false);
       assertOn(pageOffset: 5, hasFetchedFuture: true, shouldRequestFuture: false);
     });
-  });
-
-  test('onDeeplinkUsed should trigger ResetDeeplinkAction', () {
-    // Given
-    final store = StoreSpy();
-    final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
-
-    // When
-    viewModel.onDeeplinkUsed();
-
-    // Then
-    expect(store.dispatchedAction, isA<ResetDeeplinkAction>());
   });
 }

@@ -253,17 +253,6 @@ void main() {
         // Then
         expect(viewModel.shouldResetDeeplink, isFalse);
       });
-
-      test('DetailRendezvousDeepLink > detail page required', () {
-        // Given
-        final store = givenState().withHandleDeepLink(DetailRendezvousDeepLink(idRendezvous: 'id')).store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(viewModel.shouldResetDeeplink, isFalse);
-      });
     });
   });
 
