@@ -10,6 +10,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
 
   CvmMiddleware(this._repository);
 
+  var hasRoom = false; //TODO: ?
   final List<CvmEvent> messages = [];
 
   void _subscribeToChatStream(Store<AppState> store) {
@@ -19,6 +20,29 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
       },
       onError: (Object error) {
         store.dispatch(CvmFailureAction());
+      },
+    );
+  }
+
+  void _subscribeToHasRoomStream(Store<AppState> store) {
+    _repository.hasRoom().listen(
+      (hasRoom) {
+        // TODO: est-ce qu'il faut une mécanique "synchronized" ?
+        print("CVM room stream listen: $hasRoom");
+        if (this.hasRoom) {
+          //WHY: Le SDK iOS (et Android ?) déclenche plusieurs fois le callback.
+          print("CVM room stream listen: already has a room.");
+          return;
+        }
+        this.hasRoom = hasRoom;
+        if (hasRoom) {
+          _repository.stopListenRooms();
+          store.dispatch(CvmJoinRoomAction());
+        }
+      },
+      onError: (Object error) {
+        // TODO
+        print("CVM room stream error");
       },
     );
   }
@@ -36,15 +60,27 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
       _initCvm(store, _repository);
     } else if (action is CvmSendMessageAction) {
       _repository.sendMessage(action.message);
+    } else if (action is CvmJoinRoomAction) {
+      _startListenMessagesOnFirstRoom(store, _repository);
     }
   }
 
   Future<void> _initCvm(Store<AppState> store, CvmRepository repository) async {
     store.dispatch(CvmLoadingAction());
     try {
+      hasRoom = false;
+
       await repository.initializeCvm();
-      await repository.startListenMessages();
       _subscribeToChatStream(store);
+      _subscribeToHasRoomStream(store);
+
+      await repository.login();
+
+      //TODO: temp to test listen rooms
+      // await repository.joinFirstRoom();
+      // await repository.startListenMessages();
+
+      await repository.startListenRooms();
 
       Future.delayed(Duration(seconds: 5), () {
         repository.loadMore();
@@ -52,6 +88,15 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     } catch (e) {
       store.dispatch(CvmFailureAction());
     }
+  }
+}
+
+Future<void> _startListenMessagesOnFirstRoom(Store<AppState> store, CvmRepository repository) async {
+  try {
+    await repository.joinFirstRoom();
+    await repository.startListenMessages();
+  } catch (e) {
+    store.dispatch(CvmFailureAction());
   }
 }
 
@@ -72,3 +117,8 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
 // action rejoindre une room (quand: au CvmRoomsSuccessAction)
 // => repo.joinFirstRoom
 // => repo.startListenMessages
+
+// action logout
+// => repo.logout
+// => hasRoom = false
+// => ?

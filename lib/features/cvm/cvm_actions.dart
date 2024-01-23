@@ -21,3 +21,5 @@ class CvmSendMessageAction extends CvmAction {
 
   CvmSendMessageAction(this.message);
 }
+
+class CvmJoinRoomAction extends CvmAction {}
