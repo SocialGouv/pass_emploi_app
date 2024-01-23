@@ -67,6 +67,43 @@ void main() {
       });
     });
 
+    group('getUserAction', () {
+      sut.when((pageActionRepository) => pageActionRepository.getUserAction('actionId'));
+
+      group('when response is valid', () {
+        sut.givenJsonResponse(fromJson: "user_action.json");
+
+        test('request should be valid', () {
+          sut.expectRequestBody(method: HttpMethod.get, url: '/actions/actionId');
+        });
+
+        test('result should be valid', () {
+          sut.expectResult<UserAction?>((result) {
+            expect(
+              result,
+              UserAction(
+                id: "8802034",
+                content: "Changer de prénom",
+                comment: "Commentaire",
+                status: UserActionStatus.NOT_STARTED,
+                dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
+                creationDate: DateTime(2021),
+                creator: JeuneActionCreator(),
+              ),
+            );
+          });
+        });
+      });
+
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
+
+        test('result should be null', () {
+          sut.expectNullResult();
+        });
+      });
+    });
+
     group('createUserAction', () {
       sut.when(
         (repository) => repository.createUserAction(

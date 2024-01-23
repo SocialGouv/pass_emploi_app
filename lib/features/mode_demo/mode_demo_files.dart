@@ -61,7 +61,8 @@ extension UrlExtensions on String {
     return !contains('referentiels/communes-et-departements') &&
         !contains('fichiers') &&
         !contains('referentiels/metiers') &&
-        !contains('/docnums/');
+        !contains('/docnums/') &&
+        !contains('/actions/');
   }
 
   String removeLastPath() => substring(0, lastIndexOf('/'));

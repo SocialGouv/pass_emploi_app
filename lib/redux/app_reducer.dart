@@ -63,6 +63,7 @@ import 'package:pass_emploi_app/features/user_action/commentaire/list/action_com
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
+import 'package:pass_emploi_app/features/user_action/details/user_action_details_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_reducer.dart';
 import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
@@ -82,6 +83,7 @@ AppState reducer(AppState current, dynamic action) {
   return AppState(
     configurationState: current.configurationState,
     userActionListState: userActionListReducer(current.userActionListState, action),
+    userActionDetailsState: userActionDetailsReducer(current.userActionDetailsState, action),
     userActionCreateState: userActionCreateReducer(current.userActionCreateState, action),
     userActionCreatePendingState: userActionCreatePendingReducer(current.userActionCreatePendingState, action),
     userActionUpdateState: userActionUpdateReducer(current.userActionUpdateState, action),

@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
@@ -102,4 +103,5 @@ class MockUserActionPendingCreationRepository extends Mock implements UserAction
   }
 }
 
+class MockUserActionRepository extends Mock implements UserActionRepository {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/
