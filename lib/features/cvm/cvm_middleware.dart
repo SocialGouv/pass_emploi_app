@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/cvm_repository.dart';
 import 'package:redux/redux.dart';
@@ -55,25 +56,25 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void handleAction(Store<AppState> store, CvmAction action) {
+  void handleAction(Store<AppState> store, CvmAction action) async {
     if (action is CvmRequestAction) {
-      _initCvm(store, _repository);
-    } else if (action is CvmSendMessageAction) {
-      _repository.sendMessage(action.message);
+      await _initCvm(store, _repository);
+      _loginCvm(store, _repository); //TODO: pendant qu'on a la fausse page
+    } else if (action is LoginSuccessAction) {
+      _loginCvm(store, _repository);
     } else if (action is CvmJoinRoomAction) {
       _startListenMessagesOnFirstRoom(store, _repository);
+    } else if (action is CvmSendMessageAction) {
+      _repository.sendMessage(action.message);
+    } else if (action is RequestLogoutAction || action is NotLoggedInAction) {
+      _repository.logout();
+      hasRoom = false;
     }
+    // si background/foreground ...
   }
 
-  Future<void> _initCvm(Store<AppState> store, CvmRepository repository) async {
-    store.dispatch(CvmLoadingAction());
+  Future<void> _loginCvm(Store<AppState> store, CvmRepository repository) async {
     try {
-      hasRoom = false;
-
-      await repository.initializeCvm();
-      _subscribeToChatStream(store);
-      _subscribeToHasRoomStream(store);
-
       await repository.login();
 
       //TODO: temp to test listen rooms
@@ -85,6 +86,21 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
       Future.delayed(Duration(seconds: 5), () {
         repository.loadMore();
       });
+    } catch (e) {
+      store.dispatch(CvmFailureAction());
+    }
+  }
+
+  Future<void> _initCvm(Store<AppState> store, CvmRepository repository) async {
+    store.dispatch(CvmLoadingAction());
+
+    try {
+      hasRoom = false;
+
+      await repository.initializeCvm();
+
+      _subscribeToChatStream(store);
+      _subscribeToHasRoomStream(store);
     } catch (e) {
       store.dispatch(CvmFailureAction());
     }
