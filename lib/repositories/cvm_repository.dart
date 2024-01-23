@@ -17,15 +17,22 @@ abstract class CvmRepository {
   Stream<List<CvmEvent>> getMessages();
   Stream<bool> hasRoom();
 }
-// TODO: Ajouter un type d'event ?
+
+enum CvmEventType {
+  message,
+  unknown,
+}
+
 class CvmEvent {
   final String id;
+  final CvmEventType type;
   final bool isFromUser;
   final String? message;
   final DateTime? date;
 
   CvmEvent({
     required this.id,
+    required this.type,
     required this.isFromUser,
     required this.message,
     required this.date,
@@ -34,8 +41,9 @@ class CvmEvent {
   static CvmEvent fromJson(dynamic json) {
     return CvmEvent(
       id: json['id'] as String,
+      type: json['type'] == 'message' ? CvmEventType.message : CvmEventType.unknown,
       isFromUser: json['isFromUser'] as bool,
-      message: json['content'] as String,
+      message: json['message'] as String,
       date: DateTime.fromMillisecondsSinceEpoch(json['date'] as int),
     );
   }
