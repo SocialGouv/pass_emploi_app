@@ -39,8 +39,7 @@ class MonSuiviMiloPage extends StatelessWidget {
       child: StoreConnector<AppState, MonSuiviViewModel>(
         onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
         converter: (store) => MonSuiviViewModel.create(store),
-        builder: (context, viewModel) =>
-            _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
+        builder: (_, viewModel) => _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
         onDispose: (store) => store.dispatch(MonSuiviResetAction()),
         distinct: true,
       ),
