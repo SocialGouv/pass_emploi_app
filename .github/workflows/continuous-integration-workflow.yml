@@ -25,9 +25,10 @@ jobs:
           SSH_GITLAB_PRIVATE_KEY: ${{ secrets.SSH_GITLAB_PRIVATE_KEY }}
 
       - name: ssh agent
-        uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_GITLAB_PRIVATE_KEY }}
+        shell: bash
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_ed25519
 
       - name: Clone
         shell: bash
