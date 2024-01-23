@@ -17,7 +17,7 @@ jobs:
         with:
           varFilePath: ./.github/variables/myvars.env
 
-       - name: Write ssh gitlab private key
+      - name: Write ssh gitlab private key
         shell: bash
         run: |
           echo "$SSH_GITLAB_PRIVATE_KEY" > ~/.ssh/id_ed25519
@@ -27,4 +27,4 @@ jobs:
       - name: Clone
         shell: bash
         run: |
-        git clone git@gitlab.com:pass-emploi/test.git
+          git clone git@gitlab.com:pass-emploi/test.git
