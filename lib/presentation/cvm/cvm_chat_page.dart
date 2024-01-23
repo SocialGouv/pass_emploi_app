@@ -7,10 +7,13 @@ import 'package:pass_emploi_app/repositories/cvm_repository.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class CvmChatPage extends StatelessWidget {
   const CvmChatPage({super.key});
+
+  static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => CvmChatPage());
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +34,7 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: SecondaryAppBar(title: "Chat CVM"),
       body: Column(
         children: [
           Expanded(

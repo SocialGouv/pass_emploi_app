@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/pages/diagoriente/diagoriente_entry_page.dart';
 import 'package:pass_emploi_app/pages/partage_activite_page.dart';
 import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
 import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
+import 'package:pass_emploi_app/presentation/cvm/cvm_chat_page.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -95,6 +96,7 @@ class ProfilPage extends StatelessWidget {
                   _SectionTitle(Strings.developerOptions),
                   SizedBox(height: Margins.spacing_m),
                   _MatomoCard(),
+                  _CvmChatPage()
                 ],
                 SecondaryButton(
                   onPressed: () {
@@ -299,6 +301,16 @@ class _MatomoCard extends StatelessWidget {
     return StandaloneProfilCard(
       text: Strings.developerOptionMatomo,
       onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
+    );
+  }
+}
+
+class _CvmChatPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StandaloneProfilCard(
+      text: Strings.developerOptionCvm,
+      onTap: () => Navigator.push(context, CvmChatPage.materialPageRoute()),
     );
   }
 }
