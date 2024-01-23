@@ -24,6 +24,11 @@ jobs:
         env:
           SSH_GITLAB_PRIVATE_KEY: ${{ secrets.SSH_GITLAB_PRIVATE_KEY }}
 
+      - name: ssh agent
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_GITLAB_PRIVATE_KEY }}
+
       - name: Clone
         shell: bash
         run: |
