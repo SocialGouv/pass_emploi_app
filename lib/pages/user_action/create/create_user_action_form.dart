@@ -53,19 +53,16 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: _buttons(),
+      floatingActionButton: Visibility(
+        visible: _viewModel.shouldDisplayNavigationButtons,
+        child: _NavButtons(
+          displayState: _viewModel.displayState,
+          onGoBackPressed: () => _viewModel.viewChangedBackward(),
+          onGoForwardPressed: _viewModel.canGoForward ? () => _viewModel.viewChangedForward() : null,
+        ),
+      ),
       body: _CreateUserActionForm(_viewModel),
     );
-  }
-
-  _NavButtons? _buttons() {
-    return _viewModel.shouldDisplayNavigationButtons
-        ? _NavButtons(
-            displayState: _viewModel.displayState,
-            onGoBackPressed: () => _viewModel.viewChangedBackward(),
-            onGoForwardPressed: _viewModel.canGoForward ? () => _viewModel.viewChangedForward() : null,
-          )
-        : null;
   }
 }
 

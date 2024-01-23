@@ -55,24 +55,21 @@ class _AlertePageState extends State<AlertePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.mesAlertesTabTitle),
-      body: Tracker(
-        tracking: AnalyticsScreenNames.alerteList,
-        child: StoreConnector<AppState, AlerteListViewModel>(
-          onInit: (store) {
-            store.dispatch(AlerteListRequestAction());
-            store.dispatch(SuggestionsRechercheRequestAction());
-            final deepLink = store.getDeepLinkAs<AlerteDeepLink>();
-            if (deepLink != null) {
-              store.dispatch(FetchAlerteResultsFromIdAction(deepLink.idAlerte));
-            }
-          },
-          onWillChange: (_, newVM) => _onWillChange(_, newVM),
-          builder: (context, viewModel) => _body(viewModel),
-          converter: (store) => AlerteListViewModel.createFromStore(store),
-          distinct: true,
-        ),
+    return Tracker(
+      tracking: AnalyticsScreenNames.alerteList,
+      child: StoreConnector<AppState, AlerteListViewModel>(
+        onInit: (store) {
+          store.dispatch(AlerteListRequestAction());
+          store.dispatch(SuggestionsRechercheRequestAction());
+          final deepLink = store.getDeepLinkAs<AlerteDeepLink>();
+          if (deepLink != null) {
+            store.dispatch(FetchAlerteResultsFromIdAction(deepLink.idAlerte));
+          }
+        },
+        onWillChange: (_, newVM) => _onWillChange(_, newVM),
+        builder: (context, viewModel) => _body(viewModel),
+        converter: (store) => AlerteListViewModel.createFromStore(store),
+        distinct: true,
       ),
     );
   }
@@ -96,6 +93,7 @@ class _AlertePageState extends State<AlertePage> {
 
   Widget _body(AlerteListViewModel viewModel) {
     return Scaffold(
+      appBar: SecondaryAppBar(title: Strings.mesAlertesTabTitle),
       backgroundColor: AppColors.grey100,
       body: _content(viewModel),
       floatingActionButton: _floatingActionButton(context, viewModel),
@@ -103,8 +101,8 @@ class _AlertePageState extends State<AlertePage> {
     );
   }
 
-  Widget? _floatingActionButton(BuildContext context, AlerteListViewModel viewModel) {
-    if (viewModel.displayState != DisplayState.CONTENT) return null;
+  Widget _floatingActionButton(BuildContext context, AlerteListViewModel viewModel) {
+    if (viewModel.displayState != DisplayState.CONTENT) return SizedBox();
 
     if (_selectedFilter == OffreFilter.tous && viewModel.alertes.isEmpty) {
       return PrimaryActionButton(label: Strings.alertesListEmptyButton, onPressed: () => _goToRecherche(context));
