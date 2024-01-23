@@ -36,3 +36,8 @@ jobs:
         shell: bash
         run: |
           git clone git@gitlab.com:pass-emploi/test-ssh-ci.git
+
+      - name: cat repo
+        shell: bash
+        run: |
+          cat test-ssh-ci/README.md
