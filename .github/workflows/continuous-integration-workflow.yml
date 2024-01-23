@@ -27,4 +27,4 @@ jobs:
       - name: Clone
         shell: bash
         run: |
-          git clone git@gitlab.com:pass-emploi/test.git
+          git clone git@gitlab.com:pass-emploi/test-ssh-ci.git
