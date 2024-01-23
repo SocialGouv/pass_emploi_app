@@ -55,13 +55,15 @@ class AccueilPage extends StatelessWidget {
 
   void _handleDeeplink(BuildContext context, AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) {
     final route = switch (newViewModel.deepLink) {
-      final DetailRendezvousDeepLink deeplink => deeplink.idRendezvous != null
-          ? RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.noSource, deeplink.idRendezvous!)
-          : null,
-      final DetailSessionMiloDeepLink deeplink => deeplink.idSessionMilo != null
-          ? RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.sessionMiloDetails, deeplink.idSessionMilo!)
-          : null,
-      DetailActionDeepLink() => UserActionListPage.materialPageRoute(),
+      final RendezvousDeepLink deeplink => RendezvousDetailsPage.materialPageRoute(
+          RendezvousStateSource.noSource,
+          deeplink.idRendezvous,
+        ),
+      final SessionMiloDeepLink deeplink => RendezvousDetailsPage.materialPageRoute(
+          RendezvousStateSource.sessionMiloDetails,
+          deeplink.idSessionMilo,
+        ),
+      ActionDeepLink() => UserActionListPage.materialPageRoute(),
       AlerteDeepLink() => AlertePage.materialPageRoute(),
       AlertesDeepLink() => AlertePage.materialPageRoute(),
       FavorisDeepLink() => OffreFavorisPage.materialPageRoute(),

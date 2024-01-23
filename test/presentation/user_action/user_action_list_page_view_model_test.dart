@@ -185,7 +185,7 @@ void main() {
     // Given
     final store = givenState() //
         .loggedInUser()
-        .withHandleDeepLink(DetailActionDeepLink(idAction: 'id'))
+        .withHandleDeepLink(ActionDeepLink('id'))
         .withUserActions([_userAction(status: UserActionStatus.NOT_STARTED)]) //
         .store();
 
@@ -251,7 +251,7 @@ void main() {
     // Given
     final store = givenState() //
         .loggedInUser()
-        .withHandleDeepLink(DetailActionDeepLink(idAction: '1'))
+        .withHandleDeepLink(ActionDeepLink('1'))
         .withUserActions([_userAction(status: UserActionStatus.NOT_STARTED)]) //
         .store();
 

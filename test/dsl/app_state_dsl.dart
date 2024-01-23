@@ -166,18 +166,20 @@ extension AppStateDSL on AppState {
 
   AppState deeplinkToRendezvous(String id) {
     return copyWith(
-        deepLinkState: HandleDeepLinkState(
-      DetailRendezvousDeepLink(idRendezvous: id),
-      DeepLinkOrigin.inAppNavigation,
-    ));
+      deepLinkState: HandleDeepLinkState(
+        RendezvousDeepLink(id),
+        DeepLinkOrigin.inAppNavigation,
+      ),
+    );
   }
 
   AppState deeplinkToSessionMilo(String id) {
     return copyWith(
-        deepLinkState: HandleDeepLinkState(
-      DetailSessionMiloDeepLink(idSessionMilo: id),
-      DeepLinkOrigin.inAppNavigation,
-    ));
+      deepLinkState: HandleDeepLinkState(
+        SessionMiloDeepLink(id),
+        DeepLinkOrigin.inAppNavigation,
+      ),
+    );
   }
 
   AppState searchDemarchesSuccess(List<DemarcheDuReferentiel> demarches) {

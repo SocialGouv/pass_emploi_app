@@ -245,7 +245,7 @@ void main() {
 
       test('DetailActionDeepLink > detail page required', () {
         // Given
-        final store = givenState().withHandleDeepLink(DetailActionDeepLink(idAction: 'id')).store();
+        final store = givenState().withHandleDeepLink(ActionDeepLink('id')).store();
 
         // When
         final viewModel = AccueilViewModel.create(store);

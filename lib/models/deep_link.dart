@@ -6,28 +6,28 @@ sealed class DeepLink extends Equatable {
   List<Object?> get props => [];
 }
 
-class DetailActionDeepLink extends DeepLink {
-  final String? idAction;
+class ActionDeepLink extends DeepLink {
+  final String idAction;
 
-  DetailActionDeepLink({required this.idAction});
+  ActionDeepLink(this.idAction);
 
   @override
   List<Object?> get props => [idAction];
 }
 
-class DetailRendezvousDeepLink extends DeepLink {
-  final String? idRendezvous;
+class RendezvousDeepLink extends DeepLink {
+  final String idRendezvous;
 
-  DetailRendezvousDeepLink({required this.idRendezvous});
+  RendezvousDeepLink(this.idRendezvous);
 
   @override
   List<Object?> get props => [idRendezvous];
 }
 
-class DetailSessionMiloDeepLink extends DeepLink {
-  final String? idSessionMilo;
+class SessionMiloDeepLink extends DeepLink {
+  final String idSessionMilo;
 
-  DetailSessionMiloDeepLink({required this.idSessionMilo});
+  SessionMiloDeepLink(this.idSessionMilo);
 
   @override
   List<Object?> get props => [idSessionMilo];

@@ -53,7 +53,7 @@ class UserActionListPageViewModel extends Equatable {
         store.dispatch(UserActionDeleteResetAction());
       },
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
-      deeplinkActionId: _deeplinkActionId(store.getDeepLinkAs<DetailActionDeepLink>(), actionState),
+      deeplinkActionId: _deeplinkActionId(store.getDeepLinkAs<ActionDeepLink>(), actionState),
       pendingCreationCount: pendingCreationCount,
     );
   }
@@ -102,7 +102,7 @@ List<UserActionListPageItem> _listItems({
   ];
 }
 
-String? _deeplinkActionId(DetailActionDeepLink? deepLink, UserActionListState userActionListStateState) {
+String? _deeplinkActionId(ActionDeepLink? deepLink, UserActionListState userActionListStateState) {
   if (deepLink == null) return null;
   if (userActionListStateState is! UserActionListSuccessState) return null;
   final actionsIds = userActionListStateState.userActions.map((e) => e.id);

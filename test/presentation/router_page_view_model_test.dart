@@ -77,7 +77,7 @@ void main() {
     test('…and deep link is set to rendezvous should display main page with accueil display state', () {
       final store = givenState() //
           .loggedInUser()
-          .withHandleDeepLink(DetailRendezvousDeepLink(idRendezvous: null))
+          .withHandleDeepLink(RendezvousDeepLink('id'))
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -95,10 +95,10 @@ void main() {
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
-    test('…and deep link is set to actions should display main page with accueil display state', () {
+    test('…and deep link is set to action should display main page with accueil display state', () {
       final store = givenState() //
           .loggedInUser()
-          .withHandleDeepLink(DetailActionDeepLink(idAction: null))
+          .withHandleDeepLink(ActionDeepLink('id'))
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
@@ -284,7 +284,7 @@ void main() {
 
     final state2 = AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      deepLinkState: HandleDeepLinkState(DetailActionDeepLink(idAction: 'id'), DeepLinkOrigin.pushNotification),
+      deepLinkState: HandleDeepLinkState(ActionDeepLink('id'), DeepLinkOrigin.pushNotification),
     );
     final store2 = Store<AppState>(reducer, initialState: state2);
 
