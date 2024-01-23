@@ -94,14 +94,11 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
   }
 
   Widget _body(BuildContext context, RendezvousDetailsViewModel viewModel) {
-    switch (viewModel.displayState) {
-      case DisplayState.CONTENT:
-        return _content(context, viewModel);
-      case DisplayState.LOADING:
-        return Center(child: CircularProgressIndicator());
-      default:
-        return Center(child: Retry(Strings.rendezVousDetailsError, () => viewModel.onRetry()));
-    }
+    return switch (viewModel.displayState) {
+      DisplayState.CONTENT => _content(context, viewModel),
+      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+      _ => Center(child: Retry(Strings.rendezVousDetailsError, () => viewModel.onRetry()))
+    };
   }
 
   Widget _content(BuildContext context, RendezvousDetailsViewModel viewModel) {
