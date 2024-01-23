@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import com.poleemploi.matrixlib.Manager.MatrixManager
 import com.poleemploi.matrixlib.Manager.SessionManager
+import com.poleemploi.matrixlib.Model.EventType
 import com.poleemploi.matrixlib.Model.Room
 
 class CvmRepository(
@@ -12,10 +13,10 @@ class CvmRepository(
 ) {
 
     private var room: Room? = null
-    private var onMessage: (List<Map<String, Any>>) -> Unit = {}
+    private var onMessage: (List<Map<String, Any?>>) -> Unit = {}
     private var onRoom : (Boolean) -> Unit = {}
 
-    fun setEventCallback(callback: (List<Map<String, Any>>) -> Unit) {
+    fun setEventCallback(callback: (List<Map<String, Any?>>) -> Unit) {
         this.onMessage = callback
     }
 
@@ -60,10 +61,11 @@ class CvmRepository(
         MatrixManager.getInstance().startListenMessage(room!!.id!!) { events ->
             val allMessages = events.map { event ->
                 mapOf(
-                    "id" to (event.eventId ?: ""),
+                    "id" to event.eventId,
+                    "type" to stringify(event.eventType),
                     "isFromUser" to (event.senderId == SessionManager.matrixUserId),
-                    "content" to (event.message ?: ""),
-                    "date" to (event.date?.time ?: 0L)
+                    "content" to event.message,
+                    "date" to event.date?.time
                 )
             }
             this.onMessage(allMessages)
@@ -97,5 +99,14 @@ class CvmRepository(
         MatrixManager.getInstance().stopSession()
         this.room = null
     }
+}
 
+private fun stringify(eventType: EventType): String {
+    return when (eventType) {
+        EventType.MESSAGE -> "message"
+        EventType.FILE -> "file"
+        EventType.IMAGE -> "image"
+        EventType.TYPING -> "typing"
+        else -> "unknown"
+    }
 }
