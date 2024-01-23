@@ -1,6 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
@@ -32,12 +34,16 @@ final _key = GlobalKey();
 class MonSuiviMiloPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, MonSuiviViewModel>(
-      onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
-      converter: (store) => MonSuiviViewModel.create(store),
-      builder: (context, viewModel) => _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
-      onDispose: (store) => store.dispatch(MonSuiviResetAction()),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.monSuiviMilo,
+      child: StoreConnector<AppState, MonSuiviViewModel>(
+        onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
+        converter: (store) => MonSuiviViewModel.create(store),
+        builder: (context, viewModel) =>
+            _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
+        onDispose: (store) => store.dispatch(MonSuiviResetAction()),
+        distinct: true,
+      ),
     );
   }
 }
