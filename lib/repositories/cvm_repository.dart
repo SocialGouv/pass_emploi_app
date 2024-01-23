@@ -101,7 +101,6 @@ class CvmRepositoryImpl implements CvmRepository {
 
   @override
   Future<bool> startListenRooms() async {
-    //TODO: faire en natif
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenRoom') ?? false;
       print("CVM START LISTEN ROOM SUCCESS: $success");
@@ -114,9 +113,8 @@ class CvmRepositoryImpl implements CvmRepository {
 
   @override
   Future<bool> stopListenRooms() async {
-    //TODO: faire en natif
     try {
-      final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('_stopListenRoom') ?? false;
+      final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('stopListenRoom') ?? false;
       print("CVM STOP LISTEN ROOM SUCCESS: $success");
       return success;
     } catch (e, s) {
@@ -127,9 +125,9 @@ class CvmRepositoryImpl implements CvmRepository {
 
   @override
   Stream<bool> hasRoom() {
-    //TODO: faire en natif
     try {
       return EventChannel(_cvmRoomsChannel).receiveBroadcastStream().map((hasRoom) {
+        print("CVM HAS ROOM: $hasRoom");
         return hasRoom as bool;
       });
     } catch (e, s) {
@@ -237,7 +235,7 @@ extension _IterableMessage on Iterable<CvmEvent> {
 
 extension _ListMessage on List<CvmEvent> {
   void sortFromOldestToNewest() {
-    //TODO: la date est-elle vraiment nullable ?
+    //TODO: la date est-elle vraiment nullable ? on jette dans le map si jamais pas de id et pas de date ?
     sort((a, b) => a.date!.compareTo(b.date!));
   }
 }
