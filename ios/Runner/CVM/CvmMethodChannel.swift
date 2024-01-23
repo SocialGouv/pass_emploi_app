@@ -37,7 +37,7 @@ class CvmMethodChannel {
         case "startListenRoom":
             startListenRoom(result: result)
         case "stopListenRoom":
-            startListenRoom(result: result)
+            stopListenRoom(result: result)
         case "startListenMessages":
             startListenMessages(result: result)
         case "stopListenMessages":
