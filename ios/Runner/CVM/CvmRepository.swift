@@ -80,7 +80,7 @@ class CvmRepository {
 
     func startListenRoom() {
         MatrixManager.sharedInstance.startRoomListener { [weak self] rooms in
-            onHasRooms(rooms?.first != nil)
+            self?.onHasRooms?(rooms?.first != nil)
         }
     }
 
