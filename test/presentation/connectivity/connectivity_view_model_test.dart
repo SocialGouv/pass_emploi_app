@@ -24,4 +24,18 @@ void main() {
       assertConnectivity(result, expectedIsOnline);
     }
   });
+
+  test('when mode demo is activated, always return isOnline to true to hide header', () {
+    // Given
+    final store = givenState() //
+        .copyWith(demoState: true)
+        .withConnectivity(ConnectivityResult.none)
+        .store();
+
+    // When
+    final viewModel = ConnectivityViewModel.create(store);
+
+    // Then
+    expect(viewModel.isOnline, isTrue);
+  });
 }

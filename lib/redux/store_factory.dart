@@ -352,7 +352,7 @@ class StoreFactory {
         ThematiqueDemarcheMiddleware(thematiquesDemarcheRepository).call,
         TopDemarcheMiddleware(topDemarcheRepository).call,
         SessionMiloDetailsMiddleware(sessionMiloRepository).call,
-        ConnectivityMiddleware(connectivityWrapper, modeDemoRepository).call,
+        ConnectivityMiddleware(connectivityWrapper).call,
         MonSuiviMiddleware(monSuiviRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
