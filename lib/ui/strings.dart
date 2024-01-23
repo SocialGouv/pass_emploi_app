@@ -514,6 +514,8 @@ class Strings {
 
   static String pendingActionCreationPlural(int count) => "$count actions sont en attente de réseau.";
 
+  static String userActionDetailsError = "Erreur lors de la récupération de l'action";
+
   // Update user action
   static String updateUserActionPageTitle = "Modifier l'action";
   static String updateUserAction = "Modifier l'action";
