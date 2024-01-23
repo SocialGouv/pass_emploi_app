@@ -16,10 +16,11 @@ class MonSuivi extends Equatable {
   });
 
   factory MonSuivi.fromJson(dynamic json) {
+    final jsonSessionMilo = json["sessionsMilo"];
     return MonSuivi(
       actions: (json["actions"] as List).map(UserAction.fromJson).toList(),
       rendezvous: (json["rendezVous"] as List).map((e) => JsonRendezvous.fromJson(e).toRendezvous()).toList(),
-      sessionsMilo: (json["sessionsMilo"] as List).map(SessionMilo.fromJson).toList(),
+      sessionsMilo: jsonSessionMilo != null ? (jsonSessionMilo as List).map(SessionMilo.fromJson).toList() : [],
     );
   }
 
