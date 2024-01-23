@@ -97,13 +97,42 @@ class CvmRepository {
 private extension Event {
     func toJson() -> EventJson {
         return [
-            "id": eventId ?? "no-id",
+            "id": eventId,
+            "type": eventType.toString(),
             "isFromUser": senderID == SessionManager.sharedInstance.userId,
-            "content": message ?? "no-message",
-            "date": Int64((date?.timeIntervalSince1970 ?? Date().timeIntervalSince1970) * 1000),
+            "message": message,
+            "date": timestamp,
             //TODO: d'autres champs ?
             // "readBy": event.readBy,
             // eventType
         ]
+    }
+
+    private var timestamp: Int64? {
+        guard let date = date else {
+            return nil
+        }
+        return Int64((date.timeIntervalSince1970) * 1000)
+    }
+}
+
+private extension EventType {
+    func toString() -> String {
+        switch self {
+        case .UNKNOWN:
+            return "unknown"
+        case .MESSAGE:
+            return "message"
+        case .FILE:
+            return "file"
+        case .IMAGE:
+            return "image"
+        case .TYPING:
+            return "typing"
+        case .READ:
+            return "read"
+        case .MEMBER:
+            return "member"
+        }
     }
 }
