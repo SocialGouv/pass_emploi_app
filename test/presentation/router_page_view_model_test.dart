@@ -65,7 +65,7 @@ void main() {
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
-    test('…and deep link is set to rendezvous should display main page with monSuivi display state', () {
+    test('…and deep link is set to agenda should display main page with monSuivi display state', () {
       final store = givenState().loggedInUser().withHandleDeepLink(AgendaDeepLink()).store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);

@@ -77,11 +77,6 @@ MainPageDisplayState _toMainPageDisplayState(Store<AppState> store) {
 
 MainPageDisplayState _toMainPageDisplayStateByDeepLink(DeepLink deepLink) {
   return switch (deepLink) {
-    RendezvousDeepLink() => MainPageDisplayState.accueil,
-    SessionMiloDeepLink() => MainPageDisplayState.accueil,
-    FavorisDeepLink() => MainPageDisplayState.accueil,
-    AlerteDeepLink() => MainPageDisplayState.accueil,
-    AlertesDeepLink() => MainPageDisplayState.accueil,
     ActualisationPeDeepLink() => MainPageDisplayState.actualisationPoleEmploi,
     AgendaDeepLink() => MainPageDisplayState.monSuivi,
     NouveauMessageDeepLink() => MainPageDisplayState.chat,
