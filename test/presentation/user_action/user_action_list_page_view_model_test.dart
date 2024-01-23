@@ -1,12 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
-import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
@@ -14,7 +12,6 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
@@ -181,21 +178,6 @@ void main() {
     }
   });
 
-  test('create when action state is success and coming from deeplink', () {
-    // Given
-    final store = givenState() //
-        .loggedInUser()
-        .withHandleDeepLink(ActionDeepLink('id'))
-        .withUserActions([_userAction(status: UserActionStatus.NOT_STARTED)]) //
-        .store();
-
-    // When
-    final viewModel = UserActionListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.deeplinkActionId, 'id');
-  });
-
   group('pendingCreationCount', () {
     test('when action creation is not initialized should not display count', () {
       // Given
@@ -247,21 +229,6 @@ void main() {
     });
   });
 
-  test('return isNull when action state is success and coming from deeplink but ID is not valid anymore', () {
-    // Given
-    final store = givenState() //
-        .loggedInUser()
-        .withHandleDeepLink(ActionDeepLink('1'))
-        .withUserActions([_userAction(status: UserActionStatus.NOT_STARTED)]) //
-        .store();
-
-    // When
-    final viewModel = UserActionListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.deeplinkActionId, isNull);
-  });
-
   test('onUserActionDetailsDismissed should dispatch DismissUserActionDetailsAction', () {
     // Given
     final storeSpy = LocalStoreSpy();
@@ -277,18 +244,6 @@ void main() {
     // Then
     expect(storeSpy.calledWithResetCreate, true);
     expect(storeSpy.calledWithResetUpdate, true);
-  });
-
-  test('onDeeplinkUsed should trigger ResetDeeplinkAction', () {
-    // Given
-    final store = StoreSpy();
-    final viewModel = UserActionListPageViewModel.create(store);
-
-    // When
-    viewModel.onDeeplinkUsed();
-
-    // Then
-    expect(store.dispatchedAction, isA<ResetDeeplinkAction>());
   });
 }
 

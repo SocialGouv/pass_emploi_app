@@ -55,14 +55,12 @@ DisplayState _displayState(Store<AppState> store) {
   };
 }
 
-// TODO 2239 > supprimer le reset ici et laisser la page le faire ?
 bool _shouldResetDeeplink(Store<AppState> store) {
   final deeplinkState = store.state.deepLinkState;
   if (deeplinkState is! HandleDeepLinkState) return false;
 
   return switch (deeplinkState.deepLink) {
     AlerteDeepLink() => false,
-    ActionDeepLink() => false,
     _ => true,
   };
 }

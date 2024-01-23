@@ -107,6 +107,16 @@ class UserAction extends Equatable {
     );
   }
 
+  UserAction copyWithRequest(UserActionUpdateRequest request) {
+    return copyWith(
+      status: request.status,
+      content: request.contenu,
+      comment: request.description,
+      dateEcheance: request.dateEcheance,
+      type: request.type,
+    );
+  }
+
   bool isLate() => !(dateEcheance.isToday() || dateEcheance.isAfter(clock.now()));
 
   @override
@@ -142,13 +152,7 @@ extension UpdateActionList on List<UserAction> {
     final actionToUpdate = firstWhereOrNull((a) => a.id == actionId);
     if (actionToUpdate == null) return this;
 
-    final updatedAction = actionToUpdate.copyWith(
-      status: request.status,
-      content: request.contenu,
-      comment: request.description,
-      dateEcheance: request.dateEcheance,
-      type: request.type,
-    );
+    final updatedAction = actionToUpdate.copyWithRequest(request);
     return List<UserAction>.from(this) //
         .where((a) => a.id != actionId)
         .toList()

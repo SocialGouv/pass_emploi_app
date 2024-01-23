@@ -208,7 +208,40 @@ void main() {
 
   group('shouldResetDeeplink', () {
     group('should return true when deeplink only needs one page to be opened', () {
-      test('FavorisDeepLink > no detail page required', () {
+      test('ActionDeepLink > no double opening of pages required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(ActionDeepLink('id')).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isTrue);
+      });
+
+      test('RendezvousDeepLink > no double opening of pages required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(RendezvousDeepLink('id')).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isTrue);
+      });
+
+      test('SessionMiloDeepLink > no double opening of pages required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(SessionMiloDeepLink('id')).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isTrue);
+      });
+
+      test('FavorisDeepLink > no double opening of pages required', () {
         // Given
         final store = givenState().withHandleDeepLink(FavorisDeepLink()).store();
 
@@ -219,7 +252,7 @@ void main() {
         expect(viewModel.shouldResetDeeplink, isTrue);
       });
 
-      test('AlertesDeepLink > no detail page required', () {
+      test('AlertesDeepLink > no double opening of pages required', () {
         // Given
         final store = givenState().withHandleDeepLink(AlertesDeepLink()).store();
 
@@ -232,20 +265,9 @@ void main() {
     });
 
     group('should return false when deeplink needs two pages to be opened', () {
-      test('AlerteDeepLink > detail page required', () {
+      test('AlerteDeepLink > double opening of pages required', () {
         // Given
         final store = givenState().withHandleDeepLink(AlerteDeepLink(idAlerte: 'id')).store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(viewModel.shouldResetDeeplink, isFalse);
-      });
-
-      test('DetailActionDeepLink > detail page required', () {
-        // Given
-        final store = givenState().withHandleDeepLink(ActionDeepLink('id')).store();
 
         // When
         final viewModel = AccueilViewModel.create(store);
