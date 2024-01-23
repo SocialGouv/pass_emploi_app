@@ -205,10 +205,11 @@ class _CvmEventsAggregator {
         ..._events.whereEventIdNotIn(events),
         ...events,
       ];
-      _events.sortFromOldestToNewest();
     } else {
       _events = events;
     }
+    _events.filterOnlyMessages();
+    _events.sortFromOldestToNewest();
   }
 
   List<CvmEvent> getEvents() {
@@ -232,7 +233,10 @@ extension _IterableMessage on Iterable<CvmEvent> {
 
 extension _ListMessage on List<CvmEvent> {
   void sortFromOldestToNewest() {
-    //TODO: la date est-elle vraiment nullable ? on jette dans le map si jamais pas de id et pas de date ?
     sort((a, b) => a.date!.compareTo(b.date!));
+  }
+
+  void filterOnlyMessages() {
+    removeWhere((element) => element.type != CvmEventType.message);
   }
 }
