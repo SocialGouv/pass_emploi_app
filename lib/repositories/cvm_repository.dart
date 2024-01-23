@@ -55,7 +55,6 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<void> initializeCvm() async {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('initializeCvm');
-      print("CVM INITIALIZATION SUCCESS");
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
@@ -68,7 +67,6 @@ class CvmRepositoryImpl implements CvmRepository {
       const token = "tC8Qkxg0FuDOBkYEAuSZ4SyFIYM";
       final success =
           await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('login', {'token': token, 'ex160': ex160}) ?? false;
-      print("CVM LOGIN SUCCESS: $success");
       return success;
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
@@ -81,7 +79,6 @@ class CvmRepositoryImpl implements CvmRepository {
     _aggregator.reset();
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('logout');
-      print("CVM LOGOUT SUCCESS");
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
@@ -91,7 +88,6 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<bool> joinFirstRoom() async {
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('joinFirstRoom') ?? false;
-      print("CVM JOIN ROOM SUCCESS: $success");
       return success;
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
@@ -103,7 +99,6 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<bool> startListenRooms() async {
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenRoom') ?? false;
-      print("CVM START LISTEN ROOM SUCCESS: $success");
       return success;
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
@@ -115,7 +110,6 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<bool> stopListenRooms() async {
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('stopListenRoom') ?? false;
-      print("CVM STOP LISTEN ROOM SUCCESS: $success");
       return success;
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
@@ -127,7 +121,6 @@ class CvmRepositoryImpl implements CvmRepository {
   Stream<bool> hasRoom() {
     try {
       return EventChannel(_cvmRoomsChannel).receiveBroadcastStream().map((hasRoom) {
-        print("CVM HAS ROOM: $hasRoom");
         return hasRoom as bool;
       });
     } catch (e, s) {
@@ -140,7 +133,6 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<bool> startListenMessages() async {
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenMessages') ?? false;
-      print("CVM START LISTEN MESSAGES SUCCESS: $success");
       return success;
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
@@ -152,7 +144,6 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<void> stopListenMessages() async {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('stopListenMessages');
-      print("CVM STOP LISTEN MESSAGES SUCCESS");
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
@@ -180,7 +171,6 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       final success =
           await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('sendMessage', {'message': message}) ?? false;
-      print("CVM SEND MESSAGE SUCCESS: $success");
       return success;
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
@@ -192,7 +182,6 @@ class CvmRepositoryImpl implements CvmRepository {
   Future<void> loadMore() async {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('loadMore');
-      print("CVM LOAD MORE SUCCESS");
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
