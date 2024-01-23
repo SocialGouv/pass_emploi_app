@@ -73,20 +73,21 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
     );
   }
 
-  Widget? _floatingActionButton(BuildContext context, FavoriListViewModel viewModel) {
-    if (viewModel.displayState == DisplayState.CONTENT) {
-      return FiltreButton(
-        onPressed: () async {
-          OffreFiltersBottomSheet.show(context, _selectedFilter).then((result) {
-            if (result != null) _filterSelected(result);
-          });
-        },
-      );
-    }
-    if (viewModel.displayState == DisplayState.EMPTY) {
-      return PrimaryActionButton(label: Strings.favorisListEmptyButton, onPressed: () => _goToRecherche(context));
-    }
-    return null;
+  Widget _floatingActionButton(BuildContext context, FavoriListViewModel viewModel) {
+    return switch (viewModel.displayState) {
+      DisplayState.EMPTY => PrimaryActionButton(
+          label: Strings.favorisListEmptyButton,
+          onPressed: () => _goToRecherche(context),
+        ),
+      DisplayState.CONTENT => FiltreButton(
+          onPressed: () async {
+            OffreFiltersBottomSheet.show(context, _selectedFilter).then((result) {
+              if (result != null) _filterSelected(result);
+            });
+          },
+        ),
+      _ => SizedBox(),
+    };
   }
 
   void _goToRecherche(BuildContext context) {
