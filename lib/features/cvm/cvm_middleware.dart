@@ -42,8 +42,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
         }
       },
       onError: (Object error) {
-        // TODO
-        print("CVM room stream error");
+        store.dispatch(CvmFailureAction());
       },
     );
   }
@@ -70,7 +69,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
       _repository.logout();
       hasRoom = false;
     }
-    // si background/foreground ...
+    // TODO: si background/foreground ...
   }
 
   Future<void> _loginCvm(Store<AppState> store, CvmRepository repository) async {

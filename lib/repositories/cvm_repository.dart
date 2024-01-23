@@ -17,7 +17,7 @@ abstract class CvmRepository {
   Stream<List<CvmEvent>> getMessages();
   Stream<bool> hasRoom();
 }
-
+// TODO: Ajouter un type d'event ?
 class CvmEvent {
   final String id;
   final bool isFromUser;
