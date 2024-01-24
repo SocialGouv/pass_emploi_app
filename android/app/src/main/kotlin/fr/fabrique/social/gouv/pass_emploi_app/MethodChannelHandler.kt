@@ -32,7 +32,7 @@ class MethodChannelHandler(
             "startListenMessages" -> startListenMessages(result)
             "stopListenMessages" -> stopListenMessages(result)
             "sendMessage" -> sendMessage(call, result)
-            "loadMore" -> loadMore(result)
+            "loadMore" -> loadMore(call, result)
             "logout" -> logout(result)
             else -> result.notImplemented()
         }
@@ -97,8 +97,12 @@ class MethodChannelHandler(
         }
     }
 
-    private fun loadMore(result: Result) {
-        cvmRepository.loadMore { success ->
+    private fun loadMore(call: MethodCall, result: Result) {
+        val limit: Int = call.argument("limit") ?: run {
+            result.error("ARGUMENT_ERROR", "Limit is missing", null)
+            return
+        }
+        cvmRepository.loadMore(limit) { success ->
             result.success(success)
         }
     }

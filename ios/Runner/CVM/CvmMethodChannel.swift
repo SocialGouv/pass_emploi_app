@@ -45,7 +45,7 @@ class CvmMethodChannel {
         case "sendMessage":
             sendMessage(args: args, result: result)
         case "loadMore":
-            loadMore(result: result)
+            loadMore(args: args, result: result)
         case "logout":
             logout(result: result)
         default:
@@ -105,8 +105,12 @@ class CvmMethodChannel {
         }
     }
 
-    private func loadMore(result: @escaping FlutterResult) {
-        repository.loadMore() {
+    private func loadMore(args: Dictionary<String, Any>?, result: @escaping FlutterResult) {
+        guard let limit = args?["limit"] as? Int64 else {
+            result(FlutterMethodNotImplemented)
+            return
+        }
+        repository.loadMore(limit) {
             result(true)
         }
     }
