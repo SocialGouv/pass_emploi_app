@@ -20,7 +20,7 @@ class CvmRepository {
     private var onMessages: EventsReceived?
     private var onHasRooms: RoomsReceived?
     
-    func initializeCvm(limit: Int64) {
+    func initializeCvm(limit: Int) {
         MatrixManager.sharedInstance.initialize(paginationPageSize: limit)
     }
     
@@ -69,7 +69,7 @@ class CvmRepository {
         MatrixManager.sharedInstance.sendMessage(room: room, message: message, completion: completion)
     }
     
-    func loadMore(_ limit: Int64, completion: @escaping VoidCompletion) {
+    func loadMore(limit: Int, completion: @escaping VoidCompletion) {
         guard let room = self.room else {
             completion()
             return
