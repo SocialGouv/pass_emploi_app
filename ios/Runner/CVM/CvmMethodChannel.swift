@@ -58,7 +58,7 @@ class CvmMethodChannel {
             result(FlutterMethodNotImplemented)
             return
         }
-        repository.initializeCvm(limit)
+        repository.initializeCvm(limit: Int(truncatingIfNeeded: limit))
         result(true)
     }
 
@@ -114,7 +114,7 @@ class CvmMethodChannel {
             result(FlutterMethodNotImplemented)
             return
         }
-        repository.loadMore(limit) {
+        repository.loadMore(limit: Int(truncatingIfNeeded: limit)) {
             result(true)
         }
     }
