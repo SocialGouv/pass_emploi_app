@@ -46,8 +46,8 @@ String? getDemoFileName(String url, String query) {
 bool _queryIntervalContainsNow(String query) {
   try {
     final interval = Interval(
-      DateTime.parse(query.split('debut=')[1].substring(0, 10)),
-      DateTime.parse(query.split('fin=')[1].substring(0, 10)),
+      DateTime.parse(query.split('dateDebut=')[1].substring(0, 10)),
+      DateTime.parse(query.split('dateFin=')[1].substring(0, 10)),
     );
     return interval.contains(DateTime.now());
   } catch (_) {

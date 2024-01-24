@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class MonSuiviRepository {
   final Dio _httpClient;
@@ -13,7 +14,13 @@ class MonSuiviRepository {
     final url = "/jeunes/milo/$userId/mon-suivi";
 
     try {
-      final response = await _httpClient.get(url, queryParameters: {"debut": interval.debut, "fin": interval.fin});
+      final response = await _httpClient.get(
+        url,
+        queryParameters: {
+          "dateDebut": interval.debut.toIso8601WithOffsetDateTime(),
+          "dateFin": interval.fin.toIso8601WithOffsetDateTime(),
+        },
+      );
       return MonSuivi.fromJson(response.data);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
