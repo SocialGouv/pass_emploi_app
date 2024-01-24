@@ -189,7 +189,7 @@ class CvmRepositoryImpl implements CvmRepository {
   @override
   Future<void> loadMore() async {
     try {
-      await MethodChannel(_cvmMethodChannel).invokeMethod('loadMore');
+      await MethodChannel(_cvmMethodChannel).invokeMethod('loadMore', {'limit': 20});
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }

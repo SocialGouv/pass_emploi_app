@@ -69,13 +69,13 @@ class CvmRepository {
         MatrixManager.sharedInstance.sendMessage(room: room, message: message, completion: completion)
     }
     
-    func loadMore(completion: @escaping VoidCompletion) {
+    func loadMore(_ limit: Int64, completion: @escaping VoidCompletion) {
         guard let room = self.room else {
             completion()
             return
         }
         
-        MatrixManager.sharedInstance.loadMoreMessage(room: room, withPaginationSize: 5, completion: completion)
+        MatrixManager.sharedInstance.loadMoreMessage(room: room, withPaginationSize: limit, completion: completion)
     }
 
     func startListenRoom() {
