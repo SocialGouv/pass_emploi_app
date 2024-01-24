@@ -93,9 +93,9 @@ bool _shouldInvalidateAccueil(Store<AppState> store, dynamic action) {
       action is AccepterSuggestionRechercheSuccessAction ||
       action is RefuserSuggestionRechercheSuccessAction ||
       _newUserActionsCreated(store, action) ||
-      _isExternalDeepLinkOf<DetailActionDeepLink>(action) ||
-      _isExternalDeepLinkOf<DetailRendezvousDeepLink>(action) ||
-      _isExternalDeepLinkOf<DetailSessionMiloDeepLink>(action) ||
+      _isExternalDeepLinkOf<ActionDeepLink>(action) ||
+      _isExternalDeepLinkOf<RendezvousDeepLink>(action) ||
+      _isExternalDeepLinkOf<SessionMiloDeepLink>(action) ||
       _isExternalDeepLinkOf<AlerteDeepLink>(action);
 }
 
@@ -107,9 +107,9 @@ bool _shouldInvalidateAgenda(Store<AppState> store, dynamic action) {
       action is CreateDemarcheSuccessAction ||
       action is UpdateDemarcheSuccessAction ||
       _newUserActionsCreated(store, action) ||
-      _isExternalDeepLinkOf<DetailActionDeepLink>(action) ||
-      _isExternalDeepLinkOf<DetailRendezvousDeepLink>(action) ||
-      _isExternalDeepLinkOf<DetailSessionMiloDeepLink>(action);
+      _isExternalDeepLinkOf<ActionDeepLink>(action) ||
+      _isExternalDeepLinkOf<RendezvousDeepLink>(action) ||
+      _isExternalDeepLinkOf<SessionMiloDeepLink>(action);
 }
 
 bool _shouldInvalidateUserActionsList(Store<AppState> store, dynamic action) {
@@ -118,7 +118,7 @@ bool _shouldInvalidateUserActionsList(Store<AppState> store, dynamic action) {
       action is UserActionDeleteSuccessAction ||
       action is UserActionUpdateSuccessAction ||
       _newUserActionsCreated(store, action) ||
-      _isExternalDeepLinkOf<DetailActionDeepLink>(action);
+      _isExternalDeepLinkOf<ActionDeepLink>(action);
 }
 
 bool _shouldInvalidateDemarchesList(dynamic action) {
@@ -129,7 +129,7 @@ bool _shouldInvalidateDemarchesList(dynamic action) {
 
 bool _shouldInvalidateRendezvous(dynamic action) {
   return (action is RendezvousListRequestReloadAction && action.forceRefresh) ||
-      _isExternalDeepLinkOf<DetailRendezvousDeepLink>(action);
+      _isExternalDeepLinkOf<RendezvousDeepLink>(action);
 }
 
 bool _shouldInvalidateAnimationsCollectives(dynamic action) {
@@ -138,13 +138,13 @@ bool _shouldInvalidateAnimationsCollectives(dynamic action) {
 
 bool _shouldInvalidateSessionsMiloInscrit(dynamic action) {
   return (action is RendezvousListRequestReloadAction && action.forceRefresh) ||
-      _isExternalDeepLinkOf<DetailRendezvousDeepLink>(action) ||
-      _isExternalDeepLinkOf<DetailSessionMiloDeepLink>(action);
+      _isExternalDeepLinkOf<RendezvousDeepLink>(action) ||
+      _isExternalDeepLinkOf<SessionMiloDeepLink>(action);
 }
 
 bool _shouldInvalidateSessionsMiloList(dynamic action) {
   return (action is EventListRequestAction && action.forceRefresh) ||
-      _isExternalDeepLinkOf<DetailSessionMiloDeepLink>(action);
+      _isExternalDeepLinkOf<SessionMiloDeepLink>(action);
 }
 
 bool _shouldInvalidateFavoris(dynamic action) {

@@ -34,6 +34,7 @@ import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_reducer.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_reducer.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
@@ -62,6 +63,7 @@ import 'package:pass_emploi_app/features/user_action/commentaire/list/action_com
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
+import 'package:pass_emploi_app/features/user_action/details/user_action_details_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_reducer.dart';
 import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
@@ -81,6 +83,7 @@ AppState reducer(AppState current, dynamic action) {
   return AppState(
     configurationState: current.configurationState,
     userActionListState: userActionListReducer(current.userActionListState, action),
+    userActionDetailsState: userActionDetailsReducer(current.userActionDetailsState, action),
     userActionCreateState: userActionCreateReducer(current.userActionCreateState, action),
     userActionCreatePendingState: userActionCreatePendingReducer(current.userActionCreatePendingState, action),
     userActionUpdateState: userActionUpdateReducer(current.userActionUpdateState, action),
@@ -175,6 +178,7 @@ AppState reducer(AppState current, dynamic action) {
     topDemarcheState: topDemarcheReducer(current.topDemarcheState, action),
     sessionMiloDetailsState: sessionMiloDetailsReducer(current.sessionMiloDetailsState, action),
     connectivityState: connectivityReducer(current.connectivityState, action),
+    monSuiviState: monSuiviReducer(current.monSuiviState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
@@ -18,6 +19,7 @@ class AccueilViewModel extends Equatable {
   final DisplayState displayState;
   final List<AccueilItem> items;
   final DeepLink? deepLink;
+  final bool shouldResetDeeplink;
   final Function() resetDeeplink;
   final Function() retry;
 
@@ -25,6 +27,7 @@ class AccueilViewModel extends Equatable {
     required this.displayState,
     required this.items,
     required this.deepLink,
+    required this.shouldResetDeeplink,
     required this.resetDeeplink,
     required this.retry,
   });
@@ -34,6 +37,7 @@ class AccueilViewModel extends Equatable {
       displayState: _displayState(store),
       items: _items(store),
       deepLink: store.getDeepLink(),
+      shouldResetDeeplink: _shouldResetDeeplink(store),
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction(forceRefresh: true)),
     );
@@ -48,6 +52,16 @@ DisplayState _displayState(Store<AppState> store) {
     AccueilSuccessState _ => DisplayState.CONTENT,
     AccueilFailureState _ => DisplayState.FAILURE,
     AccueilLoadingState _ || AccueilNotInitializedState _ => DisplayState.LOADING,
+  };
+}
+
+bool _shouldResetDeeplink(Store<AppState> store) {
+  final deeplinkState = store.state.deepLinkState;
+  if (deeplinkState is! HandleDeepLinkState) return false;
+
+  return switch (deeplinkState.deepLink) {
+    AlerteDeepLink() => false,
+    _ => true,
   };
 }
 

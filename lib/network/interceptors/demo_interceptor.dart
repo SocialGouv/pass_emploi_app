@@ -19,7 +19,7 @@ class DemoInterceptor extends PassEmploiBaseInterceptor {
   void onPassEmploiRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     throwModeDemoExceptionIfNecessary(options.method == "GET", options.uri);
 
-    if (!demoRepository.getModeDemo() || !options.uri.toString().isSupposedToBeMocked()) {
+    if (!demoRepository.isModeDemo() || !options.uri.toString().isSupposedToBeMocked()) {
       handler.next(options);
       return;
     }

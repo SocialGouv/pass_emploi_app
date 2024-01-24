@@ -8,7 +8,7 @@ class ConnectivityViewModel extends Equatable {
   ConnectivityViewModel._(this.isOnline);
 
   factory ConnectivityViewModel.create(Store<AppState> store) {
-    return ConnectivityViewModel._(store.state.connectivityState.isOnline());
+    return ConnectivityViewModel._(store.state.connectivityState.isOnline() || store.state.demoState);
   }
 
   @override

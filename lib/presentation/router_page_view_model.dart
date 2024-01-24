@@ -72,21 +72,17 @@ MainPageDisplayState _toMainPageDisplayState(Store<AppState> store) {
   if (deepLink != null) {
     return _toMainPageDisplayStateByDeepLink(deepLink);
   }
-  return MainPageDisplayState.DEFAULT;
+  return MainPageDisplayState.accueil;
 }
 
 MainPageDisplayState _toMainPageDisplayStateByDeepLink(DeepLink deepLink) {
-  if (deepLink is AgendaDeepLink) return MainPageDisplayState.AGENDA_TAB;
-  if (deepLink is DetailActionDeepLink) return MainPageDisplayState.ACTIONS_TAB;
-  if (deepLink is DetailRendezvousDeepLink) return MainPageDisplayState.RENDEZVOUS_TAB;
-  if (deepLink is DetailSessionMiloDeepLink) return MainPageDisplayState.RENDEZVOUS_TAB;
-  if (deepLink is NouveauMessageDeepLink) return MainPageDisplayState.CHAT;
-  if (deepLink is FavorisDeepLink) return MainPageDisplayState.FAVORIS;
-  if (deepLink is AlerteDeepLink) return MainPageDisplayState.ALERTE;
-  if (deepLink is AlertesDeepLink) return MainPageDisplayState.ALERTES;
-  if (deepLink is EventListDeepLink) return MainPageDisplayState.EVENT_LIST;
-  if (deepLink is ActualisationPeDeepLink) return MainPageDisplayState.ACTUALISATION_PE;
-  if (deepLink is RechercheDeepLink) return MainPageDisplayState.RECHERCHE;
-  if (deepLink is OutilsDeepLink) return MainPageDisplayState.OUTILS;
-  return MainPageDisplayState.DEFAULT;
+  return switch (deepLink) {
+    ActualisationPeDeepLink() => MainPageDisplayState.actualisationPoleEmploi,
+    AgendaDeepLink() => MainPageDisplayState.monSuivi,
+    NouveauMessageDeepLink() => MainPageDisplayState.chat,
+    EventListDeepLink() => MainPageDisplayState.evenements,
+    RechercheDeepLink() => MainPageDisplayState.solutionsRecherche,
+    OutilsDeepLink() => MainPageDisplayState.solutionsOutils,
+    _ => MainPageDisplayState.accueil,
+  };
 }

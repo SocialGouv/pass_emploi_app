@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_loader.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
@@ -84,7 +83,6 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   }
 
   void _onDidChange(RendezvousListViewModel? previous, RendezvousListViewModel current) {
-    _openDeeplinkIfNeeded(current, context);
     if (previous?.isReloading == true && _currentRendezvousAreUpToDate(current)) {
       showSnackBarWithInformation(context, Strings.rendezvousUpToDate);
     }
@@ -93,16 +91,6 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   bool _currentRendezvousAreUpToDate(RendezvousListViewModel current) {
     return [DisplayState.CONTENT, DisplayState.EMPTY].contains(current.displayState) &&
         (current.rendezvousItems.isEmpty || current.rendezvousItems.first is! RendezvousNotUpToDateItem);
-  }
-
-  void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
-    if (viewModel.deeplink != null) {
-      Navigator.push(
-        context,
-        RendezvousDetailsPage.materialPageRoute(viewModel.deeplink!.source, viewModel.deeplink!.deeplinkId),
-      );
-      viewModel.onDeeplinkUsed();
-    }
   }
 }
 

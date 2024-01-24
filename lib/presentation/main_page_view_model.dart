@@ -10,18 +10,13 @@ import 'package:redux/redux.dart';
 enum MainTab { accueil, monSuivi, chat, solutions, evenements }
 
 enum MainPageDisplayState {
-  DEFAULT,
-  AGENDA_TAB,
-  ACTIONS_TAB,
-  RENDEZVOUS_TAB,
-  CHAT,
-  FAVORIS,
-  ALERTE,
-  ALERTES,
-  EVENT_LIST,
-  ACTUALISATION_PE,
-  RECHERCHE,
-  OUTILS,
+  accueil,
+  monSuivi,
+  chat,
+  evenements,
+  solutionsRecherche,
+  solutionsOutils,
+  actualisationPoleEmploi,
 }
 
 class MainPageViewModel extends Equatable {

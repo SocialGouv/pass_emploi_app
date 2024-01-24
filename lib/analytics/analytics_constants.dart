@@ -16,6 +16,7 @@ class AnalyticsScreenNames {
   static const accueil = "accueil";
   static const accueilSuggestionsListe = "accueil/suggested_list";
   static const monSuivi = "mon_suivi";
+  static const monSuiviMilo = "mon_suivi/milo";
   static const agenda = "agenda";
   static const chat = "chat";
   static const profil = "profil";

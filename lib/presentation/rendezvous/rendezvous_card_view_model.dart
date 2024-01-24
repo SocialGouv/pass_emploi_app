@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_view_model_helper.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_store_extension.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
@@ -32,7 +32,7 @@ class RendezvousCardViewModel extends Equatable {
   });
 
   factory RendezvousCardViewModel.create(Store<AppState> store, RendezvousStateSource source, String rdvId) {
-    final rdv = getRendezvous(store, source, rdvId);
+    final rdv = store.getRendezvous(source, rdvId);
     return RendezvousCardViewModel(
       id: rdv.id,
       tag: rdv.type.label,

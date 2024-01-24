@@ -1,16 +1,12 @@
 // ignore_for_file: must_be_immutable
 // La variable _currentTab est utilisée pour ne pas tracker plusieurs fois un même changement d'onglet
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/agenda_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
-import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
-import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
@@ -18,22 +14,40 @@ import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 
+const int indexOfDemarchesTab = 1;
+
 class MonSuiviTabPage extends StatefulWidget {
-  final MonSuiviTab? initialTab;
-
-  MonSuiviTabPage([this.initialTab]) : super();
-
   @override
   State<MonSuiviTabPage> createState() => _MonSuiviTabPageState();
 }
 
 class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProviderStateMixin {
-  TabController? _tabController;
+  late TabController _tabController;
   int? _currentTab;
 
   @override
+  void initState() {
+    _tabController = TabController(vsync: this, length: 3);
+    _tabController.addListener(() {
+      if (_tabController.index != _currentTab) {
+        _currentTab = _tabController.index;
+        if (_tabController.index == indexOfDemarchesTab) {
+          context.trackEvent(EventType.ACTION_LISTE);
+        }
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _currentTab = _tabController.index;
+  }
+
+  @override
   void dispose() {
-    _tabController?.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -41,76 +55,34 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.monSuivi,
-      child: StoreConnector<AppState, MonSuiviViewModel>(
-        converter: (store) => MonSuiviViewModel.create(store, widget.initialTab),
-        builder: (context, viewModel) => _builder(viewModel),
-        distinct: true,
-      ),
-    );
-  }
-
-  Widget _builder(MonSuiviViewModel viewModel) {
-    _initializeTabController(viewModel);
-    return Scaffold(
-      backgroundColor: AppColors.grey100,
-      appBar: PrimaryAppBar(title: Strings.monSuiviAppBarTitle),
-      body: ConnectivityContainer(child: _getBody(viewModel)),
-    );
-  }
-
-  void _initializeTabController(MonSuiviViewModel viewModel) {
-    if (_tabController == null) {
-      _tabController = TabController(
-        vsync: this,
-        length: viewModel.tabs.length,
-        initialIndex: viewModel.initialTabIndex,
-      );
-      _currentTab = viewModel.initialTabIndex;
-      _trackTabIfNeeded(viewModel);
-    }
-  }
-
-  void _trackTabIfNeeded(MonSuiviViewModel viewModel) {
-    if (_tabController == null) return;
-    _tabController!.addListener(() {
-      if (_tabController!.index != _currentTab) {
-        setState(() => _currentTab = _tabController!.index);
-        _currentTab = _tabController!.index;
-        if (_tabController!.index == viewModel.tabs.indexOf(MonSuiviTab.ACTIONS) ||
-            _tabController!.index == viewModel.tabs.indexOf(MonSuiviTab.DEMARCHE)) {
-          context.trackEvent(EventType.ACTION_LISTE);
-        }
-      }
-    });
-  }
-
-  Widget _setTabContent(MonSuiviViewModel viewModel) {
-    return TabBarView(
-      controller: _tabController,
-      children: viewModel.tabs.map((tab) {
-        switch (tab) {
-          case MonSuiviTab.AGENDA:
-            return AgendaPage(() => _tabController?.animateTo(1));
-          case MonSuiviTab.ACTIONS:
-            return UserActionListPage();
-          case MonSuiviTab.DEMARCHE:
-            return DemarcheListPage();
-          case MonSuiviTab.RENDEZVOUS:
-            return RendezvousListPage();
-        }
-      }).toList(),
-    );
-  }
-
-  Widget _getBody(MonSuiviViewModel viewModel) {
-    return Column(
-      children: [
-        PassEmploiTabBar(
-          controller: _tabController,
-          tabLabels: viewModel.tabTitles,
+      child: Scaffold(
+        backgroundColor: AppColors.grey100,
+        appBar: PrimaryAppBar(title: Strings.monSuiviAppBarTitle),
+        body: ConnectivityContainer(
+          child: Column(
+            children: [
+              PassEmploiTabBar(
+                controller: _tabController,
+                tabLabels: [
+                  Strings.agendaTabTitle,
+                  Strings.demarcheTabTitle,
+                  Strings.rendezvousTabTitle,
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    AgendaPage(() => _tabController.animateTo(1)),
+                    DemarcheListPage(),
+                    RendezvousListPage(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-        Expanded(child: _setTabContent(viewModel)),
-      ],
+      ),
     );
   }
 }

@@ -35,6 +35,7 @@ import 'package:pass_emploi_app/features/immersion/details/immersion_details_sta
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
@@ -55,6 +56,7 @@ import 'package:pass_emploi_app/features/user_action/commentaire/list/action_com
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
+import 'package:pass_emploi_app/features/user_action/details/user_action_details_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
@@ -71,6 +73,7 @@ class AppState extends Equatable {
   final LoginState loginState;
   final DeepLinkState deepLinkState;
   final UserActionListState userActionListState;
+  final UserActionDetailsState userActionDetailsState;
   final UserActionCreateState userActionCreateState;
   final UserActionCreatePendingState userActionCreatePendingState;
   final UserActionUpdateState userActionUpdateState;
@@ -132,6 +135,7 @@ class AppState extends Equatable {
   final TopDemarcheState topDemarcheState;
   final SessionMiloDetailsState sessionMiloDetailsState;
   final ConnectivityState connectivityState;
+  final MonSuiviState monSuiviState;
 
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
@@ -140,6 +144,7 @@ class AppState extends Equatable {
     required this.loginState,
     required this.deepLinkState,
     required this.userActionListState,
+    required this.userActionDetailsState,
     required this.userActionCreateState,
     required this.userActionCreatePendingState,
     required this.userActionUpdateState,
@@ -201,12 +206,14 @@ class AppState extends Equatable {
     required this.topDemarcheState,
     required this.sessionMiloDetailsState,
     required this.connectivityState,
+    required this.monSuiviState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
   AppState copyWith({
     final LoginState? loginState,
     final UserActionListState? userActionListState,
+    final UserActionDetailsState? userActionDetailsState,
     final UserActionCreateState? userActionCreateState,
     final UserActionCreatePendingState? userActionCreatePendingState,
     final UserActionUpdateState? userActionUpdateState,
@@ -270,12 +277,14 @@ class AppState extends Equatable {
     final TopDemarcheState? topDemarcheState,
     final SessionMiloDetailsState? sessionMiloDetailsState,
     final ConnectivityState? connectivityState,
+    final MonSuiviState? monSuiviState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
       deepLinkState: deepLinkState ?? this.deepLinkState,
       userActionListState: userActionListState ?? this.userActionListState,
+      userActionDetailsState: userActionDetailsState ?? this.userActionDetailsState,
       userActionCreateState: userActionCreateState ?? this.userActionCreateState,
       userActionCreatePendingState: userActionCreatePendingState ?? this.userActionCreatePendingState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
@@ -338,6 +347,7 @@ class AppState extends Equatable {
       topDemarcheState: topDemarcheState ?? this.topDemarcheState,
       sessionMiloDetailsState: sessionMiloDetailsState ?? this.sessionMiloDetailsState,
       connectivityState: connectivityState ?? this.connectivityState,
+      monSuiviState: monSuiviState ?? this.monSuiviState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -347,6 +357,7 @@ class AppState extends Equatable {
       loginState: LoginNotInitializedState(),
       deepLinkState: DeepLinkState.notInitialized(),
       userActionListState: UserActionListNotInitializedState(),
+      userActionDetailsState: UserActionDetailsNotInitializedState(),
       userActionCreateState: UserActionCreateNotInitializedState(),
       userActionCreatePendingState: UserActionCreatePendingNotInitializedState(),
       userActionUpdateState: UserActionUpdateNotInitializedState(),
@@ -409,13 +420,17 @@ class AppState extends Equatable {
       topDemarcheState: TopDemarcheNotInitializedState(),
       sessionMiloDetailsState: SessionMiloDetailsNotInitializedState(),
       connectivityState: ConnectivityState.notInitialized(),
+      monSuiviState: MonSuiviNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         deepLinkState,
+        userActionListState,
+        userActionDetailsState,
         userActionCreateState,
         userActionCreatePendingState,
         userActionUpdateState,
@@ -433,7 +448,6 @@ class AppState extends Equatable {
         searchLocationState,
         searchMetierState,
         loginState,
-        userActionListState,
         rendezvousListState,
         rendezvousDetailsState,
         immersionDetailsState,
@@ -473,6 +487,7 @@ class AppState extends Equatable {
         topDemarcheState,
         sessionMiloDetailsState,
         connectivityState,
+        monSuiviState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

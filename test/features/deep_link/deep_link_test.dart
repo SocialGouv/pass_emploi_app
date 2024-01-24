@@ -64,18 +64,13 @@ void main() {
     group('Deeplink from issuer…', () {
       group('Backend', () {
         assertStateWithJson(
-          {"type": "NEW_ACTION"},
-          DetailActionDeepLink(idAction: null),
-          DeepLinkOrigin.pushNotification,
-        );
-        assertStateWithJson(
           {"type": "NEW_ACTION", "id": "id"},
-          DetailActionDeepLink(idAction: 'id'),
+          ActionDeepLink('id'),
           DeepLinkOrigin.pushNotification,
         );
         assertStateWithJson(
           {"type": "DETAIL_ACTION", "id": "id"},
-          DetailActionDeepLink(idAction: 'id'),
+          ActionDeepLink('id'),
           DeepLinkOrigin.pushNotification,
         );
         assertStateWithJson(
@@ -83,26 +78,19 @@ void main() {
           NouveauMessageDeepLink(),
           DeepLinkOrigin.pushNotification,
         );
-
-        assertStateWithJson(
-          {"type": "DELETED_RENDEZVOUS"},
-          DetailRendezvousDeepLink(idRendezvous: null),
-          DeepLinkOrigin.pushNotification,
-        );
-
         assertStateWithJson(
           {"type": "NEW_RENDEZVOUS", "id": "id"},
-          DetailRendezvousDeepLink(idRendezvous: 'id'),
+          RendezvousDeepLink('id'),
           DeepLinkOrigin.pushNotification,
         );
         assertStateWithJson(
           {"type": "RAPPEL_RENDEZVOUS", "id": "id"},
-          DetailRendezvousDeepLink(idRendezvous: 'id'),
+          RendezvousDeepLink('id'),
           DeepLinkOrigin.pushNotification,
         );
         assertStateWithJson(
           {"type": "DETAIL_SESSION_MILO", "id": "id"},
-          DetailSessionMiloDeepLink(idSessionMilo: 'id'),
+          SessionMiloDeepLink('id'),
           DeepLinkOrigin.pushNotification,
         );
         assertStateWithJson(
@@ -129,7 +117,7 @@ void main() {
       group('In app', () {
         assertStateWithJson(
           {"type": "DETAIL_RENDEZVOUS", "id": "id"},
-          DetailRendezvousDeepLink(idRendezvous: 'id'),
+          RendezvousDeepLink('id'),
           DeepLinkOrigin.inAppNavigation,
         );
 
@@ -171,6 +159,23 @@ void main() {
           DeepLinkOrigin.pushNotification,
         );
       });
+    });
+
+    group('Obsolete deep links - not handled anymore', () {
+      assertDeepLinkIsNotExisting(
+        "Type NEW_ACTION without id",
+        {"type": "NEW_ACTION"},
+      );
+
+      assertDeepLinkIsNotExisting(
+        "Type DELETED_RENDEZVOUS without id",
+        {"type": "DELETED_RENDEZVOUS"},
+      );
+
+      assertDeepLinkIsNotExisting(
+        "Type DETAIL_SESSION_MILO without id",
+        {"type": "DETAIL_SESSION_MILO"},
+      );
     });
 
     group('Special cases', () {

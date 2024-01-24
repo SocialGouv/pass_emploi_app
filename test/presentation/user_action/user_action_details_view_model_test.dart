@@ -1,11 +1,14 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
+import 'package:pass_emploi_app/features/user_action/details/user_action_details_actions.dart';
+import 'package:pass_emploi_app/features/user_action/details/user_action_details_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
@@ -24,28 +27,82 @@ void main() {
 
     // Then
     expect(viewModel, isNotNull);
+    expect(viewModel.displayState, DisplayState.CONTENT);
   });
 
-  test('create should work when state source is agenda', () {
+  test('create should work when state source is mon suivi', () {
     // Given
-    final store = givenState().agenda(actions: [mockUserAction(id: 'id')]).store();
+    final store = givenState().monSuivi(monSuivi: mockMonSuivi(actions: [mockUserAction(id: 'id')])).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.agenda, 'id');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.monSuivi, 'id');
 
     // Then
     expect(viewModel, isNotNull);
+    expect(viewModel.displayState, DisplayState.CONTENT);
   });
 
   test('create should work when no action is found to handle the case where user delete the action', () {
     // Given
-    final store = givenState().agenda(actions: []).store();
+    final store = givenState().monSuivi().store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.agenda, 'id');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.monSuivi, 'id');
 
     // Then
     expect(viewModel, isNotNull);
+    expect(viewModel.displayState, DisplayState.LOADING);
+  });
+
+  group('when action should be retrieved with no source', () {
+    test('when details state is loading should display loader', () {
+      // Given
+      final store = givenState().copyWith(userActionDetailsState: UserActionDetailsLoadingState()).store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'id');
+
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
+    });
+
+    test('when details state is failure should display failure', () {
+      // Given
+      final store = givenState().copyWith(userActionDetailsState: UserActionDetailsFailureState()).store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'id');
+
+      // Then
+      expect(viewModel.displayState, DisplayState.FAILURE);
+    });
+
+    test('when details state is failure, onRetry should dispatch UserActionDeleteRequestAction', () {
+      // Given
+      final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
+
+      // When
+      viewModel.onRetry();
+
+      // Then
+      expect(store.dispatchedAction, isA<UserActionDetailsRequestAction>());
+      expect((store.dispatchedAction as UserActionDetailsRequestAction).userActionId, 'actionId');
+    });
+
+    test('when details state is success should display content', () {
+      // Given
+      final store = givenState() //
+          .copyWith(userActionDetailsState: UserActionDetailsSuccessState(mockUserAction(id: 'id')))
+          .store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'id');
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.id, 'id');
+    });
   });
 
   group("create when update action...", () {
@@ -167,13 +224,13 @@ void main() {
     expect(viewModel.withOfflineBehavior, isTrue);
   });
 
-  test("create when source is agenda should create view model properly", () {
+  test("create when source is mon suivi should create view model properly", () {
     // Given
     final action = mockUserAction(id: 'actionId', content: 'content');
-    final store = givenState().agenda(actions: [action]).store();
+    final store = givenState().monSuivi(monSuivi: mockMonSuivi(actions: [action])).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.agenda, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.monSuivi, 'actionId');
 
     // Then
     expect(viewModel.title, 'content');

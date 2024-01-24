@@ -14,9 +14,13 @@ import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
 import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
+import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
+import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -51,17 +55,27 @@ class AccueilPage extends StatelessWidget {
   }
 
   void _handleDeeplink(BuildContext context, AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) {
-    final deepLink = newViewModel.deepLink;
-    if (deepLink is FavorisDeepLink) {
-      Navigator.push(context, OffreFavorisPage.materialPageRoute());
-    } else if (deepLink is AlerteDeepLink) {
-      Navigator.push(context, AlertePage.materialPageRoute());
-    } else if (deepLink is AlertesDeepLink) {
-      Navigator.push(context, AlertePage.materialPageRoute());
-    } else {
-      return;
-    }
-    newViewModel.resetDeeplink();
+    final route = switch (newViewModel.deepLink) {
+      final RendezvousDeepLink deeplink => RendezvousDetailsPage.materialPageRoute(
+          RendezvousStateSource.noSource,
+          deeplink.idRendezvous,
+        ),
+      final SessionMiloDeepLink deeplink => RendezvousDetailsPage.materialPageRoute(
+          RendezvousStateSource.sessionMiloDetails,
+          deeplink.idSessionMilo,
+        ),
+      final ActionDeepLink deeplink => UserActionDetailPage.materialPageRoute(
+          deeplink.idAction,
+          UserActionStateSource.noSource,
+        ),
+      AlerteDeepLink() => AlertePage.materialPageRoute(),
+      AlertesDeepLink() => AlertePage.materialPageRoute(),
+      FavorisDeepLink() => OffreFavorisPage.materialPageRoute(),
+      _ => null,
+    };
+
+    if (route != null) Navigator.push(context, route);
+    if (newViewModel.shouldResetDeeplink) newViewModel.resetDeeplink();
   }
 }
 

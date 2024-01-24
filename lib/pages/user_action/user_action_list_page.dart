@@ -51,23 +51,12 @@ class _UserActionListPageState extends State<UserActionListPage> {
         onInit: (store) => store.dispatch(UserActionListRequestAction()),
         builder: (context, viewModel) => _scaffold(context, viewModel),
         converter: (store) => UserActionListPageViewModel.create(store),
-        onDidChange: (previousViewModel, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
         onDispose: (store) {
           store.dispatch(UserActionListResetAction());
           store.dispatch(UserActionCreateResetAction());
         },
       ),
     );
-  }
-
-  void _openDeeplinkIfNeeded(UserActionListPageViewModel viewModel, BuildContext context) {
-    if (viewModel.deeplinkActionId != null) {
-      Navigator.push(
-        context,
-        UserActionDetailPage.materialPageRoute(viewModel.deeplinkActionId!, UserActionStateSource.list),
-      );
-      viewModel.onDeeplinkUsed();
-    }
   }
 
   Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel) {

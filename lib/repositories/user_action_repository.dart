@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_user_action_request.dart';
 import 'package:pass_emploi_app/network/put_user_action_request.dart';
@@ -20,6 +21,17 @@ class UserActionRepository {
     try {
       final response = await _httpClient.get(url);
       return PageActions.fromJson(response.data);
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
+    }
+    return null;
+  }
+
+  Future<UserAction?> getUserAction(String actionId) async {
+    final url = '/actions/$actionId';
+    try {
+      final response = await _httpClient.get(url);
+      return UserAction.fromJson(response.data);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }

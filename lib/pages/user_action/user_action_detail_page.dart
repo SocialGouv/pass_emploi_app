@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
+import 'package:pass_emploi_app/features/user_action/details/user_action_details_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
@@ -57,99 +58,27 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
         builder: (context, confettiController) {
           return StoreConnector<AppState, UserActionDetailsViewModel>(
             onInit: (store) {
+              if (widget.source == UserActionStateSource.noSource) {
+                store.dispatch(UserActionDetailsRequestAction(widget.userActionId));
+              }
               store.dispatch(UserActionUpdateResetAction());
               store.dispatch(UserActionDeleteResetAction());
             },
             converter: (store) => UserActionDetailsViewModel.create(store, widget.source, widget.userActionId),
-            builder: (context, viewModel) => _build(context, viewModel, () => confettiController.play()),
+            builder: (context, viewModel) => _Scaffold(
+              body: _Body(viewModel, () => confettiController.play()),
+              viewModel: viewModel,
+              source: widget.source,
+            ),
+            onDispose: (store) {
+              if (widget.source == UserActionStateSource.noSource) store.dispatch(UserActionDetailsResetAction());
+            },
             onDidChange: (previousVm, newVm) => _pageNavigationHandling(newVm),
             distinct: true,
           );
         },
       ),
     );
-  }
-
-  Widget _build(BuildContext context, UserActionDetailsViewModel viewModel, VoidCallback onActionDone) {
-    return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.actionDetails),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (viewModel.withUnfinishedButton) ...[
-              SizedBox(height: Margins.spacing_base),
-              _UnfinishedActionButton(viewModel),
-            ],
-            if (viewModel.withUpdateButton) ...[
-              SizedBox(height: Margins.spacing_base),
-              _UpdateButton(widget.source, widget.userActionId),
-            ],
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Stack(
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (viewModel.withOfflineBehavior) ConnectivityBandeau(),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (viewModel.pillule != null) ...[
-                          _StatusPillule(pilluleType: viewModel.pillule!),
-                          SizedBox(height: Margins.spacing_base),
-                        ],
-                        _Title(title: viewModel.title),
-                        SizedBox(height: Margins.spacing_base),
-                        if (viewModel.withFinishedButton) _FinishActionButton(viewModel, onActionDone),
-                        SizedBox(height: Margins.spacing_m),
-                        _Separator(),
-                        SizedBox(height: Margins.spacing_m),
-                        Text(Strings.userActionDetailsSection, style: TextStyles.textBaseBold),
-                        if (viewModel.withSubtitle) ...[
-                          SizedBox(height: Margins.spacing_base),
-                          _Description(
-                            withSubtitle: viewModel.withSubtitle,
-                            subtitle: viewModel.subtitle,
-                          ),
-                        ],
-                        SizedBox(height: Margins.spacing_l),
-                        _DateAndCategory(viewModel),
-                        SizedBox(height: Margins.spacing_l),
-                        Text(viewModel.creationDetails, style: TextStyles.textSRegular(color: AppColors.grey800)),
-                        SizedBox(height: Margins.spacing_m),
-                        _Separator(),
-                        if (viewModel.withComments) ...[
-                          SizedBox(height: Margins.spacing_base),
-                          _CommentSection(viewModel),
-                        ],
-                        SizedBox(height: Margins.spacing_l),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          if (_isLoading(viewModel)) LoadingOverlay(),
-        ],
-      ),
-    );
-  }
-
-  bool _isLoading(UserActionDetailsViewModel viewModel) {
-    return viewModel.updateDisplayState == UpdateDisplayState.SHOW_LOADING ||
-        viewModel.deleteDisplayState == DeleteDisplayState.SHOW_LOADING;
   }
 
   void _pageNavigationHandling(UserActionDetailsViewModel viewModel) {
@@ -179,6 +108,129 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
 
   void _trackSuccessfulUpdate() {
     PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.updateUserAction);
+  }
+}
+
+class _Scaffold extends StatelessWidget {
+  final Widget body;
+  final UserActionDetailsViewModel viewModel;
+  final UserActionStateSource source;
+
+  const _Scaffold({
+    required this.body,
+    required this.viewModel,
+    required this.source,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: SecondaryAppBar(title: Strings.actionDetails),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (viewModel.withUnfinishedButton) ...[
+              SizedBox(height: Margins.spacing_base),
+              _UnfinishedActionButton(viewModel),
+            ],
+            if (viewModel.withUpdateButton) ...[
+              SizedBox(height: Margins.spacing_base),
+              _UpdateButton(source, viewModel.id),
+            ],
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: body,
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final UserActionDetailsViewModel viewModel;
+  final VoidCallback onActionDone;
+
+  const _Body(this.viewModel, this.onActionDone);
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (viewModel.displayState) {
+      DisplayState.CONTENT => _Content(viewModel, onActionDone),
+      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+      _ => Center(child: Retry(Strings.userActionDetailsError, () => viewModel.onRetry()))
+    };
+  }
+}
+
+class _Content extends StatelessWidget {
+  final UserActionDetailsViewModel viewModel;
+  final VoidCallback onActionDone;
+
+  const _Content(this.viewModel, this.onActionDone);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (viewModel.withOfflineBehavior) ConnectivityBandeau(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (viewModel.pillule != null) ...[
+                        _StatusPillule(pilluleType: viewModel.pillule!),
+                        SizedBox(height: Margins.spacing_base),
+                      ],
+                      _Title(title: viewModel.title),
+                      SizedBox(height: Margins.spacing_base),
+                      if (viewModel.withFinishedButton) _FinishActionButton(viewModel, onActionDone),
+                      SizedBox(height: Margins.spacing_m),
+                      _Separator(),
+                      SizedBox(height: Margins.spacing_m),
+                      Text(Strings.userActionDetailsSection, style: TextStyles.textBaseBold),
+                      if (viewModel.withSubtitle) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _Description(
+                          withSubtitle: viewModel.withSubtitle,
+                          subtitle: viewModel.subtitle,
+                        ),
+                      ],
+                      SizedBox(height: Margins.spacing_l),
+                      _DateAndCategory(viewModel),
+                      SizedBox(height: Margins.spacing_l),
+                      Text(viewModel.creationDetails, style: TextStyles.textSRegular(color: AppColors.grey800)),
+                      SizedBox(height: Margins.spacing_m),
+                      _Separator(),
+                      if (viewModel.withComments) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _CommentSection(viewModel),
+                      ],
+                      SizedBox(height: Margins.spacing_l),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        if (_isLoading(viewModel)) LoadingOverlay(),
+      ],
+    );
+  }
+
+  bool _isLoading(UserActionDetailsViewModel viewModel) {
+    return viewModel.updateDisplayState == UpdateDisplayState.SHOW_LOADING ||
+        viewModel.deleteDisplayState == DeleteDisplayState.SHOW_LOADING;
   }
 }
 

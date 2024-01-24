@@ -6,20 +6,23 @@ import 'package:pass_emploi_app/ui/margins.dart';
 
 class DashedBox extends StatelessWidget {
   final Widget child;
+  final EdgeInsetsGeometry padding;
+  final Color color;
 
-  DashedBox({required this.child});
+  DashedBox({
+    required this.child,
+    this.padding = const EdgeInsets.all(Margins.spacing_m),
+    this.color = AppColors.grey800,
+  });
 
   @override
   Widget build(BuildContext context) {
     return DottedBorder(
       borderType: BorderType.RRect,
       radius: Radius.circular(Dimens.radius_base),
-      color: AppColors.grey800,
+      color: color,
       dashPattern: [8, 8],
-      child: Padding(
-        padding: const EdgeInsets.all(Margins.spacing_m),
-        child: child,
-      ),
+      child: Padding(padding: padding, child: child),
     );
   }
 }

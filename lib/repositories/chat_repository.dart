@@ -185,7 +185,7 @@ class ChatRepository {
   }
 
   Future<String?> _getChatDocumentId(String userId) async {
-    if (_demoRepository.getModeDemo()) {
+    if (_demoRepository.isModeDemo()) {
       return null;
     }
     final chats =
