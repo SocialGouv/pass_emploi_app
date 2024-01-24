@@ -54,6 +54,8 @@ class CvmRepositoryImpl implements CvmRepository {
   static const _cvmEventChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/events';
   static const _cvmRoomsChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/rooms';
 
+  static const int _pageLimit = 20;
+
   final _aggregator = _CvmEventsAggregator();
   final Crashlytics? _crashlytics;
 
@@ -62,7 +64,7 @@ class CvmRepositoryImpl implements CvmRepository {
   @override
   Future<void> initializeCvm() async {
     try {
-      await MethodChannel(_cvmMethodChannel).invokeMethod('initializeCvm');
+      await MethodChannel(_cvmMethodChannel).invokeMethod('initializeCvm', {'limit': _pageLimit});
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
@@ -189,7 +191,7 @@ class CvmRepositoryImpl implements CvmRepository {
   @override
   Future<void> loadMore() async {
     try {
-      await MethodChannel(_cvmMethodChannel).invokeMethod('loadMore', {'limit': 20});
+      await MethodChannel(_cvmMethodChannel).invokeMethod('loadMore', {'limit': _pageLimit});
     } catch (e, s) {
       _crashlytics?.recordCvmException(e, s);
     }
