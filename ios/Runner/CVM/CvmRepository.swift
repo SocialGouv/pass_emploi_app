@@ -20,8 +20,8 @@ class CvmRepository {
     private var onMessages: EventsReceived?
     private var onHasRooms: RoomsReceived?
     
-    func initializeCvm() {
-        MatrixManager.sharedInstance.initialize(paginationPageSize: 5)
+    func initializeCvm(limit: Int64) {
+        MatrixManager.sharedInstance.initialize(paginationPageSize: limit)
     }
     
     func setMessageCallback(_ onMessages: @escaping EventsReceived) {

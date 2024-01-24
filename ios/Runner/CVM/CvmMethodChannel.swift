@@ -29,7 +29,7 @@ class CvmMethodChannel {
 
         switch (call.method) {
         case "initializeCvm":
-            initializeCvm(result: result)
+            initializeCvm(args: args, result: result)
         case "login":
             login(args: args, result: result)
         case "joinFirstRoom":
@@ -53,8 +53,12 @@ class CvmMethodChannel {
         }
     }
     
-    private func initializeCvm(result: FlutterResult) {
-        repository.initializeCvm()
+    private func initializeCvm(args: Dictionary<String, Any>?, result: FlutterResult) {
+        guard let limit = args?["limit"] as? Int64 else {
+            result(FlutterMethodNotImplemented)
+            return
+        }
+        repository.initializeCvm(limit)
         result(true)
     }
 
