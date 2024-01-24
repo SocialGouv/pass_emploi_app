@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 
-const indexOfDemarchesTab = 1;
+const int indexOfDemarchesTab = 1;
 
 class MonSuiviTabPage extends StatefulWidget {
   @override

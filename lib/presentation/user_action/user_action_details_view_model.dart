@@ -116,17 +116,8 @@ class UserActionDetailsViewModel extends Equatable {
   }
 
   factory UserActionDetailsViewModel.empty(Store<AppState> store, UserActionStateSource source, String userActionId) {
-    final DisplayState displayState;
-    if (source == UserActionStateSource.noSource) {
-      displayState = switch (store.state.userActionDetailsState) {
-        UserActionDetailsFailureState() => DisplayState.FAILURE,
-        _ => DisplayState.LOADING,
-      };
-    } else {
-      displayState = DisplayState.LOADING;
-    }
     return UserActionDetailsViewModel._(
-      displayState: displayState,
+      displayState: _displayStateForEmptyViewModel(store, source),
       id: '',
       title: '',
       subtitle: '',
@@ -232,4 +223,14 @@ String _creationDetails(UserAction? action) {
   final creatorName =
       action.creator is ConseillerActionCreator ? Strings.yourConseillerLowercase : Strings.youLowercase;
   return Strings.actionCreationInfos(creatorName, creationDate);
+}
+
+DisplayState _displayStateForEmptyViewModel(Store<AppState> store, UserActionStateSource source) {
+  if (source == UserActionStateSource.noSource) {
+    return switch (store.state.userActionDetailsState) {
+      UserActionDetailsFailureState() => DisplayState.FAILURE,
+      _ => DisplayState.LOADING,
+    };
+  }
+  return DisplayState.LOADING;
 }

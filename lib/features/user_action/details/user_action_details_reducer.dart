@@ -14,5 +14,5 @@ UserActionDetailsState userActionDetailsReducer(UserActionDetailsState current, 
 UserActionDetailsState _detailsUpdated(UserActionDetailsState current, UserActionUpdateSuccessAction action) {
   if (current is! UserActionDetailsSuccessState) return current;
   if (current.result.id != action.actionId) return current;
-  return UserActionDetailsSuccessState(current.result.copyWithRequest(action.request));
+  return UserActionDetailsSuccessState(current.result.update(action.request));
 }

@@ -107,7 +107,7 @@ class UserAction extends Equatable {
     );
   }
 
-  UserAction copyWithRequest(UserActionUpdateRequest request) {
+  UserAction update(UserActionUpdateRequest request) {
     return copyWith(
       status: request.status,
       content: request.contenu,
@@ -152,7 +152,7 @@ extension UpdateActionList on List<UserAction> {
     final actionToUpdate = firstWhereOrNull((a) => a.id == actionId);
     if (actionToUpdate == null) return this;
 
-    final updatedAction = actionToUpdate.copyWithRequest(request);
+    final updatedAction = actionToUpdate.update(request);
     return List<UserAction>.from(this) //
         .where((a) => a.id != actionId)
         .toList()
