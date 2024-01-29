@@ -30,6 +30,9 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:shimmer/shimmer.dart';
 
 final _key = GlobalKey();
+final Map<GlobalKey, MonSuiviDay> _dayKeys = {};
+
+final ScrollController _scrollController = ScrollController();
 
 class MonSuiviMiloPage extends StatelessWidget {
   @override
@@ -87,19 +90,38 @@ class _Body extends StatelessWidget {
       duration: AnimationDurations.fast,
       child: switch (viewModel.displayState) {
         DisplayState.FAILURE => Center(child: Retry(Strings.monSuiviError, () => viewModel.onRetry())),
-        DisplayState.CONTENT => _TodayAnchoredMonSuiviList(viewModel),
+        DisplayState.CONTENT => _Stack(viewModel),
         _ => _MonSuiviLoader(),
       },
     );
   }
 }
 
-class _TodayAnchoredMonSuiviList extends StatelessWidget {
+class _Stack extends StatelessWidget {
+  final MonSuiviViewModel viewModel;
+
+  const _Stack(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        _TodayCenteredMonSuiviList(viewModel),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+          child: _DayOverlay(),
+        ),
+      ],
+    );
+  }
+}
+
+class _TodayCenteredMonSuiviList extends StatelessWidget {
   final MonSuiviViewModel viewModel;
   final List<MonSuiviItem> pastItems;
   final List<MonSuiviItem> presentAndFutureItems;
 
-  _TodayAnchoredMonSuiviList(this.viewModel)
+  _TodayCenteredMonSuiviList(this.viewModel)
       : pastItems = viewModel.items.sublist(0, viewModel.indexOfTodayItem).reversed.toList(),
         presentAndFutureItems = viewModel.items.sublist(viewModel.indexOfTodayItem);
 
@@ -110,6 +132,7 @@ class _TodayAnchoredMonSuiviList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: CustomScrollView(
+        controller: _scrollController,
         center: _key,
         slivers: [
           SliverList.separated(
@@ -188,7 +211,10 @@ class _FilledDayItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey key = GlobalKey();
+    _dayKeys[key] = day;
     return _DayRow(
+      key: key,
       day: day,
       child: Column(
         children: entries //
@@ -223,7 +249,7 @@ class _DayRow extends StatelessWidget {
   final MonSuiviDay day;
   final Widget child;
 
-  const _DayRow({required this.day, required this.child});
+  const _DayRow({super.key, required this.day, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -245,12 +271,15 @@ class _Day extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(day.shortened, style: TextStyles.textXsMedium()),
-        Text(day.number, style: TextStyles.textBaseBold),
-      ],
+    return ColoredBox(
+      color: AppColors.grey100,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(day.shortened, style: TextStyles.textXsMedium()),
+          Text(day.number, style: TextStyles.textBaseBold),
+        ],
+      ),
     );
   }
 }
@@ -387,5 +416,73 @@ extension on MonSuiviEntry {
       final RendezvousMonSuiviEntry entry => _RendezvousMonSuiviItem(entry),
       final SessionMiloMonSuiviEntry entry => _SessionMiloMonSuiviItem(entry),
     };
+  }
+}
+
+class _DayOverlay extends StatefulWidget {
+  @override
+  State<_DayOverlay> createState() => _DayOverlayState();
+}
+
+class _DayOverlayState extends State<_DayOverlay> {
+  bool visible = false;
+  MonSuiviDay? _day;
+
+  @override
+  void initState() {
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      _scrollListener();
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _day != null ? _DayRow(day: _day!, child: const SizedBox()) : const SizedBox();
+  }
+
+  void _scrollListener() {
+    MonSuiviDay? day;
+    for (var key in _dayKeys.keys) {
+      final RenderObject? box = key.currentContext?.findRenderObject();
+      if (box != null) {
+        final MonSuiviDay? day2 = _dayKeys[key];
+        final shouldBeVisible = _shouldBeVisible(box, day2 == MonSuiviDay.fromDateTime(DateTime.now()));
+        if (shouldBeVisible) {
+          day = day2;
+          break;
+        }
+      }
+    }
+    if (day != _day) {
+      setState(() => _day = day);
+    }
+  }
+
+  bool _shouldBeVisible(RenderObject? box, bool withExtraPadding) {
+    if (box != null) {
+      const double toolbarHeight = 139.81;
+      const extraTopPaddingForTodayElement = 16.0;
+      final renderBox = (box as RenderBox);
+      final double yPosition = renderBox.localToGlobal(Offset.zero).dy - toolbarHeight + extraTopPaddingForTodayElement;
+      //print('### Widget is visible in the viewport at position: $yPosition');
+      //print('### Widget is visible in the viewport at position: ${renderBox.size.height}');
+
+      //shouldBeVisible = yPosition < 0 && yPosition > -renderBox.size.height - extraTopPaddingForTodayElement;
+      return yPosition < 0 && yPosition > -renderBox.size.height + 16 + extraTopPaddingForTodayElement;
+
+      // do stuff...
+    } else {
+      //print('### Widget is not visible.');
+      return false;
+      // do stuff...
+    }
   }
 }
