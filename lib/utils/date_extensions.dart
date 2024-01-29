@@ -97,6 +97,8 @@ extension DateExtensions on DateTime {
 
   DateTime toEndOfDay() => copyWith(hour: 23, minute: 59, second: 59, millisecond: 999, microsecond: 0);
 
+  DateTime toMidday() => copyWith(hour: 12, minute: 0, second: 0, millisecond: 0, microsecond: 0);
+
   int numberOfDaysUntilToday() {
     final from = DateTime(year, month, day);
     final to = DateUtils.dateOnly(clock.now());

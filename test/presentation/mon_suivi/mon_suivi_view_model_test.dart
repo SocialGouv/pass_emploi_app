@@ -135,6 +135,27 @@ void main() {
         expect(items[4 * indexOfWeek], SemaineSectionMonSuiviItem('29 - 4 février 2024'));
       });
     });
+
+    test('when period contains day saving light change should work properly', () {
+      final before = DateTime(2023, 10, 20);
+      final daySavingLight = DateTime(2023, 10, 27);
+      final after = DateTime(2023, 10, 30);
+      withClock(Clock.fixed(daySavingLight), () {
+        // Given
+        final store = givenState()
+            .monSuivi(
+              interval: Interval(before, after),
+              monSuivi: mockMonSuivi(actions: [mockUserAction(id: 'actionId', dateEcheance: after)]),
+            )
+            .store();
+
+        // When
+        final viewModel = MonSuiviViewModel.create(store);
+
+        // Then
+        expect(viewModel.items.whereType<FilledDayMonSuiviItem>().firstOrNull, isNotNull);
+      });
+    });
   });
 
   test('indexOfTodayItem', () {
