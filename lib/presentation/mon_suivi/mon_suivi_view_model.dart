@@ -1,5 +1,6 @@
 import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -57,14 +58,15 @@ DisplayState _displayState(MonSuiviState state) {
 List<MonSuiviItem> _items(MonSuiviState state) {
   if (state is! MonSuiviSuccessState) return [];
   final entriesByDay = _entriesByDay(state);
-  DateTime jourCourant = state.interval.debut.toStartOfDay();
+  // Day is set to midday to avoid timezone issues while adding Duration(days: 1)
+  DateTime jourCourant = state.interval.debut.toMidday();
   final items = <MonSuiviItem>[];
-  while (jourCourant.isBefore(state.interval.fin)) {
+  while (jourCourant.isBefore(state.interval.fin.toEndOfDay())) {
     if (jourCourant.weekday == DateTime.monday) {
       items.add(_semaineSectionItem(jourCourant));
     }
 
-    final entries = entriesByDay[jourCourant];
+    final entries = entriesByDay.get(jourCourant);
     final day = MonSuiviDay.fromDateTime(jourCourant);
     final isToday = jourCourant.isToday();
     items.add(
@@ -91,9 +93,9 @@ String _semaineInterval(DateTime monday) {
   return "${monday.day} - ${sunday.day} ${sunday.toMonth()} ${sunday.year}";
 }
 
-Map<DateTime, List<MonSuiviEntry>> _entriesByDay(MonSuiviState state) {
+Map<String, List<MonSuiviEntry>> _entriesByDay(MonSuiviState state) {
   if (state is! MonSuiviSuccessState) return {};
-  final entriesByDay = <DateTime, List<MonSuiviEntry>>{};
+  final entriesByDay = <String, List<MonSuiviEntry>>{};
   for (var action in state.monSuivi.actions) {
     entriesByDay.add(action.dateEcheance, UserActionMonSuiviEntry(action.id));
   }
@@ -106,11 +108,16 @@ Map<DateTime, List<MonSuiviEntry>> _entriesByDay(MonSuiviState state) {
   return entriesByDay;
 }
 
-extension on Map<DateTime, List<MonSuiviEntry>> {
+extension on Map<String, List<MonSuiviEntry>> {
   void add(DateTime date, MonSuiviEntry entry) {
-    putIfAbsent(date.toStartOfDay(), () => []);
-    this[date.toStartOfDay()]!.add(entry);
+    final dateAsKey = _dateAsKey(date);
+    putIfAbsent(dateAsKey, () => []);
+    this[dateAsKey]!.add(entry);
   }
+
+  List<MonSuiviEntry>? get(DateTime date) => this[_dateAsKey(date)];
+
+  String _dateAsKey(DateTime date) => DateFormat("DD-yyyy").format(date);
 }
 
 sealed class MonSuiviItem extends Equatable {
