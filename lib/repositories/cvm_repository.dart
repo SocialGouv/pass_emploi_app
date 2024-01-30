@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/message.dart';
 
 abstract class CvmRepository {
   Future<void> initializeCvm();
@@ -47,6 +48,16 @@ class CvmEvent {
       date: DateTime.fromMillisecondsSinceEpoch(json['date'] as int),
     );
   }
+
+  Message get toMessage => Message(
+        id,
+        message ?? '',
+        date ?? DateTime.now(),
+        isFromUser ? Sender.jeune : Sender.conseiller,
+        type == CvmEventType.message ? MessageType.message : MessageType.inconnu,
+        MessageStatus.sent,
+        [],
+      );
 }
 
 class CvmRepositoryImpl implements CvmRepository {
