@@ -145,23 +145,20 @@ List<Favori>? _favoris(dynamic json) {
 
 class AccueilCetteSemaine extends Equatable {
   final int nombreRendezVous;
-  final int nombreActionsDemarchesEnRetard;
   final int nombreActionsDemarchesARealiser;
 
   AccueilCetteSemaine({
     required this.nombreRendezVous,
-    required this.nombreActionsDemarchesEnRetard,
     required this.nombreActionsDemarchesARealiser,
   });
 
   factory AccueilCetteSemaine.fromJson(dynamic json) {
     return AccueilCetteSemaine(
       nombreRendezVous: json["nombreRendezVous"] as int,
-      nombreActionsDemarchesEnRetard: json["nombreActionsDemarchesEnRetard"] as int,
       nombreActionsDemarchesARealiser: json["nombreActionsDemarchesARealiser"] as int,
     );
   }
 
   @override
-  List<Object?> get props => [nombreRendezVous, nombreActionsDemarchesEnRetard, nombreActionsDemarchesARealiser];
+  List<Object?> get props => [nombreRendezVous, nombreActionsDemarchesARealiser];
 }

@@ -1,4 +1,3 @@
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
 
@@ -45,23 +44,6 @@ class _CejStrings {
 
 class Strings {
   Strings._();
-
-  static String according({
-    required LoginMode loginMode,
-    required int count,
-    required String singularPoleEmploi,
-    required String severalPoleEmploi,
-    required String singularMissionLocale,
-    required String severalMissionLocale,
-  }) {
-    return loginMode.isPe()
-        ? count <= 1
-            ? singularPoleEmploi
-            : severalPoleEmploi
-        : count <= 1
-            ? singularMissionLocale
-            : severalMissionLocale;
-  }
 
   // Common
   static String appName = Brand.isCej() ? _CejStrings.appName : _BrsaStrings.appName;
@@ -211,25 +193,12 @@ class Strings {
   static String accueilAppBarTitle = "Bienvenue";
   static String accueilCetteSemaineSection = "Cette semaine";
   static String accueilVoirDetailsCetteSemaine = "Voir le détail de ma semaine";
-
-  static String rendezvousEnCours(int count) => "$count rendez-vous";
-
-  static String singularDemarcheToDo(int count) => "$count démarche à réaliser";
-
-  static String severalDemarchesToDo(int count) => "$count démarches à réaliser";
-
-  static String singularActionToDo(int count) => "$count action à réaliser";
-
-  static String severalActionsToDo(int count) => "$count actions à réaliser";
-
-  static String singularDemarcheLate(int count) => "$count démarche en retard";
-
-  static String severalDemarchesLate(int count) => "$count démarches en retard";
-
-  static String singularActionLate(int count) => "$count action en retard";
-
-  static String severalActionsLate(int count) => "$count actions en retard";
   static String accueilRendezvousSection = "Votre prochain rendez-vous";
+  static String accueilActionSingular = "Action";
+  static String accueilActionPlural = "Actions";
+  static String accueilDemarcheSingular = "Démarche";
+  static String accueilDemarchePlural = "Démarches";
+  static String accueilRendezvous = "Rendez-vous";
   static String accueilEvenementsSection = "Événements pouvant vous intéresser";
   static String accueilVoirLesEvenements = "Voir plus d’événements";
   static String accueilMesAlertesSection = "Mes alertes";
@@ -485,6 +454,7 @@ class Strings {
   static String mandatoryDateEcheanceError = "La date d'échéance doit être renseignée";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
+
   static String actionCreationInfos(String creator, String date) => "Ajouté par $creator le $date";
   static String youLowercase = "vous";
   static String you = "Vous";

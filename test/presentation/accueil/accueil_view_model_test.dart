@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
@@ -65,10 +66,9 @@ void main() {
         [
           AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
-            monSuiviType: MonSuiviType.actions,
-            rendezVous: "3 rendez-vous",
-            actionsDemarchesEnRetard: "2 actions en retard",
-            actionsDemarchesARealiser: "1 action à réaliser",
+            rendezvousCount: "3",
+            actionsOuDemarchesCount: "1",
+            actionsOuDemarchesLabel: "Action",
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
           AccueilEvenementsItem([
@@ -93,7 +93,15 @@ void main() {
       final store = givenState() //
           .loggedInMiloUser()
           .withAccueilMiloSuccess(
-              mockAccueilMilo().copyWith(prochainRendezVous: rdv, prochaineSessionMilo: sessionMilo))
+            mockAccueilMilo().copyWith(
+              prochainRendezVous: rdv,
+              prochaineSessionMilo: sessionMilo,
+              cetteSemaine: AccueilCetteSemaine(
+                nombreRendezVous: 3,
+                nombreActionsDemarchesARealiser: 2,
+              ),
+            ),
+          )
           .withCampagne(campagne())
           .store();
 
@@ -106,10 +114,9 @@ void main() {
         [
           AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
-            monSuiviType: MonSuiviType.actions,
-            rendezVous: "3 rendez-vous",
-            actionsDemarchesEnRetard: "2 actions en retard",
-            actionsDemarchesARealiser: "1 action à réaliser",
+            rendezvousCount: "3",
+            actionsOuDemarchesCount: "2",
+            actionsOuDemarchesLabel: "Actions",
           ),
           AccueilProchaineSessionMiloItem(sessionMilo.id),
           AccueilEvenementsItem([
@@ -146,10 +153,9 @@ void main() {
         [
           AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
-            monSuiviType: MonSuiviType.demarches,
-            rendezVous: "3 rendez-vous",
-            actionsDemarchesEnRetard: "2 démarches en retard",
-            actionsDemarchesARealiser: "1 démarche à réaliser",
+            rendezvousCount: "3",
+            actionsOuDemarchesCount: "1",
+            actionsOuDemarchesLabel: "Démarche",
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
           AccueilAlertesItem(getMockedAlerte()),

@@ -13,57 +13,39 @@ sealed class AccueilItem extends Equatable {
 }
 
 class AccueilCetteSemaineItem extends AccueilItem {
-  final MonSuiviType monSuiviType;
-  final String rendezVous;
-  final String actionsDemarchesEnRetard;
-  final String actionsDemarchesARealiser;
+  final String rendezvousCount;
+  final String actionsOuDemarchesCount;
+  final String actionsOuDemarchesLabel;
 
   AccueilCetteSemaineItem({
-    required this.monSuiviType,
-    required this.rendezVous,
-    required this.actionsDemarchesEnRetard,
-    required this.actionsDemarchesARealiser,
+    required this.rendezvousCount,
+    required this.actionsOuDemarchesCount,
+    required this.actionsOuDemarchesLabel,
   });
 
   factory AccueilCetteSemaineItem.from({
     required LoginMode loginMode,
-    required int nombreRendezVous,
-    required int nombreActionsDemarchesEnRetard,
-    required int nombreActionsDemarchesARealiser,
+    required int rendezvous,
+    required int actionsOuDemarches,
   }) {
     return AccueilCetteSemaineItem(
-      monSuiviType: loginMode.isPe() ? MonSuiviType.demarches : MonSuiviType.actions,
-      rendezVous: Strings.rendezvousEnCours(nombreRendezVous),
-      actionsDemarchesEnRetard: Strings.according(
-        loginMode: loginMode,
-        count: nombreActionsDemarchesEnRetard,
-        singularPoleEmploi: Strings.singularDemarcheLate(nombreActionsDemarchesEnRetard),
-        severalPoleEmploi: Strings.severalDemarchesLate(nombreActionsDemarchesEnRetard),
-        singularMissionLocale: Strings.singularActionLate(nombreActionsDemarchesEnRetard),
-        severalMissionLocale: Strings.severalActionsLate(nombreActionsDemarchesEnRetard),
-      ),
-      actionsDemarchesARealiser: Strings.according(
-        loginMode: loginMode,
-        count: nombreActionsDemarchesARealiser,
-        singularPoleEmploi: Strings.singularDemarcheToDo(nombreActionsDemarchesARealiser),
-        severalPoleEmploi: Strings.severalDemarchesToDo(nombreActionsDemarchesARealiser),
-        singularMissionLocale: Strings.singularActionToDo(nombreActionsDemarchesARealiser),
-        severalMissionLocale: Strings.severalActionsToDo(nombreActionsDemarchesARealiser),
-      ),
+      rendezvousCount: rendezvous.toString(),
+      actionsOuDemarchesCount: actionsOuDemarches.toString(),
+      actionsOuDemarchesLabel: _actionsOuDemarchesLabel(loginMode, actionsOuDemarches),
     );
   }
 
   @override
-  List<Object?> get props => [monSuiviType, rendezVous, actionsDemarchesEnRetard, actionsDemarchesARealiser];
+  List<Object?> get props => [rendezvousCount, actionsOuDemarchesCount, actionsOuDemarchesLabel];
 }
 
 class AccueilProchainRendezvousItem extends AccueilItem {
-  final String rendezVousId;
+  final String rendezvousId;
 
-  AccueilProchainRendezvousItem(this.rendezVousId);
+  AccueilProchainRendezvousItem(this.rendezvousId);
 
   @override
-  List<Object?> get props => [rendezVousId];
+  List<Object?> get props => [rendezvousId];
 }
 
 class AccueilProchaineSessionMiloItem extends AccueilItem {
@@ -121,4 +103,13 @@ class AccueilCampagneItem extends AccueilItem {
 
   @override
   List<Object?> get props => [titre, description];
+}
+
+String _actionsOuDemarchesLabel(LoginMode loginMode, int actionsOuDemarches) {
+  final usePlural = actionsOuDemarches > 1;
+  if (loginMode.isPe()) {
+    return usePlural ? Strings.accueilDemarchePlural : Strings.accueilDemarcheSingular;
+  } else {
+    return usePlural ? Strings.accueilActionPlural : Strings.accueilActionSingular;
+  }
 }
