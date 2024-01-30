@@ -57,8 +57,6 @@ class Strings {
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
   static String refuserLabel = "Refuser";
-  static String seeDetail = "Voir le détail >";
-  static String voirLeDetail = "Voir le détail";
   static String consulter = "Consulter";
   static String copie = "Copié";
   static String notConnected = "Vous êtes hors connexion";
@@ -186,8 +184,6 @@ class Strings {
   static const String donePillule = "Terminée";
   static const String latePillule = "En retard";
   static const String canceledPillule = "Annulée";
-
-  static const String voirLeDetailCard = "Voir le détail";
 
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
@@ -534,7 +530,6 @@ class Strings {
   static const String comment = "Comment";
   static const String selectComment = "*Sélectionner un des moyens";
   static const String selectQuand = "*Sélectionner une date d’échéance format: jj/mm/aaaa";
-  static const String demarchePressedTip = "Choisir cette démarche";
 
   static String demarcheActiveLabel = "À réaliser pour le ";
 
@@ -579,7 +574,6 @@ class Strings {
   static String dernieresRecherches = "Dernières recherches";
   static String vosPreferencesMetiers = "Vos préférences métiers";
   static String rechercheHomeNosOffres = "Nos offres";
-  static String rechercheHomeCardLink = "Rechercher";
   static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
   static String rechercheHomeOffresEmploiSubtitle = "Trouvez un emploi qui vous correspond.";
   static String rechercheHomeOffresAlternanceTitle = "Offres d’alternance";

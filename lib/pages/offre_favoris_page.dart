@@ -195,7 +195,6 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
         title: favori.titre,
         company: favori.organisation,
         place: favori.localisation,
-        bottomTip: Strings.voirLeDetailCard,
         offreType: favori.type,
         from: OffrePage.offreFavoris,
         id: favori.id,
@@ -205,42 +204,25 @@ class _OffreFavorisPageState extends State<OffreFavorisPage> {
   }
 
   List<Favori> _getFavorisFiltered(FavoriListViewModel viewModel) {
-    switch (_selectedFilter) {
-      case OffreFilter.immersion:
-        return viewModel.getOffresImmersion();
-      case OffreFilter.serviceCivique:
-        return viewModel.getOffresServiceCivique();
-      case OffreFilter.emploi:
-        return viewModel.getOffresEmploi();
-      case OffreFilter.alternance:
-        return viewModel.getOffresAlternance();
-      default:
-        return viewModel.favoris;
-    }
+    return switch (_selectedFilter) {
+      OffreFilter.immersion => viewModel.getOffresImmersion(),
+      OffreFilter.serviceCivique => viewModel.getOffresServiceCivique(),
+      OffreFilter.emploi => viewModel.getOffresEmploi(),
+      OffreFilter.alternance => viewModel.getOffresAlternance(),
+      _ => viewModel.favoris
+    };
   }
 
   void _filterSelected(OffreFilter filter) {
     setState(() => _selectedFilter = filter);
     _scrollController.jumpTo(0);
-    final String tracking;
-    switch (filter) {
-      case OffreFilter.tous:
-        tracking = AnalyticsScreenNames.offreFavorisList;
-        break;
-      case OffreFilter.emploi:
-        tracking = AnalyticsScreenNames.offreFavorisListFilterEmploi;
-        break;
-      case OffreFilter.alternance:
-        tracking = AnalyticsScreenNames.offreFavorisListFilterAlternance;
-        break;
-      case OffreFilter.immersion:
-        tracking = AnalyticsScreenNames.offreFavorisListFilterImmersion;
-        break;
-      case OffreFilter.serviceCivique:
-        tracking = AnalyticsScreenNames.offreFavorisListFilterServiceCivique;
-        break;
-    }
-    PassEmploiMatomoTracker.instance.trackScreen(tracking);
+    PassEmploiMatomoTracker.instance.trackScreen(switch (filter) {
+      OffreFilter.tous => AnalyticsScreenNames.offreFavorisList,
+      OffreFilter.emploi => AnalyticsScreenNames.offreFavorisListFilterEmploi,
+      OffreFilter.alternance => AnalyticsScreenNames.offreFavorisListFilterAlternance,
+      OffreFilter.immersion => AnalyticsScreenNames.offreFavorisListFilterImmersion,
+      OffreFilter.serviceCivique => AnalyticsScreenNames.offreFavorisListFilterServiceCivique
+    });
   }
 }
 

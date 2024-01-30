@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
-import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class FavoriCard<T> extends StatelessWidget {
   final OffreType offreType;
@@ -16,7 +15,6 @@ class FavoriCard<T> extends StatelessWidget {
   final String? company;
   final String? place;
   final String? date;
-  final String bottomTip;
   final void Function()? onTap;
 
   FavoriCard({
@@ -26,7 +24,6 @@ class FavoriCard<T> extends StatelessWidget {
     this.company,
     required this.place,
     this.date,
-    required this.bottomTip,
     required this.offreType,
     this.specialAction,
   });
@@ -38,7 +35,6 @@ class FavoriCard<T> extends StatelessWidget {
     this.company,
     required this.place,
     this.date,
-    required this.bottomTip,
     required this.offreType,
     required String id,
     required OffrePage from,
@@ -55,7 +51,6 @@ class FavoriCard<T> extends StatelessWidget {
     this.company,
     required this.place,
     this.date,
-    required this.bottomTip,
     required this.offreType,
     required void Function() onDelete,
   }) : specialAction = IconButton(
@@ -73,7 +68,6 @@ class FavoriCard<T> extends StatelessWidget {
       iconButton: specialAction,
       complements: [if (place != null) CardComplement.place(text: place!)],
       secondaryTags: [if (company != null) CardTag.secondary(text: company!)],
-      pressedTip: PressedTip(bottomTip),
     );
   }
 }

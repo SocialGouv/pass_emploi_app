@@ -185,7 +185,6 @@ class _AlertePageState extends State<AlertePage> {
       onDelete: () => _showDeleteDialog(viewModel, offreEmploi.id, type),
       title: offreEmploi.title,
       place: offreEmploi.location?.libelle,
-      bottomTip: Strings.voirResultatsSuggestion,
     );
   }
 
@@ -200,7 +199,6 @@ class _AlertePageState extends State<AlertePage> {
       onDelete: () => _showDeleteDialog(viewModel, alertesImmersion.id, AlerteType.IMMERSION),
       title: alertesImmersion.title,
       place: alertesImmersion.ville,
-      bottomTip: Strings.voirResultatsSuggestion,
     );
   }
 
@@ -215,7 +213,6 @@ class _AlertePageState extends State<AlertePage> {
       onDelete: () => _showDeleteDialog(viewModel, alertesServiceCivique.id, AlerteType.SERVICE_CIVIQUE),
       title: alertesServiceCivique.titre,
       place: alertesServiceCivique.ville?.isNotEmpty == true ? alertesServiceCivique.ville : null,
-      bottomTip: Strings.voirResultatsSuggestion,
     );
   }
 

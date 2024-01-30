@@ -49,7 +49,7 @@ class CardComplement extends StatelessWidget {
             fit: FlexFit.loose,
             child: Text(
               text,
-              style: (bold ? TextStyles.textSBold : TextStyles.textSRegular()).copyWith(color: color),
+              style: (bold ? TextStyles.textXsBold() : TextStyles.textXsRegular()).copyWith(color: color),
             ))
       ],
     );
