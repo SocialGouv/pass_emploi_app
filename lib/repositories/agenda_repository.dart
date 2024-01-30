@@ -10,18 +10,6 @@ class AgendaRepository {
 
   AgendaRepository(this._httpClient, [this._crashlytics]);
 
-  Future<Agenda?> getAgendaMissionLocale(String userId, DateTime maintenant) async {
-    final date = Uri.encodeComponent(maintenant.toIso8601WithOffsetDateTime());
-    final url = "/jeunes/$userId/home/agenda?maintenant=$date";
-    try {
-      final response = await _httpClient.get(url);
-      return Agenda.fromV1Json(response.data);
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
-    }
-    return null;
-  }
-
   Future<Agenda?> getAgendaPoleEmploi(String userId, DateTime maintenant) async {
     final date = Uri.encodeComponent(maintenant.toIso8601WithOffsetDateTime());
     final url = "/v2/jeunes/$userId/home/agenda/pole-emploi?maintenant=$date";

@@ -283,7 +283,6 @@ extension AppStateDSL on AppState {
 
   AppState emptyAgenda() {
     final agenda = Agenda(
-      actions: [],
       demarches: [],
       rendezvous: [],
       sessionsMilo: [],
@@ -294,7 +293,6 @@ extension AppStateDSL on AppState {
   }
 
   AppState agenda({
-    List<UserAction>? actions,
     List<Demarche>? demarches,
     List<Rendezvous>? rendezvous,
     List<SessionMilo>? sessionsMilo,
@@ -304,7 +302,6 @@ extension AppStateDSL on AppState {
   }) {
     return copyWith(
       agendaState: AgendaSuccessState(Agenda(
-        actions: actions ?? [],
         demarches: demarches ?? [],
         rendezvous: rendezvous ?? [],
         sessionsMilo: sessionsMilo ?? [],

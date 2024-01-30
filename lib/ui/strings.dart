@@ -228,15 +228,10 @@ class Strings {
 
   // Agenda
   static String agendaEmptyTitle = "Vous n’avez rien de prévu cette semaine";
-  static String agendaEmptySubtitleMilo =
-      "Commencez en créant une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran";
   static String agendaEmptySubtitlePoleEmploi =
       "Commencez en ajoutant une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran";
   static String agendaError = "Erreur lors de la récupération de vos actions et rendez-vous";
-  static String agendaEmptyForDayMilo = "Pas d’action ni de rendez-vous";
   static String agendaEmptyForDayPoleEmploi = "Pas de démarche ni de rendez-vous";
-  static String agendaEmptyForWeekMilo =
-      "Pas d’action ni de rendez-vous. Créez une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran.";
   static String agendaEmptyForWeekPoleEmploi =
       "Pas de démarche ni de rendez-vous. Ajoutez une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran.";
   static String nextWeek = "Semaine prochaine";
@@ -1063,10 +1058,6 @@ class Strings {
   static String agendaPeUpToDate = "Vos rendez-vous et démarches sont à jour";
   static String agendaPeNotUpToDate =
       "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
-  static String agendaMiloUpToDate = "Vos rendez-vous et actions sont à jour";
-  static String agendaMiloNotUpToDate =
-      "Une erreur technique s’est produite. Certains de vos rendez-vous et actions ne sont peut-être pas à jour.";
-
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";

@@ -11,14 +11,9 @@ import '../../utils/test_setup.dart';
 void main() {
   test("delete user action when repo succeeds should display loading and then set success state", () async {
     // Given
-    final actions = [mockNotStartedAction(actionId: "1"), mockNotStartedAction(actionId: "2")];
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.userActionRepository = UserActionRepositorySuccessStub();
-    final store = testStoreFactory.initializeReduxStore(
-      initialState: givenState() //
-          .loggedInUser() //
-          .agenda(actions: actions),
-    );
+    final store = testStoreFactory.initializeReduxStore(initialState: givenState().loggedInUser());
     final displayedLoading = store.onChange.any((e) => e.userActionDeleteState is UserActionDeleteLoadingState);
     final success = store.onChange.firstWhere((e) => e.userActionDeleteState is UserActionDeleteSuccessState);
 

@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class Agenda extends Equatable {
-  final List<UserAction> actions;
   final List<Demarche> demarches;
   final List<Rendezvous> rendezvous;
   final List<SessionMilo> sessionsMilo;
@@ -16,7 +15,6 @@ class Agenda extends Equatable {
   final DateTime? dateDerniereMiseAJour;
 
   Agenda({
-    required this.actions,
     required this.demarches,
     required this.rendezvous,
     required this.sessionsMilo,
@@ -38,7 +36,6 @@ class Agenda extends Equatable {
     final dateDeDebut = (metadata["dateDeDebut"] as String).toDateTimeUtcOnLocalTimeZone();
     final dateDerniereMiseAjour = (json["dateDerniereMiseAJour"] as String?)?.toDateTimeUtcOnLocalTimeZone();
     return Agenda(
-      actions: _actions(result),
       demarches: _demarches(result),
       rendezvous: rendezvous,
       sessionsMilo: _sessionsMilo(result),
@@ -58,7 +55,6 @@ class Agenda extends Equatable {
     final DateTime? dateDerniereMiseAjour,
   }) {
     return Agenda(
-      actions: actions ?? this.actions,
       demarches: demarches ?? this.demarches,
       rendezvous: rendezvous ?? this.rendezvous,
       sessionsMilo: sessionsMilo ?? this.sessionsMilo,
@@ -69,20 +65,13 @@ class Agenda extends Equatable {
   }
 
   @override
-  List<Object?> get props => [actions, demarches, rendezvous, sessionsMilo, delayedActions, dateDeDebut, dateDerniereMiseAJour];
+  List<Object?> get props => [demarches, rendezvous, sessionsMilo, delayedActions, dateDeDebut, dateDerniereMiseAJour];
 }
 
 int _delayedActions(metadata) {
   if (metadata["actionsEnRetard"] != null) return metadata["actionsEnRetard"] as int;
   if (metadata["demarchesEnRetard"] != null) return metadata["demarchesEnRetard"] as int;
   return 0;
-}
-
-List<UserAction> _actions(json) {
-  if (json["actions"] != null) {
-    return (json["actions"] as List).map((action) => UserAction.fromJson(action)).toList();
-  }
-  return [];
 }
 
 List<Demarche> _demarches(json) {
