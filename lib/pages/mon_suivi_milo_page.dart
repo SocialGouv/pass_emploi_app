@@ -425,16 +425,13 @@ class _DayOverlay extends StatefulWidget {
 }
 
 class _DayOverlayState extends State<_DayOverlay> {
-  bool visible = false;
-  MonSuiviDay? _day;
+  //MonSuiviDay? _day;
+  Widget _child = const SizedBox();
 
   @override
   void initState() {
     _scrollController.addListener(_scrollListener);
     super.initState();
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      _scrollListener();
-    });
   }
 
   @override
@@ -445,7 +442,19 @@ class _DayOverlayState extends State<_DayOverlay> {
 
   @override
   Widget build(BuildContext context) {
-    return _day != null ? _DayRow(day: _day!, child: const SizedBox()) : const SizedBox();
+    //  BAS  & Row > Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero).animate(animation),
+    //  BAS  & SB  > Rien
+    //  Haut & Row >
+    //  Haut & SB  >
+
+    return AnimatedSwitcher(
+      duration: Durations.short3,
+      transitionBuilder: (child, animation) => SlideTransition(
+        position: Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero).animate(animation),
+        child: child,
+      ),
+      child: _child,
+    );
   }
 
   void _scrollListener() {
@@ -461,9 +470,18 @@ class _DayOverlayState extends State<_DayOverlay> {
         }
       }
     }
-    if (day != _day) {
-      setState(() => _day = day);
+    final Widget widget = toWidget(day);
+    if (widget.runtimeType != _child.runtimeType) {
+      setState(() => _child = widget);
+    } else if (widget is _DayRow && _child is _DayRow) {
+      if (widget.day != (_child as _DayRow).day) {
+        setState(() => _child = widget);
+      }
     }
+  }
+
+  Widget toWidget(MonSuiviDay? day) {
+    return day != null ? _DayRow(day: day, child: const SizedBox()) : const SizedBox();
   }
 
   bool _shouldBeVisible(RenderObject? box, bool withExtraPadding) {
