@@ -18,18 +18,6 @@ import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  test('create should work when state source is list', () {
-    // Given
-    final store = givenState().withAction(mockUserAction(id: 'id')).store();
-
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'id');
-
-    // Then
-    expect(viewModel, isNotNull);
-    expect(viewModel.displayState, DisplayState.CONTENT);
-  });
-
   test('create should work when state source is mon suivi', () {
     // Given
     final store = givenState().monSuivi(monSuivi: mockMonSuivi(actions: [mockUserAction(id: 'id')])).store();
@@ -79,7 +67,7 @@ void main() {
 
     test('when details state is failure, onRetry should dispatch UserActionDeleteRequestAction', () {
       // Given
-      final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
+      final store = StoreSpy.withState(givenState().copyWith(userActionDetailsState: UserActionDetailsFailureState()));
       final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // When
@@ -114,7 +102,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
@@ -128,7 +116,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
@@ -142,7 +130,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
@@ -156,7 +144,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_SUCCESS);
@@ -167,7 +155,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionLoading().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_LOADING);
@@ -178,7 +166,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionFailure().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_UPDATE_ERROR);
@@ -189,7 +177,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionNotInit().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.NOT_INIT);
@@ -204,7 +192,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // Then
     expect(viewModel.withOfflineBehavior, isFalse);
@@ -218,7 +206,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // Then
     expect(viewModel.withOfflineBehavior, isTrue);
@@ -242,7 +230,7 @@ void main() {
     final store = givenState().withAction(action).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // Then
     expect(viewModel.pillule, CardPilluleType.todo);
@@ -254,7 +242,7 @@ void main() {
     final store = givenState().withAction(action).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // Then
     expect(viewModel.pillule, CardPilluleType.done);
@@ -271,7 +259,7 @@ void main() {
     final store = givenState().withAction(action).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // Then
     expect(viewModel.pillule, CardPilluleType.late);
@@ -288,7 +276,7 @@ void main() {
     final store = givenState().withAction(action).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // Then
     expect(viewModel.pillule, CardPilluleType.done);
@@ -300,7 +288,7 @@ void main() {
     final store = givenState().withAction(action).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // Then
     expect(viewModel.withFinishedButton, true);
@@ -313,7 +301,7 @@ void main() {
     final store = givenState().withAction(action).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // Then
     expect(viewModel.withFinishedButton, false);
@@ -330,7 +318,7 @@ void main() {
     final store = givenState().withAction(action).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // Then
     expect(viewModel.withFinishedButton, false);
@@ -347,7 +335,7 @@ void main() {
     final store = givenState().withAction(action).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // Then
     expect(viewModel.withFinishedButton, false);
@@ -360,7 +348,7 @@ void main() {
     final store = givenState().withAction(action).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
     final shouldDisplayUpdateButton = viewModel.withUpdateButton;
 
     // Then
@@ -377,7 +365,7 @@ void main() {
     final store = givenState().withAction(action).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
     final shouldDisplayUpdateButton = viewModel.withUpdateButton;
 
     // Then
@@ -391,7 +379,7 @@ void main() {
       final store = givenState().withAction(action).store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.category, "Aucune");
@@ -403,7 +391,7 @@ void main() {
       final store = givenState().withAction(action).store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.category, "Formation");
@@ -417,7 +405,7 @@ void main() {
       final store = givenState().withAction(action).store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.date, "01 janvier 2021");
@@ -435,7 +423,7 @@ void main() {
       final store = givenState().withAction(action).store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       final creationDetails = viewModel.creationDetails;
@@ -449,7 +437,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionSuccess().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.deleteDisplayState, DeleteDisplayState.TO_DISMISS_AFTER_DELETION);
@@ -460,7 +448,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionLoading().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.deleteDisplayState, DeleteDisplayState.SHOW_LOADING);
@@ -471,7 +459,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionFailure().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.deleteDisplayState, DeleteDisplayState.SHOW_DELETE_ERROR);
@@ -482,7 +470,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionNotInit().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
       // Then
       expect(viewModel.deleteDisplayState, DeleteDisplayState.NOT_INIT);
@@ -495,7 +483,7 @@ void main() {
     final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(action));
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
     viewModel.updateStatus(UserActionStatus.NOT_STARTED);
 
     // Then
@@ -514,7 +502,7 @@ void main() {
   test('onDelete should dispatch UserActionDeleteRequestAction', () {
     // Given
     final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // When
     viewModel.onDelete('actionId');
@@ -527,7 +515,7 @@ void main() {
   test('resetUpdateStatus should dispatch UserActionUpdateResetAction', () {
     // Given
     final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
-    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
 
     // When
     viewModel.resetUpdateStatus();

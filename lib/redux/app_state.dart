@@ -57,7 +57,6 @@ import 'package:pass_emploi_app/features/user_action/create/pending/user_action_
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_state.dart';
-import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
@@ -72,7 +71,6 @@ class AppState extends Equatable {
   final ConfigurationState configurationState;
   final LoginState loginState;
   final DeepLinkState deepLinkState;
-  final UserActionListState userActionListState;
   final UserActionDetailsState userActionDetailsState;
   final UserActionCreateState userActionCreateState;
   final UserActionCreatePendingState userActionCreatePendingState;
@@ -143,7 +141,6 @@ class AppState extends Equatable {
     required this.configurationState,
     required this.loginState,
     required this.deepLinkState,
-    required this.userActionListState,
     required this.userActionDetailsState,
     required this.userActionCreateState,
     required this.userActionCreatePendingState,
@@ -212,7 +209,6 @@ class AppState extends Equatable {
 
   AppState copyWith({
     final LoginState? loginState,
-    final UserActionListState? userActionListState,
     final UserActionDetailsState? userActionDetailsState,
     final UserActionCreateState? userActionCreateState,
     final UserActionCreatePendingState? userActionCreatePendingState,
@@ -283,7 +279,6 @@ class AppState extends Equatable {
     return AppState(
       loginState: loginState ?? this.loginState,
       deepLinkState: deepLinkState ?? this.deepLinkState,
-      userActionListState: userActionListState ?? this.userActionListState,
       userActionDetailsState: userActionDetailsState ?? this.userActionDetailsState,
       userActionCreateState: userActionCreateState ?? this.userActionCreateState,
       userActionCreatePendingState: userActionCreatePendingState ?? this.userActionCreatePendingState,
@@ -356,7 +351,6 @@ class AppState extends Equatable {
     return AppState(
       loginState: LoginNotInitializedState(),
       deepLinkState: DeepLinkState.notInitialized(),
-      userActionListState: UserActionListNotInitializedState(),
       userActionDetailsState: UserActionDetailsNotInitializedState(),
       userActionCreateState: UserActionCreateNotInitializedState(),
       userActionCreatePendingState: UserActionCreatePendingNotInitializedState(),
@@ -426,10 +420,8 @@ class AppState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         deepLinkState,
-        userActionListState,
         userActionDetailsState,
         userActionCreateState,
         userActionCreatePendingState,

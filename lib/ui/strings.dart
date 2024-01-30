@@ -217,7 +217,6 @@ class Strings {
   // Mon Suivi Tabs
   static String monSuiviAppBarTitle = "Mon suivi";
   static String agendaTabTitle = "Cette semaine";
-  static String actionsTabTitle = "Actions";
   static String rendezvousTabTitle = "Rendez-vous";
   static String demarcheTabTitle = "Démarches";
 
@@ -432,7 +431,6 @@ class Strings {
   ];
 
   // User Action
-  static String actionsError = "Erreur lors de la récupération de vos actions";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Mon action";
   static String demarcheDetails = "Détail de la démarche";
@@ -444,7 +442,6 @@ class Strings {
   static String userActionNoCategory = "Aucune";
   static String updateStatus = "Modifier le statut";
   static String refreshActionStatus = "Valider le statut";
-  static String noActionsYet = "Vous n'avez pas encore d’action prévue.";
   static String addAnAction = "Créer une action";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
@@ -816,11 +813,6 @@ class Strings {
   static String filterImmersion = "Immersion";
   static String filterAlternance = "Alternance";
   static String filterServiceCivique = "Service civique";
-
-  // Empty Content (actions & rdv)
-  static String rendezvous = "rendez-vous";
-  static String actions = "actions";
-  static String action = "action";
 
   static String demarchesToDo = "démarche prévue.";
   static String demarches = "démarches";

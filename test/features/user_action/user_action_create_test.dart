@@ -18,7 +18,7 @@ void main() {
       test("should display loading and success", () {
         sut.givenStore = givenState()
             .loggedInUser() //
-            .store((f) => {f.userActionRepository = PageActionRepositorySuccessStub()});
+            .store((f) => {f.userActionRepository = UserActionRepositorySuccessStub()});
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldSucceedState()]);
       });
     });
@@ -27,7 +27,7 @@ void main() {
       test("should display loading and failure", () {
         sut.givenStore = givenState()
             .loggedInUser() //
-            .store((f) => {f.userActionRepository = PageActionRepositoryFailureStub()});
+            .store((f) => {f.userActionRepository = UserActionRepositoryFailureStub()});
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldFailState()]);
       });
     });

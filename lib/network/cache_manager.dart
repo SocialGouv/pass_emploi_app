@@ -55,7 +55,6 @@ enum CachedResource {
   SESSIONS_MILO_LIST,
   SESSIONS_MILO_INSCRIT,
   SESSIONS_MILO_NOT_INSCRIT,
-  USER_ACTIONS_LIST,
   FAVORIS,
   FAVORIS_EMPLOI,
   FAVORIS_IMMERSION,
@@ -79,7 +78,6 @@ enum CachedResource {
     if (url.contains('/milo') && url.endsWith('sessions')) return SESSIONS_MILO_LIST;
     if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=true')) return SESSIONS_MILO_INSCRIT;
     if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=false')) return SESSIONS_MILO_NOT_INSCRIT;
-    if (url.contains('/home/actions')) return USER_ACTIONS_LIST;
     return null;
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
-import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -14,10 +13,10 @@ import '../../utils/test_setup.dart';
 void main() {
   test("update action when repo succeeds should display loading and then succeed", () async {
     // Given
-    final store = givenState()
-        .loggedInMiloUser()
-        .withAction(mockUserAction(id: "3"))
-        .store((factory) => {factory.userActionRepository = PageActionRepositorySuccessStub()});
+    final store = givenState() //
+        .loggedInMiloUser() //
+        .withActions([mockUserAction(id: "3")]) //
+        .store((factory) => {factory.userActionRepository = UserActionRepositorySuccessStub()});
 
     final updateDisplayedLoading = store.onChange.any((e) => e.userActionUpdateState is UserActionUpdateLoadingState);
     final successUpdateState =
@@ -34,8 +33,10 @@ void main() {
 
   test("when user requests an update the action should be updated, put on top of list and user notified", () async {
     // Given
-    final repository = PageActionRepositorySuccessStub();
-    final store = givenState().loggedInMiloUser().withActions(
+    final repository = UserActionRepositorySuccessStub();
+    final store = givenState() //
+        .loggedInMiloUser()
+        .withActions(
       [
         mockNotStartedAction(actionId: "1"),
         mockNotStartedAction(actionId: "2"),
@@ -53,17 +54,16 @@ void main() {
     expect(repository.isActionUpdated, isTrue);
 
     expect(appState.userActionUpdateState is UserActionUpdateSuccessState, isTrue);
-    expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "3");
-    expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
+    expect((appState.monSuiviState as MonSuiviSuccessState).monSuivi.actions[0].id, "3");
+    expect((appState.monSuiviState as MonSuiviSuccessState).monSuivi.actions[0].status, UserActionStatus.DONE);
   });
 
   test("update action when repo fails should display loading and then show failure", () async {
     // Given
-    final repository = PageActionRepositoryFailureStub();
+    final repository = UserActionRepositoryFailureStub();
     final store = givenState()
         .loggedInMiloUser()
-        .withAction(mockUserAction(id: "3"))
-        .store((factory) => {factory.userActionRepository = repository});
+        .withActions([mockUserAction(id: "3")]).store((factory) => {factory.userActionRepository = repository});
 
     final updateDisplayedLoading = store.onChange.any((e) => e.userActionUpdateState is UserActionUpdateLoadingState);
     final failureUpdateState =
@@ -82,8 +82,10 @@ void main() {
 
   test("update action when repo fails should not update actions' list", () async {
     // Given
-    final repository = PageActionRepositoryFailureStub();
-    final store = givenState().loggedInMiloUser().withActions(
+    final repository = UserActionRepositoryFailureStub();
+    final store = givenState() //
+        .loggedInMiloUser()
+        .withActions(
       [
         mockNotStartedAction(actionId: "1"),
         mockNotStartedAction(actionId: "2"),
@@ -104,74 +106,9 @@ void main() {
     expect(repository.isActionUpdated, isFalse);
 
     expect(appState.userActionUpdateState is UserActionUpdateFailureState, isTrue);
-    expect((appState.userActionListState as UserActionListSuccessState).userActions[2].id, "3");
-    expect(
-      (appState.userActionListState as UserActionListSuccessState).userActions[2].status,
-      UserActionStatus.NOT_STARTED,
-    );
-  });
 
-  group("an edited action contained in user action list but not in mon suivi", () {
-    final actions = [mockNotStartedAction(actionId: "3")];
-
-    final state = givenState() //
-        .loggedInUser() //
-        .monSuivi() //
-        .withActions(actions);
-
-    final testStoreFactory = TestStoreFactory();
-    final repository = PageActionRepositorySuccessStub();
-    testStoreFactory.userActionRepository = repository;
-    final store = testStoreFactory.initializeReduxStore(initialState: state);
-
-    void whenUpdatingAction() async {
-      await store.dispatch(UserActionUpdateRequestAction(actionId: "3", request: mockUserActionUpdateRequest()));
-    }
-
-    test("should update on repository", () async {
-      // When
-      whenUpdatingAction();
-
-      // Then
-      expect(repository.isActionUpdated, isTrue);
-    });
-
-    test("should update on user action update state", () async {
-      final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateSuccessState);
-
-      // When
-      whenUpdatingAction();
-
-      // Then
-      final appState = await successAppState;
-      expect(appState.userActionUpdateState is UserActionUpdateSuccessState, isTrue);
-    });
-
-    test("should update on user action list state", () async {
-      final successAppState = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
-
-      // When
-      whenUpdatingAction();
-
-      // Then
-      final appState = await successAppState;
-      expect(appState.userActionListState is UserActionListSuccessState, isTrue);
-      expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "3");
-      expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
-    });
-
-    test("should keep the same mon suivi state", () async {
-      final successAppState = store.onChange.firstWhere((e) => e.monSuiviState is MonSuiviSuccessState);
-
-      // When
-      whenUpdatingAction();
-
-      // Then
-      final appState = await successAppState;
-      expectTypeThen<MonSuiviSuccessState>(appState.monSuiviState, (monSuiviState) {
-        expect(monSuiviState.monSuivi.actions.isEmpty, true);
-      });
-    });
+    expect((appState.monSuiviState as MonSuiviSuccessState).monSuivi.actions[2].id, "3");
+    expect((appState.monSuiviState as MonSuiviSuccessState).monSuivi.actions[2].status, UserActionStatus.NOT_STARTED);
   });
 
   group("an edited action should be updated", () {
@@ -184,11 +121,10 @@ void main() {
 
     final state = givenState() //
         .loggedInUser()
-        .monSuivi(monSuivi: mockMonSuivi(actions: actions))
-        .withActions(actions);
+        .monSuivi(monSuivi: mockMonSuivi(actions: actions));
 
     final testStoreFactory = TestStoreFactory();
-    final repository = PageActionRepositorySuccessStub();
+    final repository = UserActionRepositorySuccessStub();
     testStoreFactory.userActionRepository = repository;
     final store = testStoreFactory.initializeReduxStore(initialState: state);
 
@@ -213,19 +149,6 @@ void main() {
       // Then
       final appState = await successAppState;
       expect(appState.userActionUpdateState is UserActionUpdateSuccessState, isTrue);
-    });
-
-    test("on user action list state", () async {
-      final successAppState = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
-
-      // When
-      whenUpdatingAction();
-
-      // Then
-      final appState = await successAppState;
-      expect(appState.userActionListState is UserActionListSuccessState, isTrue);
-      expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "3");
-      expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
     });
 
     test("on mon suivi state", () async {

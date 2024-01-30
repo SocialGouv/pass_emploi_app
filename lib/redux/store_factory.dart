@@ -72,7 +72,6 @@ import 'package:pass_emploi_app/features/user_action/create/pending/user_action_
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_middleware.dart';
-import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -281,7 +280,6 @@ class StoreFactory {
         BootstrapMiddleware().call,
         LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker).call,
         CacheInvalidatorMiddleware(cacheManager).call,
-        UserActionListMiddleware(userActionRepository).call,
         UserActionDetailsMiddleware(userActionRepository).call,
         UserActionCreateMiddleware(userActionRepository).call,
         UserActionCreatePendingMiddleware(userActionRepository, userActionPendingCreationRepository).call,
