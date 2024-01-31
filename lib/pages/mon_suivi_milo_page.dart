@@ -35,7 +35,7 @@ class MonSuiviMiloPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: AnalyticsScreenNames.monSuiviMilo,
+      tracking: AnalyticsScreenNames.monSuiviV2,
       child: StoreConnector<AppState, MonSuiviViewModel>(
         onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
         converter: (store) => MonSuiviViewModel.create(store),
