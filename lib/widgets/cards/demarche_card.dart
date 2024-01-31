@@ -32,7 +32,7 @@ class DemarcheCard extends StatelessWidget {
 
   Widget _build(BuildContext context, DemarcheCardViewModel viewModel) {
     return BaseCard(
-      pillule: viewModel.pilluleType?.toCardPillule(),
+      pillule: viewModel.pilluleType?.toDemarcheCardPillule(),
       title: viewModel.titre,
       body: viewModel.sousTitre,
       onTap: onTap,

@@ -264,7 +264,7 @@ class _UserActionMonSuiviItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return UserActionCard(
       userActionId: entry.id,
-      stateSource: UserActionStateSource.monSuivi,
+      source: UserActionStateSource.monSuivi,
       onTap: () {
         context.trackEvent(EventType.ACTION_DETAIL);
         Navigator.push(
