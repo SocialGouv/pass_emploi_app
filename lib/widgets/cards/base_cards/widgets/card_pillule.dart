@@ -89,6 +89,12 @@ class CardPillule extends StatelessWidget {
         contentColor = AppColors.disabled,
         backgroundColor = AppColors.grey100;
 
+  CardPillule.evenementCanceled()
+      : icon = null,
+        text = Strings.rendezvousCardAnnule,
+        contentColor = AppColors.disabled,
+        backgroundColor = AppColors.grey100;
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(

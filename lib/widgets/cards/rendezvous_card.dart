@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:redux/redux.dart';
 
@@ -43,8 +44,9 @@ class _Content extends StatelessWidget {
     return BaseCard(
       onTap: onTap,
       title: viewModel.title,
-      additionalChild: viewModel.isAnnule ? CardTag.annule() : null,
       tag: CardTag.evenement(text: viewModel.tag),
+      pillule: viewModel.isAnnule ? CardPillule.evenementCanceled() : null,
+      gatherTagAndPillule: true,
       complements: [
         CardComplement.dateTime(text: viewModel.date),
         if (viewModel.place != null) CardComplement.place(text: viewModel.place!)

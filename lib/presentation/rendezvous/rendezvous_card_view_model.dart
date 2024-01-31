@@ -39,7 +39,7 @@ class RendezvousCardViewModel extends Equatable {
       date: _date(source, rdv),
       inscriptionStatus: _inscription(rdv, source),
       isAnnule: rdv.isAnnule,
-      title: rdv.title ?? "",
+      title: rdv.title ?? '',
       description: rdv.precision,
       place: _place(rdv),
     );
