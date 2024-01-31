@@ -17,7 +17,7 @@ import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
 void main() {
-  final UserActionCreateRequest request = dummyUserActionCreateRequest();
+  final UserActionCreateRequest request = mockUserActionCreateRequest();
   late MockUserActionPendingCreationRepository repository;
 
   setUp(() {
@@ -54,8 +54,8 @@ void main() {
     });
 
     group("on connectivity retrieved", () {
-      final request1 = dummyUserActionCreateRequest('1');
-      final request2 = dummyUserActionCreateRequest('2');
+      final request1 = mockUserActionCreateRequest('1');
+      final request2 = mockUserActionCreateRequest('2');
       late MockUserActionRepository userActionRepository;
 
       setUp(() {

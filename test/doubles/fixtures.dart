@@ -1178,7 +1178,7 @@ SessionMiloPartage dummySessionMiloPartage() {
   );
 }
 
-UserActionCreateRequest dummyUserActionCreateRequest([String content = "content"]) {
+UserActionCreateRequest mockUserActionCreateRequest([String content = "content"]) {
   return UserActionCreateRequest(
     content,
     "comment",
