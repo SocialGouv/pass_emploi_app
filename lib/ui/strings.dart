@@ -221,6 +221,7 @@ class Strings {
   static String monSuiviSemaineProchaine = "Semaine prochaine";
   static String monSuiviEmptyDay = "Rien de prevu";
   static String monSuiviError = "Erreur lors de la récupération de votre suivi";
+  static String monSuiviTooltip = "Aller à aujourd'hui";
 
   // Agenda
   static String agendaEmptyTitle = "Vous n’avez rien de prévu cette semaine";

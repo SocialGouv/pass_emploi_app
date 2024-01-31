@@ -29,7 +29,8 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:shimmer/shimmer.dart';
 
-final _key = GlobalKey();
+final GlobalKey _key = GlobalKey();
+final ScrollController _scrollController = ScrollController();
 
 class MonSuiviMiloPage extends StatelessWidget {
   @override
@@ -57,7 +58,7 @@ class _Scaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      appBar: PrimaryAppBar(title: Strings.monSuiviAppBarTitle),
+      appBar: _ScrollAwareAppBar(),
       body: ConnectivityContainer(child: body),
       floatingActionButton: Visibility(
         visible: withCreateButton,
@@ -76,6 +77,56 @@ class _Scaffold extends StatelessWidget {
   }
 }
 
+class _ScrollAwareAppBar extends StatefulWidget implements PreferredSizeWidget {
+  @override
+  State<_ScrollAwareAppBar> createState() => _ScrollAwareAppBarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(PrimaryAppBar.toolBarHeight);
+}
+
+class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
+  bool withActionButton = false;
+
+  @override
+  void initState() {
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PrimaryAppBar(
+      title: Strings.monSuiviAppBarTitle,
+      actionButton: withActionButton
+          ? IconButton(
+              onPressed: () => _scrollController.animateTo(
+                0,
+                duration: AnimationDurations.fast,
+                curve: Curves.fastEaseInToSlowEaseOut,
+              ),
+              icon: Icon(AppIcons.event, color: AppColors.primary),
+              tooltip: Strings.monSuiviTooltip,
+            )
+          : null,
+    );
+  }
+
+  void _scrollListener() {
+    if (_scrollController.offset != 0) {
+      if (!withActionButton) setState(() => withActionButton = true);
+    } else {
+      if (withActionButton) setState(() => withActionButton = false);
+    }
+  }
+}
+
 class _Body extends StatelessWidget {
   final MonSuiviViewModel viewModel;
 
@@ -87,19 +138,19 @@ class _Body extends StatelessWidget {
       duration: AnimationDurations.fast,
       child: switch (viewModel.displayState) {
         DisplayState.FAILURE => Center(child: Retry(Strings.monSuiviError, () => viewModel.onRetry())),
-        DisplayState.CONTENT => _TodayAnchoredMonSuiviList(viewModel),
+        DisplayState.CONTENT => _TodayCenteredMonSuiviList(viewModel),
         _ => _MonSuiviLoader(),
       },
     );
   }
 }
 
-class _TodayAnchoredMonSuiviList extends StatelessWidget {
+class _TodayCenteredMonSuiviList extends StatelessWidget {
   final MonSuiviViewModel viewModel;
   final List<MonSuiviItem> pastItems;
   final List<MonSuiviItem> presentAndFutureItems;
 
-  _TodayAnchoredMonSuiviList(this.viewModel)
+  _TodayCenteredMonSuiviList(this.viewModel)
       : pastItems = viewModel.items.sublist(0, viewModel.indexOfTodayItem).reversed.toList(),
         presentAndFutureItems = viewModel.items.sublist(viewModel.indexOfTodayItem);
 
@@ -111,6 +162,7 @@ class _TodayAnchoredMonSuiviList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: CustomScrollView(
         center: _key,
+        controller: _scrollController,
         slivers: [
           SliverList.separated(
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),

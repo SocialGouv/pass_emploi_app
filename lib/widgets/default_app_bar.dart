@@ -11,12 +11,14 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool withProfileButton;
   final bool canPop;
+  final IconButton? actionButton;
 
   const PrimaryAppBar({
     super.key,
     required this.title,
     this.withProfileButton = true,
     this.canPop = false,
+    this.actionButton,
   });
 
   @override
@@ -38,7 +40,14 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: false,
       actions: [
-        if (withProfileButton) ...[ProfileButton(isDarkColor: Brand.isCej()), SizedBox(width: Margins.spacing_base)]
+        if (actionButton != null) ...[
+          actionButton!,
+          SizedBox(width: Margins.spacing_base),
+        ],
+        if (withProfileButton) ...[
+          ProfileButton(isDarkColor: Brand.isCej()),
+          SizedBox(width: Margins.spacing_base),
+        ]
       ],
     );
   }
