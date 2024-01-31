@@ -125,11 +125,16 @@ extension AppStateDSL on AppState {
     DateTime? dateDerniereMiseAJour,
   }) {
     return copyWith(
-        rendezvousListState: RendezvousListState.successful(
-      rendezvous: rendezvous,
-      sessionsMilo: sessionsMilo,
-      dateDerniereMiseAJour: dateDerniereMiseAJour,
-    ));
+      rendezvousListState: RendezvousListState.successful(
+        rendezvous: rendezvous,
+        sessionsMilo: sessionsMilo,
+        dateDerniereMiseAJour: dateDerniereMiseAJour,
+      ),
+    );
+  }
+
+  AppState withRendezvous(Rendezvous rendezvous) {
+    return copyWith(rendezvousListState: RendezvousListState.successful(rendezvous: [rendezvous]));
   }
 
   AppState rendezvousNotInitialized() => copyWith(rendezvousListState: RendezvousListState.notInitialized());
