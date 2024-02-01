@@ -70,7 +70,9 @@ List<MonSuiviItem> _items(MonSuiviState state) {
     final day = MonSuiviDay.fromDateTime(jourCourant);
     final isToday = jourCourant.isToday();
     items.add(
-      entries != null ? FilledDayMonSuiviItem(day, entries, isToday) : EmptyDayMonSuiviItem(day, isToday),
+      entries != null
+          ? FilledDayMonSuiviItem(day, entries, isToday)
+          : EmptyDayMonSuiviItem(day, _emptyText(jourCourant), isToday),
     );
 
     jourCourant = jourCourant.add(Duration(days: 1));
@@ -106,6 +108,10 @@ Map<String, List<MonSuiviEntry>> _entriesByDay(MonSuiviState state) {
     entriesByDay.add(session.dateDeDebut, SessionMiloMonSuiviEntry(session.id));
   }
   return entriesByDay;
+}
+
+String _emptyText(DateTime date) {
+  return date.isBefore(clock.now().toStartOfDay()) ? Strings.monSuiviEmptyPast : Strings.monSuiviEmptyFuture;
 }
 
 extension on Map<String, List<MonSuiviEntry>> {
@@ -152,10 +158,12 @@ class FilledDayMonSuiviItem extends DayMonSuiviItem {
 }
 
 class EmptyDayMonSuiviItem extends DayMonSuiviItem {
-  EmptyDayMonSuiviItem(super.day, [super.isToday = false]);
+  final String text;
+
+  EmptyDayMonSuiviItem(super.day, this.text, [super.isToday = false]);
 
   @override
-  List<Object?> get props => [day, isToday];
+  List<Object?> get props => [day, text, isToday];
 }
 
 class MonSuiviDay extends Equatable {

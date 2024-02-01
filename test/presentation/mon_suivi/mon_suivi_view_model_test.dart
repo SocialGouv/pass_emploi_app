@@ -64,57 +64,61 @@ void main() {
 
   group('items', () {
     test('when no data on period', () {
-      // Given
-      final store = givenState().monSuivi(interval: Interval(lundi1Janvier, dimanche7Janvier)).store();
+      withClock(Clock.fixed(dimanche14Janvier), () {
+        // Given
+        final store = givenState().monSuivi(interval: Interval(lundi1Janvier, dimanche7Janvier)).store();
 
-      // When
-      final viewModel = MonSuiviViewModel.create(store);
+        // When
+        final viewModel = MonSuiviViewModel.create(store);
 
-      // Then
-      expect(viewModel.items, [
-        SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
-        EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1')),
-        EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2')),
-        EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3')),
-        EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4')),
-        EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5')),
-        EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6')),
-        EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7')),
-      ]);
+        // Then
+        expect(viewModel.items, [
+          SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
+          EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1'), 'Aucun événement ni action'),
+          EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Aucun événement ni action'),
+          EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Aucun événement ni action'),
+          EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Aucun événement ni action'),
+          EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Aucun événement ni action'),
+          EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Aucun événement ni action'),
+          EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7'), 'Aucun événement ni action'),
+        ]);
+      });
     });
 
     test('when data on period', () {
-      // Given
-      final store = givenState()
-          .monSuivi(
-            interval: Interval(lundi1Janvier, dimanche7Janvier),
-            monSuivi: mockMonSuivi(
-              actions: [mockUserAction(id: 'actionId', dateEcheance: lundi1Janvier)],
-              rendezvous: [mockRendezvous(id: 'rendezvousId', date: dimanche7Janvier)],
-              sessionsMilo: [mockSessionMilo(id: 'sessionMiloId', dateDeDebut: dimanche7Janvier)],
-            ),
-          )
-          .store();
+      withClock(Clock.fixed(DateTime(2022)), () {
+        // Given
+        final store = givenState()
+            .monSuivi(
+              interval: Interval(lundi1Janvier, dimanche7Janvier),
+              monSuivi: mockMonSuivi(
+                actions: [mockUserAction(id: 'actionId', dateEcheance: lundi1Janvier)],
+                rendezvous: [mockRendezvous(id: 'rendezvousId', date: dimanche7Janvier)],
+                sessionsMilo: [mockSessionMilo(id: 'sessionMiloId', dateDeDebut: dimanche7Janvier)],
+              ),
+            )
+            .store();
 
-      // When
-      final viewModel = MonSuiviViewModel.create(store);
+        // When
+        final viewModel = MonSuiviViewModel.create(store);
 
-      // Then
-      expect(viewModel.items, [
-        SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
-        FilledDayMonSuiviItem(MonSuiviDay('lun.', '1'), [
-          UserActionMonSuiviEntry('actionId'),
-        ]),
-        EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2')),
-        EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3')),
-        EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4')),
-        EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5')),
-        EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6')),
-        FilledDayMonSuiviItem(MonSuiviDay('dim.', '7'), [
-          RendezvousMonSuiviEntry('rendezvousId'),
-          SessionMiloMonSuiviEntry('sessionMiloId'),
-        ]),
-      ]);
+        // Then
+        expect(viewModel.items, [
+          SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
+          FilledDayMonSuiviItem(MonSuiviDay('lun.', '1'), [
+            UserActionMonSuiviEntry('actionId'),
+          ]),
+          EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Rien de prévu'),
+          EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Rien de prévu'),
+          EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Rien de prévu'),
+          EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Rien de prévu'),
+          EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Rien de prévu'),
+          FilledDayMonSuiviItem(MonSuiviDay('dim.', '7'), [
+            RendezvousMonSuiviEntry('rendezvousId'),
+            SessionMiloMonSuiviEntry('sessionMiloId'),
+          ]),
+        ]);
+      });
     });
 
     test('when period contains current and next week', () {

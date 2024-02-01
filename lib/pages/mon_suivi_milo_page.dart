@@ -291,8 +291,9 @@ class _FilledDayItem extends StatelessWidget {
 
 class _EmptyDayItem extends StatelessWidget {
   final MonSuiviDay day;
+  final String text;
 
-  const _EmptyDayItem(this.day);
+  const _EmptyDayItem(this.day, this.text);
 
   @override
   Widget build(BuildContext context) {
@@ -301,7 +302,7 @@ class _EmptyDayItem extends StatelessWidget {
       child: DashedBox(
         padding: const EdgeInsets.all(Margins.spacing_base),
         color: AppColors.disabled,
-        child: Text(Strings.monSuiviEmptyDay, style: TextStyles.textXsMedium(color: AppColors.disabled)),
+        child: Text(text, style: TextStyles.textXsMedium(color: AppColors.disabled)),
       ),
     );
   }
@@ -543,7 +544,7 @@ extension on MonSuiviItem {
   Widget toWidget() {
     return switch (this) {
       final SemaineSectionMonSuiviItem item => _SemaineSectionItem(item.interval, item.boldTitle),
-      final EmptyDayMonSuiviItem item => _EmptyDayItem(item.day),
+      final EmptyDayMonSuiviItem item => _EmptyDayItem(item.day, item.text),
       final FilledDayMonSuiviItem item => _FilledDayItem(item.day, item.entries),
     };
   }
