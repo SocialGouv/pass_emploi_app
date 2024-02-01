@@ -29,10 +29,8 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     _repository.hasRoom().listen(
       (hasRoom) {
         // TODO: est-ce qu'il faut une mécanique "synchronized" ?
-        print("CVM room stream listen: $hasRoom");
         if (this.hasRoom) {
           //WHY: Le SDK iOS (et Android ?) déclenche plusieurs fois le callback.
-          print("CVM room stream listen: already has a room.");
           return;
         }
         this.hasRoom = hasRoom;
