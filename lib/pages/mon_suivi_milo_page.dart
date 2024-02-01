@@ -30,9 +30,25 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:shimmer/shimmer.dart';
 
 final GlobalKey _key = GlobalKey();
+final GlobalKey _stackKey = GlobalKey();
 final ScrollController _scrollController = ScrollController();
+final Map<GlobalKey, MonSuiviDay> _filledDayItemKeys = {};
 
-class MonSuiviMiloPage extends StatelessWidget {
+GlobalKey? _randomDayKey;
+double? _dayOverlayHeight;
+
+class MonSuiviMiloPage extends StatefulWidget {
+  @override
+  State<MonSuiviMiloPage> createState() => _MonSuiviMiloPageState();
+}
+
+class _MonSuiviMiloPageState extends State<MonSuiviMiloPage> {
+  @override
+  void dispose() {
+    _filledDayItemKeys.clear();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Tracker(
@@ -138,9 +154,26 @@ class _Body extends StatelessWidget {
       duration: AnimationDurations.fast,
       child: switch (viewModel.displayState) {
         DisplayState.FAILURE => Center(child: Retry(Strings.monSuiviError, () => viewModel.onRetry())),
-        DisplayState.CONTENT => _TodayCenteredMonSuiviList(viewModel),
+        DisplayState.CONTENT => _Stack(viewModel),
         _ => _MonSuiviLoader(),
       },
+    );
+  }
+}
+
+class _Stack extends StatelessWidget {
+  final MonSuiviViewModel viewModel;
+
+  const _Stack(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      key: _stackKey,
+      children: [
+        _TodayCenteredMonSuiviList(viewModel),
+        _DayOverlay(),
+      ],
     );
   }
 }
@@ -240,9 +273,12 @@ class _FilledDayItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey key = GlobalKey();
+    _filledDayItemKeys[key] = day;
     return _DayRow(
       day: day,
       child: Column(
+        key: key,
         children: entries //
             .map((entry) => [entry.toWidget(), SizedBox(height: Margins.spacing_s)])
             .flattened
@@ -297,12 +333,19 @@ class _Day extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(day.shortened, style: TextStyles.textXsMedium()),
-        Text(day.number, style: TextStyles.textBaseBold),
-      ],
+    final bool addKey = _randomDayKey == null;
+    if (addKey) _randomDayKey = GlobalKey();
+
+    return ColoredBox(
+      key: addKey ? _randomDayKey : null,
+      color: AppColors.grey100,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(day.shortened, style: TextStyles.textXsMedium()),
+          Text(day.number, style: TextStyles.textBaseBold),
+        ],
+      ),
     );
   }
 }
@@ -419,6 +462,78 @@ class _MonSuiviItemLoader extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _DayOverlay extends StatefulWidget {
+  @override
+  State<_DayOverlay> createState() => _DayOverlayState();
+}
+
+class _DayOverlayState extends State<_DayOverlay> {
+  MonSuiviDay? _day;
+
+  @override
+  void initState() {
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _day != null
+        ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+            child: _DayRow(day: _day!, child: const SizedBox()),
+          )
+        : SizedBox();
+  }
+
+  void _scrollListener() {
+    final MonSuiviDay? day = _overlayDay();
+    if (day != _day) setState(() => _day = day);
+  }
+
+  MonSuiviDay? _overlayDay() {
+    MonSuiviDay? overlayDay;
+    for (var key in _filledDayItemKeys.keys) {
+      final RenderBox? renderBox = key.currentContext?.findRenderObject() as RenderBox?;
+      if (renderBox == null) continue;
+
+      final MonSuiviDay boxDay = _filledDayItemKeys[key]!;
+      final overlayShouldBeVisible = _overlayShouldBeVisible(renderBox);
+      if (overlayShouldBeVisible) {
+        overlayDay = boxDay;
+        break;
+      }
+    }
+    return overlayDay;
+  }
+
+  bool _overlayShouldBeVisible(RenderBox renderBox) {
+    final overlayHeight = _getOverlayHeight();
+    if (overlayHeight == null) return false;
+
+    final ancestor = _stackKey.currentContext?.findRenderObject();
+    final double renderBoxY = renderBox.localToGlobal(Offset.zero, ancestor: ancestor).dy;
+    final isRenderBoxTopVisible = renderBoxY >= 0;
+    final isRenderBoxOnScreen = renderBoxY > -renderBox.size.height + overlayHeight;
+    return !isRenderBoxTopVisible && isRenderBoxOnScreen;
+  }
+
+  double? _getOverlayHeight() {
+    if (_dayOverlayHeight == null) {
+      final RenderBox? randomDayBox = _randomDayKey?.currentContext?.findRenderObject() as RenderBox?;
+      if (randomDayBox == null) return null;
+      _dayOverlayHeight = randomDayBox.size.height;
+    }
+    return _dayOverlayHeight;
   }
 }
 
