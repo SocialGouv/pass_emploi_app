@@ -42,6 +42,7 @@ class CardComplement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(icon, size: Dimens.icon_size_base, color: color),
         SizedBox(width: Margins.spacing_xs),
