@@ -102,9 +102,6 @@ private extension Event {
             "isFromUser": senderID == SessionManager.sharedInstance.userId,
             "message": message,
             "date": timestamp,
-            //TODO: d'autres champs ?
-            // "readBy": event.readBy,
-            // eventType
         ]
     }
 
