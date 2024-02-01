@@ -70,7 +70,7 @@ String? _place(Rendezvous rdv) {
 }
 
 String _date(RendezvousStateSource source, Rendezvous rdv) {
-  return source == RendezvousStateSource.monSuivi
+  return [RendezvousStateSource.monSuivi, RendezvousStateSource.monSuiviSessionMilo].contains(source)
       ? rdv.date.toHourWithHSeparator()
       : rdv.date.toDayAndHourContextualized();
 }

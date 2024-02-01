@@ -41,7 +41,6 @@ class UserActionCard extends StatelessWidget {
           backgroundColor: viewModel.isLate ? AppColors.warningLighten : AppColors.primaryLighten,
         ),
         pillule: viewModel.pillule.toActionCardPillule(),
-        gatherTagAndPillule: true,
       ),
     );
   }

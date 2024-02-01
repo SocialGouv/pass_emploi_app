@@ -46,7 +46,6 @@ class _Content extends StatelessWidget {
       title: viewModel.title,
       tag: CardTag.evenement(text: viewModel.tag),
       pillule: viewModel.isAnnule ? CardPillule.evenementCanceled() : null,
-      gatherTagAndPillule: true,
       complements: [
         CardComplement.dateTime(text: viewModel.date),
         if (viewModel.place != null) CardComplement.place(text: viewModel.place!)

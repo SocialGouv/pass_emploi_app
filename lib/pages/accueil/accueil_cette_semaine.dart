@@ -105,7 +105,7 @@ class _BlocInfo extends StatelessWidget {
             Row(
               children: [
                 Icon(icon, color: contentColor, size: Dimens.icon_size_m),
-                Expanded(child: SizedBox()),
+                SizedBox(width: Margins.spacing_s),
                 Text(count, style: TextStyles.textMBold.copyWith(color: contentColor)),
               ],
             ),

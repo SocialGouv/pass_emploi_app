@@ -14,7 +14,6 @@ class BaseCard extends StatelessWidget {
   final String title;
   final CardTag? tag;
   final CardPillule? pillule;
-  final bool? gatherTagAndPillule;
   final Widget? iconButton;
   final String? subtitle;
   final String? body;
@@ -32,7 +31,6 @@ class BaseCard extends StatelessWidget {
     this.body,
     this.tag,
     this.pillule,
-    this.gatherTagAndPillule,
     this.iconButton,
     this.complements,
     this.secondaryTags,
@@ -58,8 +56,7 @@ class BaseCard extends StatelessWidget {
                 Row(
                   children: [
                     if (tag != null) tag!,
-                    if (gatherTagAndPillule == true) SizedBox(width: Margins.spacing_s),
-                    if (gatherTagAndPillule == null || gatherTagAndPillule == false) Expanded(child: SizedBox()),
+                    SizedBox(width: Margins.spacing_s),
                     if (pillule != null) pillule!,
                     if (iconButton != null) iconButton!,
                   ],
