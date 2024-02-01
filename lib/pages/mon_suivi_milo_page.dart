@@ -496,6 +496,8 @@ class _DayOverlayState extends State<_DayOverlay> {
   }
 
   void _scrollListener() {
+    if (_scrollController.offset == 0 && _day != null) setState(() => _day = null);
+
     final MonSuiviDay? day = _overlayDay();
     if (day != _day) setState(() => _day = day);
   }
