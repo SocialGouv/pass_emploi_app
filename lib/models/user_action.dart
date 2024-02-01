@@ -21,6 +21,8 @@ enum UserActionStatus {
       _ => UserActionStatus.NOT_STARTED,
     };
   }
+
+  bool todo() => this == UserActionStatus.NOT_STARTED || this == UserActionStatus.IN_PROGRESS;
 }
 
 enum UserActionQualificationStatus {
@@ -35,12 +37,6 @@ enum UserActionQualificationStatus {
       'A_QUALIFIER' => UserActionQualificationStatus.A_QUALIFIER,
       _ => null,
     };
-  }
-}
-
-extension UserActionStatusExtension on UserActionStatus {
-  bool isCanceledOrDone() {
-    return this == UserActionStatus.CANCELED || this == UserActionStatus.DONE;
   }
 }
 

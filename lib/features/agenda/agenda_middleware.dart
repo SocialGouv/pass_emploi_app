@@ -1,8 +1,6 @@
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
-import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:redux/redux.dart';
@@ -24,12 +22,7 @@ class AgendaMiddleware extends MiddlewareClass<AppState> {
 
     if (_needFetchingAgenda(currentPendingActionsCount, action)) {
       final DateTime maintenant = _getMaintenant(action);
-      final Agenda? agenda;
-      if (user.loginMode.isPe()) {
-        agenda = await _repository.getAgendaPoleEmploi(user.id, maintenant);
-      } else {
-        agenda = await _repository.getAgendaMissionLocale(user.id, maintenant);
-      }
+      final agenda = await _repository.getAgendaPoleEmploi(user.id, maintenant);
       store.dispatch(agenda != null ? AgendaRequestSuccessAction(agenda) : AgendaRequestFailureAction());
     }
   }

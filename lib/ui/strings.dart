@@ -1,4 +1,3 @@
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
 
@@ -46,23 +45,6 @@ class _CejStrings {
 class Strings {
   Strings._();
 
-  static String according({
-    required LoginMode loginMode,
-    required int count,
-    required String singularPoleEmploi,
-    required String severalPoleEmploi,
-    required String singularMissionLocale,
-    required String severalMissionLocale,
-  }) {
-    return loginMode.isPe()
-        ? count <= 1
-            ? singularPoleEmploi
-            : severalPoleEmploi
-        : count <= 1
-            ? singularMissionLocale
-            : severalMissionLocale;
-  }
-
   // Common
   static String appName = Brand.isCej() ? _CejStrings.appName : _BrsaStrings.appName;
   static String retry = "Réessayer";
@@ -75,8 +57,6 @@ class Strings {
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
   static String refuserLabel = "Refuser";
-  static String seeDetail = "Voir le détail >";
-  static String voirLeDetail = "Voir le détail";
   static String consulter = "Consulter";
   static String copie = "Copié";
   static String notConnected = "Vous êtes hors connexion";
@@ -205,31 +185,16 @@ class Strings {
   static const String latePillule = "En retard";
   static const String canceledPillule = "Annulée";
 
-  static const String voirLeDetailCard = "Voir le détail";
-
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
   static String accueilCetteSemaineSection = "Cette semaine";
   static String accueilVoirDetailsCetteSemaine = "Voir le détail de ma semaine";
-
-  static String rendezvousEnCours(int count) => "$count rendez-vous";
-
-  static String singularDemarcheToDo(int count) => "$count démarche à réaliser";
-
-  static String severalDemarchesToDo(int count) => "$count démarches à réaliser";
-
-  static String singularActionToDo(int count) => "$count action à réaliser";
-
-  static String severalActionsToDo(int count) => "$count actions à réaliser";
-
-  static String singularDemarcheLate(int count) => "$count démarche en retard";
-
-  static String severalDemarchesLate(int count) => "$count démarches en retard";
-
-  static String singularActionLate(int count) => "$count action en retard";
-
-  static String severalActionsLate(int count) => "$count actions en retard";
   static String accueilRendezvousSection = "Votre prochain rendez-vous";
+  static String accueilActionSingular = "Action";
+  static String accueilActionPlural = "Actions";
+  static String accueilDemarcheSingular = "Démarche";
+  static String accueilDemarchePlural = "Démarches";
+  static String accueilRendezvous = "Rendez-vous";
   static String accueilEvenementsSection = "Événements pouvant vous intéresser";
   static String accueilVoirLesEvenements = "Voir plus d’événements";
   static String accueilMesAlertesSection = "Mes alertes";
@@ -248,27 +213,23 @@ class Strings {
   // Mon Suivi Tabs
   static String monSuiviAppBarTitle = "Mon suivi";
   static String agendaTabTitle = "Cette semaine";
-  static String actionsTabTitle = "Actions";
   static String rendezvousTabTitle = "Rendez-vous";
   static String demarcheTabTitle = "Démarches";
 
   // Mon Suivi Milo
   static String monSuiviCetteSemaine = "Cette semaine";
   static String monSuiviSemaineProchaine = "Semaine prochaine";
-  static String monSuiviEmptyDay = "Rien de prevu";
+  static String monSuiviEmptyPast = "Aucun événement ni action";
+  static String monSuiviEmptyFuture = "Rien de prévu";
   static String monSuiviError = "Erreur lors de la récupération de votre suivi";
+  static String monSuiviTooltip = "Aller à aujourd'hui";
 
   // Agenda
   static String agendaEmptyTitle = "Vous n’avez rien de prévu cette semaine";
-  static String agendaEmptySubtitleMilo =
-      "Commencez en créant une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran";
   static String agendaEmptySubtitlePoleEmploi =
       "Commencez en ajoutant une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran";
   static String agendaError = "Erreur lors de la récupération de vos actions et rendez-vous";
-  static String agendaEmptyForDayMilo = "Pas d’action ni de rendez-vous";
   static String agendaEmptyForDayPoleEmploi = "Pas de démarche ni de rendez-vous";
-  static String agendaEmptyForWeekMilo =
-      "Pas d’action ni de rendez-vous. Créez une nouvelle action ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran.";
   static String agendaEmptyForWeekPoleEmploi =
       "Pas de démarche ni de rendez-vous. Ajoutez une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran.";
   static String nextWeek = "Semaine prochaine";
@@ -463,7 +424,6 @@ class Strings {
   ];
 
   // User Action
-  static String actionsError = "Erreur lors de la récupération de vos actions";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Mon action";
   static String demarcheDetails = "Détail de la démarche";
@@ -475,7 +435,6 @@ class Strings {
   static String userActionNoCategory = "Aucune";
   static String updateStatus = "Modifier le statut";
   static String refreshActionStatus = "Valider le statut";
-  static String noActionsYet = "Vous n'avez pas encore d’action prévue.";
   static String addAnAction = "Créer une action";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
@@ -485,6 +444,7 @@ class Strings {
   static String mandatoryDateEcheanceError = "La date d'échéance doit être renseignée";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
+
   static String actionCreationInfos(String creator, String date) => "Ajouté par $creator le $date";
   static String youLowercase = "vous";
   static String you = "Vous";
@@ -572,7 +532,6 @@ class Strings {
   static const String comment = "Comment";
   static const String selectComment = "*Sélectionner un des moyens";
   static const String selectQuand = "*Sélectionner une date d’échéance format: jj/mm/aaaa";
-  static const String demarchePressedTip = "Choisir cette démarche";
 
   static String demarcheActiveLabel = "À réaliser pour le ";
 
@@ -617,7 +576,6 @@ class Strings {
   static String dernieresRecherches = "Dernières recherches";
   static String vosPreferencesMetiers = "Vos préférences métiers";
   static String rechercheHomeNosOffres = "Nos offres";
-  static String rechercheHomeCardLink = "Rechercher";
   static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
   static String rechercheHomeOffresEmploiSubtitle = "Trouvez un emploi qui vous correspond.";
   static String rechercheHomeOffresAlternanceTitle = "Offres d’alternance";
@@ -846,11 +804,6 @@ class Strings {
   static String filterImmersion = "Immersion";
   static String filterAlternance = "Alternance";
   static String filterServiceCivique = "Service civique";
-
-  // Empty Content (actions & rdv)
-  static String rendezvous = "rendez-vous";
-  static String actions = "actions";
-  static String action = "action";
 
   static String demarchesToDo = "démarche prévue.";
   static String demarches = "démarches";
@@ -1102,10 +1055,6 @@ class Strings {
   static String agendaPeUpToDate = "Vos rendez-vous et démarches sont à jour";
   static String agendaPeNotUpToDate =
       "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
-  static String agendaMiloUpToDate = "Vos rendez-vous et actions sont à jour";
-  static String agendaMiloNotUpToDate =
-      "Une erreur technique s’est produite. Certains de vos rendez-vous et actions ne sont peut-être pas à jour.";
-
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";

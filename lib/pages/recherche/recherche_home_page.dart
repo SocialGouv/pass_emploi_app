@@ -18,7 +18,6 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
-import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
@@ -134,8 +133,6 @@ class _BlocSolution extends StatelessWidget {
           Text(title, style: TextStyles.textMBold),
           SizedBox(height: Margins.spacing_m),
           Text(subtitle, style: TextStyles.textBaseRegular),
-          SizedBox(height: Margins.spacing_base),
-          PressedTip(Strings.rechercheHomeCardLink)
         ],
       ),
     );

@@ -119,7 +119,7 @@ class _Blocs extends StatelessWidget {
     return switch (viewModel.items[index]) {
       final AccueilCampagneItem item => _CampagneCard(title: item.titre, description: item.description),
       final AccueilCetteSemaineItem item => AccueilCetteSemaine(item),
-      final AccueilProchainRendezvousItem item => AccueilProchainRendezVous.fromRendezVous(item.rendezVousId),
+      final AccueilProchainRendezvousItem item => AccueilProchainRendezVous.fromRendezVous(item.rendezvousId),
       final AccueilProchaineSessionMiloItem item => AccueilProchainRendezVous.fromSession(item.sessionId),
       final AccueilEvenementsItem item => AccueilEvenements(item),
       final AccueilAlertesItem item => AccueilAlertes(item),

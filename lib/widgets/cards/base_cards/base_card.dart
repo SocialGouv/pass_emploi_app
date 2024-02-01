@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_body.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
@@ -57,60 +56,61 @@ class BaseCard extends StatelessWidget {
                 Row(
                   children: [
                     if (tag != null) tag!,
-                    Expanded(child: SizedBox()),
+                    SizedBox(width: Margins.spacing_s),
                     if (pillule != null) pillule!,
                     if (iconButton != null) iconButton!,
                   ],
                 ),
-                SizedBox(height: Margins.spacing_base),
               ],
               if (imagePath != null) ...[
+                SizedBox(height: Margins.spacing_base),
                 _CardIllustration(imagePath: imagePath!),
-                SizedBox(height: Margins.spacing_base),
               ],
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(child: CardTitle(title)),
-                  if (isSimpleCard && iconButton != null)
-                    // This is a hack to make the iconButton appear aligned on the right of the title
-                    SizedBox.square(dimension: kMinInteractiveDimension),
-                ],
-              ),
-              SizedBox(height: Margins.spacing_base),
-              if (subtitle != null) ...[
+              if (title.isNotEmpty) ...[
+                SizedBox(height: Margins.spacing_m),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(child: CardTitle(title)),
+                    if (isSimpleCard && iconButton != null)
+                      // This is a hack to make the iconButton appear aligned on the right of the title
+                      SizedBox.square(dimension: kMinInteractiveDimension),
+                  ],
+                ),
+              ],
+              if (subtitle != null && subtitle!.isNotEmpty) ...[
+                SizedBox(height: Margins.spacing_base),
                 CardSubtitle(subtitle!),
-                SizedBox(height: Margins.spacing_base),
               ],
-              if (body != null) ...[
+              if (body != null && body!.isNotEmpty) ...[
+                SizedBox(height: Margins.spacing_base),
                 CardBodyText(body!),
-                SizedBox(height: Margins.spacing_base),
               ],
-              if (complements != null) ...[
+              if (complements != null && complements!.isNotEmpty) ...[
+                SizedBox(height: Margins.spacing_base),
                 Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
-                SizedBox(height: Margins.spacing_base),
               ],
-              if (secondaryTags != null) ...[
+              if (secondaryTags != null && secondaryTags!.isNotEmpty) ...[
+                SizedBox(height: Margins.spacing_base),
                 Wrap(
                   spacing: Margins.spacing_s,
                   runSpacing: Margins.spacing_s,
                   children: secondaryTags!,
                 ),
-                SizedBox(height: Margins.spacing_base),
               ],
               if (additionalChild != null) ...[
-                additionalChild!,
                 SizedBox(height: Margins.spacing_base),
+                additionalChild!,
               ],
-              if (actions != null) ...[
+              if (actions != null && actions!.isNotEmpty) ...[
                 SizedBox(height: Margins.spacing_base),
                 Wrap(
                   children: actions!,
                 ),
               ],
-              if (onTap != null) ...[
+              if (onTap != null && pressedTip != null) ...[
                 SizedBox(height: Margins.spacing_s),
-                pressedTip ?? PressedTip(Strings.voirLeDetailCard),
+                pressedTip!,
               ],
             ],
           ),

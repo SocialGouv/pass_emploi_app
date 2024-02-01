@@ -32,12 +32,6 @@ class CardTag extends StatelessWidget {
   })  : backgroundColor = AppColors.primaryLighten,
         contentColor = AppColors.primary;
 
-  CardTag.annule()
-      : icon = AppIcons.error_rounded,
-        backgroundColor = AppColors.warningLighten,
-        text = Strings.rendezvousCardAnnule,
-        contentColor = AppColors.warning;
-
   CardTag.emploi()
       : icon = Icons.business_center_outlined,
         backgroundColor = AppColors.additional2Lighten,

@@ -11,50 +11,6 @@ void main() {
     final sut = DioRepositorySut<AgendaRepository>();
     sut.givenRepository((client) => AgendaRepository(client));
 
-    group('getAgendaMissionLocale', () {
-      sut.when(
-        (repository) => repository.getAgendaMissionLocale(
-          "UID",
-          DateTime.utc(2022, 7, 7),
-        ),
-      );
-
-      group('when response is valid', () {
-        sut.givenJsonResponse(fromJson: "agenda_mission_locale.json");
-
-        test('request should be valid', () async {
-          await sut.expectRequestBody(
-            method: HttpMethod.get,
-            url: "/jeunes/UID/home/agenda?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
-          );
-        });
-
-        test('response should be valid', () async {
-          await sut.expectResult<Agenda?>((result) {
-            expect(result, isNotNull);
-            expect(
-                result,
-                Agenda(
-                  actions: [userActionStub()],
-                  demarches: [],
-                  rendezvous: [rendezvousStub()],
-                  sessionsMilo: [mockSessionMiloAtelierCv()],
-                  delayedActions: 3,
-                  dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2022-08-27T00:00:00.000Z'),
-                ));
-          });
-        });
-      });
-
-      group('when response is invalid', () {
-        sut.givenResponseCode(500);
-
-        test('response should be null', () async {
-          await sut.expectNullResult();
-        });
-      });
-    });
-
     group('getAgendaPoleEmploi', () {
       sut.when(
         (repository) => repository.getAgendaPoleEmploi(
@@ -79,7 +35,6 @@ void main() {
             expect(
               result,
               Agenda(
-                actions: [],
                 demarches: [demarcheStub()],
                 rendezvous: [rendezvousStub()],
                 sessionsMilo: [],

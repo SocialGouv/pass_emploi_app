@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_store_extension.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_view_model_helper.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
@@ -30,7 +31,7 @@ class UserActionDetailsViewModel extends Equatable {
   final String subtitle;
   final bool withSubtitle;
   final UserActionStatus status;
-  final CardPilluleType? pillule;
+  final CardPilluleType pillule;
   final String category;
   final String date;
   final bool withFinishedButton;
@@ -86,7 +87,7 @@ class UserActionDetailsViewModel extends Equatable {
       subtitle: userAction.comment,
       withSubtitle: userAction.comment.isNotEmpty,
       status: userAction.status,
-      pillule: _pilluleViewModel(userAction),
+      pillule: userAction.pillule(),
       category: _category(userAction),
       date: _date(userAction),
       withFinishedButton: _withFinishedButton(userAction),
@@ -123,7 +124,7 @@ class UserActionDetailsViewModel extends Equatable {
       subtitle: '',
       withSubtitle: false,
       status: UserActionStatus.DONE,
-      pillule: null,
+      pillule: CardPilluleType.done,
       category: '',
       date: '',
       withFinishedButton: false,
@@ -209,12 +210,6 @@ UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {
     return UpdateDisplayState.SHOW_UPDATE_ERROR;
   }
   return UpdateDisplayState.NOT_INIT;
-}
-
-CardPilluleType? _pilluleViewModel(UserAction action) {
-  if (action.status == UserActionStatus.DONE) return CardPilluleType.done;
-  if (action.isLate() == true) return CardPilluleType.late;
-  return CardPilluleType.todo;
 }
 
 String _creationDetails(UserAction? action) {

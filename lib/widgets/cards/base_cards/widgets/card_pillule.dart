@@ -12,13 +12,23 @@ enum CardPilluleType {
   late,
   canceled;
 
-  CardPillule toCardPillule() {
+  CardPillule toActionCardPillule() {
     return switch (this) {
-      CardPilluleType.todo => CardPillule.todo(),
-      CardPilluleType.doing => CardPillule.doing(),
-      CardPilluleType.done => CardPillule.done(),
-      CardPilluleType.late => CardPillule.late(),
-      CardPilluleType.canceled => CardPillule.canceled(),
+      CardPilluleType.todo => CardPillule.actionTodo(),
+      CardPilluleType.doing => CardPillule.actionTodo(),
+      CardPilluleType.done => CardPillule.actionDone(),
+      CardPilluleType.late => CardPillule.actionLate(),
+      CardPilluleType.canceled => CardPillule.actionDone(),
+    };
+  }
+
+  CardPillule toDemarcheCardPillule() {
+    return switch (this) {
+      CardPilluleType.todo => CardPillule.demarcheTodo(),
+      CardPilluleType.doing => CardPillule.demarcheDoing(),
+      CardPilluleType.done => CardPillule.demarcheDone(),
+      CardPilluleType.late => CardPillule.demarcheLate(),
+      CardPilluleType.canceled => CardPillule.demarcheCanceled(),
     };
   }
 }
@@ -31,33 +41,57 @@ class CardPillule extends StatelessWidget {
 
   const CardPillule({required this.text, required this.contentColor, required this.backgroundColor, this.icon});
 
-  CardPillule.todo()
+  CardPillule.actionTodo()
+      : icon = null,
+        text = Strings.doingPillule,
+        contentColor = AppColors.accent1,
+        backgroundColor = AppColors.accent1Lighten;
+
+  CardPillule.actionDone()
+      : icon = null,
+        text = Strings.donePillule,
+        contentColor = AppColors.secondary,
+        backgroundColor = AppColors.secondaryLighten;
+
+  CardPillule.actionLate()
+      : icon = null,
+        text = Strings.latePillule,
+        contentColor = AppColors.warning,
+        backgroundColor = AppColors.warningLighten;
+
+  CardPillule.demarcheTodo()
       : icon = Icons.bolt,
         text = Strings.todoPillule,
         contentColor = AppColors.primaryDarken,
         backgroundColor = AppColors.accent3Lighten;
 
-  CardPillule.doing()
+  CardPillule.demarcheDoing()
       : icon = Icons.redo,
         text = Strings.doingPillule,
         contentColor = AppColors.accent1,
         backgroundColor = AppColors.accent1Lighten;
 
-  CardPillule.done()
+  CardPillule.demarcheDone()
       : icon = Icons.check_circle_outline,
         text = Strings.donePillule,
         contentColor = AppColors.secondary,
         backgroundColor = AppColors.secondaryLighten;
 
-  CardPillule.late()
+  CardPillule.demarcheLate()
       : icon = Icons.timer_outlined,
         text = Strings.latePillule,
         contentColor = AppColors.warning,
         backgroundColor = AppColors.warningLighten;
 
-  CardPillule.canceled()
+  CardPillule.demarcheCanceled()
       : icon = Icons.block,
         text = Strings.canceledPillule,
+        contentColor = AppColors.disabled,
+        backgroundColor = AppColors.grey100;
+
+  CardPillule.evenementCanceled()
+      : icon = null,
+        text = Strings.rendezvousCardAnnule,
         contentColor = AppColors.disabled,
         backgroundColor = AppColors.grey100;
 
@@ -70,8 +104,10 @@ class CardPillule extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: Dimens.icon_size_base, color: contentColor),
-            SizedBox(width: Margins.spacing_xs),
+            if (icon != null) ...[
+              Icon(icon, size: Dimens.icon_size_base, color: contentColor),
+              SizedBox(width: Margins.spacing_xs),
+            ],
             Text(text, style: TextStyles.textXsBold().copyWith(color: contentColor))
           ],
         ),

@@ -15,17 +15,6 @@ import '../../../doubles/spies.dart';
 import '../../../dsl/app_state_dsl.dart';
 
 void main() {
-  test('create should work when state source is list', () {
-    // Given
-    final store = givenState().withAction(mockUserAction(id: 'id')).store();
-
-    // When
-    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.list, 'id');
-
-    // Then
-    expect(viewModel, isNotNull);
-  });
-
   test('create should work when state source is mon suivi', () {
     // Given
     final store = givenState().monSuivi(monSuivi: mockMonSuivi(actions: [mockUserAction(id: 'id')])).store();
@@ -61,7 +50,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.list, 'id');
+    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
 
     // Then
     expect(viewModel.id, 'id');
@@ -79,7 +68,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.list, 'id');
+      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
 
       // Then
       expect(viewModel.showDelete, isFalse);
@@ -95,7 +84,7 @@ void main() {
       final store = givenState().withAction(action).store();
 
       // When
-      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.list, 'id');
+      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
 
       // Then
       expect(viewModel.showDelete, isFalse);
@@ -111,7 +100,7 @@ void main() {
       final store = givenState().withAction(action).store();
 
       // When
-      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.list, 'id');
+      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
 
       // Then
       expect(viewModel.showDelete, isTrue);
@@ -127,7 +116,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.list, 'id');
+      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
 
       // Then
       expect(viewModel.showLoading, isTrue);
@@ -141,7 +130,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.list, 'id');
+      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
 
       // Then
       expect(viewModel.showLoading, isTrue);
@@ -156,7 +145,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.list, 'id');
+      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
 
       // Then
       expect(viewModel.showLoading, isFalse);
@@ -167,7 +156,7 @@ void main() {
     // Given
     final userAction = mockUserAction(id: 'id');
     final store = StoreSpy.withState(givenState().withAction(userAction));
-    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.list, 'id');
+    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
 
     // When
     viewModel.save(DateTime(2025), 'new title', 'new description', UserActionReferentielType.citoyennete);
@@ -191,7 +180,7 @@ void main() {
   test('delete should dispatch UserActionDeleteRequestAction', () {
     // Given
     final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'id')));
-    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.list, 'id');
+    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
 
     // When
     viewModel.delete();

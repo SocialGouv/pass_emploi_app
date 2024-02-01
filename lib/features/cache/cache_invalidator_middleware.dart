@@ -14,7 +14,6 @@ import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_s
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
-import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
@@ -32,10 +31,6 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
 
     if (_shouldInvalidateAccueil(store, action)) {
       await cacheManager.removeResource(CachedResource.ACCUEIL, userId);
-    }
-
-    if (_shouldInvalidateUserActionsList(store, action)) {
-      await cacheManager.removeResource(CachedResource.USER_ACTIONS_LIST, userId);
     }
 
     if (_shouldInvalidateDemarchesList(action)) {
@@ -110,15 +105,6 @@ bool _shouldInvalidateAgenda(Store<AppState> store, dynamic action) {
       _isExternalDeepLinkOf<ActionDeepLink>(action) ||
       _isExternalDeepLinkOf<RendezvousDeepLink>(action) ||
       _isExternalDeepLinkOf<SessionMiloDeepLink>(action);
-}
-
-bool _shouldInvalidateUserActionsList(Store<AppState> store, dynamic action) {
-  return (action is UserActionListRequestAction && action.forceRefresh) ||
-      action is UserActionCreateSuccessAction ||
-      action is UserActionDeleteSuccessAction ||
-      action is UserActionUpdateSuccessAction ||
-      _newUserActionsCreated(store, action) ||
-      _isExternalDeepLinkOf<ActionDeepLink>(action);
 }
 
 bool _shouldInvalidateDemarchesList(dynamic action) {

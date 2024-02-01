@@ -1,215 +1,196 @@
-import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  group('UserActionCardViewModel.create when state source is UserActions', () {
-    test("and status is done should create view model properly", () {
+  test("create should work properly when state source is mon suivi", () {
+    // Given
+    final action = mockUserAction(id: '1', content: 'content');
+    final store = givenState().monSuivi(monSuivi: mockMonSuivi(actions: [action])).store();
+
+    // When
+    final viewModel = UserActionCardViewModel.create(
+      store: store,
+      stateSource: UserActionStateSource.monSuivi,
+      actionId: '1',
+    );
+
+    // Then
+    expect(viewModel, isNotNull);
+  });
+
+  test("create should work properly when state source is no source", () {
+    // Given
+    final action = mockUserAction(id: '1', content: 'content');
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionCardViewModel.create(
+      store: store,
+      stateSource: UserActionStateSource.noSource,
+      actionId: '1',
+    );
+
+    // Then
+    expect(viewModel, isNotNull);
+  });
+
+  group('category  and semantic label', () {
+    test("when type is not set should return default label and icon", () {
       // Given
-      final action = mockUserAction(id: '1', status: UserActionStatus.DONE);
-      final store = givenState().withUserActions([action]).store();
+      final action = mockUserAction(
+        id: '1',
+        content: 'Faire un CV',
+        type: null,
+        status: UserActionStatus.DONE,
+      );
+      final store = givenState().withAction(action).store();
 
       // When
       final viewModel = UserActionCardViewModel.create(
         store: store,
-        stateSource: UserActionStateSource.list,
+        stateSource: UserActionStateSource.noSource,
+        actionId: '1',
+      );
+
+      // Then
+      expect(viewModel.categoryText, 'Action');
+      expect(viewModel.categoryIcon, AppIcons.emploi);
+      expect(viewModel.semanticLabel, 'Action : Faire un CV - Terminée');
+    });
+
+    test("when type is set should return proper label and icon", () {
+      // Given
+      final action = mockUserAction(
+        id: '1',
+        content: 'Faire un CV',
+        type: UserActionReferentielType.cultureSportLoisirs,
+        status: UserActionStatus.IN_PROGRESS,
+      );
+      final store = givenState().withAction(action).store();
+
+      // When
+      final viewModel = UserActionCardViewModel.create(
+        store: store,
+        stateSource: UserActionStateSource.noSource,
+        actionId: '1',
+      );
+
+      // Then
+      expect(viewModel.categoryText, 'Sport et loisirs');
+      expect(viewModel.categoryIcon, AppIcons.sportLoisirs);
+      expect(viewModel.semanticLabel, 'Action Sport et loisirs : Faire un CV - En cours');
+    });
+  });
+
+  group('pillule', () {
+    test("when status is done should return CardPilluleType.done", () {
+      // Given
+      final action = mockUserAction(id: '1', status: UserActionStatus.DONE);
+      final store = givenState().withAction(action).store();
+
+      // When
+      final viewModel = UserActionCardViewModel.create(
+        store: store,
+        stateSource: UserActionStateSource.noSource,
         actionId: '1',
       );
 
       // Then
       expect(viewModel.pillule, CardPilluleType.done);
+      expect(viewModel.isLate, isFalse);
     });
 
-    test("and status is not started should create view model properly with todo pill", () {
+    test("when status is not started should return CardPilluleType.todo", () {
       // Given
       final action = mockUserAction(id: '1', status: UserActionStatus.NOT_STARTED);
-      final store = givenState().withUserActions([action]).store();
+      final store = givenState().withAction(action).store();
 
       // When
       final viewModel = UserActionCardViewModel.create(
         store: store,
-        stateSource: UserActionStateSource.list,
+        stateSource: UserActionStateSource.noSource,
         actionId: '1',
       );
 
       // Then
       expect(viewModel.pillule, CardPilluleType.todo);
+      expect(viewModel.isLate, isFalse);
     });
 
-    test("and status is in progress should create view model properly with todo pill", () {
+    test("when status is in progress should return CardPilluleType.todo", () {
       // Given
       final action = mockUserAction(id: '1', status: UserActionStatus.IN_PROGRESS);
-      final store = givenState().withUserActions([action]).store();
+      final store = givenState().withAction(action).store();
 
       // When
       final viewModel = UserActionCardViewModel.create(
         store: store,
-        stateSource: UserActionStateSource.list,
+        stateSource: UserActionStateSource.noSource,
         actionId: '1',
       );
 
       // Then
       expect(viewModel.pillule, CardPilluleType.todo);
+      expect(viewModel.isLate, isFalse);
     });
 
-    test("and status is canceled should create view model properly with todo pill", () {
+    test("when status is canceled should return CardPilluleType.todo", () {
       // Given
       final action = mockUserAction(id: '1', status: UserActionStatus.CANCELED);
-      final store = givenState().withUserActions([action]).store();
+      final store = givenState().withAction(action).store();
 
       // When
       final viewModel = UserActionCardViewModel.create(
         store: store,
-        stateSource: UserActionStateSource.list,
+        stateSource: UserActionStateSource.noSource,
         actionId: '1',
       );
 
       // Then
       expect(viewModel.pillule, CardPilluleType.todo);
+      expect(viewModel.isLate, isFalse);
     });
 
-    test("and dateEcheance is in future should display it as on time", () {
-      // Given
-      final action = mockUserAction(id: '1', dateEcheance: DateTime(2042, 1, 2), status: UserActionStatus.NOT_STARTED);
-      final store = givenState().withUserActions([action]).store();
-
-      // When
-      final viewModel = UserActionCardViewModel.create(
-        store: store,
-        stateSource: UserActionStateSource.list,
-        actionId: '1',
-      );
-
-      // Then
-      expect(viewModel.dateEcheance, "02/01/2042");
-      expect(viewModel.isLate, false);
-    });
-
-    test("and dateEcheance is today should display it as on time", () {
-      final today = DateTime(2022, 1, 2);
-      withClock(Clock.fixed(today), () {
-        // Given
-        final action = mockUserAction(id: '1', dateEcheance: today, status: UserActionStatus.IN_PROGRESS);
-        final store = givenState().withUserActions([action]).store();
-
-        // When
-        final viewModel = UserActionCardViewModel.create(
-          store: store,
-          stateSource: UserActionStateSource.list,
-          actionId: '1',
-        );
-
-        // Then
-        expect(viewModel.dateEcheance, "02/01/2022");
-        expect(viewModel.isLate, false);
-      });
-    });
-
-    test("and dateEcheance is in past should display it as late", () {
-      // Given
-      final action = mockUserAction(id: '1', dateEcheance: DateTime(2022, 1, 2), status: UserActionStatus.IN_PROGRESS);
-      final store = givenState().withUserActions([action]).store();
-
-      // When
-      final viewModel = UserActionCardViewModel.create(
-        store: store,
-        stateSource: UserActionStateSource.list,
-        actionId: '1',
-      );
-
-      // Then
-      expect(viewModel.dateEcheance, "02/01/2022");
-      expect(viewModel.isLate, true);
-    });
-
-    test("and status is DONE should not display date echeance", () {
-      // Given
-      final action = mockUserAction(id: '1', status: UserActionStatus.DONE);
-      final store = givenState().withUserActions([action]).store();
-
-      // When
-      final viewModel = UserActionCardViewModel.create(
-        store: store,
-        stateSource: UserActionStateSource.list,
-        actionId: '1',
-      );
-
-      // Then
-      expect(viewModel.dateEcheance, isNull);
-    });
-
-    test("and status is CANCELED should not display date echeance", () {
-      // Given
-      final action = mockUserAction(id: '1', status: UserActionStatus.CANCELED);
-      final store = givenState().withUserActions([action]).store();
-
-      // When
-      final viewModel = UserActionCardViewModel.create(
-        store: store,
-        stateSource: UserActionStateSource.list,
-        actionId: '1',
-      );
-
-      // Then
-      expect(viewModel.dateEcheance, isNull);
-    });
-
-    test("and status is in progress and dateEcheance is in past should display it as late", () {
+    test("when status is in progress and dateEcheance is in past should return CardPilluleType.late", () {
       // Given
       final action = mockUserAction(id: '1', status: UserActionStatus.IN_PROGRESS, dateEcheance: DateTime(2022, 1, 2));
-      final store = givenState().withUserActions([action]).store();
+      final store = givenState().withAction(action).store();
 
       // When
       final viewModel = UserActionCardViewModel.create(
         store: store,
-        stateSource: UserActionStateSource.list,
+        stateSource: UserActionStateSource.noSource,
         actionId: '1',
       );
 
       // Then
-      expect(viewModel.dateEcheance, "02/01/2022");
       expect(viewModel.pillule, CardPilluleType.late);
+      expect(viewModel.isLate, isTrue);
     });
 
-    test("and status is not started and dateEcheance is in past should display it as late", () {
+    test("when status is not started and dateEcheance is in past should return CardPilluleType.late", () {
       // Given
       final action = mockUserAction(id: '1', status: UserActionStatus.NOT_STARTED, dateEcheance: DateTime(2022, 1, 2));
-      final store = givenState().withUserActions([action]).store();
+      final store = givenState().withAction(action).store();
 
       // When
       final viewModel = UserActionCardViewModel.create(
         store: store,
-        stateSource: UserActionStateSource.list,
+        stateSource: UserActionStateSource.noSource,
         actionId: '1',
       );
 
       // Then
-      expect(viewModel.dateEcheance, "02/01/2022");
       expect(viewModel.pillule, CardPilluleType.late);
-    });
-  });
-
-  group('UserActionCardViewModel.create when state source is mon suivi', () {
-    test("should retrieve action from agenda and create view model properly", () {
-      // Given
-      final action = mockUserAction(id: '1', content: 'content');
-      final store = givenState().monSuivi(monSuivi: mockMonSuivi(actions: [action])).store();
-
-      // When
-      final viewModel = UserActionCardViewModel.create(
-        store: store,
-        stateSource: UserActionStateSource.monSuivi,
-        actionId: '1',
-      );
-
-      // Then
-      expect(viewModel.title, 'content');
+      expect(viewModel.isLate, isTrue);
     });
   });
 }

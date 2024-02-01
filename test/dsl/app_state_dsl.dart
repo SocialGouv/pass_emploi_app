@@ -44,7 +44,7 @@ import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
-import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/details/user_action_details_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
@@ -125,11 +125,16 @@ extension AppStateDSL on AppState {
     DateTime? dateDerniereMiseAJour,
   }) {
     return copyWith(
-        rendezvousListState: RendezvousListState.successful(
-      rendezvous: rendezvous,
-      sessionsMilo: sessionsMilo,
-      dateDerniereMiseAJour: dateDerniereMiseAJour,
-    ));
+      rendezvousListState: RendezvousListState.successful(
+        rendezvous: rendezvous,
+        sessionsMilo: sessionsMilo,
+        dateDerniereMiseAJour: dateDerniereMiseAJour,
+      ),
+    );
+  }
+
+  AppState withRendezvous(Rendezvous rendezvous) {
+    return copyWith(rendezvousListState: RendezvousListState.successful(rendezvous: [rendezvous]));
   }
 
   AppState rendezvousNotInitialized() => copyWith(rendezvousListState: RendezvousListState.notInitialized());
@@ -283,7 +288,6 @@ extension AppStateDSL on AppState {
 
   AppState emptyAgenda() {
     final agenda = Agenda(
-      actions: [],
       demarches: [],
       rendezvous: [],
       sessionsMilo: [],
@@ -294,7 +298,6 @@ extension AppStateDSL on AppState {
   }
 
   AppState agenda({
-    List<UserAction>? actions,
     List<Demarche>? demarches,
     List<Rendezvous>? rendezvous,
     List<SessionMilo>? sessionsMilo,
@@ -304,7 +307,6 @@ extension AppStateDSL on AppState {
   }) {
     return copyWith(
       agendaState: AgendaSuccessState(Agenda(
-        actions: actions ?? [],
         demarches: demarches ?? [],
         rendezvous: rendezvous ?? [],
         sessionsMilo: sessionsMilo ?? [],
@@ -322,10 +324,6 @@ extension AppStateDSL on AppState {
         monSuivi ?? mockMonSuivi(),
       ),
     );
-  }
-
-  AppState withUserActions(List<UserAction> userActions) {
-    return copyWith(userActionListState: UserActionListSuccessState(userActions));
   }
 
   AppState withPendingUserActions(int count) {
@@ -353,11 +351,11 @@ extension AppStateDSL on AppState {
   }
 
   AppState withActions(List<UserAction> actions) {
-    return copyWith(userActionListState: UserActionListSuccessState(actions));
+    return monSuivi(monSuivi: mockMonSuivi(actions: actions));
   }
 
   AppState withAction(UserAction action) {
-    return copyWith(userActionListState: UserActionListSuccessState([action]));
+    return copyWith(userActionDetailsState: UserActionDetailsSuccessState(action));
   }
 
   AppState updateActionNotInit() {

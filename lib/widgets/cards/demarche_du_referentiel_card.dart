@@ -3,10 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_du_referentiel_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
-import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class DemarcheDuReferentielCard extends StatelessWidget {
   final String idDemarche;
@@ -29,7 +27,6 @@ class DemarcheDuReferentielCard extends StatelessWidget {
       tag: CardTag.secondary(text: viewModel.pourquoi),
       title: viewModel.quoi,
       onTap: onTap,
-      pressedTip: PressedTip(Strings.demarchePressedTip),
     );
   }
 }

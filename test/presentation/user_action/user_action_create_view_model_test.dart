@@ -67,7 +67,7 @@ void main() {
     final viewModel = UserActionCreateViewModel.create(store);
 
     // When
-    final request = dummyUserActionCreateRequest();
+    final request = mockUserActionCreateRequest();
     viewModel.createUserAction(request);
 
     // Then

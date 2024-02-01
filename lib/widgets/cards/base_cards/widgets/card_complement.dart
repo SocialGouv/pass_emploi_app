@@ -42,6 +42,7 @@ class CardComplement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(icon, size: Dimens.icon_size_base, color: color),
         SizedBox(width: Margins.spacing_xs),
@@ -49,7 +50,7 @@ class CardComplement extends StatelessWidget {
             fit: FlexFit.loose,
             child: Text(
               text,
-              style: (bold ? TextStyles.textSBold : TextStyles.textSRegular()).copyWith(color: color),
+              style: (bold ? TextStyles.textXsBold() : TextStyles.textXsRegular()).copyWith(color: color),
             ))
       ],
     );

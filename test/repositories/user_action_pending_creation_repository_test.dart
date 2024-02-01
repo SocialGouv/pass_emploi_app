@@ -15,8 +15,8 @@ void main() {
 
   test('Integration test', () async {
     // Given
-    final request1 = dummyUserActionCreateRequest('request1');
-    final request2 = dummyUserActionCreateRequest('request2');
+    final request1 = mockUserActionCreateRequest('request1');
+    final request2 = mockUserActionCreateRequest('request2');
     await repository.save(request1);
     await repository.save(request2);
 
@@ -31,8 +31,8 @@ void main() {
 
   test('save should return pending action creations count updated', () async {
     // Given
-    final request1 = dummyUserActionCreateRequest('request1');
-    final request2 = dummyUserActionCreateRequest('request2');
+    final request1 = mockUserActionCreateRequest('request1');
+    final request2 = mockUserActionCreateRequest('request2');
 
     // When
     final count1 = await repository.save(request1);
@@ -45,8 +45,8 @@ void main() {
 
   test('delete', () async {
     // Given
-    final request1 = dummyUserActionCreateRequest('request1');
-    final request2 = dummyUserActionCreateRequest('request2');
+    final request1 = mockUserActionCreateRequest('request1');
+    final request2 = mockUserActionCreateRequest('request2');
     await repository.save(request1);
     await repository.save(request2);
 
@@ -61,7 +61,7 @@ void main() {
 
   test('getPendingActionCount', () async {
     // Given
-    await repository.save(dummyUserActionCreateRequest());
+    await repository.save(mockUserActionCreateRequest());
 
     // When
     final count = await repository.getPendingActionCount();

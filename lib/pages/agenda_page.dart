@@ -6,13 +6,10 @@ import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
-import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
-import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -29,7 +26,6 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
-import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_actions_pending_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
@@ -59,7 +55,7 @@ class AgendaPage extends StatelessWidget {
 
   void _onDidChange(BuildContext context, AgendaPageViewModel? previous, AgendaPageViewModel current) {
     if (previous?.isReloading == true && _currentAgendaIsUpToDate(current)) {
-      showSnackBarWithInformation(context, current.upToDateLabel);
+      showSnackBarWithInformation(context, Strings.agendaPeUpToDate);
     }
   }
 
@@ -81,20 +77,12 @@ class _Scaffold extends StatelessWidget {
       backgroundColor: AppColors.grey100,
       body: Stack(children: [
         DefaultAnimatedSwitcher(child: _Body(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap)),
-        if (viewModel.createButton == CreateButton.userAction)
-          _CreateButton(
-            label: Strings.addAnAction,
-            onPressed: () {
-              CreateUserActionFormPage.pushUserActionCreationTunnel(context, UserActionStateSource.monSuivi);
-            },
-          ),
-        if (viewModel.createButton == CreateButton.demarche)
-          _CreateButton(
-            label: Strings.addADemarche,
-            onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
-              if (value != null) _showDemarcheSnackBarWithDetail(context, value);
-            }),
-          ),
+        _CreateButton(
+          label: Strings.addADemarche,
+          onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
+            if (value != null) _showDemarcheSnackBarWithDetail(context, value);
+          }),
+        ),
       ]),
     );
   }
@@ -201,11 +189,10 @@ class _Content extends StatelessWidget {
               final RendezvousAgendaItem item => _RendezvousAgendaItem(item),
               final SessionMiloAgendaItem item => _SessionMiloAgendaItem(item),
               final DemarcheAgendaItem item => _DemarcheAgendaItem(item),
-              final UserActionAgendaItem item => _UserActionAgendaItem(item),
               final DelayedActionsBannerAgendaItem item => _DelayedActionsBanner(item, onActionDelayedTap),
-              final EmptyAgendaItem item => _EmptyPlaceholder(item),
               final NotUpToDateAgendaItem _ => _NotUpToDateMessage(viewModel),
-              final PendingActionCreationAgendaItem item => UserActionsPendingCard(item.pendingCreationsCount)
+              final PendingActionCreationAgendaItem item => UserActionsPendingCard(item.pendingCreationsCount),
+              EmptyAgendaItem() => _EmptyPlaceholder(),
             };
           },
         ),
@@ -215,17 +202,13 @@ class _Content extends StatelessWidget {
 }
 
 class _EmptyPlaceholder extends StatelessWidget {
-  final EmptyAgendaItem item;
-
-  _EmptyPlaceholder(this.item);
-
   @override
   Widget build(BuildContext context) {
     return Center(
       child: EmptyStatePlaceholder(
         illustration: Illustration.grey(Icons.calendar_today_rounded, withWhiteBackground: true),
-        title: item.title,
-        subtitle: item.subtitle,
+        title: Strings.agendaEmptyTitle,
+        subtitle: Strings.agendaEmptySubtitlePoleEmploi,
       ),
     );
   }
@@ -239,7 +222,7 @@ class _NotUpToDateMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NotUpToDateMessage(
-      message: _viewModel.notUpToDateLabel,
+      message: Strings.agendaPeNotUpToDate,
       margin: EdgeInsets.only(bottom: Margins.spacing_base),
       onRefresh: () => _viewModel.reload(DateTime.now()),
     );
@@ -350,30 +333,6 @@ class _MessageAgendaItem extends StatelessWidget {
     return Text(
       emptyMessageAgendaItem.text,
       style: TextStyles.textBaseRegularWithColor(AppColors.grey700),
-    );
-  }
-}
-
-class _UserActionAgendaItem extends StatelessWidget {
-  final UserActionAgendaItem userActionAgendaItem;
-
-  const _UserActionAgendaItem(this.userActionAgendaItem);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: UserActionCard(
-        userActionId: userActionAgendaItem.actionId,
-        stateSource: UserActionStateSource.monSuivi,
-        onTap: () {
-          context.trackEvent(EventType.ACTION_DETAIL);
-          Navigator.push(
-            context,
-            UserActionDetailPage.materialPageRoute(userActionAgendaItem.actionId, UserActionStateSource.monSuivi),
-          );
-        },
-      ),
     );
   }
 }

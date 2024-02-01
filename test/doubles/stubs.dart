@@ -12,19 +12,13 @@ import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
-import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/page_demarches.dart';
-import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
-import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:synchronized/synchronized.dart';
 
 import 'dio_mock.dart';
@@ -32,69 +26,6 @@ import 'dummies.dart';
 import 'fixtures.dart';
 import 'mocks.dart';
 import 'spies.dart';
-
-class PageActionRepositorySuccessStub extends UserActionRepository {
-  var isActionUpdated = false;
-
-  PageActionRepositorySuccessStub() : super(DioMock());
-
-  @override
-  Future<PageActions> getPageActions(String userId) async {
-    return PageActions(
-      actions: [
-        UserAction(
-          id: "id",
-          content: "content",
-          comment: "comment",
-          status: UserActionStatus.NOT_STARTED,
-          dateEcheance: DateTime(2042),
-          creationDate: DateTime(2021),
-          creator: JeuneActionCreator(),
-        ),
-      ],
-    );
-  }
-
-  @override
-  Future<UserActionId?> createUserAction(String userId, UserActionCreateRequest request) async {
-    final success = userId == "id" &&
-        request.content == "content" &&
-        request.comment == "comment" &&
-        request.initialStatus == UserActionStatus.NOT_STARTED;
-    return success ? 'USER-ACTION-ID' : null;
-  }
-
-  @override
-  Future<bool> updateUserAction(String actionId, UserActionUpdateRequest request) async {
-    isActionUpdated = true;
-    return true;
-  }
-
-  @override
-  Future<bool> deleteUserAction(String actionId) async {
-    return true;
-  }
-}
-
-class PageActionRepositoryFailureStub extends UserActionRepository {
-  PageActionRepositoryFailureStub() : super(DioMock());
-  var isActionUpdated = false;
-
-  @override
-  Future<UserActionId?> createUserAction(String userId, UserActionCreateRequest request) async {
-    return null;
-  }
-
-  @override
-  Future<bool> updateUserAction(String actionId, UserActionUpdateRequest request) async {
-    return false;
-  }
-
-  @override
-  Future<bool> deleteUserAction(String actionId) async {
-    return false;
-  }
-}
 
 class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
   PageDemarcheRepositorySuccessStub() : super(DioMock());

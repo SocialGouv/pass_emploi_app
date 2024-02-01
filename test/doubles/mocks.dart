@@ -96,7 +96,7 @@ class MockMonSuiviRepository extends Mock implements MonSuiviRepository {}
 
 class MockUserActionPendingCreationRepository extends Mock implements UserActionPendingCreationRepository {
   MockUserActionPendingCreationRepository() {
-    registerFallbackValue(dummyUserActionCreateRequest());
+    registerFallbackValue(mockUserActionCreateRequest());
     when(() => getPendingActionCount()).thenAnswer((_) async => 0);
     when(() => save(any())).thenAnswer((_) async => 0);
     when(() => load()).thenAnswer((_) async => []);
