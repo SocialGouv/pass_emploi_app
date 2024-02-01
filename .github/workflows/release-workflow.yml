@@ -144,6 +144,21 @@ jobs:
         with:
           varFilePath: ./.github/variables/myvars.env
 
+      - name: Write ssh gitlab private key
+        shell: bash
+        run: |
+          echo "$SSH_GITLAB_PRIVATE_KEY" > ~/.ssh/id_ed25519
+        env:
+          SSH_GITLAB_PRIVATE_KEY: ${{ secrets.SSH_GITLAB_PRIVATE_KEY }}
+
+      - name: ssh agent
+        shell: bash
+        run: |
+          chmod 600 ~/.ssh/id_ed25519
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_ed25519
+          ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
+
       - uses: subosito/flutter-action@v2
         with:
           cache: true
