@@ -88,8 +88,8 @@ AccueilItem? _cetteSemaineItem(LoginMode loginMode, AccueilSuccessState successS
 
   return AccueilCetteSemaineItem.from(
     loginMode: loginMode,
-    rendezvous: cetteSemaine.nombreRendezVous,
-    actionsOuDemarches: cetteSemaine.nombreActionsDemarchesARealiser,
+    rendezvousCount: cetteSemaine.nombreRendezVous,
+    actionsOuDemarchesCount: cetteSemaine.nombreActionsDemarchesARealiser,
   );
 }
 

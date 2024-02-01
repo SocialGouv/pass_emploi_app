@@ -25,13 +25,13 @@ class AccueilCetteSemaineItem extends AccueilItem {
 
   factory AccueilCetteSemaineItem.from({
     required LoginMode loginMode,
-    required int rendezvous,
-    required int actionsOuDemarches,
+    required int rendezvousCount,
+    required int actionsOuDemarchesCount,
   }) {
     return AccueilCetteSemaineItem(
-      rendezvousCount: rendezvous.toString(),
-      actionsOuDemarchesCount: actionsOuDemarches.toString(),
-      actionsOuDemarchesLabel: _actionsOuDemarchesLabel(loginMode, actionsOuDemarches),
+      rendezvousCount: rendezvousCount.toString(),
+      actionsOuDemarchesCount: actionsOuDemarchesCount.toString(),
+      actionsOuDemarchesLabel: _actionsOuDemarchesLabel(loginMode, actionsOuDemarchesCount),
     );
   }
 
