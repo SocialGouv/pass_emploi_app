@@ -252,8 +252,8 @@ extension _MainTab on MainTab {
         );
       case MainTab.monSuivi:
         return menu.MenuItem(
-          defaultIcon: AppIcons.checklist_rounded,
-          inactiveIcon: AppIcons.rule_rounded,
+          defaultIcon: AppIcons.bolt_rounded,
+          inactiveIcon: AppIcons.bolt_outlined,
           label: Strings.menuMonSuivi,
         );
       case MainTab.chat:

@@ -80,6 +80,7 @@ class AppIcons {
   static const IconData leaderboard_outline_rounded = Icons.leaderboard_outlined;
   static const IconData forum_rounded = Icons.forum_rounded;
   static const IconData bolt_rounded = Icons.bolt_rounded;
+  static const IconData bolt_outlined = AppIconsAdditional.bolt_outlined;
   static const IconData edit_rounded = Icons.edit_rounded;
   static const IconData search_rounded = Icons.search_rounded;
   static const IconData check_rounded = Icons.check_rounded;
