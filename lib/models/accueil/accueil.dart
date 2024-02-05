@@ -155,7 +155,7 @@ class AccueilCetteSemaine extends Equatable {
   factory AccueilCetteSemaine.fromJson(dynamic json) {
     return AccueilCetteSemaine(
       nombreRendezVous: json["nombreRendezVous"] as int,
-      nombreActionsDemarchesARealiser: json["nombreActionsDemarchesARealiser"] as int,
+      nombreActionsDemarchesARealiser: json["nombreActionsDemarchesAFaireSemaineCalendaire"] as int,
     );
   }
 
