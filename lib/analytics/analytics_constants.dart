@@ -194,6 +194,11 @@ class AnalyticsEventNames {
   static const createActionClickOnSnackBarAction = "Clic détail action/démarche";
   static const createActionOfflineAction = "Action créée hors connexion";
 
+  static const monSuiviV2Category = "Mon suivi v2";
+  static const monSuiviV2PreviousPeriodAction = "Affichage semaines précédentes";
+  static const monSuiviV2NextPeriodAction = "Affichage semaines suivantes";
+  static const monSuiviV2PeriodName = "Période";
+
   static const createActionv2EventCategory = "Création action v2";
   static const createActionResultDetailsAction = "Ouvrir le détail d'une action créée";
   static const createActionResultAnotherAction = "Créer une autre action";

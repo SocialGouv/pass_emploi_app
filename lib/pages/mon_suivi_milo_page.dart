@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -30,39 +31,41 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:shimmer/shimmer.dart';
 
-final GlobalKey _key = GlobalKey();
-final GlobalKey _stackKey = GlobalKey();
-final ScrollController _scrollController = ScrollController();
-final Map<GlobalKey, MonSuiviDay> _filledDayItemKeys = {};
-
-GlobalKey? _randomDayKey;
-double? _dayOverlayHeight;
-
-class MonSuiviMiloPage extends StatefulWidget {
-  @override
-  State<MonSuiviMiloPage> createState() => _MonSuiviMiloPageState();
-}
-
-class _MonSuiviMiloPageState extends State<MonSuiviMiloPage> {
-  @override
-  void dispose() {
-    _filledDayItemKeys.clear();
-    super.dispose();
-  }
-
+class MonSuiviMiloPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.monSuiviV2,
-      child: StoreConnector<AppState, MonSuiviViewModel>(
-        onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
-        converter: (store) => MonSuiviViewModel.create(store),
-        builder: (_, viewModel) => _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
-        onDispose: (store) => store.dispatch(MonSuiviResetAction()),
-        distinct: true,
+      child: _StateProvider(
+        child: StoreConnector<AppState, MonSuiviViewModel>(
+          onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
+          converter: (store) => MonSuiviViewModel.create(store),
+          builder: (_, viewModel) => _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
+          onDispose: (store) => store.dispatch(MonSuiviResetAction()),
+          distinct: true,
+        ),
       ),
     );
   }
+}
+
+//ignore: must_be_immutable
+class _StateProvider extends InheritedWidget {
+  final GlobalKey centerKey = GlobalKey();
+  final GlobalKey contentKey = GlobalKey();
+  final ScrollController scrollController = ScrollController();
+  final Map<GlobalKey, MonSuiviDay> filledDayItemKeys = {};
+  GlobalKey? randomDayKey;
+  double? dayOverlayHeight;
+  int previousPeriodCount = 0;
+  int nextPeriodCount = 0;
+
+  _StateProvider({required super.child});
+
+  static _StateProvider of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<_StateProvider>()!;
+
+  @override
+  bool updateShouldNotify(_StateProvider old) => false;
 }
 
 class _Scaffold extends StatelessWidget {
@@ -106,15 +109,9 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
   bool withActionButton = false;
 
   @override
-  void initState() {
-    _scrollController.addListener(_scrollListener);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_scrollListener);
-    super.dispose();
+  void didChangeDependencies() {
+    _StateProvider.of(context).scrollController.addListener(_scrollListener);
+    super.didChangeDependencies();
   }
 
   @override
@@ -123,11 +120,11 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
       title: Strings.monSuiviAppBarTitle,
       actionButton: withActionButton
           ? IconButton(
-              onPressed: () => _scrollController.animateTo(
-                0,
-                duration: AnimationDurations.fast,
-                curve: Curves.fastEaseInToSlowEaseOut,
-              ),
+        onPressed: () => _StateProvider.of(context).scrollController.animateTo(
+                    0,
+                    duration: AnimationDurations.fast,
+                    curve: Curves.fastEaseInToSlowEaseOut,
+                  ),
               icon: Icon(AppIcons.event, color: AppColors.primary),
               tooltip: Strings.monSuiviTooltip,
             )
@@ -136,7 +133,7 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
   }
 
   void _scrollListener() {
-    if (_scrollController.offset != 0) {
+    if (_StateProvider.of(context).scrollController.offset != 0) {
       if (!withActionButton) setState(() => withActionButton = true);
     } else {
       if (withActionButton) setState(() => withActionButton = false);
@@ -177,7 +174,7 @@ class _Content extends StatelessWidget {
         ],
         Expanded(
           child: Stack(
-            key: _stackKey,
+            key: _StateProvider.of(context).contentKey,
             children: [
               _TodayCenteredMonSuiviList(viewModel),
               _DayOverlay(),
@@ -228,11 +225,12 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
   Widget build(BuildContext context) {
     bool loadingPreviousPeriod = false;
     bool loadingNextPeriod = false;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: CustomScrollView(
-        center: _key,
-        controller: _scrollController,
+        center: _StateProvider.of(context).centerKey,
+        controller: _StateProvider.of(context).scrollController,
         slivers: [
           SliverList.separated(
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
@@ -241,6 +239,14 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
               if (index > pastItems.length - 2 && !loadingPreviousPeriod) {
                 viewModel.onLoadPreviousPeriod();
                 loadingPreviousPeriod = true;
+
+                _StateProvider.of(context).previousPeriodCount--;
+                PassEmploiMatomoTracker.instance.trackEvent(
+                  eventCategory: AnalyticsEventNames.monSuiviV2Category,
+                  action: AnalyticsEventNames.monSuiviV2PreviousPeriodAction,
+                  eventName: AnalyticsEventNames.monSuiviV2PeriodName,
+                  eventValue: _StateProvider.of(context).previousPeriodCount,
+                );
               }
               if (index == pastItems.length) {
                 return Padding(
@@ -252,13 +258,21 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
             },
           ),
           SliverList.separated(
-            key: _key,
+            key: _StateProvider.of(context).centerKey,
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: presentAndFutureItems.length + 1,
             itemBuilder: (context, index) {
               if (index > presentAndFutureItems.length - 2 && !loadingNextPeriod) {
                 viewModel.onLoadNextPeriod();
                 loadingNextPeriod = true;
+
+                _StateProvider.of(context).nextPeriodCount++;
+                PassEmploiMatomoTracker.instance.trackEvent(
+                  eventCategory: AnalyticsEventNames.monSuiviV2Category,
+                  action: AnalyticsEventNames.monSuiviV2NextPeriodAction,
+                  eventName: AnalyticsEventNames.monSuiviV2PeriodName,
+                  eventValue: _StateProvider.of(context).nextPeriodCount,
+                );
               }
               if (index == presentAndFutureItems.length) {
                 return Padding(
@@ -311,7 +325,7 @@ class _FilledDayItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey key = GlobalKey();
-    _filledDayItemKeys[key] = day;
+    _StateProvider.of(context).filledDayItemKeys[key] = day;
     return _DayRow(
       day: day,
       child: Column(
@@ -371,11 +385,11 @@ class _Day extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool addKey = _randomDayKey == null;
-    if (addKey) _randomDayKey = GlobalKey();
+    final bool addKey = _StateProvider.of(context).randomDayKey == null;
+    if (addKey) _StateProvider.of(context).randomDayKey = GlobalKey();
 
     return ColoredBox(
-      key: addKey ? _randomDayKey : null,
+      key: addKey ? _StateProvider.of(context).randomDayKey : null,
       color: AppColors.grey100,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -512,15 +526,9 @@ class _DayOverlayState extends State<_DayOverlay> {
   MonSuiviDay? _day;
 
   @override
-  void initState() {
-    _scrollController.addListener(_scrollListener);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_scrollListener);
-    super.dispose();
+  void didChangeDependencies() {
+    _StateProvider.of(context).scrollController.addListener(_scrollListener);
+    super.didChangeDependencies();
   }
 
   @override
@@ -534,7 +542,7 @@ class _DayOverlayState extends State<_DayOverlay> {
   }
 
   void _scrollListener() {
-    if (_scrollController.offset == 0 && _day != null) setState(() => _day = null);
+    if (_StateProvider.of(context).scrollController.offset == 0 && _day != null) setState(() => _day = null);
 
     final MonSuiviDay? day = _overlayDay();
     if (day != _day) setState(() => _day = day);
@@ -542,11 +550,11 @@ class _DayOverlayState extends State<_DayOverlay> {
 
   MonSuiviDay? _overlayDay() {
     MonSuiviDay? overlayDay;
-    for (var key in _filledDayItemKeys.keys) {
+    for (var key in _StateProvider.of(context).filledDayItemKeys.keys) {
       final RenderBox? renderBox = key.currentContext?.findRenderObject() as RenderBox?;
       if (renderBox == null) continue;
 
-      final MonSuiviDay boxDay = _filledDayItemKeys[key]!;
+      final MonSuiviDay boxDay = _StateProvider.of(context).filledDayItemKeys[key]!;
       final overlayShouldBeVisible = _overlayShouldBeVisible(renderBox);
       if (overlayShouldBeVisible) {
         overlayDay = boxDay;
@@ -560,7 +568,7 @@ class _DayOverlayState extends State<_DayOverlay> {
     final overlayHeight = _getOverlayHeight();
     if (overlayHeight == null) return false;
 
-    final ancestor = _stackKey.currentContext?.findRenderObject();
+    final ancestor = _StateProvider.of(context).contentKey.currentContext?.findRenderObject();
     final double renderBoxY = renderBox.localToGlobal(Offset.zero, ancestor: ancestor).dy;
     final isRenderBoxTopVisible = renderBoxY >= 0;
     final isRenderBoxOnScreen = renderBoxY > -renderBox.size.height + overlayHeight;
@@ -568,12 +576,13 @@ class _DayOverlayState extends State<_DayOverlay> {
   }
 
   double? _getOverlayHeight() {
-    if (_dayOverlayHeight == null) {
-      final RenderBox? randomDayBox = _randomDayKey?.currentContext?.findRenderObject() as RenderBox?;
+    if (_StateProvider.of(context).dayOverlayHeight == null) {
+      final RenderBox? randomDayBox =
+          _StateProvider.of(context).randomDayKey?.currentContext?.findRenderObject() as RenderBox?;
       if (randomDayBox == null) return null;
-      _dayOverlayHeight = randomDayBox.size.height;
+      _StateProvider.of(context).dayOverlayHeight = randomDayBox.size.height;
     }
-    return _dayOverlayHeight;
+    return _StateProvider.of(context).dayOverlayHeight;
   }
 }
 
