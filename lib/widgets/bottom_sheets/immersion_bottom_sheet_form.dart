@@ -83,13 +83,14 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
       children: [
         Text(Strings.alerteTitle, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
-        _textField(
+        BaseTextField(
           initialValue: searchViewModel.title,
-          onChanged: _updateTitle,
-          isMandatory: true,
-          mandatoryError: Strings.mandatoryAlerteTitleError,
           textInputAction: TextInputAction.next,
-          isEnabled: true,
+          minLines: 1,
+          maxLines: 1,
+          keyboardType: TextInputType.multiline,
+          errorText: ((searchTitle != null && searchTitle!.isEmpty) ? Strings.mandatoryAlerteTitleError : null),
+          onChanged: _updateTitle,
         ),
       ],
     );
@@ -99,30 +100,6 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
     setState(() {
       searchTitle = value;
     });
-  }
-
-  Widget _textField({
-    required ValueChanged<String>? onChanged,
-    bool isMandatory = false,
-    String? mandatoryError,
-    TextInputAction? textInputAction,
-    required bool isEnabled,
-    String? initialValue,
-  }) {
-    return BaseTextField(
-      initialValue: initialValue,
-      enabled: isEnabled,
-      minLines: 1,
-      maxLines: 1,
-      keyboardType: TextInputType.multiline,
-      textInputAction: textInputAction,
-      errorText: (searchTitle != null && searchTitle!.isEmpty) ? mandatoryError : null,
-      validator: (value) {
-        if (isMandatory && (value == null || value.isEmpty)) return mandatoryError;
-        return null;
-      },
-      onChanged: onChanged,
-    );
   }
 
   Widget _alerteFilters(ImmersionAlerte searchViewModel) {

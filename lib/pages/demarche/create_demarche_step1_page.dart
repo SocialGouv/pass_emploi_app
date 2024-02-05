@@ -243,7 +243,6 @@ class _ChampRechercheState extends State<_ChampRecherche> {
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.done,
       errorText: changeCount > 1 && !isDirty && _controller.text.trim().isEmpty ? Strings.mandatoryField : null,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: widget.onChanged,
     );
   }

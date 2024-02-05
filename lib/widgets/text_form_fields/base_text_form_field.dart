@@ -18,8 +18,6 @@ class BaseTextField extends StatelessWidget {
   final bool isInvalid;
   final bool autofocus;
   final String? hintText;
-  final String? Function(String?)? validator;
-  final AutovalidateMode? autovalidateMode;
   final int? maxLength;
   final String? initialValue;
   final void Function()? onTap;
@@ -44,8 +42,6 @@ class BaseTextField extends StatelessWidget {
     this.isInvalid = false,
     this.autofocus = false,
     this.hintText,
-    this.validator,
-    this.autovalidateMode,
     this.maxLength,
     this.initialValue,
     this.onTap,
@@ -63,8 +59,6 @@ class BaseTextField extends StatelessWidget {
       controller: controller,
       focusNode: focusNode,
       autofocus: autofocus,
-      validator: validator,
-      autovalidateMode: autovalidateMode,
       maxLength: maxLength,
       initialValue: initialValue,
       onTap: onTap,
