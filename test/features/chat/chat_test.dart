@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
@@ -16,12 +17,11 @@ import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:redux/redux.dart';
 
-import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
+import '../../doubles/mocks.dart';
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -237,11 +237,21 @@ void main() {
 
   group('Partage actions', () {
     final sut = StoreSut();
-    late _MockTrackingEventRepository trackingEventRepository;
+    late MockTrackingEventRepository trackingEventRepository;
     late _MockChatRepository mockChatRepository;
 
     setUp(() {
-      trackingEventRepository = _MockTrackingEventRepository();
+      trackingEventRepository = MockTrackingEventRepository();
+      registerFallbackValue(EventType.ANIMATION_COLLECTIVE_PARTAGEE);
+      when(
+        () => trackingEventRepository.sendEvent(
+          userId: 'id',
+          event: any(named: "event"),
+          loginMode: LoginMode.MILO,
+          brand: Brand.cej,
+        ),
+      ).thenAnswer((_) async => true);
+
       mockChatRepository = _MockChatRepository();
       sut.givenStore = givenState() //
           .loggedInUser()
@@ -283,7 +293,16 @@ void main() {
         mockChatRepository.onSendEventPartageSuccess(dummyEventPartage());
 
         // Then
-        sut.then(() => trackingEventRepository.verifyHasBeenCalled());
+        sut.then(
+          () => verify(
+            () => trackingEventRepository.sendEvent(
+              userId: 'id',
+              event: EventType.ANIMATION_COLLECTIVE_PARTAGEE,
+              loginMode: LoginMode.MILO,
+              brand: Brand.cej,
+            ),
+          ).called(1),
+        );
       });
     });
 
@@ -322,7 +341,16 @@ void main() {
         mockChatRepository.onPartageOffreEmploiSucceeds(dummyOffrePartagee());
 
         // Then
-        sut.then(() => trackingEventRepository.verifyHasBeenCalled());
+        sut.then(
+          () => verify(
+            () => trackingEventRepository.sendEvent(
+              userId: 'id',
+              event: EventType.MESSAGE_OFFRE_PARTAGEE,
+              loginMode: LoginMode.MILO,
+              brand: Brand.cej,
+            ),
+          ).called(1),
+        );
       });
     });
 
@@ -356,7 +384,16 @@ void main() {
         mockChatRepository.onPartageEvenementEmploiSucceeds(dummyEvenementEmploiPartage());
 
         // Then
-        sut.then(() => trackingEventRepository.verifyHasBeenCalled());
+        sut.then(
+          () => verify(
+            () => trackingEventRepository.sendEvent(
+              userId: 'id',
+              event: EventType.MESSAGE_EVENEMENT_EMPLOI_PARTAGE,
+              loginMode: LoginMode.MILO,
+              brand: Brand.cej,
+            ),
+          ).called(1),
+        );
       });
     });
 
@@ -390,7 +427,16 @@ void main() {
         mockChatRepository.onPartageSessionMiloSuccess(dummySessionMiloPartage());
 
         // Then
-        sut.then(() => trackingEventRepository.verifyHasBeenCalled());
+        sut.then(
+          () => verify(
+            () => trackingEventRepository.sendEvent(
+              userId: 'id',
+              event: EventType.MESSAGE_SESSION_MILO_PARTAGE,
+              loginMode: LoginMode.MILO,
+              brand: Brand.cej,
+            ),
+          ).called(1),
+        );
       });
     });
 
@@ -463,22 +509,6 @@ Message _message(int date) {
     MessageStatus.sent,
     [],
   );
-}
-
-class _MockTrackingEventRepository extends TrackingEventRepository {
-  bool isCalled = false;
-
-  _MockTrackingEventRepository() : super(DioMock());
-
-  @override
-  Future<bool> sendEvent({required String userId, required EventType event, required LoginMode loginMode}) async {
-    isCalled = true;
-    return true;
-  }
-
-  void verifyHasBeenCalled() {
-    expect(isCalled, true);
-  }
 }
 
 class _MockChatRepository extends Mock implements ChatRepository {

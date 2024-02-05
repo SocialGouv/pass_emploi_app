@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/network/json_serializable.dart';
 
 enum EventType {
@@ -34,100 +35,75 @@ enum EventType {
 class PostTrackingEmetteur extends JsonSerializable {
   final String userId;
   final LoginMode loginMode;
+  final Brand brand;
 
-  PostTrackingEmetteur({required this.userId, required this.loginMode});
+  PostTrackingEmetteur({required this.userId, required this.loginMode, required this.brand});
 
   @override
   Map<String, dynamic> toJson() => {
-        "type": "JEUNE",
-        "structure": _toString(loginMode),
+        "type": 'JEUNE',
+        "structure": brand.isBrsa ? 'POLE_EMPLOI_BRSA' : loginMode.serialized(),
         "id": userId,
       };
-
-  String _toString(LoginMode structure) {
-    switch (structure) {
-      case LoginMode.MILO:
-        return "MILO";
-      case LoginMode.POLE_EMPLOI:
-        return "POLE_EMPLOI";
-      case LoginMode.PASS_EMPLOI:
-        return "PASS_EMPLOI";
-      case LoginMode.DEMO_PE:
-      case LoginMode.DEMO_MILO:
-        return "DEMO";
-    }
-  }
 }
 
 class PostTrackingEvent extends JsonSerializable {
   final EventType event;
   final LoginMode loginMode;
   final String userId;
+  final Brand brand;
 
-  PostTrackingEvent({required this.event, required this.loginMode, required this.userId});
+  PostTrackingEvent({required this.event, required this.loginMode, required this.userId, required this.brand});
 
   @override
   Map<String, dynamic> toJson() => {
-        "type": _toString(event),
-        "emetteur": PostTrackingEmetteur(userId: userId, loginMode: loginMode).toJson(),
+        "type": event.serialized(),
+        "emetteur": PostTrackingEmetteur(userId: userId, loginMode: loginMode, brand: brand).toJson(),
       };
+}
 
-  String _toString(EventType event) {
-    switch (event) {
-      case EventType.MESSAGE_ENVOYE:
-        return "MESSAGE_ENVOYE";
-      case EventType.MESSAGE_OFFRE_PARTAGEE:
-        return "MESSAGE_OFFRE_PARTAGEE";
-      case EventType.MESSAGE_EVENEMENT_EMPLOI_PARTAGE:
-        return "MESSAGE_EVENEMENT_EMPLOI_PARTAGE";
-      case EventType.OFFRE_EMPLOI_POSTULEE:
-        return "OFFRE_EMPLOI_POSTULEE";
-      case EventType.OFFRE_EMPLOI_PARTAGEE:
-        return "OFFRE_EMPLOI_PARTAGEE";
-      case EventType.OFFRE_ALTERNANCE_POSTULEE:
-        return "OFFRE_ALTERNANCE_POSTULEE";
-      case EventType.OFFRE_ALTERNANCE_PARTAGEE:
-        return "OFFRE_ALTERNANCE_PARTAGEE";
-      case EventType.OFFRE_IMMERSION_ENVOI_EMAIL:
-        return "OFFRE_IMMERSION_ENVOI_EMAIL";
-      case EventType.OFFRE_IMMERSION_LOCALISATION:
-        return "OFFRE_IMMERSION_LOCALISATION";
-      case EventType.OFFRE_ALTERNANCE_AFFICHEE:
-        return "OFFRE_ALTERNANCE_AFFICHEE";
-      case EventType.OFFRE_EMPLOI_AFFICHEE:
-        return "OFFRE_EMPLOI_AFFICHEE";
-      case EventType.OFFRE_IMMERSION_AFFICHEE:
-        return "OFFRE_IMMERSION_AFFICHEE";
-      case EventType.OFFRE_IMMERSION_CONTACT_AFFICHEE:
-        return "OFFRE_IMMERSION_CONTACT_AFFICHEE";
-      case EventType.OFFRE_IMMERSION_APPEL:
-        return "OFFRE_IMMERSION_APPEL";
-      case EventType.OFFRE_SERVICE_CIVIQUE_AFFICHEE:
-        return "OFFRE_SERVICE_CIVIQUE_AFFICHEE";
-      case EventType.OFFRE_SERVICE_CIVIQUE_POSTULEE:
-        return "OFFRE_SERVICE_CIVIQUE_POSTULEE";
-      case EventType.OFFRE_SERVICE_CIVIQUE_PARTAGEE:
-        return "OFFRE_SERVICE_CIVIQUE_PARTAGEE";
-      case EventType.ACTION_LISTE:
-        return "ACTION_LISTE";
-      case EventType.ACTION_DETAIL:
-        return "ACTION_DETAIL";
-      case EventType.ANIMATION_COLLECTIVE_PARTAGEE:
-        return "ANIMATION_COLLECTIVE_PARTAGEE";
-      case EventType.ANIMATION_COLLECTIVE_AFFICHEE:
-        return "ANIMATION_COLLECTIVE_AFFICHEE";
-      case EventType.RDV_DETAIL:
-        return "RDV_DETAIL";
-      case EventType.CV_PE_TELECHARGE:
-        return "CV_PE_TELECHARGE";
-      case EventType.EVENEMENT_EXTERNE_PARTAGE:
-        return "EVENEMENT_EXTERNE_PARTAGE";
-      case EventType.EVENEMENT_EXTERNE_PARTAGE_CONSEILLER:
-        return "EVENEMENT_EXTERNE_PARTAGE_CONSEILLER";
-      case EventType.EVENEMENT_EXTERNE_INSCRIPTION:
-        return "EVENEMENT_EXTERNE_INSCRIPTION";
-      case EventType.MESSAGE_SESSION_MILO_PARTAGE:
-        return "MESSAGE_SESSION_MILO_PARTAGE";
-    }
+extension on LoginMode {
+  String serialized() {
+    return switch (this) {
+      LoginMode.MILO => 'MILO',
+      LoginMode.POLE_EMPLOI => 'POLE_EMPLOI',
+      LoginMode.PASS_EMPLOI => 'PASS_EMPLOI',
+      LoginMode.DEMO_PE => 'DEMO',
+      LoginMode.DEMO_MILO => 'DEMO',
+    };
+  }
+}
+
+extension on EventType {
+  String serialized() {
+    return switch (this) {
+      EventType.MESSAGE_ENVOYE => 'MESSAGE_ENVOYE',
+      EventType.MESSAGE_OFFRE_PARTAGEE => 'MESSAGE_OFFRE_PARTAGEE',
+      EventType.MESSAGE_EVENEMENT_EMPLOI_PARTAGE => 'MESSAGE_EVENEMENT_EMPLOI_PARTAGE',
+      EventType.OFFRE_EMPLOI_POSTULEE => 'OFFRE_EMPLOI_POSTULEE',
+      EventType.OFFRE_EMPLOI_PARTAGEE => 'OFFRE_EMPLOI_PARTAGEE',
+      EventType.OFFRE_ALTERNANCE_POSTULEE => 'OFFRE_ALTERNANCE_POSTULEE',
+      EventType.OFFRE_ALTERNANCE_PARTAGEE => 'OFFRE_ALTERNANCE_PARTAGEE',
+      EventType.OFFRE_IMMERSION_ENVOI_EMAIL => 'OFFRE_IMMERSION_ENVOI_EMAIL',
+      EventType.OFFRE_IMMERSION_LOCALISATION => 'OFFRE_IMMERSION_LOCALISATION',
+      EventType.OFFRE_ALTERNANCE_AFFICHEE => 'OFFRE_ALTERNANCE_AFFICHEE',
+      EventType.OFFRE_EMPLOI_AFFICHEE => 'OFFRE_EMPLOI_AFFICHEE',
+      EventType.OFFRE_IMMERSION_AFFICHEE => 'OFFRE_IMMERSION_AFFICHEE',
+      EventType.OFFRE_IMMERSION_CONTACT_AFFICHEE => 'OFFRE_IMMERSION_CONTACT_AFFICHEE',
+      EventType.OFFRE_IMMERSION_APPEL => 'OFFRE_IMMERSION_APPEL',
+      EventType.OFFRE_SERVICE_CIVIQUE_AFFICHEE => 'OFFRE_SERVICE_CIVIQUE_AFFICHEE',
+      EventType.OFFRE_SERVICE_CIVIQUE_POSTULEE => 'OFFRE_SERVICE_CIVIQUE_POSTULEE',
+      EventType.OFFRE_SERVICE_CIVIQUE_PARTAGEE => 'OFFRE_SERVICE_CIVIQUE_PARTAGEE',
+      EventType.ACTION_LISTE => 'ACTION_LISTE',
+      EventType.ACTION_DETAIL => 'ACTION_DETAIL',
+      EventType.ANIMATION_COLLECTIVE_PARTAGEE => 'ANIMATION_COLLECTIVE_PARTAGEE',
+      EventType.ANIMATION_COLLECTIVE_AFFICHEE => 'ANIMATION_COLLECTIVE_AFFICHEE',
+      EventType.RDV_DETAIL => 'RDV_DETAIL',
+      EventType.CV_PE_TELECHARGE => 'CV_PE_TELECHARGE',
+      EventType.EVENEMENT_EXTERNE_PARTAGE => 'EVENEMENT_EXTERNE_PARTAGE',
+      EventType.EVENEMENT_EXTERNE_PARTAGE_CONSEILLER => 'EVENEMENT_EXTERNE_PARTAGE_CONSEILLER',
+      EventType.EVENEMENT_EXTERNE_INSCRIPTION => 'EVENEMENT_EXTERNE_INSCRIPTION',
+      EventType.MESSAGE_SESSION_MILO_PARTAGE => 'MESSAGE_SESSION_MILO_PARTAGE'
+    };
   }
 }

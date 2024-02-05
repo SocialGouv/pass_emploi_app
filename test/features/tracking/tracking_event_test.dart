@@ -1,62 +1,95 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
-import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
-import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 
-import '../../doubles/dio_mock.dart';
-import '../../doubles/fixtures.dart';
-import '../../utils/test_setup.dart';
+import '../../doubles/mocks.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
+  late MockTrackingEventRepository repository;
+
+  setUp(() {
+    repository = MockTrackingEventRepository();
+    when(
+      () => repository.sendEvent(
+        userId: "id",
+        event: EventType.MESSAGE_ENVOYE,
+        loginMode: LoginMode.MILO,
+        brand: Brand.cej,
+      ),
+    ).thenAnswer((_) async => true);
+  });
+
   test("Tracking event action should call repository", () async {
     // Given
-    final factory = TestStoreFactory();
-    final repository = TrackingEventRepositoryMock();
-    factory.trackingEventRepository = repository;
-    final store = factory.initializeReduxStore(initialState: loggedInState());
+    final store = givenState().loggedInUser().store((f) => {f.trackingEventRepository = repository});
+    when(
+      () => repository.sendEvent(
+        userId: "id",
+        event: EventType.MESSAGE_ENVOYE,
+        loginMode: LoginMode.MILO,
+        brand: Brand.cej,
+      ),
+    ).thenAnswer((_) async => true);
 
     // When
     store.dispatch(TrackingEventAction(EventType.MESSAGE_ENVOYE));
 
     // Then
-    expect(repository.wasCalled, true);
+    verify(
+      () => repository.sendEvent(
+        userId: "id",
+        event: EventType.MESSAGE_ENVOYE,
+        loginMode: LoginMode.MILO,
+        brand: Brand.cej,
+      ),
+    ).called(1);
   });
 
-  test("Tracking event action not should call repository when demo", () async {
+  test("Tracking event action should call repository with proper brand", () async {
     // Given
-    final factory = TestStoreFactory();
-    final repository = TrackingEventRepositoryMock();
-    factory.trackingEventRepository = repository;
-    final initialState = AppState.initialState().copyWith(
-        loginState: LoginSuccessState(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-      email: "first.last@pole-emploi.fr",
-      loginMode: LoginMode.DEMO_MILO,
-    )));
-    final store = factory.initializeReduxStore(initialState: initialState);
+    final store = givenBrsaState().loggedInPoleEmploiUser().store((f) => {f.trackingEventRepository = repository});
+    when(
+      () => repository.sendEvent(
+        userId: "id",
+        event: EventType.MESSAGE_ENVOYE,
+        loginMode: LoginMode.POLE_EMPLOI,
+        brand: Brand.brsa,
+      ),
+    ).thenAnswer((_) async => true);
 
     // When
     store.dispatch(TrackingEventAction(EventType.MESSAGE_ENVOYE));
 
     // Then
-    expect(repository.wasCalled, false);
+    verify(
+      () => repository.sendEvent(
+        userId: "id",
+        event: EventType.MESSAGE_ENVOYE,
+        loginMode: LoginMode.POLE_EMPLOI,
+        brand: Brand.brsa,
+      ),
+    ).called(1);
   });
-}
 
-class TrackingEventRepositoryMock extends TrackingEventRepository {
-  bool wasCalled = false;
+  test("Tracking event action not should call repository on demo mode", () async {
+    // Given
+    final store = givenState().loggedInUser().withDemoMode().store((f) => {f.trackingEventRepository = repository});
 
-  TrackingEventRepositoryMock() : super(DioMock());
+    // When
+    store.dispatch(TrackingEventAction(EventType.MESSAGE_ENVOYE));
 
-  @override
-  Future<bool> sendEvent({required String userId, required EventType event, required LoginMode loginMode}) async {
-    wasCalled = true;
-    return userId == "error" ? false : true;
-  }
+    // Then
+    verifyNever(
+      () => repository.sendEvent(
+        userId: "id",
+        event: EventType.MESSAGE_ENVOYE,
+        loginMode: LoginMode.MILO,
+        brand: Brand.cej,
+      ),
+    );
+  });
 }
