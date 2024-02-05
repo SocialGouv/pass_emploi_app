@@ -202,22 +202,46 @@ class _Mandatory extends StatelessWidget {
   }
 }
 
-class _ChampRecherche extends StatelessWidget {
+class _ChampRecherche extends StatefulWidget {
   final ValueChanged<String> onChanged;
 
   const _ChampRecherche({required this.onChanged});
 
   @override
+  State<_ChampRecherche> createState() => _ChampRechercheState();
+}
+
+class _ChampRechercheState extends State<_ChampRecherche> {
+  late final TextEditingController _controller;
+  int changeCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+    _controller.addListener(() => onChanged(_controller.text));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void onChanged(String value) {
+    setState(() {
+      changeCount++;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BaseTextField(
+      controller: _controller,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.done,
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) return Strings.mandatoryField;
-        return null;
-      },
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      onChanged: onChanged,
+      errorText: changeCount > 1 && _controller.text.trim().isEmpty ? Strings.mandatoryField : null,
+      onChanged: widget.onChanged,
     );
   }
 }

@@ -83,13 +83,14 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
       children: [
         Text(Strings.alerteTitle, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
-        _textField(
+        BaseTextField(
           initialValue: searchViewModel.titre,
-          onChanged: _updateTitle,
-          isMandatory: true,
-          mandatoryError: Strings.mandatoryAlerteTitleError,
+          minLines: 1,
+          maxLines: 1,
+          keyboardType: TextInputType.multiline,
+          errorText: (searchTitle != null && searchTitle!.isEmpty) ? Strings.mandatoryAlerteTitleError : null,
           textInputAction: TextInputAction.next,
-          isEnabled: true,
+          onChanged: _updateTitle,
         ),
       ],
     );
@@ -99,30 +100,6 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
     setState(() {
       searchTitle = value;
     });
-  }
-
-  Widget _textField({
-    required ValueChanged<String>? onChanged,
-    bool isMandatory = false,
-    String? mandatoryError,
-    TextInputAction? textInputAction,
-    required bool isEnabled,
-    String? initialValue,
-  }) {
-    return BaseTextField(
-      initialValue: initialValue,
-      enabled: isEnabled,
-      minLines: 1,
-      maxLines: 1,
-      keyboardType: TextInputType.multiline,
-      errorText: (searchTitle != null && searchTitle!.isEmpty) ? mandatoryError : null,
-      textInputAction: textInputAction,
-      validator: (value) {
-        if (isMandatory && (value == null || value.isEmpty)) return mandatoryError;
-        return null;
-      },
-      onChanged: onChanged,
-    );
   }
 
   Widget _alerteFilters(ServiceCiviqueAlerte searchViewModel) {
