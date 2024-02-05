@@ -57,11 +57,8 @@ List<AgendaItem> _events(Store<AppState> store) {
   final events = _allEventsSorted(agendaState.agenda);
   final delayedActions = agendaState.agenda.delayedActions;
 
-  final pendingActionCreations = store.state.userActionCreatePendingState.getPendingCreationsCount();
-
   return [
     if (agendaState.agenda.dateDerniereMiseAJour != null) NotUpToDateAgendaItem(),
-    if (pendingActionCreations > 0) PendingActionCreationAgendaItem(pendingActionCreations),
     if (delayedActions > 0) DelayedActionsBannerAgendaItem(Strings.numberOfDemarches(delayedActions)),
     if (events.isEmpty) EmptyAgendaItem(),
     if (events.isNotEmpty) ..._makeCurrentWeek(events, agendaState.agenda.dateDeDebut),
@@ -165,15 +162,6 @@ class DelayedActionsBannerAgendaItem extends AgendaItem {
 
   @override
   List<Object?> get props => [delayedLabel];
-}
-
-class PendingActionCreationAgendaItem extends AgendaItem {
-  final int pendingCreationsCount;
-
-  PendingActionCreationAgendaItem(this.pendingCreationsCount);
-
-  @override
-  List<Object?> get props => [pendingCreationsCount];
 }
 
 class WeekSeparatorAgendaItem extends AgendaItem {

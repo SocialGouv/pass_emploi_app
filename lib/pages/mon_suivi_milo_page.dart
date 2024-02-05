@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
+import 'package:pass_emploi_app/widgets/cards/user_actions_pending_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -154,25 +155,36 @@ class _Body extends StatelessWidget {
       duration: AnimationDurations.fast,
       child: switch (viewModel.displayState) {
         DisplayState.FAILURE => Center(child: Retry(Strings.monSuiviError, () => viewModel.onRetry())),
-        DisplayState.CONTENT => _Stack(viewModel),
+        DisplayState.CONTENT => _Content(viewModel),
         _ => _MonSuiviLoader(),
       },
     );
   }
 }
 
-class _Stack extends StatelessWidget {
+class _Content extends StatelessWidget {
   final MonSuiviViewModel viewModel;
 
-  const _Stack(this.viewModel);
+  const _Content(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      key: _stackKey,
+    return Column(
       children: [
-        _TodayCenteredMonSuiviList(viewModel),
-        _DayOverlay(),
+        if (viewModel.pendingActionCreations > 0)
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_s, left: Margins.spacing_s, right: Margins.spacing_s),
+            child: UserActionsPendingCard(viewModel.pendingActionCreations),
+          ),
+        Expanded(
+          child: Stack(
+            key: _stackKey,
+            children: [
+              _TodayCenteredMonSuiviList(viewModel),
+              _DayOverlay(),
+            ],
+          ),
+        ),
       ],
     );
   }
