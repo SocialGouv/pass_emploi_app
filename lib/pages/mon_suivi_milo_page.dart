@@ -36,7 +36,7 @@ class MonSuiviMiloPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.monSuiviV2,
-      child: _MonSuiviContext(
+      child: _StateProvider(
         child: StoreConnector<AppState, MonSuiviViewModel>(
           onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
           converter: (store) => MonSuiviViewModel.create(store),
@@ -50,7 +50,7 @@ class MonSuiviMiloPage extends StatelessWidget {
 }
 
 //ignore: must_be_immutable
-class _MonSuiviContext extends InheritedWidget {
+class _StateProvider extends InheritedWidget {
   final GlobalKey centerKey = GlobalKey();
   final GlobalKey contentKey = GlobalKey();
   final ScrollController scrollController = ScrollController();
@@ -60,12 +60,12 @@ class _MonSuiviContext extends InheritedWidget {
   int previousPeriodCount = 0;
   int nextPeriodCount = 0;
 
-  _MonSuiviContext({required super.child});
+  _StateProvider({required super.child});
 
-  static _MonSuiviContext of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<_MonSuiviContext>()!;
+  static _StateProvider of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<_StateProvider>()!;
 
   @override
-  bool updateShouldNotify(_MonSuiviContext old) => false;
+  bool updateShouldNotify(_StateProvider old) => false;
 }
 
 class _Scaffold extends StatelessWidget {
@@ -110,7 +110,7 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
 
   @override
   void didChangeDependencies() {
-    _MonSuiviContext.of(context).scrollController.addListener(_scrollListener);
+    _StateProvider.of(context).scrollController.addListener(_scrollListener);
     super.didChangeDependencies();
   }
 
@@ -120,7 +120,7 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
       title: Strings.monSuiviAppBarTitle,
       actionButton: withActionButton
           ? IconButton(
-              onPressed: () => _MonSuiviContext.of(context).scrollController.animateTo(
+        onPressed: () => _StateProvider.of(context).scrollController.animateTo(
                     0,
                     duration: AnimationDurations.fast,
                     curve: Curves.fastEaseInToSlowEaseOut,
@@ -133,7 +133,7 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
   }
 
   void _scrollListener() {
-    if (_MonSuiviContext.of(context).scrollController.offset != 0) {
+    if (_StateProvider.of(context).scrollController.offset != 0) {
       if (!withActionButton) setState(() => withActionButton = true);
     } else {
       if (withActionButton) setState(() => withActionButton = false);
@@ -174,7 +174,7 @@ class _Content extends StatelessWidget {
         ],
         Expanded(
           child: Stack(
-            key: _MonSuiviContext.of(context).contentKey,
+            key: _StateProvider.of(context).contentKey,
             children: [
               _TodayCenteredMonSuiviList(viewModel),
               _DayOverlay(),
@@ -229,8 +229,8 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: CustomScrollView(
-        center: _MonSuiviContext.of(context).centerKey,
-        controller: _MonSuiviContext.of(context).scrollController,
+        center: _StateProvider.of(context).centerKey,
+        controller: _StateProvider.of(context).scrollController,
         slivers: [
           SliverList.separated(
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
@@ -240,12 +240,12 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
                 viewModel.onLoadPreviousPeriod();
                 loadingPreviousPeriod = true;
 
-                _MonSuiviContext.of(context).previousPeriodCount--;
+                _StateProvider.of(context).previousPeriodCount--;
                 PassEmploiMatomoTracker.instance.trackEvent(
                   eventCategory: AnalyticsEventNames.monSuiviV2Category,
                   action: AnalyticsEventNames.monSuiviV2PreviousPeriodAction,
                   eventName: AnalyticsEventNames.monSuiviV2PeriodName,
-                  eventValue: _MonSuiviContext.of(context).previousPeriodCount,
+                  eventValue: _StateProvider.of(context).previousPeriodCount,
                 );
               }
               if (index == pastItems.length) {
@@ -258,7 +258,7 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
             },
           ),
           SliverList.separated(
-            key: _MonSuiviContext.of(context).centerKey,
+            key: _StateProvider.of(context).centerKey,
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: presentAndFutureItems.length + 1,
             itemBuilder: (context, index) {
@@ -266,12 +266,12 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
                 viewModel.onLoadNextPeriod();
                 loadingNextPeriod = true;
 
-                _MonSuiviContext.of(context).nextPeriodCount++;
+                _StateProvider.of(context).nextPeriodCount++;
                 PassEmploiMatomoTracker.instance.trackEvent(
                   eventCategory: AnalyticsEventNames.monSuiviV2Category,
                   action: AnalyticsEventNames.monSuiviV2NextPeriodAction,
                   eventName: AnalyticsEventNames.monSuiviV2PeriodName,
-                  eventValue: _MonSuiviContext.of(context).nextPeriodCount,
+                  eventValue: _StateProvider.of(context).nextPeriodCount,
                 );
               }
               if (index == presentAndFutureItems.length) {
@@ -325,7 +325,7 @@ class _FilledDayItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey key = GlobalKey();
-    _MonSuiviContext.of(context).filledDayItemKeys[key] = day;
+    _StateProvider.of(context).filledDayItemKeys[key] = day;
     return _DayRow(
       day: day,
       child: Column(
@@ -385,11 +385,11 @@ class _Day extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool addKey = _MonSuiviContext.of(context).randomDayKey == null;
-    if (addKey) _MonSuiviContext.of(context).randomDayKey = GlobalKey();
+    final bool addKey = _StateProvider.of(context).randomDayKey == null;
+    if (addKey) _StateProvider.of(context).randomDayKey = GlobalKey();
 
     return ColoredBox(
-      key: addKey ? _MonSuiviContext.of(context).randomDayKey : null,
+      key: addKey ? _StateProvider.of(context).randomDayKey : null,
       color: AppColors.grey100,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -527,7 +527,7 @@ class _DayOverlayState extends State<_DayOverlay> {
 
   @override
   void didChangeDependencies() {
-    _MonSuiviContext.of(context).scrollController.addListener(_scrollListener);
+    _StateProvider.of(context).scrollController.addListener(_scrollListener);
     super.didChangeDependencies();
   }
 
@@ -542,7 +542,7 @@ class _DayOverlayState extends State<_DayOverlay> {
   }
 
   void _scrollListener() {
-    if (_MonSuiviContext.of(context).scrollController.offset == 0 && _day != null) setState(() => _day = null);
+    if (_StateProvider.of(context).scrollController.offset == 0 && _day != null) setState(() => _day = null);
 
     final MonSuiviDay? day = _overlayDay();
     if (day != _day) setState(() => _day = day);
@@ -550,11 +550,11 @@ class _DayOverlayState extends State<_DayOverlay> {
 
   MonSuiviDay? _overlayDay() {
     MonSuiviDay? overlayDay;
-    for (var key in _MonSuiviContext.of(context).filledDayItemKeys.keys) {
+    for (var key in _StateProvider.of(context).filledDayItemKeys.keys) {
       final RenderBox? renderBox = key.currentContext?.findRenderObject() as RenderBox?;
       if (renderBox == null) continue;
 
-      final MonSuiviDay boxDay = _MonSuiviContext.of(context).filledDayItemKeys[key]!;
+      final MonSuiviDay boxDay = _StateProvider.of(context).filledDayItemKeys[key]!;
       final overlayShouldBeVisible = _overlayShouldBeVisible(renderBox);
       if (overlayShouldBeVisible) {
         overlayDay = boxDay;
@@ -568,7 +568,7 @@ class _DayOverlayState extends State<_DayOverlay> {
     final overlayHeight = _getOverlayHeight();
     if (overlayHeight == null) return false;
 
-    final ancestor = _MonSuiviContext.of(context).contentKey.currentContext?.findRenderObject();
+    final ancestor = _StateProvider.of(context).contentKey.currentContext?.findRenderObject();
     final double renderBoxY = renderBox.localToGlobal(Offset.zero, ancestor: ancestor).dy;
     final isRenderBoxTopVisible = renderBoxY >= 0;
     final isRenderBoxOnScreen = renderBoxY > -renderBox.size.height + overlayHeight;
@@ -576,13 +576,13 @@ class _DayOverlayState extends State<_DayOverlay> {
   }
 
   double? _getOverlayHeight() {
-    if (_MonSuiviContext.of(context).dayOverlayHeight == null) {
+    if (_StateProvider.of(context).dayOverlayHeight == null) {
       final RenderBox? randomDayBox =
-          _MonSuiviContext.of(context).randomDayKey?.currentContext?.findRenderObject() as RenderBox?;
+          _StateProvider.of(context).randomDayKey?.currentContext?.findRenderObject() as RenderBox?;
       if (randomDayBox == null) return null;
-      _MonSuiviContext.of(context).dayOverlayHeight = randomDayBox.size.height;
+      _StateProvider.of(context).dayOverlayHeight = randomDayBox.size.height;
     }
-    return _MonSuiviContext.of(context).dayOverlayHeight;
+    return _StateProvider.of(context).dayOverlayHeight;
   }
 }
 
