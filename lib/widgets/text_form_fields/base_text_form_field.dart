@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -76,7 +77,7 @@ class BaseTextField extends StatelessWidget {
         suffixIcon: suffixIcon,
         hintStyle: TextStyles.textSRegular(),
         contentPadding: const EdgeInsets.all(Margins.spacing_base),
-        errorText: errorText,
+        error: errorText != null ? _Error(errorText!) : null,
         border: isInvalid ? _errorBorder() : _idleBorder(),
         focusedBorder: isInvalid ? _errorBorder() : _focusedBorder(),
         errorBorder: _errorBorder(),
@@ -111,6 +112,34 @@ class BaseTextField extends StatelessWidget {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(Dimens.radius_base),
       borderSide: BorderSide(color: AppColors.warning, width: 2.0),
+    );
+  }
+}
+
+class _Error extends StatelessWidget {
+  const _Error(this.errorText);
+
+  final String errorText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          AppIcons.error_rounded,
+          color: AppColors.warning,
+        ),
+        SizedBox(width: Margins.spacing_s),
+        Expanded(
+          child: Text(
+            errorText,
+            style: TextStyle(
+              color: AppColors.warning,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
