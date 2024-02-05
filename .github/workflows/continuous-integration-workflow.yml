@@ -250,11 +250,6 @@ jobs:
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
           APPLE_PROD_API_KEY_B64: ${{ secrets.APPLE_PROD_API_KEY_B64 }}
 
-      - name: CEJ - Set up a temporary keychain for code signing
-        shell: bash
-        run: |
-          keychain initialize
-
       - name: CEJ - Fetch the code signing files from App Store Connect
         shell: bash
         run: |
@@ -270,11 +265,6 @@ jobs:
           APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
           APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
-
-      - name: CEJ - Add fetched certificates to keychain
-        shell: bash
-        run: |
-          keychain add-certificates
 
       - name: CEJ - Update Xcode project settings with fetched code signing profiles and create staging_export_options.plist
         shell: bash
