@@ -240,19 +240,6 @@ jobs:
         run: |
           find . -name "Podfile" -execdir pod install \;
 
-      - name: Write p12 certificate
-        shell: bash
-        run: |
-          echo "$P12_B64" | base64 --decode > ios/cert.p12
-        env:
-          P12_B64: ${{ secrets.P12_B64 }}
-
-      - name: Install Apple Certificate
-        uses: apple-actions/import-codesign-certs@v2
-        with:
-          p12-filepath: "ios/cert.p12"
-          p12-password: ${{ secrets.P12_PASSWORD }}
-
       - name: Write Apple prod API Key
         shell: bash
         run: |
