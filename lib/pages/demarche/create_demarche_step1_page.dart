@@ -213,7 +213,6 @@ class _ChampRecherche extends StatefulWidget {
 
 class _ChampRechercheState extends State<_ChampRecherche> {
   late final TextEditingController _controller;
-  bool isDirty = true;
   int changeCount = 0;
 
   @override
@@ -231,7 +230,6 @@ class _ChampRechercheState extends State<_ChampRecherche> {
 
   void onChanged(String value) {
     setState(() {
-      isDirty = false;
       changeCount++;
     });
   }
@@ -242,7 +240,7 @@ class _ChampRechercheState extends State<_ChampRecherche> {
       controller: _controller,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.done,
-      errorText: changeCount > 1 && !isDirty && _controller.text.trim().isEmpty ? Strings.mandatoryField : null,
+      errorText: changeCount > 1 && _controller.text.trim().isEmpty ? Strings.mandatoryField : null,
       onChanged: widget.onChanged,
     );
   }
