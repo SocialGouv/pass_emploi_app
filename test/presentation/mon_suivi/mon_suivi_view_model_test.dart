@@ -2,6 +2,7 @@ import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
+import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi/mon_suivi_view_model.dart';
@@ -197,6 +198,17 @@ void main() {
       // Then
       expect(viewModel.withCreateButton, isFalse);
     });
+  });
+
+  test('pendingActionCreations', () {
+    // Given
+    final store = givenState().copyWith(userActionCreatePendingState: UserActionCreatePendingSuccessState(10)).store();
+
+    // When
+    final viewModel = MonSuiviViewModel.create(store);
+
+    // Then
+    expect(viewModel.pendingActionCreations, 10);
   });
 
   test('onRetry', () {

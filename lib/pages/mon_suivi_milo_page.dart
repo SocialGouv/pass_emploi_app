@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
@@ -154,26 +155,62 @@ class _Body extends StatelessWidget {
       duration: AnimationDurations.fast,
       child: switch (viewModel.displayState) {
         DisplayState.FAILURE => Center(child: Retry(Strings.monSuiviError, () => viewModel.onRetry())),
-        DisplayState.CONTENT => _Stack(viewModel),
+        DisplayState.CONTENT => _Content(viewModel),
         _ => _MonSuiviLoader(),
       },
     );
   }
 }
 
-class _Stack extends StatelessWidget {
+class _Content extends StatelessWidget {
   final MonSuiviViewModel viewModel;
 
-  const _Stack(this.viewModel);
+  const _Content(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      key: _stackKey,
+    return Column(
       children: [
-        _TodayCenteredMonSuiviList(viewModel),
-        _DayOverlay(),
+        if (viewModel.pendingActionCreations > 0) ...[
+          SizedBox(height: Margins.spacing_s),
+          _UserActionsPendingCard(viewModel.pendingActionCreations),
+        ],
+        Expanded(
+          child: Stack(
+            key: _stackKey,
+            children: [
+              _TodayCenteredMonSuiviList(viewModel),
+              _DayOverlay(),
+            ],
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class _UserActionsPendingCard extends StatelessWidget {
+  final int userActionsPostponedCount;
+
+  const _UserActionsPendingCard(this.userActionsPostponedCount);
+
+  @override
+  Widget build(BuildContext context) {
+    final message = userActionsPostponedCount > 1
+        ? Strings.pendingActionCreationPlural(userActionsPostponedCount)
+        : Strings.pendingActionCreationSingular;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_s),
+      child: CardContainer(
+        backgroundColor: AppColors.disabled,
+        child: Row(
+          children: [
+            Icon(AppIcons.error_rounded, color: Colors.white),
+            SizedBox(width: Margins.spacing_s),
+            Flexible(child: Text(message, style: TextStyles.textSRegularWithColor(Colors.white))),
+          ],
+        ),
+      ),
     );
   }
 }

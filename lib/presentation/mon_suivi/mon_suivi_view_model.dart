@@ -14,6 +14,7 @@ class MonSuiviViewModel extends Equatable {
   final List<MonSuiviItem> items;
   final int indexOfTodayItem;
   final bool withCreateButton;
+  final int pendingActionCreations;
   final Function() onLoadPreviousPeriod;
   final Function() onLoadNextPeriod;
   final Function() onRetry;
@@ -23,6 +24,7 @@ class MonSuiviViewModel extends Equatable {
     required this.items,
     required this.indexOfTodayItem,
     required this.withCreateButton,
+    required this.pendingActionCreations,
     required this.onLoadPreviousPeriod,
     required this.onLoadNextPeriod,
     required this.onRetry,
@@ -36,6 +38,7 @@ class MonSuiviViewModel extends Equatable {
       items: items,
       indexOfTodayItem: items.indexWhere((e) => e is DayMonSuiviItem && e.isToday),
       withCreateButton: state is MonSuiviSuccessState,
+      pendingActionCreations: store.state.userActionCreatePendingState.getPendingCreationsCount(),
       onLoadPreviousPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.previous)),
       onLoadNextPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.next)),
       onRetry: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
@@ -43,7 +46,7 @@ class MonSuiviViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, items, indexOfTodayItem, withCreateButton];
+  List<Object?> get props => [displayState, items, indexOfTodayItem, withCreateButton, pendingActionCreations];
 }
 
 DisplayState _displayState(MonSuiviState state) {
