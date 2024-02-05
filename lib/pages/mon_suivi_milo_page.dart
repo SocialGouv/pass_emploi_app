@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -54,15 +55,30 @@ class _MonSuiviMiloPageState extends State<MonSuiviMiloPage> {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.monSuiviV2,
-      child: StoreConnector<AppState, MonSuiviViewModel>(
-        onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
-        converter: (store) => MonSuiviViewModel.create(store),
-        builder: (_, viewModel) => _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
-        onDispose: (store) => store.dispatch(MonSuiviResetAction()),
-        distinct: true,
+      child: _MonSuiviContext(
+        child: StoreConnector<AppState, MonSuiviViewModel>(
+          onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
+          converter: (store) => MonSuiviViewModel.create(store),
+          builder: (_, viewModel) => _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
+          onDispose: (store) => store.dispatch(MonSuiviResetAction()),
+          distinct: true,
+        ),
       ),
     );
   }
+}
+
+//ignore: must_be_immutable
+class _MonSuiviContext extends InheritedWidget {
+  int previousPeriodCount = 0;
+  int nextPeriodCount = 0;
+
+  _MonSuiviContext({required super.child});
+
+  static _MonSuiviContext of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<_MonSuiviContext>()!;
+
+  @override
+  bool updateShouldNotify(_MonSuiviContext old) => false;
 }
 
 class _Scaffold extends StatelessWidget {
@@ -228,6 +244,7 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
   Widget build(BuildContext context) {
     bool loadingPreviousPeriod = false;
     bool loadingNextPeriod = false;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: CustomScrollView(
@@ -241,6 +258,14 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
               if (index > pastItems.length - 2 && !loadingPreviousPeriod) {
                 viewModel.onLoadPreviousPeriod();
                 loadingPreviousPeriod = true;
+
+                _MonSuiviContext.of(context).previousPeriodCount--;
+                PassEmploiMatomoTracker.instance.trackEvent(
+                  eventCategory: AnalyticsEventNames.monSuiviV2Category,
+                  action: AnalyticsEventNames.monSuiviV2PreviousPeriodAction,
+                  eventName: AnalyticsEventNames.monSuiviV2PeriodName,
+                  eventValue: _MonSuiviContext.of(context).previousPeriodCount,
+                );
               }
               if (index == pastItems.length) {
                 return Padding(
@@ -259,6 +284,14 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
               if (index > presentAndFutureItems.length - 2 && !loadingNextPeriod) {
                 viewModel.onLoadNextPeriod();
                 loadingNextPeriod = true;
+
+                _MonSuiviContext.of(context).nextPeriodCount++;
+                PassEmploiMatomoTracker.instance.trackEvent(
+                  eventCategory: AnalyticsEventNames.monSuiviV2Category,
+                  action: AnalyticsEventNames.monSuiviV2NextPeriodAction,
+                  eventName: AnalyticsEventNames.monSuiviV2PeriodName,
+                  eventValue: _MonSuiviContext.of(context).nextPeriodCount,
+                );
               }
               if (index == presentAndFutureItems.length) {
                 return Padding(
