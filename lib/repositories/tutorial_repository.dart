@@ -1,6 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
 import 'package:pass_emploi_app/models/tutorial/tutorial_page.dart';
+
+const String _keyPrefix = 'tutorialRead-';
 
 class TutorialRepository {
   final FlutterSecureStorage _preferences;
@@ -12,11 +15,15 @@ class TutorialRepository {
   List<TutorialPage> getPoleEmploiTutorial() => Tutorial.pe;
 
   Future<void> setTutorialRead() async {
-    await _preferences.write(key: 'tutorialRead-${Tutorial.versionTimestamp}', value: 'read');
+    await _preferences.write(key: '$_keyPrefix${Tutorial.versionTimestamp}', value: 'read');
   }
 
   Future<bool> shouldShowTutorial() async {
-    final String? tutorialRead = await _preferences.read(key: 'tutorialRead-${Tutorial.versionTimestamp}');
+    final keys = (await _preferences.readAll()).keys;
+    final firstInstall = keys.firstWhereOrNull((key) => key.startsWith(_keyPrefix)) == null;
+    if (firstInstall) return false;
+
+    final String? tutorialRead = await _preferences.read(key: '$_keyPrefix${Tutorial.versionTimestamp}');
     return tutorialRead == null;
   }
 }

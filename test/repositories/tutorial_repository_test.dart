@@ -24,7 +24,18 @@ void main() {
     expect(pages, Tutorial.pe);
   });
 
-  test("shouldShowTutorial returns true when user did not already saw it", () async {
+  test("shouldShowTutorial returns false on first launch", () async {
+    // When
+    final shouldShowTutorial = await repository.shouldShowTutorial();
+
+    // Then
+    expect(shouldShowTutorial, isFalse);
+  });
+
+  test("shouldShowTutorial returns true when not on first launch and user did not already saw it", () async {
+    // Given
+    await prefs.write(key: 'tutorialRead-111', value: 'read');
+
     // When
     final shouldShowTutorial = await repository.shouldShowTutorial();
 
@@ -32,7 +43,7 @@ void main() {
     expect(shouldShowTutorial, isTrue);
   });
 
-  test("shouldShowTutorial returns true when user already saw it", () async {
+  test("shouldShowTutorial returns false when user already saw it", () async {
     // Given
     repository.setTutorialRead();
 
