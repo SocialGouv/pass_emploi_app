@@ -44,7 +44,6 @@ feature_snake_case=$(echo $feature_camel_case \
 feature_first_char_lower_case="$(tr '[:upper:]' '[:lower:]' <<< ${feature_camel_case:0:1})${feature_camel_case:1}"
 
 repositoryClass="${feature_camel_case}Repository"
-repositoryDummyClass="Dummy${repositoryClass}"
 repositoryMockClass="Mock${repositoryClass}"
 repositoryVariable="${feature_first_char_lower_case}Repository"
 repositoryImport=$(generateImport "repositories/${feature_snake_case}_repository.dart")
@@ -269,26 +268,13 @@ echo "Editing $editing_file"
 
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT" "$repositoryImport"
 
-value="${repositoryClass} ${repositoryVariable} = ${repositoryDummyClass}();"
+value="${repositoryClass} ${repositoryVariable} = ${repositoryMockClass}();"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY" "$value"
 
 value="${repositoryVariable},"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR" "$value"
 
 dart format "$editing_file" -l $dart_max_char_in_line
-
-
-
-editing_file="test/doubles/dummies.dart"
-echo "Editing $editing_file"
-
-addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT" "$repositoryImport"
-
-value="class ${repositoryDummyClass} extends ${repositoryClass} { ${repositoryDummyClass}() : super(DioMock()); }"
-addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION" "$value"
-
-dart format "$editing_file" -l $dart_max_char_in_line
-
 
 
 editing_file="test/doubles/mocks.dart"

@@ -79,6 +79,19 @@ class SharedPreferencesSpy extends FlutterSecureStorage {
     _storedValues.remove(key);
   }
 
+  @override
+  Future<Map<String, String>> readAll({
+    IOSOptions? iOptions,
+    AndroidOptions? aOptions,
+    LinuxOptions? lOptions,
+    WebOptions? webOptions,
+    MacOsOptions? mOptions,
+    WindowsOptions? wOptions,
+  }) async {
+    await simulateIoOperation();
+    return _storedValues;
+  }
+
   Future<void> simulateIoOperation() async => await Future.delayed(Duration(milliseconds: 10));
 }
 

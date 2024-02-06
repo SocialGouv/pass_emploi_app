@@ -65,6 +65,7 @@ class _TutorialPageState extends State<TutorialPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                SizedBox(height: Margins.spacing_base),
                 _SkipButton(active: !_isLastPage(viewModel), viewModel: viewModel),
                 SizedBox(height: Margins.spacing_base),
                 Expanded(
@@ -72,53 +73,41 @@ class _TutorialPageState extends State<TutorialPage> {
                     controller: _controller,
                     children: [
                       for (var page in viewModel.pages)
-                        _TutorialContentCard(
-                          title: page.title,
-                          description: page.description,
-                          image: page.image,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                          child: _TutorialContentCard(
+                            title: page.title,
+                            description: page.description,
+                            image: page.image,
+                          ),
                         ),
                     ],
                   ),
                 ),
+                SizedBox(height: Margins.spacing_base),
                 Padding(
-                  padding: const EdgeInsets.all(Margins.spacing_m),
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
                   child: PrimaryActionButton(
                     label: _isLastPage(viewModel) ? Strings.finish : Strings.continueLabel,
-                    onPressed: () {
-                      final currentPage = _controller.page;
-                      setState(() {
-                        if (currentPage != null) _currentPage = _controller.page?.floor() as int;
-                      });
-                      if (currentPage != null && currentPage < viewModel.pages.length - 1) {
-                        _controller.animateToPage(
-                          currentPage.floor() + 1,
-                          duration: Duration(milliseconds: 600),
-                          curve: Curves.linearToEaseOut,
-                        );
-                        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.continueTutorial);
-                      } else {
-                        viewModel.onDone();
-                        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.doneTutorial);
-                      }
-                    },
+                    onPressed: () => _onPressed(viewModel),
                   ),
                 ),
+                SizedBox(height: Margins.spacing_base),
                 _DelayedButton(viewModel: viewModel),
-                Padding(
-                  padding: const EdgeInsets.all(Margins.spacing_m),
-                  child: Center(
-                    child: SmoothPageIndicator(
-                      controller: _controller,
-                      count: viewModel.pages.length,
-                      effect: WormEffect(
-                        activeDotColor: AppColors.primary,
-                        dotColor: AppColors.disabled,
-                        dotHeight: 10,
-                        dotWidth: 10,
-                      ),
+                SizedBox(height: Margins.spacing_base),
+                Center(
+                  child: SmoothPageIndicator(
+                    controller: _controller,
+                    count: viewModel.pages.length,
+                    effect: WormEffect(
+                      activeDotColor: AppColors.primary,
+                      dotColor: AppColors.disabled,
+                      dotHeight: 10,
+                      dotWidth: 10,
                     ),
                   ),
                 ),
+                SizedBox(height: Margins.spacing_base),
               ],
             ),
           ),
@@ -128,6 +117,24 @@ class _TutorialPageState extends State<TutorialPage> {
   }
 
   bool _isLastPage(TutorialPageViewModel viewModel) => _currentPage == viewModel.pages.length - 1;
+
+  void _onPressed(TutorialPageViewModel viewModel) {
+    final currentPage = _controller.page;
+    setState(() {
+      if (currentPage != null) _currentPage = _controller.page?.floor() as int;
+    });
+    if (currentPage != null && currentPage < viewModel.pages.length - 1) {
+      _controller.animateToPage(
+        currentPage.floor() + 1,
+        duration: AnimationDurations.medium,
+        curve: Curves.linearToEaseOut,
+      );
+      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.continueTutorial);
+    } else {
+      viewModel.onDone();
+      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.doneTutorial);
+    }
+  }
 }
 
 class _SkipButton extends StatelessWidget {
@@ -141,30 +148,27 @@ class _SkipButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: Row(
-        children: [
-          Spacer(),
-          InkWell(
-            onTap: active
-                ? () {
-                    viewModel.onDone();
-                    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipTutorial);
-                  }
-                : null,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: Margins.spacing_s,
-                horizontal: Margins.spacing_base,
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Material(
+        color: Colors.transparent,
+        child: Row(
+          children: [
+            Spacer(),
+            InkWell(
+              onTap: active
+                  ? () {
+                      viewModel.onDone();
+                      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipTutorial);
+                    }
+                  : null,
               child: Text(
                 Strings.skip,
                 style: TextStyles.textPrimaryButton.copyWith(color: active ? Colors.white : Colors.transparent),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -183,16 +187,15 @@ class _TutorialContentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(Margins.spacing_m),
-      child: Material(
-        elevation: 8,
-        borderRadius: BorderRadius.circular(Dimens.radius_base),
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_base)),
-          child: Padding(
-            padding: const EdgeInsets.all(Margins.spacing_m),
-            child: SingleChildScrollView(
+    return Material(
+      elevation: 8,
+      borderRadius: BorderRadius.circular(Dimens.radius_base),
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_base)),
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(Margins.spacing_base),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -233,7 +236,7 @@ class _AnimationState extends State<_Animation> with SingleTickerProviderStateMi
     end: 30,
   ).animate(CurvedAnimation(
     parent: _animationController,
-    curve: Curves.linear,
+    curve: Curves.bounceInOut,
   ));
 
   Future<void> _playAnimation() async {
@@ -256,8 +259,8 @@ class _AnimationState extends State<_Animation> with SingleTickerProviderStateMi
       animation: _offsetAnimation,
       builder: (context, Widget? child) {
         return Transform.scale(
-          scale: 1 + _offsetAnimation.value / 200,
-          child: SvgPicture.asset(widget.image, height: 200),
+          scale: 1 + _offsetAnimation.value / 150,
+          child: SvgPicture.asset(widget.image),
         );
       },
     );
@@ -277,22 +280,19 @@ class _DelayedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Center(
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
-              viewModel.onDelay();
-              PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.delayedTutorial);
-            },
-            child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.end,
-              children: [
-                Text(Strings.seeLater, style: TextStyles.internalLink),
-              ],
-            ),
+    return Center(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            viewModel.onDelay();
+            PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.delayedTutorial);
+          },
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.end,
+            children: [
+              Text(Strings.seeLater, style: TextStyles.internalLink),
+            ],
           ),
         ),
       ),
