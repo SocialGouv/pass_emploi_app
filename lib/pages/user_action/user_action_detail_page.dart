@@ -302,14 +302,6 @@ class _SuccessBottomSheet extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(
-            Strings.conseillerNotifiedActionUpdated,
-            style: TextStyles.textBaseRegular,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Padding(
           padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
           child: PrimaryActionButton(
             label: Strings.understood,

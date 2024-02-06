@@ -451,8 +451,6 @@ class Strings {
   static String yourConseillerLowercase = "votre conseiller";
   static String congratulationsActionUpdated =
       "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte";
-  static String conseillerNotifiedActionUpdated =
-      "Votre conseiller a reçu une notification de la mise à jour de votre action";
   static String understood = "J'ai compris";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
