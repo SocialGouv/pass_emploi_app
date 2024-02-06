@@ -3,9 +3,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
 import 'package:pass_emploi_app/models/tutorial/tutorial_page.dart';
 
-const String _keyPrefix = 'tutorialRead-';
-
 class TutorialRepository {
+  static const String _keyPrefix = 'tutorialRead-';
+
   final FlutterSecureStorage _preferences;
 
   TutorialRepository(this._preferences);
