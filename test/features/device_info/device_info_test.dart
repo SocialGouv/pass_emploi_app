@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/device_info/device_info_state.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 
-import '../../doubles/dummies.dart';
+import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
@@ -35,7 +35,7 @@ Matcher _shouldSetUuid() {
 }
 
 class FakeInstallationIdRepository extends InstallationIdRepository {
-  FakeInstallationIdRepository() : super(DummySharedPreferences());
+  FakeInstallationIdRepository() : super(MockFlutterSecureStorage());
 
   @override
   Future<String> getInstallationId() async {

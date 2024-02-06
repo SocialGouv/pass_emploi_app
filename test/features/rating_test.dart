@@ -6,8 +6,8 @@ import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_reposit
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 
 import '../doubles/dio_mock.dart';
-import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
+import '../doubles/mocks.dart';
 import '../dsl/app_state_dsl.dart';
 
 void main() {
@@ -58,7 +58,7 @@ void main() {
 }
 
 class RatingRepositorySuccessStub extends RatingRepository {
-  RatingRepositorySuccessStub() : super(DummySharedPreferences());
+  RatingRepositorySuccessStub() : super(MockFlutterSecureStorage());
 
   @override
   Future<bool> shouldShowRating() async {
@@ -67,7 +67,7 @@ class RatingRepositorySuccessStub extends RatingRepository {
 }
 
 class RatingRepositoryAlreadyRatedStub extends RatingRepository {
-  RatingRepositoryAlreadyRatedStub() : super(DummySharedPreferences());
+  RatingRepositoryAlreadyRatedStub() : super(MockFlutterSecureStorage());
 
   @override
   Future<bool> shouldShowRating() async {

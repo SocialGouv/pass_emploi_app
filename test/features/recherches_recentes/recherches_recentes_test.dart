@@ -5,8 +5,8 @@ import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 
-import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
+import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
@@ -73,7 +73,7 @@ Matcher _shouldAddRecentSearch() {
 }
 
 class RecherchesRecentesRepositorySuccessStub extends RecherchesRecentesRepository {
-  RecherchesRecentesRepositorySuccessStub() : super(DummySharedPreferences());
+  RecherchesRecentesRepositorySuccessStub() : super(MockFlutterSecureStorage());
 
   @override
   Future<List<Alerte>> get() async {
@@ -82,7 +82,7 @@ class RecherchesRecentesRepositorySuccessStub extends RecherchesRecentesReposito
 }
 
 class RecherchesRecentesRepositoryEmptyStub extends RecherchesRecentesRepository {
-  RecherchesRecentesRepositoryEmptyStub() : super(DummySharedPreferences());
+  RecherchesRecentesRepositoryEmptyStub() : super(MockFlutterSecureStorage());
 
   @override
   Future<List<Alerte>> get() async {

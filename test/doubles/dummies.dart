@@ -1,5 +1,4 @@
 import 'package:flutter_appauth/flutter_appauth.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
@@ -91,46 +90,14 @@ class DummyRegisterTokenRepository extends ConfigurationApplicationRepository {
   Future<void> configureApplication(String userId, String fuseauHoraire) async {}
 }
 
-class DummySharedPreferences extends FlutterSecureStorage {
-  @override
-  Future<String?> read({
-    required String key,
-    IOSOptions? iOptions,
-    AndroidOptions? aOptions,
-    LinuxOptions? lOptions,
-    WebOptions? webOptions,
-    MacOsOptions? mOptions,
-    WindowsOptions? wOptions,
-  }) async {
-    return null;
-  }
-
-  @override
-  Future<void> write({
-    required String key,
-    required String? value,
-    IOSOptions? iOptions,
-    AndroidOptions? aOptions,
-    LinuxOptions? lOptions,
-    WebOptions? webOptions,
-    MacOsOptions? mOptions,
-    WindowsOptions? wOptions,
-  }) async {}
-
-  @override
-  Future<void> delete({
-    required String key,
-    IOSOptions? iOptions,
-    AndroidOptions? aOptions,
-    LinuxOptions? lOptions,
-    WebOptions? webOptions,
-    MacOsOptions? mOptions,
-    WindowsOptions? wOptions,
-  }) async {}
-}
-
 class DummyAuthenticator extends Authenticator {
-  DummyAuthenticator() : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), DummySharedPreferences());
+  DummyAuthenticator()
+      : super(
+          DummyAuthWrapper(),
+          DummyLogoutRepository(),
+          configuration(),
+          MockFlutterSecureStorage(),
+        );
 }
 
 class DummyAuthWrapper extends AuthWrapper {
@@ -332,7 +299,7 @@ class DummyPieceJointeRepository extends PieceJointeRepository {
 }
 
 class DummyTutorialRepository extends TutorialRepository {
-  DummyTutorialRepository() : super(DummySharedPreferences());
+  DummyTutorialRepository() : super(MockFlutterSecureStorage());
 }
 
 class DummyPartageActiviteRepository extends PartageActiviteRepository {
@@ -368,7 +335,7 @@ class DummyDemarcheDuReferentielRepository extends SearchDemarcheRepository {
 }
 
 class DummyRatingRepository extends RatingRepository {
-  DummyRatingRepository() : super(DummySharedPreferences());
+  DummyRatingRepository() : super(MockFlutterSecureStorage());
 }
 
 class DummyActionCommentaireRepository extends ActionCommentaireRepository {
@@ -396,7 +363,7 @@ class DummyMetierRepository extends MetierRepository {
 }
 
 class DummyInstallationIdRepository extends InstallationIdRepository {
-  DummyInstallationIdRepository() : super(DummySharedPreferences());
+  DummyInstallationIdRepository() : super(MockFlutterSecureStorage());
 }
 
 class DummyDiagorienteUrlsRepository extends DiagorienteUrlsRepository {
@@ -408,7 +375,7 @@ class DummyDiagorienteMetiersFavorisRepository extends DiagorienteMetiersFavoris
 }
 
 class DummyRecherchesRecentesRepository extends RecherchesRecentesRepository {
-  DummyRecherchesRecentesRepository() : super(DummySharedPreferences());
+  DummyRecherchesRecentesRepository() : super(MockFlutterSecureStorage());
 }
 
 class DummyFirebaseInstanceIdGetter extends FirebaseInstanceIdGetter {
