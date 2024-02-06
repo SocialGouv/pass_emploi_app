@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
@@ -117,4 +118,6 @@ class MockUserActionPendingCreationRepository extends Mock implements UserAction
 class MockUserActionRepository extends Mock implements UserActionRepository {}
 
 class MockTrackingEventRepository extends Mock implements TrackingEventRepository {}
+
+class MockCvmRepository extends Mock implements CvmRepository {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

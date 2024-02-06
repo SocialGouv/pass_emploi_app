@@ -133,7 +133,8 @@ class TestStoreFactory {
   ThematiqueDemarcheRepository thematiquesDemarcheRepository = DummyThematiqueDemarcheRepository();
   TopDemarcheRepository topDemarcheRepository = DummyTopDemarcheRepository();
   MonSuiviRepository monSuiviRepository = DummyMonSuiviRepository();
-  CvmRepository cvmRepository = DummyCvmRepository();
+  CvmRepository cvmRepository = MockCvmRepository();
+
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
