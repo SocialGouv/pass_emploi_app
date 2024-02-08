@@ -16,7 +16,7 @@ Future<T?> showPassEmploiBottomSheet<T>({required BuildContext context, required
   );
 }
 
-class BottomSheetHeader extends StatelessWidget implements PreferredSizeWidget {
+class BottomSheetHeader extends StatelessWidget {
   const BottomSheetHeader({super.key, required this.title, this.padding});
   final String title;
   final EdgeInsets? padding;
@@ -26,7 +26,7 @@ class BottomSheetHeader extends StatelessWidget implements PreferredSizeWidget {
     return Semantics(
       header: true,
       child: Container(
-        padding: padding ?? EdgeInsets.zero,
+        padding: padding ?? EdgeInsets.symmetric(vertical: Margins.spacing_base),
         color: Colors.white,
         child: Stack(
           alignment: AlignmentDirectional.center,
@@ -57,9 +57,6 @@ class BottomSheetHeader extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(70);
 }
 
 class BottomSheetWrapper extends StatelessWidget {
@@ -71,17 +68,21 @@ class BottomSheetWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final padding = this.padding ?? EdgeInsets.all(Margins.spacing_m);
+    final padding = this.padding ?? EdgeInsets.symmetric(horizontal: Margins.spacing_m);
     return FractionallySizedBox(
       heightFactor: heightFactor,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(Dimens.radius_l),
         child: Scaffold(
-          appBar: BottomSheetHeader(title: title, padding: padding),
           backgroundColor: Colors.white,
           body: Padding(
             padding: padding,
-            child: body,
+            child: Column(
+              children: [
+                BottomSheetHeader(title: title),
+                Expanded(child: body),
+              ],
+            ),
           ),
         ),
       ),
