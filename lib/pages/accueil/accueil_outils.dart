@@ -26,7 +26,13 @@ class AccueilOutils extends StatelessWidget {
         SizedBox(height: Margins.spacing_base),
         Text(Strings.accueilOutilsSectionDescription, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_base),
-        ...item.outils.map((outil) => _Outil(outil)),
+        Semantics(
+          label: Strings.listSemanticsLabel,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: item.outils.map((outil) => _Outil(outil)).toList() ,
+          ),
+        ),
         SizedBox(height: Margins.spacing_s),
         SecondaryButton(label: Strings.accueilVoirLesOutils, onPressed: () => goToOutils(context)),
       ],

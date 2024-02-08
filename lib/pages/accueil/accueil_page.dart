@@ -129,6 +129,7 @@ class _Blocs extends StatelessWidget {
   }
 }
 
+
 class _Retry extends StatelessWidget {
   final AccueilViewModel viewModel;
 
