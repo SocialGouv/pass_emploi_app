@@ -594,6 +594,7 @@ class Strings {
   static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
 
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
+  static String rechercheCriteresActifsTooltip(bool isOpen) => "Bandeau de recherche ${isOpen ? 'ouvert' : 'fermé'}";
 
   static String rechercheCriteresActifsPlural(int count) => "($count) critères actifs";
 
@@ -1111,8 +1112,8 @@ class Strings {
 
   // textes alternatifs
   static String unJeuneUneSolutionIllustrationSemanticsLabel = "France Relance, #1jeune1solution";
-  static String favoriHeartRemove = "Mise en favoris: retirer";
-  static String favoriHeartAdd = "Mise en favoris: ajouter";
+  static String favoriHeartRemove = "Retirer l'offre des favoris";
+  static String favoriHeartAdd = "Mettre l'offre en favoris";
   static String openInNavigator = "Ouvrir dans le navigateur";
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
