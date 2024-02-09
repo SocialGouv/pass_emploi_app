@@ -844,6 +844,8 @@ class Strings {
   static String suppressionAccountLabel =
       Brand.isCej() ? _CejStrings.suppressionAccountLabel : _BrsaStrings.suppressionAccountLabel;
   static String activityShareLabel = "Partage de votre activité";
+  static String partageFavorisEnabled(bool enabled) =>
+      enabled ? "Désactiver le partage de mes favoris" : "Activer le partage de mes favoris";
   static String activityShareDescription =
       "Autorisez le partage pour permettre au conseiller d’avoir un suivi de votre activité.";
   static String warning = "Attention";
