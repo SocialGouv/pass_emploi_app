@@ -78,10 +78,13 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       title: Semantics(
         header: true,
-        child: Text(
-          title,
-          style: TextStyles.secondaryAppBar,
-          overflow: TextOverflow.fade,
+        child: Tooltip(
+          message: title,
+          child: Text(
+            title,
+            style: TextStyles.secondaryAppBar,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ),
     );
