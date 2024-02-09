@@ -26,7 +26,14 @@ class CreateUserActionFormStep1 extends StatelessWidget {
             const SizedBox(height: Margins.spacing_m),
             Text(Strings.userActionSubtitleStep1, style: TextStyles.textBaseBold),
             const SizedBox(height: Margins.spacing_m),
-            ActionCategorySelector(onActionSelected: onActionTypeSelected),
+            Semantics(
+              label: Strings.listSemanticsLabel,
+              child: Column(
+                children: [
+                  ActionCategorySelector(onActionSelected: onActionTypeSelected),
+                ],
+              ),
+            ),
             const SizedBox(height: Margins.spacing_huge),
           ],
         ),
