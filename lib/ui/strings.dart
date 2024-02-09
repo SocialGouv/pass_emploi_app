@@ -84,6 +84,7 @@ class Strings {
   static String sent = "Envoyé";
   static String sending = "Envoi en cours";
   static String sendingFailed = "L'envoi a échoué";
+  static String sendMessageTooltip = "Envoyer le message";
   static String chatError = "Erreur lors de la récupération de votre messagerie";
   static String newConseillerTitle = "Vous échangez avec votre nouveau conseiller";
   static String newConseillerTemporaireTitle = "Vous échangez temporairement avec un nouveau conseiller";
@@ -819,7 +820,7 @@ class Strings {
 
   // Profil
   static String personalInformation = "Informations personnelles";
-  static String profilButtonSemanticsLabel = "Voir sa page Profil";
+  static String profilButtonSemanticsLabel = "Voir mon Profil";
 
   static String sinceDate(String date) => "Depuis le $date";
   static String emailAddressLabel = "Adresse e-mail";
