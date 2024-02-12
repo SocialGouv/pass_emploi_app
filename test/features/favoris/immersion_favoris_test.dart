@@ -13,7 +13,7 @@ import 'package:redux/src/store.dart';
 
 import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
+import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_setup.dart';
 
@@ -120,7 +120,7 @@ void main() {
 Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.immersionFavorisRepository = ImmersionFavorisRepositorySuccessStub();
-  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+  testStoreFactory.authenticator = MockAuthenticator.successful();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState()
         .copyWith(
@@ -135,7 +135,7 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
 Store<AppState> _successStoreWithFavorisAndImmersionDetailsSuccessState() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.immersionFavorisRepository = ImmersionFavorisRepositorySuccessStub();
-  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+  testStoreFactory.authenticator = MockAuthenticator.successful();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
       rechercheImmersionState: RechercheImmersionState.initial(),
@@ -150,7 +150,7 @@ Store<AppState> _successStoreWithFavorisAndImmersionDetailsSuccessState() {
 Store<AppState> _failureStoreWithFavorisLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.immersionFavorisRepository = ImmersionFavorisRepositoryFailureStub();
-  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+  testStoreFactory.authenticator = MockAuthenticator.successful();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState()
         .copyWith(

@@ -51,9 +51,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       _matomoTracker.setOptOut(optOut: false);
       _modeDemoRepository.setModeDemo(false);
       final authenticatorResponse = await _authenticator.login(_getAuthenticationMode(mode));
-      if (authenticatorResponse == AuthenticatorResponse.SUCCESS) {
+      if (authenticatorResponse is SuccessAuthenticatorResponse) {
         _dispatchLoginSuccess(store);
-      } else if (authenticatorResponse == AuthenticatorResponse.FAILURE) {
+      } else if (authenticatorResponse is FailureAuthenticatorResponse) {
         store.dispatch(LoginFailureAction());
       } else {
         store.dispatch(NotLoggedInAction());

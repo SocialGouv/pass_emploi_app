@@ -67,7 +67,7 @@ void main() {
       test('user is properly logged in with GENERIC authentication mode', () async {
         // Given
         when(() => authenticator.login(AuthenticationMode.GENERIC))
-            .thenAnswer((_) async => AuthenticatorResponse.SUCCESS);
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
         when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('---'));
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
@@ -85,7 +85,7 @@ void main() {
       test('user is properly logged in with SIMILO authentication mode', () async {
         // Given
         when(() => authenticator.login(AuthenticationMode.SIMILO))
-            .thenAnswer((_) async => AuthenticatorResponse.SUCCESS);
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
         when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('MILO'));
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
@@ -103,7 +103,7 @@ void main() {
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given
         when(() => authenticator.login(AuthenticationMode.POLE_EMPLOI))
-            .thenAnswer((_) async => AuthenticatorResponse.SUCCESS);
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
         when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('POLE_EMPLOI'));
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
@@ -121,7 +121,7 @@ void main() {
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given
         when(() => authenticator.login(AuthenticationMode.POLE_EMPLOI))
-            .thenAnswer((_) async => AuthenticatorResponse.SUCCESS);
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
         when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('POLE_EMPLOI_BRSA'));
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
@@ -139,7 +139,7 @@ void main() {
       test('user is not logged in', () async {
         // Given
         when(() => authenticator.login(AuthenticationMode.SIMILO))
-            .thenAnswer((_) async => AuthenticatorResponse.FAILURE);
+            .thenAnswer((_) async => FailureAuthenticatorResponse(''));
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
@@ -203,5 +203,3 @@ User user(LoginMode loginMode) => User(
       email: "first.last@mail.fr",
       loginMode: loginMode,
     );
-
-class MockAuthenticator extends Mock implements Authenticator {}

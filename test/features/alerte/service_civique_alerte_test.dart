@@ -22,7 +22,7 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
+import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
@@ -48,7 +48,7 @@ void main() {
       // Given
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.serviceCiviqueAlerteRepository = ServiceCiviqueAlerteRepositorySuccessStub();
-      testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+      testStoreFactory.authenticator = MockAuthenticator.successful();
       final store = testStoreFactory.initializeReduxStore(initialState: initialState);
       final expected = store.onChange.firstWhere((e) {
         return e.serviceCiviqueAlerteCreateState.status == AlerteCreateStatus.SUCCESS;
@@ -66,7 +66,7 @@ void main() {
       // Given
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.serviceCiviqueAlerteRepository = ServiceCiviqueAlerteRepositoryFailureStub();
-      testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+      testStoreFactory.authenticator = MockAuthenticator.successful();
       final store = testStoreFactory.initializeReduxStore(initialState: initialState);
       final expected = store.onChange.firstWhere((e) {
         return e.serviceCiviqueAlerteCreateState.status == AlerteCreateStatus.ERROR;
@@ -90,7 +90,7 @@ void main() {
           filtres: ServiceCiviqueFiltresRecherche(distance: 10, startDate: null, domain: null),
         );
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+    testStoreFactory.authenticator = MockAuthenticator.successful();
     final store = testStoreFactory.initializeReduxStore(initialState: initialState);
     final expected = store.onChange.firstWhere((e) {
       return e.serviceCiviqueAlerteCreateState is AlerteCreateInitialized;
