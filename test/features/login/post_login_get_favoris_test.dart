@@ -13,7 +13,7 @@ import '../favoris/offre_emploi_favoris_test.dart';
 void main() {
   test("after login, favoris id should be loaded", () async {
     // Given
-    final initialState = AppState.initialState().copyWith(loginState: LoginFailureState());
+    final initialState = AppState.initialState().copyWith(loginState: LoginGenericFailureState(''));
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
     final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);

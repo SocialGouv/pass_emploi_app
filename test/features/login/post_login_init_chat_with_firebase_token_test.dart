@@ -22,7 +22,7 @@ void main() {
   group("after login ...", () {
     group('when coming from a chat deep link…', () {
       final initialState = AppState.initialState().copyWith(
-        loginState: LoginFailureState(),
+        loginState: LoginGenericFailureState(''),
         deepLinkState: HandleDeepLinkState(NouveauMessageDeepLink(), DeepLinkOrigin.pushNotification),
       );
 
@@ -87,7 +87,7 @@ void main() {
 
     group('when not coming from a chat deep link…', () {
       final initialState = AppState.initialState().copyWith(
-        loginState: LoginFailureState(),
+        loginState: LoginGenericFailureState(''),
         deepLinkState: NotInitializedDeepLinkState(),
       );
 

@@ -47,7 +47,7 @@ void main() {
     });
 
     test('…with login failure state should display login page', () {
-      final store = givenState().copyWith(loginState: LoginFailureState()).store();
+      final store = givenState().copyWith(loginState: LoginGenericFailureState('')).store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 

@@ -21,7 +21,7 @@ void main() {
   });
 
   test('View model displays FAILURE when login state is failure', () {
-    final store = givenState().copyWith(loginState: LoginFailureState()).store();
+    final store = givenState().copyWith(loginState: LoginGenericFailureState('')).store();
 
     final viewModel = LoginViewModel.create(store);
 

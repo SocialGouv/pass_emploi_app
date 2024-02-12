@@ -20,7 +20,13 @@ class LoginSuccessAction {
   LoginSuccessAction(this.user);
 }
 
-class LoginFailureAction {}
+class LoginFailureAction {
+  final String message;
+
+  LoginFailureAction(this.message);
+}
+
+class LoginWrongDeviceClockAction {}
 
 class NotLoggedInAction {}
 
