@@ -43,25 +43,14 @@ class AuthWrapper {
         throw AuthWrapperLoginException();
       }
     } on PlatformException catch (e, stack) {
-      if (e.code == "discovery_failed" || e.code == "network") {
-        throw AuthWrapperNetworkException();
-      } else if (e.code == "authorize_and_exchange_code_failed") {
-        _crashlytics?.recordNonNetworkException(e, stack);
-        if (_isUserCancelled(e)) {
-          throw UserCanceledLoginException();
-        } else {
-          throw AuthWrapperCalledCancelException();
-        }
-      } else {
-        _crashlytics?.recordNonNetworkException(e, stack);
-        throw AuthWrapperLoginException();
-      }
+      if (e.isNetworkException()) throw AuthWrapperNetworkException();
+      if (e.isDeviceClockWrong()) throw AuthWrapperWrongDeviceClockException();
+      if (e.isCodeExchangeFailing() && e.isUserCancellation()) throw UserCanceledLoginException();
+      if (e.isCodeExchangeFailing() && !e.isUserCancellation()) throw AuthWrapperCalledCancelException();
+      _crashlytics?.recordNonNetworkException(e, stack);
+      throw AuthWrapperLoginException();
     }
   }
-
-  bool _isUserCancelled(PlatformException e) =>
-      e.message == "Failed to authorize: [error: null, description: User cancelled flow]" ||
-      e.message == "Failed to authorize: L’opération n’a pas pu s’achever. (org.openid.appauth.general erreur -3.)";
 
   Future<AuthTokenResponse> refreshToken(AuthRefreshTokenRequest request) async {
     return _lock.synchronized(() async {
@@ -92,15 +81,10 @@ class AuthWrapper {
         throw AuthWrapperRefreshTokenException();
       }
     } on PlatformException catch (e, stack) {
-      if (e.code == "discovery_failed" || e.code == "network") {
-        throw AuthWrapperNetworkException();
-      } else if (e.code == "token_failed") {
-        _crashlytics?.recordNonNetworkException(e, stack);
-        throw AuthWrapperRefreshTokenExpiredException();
-      } else {
-        _crashlytics?.recordNonNetworkException(e, stack);
-        throw AuthWrapperRefreshTokenException();
-      }
+      if (e.isNetworkException()) throw AuthWrapperNetworkException();
+      _crashlytics?.recordNonNetworkException(e, stack);
+      if (e.isRefreshTokenExpired()) throw AuthWrapperRefreshTokenExpiredException();
+      throw AuthWrapperRefreshTokenException();
     }
   }
 }
@@ -113,8 +97,25 @@ class AuthWrapperLogoutException implements Exception {}
 
 class AuthWrapperNetworkException implements Exception {}
 
+class AuthWrapperWrongDeviceClockException implements Exception {}
+
 class AuthWrapperRefreshTokenExpiredException implements AuthWrapperRefreshTokenException {}
 
 class AuthWrapperCalledCancelException implements AuthWrapperLoginException {}
 
 class UserCanceledLoginException implements AuthWrapperLoginException {}
+
+extension on PlatformException {
+  bool isNetworkException() => code == "discovery_failed" || code == "network";
+
+  bool isCodeExchangeFailing() => code == "authorize_and_exchange_code_failed";
+
+  bool isUserCancellation() {
+    return message?.contains('User cancelled flow') == true ||
+        message?.contains('org.openid' '.appauth.general erreur -3') == true;
+  }
+
+  bool isDeviceClockWrong() => details.toString().contains('minutes');
+
+  bool isRefreshTokenExpired() => code == "token_failed";
+}
