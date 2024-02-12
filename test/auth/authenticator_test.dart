@@ -113,6 +113,18 @@ void main() {
       expect(result, isA<CancelledAuthenticatorResponse>());
     });
 
+    // Required for Android behavior: https://github.com/MaikuB/flutter_appauth/issues/422
+    test('response is wrong device clock when login has clock exception', () async {
+      // Given
+      when(() => wrapper.login(_authTokenRequest())).thenThrow(AuthWrapperWrongDeviceClockException());
+
+      // When
+      final result = await authenticator.login(AuthenticationMode.GENERIC);
+
+      // Then
+      expect(result, isA<WrongDeviceClockAuthenticatorResponse>());
+    });
+
     test('isLoggedIn is TRUE when login is successful', () async {
       // Given
       final wrapper = MockAuthWrapper();

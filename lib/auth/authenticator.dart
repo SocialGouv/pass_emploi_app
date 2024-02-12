@@ -28,6 +28,8 @@ class SuccessAuthenticatorResponse extends AuthenticatorResponse {}
 
 class CancelledAuthenticatorResponse extends AuthenticatorResponse {}
 
+class WrongDeviceClockAuthenticatorResponse extends AuthenticatorResponse {}
+
 class FailureAuthenticatorResponse extends AuthenticatorResponse {
   final String message;
 
@@ -59,6 +61,7 @@ class Authenticator {
       return SuccessAuthenticatorResponse();
     } catch (e) {
       if (e is UserCanceledLoginException) return CancelledAuthenticatorResponse();
+      if (e is AuthWrapperWrongDeviceClockException) return WrongDeviceClockAuthenticatorResponse();
       return FailureAuthenticatorResponse(e.toString());
     }
   }
