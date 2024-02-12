@@ -74,7 +74,7 @@ List<AccueilItem> _items(Store<AppState> store) {
   return [
     _campagneItem(store.state),
     _cetteSemaineItem(user.loginMode, accueilState),
-    _prochainRendezvousItem(accueilState),// pas ici
+    _prochainRendezvousItem(accueilState),
     _evenementsItem(accueilState),
     _alertesItem(accueilState),
     _favorisItem(accueilState),
