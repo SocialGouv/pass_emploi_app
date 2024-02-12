@@ -62,6 +62,7 @@ class Strings {
   static String notConnected = "Vous êtes hors connexion";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
   static const String allMandatoryFields = "Tous les champs sont obligatoires";
+
   static String stepCounter(int current, int total) => "Étape $current sur $total";
   static String selectDateTooltip = "Sélectionner une date";
   static String removeDateTooltip = "Supprimer la date";
@@ -166,7 +167,10 @@ class Strings {
   ];
 
   // Login
-  static String loginError = "Erreur lors de la connexion";
+  static String loginWrongDeviceClockError(String hour) => "L'heure de votre smartphone ($hour) est mal réglée.";
+  static String loginWrongDeviceClockErrorDescription =
+      "Veuillez la régler correctement afin d'utiliser l'application.";
+  static String loginGenericError = "Erreur lors de la connexion";
   static String loginPassEmploi = "pass emploi";
   static String loginPoleEmploi = "Pôle emploi";
   static String loginMissionLocale = "Mission Locale";
@@ -924,7 +928,7 @@ class Strings {
   static String alerteDeleteSuccess = "Votre alerte a été supprimée avec succès.";
 
   // Mode support
-  static String supportInformations = "Infos pour le support";
+  static String supportInformation = "Infos pour le support";
 
   // Mode démo
   static String passerEnDemo = "Passer en mode démo";
@@ -1053,6 +1057,7 @@ class Strings {
   static String agendaPeUpToDate = "Vos rendez-vous et démarches sont à jour";
   static String agendaPeNotUpToDate =
       "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
+
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";

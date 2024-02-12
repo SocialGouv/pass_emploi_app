@@ -4,16 +4,17 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 
@@ -30,12 +31,36 @@ class LoginPage extends StatelessWidget {
         converter: (store) => LoginViewModel.create(store),
         distinct: true,
         onWillChange: (oldVm, newVm) => _onWillChange(oldVm, newVm, context),
-        builder: (context, viewModel) => _content(viewModel, context),
+        builder: (context, viewModel) => _Scaffold(viewModel, _Body(viewModel)),
       ),
     );
   }
 
-  Scaffold _content(LoginViewModel viewModel, BuildContext context) {
+  void _onWillChange(LoginViewModel? previousVM, LoginViewModel newVM, BuildContext context) {
+    if (previousVM?.withLoading != false) return;
+    if (newVM.withWrongDeviceClockMessage || newVM.technicalErrorMessage != null) {
+      _trackLoginResult(successful: false);
+    } else {
+      _trackLoginResult(successful: true);
+    }
+  }
+
+  void _trackLoginResult({required bool successful}) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.webAuthPageEventCategory,
+      action: successful ? AnalyticsEventNames.webAuthPageSuccessAction : AnalyticsEventNames.webAuthPageErrorAction,
+    );
+  }
+}
+
+class _Scaffold extends StatelessWidget {
+  final LoginViewModel viewModel;
+  final Widget body;
+
+  const _Scaffold(this.viewModel, this.body);
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
@@ -44,9 +69,9 @@ class LoginPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: 32),
+                  SizedBox(height: Margins.spacing_l),
                   AppLogo(width: 200),
-                  SizedBox(height: 32),
+                  SizedBox(height: Margins.spacing_l),
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
@@ -61,33 +86,13 @@ class LoginPage extends StatelessWidget {
                       children: [
                         Text(viewModel.suiviText, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
                         SizedBox(height: Margins.spacing_m),
-                        _body(viewModel, context),
+                        if (viewModel.withLoading) Center(child: CircularProgressIndicator()),
+                        if (!viewModel.withLoading) body,
                       ],
                     ),
                   ),
-                  SizedBox(height: 16),
-                  if (viewModel.withAskAccountButton)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(Margins.spacing_m, 0, Margins.spacing_m, Margins.spacing_m),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Center(
-                            child: Text(
-                              Strings.dontHaveAccount,
-                              style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                          SecondaryButton(
-                            label: Strings.askAccount,
-                            onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
-                            backgroundColor: Colors.white,
-                          ),
-                        ],
-                      ),
-                    )
+                  SizedBox(height: Margins.spacing_base),
+                  if (viewModel.withAskAccountButton) _AskAccountButton(),
                 ],
               ),
             ),
@@ -96,69 +101,109 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _body(LoginViewModel viewModel, BuildContext context) {
-    return switch (viewModel.displayState) {
-      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-      DisplayState.FAILURE => _failure(viewModel, context),
-      _ => Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [..._loginButtons(viewModel, context)],
-        )
-    };
-  }
+class _Body extends StatelessWidget {
+  final LoginViewModel viewModel;
 
-  Widget _failure(LoginViewModel viewModel, BuildContext context) {
+  const _Body(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Center(child: Text(Strings.loginError, style: TextStyles.textSMedium(color: AppColors.warning))),
-        SizedBox(height: Margins.spacing_base),
-        ..._loginButtons(viewModel, context),
-      ],
-    );
-  }
-
-  List<Widget> _loginButtons(LoginViewModel viewModel, BuildContext context) {
-    final buttonsWithSpaces = viewModel.loginButtons.expandIndexed(
-      (index, vm) => [
-        _loginButton(vm, context),
-        SizedBox(height: Margins.spacing_base),
-        if (index < viewModel.loginButtons.length - 1) ...[
-          OrSeperator(),
+        if (viewModel.technicalErrorMessage != null) ...[
+          _GenericError(viewModel.technicalErrorMessage!),
           SizedBox(height: Margins.spacing_base),
-        ]
+        ],
+        if (viewModel.withWrongDeviceClockMessage) ...[
+          _WrongDeviceClockMessage(),
+          SizedBox(height: Margins.spacing_base),
+        ],
+        ...viewModel.loginButtons.expandIndexed(
+          (index, vm) => [
+            PrimaryActionButton(
+              label: vm.label,
+              onPressed: vm.action,
+              backgroundColor: vm.backgroundColor,
+            ),
+            SizedBox(height: Margins.spacing_base),
+            if (index < viewModel.loginButtons.length - 1) ...[
+              _OrSeparator(),
+              SizedBox(height: Margins.spacing_base),
+            ]
+          ],
+        )
       ],
-    );
-    return buttonsWithSpaces.toList();
-  }
-
-  Widget _loginButton(LoginButtonViewModel viewModel, BuildContext context) {
-    return PrimaryActionButton(
-      label: viewModel.label,
-      onPressed: viewModel.action,
-      backgroundColor: viewModel.backgroundColor,
-    );
-  }
-
-  void _onWillChange(LoginViewModel? previousVM, LoginViewModel newVM, BuildContext context) {
-    if (previousVM?.displayState != DisplayState.LOADING) return;
-    if (newVM.displayState == DisplayState.FAILURE) _trackLoginResult(successful: false);
-    if (newVM.displayState == DisplayState.CONTENT) {
-      _trackLoginResult(successful: true);
-    }
-  }
-
-  void _trackLoginResult({required bool successful}) {
-    PassEmploiMatomoTracker.instance.trackEvent(
-      eventCategory: AnalyticsEventNames.webAuthPageEventCategory,
-      action: successful ? AnalyticsEventNames.webAuthPageSuccessAction : AnalyticsEventNames.webAuthPageErrorAction,
     );
   }
 }
 
-class OrSeperator extends StatelessWidget {
+class _GenericError extends StatelessWidget {
+  final String technicalErrorMessage;
+
+  const _GenericError(this.technicalErrorMessage);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: GestureDetector(
+        child: Text(Strings.loginGenericError, style: TextStyles.textSMedium(color: AppColors.warning)),
+        onDoubleTap: () => showDialog(
+          context: context,
+          builder: (context) => _ErrorInfoDialog(technicalErrorMessage),
+        ),
+      ),
+    );
+  }
+}
+
+class _ErrorInfoDialog extends StatelessWidget {
+  final String message;
+
+  _ErrorInfoDialog(this.message);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Erreur technique'),
+      content: Text(message),
+      actions: [
+        TextButton(
+          child: Text(Strings.close),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ],
+    );
+  }
+}
+
+class _WrongDeviceClockMessage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CardContainer(
+        backgroundColor: AppColors.warningLighten,
+        child: Column(
+          children: [
+            Text(
+              Strings.loginWrongDeviceClockError(DateTime.now().toHour()),
+              style: TextStyles.textSBoldWithColor(AppColors.warning),
+            ),
+            SizedBox(height: Margins.spacing_s),
+            Text(
+              Strings.loginWrongDeviceClockErrorDescription,
+              style: TextStyles.textXsRegular(color: AppColors.warning),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _OrSeparator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -172,6 +217,33 @@ class OrSeperator extends StatelessWidget {
         Expanded(child: Divider(color: AppColors.grey500)),
         SizedBox(width: Margins.spacing_l),
       ],
+    );
+  }
+}
+
+class _AskAccountButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(Margins.spacing_m, 0, Margins.spacing_m, Margins.spacing_m),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Center(
+            child: Text(
+              Strings.dontHaveAccount,
+              style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
+            ),
+          ),
+          SizedBox(height: Margins.spacing_base),
+          SecondaryButton(
+            label: Strings.askAccount,
+            onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
+            backgroundColor: Colors.white,
+          ),
+        ],
+      ),
     );
   }
 }
