@@ -66,19 +66,21 @@ class _CriteresRechercheBandeau extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconColor = isOpen ? AppColors.primary : Colors.white;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(Dimens.radius_base),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Padding(
-          padding: EdgeInsets.all(Margins.spacing_base),
-          child: Row(
-            children: [
-              Icon(Icons.search, color: iconColor),
-              SizedBox(width: Margins.spacing_base),
-              Expanded(
-                child: Semantics(
-                  header: true,
+    return Semantics(
+      button: true,
+      enabled: true,
+      label: Strings.rechercheCriteresActifsTooltip(isOpen),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
+        child: GestureDetector(
+          onTap: onTap,
+          child: Padding(
+            padding: EdgeInsets.all(Margins.spacing_base),
+            child: Row(
+              children: [
+                Icon(Icons.search, color: iconColor),
+                SizedBox(width: Margins.spacing_base),
+                Expanded(
                   child: Text(
                     Intl.plural(
                       criteresActifsCount,
@@ -89,14 +91,14 @@ class _CriteresRechercheBandeau extends StatelessWidget {
                     style: TextStyles.textBaseMediumBold(color: isOpen ? AppColors.contentColor : Colors.white),
                   ),
                 ),
-              ),
-              AnimatedRotation(
-                turns: !isOpen ? -0.5 : 0,
-                duration: Duration(milliseconds: 300),
-                curve: Curves.ease,
-                child: Icon(Icons.expand_less_rounded, color: iconColor),
-              ),
-            ],
+                AnimatedRotation(
+                  turns: !isOpen ? -0.5 : 0,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.ease,
+                  child: Icon(Icons.expand_less_rounded, color: iconColor),
+                ),
+              ],
+            ),
           ),
         ),
       ),

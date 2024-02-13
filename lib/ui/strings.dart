@@ -84,6 +84,7 @@ class Strings {
   static String sent = "Envoyé";
   static String sending = "Envoi en cours";
   static String sendingFailed = "L'envoi a échoué";
+  static String sendMessageTooltip = "Envoyer le message";
   static String chatError = "Erreur lors de la récupération de votre messagerie";
   static String newConseillerTitle = "Vous échangez avec votre nouveau conseiller";
   static String newConseillerTemporaireTitle = "Vous échangez temporairement avec un nouveau conseiller";
@@ -593,6 +594,7 @@ class Strings {
   static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
 
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
+  static String rechercheCriteresActifsTooltip(bool isOpen) => "Bandeau de recherche ${isOpen ? 'ouvert' : 'fermé'}";
 
   static String rechercheCriteresActifsPlural(int count) => "($count) critères actifs";
 
@@ -819,7 +821,7 @@ class Strings {
 
   // Profil
   static String personalInformation = "Informations personnelles";
-  static String profilButtonSemanticsLabel = "Voir sa page Profil";
+  static String profilButtonSemanticsLabel = "Voir mon Profil";
 
   static String sinceDate(String date) => "Depuis le $date";
   static String emailAddressLabel = "Adresse e-mail";
@@ -842,6 +844,8 @@ class Strings {
   static String suppressionAccountLabel =
       Brand.isCej() ? _CejStrings.suppressionAccountLabel : _BrsaStrings.suppressionAccountLabel;
   static String activityShareLabel = "Partage de votre activité";
+  static String partageFavorisEnabled(bool enabled) =>
+      enabled ? "Désactiver le partage de mes favoris" : "Activer le partage de mes favoris";
   static String activityShareDescription =
       "Autorisez le partage pour permettre au conseiller d’avoir un suivi de votre activité.";
   static String warning = "Attention";
@@ -1110,8 +1114,8 @@ class Strings {
 
   // textes alternatifs
   static String unJeuneUneSolutionIllustrationSemanticsLabel = "France Relance, #1jeune1solution";
-  static String favoriHeartRemove = "Mise en favoris: retirer";
-  static String favoriHeartAdd = "Mise en favoris: ajouter";
+  static String favoriHeartRemove = "Retirer l'offre des favoris";
+  static String favoriHeartAdd = "Mettre l'offre en favoris";
   static String openInNavigator = "Ouvrir dans le navigateur";
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";

@@ -176,6 +176,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                 SizedBox(width: Margins.spacing_s),
                 FloatingActionButton(
                   backgroundColor: AppColors.primary,
+                  tooltip: Strings.sendMessageTooltip,
                   child: Icon(
                     AppIcons.send_rounded,
                     color: Colors.white,

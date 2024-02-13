@@ -40,28 +40,31 @@ class MonConseillerCard extends StatelessWidget {
   }
 
   Widget _contentCard(String sinceDate, String name) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        ProfilCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(Strings.yourConseiller, style: TextStyles.textMBold),
-              SizedBox(height: Margins.spacing_m),
-              Text(sinceDate, style: TextStyles.textBaseRegular),
-              SizedBox(height: Margins.spacing_s),
-              Text(
-                name,
-                style: TextStyles.textBaseBold.copyWith(
-                  color: AppColors.primary,
+    return Semantics(
+      header: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ProfilCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(Strings.yourConseiller, style: TextStyles.textMBold),
+                SizedBox(height: Margins.spacing_m),
+                Text(sinceDate, style: TextStyles.textBaseRegular),
+                SizedBox(height: Margins.spacing_s),
+                Text(
+                  name,
+                  style: TextStyles.textBaseBold.copyWith(
+                    color: AppColors.primary,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: Margins.spacing_m),
-      ],
+          SizedBox(height: Margins.spacing_m),
+        ],
+      ),
     );
   }
 }

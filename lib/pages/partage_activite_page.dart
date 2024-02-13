@@ -139,9 +139,12 @@ class _PartageFavorisState extends State<_PartageFavoris> {
                     widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor,
                   ),
                 )),
-                Switch(
-                  value: _partageFavorisEnabled,
-                  onChanged: _onPartageFavorisValueChange,
+                Semantics(
+                  label: Strings.partageFavorisEnabled(_partageFavorisEnabled),
+                  child: Switch(
+                    value: _partageFavorisEnabled,
+                    onChanged: _onPartageFavorisValueChange,
+                  ),
                 ),
                 SizedBox(width: Margins.spacing_xs),
                 Text(

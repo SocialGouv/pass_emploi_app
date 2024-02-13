@@ -191,26 +191,29 @@ class _ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProfilCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(Strings.personalInformation, style: TextStyles.textMBold),
-          SizedBox(height: Margins.spacing_m),
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            children: [
-              Text(Strings.emailAddressLabel, style: TextStyles.textBaseRegular),
-              Text(
-                userEmail,
-                textAlign: TextAlign.right,
-                style: TextStyles.textBaseBold.copyWith(
-                  color: AppColors.primary,
+    return Semantics(
+      header: true,
+      child: ProfilCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(Strings.personalInformation, style: TextStyles.textMBold),
+            SizedBox(height: Margins.spacing_m),
+            Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              children: [
+                Text(Strings.emailAddressLabel, style: TextStyles.textBaseRegular),
+                Text(
+                  userEmail,
+                  textAlign: TextAlign.right,
+                  style: TextStyles.textBaseBold.copyWith(
+                    color: AppColors.primary,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

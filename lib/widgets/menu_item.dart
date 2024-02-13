@@ -15,5 +15,6 @@ class MenuItem extends BottomNavigationBarItem {
           icon: DefaultMenuItem(icon: inactiveIcon, label: label, isActive: false, withBadge: withBadge),
           activeIcon: DefaultMenuItem(icon: defaultIcon, label: label, isActive: true, withBadge: false),
           label: label,
+          tooltip: label,
         );
 }

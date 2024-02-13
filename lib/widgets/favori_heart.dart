@@ -51,8 +51,8 @@ class FavoriHeart<T> extends StatelessWidget {
   }
 
   Widget _buildHeart(BuildContext context, FavoriHeartViewModel<T> viewModel) {
-    return Semantics(
-      label: viewModel.isFavori ? Strings.favoriHeartRemove : Strings.favoriHeartAdd,
+    return Tooltip(
+      message: viewModel.isFavori ? Strings.favoriHeartRemove : Strings.favoriHeartAdd,
       child: DebouncedButton(
         childBuilder: (onTapDebounced) => SecondaryIconButton(
           icon: viewModel.isFavori ? AppIcons.favorite_rounded : AppIcons.favorite_outline_rounded,
