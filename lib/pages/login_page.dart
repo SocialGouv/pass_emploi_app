@@ -115,11 +115,14 @@ class _Body extends StatelessWidget {
       children: [
         if (viewModel.technicalErrorMessage != null) ...[
           _GenericError(viewModel.technicalErrorMessage!),
-          SizedBox(height: Margins.spacing_base),
+          SizedBox(height: Margins.spacing_m),
         ],
         if (viewModel.withWrongDeviceClockMessage) ...[
-          _WrongDeviceClockMessage(),
-          SizedBox(height: Margins.spacing_base),
+          _ErrorBanner(
+            title: Strings.loginWrongDeviceClockError(DateTime.now().toHour()),
+            description: Strings.loginWrongDeviceClockErrorDescription,
+          ),
+          SizedBox(height: Margins.spacing_m),
         ],
         ...viewModel.loginButtons.expandIndexed(
           (index, vm) => [
@@ -147,13 +150,14 @@ class _GenericError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: GestureDetector(
-        child: Text(Strings.loginGenericError, style: TextStyles.textSMedium(color: AppColors.warning)),
-        onDoubleTap: () => showDialog(
-          context: context,
-          builder: (context) => _ErrorInfoDialog(technicalErrorMessage),
-        ),
+    return GestureDetector(
+      child: _ErrorBanner(
+        title: Strings.loginGenericError,
+        description: Strings.loginGenericErrorDescription,
+      ),
+      onDoubleTap: () => showDialog(
+        context: context,
+        builder: (context) => _ErrorInfoDialog(technicalErrorMessage),
       ),
     );
   }
@@ -179,23 +183,24 @@ class _ErrorInfoDialog extends StatelessWidget {
   }
 }
 
-class _WrongDeviceClockMessage extends StatelessWidget {
+class _ErrorBanner extends StatelessWidget {
+  final String title;
+  final String description;
+
+  const _ErrorBanner({required this.title, required this.description});
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: CardContainer(
         backgroundColor: AppColors.warningLighten,
+        withShadow: false,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              Strings.loginWrongDeviceClockError(DateTime.now().toHour()),
-              style: TextStyles.textSBoldWithColor(AppColors.warning),
-            ),
+            Text(title, style: TextStyles.textSBoldWithColor(AppColors.warning)),
             SizedBox(height: Margins.spacing_s),
-            Text(
-              Strings.loginWrongDeviceClockErrorDescription,
-              style: TextStyles.textXsRegular(color: AppColors.warning),
-            ),
+            Text(description, style: TextStyles.textXsRegular(color: AppColors.warning)),
           ],
         ),
       ),

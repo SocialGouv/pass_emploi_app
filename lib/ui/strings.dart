@@ -167,10 +167,15 @@ class Strings {
   ];
 
   // Login
-  static String loginWrongDeviceClockError(String hour) => "L'heure de votre smartphone ($hour) est mal réglée.";
+  static String loginWrongDeviceClockError(String hour) {
+    return "Votre appareil n'est pas à l'heure ($hour), impossible de vous connecter.";
+  }
+
   static String loginWrongDeviceClockErrorDescription =
-      "Veuillez la régler correctement afin d'utiliser l'application.";
+      "Veuillez régler correctement l'heure de votre appareil, puis réessayer.";
   static String loginGenericError = "Erreur lors de la connexion";
+  static String loginGenericErrorDescription =
+      "Réessayer plus tard. Si le problème persiste, vous pouvez contacter votre conseiller.";
   static String loginPassEmploi = "pass emploi";
   static String loginPoleEmploi = "Pôle emploi";
   static String loginMissionLocale = "Mission Locale";
