@@ -218,62 +218,61 @@ jobs:
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
           APPLE_PROD_API_KEY_B64: ${{ secrets.APPLE_PROD_API_KEY_B64 }}
 
-      # - name: CEJ - Set up a temporary keychain for code signing
-      #   shell: bash
-      #   run: |
-      #     keychain initialize
+      - name: CEJ - Set up a temporary keychain for code signing
+        shell: bash
+        run: |
+          keychain initialize
 
-      # - name: CEJ - Fetch the code signing files from App Store Connect
-      #   shell: bash
-      #   run: |
-      #     export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
-      #     export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
-      #     export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
-      #     app-store-connect fetch-signing-files fr.fabrique.social.gouv.passemploi \
-      #       --platform IOS \
-      #       --type IOS_APP_STORE \
-      #       --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
-      #       --create
-      #   env:
-      #     APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
-      #     APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
-      #     APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
+      - name: CEJ - Fetch the code signing files from App Store Connect
+        shell: bash
+        run: |
+          export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
+          export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
+          export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
+          app-store-connect fetch-signing-files fr.fabrique.social.gouv.passemploi \
+            --platform IOS \
+            --type IOS_APP_STORE \
+            --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
+            --create
+        env:
+          APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
+          APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
+          APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
 
-      # - name: CEJ - Add fetched certificates to keychain
-      #   shell: bash
-      #   run: |
-      #     keychain add-certificates
+      - name: CEJ - Add fetched certificates to keychain
+        shell: bash
+        run: |
+          keychain add-certificates
 
-      # - name: CEJ - Update Xcode project settings with fetched code signing profiles and create prod_export_options.plist
-      #   shell: bash
-      #   run: |
-      #     xcode-project use-profiles --export-options-plist ios/prod_export_options.plist
+      - name: CEJ - Update Xcode project settings with fetched code signing profiles and create prod_export_options.plist
+        shell: bash
+        run: |
+          xcode-project use-profiles --export-options-plist ios/prod_export_options.plist
 
-      # - name: CEJ - Build IPA with generated prod_export_options.plist
-      #   shell: bash
-      #   run: |
-      #     flutter build ipa \
-      #     -t lib/cej_main.dart \
-      #     --flavor cejProd \
-      #     --release \
-      #     --build-number=${{ needs.pre-build.outputs.date }} \
-      #     --export-options-plist=ios/prod_export_options.plist \
-      #     --no-pub \
-      #     --verbose
+      - name: CEJ - Build IPA with generated prod_export_options.plist
+        shell: bash
+        run: |
+          flutter build ipa \
+          -t lib/cej_main.dart \
+          --flavor cejProd \
+          --release \
+          --build-number=${{ needs.pre-build.outputs.date }} \
+          --export-options-plist=ios/prod_export_options.plist \
+          --no-pub \
+          --verbose
 
-      # - name: CEJ - Deploy app to App Store Connect
-      #   shell: bash
-      #   run: |
-      #     export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
-      #     export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
-      #     export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
-      #     app-store-connect publish \
-      #       --path $(find $(pwd) -name "CEJ.ipa") \
-      #       --whats-new @file:release-notes/cej/whatsnew-fr-FR
-      #   env:
-      #     APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
-      #     APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
-      #     APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
+      - name: CEJ - Deploy app to App Store Connect
+        shell: bash
+        run: |
+          export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
+          export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
+          export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
+          app-store-connect publish \
+            --path $(find $(pwd) -name "CEJ.ipa")
+        env:
+          APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
+          APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
+          APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
 
       - name: BRSA - Set up a temporary keychain for code signing
         shell: bash
@@ -326,8 +325,7 @@ jobs:
           export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
           export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
           app-store-connect publish \
-            --path $(find $(pwd) -name "pass-emploi.ipa") \
-            --whats-new @file:release-notes/brsa/whatsnew-fr-FR
+            --path $(find $(pwd) -name "pass-emploi.ipa")
         env:
           APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
