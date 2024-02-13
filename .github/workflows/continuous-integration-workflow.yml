@@ -294,7 +294,7 @@ jobs:
 
       - name: CEJ - Deploy IPA to Firebase App Distribution
         run: |
-          mv "$(find $(pwd) -name "[stg] CEJ.ipa")" CEJ.ipa \
+          find $(pwd) -name "*[stg] CEJ.ipa" -print0 | xargs -0 -I{} mv {} CEJ.ipa \
           firebase appdistribution:distribute $(find $(pwd) -name "CEJ.ipa") \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$CEJ_STAGING_IOS_APP_ID" \
