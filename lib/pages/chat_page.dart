@@ -134,31 +134,28 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
     final reversedList = viewModel.items.reversed.toList();
     return Stack(
       children: [
-        Container(
-          color: Colors.white,
-          child: reversedList.isEmpty
-              ? _EmptyChatPlaceholder()
-              : ListView.builder(
-                  reverse: true,
-                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 100.0),
-                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                  controller: _scrollController,
-                  itemCount: reversedList.length,
-                  itemBuilder: (context, index) {
-                    final item = reversedList[index];
+        reversedList.isEmpty
+            ? _EmptyChatPlaceholder()
+            : ListView.builder(
+                reverse: true,
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 100.0),
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                controller: _scrollController,
+                itemCount: reversedList.length,
+                itemBuilder: (context, index) {
+                  final item = reversedList[index];
 
-                    if (index == 0 && _animateMessage && item.shouldAnimate) {
-                      return ApparitionAnimation(
-                        key: ValueKey(item.messageId),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: _messageBuilder(item),
-                        ),
-                      );
-                    }
-                    return _messageBuilder(item);
-                  }),
-        ),
+                  if (index == 0 && _animateMessage && item.shouldAnimate) {
+                    return ApparitionAnimation(
+                      key: ValueKey(item.messageId),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: _messageBuilder(item),
+                      ),
+                    );
+                  }
+                  return _messageBuilder(item);
+                }),
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
