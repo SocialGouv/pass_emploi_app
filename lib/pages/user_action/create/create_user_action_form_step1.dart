@@ -26,7 +26,10 @@ class CreateUserActionFormStep1 extends StatelessWidget {
             const SizedBox(height: Margins.spacing_m),
             Text(Strings.userActionSubtitleStep1, style: TextStyles.textBaseBold),
             const SizedBox(height: Margins.spacing_m),
-            ActionCategorySelector(onActionSelected: onActionTypeSelected),
+            Semantics(
+              label: Strings.listSemanticsLabel,
+              child: ActionCategorySelector(onActionSelected: onActionTypeSelected),
+            ),
             const SizedBox(height: Margins.spacing_huge),
           ],
         ),
@@ -115,8 +118,7 @@ extension UserActionReferentielTypePresentation on UserActionReferentielType {
         UserActionReferentielType.sante,
       ];
 
-  String get label =>
-      switch (this) {
+  String get label => switch (this) {
         UserActionReferentielType.emploi => Strings.userActionEmploiLabel,
         UserActionReferentielType.projetProfessionnel => Strings.userActionProjetProfessionnelLabel,
         UserActionReferentielType.cultureSportLoisirs => Strings.userActionCultureSportLoisirsLabel,
@@ -126,8 +128,7 @@ extension UserActionReferentielTypePresentation on UserActionReferentielType {
         UserActionReferentielType.sante => Strings.userActionSanteLabel,
       };
 
-  String get description =>
-      switch (this) {
+  String get description => switch (this) {
         UserActionReferentielType.emploi => Strings.userActionEmploiDescription,
         UserActionReferentielType.projetProfessionnel => Strings.userActionProjetProfessionnelDescription,
         UserActionReferentielType.cultureSportLoisirs => Strings.userActionCultureSportLoisirsDescription,

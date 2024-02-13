@@ -51,7 +51,12 @@ class _AvecAlertes extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ...item.alertes.map((search) => _AlerteCard(search)),
+        Semantics(
+          label: Strings.listSemanticsLabel,
+          child: Column(
+                children: item.alertes.map((search) => _AlerteCard(search)).toList(),
+              ),
+        ),
         SizedBox(height: Margins.spacing_s),
         SecondaryButton(label: Strings.accueilVoirMesAlertes, onPressed: () => goToAlerte(context)),
       ],

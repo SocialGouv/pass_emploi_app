@@ -77,14 +77,17 @@ class _CriteresRechercheBandeau extends StatelessWidget {
               Icon(Icons.search, color: iconColor),
               SizedBox(width: Margins.spacing_base),
               Expanded(
-                child: Text(
-                  Intl.plural(
-                    criteresActifsCount,
-                    zero: Strings.rechercheCriteresActifsSingular(criteresActifsCount),
-                    one: Strings.rechercheCriteresActifsSingular(criteresActifsCount),
-                    other: Strings.rechercheCriteresActifsPlural(criteresActifsCount),
+                child: Semantics(
+                  header: true,
+                  child: Text(
+                    Intl.plural(
+                      criteresActifsCount,
+                      zero: Strings.rechercheCriteresActifsSingular(criteresActifsCount),
+                      one: Strings.rechercheCriteresActifsSingular(criteresActifsCount),
+                      other: Strings.rechercheCriteresActifsPlural(criteresActifsCount),
+                    ),
+                    style: TextStyles.textBaseMediumBold(color: isOpen ? AppColors.contentColor : Colors.white),
                   ),
-                  style: TextStyles.textBaseMediumBold(color: isOpen ? AppColors.contentColor : Colors.white),
                 ),
               ),
               AnimatedRotation(
