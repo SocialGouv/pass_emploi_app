@@ -10,7 +10,12 @@ Future<T?> showPassEmploiBottomSheet<T>({required BuildContext context, required
   return showModalBottomSheet(
     context: context,
     backgroundColor: Colors.white,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(Dimens.radius_l),
+        topRight: Radius.circular(Dimens.radius_l),
+      ),
+    ),
     isScrollControlled: true,
     builder: builder,
   );
@@ -26,7 +31,7 @@ class BottomSheetHeader extends StatelessWidget {
     return Semantics(
       header: true,
       child: Container(
-        padding: padding ?? EdgeInsets.symmetric(vertical: Margins.spacing_base),
+        padding: padding ?? EdgeInsets.only(top: Margins.spacing_base),
         color: Colors.white,
         child: Stack(
           alignment: AlignmentDirectional.center,
