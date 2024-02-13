@@ -614,7 +614,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fr.fabrique.social.gouv.passemploi.rsa.staging;
-				PRODUCT_NAME = "pass emploi";
+				PRODUCT_NAME = "[stg] pass emploi";
 				PROVISIONING_PROFILE_SPECIFIER = fr.fabrique.social.gouv.passemploi.staging.debug;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "BRSA Staging Dev Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -869,7 +869,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fr.fabrique.social.gouv.passemploi.rsa.staging;
-				PRODUCT_NAME = "pass emploi";
+				PRODUCT_NAME = "[stg] pass emploi";
 				PROVISIONING_PROFILE_SPECIFIER = fr.fabrique.social.gouv.passemploi.staging;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -1033,7 +1033,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fr.fabrique.social.gouv.passemploi.rsa.staging;
-				PRODUCT_NAME = "pass emploi";
+				PRODUCT_NAME = "[stg] pass emploi";
 				PROVISIONING_PROFILE_SPECIFIER = fr.fabrique.social.gouv.passemploi.staging;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "BRSA Staging Dev Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -1291,7 +1291,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fr.fabrique.social.gouv.passemploi.staging;
-				PRODUCT_NAME = CEJ;
+				PRODUCT_NAME = "[stg] CEJ";
 				PROVISIONING_PROFILE_SPECIFIER = fr.fabrique.social.gouv.passemploi.staging.debug;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "CEJ Staging Dev Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -1376,7 +1376,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fr.fabrique.social.gouv.passemploi.staging;
-				PRODUCT_NAME = CEJ;
+				PRODUCT_NAME = "[stg] CEJ";
 				PROVISIONING_PROFILE_SPECIFIER = fr.fabrique.social.gouv.passemploi.staging;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -1459,7 +1459,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fr.fabrique.social.gouv.passemploi.staging;
-				PRODUCT_NAME = CEJ;
+				PRODUCT_NAME = "[stg] CEJ";
 				PROVISIONING_PROFILE_SPECIFIER = fr.fabrique.social.gouv.passemploi.staging;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "CEJ Staging Dev Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
