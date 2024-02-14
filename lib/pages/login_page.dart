@@ -10,7 +10,6 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
@@ -119,7 +118,7 @@ class _Body extends StatelessWidget {
         ],
         if (viewModel.withWrongDeviceClockMessage) ...[
           _ErrorBanner(
-            title: Strings.loginWrongDeviceClockError(DateTime.now().toHour()),
+            title: Strings.loginWrongDeviceClockError,
             description: Strings.loginWrongDeviceClockErrorDescription,
           ),
           SizedBox(height: Margins.spacing_m),

@@ -167,12 +167,9 @@ class Strings {
   ];
 
   // Login
-  static String loginWrongDeviceClockError(String hour) {
-    return "Votre appareil n'est pas à l'heure ($hour), impossible de vous connecter.";
-  }
-
+  static String loginWrongDeviceClockError = "L'heure de votre téléphone semble erronée, impossible de vous connecter.";
   static String loginWrongDeviceClockErrorDescription =
-      "Veuillez régler correctement l'heure de votre appareil, puis réessayer.";
+      "Accédez aux réglages de votre téléphone pour vérifier que l’heure et le fuseau horaire affichés sont corrects.";
   static String loginGenericError = "Erreur lors de la connexion";
   static String loginGenericErrorDescription =
       "Réessayer plus tard. Si le problème persiste, vous pouvez contacter votre conseiller.";
