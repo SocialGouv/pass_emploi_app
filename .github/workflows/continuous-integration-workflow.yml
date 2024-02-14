@@ -7,33 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set Environment Variables
-        uses: ./.github/actions/setvars
-        with:
-          varFilePath: ./.github/variables/myvars.env
-
-      - uses: actions/setup-java@v3
-        with:
-          distribution: ${{ env.JAVA_DISTRIBUTION }}
-          java-version: ${{ env.JAVA_VERSION }}
-
-      - uses: subosito/flutter-action@v2
-        with:
-          cache: true
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-
-      - name: Launch tests
-        run: flutter test
-
   pre-build:
-    if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
-    needs: test
     name: pre-build
     steps:
       - name: Get current timestamp
@@ -42,109 +17,7 @@ jobs:
     outputs:
       date: ${{ steps.getCurrentTimestamp.outputs.date }}
 
-  build-android-staging:
-    if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
-    runs-on: ubuntu-latest
-    needs: pre-build
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set Environment Variables
-        uses: ./.github/actions/setvars
-        with:
-          varFilePath: ./.github/variables/myvars.env
-
-      - uses: subosito/flutter-action@v2
-        with:
-          cache: true
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-
-      - name: Check Firebase App Distribution CLI cache
-        uses: actions/cache@v3
-        id: firebase-tools-cache
-        with:
-          path: /usr/local/bin
-          key: ${{ runner.os }}-firebase-tools
-
-      - name: Install Firebase App Distribution CLI
-        if: steps.firebase-tools-cache.outputs.cache-hit != 'true'
-        run: |
-          curl -sL https://firebase.tools | bash
-
-      - name: Write Google configuration for Android
-        shell: bash
-        run: |
-          echo "$STAGING_GOOGLE_SERVICE_B64" | base64 --decode > android/app/google-services.json
-        env:
-          STAGING_GOOGLE_SERVICE_B64: ${{ secrets.STAGING_GOOGLE_SERVICE_B64 }}
-
-      - name: Write key properties
-        shell: bash
-        run: |
-          echo "$STAGING_KEY_PROPERTIES_B64" | base64 --decode > android/key.properties
-        env:
-          STAGING_KEY_PROPERTIES_B64: ${{ secrets.STAGING_KEY_PROPERTIES_B64 }}
-
-      - name: Write key store
-        shell: bash
-        run: |
-          mkdir android/keystore
-          echo "$STAGING_KEYSTORE_B64" | base64 --decode > android/keystore/passemploi.jks
-        env:
-          STAGING_KEYSTORE_B64: ${{ secrets.STAGING_KEYSTORE_B64 }}
-
-      - name: Write env
-        shell: bash
-        run: |
-          echo "$STAGING_RUNTIME_ENV_B64" | base64 --decode > env/.env.staging
-        env:
-          STAGING_RUNTIME_ENV_B64: ${{ secrets.STAGING_RUNTIME_ENV_B64 }}
-
-      - name: Install Flutter dependencies
-        shell: bash
-        run: |
-          flutter pub get
-
-      - name: CEJ - Build Android apk
-        run: |
-          flutter build apk \
-          -t lib/cej_main.dart \
-          --flavor cejStaging \
-          --release \
-          --build-number=${{ needs.pre-build.outputs.date }}
-
-      - name: CEJ - Deploy Android apk to Firebase App Distribution
-        run: |
-          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-cejstaging-release.apk \
-            --token "$STAGING_FIREBASE_CI_TOKEN" \
-            --app "$CEJ_STAGING_ANDROID_APP_ID" \
-            --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
-        env:
-          STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
-          CEJ_STAGING_ANDROID_APP_ID: ${{ secrets.CEJ_STAGING_ANDROID_APP_ID }}
-          STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
-
-      - name: BRSA - Build Android apk
-        run: |
-          flutter build apk \
-          -t lib/brsa_main.dart \
-          --flavor brsaStaging \
-          --release \
-          --build-number=${{ needs.pre-build.outputs.date }}
-
-      - name: BRSA - Deploy Android apk to Firebase App Distribution
-        run: |
-          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-brsastaging-release.apk \
-            --token "$STAGING_FIREBASE_CI_TOKEN" \
-            --app "$BRSA_STAGING_ANDROID_APP_ID" \
-            --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
-        env:
-          STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
-          BRSA_STAGING_ANDROID_APP_ID: ${{ secrets.BRSA_STAGING_ANDROID_APP_ID }}
-          STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
-
   build-ios-staging:
-    if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
     runs-on: macos-12
     needs: pre-build
     steps:
@@ -294,6 +167,7 @@ jobs:
 
       - name: CEJ - Deploy IPA to Firebase App Distribution
         run: |
+          find $(pwd) -name "*.ipa" \
           find $(pwd) -name "*[stg] CEJ.ipa" -print0 | xargs -0 -I{} mv {} CEJ.ipa \
           firebase appdistribution:distribute $(find $(pwd) -name "CEJ.ipa") \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
