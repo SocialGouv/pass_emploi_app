@@ -294,7 +294,7 @@ jobs:
 
       - name: CEJ - Deploy IPA to Firebase App Distribution
         run: |
-          find $(pwd) -name "*[stg] CEJ.ipa" -print0 | xargs -0 -I{} mv {} CEJ.ipa \
+          mv "$(find $(pwd) -name "\[stg\] CEJ.ipa")" CEJ.ipa
           firebase appdistribution:distribute $(find $(pwd) -name "CEJ.ipa") \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$CEJ_STAGING_IOS_APP_ID" \
@@ -349,7 +349,7 @@ jobs:
 
       - name: BRSA - Deploy IPA to Firebase App Distribution
         run: |
-          find $(pwd) -name "*[stg] pass emploi.ipa" -print0 | xargs -0 -I{} mv {} pass-emploi.ipa \
+          mv "$(find $(pwd) -name "\[stg\] pass emploi.ipa")" pass-emploi.ipa
           firebase appdistribution:distribute $(find $(pwd) -name "pass-emploi.ipa") \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$BRSA_STAGING_IOS_APP_ID" \
