@@ -33,23 +33,27 @@ class _KeywordTextFormFieldState extends State<KeywordTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return ReadOnlyTextFormField(
-      title: widget.title,
-      hint: widget.hint,
-      heroTag: _heroTag,
-      textFormFieldKey: Key(_selectedKeyword.toString()),
-      withDeleteButton: _selectedKeyword != null,
-      onTextTap: () => Navigator.push(
-        IgnoreTrackingContext.of(context).nonTrackingContext,
-        KeywordTextFormFieldPage.materialPageRoute(
-          heroTag: _heroTag,
-          title: widget.title,
-          hint: widget.hint,
-          selectedKeyword: _selectedKeyword,
-        ),
-      ).then((keyword) => _updateKeyword(keyword)),
-      onDeleteTap: () => _updateKeyword(null),
-      initialValue: _selectedKeyword,
+    return Semantics(
+      label: widget.title,
+      button: true,
+      child: ReadOnlyTextFormField(
+        title: widget.title,
+        hint: widget.hint,
+        heroTag: _heroTag,
+        textFormFieldKey: Key(_selectedKeyword.toString()),
+        withDeleteButton: _selectedKeyword != null,
+        onTextTap: () => Navigator.push(
+          IgnoreTrackingContext.of(context).nonTrackingContext,
+          KeywordTextFormFieldPage.materialPageRoute(
+            heroTag: _heroTag,
+            title: widget.title,
+            hint: widget.hint,
+            selectedKeyword: _selectedKeyword,
+          ),
+        ).then((keyword) => _updateKeyword(keyword)),
+        onDeleteTap: () => _updateKeyword(null),
+        initialValue: _selectedKeyword,
+      ),
     );
   }
 
