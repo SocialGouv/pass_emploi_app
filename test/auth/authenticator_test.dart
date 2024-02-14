@@ -32,7 +32,7 @@ void main() {
   group('Login tests', () {
     test('token is saved and returned when login in GENERIC mode is successful', () async {
       // Given
-      when(() => wrapper.login(_authTokenRequest())).thenAnswer((_) async => authTokenResponse());
+      when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async => authTokenResponse());
 
       // When
       final result = await authenticator.login(AuthenticationMode.GENERIC);
@@ -46,7 +46,7 @@ void main() {
 
     test('token is saved and returned when login in SIMILO mode is successful', () async {
       // Given
-      when(() => wrapper.login(_authTokenRequest(additionalParameters: {"kc_idp_hint": "similo-jeune"})))
+      when(() => wrapper.login(_tokenRequest(additionalParameters: {"kc_idp_hint": "similo-jeune"})))
           .thenAnswer((_) async => authTokenResponse());
 
       // When
@@ -62,7 +62,7 @@ void main() {
     test('token is saved and returned when login on brand CEJ with POLE_EMPLOI mode is successful', () async {
       // Given
       authenticator = Authenticator(wrapper, logoutRepository, configuration(brand: Brand.cej), prefs);
-      when(() => wrapper.login(_authTokenRequest(additionalParameters: {"kc_idp_hint": "pe-jeune"})))
+      when(() => wrapper.login(_tokenRequest(additionalParameters: {"kc_idp_hint": "pe-jeune"})))
           .thenAnswer((_) async => authTokenResponse());
 
       // When
@@ -78,7 +78,7 @@ void main() {
     test('token is saved and returned when login on brand BRSA with POLE_EMPLOI mode is successful', () async {
       // Given
       authenticator = Authenticator(wrapper, logoutRepository, configuration(brand: Brand.brsa), prefs);
-      when(() => wrapper.login(_authTokenRequest(additionalParameters: {"kc_idp_hint": "pe-brsa-jeune"})))
+      when(() => wrapper.login(_tokenRequest(additionalParameters: {"kc_idp_hint": "pe-brsa-jeune"})))
           .thenAnswer((_) async => authTokenResponse());
 
       // When
@@ -93,7 +93,7 @@ void main() {
 
     test('token is null when login has failed', () async {
       // Given
-      when(() => wrapper.login(_authTokenRequest())).thenThrow(Exception());
+      when(() => wrapper.login(_tokenRequest())).thenThrow(Exception());
 
       // When
       final result = await authenticator.login(AuthenticationMode.GENERIC);
@@ -104,7 +104,7 @@ void main() {
 
     test('response is canceled when login has been canceled', () async {
       // Given
-      when(() => wrapper.login(_authTokenRequest())).thenThrow(UserCanceledLoginException());
+      when(() => wrapper.login(_tokenRequest())).thenThrow(UserCanceledLoginException(''));
 
       // When
       final result = await authenticator.login(AuthenticationMode.GENERIC);
@@ -116,7 +116,7 @@ void main() {
     // Required for Android behavior: https://github.com/MaikuB/flutter_appauth/issues/422
     test('response is wrong device clock when login has clock exception', () async {
       // Given
-      when(() => wrapper.login(_authTokenRequest())).thenThrow(AuthWrapperWrongDeviceClockException());
+      when(() => wrapper.login(_tokenRequest())).thenThrow(AuthWrapperWrongDeviceClockException(''));
 
       // When
       final result = await authenticator.login(AuthenticationMode.GENERIC);
@@ -129,7 +129,7 @@ void main() {
       // Given
       final wrapper = MockAuthWrapper();
       final authenticator = Authenticator(wrapper, logoutRepository, configuration(brand: Brand.brsa), prefs);
-      when(() => wrapper.login(_authTokenRequest())).thenAnswer((_) async =>
+      when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async =>
           AuthTokenResponse(accessToken: 'accessToken', idToken: realPassEmploiIdToken, refreshToken: 'refreshToken'));
 
       // When
@@ -141,7 +141,7 @@ void main() {
 
     test('isLoggedIn is FALSE when login failed', () async {
       // Given
-      when(() => wrapper.login(_authTokenRequest())).thenThrow(Exception());
+      when(() => wrapper.login(_tokenRequest())).thenThrow(Exception());
 
       // When
       await authenticator.login(AuthenticationMode.GENERIC);
@@ -154,8 +154,8 @@ void main() {
   group('Refresh token tests', () {
     test('token is saved when refresh token is successful and user is logged in', () async {
       // Given
-      when(() => wrapper.login(_authTokenRequest())).thenAnswer((_) async => authTokenResponse());
-      when(() => wrapper.refreshToken(_authRefreshTokenRequest())).thenAnswer((_) async =>
+      when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async => authTokenResponse());
+      when(() => wrapper.refreshToken(_refreshTokenRequest())).thenAnswer((_) async =>
           AuthTokenResponse(accessToken: 'accessToken2', idToken: 'idToken2', refreshToken: 'refreshToken2'));
 
       await authenticator.login(AuthenticationMode.GENERIC);
@@ -172,8 +172,8 @@ void main() {
 
     test('refresh token returns NETWORK_UNREACHABLE when user is logged in but network is unreachable', () async {
       // Given
-      when(() => wrapper.login(_authTokenRequest())).thenAnswer((_) async => authTokenResponse());
-      when(() => wrapper.refreshToken(_authRefreshTokenRequest())).thenThrow(AuthWrapperNetworkException());
+      when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async => authTokenResponse());
+      when(() => wrapper.refreshToken(_refreshTokenRequest())).thenThrow(AuthWrapperNetworkException(''));
 
       await authenticator.login(AuthenticationMode.GENERIC);
 
@@ -188,8 +188,8 @@ void main() {
         'refresh token returns EXPIRED_REFRESH_TOKEN and delete tokens when user is logged in but refresh token is expired',
         () async {
       // Given
-      when(() => wrapper.login(_authTokenRequest())).thenAnswer((_) async => authTokenResponse());
-      when(() => wrapper.refreshToken(_authRefreshTokenRequest())).thenThrow(AuthWrapperRefreshTokenExpiredException());
+      when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async => authTokenResponse());
+      when(() => wrapper.refreshToken(_refreshTokenRequest())).thenThrow(AuthWrapperRefreshTokenExpiredException(''));
 
       await authenticator.login(AuthenticationMode.GENERIC);
 
@@ -204,8 +204,8 @@ void main() {
     test('refresh token returns GENERIC_ERROR when user is logged in but refresh token fails on generic exception',
         () async {
       // Given
-      when(() => wrapper.login(_authTokenRequest())).thenAnswer((_) async => authTokenResponse());
-      when(() => wrapper.refreshToken(_authRefreshTokenRequest())).thenThrow(AuthWrapperRefreshTokenException());
+      when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async => authTokenResponse());
+      when(() => wrapper.refreshToken(_refreshTokenRequest())).thenThrow(AuthWrapperRefreshTokenException(''));
 
       await authenticator.login(AuthenticationMode.GENERIC);
 
@@ -231,7 +231,7 @@ void main() {
   group('Logout tests', () {
     test('TRUE is returned and tokens are deleted when user was logged in', () async {
       // Given
-      when(() => wrapper.login(_authTokenRequest())).thenAnswer((_) async => authTokenResponse());
+      when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async => authTokenResponse());
       await authenticator.login(AuthenticationMode.GENERIC);
 
       // When
@@ -255,7 +255,7 @@ void main() {
 
   test('ID token is properly returned and deserialized when login is successful', () async {
     // Given
-    when(() => wrapper.login(_authTokenRequest())).thenAnswer((_) async => AuthTokenResponse(
+    when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async => AuthTokenResponse(
           idToken: realPassEmploiIdToken,
           accessToken: 'accessToken',
           refreshToken: 'refreshToken',
@@ -282,7 +282,7 @@ void main() {
 
   test("ID token is properly returned and deserialized when login is successful and id token contains email", () async {
     // Given
-    when(() => wrapper.login(_authTokenRequest())).thenAnswer((_) async => AuthTokenResponse(
+    when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async => AuthTokenResponse(
           idToken: realMiloIdToken,
           accessToken: 'accessToken',
           refreshToken: 'refreshToken',
@@ -309,7 +309,7 @@ void main() {
 
   test('ID token is null when login failed', () async {
     // Given
-    when(() => wrapper.login(_authTokenRequest())).thenThrow(Exception());
+    when(() => wrapper.login(_tokenRequest())).thenThrow(Exception());
     await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
@@ -321,7 +321,7 @@ void main() {
 
   test('Access token is returned when login is successful', () async {
     // Given
-    when(() => wrapper.login(_authTokenRequest())).thenAnswer((_) async => authTokenResponse());
+    when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async => authTokenResponse());
     await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
@@ -333,7 +333,7 @@ void main() {
 
   test('Access token is null when login failed', () async {
     // Given
-    when(() => wrapper.login(_authTokenRequest())).thenThrow(Exception());
+    when(() => wrapper.login(_tokenRequest())).thenThrow(Exception());
     await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
@@ -344,7 +344,7 @@ void main() {
   });
 }
 
-AuthTokenRequest _authTokenRequest({Map<String, String>? additionalParameters}) {
+AuthTokenRequest _tokenRequest({Map<String, String>? additionalParameters}) {
   return AuthTokenRequest(
     configuration().authClientId,
     configuration().authLoginRedirectUrl,
@@ -355,7 +355,7 @@ AuthTokenRequest _authTokenRequest({Map<String, String>? additionalParameters}) 
   );
 }
 
-AuthRefreshTokenRequest _authRefreshTokenRequest() {
+AuthRefreshTokenRequest _refreshTokenRequest() {
   return AuthRefreshTokenRequest(
     configuration().authClientId,
     configuration().authLoginRedirectUrl,

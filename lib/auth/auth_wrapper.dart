@@ -39,16 +39,18 @@ class AuthWrapper {
           refreshToken: response.refreshToken!,
         );
       } else {
-        _crashlytics?.recordNonNetworkException("Incorrect Login output : response $response");
-        throw AuthWrapperLoginException();
+        final message = "Incorrect Login output : response $response";
+        _crashlytics?.recordNonNetworkException(message);
+        throw AuthWrapperLoginException(message);
       }
     } on PlatformException catch (e, stack) {
-      if (e.isNetworkException()) throw AuthWrapperNetworkException();
-      if (e.isDeviceClockWrong()) throw AuthWrapperWrongDeviceClockException();
-      if (e.isCodeExchangeFailing() && e.isUserCancellation()) throw UserCanceledLoginException();
-      if (e.isCodeExchangeFailing() && !e.isUserCancellation()) throw AuthWrapperCalledCancelException();
+      final message = e.toString();
+      if (e.isNetworkException()) throw AuthWrapperNetworkException(message);
+      if (e.isDeviceClockWrong()) throw AuthWrapperWrongDeviceClockException(message);
+      if (e.isCodeExchangeFailing() && e.isUserCancellation()) throw UserCanceledLoginException(message);
+      if (e.isCodeExchangeFailing() && !e.isUserCancellation()) throw AuthWrapperCalledCancelException(message);
       _crashlytics?.recordNonNetworkException(e, stack);
-      throw AuthWrapperLoginException();
+      throw AuthWrapperLoginException(message);
     }
   }
 
@@ -77,33 +79,60 @@ class AuthWrapper {
           refreshToken: response.refreshToken!,
         );
       } else {
-        _crashlytics?.recordNonNetworkException("Incorrect Refresh token output : response $response");
-        throw AuthWrapperRefreshTokenException();
+        final message = "Incorrect Refresh token output : response $response";
+        _crashlytics?.recordNonNetworkException(message);
+        throw AuthWrapperRefreshTokenException(message);
       }
     } on PlatformException catch (e, stack) {
-      if (e.isNetworkException()) throw AuthWrapperNetworkException();
+      final message = e.toString();
+      if (e.isNetworkException()) throw AuthWrapperNetworkException(message);
       _crashlytics?.recordNonNetworkException(e, stack);
-      if (e.isRefreshTokenExpired()) throw AuthWrapperRefreshTokenExpiredException();
-      throw AuthWrapperRefreshTokenException();
+      if (e.isRefreshTokenExpired()) throw AuthWrapperRefreshTokenExpiredException(message);
+      throw AuthWrapperRefreshTokenException(message);
     }
   }
 }
 
-class AuthWrapperLoginException implements Exception {}
+class AuthWrapperException implements Exception {
+  final String? message;
 
-class AuthWrapperRefreshTokenException implements Exception {}
+  AuthWrapperException(this.message);
 
-class AuthWrapperLogoutException implements Exception {}
+  @override
+  String toString() => message ?? super.toString();
+}
 
-class AuthWrapperNetworkException implements Exception {}
+class AuthWrapperLoginException extends AuthWrapperException {
+  AuthWrapperLoginException(super.message);
+}
 
-class AuthWrapperWrongDeviceClockException implements Exception {}
+class AuthWrapperRefreshTokenException extends AuthWrapperException {
+  AuthWrapperRefreshTokenException(super.message);
+}
 
-class AuthWrapperRefreshTokenExpiredException implements AuthWrapperRefreshTokenException {}
+class AuthWrapperLogoutException extends AuthWrapperException {
+  AuthWrapperLogoutException(super.message);
+}
 
-class AuthWrapperCalledCancelException implements AuthWrapperLoginException {}
+class AuthWrapperNetworkException extends AuthWrapperException {
+  AuthWrapperNetworkException(super.message);
+}
 
-class UserCanceledLoginException implements AuthWrapperLoginException {}
+class AuthWrapperWrongDeviceClockException extends AuthWrapperLoginException {
+  AuthWrapperWrongDeviceClockException(super.message);
+}
+
+class AuthWrapperCalledCancelException extends AuthWrapperLoginException {
+  AuthWrapperCalledCancelException(super.message);
+}
+
+class UserCanceledLoginException extends AuthWrapperLoginException {
+  UserCanceledLoginException(super.message);
+}
+
+class AuthWrapperRefreshTokenExpiredException extends AuthWrapperRefreshTokenException {
+  AuthWrapperRefreshTokenExpiredException(super.message);
+}
 
 extension on PlatformException {
   bool isNetworkException() => code == "discovery_failed" || code == "network";
