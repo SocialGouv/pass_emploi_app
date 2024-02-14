@@ -4,23 +4,26 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 class LoginViewModel extends Equatable {
-  final DisplayState displayState;
   final String suiviText;
   final List<LoginButtonViewModel> loginButtons;
   final bool withAskAccountButton;
+  final bool withLoading;
+  final bool withWrongDeviceClockMessage;
+  final String? technicalErrorMessage;
 
   LoginViewModel({
-    required this.displayState,
     required this.suiviText,
     required this.loginButtons,
     required this.withAskAccountButton,
+    required this.withLoading,
+    required this.withWrongDeviceClockMessage,
+    required this.technicalErrorMessage,
   });
 
   factory LoginViewModel.create(Store<AppState> store) {
@@ -28,15 +31,24 @@ class LoginViewModel extends Equatable {
     final flavor = store.state.configurationState.getFlavor();
     final brand = store.state.configurationState.getBrand();
     return LoginViewModel(
-      displayState: _displayState(loginState),
       suiviText: brand.isCej ? Strings.suiviParConseillerCEJ : Strings.suiviParConseillerBRSA,
       loginButtons: _loginButtons(store, flavor, brand),
       withAskAccountButton: brand.isCej,
+      withLoading: loginState is LoginLoadingState,
+      withWrongDeviceClockMessage: loginState is LoginWrongDeviceClockState,
+      technicalErrorMessage: loginState is LoginGenericFailureState ? loginState.message : null,
     );
   }
 
   @override
-  List<Object?> get props => [displayState, suiviText];
+  List<Object?> get props => [
+        suiviText,
+        loginButtons,
+        withAskAccountButton,
+        withLoading,
+        withWrongDeviceClockMessage,
+        technicalErrorMessage,
+      ];
 }
 
 List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor, Brand brand) {
@@ -59,13 +71,6 @@ List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor, B
         action: () => store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI)),
       ),
   ];
-}
-
-DisplayState _displayState(LoginState state) {
-  if (state is UserNotLoggedInState) return DisplayState.CONTENT;
-  if (state is LoginLoadingState) return DisplayState.LOADING;
-  if (state is LoginSuccessState) return DisplayState.CONTENT;
-  return DisplayState.FAILURE;
 }
 
 class LoginButtonViewModel extends Equatable {

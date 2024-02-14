@@ -14,7 +14,7 @@ import '../favoris/offre_emploi_favoris_test.dart';
 void main() {
   test("push notification token should be registered", () async {
     // Given
-    final initialState = AppState.initialState().copyWith(loginState: LoginFailureState());
+    final initialState = AppState.initialState().copyWith(loginState: LoginGenericFailureState(''));
     final tokenRepositorySpy = _RegisterTokenRepositorySpy();
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();

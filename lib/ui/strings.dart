@@ -62,6 +62,7 @@ class Strings {
   static String notConnected = "Vous êtes hors connexion";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
   static const String allMandatoryFields = "Tous les champs sont obligatoires";
+
   static String stepCounter(int current, int total) => "Étape $current sur $total";
   static String selectDateTooltip = "Sélectionner une date";
   static String removeDateTooltip = "Supprimer la date";
@@ -167,7 +168,12 @@ class Strings {
   ];
 
   // Login
-  static String loginError = "Erreur lors de la connexion";
+  static String loginWrongDeviceClockError = "L'heure de votre téléphone semble erronée, impossible de vous connecter.";
+  static String loginWrongDeviceClockErrorDescription =
+      "Accédez aux réglages de votre téléphone pour vérifier que l’heure et le fuseau horaire affichés sont corrects.";
+  static String loginGenericError = "Erreur lors de la connexion";
+  static String loginGenericErrorDescription =
+      "Réessayer plus tard. Si le problème persiste, vous pouvez contacter votre conseiller.";
   static String loginPassEmploi = "pass emploi";
   static String loginPoleEmploi = "Pôle emploi";
   static String loginMissionLocale = "Mission Locale";
@@ -928,7 +934,7 @@ class Strings {
   static String alerteDeleteSuccess = "Votre alerte a été supprimée avec succès.";
 
   // Mode support
-  static String supportInformations = "Infos pour le support";
+  static String supportInformation = "Infos pour le support";
 
   // Mode démo
   static String passerEnDemo = "Passer en mode démo";
@@ -1057,6 +1063,7 @@ class Strings {
   static String agendaPeUpToDate = "Vos rendez-vous et démarches sont à jour";
   static String agendaPeNotUpToDate =
       "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
+
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";

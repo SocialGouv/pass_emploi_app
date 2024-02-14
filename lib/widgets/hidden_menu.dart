@@ -70,7 +70,7 @@ class _HiddenMenu extends StatelessWidget {
               ),
               SizedBox(height: Margins.spacing_base),
               PrimaryActionButton(
-                label: Strings.supportInformations,
+                label: Strings.supportInformation,
                 onPressed: () {
                   Navigator.of(context).pop();
                   _showDeviceInfos(context);
@@ -96,28 +96,28 @@ class _HiddenMenu extends StatelessWidget {
     showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) => _DeviceInfos(),
+      builder: (BuildContext context) => _DeviceInfo(),
     );
   }
 }
 
-class _DeviceInfos extends StatelessWidget {
-  const _DeviceInfos();
+class _DeviceInfo extends StatelessWidget {
+  const _DeviceInfo();
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, DeviceInfoViewModel>(
       converter: (store) => DeviceInfoViewModel.fromStore(store),
-      builder: (context, viewmodel) => _DeviceInfosDialog(viewmodel),
+      builder: (context, viewModel) => _DeviceInfoDialog(viewModel),
       distinct: true,
     );
   }
 }
 
-class _DeviceInfosDialog extends StatelessWidget {
-  final DeviceInfoViewModel viewmodel;
+class _DeviceInfoDialog extends StatelessWidget {
+  final DeviceInfoViewModel viewModel;
 
-  _DeviceInfosDialog(this.viewmodel);
+  _DeviceInfoDialog(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -129,14 +129,14 @@ class _DeviceInfosDialog extends StatelessWidget {
             Text('InstallationID', style: TextStyles.textBaseBold),
             Row(
               children: [
-                Expanded(child: Text(viewmodel.installationId)),
+                Expanded(child: Text(viewModel.installationId)),
                 IconButton(
                   icon: Icon(
                     Icons.copy,
                     color: AppColors.primary,
                   ),
                   onPressed: () {
-                    Clipboard.setData(ClipboardData(text: viewmodel.installationId));
+                    Clipboard.setData(ClipboardData(text: viewModel.installationId));
                     Navigator.of(context).pop();
                     showSnackBarWithInformation(context, Strings.copie);
                   },

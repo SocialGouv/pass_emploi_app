@@ -20,7 +20,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repositor
 import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
+import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
@@ -46,7 +46,7 @@ void main() {
       // Given
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.offreEmploiAlerteRepository = OffreEmploiAlerteRepositorySuccessStub();
-      testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+      testStoreFactory.authenticator = MockAuthenticator.successful();
       final store = testStoreFactory.initializeReduxStore(initialState: initialState);
       final expected = store.onChange.firstWhere((e) {
         return e.offreEmploiAlerteCreateState.status == AlerteCreateStatus.SUCCESS;
@@ -64,7 +64,7 @@ void main() {
       // Given
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.offreEmploiAlerteRepository = OffreEmploiAlerteRepositoryFailureStub();
-      testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+      testStoreFactory.authenticator = MockAuthenticator.successful();
       final store = testStoreFactory.initializeReduxStore(initialState: initialState);
       final expected = store.onChange.firstWhere((e) {
         return e.offreEmploiAlerteCreateState.status == AlerteCreateStatus.ERROR;

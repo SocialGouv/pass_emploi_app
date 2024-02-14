@@ -22,7 +22,19 @@ const Map<String, String> similoAdditionalParams = {"kc_idp_hint": "similo-jeune
 const Map<String, String> poleEmploiCejAdditionalParams = {"kc_idp_hint": "pe-jeune"};
 const Map<String, String> poleEmploiBrsaAdditionalParams = {"kc_idp_hint": "pe-brsa-jeune"};
 
-enum AuthenticatorResponse { SUCCESS, FAILURE, CANCELLED }
+sealed class AuthenticatorResponse {}
+
+class SuccessAuthenticatorResponse extends AuthenticatorResponse {}
+
+class CancelledAuthenticatorResponse extends AuthenticatorResponse {}
+
+class WrongDeviceClockAuthenticatorResponse extends AuthenticatorResponse {}
+
+class FailureAuthenticatorResponse extends AuthenticatorResponse {
+  final String message;
+
+  FailureAuthenticatorResponse(this.message);
+}
 
 class Authenticator {
   final AuthWrapper _authWrapper;
@@ -46,9 +58,11 @@ class Authenticator {
         ),
       );
       await _saveToken(response);
-      return AuthenticatorResponse.SUCCESS;
+      return SuccessAuthenticatorResponse();
     } catch (e) {
-      return (e is UserCanceledLoginException) ? AuthenticatorResponse.CANCELLED : AuthenticatorResponse.FAILURE;
+      if (e is UserCanceledLoginException) return CancelledAuthenticatorResponse();
+      if (e is AuthWrapperWrongDeviceClockException) return WrongDeviceClockAuthenticatorResponse();
+      return FailureAuthenticatorResponse(e.toString());
     }
   }
 

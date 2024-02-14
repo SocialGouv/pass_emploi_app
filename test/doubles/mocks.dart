@@ -1,6 +1,8 @@
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pass_emploi_app/auth/auth_wrapper.dart';
+import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm_repository.dart';
@@ -23,6 +25,17 @@ import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
 import 'dio_mock.dart';
 import 'fixtures.dart';
+
+class MockAuthenticator extends Mock implements Authenticator {
+  static MockAuthenticator successful() {
+    final authenticator = MockAuthenticator();
+    registerFallbackValue(AuthenticationMode.SIMILO);
+    when(() => authenticator.login(any())).thenAnswer((_) async => SuccessAuthenticatorResponse());
+    return authenticator;
+  }
+}
+
+class MockAuthWrapper extends Mock implements AuthWrapper {}
 
 class MockGetFavorisRepository extends Mock implements GetFavorisRepository {}
 

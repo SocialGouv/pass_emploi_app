@@ -67,7 +67,7 @@ void main() {
       test('user is properly logged in with GENERIC authentication mode', () async {
         // Given
         when(() => authenticator.login(AuthenticationMode.GENERIC))
-            .thenAnswer((_) async => AuthenticatorResponse.SUCCESS);
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
         when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('---'));
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
@@ -85,7 +85,7 @@ void main() {
       test('user is properly logged in with SIMILO authentication mode', () async {
         // Given
         when(() => authenticator.login(AuthenticationMode.SIMILO))
-            .thenAnswer((_) async => AuthenticatorResponse.SUCCESS);
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
         when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('MILO'));
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
@@ -103,7 +103,7 @@ void main() {
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given
         when(() => authenticator.login(AuthenticationMode.POLE_EMPLOI))
-            .thenAnswer((_) async => AuthenticatorResponse.SUCCESS);
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
         when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('POLE_EMPLOI'));
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
@@ -121,7 +121,7 @@ void main() {
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given
         when(() => authenticator.login(AuthenticationMode.POLE_EMPLOI))
-            .thenAnswer((_) async => AuthenticatorResponse.SUCCESS);
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
         when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('POLE_EMPLOI_BRSA'));
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
@@ -133,20 +133,37 @@ void main() {
       });
     });
 
-    group('when login fails', () {
+    group('when login fails for a generic reason', () {
       sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.SIMILO));
 
       test('user is not logged in', () async {
         // Given
         when(() => authenticator.login(AuthenticationMode.SIMILO))
-            .thenAnswer((_) async => AuthenticatorResponse.FAILURE);
+            .thenAnswer((_) async => FailureAuthenticatorResponse('error-message'));
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
         });
 
         // Then
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFailWithMessage()]);
+      });
+    });
+
+    group('when login fails for a wrong clock device reason', () {
+      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.SIMILO));
+
+      test('user is not logged in', () async {
+        // Given
+        when(() => authenticator.login(AuthenticationMode.SIMILO))
+            .thenAnswer((_) async => WrongDeviceClockAuthenticatorResponse());
+        sut.givenStore = givenState().store((f) {
+          f.authenticator = authenticator;
+          f.matomoTracker = matomoTracker;
+        });
+
+        // Then
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFailBecauseOfWrongClock()]);
       });
     });
   });
@@ -184,7 +201,14 @@ Matcher _shouldNotBeLoggedIn() => StateIs<UserNotLoggedInState>((state) => state
 
 Matcher _shouldLoad() => StateIs<LoginLoadingState>((state) => state.loginState);
 
-Matcher _shouldFail() => StateIs<LoginFailureState>((state) => state.loginState);
+Matcher _shouldFailBecauseOfWrongClock() => StateIs<LoginWrongDeviceClockState>((state) => state.loginState);
+
+Matcher _shouldFailWithMessage() {
+  return StateIs<LoginGenericFailureState>(
+    (state) => state.loginState,
+    (state) => expect(state.message, 'error-message'),
+  );
+}
 
 AuthIdToken authIdToken(String loginMode) => AuthIdToken(
       userId: 'id',
@@ -203,5 +227,3 @@ User user(LoginMode loginMode) => User(
       email: "first.last@mail.fr",
       loginMode: loginMode,
     );
-
-class MockAuthenticator extends Mock implements Authenticator {}
