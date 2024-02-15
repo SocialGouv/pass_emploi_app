@@ -5,11 +5,11 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/rating_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/mail_handler.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/cards/rating_card.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
@@ -28,10 +28,7 @@ class RatingPage extends StatelessWidget {
 
   Widget _body(BuildContext context, RatingViewModel viewModel) {
     return Scaffold(
-      appBar: AppBar(
-        title: _RatingAppBar(onDismiss: viewModel.onDone),
-        centerTitle: false,
-      ),
+      appBar: SecondaryAppBar(title: Strings.ratingLabel),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(8.0),
@@ -93,20 +90,6 @@ class RatingPage extends StatelessWidget {
     Navigator.pop(context);
     PassEmploiMatomoTracker.instance.trackScreen(
       isPositive ? AnalyticsActionNames.positiveRating : AnalyticsActionNames.negativeRating,
-    );
-  }
-}
-
-class _RatingAppBar extends StatelessWidget {
-  final Function() onDismiss;
-
-  _RatingAppBar({required this.onDismiss});
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      header: true,
-      child: Text(Strings.ratingLabel, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
     );
   }
 }
