@@ -12,25 +12,23 @@ class ProfileButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FocusedBorderBuilder(builder: (focusNode) {
-      return Semantics(
-        label: Strings.profilButtonSemanticsLabel,
-        child: Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: isDarkColor ? AppColors.primary : AppColors.grey100,
-          ),
-          child: IconButton(
-            focusNode: focusNode,
-            onPressed: () => Navigator.of(context).push(ProfilPage.materialPageRoute()),
-            padding: const EdgeInsets.all(0),
-            icon: SizedBox.expand(
-              child: Icon(
-                Icons.person_outline_rounded,
-                size: 24,
-                color: isDarkColor ? AppColors.grey100 : AppColors.primary,
-              ),
+      return Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: isDarkColor ? AppColors.primary : AppColors.grey100,
+        ),
+        child: IconButton(
+          tooltip: Strings.profilButtonSemanticsLabel,
+          focusNode: focusNode,
+          onPressed: () => Navigator.of(context).push(ProfilPage.materialPageRoute()),
+          padding: const EdgeInsets.all(0),
+          icon: SizedBox.expand(
+            child: Icon(
+              Icons.person_outline_rounded,
+              size: 24,
+              color: isDarkColor ? AppColors.grey100 : AppColors.primary,
             ),
           ),
         ),
