@@ -41,7 +41,7 @@ class EvenementEmploiDetailsPageViewModel extends Equatable {
       displayState: displayState,
       tag: details.typeEvenement,
       titre: details.titre ?? '',
-      date: details.dateTimeDebut?.toDayWithFullMonth() ?? '',
+      date: details.dateTimeDebut.toDayWithFullMonth(),
       heure: _heure(details.dateTimeDebut, details.dateTimeFin),
       lieu: details.ville != null && details.codePostal != null ? "${details.codePostal} - ${details.ville}" : '',
       description: details.description,
