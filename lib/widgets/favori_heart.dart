@@ -51,20 +51,18 @@ class FavoriHeart<T> extends StatelessWidget {
   }
 
   Widget _buildHeart(BuildContext context, FavoriHeartViewModel<T> viewModel) {
-    return Tooltip(
-      message: viewModel.isFavori ? Strings.favoriHeartRemove : Strings.favoriHeartAdd,
-      child: DebouncedButton(
-        childBuilder: (onTapDebounced) => SecondaryIconButton(
-          icon: viewModel.isFavori ? AppIcons.favorite_rounded : AppIcons.favorite_outline_rounded,
-          iconColor: AppColors.favoriteHeartColor,
-          borderColor: withBorder ? AppColors.primary : Colors.transparent,
-          onTap: onTapDebounced,
-        ),
-        onTap: () {
-          viewModel.update(viewModel.isFavori ? FavoriStatus.removed : FavoriStatus.added);
-          _sendTracking(viewModel.isFavori);
-        },
+    return DebouncedButton(
+      childBuilder: (onTapDebounced) => SecondaryIconButton(
+        icon: viewModel.isFavori ? AppIcons.favorite_rounded : AppIcons.favorite_outline_rounded,
+        tooltip: viewModel.isFavori ? Strings.favoriHeartRemove : Strings.favoriHeartAdd,
+        iconColor: AppColors.favoriteHeartColor,
+        borderColor: withBorder ? AppColors.primary : Colors.transparent,
+        onTap: onTapDebounced,
       ),
+      onTap: () {
+        viewModel.update(viewModel.isFavori ? FavoriStatus.removed : FavoriStatus.added);
+        _sendTracking(viewModel.isFavori);
+      },
     );
   }
 
