@@ -516,7 +516,7 @@ EvenementEmploi mockEvenementEmploi() {
 
 List<EvenementEmploi> mockEvenementsEmploi() => [mockEvenementEmploi()];
 
-EvenementEmploiDetails mockEvenementEmploiDetails() {
+EvenementEmploiDetails mockEvenementEmploiDetails({DateTime? dateDebut, DateTime? dateFin}) {
   return EvenementEmploiDetails(
     id: "106757",
     ville: "Ermont",
@@ -524,8 +524,8 @@ EvenementEmploiDetails mockEvenementEmploiDetails() {
     description: "Information collective pour découvrir les métiers de pôle emploi en vu d'un recrutement...",
     titre: "Devenir conseiller à Pôle emploi",
     typeEvenement: "Réunion d'information",
-    dateTimeDebut: parseDateTimeUtcWithCurrentTimeZone("2023-06-15T10:00:00.000+00:00"),
-    dateTimeFin: parseDateTimeUtcWithCurrentTimeZone("2023-06-15T13:00:00.000+00:00"),
+    dateTimeDebut: dateDebut ?? parseDateTimeUtcWithCurrentTimeZone("2023-06-15T10:00:00.000+00:00"),
+    dateTimeFin: dateFin ?? parseDateTimeUtcWithCurrentTimeZone("2023-06-15T13:00:00.000+00:00"),
     url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
   );
 }
