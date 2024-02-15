@@ -35,8 +35,8 @@ class JsonEvenementEmploi {
   final String ville;
   final String codePostal;
   final DateTime date;
-  final String heureDebut;
-  final String heureFin;
+  final DateTime dateDebut;
+  final DateTime dateFin;
   final List<String> modalites;
 
   JsonEvenementEmploi({
@@ -46,8 +46,8 @@ class JsonEvenementEmploi {
     required this.ville,
     required this.codePostal,
     required this.date,
-    required this.heureDebut,
-    required this.heureFin,
+    required this.dateDebut,
+    required this.dateFin,
     required this.modalites,
   });
 
@@ -59,8 +59,8 @@ class JsonEvenementEmploi {
       ville: json['ville'] as String,
       codePostal: json['codePostal'] as String,
       date: (json['dateEvenement'] as String).toDateTimeUnconsideringTimeZone(),
-      heureDebut: json['heureDebut'] as String,
-      heureFin: json['heureFin'] as String,
+      dateDebut: (json['dateTimeDebut'] as String).toDateTimeUtcOnLocalTimeZone(),
+      dateFin: (json['dateTimeFin'] as String).toDateTimeUtcOnLocalTimeZone(),
       modalites: (json['modalites'] as List<dynamic>).map((modalite) => (modalite as String)).toList(),
     );
   }
@@ -72,20 +72,9 @@ class JsonEvenementEmploi {
       titre: titre,
       ville: ville,
       codePostal: codePostal,
-      dateDebut: date,
-      dateFin: _getDateFin(date, heureDebut, heureFin),
+      dateDebut: dateDebut,
+      dateFin: dateFin,
       modalites: modalites.map((modalite) => EvenementEmploiModalite.from(modalite)).whereNotNull().toList(),
     );
-  }
-
-  /// Heure format: 'HH:mm:ss'
-  DateTime _getDateFin(DateTime date, String heureDebut, String heureFin) {
-    return date.add(_heureToDuration(heureFin) - _heureToDuration(heureDebut));
-  }
-
-  /// Heure format: 'HH:mm:ss'
-  Duration _heureToDuration(String heure) {
-    final heureSplit = heure.split(':');
-    return Duration(hours: int.parse(heureSplit[0]), minutes: int.parse(heureSplit[1]));
   }
 }
