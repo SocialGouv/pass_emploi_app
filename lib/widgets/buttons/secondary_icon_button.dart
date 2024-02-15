@@ -9,6 +9,7 @@ class SecondaryIconButton extends StatelessWidget {
   final Color iconColor;
   final Color? borderColor;
   final double iconSize;
+  final String? tooltip;
 
   SecondaryIconButton({
     super.key,
@@ -17,6 +18,7 @@ class SecondaryIconButton extends StatelessWidget {
     Color? iconColor,
     this.borderColor,
     this.iconSize = Dimens.icon_size_m,
+    this.tooltip,
   }) : iconColor = iconColor ?? AppColors.primary;
 
   @override
@@ -33,6 +35,7 @@ class SecondaryIconButton extends StatelessWidget {
           border: Border.all(color: borderColor ?? iconColor),
         ),
         child: IconButton(
+          tooltip: tooltip,
           focusNode: focusNode,
           onPressed: onTap,
           icon: Icon(icon, size: iconSize, color: iconColor),
