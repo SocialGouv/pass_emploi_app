@@ -10,13 +10,9 @@
       "titre": "Atelier du travail",
       "ville": "Marseille",
       "codePostal": "13006",
-      "heureDebut": "10:00:00",
-      "heureFin": "12:00:00",
-      "dateEvenement": "2023-05-17T10:00:00.000+00:00",
-      "modalites": [
-        "en physique",
-        "a distance"
-      ]
+      "dateTimeDebut": "2023-05-17T08:00:00.000+00:00",
+      "dateTimeFin": "2023-05-17T10:00:00.000+00:00",
+      "modalites": ["en physique", "a distance"]
     }
   ]
 }

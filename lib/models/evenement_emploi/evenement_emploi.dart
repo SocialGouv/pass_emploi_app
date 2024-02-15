@@ -34,7 +34,6 @@ class JsonEvenementEmploi {
   final String titre;
   final String ville;
   final String codePostal;
-  final DateTime date;
   final DateTime dateDebut;
   final DateTime dateFin;
   final List<String> modalites;
@@ -45,7 +44,6 @@ class JsonEvenementEmploi {
     required this.titre,
     required this.ville,
     required this.codePostal,
-    required this.date,
     required this.dateDebut,
     required this.dateFin,
     required this.modalites,
@@ -58,7 +56,6 @@ class JsonEvenementEmploi {
       titre: json['titre'] as String,
       ville: json['ville'] as String,
       codePostal: json['codePostal'] as String,
-      date: (json['dateEvenement'] as String).toDateTimeUnconsideringTimeZone(),
       dateDebut: (json['dateTimeDebut'] as String).toDateTimeUtcOnLocalTimeZone(),
       dateFin: (json['dateTimeFin'] as String).toDateTimeUtcOnLocalTimeZone(),
       modalites: (json['modalites'] as List<dynamic>).map((modalite) => (modalite as String)).toList(),
