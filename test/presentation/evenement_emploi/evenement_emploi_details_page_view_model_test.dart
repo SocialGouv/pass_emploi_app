@@ -13,7 +13,11 @@ void main() {
     // Given
     final store = givenState()
         .loggedInUser() //
-        .copyWith(evenementEmploiDetailsState: EvenementEmploiDetailsSuccessState(mockEvenementEmploiDetails()))
+        .copyWith(
+            evenementEmploiDetailsState: EvenementEmploiDetailsSuccessState(mockEvenementEmploiDetails(
+          dateDebut: DateTime.parse("2023-06-15T12:00:00"),
+          dateFin: DateTime.parse("2023-06-15T15:00:00"),
+        )))
         .store();
 
     // When

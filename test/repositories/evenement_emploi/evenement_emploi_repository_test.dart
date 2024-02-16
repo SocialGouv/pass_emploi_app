@@ -64,8 +64,8 @@ void main() {
                 type: 'Atelier',
                 ville: 'Marseille',
                 codePostal: '13006',
-                dateDebut: parseDateTimeUnconsideringTimeZone('2023-05-17T10:00:00.000+00:00'),
-                dateFin: parseDateTimeUnconsideringTimeZone('2023-05-17T12:00:00.000+00:00'),
+                dateDebut: parseDateTimeUtcWithCurrentTimeZone('2023-05-17T08:00:00.000+00:00'),
+                dateFin: parseDateTimeUtcWithCurrentTimeZone('2023-05-17T10:00:00.000+00:00'),
                 modalites: [EvenementEmploiModalite.enPhysique, EvenementEmploiModalite.aDistance],
               ),
             );

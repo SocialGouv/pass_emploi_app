@@ -1,22 +1,19 @@
 {
-    "id": "106757",
-    "ville": "Ermont",
-    "codePostal": "95120",
-    "longitude": 2.2566587924957275,
-    "latitude": 48.98797607421875,
-    "description": "Information collective pour découvrir les métiers de pôle emploi en vu d'un recrutement au sein des agences du Val d'Oise sur deux types de postes:\n- Conseiller Emploi accompagnement\n- Conseiller Gestion des droits\n\nNiveau BAC +2 exigé et 1 an d'expérience professionnelle serait un plus\n\nInscription auprès de votre conseiller Pôle Emploi.\n\nMerci de prévoir la matinée et de vous munir d'un stylo et de quoi écrire.\n",
-    "titre": "Devenir conseiller  à Pôle emploi",
-    "typeEvenement": "Réunion d'information",
-    "dateEvenement": "2023-06-15T12:00:00.000+00:00",
-    "heureDebut": "12:00:00",
-    "heureFin": "15:00:00",
-    "modalites": [
-      "en physique"
-    ],
-    "deroulement": "- Présentation de l'institution Pôle emploi \n- Présentation des missions du conseiller \n- Présentation du processus de recrutement\n",
-    "nombrePlacesTotalDistancel": 0,
-    "nombrePlacesTotalPresentiel": 12,
-    "nombreInscritsDistancel": 0,
-    "nombreInscritsPresentiel": 8,
-    "url": "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757"
-  }
+  "id": "106757",
+  "ville": "Ermont",
+  "codePostal": "95120",
+  "longitude": 2.2566587924957275,
+  "latitude": 48.98797607421875,
+  "description": "Information collective pour découvrir les métiers de pôle emploi en vu d'un recrutement au sein des agences du Val d'Oise sur deux types de postes:\n- Conseiller Emploi accompagnement\n- Conseiller Gestion des droits\n\nNiveau BAC +2 exigé et 1 an d'expérience professionnelle serait un plus\n\nInscription auprès de votre conseiller Pôle Emploi.\n\nMerci de prévoir la matinée et de vous munir d'un stylo et de quoi écrire.\n",
+  "titre": "Devenir conseiller  à Pôle emploi",
+  "typeEvenement": "Réunion d'information",
+  "dateTimeDebut": "2023-06-15T10:00:00.000+00:00",
+  "dateTimeFin": "2023-06-15T13:00:00.000+00:00",
+  "modalites": ["en physique"],
+  "deroulement": "- Présentation de l'institution Pôle emploi \n- Présentation des missions du conseiller \n- Présentation du processus de recrutement\n",
+  "nombrePlacesTotalDistancel": 0,
+  "nombrePlacesTotalPresentiel": 12,
+  "nombreInscritsDistancel": 0,
+  "nombreInscritsPresentiel": 8,
+  "url": "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757"
+}

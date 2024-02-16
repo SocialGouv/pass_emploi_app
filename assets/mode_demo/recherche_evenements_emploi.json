@@ -10,13 +10,9 @@
       "typeEvenement": "Atelier",
       "codePostal": "75013",
       "ville": "Paris",
-      "heureDebut": "10:00:00",
-      "heureFin": "12:00:00",
-      "dateEvenement": "2023-05-17T10:00:00.000+00:00",
-      "modalites": [
-        "en physique",
-        "a distance"
-      ]
+      "dateTimeDebut": "2023-05-17T08:00:00.000+00:00",
+      "dateTimeFin": "2023-05-17T10:00:00.000+00:00",
+      "modalites": ["en physique", "a distance"]
     },
     {
       "id": "2",
@@ -24,12 +20,9 @@
       "typeEvenement": "Salon",
       "codePostal": "13006",
       "ville": "Marseille",
-      "heureDebut": "14:00:00",
-      "heureFin": "18:00:00",
-      "dateEvenement": "2023-07-17T14:00:00.000+00:00",
-      "modalites": [
-        "en physique"
-      ]
+      "dateTimeDebut": "2023-07-17T12:00:00.000+00:00",
+      "dateTimeFin": "2023-07-17T16:00:00.000+00:00",
+      "modalites": ["en physique"]
     }
   ]
 }
