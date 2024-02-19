@@ -16,7 +16,7 @@ class SecondaryButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.icon,
-    this.backgroundColor = Colors.transparent,
+    this.backgroundColor = Colors.white,
     this.fontSize,
   });
 
