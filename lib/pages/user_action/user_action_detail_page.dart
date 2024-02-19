@@ -212,7 +212,7 @@ class _Content extends StatelessWidget {
                         SizedBox(height: Margins.spacing_base),
                         _CommentSection(viewModel),
                       ],
-                      SizedBox(height: Margins.spacing_l),
+                      SizedBox(height: Margins.spacing_x_huge * 2),
                     ],
                   ),
                 ),
