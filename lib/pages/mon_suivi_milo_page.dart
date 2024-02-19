@@ -120,12 +120,19 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
       title: Strings.monSuiviAppBarTitle,
       actionButton: withActionButton
           ? IconButton(
-        onPressed: () => _StateProvider.of(context).scrollController.animateTo(
+              onPressed: () => _StateProvider.of(context).scrollController.animateTo(
                     0,
                     duration: AnimationDurations.fast,
                     curve: Curves.fastEaseInToSlowEaseOut,
                   ),
-              icon: Icon(AppIcons.event, color: AppColors.primary),
+              icon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  AppIcons.event,
+                  color: AppColors.primary,
+                  size: 24,
+                ),
+              ),
               tooltip: Strings.monSuiviTooltip,
             )
           : null,

@@ -1002,7 +1002,7 @@ class Strings {
   static String eventListError = "Erreur lors de la récupération des événements";
   static String eventListEmpty = "Il n’y a pas encore d’évènement dans votre Mission Locale";
   static String eventListEmptySubtitle = "Vous retrouverez ici tous les événements programmés de votre mission locale";
-  static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
+  static String eventListHeaderText = "Retrouvez ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
   static String eventInscrivezVousPourParticiper = "Inscrivez-vous pour participer";
   static String eventAppBarTitle = "Événements";

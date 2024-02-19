@@ -47,7 +47,7 @@ class AccueilCetteSemaine extends StatelessWidget {
                     SizedBox(width: Margins.spacing_base),
                     Expanded(
                       child: _BlocInfo(
-                        icon: AppIcons.bolt_rounded,
+                        icon: AppIcons.bolt_outlined,
                         label: item.actionsOuDemarchesLabel,
                         count: item.actionsOuDemarchesCount,
                         backgroundColor: AppColors.primaryLighten,

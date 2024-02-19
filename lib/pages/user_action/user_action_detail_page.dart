@@ -212,7 +212,7 @@ class _Content extends StatelessWidget {
                         SizedBox(height: Margins.spacing_base),
                         _CommentSection(viewModel),
                       ],
-                      SizedBox(height: Margins.spacing_l),
+                      SizedBox(height: Margins.spacing_x_huge * 2),
                     ],
                   ),
                 ),
@@ -281,36 +281,39 @@ class _Separator extends StatelessWidget {
 class _SuccessBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        BottomSheetHeader(title: "", padding: EdgeInsets.all(Margins.spacing_m)),
-        Center(
-          child: SizedBox(
-            height: 100,
-            width: 100,
-            child: Illustration.green(AppIcons.check_rounded),
+    return ColoredBox(
+      color: Colors.white,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          BottomSheetHeader(title: "", padding: EdgeInsets.all(Margins.spacing_m)),
+          Center(
+            child: SizedBox(
+              height: 100,
+              width: 100,
+              child: Illustration.green(AppIcons.check_rounded),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(24),
-          child: Text(
-            Strings.congratulationsActionUpdated,
-            style: TextStyles.textBaseBold,
-            textAlign: TextAlign.center,
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text(
+              Strings.congratulationsActionUpdated,
+              style: TextStyles.textBaseBold,
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
-          child: PrimaryActionButton(
-            label: Strings.understood,
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
+            child: PrimaryActionButton(
+              label: Strings.understood,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
