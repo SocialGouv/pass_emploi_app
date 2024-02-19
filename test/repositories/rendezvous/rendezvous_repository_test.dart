@@ -149,8 +149,8 @@ void main() {
     });
   });
 
-  group('getRendezvous', () {
-    sut.when((repository) => repository.getRendezvous('userID', 'rdvID'));
+  group('getRendezvousMilo', () {
+    sut.when((repository) => repository.getRendezvousMilo('userID', 'rdvID'));
 
     group('when response is valid', () {
       sut.givenJsonResponse(fromJson: "rendezvous-detail.json");
@@ -174,7 +174,7 @@ void main() {
 
   group('specific use cases', () {
     group('if conseiller and createur are same', () {
-      sut.when((repository) => repository.getRendezvous('userID', 'rdvID'));
+      sut.when((repository) => repository.getRendezvousMilo('userID', 'rdvID'));
       sut.givenJsonResponse(fromJson: 'rendezvous_where_conseiller_is_createur.json');
       test('should functionally return a null createur', () async {
         await sut.expectResult<Rendezvous?>((result) {
@@ -185,7 +185,7 @@ void main() {
     });
 
     group('if type is unknown', () {
-      sut.when((repository) => repository.getRendezvous('userID', 'rdvID'));
+      sut.when((repository) => repository.getRendezvousMilo('userID', 'rdvID'));
       sut.givenJsonResponse(fromJson: 'rendezvous_with_unknown_type.json');
       test('should fallback to "Autre" rendezvous type', () async {
         await sut.expectResult<Rendezvous?>((result) {

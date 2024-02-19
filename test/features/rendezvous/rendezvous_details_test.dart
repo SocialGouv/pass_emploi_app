@@ -1,37 +1,74 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
+import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
 
-import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
+import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
 const _rendezvousId = 'rendezvousID';
-final _expectedRendezvous = mockRendezvous();
+final _expectedRendezvous = mockRendezvous(id: _rendezvousId);
 
 void main() {
   group('Rendezvous details', () {
     final sut = StoreSut();
+    final repository = MockRendezvousRepository();
 
-    group("when requesting rendezvous", () {
+    group("when requesting rendezvous for a Milo user", () {
       sut.whenDispatchingAction(() => RendezvousDetailsRequestAction(_rendezvousId));
 
       test('should load then succeed when request succeed', () {
+        // Specific API for details RDV Milo
+        when(() => repository.getRendezvousMilo('id', _rendezvousId)).thenAnswer((_) async => _expectedRendezvous);
+
         sut.givenStore = givenState()
-            .loggedInUser() //
-            .store((f) => {f.rendezvousRepository = RendezvousRepositorySuccessStub()});
+            .loggedInMiloUser() //
+            .store((f) => {f.rendezvousRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
       });
 
       test('should load then fail when request fail', () {
+        when(() => repository.getRendezvousMilo('id', _rendezvousId)).thenAnswer((_) async => null);
+
         sut.givenStore = givenState()
-            .loggedInUser() //
-            .store((f) => {f.rendezvousRepository = RendezvousRepositoryErrorStub()});
+            .loggedInMiloUser() //
+            .store((f) => {f.rendezvousRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+      });
+    });
+
+    group("when requesting rendezvous for a Pôle emploi user", () {
+      sut.whenDispatchingAction(() => RendezvousDetailsRequestAction(_rendezvousId));
+
+      test('should load then succeed when request succeed', () {
+        final rdv1 = mockRendezvous(id: 'rdv1');
+        final rdv2 = mockRendezvous(id: 'rdv2');
+
+        // No specific API for details RDV PE > we use the list API, then filter locally
+        when(() => repository.getRendezvousList('id', RendezvousPeriod.FUTUR)).thenAnswer(
+          (_) async => RendezvousListResult(rendezvous: [rdv1, rdv2, _expectedRendezvous]),
+        );
+
+        sut.givenStore = givenState()
+            .loggedInPoleEmploiUser() //
+            .store((f) => {f.rendezvousRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+      });
+
+      test('should load then fail when request fail', () {
+        when(() => repository.getRendezvousList('id', RendezvousPeriod.FUTUR)).thenAnswer((_) async => null);
+
+        sut.givenStore = givenState()
+            .loggedInPoleEmploiUser() //
+            .store((f) => {f.rendezvousRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
       });
@@ -48,22 +85,4 @@ Matcher _shouldSucceed() {
     (state) => state.rendezvousDetailsState,
     (state) => expect(state.rendezvous, _expectedRendezvous),
   );
-}
-
-class RendezvousRepositorySuccessStub extends RendezvousRepository {
-  RendezvousRepositorySuccessStub() : super(DioMock());
-
-  @override
-  Future<Rendezvous?> getRendezvous(String userId, String rendezvousId) async {
-    return userId == 'id' && rendezvousId == _rendezvousId ? _expectedRendezvous : null;
-  }
-}
-
-class RendezvousRepositoryErrorStub extends RendezvousRepository {
-  RendezvousRepositoryErrorStub() : super(DioMock());
-
-  @override
-  Future<Rendezvous?> getRendezvous(String userId, String rendezvousId) async {
-    return null;
-  }
 }

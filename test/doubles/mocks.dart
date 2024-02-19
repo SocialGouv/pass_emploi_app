@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/repositories/immersion/immersion_details_reposit
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
+import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
@@ -127,6 +128,8 @@ class MockUserActionPendingCreationRepository extends Mock implements UserAction
     when(() => load()).thenAnswer((_) async => []);
   }
 }
+
+class MockRendezvousRepository extends Mock implements RendezvousRepository {}
 
 class MockUserActionRepository extends Mock implements UserActionRepository {}
 
