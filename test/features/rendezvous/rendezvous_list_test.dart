@@ -1,10 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
-import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
-import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -14,15 +13,23 @@ import '../../dsl/sut_redux.dart';
 void main() {
   group("Rendez-vous list", () {
     final sut = StoreSut();
+    final repository = MockRendezvousRepository();
 
-    group("when requesting in FUTUR", () {
+    group("when requesting in FUTURE", () {
       sut.whenDispatchingAction(() => RendezvousListRequestAction(RendezvousPeriod.FUTUR));
 
       test("should load and succeed when both requests succeeds", () async {
+        when(() => repository.getRendezvousList('id', RendezvousPeriod.FUTUR)).thenAnswer(
+          (_) async => RendezvousListResult(
+            rendezvous: [mockRendezvous(id: 'futur')],
+            dateDerniereMiseAJour: DateTime(2023, 1, 1),
+          ),
+        );
+
         sut.givenStore = givenState()
             .loggedInMiloUser() //
             .store((f) {
-          f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id");
+          f.rendezvousRepository = repository;
           f.sessionMiloRepository = MockSessionMiloRepository()..mockGetListSuccess();
         });
 
@@ -30,21 +37,25 @@ void main() {
       });
 
       test("shoud load and fail when one request fails", () async {
+        when(() => repository.getRendezvousList('id', RendezvousPeriod.FUTUR)).thenAnswer((_) async => null);
+
         sut.givenStore = givenState()
             .loggedInMiloUser() //
             .store((f) {
-          f.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id");
+          f.rendezvousRepository = repository;
           f.sessionMiloRepository = MockSessionMiloRepository()..mockGetListSuccess();
         });
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadFutur(), _shouldFailFutur()]);
       });
 
-      test("shoud load and fail when both request fails", () async {
+      test("should load and fail when both request fails", () async {
+        when(() => repository.getRendezvousList('id', RendezvousPeriod.FUTUR)).thenAnswer((_) async => null);
+
         sut.givenStore = givenState()
             .loggedInMiloUser() //
             .store((f) {
-          f.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id");
+          f.rendezvousRepository = repository;
           f.sessionMiloRepository = MockSessionMiloRepository()..mockGetListFailure();
         });
 
@@ -52,14 +63,21 @@ void main() {
       });
     });
 
-    group('when reloading in FUTUR', () {
+    group('when reloading in FUTURE', () {
       sut.whenDispatchingAction(() => RendezvousListRequestReloadAction(RendezvousPeriod.FUTUR));
 
       test("should reload and succeed when both request succeeds", () async {
+        when(() => repository.getRendezvousList('id', RendezvousPeriod.FUTUR)).thenAnswer(
+          (_) async => RendezvousListResult(
+            rendezvous: [mockRendezvous(id: 'futur')],
+            dateDerniereMiseAJour: DateTime(2023, 1, 1),
+          ),
+        );
+
         sut.givenStore = givenState()
             .loggedInMiloUser() //
             .store((f) {
-          f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id");
+          f.rendezvousRepository = repository;
           f.sessionMiloRepository = MockSessionMiloRepository()..mockGetListSuccess();
         });
 
@@ -67,21 +85,25 @@ void main() {
       });
 
       test("shoud reload and fail when one request fails", () async {
+        when(() => repository.getRendezvousList('id', RendezvousPeriod.FUTUR)).thenAnswer((_) async => null);
+
         sut.givenStore = givenState()
             .loggedInMiloUser() //
             .store((f) {
-          f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id");
+          f.rendezvousRepository = repository;
           f.sessionMiloRepository = MockSessionMiloRepository()..mockGetListFailure();
         });
 
         sut.thenExpectChangingStatesThroughOrder([_shouldReloadFutur(), _shouldFailFutur()]);
       });
 
-      test("shoud reload and fail when both request fails", () async {
+      test("should reload and fail when both request fails", () async {
+        when(() => repository.getRendezvousList('id', RendezvousPeriod.FUTUR)).thenAnswer((_) async => null);
+
         sut.givenStore = givenState()
             .loggedInMiloUser() //
             .store((f) {
-          f.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id");
+          f.rendezvousRepository = repository;
           f.sessionMiloRepository = MockSessionMiloRepository()..mockGetListFailure();
         });
 
@@ -93,21 +115,29 @@ void main() {
       sut.whenDispatchingAction(() => RendezvousListRequestAction(RendezvousPeriod.PASSE));
 
       test("should load and succeed with concatenated rendezvous when request succeeds", () async {
+        when(() => repository.getRendezvousList('id', RendezvousPeriod.PASSE)).thenAnswer(
+          (_) async => RendezvousListResult(
+            rendezvous: [mockRendezvous(id: 'passe')],
+          ),
+        );
+
         sut.givenStore = givenState()
             .loggedInMiloUser() //
             .rendezvousFutur(rendezvous: [mockRendezvous(id: "futur")], sessionsMilo: [mockSessionMilo()]) //
             .store((f) {
-          f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id");
+          f.rendezvousRepository = repository;
         });
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadPasse(), _shouldSucceedPasseAndKeepFutur()]);
       });
 
       test("shoud load and fail when request fails", () async {
+        when(() => repository.getRendezvousList('id', RendezvousPeriod.PASSE)).thenAnswer((_) async => null);
+
         sut.givenStore = givenState()
             .loggedInMiloUser() //
             .store((f) {
-          f.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id");
+          f.rendezvousRepository = repository;
         });
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadPasse(), _shouldFailPasse()]);
@@ -118,10 +148,17 @@ void main() {
       sut.whenDispatchingAction(() => RendezvousListRequestAction(RendezvousPeriod.FUTUR));
 
       test("should have rendezvous only (no milo sessions)", () async {
+        when(() => repository.getRendezvousList('id', RendezvousPeriod.FUTUR)).thenAnswer(
+          (_) async => RendezvousListResult(
+            rendezvous: [mockRendezvous(id: 'futur')],
+            dateDerniereMiseAJour: DateTime(2023, 1, 1),
+          ),
+        );
+
         sut.givenStore = givenState()
             .loggedInPoleEmploiUser() //
             .store((f) {
-          f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id");
+          f.rendezvousRepository = repository;
           f.sessionMiloRepository = MockSessionMiloRepository()..mockGetListSuccess();
         });
 
@@ -180,32 +217,4 @@ Matcher _shouldSucceedPasseAndKeepFutur() {
       expect(state.rendezvousListState.sessionsMilo, [mockSessionMilo()]);
     },
   );
-}
-
-class RendezvousRepositorySuccessStub extends RendezvousRepository {
-  final String expectedUserId;
-
-  RendezvousRepositorySuccessStub({required this.expectedUserId}) : super(DioMock());
-
-  @override
-  Future<RendezvousListResult?> getRendezvousList(String userId, RendezvousPeriod period) async {
-    if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
-    final id = period == RendezvousPeriod.FUTUR ? "futur" : "passe";
-    return RendezvousListResult(
-      rendezvous: [mockRendezvous(id: id)],
-      dateDerniereMiseAJour: period == RendezvousPeriod.FUTUR ? DateTime(2023, 1, 1) : null,
-    );
-  }
-}
-
-class RendezvousRepositoryFailureStub extends RendezvousRepository {
-  final String expectedUserId;
-
-  RendezvousRepositoryFailureStub({required this.expectedUserId}) : super(DioMock());
-
-  @override
-  Future<RendezvousListResult?> getRendezvousList(String userId, RendezvousPeriod period) async {
-    if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
-    return null;
-  }
 }

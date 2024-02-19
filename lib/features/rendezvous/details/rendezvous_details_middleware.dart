@@ -15,7 +15,7 @@ class RendezvousDetailsMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is RendezvousDetailsRequestAction) {
       store.dispatch(RendezvousDetailsLoadingAction());
-      final rdv = await _repository.getRendezvous(loginState.user.id, action.rendezvousId);
+      final rdv = await _repository.getRendezvousMilo(loginState.user.id, action.rendezvousId);
       store.dispatch(rdv != null ? RendezvousDetailsSuccessAction(rdv) : RendezvousDetailsFailureAction());
     }
   }

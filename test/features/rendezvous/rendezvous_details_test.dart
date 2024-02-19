@@ -1,11 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
-import '../../doubles/dio_mock.dart';
 import '../../doubles/fixtures.dart';
+import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
@@ -16,22 +15,27 @@ final _expectedRendezvous = mockRendezvous();
 void main() {
   group('Rendezvous details', () {
     final sut = StoreSut();
+    final repository = MockRendezvousRepository();
 
-    group("when requesting rendezvous", () {
+    group("when requesting rendezvous for a Milo user", () {
       sut.whenDispatchingAction(() => RendezvousDetailsRequestAction(_rendezvousId));
 
       test('should load then succeed when request succeed', () {
+        when(() => repository.getRendezvousMilo('id', _rendezvousId)).thenAnswer((_) async => _expectedRendezvous);
+
         sut.givenStore = givenState()
             .loggedInUser() //
-            .store((f) => {f.rendezvousRepository = RendezvousRepositorySuccessStub()});
+            .store((f) => {f.rendezvousRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
       });
 
       test('should load then fail when request fail', () {
+        when(() => repository.getRendezvousMilo('id', _rendezvousId)).thenAnswer((_) async => null);
+
         sut.givenStore = givenState()
             .loggedInUser() //
-            .store((f) => {f.rendezvousRepository = RendezvousRepositoryErrorStub()});
+            .store((f) => {f.rendezvousRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
       });
@@ -48,22 +52,4 @@ Matcher _shouldSucceed() {
     (state) => state.rendezvousDetailsState,
     (state) => expect(state.rendezvous, _expectedRendezvous),
   );
-}
-
-class RendezvousRepositorySuccessStub extends RendezvousRepository {
-  RendezvousRepositorySuccessStub() : super(DioMock());
-
-  @override
-  Future<Rendezvous?> getRendezvous(String userId, String rendezvousId) async {
-    return userId == 'id' && rendezvousId == _rendezvousId ? _expectedRendezvous : null;
-  }
-}
-
-class RendezvousRepositoryErrorStub extends RendezvousRepository {
-  RendezvousRepositoryErrorStub() : super(DioMock());
-
-  @override
-  Future<Rendezvous?> getRendezvous(String userId, String rendezvousId) async {
-    return null;
-  }
 }

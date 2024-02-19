@@ -29,7 +29,7 @@ class RendezvousRepository {
     return null;
   }
 
-  Future<Rendezvous?> getRendezvous(String userId, String rendezvousId) async {
+  Future<Rendezvous?> getRendezvousMilo(String userId, String rendezvousId) async {
     final url = "/jeunes/$userId/rendezvous/$rendezvousId";
     try {
       final response = await _httpClient.get(url);

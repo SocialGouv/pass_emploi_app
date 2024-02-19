@@ -76,7 +76,7 @@ class TestStoreFactory {
   UserActionRepository userActionRepository = DummyUserActionRepository();
   UserActionPendingCreationRepository userActionPendingCreationRepository = MockUserActionPendingCreationRepository();
   PageDemarcheRepository pageDemarcheRepository = DummyPageDemarcheRepository();
-  RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
+  RendezvousRepository rendezvousRepository = MockRendezvousRepository();
   ChatRepository chatRepository = DummyChatRepository();
   PassEmploiCacheManager cacheManager = DummyPassEmploiCacheManager();
   ConnectivityWrapper connectivityWrapper = MockConnectivityWrapper();

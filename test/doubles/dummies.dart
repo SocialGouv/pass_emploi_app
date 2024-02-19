@@ -54,7 +54,6 @@ import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
-import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
@@ -118,10 +117,6 @@ class DummyUserActionRepository extends UserActionRepository {
 
 class DummyPageDemarcheRepository extends PageDemarcheRepository {
   DummyPageDemarcheRepository() : super(DioMock());
-}
-
-class DummyRendezvousRepository extends RendezvousRepository {
-  DummyRendezvousRepository() : super(DioMock());
 }
 
 class DummyChatRepository extends ChatRepository {
