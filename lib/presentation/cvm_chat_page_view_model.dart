@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -32,7 +31,9 @@ class CvmChatPageViewModel extends Equatable {
 }
 
 DisplayState _displayState(CvmState state) {
-  if (state is ChatLoadingState) return DisplayState.LOADING;
-  if (state is ChatFailureState) return DisplayState.FAILURE;
+  if (state is CvmNotInitializedState) return DisplayState.LOADING;
+  if (state is CvmLoadingState) return DisplayState.LOADING;
+  if (state is CvmFailureState) return DisplayState.FAILURE;
+  if (state is CvmSuccessState && state.messages.isEmpty) return DisplayState.EMPTY;
   return DisplayState.CONTENT;
 }

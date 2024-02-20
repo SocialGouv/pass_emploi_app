@@ -87,7 +87,7 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       // TODO-CVM Use env
       const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-      const token = "SDBtsTEZMKrqyfYLII7phGCXf2g";
+      const token = "_StdsipzqDZrHqLfnmpfY1knBWk";
       final success =
           await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('login', {'token': token, 'ex160': ex160}) ?? false;
       return success;

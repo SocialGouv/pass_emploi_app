@@ -2,53 +2,79 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/presentation/cvm_chat_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/cvm_repository.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class CvmChatPage extends StatelessWidget {
-  const CvmChatPage({super.key});
-
   static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => CvmChatPage());
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CvmChatPageViewModel>(
-      onInit: (store) {
-        store.dispatch(CvmRequestAction());
-      },
+      onInit: (store) => store.dispatch(CvmRequestAction()),
       converter: (store) => CvmChatPageViewModel.create(store),
-      builder: (context, viewModel) => _Body(viewModel),
+      builder: (context, viewModel) => _Scaffold(_Body(viewModel)),
+      distinct: true,
     );
   }
 }
 
-class _Body extends StatelessWidget {
-  const _Body(this.viewModel);
-  final CvmChatPageViewModel viewModel;
+class _Scaffold extends StatelessWidget {
+  final Widget body;
+
+  const _Scaffold(this.body);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SecondaryAppBar(title: "Chat CVM"),
-      body: Column(
-        children: [
-          Expanded(
-            child: _MessageList(viewModel),
-          ),
-          _MessageInput(viewModel),
-        ],
-      ),
+      body: body,
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final CvmChatPageViewModel viewModel;
+
+  const _Body(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (viewModel.displayState) {
+      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+      DisplayState.FAILURE => Center(child: Text("😬KO, régale-toi", style: TextStyles.textBaseMedium)),
+      DisplayState.EMPTY => Center(child: Text("🐐Aucun message", style: TextStyles.textBaseMedium)),
+      DisplayState.CONTENT => _Content(viewModel),
+    };
+  }
+}
+
+class _Content extends StatelessWidget {
+  final CvmChatPageViewModel viewModel;
+
+  const _Content(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(child: _MessageList(viewModel)),
+        _MessageInput(viewModel),
+      ],
     );
   }
 }
 
 class _MessageList extends StatelessWidget {
   const _MessageList(this.viewModel);
+
   final CvmChatPageViewModel viewModel;
 
   @override
@@ -66,6 +92,7 @@ class _MessageList extends StatelessWidget {
 
 class _MessageInput extends StatelessWidget {
   const _MessageInput(this.viewModel);
+
   final CvmChatPageViewModel viewModel;
 
   @override
@@ -104,6 +131,7 @@ class _MessageInput extends StatelessWidget {
 
 class _MessageTile extends StatelessWidget {
   const _MessageTile({required this.message});
+
   final CvmEvent message;
 
   @override
