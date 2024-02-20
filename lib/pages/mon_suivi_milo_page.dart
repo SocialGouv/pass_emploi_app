@@ -175,6 +175,10 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        if (viewModel.withWarningOnWrongSessionMiloRetrieval) ...[
+          SizedBox(height: Margins.spacing_s),
+          _SessionMiloWarningCard(viewModel),
+        ],
         if (viewModel.pendingActionCreations > 0) ...[
           SizedBox(height: Margins.spacing_s),
           _UserActionsPendingCard(viewModel.pendingActionCreations),
@@ -189,6 +193,44 @@ class _Content extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _SessionMiloWarningCard extends StatelessWidget {
+  final MonSuiviViewModel viewModel;
+
+  const _SessionMiloWarningCard(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_s),
+      child: CardContainer(
+        backgroundColor: AppColors.disabled,
+        padding: EdgeInsets.zero, // Padding is set in row children because of inner padding of OutlinedButton
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(width: Margins.spacing_base),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: Margins.spacing_base),
+              child: Icon(AppIcons.error_rounded, color: Colors.white),
+            ),
+            SizedBox(width: Margins.spacing_s),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: Margins.spacing_base),
+                child: Text(Strings.monSuiviSessionMiloError, style: TextStyles.textXsRegular(color: Colors.white)),
+              ),
+            ),
+            OutlinedButton(
+              onPressed: () => viewModel.onRetry(),
+              child: Text(Strings.retry, style: TextStyles.textSBoldWithColor(Colors.white)),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -211,7 +253,7 @@ class _UserActionsPendingCard extends StatelessWidget {
           children: [
             Icon(AppIcons.error_rounded, color: Colors.white),
             SizedBox(width: Margins.spacing_s),
-            Flexible(child: Text(message, style: TextStyles.textSRegularWithColor(Colors.white))),
+            Flexible(child: Text(message, style: TextStyles.textXsRegular(color: Colors.white))),
           ],
         ),
       ),

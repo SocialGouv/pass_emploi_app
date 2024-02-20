@@ -229,6 +229,7 @@ class Strings {
   static String monSuiviEmptyPast = "Aucun événement ni action";
   static String monSuiviEmptyFuture = "Rien de prévu";
   static String monSuiviError = "Erreur lors de la récupération de votre suivi";
+  static String monSuiviSessionMiloError = "Des événements n’ont pas pu être récupérés.";
   static String monSuiviTooltip = "Aller à aujourd'hui";
 
   // Agenda

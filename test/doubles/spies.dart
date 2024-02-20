@@ -23,6 +23,7 @@ class NextDispatcherSpy {
 }
 
 class StoreSpy extends Store<AppState> {
+  final dispatchedActions = <dynamic>[];
   dynamic dispatchedAction;
 
   StoreSpy() : super(reducer, initialState: AppState.initialState(configuration: configuration()));
@@ -30,7 +31,10 @@ class StoreSpy extends Store<AppState> {
   StoreSpy.withState(AppState appState) : super(reducer, initialState: appState);
 
   @override
-  void dispatch(dynamic action) => dispatchedAction = action;
+  void dispatch(dynamic action) {
+    dispatchedAction = action;
+    dispatchedActions.add(action);
+  }
 }
 
 class SharedPreferencesSpy extends FlutterSecureStorage {

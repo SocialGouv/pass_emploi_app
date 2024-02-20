@@ -224,7 +224,8 @@ void main() {
     expect(viewModel.pendingActionCreations, 10);
   });
 
-  test('onRetry', () {
+  // Without the reset action, the data would be concatenated to the previous one. And here we want to reset the data.
+  test('onRetry should dispatch both reset and request actions to properly handle session Milo errors case', () {
     // Given
     final store = StoreSpy();
     final viewModel = MonSuiviViewModel.create(store);
@@ -233,8 +234,9 @@ void main() {
     viewModel.onRetry();
 
     // Then
-    expect(store.dispatchedAction is MonSuiviRequestAction, isTrue);
-    expect((store.dispatchedAction as MonSuiviRequestAction).period, MonSuiviPeriod.current);
+    expect(store.dispatchedActions[0] is MonSuiviResetAction, isTrue);
+    expect(store.dispatchedActions[1] is MonSuiviRequestAction, isTrue);
+    expect((store.dispatchedActions[1] as MonSuiviRequestAction).period, MonSuiviPeriod.current);
   });
 
   test('onLoadPreviousPeriod', () {

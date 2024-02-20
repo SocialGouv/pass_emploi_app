@@ -44,7 +44,10 @@ class MonSuiviViewModel extends Equatable {
       pendingActionCreations: store.state.userActionCreatePendingState.getPendingCreationsCount(),
       onLoadPreviousPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.previous)),
       onLoadNextPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.next)),
-      onRetry: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
+      onRetry: () {
+        store.dispatch(MonSuiviResetAction());
+        store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current));
+      },
     );
   }
 
