@@ -5,16 +5,27 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 
 abstract class CvmRepository {
   Future<void> initializeCvm();
+
   Future<bool> login();
+
   Future<void> logout();
+
   Future<bool> startListenRooms();
+
   Future<void> stopListenRooms();
+
   Future<void> joinFirstRoom();
+
   Future<bool> startListenMessages();
+
   Future<void> stopListenMessages();
+
   Future<bool> sendMessage(String message);
+
   Future<void> loadMore();
+
   Stream<List<CvmEvent>> getMessages();
+
   Stream<bool> hasRoom();
 }
 
@@ -66,6 +77,7 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('initializeCvm', {'limit': _pageLimit});
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.initializeCvm error");
       _crashlytics?.recordCvmException(e, s);
     }
   }
@@ -73,12 +85,14 @@ class CvmRepositoryImpl implements CvmRepository {
   @override
   Future<bool> login() async {
     try {
+      // TODO-CVM Use env
       const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-      const token = "tC8Qkxg0FuDOBkYEAuSZ4SyFIYM";
+      const token = "SDBtsTEZMKrqyfYLII7phGCXf2g";
       final success =
           await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('login', {'token': token, 'ex160': ex160}) ?? false;
       return success;
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.login error");
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -90,6 +104,7 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('logout');
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.logout error");
       _crashlytics?.recordCvmException(e, s);
     }
   }
@@ -100,6 +115,7 @@ class CvmRepositoryImpl implements CvmRepository {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('joinFirstRoom') ?? false;
       return success;
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.joinFirstRoom error");
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -111,6 +127,7 @@ class CvmRepositoryImpl implements CvmRepository {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenRoom') ?? false;
       return success;
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.startListenRooms error");
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -122,6 +139,7 @@ class CvmRepositoryImpl implements CvmRepository {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('stopListenRoom') ?? false;
       return success;
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.stopListenRooms error");
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -134,6 +152,7 @@ class CvmRepositoryImpl implements CvmRepository {
         return hasRoom as bool;
       });
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.hasRoom error");
       _crashlytics?.recordCvmException(e, s);
       return Stream.empty();
     }
@@ -145,6 +164,7 @@ class CvmRepositoryImpl implements CvmRepository {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenMessages') ?? false;
       return success;
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.startListenMessages error");
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -155,6 +175,7 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('stopListenMessages');
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.stopListenMessages error");
       _crashlytics?.recordCvmException(e, s);
     }
   }
@@ -171,6 +192,7 @@ class CvmRepositoryImpl implements CvmRepository {
         return _aggregator.getEvents();
       });
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.getMessages error");
       _crashlytics?.recordCvmException(e, s);
       return Stream.empty();
     }
@@ -183,6 +205,7 @@ class CvmRepositoryImpl implements CvmRepository {
           await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('sendMessage', {'message': message}) ?? false;
       return success;
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.sendMessage error");
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
@@ -193,6 +216,7 @@ class CvmRepositoryImpl implements CvmRepository {
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('loadMore', {'limit': _pageLimit});
     } catch (e, s) {
+      _crashlytics?.log("CvmRepositoryImpl.loadMore error");
       _crashlytics?.recordCvmException(e, s);
     }
   }

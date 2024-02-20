@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -8,8 +9,9 @@ import 'package:redux/redux.dart';
 
 class CvmMiddleware extends MiddlewareClass<AppState> {
   final CvmRepository _repository;
+  final Crashlytics? _crashlytics;
 
-  CvmMiddleware(this._repository);
+  CvmMiddleware(this._repository, [this._crashlytics]);
 
   var hasRoom = false; //TODO: ?
   final List<CvmEvent> messages = [];
@@ -20,6 +22,8 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(CvmSuccessAction(messages));
       },
       onError: (Object error) {
+        _crashlytics?.log("CvmMiddleware._subscribeToChatStream error");
+        _crashlytics?.recordCvmException(error);
         store.dispatch(CvmFailureAction());
       },
     );
@@ -40,6 +44,8 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
         }
       },
       onError: (Object error) {
+        _crashlytics?.log("CvmMiddleware._subscribeToHasRoomStream error");
+        _crashlytics?.recordCvmException(error);
         store.dispatch(CvmFailureAction());
       },
     );
@@ -84,6 +90,8 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
         repository.loadMore();
       });
     } catch (e) {
+      _crashlytics?.log("CvmMiddleware._loginCvm error");
+      _crashlytics?.recordCvmException(e);
       store.dispatch(CvmFailureAction());
     }
   }
@@ -99,17 +107,21 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
       _subscribeToChatStream(store);
       _subscribeToHasRoomStream(store);
     } catch (e) {
+      _crashlytics?.log("CvmMiddleware._initCvm error");
+      _crashlytics?.recordCvmException(e);
       store.dispatch(CvmFailureAction());
     }
   }
-}
 
-Future<void> _startListenMessagesOnFirstRoom(Store<AppState> store, CvmRepository repository) async {
-  try {
-    await repository.joinFirstRoom();
-    await repository.startListenMessages();
-  } catch (e) {
-    store.dispatch(CvmFailureAction());
+  Future<void> _startListenMessagesOnFirstRoom(Store<AppState> store, CvmRepository repository) async {
+    try {
+      await repository.joinFirstRoom();
+      await repository.startListenMessages();
+    } catch (e) {
+      _crashlytics?.log("CvmMiddleware._startListenMessagesOnFirstRoom error");
+      _crashlytics?.recordCvmException(e);
+      store.dispatch(CvmFailureAction());
+    }
   }
 }
 

@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart
 import 'package:pass_emploi_app/features/connectivity/connectivity_middleware.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_middleware.dart';
 import 'package:pass_emploi_app/features/cv/cv_middleware.dart';
+import 'package:pass_emploi_app/features/cvm/cvm_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_middleware.dart';
@@ -73,7 +74,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/cvm/cvm_middleware.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_middleware.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
@@ -100,6 +100,7 @@ import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
@@ -139,7 +140,6 @@ import 'package:pass_emploi_app/repositories/user_action_pending_creation_reposi
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
-import 'package:pass_emploi_app/repositories/cvm_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
@@ -208,7 +208,6 @@ class StoreFactory {
   final ThematiqueDemarcheRepository thematiquesDemarcheRepository;
   final TopDemarcheRepository topDemarcheRepository;
   final MonSuiviRepository monSuiviRepository;
-
   final CvmRepository cvmRepository;
   final CampagneRecrutementRepository campagneRecrutementRepository;
   final PreferredLoginModeRepository preferredLoginModeRepository;
@@ -366,7 +365,7 @@ class StoreFactory {
         SessionMiloDetailsMiddleware(sessionMiloRepository).call,
         ConnectivityMiddleware(connectivityWrapper).call,
         MonSuiviMiddleware(monSuiviRepository).call,
-        CvmMiddleware(cvmRepository).call,
+        CvmMiddleware(cvmRepository, crashlytics).call,
         CampagneRecrutementMiddleware(campagneRecrutementRepository).call,
         PreferredLoginModeMiddleware(preferredLoginModeRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/

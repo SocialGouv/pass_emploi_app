@@ -144,6 +144,9 @@ class DummyCrashlytics extends Crashlytics {
 
   @override
   void recordCvmException(dynamic exception, [StackTrace? stack]) {}
+
+  @override
+  void log(String message) {}
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
