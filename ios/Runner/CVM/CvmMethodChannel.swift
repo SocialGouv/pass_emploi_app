@@ -1,10 +1,3 @@
-//
-//  CvmMethodChannel.swift
-//  Runner
-//
-//  Created by jordan.chapuy on 16/01/2024.
-//
-
 import Foundation
 import Flutter
 
