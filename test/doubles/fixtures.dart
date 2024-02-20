@@ -1202,10 +1202,12 @@ MonSuivi mockMonSuivi({
   List<UserAction>? actions,
   List<Rendezvous>? rendezvous,
   List<SessionMilo>? sessionsMilo,
+  bool errorOnSessionMiloRetrieval = false,
 }) {
   return MonSuivi(
     actions: actions ?? [],
     rendezvous: rendezvous ?? [],
     sessionsMilo: sessionsMilo ?? [],
+    errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval,
   );
 }

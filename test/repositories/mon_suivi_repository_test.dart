@@ -39,6 +39,7 @@ void main() {
                 actions: [userActionStub()],
                 rendezvous: [rendezvousStub()],
                 sessionsMilo: [mockSessionMiloAtelierCv()],
+                errorOnSessionMiloRetrieval: false,
               ),
             );
           });
@@ -69,6 +70,7 @@ void main() {
                 actions: [userActionStub()],
                 rendezvous: [rendezvousStub()],
                 sessionsMilo: [],
+                errorOnSessionMiloRetrieval: true,
               ),
             );
           });
