@@ -163,16 +163,14 @@ void main() {
     });
 
     test('when error on session milo occurred on period should display warning', () {
-      withClock(Clock.fixed(dimanche7Janvier), () {
-        // Given
-        final store = givenState().monSuivi(monSuivi: mockMonSuivi(errorOnSessionMiloRetrieval: true)).store();
+      // Given
+      final store = givenState().monSuivi(monSuivi: mockMonSuivi(errorOnSessionMiloRetrieval: true)).store();
 
-        // When
-        final viewModel = MonSuiviViewModel.create(store);
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
 
-        // Then
-        expect(viewModel.withWarningOnWrongSessionMiloRetrieval, isTrue);
-      });
+      // Then
+      expect(viewModel.withWarningOnWrongSessionMiloRetrieval, isTrue);
     });
   });
 
