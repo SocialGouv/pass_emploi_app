@@ -148,6 +148,31 @@ void main() {
       });
     });
 
+    group("when current period has error on sessions milo, but other period has not", () {
+      sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.next));
+
+      test('should keep information on session milo error', () {
+        withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+          when(() => repository.getMonSuivi('id', nextPeriodInterval)).thenAnswer(
+            (_) async => nextPeriodSuivi.copyWith(errorOnSessionMiloRetrieval: false),
+          );
+
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .monSuivi(
+                interval: currentPeriodInterval,
+                monSuivi: currentPeriodSuivi.copyWith(errorOnSessionMiloRetrieval: true),
+              )
+              .store((f) => {f.monSuiviRepository = repository});
+
+          sut.thenExpectChangingStatesThroughOrder([
+            _shouldSucceedForCurrentPeriod(errorOnSessionMilo: true),
+            _shouldSucceedForNextPeriodWithAggregatedData(errorOnSessionMilo: true),
+          ]);
+        });
+      });
+    });
+
     group("when user action is successfully created and mon suivi state is success", () {
       sut.whenDispatchingAction(() => UserActionCreateSuccessAction('id'));
 
@@ -178,10 +203,16 @@ Matcher _shouldFail() => StateIs<MonSuiviFailureState>((state) => state.monSuivi
 
 Matcher _shouldReset() => StateIs<MonSuiviNotInitializedState>((state) => state.monSuiviState);
 
-Matcher _shouldSucceedForCurrentPeriod() {
+Matcher _shouldSucceedForCurrentPeriod({bool errorOnSessionMilo = false}) {
   return StateIs<MonSuiviSuccessState>(
     (state) => state.monSuiviState,
-    (state) => expect(state, MonSuiviSuccessState(currentPeriodInterval, currentPeriodSuivi)),
+    (state) => expect(
+      state,
+      MonSuiviSuccessState(
+        currentPeriodInterval,
+        currentPeriodSuivi.copyWith(errorOnSessionMiloRetrieval: errorOnSessionMilo),
+      ),
+    ),
   );
 }
 
@@ -207,7 +238,7 @@ Matcher _shouldSucceedForPreviousPeriodWithAggregatedData() {
   );
 }
 
-Matcher _shouldSucceedForNextPeriodWithAggregatedData() {
+Matcher _shouldSucceedForNextPeriodWithAggregatedData({bool errorOnSessionMilo = false}) {
   return StateIs<MonSuiviSuccessState>(
     (state) => state.monSuiviState,
     (state) => expect(
@@ -221,6 +252,7 @@ Matcher _shouldSucceedForNextPeriodWithAggregatedData() {
           ],
           rendezvous: [mockRendezvous(date: dimanche3Mars23h59)],
           sessionsMilo: [mockSessionMilo(dateDeDebut: lundi1Avril00h59)],
+          errorOnSessionMiloRetrieval: errorOnSessionMilo,
         ),
       ),
     ),

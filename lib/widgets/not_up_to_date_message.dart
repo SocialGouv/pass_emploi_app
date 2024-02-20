@@ -30,7 +30,7 @@ class NotUpToDateMessage extends StatelessWidget {
             children: [
               Icon(AppIcons.event_repeat_rounded, color: contentColor),
               SizedBox(width: Margins.spacing_base),
-              Expanded(child: Text(message, style: TextStyles.textBaseRegular.copyWith(color: contentColor))),
+              Expanded(child: Text(message, style: TextStyles.textXsRegular(color: contentColor))),
             ],
           ),
           if (onRefresh != null) ...[

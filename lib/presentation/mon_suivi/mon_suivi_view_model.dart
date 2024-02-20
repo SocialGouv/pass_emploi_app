@@ -14,6 +14,7 @@ class MonSuiviViewModel extends Equatable {
   final List<MonSuiviItem> items;
   final int indexOfTodayItem;
   final bool withCreateButton;
+  final bool withWarningOnWrongSessionMiloRetrieval;
   final int pendingActionCreations;
   final Function() onLoadPreviousPeriod;
   final Function() onLoadNextPeriod;
@@ -24,6 +25,7 @@ class MonSuiviViewModel extends Equatable {
     required this.items,
     required this.indexOfTodayItem,
     required this.withCreateButton,
+    required this.withWarningOnWrongSessionMiloRetrieval,
     required this.pendingActionCreations,
     required this.onLoadPreviousPeriod,
     required this.onLoadNextPeriod,
@@ -38,15 +40,26 @@ class MonSuiviViewModel extends Equatable {
       items: items,
       indexOfTodayItem: items.indexWhere((e) => e is DayMonSuiviItem && e.isToday),
       withCreateButton: state is MonSuiviSuccessState,
+      withWarningOnWrongSessionMiloRetrieval: _withWarningOnWrongSessionMiloRetrieval(state),
       pendingActionCreations: store.state.userActionCreatePendingState.getPendingCreationsCount(),
       onLoadPreviousPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.previous)),
       onLoadNextPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.next)),
-      onRetry: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
+      onRetry: () {
+        store.dispatch(MonSuiviResetAction());
+        store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current));
+      },
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items, indexOfTodayItem, withCreateButton, pendingActionCreations];
+  List<Object?> get props => [
+        displayState,
+        items,
+        indexOfTodayItem,
+        withCreateButton,
+        withWarningOnWrongSessionMiloRetrieval,
+        pendingActionCreations,
+      ];
 }
 
 DisplayState _displayState(MonSuiviState state) {
@@ -56,6 +69,10 @@ DisplayState _displayState(MonSuiviState state) {
     MonSuiviFailureState() => DisplayState.FAILURE,
     MonSuiviSuccessState() => DisplayState.CONTENT,
   };
+}
+
+bool _withWarningOnWrongSessionMiloRetrieval(MonSuiviState state) {
+  return state is MonSuiviSuccessState && state.monSuivi.errorOnSessionMiloRetrieval;
 }
 
 List<MonSuiviItem> _items(MonSuiviState state) {

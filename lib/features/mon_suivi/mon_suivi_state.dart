@@ -30,6 +30,7 @@ class MonSuiviSuccessState extends MonSuiviState {
         actions: actions,
         rendezvous: monSuivi.rendezvous,
         sessionsMilo: monSuivi.sessionsMilo,
+        errorOnSessionMiloRetrieval: monSuivi.errorOnSessionMiloRetrieval,
       ),
     );
   }
