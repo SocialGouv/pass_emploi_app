@@ -167,6 +167,18 @@ class Strings {
     " (CDI ou CDD de longue durée)",
   ];
 
+  // Login bottom sheet
+  static const String loginBottomSeetFranceTravailButton = "France travail";
+  static const String loginBottomSeetMissionLocaleButton = "Mission Locale";
+  static const String loginBottomSeetNoOrganism = "Je ne suis inscrit à aucun de ces organismes";
+
+  static const String loginBottomSeetTitlePage1 = "Sélectionnez l’organisme dont dépend votre conseiller CEJ : ";
+  static const List<String> organismInformations = [
+    "L’organisme est celui avec lequel vous avez ",
+    "signé votre contrat CEJ",
+    ". Cette information est visible sur votre contrat CEJ dans la case “Opérateur”."
+  ];
+
   // Login
   static String loginWrongDeviceClockError = "L'heure de votre téléphone semble erronée, impossible de vous connecter.";
   static String loginWrongDeviceClockErrorDescription =
