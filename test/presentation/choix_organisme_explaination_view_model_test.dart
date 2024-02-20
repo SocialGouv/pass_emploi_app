@@ -18,7 +18,7 @@ void main() {
 
     // Then
     expect(viewModel.explainationText,
-        "Prenez rendez-vous avec votre conseiller Pôle emploi qui procédera à la création de votre compte.");
+        "Prenez rendez-vous avec votre conseiller France Travail qui procédera à la création de votre compte.");
   });
 
   test("create should set proper text when user chose Mission Locale", () {

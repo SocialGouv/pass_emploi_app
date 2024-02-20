@@ -208,11 +208,11 @@
         "comment": [
           {
             "code": "C18.05",
-            "label": "En participant à un Job dating avec Pôle emploi"
+            "label": "En participant à un Job dating avec France Travail"
           },
           {
             "code": "C18.02",
-            "label": "En participant à un Job dating hors Pôle emploi"
+            "label": "En participant à un Job dating hors France Travail"
           },
           {
             "code": "C18.01",

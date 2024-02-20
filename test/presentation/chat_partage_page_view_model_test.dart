@@ -125,7 +125,7 @@ void main() {
         (store.dispatchedAction as ChatPartagerEvenementEmploiAction).evenementEmploi,
         EvenementEmploiPartage(
           id: "106757",
-          titre: "Devenir conseiller à Pôle emploi",
+          titre: "Devenir conseiller à France Travail",
           url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
           message: "Regardes ça",
         ),

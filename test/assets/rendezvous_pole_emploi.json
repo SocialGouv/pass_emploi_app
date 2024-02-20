@@ -164,7 +164,7 @@
       },
       "modality": "",
       "duration": 0,
-      "description": "Grace à mon conseiller, je découvre les outils numériques mis à ma disposition par Pôle emploi et m'entraine à les utiliser pour réussir mon parcours d'accompagnement Contrat d'engagements jeune (CEJ)",
+      "description": "Grace à mon conseiller, je découvre les outils numériques mis à ma disposition par France Travail et m'entraine à les utiliser pour réussir mon parcours d'accompagnement Contrat d'engagements jeune (CEJ)",
       "agencePE": false,
       "theme": "Connexion Emploi ",
       "annule": false,
@@ -185,7 +185,7 @@
         "nom": "test",
         "prenom": "test"
       },
-      "modality": "en agence Pôle emploi",
+      "modality": "en agence France Travail",
       "duration": 25,
       "adresse": "21 RUE DES FRERES DANA  59300 VALENCIENNES",
       "agencePE": true,
@@ -213,7 +213,7 @@
         "nom": "test",
         "prenom": "test"
       },
-      "modality": "en agence Pôle emploi",
+      "modality": "en agence France Travail",
       "duration": 15,
       "adresse": "21 RUE DES FRERES DANA  59300 VALENCIENNES",
       "agencePE": true,
@@ -241,7 +241,7 @@
         "nom": "test",
         "prenom": "test"
       },
-      "modality": "en agence Pôle emploi",
+      "modality": "en agence France Travail",
       "duration": 30,
       "adresse": "21 RUE DES FRERES DANA  59300 VALENCIENNES",
       "agencePE": true,

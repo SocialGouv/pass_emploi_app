@@ -20,7 +20,7 @@ void main() {
     expect(viewModel, isNotNull);
     expect(viewModel!.type, OffreType.emploi);
     expect(viewModel.titre, "Cariste");
-    expect(viewModel.source, "Profil Pôle emploi");
+    expect(viewModel.source, "Profil France Travail");
     expect(viewModel.metier, "Conduite d'engins de déplacement des charges");
     expect(viewModel.localisation, "Nord");
     expect(viewModel.withLocationForm, false);
@@ -54,7 +54,7 @@ void main() {
       });
     }
 
-    assertLabel(givenSource: SuggestionSource.poleEmploi, expectedLabel: 'Profil Pôle emploi');
+    assertLabel(givenSource: SuggestionSource.poleEmploi, expectedLabel: 'Profil France Travail');
     assertLabel(givenSource: SuggestionSource.conseiller, expectedLabel: 'Conseiller');
     assertLabel(givenSource: null, expectedLabel: null);
   });
