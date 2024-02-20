@@ -106,7 +106,7 @@ void main() {
           expect(result, isNotNull);
           expect(result!.dateDerniereMiseAJour, parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'));
           expect(result.rendezvous.length, 10);
-          expect(result.rendezvous[0].organism, 'Agence Pôle Emploi');
+          expect(result.rendezvous[0].organism, 'Agence France Travail');
           expect(
             result.rendezvous[0],
             Rendezvous(
@@ -121,7 +121,7 @@ void main() {
               type: RendezvousType(RendezvousTypeCode.PRESTATION, 'Prestation'),
               duration: null,
               address: '11 RUE Paul Vimereu  80142 ABBEVILLE',
-              organism: 'Agence Pôle Emploi',
+              organism: 'Agence France Travail',
               phone: '01.02.03.04.05',
               theme: 'Activ\'Projet',
               description: 'J\'explore des pistes professionnelles.',
@@ -143,7 +143,7 @@ void main() {
         await sut.expectResult<RendezvousListResult?>((result) {
           expect(result, isNotNull);
           expect(result!.rendezvous.length, 10);
-          expect(result.rendezvous[0].organism, 'Agence Pôle Emploi');
+          expect(result.rendezvous[0].organism, 'Agence France Travail');
         });
       });
     });

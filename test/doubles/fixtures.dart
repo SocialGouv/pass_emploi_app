@@ -493,7 +493,7 @@ Rendezvous mockRendezvousPoleEmploi() {
     type: RendezvousType(RendezvousTypeCode.PRESTATION, 'Prestation'),
     duration: null,
     address: '11 RUE Paul Vimereu  80142 ABBEVILLE',
-    organism: 'Agence Pôle Emploi',
+    organism: 'Agence France Travail',
     phone: '01.02.03.04.05',
     theme: 'Activ\'Projet',
     description: 'J\'explore des pistes professionnelles.',
@@ -521,8 +521,8 @@ EvenementEmploiDetails mockEvenementEmploiDetails({DateTime? dateDebut, DateTime
     id: "106757",
     ville: "Ermont",
     codePostal: "95120",
-    description: "Information collective pour découvrir les métiers de pôle emploi en vu d'un recrutement...",
-    titre: "Devenir conseiller à Pôle emploi",
+    description: "Information collective pour découvrir les métiers de France Travail en vu d'un recrutement...",
+    titre: "Devenir conseiller à France Travail",
     typeEvenement: "Réunion d'information",
     dateTimeDebut: dateDebut ?? parseDateTimeUtcWithCurrentTimeZone("2023-06-15T10:00:00.000+00:00"),
     dateTimeFin: dateFin ?? parseDateTimeUtcWithCurrentTimeZone("2023-06-15T13:00:00.000+00:00"),
@@ -1102,8 +1102,8 @@ OffrePartagee dummyOffrePartagee() => OffrePartagee(
     );
 
 EvenementEmploiPartage dummyEvenementEmploiPartage() => EvenementEmploiPartage(
-      id: "106757",
-      titre: "Devenir conseiller à Pôle emploi",
+  id: "106757",
+      titre: "Devenir conseiller à France Travail",
       url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
       message: "Regardes ça",
     );

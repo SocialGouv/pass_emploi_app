@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
-const String _poleEmploiOrganism = 'Agence Pôle Emploi';
+const String _poleEmploiOrganism = 'Agence France Travail';
 
 class JsonRendezvous {
   final String id;

@@ -129,7 +129,7 @@ class Strings {
   static String whichOrganisme = "De quel organisme dépend votre conseiller principal ?";
   static String noOrganisme = "Je ne suis inscrit à aucun de ces organismes";
   static String rendezVousPoleEmploi =
-      "Prenez rendez-vous avec votre conseiller Pôle emploi qui procédera à la création de votre compte.";
+      "Prenez rendez-vous avec votre conseiller France Travail qui procédera à la création de votre compte.";
   static String rendezVousMissionLocale =
       "Prenez rendez-vous avec votre conseiller Mission Locale qui procédera à la création de votre compte.";
   static String alreadyHaveAccount = "Vous avez déjà un compte sur cette application ?";
@@ -175,7 +175,7 @@ class Strings {
   static String loginGenericErrorDescription =
       "Réessayer plus tard. Si le problème persiste, vous pouvez contacter votre conseiller.";
   static String loginPassEmploi = "pass emploi";
-  static String loginPoleEmploi = "Pôle emploi";
+  static String loginPoleEmploi = "France Travail";
   static String loginMissionLocale = "Mission Locale";
   static String loginAction = "Se connecter";
   static String logoutAction = "Se déconnecter";
@@ -246,7 +246,7 @@ class Strings {
   static String agendaSeeEventInAgenceButton = "Voir les événements de votre mission locale";
 
   // Actualisation PE
-  static String actualisationPePopUpTitle = "La période d’actualisation Pôle emploi a commencé";
+  static String actualisationPePopUpTitle = "La période d’actualisation France Travail a commencé";
   static String actualisationPePopUpSubtitle = "Pensez à vous actualiser avant le 15 du mois";
   static String actualisationPePopUpPrimaryButton = "S'actualiser";
   static String actualisationPePopUpSecondaryButton = "Fermer";
@@ -815,7 +815,7 @@ class Strings {
   static String demarches = "démarches";
   static String demarche = "démarche";
 
-  static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
+  static String poleEmploiUrlButton = "Accéder à mon espace France Travail";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 
   static String emptyContentTitle(String content) => "Vous n’avez pas encore de $content";
@@ -823,7 +823,7 @@ class Strings {
   static String emptyContentSubtitle(String content) => "Commencez en créant une nouvelle $content\u{00A0}!";
 
   static String emptyContentDescription(String content) =>
-      "Vous pouvez créer vos $content en autonomie depuis votre espace Pôle emploi.";
+      "Vous pouvez créer vos $content en autonomie depuis votre espace France Travail.";
 
   // Profil
   static String personalInformation = "Informations personnelles";
@@ -861,7 +861,7 @@ class Strings {
   static String warningInformationParagraph2 =
       Brand.isCej() ? _CejStrings.warningInformationParagraph2 : _BrsaStrings.warningInformationParagraph2;
   static String warningInformationPoleEmploi =
-      "Vos démarches et rendez-vous seront toujours disponibles dans votre portail Pôle emploi.";
+      "Vos démarches et rendez-vous seront toujours disponibles dans votre portail France Travail.";
   static List<String> warningPointsMilo = [
     "vos actions",
     "vos messages avec votre conseiller",
@@ -981,12 +981,12 @@ class Strings {
   static String vosSuggestionsAlertes = "Vos suggestions d'alertes";
   static String nouvellesSuggestionsDeRechercheTitre = "Vous avez des suggestions d’alertes";
   static String nouvellesSuggestionsDeRechercheDescription =
-      "Sur la base de votre profil Pôle emploi, voici des suggestions d'alertes à sauvegarder";
+      "Sur la base de votre profil France Travail, voici des suggestions d'alertes à sauvegarder";
   static String voirSuggestionsDeRecherche = "Voir les suggestions";
   static String suggestionsDeRechercheTitlePage = "Vos suggestions d'alertes";
   static String suggestionsDeRechercheHeader =
       "Vos suggestions peuvent venir de différentes sources. Après l’ajout, vous serez notifié si une nouvelle offre est disponible.";
-  static String suggestionSourcePoleEmploi = "Profil Pôle emploi";
+  static String suggestionSourcePoleEmploi = "Profil France Travail";
   static String suggestionSourceConseiller = "Conseiller";
   static String suggestionSourceDiagoriente = "Métiers favoris";
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
@@ -996,7 +996,7 @@ class Strings {
   static String emptySuggestionAlerteListDescriptionMilo =
       "Vous pouvez découvrir vos métiers favoris dans votre profil pour avoir des suggestions qui vous correspondent";
   static String emptySuggestionAlerteListDescriptionPoleEmploi =
-      "Vous pouvez remplir votre profil Pôle emploi et découvrir vos métiers favoris dans votre profil pour avoir des suggestions qui vous correspondent";
+      "Vous pouvez remplir votre profil France Travail et découvrir vos métiers favoris dans votre profil pour avoir des suggestions qui vous correspondent";
 
   // Événements
   static String eventListError = "Erreur lors de la récupération des événements";
@@ -1052,7 +1052,7 @@ class Strings {
   static const String evenementEmploiFiltresDateDebut = "Date de début format: jj/mm/aaaa";
   static const String evenementEmploiFiltresDateFin = "Date de fin format: jj/mm/aaaa";
 
-  // Mode dégradé Pôle emploi
+  // Mode dégradé France Travail
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
   static String rendezvousNotUpToDateMessage =
       "Une erreur technique s’est produite. Certains de vos rendez-vous ne sont peut-être pas à jour.";
@@ -1091,18 +1091,18 @@ class Strings {
   // CV
   static String cvCardTitle = "CV";
   static String cvCardSubtitle =
-      "Préparez vos prochaines candidatures en téléchargeant vos CV Pôle emploi directement sur votre téléphone.";
+      "Préparez vos prochaines candidatures en téléchargeant vos CV France Travail directement sur votre téléphone.";
   static String cvCadCaption = "Voir";
   static String cvListPageTitle = "CV";
   static String cvListPageSubtitle =
-      "Téléchargez vos CV Pôle emploi sur votre téléphone pour préparer votre candidature";
-  static String cvError = "Erreur lors de la récupération des CVs Pôle emploi";
-  static String cvListEmptyTitle = "Vous n’avez pas de CV dans votre espace Pôle emploi";
+      "Téléchargez vos CV France Travail sur votre téléphone pour préparer votre candidature";
+  static String cvError = "Erreur lors de la récupération des CVs France Travail";
+  static String cvListEmptyTitle = "Vous n’avez pas de CV dans votre espace France Travail";
   static String cvListEmptySubitle =
-      "Déposez votre CV dans votre espace Pôle emploi pour le récupérer automatiquement quand vous postulerez à des offres";
-  static String cvEmptyButton = "Mon espace Pôle emploi";
+      "Déposez votre CV dans votre espace France Travail pour le récupérer automatiquement quand vous postulerez à des offres";
+  static String cvEmptyButton = "Mon espace France Travail";
   static String cvDownload = "Télécharger";
-  static String cvErrorApiPeKoMessage = "Impossible de se synchroniser avec votre espace Pôle emploi";
+  static String cvErrorApiPeKoMessage = "Impossible de se synchroniser avec votre espace France Travail";
   static String cvErrorApiPeKoButton = "Recharger la page";
 
   // Postuler

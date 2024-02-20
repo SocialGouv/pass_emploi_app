@@ -38,7 +38,7 @@ class TopDemarcheRepository {
         codePourquoi: 'P04',
         comments: [
           Comment(label: 'Sur internet', code: 'C18.01'),
-          Comment(label: 'En participant à un Job dating hors Pôle emploi', code: 'C18.02'),
+          Comment(label: 'En participant à un Job dating hors France Travail', code: 'C18.02'),
           Comment(label: 'Par un autre moyen', code: 'C18.03'),
         ],
         isCommentMandatory: true,

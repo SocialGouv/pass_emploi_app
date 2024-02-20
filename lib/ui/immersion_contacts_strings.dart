@@ -21,7 +21,9 @@ class ImmersionContactStrings {
       "Concluez en lui demandant un rendez-vous pour qu’il/elle se rende compte du sérieux de votre projet.";
   static const String subtitle2 = "Comment expliquer simplement ce qu’est une immersion ?";
   static const String body2 =
-      "C’est un stage d’observation, strictement encadré d’un point de vue juridique. Vous conservez votre statut et êtes couvert par votre Pôle emploi, votre Mission Locale ou le Conseil départemental (en fonction de votre situation).\n\nLe rôle de celui qui vous accueillera est de vous présenter le métier et de vérifier avec vous que ce métier vous convient en vous faisant des retours les plus objectifs possibles. Pendant la durée de votre présence, vous pouvez aider les salariés en donnant un coup de main mais vous n’êtes pas là pour remplacer un collègue absent.";
+      "C’est un stage d’observation, strictement encadré d’un point de vue juridique. Vous conservez votre statut et "
+      "êtes couvert par France Travail, votre Mission Locale ou le Conseil départemental (en fonction de votre "
+      "situation).\n\nLe rôle de celui qui vous accueillera est de vous présenter le métier et de vérifier avec vous que ce métier vous convient en vous faisant des retours les plus objectifs possibles. Pendant la durée de votre présence, vous pouvez aider les salariés en donnant un coup de main mais vous n’êtes pas là pour remplacer un collègue absent.";
   static const String subtitle3 = "Quelle est la durée d’une immersion ?";
   static const String body3 =
       "Les immersions se font le plus souvent pendant une semaine ou deux. Il n’est pas possible de dépasser un mois. Il est possible de faire une immersion de seulement un ou deux jours mais vous ne découvrirez pas parfaitement un métier.";

@@ -29,11 +29,11 @@ void main() {
       EvenementEmploiDetailsPageViewModel(
         displayState: DisplayState.CONTENT,
         tag: "Réunion d'information",
-        titre: "Devenir conseiller à Pôle emploi",
+        titre: "Devenir conseiller à France Travail",
         date: "15 juin 2023",
         heure: "12h - 15h",
         lieu: "95120 - Ermont",
-        description: "Information collective pour découvrir les métiers de pôle emploi en vu d'un recrutement...",
+        description: "Information collective pour découvrir les métiers de France Travail en vu d'un recrutement...",
         url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
         retry: (id) => {},
       ),
