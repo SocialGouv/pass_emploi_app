@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -92,7 +93,7 @@ class ProfilPage extends StatelessWidget {
                 SizedBox(height: Margins.spacing_m),
                 _RatingCard(),
                 SizedBox(height: Margins.spacing_m),
-                if (viewModel.displayDeveloperOptions) ...[
+                if (viewModel.displayDeveloperOptions || kDebugMode) ...[
                   _SectionTitle(Strings.developerOptions),
                   SizedBox(height: Margins.spacing_m),
                   _MatomoCard(),
@@ -291,11 +292,11 @@ class _LegalInformationCard extends StatelessWidget {
   }
 
   Widget _redirectIcon() => Icon(
-        AppIcons.open_in_new_rounded,
-        semanticLabel: Strings.openInNavigator,
-        size: Dimens.icon_size_base,
-        color: AppColors.grey800,
-      );
+    AppIcons.open_in_new_rounded,
+    semanticLabel: Strings.openInNavigator,
+    size: Dimens.icon_size_base,
+    color: AppColors.grey800,
+  );
 }
 
 class _MatomoCard extends StatelessWidget {
@@ -349,8 +350,8 @@ class _RatingCard extends StatelessWidget {
   }
 
   Widget _arrowRedirectIcon() => Icon(
-        AppIcons.chevron_right_rounded,
-        semanticLabel: Strings.openInNewTab,
-        color: AppColors.contentColor,
-      );
+    AppIcons.chevron_right_rounded,
+    semanticLabel: Strings.openInNewTab,
+    color: AppColors.contentColor,
+  );
 }
