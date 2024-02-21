@@ -6,38 +6,27 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/elevated_button_tile.dart';
 
-class LoginBottomSheet extends StatelessWidget {
-  const LoginBottomSheet({super.key});
-
-  static void show(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => const LoginBottomSheet(),
-    );
-  }
+class LoginBottomSheetPage1 extends StatelessWidget {
+  const LoginBottomSheetPage1({required this.loginModeSelected});
+  final void Function() loginModeSelected;
 
   @override
   Widget build(BuildContext context) {
-    return BottomSheetWrapper(
-      title: "",
-      body: Column(
-        children: [
-          SizedBox(height: Margins.spacing_s),
-          _AppBarTitle(),
-          SizedBox(height: Margins.spacing_m),
-          _OrganismInformations(),
-          SizedBox(height: Margins.spacing_base),
-          _FranceTravailLoginButton(),
-          SizedBox(height: Margins.spacing_base),
-          _MissionLocaleLoginButton(),
-          SizedBox(height: Margins.spacing_base),
-          _NoOrganismButton(),
-        ],
-      ),
+    return Column(
+      children: [
+        SizedBox(height: Margins.spacing_s),
+        _AppBarTitle(),
+        SizedBox(height: Margins.spacing_m),
+        _OrganismInformations(),
+        SizedBox(height: Margins.spacing_base),
+        _FranceTravailLoginButton(onSelected: loginModeSelected),
+        SizedBox(height: Margins.spacing_base),
+        _MissionLocaleLoginButton(onSelected: loginModeSelected),
+        SizedBox(height: Margins.spacing_base),
+        _NoOrganismButton(),
+      ],
     );
   }
 }
@@ -59,6 +48,9 @@ class _NoOrganismButton extends StatelessWidget {
 }
 
 class _MissionLocaleLoginButton extends StatelessWidget {
+  const _MissionLocaleLoginButton({required this.onSelected});
+  final void Function() onSelected;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButtonTile(
@@ -67,7 +59,7 @@ class _MissionLocaleLoginButton extends StatelessWidget {
         height: 40,
         child: Image.asset("assets/logo-mission-locale.webp"),
       ),
-      onPressed: () {},
+      onPressed: onSelected,
       label: Strings.loginBottomSeetMissionLocaleButton,
       suffix: Icon(AppIcons.chevron_right_rounded),
     );
@@ -75,6 +67,9 @@ class _MissionLocaleLoginButton extends StatelessWidget {
 }
 
 class _FranceTravailLoginButton extends StatelessWidget {
+  const _FranceTravailLoginButton({required this.onSelected});
+  final void Function() onSelected;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButtonTile(
@@ -83,7 +78,7 @@ class _FranceTravailLoginButton extends StatelessWidget {
         height: 40,
         child: Image.asset("assets/logo-france-travail.webp"),
       ),
-      onPressed: () {},
+      onPressed: onSelected,
       label: Strings.loginBottomSeetFranceTravailButton,
       suffix: Icon(AppIcons.chevron_right_rounded),
     );
