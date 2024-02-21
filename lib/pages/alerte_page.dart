@@ -93,7 +93,7 @@ class _AlertePageState extends State<AlertePage> {
 
   Widget _body(AlerteListViewModel viewModel) {
     return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.mesAlertesTabTitle),
+      appBar: SecondaryAppBar(title: Strings.mesAlertesPageTitle),
       backgroundColor: AppColors.grey100,
       body: _content(viewModel),
       floatingActionButton: _floatingActionButton(context, viewModel),
