@@ -786,8 +786,8 @@ class Strings {
   static String interim = "Intérim";
 
   // Favoris
-  static String mesFavorisTabTitle = "Mes favoris";
-  static String mesAlertesTabTitle = "Mes alertes";
+  static String mesFavorisPageTitle = "Mes favoris";
+  static String mesAlertesPageTitle = "Mes alertes";
   static String miscellaneousErrorRetry = "Une erreur est survenue. Veuillez réessayer";
 
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";

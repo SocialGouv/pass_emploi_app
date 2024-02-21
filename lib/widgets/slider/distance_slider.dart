@@ -20,18 +20,12 @@ class _DistanceSliderState extends State<DistanceSlider> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: SliderValue(value: _sliderValueToDisplay(widget.initialDistanceValue).toInt()),
-        ),
+        SliderValue(value: _sliderValueToDisplay(widget.initialDistanceValue).toInt()),
         _Slider(
           onValueChange: (value) => _onValueChange(value),
           currentValue: _sliderValueToDisplay(widget.initialDistanceValue),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: SliderCaption(),
-        ),
+        SliderCaption(),
       ],
     );
   }

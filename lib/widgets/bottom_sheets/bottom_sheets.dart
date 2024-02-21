@@ -36,7 +36,7 @@ class BottomSheetHeader extends StatelessWidget {
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
-            Text(title, style: TextStyles.textBaseBold),
+            Text(title, style: TextStyles.textMBold),
             Align(
               alignment: AlignmentDirectional.centerStart,
               child: SizedBox.square(

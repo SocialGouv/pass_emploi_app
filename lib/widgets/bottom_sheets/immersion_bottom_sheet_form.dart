@@ -37,6 +37,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        SizedBox(height: Margins.spacing_base),
         Expanded(
           child: ListView(
             shrinkWrap: true,
@@ -50,6 +51,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
           ),
         ),
         _createButton(widget.viewModel),
+        SizedBox(height: Margins.spacing_base),
       ],
     );
   }
