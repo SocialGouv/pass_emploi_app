@@ -20,6 +20,7 @@ class ElevatedButtonTile extends StatelessWidget {
         boxShadow: [Shadows.radius_base],
       ),
       child: Material(
+        color: Colors.white,
         child: InkWell(
           borderRadius: BorderRadius.circular(Dimens.radius_base),
           onTap: onPressed,

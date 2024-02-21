@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/login_bottom_sheet/login_bottom_sheet_page1.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/login_bottom_sheet/login_bottom_sheet_page2.dart';
 
 class LoginBottomSheet extends StatefulWidget {
-  const LoginBottomSheet({super.key});
+  const LoginBottomSheet({super.key, required this.loginButtons});
 
-  static void show(BuildContext context) {
+  final List<LoginButtonViewModel> loginButtons;
+
+  static void show(BuildContext context, List<LoginButtonViewModel> loginButtons) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => const LoginBottomSheet(),
+      builder: (context) => LoginBottomSheet(loginButtons: loginButtons),
     );
   }
 
@@ -20,21 +23,24 @@ class LoginBottomSheet extends StatefulWidget {
 }
 
 class _LoginBottomSheetState extends State<LoginBottomSheet> {
-  int index = 0;
-  void loginModeSelected() => setState(() => index = 1);
+  void loginModeSelected(LoginButtonViewModel button) => setState(() => selectedLoginMode = button);
+  LoginButtonViewModel? selectedLoginMode;
 
   @override
   Widget build(BuildContext context) {
-    final pages = [
-      LoginBottomSheetPage1(loginModeSelected: loginModeSelected),
-      LoginBottomSheetPage2(),
-    ];
-
     return BottomSheetWrapper(
+      heightFactor: 0.8,
       title: "",
-      body: AnimatedSwitcher(
-        duration: AnimationDurations.fast,
-        child: pages[index],
+      body: SingleChildScrollView(
+        child: AnimatedSwitcher(
+          duration: AnimationDurations.fast,
+          child: selectedLoginMode != null
+              ? LoginBottomSheetPage2(viewModel: selectedLoginMode!)
+              : LoginBottomSheetPage1(
+                  loginButtons: widget.loginButtons,
+                  onLoginButtonSelected: loginModeSelected,
+                ),
+        ),
       ),
     );
   }

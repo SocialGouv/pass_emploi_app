@@ -1,11 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -53,33 +51,34 @@ class LoginViewModel extends Equatable {
 
 List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor, Brand brand) {
   return [
-    LoginButtonViewModel(
-      label: Strings.loginPoleEmploi,
-      backgroundColor: AppColors.poleEmploi,
-      action: () => store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI)),
-    ),
-    if (brand == Brand.cej)
-      LoginButtonViewModel(
-        label: Strings.loginMissionLocale,
-        backgroundColor: AppColors.missionLocale,
-        action: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)),
-      ),
-    if (flavor == Flavor.STAGING)
-      LoginButtonViewModel(
-        label: Strings.loginPassEmploi,
-        backgroundColor: AppColors.primary,
-        action: () => store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI)),
-      ),
+    LoginButtonViewModelPoleEmploi(store),
+    if (brand == Brand.cej) LoginButtonViewModelMissionLocale(store),
+    if (flavor == Flavor.STAGING) LoginButtonViewModelPassEmploi(store),
   ];
 }
 
-class LoginButtonViewModel extends Equatable {
-  final String label;
-  final Color backgroundColor;
+sealed class LoginButtonViewModel extends Equatable {
   final Function() action;
 
-  LoginButtonViewModel({required this.label, required this.backgroundColor, required this.action});
+  LoginButtonViewModel({required this.action});
 
   @override
-  List<Object?> get props => [label];
+  List<Object?> get props => [];
+
+  bool get isPoleEmploi => this is LoginButtonViewModelPoleEmploi;
+}
+
+class LoginButtonViewModelPoleEmploi extends LoginButtonViewModel {
+  LoginButtonViewModelPoleEmploi(Store<AppState> store)
+      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI)));
+}
+
+class LoginButtonViewModelMissionLocale extends LoginButtonViewModel {
+  LoginButtonViewModelMissionLocale(Store<AppState> store)
+      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)));
+}
+
+class LoginButtonViewModelPassEmploi extends LoginButtonViewModel {
+  LoginButtonViewModelPassEmploi(Store<AppState> store)
+      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI)));
 }

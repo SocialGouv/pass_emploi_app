@@ -170,6 +170,7 @@ class Strings {
   // Login bottom sheet
   static const String loginBottomSeetFranceTravailButton = "France travail";
   static const String loginBottomSeetMissionLocaleButton = "Mission Locale";
+  static const String loginBottomSeetPassEmploiButton = "Pass Emploi";
   static const String loginBottomSeetNoOrganism = "Je ne suis inscrit à aucun de ces organismes";
 
   static const String loginBottomSeetTitlePage1 = "Sélectionnez l’organisme dont dépend votre conseiller CEJ : ";
@@ -181,11 +182,11 @@ class Strings {
 
   static const String loginBottomSeetTitlePage2 = "Pour vous connecter, vous aurez besoin de : ";
 
-  static List<String> loginInfosUserName =
-      Brand.isCej() ? loginBottomSheetEmailInfosCej : loginBottomSheetEmailInfosBrsa;
+  static List<String> loginInfosUserName(bool isPoleEmploi) =>
+      isPoleEmploi ? loginBottomSheetEmailInfosPoleEmploi : loginBottomSheetEmailInfosCej;
 
-  static List<String> loginBottomSheetPasswordInfos =
-      Brand.isCej() ? loginBottomSheetPasswordInfosCej : loginBottomSheetPasswordInfosBrsa;
+  static List<String> loginBottomSheetPasswordInfos(bool isPoleEmploi) =>
+      isPoleEmploi ? loginBottomSheetPasswordInfosPoleEmploi : loginBottomSheetPasswordInfosCej;
 
   static const List<String> loginBottomSheetEmailInfosCej = [
     "L’adresse mail",
@@ -196,31 +197,31 @@ class Strings {
     " créé lors de la réception du mail d’activation"
   ];
 
-  static const List<String> loginBottomSheetEmailInfosBrsa = [
+  static const List<String> loginBottomSheetEmailInfosPoleEmploi = [
     "Le nom d’utilisateur",
     " créé lors de votre inscription à France Travail"
   ];
-  static const List<String> loginBottomSheetPasswordInfosBrsa = [
+  static const List<String> loginBottomSheetPasswordInfosPoleEmploi = [
     "Le mot de passe",
     " de votre espace personnel France Travail"
   ];
 
-  static String loginBottomSheetRecuperationInfos =
-      Brand.isCej() ? loginBottomSheetRecuperationInfosCej : loginBottomSheetRecuperationInfosBrsa;
+  static String loginBottomSheetRecuperationInfos(bool isPoleEmploi) =>
+      isPoleEmploi ? loginBottomSheetRecuperationInfosPoleEmploi : loginBottomSheetRecuperationInfosCej;
 
   static const String loginBottomSheetRecuperationInfosCej =
       "Si vous avez oublié votre mot de passe ou vous n’avez pas reçu le mail d’activation, vous pourrez le réinitialiser en cliquant sur Mot de passe oublié.";
 
-  static const String loginBottomSheetRecuperationInfosBrsa =
+  static const String loginBottomSheetRecuperationInfosPoleEmploi =
       "Si vous avez oublié votre nom d’utilisateur ou votre mot de passe, vous pourrez les récupérer à l’étape suivante.";
 
-  static String loginOpenInNewDescription =
-      Brand.isCej() ? loginOpenInNewDescriptionCej : loginOpenInNewDescriptionBrsa;
+  static String loginOpenInNewDescription(bool isPoleEmploi) =>
+      isPoleEmploi ? loginOpenInNewDescriptionPoleEmploi : loginOpenInNewDescriptionCej;
 
   static const String loginOpenInNewDescriptionCej =
       "Vous serez redirigé vers la page de d'authentification de Mission Locale pour vous connecter.";
 
-  static const String loginOpenInNewDescriptionBrsa =
+  static const String loginOpenInNewDescriptionPoleEmploi =
       "Vous serez redirigé vers la page de d'authentification de France Travail pour vous connecter.";
 
   static const String loginNoAccount = "Pas de compte ?";

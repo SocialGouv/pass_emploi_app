@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 
 import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
@@ -111,7 +110,7 @@ void main() {
 
     // Then
     expect(viewModel.loginButtons, [
-      LoginButtonViewModel(label: "France Travail", backgroundColor: AppColors.poleEmploi, action: () {}),
+      LoginButtonViewModelPoleEmploi(store),
     ]);
   });
 
@@ -126,8 +125,8 @@ void main() {
 
     // Then
     expect(viewModel.loginButtons, [
-      LoginButtonViewModel(label: "France Travail", backgroundColor: AppColors.poleEmploi, action: () {}),
-      LoginButtonViewModel(label: "pass emploi", backgroundColor: AppColors.primary, action: () {}),
+      LoginButtonViewModelPoleEmploi(store),
+      LoginButtonViewModelPassEmploi(store),
     ]);
   });
 
@@ -144,9 +143,9 @@ void main() {
 
     // Then
     expect(viewModel.loginButtons, [
-      LoginButtonViewModel(label: "France Travail", backgroundColor: AppColors.poleEmploi, action: () {}),
-      LoginButtonViewModel(label: "Mission Locale", backgroundColor: AppColors.missionLocale, action: () {}),
-      LoginButtonViewModel(label: "pass emploi", backgroundColor: AppColors.primary, action: () {}),
+      LoginButtonViewModelPoleEmploi(store),
+      LoginButtonViewModelMissionLocale(store),
+      LoginButtonViewModelPassEmploi(store),
     ]);
   });
 
@@ -161,8 +160,8 @@ void main() {
 
     // Then
     expect(viewModel.loginButtons, [
-      LoginButtonViewModel(label: "France Travail", backgroundColor: AppColors.poleEmploi, action: () {}),
-      LoginButtonViewModel(label: "Mission Locale", backgroundColor: AppColors.missionLocale, action: () {}),
+      LoginButtonViewModelPoleEmploi(store),
+      LoginButtonViewModelMissionLocale(store),
     ]);
   });
 
