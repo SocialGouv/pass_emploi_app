@@ -23,15 +23,3 @@ class SepLine extends StatelessWidget {
     );
   }
 }
-
-
-class SepLineWithPadding extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: SepLine(24, 24),
-    );
-  }
-}

@@ -10,20 +10,13 @@ class DateToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(Strings.startDate, style: TextStyles.textSRegular()),
-              _StartDateToggle(
-                onIsActiveChange: onIsActiveChange,
-                isActiveDate: isActiveDate,
-              ),
-            ],
-          ),
+        Text(Strings.startDate, style: TextStyles.textSRegular()),
+        _StartDateToggle(
+          onIsActiveChange: onIsActiveChange,
+          isActiveDate: isActiveDate,
         ),
       ],
     );

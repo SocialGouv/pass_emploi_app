@@ -8,14 +8,13 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
-import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 
 class OffreEmploiFiltresPage extends StatefulWidget {
@@ -86,7 +85,6 @@ class _ContentState extends State<_Content> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.bottomCenter,
       children: [
         _Filters(
           viewModel: widget.viewModel,
@@ -95,9 +93,12 @@ class _ContentState extends State<_Content> {
           onContractValueChange: (selectedOptions) => _setContractFilterState(selectedOptions),
           onDurationValueChange: (selectedOptions) => _setContractDurationState(selectedOptions),
         ),
-        FilterButton(
-          isEnabled: _isButtonEnabled(widget.viewModel.displayState),
-          onPressed: () => _onButtonClick(widget.viewModel),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: FilterButton(
+            isEnabled: _isButtonEnabled(widget.viewModel.displayState),
+            onPressed: () => _onButtonClick(widget.viewModel),
+          ),
         ),
       ],
     );
@@ -159,12 +160,13 @@ class _FiltersState extends State<_Filters> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: Margins.spacing_l),
           if (widget.viewModel.shouldDisplayDistanceFiltre) ...[
             DistanceSlider(
               initialDistanceValue: widget.viewModel.initialDistanceValue.toDouble(),
               onValueChange: (value) => widget.onDistanceValueChange(value),
             ),
-            SepLineWithPadding(),
+            SizedBox(height: Margins.spacing_m),
           ],
           if (widget.viewModel.shouldDisplayNonDistanceFiltres) ...[
             _FiltreDebutant(
@@ -235,25 +237,17 @@ class _FiltreDebutantState extends State<_FiltreDebutant> {
           child: Text(Strings.experienceSectionTitle, style: TextStyles.textBaseBold),
         ),
         SizedBox(height: Margins.spacing_base),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-            boxShadow: [Shadows.radius_base],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_m),
-            child: Row(
-              children: [
-                Expanded(child: Text(Strings.experienceSectionDescription, style: TextStyles.textBaseRegular)),
-                Switch(
-                  value: _debutantOnlyEnabled,
-                  onChanged: _onDebutantOnlyValueChange,
-                ),
-                SizedBox(width: Margins.spacing_xs),
-                Text(_debutantOnlyEnabled ? Strings.yes : Strings.no, style: TextStyles.textBaseRegular),
-              ],
-            ),
+        CardContainer(
+          child: Row(
+            children: [
+              Expanded(child: Text(Strings.experienceSectionDescription, style: TextStyles.textBaseRegular)),
+              Switch(
+                value: _debutantOnlyEnabled,
+                onChanged: _onDebutantOnlyValueChange,
+              ),
+              SizedBox(width: Margins.spacing_xs),
+              Text(_debutantOnlyEnabled ? Strings.yes : Strings.no, style: TextStyles.textBaseRegular),
+            ],
           ),
         )
       ],

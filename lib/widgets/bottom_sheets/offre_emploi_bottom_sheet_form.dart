@@ -39,6 +39,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        SizedBox(height: Margins.spacing_base),
         Expanded(
           child: ListView(
             shrinkWrap: true,
@@ -52,6 +53,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
           ),
         ),
         _createButton(widget.viewModel),
+        SizedBox(height: Margins.spacing_base),
       ],
     );
   }

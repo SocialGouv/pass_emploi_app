@@ -37,6 +37,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        SizedBox(height: Margins.spacing_base),
         Expanded(
           child: ListView(
             shrinkWrap: true,
@@ -50,6 +51,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
           ),
         ),
         _createButton(widget.viewModel),
+        SizedBox(height: Margins.spacing_base),
       ],
     );
   }

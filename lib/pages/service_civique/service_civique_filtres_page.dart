@@ -73,7 +73,6 @@ class _ContentState extends State<_Content> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.bottomCenter,
       children: [
         _Filters(
           viewModel: widget.viewModel,
@@ -81,9 +80,12 @@ class _ContentState extends State<_Content> {
           onStartDateValueChange: (date, isActive) => _setStartDateFilterState(date, isActive),
           onDomainValueChange: (domain) => _setDomainFilterState(domain),
         ),
-        FilterButton(
-          isEnabled: _isButtonEnabled(widget.viewModel),
-          onPressed: () => _onButtonClick(widget.viewModel),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: FilterButton(
+            isEnabled: _isButtonEnabled(widget.viewModel),
+            onPressed: () => _onButtonClick(widget.viewModel),
+          ),
         ),
       ],
     );
@@ -151,12 +153,13 @@ class _FiltersState extends State<_Filters> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: Margins.spacing_l),
           if (widget.viewModel.shouldDisplayDistanceFiltre) ...[
             DistanceSlider(
               initialDistanceValue: widget.viewModel.initialDistanceValue.toDouble(),
               onValueChange: (value) => widget.onDistanceValueChange(value),
             ),
-            SizedBox(height: Margins.spacing_m),
+            SizedBox(height: Margins.spacing_l),
           ],
           _StartDateFilters(
             initialDateValue: _isActiveDate ? _currentStartDate : null,
@@ -164,12 +167,12 @@ class _FiltersState extends State<_Filters> {
             onDateChange: _onDateChange,
             isActiveDate: _isActiveDate,
           ),
-          SizedBox(height: Margins.spacing_m),
+          SizedBox(height: Margins.spacing_l),
           _DomainFilters(
             currentDomainValue: _currentDomainValue!,
             onValueChange: (value) => widget.onDomainValueChange(value),
           ),
-          SizedBox(height: 100),
+          SizedBox(height: Margins.spacing_huge),
         ],
       ),
     );
@@ -213,6 +216,7 @@ class _StartDateFilters extends StatelessWidget {
           onIsActiveChange: onIsActiveChange,
           isActiveDate: isActiveDate,
         ),
+        SizedBox(height: Margins.spacing_s),
         DatePicker(
           onDateSelected: onDateChange,
           initialDateValue: initialDateValue,
@@ -239,10 +243,8 @@ class _DomainFiltersState extends State<_DomainFilters> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10.0),
-          child: Text(Strings.domainFiltreTitle, style: TextStyles.textBaseBold),
-        ),
+        Text(Strings.domainFiltreTitle, style: TextStyles.textBaseBold),
+        SizedBox(height: Margins.spacing_s),
         _DomainList(
           onValueChange: (value) => widget.onValueChange(value),
           initialDomainValue: widget.currentDomainValue,

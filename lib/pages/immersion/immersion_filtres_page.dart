@@ -5,11 +5,11 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
-import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 
 class ImmersionFiltresPage extends StatefulWidget {
@@ -64,19 +64,26 @@ class _ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          DistanceSlider(
-            initialDistanceValue: widget.viewModel.initialDistanceValue.toDouble(),
-            onValueChange: (value) => _setDistanceFilterState(value),
+    return Stack(
+      children: [
+        Column(
+          children: [
+            SizedBox(height: Margins.spacing_l),
+            DistanceSlider(
+              initialDistanceValue: widget.viewModel.initialDistanceValue.toDouble(),
+              onValueChange: (value) => _setDistanceFilterState(value),
+            ),
+            if (_isError(widget.viewModel)) ErrorText(widget.viewModel.errorMessage),
+          ],
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: FilterButton(
+            isEnabled: _isButtonEnabled(widget.viewModel),
+            onPressed: () => _onButtonClick(widget.viewModel),
           ),
-          SepLineWithPadding(),
-          if (_isError(widget.viewModel)) ErrorText(widget.viewModel.errorMessage),
-          FilterButton(
-              isEnabled: _isButtonEnabled(widget.viewModel), onPressed: () => _onButtonClick(widget.viewModel)),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
