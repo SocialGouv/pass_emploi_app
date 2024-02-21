@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/cvm_repository.dart';
+import 'package:pass_emploi_app/utils/log.dart';
 import 'package:redux/redux.dart';
 
 class CvmMiddleware extends MiddlewareClass<AppState> {
@@ -16,7 +17,17 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   var hasRoom = false; //TODO: ?
   final List<CvmEvent> messages = [];
 
+  @override
+  void call(Store<AppState> store, action, NextDispatcher next) async {
+    next(action);
+    if (action is CvmAction) {
+      Log.d("CvmMiddleware call: ${action.runtimeType}");
+      handleAction(store, action);
+    }
+  }
+
   void _subscribeToChatStream(Store<AppState> store) {
+    Log.d("CvmMiddleware _subscribeToChatStream");
     _repository.getMessages().listen(
       (messages) {
         store.dispatch(CvmSuccessAction(messages));
@@ -30,6 +41,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _subscribeToHasRoomStream(Store<AppState> store) {
+    Log.d("CvmMiddleware _subscribeToHasRoomStream");
     _repository.hasRoom().listen(
       (hasRoom) {
         // TODO: est-ce qu'il faut une mécanique "synchronized" ?
@@ -38,6 +50,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
           return;
         }
         this.hasRoom = hasRoom;
+        Log.d("CvmMiddleware _subscribeToChatStream: hasRoom: $hasRoom");
         if (hasRoom) {
           _repository.stopListenRooms();
           store.dispatch(CvmJoinRoomAction());
@@ -49,14 +62,6 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(CvmFailureAction());
       },
     );
-  }
-
-  @override
-  void call(Store<AppState> store, action, NextDispatcher next) async {
-    next(action);
-    if (action is CvmAction) {
-      handleAction(store, action);
-    }
   }
 
   void handleAction(Store<AppState> store, CvmAction action) async {
@@ -77,18 +82,13 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _loginCvm(Store<AppState> store, CvmRepository repository) async {
+    Log.d("CvmMiddleware _loginCvm");
     try {
       await repository.login();
-
-      //TODO: temp to test listen rooms
-      // await repository.joinFirstRoom();
-      // await repository.startListenMessages();
-
       await repository.startListenRooms();
 
-      Future.delayed(Duration(seconds: 5), () {
-        repository.loadMore();
-      });
+      // TODO-CVM why ?
+      Future.delayed(Duration(seconds: 5), () => repository.loadMore());
     } catch (e) {
       _crashlytics?.log("CvmMiddleware._loginCvm error");
       _crashlytics?.recordCvmException(e);
@@ -97,13 +97,12 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _initCvm(Store<AppState> store, CvmRepository repository) async {
+    Log.d("CvmMiddleware _initCvm");
     store.dispatch(CvmLoadingAction());
 
     try {
       hasRoom = false;
-
       await repository.initializeCvm();
-
       _subscribeToChatStream(store);
       _subscribeToHasRoomStream(store);
     } catch (e) {
@@ -114,6 +113,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _startListenMessagesOnFirstRoom(Store<AppState> store, CvmRepository repository) async {
+    Log.d("CvmMiddleware _startListenMessagesOnFirstRoom");
     try {
       await repository.joinFirstRoom();
       await repository.startListenMessages();
