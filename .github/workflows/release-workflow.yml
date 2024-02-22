@@ -40,98 +40,98 @@ jobs:
     outputs:
       date: ${{ steps.getCurrentTimestamp.outputs.date }}
 
-  # build-android-prod:
-  #   runs-on: ubuntu-latest
-  #   needs: pre-build
-  #   steps:
-  #     - uses: actions/checkout@v3
+  build-android-prod:
+    runs-on: ubuntu-latest
+    needs: pre-build
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Set Environment Variables
-  #       uses: ./.github/actions/setvars
-  #       with:
-  #         varFilePath: ./.github/variables/myvars.env
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
 
-  #     - uses: subosito/flutter-action@v2
-  #       with:
-  #         cache: true
-  #         flutter-version: ${{ env.FLUTTER_VERSION }}
+      - uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
-  #     - name: Write Google configuration for Android
-  #       shell: bash
-  #       run: |
-  #         echo "$PROD_GOOGLE_SERVICE_B64" | base64 --decode > android/app/google-services.json
-  #       env:
-  #         PROD_GOOGLE_SERVICE_B64: ${{ secrets.PROD_GOOGLE_SERVICE_B64 }}
+      - name: Write Google configuration for Android
+        shell: bash
+        run: |
+          echo "$PROD_GOOGLE_SERVICE_B64" | base64 --decode > android/app/google-services.json
+        env:
+          PROD_GOOGLE_SERVICE_B64: ${{ secrets.PROD_GOOGLE_SERVICE_B64 }}
 
-  #     - name: Write key properties
-  #       shell: bash
-  #       run: |
-  #         echo "$KEY_PROPERTIES_B64" | base64 --decode > android/key.properties
-  #       env:
-  #         KEY_PROPERTIES_B64: ${{ secrets.KEY_PROPERTIES_B64 }}
+      - name: Write key properties
+        shell: bash
+        run: |
+          echo "$KEY_PROPERTIES_B64" | base64 --decode > android/key.properties
+        env:
+          KEY_PROPERTIES_B64: ${{ secrets.KEY_PROPERTIES_B64 }}
 
-  #     - name: Write key store
-  #       shell: bash
-  #       run: |
-  #         mkdir android/keystore
-  #         echo "$KEYSTORE_B64" | base64 --decode > android/keystore/passemploi.jks
-  #       env:
-  #         KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+      - name: Write key store
+        shell: bash
+        run: |
+          mkdir android/keystore
+          echo "$KEYSTORE_B64" | base64 --decode > android/keystore/passemploi.jks
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
 
-  #     - name: Write env
-  #       shell: bash
-  #       run: |
-  #         echo "$PROD_RUNTIME_ENV_B64" | base64 --decode > env/.env.prod
-  #       env:
-  #         PROD_RUNTIME_ENV_B64: ${{ secrets.PROD_RUNTIME_ENV_B64 }}
+      - name: Write env
+        shell: bash
+        run: |
+          echo "$PROD_RUNTIME_ENV_B64" | base64 --decode > env/.env.prod
+        env:
+          PROD_RUNTIME_ENV_B64: ${{ secrets.PROD_RUNTIME_ENV_B64 }}
 
-  #     - name: CEJ - Build Android appbundle
-  #       run: |
-  #         flutter pub get
-  #         flutter build appbundle \
-  #         -t lib/cej_main.dart \
-  #         --flavor cejProd \
-  #         --build-number=${{ needs.pre-build.outputs.date }}
+      - name: CEJ - Build Android appbundle
+        run: |
+          flutter pub get
+          flutter build appbundle \
+          -t lib/cej_main.dart \
+          --flavor cejProd \
+          --build-number=${{ needs.pre-build.outputs.date }}
 
-  #     - name: CEJ - Save Android appbundle
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         path: build/app/outputs/bundle/release/app.aab
+      - name: CEJ - Save Android appbundle
+        uses: actions/upload-artifact@v3
+        with:
+          path: build/app/outputs/bundle/release/app.aab
 
-  #     - name: CEJ - Deploy Android appbundle
-  #       uses: r0adkll/upload-google-play@v1
-  #       with:
-  #         serviceAccountJsonPlainText: ${{ secrets.PROD_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-  #         packageName: fr.fabrique.social.gouv.passemploi
-  #         releaseName: ${{github.ref_name}}
-  #         releaseFiles: build/app/outputs/bundle/release/app.aab
-  #         track: production
-  #         status: completed
-  #         whatsNewDirectory: release-notes/cej
+      - name: CEJ - Deploy Android appbundle
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PROD_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: fr.fabrique.social.gouv.passemploi
+          releaseName: ${{github.ref_name}}
+          releaseFiles: build/app/outputs/bundle/release/app.aab
+          track: production
+          status: completed
+          whatsNewDirectory: release-notes/cej
 
-  #     - name: BRSA - Build Android appbundle
-  #       run: |
-  #         flutter pub get
-  #         flutter build appbundle \
-  #         -t lib/brsa_main.dart \
-  #         --flavor brsaProd \
-  #         --build-number=${{ needs.pre-build.outputs.date }}
+      - name: BRSA - Build Android appbundle
+        run: |
+          flutter pub get
+          flutter build appbundle \
+          -t lib/brsa_main.dart \
+          --flavor brsaProd \
+          --build-number=${{ needs.pre-build.outputs.date }}
 
-  #     - name: BRSA - Save Android appbundle
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         path: build/app/outputs/bundle/release/app.aab
+      - name: BRSA - Save Android appbundle
+        uses: actions/upload-artifact@v3
+        with:
+          path: build/app/outputs/bundle/release/app.aab
 
-  #     - name: BRSA - Deploy Android appbundle
-  #       uses: r0adkll/upload-google-play@v1
-  #       with:
-  #         serviceAccountJsonPlainText: ${{ secrets.PROD_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-  #         packageName: fr.fabrique.social.gouv.passemploi.rsa
-  #         releaseName: ${{github.ref_name}}
-  #         releaseFiles: build/app/outputs/bundle/release/app.aab
-  #         track: production
-  #         status: completed
-  #         whatsNewDirectory: release-notes/brsa
+      - name: BRSA - Deploy Android appbundle
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PROD_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: fr.fabrique.social.gouv.passemploi.rsa
+          releaseName: ${{github.ref_name}}
+          releaseFiles: build/app/outputs/bundle/release/app.aab
+          track: production
+          status: completed
+          whatsNewDirectory: release-notes/brsa
 
   build-ios-prod:
     runs-on: macos-12
