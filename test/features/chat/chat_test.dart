@@ -310,7 +310,7 @@ void main() {
       sut.whenDispatchingAction(() => ChatPartagerOffreAction(dummyOffrePartagee()));
 
       setUpAll(() {
-        registerFallbackValue(EventType.MESSAGE_EVENEMENT_EMPLOI_PARTAGE);
+        registerFallbackValue(EventType.EVENEMENT_EXTERNE_PARTAGE);
         registerFallbackValue(LoginMode.MILO);
       });
 
@@ -388,7 +388,7 @@ void main() {
           () => verify(
             () => trackingEventRepository.sendEvent(
               userId: 'id',
-              event: EventType.MESSAGE_EVENEMENT_EMPLOI_PARTAGE,
+              event: EventType.EVENEMENT_EXTERNE_PARTAGE,
               loginMode: LoginMode.MILO,
               brand: Brand.cej,
             ),
