@@ -94,7 +94,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(ChatPartageLoadingAction());
     final succeed = await _repository.sendEvenementEmploiPartage(userId, evenementEmploi);
     if (succeed) {
-      store.dispatch(TrackingEventAction(EventType.MESSAGE_EVENEMENT_EMPLOI_PARTAGE));
+      store.dispatch(TrackingEventAction(EventType.EVENEMENT_EXTERNE_PARTAGE));
       store.dispatch(ChatPartageSuccessAction());
     } else {
       store.dispatch(ChatPartageFailureAction());
