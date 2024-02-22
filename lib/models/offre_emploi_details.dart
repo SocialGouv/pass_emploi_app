@@ -14,7 +14,7 @@ class OffreEmploiDetails extends Equatable {
   final String? companyName;
   final String? companyDescription;
   final String? companyUrl;
-  final bool companyAdapted;
+  final bool? companyAdapted;
   final bool companyAccessibility;
   final bool isAlternance;
   final String? experience;
@@ -72,7 +72,7 @@ class OffreEmploiDetails extends Equatable {
       lastUpdate: _extractLastUpdate(json),
       skills: _extractSkills(json),
       softSkills: _extractSoftSkills(json).map((soft) => soft.description).whereType<String>().toList(),
-      companyAdapted: json["entreprise"]?["entrepriseAdaptee"] as bool,
+      companyAdapted: json["entreprise"]?["entrepriseAdaptee"] as bool?,
       companyAccessibility: json["accessibleTH"] as bool,
       isAlternance: json["alternance"] as bool? ?? false,
     );
