@@ -906,7 +906,7 @@ class Strings {
 
   // alertes
   static String createAlert = "Créer une alerte";
-  static String createAlerteTitle = "Enregistrer la recherche en favoris";
+  static String createAlerteTitle = "Créer une alerte pour la recherche";
   static String alerteTitle = "* Nom de la recherche";
   static String mandatoryAlerteTitleError = "Renseigner un nom pour votre recherche";
   static String alerteFilters = "Critères de la recherche";
