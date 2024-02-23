@@ -13,7 +13,7 @@ class CampagneRecrutementRepository {
     await _preferences.write(key: _key, value: 'read');
   }
 
-  Future<void> hideCampagneRecrutement() async {
+  Future<void> dismissCampagneRecrutement() async {
     await _preferences.write(key: _key, value: campagneConfig.lastCampagneId());
   }
 

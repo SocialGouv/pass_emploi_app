@@ -23,7 +23,7 @@ void main() {
             .loggedInUser()
             .store((f) => {f.campagneRecrutementRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed(true)]);
       });
 
       test('should load then fail when request fails', () {
@@ -36,6 +36,20 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
       });
     });
+
+    group('when dismiss', () {
+      sut.whenDispatchingAction(() => CampagneRecrutementDismissAction());
+
+      test('should dismiss campagne recrutement', () {
+        when(() => repository.dismissCampagneRecrutement()).thenAnswer((_) async => true);
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.campagneRecrutementRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(false)]);
+      });
+    });
   });
 }
 
@@ -43,11 +57,11 @@ Matcher _shouldLoad() => StateIs<CampagneRecrutementLoadingState>((state) => sta
 
 Matcher _shouldFail() => StateIs<CampagneRecrutementFailureState>((state) => state.campagneRecrutementState);
 
-Matcher _shouldSucceed() {
+Matcher _shouldSucceed(bool value) {
   return StateIs<CampagneRecrutementSuccessState>(
     (state) => state.campagneRecrutementState,
     (state) {
-      expect(state.result, true);
+      expect(state.result, value);
     },
   );
 }

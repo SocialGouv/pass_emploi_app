@@ -21,6 +21,8 @@ class CampagneRecrutementMiddleware extends MiddlewareClass<AppState> {
       } else {
         store.dispatch(CampagneRecrutementFailureAction());
       }
+    } else if (action is CampagneRecrutementDismissAction) {
+      await _repository.dismissCampagneRecrutement();
     }
   }
 }

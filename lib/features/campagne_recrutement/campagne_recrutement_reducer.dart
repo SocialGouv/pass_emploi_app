@@ -5,5 +5,6 @@ CampagneRecrutementState campagneRecrutementReducer(CampagneRecrutementState cur
   if (action is CampagneRecrutementLoadingAction) return CampagneRecrutementLoadingState();
   if (action is CampagneRecrutementFailureAction) return CampagneRecrutementFailureState();
   if (action is CampagneRecrutementSuccessAction) return CampagneRecrutementSuccessState(action.result);
+  if (action is CampagneRecrutementDismissAction) return CampagneRecrutementSuccessState(false);
   return current;
 }

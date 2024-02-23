@@ -9,3 +9,5 @@ class CampagneRecrutementSuccessAction {
 }
 
 class CampagneRecrutementFailureAction {}
+
+class CampagneRecrutementDismissAction {}
