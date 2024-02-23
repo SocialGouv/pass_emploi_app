@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
+import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
@@ -22,7 +23,6 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
-import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -138,5 +138,9 @@ class MockTrackingEventRepository extends Mock implements TrackingEventRepositor
 
 class MockCvmRepository extends Mock implements CvmRepository {}
 
-class MockCampagneRecrutementRepository extends Mock implements CampagneRecrutementRepository {}
+class MockCampagneRecrutementRepository extends Mock implements CampagneRecrutementRepository {
+  MockCampagneRecrutementRepository() {
+    when(() => shouldShowCampagneRecrutement()).thenAnswer((_) async => false);
+  }
+}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/
