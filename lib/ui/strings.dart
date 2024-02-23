@@ -180,7 +180,7 @@ class Strings {
     ". Cette information est visible sur votre contrat CEJ dans la case “Opérateur”."
   ];
 
-  static const String loginBottomSeetTitlePage2 = "Pour vous connecter, vous aurez besoin de : ";
+  static const String loginBottomSeetTitlePage2 = "Pour vous connecter, vous aurez besoin des éléments suivants : ";
 
   static List<String> loginInfosUserName(bool isPoleEmploi) =>
       isPoleEmploi ? loginBottomSheetEmailInfosPoleEmploi : loginBottomSheetEmailInfosCej;

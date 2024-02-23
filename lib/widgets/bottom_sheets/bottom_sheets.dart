@@ -22,9 +22,8 @@ Future<T?> showPassEmploiBottomSheet<T>({required BuildContext context, required
 }
 
 class BottomSheetHeader extends StatelessWidget {
-  const BottomSheetHeader({super.key, required this.title, this.padding});
-
-  final String title;
+  const BottomSheetHeader({super.key, this.title, this.padding});
+  final String? title;
   final EdgeInsets? padding;
 
   @override
@@ -37,15 +36,7 @@ class BottomSheetHeader extends StatelessWidget {
         child: Stack(
           alignment: AlignmentDirectional.topCenter,
           children: [
-            Padding(
-              // Extra left padding not to overlap with the close button on small devices
-              padding: const EdgeInsets.only(left: Dimens.icon_size_m + Margins.spacing_s),
-              child: Text(
-                title,
-                style: TextStyles.textMBold,
-                textAlign: TextAlign.center,
-              ),
-            ),
+            if (title != null) Text(title!, style: TextStyles.textBaseBold),
             Align(
               alignment: AlignmentDirectional.centerStart,
               child: SizedBox.square(
@@ -75,10 +66,9 @@ class BottomSheetHeader extends StatelessWidget {
 }
 
 class BottomSheetWrapper extends StatelessWidget {
-  const BottomSheetWrapper({super.key, required this.title, required this.body, this.heightFactor = 0.9, this.padding});
-
+  const BottomSheetWrapper({super.key, this.title, required this.body, this.heightFactor = 0.9, this.padding});
   final double heightFactor;
-  final String title;
+  final String? title;
   final Widget body;
   final EdgeInsets? padding;
 
