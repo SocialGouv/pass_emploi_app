@@ -1,8 +1,8 @@
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
-import 'package:pass_emploi_app/auth/max_living_time_config.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/remote_config/max_living_time_config.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 

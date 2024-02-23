@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
+import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -136,4 +137,6 @@ class MockUserActionRepository extends Mock implements UserActionRepository {}
 class MockTrackingEventRepository extends Mock implements TrackingEventRepository {}
 
 class MockCvmRepository extends Mock implements CvmRepository {}
+
+class MockCampagneRecrutementRepository extends Mock implements CampagneRecrutementRepository {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

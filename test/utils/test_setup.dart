@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/repositories/alerte/offre_emploi_alerte_reposito
 import 'package:pass_emploi_app/repositories/alerte/service_civique_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
+import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
@@ -134,7 +135,7 @@ class TestStoreFactory {
   TopDemarcheRepository topDemarcheRepository = DummyTopDemarcheRepository();
   MonSuiviRepository monSuiviRepository = DummyMonSuiviRepository();
   CvmRepository cvmRepository = MockCvmRepository();
-
+  CampagneRecrutementRepository campagneRecrutementRepository = MockCampagneRecrutementRepository();
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -202,6 +203,7 @@ class TestStoreFactory {
       topDemarcheRepository,
       monSuiviRepository,
       cvmRepository,
+      campagneRecrutementRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }
