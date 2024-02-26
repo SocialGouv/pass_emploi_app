@@ -264,7 +264,7 @@ class _UnfinishedActionButton extends StatelessWidget {
       width: double.infinity,
       child: PrimaryActionButton(
         label: Strings.unCompleteAction,
-        suffix: Icon(AppIcons.schedule, color: Colors.white),
+        icon: AppIcons.schedule,
         onPressed: () => viewModel.updateStatus(UserActionStatus.IN_PROGRESS),
       ),
     );
