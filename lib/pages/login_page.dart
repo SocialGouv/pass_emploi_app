@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -11,6 +10,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/login_bottom_sheet/login_bottom_sheet_home.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -123,20 +123,11 @@ class _Body extends StatelessWidget {
           ),
           SizedBox(height: Margins.spacing_m),
         ],
-        ...viewModel.loginButtons.expandIndexed(
-          (index, vm) => [
-            PrimaryActionButton(
-              label: vm.label,
-              onPressed: vm.action,
-              backgroundColor: vm.backgroundColor,
-            ),
-            SizedBox(height: Margins.spacing_base),
-            if (index < viewModel.loginButtons.length - 1) ...[
-              _OrSeparator(),
-              SizedBox(height: Margins.spacing_base),
-            ]
-          ],
-        )
+        SizedBox(height: Margins.spacing_base),
+        PrimaryActionButton(
+          label: "Login",
+          onPressed: () => LoginBottomSheet.show(context, viewModel.loginButtons),
+        ),
       ],
     );
   }
@@ -203,24 +194,6 @@ class _ErrorBanner extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _OrSeparator extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(width: Margins.spacing_l),
-        Expanded(child: Divider(color: AppColors.grey500)),
-        SizedBox(width: Margins.spacing_base),
-        Text(Strings.or, style: TextStyles.textBaseBold),
-        SizedBox(width: Margins.spacing_base),
-        Expanded(child: Divider(color: AppColors.grey500)),
-        SizedBox(width: Margins.spacing_l),
-      ],
     );
   }
 }
