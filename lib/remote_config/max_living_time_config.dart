@@ -1,15 +1,10 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
-abstract class MaxLivingTimeConfig {
-  int? maxLivingTimeInSecondsForMilo();
-}
-
-class MaxLivingTimeRemoteConfig implements MaxLivingTimeConfig {
+class MaxLivingTimeRemoteConfig {
   final FirebaseRemoteConfig? _firebaseRemoteConfig;
 
   MaxLivingTimeRemoteConfig(this._firebaseRemoteConfig);
 
-  @override
   int? maxLivingTimeInSecondsForMilo() {
     if (_firebaseRemoteConfig == null) return null;
 

@@ -15,6 +15,8 @@ class CampagneRecrutementCard extends StatelessWidget {
   const CampagneRecrutementCard(this.campagneRecrutementCej);
 
   final CampagneRecrutementCej campagneRecrutementCej;
+  static const url =
+      "https://framaforms.org/participez-a-la-conception-de-lapplication-du-contrat-dengagement-jeune-1707239593";
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,7 @@ class CampagneRecrutementCard extends StatelessWidget {
       backgroundColor: Colors.transparent,
       splashColor: AppColors.primaryDarken.withOpacity(0.5),
       padding: EdgeInsets.zero,
-      onTap: () => launchExternalUrl(
-          "https://framaforms.org/participez-a-la-conception-de-lapplication-du-contrat-dengagement-jeune-1707239593"),
+      onTap: () => launchExternalUrl(url),
       image: DecorationImage(
         image: AssetImage("assets/campagne_recrutement_bg.webp"),
         fit: BoxFit.cover,
@@ -54,6 +55,7 @@ class CampagneRecrutementCard extends StatelessWidget {
                         style: TextStyles.textMBold.copyWith(color: Colors.white),
                       ),
                     ),
+                    SizedBox(width: Margins.spacing_m),
                   ],
                 ),
                 SizedBox(height: Margins.spacing_s),

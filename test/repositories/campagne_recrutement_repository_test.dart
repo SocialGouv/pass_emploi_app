@@ -1,17 +1,12 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/remote_config/campagne_recrutement_config.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 
-class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {
-  void withAnyRead(String? value) {
-    when(() => read(key: any(named: "key"))).thenAnswer((_) async => value);
-  }
-}
+import '../doubles/mocks.dart';
 
-class MockCampagneRecrutementConfig extends Mock implements CampagneRecrutementConfig {
-  void withLastCampagneId(String value) {
+class MockCampagneRecrutementConfig extends Mock implements CampagneRecrutementRemoteConfig {
+  void withLastCampagneId(String? value) {
     when(() => lastCampagneId()).thenReturn(value);
   }
 }
@@ -29,12 +24,35 @@ void main() {
   });
 
   group('CampagneRecrutementRepository', () {
-    group('shouldShowCampagneRecrutement', () {
-      test('should not show campgane recrutement on first read', () async {
+    group('isFirstLaunch', () {
+      test('should return true on first read', () async {
         // Given
-        const String campagneId = "campagneId";
-        mockCampagneRecrutementConfig.withLastCampagneId(campagneId);
         mockFlutterSecureStorage.withAnyRead(null);
+
+        // When
+        final result = await campagneRecrutementRepository.isFirstLaunch();
+
+        // Then
+        expect(result, true);
+      });
+
+      test('should return false on second read', () async {
+        // Given
+        mockFlutterSecureStorage.withAnyRead("anyValue");
+
+        // When
+        final result = await campagneRecrutementRepository.isFirstLaunch();
+
+        // Then
+        expect(result, false);
+      });
+    });
+
+    group('shouldShowCampagneRecrutement', () {
+      test('should not show campagne recrutement if campagneConfig is null', () async {
+        // Given
+        mockCampagneRecrutementConfig.withLastCampagneId(null);
+        mockFlutterSecureStorage.withAnyRead("campagneId");
 
         // When
         final result = await campagneRecrutementRepository.shouldShowCampagneRecrutement();
@@ -43,7 +61,7 @@ void main() {
         expect(result, false);
       });
 
-      test('should not show campgane recrutement when campagneId is already registered', () async {
+      test('should not show campagne recrutement local and remote campagne are equals', () async {
         // Given
         const String campagneId = "campagneId";
         mockCampagneRecrutementConfig.withLastCampagneId(campagneId);
@@ -56,7 +74,7 @@ void main() {
         expect(result, false);
       });
 
-      test('should show campgane recrutement when campagneId in different', () async {
+      test('should show campagne recrutement when campagneId is different', () async {
         // Given
         const String campagneId = "campagneId";
         mockCampagneRecrutementConfig.withLastCampagneId(campagneId);

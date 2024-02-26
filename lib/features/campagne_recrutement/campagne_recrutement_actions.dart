@@ -1,13 +1,9 @@
 class CampagneRecrutementRequestAction {}
 
-class CampagneRecrutementLoadingAction {}
-
 class CampagneRecrutementSuccessAction {
-  final bool result;
+  final bool withCampagne;
 
-  CampagneRecrutementSuccessAction(this.result);
+  CampagneRecrutementSuccessAction(this.withCampagne);
 }
-
-class CampagneRecrutementFailureAction {}
 
 class CampagneRecrutementDismissAction {}

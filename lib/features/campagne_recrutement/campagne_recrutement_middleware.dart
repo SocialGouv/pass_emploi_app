@@ -11,15 +11,14 @@ class CampagneRecrutementMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    final userId = store.state.userId();
-    if (userId == null) return;
     if (action is CampagneRecrutementRequestAction) {
-      store.dispatch(CampagneRecrutementLoadingAction());
-      final result = await _repository.shouldShowCampagneRecrutement();
-      if (result != null) {
-        store.dispatch(CampagneRecrutementSuccessAction(result));
+      final isFirstLaunch = await _repository.isFirstLaunch();
+      if (isFirstLaunch) {
+        await _repository.setCampagneRecrutementInitialRead();
+        store.dispatch(CampagneRecrutementSuccessAction(false));
       } else {
-        store.dispatch(CampagneRecrutementFailureAction());
+        final shouldShowCampagne = await _repository.shouldShowCampagneRecrutement();
+        store.dispatch(CampagneRecrutementSuccessAction(shouldShowCampagne));
       }
     } else if (action is CampagneRecrutementDismissAction) {
       await _repository.dismissCampagneRecrutement();

@@ -102,7 +102,7 @@ class DummyAuthWrapper extends AuthWrapper {
   DummyAuthWrapper() : super(DummyFlutterAppAuth(), Lock());
 }
 
-class DummyMaxLivingTimeConfig extends MaxLivingTimeConfig {
+class DummyMaxLivingTimeConfig extends Mock implements MaxLivingTimeRemoteConfig {
   DummyMaxLivingTimeConfig() : super();
 
   @override

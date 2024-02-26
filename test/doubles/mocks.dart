@@ -62,6 +62,9 @@ class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {
     when(() => delete(key: any(named: "key"))).thenAnswer((_) async {});
     when(() => readAll()).thenAnswer((_) async => {});
   }
+  void withAnyRead(String? value) {
+    when(() => read(key: any(named: "key"))).thenAnswer((_) async => value);
+  }
 }
 
 class MockSecteurActiviteQueryMapper extends Mock implements SecteurActiviteQueryMapper {}
@@ -141,6 +144,17 @@ class MockCvmRepository extends Mock implements CvmRepository {}
 class MockCampagneRecrutementRepository extends Mock implements CampagneRecrutementRepository {
   MockCampagneRecrutementRepository() {
     when(() => shouldShowCampagneRecrutement()).thenAnswer((_) async => false);
+    when(() => dismissCampagneRecrutement()).thenAnswer((_) async => true);
+    when(() => isFirstLaunch()).thenAnswer((_) async => true);
+    when(() => setCampagneRecrutementInitialRead()).thenAnswer((_) async => true);
+  }
+
+  void withIsFirstLaunch(bool value) {
+    when(() => isFirstLaunch()).thenAnswer((_) async => value);
+  }
+
+  void withShouldShowCampagneRecrutement(bool value) {
+    when(() => shouldShowCampagneRecrutement()).thenAnswer((_) async => value);
   }
 }
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

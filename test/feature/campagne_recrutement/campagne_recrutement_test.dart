@@ -16,24 +16,25 @@ void main() {
     group("when requesting", () {
       sut.whenDispatchingAction(() => CampagneRecrutementRequestAction());
 
-      test('should load then succeed when request succeeds', () {
+      test('should not display campagne recrutement on first launch', () {
+        when(() => repository.isFirstLaunch()).thenAnswer((_) async => true);
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.campagneRecrutementRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(false)]);
+      });
+
+      test('should show campagne recrutement', () {
+        when(() => repository.isFirstLaunch()).thenAnswer((_) async => false);
         when(() => repository.shouldShowCampagneRecrutement()).thenAnswer((_) async => true);
 
         sut.givenStore = givenState() //
             .loggedInUser()
             .store((f) => {f.campagneRecrutementRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed(true)]);
-      });
-
-      test('should load then fail when request fails', () {
-        when(() => repository.shouldShowCampagneRecrutement()).thenAnswer((_) async => null);
-
-        sut.givenStore = givenState() //
-            .loggedInUser()
-            .store((f) => {f.campagneRecrutementRepository = repository});
-
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(true)]);
       });
     });
 
@@ -52,10 +53,6 @@ void main() {
     });
   });
 }
-
-Matcher _shouldLoad() => StateIs<CampagneRecrutementLoadingState>((state) => state.campagneRecrutementState);
-
-Matcher _shouldFail() => StateIs<CampagneRecrutementFailureState>((state) => state.campagneRecrutementState);
 
 Matcher _shouldSucceed(bool value) {
   return StateIs<CampagneRecrutementSuccessState>(

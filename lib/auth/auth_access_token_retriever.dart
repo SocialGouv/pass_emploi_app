@@ -7,7 +7,7 @@ import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
 class AuthAccessTokenRetriever {
-  final MaxLivingTimeConfig _maxLivingTimeConfig;
+  final MaxLivingTimeRemoteConfig _maxLivingTimeConfig;
   final Authenticator _authenticator;
   final Lock _lock;
   late Store<AppState> _store;
