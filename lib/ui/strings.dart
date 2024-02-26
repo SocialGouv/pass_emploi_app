@@ -255,7 +255,7 @@ class Strings {
   static String accueilOutilsSectionDescription = "Découvrez des outils pour vous aider dans vos projets";
   static String accueilVoirLesOutils = "Voir tous les outils";
   static String accueilCampagneRecrutementLabel = "Aidez-nous à améliorer l’application du CEJ\u{00A0}!";
-  static String accueilCampagneRecrutementPressedTip = "Partciper";
+  static String accueilCampagneRecrutementPressedTip = "Participer";
 
   // Mon Suivi Tabs
   static String monSuiviAppBarTitle = "Mon suivi";
