@@ -105,6 +105,12 @@ class AccueilCampagneItem extends AccueilItem {
   List<Object?> get props => [titre, description];
 }
 
+class CampagneRecrutementCej extends AccueilItem {
+  final void Function() onDismiss;
+
+  CampagneRecrutementCej({required this.onDismiss});
+}
+
 String _actionsOuDemarchesLabel(LoginMode loginMode, int actionsOuDemarches) {
   final usePlural = actionsOuDemarches > 1;
   if (loginMode.isPe()) {

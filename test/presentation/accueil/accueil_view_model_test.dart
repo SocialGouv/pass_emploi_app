@@ -54,6 +54,7 @@ void main() {
       final store = givenState() //
           .loggedInMiloUser()
           .withAccueilMiloSuccess()
+          .withCampagneRecrutement(true)
           .withCampagne(campagne())
           .store();
 
@@ -64,6 +65,7 @@ void main() {
       expect(
         viewModel.items,
         [
+          CampagneRecrutementCej(onDismiss: () {}),
           AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
             rendezvousCount: "3",
@@ -141,6 +143,7 @@ void main() {
       final store = givenState() //
           .loggedInPoleEmploiUser()
           .withAccueilPoleEmploiSuccess()
+          .withCampagneRecrutement(true)
           .withCampagne(campagne())
           .store();
 
@@ -151,6 +154,7 @@ void main() {
       expect(
         viewModel.items,
         [
+          CampagneRecrutementCej(onDismiss: () {}),
           AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
             rendezvousCount: "3",

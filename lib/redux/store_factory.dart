@@ -74,6 +74,7 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_m
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_middleware.dart';
+import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -138,6 +139,7 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 import 'package:pass_emploi_app/repositories/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -206,6 +208,7 @@ class StoreFactory {
   final MonSuiviRepository monSuiviRepository;
 
   final CvmRepository cvmRepository;
+  final CampagneRecrutementRepository campagneRecrutementRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -272,6 +275,7 @@ class StoreFactory {
     this.topDemarcheRepository,
     this.monSuiviRepository,
     this.cvmRepository,
+    this.campagneRecrutementRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -359,6 +363,7 @@ class StoreFactory {
         ConnectivityMiddleware(connectivityWrapper).call,
         MonSuiviMiddleware(monSuiviRepository).call,
         CvmMiddleware(cvmRepository).call,
+        CampagneRecrutementMiddleware(campagneRecrutementRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

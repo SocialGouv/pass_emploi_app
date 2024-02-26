@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
+import 'package:pass_emploi_app/pages/accueil/acceuil_campagne_recrutement.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_alertes.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_cette_semaine.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_evenements.dart';
@@ -117,6 +118,7 @@ class _Blocs extends StatelessWidget {
 
   Widget _itemBuilder(BuildContext context, int index) {
     return switch (viewModel.items[index]) {
+      final CampagneRecrutementCej item => CampagneRecrutementCard(item),
       final AccueilCampagneItem item => _CampagneCard(title: item.titre, description: item.description),
       final AccueilCetteSemaineItem item => AccueilCetteSemaine(item),
       final AccueilProchainRendezvousItem item => AccueilProchainRendezVous.fromRendezVous(item.rendezvousId),
@@ -128,7 +130,6 @@ class _Blocs extends StatelessWidget {
     };
   }
 }
-
 
 class _Retry extends StatelessWidget {
   final AccueilViewModel viewModel;

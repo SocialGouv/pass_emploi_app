@@ -66,6 +66,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
+import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -137,6 +138,7 @@ class AppState extends Equatable {
   final MonSuiviState monSuiviState;
 
   final CvmState cvmState;
+  final CampagneRecrutementState campagneRecrutementState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -207,6 +209,7 @@ class AppState extends Equatable {
     required this.connectivityState,
     required this.monSuiviState,
     required this.cvmState,
+    required this.campagneRecrutementState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -278,6 +281,7 @@ class AppState extends Equatable {
     final ConnectivityState? connectivityState,
     final MonSuiviState? monSuiviState,
     final CvmState? cvmState,
+    final CampagneRecrutementState? campagneRecrutementState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -348,6 +352,7 @@ class AppState extends Equatable {
       connectivityState: connectivityState ?? this.connectivityState,
       monSuiviState: monSuiviState ?? this.monSuiviState,
       cvmState: cvmState ?? this.cvmState,
+      campagneRecrutementState: campagneRecrutementState ?? this.campagneRecrutementState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -421,6 +426,7 @@ class AppState extends Equatable {
       connectivityState: ConnectivityState.notInitialized(),
       monSuiviState: MonSuiviNotInitializedState(),
       cvmState: CvmNotInitializedState(),
+      campagneRecrutementState: CampagneRecrutementNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -487,6 +493,7 @@ class AppState extends Equatable {
         connectivityState,
         monSuiviState,
         cvmState,
+        campagneRecrutementState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

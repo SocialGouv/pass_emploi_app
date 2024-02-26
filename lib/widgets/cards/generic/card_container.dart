@@ -11,6 +11,7 @@ class CardContainer extends StatelessWidget {
   final Color splashColor;
   final EdgeInsets padding;
   final bool withShadow;
+  final DecorationImage? image;
 
   const CardContainer({
     super.key,
@@ -20,6 +21,7 @@ class CardContainer extends StatelessWidget {
     this.splashColor = AppColors.primaryLighten,
     this.padding = const EdgeInsets.all(Margins.spacing_base),
     this.withShadow = true,
+    this.image,
   });
 
   @override
@@ -30,6 +32,7 @@ class CardContainer extends StatelessWidget {
         color: backgroundColor,
         borderRadius: cardBorderRadius,
         boxShadow: withShadow ? [Shadows.radius_base] : [],
+        image: image,
       ),
       child: Material(
           color: backgroundColor,

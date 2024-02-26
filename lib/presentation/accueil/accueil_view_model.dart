@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
+import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
@@ -72,6 +73,7 @@ List<AccueilItem> _items(Store<AppState> store) {
   if (accueilState is! AccueilSuccessState || user == null) return [];
 
   return [
+    _campagneRecrutementCej(store, store.state),
     _campagneItem(store.state),
     _cetteSemaineItem(user.loginMode, accueilState),
     _prochainRendezvousItem(accueilState),
@@ -154,6 +156,15 @@ AccueilItem? _campagneItem(AppState state) {
   final campagne = state.campagneState.campagne;
   if (campagne != null) {
     return AccueilCampagneItem(titre: campagne.titre, description: campagne.description);
+  }
+  return null;
+}
+
+CampagneRecrutementCej? _campagneRecrutementCej(Store<AppState> store, AppState state) {
+  final isCej = Brand.isCej();
+  final campagneRecrutementState = state.campagneRecrutementState;
+  if (isCej && campagneRecrutementState.shouldShowCampagneRecrutement) {
+    return CampagneRecrutementCej(onDismiss: () => store.dispatch(CampagneRecrutementDismissAction()));
   }
   return null;
 }

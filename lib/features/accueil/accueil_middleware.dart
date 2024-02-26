@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/alerte/create/alerte_create_actions.dart';
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_actions.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
+import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
@@ -37,6 +38,7 @@ class AccueilMiddleware extends MiddlewareClass<AppState> {
       final result = await getAccueil(user);
       store.dispatch(result != null ? AccueilSuccessAction(result) : AccueilFailureAction());
       store.dispatch(CampagneFetchedAction(result?.campagne));
+      store.dispatch(CampagneRecrutementRequestAction());
     }
   }
 

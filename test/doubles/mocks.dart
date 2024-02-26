@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
+import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
@@ -60,6 +61,9 @@ class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {
     when(() => write(key: any(named: "key"), value: any(named: "value"))).thenAnswer((_) async {});
     when(() => delete(key: any(named: "key"))).thenAnswer((_) async {});
     when(() => readAll()).thenAnswer((_) async => {});
+  }
+  void withAnyRead(String? value) {
+    when(() => read(key: any(named: "key"))).thenAnswer((_) async => value);
   }
 }
 
@@ -136,4 +140,21 @@ class MockUserActionRepository extends Mock implements UserActionRepository {}
 class MockTrackingEventRepository extends Mock implements TrackingEventRepository {}
 
 class MockCvmRepository extends Mock implements CvmRepository {}
+
+class MockCampagneRecrutementRepository extends Mock implements CampagneRecrutementRepository {
+  MockCampagneRecrutementRepository() {
+    when(() => shouldShowCampagneRecrutement()).thenAnswer((_) async => false);
+    when(() => dismissCampagneRecrutement()).thenAnswer((_) async => true);
+    when(() => isFirstLaunch()).thenAnswer((_) async => true);
+    when(() => setCampagneRecrutementInitialRead()).thenAnswer((_) async => true);
+  }
+
+  void withIsFirstLaunch(bool value) {
+    when(() => isFirstLaunch()).thenAnswer((_) async => value);
+  }
+
+  void withShouldShowCampagneRecrutement(bool value) {
+    when(() => shouldShowCampagneRecrutement()).thenAnswer((_) async => value);
+  }
+}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

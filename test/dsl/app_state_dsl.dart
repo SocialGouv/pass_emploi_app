@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
+import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
@@ -150,6 +151,9 @@ extension AppStateDSL on AppState {
   AppState failedPastRendezvous() => copyWith(rendezvousListState: RendezvousListState.failedPast());
 
   AppState withCampagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
+
+  AppState withCampagneRecrutement(bool withCampagneRecrutement) =>
+      copyWith(campagneRecrutementState: CampagneRecrutementResultState(withCampagneRecrutement));
 
   AppState piecesJointesWithIdOneSuccess() =>
       copyWith(piecesJointesState: PiecesJointesState({"id-1": PieceJointeStatus.success}));
