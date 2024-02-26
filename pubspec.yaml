@@ -81,6 +81,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/illustrations/
     - assets/tuto/
     - assets/mode_demo/
     - assets/mode_demo/brsa/
