@@ -55,10 +55,10 @@ void main() {
 }
 
 Matcher _shouldSucceed(bool value) {
-  return StateIs<CampagneRecrutementSuccessState>(
+  return StateIs<CampagneRecrutementResultState>(
     (state) => state.campagneRecrutementState,
     (state) {
-      expect(state.result, value);
+      expect(state.withCampagneRecrutement, value);
     },
   );
 }

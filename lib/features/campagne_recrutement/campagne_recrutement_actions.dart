@@ -1,9 +1,9 @@
 class CampagneRecrutementRequestAction {}
 
-class CampagneRecrutementSuccessAction {
+class CampagneRecrutementResultAction {
   final bool withCampagne;
 
-  CampagneRecrutementSuccessAction(this.withCampagne);
+  CampagneRecrutementResultAction(this.withCampagne);
 }
 
 class CampagneRecrutementDismissAction {}

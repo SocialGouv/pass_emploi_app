@@ -15,10 +15,10 @@ class CampagneRecrutementMiddleware extends MiddlewareClass<AppState> {
       final isFirstLaunch = await _repository.isFirstLaunch();
       if (isFirstLaunch) {
         await _repository.setCampagneRecrutementInitialRead();
-        store.dispatch(CampagneRecrutementSuccessAction(false));
+        store.dispatch(CampagneRecrutementResultAction(false));
       } else {
         final shouldShowCampagne = await _repository.shouldShowCampagneRecrutement();
-        store.dispatch(CampagneRecrutementSuccessAction(shouldShowCampagne));
+        store.dispatch(CampagneRecrutementResultAction(shouldShowCampagne));
       }
     } else if (action is CampagneRecrutementDismissAction) {
       await _repository.dismissCampagneRecrutement();

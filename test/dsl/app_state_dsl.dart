@@ -153,7 +153,7 @@ extension AppStateDSL on AppState {
   AppState withCampagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
 
   AppState withCampagneRecrutement(bool withCampagneRecrutement) =>
-      copyWith(campagneRecrutementState: CampagneRecrutementSuccessState(withCampagneRecrutement));
+      copyWith(campagneRecrutementState: CampagneRecrutementResultState(withCampagneRecrutement));
 
   AppState piecesJointesWithIdOneSuccess() =>
       copyWith(piecesJointesState: PiecesJointesState({"id-1": PieceJointeStatus.success}));

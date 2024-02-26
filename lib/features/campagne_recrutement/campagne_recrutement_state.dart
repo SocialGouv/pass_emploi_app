@@ -5,22 +5,18 @@ sealed class CampagneRecrutementState extends Equatable {
   List<Object?> get props => [];
 
   bool get shouldShowCampagneRecrutement => switch (this) {
-        final CampagneRecrutementSuccessState success => success.result,
+        final CampagneRecrutementResultState success => success.withCampagneRecrutement,
         _ => false,
       };
 }
 
 class CampagneRecrutementNotInitializedState extends CampagneRecrutementState {}
 
-class CampagneRecrutementLoadingState extends CampagneRecrutementState {}
+class CampagneRecrutementResultState extends CampagneRecrutementState {
+  final bool withCampagneRecrutement;
 
-class CampagneRecrutementFailureState extends CampagneRecrutementState {}
-
-class CampagneRecrutementSuccessState extends CampagneRecrutementState {
-  final bool result;
-
-  CampagneRecrutementSuccessState(this.result);
+  CampagneRecrutementResultState(this.withCampagneRecrutement);
 
   @override
-  List<Object?> get props => [result];
+  List<Object?> get props => [withCampagneRecrutement];
 }
