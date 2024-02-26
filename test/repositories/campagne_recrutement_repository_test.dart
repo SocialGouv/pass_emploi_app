@@ -14,60 +14,60 @@ class MockCampagneRecrutementConfig extends Mock implements CampagneRecrutementC
   void withLastCampagneId(String value) {
     when(() => lastCampagneId()).thenReturn(value);
   }
+}
 
-  void main() {
-    late MockFlutterSecureStorage mockFlutterSecureStorage;
-    late MockCampagneRecrutementConfig mockCampagneRecrutementConfig;
-    late CampagneRecrutementRepository campagneRecrutementRepository;
+void main() {
+  late MockFlutterSecureStorage mockFlutterSecureStorage;
+  late MockCampagneRecrutementConfig mockCampagneRecrutementConfig;
+  late CampagneRecrutementRepository campagneRecrutementRepository;
 
-    setUp(() {
-      mockFlutterSecureStorage = MockFlutterSecureStorage();
-      mockCampagneRecrutementConfig = MockCampagneRecrutementConfig();
-      campagneRecrutementRepository =
-          CampagneRecrutementRepository(mockFlutterSecureStorage, mockCampagneRecrutementConfig);
-    });
+  setUp(() {
+    mockFlutterSecureStorage = MockFlutterSecureStorage();
+    mockCampagneRecrutementConfig = MockCampagneRecrutementConfig();
+    campagneRecrutementRepository =
+        CampagneRecrutementRepository(mockFlutterSecureStorage, mockCampagneRecrutementConfig);
+  });
 
-    group('CampagneRecrutementRepository', () {
-      group('shouldShowCampagneRecrutement', () {
-        test('should not show campgane recrutement on first read', () async {
-          // Given
-          const String campagneId = "campagneId";
-          mockCampagneRecrutementConfig.withLastCampagneId(campagneId);
-          mockFlutterSecureStorage.withAnyRead(null);
+  group('CampagneRecrutementRepository', () {
+    group('shouldShowCampagneRecrutement', () {
+      test('should not show campgane recrutement on first read', () async {
+        // Given
+        const String campagneId = "campagneId";
+        mockCampagneRecrutementConfig.withLastCampagneId(campagneId);
+        mockFlutterSecureStorage.withAnyRead(null);
 
-          // When
-          final result = await campagneRecrutementRepository.shouldShowCampagneRecrutement();
+        // When
+        final result = await campagneRecrutementRepository.shouldShowCampagneRecrutement();
 
-          // Then
-          expect(result, false);
-        });
+        // Then
+        expect(result, false);
+      });
 
-        test('should not show campgane recrutement when campagneId is already registered', () async {
-          // Given
-          const String campagneId = "campagneId";
-          mockCampagneRecrutementConfig.withLastCampagneId(campagneId);
-          mockFlutterSecureStorage.withAnyRead(campagneId);
+      test('should not show campgane recrutement when campagneId is already registered', () async {
+        // Given
+        const String campagneId = "campagneId";
+        mockCampagneRecrutementConfig.withLastCampagneId(campagneId);
+        mockFlutterSecureStorage.withAnyRead(campagneId);
 
-          // When
-          final result = await campagneRecrutementRepository.shouldShowCampagneRecrutement();
+        // When
+        final result = await campagneRecrutementRepository.shouldShowCampagneRecrutement();
 
-          // Then
-          expect(result, false);
-        });
+        // Then
+        expect(result, false);
+      });
 
-        test('should show campgane recrutement when campagneId in different', () async {
-          // Given
-          const String campagneId = "campagneId";
-          mockCampagneRecrutementConfig.withLastCampagneId(campagneId);
-          mockFlutterSecureStorage.withAnyRead("anyCampagneId");
+      test('should show campgane recrutement when campagneId in different', () async {
+        // Given
+        const String campagneId = "campagneId";
+        mockCampagneRecrutementConfig.withLastCampagneId(campagneId);
+        mockFlutterSecureStorage.withAnyRead("anyCampagneId");
 
-          // When
-          final result = await campagneRecrutementRepository.shouldShowCampagneRecrutement();
+        // When
+        final result = await campagneRecrutementRepository.shouldShowCampagneRecrutement();
 
-          // Then
-          expect(result, true);
-        });
+        // Then
+        expect(result, true);
       });
     });
-  }
+  });
 }
