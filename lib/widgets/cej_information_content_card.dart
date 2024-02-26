@@ -1,63 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
-
-class CejInformationContentCard extends StatelessWidget {
-  final List<Widget> children;
-
-  const CejInformationContentCard({
-    required this.children,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(Margins.spacing_m),
-      child: DecoratedBox(
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_base)),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(Margins.spacing_m),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: children,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class CejInformationFirstContentCard extends StatelessWidget {
   const CejInformationFirstContentCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CejInformationContentCard(
-      children: [
-        Text(Strings.whyThisApp, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
-        SizedBox(height: Margins.spacing_base),
-        Text(Strings.whyThisAppDesc, style: TextStyles.textBaseRegular),
-        SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(AppIcons.check_circle_rounded, Strings.customService),
-        SizedBox(height: Margins.spacing_s),
-        Text(Strings.customServiceDesc, style: TextStyles.textBaseRegular),
-        SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(AppIcons.forum_rounded, Strings.favoredContact),
-        SizedBox(height: Margins.spacing_s),
-        Text(Strings.favoredContactDesc, style: TextStyles.textBaseRegular),
-        SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(AppIcons.search_rounded, Strings.searchTool),
-        SizedBox(height: Margins.spacing_s),
-        Text(Strings.searchToolDesc, style: TextStyles.textBaseRegular),
-      ],
+    return CardContainer(
+      padding: EdgeInsets.all(Margins.spacing_m),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              Strings.whoIsConcerned,
+              style: TextStyles.textMBold.copyWith(color: AppColors.primary),
+            ),
+          ),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+              child: Image.asset("assets/illustrations/puzzle2.webp"),
+            ),
+          ),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(text: Strings.whoIsConcernedFirstRichText[0], style: TextStyles.textBaseRegular),
+                TextSpan(text: Strings.whoIsConcernedFirstRichText[1], style: TextStyles.textBaseBold),
+                TextSpan(text: Strings.whoIsConcernedFirstRichText[2], style: TextStyles.textBaseRegular),
+                TextSpan(text: Strings.whoIsConcernedFirstRichText[3], style: TextStyles.textBaseBold),
+                TextSpan(text: Strings.whoIsConcernedFirstRichText[4], style: TextStyles.textBaseRegular),
+              ],
+            ),
+          ),
+          SizedBox(height: Margins.spacing_m),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(text: Strings.whoIsConcernedSecondRichText[0], style: TextStyles.textBaseRegular),
+                TextSpan(text: Strings.whoIsConcernedSecondRichText[1], style: TextStyles.textBaseBold),
+                TextSpan(text: Strings.whoIsConcernedSecondRichText[2], style: TextStyles.textBaseRegular),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -67,81 +60,26 @@ class CejInformationSecondContentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CejInformationContentCard(
-      children: [
-        Text(Strings.whatIsCej, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
-        SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(AppIcons.bolt_rounded, Strings.customService),
-        SizedBox(height: Margins.spacing_s),
-        Text(Strings.customServiceCejDesc, style: TextStyles.textBaseRegular),
-        SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(AppIcons.group_rounded, Strings.uniqueReferent),
-        SizedBox(height: Margins.spacing_s),
-        Text(Strings.uniqueReferentDesc, style: TextStyles.textBaseRegular),
-        SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(AppIcons.euro_rounded, Strings.financialHelp),
-        SizedBox(height: Margins.spacing_s),
-        Text(Strings.financialHelpDesc, style: TextStyles.textBaseRegular),
-      ],
+    return CardContainer(
+      padding: EdgeInsets.all(Margins.spacing_m),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Center(
+            child: SizedBox(
+              height: 200,
+              width: 200,
+              child: Image.asset("assets/illustrations/conversation.webp"),
+            ),
+          ),
+          SizedBox(height: Margins.spacing_m),
+          Text(
+            Strings.takeRdvWithConseiller,
+            style: TextStyles.textMRegular,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
-}
-
-class CejInformationThirdContentCard extends StatelessWidget {
-  const CejInformationThirdContentCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return CejInformationContentCard(
-      children: [
-        Text(Strings.whoIsConcerned, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
-        SizedBox(height: Margins.spacing_m),
-        Center(
-          child: SizedBox(
-            height: 130,
-            width: 130,
-            child: Illustration.blue(AppIcons.diversity_3),
-          ),
-        ),
-        SizedBox(height: Margins.spacing_m),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(text: Strings.whoIsConcernedFirstRichText[0], style: TextStyles.textBaseRegular),
-              TextSpan(text: Strings.whoIsConcernedFirstRichText[1], style: TextStyles.textBaseBold),
-              TextSpan(text: Strings.whoIsConcernedFirstRichText[2], style: TextStyles.textBaseRegular),
-              TextSpan(text: Strings.whoIsConcernedFirstRichText[3], style: TextStyles.textBaseBold),
-              TextSpan(text: Strings.whoIsConcernedFirstRichText[4], style: TextStyles.textBaseRegular),
-            ],
-          ),
-        ),
-        SizedBox(height: Margins.spacing_m),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(text: Strings.whoIsConcernedSecondRichText[0], style: TextStyles.textBaseRegular),
-              TextSpan(text: Strings.whoIsConcernedSecondRichText[1], style: TextStyles.textBaseBold),
-              TextSpan(text: Strings.whoIsConcernedSecondRichText[2], style: TextStyles.textBaseRegular),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-Widget _cardBulletPoint(IconData icon, String text) {
-  return RichText(
-    text: TextSpan(
-      children: [
-        WidgetSpan(
-          child: Padding(
-            padding: const EdgeInsets.only(right: Margins.spacing_s),
-            child: Icon(icon, color: AppColors.primary),
-          ),
-        ),
-        TextSpan(text: text, style: TextStyles.textBaseBold),
-      ],
-    ),
-  );
 }

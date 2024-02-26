@@ -124,36 +124,15 @@ class Strings {
   static String suiviParConseillerBRSA = "Je suis suivi par un conseiller :";
   static String dontHaveAccount = "Vous n’avez pas de compte sur cette application ?";
 
-  // Choix organisme
-  static String interestedInCej = "Vous êtes intéressé et vous pensez être éligible au Contrat Engagement Jeune ?";
-  static String whichOrganisme = "De quel organisme dépend votre conseiller principal ?";
-  static String noOrganisme = "Je ne suis inscrit à aucun de ces organismes";
-  static String rendezVousPoleEmploi =
-      "Prenez rendez-vous avec votre conseiller France Travail qui procédera à la création de votre compte.";
-  static String rendezVousMissionLocale =
-      "Prenez rendez-vous avec votre conseiller Mission Locale qui procédera à la création de votre compte.";
-  static String alreadyHaveAccount = "Vous avez déjà un compte sur cette application ?";
+  static String alreadyHaveAccount = "Vous avez déjà un compte\n sur cette application ?";
 
   // Onboarding
   static String skip = "Passer";
   static String continueLabel = "Continuer";
 
-  static String whyThisApp = "Pourquoi cette application ?";
-  static String whyThisAppDesc = "C’est l’application dédiée aux bénéficiaires du Contrat Engagement Jeune (CEJ)";
-  static String customService = "Un suivi personnalisé";
-  static String customServiceDesc = "Suivez toutes vos actions en lien avec vos démarches professionnelles.";
-  static String favoredContact = "Un moyen de contact privilégié";
-  static String favoredContactDesc = "Restez en contact avec votre conseiller à l’aide d’une messagerie instantanée.";
-  static String searchTool = "Un outil de recherche";
-  static String searchToolDesc = "Recherchez un emploi, gérez vos offres favorites et trouvez des solutions.";
-  static String whatIsCej = "Qu’est-ce que le Contrat Engagement Jeune ?";
-  static String customServiceCejDesc =
-      "Pendant plusieurs mois, vous êtes accompagnés de 15 à 20 heures par semaine minimum.";
-  static String uniqueReferent = "Un référent unique";
-  static String uniqueReferentDesc = "Un conseiller vous accompagne tout au long de votre parcours.";
-  static String financialHelp = "Une allocation financière";
-  static String financialHelpDesc = "Une allocation pouvant aller jusqu’à 500 euros par mois si vous en avez besoin.";
-  static String whoIsConcerned = "Qui est concerné ?";
+  static String takeRdvWithConseiller =
+      "Prenez rendez-vous avec votre conseiller qui procédera à la création de votre compte.";
+  static String whoIsConcerned = "Qui est éligible ?";
   static List<String> whoIsConcernedFirstRichText = [
     "→ Les personnes entre ",
     "16 et 25 ans",

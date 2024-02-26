@@ -9,7 +9,7 @@ class AnalyticsScreenNames {
   static const choixOrganismePE = "entree/choix-organisme/pe";
   static const choixOrganismeMilo = "entree/choix-organisme/milo";
 
-  static String cejInformationPage(int pageNumber) => "entree/etape-$pageNumber";
+  static String cejInformationPage(int pageNumber) => "entree2/etape-$pageNumber";
 
   static const evaluationDetails = "actions/tuile-evaluation";
 

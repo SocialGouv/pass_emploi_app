@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/pages/choix_organisme_page.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cej_information_content_card.dart';
 import 'package:pass_emploi_app/widgets/primary_rounded_bottom_background.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CejInformationPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -23,111 +20,141 @@ class CejInformationPage extends StatefulWidget {
 }
 
 class _CejInformationPageState extends State<CejInformationPage> {
-  final PageController _controller = PageController();
-  int? _displayedPage;
+  int _currentPage = 0;
 
-  @override
-  void initState() {
-    _controller.addListener(() {
-      final controllerPage = _controller.page?.floor();
-      if (controllerPage != null && controllerPage != _displayedPage) {
-        _displayedPage = controllerPage;
-        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.cejInformationPage(controllerPage + 1));
-      }
+  void _onPageChanged(int page) {
+    setState(() {
+      _currentPage = page;
     });
-    super.initState();
+    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.cejInformationPage(page + 1));
   }
 
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      CejInformationFirstContentCard(),
+      CejInformationSecondContentCard(),
+    ];
+
     return Scaffold(
+      floatingActionButton: _Buttons(
+        onContinue: () => _onPageChanged(1),
+        onFinish: () => Navigator.of(context).pop(),
+        currentPage: _currentPage,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Stack(
         children: [
           PrimaryRoundedBottomBackground(),
           SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Material(
-                  color: Colors.transparent,
-                  child: Row(
-                    children: [
-                      _backButton(context),
-                      Spacer(),
-                      InkWell(
-                        onTap: () => Navigator.push(context, ChoixOrganismePage.materialPageRoute()),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: Margins.spacing_s,
-                            horizontal: Margins.spacing_base,
-                          ),
-                          child: Text(Strings.skip, style: TextStyles.textPrimaryButton.copyWith(color: Colors.white)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: PageView(
-                    controller: _controller,
-                    children: [
-                      const CejInformationFirstContentCard(),
-                      const CejInformationSecondContentCard(),
-                      const CejInformationThirdContentCard()
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(Margins.spacing_m, 0, Margins.spacing_m, Margins.spacing_m),
-                  child: PrimaryActionButton(
-                    label: Strings.continueLabel,
-                    onPressed: () {
-                      final currentPage = _controller.page;
-                      if (currentPage != null && currentPage < 2) {
-                        _controller.animateToPage(
-                          currentPage.floor() + 1,
-                          duration: Duration(milliseconds: 600),
-                          curve: Curves.linearToEaseOut,
-                        );
-                      } else {
-                        Navigator.push(context, ChoixOrganismePage.materialPageRoute());
-                      }
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(Margins.spacing_m, 0, Margins.spacing_m, Margins.spacing_m),
-                  child: Center(
-                    child: SmoothPageIndicator(
-                      controller: _controller,
-                      count: 3,
-                      effect: WormEffect(
-                        activeDotColor: AppColors.primary,
-                        dotColor: AppColors.disabled,
-                        dotHeight: 10,
-                        dotWidth: 10,
-                      ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _CustomAppBar(),
+                  Padding(
+                    padding: const EdgeInsets.all(Margins.spacing_m),
+                    child: AnimatedSwitcher(
+                      duration: AnimationDurations.medium,
+                      child: pages[_currentPage],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _backButton(BuildContext context) {
-    return IconButton(
-      icon: Icon(
-        AppIcons.chevron_left_rounded,
-        size: Dimens.icon_size_m,
-        color: Colors.white,
+class _Buttons extends StatelessWidget {
+  const _Buttons({required this.onContinue, required this.onFinish, required this.currentPage});
+  final void Function() onContinue;
+  final void Function() onFinish;
+  final int currentPage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+      child: AnimatedSwitcher(
+        duration: AnimationDurations.medium,
+        child: currentPage == 0
+            ? _ContinueButton(onPressed: onContinue)
+            : _LoginButton(
+                onPressed: onFinish,
+              ),
       ),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
+    );
+  }
+}
+
+class _ContinueButton extends StatelessWidget {
+  const _ContinueButton({required this.onPressed});
+  final void Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: PrimaryActionButton(
+        label: Strings.continueLabel,
+        onPressed: onPressed,
+      ),
+    );
+  }
+}
+
+class _LoginButton extends StatelessWidget {
+  const _LoginButton({required this.onPressed});
+  final void Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(Strings.alreadyHaveAccount, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_base),
+          SecondaryButton(
+            label: Strings.loginAction,
+            onPressed: onPressed,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CustomAppBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    const foregroundColor = Colors.white;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Row(
+        children: [
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: BackButton(color: foregroundColor),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              Strings.askAccount,
+              textAlign: TextAlign.center,
+              style: TextStyles.textBaseRegular.copyWith(color: foregroundColor),
+            ),
+          ),
+          Expanded(child: SizedBox.shrink())
+        ],
+      ),
     );
   }
 }
