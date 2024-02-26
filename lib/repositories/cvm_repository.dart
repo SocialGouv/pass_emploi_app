@@ -2,72 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
-abstract class CvmRepository {
-  Future<void> initializeCvm();
+// TODO-CVM Use env
+const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
+const token = "QTEiELzIs5Ex-A_jAiWzZu_7e9Y";
 
-  Future<bool> login();
-
-  Future<void> logout();
-
-  Future<bool> startListenRooms();
-
-  Future<void> stopListenRooms();
-
-  Future<void> joinFirstRoom();
-
-  Future<bool> startListenMessages();
-
-  Future<void> stopListenMessages();
-
-  Future<bool> sendMessage(String message);
-
-  Future<void> loadMore();
-
-  Stream<List<CvmEvent>> getMessages();
-
-  Stream<bool> hasRoom();
-}
-
-enum CvmEventType {
-  message,
-  unknown,
-}
-
-class CvmEvent {
-  final String id;
-  final CvmEventType type;
-  final bool isFromUser;
-  final String? message;
-  final DateTime? date;
-
-  CvmEvent({
-    required this.id,
-    required this.type,
-    required this.isFromUser,
-    required this.message,
-    required this.date,
-  });
-
-  static CvmEvent? fromJson(dynamic json) {
-    try {
-      return CvmEvent(
-        id: json['id'] as String,
-        type: json['type'] == 'message' ? CvmEventType.message : CvmEventType.unknown,
-        isFromUser: json['isFromUser'] as bool,
-        message: json['message'] as String,
-        date: DateTime.fromMillisecondsSinceEpoch(json['date'] as int),
-      );
-    } catch (e) {
-      Log.w("CvmEvent.fromJson error on json", json);
-      Log.w("CvmEvent.fromJson >>>> ", e);
-      return null;
-    }
-  }
-}
-
-class CvmRepositoryImpl implements CvmRepository {
+class CvmRepository {
   static const _cvmMethodChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/methods';
   static const _cvmEventChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/events';
   static const _cvmRoomsChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/rooms';
@@ -77,26 +19,28 @@ class CvmRepositoryImpl implements CvmRepository {
   final _aggregator = _CvmEventsAggregator();
   final Crashlytics? _crashlytics;
 
-  CvmRepositoryImpl({Crashlytics? crashlytics}) : _crashlytics = crashlytics;
+  CvmRepository([this._crashlytics]);
 
-  @override
-  Future<void> initializeCvm() async {
+  Future<bool> initializeCvm() async {
+    Log.d('--- CvmRepository.initializeCvm…');
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('initializeCvm', {'limit': _pageLimit});
+      Log.d('--- CvmRepository.initializeCvm ✅');
+      return true;
     } catch (e, s) {
       _crashlytics?.log("CvmRepositoryImpl.initializeCvm error");
       _crashlytics?.recordCvmException(e, s);
+      return false;
     }
   }
 
-  @override
   Future<bool> login() async {
+    Log.d('--- CvmRepository.login…');
     try {
-      // TODO-CVM Use env
-      const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-      const token = "L6yX77TrTbpExOaoGJZyUM3hNYI";
-      final success =
-          await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('login', {'token': token, 'ex160': ex160}) ?? false;
+      final success = await MethodChannel(_cvmMethodChannel) //
+              .invokeMethod<bool>('login', {'token': token, 'ex160': ex160}) ??
+          false;
+      Log.d('--- CvmRepository.login: ${success ? '✅' : '❌'}');
       return success;
     } catch (e, s) {
       _crashlytics?.log("CvmRepositoryImpl.login error");
@@ -105,21 +49,23 @@ class CvmRepositoryImpl implements CvmRepository {
     }
   }
 
-  @override
   Future<void> logout() async {
+    Log.d('--- CvmRepository.logout…');
     _aggregator.reset();
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('logout');
+      Log.d('--- CvmRepository.logout ✅');
     } catch (e, s) {
       _crashlytics?.log("CvmRepositoryImpl.logout error");
       _crashlytics?.recordCvmException(e, s);
     }
   }
 
-  @override
   Future<bool> joinFirstRoom() async {
+    Log.d('--- CvmRepository.joinFirstRoom…');
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('joinFirstRoom') ?? false;
+      Log.d('--- CvmRepository.joinFirstRoom: ${success ? '✅' : '❌'}');
       return success;
     } catch (e, s) {
       _crashlytics?.log("CvmRepositoryImpl.joinFirstRoom error");
@@ -128,10 +74,11 @@ class CvmRepositoryImpl implements CvmRepository {
     }
   }
 
-  @override
   Future<bool> startListenRooms() async {
+    Log.d('--- CvmRepository.startListenRooms…');
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenRoom') ?? false;
+      Log.d('--- CvmRepository.startListenRooms: ${success ? '✅' : '❌'}');
       return success;
     } catch (e, s) {
       _crashlytics?.log("CvmRepositoryImpl.startListenRooms error");
@@ -140,10 +87,11 @@ class CvmRepositoryImpl implements CvmRepository {
     }
   }
 
-  @override
   Future<bool> stopListenRooms() async {
+    Log.d('--- CvmRepository.stopListenRooms…');
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('stopListenRoom') ?? false;
+      Log.d('--- CvmRepository.stopListenRooms: ${success ? '✅' : '❌'}');
       return success;
     } catch (e, s) {
       _crashlytics?.log("CvmRepositoryImpl.stopListenRooms error");
@@ -152,11 +100,13 @@ class CvmRepositoryImpl implements CvmRepository {
     }
   }
 
-  @override
   Stream<bool> hasRoom() {
+    Log.d('--- CvmRepository.hasRoom…');
     try {
       return EventChannel(_cvmRoomsChannel).receiveBroadcastStream().map((hasRoom) {
-        return hasRoom as bool;
+        final hasRoomAsBool = hasRoom as bool;
+        Log.d('--- CvmRepository.hasRoom: ${hasRoom ? '✅' : '❌'}');
+        return hasRoomAsBool;
       });
     } catch (e, s) {
       _crashlytics?.log("CvmRepositoryImpl.hasRoom error");
@@ -165,10 +115,11 @@ class CvmRepositoryImpl implements CvmRepository {
     }
   }
 
-  @override
   Future<bool> startListenMessages() async {
+    Log.d('--- CvmRepository.startListenMessages…');
     try {
       final success = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('startListenMessages') ?? false;
+      Log.d('--- CvmRepository.startListenMessages: ${success ? '✅' : '❌'}');
       return success;
     } catch (e, s) {
       _crashlytics?.log("CvmRepositoryImpl.startListenMessages error");
@@ -177,23 +128,28 @@ class CvmRepositoryImpl implements CvmRepository {
     }
   }
 
-  @override
   Future<void> stopListenMessages() async {
+    Log.d('--- CvmRepository.stopListenMessages…');
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('stopListenMessages');
+      Log.d('--- CvmRepository.stopListenMessages ✅');
     } catch (e, s) {
       _crashlytics?.log("CvmRepositoryImpl.stopListenMessages error");
       _crashlytics?.recordCvmException(e, s);
     }
   }
 
-  @override
   Stream<List<CvmEvent>> getMessages() {
+    Log.d('--- CvmRepository.getMessages…');
     try {
       return EventChannel(_cvmEventChannel).receiveBroadcastStream().map((events) {
         final eventsJson = events as List<dynamic>;
-        final cvmEvents = eventsJson.map(CvmEvent.fromJson).whereType<CvmEvent>().toList();
+        final cvmEvents = eventsJson
+            .map((e) => CvmEvent.fromJson(e, _crashlytics)) //
+            .whereType<CvmEvent>()
+            .toList();
         _aggregator.addEvents(cvmEvents);
+        Log.d('--- CvmRepository.getMessages ✅');
         return _aggregator.getEvents();
       });
     } catch (e, s) {
@@ -203,11 +159,13 @@ class CvmRepositoryImpl implements CvmRepository {
     }
   }
 
-  @override
   Future<bool> sendMessage(String message) async {
+    Log.d('--- CvmRepository.sendMessage…');
     try {
-      final success =
-          await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('sendMessage', {'message': message}) ?? false;
+      final success = await MethodChannel(_cvmMethodChannel) //
+              .invokeMethod<bool>('sendMessage', {'message': message}) ??
+          false;
+      Log.d('--- CvmRepository.sendMessage: ${success ? '✅' : '❌'}');
       return success;
     } catch (e, s) {
       _crashlytics?.log("CvmRepositoryImpl.sendMessage error");
@@ -216,10 +174,11 @@ class CvmRepositoryImpl implements CvmRepository {
     }
   }
 
-  @override
   Future<void> loadMore() async {
+    Log.d('--- CvmRepository.loadMore…');
     try {
       await MethodChannel(_cvmMethodChannel).invokeMethod('loadMore', {'limit': _pageLimit});
+      Log.d('--- CvmRepository.loadMore ✅');
     } catch (e, s) {
       _crashlytics?.log("CvmRepositoryImpl.loadMore error");
       _crashlytics?.recordCvmException(e, s);

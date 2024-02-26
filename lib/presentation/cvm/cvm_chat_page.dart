@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
+import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 import 'package:pass_emploi_app/presentation/cvm_chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/cvm_repository.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -35,6 +35,10 @@ class _Scaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SecondaryAppBar(title: "Chat CVM"),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => StoreProvider.of<AppState>(context).dispatch(CvmRequestAction()),
+        child: Icon(Icons.refresh),
+      ),
       body: body,
     );
   }

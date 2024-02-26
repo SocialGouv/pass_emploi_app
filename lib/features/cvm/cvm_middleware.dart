@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
+import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/cvm_repository.dart';
@@ -11,139 +12,135 @@ import 'package:redux/redux.dart';
 class CvmMiddleware extends MiddlewareClass<AppState> {
   final CvmRepository _repository;
   final Crashlytics? _crashlytics;
+  final _state = _CvmRepositoryState();
 
   CvmMiddleware(this._repository, [this._crashlytics]);
-
-  var hasRoom = false; //TODO: ?
-  final List<CvmEvent> messages = [];
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is CvmAction) {
-      Log.d("CvmMiddleware call: ${action.runtimeType}");
-      handleAction(store, action);
-    }
-  }
-
-  void _subscribeToChatStream(Store<AppState> store) {
-    Log.d("CvmMiddleware _subscribeToChatStream");
-    _repository.getMessages().listen(
-      (messages) {
-        store.dispatch(CvmSuccessAction(messages));
-      },
-      onError: (Object error) {
-        _crashlytics?.log("CvmMiddleware._subscribeToChatStream error");
-        _crashlytics?.recordCvmException(error);
-        store.dispatch(CvmFailureAction());
-      },
-    );
-  }
-
-  void _subscribeToHasRoomStream(Store<AppState> store) {
-    Log.d("CvmMiddleware _subscribeToHasRoomStream");
-    _repository.hasRoom().listen(
-      (hasRoom) {
-        // TODO: est-ce qu'il faut une mécanique "synchronized" ?
-        if (this.hasRoom) {
-          //WHY: Le SDK iOS (et Android ?) déclenche plusieurs fois le callback.
-          return;
-        }
-        this.hasRoom = hasRoom;
-        Log.d("CvmMiddleware _subscribeToChatStream: hasRoom: $hasRoom");
-        if (hasRoom) {
-          _repository.stopListenRooms();
-          store.dispatch(CvmJoinRoomAction());
-        }
-      },
-      onError: (Object error) {
-        _crashlytics?.log("CvmMiddleware._subscribeToHasRoomStream error");
-        _crashlytics?.recordCvmException(error);
-        store.dispatch(CvmFailureAction());
-      },
-    );
-  }
-
-  void handleAction(Store<AppState> store, CvmAction action) async {
     if (action is CvmRequestAction) {
-      await _initCvm(store, _repository);
-      _loginCvm(store, _repository); //TODO: pendant qu'on a la fausse page
-    } else if (action is LoginSuccessAction) {
-      _loginCvm(store, _repository);
-    } else if (action is CvmJoinRoomAction) {
-      _startListenMessagesOnFirstRoom(store, _repository);
+      _startCvm(store);
     } else if (action is CvmSendMessageAction) {
       _repository.sendMessage(action.message);
-    } else if (action is RequestLogoutAction || action is NotLoggedInAction) {
+    } else if (action is RequestLogoutAction) {
       _repository.logout();
-      hasRoom = false;
-    }
-    // TODO: si background/foreground ...
-  }
-
-  Future<void> _loginCvm(Store<AppState> store, CvmRepository repository) async {
-    Log.d("CvmMiddleware _loginCvm");
-    try {
-      await repository.login();
-      await repository.startListenRooms();
-
-      // TODO-CVM why ?
-      Future.delayed(Duration(seconds: 5), () => repository.loadMore());
-    } catch (e) {
-      _crashlytics?.log("CvmMiddleware._loginCvm error");
-      _crashlytics?.recordCvmException(e);
-      store.dispatch(CvmFailureAction());
+      _state.reset();
     }
   }
 
-  Future<void> _initCvm(Store<AppState> store, CvmRepository repository) async {
-    Log.d("CvmMiddleware _initCvm");
+  Future<void> _startCvm(Store<AppState> store) async {
+    if (store.state.cvmState is CvmSuccessState) return;
+    Log.d("CvmMiddleware _startCvm");
     store.dispatch(CvmLoadingAction());
 
     try {
-      hasRoom = false;
-      await repository.initializeCvm();
-      _subscribeToChatStream(store);
+      await _initCvm();
+      _subscribeToMessageStream(store);
       _subscribeToHasRoomStream(store);
-    } catch (e) {
-      _crashlytics?.log("CvmMiddleware._initCvm error");
-      _crashlytics?.recordCvmException(e);
-      store.dispatch(CvmFailureAction());
+      await _login();
+      await _startListeningRooms();
+    } catch (error) {
+      _processError(error, store);
+      return;
+    }
+
+    if (_state.hasErrors()) store.dispatch(CvmFailureAction());
+  }
+
+  Future<bool> _initCvm() async {
+    if (_state.isInit) return true;
+
+    _state.isInit = await _repository.initializeCvm();
+    Log.d('CvmMiddleware _isInit: ${_state.isInit ? '✅' : '❌'}');
+    return _state.isInit;
+  }
+
+  void _subscribeToMessageStream(Store<AppState> store) {
+    if (_state.isSubscribingToMessageStream) return;
+    _state.isSubscribingToMessageStream = true;
+    Log.d("CvmMiddleware _subscribeToMessageStream");
+
+    _repository.getMessages().listen(
+          (messages) => store.dispatch(CvmSuccessAction(messages)),
+          onError: (error) => _processError(error, store, () => _state.isSubscribingToMessageStream = false),
+        );
+  }
+
+  void _subscribeToHasRoomStream(Store<AppState> store) {
+    if (_state.isSubscribingToHasRoomStream) return;
+    _state.isSubscribingToHasRoomStream = true;
+    Log.d("CvmMiddleware _subscribeToHasRoomStream");
+
+    _repository.hasRoom().listen(
+          (hasRoom) => _handleHasRoom(hasRoom),
+          onError: (error) => _processError(error, store, () => _state.isSubscribingToHasRoomStream = false),
+        );
+  }
+
+  Future<void> _handleHasRoom(bool hasRoom) async {
+    // Required because callback is called multiple times on iOS
+    if (_state.hasRoom) return;
+    _state.hasRoom = hasRoom;
+    Log.d('CvmMiddleware _state.hasRoom: ${_state.hasRoom ? '✅' : '❌'}');
+
+    if (_state.hasRoom) {
+      _repository.stopListenRooms();
+      if (_state.isListeningMessages) return;
+      final roomJoined = await _repository.joinFirstRoom();
+      if (roomJoined) _state.isListeningMessages = await _repository.startListenMessages();
     }
   }
 
-  Future<void> _startListenMessagesOnFirstRoom(Store<AppState> store, CvmRepository repository) async {
-    Log.d("CvmMiddleware _startListenMessagesOnFirstRoom");
-    try {
-      await repository.joinFirstRoom();
-      await repository.startListenMessages();
-    } catch (e) {
-      _crashlytics?.log("CvmMiddleware._startListenMessagesOnFirstRoom error");
-      _crashlytics?.recordCvmException(e);
-      store.dispatch(CvmFailureAction());
-    }
+  Future<bool> _login() async {
+    if (_state.isLoggedIn) return true;
+
+    _state.isLoggedIn = await _repository.login();
+    Log.d('CvmMiddleware _state.isLoggedIn: ${_state.isLoggedIn ? '✅' : '❌'}');
+    return _state.isLoggedIn;
+  }
+
+  Future<bool> _startListeningRooms() async {
+    if (_state.isListeningRooms) return true;
+
+    _state.isListeningRooms = await _repository.startListenRooms();
+    Log.d('CvmMiddleware _state.isListeningRooms: ${_state.isListeningRooms ? '✅' : '❌'}');
+    return _state.isListeningRooms;
+  }
+
+  void _processError(dynamic error, Store<AppState> store, [Function()? onError]) {
+    _crashlytics?.recordCvmException(error);
+    onError?.call();
+    store.dispatch(CvmFailureAction());
   }
 }
 
-//TODO:
-// action init (quand: lancement de l'app)
-// => repo.initCvm
-// => repo.subscribeToChatStream
-// ===> quand un stream arrive, dispatch CvmSuccessAction(messages)
-// => repo.subscribeToRooms
-// ===> quand un stream arrive, dispatch CvmRoomsSuccessAction)
+// Made to offer a proper retry mechanism. Only unsuccessful steps should be retried.
+class _CvmRepositoryState {
+  bool isInit = false;
+  bool isLoggedIn = false;
+  bool isSubscribingToMessageStream = false;
+  bool isSubscribingToHasRoomStream = false;
+  bool hasRoom = false;
+  bool isListeningMessages = false;
+  bool isListeningRooms = false;
 
-// action écouter les messages (quand: au login)
-// => await repo.login
-// => await repo.joinFirstRoom
-// ===> si room, repo.startListenMessages
-// ===> si pas de room, repo.startListenRooms
+  void reset() {
+    // isInit is not reset because of Android behavior, which makes app crashes when trying to reinitialize CVM.
+    isLoggedIn = false;
+    isSubscribingToMessageStream = false;
+    isSubscribingToHasRoomStream = false;
+    hasRoom = false;
+    isListeningMessages = false;
+    isListeningRooms = false;
+  }
 
-// action rejoindre une room (quand: au CvmRoomsSuccessAction)
-// => repo.joinFirstRoom
-// => repo.startListenMessages
-
-// action logout
-// => repo.logout
-// => hasRoom = false
-// => ?
+  bool hasErrors() {
+    return !isInit ||
+        !isLoggedIn ||
+        !isSubscribingToMessageStream ||
+        !isSubscribingToHasRoomStream ||
+        !isListeningMessages ||
+        !isListeningRooms;
+  }
+}

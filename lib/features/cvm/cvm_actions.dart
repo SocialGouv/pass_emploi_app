@@ -1,25 +1,19 @@
-import 'package:pass_emploi_app/repositories/cvm_repository.dart';
+import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 
-sealed class CvmAction {}
+class CvmRequestAction {}
 
-class CvmRequestAction extends CvmAction {}
+class CvmLoadingAction {}
 
-class CvmLoadingAction extends CvmAction {}
-
-class CvmSuccessAction extends CvmAction {
+class CvmSuccessAction {
   final List<CvmEvent> messages;
 
   CvmSuccessAction(this.messages);
 }
 
-class CvmFailureAction extends CvmAction {}
+class CvmFailureAction {}
 
-class CvmResetAction extends CvmAction {}
-
-class CvmSendMessageAction extends CvmAction {
+class CvmSendMessageAction {
   final String message;
 
   CvmSendMessageAction(this.message);
 }
-
-class CvmJoinRoomAction extends CvmAction {}

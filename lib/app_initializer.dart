@@ -260,7 +260,7 @@ class AppInitializer {
       ThematiqueDemarcheRepository(dioClient, crashlytics),
       TopDemarcheRepository(),
       MonSuiviRepository(dioClient, crashlytics),
-      CvmRepositoryImpl(),
+      CvmRepository(crashlytics),
       CampagneRecrutementRepository(securedPreferences, CampagneRecrutementRemoteConfig(firebaseRemoteConfig)),
       PreferredLoginModeRepository(securedPreferences),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
