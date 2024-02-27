@@ -55,7 +55,10 @@ class _NoOrganismButton extends StatelessWidget {
         launchExternalUrl(noOrganismeLink);
       },
       label: Strings.loginBottomSeetNoOrganism,
-      suffix: Icon(AppIcons.open_in_new_rounded),
+      suffix: Semantics(
+        label: Strings.openInNewTab,
+        child: Icon(AppIcons.open_in_new_rounded),
+      ),
     );
   }
 }
@@ -123,7 +126,10 @@ class _FranceTravailLoginButton extends StatelessWidget {
 class _AppBarTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text(Strings.loginBottomSeetTitlePage1, style: TextStyles.textMBold);
+    return Semantics(
+      header: true,
+      child: Text(Strings.loginBottomSeetTitlePage1, style: TextStyles.textMBold),
+    );
   }
 }
 

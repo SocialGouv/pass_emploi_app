@@ -24,15 +24,18 @@ class ElevatedButtonTile extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(Dimens.radius_base),
           onTap: onPressed,
-          child: Padding(
-            padding: EdgeInsets.all(Margins.spacing_m),
-            child: Row(
-              children: [
-                if (leading != null) leading!,
-                if (leading != null) SizedBox(width: Margins.spacing_base),
-                Expanded(child: Text(label, style: TextStyles.textBaseBold)),
-                if (suffix != null) suffix!,
-              ],
+          child: Semantics(
+            button: true,
+            child: Padding(
+              padding: EdgeInsets.all(Margins.spacing_m),
+              child: Row(
+                children: [
+                  if (leading != null) leading!,
+                  if (leading != null) SizedBox(width: Margins.spacing_base),
+                  Expanded(child: Text(label, style: TextStyles.textBaseBold)),
+                  if (suffix != null) suffix!,
+                ],
+              ),
             ),
           ),
         ),

@@ -60,7 +60,10 @@ class LoginBottomSheetPage2 extends StatelessWidget {
 class _AppBarTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text(Strings.loginBottomSeetTitlePage2, style: TextStyles.textMBold);
+    return Semantics(
+      header: true,
+      child: Text(Strings.loginBottomSeetTitlePage2, style: TextStyles.textMBold),
+    );
   }
 }
 
