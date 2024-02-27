@@ -75,6 +75,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_reducer.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_reducer.dart';
+import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -181,6 +182,7 @@ AppState reducer(AppState current, dynamic action) {
     monSuiviState: monSuiviReducer(current.monSuiviState, action),
     cvmState: cvmReducer(current.cvmState, action),
     campagneRecrutementState: campagneRecrutementReducer(current.campagneRecrutementState, action),
+    preferredLoginModeState: preferredLoginModeReducer(current.preferredLoginModeState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

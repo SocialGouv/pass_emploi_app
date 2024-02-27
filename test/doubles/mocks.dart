@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
+import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -157,4 +158,6 @@ class MockCampagneRecrutementRepository extends Mock implements CampagneRecrutem
     when(() => shouldShowCampagneRecrutement()).thenAnswer((_) async => value);
   }
 }
+
+class MockPreferredLoginModeRepository extends Mock implements PreferredLoginModeRepository {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/
