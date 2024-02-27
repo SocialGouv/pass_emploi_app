@@ -146,10 +146,13 @@ class _CustomAppBar extends StatelessWidget {
           ),
           Expanded(
             flex: 3,
-            child: Text(
-              Strings.askAccount,
-              textAlign: TextAlign.center,
-              style: TextStyles.textBaseRegular.copyWith(color: foregroundColor),
+            child: Semantics(
+              header: true,
+              child: Text(
+                Strings.askAccount,
+                textAlign: TextAlign.center,
+                style: TextStyles.textBaseRegular.copyWith(color: foregroundColor),
+              ),
             ),
           ),
           Expanded(child: SizedBox.shrink())

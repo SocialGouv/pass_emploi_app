@@ -17,9 +17,12 @@ class CejInformationFirstContentCard extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              Strings.whoIsConcerned,
-              style: TextStyles.textMBold.copyWith(color: AppColors.primary),
+            child: Semantics(
+              header: true,
+              child: Text(
+                Strings.whoIsConcerned,
+                style: TextStyles.textMBold.copyWith(color: AppColors.primary),
+              ),
             ),
           ),
           Center(
