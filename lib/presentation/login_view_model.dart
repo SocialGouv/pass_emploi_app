@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/configuration/configuration.dart';
-import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -9,7 +7,6 @@ import 'package:redux/redux.dart';
 
 class LoginViewModel extends Equatable {
   final String suiviText;
-  final List<LoginButtonViewModel> loginButtons;
   final bool withAskAccountButton;
   final bool withLoading;
   final bool withWrongDeviceClockMessage;
@@ -17,7 +14,6 @@ class LoginViewModel extends Equatable {
 
   LoginViewModel({
     required this.suiviText,
-    required this.loginButtons,
     required this.withAskAccountButton,
     required this.withLoading,
     required this.withWrongDeviceClockMessage,
@@ -26,11 +22,9 @@ class LoginViewModel extends Equatable {
 
   factory LoginViewModel.create(Store<AppState> store) {
     final loginState = store.state.loginState;
-    final flavor = store.state.configurationState.getFlavor();
     final brand = store.state.configurationState.getBrand();
     return LoginViewModel(
       suiviText: brand.isCej ? Strings.suiviParConseillerCEJ : Strings.suiviParConseillerBRSA,
-      loginButtons: _loginButtons(store, flavor, brand),
       withAskAccountButton: brand.isCej,
       withLoading: loginState is LoginLoadingState,
       withWrongDeviceClockMessage: loginState is LoginWrongDeviceClockState,
@@ -41,44 +35,9 @@ class LoginViewModel extends Equatable {
   @override
   List<Object?> get props => [
         suiviText,
-        loginButtons,
         withAskAccountButton,
         withLoading,
         withWrongDeviceClockMessage,
         technicalErrorMessage,
       ];
-}
-
-List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor, Brand brand) {
-  return [
-    LoginButtonViewModelPoleEmploi(store),
-    if (brand == Brand.cej) LoginButtonViewModelMissionLocale(store),
-    if (flavor == Flavor.STAGING) LoginButtonViewModelPassEmploi(store),
-  ];
-}
-
-sealed class LoginButtonViewModel extends Equatable {
-  final Function() action;
-
-  LoginButtonViewModel({required this.action});
-
-  @override
-  List<Object?> get props => [];
-
-  bool get isPoleEmploi => this is LoginButtonViewModelPoleEmploi;
-}
-
-class LoginButtonViewModelPoleEmploi extends LoginButtonViewModel {
-  LoginButtonViewModelPoleEmploi(Store<AppState> store)
-      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI)));
-}
-
-class LoginButtonViewModelMissionLocale extends LoginButtonViewModel {
-  LoginButtonViewModelMissionLocale(Store<AppState> store)
-      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)));
-}
-
-class LoginButtonViewModelPassEmploi extends LoginButtonViewModel {
-  LoginButtonViewModelPassEmploi(Store<AppState> store)
-      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI)));
 }

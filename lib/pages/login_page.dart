@@ -126,7 +126,7 @@ class _Body extends StatelessWidget {
         SizedBox(height: Margins.spacing_base),
         PrimaryActionButton(
           label: "Login",
-          onPressed: () => LoginBottomSheet.show(context, viewModel.loginButtons),
+          onPressed: () => LoginBottomSheet.show(context),
         ),
       ],
     );

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/presentation/login_view_model.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/presentation/login_bottom_sheet_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/login_bottom_sheet/login_bottom_sheet_page1.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/login_bottom_sheet/login_bottom_sheet_page2.dart';
 
 class LoginBottomSheet extends StatefulWidget {
-  const LoginBottomSheet({super.key, required this.loginButtons});
+  const LoginBottomSheet({super.key});
 
-  final List<LoginButtonViewModel> loginButtons;
-
-  static void show(BuildContext context, List<LoginButtonViewModel> loginButtons) {
+  static void show(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => LoginBottomSheet(loginButtons: loginButtons),
+      builder: (context) => LoginBottomSheet(),
     );
   }
 
@@ -28,20 +28,24 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return BottomSheetWrapper(
-      heightFactor: 0.8,
-      title: "",
-      body: SingleChildScrollView(
-        child: AnimatedSwitcher(
-          duration: AnimationDurations.fast,
-          child: selectedLoginMode != null
-              ? LoginBottomSheetPage2(viewModel: selectedLoginMode!)
-              : LoginBottomSheetPage1(
-                  loginButtons: widget.loginButtons,
-                  onLoginButtonSelected: loginModeSelected,
-                ),
-        ),
-      ),
-    );
+    return StoreConnector<AppState, LoginBottomSheetViewModel>(
+        converter: (store) => LoginBottomSheetViewModel.create(store),
+        builder: (context, viewModel) {
+          return BottomSheetWrapper(
+            heightFactor: 0.8,
+            title: "",
+            body: SingleChildScrollView(
+              child: AnimatedSwitcher(
+                duration: AnimationDurations.fast,
+                child: selectedLoginMode != null
+                    ? LoginBottomSheetPage2(viewModel: selectedLoginMode!)
+                    : LoginBottomSheetPage1(
+                        loginButtons: viewModel.loginButtons,
+                        onLoginButtonSelected: loginModeSelected,
+                      ),
+              ),
+            ),
+          );
+        });
   }
 }
