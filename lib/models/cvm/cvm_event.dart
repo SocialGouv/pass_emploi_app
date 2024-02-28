@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 
 // TODO-CVM add file
@@ -6,7 +7,7 @@ enum CvmEventType {
   unknown,
 }
 
-class CvmEvent {
+class CvmEvent extends Equatable {
   final String id;
   final CvmEventType type;
   final bool isFromUser;
@@ -36,4 +37,7 @@ class CvmEvent {
       return null;
     }
   }
+
+  @override
+  List<Object?> get props => [id, type, isFromUser, message, date];
 }
