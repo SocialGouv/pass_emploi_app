@@ -9,6 +9,7 @@ class SecondaryButton extends StatelessWidget {
   final IconData? icon;
   final VoidCallback? onPressed;
   final Color backgroundColor;
+  final Color? foregroundColor;
   final double? fontSize;
 
   const SecondaryButton({
@@ -17,12 +18,14 @@ class SecondaryButton extends StatelessWidget {
     required this.onPressed,
     this.icon,
     this.backgroundColor = Colors.white,
+    this.foregroundColor,
     this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
     final baseTextStyle = TextStyles.textSecondaryButton;
+    final textColor = foregroundColor ?? AppColors.primary;
     final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
     return FocusedBorderBuilder(builder: (focusNode) {
       return OutlinedButton(
@@ -31,7 +34,7 @@ class SecondaryButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           shape: StadiumBorder(),
           backgroundColor: backgroundColor,
-          side: BorderSide(color: AppColors.primary, width: 2),
+          side: BorderSide(color: textColor, width: 2),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -43,10 +46,15 @@ class SecondaryButton extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 12),
                     child: Icon(
                       icon,
-                      color: AppColors.primary,
+                      color: textColor,
                       size: Dimens.icon_size_m,
                     )),
-              Flexible(child: Text(label, textAlign: TextAlign.center, style: usedTextStyle)),
+              Flexible(
+                  child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style: usedTextStyle.copyWith(color: textColor),
+              )),
             ],
           ),
         ),

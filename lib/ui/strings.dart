@@ -118,6 +118,11 @@ class Strings {
   static String welcomeOn = "Bienvenue sur";
 
   // Entree
+  static String welcome = "Bienvenue";
+  static String welcomeMessage = Brand.isCej()
+      ? "sur l’application dédiée aux bénéficiaires du Contrat d'Engagement Jeune (CEJ)."
+      : "sur l'application dédiée à votre accompagnement.";
+  static String noAccount = "Pas de compte ?";
   static String askAccount = "Demander un compte";
   static String suiviParConseillerCEJ =
       "Dans le cadre de mon Contrat d'Engagement Jeune, je suis suivi par un conseiller :";
@@ -1161,7 +1166,6 @@ class Strings {
   static String suggestionLocalisationAddAlerteButton = "Ajouter l’alerte";
 
   // textes alternatifs
-  static String unJeuneUneSolutionIllustrationSemanticsLabel = "France Relance, #1jeune1solution";
   static String favoriHeartRemove = "Retirer l'offre des favoris";
   static String favoriHeartAdd = "Mettre l'offre en favoris";
   static String openInNavigator = "Ouvrir dans le navigateur";
