@@ -21,6 +21,7 @@ void main() {
   final sut = StoreSut();
   final authenticator = MockAuthenticator();
   final matomoTracker = MockMatomoTracker();
+  final preferredLoginModeRepository = MockPreferredLoginModeRepository();
 
   group('On bootstrap…', () {
     sut.whenDispatchingAction(() => BootstrapAction());
@@ -72,10 +73,12 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.PASS_EMPLOI)]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
@@ -90,10 +93,12 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.MILO)]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
@@ -108,10 +113,12 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.POLE_EMPLOI)]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
@@ -126,10 +133,12 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.POLE_EMPLOI)]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
@@ -143,10 +152,12 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFailWithMessage()]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
@@ -160,10 +171,12 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFailBecauseOfWrongClock()]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
   });

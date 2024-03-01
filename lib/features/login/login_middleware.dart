@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_actions.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
@@ -42,6 +43,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
 
   void _logUser(Store<AppState> store, RequestLoginMode mode) async {
     store.dispatch(LoginLoadingAction());
+    store.dispatch(PreferredLoginModeSaveAction(loginMode: mode.toLoginMode));
     if (mode.isDemo()) {
       _modeDemoRepository.setModeDemo(true);
       final user = _modeDemoUser(mode);

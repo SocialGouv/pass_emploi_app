@@ -1,6 +1,7 @@
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
@@ -13,6 +14,7 @@ import 'package:pass_emploi_app/repositories/immersion/immersion_details_reposit
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
+import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
@@ -23,7 +25,6 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
-import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -159,5 +160,15 @@ class MockCampagneRecrutementRepository extends Mock implements CampagneRecrutem
   }
 }
 
-class MockPreferredLoginModeRepository extends Mock implements PreferredLoginModeRepository {}
+class MockPreferredLoginModeRepository extends Mock implements PreferredLoginModeRepository {
+  MockPreferredLoginModeRepository() {
+    registerFallbackValue(LoginMode.MILO);
+    when(() => get()).thenAnswer((_) async => null);
+    when(() => save(any())).thenAnswer((_) async {});
+  }
+
+  void verifySaveCalled() {
+    verify(() => save(any())).called(1);
+  }
+}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

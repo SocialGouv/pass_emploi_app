@@ -1,6 +1,21 @@
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/user.dart';
 
-enum RequestLoginMode { PASS_EMPLOI, SIMILO, POLE_EMPLOI, DEMO_PE, DEMO_MILO }
+enum RequestLoginMode {
+  PASS_EMPLOI,
+  SIMILO,
+  POLE_EMPLOI,
+  DEMO_PE,
+  DEMO_MILO;
+
+  LoginMode get toLoginMode => switch (this) {
+        RequestLoginMode.PASS_EMPLOI => LoginMode.PASS_EMPLOI,
+        RequestLoginMode.SIMILO => LoginMode.MILO,
+        RequestLoginMode.POLE_EMPLOI => LoginMode.POLE_EMPLOI,
+        RequestLoginMode.DEMO_PE => LoginMode.DEMO_PE,
+        RequestLoginMode.DEMO_MILO => LoginMode.DEMO_MILO,
+      };
+}
 
 enum LogoutReason { userLogout, apiResponse401, expiredRefreshToken, accountSuppression }
 
