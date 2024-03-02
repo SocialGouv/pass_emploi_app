@@ -21,7 +21,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     next(action);
     if (action is CvmRequestAction) {
       _start(store);
-    } else if (action is RequestLogoutAction) {
+    } else if (_shouldLogout(store, action)) {
       _logout();
     } else if (action is CvmSendMessageAction) {
       _facade.sendMessage(action.message);
@@ -43,5 +43,9 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     _subscription?.cancel();
     _facade.stop();
     _facade.logout();
+  }
+  
+  bool _shouldLogout(Store<AppState> store, action) {
+    return action is RequestLogoutAction && store.state.cvmState is! CvmNotInitializedState;
   }
 }
