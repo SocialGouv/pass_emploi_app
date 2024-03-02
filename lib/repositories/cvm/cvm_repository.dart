@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_aggregator.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
 // Methods calls are not try/catch.
@@ -92,7 +93,7 @@ class CvmRepository {
     return EventChannel(_cvmEventChannel).receiveBroadcastStream().map((events) {
       final eventsJson = events as List<dynamic>;
       final cvmEvents = eventsJson
-          .map((e) => CvmEvent.fromJson(e, _crashlytics)) //
+          .map((e) => CvmEventFactory.fromJson(e, _crashlytics)) //
           .whereType<CvmEvent>()
           .toList();
       _aggregator.addEvents(cvmEvents);

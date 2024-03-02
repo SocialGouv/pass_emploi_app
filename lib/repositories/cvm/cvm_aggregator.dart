@@ -14,7 +14,6 @@ class CvmAggregator {
     } else {
       _events.addAll(events);
     }
-    _events.filterOnlyMessages();
     _events.sortFromOldestToNewest();
   }
 
@@ -30,7 +29,5 @@ extension _IterableMessage on Iterable<CvmEvent> {
 }
 
 extension _ListMessage on List<CvmEvent> {
-  void sortFromOldestToNewest() => sort((a, b) => a.date!.compareTo(b.date!));
-
-  void filterOnlyMessages() => removeWhere((element) => element.type != CvmEventType.message);
+  void sortFromOldestToNewest() => sort((a, b) => a.date.compareTo(b.date));
 }

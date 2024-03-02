@@ -95,6 +95,7 @@ private extension Event {
             "isFromUser": senderID == SessionManager.sharedInstance.userId,
             "message": message,
             "date": timestamp,
+            "fileInfo": attachmentID
         ]
     }
 

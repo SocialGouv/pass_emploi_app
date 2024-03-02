@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
+import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class CvmChatPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => CvmChatPage());
@@ -87,8 +88,11 @@ class _MessageList extends StatelessWidget {
       reverse: false,
       itemCount: viewModel.messages.length,
       itemBuilder: (context, index) {
-        final message = viewModel.messages[index];
-        return _MessageTile(message: message);
+        return switch (viewModel.messages[index]) {
+          final CvmMessageEvent event => _MessageTile(event),
+          final CvmFileEvent event => _FileTile(event),
+          final CvmUnknownEvent event => _UnknownTile(event),
+        };
       },
     );
   }
@@ -134,20 +138,62 @@ class _MessageInput extends StatelessWidget {
 }
 
 class _MessageTile extends StatelessWidget {
-  const _MessageTile({required this.message});
+  final CvmMessageEvent event;
 
-  final CvmEvent message;
+  const _MessageTile(this.event);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      key: ValueKey(message.id),
-      title: Text(message.message ?? "no-message"),
-      subtitle: Text(message.date?.toDayAndHour() ?? "no-date"),
+      key: ValueKey(event.id),
+      title: SelectableTextWithClickableLinks(event.content, style: TextStyles.textSRegular()),
+      subtitle: Text(event.date.toDayAndHour()),
       leading: CircleAvatar(
-        backgroundColor: message.isFromUser ? Colors.blue : Colors.grey,
-        child: Text(message.isFromUser ? "Moi" : "PE"),
+        backgroundColor: event.isFromUser ? Colors.blue : Colors.grey,
+        child: Text(event.isFromUser ? "Moi" : "PE"),
       ),
+    );
+  }
+}
+
+class _FileTile extends StatelessWidget {
+  final CvmFileEvent event;
+
+  const _FileTile(this.event);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      key: ValueKey(event.id),
+      title: Column(
+        children: [
+          Text('Pièce jointe'),
+          SizedBox(height: Margins.spacing_xs),
+          SelectableTextWithClickableLinks(event.content, style: TextStyles.textSRegular()),
+          SizedBox(height: Margins.spacing_xs),
+          SelectableTextWithClickableLinks(event.url, style: TextStyles.textSRegular()),
+        ],
+      ),
+      subtitle: Text(event.date.toDayAndHour()),
+      leading: CircleAvatar(
+        backgroundColor: event.isFromUser ? Colors.blue : Colors.grey,
+        child: Text(event.isFromUser ? "Moi" : "PE"),
+      ),
+    );
+  }
+}
+
+class _UnknownTile extends StatelessWidget {
+  final CvmUnknownEvent event;
+
+  const _UnknownTile(this.event);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      key: ValueKey(event.id),
+      title: Text('⚠️Format de message inconnu'),
+      subtitle: Text(event.date.toDayAndHour()),
     );
   }
 }

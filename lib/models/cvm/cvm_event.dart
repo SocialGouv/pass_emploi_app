@@ -1,43 +1,47 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 
-// TODO-CVM add file
-enum CvmEventType {
-  message,
-  unknown,
+sealed class CvmEvent extends Equatable {
+  final String id;
+  final DateTime date;
+
+  CvmEvent({required this.id, required this.date});
 }
 
-class CvmEvent extends Equatable {
-  final String id;
-  final CvmEventType type;
+class CvmMessageEvent extends CvmEvent {
   final bool isFromUser;
-  final String? message;
-  final DateTime? date;
+  final String content;
 
-  CvmEvent({
-    required this.id,
-    required this.type,
+  CvmMessageEvent({
+    required super.id,
+    required super.date,
     required this.isFromUser,
-    required this.message,
-    required this.date,
+    required this.content,
   });
 
-  static CvmEvent? fromJson(dynamic json, [Crashlytics? crashlytics]) {
-    try {
-      return CvmEvent(
-        id: json['id'] as String,
-        type: json['type'] == 'message' ? CvmEventType.message : CvmEventType.unknown,
-        isFromUser: json['isFromUser'] as bool,
-        message: json['message'] as String,
-        date: DateTime.fromMillisecondsSinceEpoch(json['date'] as int),
-      );
-    } catch (e) {
-      crashlytics?.log("CvmMiddleware.fromJson error on following json $json");
-      crashlytics?.recordCvmException(e);
-      return null;
-    }
-  }
+  @override
+  List<Object?> get props => [id, date, isFromUser, content];
+}
+
+class CvmFileEvent extends CvmEvent {
+  final bool isFromUser;
+  final String content;
+  final String url;
+
+  CvmFileEvent({
+    required super.id,
+    required super.date,
+    required this.isFromUser,
+    required this.content,
+    required this.url,
+  });
 
   @override
-  List<Object?> get props => [id, type, isFromUser, message, date];
+  List<Object?> get props => [id, date, isFromUser, content, url];
+}
+
+class CvmUnknownEvent extends CvmEvent {
+  CvmUnknownEvent({required super.id, required super.date});
+
+  @override
+  List<Object?> get props => [id, date];
 }
