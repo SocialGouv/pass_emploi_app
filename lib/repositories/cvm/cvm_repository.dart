@@ -40,7 +40,7 @@ class CvmRepository {
 
   Future<void> logout() async {
     Log.d('--- CvmRepository.logout…');
-    _aggregator.reset();
+    _aggregator.clear();
     await MethodChannel(_cvmMethodChannel).invokeMethod('logout');
     Log.d('--- CvmRepository.logout ✅');
   }
@@ -98,7 +98,7 @@ class CvmRepository {
           .toList();
       _aggregator.addEvents(cvmEvents);
       Log.d('--- CvmRepository.getMessages ✅');
-      return _aggregator.getEvents();
+      return _aggregator.getSortedEvents();
     });
   }
 
