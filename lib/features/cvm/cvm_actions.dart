@@ -17,3 +17,5 @@ class CvmSendMessageAction {
 
   CvmSendMessageAction(this.message);
 }
+
+class CvmLoadMoreAction {}

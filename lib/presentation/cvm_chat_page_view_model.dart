@@ -10,11 +10,15 @@ class CvmChatPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<CvmEvent> messages;
   final Function(String message) onSendMessage;
+  final Function() onRetry;
+  final Function() onLoadMore;
 
   CvmChatPageViewModel({
     required this.displayState,
     required this.messages,
     required this.onSendMessage,
+    required this.onRetry,
+    required this.onLoadMore,
   });
 
   factory CvmChatPageViewModel.create(Store<AppState> store) {
@@ -23,6 +27,8 @@ class CvmChatPageViewModel extends Equatable {
       displayState: _displayState(chatState),
       messages: chatState is CvmSuccessState ? chatState.messages : [],
       onSendMessage: (String message) => store.dispatch(CvmSendMessageAction(message)),
+      onRetry: () => store.dispatch(CvmRequestAction()),
+      onLoadMore: () => store.dispatch(CvmLoadMoreAction()),
     );
   }
 

@@ -7,10 +7,10 @@ import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
 class CvmFacade {
   final CvmRepository _repository;
   final Crashlytics? _crashlytics;
-  final _state = _CvmRepositoryState();
+  final _CvmState _state;
   StreamController<List<CvmEvent>>? _streamController;
 
-  CvmFacade(this._repository, [this._crashlytics]);
+  CvmFacade(this._repository, [this._crashlytics]) : _state = _CvmState();
 
   Stream<List<CvmEvent>> start() {
     _streamController?.close();
@@ -43,6 +43,15 @@ class CvmFacade {
       _crashlytics?.log("CvmFacade.sendMessage error");
       _crashlytics?.recordCvmException(e, s);
       return false;
+    }
+  }
+
+  Future<void> loadMore() async {
+    try {
+      return await _repository.loadMore();
+    } catch (e, s) {
+      _crashlytics?.log("CvmFacade.loadMore error");
+      _crashlytics?.recordCvmException(e, s);
     }
   }
 
@@ -108,7 +117,7 @@ class CvmFacade {
 }
 
 // Made to offer a proper retry mechanism. Only unsuccessful steps should be retried.
-class _CvmRepositoryState {
+class _CvmState {
   bool isInit = false;
   bool isLoggedIn = false;
   bool isSubscribingToMessageStream = false;

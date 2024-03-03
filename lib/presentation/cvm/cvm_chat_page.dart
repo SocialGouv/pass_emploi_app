@@ -5,11 +5,13 @@ import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 import 'package:pass_emploi_app/presentation/cvm_chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
@@ -21,43 +23,40 @@ class CvmChatPage extends StatelessWidget {
     return StoreConnector<AppState, CvmChatPageViewModel>(
       onInit: (store) => store.dispatch(CvmRequestAction()),
       converter: (store) => CvmChatPageViewModel.create(store),
-      builder: (context, viewModel) => _Scaffold(_Body(viewModel)),
+      builder: (context, viewModel) => _Scaffold(viewModel),
       distinct: true,
     );
   }
 }
 
 class _Scaffold extends StatelessWidget {
-  final Widget body;
+  final CvmChatPageViewModel viewModel;
 
-  const _Scaffold(this.body);
+  const _Scaffold(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SecondaryAppBar(title: "Chat CVM"),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => StoreProvider.of<AppState>(context).dispatch(CvmRequestAction()),
-        child: Icon(Icons.refresh),
+      appBar: PrimaryAppBar(
+        title: "Chat CVM",
+        withProfileButton: false,
+        actionButton: viewModel.displayState == DisplayState.CONTENT
+            ? IconButton(
+                icon: Icon(Icons.vertical_align_bottom),
+                onPressed: () {
+                  final scrollController = PrimaryScrollController.of(context);
+                  scrollController.jumpTo(scrollController.position.maxScrollExtent);
+                },
+              )
+            : null,
       ),
-      body: body,
+      body: switch (viewModel.displayState) {
+        DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+        DisplayState.FAILURE => Center(child: Retry('😬KO, régale-toi', () => viewModel.onRetry())),
+        DisplayState.EMPTY => Center(child: Text("🐐Aucun message", style: TextStyles.textBaseMedium)),
+        DisplayState.CONTENT => _Content(viewModel),
+      },
     );
-  }
-}
-
-class _Body extends StatelessWidget {
-  final CvmChatPageViewModel viewModel;
-
-  const _Body(this.viewModel);
-
-  @override
-  Widget build(BuildContext context) {
-    return switch (viewModel.displayState) {
-      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-      DisplayState.FAILURE => Center(child: Text("😬KO, régale-toi", style: TextStyles.textBaseMedium)),
-      DisplayState.EMPTY => Center(child: Text("🐐Aucun message", style: TextStyles.textBaseMedium)),
-      DisplayState.CONTENT => _Content(viewModel),
-    };
   }
 }
 
@@ -86,9 +85,15 @@ class _MessageList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       reverse: false,
-      itemCount: viewModel.messages.length,
+      itemCount: viewModel.messages.length + 1,
       itemBuilder: (context, index) {
-        return switch (viewModel.messages[index]) {
+        if (index == 0) {
+          return TextButton(
+            onPressed: () => viewModel.onLoadMore(),
+            child: Text('Charger plus de messages'),
+          );
+        }
+        return switch (viewModel.messages[index - 1]) {
           final CvmMessageEvent event => _MessageTile(event),
           final CvmFileEvent event => _FileTile(event),
           final CvmUnknownEvent event => _UnknownTile(event),
@@ -113,7 +118,7 @@ class _MessageInput extends StatelessWidget {
           Expanded(
             child: BaseTextField(
               controller: controller,
-              hintText: "Ecrivez votre message",
+              hintText: "Ecrivez-votre message",
             ),
           ),
           SizedBox(width: Margins.spacing_s),
@@ -165,10 +170,10 @@ class _FileTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       key: ValueKey(event.id),
+      tileColor: AppColors.accent3Lighten,
       title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Pièce jointe'),
-          SizedBox(height: Margins.spacing_xs),
           SelectableTextWithClickableLinks(event.content, style: TextStyles.textSRegular()),
           SizedBox(height: Margins.spacing_xs),
           SelectableTextWithClickableLinks(event.url, style: TextStyles.textSRegular()),
@@ -192,6 +197,7 @@ class _UnknownTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       key: ValueKey(event.id),
+      tileColor: AppColors.warningLighten,
       title: Text('⚠️Format de message inconnu'),
       subtitle: Text(event.date.toDayAndHour()),
     );

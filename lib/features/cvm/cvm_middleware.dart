@@ -25,6 +25,8 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
       _logout();
     } else if (action is CvmSendMessageAction) {
       _facade.sendMessage(action.message);
+    } else if (action is CvmLoadMoreAction) {
+      _facade.loadMore();
     }
   }
 

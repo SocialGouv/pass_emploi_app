@@ -14,7 +14,7 @@ class CvmRepository {
 
   // TODO-CVM Use env
   static const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-  static const token = "lIEpR_0VP-5leIKVpSiGn34C1Yo";
+  static const token = "WM3N_IEMfw1y5P2WMlyczo7frEA";
 
   static const int _pageLimit = 20;
 
