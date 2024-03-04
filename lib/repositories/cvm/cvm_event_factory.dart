@@ -2,11 +2,12 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 
 class CvmEventFactory {
-  // TODO-CVM Use as param when env is setup
-  static const _attachmentUrl =
-      'https://cej-conversation-va.pe-qvr.fr/_matrix/media/v3/download/cej-conversation-va.pe-qvr.fr/';
+  final String cvmAttachmentUrl;
+  final Crashlytics? crashlytics;
 
-  static CvmEvent? fromJson(dynamic json, [Crashlytics? crashlytics]) {
+  CvmEventFactory({required this.cvmAttachmentUrl, this.crashlytics});
+
+  CvmEvent? fromJson(dynamic json) {
     try {
       final jsonEvent = _JsonCvmEvent.fromJson(json);
       return switch (jsonEvent.type) {
@@ -22,6 +23,34 @@ class CvmEventFactory {
       return null;
     }
   }
+
+  CvmMessageEvent _toMessageEvent(_JsonCvmEvent jsonEvent) {
+    return CvmMessageEvent(
+      id: jsonEvent.id!,
+      isFromUser: jsonEvent.isFromUser!,
+      content: jsonEvent.content!,
+      date: jsonEvent.date!,
+    );
+  }
+
+  CvmFileEvent _toFileEvent(_JsonCvmEvent jsonEvent) {
+    return CvmFileEvent(
+      id: jsonEvent.id!,
+      isFromUser: jsonEvent.isFromUser!,
+      content: jsonEvent.content!,
+      url: _mxcToUrl(jsonEvent.fileInfo!),
+      date: jsonEvent.date!,
+    );
+  }
+
+  CvmUnknownEvent _toUnknownEvent(_JsonCvmEvent jsonEvent) {
+    return CvmUnknownEvent(
+      id: jsonEvent.id!,
+      date: jsonEvent.date!,
+    );
+  }
+
+  String _mxcToUrl(String fileInfo) => cvmAttachmentUrl + fileInfo.split('/').last;
 }
 
 enum _CvmEventType {
@@ -73,31 +102,3 @@ class _JsonCvmEvent {
     );
   }
 }
-
-CvmMessageEvent _toMessageEvent(_JsonCvmEvent jsonEvent) {
-  return CvmMessageEvent(
-    id: jsonEvent.id!,
-    isFromUser: jsonEvent.isFromUser!,
-    content: jsonEvent.content!,
-    date: jsonEvent.date!,
-  );
-}
-
-CvmFileEvent _toFileEvent(_JsonCvmEvent jsonEvent) {
-  return CvmFileEvent(
-    id: jsonEvent.id!,
-    isFromUser: jsonEvent.isFromUser!,
-    content: jsonEvent.content!,
-    url: _mxcToUrl(jsonEvent.fileInfo!),
-    date: jsonEvent.date!,
-  );
-}
-
-CvmUnknownEvent _toUnknownEvent(_JsonCvmEvent jsonEvent) {
-  return CvmUnknownEvent(
-    id: jsonEvent.id!,
-    date: jsonEvent.date!,
-  );
-}
-
-String _mxcToUrl(String fileInfo) => CvmEventFactory._attachmentUrl + fileInfo.split('/').last;

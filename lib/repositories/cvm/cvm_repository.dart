@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_aggregator.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
@@ -12,16 +11,18 @@ class CvmRepository {
   static const _cvmEventChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/events';
   static const _cvmRoomsChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/rooms';
 
-  // TODO-CVM Use env
-  static const ex160 = "https://cej-conversation-va.pe-qvr.fr/identificationcej/v1/authentification/CEJ";
-  static const token = "WM3N_IEMfw1y5P2WMlyczo7frEA";
+  static const token = "yfHeKYzg9FbBLpOVZC8U5ROG9iE";
 
   static const int _pageLimit = 20;
 
-  final _aggregator = CvmAggregator();
-  final Crashlytics? _crashlytics;
+  final String cvmEx160Url;
+  final CvmEventFactory cvmEventFactory;
+  final CvmAggregator _aggregator;
 
-  CvmRepository([this._crashlytics]);
+  CvmRepository({
+    required this.cvmEx160Url,
+    required this.cvmEventFactory,
+  }) : _aggregator = CvmAggregator();
 
   Future<void> initializeCvm() async {
     Log.d('--- CvmRepository.initializeCvm…');
@@ -32,7 +33,7 @@ class CvmRepository {
   Future<bool> login() async {
     Log.d('--- CvmRepository.login…');
     final success = await MethodChannel(_cvmMethodChannel) //
-            .invokeMethod<bool>('login', {'token': token, 'ex160': ex160}) ??
+            .invokeMethod<bool>('login', {'token': token, 'ex160': cvmEx160Url}) ??
         false;
     Log.d('--- CvmRepository.login: ${success ? '✅' : '❌'}');
     return success;
@@ -93,7 +94,7 @@ class CvmRepository {
     return EventChannel(_cvmEventChannel).receiveBroadcastStream().map((events) {
       final eventsJson = events as List<dynamic>;
       final cvmEvents = eventsJson
-          .map((e) => CvmEventFactory.fromJson(e, _crashlytics)) //
+          .map((e) => cvmEventFactory.fromJson(e)) //
           .whereType<CvmEvent>()
           .toList();
       _aggregator.addEvents(cvmEvents);

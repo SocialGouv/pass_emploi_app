@@ -3,6 +3,8 @@ import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
 
 void main() {
+  final factory = CvmEventFactory(cvmAttachmentUrl: 'https://cvm.fr/download/');
+
   group('fromJson', () {
     test('when type is message should return CvmMessageEvent', () {
       // Given
@@ -15,7 +17,7 @@ void main() {
       };
 
       // When
-      final result = CvmEventFactory.fromJson(json);
+      final result = factory.fromJson(json);
 
       // Then
       expect(
@@ -30,9 +32,9 @@ void main() {
     });
 
     test('when type is file and file info is an MXC url (Android) should return CvmFileEvent with properly built URL',
-        () {
-      // Given
-      final dynamic json = {
+            () {
+          // Given
+          final dynamic json = {
         'id': 'id',
         'type': 'file',
         'isFromUser': false,
@@ -42,7 +44,7 @@ void main() {
       };
 
       // When
-      final result = CvmEventFactory.fromJson(json);
+      final result = factory.fromJson(json);
 
       // Then
       expect(
@@ -51,16 +53,16 @@ void main() {
           id: 'id',
           isFromUser: false,
           content: 'message',
-          url: 'https://cej-conversation-va.pe-qvr.fr/_matrix/media/v3/download/cej-conversation-va.pe-qvr.fr/id-file',
+          url: 'https://cvm.fr/download/id-file',
           date: DateTime(2024, 1, 1),
         ),
-      );
-    });
+          );
+        });
 
     test('when type is file and file info is an attachment ID (iOS) should return CvmFileEvent with properly built URL',
-        () {
-      // Given
-      final dynamic json = {
+            () {
+          // Given
+          final dynamic json = {
         'id': 'id',
         'type': 'file',
         'isFromUser': false,
@@ -70,7 +72,7 @@ void main() {
       };
 
       // When
-      final result = CvmEventFactory.fromJson(json);
+      final result = factory.fromJson(json);
 
       // Then
       expect(
@@ -79,11 +81,11 @@ void main() {
           id: 'id',
           isFromUser: false,
           content: 'message',
-          url: 'https://cej-conversation-va.pe-qvr.fr/_matrix/media/v3/download/cej-conversation-va.pe-qvr.fr/id-file',
+          url: 'https://cvm.fr/download/id-file',
           date: DateTime(2024, 1, 1),
         ),
-      );
-    });
+          );
+        });
 
     test('when type is image should return CvmFileEvent', () {
       // Given
@@ -97,7 +99,7 @@ void main() {
       };
 
       // When
-      final result = CvmEventFactory.fromJson(json);
+      final result = factory.fromJson(json);
 
       // Then
       expect(
@@ -106,7 +108,7 @@ void main() {
           id: 'id',
           isFromUser: false,
           content: 'message',
-          url: 'https://cej-conversation-va.pe-qvr.fr/_matrix/media/v3/download/cej-conversation-va.pe-qvr.fr/id-file',
+          url: 'https://cvm.fr/download/id-file',
           date: DateTime(2024, 1, 1),
         ),
       );
@@ -121,7 +123,7 @@ void main() {
       };
 
       // When
-      final result = CvmEventFactory.fromJson(json);
+      final result = factory.fromJson(json);
 
       // Then
       expect(
@@ -141,7 +143,7 @@ void main() {
       };
 
       // When
-      final result = CvmEventFactory.fromJson(json);
+      final result = factory.fromJson(json);
 
       // Then
       expect(result, isNull);
@@ -155,7 +157,7 @@ void main() {
       };
 
       // When
-      final result = CvmEventFactory.fromJson(json);
+      final result = factory.fromJson(json);
 
       // Then
       expect(result, isNull);
@@ -169,7 +171,7 @@ void main() {
       };
 
       // When
-      final result = CvmEventFactory.fromJson(json);
+      final result = factory.fromJson(json);
 
       // Then
       expect(result, isNull);
@@ -186,7 +188,7 @@ void main() {
       };
 
       // When
-      final result = CvmEventFactory.fromJson(json);
+      final result = factory.fromJson(json);
 
       // Then
       expect(result, isNull);

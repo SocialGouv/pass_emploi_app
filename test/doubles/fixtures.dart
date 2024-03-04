@@ -207,6 +207,8 @@ Configuration configuration(
     'someKey',
     'actualisationPoleEmploiUrl',
     'Europe/Paris',
+    'cvmEx160Url',
+    'cvmAttachmentUrl',
   );
 }
 
