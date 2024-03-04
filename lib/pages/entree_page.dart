@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/presentation/entree_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -46,59 +47,78 @@ class EntreePage extends StatelessWidget {
             bottom: false,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Flexible(child: Container()),
-                  HiddenMenuGesture(child: AppLogo(width: 120)),
-                  SizedBox(height: Margins.spacing_m),
-                  _WelcomeText(),
-                  SizedBox(height: Margins.spacing_xl),
-                  CardContainer(
-                    padding: EdgeInsets.only(
-                      left: Margins.spacing_m,
-                      right: Margins.spacing_m,
-                      top: Margins.spacing_m,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        if (viewModel.preferredLoginMode != null) ...[
-                          _PreferredLoginMode(viewModel.preferredLoginMode!),
-                          SizedBox(height: Margins.spacing_base),
-                        ],
-                        _LoginButton(viewModel),
-                        SizedBox(height: Margins.spacing_m),
-                        if (viewModel.technicalErrorMessage != null) ...[
-                          _GenericError(viewModel.technicalErrorMessage!),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _FlexibleSpace(),
+                    HiddenMenuGesture(child: AppLogo(width: 120)),
+                    SizedBox(height: Margins.spacing_m),
+                    _WelcomeText(),
+                    SizedBox(height: Margins.spacing_xl),
+                    CardContainer(
+                      padding: EdgeInsets.only(
+                        left: Margins.spacing_m,
+                        right: Margins.spacing_m,
+                        top: Margins.spacing_m,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (viewModel.preferredLoginMode != null) ...[
+                            _PreferredLoginMode(viewModel.preferredLoginMode!),
+                            SizedBox(height: Margins.spacing_base),
+                          ],
+                          _LoginButton(viewModel),
                           SizedBox(height: Margins.spacing_m),
-                        ],
-                        if (viewModel.withWrongDeviceClockMessage) ...[
-                          _ErrorBanner(
-                            title: Strings.loginWrongDeviceClockError,
-                            description: Strings.loginWrongDeviceClockErrorDescription,
+                          if (viewModel.technicalErrorMessage != null) ...[
+                            _GenericError(viewModel.technicalErrorMessage!),
+                            SizedBox(height: Margins.spacing_m),
+                          ],
+                          if (viewModel.withWrongDeviceClockMessage) ...[
+                            _ErrorBanner(
+                              title: Strings.loginWrongDeviceClockError,
+                              description: Strings.loginWrongDeviceClockErrorDescription,
+                            ),
+                            SizedBox(height: Margins.spacing_m),
+                          ],
+                          Divider(
+                            height: 1,
+                            color: AppColors.primaryLighten,
                           ),
-                          SizedBox(height: Margins.spacing_m),
+                          _InformationsLegales(),
                         ],
-                        Divider(
-                          height: 1,
-                          color: AppColors.primaryLighten,
-                        ),
-                        _InformationsLegales(),
-                      ],
+                      ),
                     ),
-                  ),
-                  if (viewModel.withRequestAccountButton) ...[
+                    if (viewModel.withRequestAccountButton) ...[
+                      SizedBox(height: Margins.spacing_base),
+                      _AskAccount(),
+                    ],
                     SizedBox(height: Margins.spacing_base),
-                    _AskAccount(),
                   ],
-                  SizedBox(height: Margins.spacing_base),
-                ],
+                ),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _FlexibleSpace extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final deviceHeight = MediaQuery.of(context).size.height;
+    late final double height;
+    if (deviceHeight < 800) {
+      height = 0;
+    } else {
+      height = 200;
+    }
+
+    return SizedBox(
+      height: height,
     );
   }
 }
@@ -161,6 +181,14 @@ class _InformationsLegales extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+      onExpansionChanged: (_) {
+        Future.delayed(AnimationDurations.medium, () {
+          Scrollable.of(context).position.ensureVisible(
+                context.findRenderObject()!,
+                duration: const Duration(milliseconds: 500),
+              );
+        });
+      },
       tilePadding: EdgeInsets.zero,
       title: Text(Strings.legalInformation, style: TextStyles.textBaseRegular),
       expandedCrossAxisAlignment: CrossAxisAlignment.start,
