@@ -25,6 +25,7 @@ import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
@@ -47,6 +48,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repositor
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
+import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
@@ -64,7 +66,6 @@ import 'package:pass_emploi_app/repositories/user_action_pending_creation_reposi
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
-import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -136,8 +137,10 @@ class TestStoreFactory {
   TopDemarcheRepository topDemarcheRepository = DummyTopDemarcheRepository();
   MonSuiviRepository monSuiviRepository = DummyMonSuiviRepository();
   CvmRepository cvmRepository = MockCvmRepository();
+  CvmTokenRepository cvmTokenRepository = MockCvmTokenRepository();
   CampagneRecrutementRepository campagneRecrutementRepository = MockCampagneRecrutementRepository();
   PreferredLoginModeRepository preferredLoginModeRepository = MockPreferredLoginModeRepository();
+
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -205,6 +208,7 @@ class TestStoreFactory {
       topDemarcheRepository,
       monSuiviRepository,
       cvmRepository,
+      cvmTokenRepository,
       campagneRecrutementRepository,
       preferredLoginModeRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/

@@ -8,13 +8,18 @@ import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_facade.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:redux/redux.dart';
 
 class CvmMiddleware extends MiddlewareClass<AppState> {
   final CvmFacade _facade;
   StreamSubscription<List<CvmEvent>>? _subscription;
 
-  CvmMiddleware(CvmRepository repository, [Crashlytics? crashlytics]) : _facade = CvmFacade(repository, crashlytics);
+  CvmMiddleware(
+    CvmRepository repository,
+    CvmTokenRepository tokenRepository, [
+    Crashlytics? crashlytics,
+  ]) : _facade = CvmFacade(repository, tokenRepository, crashlytics);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -32,10 +37,13 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
 
   void _start(Store<AppState> store) async {
     if (store.state.cvmState is CvmSuccessState) return;
+    final userId = store.state.userId();
+    if (userId == null) return;
+
     store.dispatch(CvmLoadingAction());
 
     _subscription?.cancel();
-    _subscription = _facade.start().listen(
+    _subscription = _facade.start(userId).listen(
           (messages) => store.dispatch(CvmSuccessAction(messages)),
           onError: (_) => store.dispatch(CvmFailureAction()),
         );
@@ -46,7 +54,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     _facade.stop();
     _facade.logout();
   }
-  
+
   bool _shouldLogout(Store<AppState> store, action) {
     return action is RequestLogoutAction && store.state.cvmState is! CvmNotInitializedState;
   }

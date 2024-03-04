@@ -10,9 +10,6 @@ class CvmRepository {
   static const _cvmMethodChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/methods';
   static const _cvmEventChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/events';
   static const _cvmRoomsChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/rooms';
-
-  static const token = "yfHeKYzg9FbBLpOVZC8U5ROG9iE";
-
   static const int _pageLimit = 20;
 
   final String cvmEx160Url;
@@ -30,10 +27,10 @@ class CvmRepository {
     Log.d('--- CvmRepository.initializeCvm ✅');
   }
 
-  Future<bool> login() async {
+  Future<bool> login(String cvmToken) async {
     Log.d('--- CvmRepository.login…');
     final success = await MethodChannel(_cvmMethodChannel) //
-            .invokeMethod<bool>('login', {'token': token, 'ex160': cvmEx160Url}) ??
+            .invokeMethod<bool>('login', {'token': cvmToken, 'ex160': cvmEx160Url}) ??
         false;
     Log.d('--- CvmRepository.login: ${success ? '✅' : '❌'}');
     return success;

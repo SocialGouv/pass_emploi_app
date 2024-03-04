@@ -3,22 +3,25 @@ import 'dart:async';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 
 class CvmFacade {
   final CvmRepository _repository;
+  final CvmTokenRepository _tokenRepository;
   final Crashlytics? _crashlytics;
   final _CvmState _state;
   StreamController<List<CvmEvent>>? _streamController;
 
-  CvmFacade(this._repository, [this._crashlytics]) : _state = _CvmState();
+  CvmFacade(this._repository, this._tokenRepository, [this._crashlytics]) : _state = _CvmState();
 
-  Stream<List<CvmEvent>> start() {
+  Stream<List<CvmEvent>> start(String userId) {
     _streamController?.close();
     _streamController = StreamController<List<CvmEvent>>();
 
     _initCvm()
         .then((_) => _subscribeToMessageStream())
         .then((_) => _subscribeToHasRoomStream())
+        .then((_) => _getToken(userId))
         .then((_) => _login())
         .then((_) => _startListeningRooms())
         .catchError((Object error) {
@@ -103,9 +106,16 @@ class CvmFacade {
     }
   }
 
+  Future<String?> _getToken(String userId) async {
+    if (_state.token != null) return _state.token;
+    _state.token = await _tokenRepository.getToken(userId);
+    return _state.token;
+  }
+
   Future<bool> _login() async {
     if (_state.isLoggedIn) return true;
-    _state.isLoggedIn = await _repository.login();
+    if (_state.token == null) return false;
+    _state.isLoggedIn = await _repository.login(_state.token!);
     return _state.isLoggedIn;
   }
 
@@ -119,6 +129,7 @@ class CvmFacade {
 // Made to offer a proper retry mechanism. Only unsuccessful steps should be retried.
 class _CvmState {
   bool isInit = false;
+  String? token;
   bool isLoggedIn = false;
   bool isSubscribingToMessageStream = false;
   bool isSubscribingToHasRoomStream = false;
@@ -128,6 +139,7 @@ class _CvmState {
 
   void reset() {
     // isInit is not reset because of Android behavior, which makes app crashes when trying to reinitialize CVM.
+    token = null;
     isLoggedIn = false;
     isSubscribingToMessageStream = false;
     isSubscribingToHasRoomStream = false;

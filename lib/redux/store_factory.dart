@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/features/alerte/list/alerte_list_middleware.dart
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
 import 'package:pass_emploi_app/features/cache/cache_invalidator_middleware.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
+import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_middleware.dart';
@@ -47,6 +48,7 @@ import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_middleware.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_middleware.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_middleware.dart';
+import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_middleware.dart';
 import 'package:pass_emploi_app/features/push/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/features/rating/rating_middleware.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/recherche_emploi_middleware.dart';
@@ -74,8 +76,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_middleware.dart';
-import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -93,6 +93,7 @@ import 'package:pass_emploi_app/repositories/alerte/offre_emploi_alerte_reposito
 import 'package:pass_emploi_app/repositories/alerte/service_civique_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
+import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
@@ -101,6 +102,7 @@ import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
@@ -123,6 +125,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repositor
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
+import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
@@ -140,8 +143,6 @@ import 'package:pass_emploi_app/repositories/user_action_pending_creation_reposi
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
-import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
-import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -209,8 +210,10 @@ class StoreFactory {
   final TopDemarcheRepository topDemarcheRepository;
   final MonSuiviRepository monSuiviRepository;
   final CvmRepository cvmRepository;
+  final CvmTokenRepository cvmTokenRepository;
   final CampagneRecrutementRepository campagneRecrutementRepository;
   final PreferredLoginModeRepository preferredLoginModeRepository;
+
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -277,6 +280,7 @@ class StoreFactory {
     this.topDemarcheRepository,
     this.monSuiviRepository,
     this.cvmRepository,
+    this.cvmTokenRepository,
     this.campagneRecrutementRepository,
     this.preferredLoginModeRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
@@ -365,7 +369,7 @@ class StoreFactory {
         SessionMiloDetailsMiddleware(sessionMiloRepository).call,
         ConnectivityMiddleware(connectivityWrapper).call,
         MonSuiviMiddleware(monSuiviRepository).call,
-        CvmMiddleware(cvmRepository, crashlytics).call,
+        CvmMiddleware(cvmRepository, cvmTokenRepository, crashlytics).call,
         CampagneRecrutementMiddleware(campagneRecrutementRepository).call,
         PreferredLoginModeMiddleware(preferredLoginModeRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/

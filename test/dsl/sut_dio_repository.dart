@@ -17,8 +17,12 @@ class DioRepositorySut<REPO> {
 
   // Given
 
-  void givenJsonResponse({required String fromJson, Map<String, String> headers = const {}}) {
+  void givenJsonResponse({required String fromJson}) {
     final data = jsonDecode(loadTestAssets(fromJson));
+    givenResponse(() => Response(requestOptions: _makeRequestOptions(), data: data, statusCode: 200));
+  }
+
+  void givenRawResponse({required String data}) {
     givenResponse(() => Response(requestOptions: _makeRequestOptions(), data: data, statusCode: 200));
   }
 

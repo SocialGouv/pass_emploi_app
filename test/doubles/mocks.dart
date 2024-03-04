@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
@@ -64,6 +65,7 @@ class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {
     when(() => delete(key: any(named: "key"))).thenAnswer((_) async {});
     when(() => readAll()).thenAnswer((_) async => {});
   }
+
   void withAnyRead(String? value) {
     when(() => read(key: any(named: "key"))).thenAnswer((_) async => value);
   }
@@ -142,6 +144,8 @@ class MockUserActionRepository extends Mock implements UserActionRepository {}
 class MockTrackingEventRepository extends Mock implements TrackingEventRepository {}
 
 class MockCvmRepository extends Mock implements CvmRepository {}
+
+class MockCvmTokenRepository extends Mock implements CvmTokenRepository {}
 
 class MockCampagneRecrutementRepository extends Mock implements CampagneRecrutementRepository {
   MockCampagneRecrutementRepository() {
