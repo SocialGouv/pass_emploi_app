@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_actions.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/presentation/entree_page_view_model.dart';
@@ -28,6 +29,7 @@ class EntreePage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.entree,
       child: StoreConnector<AppState, EntreePageViewModel>(
+        onInit: (store) => store.dispatch(PreferredLoginModeRequestAction()),
         converter: (store) => EntreePageViewModel.create(store),
         distinct: true,
         builder: (context, viewModel) => _scaffold(context, viewModel),
@@ -48,9 +50,7 @@ class EntreePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Flexible(child: Container()),
-                  HiddenMenuGesture(
-                    child: AppLogo(width: 120),
-                  ),
+                  HiddenMenuGesture(child: AppLogo(width: 120)),
                   SizedBox(height: Margins.spacing_m),
                   _WelcomeText(),
                   SizedBox(height: Margins.spacing_xl),
@@ -63,6 +63,7 @@ class EntreePage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        if (viewModel.preferredLoginMode != null) _PreferredLoginMode(viewModel.preferredLoginMode!),
                         viewModel.withLoading ? Center(child: CircularProgressIndicator()) : _LoginButton(),
                         SizedBox(height: Margins.spacing_m),
                         if (viewModel.technicalErrorMessage != null) ...[
@@ -267,5 +268,15 @@ class _ErrorInfoDialog extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _PreferredLoginMode extends StatelessWidget {
+  const _PreferredLoginMode(this.loginMode);
+  final PreferredLoginModeViewModel? loginMode;
+
+  @override
+  Widget build(BuildContext context) {
+    return Placeholder();
   }
 }
