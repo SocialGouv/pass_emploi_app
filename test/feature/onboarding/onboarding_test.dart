@@ -9,6 +9,8 @@ import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
 void main() {
+  setUpAll(() => registerFallbackValue(_dummyOnboarding));
+
   group('Onboarding', () {
     final sut = StoreSut();
     final repository = MockOnboardingRepository();
@@ -23,7 +25,7 @@ void main() {
             .loggedInUser()
             .store((f) => {f.onboardingRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed()]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(_dummyOnboarding)]);
       });
     });
 
@@ -31,23 +33,25 @@ void main() {
       sut.whenDispatchingAction(() => OnboardingAccueilSaveAction());
 
       test('should succeed when save succeeds', () {
-        when(() => repository.save(_dummyOnboarding)).thenAnswer((_) async {});
+        when(() => repository.get()).thenAnswer((_) async => _dummyOnboarding);
+        when(() => repository.save(any())).thenAnswer((_) async {});
 
         sut.givenStore = givenState() //
             .loggedInUser()
             .store((f) => {f.onboardingRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed()]);
+        sut.thenExpectChangingStatesThroughOrder(
+            [_shouldSucceed(_dummyOnboarding.copyWith(showAccueilOnboarding: false))]);
       });
     });
   });
 }
 
-Matcher _shouldSucceed() {
+Matcher _shouldSucceed(Onboarding onboarding) {
   return StateIs<OnboardingSuccessState>(
     (state) => state.onboardingState,
     (state) {
-      expect(state.result, _dummyOnboarding);
+      expect(state.result, onboarding);
     },
   );
 }
