@@ -137,10 +137,11 @@ class _Scaffold extends StatelessWidget {
                       title: Strings.developerOptionMatomo,
                       onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
                     ),
-                    _ListTileData(
-                      title: Strings.developerOptionCvm,
-                      onTap: () => Navigator.push(context, CvmChatPage.materialPageRoute()),
-                    ),
+                    if (viewModel.withCvmEntry)
+                      _ListTileData(
+                        title: Strings.developerOptionCvm,
+                        onTap: () => Navigator.push(context, CvmChatPage.materialPageRoute()),
+                      ),
                   ]),
                   SizedBox(height: Margins.spacing_l),
                 ],
