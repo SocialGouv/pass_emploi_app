@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -46,10 +47,12 @@ class EntreePageViewModel extends Equatable {
 
 class PreferredLoginModeViewModel extends Equatable {
   final String title;
+  final String logo;
   final void Function() onLogin;
 
   PreferredLoginModeViewModel({
     required this.title,
+    required this.logo,
     required this.onLogin,
   });
 
@@ -59,14 +62,17 @@ class PreferredLoginModeViewModel extends Equatable {
     return switch (state.loginMode) {
       LoginMode.POLE_EMPLOI => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetFranceTravailButton,
+          logo: Drawables.poleEmploiLogo,
           onLogin: () => store.dispatch(RequestLoginAction(LoginMode.POLE_EMPLOI)),
         ),
       LoginMode.MILO => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetMissionLocaleButton,
+          logo: Drawables.missionLocaleLogo,
           onLogin: () => store.dispatch(RequestLoginAction(LoginMode.MILO)),
         ),
       LoginMode.PASS_EMPLOI => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetPassEmploiButton,
+          logo: Drawables.passEmploiLogo,
           onLogin: () => store.dispatch(RequestLoginAction(LoginMode.PASS_EMPLOI)),
         ),
       _ => null,

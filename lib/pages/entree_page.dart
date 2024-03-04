@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/login_bottom_sheet/login_bottom_sheet_home.dart';
+import 'package:pass_emploi_app/widgets/buttons/elevated_button_tile.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -31,7 +32,6 @@ class EntreePage extends StatelessWidget {
       child: StoreConnector<AppState, EntreePageViewModel>(
         onInit: (store) => store.dispatch(PreferredLoginModeRequestAction()),
         converter: (store) => EntreePageViewModel.create(store),
-        distinct: true,
         builder: (context, viewModel) => _scaffold(context, viewModel),
       ),
     );
@@ -63,8 +63,11 @@ class EntreePage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        if (viewModel.preferredLoginMode != null) _PreferredLoginMode(viewModel.preferredLoginMode!),
-                        viewModel.withLoading ? Center(child: CircularProgressIndicator()) : _LoginButton(),
+                        if (viewModel.preferredLoginMode != null) ...[
+                          _PreferredLoginMode(viewModel.preferredLoginMode!),
+                          SizedBox(height: Margins.spacing_base),
+                        ],
+                        _LoginButton(viewModel),
                         SizedBox(height: Margins.spacing_m),
                         if (viewModel.technicalErrorMessage != null) ...[
                           _GenericError(viewModel.technicalErrorMessage!),
@@ -96,6 +99,22 @@ class EntreePage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _LoginButton extends StatelessWidget {
+  const _LoginButton(this.viewModel);
+  final EntreePageViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    if (viewModel.withLoading) return Center(child: CircularProgressIndicator());
+    return PrimaryActionButton(
+      label: Strings.loginAction,
+      onPressed: () {
+        viewModel.preferredLoginMode != null ? viewModel.preferredLoginMode!.onLogin() : LoginBottomSheet.show(context);
+      },
     );
   }
 }
@@ -161,16 +180,6 @@ class _InformationsLegales extends StatelessWidget {
           ],
         )
       ],
-    );
-  }
-}
-
-class _LoginButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return PrimaryActionButton(
-      label: Strings.loginAction,
-      onPressed: () => LoginBottomSheet.show(context),
     );
   }
 }
@@ -273,10 +282,22 @@ class _ErrorInfoDialog extends StatelessWidget {
 
 class _PreferredLoginMode extends StatelessWidget {
   const _PreferredLoginMode(this.loginMode);
-  final PreferredLoginModeViewModel? loginMode;
+  final PreferredLoginModeViewModel loginMode;
 
   @override
   Widget build(BuildContext context) {
-    return Placeholder();
+    return ElevatedButtonTile(
+      onPressed: () => LoginBottomSheet.show(context),
+      label: loginMode.title,
+      leading: SizedBox(
+        width: 40,
+        height: 40,
+        child: Image.asset(
+          loginMode.logo,
+          fit: BoxFit.cover,
+        ),
+      ),
+      suffix: Icon(AppIcons.chevron_right_rounded),
+    );
   }
 }
