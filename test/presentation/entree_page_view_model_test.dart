@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_state.dart';
 import 'package:pass_emploi_app/presentation/entree_page_view_model.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 
 import '../dsl/app_state_dsl.dart';
 
@@ -133,7 +134,13 @@ void main() {
         final viewModel = EntreePageViewModel.create(store);
 
         // Then
-        expect(viewModel.preferredLoginMode, PreferredLoginModeViewModel(title: 'France travail', onLogin: () {}));
+        expect(
+            viewModel.preferredLoginMode,
+            PreferredLoginModeViewModel(
+              title: 'France travail',
+              logo: Drawables.poleEmploiLogo,
+              onLogin: () {},
+            ));
       });
 
       test('should display milo login mode', () {
@@ -147,7 +154,13 @@ void main() {
         final viewModel = EntreePageViewModel.create(store);
 
         // Then
-        expect(viewModel.preferredLoginMode, PreferredLoginModeViewModel(title: 'Mission Locale', onLogin: () {}));
+        expect(
+            viewModel.preferredLoginMode,
+            PreferredLoginModeViewModel(
+              title: 'Mission Locale',
+              logo: Drawables.missionLocaleLogo,
+              onLogin: () {},
+            ));
       });
 
       test('should display pass emploi login mode', () {
@@ -161,7 +174,13 @@ void main() {
         final viewModel = EntreePageViewModel.create(store);
 
         // Then
-        expect(viewModel.preferredLoginMode, PreferredLoginModeViewModel(title: 'Pass Emploi', onLogin: () {}));
+        expect(
+            viewModel.preferredLoginMode,
+            PreferredLoginModeViewModel(
+              title: 'Pass Emploi',
+              logo: Drawables.passEmploiLogo,
+              onLogin: () {},
+            ));
       });
     });
   });

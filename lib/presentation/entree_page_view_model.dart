@@ -80,5 +80,5 @@ class PreferredLoginModeViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [title];
+  List<Object?> get props => [title, logo];
 }
