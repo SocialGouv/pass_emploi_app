@@ -68,6 +68,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_state.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_state.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -140,6 +141,7 @@ class AppState extends Equatable {
   final CvmState cvmState;
   final CampagneRecrutementState campagneRecrutementState;
   final PreferredLoginModeState preferredLoginModeState;
+  final OnboardingState onboardingState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -212,6 +214,7 @@ class AppState extends Equatable {
     required this.cvmState,
     required this.campagneRecrutementState,
     required this.preferredLoginModeState,
+    required this.onboardingState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -285,6 +288,7 @@ class AppState extends Equatable {
     final CvmState? cvmState,
     final CampagneRecrutementState? campagneRecrutementState,
     final PreferredLoginModeState? preferredLoginModeState,
+    final OnboardingState? onboardingState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -357,6 +361,7 @@ class AppState extends Equatable {
       cvmState: cvmState ?? this.cvmState,
       campagneRecrutementState: campagneRecrutementState ?? this.campagneRecrutementState,
       preferredLoginModeState: preferredLoginModeState ?? this.preferredLoginModeState,
+      onboardingState: onboardingState ?? this.onboardingState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -432,6 +437,7 @@ class AppState extends Equatable {
       cvmState: CvmNotInitializedState(),
       campagneRecrutementState: CampagneRecrutementNotInitializedState(),
       preferredLoginModeState: PreferredLoginModeNotInitializedState(),
+      onboardingState: OnboardingNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -500,6 +506,7 @@ class AppState extends Equatable {
         cvmState,
         campagneRecrutementState,
         preferredLoginModeState,
+        onboardingState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 
