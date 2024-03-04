@@ -15,7 +15,6 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
       final result = await _repository.get();
       store.dispatch(OnboardingSuccessAction(result));
     } else if (action is OnboardingAccueilSaveAction) {
-      // TODO: test me
       final result = await _repository.get();
       final updatedOnbaording = result.copyWith(showAccueilOnboarding: false);
       await _repository.save(updatedOnbaording);

@@ -55,7 +55,6 @@ class FirebasePushNotificationManager extends PushNotificationManager {
     return token;
   }
 
-// TODO: Cretae a dedicated middleware
   @override
   Future<void> requestPermission() async {
     final NotificationSettings settings = await _firebaseMessaging.requestPermission(

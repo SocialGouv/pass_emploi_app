@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/alerte/create/alerte_create_state.dart'
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_state.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
+import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
@@ -38,8 +39,10 @@ import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
+import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
@@ -66,9 +69,6 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_state.dart';
-import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_state.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -215,6 +215,7 @@ class AppState extends Equatable {
     required this.campagneRecrutementState,
     required this.preferredLoginModeState,
     required this.onboardingState,
+
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
