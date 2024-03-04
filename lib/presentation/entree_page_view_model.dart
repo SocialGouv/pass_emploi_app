@@ -59,15 +59,15 @@ class PreferredLoginModeViewModel extends Equatable {
     return switch (state.loginMode) {
       LoginMode.POLE_EMPLOI => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetFranceTravailButton,
-          onLogin: () => store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI)),
+          onLogin: () => store.dispatch(RequestLoginAction(LoginMode.POLE_EMPLOI)),
         ),
       LoginMode.MILO => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetMissionLocaleButton,
-          onLogin: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)),
+          onLogin: () => store.dispatch(RequestLoginAction(LoginMode.MILO)),
         ),
       LoginMode.PASS_EMPLOI => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetPassEmploiButton,
-          onLogin: () => store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI)),
+          onLogin: () => store.dispatch(RequestLoginAction(LoginMode.PASS_EMPLOI)),
         ),
       _ => null,
     };

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/models/brand.dart';
@@ -45,15 +46,15 @@ sealed class LoginButtonViewModel extends Equatable {
 
 class LoginButtonViewModelPoleEmploi extends LoginButtonViewModel {
   LoginButtonViewModelPoleEmploi(Store<AppState> store)
-      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI)));
+      : super(action: () => store.dispatch(RequestLoginAction(LoginMode.POLE_EMPLOI)));
 }
 
 class LoginButtonViewModelMissionLocale extends LoginButtonViewModel {
   LoginButtonViewModelMissionLocale(Store<AppState> store)
-      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)));
+      : super(action: () => store.dispatch(RequestLoginAction(LoginMode.MILO)));
 }
 
 class LoginButtonViewModelPassEmploi extends LoginButtonViewModel {
   LoginButtonViewModelPassEmploi(Store<AppState> store)
-      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI)));
+      : super(action: () => store.dispatch(RequestLoginAction(LoginMode.PASS_EMPLOI)));
 }

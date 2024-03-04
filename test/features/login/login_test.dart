@@ -63,7 +63,7 @@ void main() {
 
   group('On request login…', () {
     group('with mode PASS_EMPLOI', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.PASS_EMPLOI));
 
       test('user is properly logged in with GENERIC authentication mode', () async {
         // Given
@@ -83,7 +83,7 @@ void main() {
     });
 
     group('with mode SIMILO', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.PASS_EMPLOI));
 
       test('user is properly logged in with SIMILO authentication mode', () async {
         // Given
@@ -103,7 +103,7 @@ void main() {
     });
 
     group('with mode POLE_EMPLOI in CEJ application', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.POLE_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
 
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given
@@ -123,7 +123,7 @@ void main() {
     });
 
     group('with mode POLE_EMPLOI in BRSA application', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.PASS_EMPLOI));
 
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given
@@ -143,7 +143,7 @@ void main() {
     });
 
     group('when login fails for a generic reason', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.SIMILO));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.MILO));
 
       test('user is not logged in', () async {
         // Given
@@ -162,7 +162,7 @@ void main() {
     });
 
     group('when login fails for a wrong clock device reason', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.SIMILO));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.MILO));
 
       test('user is not logged in', () async {
         // Given

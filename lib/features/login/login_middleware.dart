@@ -41,9 +41,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _logUser(Store<AppState> store, RequestLoginMode mode) async {
+  void _logUser(Store<AppState> store, LoginMode mode) async {
     store.dispatch(LoginLoadingAction());
-    store.dispatch(PreferredLoginModeSaveAction(loginMode: mode.toLoginMode));
+    store.dispatch(PreferredLoginModeSaveAction(loginMode: mode));
     if (mode.isDemo()) {
       _modeDemoRepository.setModeDemo(true);
       final user = _modeDemoUser(mode);
@@ -65,13 +65,13 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  User _modeDemoUser(RequestLoginMode mode) {
+  User _modeDemoUser(LoginMode mode) {
     return User(
       id: "SEVP",
       firstName: "Paul",
       lastName: "Sevier",
       email: "mode@demo.com",
-      loginMode: mode == RequestLoginMode.DEMO_PE ? LoginMode.DEMO_PE : LoginMode.DEMO_MILO,
+      loginMode: mode == LoginMode.DEMO_PE ? LoginMode.DEMO_PE : LoginMode.DEMO_MILO,
     );
   }
 
@@ -96,16 +96,16 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     _firebaseAuthWrapper.signOut();
   }
 
-  AuthenticationMode _getAuthenticationMode(RequestLoginMode mode) {
+  AuthenticationMode _getAuthenticationMode(LoginMode mode) {
     switch (mode) {
-      case RequestLoginMode.PASS_EMPLOI:
+      case LoginMode.PASS_EMPLOI:
         return AuthenticationMode.GENERIC;
-      case RequestLoginMode.SIMILO:
+      case LoginMode.MILO:
         return AuthenticationMode.SIMILO;
-      case RequestLoginMode.POLE_EMPLOI:
+      case LoginMode.POLE_EMPLOI:
         return AuthenticationMode.POLE_EMPLOI;
-      case RequestLoginMode.DEMO_MILO:
-      case RequestLoginMode.DEMO_PE:
+      case LoginMode.DEMO_MILO:
+      case LoginMode.DEMO_PE:
         return AuthenticationMode.DEMO;
     }
   }

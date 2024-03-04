@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
@@ -89,7 +90,7 @@ void main() {
 
         // Then
         expect(store.dispatchedAction, isA<RequestLoginAction>());
-        expect((store.dispatchedAction as RequestLoginAction).mode, RequestLoginMode.PASS_EMPLOI);
+        expect((store.dispatchedAction as RequestLoginAction).mode, LoginMode.PASS_EMPLOI);
       });
 
       test('View model triggers RequestLoginAction with POLE_EMPLOI mode when Pole Emploi login is performed', () {
@@ -102,7 +103,7 @@ void main() {
 
         // Then
         expect(store.dispatchedAction, isA<RequestLoginAction>());
-        expect((store.dispatchedAction as RequestLoginAction).mode, RequestLoginMode.POLE_EMPLOI);
+        expect((store.dispatchedAction as RequestLoginAction).mode, LoginMode.POLE_EMPLOI);
       });
 
       test('View model triggers RequestLoginAction with SIMILO mode when Mission Locale login is performed', () {
@@ -115,7 +116,7 @@ void main() {
 
         // Then
         expect(store.dispatchedAction, isA<RequestLoginAction>());
-        expect((store.dispatchedAction as RequestLoginAction).mode, RequestLoginMode.SIMILO);
+        expect((store.dispatchedAction as RequestLoginAction).mode, LoginMode.MILO);
       });
     });
   });
