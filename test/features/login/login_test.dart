@@ -21,6 +21,7 @@ void main() {
   final sut = StoreSut();
   final authenticator = MockAuthenticator();
   final matomoTracker = MockMatomoTracker();
+  final preferredLoginModeRepository = MockPreferredLoginModeRepository();
 
   group('On bootstrap…', () {
     sut.whenDispatchingAction(() => BootstrapAction());
@@ -62,7 +63,7 @@ void main() {
 
   group('On request login…', () {
     group('with mode PASS_EMPLOI', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.PASS_EMPLOI));
 
       test('user is properly logged in with GENERIC authentication mode', () async {
         // Given
@@ -72,15 +73,17 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.PASS_EMPLOI)]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
     group('with mode SIMILO', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.PASS_EMPLOI));
 
       test('user is properly logged in with SIMILO authentication mode', () async {
         // Given
@@ -90,15 +93,17 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.MILO)]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
     group('with mode POLE_EMPLOI in CEJ application', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.POLE_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
 
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given
@@ -108,15 +113,17 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.POLE_EMPLOI)]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
     group('with mode POLE_EMPLOI in BRSA application', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.PASS_EMPLOI));
 
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given
@@ -126,15 +133,17 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.POLE_EMPLOI)]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
     group('when login fails for a generic reason', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.SIMILO));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.MILO));
 
       test('user is not logged in', () async {
         // Given
@@ -143,15 +152,17 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFailWithMessage()]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
     group('when login fails for a wrong clock device reason', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(RequestLoginMode.SIMILO));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.MILO));
 
       test('user is not logged in', () async {
         // Given
@@ -160,10 +171,12 @@ void main() {
         sut.givenStore = givenState().store((f) {
           f.authenticator = authenticator;
           f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
         });
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFailBecauseOfWrongClock()]);
+        preferredLoginModeRepository.verifySaveCalled();
       });
     });
   });

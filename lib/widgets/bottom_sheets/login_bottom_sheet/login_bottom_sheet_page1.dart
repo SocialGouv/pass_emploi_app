@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/presentation/login_view_model.dart';
+import 'package:pass_emploi_app/presentation/login_bottom_sheet_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -73,7 +74,7 @@ class _MissionLocaleLoginButton extends StatelessWidget {
       leading: SizedBox(
         width: 40,
         height: 40,
-        child: Image.asset("assets/logo-mission-locale.webp"),
+        child: Image.asset(Drawables.missionLocaleLogo),
       ),
       onPressed: onSelected,
       label: Strings.loginBottomSeetMissionLocaleButton,
@@ -93,7 +94,7 @@ class _PassEmploiLoginButton extends StatelessWidget {
         width: 40,
         height: 40,
         child: Image.asset(
-          "assets/credentials.png",
+          Drawables.passEmploiLogo,
           fit: BoxFit.cover,
         ),
       ),
@@ -114,7 +115,7 @@ class _FranceTravailLoginButton extends StatelessWidget {
       leading: SizedBox(
         width: 40,
         height: 40,
-        child: Image.asset("assets/logo-france-travail.webp"),
+        child: Image.asset(Drawables.poleEmploiLogo),
       ),
       onPressed: onSelected,
       label: Strings.loginBottomSeetFranceTravailButton,

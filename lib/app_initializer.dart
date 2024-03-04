@@ -73,6 +73,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repositor
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
+import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
@@ -261,6 +262,7 @@ class AppInitializer {
       MonSuiviRepository(dioClient, crashlytics),
       CvmRepositoryImpl(),
       CampagneRecrutementRepository(securedPreferences, CampagneRecrutementRemoteConfig(firebaseRemoteConfig)),
+      PreferredLoginModeRepository(securedPreferences),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

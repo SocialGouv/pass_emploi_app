@@ -1,52 +1,28 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
-import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
-class LoginViewModel extends Equatable {
-  final String suiviText;
+class LoginBottomSheetViewModel extends Equatable {
   final List<LoginButtonViewModel> loginButtons;
-  final bool withAskAccountButton;
-  final bool withLoading;
-  final bool withWrongDeviceClockMessage;
-  final String? technicalErrorMessage;
 
-  LoginViewModel({
-    required this.suiviText,
+  LoginBottomSheetViewModel({
     required this.loginButtons,
-    required this.withAskAccountButton,
-    required this.withLoading,
-    required this.withWrongDeviceClockMessage,
-    required this.technicalErrorMessage,
   });
 
-  factory LoginViewModel.create(Store<AppState> store) {
-    final loginState = store.state.loginState;
+  @override
+  List<Object?> get props => [loginButtons];
+
+  factory LoginBottomSheetViewModel.create(Store<AppState> store) {
     final flavor = store.state.configurationState.getFlavor();
     final brand = store.state.configurationState.getBrand();
-    return LoginViewModel(
-      suiviText: brand.isCej ? Strings.suiviParConseillerCEJ : Strings.suiviParConseillerBRSA,
+    return LoginBottomSheetViewModel(
       loginButtons: _loginButtons(store, flavor, brand),
-      withAskAccountButton: brand.isCej,
-      withLoading: loginState is LoginLoadingState,
-      withWrongDeviceClockMessage: loginState is LoginWrongDeviceClockState,
-      technicalErrorMessage: loginState is LoginGenericFailureState ? loginState.message : null,
     );
   }
-
-  @override
-  List<Object?> get props => [
-        suiviText,
-        loginButtons,
-        withAskAccountButton,
-        withLoading,
-        withWrongDeviceClockMessage,
-        technicalErrorMessage,
-      ];
 }
 
 List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor, Brand brand) {
@@ -70,15 +46,15 @@ sealed class LoginButtonViewModel extends Equatable {
 
 class LoginButtonViewModelPoleEmploi extends LoginButtonViewModel {
   LoginButtonViewModelPoleEmploi(Store<AppState> store)
-      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI)));
+      : super(action: () => store.dispatch(RequestLoginAction(LoginMode.POLE_EMPLOI)));
 }
 
 class LoginButtonViewModelMissionLocale extends LoginButtonViewModel {
   LoginButtonViewModelMissionLocale(Store<AppState> store)
-      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)));
+      : super(action: () => store.dispatch(RequestLoginAction(LoginMode.MILO)));
 }
 
 class LoginButtonViewModelPassEmploi extends LoginButtonViewModel {
   LoginButtonViewModelPassEmploi(Store<AppState> store)
-      : super(action: () => store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI)));
+      : super(action: () => store.dispatch(RequestLoginAction(LoginMode.PASS_EMPLOI)));
 }

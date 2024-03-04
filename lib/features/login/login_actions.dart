@@ -1,11 +1,10 @@
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/user.dart';
-
-enum RequestLoginMode { PASS_EMPLOI, SIMILO, POLE_EMPLOI, DEMO_PE, DEMO_MILO }
 
 enum LogoutReason { userLogout, apiResponse401, expiredRefreshToken, accountSuppression }
 
-extension RequestLoginModeModeExtension on RequestLoginMode {
-  bool isDemo() => this == RequestLoginMode.DEMO_PE || this == RequestLoginMode.DEMO_MILO;
+extension LoginModeModeExtension on LoginMode {
+  bool isDemo() => this == LoginMode.DEMO_PE || this == LoginMode.DEMO_MILO;
 }
 
 class LoginRequestAction {}
@@ -31,7 +30,7 @@ class LoginWrongDeviceClockAction {}
 class NotLoggedInAction {}
 
 class RequestLoginAction {
-  final RequestLoginMode mode;
+  final LoginMode mode;
 
   RequestLoginAction(this.mode);
 }

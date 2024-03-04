@@ -75,6 +75,7 @@ import 'package:pass_emploi_app/features/user_action/details/user_action_details
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_middleware.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_middleware.dart';
+import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -140,6 +141,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 import 'package:pass_emploi_app/repositories/cvm_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
+import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -209,6 +211,7 @@ class StoreFactory {
 
   final CvmRepository cvmRepository;
   final CampagneRecrutementRepository campagneRecrutementRepository;
+  final PreferredLoginModeRepository preferredLoginModeRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -276,6 +279,7 @@ class StoreFactory {
     this.monSuiviRepository,
     this.cvmRepository,
     this.campagneRecrutementRepository,
+    this.preferredLoginModeRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -364,6 +368,7 @@ class StoreFactory {
         MonSuiviMiddleware(monSuiviRepository).call,
         CvmMiddleware(cvmRepository).call,
         CampagneRecrutementMiddleware(campagneRecrutementRepository).call,
+        PreferredLoginModeMiddleware(preferredLoginModeRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

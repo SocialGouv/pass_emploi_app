@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/presentation/choix_mode_demo_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -163,7 +164,7 @@ class _BoutonPE extends StatelessWidget {
         label: Strings.loginPoleEmploi,
         backgroundColor: AppColors.poleEmploi,
         onPressed: () {
-          StoreProvider.of<AppState>(context).dispatch(RequestLoginAction(RequestLoginMode.DEMO_PE));
+          StoreProvider.of<AppState>(context).dispatch(RequestLoginAction(LoginMode.DEMO_PE));
         },
       ),
     );
@@ -179,7 +180,7 @@ class _BoutonMILO extends StatelessWidget {
         label: Strings.loginMissionLocale,
         backgroundColor: AppColors.missionLocale,
         onPressed: () {
-          StoreProvider.of<AppState>(context).dispatch(RequestLoginAction(RequestLoginMode.DEMO_MILO));
+          StoreProvider.of<AppState>(context).dispatch(RequestLoginAction(LoginMode.DEMO_MILO));
         },
       ),
     );

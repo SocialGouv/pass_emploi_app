@@ -67,6 +67,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_state.dart';
+import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -139,6 +140,7 @@ class AppState extends Equatable {
 
   final CvmState cvmState;
   final CampagneRecrutementState campagneRecrutementState;
+  final PreferredLoginModeState preferredLoginModeState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -210,6 +212,7 @@ class AppState extends Equatable {
     required this.monSuiviState,
     required this.cvmState,
     required this.campagneRecrutementState,
+    required this.preferredLoginModeState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -282,6 +285,7 @@ class AppState extends Equatable {
     final MonSuiviState? monSuiviState,
     final CvmState? cvmState,
     final CampagneRecrutementState? campagneRecrutementState,
+    final PreferredLoginModeState? preferredLoginModeState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -353,6 +357,7 @@ class AppState extends Equatable {
       monSuiviState: monSuiviState ?? this.monSuiviState,
       cvmState: cvmState ?? this.cvmState,
       campagneRecrutementState: campagneRecrutementState ?? this.campagneRecrutementState,
+      preferredLoginModeState: preferredLoginModeState ?? this.preferredLoginModeState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -427,6 +432,7 @@ class AppState extends Equatable {
       monSuiviState: MonSuiviNotInitializedState(),
       cvmState: CvmNotInitializedState(),
       campagneRecrutementState: CampagneRecrutementNotInitializedState(),
+      preferredLoginModeState: PreferredLoginModeNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -494,6 +500,7 @@ class AppState extends Equatable {
         monSuiviState,
         cvmState,
         campagneRecrutementState,
+        preferredLoginModeState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 
