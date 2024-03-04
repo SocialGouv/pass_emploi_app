@@ -30,7 +30,5 @@ void main() {
       // Then
       expect(viewModel.userName, "Kenji");
     });
-
-    // TODO: tester le dispatch des actions
   });
 }
