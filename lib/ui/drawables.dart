@@ -13,4 +13,7 @@ class Drawables {
   static String missionLocaleLogo = "${_assets}logo-mission-locale.webp";
   static String poleEmploiLogo = "${_assets}logo-france-travail.webp";
   static String passEmploiLogo = "${_assets}credentials.png";
+
+  static String accueilOnboardingIllustration1 = "${_assets}onboarding/illustration_onboarding_1.webp";
+  static String accueilOnboardingIllustration2 = "${_assets}onboarding/illustration_onboarding_2.webp";
 }

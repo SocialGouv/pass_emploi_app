@@ -8,8 +8,6 @@ class OnboardingSuccessAction {
   OnboardingSuccessAction(this.result);
 }
 
-class OnboardingSaveAction {
-  final Onboarding onboarding;
-
-  OnboardingSaveAction(this.onboarding);
+class OnboardingAccueilSaveAction {
+  OnboardingAccueilSaveAction();
 }

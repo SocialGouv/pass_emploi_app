@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
@@ -21,6 +22,7 @@ class AccueilViewModel extends Equatable {
   final List<AccueilItem> items;
   final DeepLink? deepLink;
   final bool shouldResetDeeplink;
+  final bool shouldShowOnboarding;
   final Function() resetDeeplink;
   final Function() retry;
 
@@ -29,6 +31,7 @@ class AccueilViewModel extends Equatable {
     required this.items,
     required this.deepLink,
     required this.shouldResetDeeplink,
+    required this.shouldShowOnboarding,
     required this.resetDeeplink,
     required this.retry,
   });
@@ -39,13 +42,14 @@ class AccueilViewModel extends Equatable {
       items: _items(store),
       deepLink: store.getDeepLink(),
       shouldResetDeeplink: _shouldResetDeeplink(store),
+      shouldShowOnboarding: _shouldShowOnboarding(store),
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction(forceRefresh: true)),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items, deepLink];
+  List<Object?> get props => [displayState, items, deepLink, shouldShowOnboarding];
 }
 
 DisplayState _displayState(Store<AppState> store) {
@@ -167,4 +171,10 @@ CampagneRecrutementCej? _campagneRecrutementCej(Store<AppState> store, AppState 
     return CampagneRecrutementCej(onDismiss: () => store.dispatch(CampagneRecrutementDismissAction()));
   }
   return null;
+}
+
+bool _shouldShowOnboarding(Store<AppState> store) {
+  final onboarding = store.state.onboardingState;
+  if (onboarding is OnboardingSuccessState) return onboarding.result.showAccueilOnboarding == true;
+  return false;
 }

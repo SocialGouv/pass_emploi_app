@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/onboarding/accueil_onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -41,7 +42,10 @@ class AccueilPage extends StatelessWidget {
         onInit: (store) => store.dispatch(AccueilRequestAction()),
         converter: (store) => AccueilViewModel.create(store),
         builder: _builder,
-        onDidChange: (previousViewModel, viewModel) => _handleDeeplink(context, previousViewModel, viewModel),
+        onDidChange: (previousViewModel, viewModel) {
+          _handleOnboarding(context, viewModel);
+          _handleDeeplink(context, previousViewModel, viewModel);
+        },
         distinct: true,
       ),
     );
@@ -77,6 +81,12 @@ class AccueilPage extends StatelessWidget {
 
     if (route != null) Navigator.push(context, route);
     if (newViewModel.shouldResetDeeplink) newViewModel.resetDeeplink();
+  }
+
+  void _handleOnboarding(BuildContext context, AccueilViewModel viewModel) {
+    if (viewModel.shouldShowOnboarding) {
+      AccueilOnboardingBottomSheet.show(context);
+    }
   }
 }
 

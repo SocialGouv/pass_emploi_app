@@ -4,4 +4,5 @@ import 'package:redux/redux.dart';
 abstract class PushNotificationManager {
   Future<void> init(Store<AppState> store);
   Future<String?> getToken();
+  Future<void> requestPermission();
 }

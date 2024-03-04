@@ -11,13 +11,15 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    final userId = store.state.userId();
-    if (userId == null) return;
     if (action is OnboardingRequestAction) {
       final result = await _repository.get();
       store.dispatch(OnboardingSuccessAction(result));
-    } else if (action is OnboardingSaveAction) {
-      await _repository.save(action.onboarding);
+    } else if (action is OnboardingAccueilSaveAction) {
+      // TODO: test me
+      final result = await _repository.get();
+      final updatedOnbaording = result.copyWith(showAccueilOnboarding: false);
+      await _repository.save(updatedOnbaording);
+      store.dispatch(OnboardingSuccessAction(updatedOnbaording));
     }
   }
 }

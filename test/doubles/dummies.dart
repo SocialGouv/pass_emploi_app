@@ -79,6 +79,9 @@ class DummyPushNotificationManager extends PushNotificationManager {
 
   @override
   Future<void> init(Store<AppState> store) async {}
+
+  @override
+  Future<void> requestPermission() async {}
 }
 
 class DummyRegisterTokenRepository extends ConfigurationApplicationRepository {

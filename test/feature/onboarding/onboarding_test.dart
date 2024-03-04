@@ -26,6 +26,20 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldSucceed()]);
       });
     });
+
+    group('on save', () {
+      sut.whenDispatchingAction(() => OnboardingAccueilSaveAction());
+
+      test('should succeed when save succeeds', () {
+        when(() => repository.save(_dummyOnboarding)).thenAnswer((_) async {});
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.onboardingRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed()]);
+      });
+    });
   });
 }
 

@@ -66,11 +66,13 @@ class BottomSheetHeader extends StatelessWidget {
 }
 
 class BottomSheetWrapper extends StatelessWidget {
-  const BottomSheetWrapper({super.key, this.title, required this.body, this.heightFactor = 0.9, this.padding});
+  const BottomSheetWrapper(
+      {super.key, this.title, required this.body, this.heightFactor = 0.9, this.padding, this.hideTitle = false});
   final double heightFactor;
   final String? title;
   final Widget body;
   final EdgeInsets? padding;
+  final bool hideTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +87,7 @@ class BottomSheetWrapper extends StatelessWidget {
             padding: padding,
             child: Column(
               children: [
-                BottomSheetHeader(title: title),
+                if (hideTitle == false) BottomSheetHeader(title: title),
                 Expanded(child: body),
               ],
             ),
