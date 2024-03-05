@@ -18,12 +18,12 @@ class CvmFacade {
     _streamController?.close();
     _streamController = StreamController<List<CvmEvent>>();
 
-    _initCvm()
-        .then((_) => _subscribeToMessageStream())
-        .then((_) => _subscribeToHasRoomStream())
+    _subscribeToMessageStream()
+        .then((_) => _initCvm())
         .then((_) => _getToken(userId))
         .then((_) => _login())
-        .then((_) => _startListeningRooms())
+        .then((_) => _joinRoom())
+        .then((isRoomJoined) => isRoomJoined ? _startListenMessages() : _getRoomsAndJoin())
         .catchError((Object error) {
       _crashlytics?.recordCvmException(error);
       _streamController!.addError(error);
@@ -65,6 +65,19 @@ class CvmFacade {
     return _state.isInit;
   }
 
+  Future<String?> _getToken(String userId) async {
+    if (_state.token != null) return _state.token;
+    _state.token = await _tokenRepository.getToken(userId);
+    return _state.token;
+  }
+
+  Future<bool> _login() async {
+    if (_state.isLoggedIn) return true;
+    if (_state.token == null) return false;
+    _state.isLoggedIn = await _repository.login(_state.token!);
+    return _state.isLoggedIn;
+  }
+
   Future<void> _subscribeToMessageStream() async {
     if (_state.isSubscribingToMessageStream) return;
     _state.isSubscribingToMessageStream = true;
@@ -77,6 +90,31 @@ class CvmFacade {
         _streamController?.addError(error);
       },
     );
+  }
+
+  Future<bool> _joinRoom() async {
+    if (_state.isRoomJoined) return true;
+    _state.isRoomJoined = await _repository.joinFirstRoom();
+    return _state.isRoomJoined;
+  }
+
+  Future<bool> _startListenMessages() async {
+    if (_state.isListeningMessages) return true;
+    if (!_state.isRoomJoined) return false;
+    _state.isListeningMessages = await _repository.startListenMessages();
+    return _state.isListeningMessages;
+  }
+
+  Future<bool> _getRoomsAndJoin() async {
+    await _subscribeToHasRoomStream();
+    await _startListeningRooms();
+    return _state.isListeningRooms;
+  }
+
+  Future<bool> _startListeningRooms() async {
+    if (_state.isListeningRooms) return true;
+    _state.isListeningRooms = await _repository.startListenRooms();
+    return _state.isListeningRooms;
   }
 
   Future<void> _subscribeToHasRoomStream() async {
@@ -93,36 +131,14 @@ class CvmFacade {
     );
   }
 
-  Future<void> _handleHasRoom(bool hasRoom) async {
+  Future<bool> _handleHasRoom(bool hasRoom) async {
     // Required because callback is called multiple times on iOS
-    if (_state.hasRoom) return;
+    if (_state.hasRoom) return true;
     _state.hasRoom = hasRoom;
-
-    if (_state.hasRoom) {
-      _repository.stopListenRooms();
-      if (_state.isListeningMessages) return;
-      final roomJoined = await _repository.joinFirstRoom();
-      if (roomJoined) _state.isListeningMessages = await _repository.startListenMessages();
-    }
-  }
-
-  Future<String?> _getToken(String userId) async {
-    if (_state.token != null) return _state.token;
-    _state.token = await _tokenRepository.getToken(userId);
-    return _state.token;
-  }
-
-  Future<bool> _login() async {
-    if (_state.isLoggedIn) return true;
-    if (_state.token == null) return false;
-    _state.isLoggedIn = await _repository.login(_state.token!);
-    return _state.isLoggedIn;
-  }
-
-  Future<bool> _startListeningRooms() async {
-    if (_state.isListeningRooms) return true;
-    _state.isListeningRooms = await _repository.startListenRooms();
-    return _state.isListeningRooms;
+    if (!_state.hasRoom) return false;
+    await _repository.stopListenRooms();
+    await _joinRoom();
+    return await _startListenMessages();
   }
 }
 
@@ -131,6 +147,7 @@ class _CvmState {
   bool isInit = false;
   String? token;
   bool isLoggedIn = false;
+  bool isRoomJoined = false;
   bool isSubscribingToMessageStream = false;
   bool isSubscribingToHasRoomStream = false;
   bool hasRoom = false;
@@ -141,6 +158,7 @@ class _CvmState {
     // isInit is not reset because of Android behavior, which makes app crashes when trying to reinitialize CVM.
     token = null;
     isLoggedIn = false;
+    isRoomJoined = false;
     isSubscribingToMessageStream = false;
     isSubscribingToHasRoomStream = false;
     hasRoom = false;
