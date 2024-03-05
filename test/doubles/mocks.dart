@@ -143,7 +143,7 @@ class MockUserActionRepository extends Mock implements UserActionRepository {}
 
 class MockTrackingEventRepository extends Mock implements TrackingEventRepository {}
 
-class MockCvmRepository extends Mock implements CvmRepository {}
+class MockCvmBridge extends Mock implements CvmBridge {}
 
 class MockCvmTokenRepository extends Mock implements CvmTokenRepository {}
 

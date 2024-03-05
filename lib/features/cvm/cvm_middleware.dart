@@ -16,10 +16,10 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   StreamSubscription<List<CvmEvent>>? _subscription;
 
   CvmMiddleware(
-    CvmRepository repository,
+    CvmBridge bridge,
     CvmTokenRepository tokenRepository, [
     Crashlytics? crashlytics,
-  ]) : _facade = CvmFacade(repository, tokenRepository, crashlytics);
+  ]) : _facade = CvmFacade(bridge, tokenRepository, crashlytics);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {

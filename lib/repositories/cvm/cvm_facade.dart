@@ -6,13 +6,13 @@ import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 
 class CvmFacade {
-  final CvmRepository _repository;
+  final CvmBridge _bridge;
   final CvmTokenRepository _tokenRepository;
   final Crashlytics? _crashlytics;
   final _CvmState _state;
   StreamController<List<CvmEvent>>? _streamController;
 
-  CvmFacade(this._repository, this._tokenRepository, [this._crashlytics]) : _state = _CvmState();
+  CvmFacade(this._bridge, this._tokenRepository, [this._crashlytics]) : _state = _CvmState();
 
   Stream<List<CvmEvent>> start(String userId) {
     _streamController?.close();
@@ -37,11 +37,11 @@ class CvmFacade {
     _state.reset();
   }
 
-  void logout() => _repository.logout();
+  void logout() => _bridge.logout();
 
   Future<bool> sendMessage(String message) async {
     try {
-      return await _repository.sendMessage(message);
+      return await _bridge.sendMessage(message);
     } catch (e, s) {
       _crashlytics?.log("CvmFacade.sendMessage error");
       _crashlytics?.recordCvmException(e, s);
@@ -51,7 +51,7 @@ class CvmFacade {
 
   Future<void> loadMore() async {
     try {
-      return await _repository.loadMore();
+      return await _bridge.loadMore();
     } catch (e, s) {
       _crashlytics?.log("CvmFacade.loadMore error");
       _crashlytics?.recordCvmException(e, s);
@@ -60,7 +60,7 @@ class CvmFacade {
 
   Future<bool> _initCvm() async {
     if (_state.isInit) return true;
-    await _repository.initializeCvm();
+    await _bridge.initializeCvm();
     _state.isInit = true;
     return _state.isInit;
   }
@@ -74,7 +74,7 @@ class CvmFacade {
   Future<bool> _login() async {
     if (_state.isLoggedIn) return true;
     if (_state.token == null) return false;
-    _state.isLoggedIn = await _repository.login(_state.token!);
+    _state.isLoggedIn = await _bridge.login(_state.token!);
     return _state.isLoggedIn;
   }
 
@@ -82,7 +82,7 @@ class CvmFacade {
     if (_state.isSubscribingToMessageStream) return;
     _state.isSubscribingToMessageStream = true;
 
-    _repository.getMessages().listen(
+    _bridge.getMessages().listen(
       (messages) => _streamController?.add(messages),
       onError: (Object error) {
         _crashlytics?.recordCvmException(error);
@@ -94,14 +94,14 @@ class CvmFacade {
 
   Future<bool> _joinRoom() async {
     if (_state.isRoomJoined) return true;
-    _state.isRoomJoined = await _repository.joinFirstRoom();
+    _state.isRoomJoined = await _bridge.joinFirstRoom();
     return _state.isRoomJoined;
   }
 
   Future<bool> _startListenMessages() async {
     if (_state.isListeningMessages) return true;
     if (!_state.isRoomJoined) return false;
-    _state.isListeningMessages = await _repository.startListenMessages();
+    _state.isListeningMessages = await _bridge.startListenMessages();
     return _state.isListeningMessages;
   }
 
@@ -113,7 +113,7 @@ class CvmFacade {
 
   Future<bool> _startListeningRooms() async {
     if (_state.isListeningRooms) return true;
-    _state.isListeningRooms = await _repository.startListenRooms();
+    _state.isListeningRooms = await _bridge.startListenRooms();
     return _state.isListeningRooms;
   }
 
@@ -121,7 +121,7 @@ class CvmFacade {
     if (_state.isSubscribingToHasRoomStream) return;
     _state.isSubscribingToHasRoomStream = true;
 
-    _repository.hasRoom().listen(
+    _bridge.hasRoom().listen(
       (hasRoom) => _handleHasRoom(hasRoom),
       onError: (Object error) {
         _crashlytics?.recordCvmException(error);
@@ -136,7 +136,7 @@ class CvmFacade {
     if (_state.hasRoom) return true;
     _state.hasRoom = hasRoom;
     if (!_state.hasRoom) return false;
-    await _repository.stopListenRooms();
+    await _bridge.stopListenRooms();
     await _joinRoom();
     return await _startListenMessages();
   }

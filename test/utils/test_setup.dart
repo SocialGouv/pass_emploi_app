@@ -136,7 +136,7 @@ class TestStoreFactory {
   ThematiqueDemarcheRepository thematiquesDemarcheRepository = DummyThematiqueDemarcheRepository();
   TopDemarcheRepository topDemarcheRepository = DummyTopDemarcheRepository();
   MonSuiviRepository monSuiviRepository = DummyMonSuiviRepository();
-  CvmRepository cvmRepository = MockCvmRepository();
+  CvmBridge cvmBridge = MockCvmBridge();
   CvmTokenRepository cvmTokenRepository = MockCvmTokenRepository();
   CampagneRecrutementRepository campagneRecrutementRepository = MockCampagneRecrutementRepository();
   PreferredLoginModeRepository preferredLoginModeRepository = MockPreferredLoginModeRepository();
@@ -207,7 +207,7 @@ class TestStoreFactory {
       thematiquesDemarcheRepository,
       topDemarcheRepository,
       monSuiviRepository,
-      cvmRepository,
+      cvmBridge,
       cvmTokenRepository,
       campagneRecrutementRepository,
       preferredLoginModeRepository,

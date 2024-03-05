@@ -262,7 +262,7 @@ class AppInitializer {
       ThematiqueDemarcheRepository(dioClient, crashlytics),
       TopDemarcheRepository(),
       MonSuiviRepository(dioClient, crashlytics),
-      CvmRepository(
+      CvmBridge(
         cvmEx160Url: configuration.cvmEx160Url,
         cvmEventFactory: CvmEventFactory(
           cvmAttachmentUrl: configuration.cvmAttachmentUrl,

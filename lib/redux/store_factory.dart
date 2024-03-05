@@ -209,7 +209,7 @@ class StoreFactory {
   final ThematiqueDemarcheRepository thematiquesDemarcheRepository;
   final TopDemarcheRepository topDemarcheRepository;
   final MonSuiviRepository monSuiviRepository;
-  final CvmRepository cvmRepository;
+  final CvmBridge cvmBridge;
   final CvmTokenRepository cvmTokenRepository;
   final CampagneRecrutementRepository campagneRecrutementRepository;
   final PreferredLoginModeRepository preferredLoginModeRepository;
@@ -279,7 +279,7 @@ class StoreFactory {
     this.thematiquesDemarcheRepository,
     this.topDemarcheRepository,
     this.monSuiviRepository,
-    this.cvmRepository,
+    this.cvmBridge,
     this.cvmTokenRepository,
     this.campagneRecrutementRepository,
     this.preferredLoginModeRepository,
@@ -369,7 +369,7 @@ class StoreFactory {
         SessionMiloDetailsMiddleware(sessionMiloRepository).call,
         ConnectivityMiddleware(connectivityWrapper).call,
         MonSuiviMiddleware(monSuiviRepository).call,
-        CvmMiddleware(cvmRepository, cvmTokenRepository, crashlytics).call,
+        CvmMiddleware(cvmBridge, cvmTokenRepository, crashlytics).call,
         CampagneRecrutementMiddleware(campagneRecrutementRepository).call,
         PreferredLoginModeMiddleware(preferredLoginModeRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/

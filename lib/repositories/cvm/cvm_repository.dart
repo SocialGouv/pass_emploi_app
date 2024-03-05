@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/utils/log.dart';
 
 // Methods calls are not try/catch.
 // It is caller responsibility to handle errors.
-class CvmRepository {
+class CvmBridge {
   static const _cvmMethodChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/methods';
   static const _cvmEventChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/events';
   static const _cvmRoomsChannel = 'fr.fabrique.social.gouv.pass_emploi_app/cvm_channel/rooms';
@@ -16,7 +16,7 @@ class CvmRepository {
   final CvmEventFactory cvmEventFactory;
   final CvmAggregator _aggregator;
 
-  CvmRepository({
+  CvmBridge({
     required this.cvmEx160Url,
     required this.cvmEventFactory,
   }) : _aggregator = CvmAggregator();
