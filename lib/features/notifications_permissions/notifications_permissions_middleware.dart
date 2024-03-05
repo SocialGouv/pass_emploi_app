@@ -10,9 +10,6 @@ class NotificationsPermissionsMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
-    next(action);
-    final userId = store.state.userId();
-    if (userId == null) return;
     if (action is NotificationsPermissionsRequestAction) {
       _repository.requestPermission();
     }

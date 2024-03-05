@@ -103,8 +103,11 @@ class _AccueilOnboardingPage1 extends StatelessWidget {
 }
 
 class _AccueilOnboardingPage2 extends StatelessWidget {
-  const _AccueilOnboardingPage2(
-      {required this.onAcceptNotifications, required this.onDeclineNotifications, required this.viewModel});
+  const _AccueilOnboardingPage2({
+    required this.onAcceptNotifications,
+    required this.onDeclineNotifications,
+    required this.viewModel,
+  });
   final void Function() onAcceptNotifications;
   final void Function() onDeclineNotifications;
   final AccueilOnboardingViewModel viewModel;

@@ -236,7 +236,7 @@ class Strings {
   static const String canceledPillule = "Annulée";
 
   // Accueil
-  static String accueilOnboardingTitle1(String prenom) => "Bienvenue $prenom dans votre espace dédié !";
+  static String accueilOnboardingTitle1(String prenom) => "Bienvenue ${prenom}dans votre espace dédié !";
   static String accueilOnboardingBody1 =
       "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres enregistrées, prochains rendez-vous, etc.";
 

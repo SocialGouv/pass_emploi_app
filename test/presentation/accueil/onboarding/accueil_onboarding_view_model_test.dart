@@ -28,7 +28,7 @@ void main() {
       final viewModel = AccueilOnboardingViewModel.create(store);
 
       // Then
-      expect(viewModel.userName, "Kenji");
+      expect(viewModel.userName, "Kenji ");
     });
   });
 }

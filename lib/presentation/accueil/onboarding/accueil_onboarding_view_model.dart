@@ -20,12 +20,12 @@ class AccueilOnboardingViewModel extends Equatable {
     final state = store.state.loginState;
     final user = state is LoginSuccessState ? state.user : null;
     return AccueilOnboardingViewModel(
-      userName: user != null ? user.firstName : "",
+      userName: user != null ? "${user.firstName} " : "",
       onOnboardingCompleted: () => store.dispatch(OnboardingAccueilSaveAction()),
       onRequestiNotificationsPermission: () => store.dispatch(NotificationsPermissionsRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [userName, onOnboardingCompleted];
+  List<Object?> get props => [userName];
 }

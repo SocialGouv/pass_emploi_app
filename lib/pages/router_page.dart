@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
 import 'package:pass_emploi_app/pages/entree_page.dart';
 import 'package:pass_emploi_app/pages/main_page.dart';
 import 'package:pass_emploi_app/pages/spash_screen_page.dart';
@@ -59,7 +58,6 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
     return StoreConnector<AppState, RouterPageViewModel>(
       onInit: (store) {
         store.dispatch(BootstrapAction());
-        store.dispatch(OnboardingRequestAction());
         store.dispatch(SubscribeToConnectivityUpdatesAction());
       },
       converter: (store) => RouterPageViewModel.create(store, platform),

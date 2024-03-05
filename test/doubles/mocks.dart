@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
@@ -26,10 +27,10 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
-import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
+import 'dummies.dart';
 import 'fixtures.dart';
 
 class MockAuthenticator extends Mock implements Authenticator {
@@ -177,5 +178,9 @@ class MockPreferredLoginModeRepository extends Mock implements PreferredLoginMod
   }
 }
 
-class MockOnboardingRepository extends Mock implements OnboardingRepository {}
+class MockOnboardingRepository extends Mock implements OnboardingRepository {
+  MockOnboardingRepository() {
+    when(() => get()).thenAnswer((_) async => dummyOnboarding);
+  }
+}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/
