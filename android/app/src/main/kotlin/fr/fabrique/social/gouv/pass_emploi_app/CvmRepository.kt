@@ -64,7 +64,8 @@ class CvmRepository(
                     "id" to event.eventId,
                     "type" to stringify(event.eventType),
                     "isFromUser" to (event.senderId == SessionManager.matrixUserId),
-                    "content" to event.message,
+                    "message" to event.message,
+                    "fileInfo" to event.url,
                     "date" to event.date?.time
                 )
             }

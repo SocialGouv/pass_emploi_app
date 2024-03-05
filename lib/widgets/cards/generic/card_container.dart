@@ -35,6 +35,7 @@ class CardContainer extends StatelessWidget {
         image: image,
       ),
       child: Material(
+          clipBehavior: Clip.hardEdge,
           color: backgroundColor,
           borderRadius: cardBorderRadius,
           child: InkWell(

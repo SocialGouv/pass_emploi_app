@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -23,21 +24,13 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/mon_conseiller_card.dart';
-import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
-import 'package:pass_emploi_app/widgets/cards/profil/standalone_profil_card.dart';
 import 'package:pass_emploi_app/widgets/contact_page.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 import 'package:pass_emploi_app/widgets/rating_page.dart';
 
 class ProfilPage extends StatelessWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(
-      builder: (context) {
-        return ProfilPage();
-      },
-    );
-  }
+  static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => ProfilPage());
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +39,20 @@ class ProfilPage extends StatelessWidget {
       child: StoreConnector<AppState, ProfilPageViewModel>(
         onInit: (store) => store.dispatch(DetailsJeuneRequestAction()),
         converter: (store) => ProfilPageViewModel.create(store),
-        builder: (BuildContext context, ProfilPageViewModel vm) => _buildScaffold(context, vm),
+        builder: (_, vm) => _Scaffold(vm),
         distinct: true,
       ),
     );
   }
+}
 
-  Scaffold _buildScaffold(BuildContext context, ProfilPageViewModel viewModel) {
+class _Scaffold extends StatelessWidget {
+  final ProfilPageViewModel viewModel;
+
+  const _Scaffold(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       appBar: PrimaryAppBar(
@@ -69,34 +69,81 @@ class ProfilPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
-                SizedBox(height: Margins.spacing_m),
+                SizedBox(height: Margins.spacing_base),
                 _DiscoverDiagorienteCard(),
-                SizedBox(height: Margins.spacing_m),
+                SizedBox(height: Margins.spacing_base),
                 if (viewModel.withDownloadCv) ...[
                   _CurriculumVitaeCard(),
-                  SizedBox(height: Margins.spacing_m),
+                  SizedBox(height: Margins.spacing_base),
                 ],
-                SizedBox(height: Margins.spacing_m),
-                _ProfileCard(userEmail: viewModel.userEmail),
-                SizedBox(height: Margins.spacing_m),
+                _MailCard(userEmail: viewModel.userEmail),
+                SizedBox(height: Margins.spacing_base),
                 if (viewModel.displayMonConseiller) MonConseillerCard(),
                 _SectionTitle(Strings.settingsLabel),
+                SizedBox(height: Margins.spacing_base),
+                _ListTileCard(tiles: [
+                  _ListTileData(
+                    title: Strings.suppressionAccountLabel,
+                    onTap: () => Navigator.push(context, SuppressionComptePage.materialPageRoute()),
+                  ),
+                  _ListTileData(
+                    title: Strings.activityShareLabel,
+                    onTap: () => Navigator.push(context, PartageActivitePage.materialPageRoute()),
+                  ),
+                ]),
                 SizedBox(height: Margins.spacing_m),
-                _SuppressionAccountCard(),
-                _ActivityShareCard(),
                 _SectionTitle(Strings.legalInformation),
-                SizedBox(height: Margins.spacing_m),
-                _LegalInformationCard(),
+                SizedBox(height: Margins.spacing_base),
+                _ListTileCard(
+                  externalRedirect: true,
+                  tiles: [
+                    _ListTileData(
+                      title: Strings.legalNoticeLabel,
+                      onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
+                    ),
+                    _ListTileData(
+                      title: Strings.termsOfServiceLabel,
+                      onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
+                    ),
+                    _ListTileData(
+                      title: Strings.privacyPolicyLabel,
+                      onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
+                    ),
+                    _ListTileData(
+                      title: Strings.accessibilityLevelLabel,
+                      onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
+                    ),
+                  ],
+                ),
                 SizedBox(height: Margins.spacing_m),
                 _SectionTitle(Strings.helpTitle),
+                SizedBox(height: Margins.spacing_base),
+                _ListTileCard(tiles: [
+                  _ListTileData(
+                    title: Strings.ratingAppLabel,
+                    onTap: () => Navigator.push(context, RatingPage.materialPageRoute()),
+                  ),
+                  _ListTileData(
+                    title: Strings.contactTeamLabel,
+                    onTap: () => Navigator.push(context, ContactPage.materialPageRoute()),
+                  ),
+                ]),
                 SizedBox(height: Margins.spacing_m),
-                _RatingCard(),
-                SizedBox(height: Margins.spacing_m),
-                if (viewModel.displayDeveloperOptions) ...[
+                if (kDebugMode || viewModel.displayDeveloperOptions) ...[
                   _SectionTitle(Strings.developerOptions),
-                  SizedBox(height: Margins.spacing_m),
-                  _MatomoCard(),
-                  _CvmChatPage()
+                  SizedBox(height: Margins.spacing_base),
+                  _ListTileCard(tiles: [
+                    _ListTileData(
+                      title: Strings.developerOptionMatomo,
+                      onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
+                    ),
+                    if (viewModel.withCvmEntry)
+                      _ListTileData(
+                        title: Strings.developerOptionCvm,
+                        onTap: () => Navigator.push(context, CvmChatPage.materialPageRoute()),
+                      ),
+                  ]),
+                  SizedBox(height: Margins.spacing_l),
                 ],
                 SecondaryButton(
                   onPressed: () {
@@ -184,16 +231,16 @@ class _UsernameTitle extends StatelessWidget {
   }
 }
 
-class _ProfileCard extends StatelessWidget {
+class _MailCard extends StatelessWidget {
   final String userEmail;
 
-  _ProfileCard({required this.userEmail});
+  _MailCard({required this.userEmail});
 
   @override
   Widget build(BuildContext context) {
     return Semantics(
       header: true,
-      child: ProfilCard(
+      child: CardContainer(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -219,138 +266,53 @@ class _ProfileCard extends StatelessWidget {
   }
 }
 
-class _SuppressionAccountCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StandaloneProfilCard(
-      text: Strings.suppressionAccountLabel,
-      onTap: () => Navigator.push(
-        context,
-        SuppressionComptePage.materialPageRoute(),
-      ),
-    );
-  }
-}
+class _ListTileCard extends StatelessWidget {
+  final List<_ListTileData> tiles;
+  final bool externalRedirect;
 
-class _ActivityShareCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StandaloneProfilCard(
-      text: Strings.activityShareLabel,
-      onTap: () => Navigator.push(context, PartageActivitePage.materialPageRoute()),
-    );
-  }
-}
+  const _ListTileCard({required this.tiles, this.externalRedirect = false});
 
-class _LegalInformationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
       label: Strings.listSemanticsLabel,
-      child: ProfilCard(
+      child: CardContainer(
         padding: EdgeInsets.zero,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ListTile(
-              onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
-              title: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
-              trailing: _redirectIcon(),
-            ),
-            Divider(color: AppColors.grey100, height: 0),
-            ListTile(
-              onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
-              title: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
-              trailing: _redirectIcon(),
-            ),
-            Divider(color: AppColors.grey100, height: 0),
-            ListTile(
-              onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
-              title: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
-              trailing: _redirectIcon(),
-            ),
-            Divider(color: AppColors.grey100, height: 0),
-            ListTile(
-              onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
-              title: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
-              trailing: _redirectIcon(),
-              subtitle: Text(
-                Strings.accessibilityLevelNonConforme,
-                style: TextStyles.textBaseBold,
-              ),
-            ),
-          ],
+          children: tiles
+              .map(
+                (data) => [
+                  ListTile(
+                    onTap: data.onTap,
+                    title: Text(data.title, style: TextStyles.textBaseRegular),
+                    trailing: Icon(
+                      externalRedirect ? AppIcons.open_in_new_rounded : AppIcons.chevron_right_rounded,
+                      semanticLabel: externalRedirect ? Strings.openInNavigator : Strings.openInNewTab,
+                      size: externalRedirect ? Dimens.icon_size_base : Dimens.icon_size_m,
+                      color: AppColors.contentColor,
+                    ),
+                  ),
+                  Divider(color: AppColors.grey100, height: 0),
+                ],
+              )
+              .expand((e) => e)
+              .toList()
+            ..removeLast(),
         ),
       ),
     );
   }
-
-  void _launchAndTrackExternalLink(String link) {
-    PassEmploiMatomoTracker.instance.trackOutlink(link);
-    launchExternalUrl(link);
-  }
-
-  Widget _redirectIcon() => Icon(
-        AppIcons.open_in_new_rounded,
-        semanticLabel: Strings.openInNavigator,
-        size: Dimens.icon_size_base,
-        color: AppColors.grey800,
-      );
 }
 
-class _MatomoCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StandaloneProfilCard(
-      text: Strings.developerOptionMatomo,
-      onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
-    );
-  }
+class _ListTileData {
+  final String title;
+  final VoidCallback onTap;
+
+  _ListTileData({required this.title, required this.onTap});
 }
 
-class _CvmChatPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StandaloneProfilCard(
-      text: Strings.developerOptionCvm,
-      onTap: () => Navigator.push(context, CvmChatPage.materialPageRoute()),
-    );
-  }
-}
-
-class _RatingCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      label: Strings.listSemanticsLabel,
-      child: ProfilCard(
-        padding: EdgeInsets.zero,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ListTile(
-              onTap: () => Navigator.of(context).push(ContactPage.materialPageRoute()),
-              title: Text(Strings.contactTeamLabel, style: TextStyles.textBaseRegular),
-              trailing: _arrowRedirectIcon(),
-            ),
-            Divider(color: AppColors.grey100, height: 0),
-            ListTile(
-              onTap: () => Navigator.of(context).push(RatingPage.materialPageRoute()),
-              title: Text(
-                Strings.ratingAppLabel,
-                style: TextStyles.textBaseRegular,
-              ),
-              trailing: _arrowRedirectIcon(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _arrowRedirectIcon() => Icon(
-        AppIcons.chevron_right_rounded,
-        semanticLabel: Strings.openInNewTab,
-        color: AppColors.contentColor,
-      );
+void _launchAndTrackExternalLink(String link) {
+  PassEmploiMatomoTracker.instance.trackOutlink(link);
+  launchExternalUrl(link);
 }

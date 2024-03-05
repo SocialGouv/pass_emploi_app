@@ -20,10 +20,11 @@ class PassEmploiApp extends StatelessWidget {
       store: _store,
       child: IgnoreTrackingContextProvider(
         child: PassEmploiMaterialApp(
-            scaffoldMessengerKey: snackBarKey,
-            title: Strings.appName,
-            navigatorObservers: [routeObserver],
-            home: RouterPage()),
+          scaffoldMessengerKey: snackBarKey,
+          title: Strings.appName,
+          navigatorObservers: [routeObserver],
+          home: RouterPage(),
+        ),
       ),
     );
   }

@@ -50,7 +50,9 @@ import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
-import 'package:pass_emploi_app/repositories/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
@@ -260,7 +262,14 @@ class AppInitializer {
       ThematiqueDemarcheRepository(dioClient, crashlytics),
       TopDemarcheRepository(),
       MonSuiviRepository(dioClient, crashlytics),
-      CvmRepositoryImpl(),
+      CvmBridge(
+        cvmEx160Url: configuration.cvmEx160Url,
+        cvmEventFactory: CvmEventFactory(
+          cvmAttachmentUrl: configuration.cvmAttachmentUrl,
+          crashlytics: crashlytics,
+        ),
+      ),
+      CvmTokenRepository(dioClient, crashlytics),
       CampagneRecrutementRepository(securedPreferences, CampagneRecrutementRemoteConfig(firebaseRemoteConfig)),
       PreferredLoginModeRepository(securedPreferences),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/

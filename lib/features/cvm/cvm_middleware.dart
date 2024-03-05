@@ -1,137 +1,61 @@
 import 'dart:async';
 
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
+import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_facade.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:redux/redux.dart';
 
 class CvmMiddleware extends MiddlewareClass<AppState> {
-  final CvmRepository _repository;
+  final CvmFacade _facade;
+  StreamSubscription<List<CvmEvent>>? _subscription;
 
-  CvmMiddleware(this._repository);
-
-  var hasRoom = false; //TODO: ?
-  final List<CvmEvent> messages = [];
-
-  void _subscribeToChatStream(Store<AppState> store) {
-    _repository.getMessages().listen(
-      (messages) {
-        store.dispatch(CvmSuccessAction(messages));
-      },
-      onError: (Object error) {
-        store.dispatch(CvmFailureAction());
-      },
-    );
-  }
-
-  void _subscribeToHasRoomStream(Store<AppState> store) {
-    _repository.hasRoom().listen(
-      (hasRoom) {
-        // TODO: est-ce qu'il faut une mécanique "synchronized" ?
-        if (this.hasRoom) {
-          //WHY: Le SDK iOS (et Android ?) déclenche plusieurs fois le callback.
-          return;
-        }
-        this.hasRoom = hasRoom;
-        if (hasRoom) {
-          _repository.stopListenRooms();
-          store.dispatch(CvmJoinRoomAction());
-        }
-      },
-      onError: (Object error) {
-        store.dispatch(CvmFailureAction());
-      },
-    );
-  }
+  CvmMiddleware(
+    CvmBridge bridge,
+    CvmTokenRepository tokenRepository, [
+    Crashlytics? crashlytics,
+  ]) : _facade = CvmFacade(bridge, tokenRepository, crashlytics);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is CvmAction) {
-      handleAction(store, action);
-    }
-  }
-
-  void handleAction(Store<AppState> store, CvmAction action) async {
     if (action is CvmRequestAction) {
-      await _initCvm(store, _repository);
-      _loginCvm(store, _repository); //TODO: pendant qu'on a la fausse page
-    } else if (action is LoginSuccessAction) {
-      _loginCvm(store, _repository);
-    } else if (action is CvmJoinRoomAction) {
-      _startListenMessagesOnFirstRoom(store, _repository);
+      _start(store);
+    } else if (_shouldLogout(store, action)) {
+      _logout();
     } else if (action is CvmSendMessageAction) {
-      _repository.sendMessage(action.message);
-    } else if (action is RequestLogoutAction || action is NotLoggedInAction) {
-      _repository.logout();
-      hasRoom = false;
-    }
-    // TODO: si background/foreground ...
-  }
-
-  Future<void> _loginCvm(Store<AppState> store, CvmRepository repository) async {
-    try {
-      await repository.login();
-
-      //TODO: temp to test listen rooms
-      // await repository.joinFirstRoom();
-      // await repository.startListenMessages();
-
-      await repository.startListenRooms();
-
-      Future.delayed(Duration(seconds: 5), () {
-        repository.loadMore();
-      });
-    } catch (e) {
-      store.dispatch(CvmFailureAction());
+      _facade.sendMessage(action.message);
+    } else if (action is CvmLoadMoreAction) {
+      _facade.loadMore();
     }
   }
 
-  Future<void> _initCvm(Store<AppState> store, CvmRepository repository) async {
+  void _start(Store<AppState> store) async {
+    if (store.state.cvmState is CvmSuccessState) return;
+    final userId = store.state.userId();
+    if (userId == null) return;
+
     store.dispatch(CvmLoadingAction());
 
-    try {
-      hasRoom = false;
+    _subscription?.cancel();
+    _subscription = _facade.start(userId).listen(
+          (messages) => store.dispatch(CvmSuccessAction(messages)),
+          onError: (_) => store.dispatch(CvmFailureAction()),
+        );
+  }
 
-      await repository.initializeCvm();
+  void _logout() {
+    _subscription?.cancel();
+    _facade.stop();
+    _facade.logout();
+  }
 
-      _subscribeToChatStream(store);
-      _subscribeToHasRoomStream(store);
-    } catch (e) {
-      store.dispatch(CvmFailureAction());
-    }
+  bool _shouldLogout(Store<AppState> store, action) {
+    return action is RequestLogoutAction && store.state.cvmState is! CvmNotInitializedState;
   }
 }
-
-Future<void> _startListenMessagesOnFirstRoom(Store<AppState> store, CvmRepository repository) async {
-  try {
-    await repository.joinFirstRoom();
-    await repository.startListenMessages();
-  } catch (e) {
-    store.dispatch(CvmFailureAction());
-  }
-}
-
-//TODO:
-// action init (quand: lancement de l'app)
-// => repo.initCvm
-// => repo.subscribeToChatStream
-// ===> quand un stream arrive, dispatch CvmSuccessAction(messages)
-// => repo.subscribeToRooms
-// ===> quand un stream arrive, dispatch CvmRoomsSuccessAction)
-
-// action écouter les messages (quand: au login)
-// => await repo.login
-// => await repo.joinFirstRoom
-// ===> si room, repo.startListenMessages
-// ===> si pas de room, repo.startListenRooms
-
-// action rejoindre une room (quand: au CvmRoomsSuccessAction)
-// => repo.joinFirstRoom
-// => repo.startListenMessages
-
-// action logout
-// => repo.logout
-// => hasRoom = false
-// => ?

@@ -1,10 +1,3 @@
-//
-//  CvmRepository.swift
-//  Runner
-//
-//  Created by jordan.chapuy on 16/01/2024.
-//
-
 import Foundation
 import BenedicteSDK
 
@@ -102,6 +95,7 @@ private extension Event {
             "isFromUser": senderID == SessionManager.sharedInstance.userId,
             "message": message,
             "date": timestamp,
+            "fileInfo": attachmentID
         ]
     }
 

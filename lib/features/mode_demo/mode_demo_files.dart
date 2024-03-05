@@ -61,6 +61,7 @@ extension UrlExtensions on String {
         !contains('fichiers') &&
         !contains('referentiels/metiers') &&
         !contains('/docnums/') &&
+        !contains('/idp-token') &&
         !contains('/actions/');
   }
 

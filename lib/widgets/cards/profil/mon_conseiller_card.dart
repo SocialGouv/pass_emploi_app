@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class MonConseillerCard extends StatelessWidget {
   @override
@@ -45,7 +45,7 @@ class MonConseillerCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ProfilCard(
+          CardContainer(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -55,9 +55,7 @@ class MonConseillerCard extends StatelessWidget {
                 SizedBox(height: Margins.spacing_s),
                 Text(
                   name,
-                  style: TextStyles.textBaseBold.copyWith(
-                    color: AppColors.primary,
-                  ),
+                  style: TextStyles.textBaseBold.copyWith(color: AppColors.primary),
                 ),
               ],
             ),

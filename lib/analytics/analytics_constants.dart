@@ -251,6 +251,11 @@ class AnalyticsEventNames {
 
   static const evenementEmploiDetailsCategory = "Détails événement emploi";
   static const evenementEmploiDetailsInscriptionAction = "Clic inscription événement emploi";
+
+  static const cvmCategory = "CVM";
+  static const cvmLoadingAndroidAction = "Chargement Android";
+  static const cvmLoadingIosAction = "Chargement iOS";
+  static const cvmLoadingEventName = "Durée";
 }
 
 class AnalyticsCustomDimensions {

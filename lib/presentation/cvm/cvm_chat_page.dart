@@ -1,64 +1,103 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
+import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
 import 'package:pass_emploi_app/presentation/cvm_chat_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/cvm_repository.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
+import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class CvmChatPage extends StatelessWidget {
-  const CvmChatPage({super.key});
-
   static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => CvmChatPage());
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CvmChatPageViewModel>(
-      onInit: (store) {
-        store.dispatch(CvmRequestAction());
-      },
+      onInit: (store) => store.dispatch(CvmRequestAction()),
       converter: (store) => CvmChatPageViewModel.create(store),
-      builder: (context, viewModel) => _Body(viewModel),
+      builder: (context, viewModel) => _Scaffold(viewModel),
+      distinct: true,
     );
   }
 }
 
-class _Body extends StatelessWidget {
-  const _Body(this.viewModel);
+class _Scaffold extends StatelessWidget {
   final CvmChatPageViewModel viewModel;
+
+  const _Scaffold(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SecondaryAppBar(title: "Chat CVM"),
-      body: Column(
-        children: [
-          Expanded(
-            child: _MessageList(viewModel),
-          ),
-          _MessageInput(viewModel),
-        ],
+      appBar: PrimaryAppBar(
+        title: "Chat CVM",
+        withProfileButton: false,
+        actionButton: viewModel.displayState == DisplayState.CONTENT
+            ? IconButton(
+                icon: Icon(Icons.vertical_align_bottom),
+                onPressed: () {
+                  final scrollController = PrimaryScrollController.of(context);
+                  scrollController.jumpTo(scrollController.position.maxScrollExtent);
+                },
+              )
+            : null,
       ),
+      body: switch (viewModel.displayState) {
+        DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+        DisplayState.FAILURE => Center(child: Retry('😬KO, régale-toi', () => viewModel.onRetry())),
+        DisplayState.EMPTY => Center(child: Text("🐐Aucun message", style: TextStyles.textBaseMedium)),
+        DisplayState.CONTENT => _Content(viewModel),
+      },
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  final CvmChatPageViewModel viewModel;
+
+  const _Content(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(child: _MessageList(viewModel)),
+        _MessageInput(viewModel),
+      ],
     );
   }
 }
 
 class _MessageList extends StatelessWidget {
   const _MessageList(this.viewModel);
+
   final CvmChatPageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       reverse: false,
-      itemCount: viewModel.messages.length,
+      itemCount: viewModel.messages.length + 1,
       itemBuilder: (context, index) {
-        final message = viewModel.messages[index];
-        return _MessageTile(message: message);
+        if (index == 0) {
+          return TextButton(
+            onPressed: () => viewModel.onLoadMore(),
+            child: Text('Charger plus de messages'),
+          );
+        }
+        return switch (viewModel.messages[index - 1]) {
+          final CvmMessageEvent event => _MessageTile(event),
+          final CvmFileEvent event => _FileTile(event),
+          final CvmUnknownEvent event => _UnknownTile(event),
+        };
       },
     );
   }
@@ -66,6 +105,7 @@ class _MessageList extends StatelessWidget {
 
 class _MessageInput extends StatelessWidget {
   const _MessageInput(this.viewModel);
+
   final CvmChatPageViewModel viewModel;
 
   @override
@@ -78,7 +118,7 @@ class _MessageInput extends StatelessWidget {
           Expanded(
             child: BaseTextField(
               controller: controller,
-              hintText: "Ecrivez votre message",
+              hintText: "Ecrivez-votre message",
             ),
           ),
           SizedBox(width: Margins.spacing_s),
@@ -103,19 +143,63 @@ class _MessageInput extends StatelessWidget {
 }
 
 class _MessageTile extends StatelessWidget {
-  const _MessageTile({required this.message});
-  final CvmEvent message;
+  final CvmMessageEvent event;
+
+  const _MessageTile(this.event);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      key: ValueKey(message.id),
-      title: Text(message.message ?? "no-message"),
-      subtitle: Text(message.date?.toDayAndHour() ?? "no-date"),
+      key: ValueKey(event.id),
+      title: SelectableTextWithClickableLinks(event.content, style: TextStyles.textSRegular()),
+      subtitle: Text(event.date.toDayAndHour()),
       leading: CircleAvatar(
-        backgroundColor: message.isFromUser ? Colors.blue : Colors.grey,
-        child: Text(message.isFromUser ? "Moi" : "PE"),
+        backgroundColor: event.isFromUser ? Colors.blue : Colors.grey,
+        child: Text(event.isFromUser ? "Moi" : "PE"),
       ),
+    );
+  }
+}
+
+class _FileTile extends StatelessWidget {
+  final CvmFileEvent event;
+
+  const _FileTile(this.event);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      key: ValueKey(event.id),
+      tileColor: AppColors.accent3Lighten,
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SelectableTextWithClickableLinks(event.content, style: TextStyles.textSRegular()),
+          SizedBox(height: Margins.spacing_xs),
+          SelectableTextWithClickableLinks(event.url, style: TextStyles.textSRegular()),
+        ],
+      ),
+      subtitle: Text(event.date.toDayAndHour()),
+      leading: CircleAvatar(
+        backgroundColor: event.isFromUser ? Colors.blue : Colors.grey,
+        child: Text(event.isFromUser ? "Moi" : "PE"),
+      ),
+    );
+  }
+}
+
+class _UnknownTile extends StatelessWidget {
+  final CvmUnknownEvent event;
+
+  const _UnknownTile(this.event);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      key: ValueKey(event.id),
+      tileColor: AppColors.warningLighten,
+      title: Text('⚠️Format de message inconnu'),
+      subtitle: Text(event.date.toDayAndHour()),
     );
   }
 }
