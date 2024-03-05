@@ -16,7 +16,7 @@ enum LoginMode {
   const LoginMode(this.value);
 
   static LoginMode fromString(String value) {
-    return LoginMode.values.firstWhere((e) => e.value == value);
+    return LoginMode.values.firstWhere((e) => e.value == value, orElse: () => LoginMode.POLE_EMPLOI);
   }
 }
 

@@ -19,7 +19,7 @@ void main() {
 
       test('should load then succeed when request succeeds', () {
         const loginMode = LoginMode.MILO;
-        when(() => repository.get()).thenAnswer((_) async => loginMode);
+        when(() => repository.getPreferredMode()).thenAnswer((_) async => loginMode);
 
         sut.givenStore = givenState() //
             .loggedInUser()

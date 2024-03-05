@@ -35,7 +35,7 @@ void main() {
             .thenAnswer((_) => Future.value('DEMO_MILO'));
 
         // When
-        final result = await repository.get();
+        final result = await repository.getPreferredMode();
 
         // Then
         expect(result, LoginMode.DEMO_MILO);
@@ -46,7 +46,7 @@ void main() {
         when(() => mockFlutterSecureStorage.read(key: 'preferredLoginMode')).thenAnswer((_) => Future.value(null));
 
         // When
-        final result = await repository.get();
+        final result = await repository.getPreferredMode();
 
         // Then
         expect(result, null);

@@ -163,7 +163,7 @@ class MockCampagneRecrutementRepository extends Mock implements CampagneRecrutem
 class MockPreferredLoginModeRepository extends Mock implements PreferredLoginModeRepository {
   MockPreferredLoginModeRepository() {
     registerFallbackValue(LoginMode.MILO);
-    when(() => get()).thenAnswer((_) async => null);
+    when(() => getPreferredMode()).thenAnswer((_) async => null);
     when(() => save(any())).thenAnswer((_) async {});
   }
 

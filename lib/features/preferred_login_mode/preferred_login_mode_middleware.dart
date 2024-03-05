@@ -12,7 +12,7 @@ class PreferredLoginModeMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is PreferredLoginModeRequestAction) {
-      final result = await _repository.get();
+      final result = await _repository.getPreferredMode();
       store.dispatch(PreferredLoginModeSuccessAction(result));
     } else if (action is PreferredLoginModeSaveAction) {
       await _repository.save(action.loginMode);

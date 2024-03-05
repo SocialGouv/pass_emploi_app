@@ -112,7 +112,7 @@ class _FlexibleSpace extends StatelessWidget {
     final deviceHeight = MediaQuery.of(context).size.height;
     late final double height;
     if (deviceHeight < 800) {
-      height = 0;
+      height = 50;
     } else {
       height = 200;
     }
@@ -185,7 +185,7 @@ class _InformationsLegales extends StatelessWidget {
         Future.delayed(AnimationDurations.medium, () {
           Scrollable.of(context).position.ensureVisible(
                 context.findRenderObject()!,
-                duration: const Duration(milliseconds: 500),
+                duration: AnimationDurations.fast,
               );
         });
       },

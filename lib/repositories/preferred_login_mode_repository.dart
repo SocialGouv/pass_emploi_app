@@ -12,7 +12,7 @@ class PreferredLoginModeRepository {
     await _preferences.write(key: _key, value: loginMode.value);
   }
 
-  Future<LoginMode?> get() async {
+  Future<LoginMode?> getPreferredMode() async {
     final result = await _preferences.read(key: _key);
     if (result == null) return null;
     return LoginMode.fromString(result);
