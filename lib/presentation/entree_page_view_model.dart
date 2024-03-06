@@ -70,7 +70,7 @@ class PreferredLoginModeViewModel extends Equatable {
   });
 
   static PreferredLoginModeViewModel? create(Store<AppState> store) {
-    if (Brand.isBrsa()) return null;
+    if (store.state.configurationState.getBrand().isBrsa) return null;
     final state = store.state.preferredLoginModeState;
     if (state is! PreferredLoginModeSuccessState) return null;
     return switch (state.loginMode) {
