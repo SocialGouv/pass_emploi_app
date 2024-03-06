@@ -203,10 +203,10 @@ class Strings {
       isPoleEmploi ? loginOpenInNewDescriptionPoleEmploi : loginOpenInNewDescriptionCej;
 
   static const String loginOpenInNewDescriptionCej =
-      "Vous serez redirigé vers la page de d'authentification de Mission Locale pour vous connecter.";
+      "Vous serez redirigé vers la page d'authentification de Mission Locale pour vous connecter.";
 
   static const String loginOpenInNewDescriptionPoleEmploi =
-      "Vous serez redirigé vers la page de d'authentification de France Travail pour vous connecter.";
+      "Vous serez redirigé vers la page d'authentification de France Travail pour vous connecter.";
 
   static const String loginNoAccount = "Pas de compte ?";
 
