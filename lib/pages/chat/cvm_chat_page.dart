@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/presentation/chat/cvm_chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -154,8 +155,8 @@ class _MessageTile extends StatelessWidget {
       title: SelectableTextWithClickableLinks(event.content, style: TextStyles.textSRegular()),
       subtitle: Text(event.date.toDayAndHour()),
       leading: CircleAvatar(
-        backgroundColor: event.isFromUser ? Colors.blue : Colors.grey,
-        child: Text(event.isFromUser ? "Moi" : "PE"),
+        backgroundColor: event.sentBy == Sender.jeune ? Colors.blue : Colors.grey,
+        child: Text(event.sentBy == Sender.jeune ? "Moi" : "PE"),
       ),
     );
   }
@@ -181,8 +182,8 @@ class _FileTile extends StatelessWidget {
       ),
       subtitle: Text(event.date.toDayAndHour()),
       leading: CircleAvatar(
-        backgroundColor: event.isFromUser ? Colors.blue : Colors.grey,
-        child: Text(event.isFromUser ? "Moi" : "PE"),
+        backgroundColor: event.sentBy == Sender.jeune ? Colors.blue : Colors.grey,
+        child: Text(event.sentBy == Sender.jeune ? "Moi" : "PE"),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 
 sealed class CvmMessage extends Equatable {
   final String id;
@@ -8,35 +9,35 @@ sealed class CvmMessage extends Equatable {
 }
 
 class CvmTextMessage extends CvmMessage {
-  final bool isFromUser;
+  final Sender sentBy;
   final String content;
 
   CvmTextMessage({
     required super.id,
     required super.date,
-    required this.isFromUser,
+    required this.sentBy,
     required this.content,
   });
 
   @override
-  List<Object?> get props => [id, date, isFromUser, content];
+  List<Object?> get props => [id, date, sentBy, content];
 }
 
 class CvmFileMessage extends CvmMessage {
-  final bool isFromUser;
+  final Sender sentBy;
   final String content;
   final String url;
 
   CvmFileMessage({
     required super.id,
     required super.date,
-    required this.isFromUser,
+    required this.sentBy,
     required this.content,
     required this.url,
   });
 
   @override
-  List<Object?> get props => [id, date, isFromUser, content, url];
+  List<Object?> get props => [id, date, sentBy, content, url];
 }
 
 class CvmUnknownMessage extends CvmMessage {
