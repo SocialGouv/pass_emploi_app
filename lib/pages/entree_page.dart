@@ -133,7 +133,7 @@ class _LoginButton extends StatelessWidget {
     return PrimaryActionButton(
       label: Strings.loginAction,
       onPressed: () {
-        viewModel.preferredLoginMode != null ? viewModel.preferredLoginMode!.onLogin() : LoginBottomSheet.show(context);
+        viewModel.onLogin != null ? viewModel.onLogin!.call() : LoginBottomSheet.show(context);
       },
     );
   }

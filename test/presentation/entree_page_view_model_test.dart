@@ -139,7 +139,6 @@ void main() {
             PreferredLoginModeViewModel(
               title: 'France travail',
               logo: Drawables.poleEmploiLogo,
-              onLogin: () {},
             ));
       });
 
@@ -159,7 +158,6 @@ void main() {
             PreferredLoginModeViewModel(
               title: 'Mission Locale',
               logo: Drawables.missionLocaleLogo,
-              onLogin: () {},
             ));
       });
 
@@ -179,8 +177,21 @@ void main() {
             PreferredLoginModeViewModel(
               title: 'Pass Emploi',
               logo: Drawables.passEmploiLogo,
-              onLogin: () {},
             ));
+      });
+
+      test('should not display preferred login mode when brand is brsa', () {
+        // Given
+        final store = givenBrsaState()
+            .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.PASS_EMPLOI))
+            .loggedInUser()
+            .store();
+
+        // When
+        final viewModel = EntreePageViewModel.create(store);
+
+        // Then
+        expect(viewModel.preferredLoginMode, null);
       });
     });
   });
