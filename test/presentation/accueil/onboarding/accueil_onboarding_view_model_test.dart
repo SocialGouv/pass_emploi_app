@@ -30,5 +30,31 @@ void main() {
       // Then
       expect(viewModel.userName, "Kenji ");
     });
+
+    group('body1', () {
+      test("should display milo message", () {
+        // Given
+        final store = givenState().loggedInMiloUser().store();
+
+        // When
+        final viewModel = AccueilOnboardingViewModel.create(store);
+
+        // Then
+        expect(viewModel.body1,
+            "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres enregistrées, prochains rendez-vous, etc.");
+      });
+
+      test("should display pole emploi message", () {
+        // Given
+        final store = givenState().loggedInPoleEmploiUser().store();
+
+        // When
+        final viewModel = AccueilOnboardingViewModel.create(store);
+
+        // Then
+        expect(viewModel.body1,
+            "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : démarches à réaliser, offres enregistrées, prochains rendez-vous, etc.");
+      });
+    });
   });
 }

@@ -81,7 +81,7 @@ class _AccueilOnboardingPage1 extends StatelessWidget {
                 children: [
                   _OnboardingTitle(Strings.accueilOnboardingTitle1(viewModel.userName)),
                   SizedBox(height: Margins.spacing_m),
-                  _OnboardingBodyText(Strings.accueilOnboardingBody1),
+                  _OnboardingBodyText(viewModel.body1),
                   SizedBox(height: Margins.spacing_m),
                   PrimaryActionButton(
                     label: Strings.continueLabel,
