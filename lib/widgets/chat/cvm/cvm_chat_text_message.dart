@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 class CvmChatTextMessage extends StatelessWidget {
   final TextMessageItem item;
 
-  const CvmChatTextMessage(this.item) : super();
+  const CvmChatTextMessage(this.item);
 
   @override
   Widget build(BuildContext context) {

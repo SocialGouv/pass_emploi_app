@@ -1,5 +1,4 @@
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
-import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -13,16 +12,31 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
   @override
   Future<void> call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    final loginState = store.state.loginState;
-    if (loginState is LoginSuccessState && (action is PieceJointeRequestAction)) {
-      final String? path = await _repository.download(fileId: action.fileId, fileName: action.fileName);
-      if (path == null || path.isEmpty) {
-        store.dispatch(PieceJointeFailureAction(action.fileId));
-      } else if (path == Strings.fileNotAvailableError) {
-        store.dispatch(PieceJointeUnavailableAction(action.fileId));
-      } else {
-        store.dispatch(PieceJointeSuccessAction(fileId: action.fileId, path: path));
-      }
+    final userId = store.state.userId();
+    if (userId == null) return;
+
+    if (action is PieceJointeTypeIdRequestAction) {
+      final String? path = await _repository.downloadFromId(fileId: action.fileId, fileName: action.fileName);
+      _handleDownload(store, action.fileId, path);
+    }
+
+    if (action is PieceJointeTypeUrlRequestAction) {
+      final String? path = await _repository.downloadFromUrl(
+        attachmentUrl: action.url,
+        fileId: action.fileId,
+        fileName: 'fichier-${action.fileId}',
+      );
+      _handleDownload(store, action.fileId, path);
+    }
+  }
+
+  void _handleDownload(Store<AppState> store, String fileId, String? path) {
+    if (path == null || path.isEmpty) {
+      store.dispatch(PieceJointeFailureAction(fileId));
+    } else if (path == Strings.fileNotAvailableError) {
+      store.dispatch(PieceJointeUnavailableAction(fileId));
+    } else {
+      store.dispatch(PieceJointeSuccessAction(fileId: fileId, path: path));
     }
   }
 }
