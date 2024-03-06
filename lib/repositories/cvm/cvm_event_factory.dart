@@ -1,5 +1,5 @@
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 
 class CvmEventFactory {
   final String cvmAttachmentUrl;
@@ -7,7 +7,7 @@ class CvmEventFactory {
 
   CvmEventFactory({required this.cvmAttachmentUrl, this.crashlytics});
 
-  CvmEvent? fromJson(dynamic json) {
+  CvmMessage? fromJson(dynamic json) {
     try {
       final jsonEvent = _JsonCvmEvent.fromJson(json);
       return switch (jsonEvent.type) {
@@ -24,8 +24,8 @@ class CvmEventFactory {
     }
   }
 
-  CvmMessageEvent _toMessageEvent(_JsonCvmEvent jsonEvent) {
-    return CvmMessageEvent(
+  CvmTextMessage _toMessageEvent(_JsonCvmEvent jsonEvent) {
+    return CvmTextMessage(
       id: jsonEvent.id!,
       isFromUser: jsonEvent.isFromUser!,
       content: jsonEvent.content!,
@@ -33,8 +33,8 @@ class CvmEventFactory {
     );
   }
 
-  CvmFileEvent _toFileEvent(_JsonCvmEvent jsonEvent) {
-    return CvmFileEvent(
+  CvmFileMessage _toFileEvent(_JsonCvmEvent jsonEvent) {
+    return CvmFileMessage(
       id: jsonEvent.id!,
       isFromUser: jsonEvent.isFromUser!,
       content: jsonEvent.content!,
@@ -43,8 +43,8 @@ class CvmEventFactory {
     );
   }
 
-  CvmUnknownEvent _toUnknownEvent(_JsonCvmEvent jsonEvent) {
-    return CvmUnknownEvent(
+  CvmUnknownMessage _toUnknownEvent(_JsonCvmEvent jsonEvent) {
+    return CvmUnknownMessage(
       id: jsonEvent.id!,
       date: jsonEvent.date!,
     );

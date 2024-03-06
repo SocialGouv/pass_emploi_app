@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
 
 void main() {
@@ -22,7 +22,7 @@ void main() {
       // Then
       expect(
         result,
-        CvmMessageEvent(
+        CvmTextMessage(
           id: 'id',
           isFromUser: true,
           content: 'message',
@@ -49,7 +49,7 @@ void main() {
       // Then
       expect(
         result,
-        CvmFileEvent(
+        CvmFileMessage(
           id: 'id',
           isFromUser: false,
           content: 'message',
@@ -77,7 +77,7 @@ void main() {
       // Then
       expect(
         result,
-        CvmFileEvent(
+        CvmFileMessage(
           id: 'id',
           isFromUser: false,
           content: 'message',
@@ -104,7 +104,7 @@ void main() {
       // Then
       expect(
         result,
-        CvmFileEvent(
+        CvmFileMessage(
           id: 'id',
           isFromUser: false,
           content: 'message',
@@ -128,7 +128,7 @@ void main() {
       // Then
       expect(
         result,
-        CvmUnknownEvent(
+        CvmUnknownMessage(
           id: 'id',
           date: DateTime(2024, 1, 1),
         ),

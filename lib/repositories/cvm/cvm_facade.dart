@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 
@@ -10,13 +10,13 @@ class CvmFacade {
   final CvmTokenRepository _tokenRepository;
   final Crashlytics? _crashlytics;
   final _CvmState _state;
-  StreamController<List<CvmEvent>>? _streamController;
+  StreamController<List<CvmMessage>>? _streamController;
 
   CvmFacade(this._bridge, this._tokenRepository, [this._crashlytics]) : _state = _CvmState();
 
-  Stream<List<CvmEvent>> start(String userId) {
+  Stream<List<CvmMessage>> start(String userId) {
     _streamController?.close();
-    _streamController = StreamController<List<CvmEvent>>();
+    _streamController = StreamController<List<CvmMessage>>();
 
     _subscribeToMessageStream()
         .then((_) => _initCvm())
