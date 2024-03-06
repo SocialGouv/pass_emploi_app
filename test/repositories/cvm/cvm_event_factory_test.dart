@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
 
 void main() {
@@ -24,7 +25,7 @@ void main() {
         result,
         CvmTextMessage(
           id: 'id',
-          isFromUser: true,
+          sentBy: Sender.jeune,
           content: 'message',
           date: DateTime(2024, 1, 1),
         ),
@@ -51,7 +52,7 @@ void main() {
         result,
         CvmFileMessage(
           id: 'id',
-          isFromUser: false,
+          sentBy: Sender.conseiller,
           content: 'message',
           url: 'https://cvm.fr/download/id-file',
           date: DateTime(2024, 1, 1),
@@ -79,7 +80,7 @@ void main() {
         result,
         CvmFileMessage(
           id: 'id',
-          isFromUser: false,
+          sentBy: Sender.conseiller,
           content: 'message',
           url: 'https://cvm.fr/download/id-file',
           date: DateTime(2024, 1, 1),
@@ -106,7 +107,7 @@ void main() {
         result,
         CvmFileMessage(
           id: 'id',
-          isFromUser: false,
+          sentBy: Sender.conseiller,
           content: 'message',
           url: 'https://cvm.fr/download/id-file',
           date: DateTime(2024, 1, 1),
