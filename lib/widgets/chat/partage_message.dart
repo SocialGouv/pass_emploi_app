@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/pages/evenement_emploi/evenement_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/immersion/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dart';

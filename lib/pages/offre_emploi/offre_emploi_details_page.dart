@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
-import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
