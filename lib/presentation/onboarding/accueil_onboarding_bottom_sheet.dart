@@ -18,7 +18,6 @@ class AccueilOnboardingBottomSheet extends StatefulWidget {
   static void show(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      isDismissible: false,
       isScrollControlled: true,
       builder: (context) => const AccueilOnboardingBottomSheet(),
     );
@@ -91,7 +90,7 @@ class _AccueilOnboardingPage1 extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: Margins.spacing_x_huge * 2),
+            SizedBox(height: Margins.spacing_x_huge),
           ],
         ),
       ),
@@ -113,7 +112,6 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             _OnboardingIllustration(Drawables.accueilOnboardingIllustration2, AppColors.alert),
@@ -145,7 +143,7 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: Margins.spacing_x_huge * 2),
+                  SizedBox(height: Margins.spacing_x_huge),
                 ],
               ),
             )
