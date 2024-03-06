@@ -12,13 +12,30 @@ class PieceJointeRepository {
 
   PieceJointeRepository(this._httpClient, this._pieceJointeSaver, [this._crashlytics]);
 
-  Future<String?> download({required String fileId, required String fileName}) async {
+  Future<String?> downloadFromId({required String fileId, required String fileName}) async {
     final url = "/fichiers/$fileId";
     try {
       final response = await _httpClient.get(url, options: Options(responseType: ResponseType.bytes));
       return await _pieceJointeSaver.saveFile(fileName: fileName, fileId: fileId, response: response);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
+      if (e is DioException && e.response?.statusCode == HttpStatus.notFound) {
+        return Strings.fileNotAvailableError;
+      }
+    }
+    return null;
+  }
+
+  Future<String?> downloadFromUrl({
+    required String attachmentUrl,
+    required String fileId,
+    required String fileName,
+  }) async {
+    try {
+      final response = await _httpClient.get(attachmentUrl, options: Options(responseType: ResponseType.bytes));
+      return await _pieceJointeSaver.saveFile(fileName: fileName, fileId: fileId, response: response);
+    } catch (e, stack) {
+      _crashlytics?.recordCvmException(e, stack);
       if (e is DioException && e.response?.statusCode == HttpStatus.notFound) {
         return Strings.fileNotAvailableError;
       }

@@ -59,14 +59,16 @@ class TextMessageItem extends MessageItem {
 
 class PieceJointeConseillerMessageItem extends MessageItem {
   final String attachmentUrl;
+  final String fileId;
 
   PieceJointeConseillerMessageItem({
     required String messageId,
     required String content,
     required String caption,
     required this.attachmentUrl,
+    required this.fileId,
   }) : super(messageId, content, caption);
 
   @override
-  List<Object?> get props => [messageId, content, caption, attachmentUrl];
+  List<Object?> get props => [messageId, content, caption, attachmentUrl, fileId];
 }

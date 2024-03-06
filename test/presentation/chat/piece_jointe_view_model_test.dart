@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
-import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
@@ -63,24 +62,31 @@ void main() {
     expect(viewModel.displayState("id-1"), DisplayState.EMPTY);
   });
 
-  test('should extract file id and file name correctly', () {
+  test('onDownloadTypeId should trigger proper action', () {
     // Given
     final store = StoreSpy();
     final viewModel = PieceJointeViewModel.create(store);
-    final item = PieceJointeConseillerMessageItem(
-      messageId: "uid",
-      pieceJointeId: "id-1",
-      message: "Super PJ",
-      filename: "super.pdf",
-      caption: "",
-    );
 
     // When
-    viewModel.onClick(item);
+    viewModel.onDownloadTypeId("id", "file.pdf");
 
     // Then
-    expect(store.dispatchedAction, isA<PieceJointeRequestAction>());
-    expect((store.dispatchedAction as PieceJointeRequestAction).fileId, "id-1");
-    expect((store.dispatchedAction as PieceJointeRequestAction).fileName, "super.pdf");
+    expect(store.dispatchedAction, isA<PieceJointeTypeIdRequestAction>());
+    expect((store.dispatchedAction as PieceJointeTypeIdRequestAction).fileId, "id");
+    expect((store.dispatchedAction as PieceJointeTypeIdRequestAction).fileName, "file.pdf");
+  });
+
+  test('onDownloadTypeUrl should trigger proper action', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = PieceJointeViewModel.create(store);
+
+    // When
+    viewModel.onDownloadTypeUrl("id", "url");
+
+    // Then
+    expect(store.dispatchedAction, isA<PieceJointeTypeUrlRequestAction>());
+    expect((store.dispatchedAction as PieceJointeTypeUrlRequestAction).fileId, "id");
+    expect((store.dispatchedAction as PieceJointeTypeUrlRequestAction).url, "url");
   });
 }

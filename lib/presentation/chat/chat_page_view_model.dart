@@ -86,7 +86,7 @@ ChatItem _sessionMiloItem(Message message, DateTime lastConseillerReading) {
     idPartage: message.sessionMilo?.id ?? "",
     titrePartage: message.sessionMilo?.titre ?? "",
     sender: message.sentBy,
-    caption: caption(message, lastConseillerReading),
+    caption: _caption(message, lastConseillerReading),
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );
@@ -99,7 +99,7 @@ ChatItem _evenementEmploiItem(Message message, DateTime lastConseillerReading) {
     idPartage: message.evenementEmploi?.id ?? "",
     titrePartage: message.evenementEmploi?.titre ?? "",
     sender: message.sentBy,
-    caption: caption(message, lastConseillerReading),
+    caption: _caption(message, lastConseillerReading),
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );
@@ -113,7 +113,7 @@ ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
     titrePartage: message.offre?.titre ?? "",
     type: message.offre?.type ?? OffreType.inconnu,
     sender: message.sentBy,
-    caption: caption(message, lastConseillerReading),
+    caption: _caption(message, lastConseillerReading),
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );
@@ -126,7 +126,7 @@ ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
     idPartage: message.event?.id ?? "",
     titrePartage: message.event?.titre ?? "",
     sender: message.sentBy,
-    caption: caption(message, lastConseillerReading),
+    caption: _caption(message, lastConseillerReading),
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );
@@ -163,7 +163,7 @@ bool _shouldAnimate(Message message) {
   };
 }
 
-String caption(Message message, DateTime lastConseillerReading) {
+String _caption(Message message, DateTime lastConseillerReading) {
   final hourLabel = message.creationDate.toHour();
   if (message.sentBy == Sender.jeune) {
     final status = switch (message.status) {
@@ -181,7 +181,7 @@ TextMessageItem _buildMessageItem(Message message, DateTime lastConseillerReadin
   return TextMessageItem(
     messageId: message.id,
     content: message.content,
-    caption: caption(message, lastConseillerReading),
+    caption: _caption(message, lastConseillerReading),
     sender: message.sentBy,
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),

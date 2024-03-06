@@ -133,7 +133,7 @@ class PieceJointeRepositorySuccessStub extends PieceJointeRepository {
   PieceJointeRepositorySuccessStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
-  Future<String?> download({required String fileId, required String fileName}) async {
+  Future<String?> downloadFromId({required String fileId, required String fileName}) async {
     return "$fileId-path";
   }
 }
@@ -142,7 +142,7 @@ class PieceJointeRepositoryFailureStub extends PieceJointeRepository {
   PieceJointeRepositoryFailureStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
-  Future<String?> download({required String fileId, required String fileName}) async {
+  Future<String?> downloadFromId({required String fileId, required String fileName}) async {
     return null;
   }
 }
@@ -151,7 +151,7 @@ class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
   PieceJointeRepositoryUnavailableStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
-  Future<String?> download({required String fileId, required String fileName}) async {
+  Future<String?> downloadFromId({required String fileId, required String fileName}) async {
     return "ERROR: 404";
   }
 }
