@@ -38,7 +38,7 @@ class CvmEventFactory {
     return CvmFileMessage(
       id: jsonEvent.id!,
       sentBy: jsonEvent.isFromUser! ? Sender.jeune : Sender.conseiller,
-      content: jsonEvent.content!,
+      fileName: jsonEvent.content!,
       url: _url(jsonEvent.fileInfo!),
       fileId: _fileId(jsonEvent.fileInfo!),
       date: jsonEvent.date!,

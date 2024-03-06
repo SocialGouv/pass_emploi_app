@@ -99,10 +99,10 @@ extension on CvmChatItem {
 extension on CvmPieceJointeConseillerMessageItem {
   PieceJointeParams toParams() {
     return PieceJointeTypeUrlParams(
-      fileId: fileId,
       caption: caption,
-      content: content,
-      url: attachmentUrl,
+      filename: fileName,
+      fileId: fileId,
+      url: url,
     );
   }
 }
