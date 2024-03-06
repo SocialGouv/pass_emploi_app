@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class CvmChatPageViewModel extends Equatable {
   final DisplayState displayState;
-  final List<CvmEvent> messages;
+  final List<CvmMessage> messages;
   final Function(String message) onSendMessage;
   final Function() onRetry;
   final Function() onLoadMore;

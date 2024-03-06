@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/presentation/chat/cvm_chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -94,9 +94,9 @@ class _MessageList extends StatelessWidget {
           );
         }
         return switch (viewModel.messages[index - 1]) {
-          final CvmMessageEvent event => _MessageTile(event),
-          final CvmFileEvent event => _FileTile(event),
-          final CvmUnknownEvent event => _UnknownTile(event),
+          final CvmTextMessage event => _MessageTile(event),
+          final CvmFileMessage event => _FileTile(event),
+          final CvmUnknownMessage event => _UnknownTile(event),
         };
       },
     );
@@ -143,7 +143,7 @@ class _MessageInput extends StatelessWidget {
 }
 
 class _MessageTile extends StatelessWidget {
-  final CvmMessageEvent event;
+  final CvmTextMessage event;
 
   const _MessageTile(this.event);
 
@@ -162,7 +162,7 @@ class _MessageTile extends StatelessWidget {
 }
 
 class _FileTile extends StatelessWidget {
-  final CvmFileEvent event;
+  final CvmFileMessage event;
 
   const _FileTile(this.event);
 
@@ -189,7 +189,7 @@ class _FileTile extends StatelessWidget {
 }
 
 class _UnknownTile extends StatelessWidget {
-  final CvmUnknownEvent event;
+  final CvmUnknownMessage event;
 
   const _UnknownTile(this.event);
 
