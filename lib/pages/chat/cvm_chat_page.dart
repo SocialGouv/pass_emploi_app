@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_actions.dart';
-import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/presentation/chat/cvm_chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/cvm_chat_page_view_model.dart';
@@ -13,7 +12,7 @@ import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_scaffold.dart';
-import 'package:pass_emploi_app/widgets/chat/cvm/cvm_chat_text_message.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_text_message.dart';
 import 'package:redux/redux.dart';
 
 class CvmChatPage extends StatefulWidget {
@@ -82,7 +81,6 @@ class CvmChatPageState extends State<CvmChatPage> {
   }
 
   void _onDispose(Store<AppState> store) {
-    store.dispatch(UnsubscribeFromChatAction());
     if (_controller != null) store.dispatch(SaveChatBrouillonAction(_controller!.value.text));
   }
 }
@@ -90,21 +88,32 @@ class CvmChatPageState extends State<CvmChatPage> {
 extension on CvmChatItem {
   Widget toWidget() {
     return switch (this) {
-      final DayItem item => ChatDaySection(dayLabel: item.dayLabel),
-      final TextMessageItem item => CvmChatTextMessage(item),
-      final InformationItem item => ChatInformation(item.title, item.description),
-      final PieceJointeConseillerMessageItem item => ChatPieceJointe(item.toParams()),
+      final CvmDayItem item => ChatDaySection(dayLabel: item.dayLabel),
+      final CvmTextMessageItem item => ChatTextMessage(item.toParams()),
+      final CvmInformationItem item => ChatInformation(item.title, item.description),
+      final CvmPieceJointeConseillerMessageItem item => ChatPieceJointe(item.toParams()),
     };
   }
 }
 
-extension on PieceJointeConseillerMessageItem {
+extension on CvmPieceJointeConseillerMessageItem {
   PieceJointeParams toParams() {
     return PieceJointeTypeUrlParams(
       fileId: fileId,
       caption: caption,
       content: content,
       url: attachmentUrl,
+    );
+  }
+}
+
+extension on CvmTextMessageItem {
+  ChatTextMessageParams toParams() {
+    return ChatTextMessageParams(
+      sender: sender,
+      content: content,
+      caption: caption,
+      captionColor: null,
     );
   }
 }
