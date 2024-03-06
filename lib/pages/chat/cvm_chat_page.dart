@@ -1,206 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_actions.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
-import 'package:pass_emploi_app/models/chat/cvm_message.dart';
-import 'package:pass_emploi_app/models/chat/sender.dart';
+import 'package:pass_emploi_app/presentation/chat/cvm_chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/cvm_chat_page_view_model.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/date_extensions.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/retry.dart';
-import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
-import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_scaffold.dart';
+import 'package:pass_emploi_app/widgets/chat/cvm/cvm_chat_text_message.dart';
+import 'package:redux/redux.dart';
 
-class CvmChatPage extends StatelessWidget {
+class CvmChatPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => CvmChatPage());
 
   @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, CvmChatPageViewModel>(
-      onInit: (store) => store.dispatch(CvmRequestAction()),
-      converter: (store) => CvmChatPageViewModel.create(store),
-      builder: (context, viewModel) => _Scaffold(viewModel),
-      distinct: true,
-    );
-  }
+  CvmChatPageState createState() => CvmChatPageState();
 }
 
-class _Scaffold extends StatelessWidget {
-  final CvmChatPageViewModel viewModel;
+class CvmChatPageState extends State<CvmChatPage> {
+  final ScrollController _scrollController = ScrollController();
+  TextEditingController? _controller;
+  bool _isLoadingMorePast = false;
 
-  const _Scaffold(this.viewModel);
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      final hasReachedTop = _scrollController.position.pixels >= _scrollController.position.maxScrollExtent * 0.9;
+      if (hasReachedTop && _isLoadingMorePast == false) {
+        _isLoadingMorePast = true;
+        StoreProvider.of<AppState>(context).dispatch(CvmLoadMoreAction());
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _controller?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PrimaryAppBar(
-        title: "Chat CVM",
-        withProfileButton: false,
-        actionButton: viewModel.displayState == DisplayState.CONTENT
-            ? IconButton(
-                icon: Icon(Icons.vertical_align_bottom),
-                onPressed: () {
-                  final scrollController = PrimaryScrollController.of(context);
-                  scrollController.jumpTo(scrollController.position.maxScrollExtent);
-                },
-              )
-            : null,
-      ),
-      body: switch (viewModel.displayState) {
-        DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-        DisplayState.FAILURE => Center(child: Retry('😬KO, régale-toi', () => viewModel.onRetry())),
-        DisplayState.EMPTY => Center(child: Text("🐐Aucun message", style: TextStyles.textBaseMedium)),
-        DisplayState.CONTENT => _Content(viewModel),
-      },
-    );
-  }
-}
-
-class _Content extends StatelessWidget {
-  final CvmChatPageViewModel viewModel;
-
-  const _Content(this.viewModel);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(child: _MessageList(viewModel)),
-        _MessageInput(viewModel),
-      ],
-    );
-  }
-}
-
-class _MessageList extends StatelessWidget {
-  const _MessageList(this.viewModel);
-
-  final CvmChatPageViewModel viewModel;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      reverse: false,
-      itemCount: viewModel.messages.length + 1,
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return TextButton(
-            onPressed: () => viewModel.onLoadMore(),
-            child: Text('Charger plus de messages'),
-          );
-        }
-        return switch (viewModel.messages[index - 1]) {
-          final CvmTextMessage event => _MessageTile(event),
-          final CvmFileMessage event => _FileTile(event),
-          final CvmUnknownMessage event => _UnknownTile(event),
-        };
-      },
-    );
-  }
-}
-
-class _MessageInput extends StatelessWidget {
-  const _MessageInput(this.viewModel);
-
-  final CvmChatPageViewModel viewModel;
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = TextEditingController();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Row(
-        children: [
-          Expanded(
-            child: BaseTextField(
-              controller: controller,
-              hintText: "Ecrivez-votre message",
-            ),
-          ),
-          SizedBox(width: Margins.spacing_s),
-          IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(Dimens.radius_base),
-              ),
-              child: Icon(Icons.send, color: Colors.white),
-            ),
-            onPressed: () {
-              viewModel.onSendMessage(controller.value.text);
-              controller.clear();
-            },
-          )
-        ],
+    return Tracker(
+      tracking: AnalyticsScreenNames.cvmChat,
+      child: StoreConnector<AppState, CvmChatPageViewModel>(
+        onInit: (store) => store.dispatch(CvmRequestAction()),
+        onDispose: _onDispose,
+        converter: CvmChatPageViewModel.create,
+        builder: _builder,
+        onDidChange: (_, __) => _isLoadingMorePast = false,
+        distinct: true,
       ),
     );
   }
-}
 
-class _MessageTile extends StatelessWidget {
-  final CvmTextMessage event;
-
-  const _MessageTile(this.event);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      key: ValueKey(event.id),
-      title: SelectableTextWithClickableLinks(event.content, style: TextStyles.textSRegular()),
-      subtitle: Text(event.date.toDayAndHour()),
-      leading: CircleAvatar(
-        backgroundColor: event.sentBy == Sender.jeune ? Colors.blue : Colors.grey,
-        child: Text(event.sentBy == Sender.jeune ? "Moi" : "PE"),
+  Widget _builder(BuildContext context, CvmChatPageViewModel viewModel) {
+    _controller = (_controller != null) ? _controller : TextEditingController(text: viewModel.brouillon);
+    return ChatScaffold(
+      displayState: viewModel.displayState,
+      onRetry: viewModel.onRetry,
+      content: ChatContent(
+        reversedItems: viewModel.items.reversed.toList(),
+        controller: _controller!,
+        scrollController: _scrollController,
+        onSendMessage: viewModel.onSendMessage,
+        itemBuilder: (context, index) {
+          final item = viewModel.items.reversed.toList()[index];
+          final widget = item.toWidget();
+          return widget;
+        },
       ),
     );
   }
-}
 
-class _FileTile extends StatelessWidget {
-  final CvmFileMessage event;
-
-  const _FileTile(this.event);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      key: ValueKey(event.id),
-      tileColor: AppColors.accent3Lighten,
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SelectableTextWithClickableLinks(event.content, style: TextStyles.textSRegular()),
-          SizedBox(height: Margins.spacing_xs),
-          SelectableTextWithClickableLinks(event.url, style: TextStyles.textSRegular()),
-        ],
-      ),
-      subtitle: Text(event.date.toDayAndHour()),
-      leading: CircleAvatar(
-        backgroundColor: event.sentBy == Sender.jeune ? Colors.blue : Colors.grey,
-        child: Text(event.sentBy == Sender.jeune ? "Moi" : "PE"),
-      ),
-    );
+  void _onDispose(Store<AppState> store) {
+    store.dispatch(UnsubscribeFromChatAction());
+    if (_controller != null) store.dispatch(SaveChatBrouillonAction(_controller!.value.text));
   }
 }
 
-class _UnknownTile extends StatelessWidget {
-  final CvmUnknownMessage event;
-
-  const _UnknownTile(this.event);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      key: ValueKey(event.id),
-      tileColor: AppColors.warningLighten,
-      title: Text('⚠️Format de message inconnu'),
-      subtitle: Text(event.date.toDayAndHour()),
-    );
+extension on CvmChatItem {
+  Widget toWidget() {
+    return switch (this) {
+      final DayItem item => ChatDaySection(dayLabel: item.dayLabel),
+      final TextMessageItem item => CvmChatTextMessage(item),
+      final InformationItem item => ChatInformation(item.title, item.description),
+      PieceJointeConseillerMessageItem() => SizedBox.shrink(),
+    };
   }
 }
