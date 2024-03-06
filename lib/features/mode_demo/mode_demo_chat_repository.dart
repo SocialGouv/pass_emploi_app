@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:uuid/uuid.dart';
 
 List<Message> modeDemoChat() => [
