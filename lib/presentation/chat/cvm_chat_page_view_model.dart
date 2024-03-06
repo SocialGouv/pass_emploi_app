@@ -77,6 +77,7 @@ CvmChatItem _pieceJointeItem(CvmFileMessage message) {
       messageId: message.id,
       content: message.content,
       attachmentUrl: message.url,
+      fileId: message.fileId,
       caption: message.date.toHour(),
     );
   } else {

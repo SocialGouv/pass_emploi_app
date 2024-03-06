@@ -33,9 +33,9 @@ void main() {
     });
 
     test('when type is file and file info is an MXC url (Android) should return CvmFileEvent with properly built URL',
-            () {
-          // Given
-          final dynamic json = {
+        () {
+      // Given
+      final dynamic json = {
         'id': 'id',
         'type': 'file',
         'isFromUser': false,
@@ -55,15 +55,16 @@ void main() {
           sentBy: Sender.conseiller,
           content: 'message',
           url: 'https://cvm.fr/download/id-file',
+          fileId: 'id-file',
           date: DateTime(2024, 1, 1),
         ),
-          );
-        });
+      );
+    });
 
     test('when type is file and file info is an attachment ID (iOS) should return CvmFileEvent with properly built URL',
-            () {
-          // Given
-          final dynamic json = {
+        () {
+      // Given
+      final dynamic json = {
         'id': 'id',
         'type': 'file',
         'isFromUser': false,
@@ -83,10 +84,11 @@ void main() {
           sentBy: Sender.conseiller,
           content: 'message',
           url: 'https://cvm.fr/download/id-file',
+          fileId: 'id-file',
           date: DateTime(2024, 1, 1),
         ),
-          );
-        });
+      );
+    });
 
     test('when type is image should return CvmFileEvent', () {
       // Given
@@ -110,6 +112,7 @@ void main() {
           sentBy: Sender.conseiller,
           content: 'message',
           url: 'https://cvm.fr/download/id-file',
+          fileId: 'id-file',
           date: DateTime(2024, 1, 1),
         ),
       );

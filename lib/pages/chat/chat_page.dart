@@ -123,8 +123,19 @@ extension on ChatItem {
       final DayItem item => ChatDaySection(dayLabel: item.dayLabel),
       final TextMessageItem item => ChatTextMessage(item),
       final InformationItem item => ChatInformation(item.title, item.description),
-      final PieceJointeConseillerMessageItem item => ChatPieceJointe(item),
+      final PieceJointeConseillerMessageItem item => ChatPieceJointe(item.toParams()),
       final PartageMessageItem item => PartageMessage(item),
     };
+  }
+}
+
+extension on PieceJointeConseillerMessageItem {
+  PieceJointeParams toParams() {
+    return PieceJointeTypeIdParams(
+      fileId: pieceJointeId,
+      filename: filename,
+      caption: caption,
+      content: message,
+    );
   }
 }

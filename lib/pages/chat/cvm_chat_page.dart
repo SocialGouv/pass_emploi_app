@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_scaffold.dart';
 import 'package:pass_emploi_app/widgets/chat/cvm/cvm_chat_text_message.dart';
 import 'package:redux/redux.dart';
@@ -92,7 +93,18 @@ extension on CvmChatItem {
       final DayItem item => ChatDaySection(dayLabel: item.dayLabel),
       final TextMessageItem item => CvmChatTextMessage(item),
       final InformationItem item => ChatInformation(item.title, item.description),
-      PieceJointeConseillerMessageItem() => SizedBox.shrink(),
+      final PieceJointeConseillerMessageItem item => ChatPieceJointe(item.toParams()),
     };
+  }
+}
+
+extension on PieceJointeConseillerMessageItem {
+  PieceJointeParams toParams() {
+    return PieceJointeTypeUrlParams(
+      fileId: fileId,
+      caption: caption,
+      content: content,
+      url: attachmentUrl,
+    );
   }
 }
