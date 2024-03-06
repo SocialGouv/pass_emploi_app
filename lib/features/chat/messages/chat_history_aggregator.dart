@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
 
 class ChatHistoryAggregator {
   List<Message> _messages = [];
