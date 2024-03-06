@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
-import 'package:pass_emploi_app/presentation/piece_jointe_view_model.dart';
-import 'package:pass_emploi_app/presentation/chat_item.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
+import 'package:pass_emploi_app/presentation/chat/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
 import '../../doubles/spies.dart';

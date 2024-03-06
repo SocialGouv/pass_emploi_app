@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/presentation/chat_item.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
+import 'package:pass_emploi_app/presentation/chat/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -84,14 +84,11 @@ class _DownloadButtonState extends State<_DownloadButton> {
   }
 
   Widget _body(PieceJointeViewModel viewModel) {
-    switch (viewModel.displayState(widget.item.pieceJointeId)) {
-      case DisplayState.LOADING:
-        return _Loader();
-      case DisplayState.EMPTY:
-        return _FileWasDeleted();
-      default:
-        return _downloadButton(viewModel);
-    }
+    return switch (viewModel.displayState(widget.item.pieceJointeId)) {
+      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+      DisplayState.EMPTY => _FileWasDeleted(),
+      _ => _downloadButton(viewModel)
+    };
   }
 
   Widget _downloadButton(PieceJointeViewModel viewModel) {
@@ -103,13 +100,6 @@ class _DownloadButtonState extends State<_DownloadButton> {
         heightPadding: 2,
       ),
     );
-  }
-}
-
-class _Loader extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: CircularProgressIndicator());
   }
 }
 
