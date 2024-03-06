@@ -10,30 +10,30 @@ sealed class CvmChatItem extends Equatable {
   List<Object?> get props => [messageId];
 }
 
-class DayItem extends CvmChatItem {
+class CvmDayItem extends CvmChatItem {
   final String dayLabel;
 
-  DayItem(this.dayLabel) : super('');
+  CvmDayItem(this.dayLabel) : super('');
 
   @override
   List<Object?> get props => [messageId, dayLabel];
 }
 
-class InformationItem extends CvmChatItem {
+class CvmInformationItem extends CvmChatItem {
   final String title;
   final String description;
 
-  InformationItem(this.title, this.description) : super('');
+  CvmInformationItem(this.title, this.description) : super('');
 
   @override
   List<Object?> get props => [messageId, title, description];
 }
 
-sealed class MessageItem extends CvmChatItem {
+sealed class CvmMessageItem extends CvmChatItem {
   final String content;
   final String caption;
 
-  MessageItem(super.messageId, this.content, this.caption);
+  CvmMessageItem(super.messageId, this.content, this.caption);
 
   @override
   List<Object?> get props => [
@@ -43,10 +43,10 @@ sealed class MessageItem extends CvmChatItem {
       ];
 }
 
-class TextMessageItem extends MessageItem {
+class CvmTextMessageItem extends CvmMessageItem {
   final Sender sender;
 
-  TextMessageItem({
+  CvmTextMessageItem({
     required String messageId,
     required String content,
     required String caption,
@@ -57,11 +57,11 @@ class TextMessageItem extends MessageItem {
   List<Object?> get props => [messageId, content, caption, sender];
 }
 
-class PieceJointeConseillerMessageItem extends MessageItem {
+class CvmPieceJointeConseillerMessageItem extends CvmMessageItem {
   final String attachmentUrl;
   final String fileId;
 
-  PieceJointeConseillerMessageItem({
+  CvmPieceJointeConseillerMessageItem({
     required String messageId,
     required String content,
     required String caption,
