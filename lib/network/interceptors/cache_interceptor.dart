@@ -36,5 +36,5 @@ class CacheInterceptor extends PassEmploiBaseInterceptor {
 }
 
 extension on RequestOptions {
-  bool shouldCache() => !uri.toString().contains('mon-suivi');
+  bool shouldCache() => !uri.toString().contains('mon-suivi') || !uri.toString().contains('idp-token');
 }
