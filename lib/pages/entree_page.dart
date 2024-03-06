@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_actions.dart';
-import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/presentation/entree_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -22,7 +21,6 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
-import 'package:pass_emploi_app/widgets/entree_brsa_background.dart';
 import 'package:pass_emploi_app/widgets/hidden_menu.dart';
 
 class EntreePage extends StatelessWidget {
@@ -42,7 +40,7 @@ class EntreePage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Brand.isCej() ? EntreeBiseauBackground() : EntreeBrsaBackground(),
+          EntreeBiseauBackground(),
           SafeArea(
             bottom: false,
             child: Padding(

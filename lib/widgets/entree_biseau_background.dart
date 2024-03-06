@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 
 class EntreeBiseauBackground extends StatelessWidget {
@@ -8,7 +9,7 @@ class EntreeBiseauBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(color: AppColors.primary),
+        Container(color: Brand.isCej() ? AppColors.primary : AppColors.primaryDarkenStrong),
         ClipPath(
           clipper: DiagonalClipper(),
           child: Container(color: AppColors.primaryDarken.withOpacity(0.25)),
