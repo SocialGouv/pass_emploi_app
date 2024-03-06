@@ -37,12 +37,6 @@ class _CejInformationPageState extends State<CejInformationPage> {
     ];
 
     return Scaffold(
-      floatingActionButton: _Buttons(
-        onContinue: () => _onPageChanged(1),
-        onFinish: () => Navigator.of(context).pop(),
-        currentPage: _currentPage,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Stack(
         children: [
           PrimaryRoundedBottomBackground(),
@@ -58,6 +52,12 @@ class _CejInformationPageState extends State<CejInformationPage> {
                       child: pages[_currentPage],
                     ),
                   ),
+                  SizedBox(height: Margins.spacing_m),
+                  _Buttons(
+                    onContinue: () => _onPageChanged(1),
+                    onFinish: () => Navigator.of(context).pop(),
+                    currentPage: _currentPage,
+                  )
                 ],
               ),
             ),

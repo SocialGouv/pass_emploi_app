@@ -113,6 +113,8 @@ class _FlexibleSpace extends StatelessWidget {
     late final double height;
     if (deviceHeight < 800) {
       height = 50;
+    } else if (deviceHeight < 900) {
+      height = 150;
     } else {
       height = 200;
     }
