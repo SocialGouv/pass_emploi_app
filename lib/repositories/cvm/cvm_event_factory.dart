@@ -39,7 +39,8 @@ class CvmEventFactory {
       id: jsonEvent.id!,
       sentBy: jsonEvent.isFromUser! ? Sender.jeune : Sender.conseiller,
       content: jsonEvent.content!,
-      url: _mxcToUrl(jsonEvent.fileInfo!),
+      url: _url(jsonEvent.fileInfo!),
+      fileId: _fileId(jsonEvent.fileInfo!),
       date: jsonEvent.date!,
     );
   }
@@ -51,7 +52,9 @@ class CvmEventFactory {
     );
   }
 
-  String _mxcToUrl(String fileInfo) => cvmAttachmentUrl + fileInfo.split('/').last;
+  String _fileId(String fileInfo) => fileInfo.split('/').last;
+
+  String _url(String fileInfo) => cvmAttachmentUrl + _fileId(fileInfo);
 }
 
 enum _CvmEventType {
