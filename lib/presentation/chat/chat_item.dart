@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 
 sealed class ChatItem extends Equatable {
   final String messageId;
