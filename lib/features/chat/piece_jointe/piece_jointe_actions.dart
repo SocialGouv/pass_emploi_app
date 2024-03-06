@@ -6,10 +6,11 @@ class PieceJointeTypeIdRequestAction {
 }
 
 class PieceJointeTypeUrlRequestAction {
-  final String fileId;
   final String url;
+  final String fileId;
+  final String fileName;
 
-  PieceJointeTypeUrlRequestAction(this.fileId, this.url);
+  PieceJointeTypeUrlRequestAction(this.url, this.fileId, this.fileName);
 }
 
 class PieceJointeSuccessAction {

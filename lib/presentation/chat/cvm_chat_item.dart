@@ -43,32 +43,36 @@ sealed class CvmMessageItem extends CvmChatItem {
       ];
 }
 
-class CvmTextMessageItem extends CvmMessageItem {
+class CvmTextMessageItem extends CvmChatItem {
+  final String content;
+  final String caption;
   final Sender sender;
 
   CvmTextMessageItem({
     required String messageId,
-    required String content,
-    required String caption,
+    required this.content,
+    required this.caption,
     required this.sender,
-  }) : super(messageId, content, caption);
+  }) : super(messageId);
 
   @override
   List<Object?> get props => [messageId, content, caption, sender];
 }
 
-class CvmPieceJointeConseillerMessageItem extends CvmMessageItem {
-  final String attachmentUrl;
+class CvmPieceJointeConseillerMessageItem extends CvmChatItem {
+  final String url;
   final String fileId;
+  final String fileName;
+  final String caption;
 
   CvmPieceJointeConseillerMessageItem({
     required String messageId,
-    required String content,
-    required String caption,
-    required this.attachmentUrl,
+    required this.url,
+    required this.fileName,
     required this.fileId,
-  }) : super(messageId, content, caption);
+    required this.caption,
+  }) : super(messageId);
 
   @override
-  List<Object?> get props => [messageId, content, caption, attachmentUrl, fileId];
+  List<Object?> get props => [messageId, url, fileId, fileName, caption];
 }

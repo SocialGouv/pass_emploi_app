@@ -82,11 +82,12 @@ void main() {
     final viewModel = PieceJointeViewModel.create(store);
 
     // When
-    viewModel.onDownloadTypeUrl("id", "url");
+    viewModel.onDownloadTypeUrl("url", "id", "file.pdf");
 
     // Then
     expect(store.dispatchedAction, isA<PieceJointeTypeUrlRequestAction>());
-    expect((store.dispatchedAction as PieceJointeTypeUrlRequestAction).fileId, "id");
     expect((store.dispatchedAction as PieceJointeTypeUrlRequestAction).url, "url");
+    expect((store.dispatchedAction as PieceJointeTypeUrlRequestAction).fileId, "id");
+    expect((store.dispatchedAction as PieceJointeTypeUrlRequestAction).fileName, "file.pdf");
   });
 }

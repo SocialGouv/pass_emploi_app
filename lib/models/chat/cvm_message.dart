@@ -25,21 +25,21 @@ class CvmTextMessage extends CvmMessage {
 
 class CvmFileMessage extends CvmMessage {
   final Sender sentBy;
-  final String content;
   final String url;
+  final String fileName;
   final String fileId;
 
   CvmFileMessage({
     required super.id,
     required super.date,
     required this.sentBy,
-    required this.content,
     required this.url,
+    required this.fileName,
     required this.fileId,
   });
 
   @override
-  List<Object?> get props => [id, date, sentBy, content, url, fileId];
+  List<Object?> get props => [id, date, sentBy, fileName, url, fileId];
 }
 
 class CvmUnknownMessage extends CvmMessage {

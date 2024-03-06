@@ -39,7 +39,7 @@ void main() {
         'id': 'id',
         'type': 'file',
         'isFromUser': false,
-        'message': 'message',
+        'message': 'file.jpg',
         'fileInfo': 'mxc://matrix.org/id-file',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
@@ -53,7 +53,7 @@ void main() {
         CvmFileMessage(
           id: 'id',
           sentBy: Sender.conseiller,
-          content: 'message',
+          fileName: 'file.jpg',
           url: 'https://cvm.fr/download/id-file',
           fileId: 'id-file',
           date: DateTime(2024, 1, 1),
@@ -68,7 +68,7 @@ void main() {
         'id': 'id',
         'type': 'file',
         'isFromUser': false,
-        'message': 'message',
+        'message': 'file.jpg',
         'fileInfo': 'id-file',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
@@ -82,7 +82,7 @@ void main() {
         CvmFileMessage(
           id: 'id',
           sentBy: Sender.conseiller,
-          content: 'message',
+          fileName: 'file.jpg',
           url: 'https://cvm.fr/download/id-file',
           fileId: 'id-file',
           date: DateTime(2024, 1, 1),
@@ -96,7 +96,7 @@ void main() {
         'id': 'id',
         'type': 'image',
         'isFromUser': false,
-        'message': 'message',
+        'message': 'file.jpg',
         'fileInfo': 'mxc://matrix.org/id-file',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
@@ -110,7 +110,7 @@ void main() {
         CvmFileMessage(
           id: 'id',
           sentBy: Sender.conseiller,
-          content: 'message',
+          fileName: 'file.jpg',
           url: 'https://cvm.fr/download/id-file',
           fileId: 'id-file',
           date: DateTime(2024, 1, 1),

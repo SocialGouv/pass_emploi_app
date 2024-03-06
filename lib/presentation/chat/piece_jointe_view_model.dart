@@ -8,7 +8,7 @@ import 'package:redux/redux.dart';
 class PieceJointeViewModel extends Equatable {
   final DisplayState Function(String fileId) displayState;
   final Function(String fileId, String fileName) onDownloadTypeId;
-  final Function(String fileId, String url) onDownloadTypeUrl;
+  final Function(String url, String fileId, String fileName) onDownloadTypeUrl;
 
   PieceJointeViewModel._({
     required this.displayState,
@@ -21,7 +21,9 @@ class PieceJointeViewModel extends Equatable {
     return PieceJointeViewModel._(
       displayState: (fileId) => _displayState(fileId, piecesJointesState),
       onDownloadTypeId: (fileId, fileName) => store.dispatch(PieceJointeTypeIdRequestAction(fileId, fileName)),
-      onDownloadTypeUrl: (fileId, url) => store.dispatch(PieceJointeTypeUrlRequestAction(fileId, url)),
+      onDownloadTypeUrl: (url, fileId, fileName) => store.dispatch(
+        PieceJointeTypeUrlRequestAction(url, fileId, fileName),
+      ),
     );
   }
 

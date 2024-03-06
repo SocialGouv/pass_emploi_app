@@ -22,9 +22,9 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
 
     if (action is PieceJointeTypeUrlRequestAction) {
       final String? path = await _repository.downloadFromUrl(
-        attachmentUrl: action.url,
+        url: action.url,
         fileId: action.fileId,
-        fileName: 'fichier-${action.fileId}',
+        fileName: action.fileName,
       );
       _handleDownload(store, action.fileId, path);
     }
