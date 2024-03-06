@@ -121,7 +121,7 @@ extension on ChatItem {
   Widget toWidget() {
     return switch (this) {
       final DayItem item => ChatDaySection(dayLabel: item.dayLabel),
-      final TextMessageItem item => ChatTextMessage(item),
+      final TextMessageItem item => ChatTextMessage(item.toParams()),
       final InformationItem item => ChatInformation(item.title, item.description),
       final PieceJointeConseillerMessageItem item => ChatPieceJointe(item.toParams()),
       final PartageMessageItem item => PartageMessage(item),
@@ -136,6 +136,17 @@ extension on PieceJointeConseillerMessageItem {
       filename: filename,
       caption: caption,
       content: message,
+    );
+  }
+}
+
+extension on TextMessageItem {
+  ChatTextMessageParams toParams() {
+    return ChatTextMessageParams(
+      sender: sender,
+      content: content,
+      caption: caption,
+      captionColor: captionColor,
     );
   }
 }
