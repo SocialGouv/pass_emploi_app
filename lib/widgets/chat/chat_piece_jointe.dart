@@ -5,13 +5,14 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_message_container.dart';
 
 sealed class PieceJointeParams {
-  final String content;
+  final String? content;
   final String caption;
   final String filename;
   final String fileId;
@@ -37,11 +38,11 @@ class PieceJointeTypeUrlParams extends PieceJointeParams {
   final String url;
 
   PieceJointeTypeUrlParams({
-    required super.content,
     required super.caption,
+    required super.filename,
     required super.fileId,
     required this.url,
-  }) : super(filename: 'Pièce jointe');
+  }) : super(content: null);
 }
 
 class ChatPieceJointe extends StatelessWidget {
@@ -55,10 +56,12 @@ class ChatPieceJointe extends StatelessWidget {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SelectableText(params.content, style: TextStyles.textSRegular()),
-          SizedBox(height: 14),
+          if (params.content != null) ...[
+            SelectableText(params.content!, style: TextStyles.textSRegular()),
+            SizedBox(height: Margins.spacing_s),
+          ],
           _PieceJointeName(params.filename),
-          SizedBox(height: 20),
+          SizedBox(height: Margins.spacing_base),
           _DownloadButton(params),
         ],
       ),
@@ -140,10 +143,13 @@ class _Button extends StatelessWidget {
       child: PrimaryActionButton(
         label: viewModel.displayState(params.fileId) == DisplayState.FAILURE ? Strings.retry : Strings.open,
         icon: AppIcons.download_rounded,
-        onPressed: () =>
-        switch (params) {
+        onPressed: () => switch (params) {
           final PieceJointeTypeIdParams params => viewModel.onDownloadTypeId(params.fileId, params.filename),
-          final PieceJointeTypeUrlParams params => viewModel.onDownloadTypeUrl(params.fileId, params.url),
+          final PieceJointeTypeUrlParams params => viewModel.onDownloadTypeUrl(
+              params.url,
+              params.fileId,
+              params.filename,
+            ),
         },
         heightPadding: 2,
       ),

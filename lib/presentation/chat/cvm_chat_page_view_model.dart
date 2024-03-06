@@ -75,8 +75,8 @@ CvmChatItem _pieceJointeItem(CvmFileMessage message) {
   if (message.sentBy == Sender.conseiller) {
     return CvmPieceJointeConseillerMessageItem(
       messageId: message.id,
-      content: message.content,
-      attachmentUrl: message.url,
+      url: message.url,
+      fileName: message.fileName,
       fileId: message.fileId,
       caption: message.date.toHour(),
     );
