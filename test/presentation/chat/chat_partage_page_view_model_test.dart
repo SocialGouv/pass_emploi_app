@@ -9,11 +9,11 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
-import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
-import '../doubles/fixtures.dart';
-import '../dsl/app_state_dsl.dart';
+import '../../doubles/fixtures.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
   group('when sharing an event', () {

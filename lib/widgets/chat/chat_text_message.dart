@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/presentation/chat_item.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_message_container.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
