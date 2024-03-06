@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 
 class CvmEventFactory {
   final String cvmAttachmentUrl;
@@ -27,7 +28,7 @@ class CvmEventFactory {
   CvmTextMessage _toMessageEvent(_JsonCvmEvent jsonEvent) {
     return CvmTextMessage(
       id: jsonEvent.id!,
-      isFromUser: jsonEvent.isFromUser!,
+      sentBy: jsonEvent.isFromUser! ? Sender.jeune : Sender.conseiller,
       content: jsonEvent.content!,
       date: jsonEvent.date!,
     );
@@ -36,7 +37,7 @@ class CvmEventFactory {
   CvmFileMessage _toFileEvent(_JsonCvmEvent jsonEvent) {
     return CvmFileMessage(
       id: jsonEvent.id!,
-      isFromUser: jsonEvent.isFromUser!,
+      sentBy: jsonEvent.isFromUser! ? Sender.jeune : Sender.conseiller,
       content: jsonEvent.content!,
       url: _mxcToUrl(jsonEvent.fileInfo!),
       date: jsonEvent.date!,
