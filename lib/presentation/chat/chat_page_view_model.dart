@@ -61,26 +61,20 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       return DayItem(element);
     } else {
       final message = element as Message;
-      switch (message.type) {
-        case MessageType.message:
-          return _buildMessageItem(message, lastConseillerReading);
-        case MessageType.nouveauConseiller:
-          return InformationItem(Strings.newConseillerTitle, Strings.newConseillerDescription);
-        case MessageType.nouveauConseillerTemporaire:
-          return InformationItem(Strings.newConseillerTemporaireTitle, Strings.newConseillerDescription);
-        case MessageType.messagePj:
-          return _pieceJointeItem(message);
-        case MessageType.offre:
-          return _offreMessageItem(message, lastConseillerReading);
-        case MessageType.event:
-          return _eventMessageItem(message, lastConseillerReading);
-        case MessageType.evenementEmploi:
-          return _evenementEmploiItem(message, lastConseillerReading);
-        case MessageType.sessionMilo:
-          return _sessionMiloItem(message, lastConseillerReading);
-        case MessageType.inconnu:
-          return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
-      }
+      return switch (message.type) {
+        MessageType.message => _buildMessageItem(message, lastConseillerReading),
+        MessageType.nouveauConseiller => InformationItem(Strings.newConseillerTitle, Strings.newConseillerDescription),
+        MessageType.nouveauConseillerTemporaire => InformationItem(
+            Strings.newConseillerTemporaireTitle,
+            Strings.newConseillerDescription,
+          ),
+        MessageType.messagePj => _pieceJointeItem(message),
+        MessageType.offre => _offreMessageItem(message, lastConseillerReading),
+        MessageType.event => _eventMessageItem(message, lastConseillerReading),
+        MessageType.evenementEmploi => _evenementEmploiItem(message, lastConseillerReading),
+        MessageType.sessionMilo => _sessionMiloItem(message, lastConseillerReading),
+        MessageType.inconnu => InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription)
+      };
     }
   }).toList();
 }
