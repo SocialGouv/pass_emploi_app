@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 
 sealed class CvmState extends Equatable {
   @override
@@ -13,7 +13,7 @@ class CvmLoadingState extends CvmState {}
 class CvmFailureState extends CvmState {}
 
 class CvmSuccessState extends CvmState {
-  final List<CvmEvent> messages;
+  final List<CvmMessage> messages;
 
   CvmSuccessState(this.messages);
 

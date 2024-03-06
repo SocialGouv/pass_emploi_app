@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_aggregator.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
 import 'package:pass_emploi_app/utils/log.dart';
@@ -86,13 +86,13 @@ class CvmBridge {
     Log.d('--- CvmRepository.stopListenMessages ✅');
   }
 
-  Stream<List<CvmEvent>> getMessages() {
+  Stream<List<CvmMessage>> getMessages() {
     Log.d('--- CvmRepository.getMessages…');
     return EventChannel(_cvmEventChannel).receiveBroadcastStream().map((events) {
       final eventsJson = events as List<dynamic>;
       final cvmEvents = eventsJson
           .map((e) => cvmEventFactory.fromJson(e)) //
-          .whereType<CvmEvent>()
+          .whereType<CvmMessage>()
           .toList();
       _aggregator.addEvents(cvmEvents);
       Log.d('--- CvmRepository.getMessages ✅');
