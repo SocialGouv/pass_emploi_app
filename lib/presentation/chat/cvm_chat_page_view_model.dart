@@ -50,20 +50,20 @@ DisplayState _displayState(CvmState state) {
 List<CvmChatItem> _messagesToChatItems(List<CvmMessage> messages) {
   return _messagesWithDaySections(messages).map<CvmChatItem>((element) {
     if (element is String) {
-      return DayItem(element);
+      return CvmDayItem(element);
     } else {
       final message = element as CvmMessage;
       return switch (message) {
         final CvmTextMessage item => _textMessageItem(item),
         final CvmFileMessage item => _pieceJointeItem(item),
-        CvmUnknownMessage() => InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription),
+        CvmUnknownMessage() => CvmInformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription),
       };
     }
   }).toList();
 }
 
 CvmChatItem _textMessageItem(CvmTextMessage message) {
-  return TextMessageItem(
+  return CvmTextMessageItem(
     messageId: message.id,
     content: message.content,
     caption: message.date.toHour(),
@@ -73,7 +73,7 @@ CvmChatItem _textMessageItem(CvmTextMessage message) {
 
 CvmChatItem _pieceJointeItem(CvmFileMessage message) {
   if (message.sentBy == Sender.conseiller) {
-    return PieceJointeConseillerMessageItem(
+    return CvmPieceJointeConseillerMessageItem(
       messageId: message.id,
       content: message.content,
       attachmentUrl: message.url,
@@ -81,7 +81,7 @@ CvmChatItem _pieceJointeItem(CvmFileMessage message) {
       caption: message.date.toHour(),
     );
   } else {
-    return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
+    return CvmInformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
   }
 }
 
