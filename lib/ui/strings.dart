@@ -236,6 +236,17 @@ class Strings {
   static const String canceledPillule = "Annulée";
 
   // Accueil
+  static String accueilOnboardingTitle1(String prenom) => "Bienvenue ${prenom}dans votre espace dédié !";
+  static String accueilOnboardingBody1 =
+      "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres enregistrées, prochains rendez-vous, etc.";
+
+  static String accueilOnboardingTitle2 = "Gardez une longueur d’avance grâce aux notifications";
+  static String accueilOnboardingBody2 = "Nous vous conseillons d’activer les notifications pour : ";
+  static String accueilOnboardingSection1 = "Recevoir instantanément les messages importants de votre conseiller ; ";
+  static String accueilOnboardingSection2 = "Être mis au courant des dernières offres correspondant à vos critères.";
+  static String accueilOnboardingButtonAcceptNotifications = "Activer les notifications";
+  static String accueilOnboardingButtonDeclineNotifications = "Plus tard";
+
   static String accueilAppBarTitle = "Bienvenue";
   static String accueilCetteSemaineSection = "Cette semaine";
   static String accueilVoirDetailsCetteSemaine = "Voir le détail de ma semaine";

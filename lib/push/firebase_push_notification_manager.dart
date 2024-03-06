@@ -34,7 +34,6 @@ class FirebasePushNotificationManager extends PushNotificationManager {
 
   @override
   Future<void> init(Store<AppState> store) async {
-    await _requestPermission();
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     if (Platform.isIOS) {
       await _firebaseMessaging.setForegroundNotificationPresentationOptions(
@@ -56,7 +55,8 @@ class FirebasePushNotificationManager extends PushNotificationManager {
     return token;
   }
 
-  Future<void> _requestPermission() async {
+  @override
+  Future<void> requestPermission() async {
     final NotificationSettings settings = await _firebaseMessaging.requestPermission(
       alert: true,
       badge: true,

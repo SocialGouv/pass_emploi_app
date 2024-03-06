@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/alerte/create/alerte_create_reducer.dar
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_reducer.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_reducer.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
+import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_reducer.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_reducer.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_reducer.dart';
@@ -13,6 +14,7 @@ import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_reducer.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_reducer.dart';
 import 'package:pass_emploi_app/features/cv/cv_reducer.dart';
+import 'package:pass_emploi_app/features/cvm/cvm_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_reducer.dart';
@@ -36,8 +38,10 @@ import 'package:pass_emploi_app/features/metier/search_metier_reducer.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_reducer.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
+import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_reducer.dart';
 import 'package:pass_emploi_app/features/rating/rating_reducer.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
@@ -73,9 +77,6 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/features/cvm/cvm_reducer.dart';
-import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_reducer.dart';
-import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -183,6 +184,7 @@ AppState reducer(AppState current, dynamic action) {
     cvmState: cvmReducer(current.cvmState, action),
     campagneRecrutementState: campagneRecrutementReducer(current.campagneRecrutementState, action),
     preferredLoginModeState: preferredLoginModeReducer(current.preferredLoginModeState, action),
+    onboardingState: onboardingReducer(current.onboardingState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }
