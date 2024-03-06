@@ -1,17 +1,17 @@
 import 'package:equatable/equatable.dart';
 
-sealed class CvmEvent extends Equatable {
+sealed class CvmMessage extends Equatable {
   final String id;
   final DateTime date;
 
-  CvmEvent({required this.id, required this.date});
+  CvmMessage({required this.id, required this.date});
 }
 
-class CvmMessageEvent extends CvmEvent {
+class CvmTextMessage extends CvmMessage {
   final bool isFromUser;
   final String content;
 
-  CvmMessageEvent({
+  CvmTextMessage({
     required super.id,
     required super.date,
     required this.isFromUser,
@@ -22,12 +22,12 @@ class CvmMessageEvent extends CvmEvent {
   List<Object?> get props => [id, date, isFromUser, content];
 }
 
-class CvmFileEvent extends CvmEvent {
+class CvmFileMessage extends CvmMessage {
   final bool isFromUser;
   final String content;
   final String url;
 
-  CvmFileEvent({
+  CvmFileMessage({
     required super.id,
     required super.date,
     required this.isFromUser,
@@ -39,8 +39,8 @@ class CvmFileEvent extends CvmEvent {
   List<Object?> get props => [id, date, isFromUser, content, url];
 }
 
-class CvmUnknownEvent extends CvmEvent {
-  CvmUnknownEvent({required super.id, required super.date});
+class CvmUnknownMessage extends CvmMessage {
+  CvmUnknownMessage({required super.id, required super.date});
 
   @override
   List<Object?> get props => [id, date];

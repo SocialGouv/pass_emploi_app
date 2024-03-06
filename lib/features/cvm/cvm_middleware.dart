@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_facade.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
@@ -13,7 +13,7 @@ import 'package:redux/redux.dart';
 
 class CvmMiddleware extends MiddlewareClass<AppState> {
   final CvmFacade _facade;
-  StreamSubscription<List<CvmEvent>>? _subscription;
+  StreamSubscription<List<CvmMessage>>? _subscription;
 
   CvmMiddleware(
     CvmBridge bridge,
