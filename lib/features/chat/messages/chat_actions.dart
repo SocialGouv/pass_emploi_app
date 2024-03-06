@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
-import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
 
 class ChatRequestAction {}

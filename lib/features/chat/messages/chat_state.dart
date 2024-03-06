@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
 
 abstract class ChatState extends Equatable {
   @override
