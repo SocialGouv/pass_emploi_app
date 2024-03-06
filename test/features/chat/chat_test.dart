@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart'
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
