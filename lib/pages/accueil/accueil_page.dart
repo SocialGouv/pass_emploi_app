@@ -33,7 +33,14 @@ import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
-class AccueilPage extends StatelessWidget {
+class AccueilPage extends StatefulWidget {
+  @override
+  State<AccueilPage> createState() => _AccueilPageState();
+}
+
+class _AccueilPageState extends State<AccueilPage> {
+  bool _onboardingShown = false;
+
   @override
   Widget build(BuildContext context) {
     return Tracker(
@@ -83,9 +90,10 @@ class AccueilPage extends StatelessWidget {
     if (newViewModel.shouldResetDeeplink) newViewModel.resetDeeplink();
   }
 
-  void _handleOnboarding(BuildContext context, AccueilViewModel viewModel) {
-    if (viewModel.shouldShowOnboarding) {
+  void _handleOnboarding(BuildContext context, AccueilViewModel newViewModel) {
+    if (newViewModel.shouldShowOnboarding && !_onboardingShown) {
       AccueilOnboardingBottomSheet.show(context);
+      _onboardingShown = true;
     }
   }
 }

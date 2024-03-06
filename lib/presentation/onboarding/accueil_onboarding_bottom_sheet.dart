@@ -18,6 +18,7 @@ class AccueilOnboardingBottomSheet extends StatefulWidget {
   static void show(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isDismissible: false,
       isScrollControlled: true,
       builder: (context) => const AccueilOnboardingBottomSheet(),
     );
@@ -68,29 +69,25 @@ class _AccueilOnboardingPage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-        child: SizedBox(
-          width: double.infinity,
-          child: PrimaryActionButton(
-            label: Strings.continueLabel,
-            onPressed: onContinue,
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _OnboardingIllustration(Drawables.accueilOnboardingIllustration1, AppColors.primary),
             SizedBox(height: Margins.spacing_xl),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _OnboardingTitle(Strings.accueilOnboardingTitle1(viewModel.userName)),
                   SizedBox(height: Margins.spacing_m),
                   _OnboardingBodyText(Strings.accueilOnboardingBody1),
+                  SizedBox(height: Margins.spacing_m),
+                  PrimaryActionButton(
+                    label: Strings.continueLabel,
+                    onPressed: onContinue,
+                  ),
                 ],
               ),
             ),
@@ -115,26 +112,8 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            PrimaryActionButton(
-              label: Strings.accueilOnboardingButtonAcceptNotifications,
-              onPressed: onAcceptNotifications,
-            ),
-            SizedBox(height: Margins.spacing_s),
-            SecondaryButton(
-              label: Strings.continueLabel,
-              onPressed: onDeclineNotifications,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             _OnboardingIllustration(Drawables.accueilOnboardingIllustration2, AppColors.alert),
@@ -150,6 +129,22 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
                   _section(Icons.notifications, Strings.accueilOnboardingSection1),
                   SizedBox(height: Margins.spacing_base),
                   _section(Icons.calendar_today, Strings.accueilOnboardingSection2),
+                  SizedBox(height: Margins.spacing_m),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      PrimaryActionButton(
+                        label: Strings.accueilOnboardingButtonAcceptNotifications,
+                        onPressed: onAcceptNotifications,
+                      ),
+                      SizedBox(height: Margins.spacing_s),
+                      SecondaryButton(
+                        label: Strings.continueLabel,
+                        onPressed: onDeclineNotifications,
+                      ),
+                    ],
+                  ),
                   SizedBox(height: Margins.spacing_x_huge * 2),
                 ],
               ),
