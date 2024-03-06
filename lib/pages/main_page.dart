@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_page.dart';
-import 'package:pass_emploi_app/pages/chat_page.dart';
+import 'package:pass_emploi_app/pages/chat/chat_page.dart';
 import 'package:pass_emploi_app/pages/events_tab_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_milo_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
