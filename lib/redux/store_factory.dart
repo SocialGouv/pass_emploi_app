@@ -39,6 +39,7 @@ import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_middleware.dart';
+import 'package:pass_emploi_app/features/feature_flip/feature_flip_middleware.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_middleware.dart';
 import 'package:pass_emploi_app/features/location/search_location_middleware.dart';
 import 'package:pass_emploi_app/features/login/login_middleware.dart';
@@ -131,6 +132,7 @@ import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
+import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
@@ -158,6 +160,7 @@ class StoreFactory {
   final ChatEncryptionLocalStorage cryptoStorage;
   final PassEmploiCacheManager cacheManager;
   final ConnectivityWrapper connectivityWrapper;
+  final RemoteConfigRepository remoteConfigRepository;
   final UserActionRepository userActionRepository;
   final UserActionPendingCreationRepository userActionPendingCreationRepository;
   final PageDemarcheRepository pageDemarcheRepository;
@@ -230,6 +233,7 @@ class StoreFactory {
     this.cryptoStorage,
     this.cacheManager,
     this.connectivityWrapper,
+    this.remoteConfigRepository,
     this.userActionRepository,
     this.userActionPendingCreationRepository,
     this.pageDemarcheRepository,
@@ -302,6 +306,7 @@ class StoreFactory {
         CrashlyticsMiddleware(crashlytics, installationIdRepository).call,
         BootstrapMiddleware().call,
         LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker).call,
+        FeatureFlipMiddleware(remoteConfigRepository, detailsJeuneRepository).call,
         CacheInvalidatorMiddleware(cacheManager).call,
         UserActionDetailsMiddleware(userActionRepository).call,
         UserActionCreateMiddleware(userActionRepository).call,

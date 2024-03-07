@@ -80,6 +80,7 @@ import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
+import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
@@ -162,6 +163,7 @@ class AppInitializer {
     final securedPreferences = SecureStorageExceptionHandlerDecorator(
       FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
     );
+    final remoteConfigRepository = RemoteConfigRepository(firebaseRemoteConfig);
     final logoutRepository = LogoutRepository(
       authIssuer: configuration.authIssuer,
       clientSecret: configuration.authClientSecret,
@@ -209,6 +211,7 @@ class AppInitializer {
       cryptoStorage,
       requestCacheManager,
       ConnectivityWrapper.fromConnectivity(),
+      remoteConfigRepository,
       UserActionRepository(dioClient, crashlytics),
       UserActionPendingCreationRepository(securedPreferences),
       PageDemarcheRepository(dioClient, crashlytics),

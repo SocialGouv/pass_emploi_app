@@ -52,6 +52,7 @@ import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
+import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
@@ -85,6 +86,7 @@ class TestStoreFactory {
   ChatRepository chatRepository = DummyChatRepository();
   PassEmploiCacheManager cacheManager = DummyPassEmploiCacheManager();
   ConnectivityWrapper connectivityWrapper = MockConnectivityWrapper();
+  RemoteConfigRepository remoteConfigRepository = MockRemoteConfigRepository();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
   OffreEmploiDetailsRepository detailedOfferRepository = DummyDetailedRepository();
   ConfigurationApplicationRepository registerTokenRepository = DummyRegisterTokenRepository();
@@ -108,7 +110,7 @@ class TestStoreFactory {
   ServiceCiviqueRepository serviceCiviqueRepository = DummyServiceCiviqueRepository();
   ServiceCiviqueDetailRepository serviceCiviqueDetailRepository = DummyServiceCiviqueDetailRepository();
   ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository = DummyServiceCiviqueFavorisRepository();
-  DetailsJeuneRepository detailsJeuneRepository = DummyDetailsJeuneRepository();
+  DetailsJeuneRepository detailsJeuneRepository = MockDetailsJeuneRepository();
   SuppressionCompteRepository suppressionCompteRepository = DummySuppressionCompteRepository();
   CampagneRepository campagneRepository = DummyCampagneRepository();
   ModeDemoRepository demoRepository = ModeDemoRepository();
@@ -156,6 +158,7 @@ class TestStoreFactory {
       cryptoStorage,
       cacheManager,
       connectivityWrapper,
+      remoteConfigRepository,
       userActionRepository,
       userActionPendingCreationRepository,
       pageDemarcheRepository,
