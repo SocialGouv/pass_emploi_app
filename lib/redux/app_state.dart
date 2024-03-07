@@ -33,6 +33,7 @@ import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
+import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
@@ -65,6 +66,7 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_s
 import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
+import 'package:pass_emploi_app/models/feature_flip.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -73,6 +75,7 @@ import 'package:pass_emploi_app/models/user.dart';
 
 class AppState extends Equatable {
   final ConfigurationState configurationState;
+  final FeatureFlipState featureFlipState;
   final LoginState loginState;
   final DeepLinkState deepLinkState;
   final UserActionDetailsState userActionDetailsState;
@@ -142,10 +145,12 @@ class AppState extends Equatable {
   final CampagneRecrutementState campagneRecrutementState;
   final PreferredLoginModeState preferredLoginModeState;
   final OnboardingState onboardingState;
+
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
     required this.configurationState,
+    required this.featureFlipState,
     required this.loginState,
     required this.deepLinkState,
     required this.userActionDetailsState,
@@ -215,11 +220,11 @@ class AppState extends Equatable {
     required this.campagneRecrutementState,
     required this.preferredLoginModeState,
     required this.onboardingState,
-
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
   AppState copyWith({
+    final FeatureFlipState? featureFlipState,
     final LoginState? loginState,
     final UserActionDetailsState? userActionDetailsState,
     final UserActionCreateState? userActionCreateState,
@@ -293,6 +298,7 @@ class AppState extends Equatable {
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
+      featureFlipState: featureFlipState ?? this.featureFlipState,
       loginState: loginState ?? this.loginState,
       deepLinkState: deepLinkState ?? this.deepLinkState,
       userActionDetailsState: userActionDetailsState ?? this.userActionDetailsState,
@@ -369,6 +375,7 @@ class AppState extends Equatable {
 
   factory AppState.initialState({Configuration? configuration}) {
     return AppState(
+      featureFlipState: FeatureFlipState(FeatureFlip.initial()),
       loginState: LoginNotInitializedState(),
       deepLinkState: DeepLinkState.notInitialized(),
       userActionDetailsState: UserActionDetailsNotInitializedState(),
@@ -444,7 +451,9 @@ class AppState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
+        featureFlipState,
         deepLinkState,
         userActionDetailsState,
         userActionCreateState,

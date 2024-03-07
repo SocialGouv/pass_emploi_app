@@ -102,6 +102,18 @@ User mockedPoleEmploiUser() {
   );
 }
 
+DetailsJeune mockDetailsJeune({String idConseiller = "id"}) {
+  return DetailsJeune(
+    conseiller: DetailsJeuneConseiller(
+      id: idConseiller,
+      firstname: "F",
+      lastname: "L",
+      sinceDate: DateTime(2021, 1, 1),
+    ),
+    structure: null,
+  );
+}
+
 LoginState successPassEmploiUserState() => LoginSuccessState(User(
       id: "id",
       firstName: "F",
