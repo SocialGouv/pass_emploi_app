@@ -73,6 +73,7 @@ dev_dependencies:
   # Test
   mocktail: "1.0.1"
   http_mock_adapter: "0.6.1"
+  async: "2.11.0"
   # Static analysis
   flutter_lints: "3.0.1"
 
