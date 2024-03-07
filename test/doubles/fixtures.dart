@@ -534,7 +534,12 @@ EvenementEmploiDetails mockEvenementEmploiDetails({DateTime? dateDebut, DateTime
 
 DetailsJeune detailsJeune() {
   return DetailsJeune(
-    conseiller: DetailsJeuneConseiller(firstname: "Perceval", lastname: "de Galles", sinceDate: DateTime(2005, 1, 3)),
+    conseiller: DetailsJeuneConseiller(
+      id: "id",
+      firstname: "Perceval",
+      lastname: "de Galles",
+      sinceDate: DateTime(2005, 1, 3),
+    ),
     structure: null,
   );
 }
@@ -542,6 +547,7 @@ DetailsJeune detailsJeune() {
 DetailsJeune detailsJeuneSinceOneMonth() {
   return DetailsJeune(
     conseiller: DetailsJeuneConseiller(
+      id: "id",
       firstname: "Perceval",
       lastname: "de Galles",
       sinceDate: clock.now().subtract(Duration(days: 31)),
@@ -553,6 +559,7 @@ DetailsJeune detailsJeuneSinceOneMonth() {
 DetailsJeune detailsJeuneSinceLessOneMonth() {
   return DetailsJeune(
     conseiller: DetailsJeuneConseiller(
+      id: "id",
       firstname: "Perceval",
       lastname: "de Galles",
       sinceDate: clock.now().subtract(Duration(days: 29)),

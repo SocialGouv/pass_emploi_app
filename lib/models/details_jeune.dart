@@ -20,14 +20,21 @@ class DetailsJeune extends Equatable {
 }
 
 class DetailsJeuneConseiller extends Equatable {
+  final String id;
   final String firstname;
   final String lastname;
   final DateTime sinceDate;
 
-  DetailsJeuneConseiller({required this.firstname, required this.lastname, required this.sinceDate});
+  DetailsJeuneConseiller({
+    required this.id,
+    required this.firstname,
+    required this.lastname,
+    required this.sinceDate,
+  });
 
   factory DetailsJeuneConseiller.fromJson(dynamic json) {
     return DetailsJeuneConseiller(
+      id: json['id'] as String,
       firstname: json['prenom'] as String,
       lastname: json['nom'] as String,
       sinceDate: (json['depuis'] as String).toDateTimeUtcOnLocalTimeZone(),
@@ -35,7 +42,7 @@ class DetailsJeuneConseiller extends Equatable {
   }
 
   @override
-  List<Object> get props => [firstname, lastname, sinceDate];
+  List<Object> get props => [id, firstname, lastname, sinceDate];
 }
 
 class StructureMilo extends Equatable {

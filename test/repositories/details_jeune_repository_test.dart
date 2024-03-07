@@ -29,6 +29,7 @@ void main() {
               result,
               DetailsJeune(
                 conseiller: DetailsJeuneConseiller(
+                  id: "ID_CONSEILLER",
                   firstname: "Nils",
                   lastname: "Tavernier",
                   sinceDate: parseDateTimeUtcWithCurrentTimeZone('2022-02-15T0:0:0.0Z'),
