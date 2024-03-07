@@ -43,4 +43,5 @@ void main() {
   });
 }
 
-const _jsonOnboarding = '{"showAccueilOnboarding":true}';
+const _jsonOnboarding =
+    '{"showAccueilOnboarding":true,"showMonSuiviOnboarding":null,"showChatOnboarding":null,"showRechercheOnboarding":null,"showEvenementsOnboarding":null}';
