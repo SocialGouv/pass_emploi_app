@@ -32,9 +32,8 @@ void main() {
     });
 
     group('on save', () {
-      sut.whenDispatchingAction(() => OnboardingAccueilSaveAction());
-
-      test('should succeed when save succeeds', () {
+      test('should save accuil onboarding', () {
+        sut.whenDispatchingAction(() => OnboardingAccueilSaveAction());
         when(() => repository.get()).thenAnswer((_) async => dummyOnboarding);
         when(() => repository.save(any())).thenAnswer((_) async {});
 
@@ -44,6 +43,53 @@ void main() {
 
         sut.thenExpectChangingStatesThroughOrder(
             [_shouldSucceed(dummyOnboarding.copyWith(showAccueilOnboarding: false))]);
+      });
+      test('should save mon suivi onboarding', () {
+        sut.whenDispatchingAction(() => OnboardingMonSuiviSaveAction());
+        when(() => repository.get()).thenAnswer((_) async => dummyOnboarding);
+        when(() => repository.save(any())).thenAnswer((_) async {});
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.onboardingRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder(
+            [_shouldSucceed(dummyOnboarding.copyWith(showMonSuiviOnboarding: false))]);
+      });
+      test('should save chat onboarding', () {
+        sut.whenDispatchingAction(() => OnboardingChatSaveAction());
+        when(() => repository.get()).thenAnswer((_) async => dummyOnboarding);
+        when(() => repository.save(any())).thenAnswer((_) async {});
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.onboardingRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(dummyOnboarding.copyWith(showChatOnboarding: false))]);
+      });
+      test('should save recherche onboarding', () {
+        sut.whenDispatchingAction(() => OnboardingRechercheSaveAction());
+        when(() => repository.get()).thenAnswer((_) async => dummyOnboarding);
+        when(() => repository.save(any())).thenAnswer((_) async {});
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.onboardingRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder(
+            [_shouldSucceed(dummyOnboarding.copyWith(showRechercheOnboarding: false))]);
+      });
+      test('should save evenements onboarding', () {
+        sut.whenDispatchingAction(() => OnboardingEvenementsSaveAction());
+        when(() => repository.get()).thenAnswer((_) async => dummyOnboarding);
+        when(() => repository.save(any())).thenAnswer((_) async {});
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.onboardingRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder(
+            [_shouldSucceed(dummyOnboarding.copyWith(showEvenementsOnboarding: false))]);
       });
     });
   });

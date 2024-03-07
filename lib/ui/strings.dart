@@ -134,6 +134,25 @@ class Strings {
   // Onboarding
   static String skip = "Passer";
   static String continueLabel = "Continuer";
+  static String gotIt = "C'est compris";
+
+  static String onboardingMonSuiviTitle = "Pas à pas, trouvez un emploi stable";
+  static String onboardingChatTitle = "Gardez contact avec votre conseiller à tout moment";
+  static String onboardingRechercheTitle = "Trouvez des offres qui vous intéressent";
+  static String onboardingEvenementsTitle = "Participez à des événements en lien avec votre recherche";
+
+  static String onboardingMonSuiviBodyCej =
+      "Mon suivi vous permet de créer et visualiser les différentes actions ou rendez-vous à réaliser. Votre conseiller peut aussi ajouter des actions dans cette section !";
+  static String onboardingMonSuiviBodyPe =
+      "Mon suivi vous permet de créer et visualiser les différentes démarches ou rendez-vous à réaliser. Votre conseiller peut aussi ajouter des démarches dans cette section !";
+  static String onboardingChatBody =
+      "Échangez sur la messagerie instantanée avec votre conseiller pour construire votre projet, partager des offres, vous inscrire à des évènements, etc.";
+  static String onboardingRechercheBodyCej =
+      "L’espace recherche vous permet de retrouver les offres d’emploi d’alternance, d’immersion et de service civique, et de les ajouter à vos favoris.";
+  static String onboardingRechercheBodyPe =
+      "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos favoris.";
+  static String onboardingEvenementsBody =
+      "Découvrez les événements à ne pas manquer en lien avec votre recherche et inscrivez-vous pour y participer.";
 
   static String takeRdvWithConseiller =
       "Prenez rendez-vous avec votre conseiller qui procédera à la création de votre compte.";

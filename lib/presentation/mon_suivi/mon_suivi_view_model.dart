@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -16,6 +17,7 @@ class MonSuiviViewModel extends Equatable {
   final bool withCreateButton;
   final bool withWarningOnWrongSessionMiloRetrieval;
   final int pendingActionCreations;
+  final bool shouldShowOnboarding;
   final Function() onLoadPreviousPeriod;
   final Function() onLoadNextPeriod;
   final Function() onRetry;
@@ -27,6 +29,7 @@ class MonSuiviViewModel extends Equatable {
     required this.withCreateButton,
     required this.withWarningOnWrongSessionMiloRetrieval,
     required this.pendingActionCreations,
+    required this.shouldShowOnboarding,
     required this.onLoadPreviousPeriod,
     required this.onLoadNextPeriod,
     required this.onRetry,
@@ -42,6 +45,7 @@ class MonSuiviViewModel extends Equatable {
       withCreateButton: state is MonSuiviSuccessState,
       withWarningOnWrongSessionMiloRetrieval: _withWarningOnWrongSessionMiloRetrieval(state),
       pendingActionCreations: store.state.userActionCreatePendingState.getPendingCreationsCount(),
+      shouldShowOnboarding: _shouldShowOnboarding(store),
       onLoadPreviousPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.previous)),
       onLoadNextPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.next)),
       onRetry: () {
@@ -228,4 +232,10 @@ class SessionMiloMonSuiviEntry extends MonSuiviEntry {
 
   @override
   List<Object?> get props => [id];
+}
+
+bool _shouldShowOnboarding(Store<AppState> store) {
+  final onboarding = store.state.onboardingState;
+  if (onboarding is OnboardingSuccessState) return onboarding.result.showMonSuiviOnboarding == true;
+  return false;
 }

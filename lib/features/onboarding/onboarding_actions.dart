@@ -6,6 +6,14 @@ class OnboardingSuccessAction {
   OnboardingSuccessAction(this.result);
 }
 
-class OnboardingAccueilSaveAction {
-  OnboardingAccueilSaveAction();
-}
+sealed class OnboardingSaveAction {}
+
+class OnboardingAccueilSaveAction extends OnboardingSaveAction {}
+
+class OnboardingMonSuiviSaveAction extends OnboardingSaveAction {}
+
+class OnboardingChatSaveAction extends OnboardingSaveAction {}
+
+class OnboardingRechercheSaveAction extends OnboardingSaveAction {}
+
+class OnboardingEvenementsSaveAction extends OnboardingSaveAction {}

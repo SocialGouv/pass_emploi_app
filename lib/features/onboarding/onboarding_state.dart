@@ -2,28 +2,72 @@ import 'package:equatable/equatable.dart';
 
 class Onboarding extends Equatable {
   final bool? showAccueilOnboarding;
+  final bool? showMonSuiviOnboarding;
+  final bool? showChatOnboarding;
+  final bool? showRechercheOnboarding;
+  final bool? showEvenementsOnboarding;
 
-  Onboarding({this.showAccueilOnboarding});
+  Onboarding({
+    this.showAccueilOnboarding,
+    this.showMonSuiviOnboarding,
+    this.showChatOnboarding,
+    this.showRechercheOnboarding,
+    this.showEvenementsOnboarding,
+  });
 
   factory Onboarding.initial() {
-    return Onboarding(showAccueilOnboarding: true);
+    return Onboarding(
+      showAccueilOnboarding: true,
+      showMonSuiviOnboarding: true,
+      showChatOnboarding: true,
+      showRechercheOnboarding: true,
+      showEvenementsOnboarding: true,
+    );
   }
 
   @override
-  List<Object?> get props => [showAccueilOnboarding];
+  List<Object?> get props => [
+        showAccueilOnboarding,
+        showMonSuiviOnboarding,
+        showChatOnboarding,
+        showRechercheOnboarding,
+        showEvenementsOnboarding,
+      ];
 
   factory Onboarding.fromJson(Map<String, dynamic> json) {
-    return Onboarding(showAccueilOnboarding: json['showAccueilOnboarding'] as bool?);
+    return Onboarding(
+      showAccueilOnboarding: json['showAccueilOnboarding'] as bool?,
+      showMonSuiviOnboarding: json['showMonSuiviOnboarding'] as bool?,
+      showChatOnboarding: json['showChatOnboarding'] as bool?,
+      showRechercheOnboarding: json['showRechercheOnboarding'] as bool?,
+      showEvenementsOnboarding: json['showEvenementsOnboarding'] as bool?,
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'showAccueilOnboarding': showAccueilOnboarding,
+      'showMonSuiviOnboarding': showMonSuiviOnboarding,
+      'showChatOnboarding': showChatOnboarding,
+      'showRechercheOnboarding': showRechercheOnboarding,
+      'showEvenementsOnboarding': showEvenementsOnboarding,
     };
   }
 
-  Onboarding copyWith({bool? showAccueilOnboarding}) {
-    return Onboarding(showAccueilOnboarding: showAccueilOnboarding ?? this.showAccueilOnboarding);
+  Onboarding copyWith({
+    bool? showAccueilOnboarding,
+    bool? showMonSuiviOnboarding,
+    bool? showChatOnboarding,
+    bool? showRechercheOnboarding,
+    bool? showEvenementsOnboarding,
+  }) {
+    return Onboarding(
+      showAccueilOnboarding: showAccueilOnboarding ?? this.showAccueilOnboarding,
+      showMonSuiviOnboarding: showMonSuiviOnboarding ?? this.showMonSuiviOnboarding,
+      showChatOnboarding: showChatOnboarding ?? this.showChatOnboarding,
+      showRechercheOnboarding: showRechercheOnboarding ?? this.showRechercheOnboarding,
+      showEvenementsOnboarding: showEvenementsOnboarding ?? this.showEvenementsOnboarding,
+    );
   }
 }
 
