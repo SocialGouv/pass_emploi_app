@@ -20,9 +20,9 @@ class PieceJointeViewModel extends Equatable {
     final piecesJointesState = store.state.piecesJointesState;
     return PieceJointeViewModel._(
       displayState: (fileId) => _displayState(fileId, piecesJointesState),
-      onDownloadTypeId: (fileId, fileName) => store.dispatch(PieceJointeTypeIdRequestAction(fileId, fileName)),
+      onDownloadTypeId: (fileId, fileName) => store.dispatch(PieceJointeFromIdRequestAction(fileId, fileName)),
       onDownloadTypeUrl: (url, fileId, fileName) => store.dispatch(
-        PieceJointeTypeUrlRequestAction(url, fileId, fileName),
+        PieceJointeFromUrlRequestAction(url, fileId, fileName),
       ),
     );
   }

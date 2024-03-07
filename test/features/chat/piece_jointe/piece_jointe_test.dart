@@ -20,7 +20,7 @@ void main() {
     final previewFileStateFuture = store.onChange.firstWhere((e) => e.previewFileState is PreviewFileSuccessState);
 
     // When
-    await store.dispatch(PieceJointeTypeIdRequestAction("id1", "png"));
+    await store.dispatch(PieceJointeFromIdRequestAction("id1", "png"));
 
     // Then
     expect(await displayedLoading, true);
@@ -41,7 +41,7 @@ void main() {
         store.onChange.firstWhere((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.failure);
 
     // When
-    await store.dispatch(PieceJointeTypeIdRequestAction("id1", "png"));
+    await store.dispatch(PieceJointeFromIdRequestAction("id1", "png"));
 
     // Then
     expect(await displayedLoading, true);
@@ -60,7 +60,7 @@ void main() {
         store.onChange.firstWhere((e) => e.piecesJointesState.status["id-2"] == PieceJointeStatus.failure);
 
     // When
-    await store.dispatch(PieceJointeTypeIdRequestAction("id-2", "png"));
+    await store.dispatch(PieceJointeFromIdRequestAction("id-2", "png"));
 
     // Then
     final appState = await changedAppState;
@@ -79,7 +79,7 @@ void main() {
         store.onChange.firstWhere((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.unavailable);
 
     // When
-    await store.dispatch(PieceJointeTypeIdRequestAction("id1", "png"));
+    await store.dispatch(PieceJointeFromIdRequestAction("id1", "png"));
 
     // Then
     expect(await displayedLoading, true);

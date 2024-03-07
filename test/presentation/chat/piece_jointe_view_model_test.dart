@@ -71,9 +71,9 @@ void main() {
     viewModel.onDownloadTypeId("id", "file.pdf");
 
     // Then
-    expect(store.dispatchedAction, isA<PieceJointeTypeIdRequestAction>());
-    expect((store.dispatchedAction as PieceJointeTypeIdRequestAction).fileId, "id");
-    expect((store.dispatchedAction as PieceJointeTypeIdRequestAction).fileName, "file.pdf");
+    expect(store.dispatchedAction, isA<PieceJointeFromIdRequestAction>());
+    expect((store.dispatchedAction as PieceJointeFromIdRequestAction).fileId, "id");
+    expect((store.dispatchedAction as PieceJointeFromIdRequestAction).fileName, "file.pdf");
   });
 
   test('onDownloadTypeUrl should trigger proper action', () {
@@ -85,9 +85,9 @@ void main() {
     viewModel.onDownloadTypeUrl("url", "id", "file.pdf");
 
     // Then
-    expect(store.dispatchedAction, isA<PieceJointeTypeUrlRequestAction>());
-    expect((store.dispatchedAction as PieceJointeTypeUrlRequestAction).url, "url");
-    expect((store.dispatchedAction as PieceJointeTypeUrlRequestAction).fileId, "id");
-    expect((store.dispatchedAction as PieceJointeTypeUrlRequestAction).fileName, "file.pdf");
+    expect(store.dispatchedAction, isA<PieceJointeFromUrlRequestAction>());
+    expect((store.dispatchedAction as PieceJointeFromUrlRequestAction).url, "url");
+    expect((store.dispatchedAction as PieceJointeFromUrlRequestAction).fileId, "id");
+    expect((store.dispatchedAction as PieceJointeFromUrlRequestAction).fileName, "file.pdf");
   });
 }
