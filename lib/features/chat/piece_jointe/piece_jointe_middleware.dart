@@ -15,12 +15,12 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
     final userId = store.state.userId();
     if (userId == null) return;
 
-    if (action is PieceJointeTypeIdRequestAction) {
+    if (action is PieceJointeFromIdRequestAction) {
       final String? path = await _repository.downloadFromId(fileId: action.fileId, fileName: action.fileName);
       _handleDownload(store, action.fileId, path);
     }
 
-    if (action is PieceJointeTypeUrlRequestAction) {
+    if (action is PieceJointeFromUrlRequestAction) {
       final String? path = await _repository.downloadFromUrl(
         url: action.url,
         fileId: action.fileId,

@@ -1,16 +1,16 @@
-class PieceJointeTypeIdRequestAction {
+class PieceJointeFromIdRequestAction {
   final String fileId;
   final String fileName;
 
-  PieceJointeTypeIdRequestAction(this.fileId, this.fileName);
+  PieceJointeFromIdRequestAction(this.fileId, this.fileName);
 }
 
-class PieceJointeTypeUrlRequestAction {
+class PieceJointeFromUrlRequestAction {
   final String url;
   final String fileId;
   final String fileName;
 
-  PieceJointeTypeUrlRequestAction(this.url, this.fileId, this.fileName);
+  PieceJointeFromUrlRequestAction(this.url, this.fileId, this.fileName);
 }
 
 class PieceJointeSuccessAction {
