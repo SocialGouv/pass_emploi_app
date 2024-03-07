@@ -15,6 +15,7 @@ class EntreePageViewModel extends Equatable {
   final bool withWrongDeviceClockMessage;
   final String? technicalErrorMessage;
   final PreferredLoginModeViewModel? preferredLoginMode;
+  final void Function()? onLogin;
 
   EntreePageViewModel({
     required this.withRequestAccountButton,
@@ -22,6 +23,7 @@ class EntreePageViewModel extends Equatable {
     required this.withWrongDeviceClockMessage,
     required this.technicalErrorMessage,
     required this.preferredLoginMode,
+    required this.onLogin,
   });
 
   factory EntreePageViewModel.create(Store<AppState> store) {
@@ -33,6 +35,7 @@ class EntreePageViewModel extends Equatable {
       withWrongDeviceClockMessage: loginState is LoginWrongDeviceClockState,
       technicalErrorMessage: loginState is LoginGenericFailureState ? loginState.message : null,
       preferredLoginMode: PreferredLoginModeViewModel.create(store),
+      onLogin: _onLogin(store),
     );
   }
 
@@ -45,35 +48,43 @@ class EntreePageViewModel extends Equatable {
       ];
 }
 
+void Function()? _onLogin(Store<AppState> store) {
+  if (Brand.isBrsa()) return () => store.dispatch(RequestLoginAction(LoginMode.POLE_EMPLOI));
+  final state = store.state.preferredLoginModeState;
+  if (state is! PreferredLoginModeSuccessState) return null;
+  return switch (state.loginMode) {
+    LoginMode.POLE_EMPLOI => () => store.dispatch(RequestLoginAction(LoginMode.POLE_EMPLOI)),
+    LoginMode.MILO => () => store.dispatch(RequestLoginAction(LoginMode.MILO)),
+    LoginMode.PASS_EMPLOI => () => store.dispatch(RequestLoginAction(LoginMode.PASS_EMPLOI)),
+    _ => null,
+  };
+}
+
 class PreferredLoginModeViewModel extends Equatable {
   final String title;
   final String logo;
-  final void Function() onLogin;
 
   PreferredLoginModeViewModel({
     required this.title,
     required this.logo,
-    required this.onLogin,
   });
 
   static PreferredLoginModeViewModel? create(Store<AppState> store) {
+    if (store.state.configurationState.getBrand().isBrsa) return null;
     final state = store.state.preferredLoginModeState;
     if (state is! PreferredLoginModeSuccessState) return null;
     return switch (state.loginMode) {
       LoginMode.POLE_EMPLOI => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetFranceTravailButton,
           logo: Drawables.poleEmploiLogo,
-          onLogin: () => store.dispatch(RequestLoginAction(LoginMode.POLE_EMPLOI)),
         ),
       LoginMode.MILO => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetMissionLocaleButton,
           logo: Drawables.missionLocaleLogo,
-          onLogin: () => store.dispatch(RequestLoginAction(LoginMode.MILO)),
         ),
       LoginMode.PASS_EMPLOI => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetPassEmploiButton,
           logo: Drawables.passEmploiLogo,
-          onLogin: () => store.dispatch(RequestLoginAction(LoginMode.PASS_EMPLOI)),
         ),
       _ => null,
     };

@@ -203,10 +203,10 @@ class Strings {
       isPoleEmploi ? loginOpenInNewDescriptionPoleEmploi : loginOpenInNewDescriptionCej;
 
   static const String loginOpenInNewDescriptionCej =
-      "Vous serez redirigé vers la page de d'authentification de Mission Locale pour vous connecter.";
+      "Vous serez redirigé vers la page d'authentification de Mission Locale pour vous connecter.";
 
   static const String loginOpenInNewDescriptionPoleEmploi =
-      "Vous serez redirigé vers la page de d'authentification de France Travail pour vous connecter.";
+      "Vous serez redirigé vers la page d'authentification de France Travail pour vous connecter.";
 
   static const String loginNoAccount = "Pas de compte ?";
 
@@ -237,8 +237,10 @@ class Strings {
 
   // Accueil
   static String accueilOnboardingTitle1(String prenom) => "Bienvenue ${prenom}dans votre espace dédié !";
-  static String accueilOnboardingBody1 =
+  static String accueilOnboardingBody1Milo =
       "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres enregistrées, prochains rendez-vous, etc.";
+  static String accueilOnboardingBody1Pe =
+      "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : démarches à réaliser, offres enregistrées, prochains rendez-vous, etc.";
 
   static String accueilOnboardingTitle2 = "Gardez une longueur d’avance grâce aux notifications";
   static String accueilOnboardingBody2 = "Nous vous conseillons d’activer les notifications pour : ";
