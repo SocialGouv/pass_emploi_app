@@ -15,8 +15,8 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 class AccueilOnboardingBottomSheet extends StatefulWidget {
   const AccueilOnboardingBottomSheet({super.key});
 
-  static void show(BuildContext context) {
-    showModalBottomSheet(
+  static Future<void> show(BuildContext context) {
+    return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) => const AccueilOnboardingBottomSheet(),
@@ -72,7 +72,7 @@ class _AccueilOnboardingPage1 extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _OnboardingIllustration(Drawables.accueilOnboardingIllustration1, AppColors.primary),
+            _OnboardingIllustration(Drawables.accueilOnboardingIllustration1),
             SizedBox(height: Margins.spacing_xl),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
@@ -114,7 +114,7 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _OnboardingIllustration(Drawables.accueilOnboardingIllustration2, AppColors.alert),
+            _OnboardingIllustration(Drawables.accueilOnboardingIllustration2),
             SizedBox(height: Margins.spacing_xl),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
@@ -165,18 +165,14 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
 }
 
 class _OnboardingIllustration extends StatelessWidget {
-  const _OnboardingIllustration(this.asset, this.bgColor);
+  const _OnboardingIllustration(this.asset);
   final String asset;
-  final Color bgColor;
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: bgColor,
-      child: Image.asset(
-        asset,
-        fit: BoxFit.fitWidth,
-      ),
+    return Image.asset(
+      asset,
+      fit: BoxFit.fitWidth,
     );
   }
 }

@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/onboarding/accueil_onboarding_bottom_sheet.dart';
+import 'package:pass_emploi_app/presentation/onboarding/onboarding_navigation_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -92,8 +93,8 @@ class _AccueilPageState extends State<AccueilPage> {
 
   void _handleOnboarding(BuildContext context, AccueilViewModel newViewModel) {
     if (newViewModel.shouldShowOnboarding && !_onboardingShown) {
-      AccueilOnboardingBottomSheet.show(context);
       _onboardingShown = true;
+      AccueilOnboardingBottomSheet.show(context).then((_) => OnboardingNavigationBottomSheet.show(context));
     }
   }
 }

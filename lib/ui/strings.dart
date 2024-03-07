@@ -235,7 +235,7 @@ class Strings {
   static const String latePillule = "En retard";
   static const String canceledPillule = "Annulée";
 
-  // Accueil
+  // Onboarding
   static String accueilOnboardingTitle1(String prenom) => "Bienvenue ${prenom}dans votre espace dédié !";
   static String accueilOnboardingBody1Milo =
       "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres enregistrées, prochains rendez-vous, etc.";
@@ -248,6 +248,12 @@ class Strings {
   static String accueilOnboardingSection2 = "Être mis au courant des dernières offres correspondant à vos critères.";
   static String accueilOnboardingButtonAcceptNotifications = "Activer les notifications";
   static String accueilOnboardingButtonDeclineNotifications = "Plus tard";
+
+  static String onboardingNavigationTitle = "À vous de jouer !";
+  static String onboardingNavigationBody =
+      "Cliquez sur les onglets pour découvrir les fonctionnalités de l’application.";
+
+  // Accueil
 
   static String accueilAppBarTitle = "Bienvenue";
   static String accueilCetteSemaineSection = "Cette semaine";
