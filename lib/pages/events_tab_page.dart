@@ -48,23 +48,26 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: viewModel.tabs._index(initialTab),
-      length: viewModel.tabs.length,
-      child: Scaffold(
-        backgroundColor: AppColors.grey100,
-        appBar: PrimaryAppBar(title: Strings.eventAppBarTitle),
-        body: ConnectivityContainer(
-          child: Column(
-            children: [
-              PassEmploiTabBar(tabLabels: viewModel.tabs._titles()),
-              Expanded(
-                child: TabBarView(
-                  children: viewModel.tabs._pages(),
+    return Scaffold(
+      backgroundColor: AppColors.grey100,
+      appBar: PrimaryAppBar(title: Strings.eventAppBarTitle),
+      body: ConnectivityContainer(
+        child: DefaultTabController(
+          initialIndex: viewModel.tabs._index(initialTab),
+          length: viewModel.tabs.length,
+          child: Builder(builder: (context) {
+            if (viewModel.tabs.length == 1) return viewModel.tabs._pages()[0];
+            return Column(
+              children: [
+                PassEmploiTabBar(tabLabels: viewModel.tabs._titles()),
+                Expanded(
+                  child: TabBarView(
+                    children: viewModel.tabs._pages(),
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            );
+          }),
         ),
       ),
     );
