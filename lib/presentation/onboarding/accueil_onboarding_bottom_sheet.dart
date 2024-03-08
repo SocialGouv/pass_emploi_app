@@ -49,9 +49,11 @@ class _AccueilOnboardingBottomSheetState extends State<AccueilOnboardingBottomSh
                       onAcceptNotifications: () {
                         viewModel.onRequestiNotificationsPermission();
                         viewModel.onOnboardingCompleted();
+                        Navigator.of(context).pop();
                       },
                       onDeclineNotifications: () {
                         viewModel.onOnboardingCompleted();
+                        Navigator.of(context).pop();
                       },
                     ),
             ),
