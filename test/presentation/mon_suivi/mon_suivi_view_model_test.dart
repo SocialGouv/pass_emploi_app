@@ -277,7 +277,7 @@ void main() {
     expect(viewModel.shouldShowOnboarding, isTrue);
   });
 
-  test('should display onboarding', () {
+  test('should not display onboarding', () {
     // Given
     final store = givenState()
         .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showMonSuiviOnboarding: false)))

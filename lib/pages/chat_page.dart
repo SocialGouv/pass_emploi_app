@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/pages/credentials_page.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -42,6 +43,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   TextEditingController? _controller;
   bool _animateMessage = false;
   bool _isLoadingMorePast = false;
+  bool _onboardingShown = false;
 
   @override
   void initState() {
@@ -91,10 +93,18 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
           StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction());
           _animateMessage = true;
           _isLoadingMorePast = false;
+          _handleOnboarding(newVm);
         },
         distinct: true,
       ),
     );
+  }
+
+  void _handleOnboarding(ChatPageViewModel viewModel) {
+    if (viewModel.shouldShowOnboarding && !_onboardingShown) {
+      _onboardingShown = true;
+      OnboardingBottomSheet.show(context, source: OnboardingSource.chat);
+    }
   }
 
   void _onDispose(Store<AppState> store) {

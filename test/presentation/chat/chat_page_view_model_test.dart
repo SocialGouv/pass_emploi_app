@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
@@ -594,6 +595,34 @@ void main() {
       expect(messageItem.shouldAnimate, false);
       expect(messageItem.caption.contains("L'envoi a échoué"), true);
       expect(messageItem.captionColor, AppColors.warning);
+    });
+
+    group('onboarding', () {
+      test('should display onboarding', () {
+        // Given
+        final store = givenState()
+            .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showChatOnboarding: true)))
+            .store();
+
+        // When
+        final viewModel = ChatPageViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldShowOnboarding, isTrue);
+      });
+
+      test('should not display onboarding', () {
+        // Given
+        final store = givenState()
+            .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showChatOnboarding: false)))
+            .store();
+
+        // When
+        final viewModel = ChatPageViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldShowOnboarding, isFalse);
+      });
     });
   });
 }
