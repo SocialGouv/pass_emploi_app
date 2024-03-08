@@ -37,6 +37,7 @@ class OnboardingViewModel extends Equatable {
   List<Object?> get props => [illustration, title, body, onGotIt];
 }
 
+// TODO: tests ?
 String _illustration(OnboardingSource source) {
   return switch (source) {
     OnboardingSource.monSuivi => Drawables.onboardingMonSuiviIllustration,
@@ -57,9 +58,9 @@ String _title(OnboardingSource source) {
 
 String _body(bool isPe, OnboardingSource source) {
   return switch (source) {
-    OnboardingSource.monSuivi => isPe ? Strings.onboardingMonSuiviBodyCej : Strings.onboardingMonSuiviBodyPe,
+    OnboardingSource.monSuivi => isPe ? Strings.onboardingMonSuiviBodyPe : Strings.onboardingMonSuiviBodyCej,
     OnboardingSource.chat => Strings.onboardingChatBody,
-    OnboardingSource.reherche => isPe ? Strings.onboardingRechercheBodyCej : Strings.onboardingRechercheBodyPe,
+    OnboardingSource.reherche => isPe ? Strings.onboardingRechercheBodyPe : Strings.onboardingRechercheBodyCej,
     OnboardingSource.evenements => Strings.onboardingEvenementsBody,
   };
 }

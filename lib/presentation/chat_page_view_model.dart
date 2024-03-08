@@ -46,7 +46,7 @@ class ChatPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, brouillon, items];
+  List<Object?> get props => [displayState, brouillon, items, shouldShowOnboarding];
 }
 
 DisplayState _displayState(ChatState state) {

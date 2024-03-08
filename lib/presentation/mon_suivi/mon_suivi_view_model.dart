@@ -63,6 +63,7 @@ class MonSuiviViewModel extends Equatable {
         withCreateButton,
         withWarningOnWrongSessionMiloRetrieval,
         pendingActionCreations,
+        shouldShowOnboarding,
       ];
 }
 

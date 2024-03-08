@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
@@ -33,10 +34,17 @@ import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class AgendaPage extends StatelessWidget {
+class AgendaPage extends StatefulWidget {
   final Function() onActionDelayedTap;
 
   AgendaPage(this.onActionDelayedTap);
+
+  @override
+  State<AgendaPage> createState() => _AgendaPageState();
+}
+
+class _AgendaPageState extends State<AgendaPage> {
+  bool _onboardingShown = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +53,7 @@ class AgendaPage extends StatelessWidget {
       child: StoreConnector<AppState, AgendaPageViewModel>(
         onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
         onDidChange: (previous, current) => _onDidChange(context, previous, current),
-        builder: (context, viewModel) => _Scaffold(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap),
+        builder: (context, viewModel) => _Scaffold(viewModel: viewModel, onActionDelayedTap: widget.onActionDelayedTap),
         converter: (store) => AgendaPageViewModel.create(store),
         distinct: true,
       ),
@@ -55,6 +63,14 @@ class AgendaPage extends StatelessWidget {
   void _onDidChange(BuildContext context, AgendaPageViewModel? previous, AgendaPageViewModel current) {
     if (previous?.isReloading == true && _currentAgendaIsUpToDate(current)) {
       showSnackBarWithInformation(context, Strings.agendaPeUpToDate);
+    }
+    _handleOnboarding(current);
+  }
+
+  void _handleOnboarding(AgendaPageViewModel viewModel) {
+    if (viewModel.shouldShowOnboarding && !_onboardingShown) {
+      _onboardingShown = true;
+      OnboardingBottomSheet.show(context, source: OnboardingSource.monSuivi);
     }
   }
 

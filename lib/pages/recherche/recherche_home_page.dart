@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.d
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherches_recentes.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
+import 'package:pass_emploi_app/presentation/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/recherche/recherche_home_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -21,7 +22,13 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
-class RechercheHomePage extends StatelessWidget {
+class RechercheHomePage extends StatefulWidget {
+  @override
+  State<RechercheHomePage> createState() => _RechercheHomePageState();
+}
+
+class _RechercheHomePageState extends State<RechercheHomePage> {
+  bool _onboardingShown = false;
   @override
   Widget build(BuildContext context) {
     return Tracker(
@@ -29,9 +36,16 @@ class RechercheHomePage extends StatelessWidget {
       child: StoreConnector<AppState, RechercheHomePageViewModel>(
         converter: (store) => RechercheHomePageViewModel.create(store),
         builder: _builder,
-        distinct: true,
+        onDidChange: (_, newVm) => _handleOnboarding(newVm),
       ),
     );
+  }
+
+  void _handleOnboarding(RechercheHomePageViewModel viewModel) {
+    if (viewModel.shouldShowOnboarding && !_onboardingShown) {
+      _onboardingShown = true;
+      OnboardingBottomSheet.show(context, source: OnboardingSource.reherche);
+    }
   }
 
   Widget _builder(BuildContext context, RechercheHomePageViewModel viewModel) {
