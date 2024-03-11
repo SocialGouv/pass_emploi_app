@@ -93,7 +93,7 @@ class Strings {
   static String unknownTypeTitle = "Le message est inaccessible";
   static String unknownTypeDescription = "Pour avoir l'accès au contenu veuillez mettre à jour l'application";
   static String voirOffre = "Voir l'offre";
-  static String voirEvent = "Voir l'évènement";
+  static String voirEvent = "Voir l'événement";
 
   static String chatWith(firstName) => "Discuter avec $firstName";
 
@@ -348,7 +348,7 @@ class Strings {
   static String noUpcomingRendezVous =
       "Vous n’avez pas de rendez-vous prévu.\nContactez votre conseiller pour prendre rendez-vous";
   static String rendezVousListError = "Erreur lors de la récupération de vos rendez-vous";
-  static String rendezVousDetailsError = "Erreur lors de la récupération de l'évènement";
+  static String rendezVousDetailsError = "Erreur lors de la récupération de l'événement";
   static String conseillerIsPresent = "Votre conseiller sera présent";
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
   static String commentWithoutConseiller = "Commentaire de votre conseiller";

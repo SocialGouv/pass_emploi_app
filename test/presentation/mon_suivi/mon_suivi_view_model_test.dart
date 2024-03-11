@@ -2,7 +2,6 @@ import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
@@ -267,9 +266,7 @@ void main() {
 
   test('should display onboarding', () {
     // Given
-    final store = givenState()
-        .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showMonSuiviOnboarding: true)))
-        .store();
+    final store = givenState().withOnboardingSuccessState(Onboarding(showMonSuiviOnboarding: true)).store();
 
     // When
     final viewModel = MonSuiviViewModel.create(store);
@@ -280,9 +277,7 @@ void main() {
 
   test('should not display onboarding', () {
     // Given
-    final store = givenState()
-        .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showMonSuiviOnboarding: false)))
-        .store();
+    final store = givenState().withOnboardingSuccessState(Onboarding(showMonSuiviOnboarding: false)).store();
 
     // When
     final viewModel = MonSuiviViewModel.create(store);

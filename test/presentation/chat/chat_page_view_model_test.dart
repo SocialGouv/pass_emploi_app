@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -601,9 +600,7 @@ void main() {
     group('onboarding', () {
       test('should display onboarding', () {
         // Given
-        final store = givenState()
-            .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showChatOnboarding: true)))
-            .store();
+        final store = givenState().withOnboardingSuccessState(Onboarding(showChatOnboarding: true)).store();
 
         // When
         final viewModel = ChatPageViewModel.create(store);
@@ -614,9 +611,7 @@ void main() {
 
       test('should not display onboarding', () {
         // Given
-        final store = givenState()
-            .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showChatOnboarding: false)))
-            .store();
+        final store = givenState().withOnboardingSuccessState(Onboarding(showChatOnboarding: false)).store();
 
         // When
         final viewModel = ChatPageViewModel.create(store);

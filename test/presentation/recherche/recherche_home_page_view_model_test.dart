@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
@@ -40,9 +39,7 @@ void main() {
   group('onboarding', () {
     test('should display onboarding', () {
       // Given
-      final store = givenState()
-          .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showRechercheOnboarding: true)))
-          .store();
+      final store = givenState().withOnboardingSuccessState(Onboarding(showRechercheOnboarding: true)).store();
 
       // When
       final viewModel = RechercheHomePageViewModel.create(store);
@@ -53,9 +50,7 @@ void main() {
 
     test('should not display onboarding', () {
       // Given
-      final store = givenState()
-          .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showRechercheOnboarding: false)))
-          .store();
+      final store = givenState().withOnboardingSuccessState(Onboarding(showRechercheOnboarding: false)).store();
 
       // When
       final viewModel = RechercheHomePageViewModel.create(store);
