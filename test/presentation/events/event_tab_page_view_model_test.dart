@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/presentation/events/event_tab_page_view_model.dart';
 
 import '../../dsl/app_state_dsl.dart';

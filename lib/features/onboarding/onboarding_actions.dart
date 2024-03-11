@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 
 class OnboardingSuccessAction {
   final Onboarding result;

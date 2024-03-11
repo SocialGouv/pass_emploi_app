@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
 import 'package:redux/redux.dart';

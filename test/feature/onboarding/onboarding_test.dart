@@ -3,6 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/mocks.dart';
