@@ -72,8 +72,11 @@ class _FakeNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return Padding(
-        padding:
-            EdgeInsets.only(bottom: mediaQuery.padding.bottom, left: Margins.spacing_xs, right: Margins.spacing_xs),
+        padding: EdgeInsets.only(
+          bottom: mediaQuery.padding.bottom + Margins.spacing_s,
+          left: Margins.spacing_xs,
+          right: Margins.spacing_xs,
+        ),
         child: Row(
           children: [
             _CustomMenuItem(
