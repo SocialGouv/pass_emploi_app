@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
-import 'package:pass_emploi_app/presentation/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:redux/redux.dart';
 
 class OnboardingViewModel extends Equatable {
@@ -34,10 +34,9 @@ class OnboardingViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [illustration, title, body, onGotIt];
+  List<Object?> get props => [illustration, title, body];
 }
 
-// TODO: tests ?
 String _illustration(OnboardingSource source) {
   return switch (source) {
     OnboardingSource.monSuivi => Drawables.onboardingMonSuiviIllustration,

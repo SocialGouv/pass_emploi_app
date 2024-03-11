@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/presentation/accueil/onboarding/accueil_onboarding_view_model.dart';
+import 'package:pass_emploi_app/presentation/onboarding/accueil_onboarding_view_model.dart';
 
 import '../../../dsl/app_state_dsl.dart';
 
