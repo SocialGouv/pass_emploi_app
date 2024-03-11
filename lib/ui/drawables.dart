@@ -16,4 +16,10 @@ class Drawables {
 
   static String accueilOnboardingIllustration1 = "${_assets}onboarding/illustration_onboarding_1.webp";
   static String accueilOnboardingIllustration2 = "${_assets}onboarding/illustration_onboarding_2.webp";
+  static String illustrationNavigationBottomSheet = "${_assets}onboarding/illustration_navigation_bottom_sheet.webp";
+
+  static String onboardingMonSuiviIllustration = "${_assets}onboarding/illustration_onboarding_mon_suivi.webp";
+  static String onboardingChatIllustration = "${_assets}onboarding/illustration_onboarding_chat.webp";
+  static String onboardingRechercheIllustration = "${_assets}onboarding/illustration_onboarding_recherche.webp";
+  static String onboardingEvenementsIllustration = "${_assets}onboarding/illustration_onboarding_evenements.webp";
 }

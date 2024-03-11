@@ -1,35 +1,21 @@
 import 'package:equatable/equatable.dart';
-
-class Onboarding extends Equatable {
-  final bool? showAccueilOnboarding;
-
-  Onboarding({this.showAccueilOnboarding});
-
-  factory Onboarding.initial() {
-    return Onboarding(showAccueilOnboarding: true);
-  }
-
-  @override
-  List<Object?> get props => [showAccueilOnboarding];
-
-  factory Onboarding.fromJson(Map<String, dynamic> json) {
-    return Onboarding(showAccueilOnboarding: json['showAccueilOnboarding'] as bool?);
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'showAccueilOnboarding': showAccueilOnboarding,
-    };
-  }
-
-  Onboarding copyWith({bool? showAccueilOnboarding}) {
-    return Onboarding(showAccueilOnboarding: showAccueilOnboarding ?? this.showAccueilOnboarding);
-  }
-}
+import 'package:pass_emploi_app/models/onboarding.dart';
 
 sealed class OnboardingState extends Equatable {
   @override
   List<Object?> get props => [];
+
+  bool get isSuccessState => this is OnboardingSuccessState;
+
+  bool get showAccueilOnboarding =>
+      isSuccessState && (this as OnboardingSuccessState).result.showAccueilOnboarding == true;
+  bool get showMonSuiviOnboarding =>
+      isSuccessState && (this as OnboardingSuccessState).result.showMonSuiviOnboarding == true;
+  bool get showChatOnboarding => isSuccessState && (this as OnboardingSuccessState).result.showChatOnboarding == true;
+  bool get showRechercheOnboarding =>
+      isSuccessState && (this as OnboardingSuccessState).result.showRechercheOnboarding == true;
+  bool get showEvenementsOnboarding =>
+      isSuccessState && (this as OnboardingSuccessState).result.showEvenementsOnboarding == true;
 }
 
 class OnboardingNotInitializedState extends OnboardingState {}

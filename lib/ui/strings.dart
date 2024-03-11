@@ -93,7 +93,7 @@ class Strings {
   static String unknownTypeTitle = "Le message est inaccessible";
   static String unknownTypeDescription = "Pour avoir l'accès au contenu veuillez mettre à jour l'application";
   static String voirOffre = "Voir l'offre";
-  static String voirEvent = "Voir l'évènement";
+  static String voirEvent = "Voir l'événement";
 
   static String chatWith(firstName) => "Discuter avec $firstName";
 
@@ -134,6 +134,25 @@ class Strings {
   // Onboarding
   static String skip = "Passer";
   static String continueLabel = "Continuer";
+  static String gotIt = "C'est compris";
+
+  static String onboardingMonSuiviTitle = "Pas à pas, trouvez un emploi stable";
+  static String onboardingChatTitle = "Gardez contact avec votre conseiller à tout moment";
+  static String onboardingRechercheTitle = "Trouvez des offres qui vous intéressent";
+  static String onboardingEvenementsTitle = "Participez à des événements en lien avec votre recherche";
+
+  static String onboardingMonSuiviBodyCej =
+      "Mon suivi vous permet de créer et visualiser les différentes actions ou rendez-vous à réaliser. Votre conseiller peut aussi ajouter des actions dans cette section !";
+  static String onboardingMonSuiviBodyPe =
+      "Mon suivi vous permet de créer et visualiser les différentes démarches ou rendez-vous à réaliser. Votre conseiller peut aussi ajouter des démarches dans cette section !";
+  static String onboardingChatBody =
+      "Échangez sur la messagerie instantanée avec votre conseiller pour construire votre projet, partager des offres, vous inscrire à des évènements, etc.";
+  static String onboardingRechercheBodyCej =
+      "L’espace recherche vous permet de retrouver les offres d’emploi d’alternance, d’immersion et de service civique, et de les ajouter à vos favoris.";
+  static String onboardingRechercheBodyPe =
+      "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos favoris.";
+  static String onboardingEvenementsBody =
+      "Découvrez les événements à ne pas manquer en lien avec votre recherche et inscrivez-vous pour y participer.";
 
   static String takeRdvWithConseiller =
       "Prenez rendez-vous avec votre conseiller qui procédera à la création de votre compte.";
@@ -235,7 +254,7 @@ class Strings {
   static const String latePillule = "En retard";
   static const String canceledPillule = "Annulée";
 
-  // Accueil
+  // Onboarding
   static String accueilOnboardingTitle1(String prenom) => "Bienvenue ${prenom}dans votre espace dédié !";
   static String accueilOnboardingBody1Milo =
       "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres enregistrées, prochains rendez-vous, etc.";
@@ -248,6 +267,12 @@ class Strings {
   static String accueilOnboardingSection2 = "Être mis au courant des dernières offres correspondant à vos critères.";
   static String accueilOnboardingButtonAcceptNotifications = "Activer les notifications";
   static String accueilOnboardingButtonDeclineNotifications = "Plus tard";
+
+  static String onboardingNavigationTitle = "À vous de jouer !";
+  static String onboardingNavigationBody =
+      "Cliquez sur les onglets pour découvrir les fonctionnalités de l’application.";
+
+  // Accueil
 
   static String accueilAppBarTitle = "Bienvenue";
   static String accueilCetteSemaineSection = "Cette semaine";
@@ -323,7 +348,7 @@ class Strings {
   static String noUpcomingRendezVous =
       "Vous n’avez pas de rendez-vous prévu.\nContactez votre conseiller pour prendre rendez-vous";
   static String rendezVousListError = "Erreur lors de la récupération de vos rendez-vous";
-  static String rendezVousDetailsError = "Erreur lors de la récupération de l'évènement";
+  static String rendezVousDetailsError = "Erreur lors de la récupération de l'événement";
   static String conseillerIsPresent = "Votre conseiller sera présent";
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
   static String commentWithoutConseiller = "Commentaire de votre conseiller";
@@ -377,7 +402,7 @@ class Strings {
   static String validateButtonTitle = "Valider";
   static String mandatory = "Les questions marquées d'une * sont obligatoires";
   static String pourquoiTitle = "Pourquoi ?";
-  static String evaluationSuccessfullySent = "Vous avez répondu aux questions, merci !";
+  static String evaluationSuccessfullySent = "Vous avez répondu aux questions, merci\u{00A0}!";
 
   // User action form
   static const String createActionAppBarTitle = 'Créer une action';
@@ -425,7 +450,7 @@ class Strings {
 
   static const String userActionConfirmationTitle = "Action enregistrée";
   static const String userActionConfirmatioSubtitle =
-      "L’action est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous !";
+      "L’action est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous\u{00A0}!";
 
   static const String userActionConfirmationSeeDetailButton = "Consulter mon action";
   static const String userActionConfirmationCreateMoreButton = "Créer une autre action";
@@ -626,7 +651,7 @@ class Strings {
       "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise…";
   static String thematiquesDemarcheDescription = "Choisissez une thématique parmi les thématiques suivantes :";
   static String thematiquesDemarchePressedTip = "Parcourir les démarches";
-  static String thematiquesErrorTitle = "Il y a un problème de notre côté !";
+  static String thematiquesErrorTitle = "Il y a un problème de notre côté\u{00A0}!";
   static String thematiquesErrorSubtitle =
       "Nous sommes en train de régler le problème. Réessayez plus tard ou créez une démarche personnalisée.";
 
@@ -1137,7 +1162,8 @@ class Strings {
       "Une erreur est survenue. Vérifiez votre connexion ou réessayez plus tard.";
   static String diagorienteChatBotPageTitle = "Découvrir des métiers";
   static String diagorienteMetiersFavorisPageTitle = "Mes métiers favoris";
-  static String diagorienteDiscoverCardTitle = "Découvrez de nouveaux métiers et retrouvez vos métiers favoris !";
+  static String diagorienteDiscoverCardTitle =
+      "Découvrez de nouveaux métiers et retrouvez vos métiers favoris\u{00A0}!";
   static String diagorienteDiscoverCardSubtitle = "Explorez les métiers qui correspondent à vos centres d’intérêt.";
   static String diagorienteDiscoverCardPressedTip = "En savoir plus";
   static String diagorienteMetiersFavorisCardTitle = "Retrouvez vos métiers favoris";

@@ -17,6 +17,7 @@ class ChatPageViewModel extends Equatable {
   final DisplayState displayState;
   final String? brouillon;
   final List<ChatItem> items;
+  final bool shouldShowOnboarding;
   final Function(String message) onSendMessage;
   final Function() onRetry;
 
@@ -24,6 +25,7 @@ class ChatPageViewModel extends Equatable {
     required this.displayState,
     required this.brouillon,
     required this.items,
+    required this.shouldShowOnboarding,
     required this.onSendMessage,
     required this.onRetry,
   });
@@ -36,13 +38,14 @@ class ChatPageViewModel extends Equatable {
       displayState: _displayState(chatState),
       brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
+      shouldShowOnboarding: _shouldShowOnboarding(store),
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
       onRetry: () => store.dispatch(SubscribeToChatAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, brouillon, items];
+  List<Object?> get props => [displayState, brouillon, items, shouldShowOnboarding];
 }
 
 DisplayState _displayState(ChatState state) {
@@ -201,4 +204,8 @@ List<dynamic> _messagesWithDaySections(List<Message> messages) {
 
 String _getDayLabel(DateTime dateTime) {
   return dateTime.isAtSameDayAs(DateTime.now()) ? Strings.today : Strings.simpleDayFormat(dateTime.toDay());
+}
+
+bool _shouldShowOnboarding(Store<AppState> store) {
+ return store.state.onboardingState.showChatOnboarding;
 }

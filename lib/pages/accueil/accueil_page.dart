@@ -20,7 +20,6 @@ import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/onboarding/accueil_onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -28,6 +27,8 @@ import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/accueil_onboarding_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_navigation_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -92,8 +93,8 @@ class _AccueilPageState extends State<AccueilPage> {
 
   void _handleOnboarding(BuildContext context, AccueilViewModel newViewModel) {
     if (newViewModel.shouldShowOnboarding && !_onboardingShown) {
-      AccueilOnboardingBottomSheet.show(context);
       _onboardingShown = true;
+      AccueilOnboardingBottomSheet.show(context).then((_) => OnboardingNavigationBottomSheet.show(context));
     }
   }
 }

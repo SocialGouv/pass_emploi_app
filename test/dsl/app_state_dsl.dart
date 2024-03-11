@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
@@ -64,6 +65,7 @@ import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
@@ -806,5 +808,9 @@ extension AppStateDSL on AppState {
 
   AppState withConnectivity(ConnectivityResult result) {
     return copyWith(connectivityState: ConnectivityState.fromResult(result));
+  }
+
+  AppState withOnboardingSuccessState(Onboarding onboarding) {
+    return copyWith(onboardingState: OnboardingSuccessState(onboarding));
   }
 }

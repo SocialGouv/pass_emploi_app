@@ -6,22 +6,37 @@ import 'package:pass_emploi_app/presentation/events/event_tab_page_view_model.da
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 
-class EventsTabPage extends StatelessWidget {
+class EventsTabPage extends StatefulWidget {
   final EventTab? initialTab;
 
   EventsTabPage({this.initialTab});
 
   @override
+  State<EventsTabPage> createState() => _EventsTabPageState();
+}
+
+class _EventsTabPageState extends State<EventsTabPage> {
+  bool _onboardingShown = false;
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, EventsTabPageViewModel>(
-      builder: (context, viewModel) => _Body(viewModel, initialTab),
+      builder: (context, viewModel) => _Body(viewModel, widget.initialTab),
       converter: (store) => EventsTabPageViewModel.create(store),
-      distinct: true,
+      onDidChange: (_, newVm) => _handleOnboarding(newVm),
     );
+  }
+
+  void _handleOnboarding(EventsTabPageViewModel viewModel) {
+    if (viewModel.shouldShowOnboarding && !_onboardingShown) {
+      _onboardingShown = true;
+      OnboardingBottomSheet.show(context, source: OnboardingSource.evenements);
+    }
   }
 }
 
@@ -33,23 +48,26 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: viewModel.tabs._index(initialTab),
-      length: viewModel.tabs.length,
-      child: Scaffold(
-        backgroundColor: AppColors.grey100,
-        appBar: PrimaryAppBar(title: Strings.eventAppBarTitle),
-        body: ConnectivityContainer(
-          child: Column(
-            children: [
-              PassEmploiTabBar(tabLabels: viewModel.tabs._titles()),
-              Expanded(
-                child: TabBarView(
-                  children: viewModel.tabs._pages(),
+    return Scaffold(
+      backgroundColor: AppColors.grey100,
+      appBar: PrimaryAppBar(title: Strings.eventAppBarTitle),
+      body: ConnectivityContainer(
+        child: DefaultTabController(
+          initialIndex: viewModel.tabs._index(initialTab),
+          length: viewModel.tabs.length,
+          child: Builder(builder: (context) {
+            if (viewModel.tabs.length == 1) return viewModel.tabs._pages()[0];
+            return Column(
+              children: [
+                PassEmploiTabBar(tabLabels: viewModel.tabs._titles()),
+                Expanded(
+                  child: TabBarView(
+                    children: viewModel.tabs._pages(),
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            );
+          }),
         ),
       ),
     );

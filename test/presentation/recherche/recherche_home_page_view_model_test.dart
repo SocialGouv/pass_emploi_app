@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/presentation/recherche/recherche_home_page_view_model.dart';
 
 import '../../doubles/fixtures.dart';
@@ -33,5 +34,29 @@ void main() {
       viewModel.offreTypes,
       [OffreType.emploi, OffreType.immersion],
     );
+  });
+
+  group('onboarding', () {
+    test('should display onboarding', () {
+      // Given
+      final store = givenState().withOnboardingSuccessState(Onboarding(showRechercheOnboarding: true)).store();
+
+      // When
+      final viewModel = RechercheHomePageViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowOnboarding, isTrue);
+    });
+
+    test('should not display onboarding', () {
+      // Given
+      final store = givenState().withOnboardingSuccessState(Onboarding(showRechercheOnboarding: false)).store();
+
+      // When
+      final viewModel = RechercheHomePageViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowOnboarding, isFalse);
+    });
   });
 }

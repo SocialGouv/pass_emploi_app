@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/presentation/accueil/onboarding/accueil_onboarding_view_model.dart';
+import 'package:pass_emploi_app/presentation/onboarding/accueil_onboarding_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -15,8 +15,8 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 class AccueilOnboardingBottomSheet extends StatefulWidget {
   const AccueilOnboardingBottomSheet({super.key});
 
-  static void show(BuildContext context) {
-    showModalBottomSheet(
+  static Future<void> show(BuildContext context) {
+    return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) => const AccueilOnboardingBottomSheet(),
@@ -49,9 +49,11 @@ class _AccueilOnboardingBottomSheetState extends State<AccueilOnboardingBottomSh
                       onAcceptNotifications: () {
                         viewModel.onRequestiNotificationsPermission();
                         viewModel.onOnboardingCompleted();
+                        Navigator.of(context).pop();
                       },
                       onDeclineNotifications: () {
                         viewModel.onOnboardingCompleted();
+                        Navigator.of(context).pop();
                       },
                     ),
             ),
@@ -72,7 +74,7 @@ class _AccueilOnboardingPage1 extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _OnboardingIllustration(Drawables.accueilOnboardingIllustration1, AppColors.primary),
+            _OnboardingIllustration(Drawables.accueilOnboardingIllustration1),
             SizedBox(height: Margins.spacing_xl),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
@@ -114,7 +116,7 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _OnboardingIllustration(Drawables.accueilOnboardingIllustration2, AppColors.alert),
+            _OnboardingIllustration(Drawables.accueilOnboardingIllustration2),
             SizedBox(height: Margins.spacing_xl),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
@@ -165,18 +167,14 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
 }
 
 class _OnboardingIllustration extends StatelessWidget {
-  const _OnboardingIllustration(this.asset, this.bgColor);
+  const _OnboardingIllustration(this.asset);
   final String asset;
-  final Color bgColor;
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: bgColor,
-      child: Image.asset(
-        asset,
-        fit: BoxFit.fitWidth,
-      ),
+    return Image.asset(
+      asset,
+      fit: BoxFit.fitWidth,
     );
   }
 }

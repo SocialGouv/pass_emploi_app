@@ -3,6 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/mocks.dart';
@@ -32,18 +33,79 @@ void main() {
     });
 
     group('on save', () {
-      sut.whenDispatchingAction(() => OnboardingAccueilSaveAction());
+      group('OnboardingAccueilSaveAction', () {
+        sut.whenDispatchingAction(() => OnboardingAccueilSaveAction());
+        test('should save accuil onboarding', () {
+          when(() => repository.get()).thenAnswer((_) async => dummyOnboarding);
+          when(() => repository.save(any())).thenAnswer((_) async {});
 
-      test('should succeed when save succeeds', () {
-        when(() => repository.get()).thenAnswer((_) async => dummyOnboarding);
-        when(() => repository.save(any())).thenAnswer((_) async {});
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store((f) => {f.onboardingRepository = repository});
 
-        sut.givenStore = givenState() //
-            .loggedInUser()
-            .store((f) => {f.onboardingRepository = repository});
+          sut.thenExpectChangingStatesThroughOrder(
+              [_shouldSucceed(dummyOnboarding.copyWith(showAccueilOnboarding: false))]);
+        });
+      });
 
-        sut.thenExpectChangingStatesThroughOrder(
-            [_shouldSucceed(dummyOnboarding.copyWith(showAccueilOnboarding: false))]);
+      group('OnboardingMonSuiviSaveAction', () {
+        sut.whenDispatchingAction(() => OnboardingMonSuiviSaveAction());
+        test('should save mon suivi onboarding', () {
+          when(() => repository.get()).thenAnswer((_) async => dummyOnboarding);
+          when(() => repository.save(any())).thenAnswer((_) async {});
+
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store((f) => {f.onboardingRepository = repository});
+
+          sut.thenExpectChangingStatesThroughOrder(
+              [_shouldSucceed(dummyOnboarding.copyWith(showMonSuiviOnboarding: false))]);
+        });
+      });
+
+      group('OnboardingChatSaveAction', () {
+        sut.whenDispatchingAction(() => OnboardingChatSaveAction());
+        test('should save chat onboarding', () {
+          when(() => repository.get()).thenAnswer((_) async => dummyOnboarding);
+          when(() => repository.save(any())).thenAnswer((_) async {});
+
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store((f) => {f.onboardingRepository = repository});
+
+          sut.thenExpectChangingStatesThroughOrder(
+              [_shouldSucceed(dummyOnboarding.copyWith(showChatOnboarding: false))]);
+        });
+      });
+
+      group('OnboardingRechercheSaveAction', () {
+        sut.whenDispatchingAction(() => OnboardingRechercheSaveAction());
+        test('should save recherche onboarding', () {
+          when(() => repository.get()).thenAnswer((_) async => dummyOnboarding);
+          when(() => repository.save(any())).thenAnswer((_) async {});
+
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store((f) => {f.onboardingRepository = repository});
+
+          sut.thenExpectChangingStatesThroughOrder(
+              [_shouldSucceed(dummyOnboarding.copyWith(showRechercheOnboarding: false))]);
+        });
+      });
+
+      group('OnboardingEvenementsSaveAction', () {
+        sut.whenDispatchingAction(() => OnboardingEvenementsSaveAction());
+        test('should save evenements onboarding', () {
+          when(() => repository.get()).thenAnswer((_) async => dummyOnboarding);
+          when(() => repository.save(any())).thenAnswer((_) async {});
+
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store((f) => {f.onboardingRepository = repository});
+
+          sut.thenExpectChangingStatesThroughOrder(
+              [_shouldSucceed(dummyOnboarding.copyWith(showEvenementsOnboarding: false))]);
+        });
       });
     });
   });

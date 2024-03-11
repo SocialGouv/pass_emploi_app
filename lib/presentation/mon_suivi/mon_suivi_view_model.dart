@@ -16,6 +16,7 @@ class MonSuiviViewModel extends Equatable {
   final bool withCreateButton;
   final bool withWarningOnWrongSessionMiloRetrieval;
   final int pendingActionCreations;
+  final bool shouldShowOnboarding;
   final Function() onLoadPreviousPeriod;
   final Function() onLoadNextPeriod;
   final Function() onRetry;
@@ -27,6 +28,7 @@ class MonSuiviViewModel extends Equatable {
     required this.withCreateButton,
     required this.withWarningOnWrongSessionMiloRetrieval,
     required this.pendingActionCreations,
+    required this.shouldShowOnboarding,
     required this.onLoadPreviousPeriod,
     required this.onLoadNextPeriod,
     required this.onRetry,
@@ -42,6 +44,7 @@ class MonSuiviViewModel extends Equatable {
       withCreateButton: state is MonSuiviSuccessState,
       withWarningOnWrongSessionMiloRetrieval: _withWarningOnWrongSessionMiloRetrieval(state),
       pendingActionCreations: store.state.userActionCreatePendingState.getPendingCreationsCount(),
+      shouldShowOnboarding: _shouldShowOnboarding(store),
       onLoadPreviousPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.previous)),
       onLoadNextPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.next)),
       onRetry: () {
@@ -59,6 +62,7 @@ class MonSuiviViewModel extends Equatable {
         withCreateButton,
         withWarningOnWrongSessionMiloRetrieval,
         pendingActionCreations,
+        shouldShowOnboarding,
       ];
 }
 
@@ -228,4 +232,8 @@ class SessionMiloMonSuiviEntry extends MonSuiviEntry {
 
   @override
   List<Object?> get props => [id];
+}
+
+bool _shouldShowOnboarding(Store<AppState> store) {
+  return store.state.onboardingState.showMonSuiviOnboarding;
 }

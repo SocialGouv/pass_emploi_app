@@ -15,6 +15,7 @@ class AgendaPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<AgendaItem> events;
   final bool isReloading;
+  final bool shouldShowOnboarding;
   final Function(DateTime) reload;
   final Function() goToEventList;
 
@@ -22,6 +23,7 @@ class AgendaPageViewModel extends Equatable {
     required this.displayState,
     required this.events,
     required this.isReloading,
+    required this.shouldShowOnboarding,
     required this.reload,
     required this.goToEventList,
   });
@@ -31,13 +33,14 @@ class AgendaPageViewModel extends Equatable {
       displayState: _displayState(store),
       events: _events(store),
       isReloading: store.state.agendaState is AgendaReloadingState,
+      shouldShowOnboarding: _shouldShowOnboarding(store),
       reload: (date) => store.dispatch(AgendaRequestReloadAction(maintenant: date, forceRefresh: true)),
       goToEventList: () => store.dispatch(HandleDeepLinkAction(EventListDeepLink(), DeepLinkOrigin.inAppNavigation)),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, events, isReloading];
+  List<Object?> get props => [displayState, events, isReloading, shouldShowOnboarding];
 }
 
 DisplayState _displayState(Store<AppState> store) {
@@ -146,6 +149,10 @@ AgendaItem _agendaItemFromEvent(EventAgenda event) {
     RendezvousEventAgenda() => RendezvousAgendaItem(event.id),
     SessionMiloEventAgenda() => SessionMiloAgendaItem(event.id),
   };
+}
+
+bool _shouldShowOnboarding(Store<AppState> store) {
+  return store.state.onboardingState.showMonSuiviOnboarding;
 }
 
 sealed class AgendaItem extends Equatable {

@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
@@ -31,7 +32,14 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:shimmer/shimmer.dart';
 
-class MonSuiviMiloPage extends StatelessWidget {
+class MonSuiviMiloPage extends StatefulWidget {
+  @override
+  State<MonSuiviMiloPage> createState() => _MonSuiviMiloPageState();
+}
+
+class _MonSuiviMiloPageState extends State<MonSuiviMiloPage> {
+  bool _onboardingShown = false;
+
   @override
   Widget build(BuildContext context) {
     return Tracker(
@@ -42,10 +50,21 @@ class MonSuiviMiloPage extends StatelessWidget {
           converter: (store) => MonSuiviViewModel.create(store),
           builder: (_, viewModel) => _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
           onDispose: (store) => store.dispatch(MonSuiviResetAction()),
+          onDidChange: (_, viewModel) => _handleOnboarding(context, viewModel),
           distinct: true,
         ),
       ),
     );
+  }
+
+  void _handleOnboarding(
+    BuildContext context,
+    MonSuiviViewModel viewModel,
+  ) {
+    if (viewModel.shouldShowOnboarding && !_onboardingShown) {
+      _onboardingShown = true;
+      OnboardingBottomSheet.show(context, source: OnboardingSource.monSuivi);
+    }
   }
 }
 

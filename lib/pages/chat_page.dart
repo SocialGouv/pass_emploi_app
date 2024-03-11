@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/apparition_animation.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_text_message.dart';
@@ -42,6 +43,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   TextEditingController? _controller;
   bool _animateMessage = false;
   bool _isLoadingMorePast = false;
+  bool _onboardingShown = false;
 
   @override
   void initState() {
@@ -91,10 +93,18 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
           StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction());
           _animateMessage = true;
           _isLoadingMorePast = false;
+          _handleOnboarding(newVm);
         },
         distinct: true,
       ),
     );
+  }
+
+  void _handleOnboarding(ChatPageViewModel viewModel) {
+    if (viewModel.shouldShowOnboarding && !_onboardingShown) {
+      _onboardingShown = true;
+      OnboardingBottomSheet.show(context, source: OnboardingSource.chat);
+    }
   }
 
   void _onDispose(Store<AppState> store) {
