@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -34,7 +33,5 @@ class EventsTabPageViewModel extends Equatable {
 }
 
 bool _shouldShowOnboarding(Store<AppState> store) {
-  final onboarding = store.state.onboardingState;
-  if (onboarding is OnboardingSuccessState) return onboarding.result.showEvenementsOnboarding == true;
-  return false;
+  return store.state.onboardingState.showEvenementsOnboarding;
 }

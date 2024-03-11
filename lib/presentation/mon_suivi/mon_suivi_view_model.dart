@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -236,7 +235,5 @@ class SessionMiloMonSuiviEntry extends MonSuiviEntry {
 }
 
 bool _shouldShowOnboarding(Store<AppState> store) {
-  final onboarding = store.state.onboardingState;
-  if (onboarding is OnboardingSuccessState) return onboarding.result.showMonSuiviOnboarding == true;
-  return false;
+  return store.state.onboardingState.showMonSuiviOnboarding;
 }

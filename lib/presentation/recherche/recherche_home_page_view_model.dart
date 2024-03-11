@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -29,7 +28,5 @@ class RechercheHomePageViewModel extends Equatable {
 }
 
 bool _shouldShowOnboarding(Store<AppState> store) {
-  final onboarding = store.state.onboardingState;
-  if (onboarding is OnboardingSuccessState) return onboarding.result.showRechercheOnboarding == true;
-  return false;
+  return store.state.onboardingState.showRechercheOnboarding;
 }

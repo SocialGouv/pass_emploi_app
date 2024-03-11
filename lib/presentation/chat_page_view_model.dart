@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -208,7 +207,5 @@ String _getDayLabel(DateTime dateTime) {
 }
 
 bool _shouldShowOnboarding(Store<AppState> store) {
-  final onboarding = store.state.onboardingState;
-  if (onboarding is OnboardingSuccessState) return onboarding.result.showChatOnboarding == true;
-  return false;
+ return store.state.onboardingState.showChatOnboarding;
 }

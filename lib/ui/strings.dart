@@ -402,7 +402,7 @@ class Strings {
   static String validateButtonTitle = "Valider";
   static String mandatory = "Les questions marquées d'une * sont obligatoires";
   static String pourquoiTitle = "Pourquoi ?";
-  static String evaluationSuccessfullySent = "Vous avez répondu aux questions, merci !";
+  static String evaluationSuccessfullySent = "Vous avez répondu aux questions, merci\u{00A0}!";
 
   // User action form
   static const String createActionAppBarTitle = 'Créer une action';
@@ -450,7 +450,7 @@ class Strings {
 
   static const String userActionConfirmationTitle = "Action enregistrée";
   static const String userActionConfirmatioSubtitle =
-      "L’action est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous !";
+      "L’action est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous\u{00A0}!";
 
   static const String userActionConfirmationSeeDetailButton = "Consulter mon action";
   static const String userActionConfirmationCreateMoreButton = "Créer une autre action";
@@ -651,7 +651,7 @@ class Strings {
       "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise…";
   static String thematiquesDemarcheDescription = "Choisissez une thématique parmi les thématiques suivantes :";
   static String thematiquesDemarchePressedTip = "Parcourir les démarches";
-  static String thematiquesErrorTitle = "Il y a un problème de notre côté !";
+  static String thematiquesErrorTitle = "Il y a un problème de notre côté\u{00A0}!";
   static String thematiquesErrorSubtitle =
       "Nous sommes en train de régler le problème. Réessayez plus tard ou créez une démarche personnalisée.";
 
@@ -1162,7 +1162,8 @@ class Strings {
       "Une erreur est survenue. Vérifiez votre connexion ou réessayez plus tard.";
   static String diagorienteChatBotPageTitle = "Découvrir des métiers";
   static String diagorienteMetiersFavorisPageTitle = "Mes métiers favoris";
-  static String diagorienteDiscoverCardTitle = "Découvrez de nouveaux métiers et retrouvez vos métiers favoris !";
+  static String diagorienteDiscoverCardTitle =
+      "Découvrez de nouveaux métiers et retrouvez vos métiers favoris\u{00A0}!";
   static String diagorienteDiscoverCardSubtitle = "Explorez les métiers qui correspondent à vos centres d’intérêt.";
   static String diagorienteDiscoverCardPressedTip = "En savoir plus";
   static String diagorienteMetiersFavorisCardTitle = "Retrouvez vos métiers favoris";
