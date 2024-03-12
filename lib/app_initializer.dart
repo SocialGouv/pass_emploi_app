@@ -65,6 +65,7 @@ import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
@@ -274,6 +275,7 @@ class AppInitializer {
       CampagneRecrutementRepository(securedPreferences, CampagneRecrutementRemoteConfig(firebaseRemoteConfig)),
       PreferredLoginModeRepository(securedPreferences),
       OnboardingRepository(securedPreferences),
+      FirstLaunchOnboardingRepository(securedPreferences),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

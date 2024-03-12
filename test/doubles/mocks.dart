@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
@@ -181,6 +182,12 @@ class MockPreferredLoginModeRepository extends Mock implements PreferredLoginMod
 class MockOnboardingRepository extends Mock implements OnboardingRepository {
   MockOnboardingRepository() {
     when(() => get()).thenAnswer((_) async => dummyOnboarding);
+  }
+}
+
+class MockFirstLaunchOnboardingRepository extends Mock implements FirstLaunchOnboardingRepository {
+  MockFirstLaunchOnboardingRepository() {
+    when(() => get()).thenAnswer((_) async => false);
   }
 }
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/
