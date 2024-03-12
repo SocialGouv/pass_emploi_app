@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
-import 'package:pass_emploi_app/models/feature_flip.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
@@ -28,7 +27,7 @@ void main() {
                 .loggedInUser()
                 .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
-            sut.thenExpectAtSomePoint(_shouldHaveValue(FeatureFlip(useCvm: true)));
+            sut.thenExpectAtSomePoint(_shouldHaveUseCvmValue(true));
           });
         });
 
@@ -50,7 +49,7 @@ void main() {
                   },
                 );
 
-            sut.thenExpectAtSomePoint(_shouldHaveValue(FeatureFlip(useCvm: true)));
+            sut.thenExpectAtSomePoint(_shouldHaveUseCvmValue(true));
           });
         });
 
@@ -72,7 +71,7 @@ void main() {
                   },
                 );
 
-            sut.thenExpectNever(_shouldHaveValue(FeatureFlip(useCvm: true)));
+            sut.thenExpectNever(_shouldHaveUseCvmValue(true));
           });
         });
       });
@@ -87,16 +86,16 @@ void main() {
               .loggedInUser()
               .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
-          sut.thenExpectNever(_shouldHaveValue(FeatureFlip(useCvm: true)));
+          sut.thenExpectNever(_shouldHaveUseCvmValue(true));
         });
       });
     });
   });
 }
 
-Matcher _shouldHaveValue(FeatureFlip expected) {
+Matcher _shouldHaveUseCvmValue(bool useCvm) {
   return StateIs<FeatureFlipState>(
     (state) => state.featureFlipState,
-    (state) => expect(state.featureFlip, expected),
+    (state) => expect(state.featureFlip.useCvm, useCvm),
   );
 }

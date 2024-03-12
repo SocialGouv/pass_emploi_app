@@ -1,26 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pass_emploi_app/remote_config/campagne_recrutement_config.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 
 import '../doubles/mocks.dart';
 
-class MockCampagneRecrutementConfig extends Mock implements CampagneRecrutementRemoteConfig {
-  void withLastCampagneId(String? value) {
-    when(() => lastCampagneId()).thenReturn(value);
-  }
-}
-
 void main() {
   late MockFlutterSecureStorage mockFlutterSecureStorage;
-  late MockCampagneRecrutementConfig mockCampagneRecrutementConfig;
+  late MockRemoteConfigRepository remoteConfigRepository;
   late CampagneRecrutementRepository campagneRecrutementRepository;
 
   setUp(() {
     mockFlutterSecureStorage = MockFlutterSecureStorage();
-    mockCampagneRecrutementConfig = MockCampagneRecrutementConfig();
-    campagneRecrutementRepository =
-        CampagneRecrutementRepository(mockFlutterSecureStorage, mockCampagneRecrutementConfig);
+    remoteConfigRepository = MockRemoteConfigRepository();
+    campagneRecrutementRepository = CampagneRecrutementRepository(remoteConfigRepository, mockFlutterSecureStorage);
   });
 
   group('CampagneRecrutementRepository', () {
@@ -51,7 +43,7 @@ void main() {
     group('shouldShowCampagneRecrutement', () {
       test('should not show campagne recrutement if campagneConfig is null', () async {
         // Given
-        mockCampagneRecrutementConfig.withLastCampagneId(null);
+        when(() => remoteConfigRepository.lastCampagneRecrutementId()).thenReturn(null);
         mockFlutterSecureStorage.withAnyRead("campagneId");
 
         // When
@@ -64,7 +56,7 @@ void main() {
       test('should not show campagne recrutement local and remote campagne are equals', () async {
         // Given
         const String campagneId = "campagneId";
-        mockCampagneRecrutementConfig.withLastCampagneId(campagneId);
+        when(() => remoteConfigRepository.lastCampagneRecrutementId()).thenReturn(campagneId);
         mockFlutterSecureStorage.withAnyRead(campagneId);
 
         // When
@@ -77,7 +69,7 @@ void main() {
       test('should show campagne recrutement when campagneId is different', () async {
         // Given
         const String campagneId = "campagneId";
-        mockCampagneRecrutementConfig.withLastCampagneId(campagneId);
+        when(() => remoteConfigRepository.lastCampagneRecrutementId()).thenReturn(campagneId);
         mockFlutterSecureStorage.withAnyRead("anyCampagneId");
 
         // When

@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/features/alerte/create/alerte_create_state.dart'
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_state.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
-import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
@@ -143,7 +142,6 @@ class AppState extends Equatable {
   final ConnectivityState connectivityState;
   final MonSuiviState monSuiviState;
   final CvmState cvmState;
-  final CampagneRecrutementState campagneRecrutementState;
   final PreferredLoginModeState preferredLoginModeState;
   final OnboardingState onboardingState;
   final FirstLaunchOnboardingState firstLaunchOnboardingState;
@@ -218,7 +216,6 @@ class AppState extends Equatable {
     required this.connectivityState,
     required this.monSuiviState,
     required this.cvmState,
-    required this.campagneRecrutementState,
     required this.preferredLoginModeState,
     required this.onboardingState,
     required this.firstLaunchOnboardingState,
@@ -294,7 +291,6 @@ class AppState extends Equatable {
     final ConnectivityState? connectivityState,
     final MonSuiviState? monSuiviState,
     final CvmState? cvmState,
-    final CampagneRecrutementState? campagneRecrutementState,
     final PreferredLoginModeState? preferredLoginModeState,
     final OnboardingState? onboardingState,
     final FirstLaunchOnboardingState? firstLaunchOnboardingState,
@@ -369,7 +365,6 @@ class AppState extends Equatable {
       connectivityState: connectivityState ?? this.connectivityState,
       monSuiviState: monSuiviState ?? this.monSuiviState,
       cvmState: cvmState ?? this.cvmState,
-      campagneRecrutementState: campagneRecrutementState ?? this.campagneRecrutementState,
       preferredLoginModeState: preferredLoginModeState ?? this.preferredLoginModeState,
       onboardingState: onboardingState ?? this.onboardingState,
       firstLaunchOnboardingState: firstLaunchOnboardingState ?? this.firstLaunchOnboardingState,
@@ -447,7 +442,6 @@ class AppState extends Equatable {
       connectivityState: ConnectivityState.notInitialized(),
       monSuiviState: MonSuiviNotInitializedState(),
       cvmState: CvmNotInitializedState(),
-      campagneRecrutementState: CampagneRecrutementNotInitializedState(),
       preferredLoginModeState: PreferredLoginModeNotInitializedState(),
       onboardingState: OnboardingNotInitializedState(),
       firstLaunchOnboardingState: FirstLaunchOnboardingNotInitializedState(),
@@ -519,7 +513,6 @@ class AppState extends Equatable {
         connectivityState,
         monSuiviState,
         cvmState,
-        campagneRecrutementState,
         preferredLoginModeState,
         onboardingState,
         firstLaunchOnboardingState,
