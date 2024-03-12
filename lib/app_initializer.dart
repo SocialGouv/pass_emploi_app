@@ -28,7 +28,6 @@ import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
-import 'package:pass_emploi_app/remote_config/max_living_time_config.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
@@ -175,11 +174,7 @@ class AppInitializer {
       securedPreferences,
       crashlytics,
     );
-    final accessTokenRetriever = AuthAccessTokenRetriever(
-      MaxLivingTimeRemoteConfig(firebaseRemoteConfig),
-      authenticator,
-      Lock(),
-    );
+    final accessTokenRetriever = AuthAccessTokenRetriever(authenticator, remoteConfigRepository, Lock());
     final authAccessChecker = AuthAccessChecker();
     final cacheStore = FileCacheStore((await getTemporaryDirectory()).path);
     final requestCacheManager = PassEmploiCacheManager(cacheStore, configuration.serverBaseUrl);
