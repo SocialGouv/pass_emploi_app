@@ -13,8 +13,11 @@ class FirstLaunchOnboardingMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is BootstrapAction) {
-      final showOnboarding = await _repository.get();
+      final showOnboarding = await _repository.showFirstLaunchOnboarding();
       store.dispatch(FirstLaunchOnboardingSuccessAction(showOnboarding));
+    } else if (action is FirstLaunchOnboardingFinishAction) {
+      await _repository.seen();
+      store.dispatch(FirstLaunchOnboardingSuccessAction(false));
     }
   }
 }

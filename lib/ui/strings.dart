@@ -117,6 +117,42 @@ class Strings {
   // Loader (Splash)
   static String welcomeOn = "Bienvenue sur";
 
+  // First Launch Onboarding
+  static String start = "Démarrer";
+
+  static String firstLaunchOnboardingCardTitle1 =
+      Brand.isCej() ? firstLaunchOnboardingCardTitle1Cej : firstLaunchOnboardingCardTitle1Brsa;
+  static String firstLaunchOnboardingCardContent1 =
+      Brand.isCej() ? firstLaunchOnboardingCardContent1Cej : firstLaunchOnboardingCardContent1Brsa;
+  static String firstLaunchOnboardingCardTitle2 =
+      Brand.isCej() ? firstLaunchOnboardingCardTitle2Cej : firstLaunchOnboardingCardTitle2Brsa;
+  static String firstLaunchOnboardingCardContent2 =
+      Brand.isCej() ? firstLaunchOnboardingCardContent2Cej : firstLaunchOnboardingCardContent2Brsa;
+  static String firstLaunchOnboardingCardTitle3 =
+      Brand.isCej() ? firstLaunchOnboardingCardTitle3Cej : firstLaunchOnboardingCardTitle3Brsa;
+  static String firstLaunchOnboardingCardContent3 =
+      Brand.isCej() ? firstLaunchOnboardingCardContent3Cej : firstLaunchOnboardingCardContent3Brsa;
+
+  static String firstLaunchOnboardingCardTitle1Cej = "Le CEJ, un suivi personnalisé avec un conseiller dédié";
+  static String firstLaunchOnboardingCardContent1Cej =
+      "Avec le CEJ, vous êtes accompagné 15 à 20h par semaine minimum par un conseiller dédié tout au long de votre parcours.";
+  static String firstLaunchOnboardingCardTitle2Cej = "Une application pour suivre vos actions et rester en contact";
+  static String firstLaunchOnboardingCardContent2Cej =
+      "Recherchez un emploi, suivez vos activités et gardez contact avec votre conseiller grâce à une messagerie instantanée.";
+  static String firstLaunchOnboardingCardTitle3Cej = "Des informations protégées";
+  static String firstLaunchOnboardingCardContent3Cej =
+      "Connectez-vous pour bénéficier de toutes les fonctionnalités de l’application et profitez d’un environnement sécurisé pour échanger avec votre conseiller. ";
+
+  static String firstLaunchOnboardingCardTitle1Brsa = "Un suivi personnalisé avec un conseiller dédié";
+  static String firstLaunchOnboardingCardContent1Brsa =
+      "Vous suivez un programme de 15 à 20h par semaine, avec un conseiller dédié tout au long de votre parcours.";
+  static String firstLaunchOnboardingCardTitle2Brsa = "Une application pour suivre vos actions et rester en contact";
+  static String firstLaunchOnboardingCardContent2Brsa =
+      "Recherchez un emploi, suivez vos démarches et gardez contact avec votre conseiller grâce à une messagerie instantanée.";
+  static String firstLaunchOnboardingCardTitle3Brsa = "Des informations protégées";
+  static String firstLaunchOnboardingCardContent3Brsa =
+      "Connectez-vous pour bénéficier de toutes les fonctionnalités de l’application et profitez d’un environnement sécurisé pour échanger avec votre conseiller. ";
+
   // Entree
   static String welcome = "Bienvenue";
   static String welcomeMessage = Brand.isCej()

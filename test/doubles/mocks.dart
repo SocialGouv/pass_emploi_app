@@ -187,7 +187,7 @@ class MockOnboardingRepository extends Mock implements OnboardingRepository {
 
 class MockFirstLaunchOnboardingRepository extends Mock implements FirstLaunchOnboardingRepository {
   MockFirstLaunchOnboardingRepository() {
-    when(() => get()).thenAnswer((_) async => false);
+    when(() => showFirstLaunchOnboarding()).thenAnswer((_) async => false);
   }
 }
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

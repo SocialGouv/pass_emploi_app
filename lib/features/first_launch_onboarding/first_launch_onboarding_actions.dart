@@ -3,3 +3,5 @@ class FirstLaunchOnboardingSuccessAction {
 
   FirstLaunchOnboardingSuccessAction(this.showOnboarding);
 }
+
+class FirstLaunchOnboardingFinishAction {}

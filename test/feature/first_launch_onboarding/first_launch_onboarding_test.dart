@@ -17,7 +17,7 @@ void main() {
       sut.whenDispatchingAction(() => BootstrapAction());
 
       test('should load then succeed when request succeeds', () {
-        when(() => repository.get()).thenAnswer((_) async => true);
+        when(() => repository.showFirstLaunchOnboarding()).thenAnswer((_) async => true);
 
         sut.givenStore = givenState() //
             .loggedInUser()

@@ -11,9 +11,9 @@ class FirstLaunchOnboardingRepository {
     await _preferences.write(key: _key, value: "seen");
   }
 
-  Future<bool> get() async {
+  Future<bool> showFirstLaunchOnboarding() async {
     final result = await _preferences.read(key: _key);
-    if (result == null) return false;
-    return true;
+    if (result == null) return true;
+    return false;
   }
 }

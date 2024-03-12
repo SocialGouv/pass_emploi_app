@@ -30,7 +30,18 @@ void main() {
         mockFlutterSecureStorage.withAnyRead("seen");
 
         // When
-        final onboarding = await onboardingRepository.get();
+        final onboarding = await onboardingRepository.showFirstLaunchOnboarding();
+
+        // Then
+        expect(onboarding, false);
+      });
+
+      test('should get first launch onboarding', () async {
+        // Given
+        mockFlutterSecureStorage.withAnyRead(null);
+
+        // When
+        final onboarding = await onboardingRepository.showFirstLaunchOnboarding();
 
         // Then
         expect(onboarding, true);
