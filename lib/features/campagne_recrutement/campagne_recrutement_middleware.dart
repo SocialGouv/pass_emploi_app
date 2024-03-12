@@ -12,8 +12,8 @@ class CampagneRecrutementMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
+    final featureFlip = store.state.featureFlipState.featureFlip;
     if (action is CampagneRecrutementRequestAction) {
-      final featureFlip = store.state.featureFlipState.featureFlip;
       final isFirstLaunch = await _repository.isFirstLaunch();
       if (isFirstLaunch) {
         await _repository.setCampagneRecrutementInitialRead();
@@ -24,6 +24,7 @@ class CampagneRecrutementMiddleware extends MiddlewareClass<AppState> {
       }
     } else if (action is CampagneRecrutementDismissAction) {
       await _repository.dismissCampagneRecrutement();
+      store.dispatch(FeatureFlipAction(featureFlip.copyWith(withCampagneRecrutement: false)));
     }
   }
 }
