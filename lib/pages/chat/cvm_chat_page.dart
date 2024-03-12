@@ -16,8 +16,6 @@ import 'package:pass_emploi_app/widgets/chat/chat_text_message.dart';
 import 'package:redux/redux.dart';
 
 class CvmChatPage extends StatefulWidget {
-  static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => CvmChatPage());
-
   @override
   CvmChatPageState createState() => CvmChatPageState();
 }

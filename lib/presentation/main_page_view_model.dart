@@ -23,6 +23,7 @@ class MainPageViewModel extends Equatable {
   final List<MainTab> tabs;
   final bool withChatBadge;
   final bool showRating;
+  final bool useCvm;
   final LoginMode? loginMode;
   final Function resetDeeplink;
   final String actualisationPoleEmploiUrl;
@@ -31,6 +32,7 @@ class MainPageViewModel extends Equatable {
     required this.tabs,
     required this.withChatBadge,
     required this.showRating,
+    required this.useCvm,
     required this.loginMode,
     required this.resetDeeplink,
     required this.actualisationPoleEmploiUrl,
@@ -50,6 +52,7 @@ class MainPageViewModel extends Equatable {
       ],
       withChatBadge: (chatStatusState is ChatStatusSuccessState) && (chatStatusState.unreadMessageCount > 0),
       showRating: ratingState is ShowRatingState,
+      useCvm: store.state.featureFlipState.featureFlip.useCvm,
       loginMode: loginState is LoginSuccessState ? loginState.user.loginMode : null,
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       actualisationPoleEmploiUrl: store.state.configurationState.configuration?.actualisationPoleEmploiUrl ?? "",
@@ -57,5 +60,5 @@ class MainPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [tabs, withChatBadge, showRating, loginMode];
+  List<Object?> get props => [tabs, withChatBadge, showRating, useCvm, loginMode];
 }
