@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:synchronized/synchronized.dart';
 
-import '../doubles/dummies.dart';
 import '../doubles/mocks.dart';
 import '../doubles/spies.dart';
 
@@ -16,7 +15,7 @@ void main() {
 
   setUp(() {
     authenticator = MockAuthenticator();
-    tokenRetriever = AuthAccessTokenRetriever(DummyMaxLivingTimeConfig(), authenticator, Lock());
+    tokenRetriever = AuthAccessTokenRetriever(authenticator, MockRemoteConfigRepository(), Lock());
   });
 
   test("Throws an exception when id token is null", () async {

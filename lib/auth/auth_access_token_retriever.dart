@@ -2,17 +2,17 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/remote_config/max_living_time_config.dart';
+import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
 class AuthAccessTokenRetriever {
-  final MaxLivingTimeRemoteConfig _maxLivingTimeConfig;
   final Authenticator _authenticator;
+  final RemoteConfigRepository _remoteConfigRepository;
   final Lock _lock;
   late Store<AppState> _store;
 
-  AuthAccessTokenRetriever(this._maxLivingTimeConfig, this._authenticator, this._lock);
+  AuthAccessTokenRetriever(this._authenticator, this._remoteConfigRepository, this._lock);
 
   Future<String> accessToken() async {
     return _lock.synchronized(() async => _accessToken());
@@ -39,7 +39,7 @@ class AuthAccessTokenRetriever {
   }
 
   int? maxLivingTimeInSeconds(AuthIdToken idToken) {
-    if (idToken.getLoginMode().isMiLo()) return _maxLivingTimeConfig.maxLivingTimeInSecondsForMilo();
+    if (idToken.getLoginMode().isMiLo()) return _remoteConfigRepository.maxLivingTimeInSecondsForMilo();
     return null;
   }
 
