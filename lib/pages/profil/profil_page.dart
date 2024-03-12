@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
-import 'package:pass_emploi_app/pages/chat/cvm_chat_page.dart';
 import 'package:pass_emploi_app/pages/cv/cv_list_page.dart';
 import 'package:pass_emploi_app/pages/diagoriente/diagoriente_entry_page.dart';
 import 'package:pass_emploi_app/pages/partage_activite_page.dart';
@@ -137,11 +136,6 @@ class _Scaffold extends StatelessWidget {
                       title: Strings.developerOptionMatomo,
                       onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
                     ),
-                    if (viewModel.withCvmEntry)
-                      _ListTileData(
-                        title: Strings.developerOptionCvm,
-                        onTap: () => Navigator.push(context, CvmChatPage.materialPageRoute()),
-                      ),
                   ]),
                   SizedBox(height: Margins.spacing_l),
                 ],

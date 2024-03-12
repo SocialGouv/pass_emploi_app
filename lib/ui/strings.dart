@@ -1017,7 +1017,6 @@ class Strings {
   // Developer options
   static String developerOptions = 'Options développeurs';
   static String developerOptionMatomo = 'Données envoyées à Matomo';
-  static String developerOptionCvm = 'Chat CVM';
   static String developerOptionMatomoPage = 'Matomo';
 
   // Tutorial
