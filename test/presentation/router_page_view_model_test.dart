@@ -29,9 +29,53 @@ void main() {
     expect(viewModel.routerPageDisplayState, RouterPageDisplayState.SPLASH);
   });
 
+  test('…with login initialized and onboarding not initialized should display splash screen', () {
+    final store = givenState().loggedInUser().withFirstLaunchNotInitializedState().store();
+
+    final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+    expect(viewModel.routerPageDisplayState, RouterPageDisplayState.SPLASH);
+  });
+
   group("RouterPageViewModel.create when user not logged in…", () {
+    test('…with first launch onboarding should display onboarding page', () {
+      final store = givenState() //
+          .copyWith(loginState: UserNotLoggedInState())
+          .withFirstLaunchOnboardingSuccessState(true)
+          .store();
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.ONBOARDING);
+    });
+
+    test('…without first launch onboarding should display login page', () {
+      final store = givenState()
+          .copyWith(loginState: UserNotLoggedInState())
+          .withFirstLaunchOnboardingSuccessState(false)
+          .store();
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.LOGIN);
+    });
+
     test('…with not logged state in should display login page', () {
-      final store = givenState().copyWith(loginState: UserNotLoggedInState()).store();
+      final store = givenState() //
+          .copyWith(loginState: UserNotLoggedInState())
+          .withFirstLaunchOnboardingSuccessState(false)
+          .store();
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.LOGIN);
+    });
+
+    test('…with not logged state in should display login page', () {
+      final store = givenState() //
+          .copyWith(loginState: UserNotLoggedInState())
+          .withFirstLaunchOnboardingSuccessState(false)
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -39,7 +83,10 @@ void main() {
     });
 
     test('…with login loading state should display login page', () {
-      final store = givenState().copyWith(loginState: LoginLoadingState()).store();
+      final store = givenState() //
+          .copyWith(loginState: LoginLoadingState())
+          .withFirstLaunchOnboardingSuccessState(false)
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -47,7 +94,10 @@ void main() {
     });
 
     test('…with login failure state should display login page', () {
-      final store = givenState().copyWith(loginState: LoginGenericFailureState('')).store();
+      final store = givenState()
+          .copyWith(loginState: LoginGenericFailureState(''))
+          .withFirstLaunchOnboardingSuccessState(false)
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -56,8 +106,23 @@ void main() {
   });
 
   group("RouterPageViewModel.create when user logged in…", () {
+    test('…with first launch onboarding should not display onboarding page', () {
+      final store = givenState() //
+          .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(true)
+          .store();
+
+      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+    });
+
     test('…and deep link not set should display main page with accueil display state', () {
-      final store = givenState().loggedInUser().withDeepLink(NotInitializedDeepLinkState()).store();
+      final store = givenState()
+          .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
+          .withDeepLink(NotInitializedDeepLinkState())
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -66,7 +131,11 @@ void main() {
     });
 
     test('…and deep link is set to agenda should display main page with monSuivi display state', () {
-      final store = givenState().loggedInUser().withHandleDeepLink(AgendaDeepLink()).store();
+      final store = givenState()
+          .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
+          .withHandleDeepLink(AgendaDeepLink())
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -77,6 +146,7 @@ void main() {
     test('…and deep link is set to rendezvous should display main page with accueil display state', () {
       final store = givenState() //
           .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(RendezvousDeepLink('id'))
           .store();
 
@@ -87,7 +157,11 @@ void main() {
     });
 
     test('…and deep link is set to Detail Session Milo should display main page with accueil display state', () {
-      final store = givenState().loggedInMiloUser().deeplinkToSessionMilo('1').store();
+      final store = givenState()
+          .loggedInMiloUser()
+          .withFirstLaunchOnboardingSuccessState(false)
+          .deeplinkToSessionMilo('1')
+          .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -98,6 +172,7 @@ void main() {
     test('…and deep link is set to action should display main page with accueil display state', () {
       final store = givenState() //
           .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(ActionDeepLink('id'))
           .store();
 
@@ -110,6 +185,7 @@ void main() {
     test('…and deep link is set to favoris should display main page with accueil display state', () {
       final store = givenState() //
           .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(FavorisDeepLink())
           .store();
 
@@ -122,6 +198,7 @@ void main() {
     test('…and deep link is set to alertes should display main page with accueil display state', () {
       final store = givenState() //
           .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(AlertesDeepLink())
           .store();
 
@@ -135,6 +212,7 @@ void main() {
         () {
       final store = givenState() //
           .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(ActualisationPeDeepLink())
           .store();
 
@@ -146,6 +224,7 @@ void main() {
     test('…and deep link is set to chat should display main page with chat display state', () {
       final store = givenState() //
           .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(NouveauMessageDeepLink())
           .store();
 
@@ -158,6 +237,7 @@ void main() {
     test('…and deep link is set to recherche should display main page with recherche', () {
       final store = givenState() //
           .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(RechercheDeepLink())
           .store();
 
@@ -169,6 +249,7 @@ void main() {
     test('…and deep link is set to outils should display main page with outils', () {
       final store = givenState() //
           .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(OutilsDeepLink())
           .store();
 
@@ -180,6 +261,7 @@ void main() {
     test('…and deep link is set to event list should display main page with event list display state', () {
       final store = givenState() //
           .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(EventListDeepLink())
           .store();
 
@@ -192,6 +274,7 @@ void main() {
     test('should show tutorial if user did not read it yet', () {
       final store = givenState() //
           .loggedInUser()
+          .withFirstLaunchOnboardingSuccessState(false)
           .copyWith(tutorialState: ShowTutorialState(Tutorial.milo))
           .store();
 

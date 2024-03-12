@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.d
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
@@ -812,5 +813,13 @@ extension AppStateDSL on AppState {
 
   AppState withOnboardingSuccessState(Onboarding onboarding) {
     return copyWith(onboardingState: OnboardingSuccessState(onboarding));
+  }
+
+  AppState withFirstLaunchOnboardingSuccessState(bool isFirstLaunch) {
+    return copyWith(firstLaunchOnboardingState: FirstLaunchOnboardingSuccessState(isFirstLaunch));
+  }
+
+  AppState withFirstLaunchNotInitializedState() {
+    return copyWith(firstLaunchOnboardingState: FirstLaunchOnboardingNotInitializedState());
   }
 }
