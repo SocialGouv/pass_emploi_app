@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
+import 'package:pass_emploi_app/features/feature_flip/feature_flip_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -14,6 +15,7 @@ import 'package:redux/redux.dart';
 class CvmMiddleware extends MiddlewareClass<AppState> {
   final CvmFacade _facade;
   StreamSubscription<List<CvmMessage>>? _subscription;
+  bool _featureFlipConsumed = false;
 
   CvmMiddleware(
     CvmBridge bridge,
@@ -24,7 +26,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is CvmRequestAction) {
+    if (_shouldStartCvm(action)) {
       _start(store);
     } else if (_shouldLogout(store, action)) {
       _logout();
@@ -33,6 +35,15 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     } else if (action is CvmLoadMoreAction) {
       _facade.loadMore();
     }
+  }
+
+  bool _shouldStartCvm(dynamic action) {
+    if (action is CvmRequestAction) return true;
+    if (!_featureFlipConsumed && action is FeatureFlipAction && action.featureFlip.useCvm) {
+      _featureFlipConsumed = true;
+      return true;
+    }
+    return false;
   }
 
   void _start(Store<AppState> store) async {
@@ -53,6 +64,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     _subscription?.cancel();
     _facade.stop();
     _facade.logout();
+    _featureFlipConsumed = false;
   }
 
   bool _shouldLogout(Store<AppState> store, action) {
