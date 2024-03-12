@@ -165,8 +165,7 @@ AccueilItem? _campagneItem(AppState state) {
 
 CampagneRecrutementCej? _campagneRecrutementCej(Store<AppState> store, AppState state) {
   final isCej = Brand.isCej();
-  final campagneRecrutementState = state.campagneRecrutementState;
-  if (isCej && campagneRecrutementState.shouldShowCampagneRecrutement) {
+  if (isCej && state.featureFlipState.featureFlip.withCampagneRecrutement) {
     return CampagneRecrutementCej(onDismiss: () => store.dispatch(CampagneRecrutementDismissAction()));
   }
   return null;

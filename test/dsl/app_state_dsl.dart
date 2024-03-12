@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
-import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
@@ -18,6 +17,7 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.d
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
@@ -59,6 +59,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/evenement_emploi.dart';
 import 'package:pass_emploi_app/models/favori.dart';
+import 'package:pass_emploi_app/models/feature_flip.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/metier.dart';
@@ -111,6 +112,14 @@ extension AppStateDSL on AppState {
 
   AppState withDemoMode() => copyWith(demoState: true);
 
+  AppState withFeatureFlip({bool? useCvm, bool? withCampagneRecrutement}) {
+    return copyWith(
+      featureFlipState: FeatureFlipState(
+        FeatureFlip.initial().copyWith(useCvm: useCvm, withCampagneRecrutement: withCampagneRecrutement),
+      ),
+    );
+  }
+
   AppState rendezvousFutur({
     List<Rendezvous> rendezvous = const [],
     List<SessionMilo> sessionsMilo = const [],
@@ -153,9 +162,6 @@ extension AppStateDSL on AppState {
   AppState failedPastRendezvous() => copyWith(rendezvousListState: RendezvousListState.failedPast());
 
   AppState withCampagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
-
-  AppState withCampagneRecrutement(bool withCampagneRecrutement) =>
-      copyWith(campagneRecrutementState: CampagneRecrutementResultState(withCampagneRecrutement));
 
   AppState piecesJointesWithIdOneSuccess() =>
       copyWith(piecesJointesState: PiecesJointesState({"id-1": PieceJointeStatus.success}));
