@@ -28,7 +28,6 @@ import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
-import 'package:pass_emploi_app/remote_config/campagne_recrutement_config.dart';
 import 'package:pass_emploi_app/remote_config/max_living_time_config.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
@@ -274,7 +273,7 @@ class AppInitializer {
         ),
       ),
       CvmTokenRepository(dioClient, crashlytics),
-      CampagneRecrutementRepository(securedPreferences, CampagneRecrutementRemoteConfig(firebaseRemoteConfig)),
+      CampagneRecrutementRepository(remoteConfigRepository, securedPreferences),
       PreferredLoginModeRepository(securedPreferences),
       OnboardingRepository(securedPreferences),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/

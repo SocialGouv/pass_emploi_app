@@ -54,7 +54,7 @@ void main() {
       final store = givenState() //
           .loggedInMiloUser()
           .withAccueilMiloSuccess()
-          .withCampagneRecrutement(true)
+          .withFeatureFlip(withCampagneRecrutement: true)
           .withCampagne(campagne())
           .store();
 
@@ -143,7 +143,7 @@ void main() {
       final store = givenState() //
           .loggedInPoleEmploiUser()
           .withAccueilPoleEmploiSuccess()
-          .withCampagneRecrutement(true)
+          .withFeatureFlip(withCampagneRecrutement: true)
           .withCampagne(campagne())
           .store();
 

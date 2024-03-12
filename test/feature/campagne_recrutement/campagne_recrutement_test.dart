@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_actions.dart';
-import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_state.dart';
+import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 
 import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -23,7 +23,7 @@ void main() {
             .loggedInUser()
             .store((f) => {f.campagneRecrutementRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(false)]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldHaveCampagneRecrutementValue(false)]);
       });
 
       test('should show campagne recrutement', () {
@@ -34,7 +34,7 @@ void main() {
             .loggedInUser()
             .store((f) => {f.campagneRecrutementRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(true)]);
+        sut.thenExpectAtSomePoint(_shouldHaveCampagneRecrutementValue(true));
       });
     });
 
@@ -48,17 +48,15 @@ void main() {
             .loggedInUser()
             .store((f) => {f.campagneRecrutementRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(false)]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldHaveCampagneRecrutementValue(false)]);
       });
     });
   });
 }
 
-Matcher _shouldSucceed(bool value) {
-  return StateIs<CampagneRecrutementResultState>(
-    (state) => state.campagneRecrutementState,
-    (state) {
-      expect(state.withCampagneRecrutement, value);
-    },
+Matcher _shouldHaveCampagneRecrutementValue(bool withCampagneRecrutement) {
+  return StateIs<FeatureFlipState>(
+    (state) => state.featureFlipState,
+    (state) => expect(state.featureFlip.withCampagneRecrutement, withCampagneRecrutement),
   );
 }

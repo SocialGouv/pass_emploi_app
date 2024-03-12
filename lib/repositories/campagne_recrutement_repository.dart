@@ -1,11 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:pass_emploi_app/remote_config/campagne_recrutement_config.dart';
+import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 
 class CampagneRecrutementRepository {
-  CampagneRecrutementRepository(this._preferences, this.campagneConfig);
-
-  final CampagneRecrutementRemoteConfig campagneConfig;
+  final RemoteConfigRepository _repository;
   final FlutterSecureStorage _preferences;
+
+  CampagneRecrutementRepository(this._repository, this._preferences);
 
   static const String _key = 'campagne-recrutement';
 
@@ -14,7 +14,7 @@ class CampagneRecrutementRepository {
   }
 
   Future<void> dismissCampagneRecrutement() async {
-    await _preferences.write(key: _key, value: campagneConfig.lastCampagneId());
+    await _preferences.write(key: _key, value: _repository.lastCampagneRecrutementId());
   }
 
   Future<bool> isFirstLaunch() async {
@@ -24,6 +24,7 @@ class CampagneRecrutementRepository {
 
   Future<bool> shouldShowCampagneRecrutement() async {
     final String? lastCampagneId = await _preferences.read(key: _key);
-    return campagneConfig.lastCampagneId() != null && lastCampagneId != campagneConfig.lastCampagneId();
+    final String? remoteCampagneId = _repository.lastCampagneRecrutementId();
+    return remoteCampagneId != null && lastCampagneId != remoteCampagneId;
   }
 }
