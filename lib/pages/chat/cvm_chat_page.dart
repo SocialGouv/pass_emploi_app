@@ -49,7 +49,6 @@ class CvmChatPageState extends State<CvmChatPage> {
     return Tracker(
       tracking: AnalyticsScreenNames.cvmChat,
       child: StoreConnector<AppState, CvmChatPageViewModel>(
-        onInit: (store) => store.dispatch(CvmRequestAction()),
         onDispose: _onDispose,
         converter: CvmChatPageViewModel.create,
         builder: _builder,
