@@ -14,7 +14,7 @@ void main() {
   });
 
   group('FirstLaunchOnboardingRepository', () {
-    group('save', () {
+    group('seen', () {
       test('should save first launch onboarding', () async {
         // When
         await onboardingRepository.seen();
@@ -24,8 +24,8 @@ void main() {
       });
     });
 
-    group('get', () {
-      test('should get first launch onboarding', () async {
+    group('showFirstLaunchOnboarding', () {
+      test('when already seen', () async {
         // Given
         mockFlutterSecureStorage.withAnyRead("seen");
 
@@ -36,7 +36,7 @@ void main() {
         expect(onboarding, false);
       });
 
-      test('should get first launch onboarding', () async {
+      test('when not seen yet', () async {
         // Given
         mockFlutterSecureStorage.withAnyRead(null);
 
