@@ -19,8 +19,10 @@ import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/models/chat/message.dart' as message;
 import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/cv_pole_emploi.dart';
@@ -1230,5 +1232,14 @@ MonSuivi mockMonSuivi({
     rendezvous: rendezvous ?? [],
     sessionsMilo: sessionsMilo ?? [],
     errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval,
+  );
+}
+
+CvmMessage mockCvmTextMessage({String? id, String? content, DateTime? date, Sender? sentBy}) {
+  return CvmTextMessage(
+    id: id ?? "id",
+    content: content ?? "content",
+    date: date ?? DateTime(2024),
+    sentBy: sentBy ?? Sender.jeune,
   );
 }

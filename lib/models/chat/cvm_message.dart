@@ -6,6 +6,14 @@ sealed class CvmMessage extends Equatable {
   final DateTime date;
 
   CvmMessage({required this.id, required this.date});
+
+  bool isFromConseiller() {
+    return switch (this) {
+      final CvmTextMessage message => message.sentBy == Sender.conseiller,
+      final CvmFileMessage message => message.sentBy == Sender.conseiller,
+      CvmUnknownMessage() => false,
+    };
+  }
 }
 
 class CvmTextMessage extends CvmMessage {

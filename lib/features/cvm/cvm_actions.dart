@@ -12,6 +12,8 @@ class CvmSuccessAction {
 
 class CvmFailureAction {}
 
+class CvmLastReadingAction {}
+
 class CvmSendMessageAction {
   final String message;
 
