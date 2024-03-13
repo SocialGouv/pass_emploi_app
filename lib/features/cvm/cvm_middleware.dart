@@ -15,7 +15,6 @@ import 'package:redux/redux.dart';
 class CvmMiddleware extends MiddlewareClass<AppState> {
   final CvmFacade _facade;
   StreamSubscription<List<CvmMessage>>? _subscription;
-  bool _featureFlipConsumed = false;
 
   CvmMiddleware(
     CvmBridge bridge,
@@ -38,12 +37,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   }
 
   bool _shouldStartCvm(dynamic action) {
-    if (action is CvmRequestAction) return true;
-    if (!_featureFlipConsumed && action is FeatureFlipAction && action.featureFlip.useCvm) {
-      _featureFlipConsumed = true;
-      return true;
-    }
-    return false;
+    return action is CvmRequestAction || (action is FeatureFlipAction && action.useCvm);
   }
 
   void _start(Store<AppState> store) async {
@@ -64,7 +58,6 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     _subscription?.cancel();
     _facade.stop();
     _facade.logout();
-    _featureFlipConsumed = false;
   }
 
   bool _shouldLogout(Store<AppState> store, action) {
