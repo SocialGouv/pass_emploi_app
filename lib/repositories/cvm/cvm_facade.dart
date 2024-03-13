@@ -37,7 +37,7 @@ class CvmFacade {
     _state.reset();
   }
 
-  void logout() => _bridge.logout();
+  Future<void> logout() async => await _bridge.logout();
 
   Future<bool> sendMessage(String message) async {
     try {

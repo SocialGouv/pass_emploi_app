@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
 
 import '../../doubles/fixtures.dart';
@@ -12,14 +13,68 @@ import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
 void main() {
+  late MockCvmBridge bridge;
   late MockCvmLastReadingRepository lastReadingRepository;
 
   setUp(() {
+    bridge = MockCvmBridge();
     lastReadingRepository = MockCvmLastReadingRepository();
   });
 
   group('Cvm', () {
     final sut = StoreSut();
+
+    test('sendMessage', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().store((f) => {f.cvmBridge = bridge});
+
+      // When
+      store.dispatch(CvmSendMessageAction('message'));
+
+      // Then
+      verify(() => bridge.sendMessage('message')).called(1);
+    });
+
+    test('loadMore', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().store((f) => {f.cvmBridge = bridge});
+
+      // When
+      store.dispatch(CvmLoadMoreAction());
+
+      // Then
+      verify(() => bridge.loadMore()).called(1);
+    });
+
+    group('logout', () {
+      test('when CVM state is init', () async {
+        // Given
+        final store = givenState() //
+            .loggedInPoleEmploiUser()
+            .withCvmMessage()
+            .store((f) => {f.cvmBridge = bridge});
+        when(() => bridge.logout()).thenAnswer((_) async {});
+
+        // When
+        await store.dispatch(RequestLogoutAction(LogoutReason.userLogout));
+
+        // Then
+        verify(() => bridge.logout()).called(1);
+      });
+
+      test('when CVM state is not init', () async {
+        // Given
+        final store = givenState() //
+            .loggedInPoleEmploiUser()
+            .store((f) => {f.cvmBridge = bridge});
+
+        // When
+        await store.dispatch(RequestLogoutAction(LogoutReason.userLogout));
+
+        // Then
+        verifyNever(() => bridge.logout());
+      });
+    });
 
     group('Chat status', () {
       group('when has messages from conseiller', () {
@@ -77,12 +132,12 @@ void main() {
 
     test('CvmLastReadingAction', () {
       final now = DateTime(2024);
-      withClock(Clock.fixed(now), () async {
+      withClock(Clock.fixed(now), () {
         // Given
         final store = givenState().store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
 
         // When
-        await store.dispatch(CvmLastReadingAction());
+        store.dispatch(CvmLastReadingAction());
 
         // Then
         verify(() => lastReadingRepository.saveLastReading(now)).called(1);

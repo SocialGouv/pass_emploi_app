@@ -30,11 +30,11 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
+    _handleLogoutBeforeNext(store, action);
     next(action);
+
     if (_shouldStartCvm(action)) {
       _start(store);
-    } else if (_shouldLogout(store, action)) {
-      _logout();
     } else if (action is CvmSendMessageAction) {
       _facade.sendMessage(action.message);
     } else if (action is CvmLoadMoreAction) {
@@ -44,6 +44,14 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     } else if (action is CvmSuccessAction) {
       _handleChatStatus(store, action.messages);
     }
+  }
+
+  Future<void> _handleLogoutBeforeNext(Store<AppState> store, dynamic action) async {
+    if (action is! RequestLogoutAction) return;
+    if (store.state.cvmState is CvmNotInitializedState) return;
+    _subscription?.cancel();
+    _facade.stop();
+    await _facade.logout();
   }
 
   bool _shouldStartCvm(dynamic action) {
@@ -62,16 +70,6 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
           (messages) => store.dispatch(CvmSuccessAction(messages)),
           onError: (_) => store.dispatch(CvmFailureAction()),
         );
-  }
-
-  void _logout() {
-    _subscription?.cancel();
-    _facade.stop();
-    _facade.logout();
-  }
-
-  bool _shouldLogout(Store<AppState> store, action) {
-    return action is RequestLogoutAction && store.state.cvmState is! CvmNotInitializedState;
   }
 
   Future<void> _handleChatStatus(Store<AppState> store, List<CvmMessage> messages) async {
