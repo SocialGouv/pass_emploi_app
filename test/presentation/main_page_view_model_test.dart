@@ -3,22 +3,17 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
-import 'package:pass_emploi_app/redux/app_reducer.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:redux/redux.dart';
 
-import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
 import '../dsl/app_state_dsl.dart';
 
 void main() {
   group('Create MainPageViewModel when chat status state is…', () {
     test('not initialized should not display chat badge', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        chatStatusState: ChatStatusNotInitializedState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInMiloUser()
+          .copyWith(chatStatusState: ChatStatusNotInitializedState())
+          .store();
 
       final viewModel = MainPageViewModel.create(store);
 
@@ -26,11 +21,10 @@ void main() {
     });
 
     test('empty should not display chat badge', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        chatStatusState: ChatStatusEmptyState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInMiloUser()
+          .copyWith(chatStatusState: ChatStatusEmptyState())
+          .store();
 
       final viewModel = MainPageViewModel.create(store);
 
@@ -38,14 +32,15 @@ void main() {
     });
 
     test('success without unread message should not display chat badge', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        chatStatusState: ChatStatusSuccessState(
-          unreadMessageCount: 0,
-          lastConseillerReading: DateTime.now(),
-        ),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInMiloUser()
+          .copyWith(
+            chatStatusState: ChatStatusSuccessState(
+              hasUnreadMessages: false,
+              lastConseillerReading: DateTime.now(),
+            ),
+          )
+          .store();
 
       final viewModel = MainPageViewModel.create(store);
 
@@ -53,14 +48,15 @@ void main() {
     });
 
     test('success with unread message should display chat badge', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-        chatStatusState: ChatStatusSuccessState(
-          unreadMessageCount: 1,
-          lastConseillerReading: DateTime.now(),
-        ),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
+      final store = givenState() //
+          .loggedInMiloUser()
+          .copyWith(
+            chatStatusState: ChatStatusSuccessState(
+              hasUnreadMessages: true,
+              lastConseillerReading: DateTime.now(),
+            ),
+          )
+          .store();
 
       final viewModel = MainPageViewModel.create(store);
 

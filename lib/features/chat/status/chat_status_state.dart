@@ -1,18 +1,18 @@
 import 'package:equatable/equatable.dart';
 
-abstract class ChatStatusState extends Equatable {
+sealed class ChatStatusState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
 class ChatStatusSuccessState extends ChatStatusState {
-  final int unreadMessageCount;
+  final bool hasUnreadMessages;
   final DateTime lastConseillerReading;
 
-  ChatStatusSuccessState({required this.unreadMessageCount, required this.lastConseillerReading});
+  ChatStatusSuccessState({required this.hasUnreadMessages, required this.lastConseillerReading});
 
   @override
-  List<Object?> get props => [unreadMessageCount, lastConseillerReading];
+  List<Object?> get props => [hasUnreadMessages, lastConseillerReading];
 }
 
 class ChatStatusNotInitializedState extends ChatStatusState {}

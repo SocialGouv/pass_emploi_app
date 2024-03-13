@@ -26,7 +26,7 @@ class ChatStatusMiddleware extends MiddlewareClass<AppState> {
 
   void _subscribeToChatStatusStream(String userId, Store<AppState> store) {
     _subscription = _repository.chatStatusStream(userId).listen(
-          (info) => store.dispatch(ChatConseillerMessageAction(info.unreadMessageCount, info.lastConseillerReading)),
+          (info) => store.dispatch(ChatConseillerMessageAction(info)),
         );
   }
 }

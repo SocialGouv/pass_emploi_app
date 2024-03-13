@@ -59,7 +59,7 @@ class PageDemarcheRepositoryFailureStub extends PageDemarcheRepository {
 
 class ChatRepositoryStub extends ChatRepository {
   List<Message> _messages = [];
-  ConseillerMessageInfo _info = ConseillerMessageInfo(null, null);
+  ConseillerMessageInfo _info = ConseillerMessageInfo(false, null);
 
   ChatRepositoryStub() : super(DummyChatCrypto(), DummyCrashlytics(), ModeDemoRepository());
 

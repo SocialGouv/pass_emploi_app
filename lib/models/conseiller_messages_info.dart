@@ -1,6 +1,6 @@
 class ConseillerMessageInfo {
-  final int? unreadMessageCount;
+  final bool hasUnreadMessages;
   final DateTime? lastConseillerReading;
 
-  ConseillerMessageInfo(this.unreadMessageCount, this.lastConseillerReading);
+  ConseillerMessageInfo(this.hasUnreadMessages, this.lastConseillerReading);
 }

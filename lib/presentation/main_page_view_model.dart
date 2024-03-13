@@ -50,7 +50,7 @@ class MainPageViewModel extends Equatable {
         MainTab.solutions,
         MainTab.evenements,
       ],
-      withChatBadge: (chatStatusState is ChatStatusSuccessState) && (chatStatusState.unreadMessageCount > 0),
+      withChatBadge: (chatStatusState is ChatStatusSuccessState) && (chatStatusState.hasUnreadMessages),
       showRating: ratingState is ShowRatingState,
       useCvm: store.state.featureFlipState.featureFlip.useCvm,
       loginMode: loginState is LoginSuccessState ? loginState.user.loginMode : null,
