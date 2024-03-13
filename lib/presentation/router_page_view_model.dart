@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
@@ -10,7 +11,7 @@ import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:redux/redux.dart';
 
-enum RouterPageDisplayState { SPLASH, LOGIN, MAIN, TUTORIAL }
+enum RouterPageDisplayState { SPLASH, ONBOARDING, LOGIN, MAIN, TUTORIAL }
 
 class RouterPageViewModel extends Equatable {
   final RouterPageDisplayState routerPageDisplayState;
@@ -56,7 +57,12 @@ String? _storeUrl(Store<AppState> store, Platform platform) {
 RouterPageDisplayState _routerPageDisplayState(Store<AppState> store) {
   final loginState = store.state.loginState;
   final tutoState = store.state.tutorialState;
-  if (loginState is LoginNotInitializedState) return RouterPageDisplayState.SPLASH;
+  final onboardingState = store.state.firstLaunchOnboardingState;
+
+  if (loginState is LoginNotInitializedState || onboardingState is FirstLaunchOnboardingNotInitializedState) {
+    return RouterPageDisplayState.SPLASH;
+  }
+
   if (loginState is LoginSuccessState) {
     if (tutoState is ShowTutorialState) {
       return RouterPageDisplayState.TUTORIAL;
@@ -64,6 +70,11 @@ RouterPageDisplayState _routerPageDisplayState(Store<AppState> store) {
       return RouterPageDisplayState.MAIN;
     }
   }
+
+  if (onboardingState is FirstLaunchOnboardingSuccessState && onboardingState.showOnboarding) {
+    return RouterPageDisplayState.ONBOARDING;
+  }
+
   return RouterPageDisplayState.LOGIN;
 }
 

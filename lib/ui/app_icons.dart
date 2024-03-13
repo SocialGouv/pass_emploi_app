@@ -92,6 +92,7 @@ class AppIcons {
   static const IconData connectivity_off = Icons.wifi_off_rounded;
   static const IconData celebration_rounded = Icons.celebration_rounded;
   static const IconData account_tree_rounded = Icons.account_tree_rounded;
+  static const IconData people_outline_rounded = Icons.people_outline_rounded;
 
   // Solution
   static const IconData immersion = AppIconsAdditional.immersion;

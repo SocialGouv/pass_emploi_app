@@ -33,6 +33,7 @@ import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
+import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
@@ -142,6 +143,7 @@ class AppState extends Equatable {
   final CampagneRecrutementState campagneRecrutementState;
   final PreferredLoginModeState preferredLoginModeState;
   final OnboardingState onboardingState;
+  final FirstLaunchOnboardingState firstLaunchOnboardingState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -215,7 +217,7 @@ class AppState extends Equatable {
     required this.campagneRecrutementState,
     required this.preferredLoginModeState,
     required this.onboardingState,
-
+    required this.firstLaunchOnboardingState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -290,6 +292,7 @@ class AppState extends Equatable {
     final CampagneRecrutementState? campagneRecrutementState,
     final PreferredLoginModeState? preferredLoginModeState,
     final OnboardingState? onboardingState,
+    final FirstLaunchOnboardingState? firstLaunchOnboardingState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -363,6 +366,7 @@ class AppState extends Equatable {
       campagneRecrutementState: campagneRecrutementState ?? this.campagneRecrutementState,
       preferredLoginModeState: preferredLoginModeState ?? this.preferredLoginModeState,
       onboardingState: onboardingState ?? this.onboardingState,
+      firstLaunchOnboardingState: firstLaunchOnboardingState ?? this.firstLaunchOnboardingState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -439,6 +443,7 @@ class AppState extends Equatable {
       campagneRecrutementState: CampagneRecrutementNotInitializedState(),
       preferredLoginModeState: PreferredLoginModeNotInitializedState(),
       onboardingState: OnboardingNotInitializedState(),
+      firstLaunchOnboardingState: FirstLaunchOnboardingNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -508,6 +513,7 @@ class AppState extends Equatable {
         campagneRecrutementState,
         preferredLoginModeState,
         onboardingState,
+        firstLaunchOnboardingState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 
