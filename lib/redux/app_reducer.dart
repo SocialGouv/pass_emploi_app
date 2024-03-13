@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/features/alerte/create/alerte_create_reducer.dar
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_reducer.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_reducer.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
-import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_reducer.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_reducer.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_reducer.dart';
@@ -30,6 +29,7 @@ import 'package:pass_emploi_app/features/events/list/event_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
+import 'package:pass_emploi_app/features/feature_flip/feature_flip_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/features/location/search_location_reducer.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
@@ -86,6 +86,7 @@ AppState reducer(AppState current, dynamic action) {
   }
   return AppState(
     configurationState: current.configurationState,
+    featureFlipState: featureFlipReducer(current.featureFlipState, action),
     userActionDetailsState: userActionDetailsReducer(current.userActionDetailsState, action),
     userActionCreateState: userActionCreateReducer(current.userActionCreateState, action),
     userActionCreatePendingState: userActionCreatePendingReducer(current.userActionCreatePendingState, action),
@@ -183,7 +184,6 @@ AppState reducer(AppState current, dynamic action) {
     connectivityState: connectivityReducer(current.connectivityState, action),
     monSuiviState: monSuiviReducer(current.monSuiviState, action),
     cvmState: cvmReducer(current.cvmState, action),
-    campagneRecrutementState: campagneRecrutementReducer(current.campagneRecrutementState, action),
     preferredLoginModeState: preferredLoginModeReducer(current.preferredLoginModeState, action),
     onboardingState: onboardingReducer(current.onboardingState, action),
     firstLaunchOnboardingState: firstLaunchOnboardingReducer(current.firstLaunchOnboardingState, action),

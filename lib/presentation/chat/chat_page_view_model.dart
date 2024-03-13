@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
-import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/presentation/chat_item.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -60,26 +61,20 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       return DayItem(element);
     } else {
       final message = element as Message;
-      switch (message.type) {
-        case MessageType.message:
-          return _buildMessageItem(message, lastConseillerReading);
-        case MessageType.nouveauConseiller:
-          return InformationItem(Strings.newConseillerTitle, Strings.newConseillerDescription);
-        case MessageType.nouveauConseillerTemporaire:
-          return InformationItem(Strings.newConseillerTemporaireTitle, Strings.newConseillerDescription);
-        case MessageType.messagePj:
-          return _pieceJointeItem(message);
-        case MessageType.offre:
-          return _offreMessageItem(message, lastConseillerReading);
-        case MessageType.event:
-          return _eventMessageItem(message, lastConseillerReading);
-        case MessageType.evenementEmploi:
-          return _evenementEmploiItem(message, lastConseillerReading);
-        case MessageType.sessionMilo:
-          return _sessionMiloItem(message, lastConseillerReading);
-        case MessageType.inconnu:
-          return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
-      }
+      return switch (message.type) {
+        MessageType.message => _buildMessageItem(message, lastConseillerReading),
+        MessageType.nouveauConseiller => InformationItem(Strings.newConseillerTitle, Strings.newConseillerDescription),
+        MessageType.nouveauConseillerTemporaire => InformationItem(
+            Strings.newConseillerTemporaireTitle,
+            Strings.newConseillerDescription,
+          ),
+        MessageType.messagePj => _pieceJointeItem(message),
+        MessageType.offre => _offreMessageItem(message, lastConseillerReading),
+        MessageType.event => _eventMessageItem(message, lastConseillerReading),
+        MessageType.evenementEmploi => _evenementEmploiItem(message, lastConseillerReading),
+        MessageType.sessionMilo => _sessionMiloItem(message, lastConseillerReading),
+        MessageType.inconnu => InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription)
+      };
     }
   }).toList();
 }
@@ -91,7 +86,7 @@ ChatItem _sessionMiloItem(Message message, DateTime lastConseillerReading) {
     idPartage: message.sessionMilo?.id ?? "",
     titrePartage: message.sessionMilo?.titre ?? "",
     sender: message.sentBy,
-    caption: caption(message, lastConseillerReading),
+    caption: _caption(message, lastConseillerReading),
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );
@@ -104,7 +99,7 @@ ChatItem _evenementEmploiItem(Message message, DateTime lastConseillerReading) {
     idPartage: message.evenementEmploi?.id ?? "",
     titrePartage: message.evenementEmploi?.titre ?? "",
     sender: message.sentBy,
-    caption: caption(message, lastConseillerReading),
+    caption: _caption(message, lastConseillerReading),
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );
@@ -118,7 +113,7 @@ ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
     titrePartage: message.offre?.titre ?? "",
     type: message.offre?.type ?? OffreType.inconnu,
     sender: message.sentBy,
-    caption: caption(message, lastConseillerReading),
+    caption: _caption(message, lastConseillerReading),
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );
@@ -131,7 +126,7 @@ ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
     idPartage: message.event?.id ?? "",
     titrePartage: message.event?.titre ?? "",
     sender: message.sentBy,
-    caption: caption(message, lastConseillerReading),
+    caption: _caption(message, lastConseillerReading),
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );
@@ -168,7 +163,7 @@ bool _shouldAnimate(Message message) {
   };
 }
 
-String caption(Message message, DateTime lastConseillerReading) {
+String _caption(Message message, DateTime lastConseillerReading) {
   final hourLabel = message.creationDate.toHour();
   if (message.sentBy == Sender.jeune) {
     final status = switch (message.status) {
@@ -186,7 +181,7 @@ TextMessageItem _buildMessageItem(Message message, DateTime lastConseillerReadin
   return TextMessageItem(
     messageId: message.id,
     content: message.content,
-    caption: caption(message, lastConseillerReading),
+    caption: _caption(message, lastConseillerReading),
     sender: message.sentBy,
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),

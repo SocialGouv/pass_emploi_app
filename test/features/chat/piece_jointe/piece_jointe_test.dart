@@ -10,17 +10,17 @@ void main() {
 
   test("should be previewed after loading", () async {
     // Given
-    final store = givenState().loggedInUser() //
+    final store = givenState()
+        .loggedInUser() //
         .store((factory) => {factory.pieceJointeRepository = PieceJointeRepositorySuccessStub()});
 
     final displayedLoading = store.onChange.any((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.loading);
     final pieceJointesStateFuture =
         store.onChange.firstWhere((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.success);
-    final previewFileStateFuture =
-        store.onChange.firstWhere((e) => e.previewFileState is PreviewFileSuccessState);
+    final previewFileStateFuture = store.onChange.firstWhere((e) => e.previewFileState is PreviewFileSuccessState);
 
     // When
-    await store.dispatch(PieceJointeRequestAction("id1", "png"));
+    await store.dispatch(PieceJointeFromIdRequestAction("id1", "png"));
 
     // Then
     expect(await displayedLoading, true);
@@ -32,7 +32,8 @@ void main() {
 
   test("should display an error when fetching failed", () async {
     // Given
-    final store = givenState().loggedInUser() //
+    final store = givenState()
+        .loggedInUser() //
         .store((factory) => {factory.pieceJointeRepository = PieceJointeRepositoryFailureStub()});
 
     final displayedLoading = store.onChange.any((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.loading);
@@ -40,7 +41,7 @@ void main() {
         store.onChange.firstWhere((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.failure);
 
     // When
-    await store.dispatch(PieceJointeRequestAction("id1", "png"));
+    await store.dispatch(PieceJointeFromIdRequestAction("id1", "png"));
 
     // Then
     expect(await displayedLoading, true);
@@ -50,14 +51,16 @@ void main() {
 
   test("should only affect its own state", () async {
     // Given
-    final store = givenState().loggedInUser().piecesJointesWithIdOneSuccess() //
+    final store = givenState()
+        .loggedInUser()
+        .piecesJointesWithIdOneSuccess() //
         .store((factory) => {factory.pieceJointeRepository = PieceJointeRepositoryFailureStub()});
 
     final changedAppState =
         store.onChange.firstWhere((e) => e.piecesJointesState.status["id-2"] == PieceJointeStatus.failure);
 
     // When
-    await store.dispatch(PieceJointeRequestAction("id-2", "png"));
+    await store.dispatch(PieceJointeFromIdRequestAction("id-2", "png"));
 
     // Then
     final appState = await changedAppState;
@@ -67,15 +70,16 @@ void main() {
 
   test("should display a unavailable message when fetching return 404 error", () async {
     // Given
-    final store = givenState().loggedInUser() //
+    final store = givenState()
+        .loggedInUser() //
         .store((factory) => {factory.pieceJointeRepository = PieceJointeRepositoryUnavailableStub()});
 
     final displayedLoading = store.onChange.any((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.loading);
     final failureAppState =
-    store.onChange.firstWhere((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.unavailable);
+        store.onChange.firstWhere((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.unavailable);
 
     // When
-    await store.dispatch(PieceJointeRequestAction("id1", "png"));
+    await store.dispatch(PieceJointeFromIdRequestAction("id1", "png"));
 
     // Then
     expect(await displayedLoading, true);

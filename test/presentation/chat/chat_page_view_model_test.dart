@@ -1,11 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
-import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/presentation/chat_item.dart';
-import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -20,8 +21,7 @@ void main() {
 
   test('create when chat state is LOADING', () {
     // Given
-    final state = AppState.initialState().copyWith(chatState: ChatLoadingState());
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = givenState().copyWith(chatState: ChatLoadingState()).store();
 
     // When
     final viewModel = ChatPageViewModel.create(store);
@@ -32,8 +32,7 @@ void main() {
 
   test('create when chat state is FAILURE', () {
     // Given
-    final state = AppState.initialState().copyWith(chatState: ChatFailureState());
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = givenState().copyWith(chatState: ChatFailureState()).store();
 
     // When
     final viewModel = ChatPageViewModel.create(store);
@@ -44,21 +43,23 @@ void main() {
 
   test('create when chat state is SUCCESS', () {
     // Given
-    final state = AppState.initialState().copyWith(
-      chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
-      chatState: ChatSuccessState(
-        [
-          Message("uid1", '1', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.message, MessageStatus.sent, []),
-          Message("uid2", '2', DateTime(2021, 1, 1, 15, 30), Sender.conseiller, MessageType.message, MessageStatus.sent,
-              []),
-          Message("uid3", '3', DateTime(2021, 1, 2, 16, 00), Sender.jeune, MessageType.message, MessageStatus.sent, []),
-          Message("uid4", '4', DateTime(2021, 1, 2, 18, 30), Sender.conseiller, MessageType.message, MessageStatus.sent,
-              []),
-          Message("uid5", '5', todayAtNoon, Sender.jeune, MessageType.message, MessageStatus.sent, []),
-        ],
-      ),
-    );
-    final store = Store<AppState>(reducer, initialState: state);
+    final messages = [
+      Message("id1", '1', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.message, MessageStatus.sent, []),
+      Message("id2", '2', DateTime(2021, 1, 1, 15, 30), Sender.conseiller, MessageType.message, MessageStatus.sent, []),
+      Message("id3", '3', DateTime(2021, 1, 2, 16, 00), Sender.jeune, MessageType.message, MessageStatus.sent, []),
+      Message("id4", '4', DateTime(2021, 1, 2, 18, 30), Sender.conseiller, MessageType.message, MessageStatus.sent, []),
+      Message("id5", '5', todayAtNoon, Sender.jeune, MessageType.message, MessageStatus.sent, []),
+    ];
+
+    final store = givenState()
+        .chatSuccess(messages)
+        .copyWith(
+          chatStatusState: ChatStatusSuccessState(
+            hasUnreadMessages: false,
+            lastConseillerReading: DateTime(2021, 1, 2, 18),
+          ),
+        )
+        .store();
 
     // When
     final viewModel = ChatPageViewModel.create(store);
@@ -67,13 +68,13 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Le 01/01/2021'),
-      TextMessageItem(messageId: "uid1", content: '1', caption: '12:30 · Lu', sender: Sender.jeune),
-      TextMessageItem(messageId: "uid2", content: '2', caption: '15:30', sender: Sender.conseiller),
+      TextMessageItem(messageId: "id1", content: '1', caption: '12:30 · Lu', sender: Sender.jeune),
+      TextMessageItem(messageId: "id2", content: '2', caption: '15:30', sender: Sender.conseiller),
       DayItem('Le 02/01/2021'),
-      TextMessageItem(messageId: "uid3", content: '3', caption: '16:00 · Lu', sender: Sender.jeune),
-      TextMessageItem(messageId: "uid4", content: '4', caption: '18:30', sender: Sender.conseiller),
+      TextMessageItem(messageId: "id3", content: '3', caption: '16:00 · Lu', sender: Sender.jeune),
+      TextMessageItem(messageId: "id4", content: '4', caption: '18:30', sender: Sender.conseiller),
       DayItem('Aujourd\'hui'),
-      TextMessageItem(messageId: "uid5", content: '5', caption: '12:00 · Envoyé', sender: Sender.jeune),
+      TextMessageItem(messageId: "id5", content: '5', caption: '12:00 · Envoyé', sender: Sender.jeune),
     ]);
   });
 
@@ -101,23 +102,25 @@ void main() {
 
   test('should display piece jointe from conseiller', () {
     // Given
-    final state = AppState.initialState().copyWith(
-      chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
-      chatState: ChatSuccessState(
-        [
-          Message(
-            "uid",
-            'Une PJ',
-            todayAtNoon,
-            Sender.conseiller,
-            MessageType.messagePj,
-            MessageStatus.sent,
-            [PieceJointe("id-1", "super.pdf")],
-          ),
-        ],
-      ),
+    final message = Message(
+      "uid",
+      'Une PJ',
+      todayAtNoon,
+      Sender.conseiller,
+      MessageType.messagePj,
+      MessageStatus.sent,
+      [PieceJointe("id-1", "super.pdf")],
     );
-    final store = Store<AppState>(reducer, initialState: state);
+
+    final store = givenState()
+        .chatSuccess([message])
+        .copyWith(
+          chatStatusState: ChatStatusSuccessState(
+            hasUnreadMessages: false,
+            lastConseillerReading: DateTime(2021, 1, 2, 18),
+          ),
+        )
+        .store();
 
     // When
     final viewModel = ChatPageViewModel.create(store);

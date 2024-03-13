@@ -1,38 +1,61 @@
 import 'dart:async';
 
+import 'package:clock/clock.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
+import 'package:pass_emploi_app/features/feature_flip/feature_flip_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
+import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_facade.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_last_reading_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:redux/redux.dart';
 
 class CvmMiddleware extends MiddlewareClass<AppState> {
   final CvmFacade _facade;
-  StreamSubscription<List<CvmEvent>>? _subscription;
+  final CvmLastReadingRepository lastReadingRepository;
+  StreamSubscription<List<CvmMessage>>? _subscription;
 
   CvmMiddleware(
     CvmBridge bridge,
-    CvmTokenRepository tokenRepository, [
+    CvmTokenRepository tokenRepository,
+    this.lastReadingRepository, [
     Crashlytics? crashlytics,
   ]) : _facade = CvmFacade(bridge, tokenRepository, crashlytics);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
+    _handleLogoutBeforeNext(store, action);
     next(action);
-    if (action is CvmRequestAction) {
+
+    if (_shouldStartCvm(action)) {
       _start(store);
-    } else if (_shouldLogout(store, action)) {
-      _logout();
     } else if (action is CvmSendMessageAction) {
       _facade.sendMessage(action.message);
     } else if (action is CvmLoadMoreAction) {
       _facade.loadMore();
+    } else if (action is CvmLastReadingAction) {
+      lastReadingRepository.saveLastReading(clock.now());
+    } else if (action is CvmSuccessAction) {
+      _handleChatStatus(store, action.messages);
     }
+  }
+
+  Future<void> _handleLogoutBeforeNext(Store<AppState> store, dynamic action) async {
+    if (action is! RequestLogoutAction) return;
+    if (store.state.cvmState is CvmNotInitializedState) return;
+    _subscription?.cancel();
+    _facade.stop();
+    await _facade.logout();
+  }
+
+  bool _shouldStartCvm(dynamic action) {
+    return action is CvmRequestAction || (action is FeatureFlipAction && action.useCvm);
   }
 
   void _start(Store<AppState> store) async {
@@ -49,13 +72,13 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
         );
   }
 
-  void _logout() {
-    _subscription?.cancel();
-    _facade.stop();
-    _facade.logout();
-  }
+  Future<void> _handleChatStatus(Store<AppState> store, List<CvmMessage> messages) async {
+    final lastConseillerMessage = messages.where((message) => message.isFromConseiller()).lastOrNull;
+    if (lastConseillerMessage == null) return;
 
-  bool _shouldLogout(Store<AppState> store, action) {
-    return action is RequestLogoutAction && store.state.cvmState is! CvmNotInitializedState;
+    final lastReading = await lastReadingRepository.getLastReading();
+    if (lastReading == null || lastConseillerMessage.date.isAfter(lastReading)) {
+      store.dispatch(ChatConseillerMessageAction(ConseillerMessageInfo(true, null)));
+    }
   }
 }

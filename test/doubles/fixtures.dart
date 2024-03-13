@@ -19,6 +19,10 @@ import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
+import 'package:pass_emploi_app/models/chat/message.dart' as message;
+import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/cv_pole_emploi.dart';
@@ -36,12 +40,10 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/message.dart' as message;
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
-import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
@@ -99,6 +101,18 @@ User mockedPoleEmploiUser() {
     lastName: "L",
     email: "first.last@pole-emploi.fr",
     loginMode: LoginMode.POLE_EMPLOI,
+  );
+}
+
+DetailsJeune mockDetailsJeune({String idConseiller = "id"}) {
+  return DetailsJeune(
+    conseiller: DetailsJeuneConseiller(
+      id: idConseiller,
+      firstname: "F",
+      lastname: "L",
+      sinceDate: DateTime(2021, 1, 1),
+    ),
+    structure: null,
   );
 }
 
@@ -534,7 +548,12 @@ EvenementEmploiDetails mockEvenementEmploiDetails({DateTime? dateDebut, DateTime
 
 DetailsJeune detailsJeune() {
   return DetailsJeune(
-    conseiller: DetailsJeuneConseiller(firstname: "Perceval", lastname: "de Galles", sinceDate: DateTime(2005, 1, 3)),
+    conseiller: DetailsJeuneConseiller(
+      id: "id",
+      firstname: "Perceval",
+      lastname: "de Galles",
+      sinceDate: DateTime(2005, 1, 3),
+    ),
     structure: null,
   );
 }
@@ -542,6 +561,7 @@ DetailsJeune detailsJeune() {
 DetailsJeune detailsJeuneSinceOneMonth() {
   return DetailsJeune(
     conseiller: DetailsJeuneConseiller(
+      id: "id",
       firstname: "Perceval",
       lastname: "de Galles",
       sinceDate: clock.now().subtract(Duration(days: 31)),
@@ -553,6 +573,7 @@ DetailsJeune detailsJeuneSinceOneMonth() {
 DetailsJeune detailsJeuneSinceLessOneMonth() {
   return DetailsJeune(
     conseiller: DetailsJeuneConseiller(
+      id: "id",
       firstname: "Perceval",
       lastname: "de Galles",
       sinceDate: clock.now().subtract(Duration(days: 29)),
@@ -1211,5 +1232,14 @@ MonSuivi mockMonSuivi({
     rendezvous: rendezvous ?? [],
     sessionsMilo: sessionsMilo ?? [],
     errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval,
+  );
+}
+
+CvmMessage mockCvmTextMessage({String? id, String? content, DateTime? date, Sender? sentBy}) {
+  return CvmTextMessage(
+    id: id ?? "id",
+    content: content ?? "content",
+    date: date ?? DateTime(2024),
+    sentBy: sentBy ?? Sender.jeune,
   );
 }

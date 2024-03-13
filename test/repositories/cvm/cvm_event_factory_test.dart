@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
 
 void main() {
@@ -22,9 +23,9 @@ void main() {
       // Then
       expect(
         result,
-        CvmMessageEvent(
+        CvmTextMessage(
           id: 'id',
-          isFromUser: true,
+          sentBy: Sender.jeune,
           content: 'message',
           date: DateTime(2024, 1, 1),
         ),
@@ -32,13 +33,13 @@ void main() {
     });
 
     test('when type is file and file info is an MXC url (Android) should return CvmFileEvent with properly built URL',
-            () {
-          // Given
-          final dynamic json = {
+        () {
+      // Given
+      final dynamic json = {
         'id': 'id',
         'type': 'file',
         'isFromUser': false,
-        'message': 'message',
+        'message': 'file.jpg',
         'fileInfo': 'mxc://matrix.org/id-file',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
@@ -49,24 +50,25 @@ void main() {
       // Then
       expect(
         result,
-        CvmFileEvent(
+        CvmFileMessage(
           id: 'id',
-          isFromUser: false,
-          content: 'message',
+          sentBy: Sender.conseiller,
+          fileName: 'file.jpg',
           url: 'https://cvm.fr/download/id-file',
+          fileId: 'id-file',
           date: DateTime(2024, 1, 1),
         ),
-          );
-        });
+      );
+    });
 
     test('when type is file and file info is an attachment ID (iOS) should return CvmFileEvent with properly built URL',
-            () {
-          // Given
-          final dynamic json = {
+        () {
+      // Given
+      final dynamic json = {
         'id': 'id',
         'type': 'file',
         'isFromUser': false,
-        'message': 'message',
+        'message': 'file.jpg',
         'fileInfo': 'id-file',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
@@ -77,15 +79,16 @@ void main() {
       // Then
       expect(
         result,
-        CvmFileEvent(
+        CvmFileMessage(
           id: 'id',
-          isFromUser: false,
-          content: 'message',
+          sentBy: Sender.conseiller,
+          fileName: 'file.jpg',
           url: 'https://cvm.fr/download/id-file',
+          fileId: 'id-file',
           date: DateTime(2024, 1, 1),
         ),
-          );
-        });
+      );
+    });
 
     test('when type is image should return CvmFileEvent', () {
       // Given
@@ -93,7 +96,7 @@ void main() {
         'id': 'id',
         'type': 'image',
         'isFromUser': false,
-        'message': 'message',
+        'message': 'file.jpg',
         'fileInfo': 'mxc://matrix.org/id-file',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
@@ -104,11 +107,12 @@ void main() {
       // Then
       expect(
         result,
-        CvmFileEvent(
+        CvmFileMessage(
           id: 'id',
-          isFromUser: false,
-          content: 'message',
+          sentBy: Sender.conseiller,
+          fileName: 'file.jpg',
           url: 'https://cvm.fr/download/id-file',
+          fileId: 'id-file',
           date: DateTime(2024, 1, 1),
         ),
       );
@@ -128,7 +132,7 @@ void main() {
       // Then
       expect(
         result,
-        CvmUnknownEvent(
+        CvmUnknownMessage(
           id: 'id',
           date: DateTime(2024, 1, 1),
         ),

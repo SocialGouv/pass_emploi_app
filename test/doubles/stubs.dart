@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -59,7 +59,7 @@ class PageDemarcheRepositoryFailureStub extends PageDemarcheRepository {
 
 class ChatRepositoryStub extends ChatRepository {
   List<Message> _messages = [];
-  ConseillerMessageInfo _info = ConseillerMessageInfo(null, null);
+  ConseillerMessageInfo _info = ConseillerMessageInfo(false, null);
 
   ChatRepositoryStub() : super(DummyChatCrypto(), DummyCrashlytics(), ModeDemoRepository());
 
@@ -133,7 +133,7 @@ class PieceJointeRepositorySuccessStub extends PieceJointeRepository {
   PieceJointeRepositorySuccessStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
-  Future<String?> download({required String fileId, required String fileName}) async {
+  Future<String?> downloadFromId({required String fileId, required String fileName}) async {
     return "$fileId-path";
   }
 }
@@ -142,7 +142,7 @@ class PieceJointeRepositoryFailureStub extends PieceJointeRepository {
   PieceJointeRepositoryFailureStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
-  Future<String?> download({required String fileId, required String fileName}) async {
+  Future<String?> downloadFromId({required String fileId, required String fileName}) async {
     return null;
   }
 }
@@ -151,7 +151,7 @@ class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
   PieceJointeRepositoryUnavailableStub() : super(DioMock(), MockPieceJointeSaver());
 
   @override
-  Future<String?> download({required String fileId, required String fileName}) async {
+  Future<String?> downloadFromId({required String fileId, required String fileName}) async {
     return "ERROR: 404";
   }
 }

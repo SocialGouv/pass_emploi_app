@@ -1,15 +1,15 @@
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 
 class CvmAggregator {
-  final Set<CvmEvent> _events = {};
+  final Set<CvmMessage> _events = {};
 
-  void addEvents(List<CvmEvent> events) => _events.addAll(events);
+  void addEvents(List<CvmMessage> events) => _events.addAll(events);
 
   void clear() => _events.clear();
 
-  List<CvmEvent> getSortedEvents() => List.from(_events)..sortFromOldestToNewest();
+  List<CvmMessage> getSortedEvents() => List.from(_events)..sortFromOldestToNewest();
 }
 
-extension _ListMessage on List<CvmEvent> {
+extension _ListMessage on List<CvmMessage> {
   void sortFromOldestToNewest() => sort((a, b) => a.date.compareTo(b.date));
 }

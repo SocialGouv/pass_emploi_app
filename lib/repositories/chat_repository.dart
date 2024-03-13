@@ -4,11 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
-import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -24,6 +24,7 @@ class ChatRepository {
   final ModeDemoRepository _demoRepository;
 
   int get numberOfStreamedMessage => 20;
+
   int get numberOfHistoryMessage => 20;
 
   ChatRepository(this._chatCrypto, this._crashlytics, this._demoRepository);
@@ -201,7 +202,7 @@ class ChatRepository {
     final Map<String, dynamic> data = snapshot.data()!;
     final lastConseillerReading = data['lastConseillerReading'];
     return ConseillerMessageInfo(
-      data['newConseillerMessageCount'] as int?,
+      (data['newConseillerMessageCount'] as int? ?? 0) > 0,
       lastConseillerReading != null ? (lastConseillerReading as Timestamp).toDate() : null,
     );
   }

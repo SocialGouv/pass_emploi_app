@@ -28,8 +28,6 @@ import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
-import 'package:pass_emploi_app/remote_config/campagne_recrutement_config.dart';
-import 'package:pass_emploi_app/remote_config/max_living_time_config.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
@@ -50,8 +48,9 @@ import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_last_reading_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -80,6 +79,7 @@ import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
+import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
@@ -162,6 +162,7 @@ class AppInitializer {
     final securedPreferences = SecureStorageExceptionHandlerDecorator(
       FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
     );
+    final remoteConfigRepository = RemoteConfigRepository(firebaseRemoteConfig);
     final logoutRepository = LogoutRepository(
       authIssuer: configuration.authIssuer,
       clientSecret: configuration.authClientSecret,
@@ -175,11 +176,7 @@ class AppInitializer {
       securedPreferences,
       crashlytics,
     );
-    final accessTokenRetriever = AuthAccessTokenRetriever(
-      MaxLivingTimeRemoteConfig(firebaseRemoteConfig),
-      authenticator,
-      Lock(),
-    );
+    final accessTokenRetriever = AuthAccessTokenRetriever(authenticator, remoteConfigRepository, Lock());
     final authAccessChecker = AuthAccessChecker();
     final cacheStore = FileCacheStore((await getTemporaryDirectory()).path);
     final requestCacheManager = PassEmploiCacheManager(cacheStore, configuration.serverBaseUrl);
@@ -209,6 +206,7 @@ class AppInitializer {
       cryptoStorage,
       requestCacheManager,
       ConnectivityWrapper.fromConnectivity(),
+      remoteConfigRepository,
       UserActionRepository(dioClient, crashlytics),
       UserActionPendingCreationRepository(securedPreferences),
       PageDemarcheRepository(dioClient, crashlytics),
@@ -272,7 +270,8 @@ class AppInitializer {
         ),
       ),
       CvmTokenRepository(dioClient, crashlytics),
-      CampagneRecrutementRepository(securedPreferences, CampagneRecrutementRemoteConfig(firebaseRemoteConfig)),
+      CvmLastReadingRepository(securedPreferences),
+      CampagneRecrutementRepository(remoteConfigRepository, securedPreferences),
       PreferredLoginModeRepository(securedPreferences),
       OnboardingRepository(securedPreferences),
       FirstLaunchOnboardingRepository(securedPreferences),

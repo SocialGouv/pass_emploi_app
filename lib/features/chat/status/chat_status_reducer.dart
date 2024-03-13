@@ -8,12 +8,12 @@ ChatStatusState chatStatusReducer(ChatStatusState current, dynamic action) {
 }
 
 ChatStatusState _handleChatConseillerMessageAction(ChatConseillerMessageAction action, ChatStatusState current) {
-  if (action.lastConseillerReading == null && action.unreadMessageCount == null) {
+  if (action.info.lastConseillerReading == null && !action.info.hasUnreadMessages) {
     return ChatStatusEmptyState();
   } else {
     return ChatStatusSuccessState(
-      unreadMessageCount: action.unreadMessageCount != null ? action.unreadMessageCount! : 0,
-      lastConseillerReading: action.lastConseillerReading != null ? action.lastConseillerReading! : minDateTime,
+      hasUnreadMessages: action.info.hasUnreadMessages,
+      lastConseillerReading: action.info.lastConseillerReading ?? minDateTime,
     );
   }
 }

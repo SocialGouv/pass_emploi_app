@@ -6,6 +6,7 @@
   "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
   "isActivated": true,
   "conseiller": {
+    "id": "ID_CONSEILLER",
     "email": "pass.emploi@gmail.com",
     "prenom": "Nils",
     "nom": "Tavernier",

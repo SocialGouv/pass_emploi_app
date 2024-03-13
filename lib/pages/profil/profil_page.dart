@@ -10,7 +10,6 @@ import 'package:pass_emploi_app/pages/diagoriente/diagoriente_entry_page.dart';
 import 'package:pass_emploi_app/pages/partage_activite_page.dart';
 import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
 import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
-import 'package:pass_emploi_app/presentation/cvm/cvm_chat_page.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -137,11 +136,6 @@ class _Scaffold extends StatelessWidget {
                       title: Strings.developerOptionMatomo,
                       onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
                     ),
-                    if (viewModel.withCvmEntry)
-                      _ListTileData(
-                        title: Strings.developerOptionCvm,
-                        onTap: () => Navigator.push(context, CvmChatPage.materialPageRoute()),
-                      ),
                   ]),
                   SizedBox(height: Margins.spacing_l),
                 ],

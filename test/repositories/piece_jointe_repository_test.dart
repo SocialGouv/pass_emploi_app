@@ -18,9 +18,9 @@ void main() {
     saverMock.mockSaveFile();
   });
 
-  group("sendEvent", () {
+  group("downloadFromId", () {
     sut.when(
-      (repository) => repository.download(fileId: "fileId", fileName: "fileName"),
+      (repository) => repository.downloadFromId(fileId: "fileId", fileName: "fileName"),
     );
 
     group('when response is valid', () {

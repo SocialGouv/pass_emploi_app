@@ -1,16 +1,20 @@
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 
 class CvmRequestAction {}
 
 class CvmLoadingAction {}
 
 class CvmSuccessAction {
-  final List<CvmEvent> messages;
+  final List<CvmMessage> messages;
 
   CvmSuccessAction(this.messages);
 }
 
 class CvmFailureAction {}
+
+class CvmResetAction {}
+
+class CvmLastReadingAction {}
 
 class CvmSendMessageAction {
   final String message;

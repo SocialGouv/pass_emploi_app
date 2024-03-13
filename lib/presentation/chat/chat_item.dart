@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 
 sealed class ChatItem extends Equatable {
   final String messageId;
@@ -15,7 +16,7 @@ sealed class ChatItem extends Equatable {
 class DayItem extends ChatItem {
   final String dayLabel;
 
-  DayItem(this.dayLabel) : super("");
+  DayItem(this.dayLabel) : super('');
 
   @override
   List<Object?> get props => [messageId, dayLabel];
@@ -25,7 +26,7 @@ class InformationItem extends ChatItem {
   final String title;
   final String description;
 
-  InformationItem(this.title, this.description) : super("");
+  InformationItem(this.title, this.description) : super('');
 
   @override
   List<Object?> get props => [messageId, title, description];

@@ -7,8 +7,10 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_last_reading_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
@@ -18,6 +20,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_r
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
+import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
 import 'package:pass_emploi_app/repositories/session_milo_repository.dart';
@@ -44,6 +47,12 @@ class MockAuthenticator extends Mock implements Authenticator {
 }
 
 class MockAuthWrapper extends Mock implements AuthWrapper {}
+
+class MockDetailsJeuneRepository extends Mock implements DetailsJeuneRepository {
+  MockDetailsJeuneRepository() {
+    when(() => fetch(any())).thenAnswer((_) async => null);
+  }
+}
 
 class MockGetFavorisRepository extends Mock implements GetFavorisRepository {}
 
@@ -150,6 +159,13 @@ class MockCvmBridge extends Mock implements CvmBridge {}
 
 class MockCvmTokenRepository extends Mock implements CvmTokenRepository {}
 
+class MockCvmLastReadingRepository extends Mock implements CvmLastReadingRepository {
+  MockCvmLastReadingRepository() {
+    when(() => saveLastReading(any())).thenAnswer((_) async {});
+    when(() => getLastReading()).thenAnswer((_) async => null);
+  }
+}
+
 class MockCampagneRecrutementRepository extends Mock implements CampagneRecrutementRepository {
   MockCampagneRecrutementRepository() {
     when(() => shouldShowCampagneRecrutement()).thenAnswer((_) async => false);
@@ -182,6 +198,15 @@ class MockPreferredLoginModeRepository extends Mock implements PreferredLoginMod
 class MockOnboardingRepository extends Mock implements OnboardingRepository {
   MockOnboardingRepository() {
     when(() => get()).thenAnswer((_) async => dummyOnboarding);
+  }
+}
+
+class MockRemoteConfigRepository extends Mock implements RemoteConfigRepository {
+  MockRemoteConfigRepository() {
+    when(() => maxLivingTimeInSecondsForMilo()).thenReturn(null);
+    when(() => lastCampagneRecrutementId()).thenReturn(null);
+    when(() => useCvm()).thenReturn(false);
+    when(() => getIdsConseillerCvmEarlyAdopters()).thenReturn([]);
   }
 }
 

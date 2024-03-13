@@ -39,6 +39,8 @@ import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_middleware.dart';
+import 'package:pass_emploi_app/features/feature_flip/feature_flip_middleware.dart';
+import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_middleware.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_middleware.dart';
 import 'package:pass_emploi_app/features/location/search_location_middleware.dart';
 import 'package:pass_emploi_app/features/login/login_middleware.dart';
@@ -77,7 +79,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -103,7 +104,8 @@ import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_last_reading_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -117,6 +119,7 @@ import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
@@ -131,6 +134,7 @@ import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
+import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
@@ -146,7 +150,6 @@ import 'package:pass_emploi_app/repositories/user_action_pending_creation_reposi
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
-import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -158,6 +161,7 @@ class StoreFactory {
   final ChatEncryptionLocalStorage cryptoStorage;
   final PassEmploiCacheManager cacheManager;
   final ConnectivityWrapper connectivityWrapper;
+  final RemoteConfigRepository remoteConfigRepository;
   final UserActionRepository userActionRepository;
   final UserActionPendingCreationRepository userActionPendingCreationRepository;
   final PageDemarcheRepository pageDemarcheRepository;
@@ -215,11 +219,12 @@ class StoreFactory {
   final MonSuiviRepository monSuiviRepository;
   final CvmBridge cvmBridge;
   final CvmTokenRepository cvmTokenRepository;
+  final CvmLastReadingRepository cvmLastReadingRepository;
   final CampagneRecrutementRepository campagneRecrutementRepository;
   final PreferredLoginModeRepository preferredLoginModeRepository;
   final OnboardingRepository onboardingRepository;
-
   final FirstLaunchOnboardingRepository firstLaunchOnboardingRepository;
+
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -230,6 +235,7 @@ class StoreFactory {
     this.cryptoStorage,
     this.cacheManager,
     this.connectivityWrapper,
+    this.remoteConfigRepository,
     this.userActionRepository,
     this.userActionPendingCreationRepository,
     this.pageDemarcheRepository,
@@ -287,6 +293,7 @@ class StoreFactory {
     this.monSuiviRepository,
     this.cvmBridge,
     this.cvmTokenRepository,
+    this.cvmLastReadingRepository,
     this.campagneRecrutementRepository,
     this.preferredLoginModeRepository,
     this.onboardingRepository,
@@ -302,6 +309,7 @@ class StoreFactory {
         CrashlyticsMiddleware(crashlytics, installationIdRepository).call,
         BootstrapMiddleware().call,
         LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker).call,
+        FeatureFlipMiddleware(remoteConfigRepository, detailsJeuneRepository).call,
         CacheInvalidatorMiddleware(cacheManager).call,
         UserActionDetailsMiddleware(userActionRepository).call,
         UserActionCreateMiddleware(userActionRepository).call,
@@ -377,7 +385,7 @@ class StoreFactory {
         SessionMiloDetailsMiddleware(sessionMiloRepository).call,
         ConnectivityMiddleware(connectivityWrapper).call,
         MonSuiviMiddleware(monSuiviRepository).call,
-        CvmMiddleware(cvmBridge, cvmTokenRepository, crashlytics).call,
+        CvmMiddleware(cvmBridge, cvmTokenRepository, cvmLastReadingRepository, crashlytics).call,
         CampagneRecrutementMiddleware(campagneRecrutementRepository).call,
         PreferredLoginModeMiddleware(preferredLoginModeRepository).call,
         OnboardingMiddleware(onboardingRepository).call,

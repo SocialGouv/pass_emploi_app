@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/models/cvm/cvm_event.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 
 class CvmEventFactory {
   final String cvmAttachmentUrl;
@@ -7,7 +8,7 @@ class CvmEventFactory {
 
   CvmEventFactory({required this.cvmAttachmentUrl, this.crashlytics});
 
-  CvmEvent? fromJson(dynamic json) {
+  CvmMessage? fromJson(dynamic json) {
     try {
       final jsonEvent = _JsonCvmEvent.fromJson(json);
       return switch (jsonEvent.type) {
@@ -24,33 +25,36 @@ class CvmEventFactory {
     }
   }
 
-  CvmMessageEvent _toMessageEvent(_JsonCvmEvent jsonEvent) {
-    return CvmMessageEvent(
+  CvmTextMessage _toMessageEvent(_JsonCvmEvent jsonEvent) {
+    return CvmTextMessage(
       id: jsonEvent.id!,
-      isFromUser: jsonEvent.isFromUser!,
+      sentBy: jsonEvent.isFromUser! ? Sender.jeune : Sender.conseiller,
       content: jsonEvent.content!,
       date: jsonEvent.date!,
     );
   }
 
-  CvmFileEvent _toFileEvent(_JsonCvmEvent jsonEvent) {
-    return CvmFileEvent(
+  CvmFileMessage _toFileEvent(_JsonCvmEvent jsonEvent) {
+    return CvmFileMessage(
       id: jsonEvent.id!,
-      isFromUser: jsonEvent.isFromUser!,
-      content: jsonEvent.content!,
-      url: _mxcToUrl(jsonEvent.fileInfo!),
+      sentBy: jsonEvent.isFromUser! ? Sender.jeune : Sender.conseiller,
+      fileName: jsonEvent.content!,
+      url: _url(jsonEvent.fileInfo!),
+      fileId: _fileId(jsonEvent.fileInfo!),
       date: jsonEvent.date!,
     );
   }
 
-  CvmUnknownEvent _toUnknownEvent(_JsonCvmEvent jsonEvent) {
-    return CvmUnknownEvent(
+  CvmUnknownMessage _toUnknownEvent(_JsonCvmEvent jsonEvent) {
+    return CvmUnknownMessage(
       id: jsonEvent.id!,
       date: jsonEvent.date!,
     );
   }
 
-  String _mxcToUrl(String fileInfo) => cvmAttachmentUrl + fileInfo.split('/').last;
+  String _fileId(String fileInfo) => fileInfo.split('/').last;
+
+  String _url(String fileInfo) => cvmAttachmentUrl + _fileId(fileInfo);
 }
 
 enum _CvmEventType {

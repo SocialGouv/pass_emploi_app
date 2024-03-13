@@ -5,15 +5,14 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
-import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/remote_config/max_living_time_config.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
@@ -35,7 +34,6 @@ import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
-import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
@@ -104,13 +102,6 @@ class DummyAuthenticator extends Authenticator {
 
 class DummyAuthWrapper extends AuthWrapper {
   DummyAuthWrapper() : super(DummyFlutterAppAuth(), Lock());
-}
-
-class DummyMaxLivingTimeConfig extends Mock implements MaxLivingTimeRemoteConfig {
-  DummyMaxLivingTimeConfig() : super();
-
-  @override
-  int? maxLivingTimeInSecondsForMilo() => null;
 }
 
 class DummyFlutterAppAuth extends FlutterAppAuth {}
@@ -254,10 +245,6 @@ class DummyServiceCiviqueDetailRepository extends ServiceCiviqueDetailRepository
 
 class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisRepository {
   DummyServiceCiviqueFavorisRepository() : super(DioMock());
-}
-
-class DummyDetailsJeuneRepository extends DetailsJeuneRepository {
-  DummyDetailsJeuneRepository() : super(DioMock());
 }
 
 class DummyLogoutRepository extends LogoutRepository {
