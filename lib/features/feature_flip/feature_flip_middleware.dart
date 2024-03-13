@@ -21,16 +21,15 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _handleCvmFeatureFlip(Store<AppState> store, String userId) async {
-    final featureFlip = store.state.featureFlipState.featureFlip;
     if (_remoteConfigRepository.useCvm()) {
-      store.dispatch(FeatureFlipAction(featureFlip.copyWith(useCvm: true)));
+      store.dispatch(FeatureFlipAction(useCvm: true));
     } else {
       final idsConseiller = _remoteConfigRepository.getIdsConseillerCvmEarlyAdopters();
       if (idsConseiller.isEmpty) return;
 
       final jeune = await _detailsJeuneRepository.fetch(userId);
       if (idsConseiller.contains(jeune?.conseiller.id)) {
-        store.dispatch(FeatureFlipAction(featureFlip.copyWith(useCvm: true)));
+        store.dispatch(FeatureFlipAction(useCvm: true));
       }
     }
   }

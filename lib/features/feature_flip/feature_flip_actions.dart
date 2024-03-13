@@ -1,7 +1,6 @@
-import 'package:pass_emploi_app/models/feature_flip.dart';
-
 class FeatureFlipAction {
-  final FeatureFlip featureFlip;
+  final bool useCvm;
+  final bool withCampagneRecrutement;
 
-  FeatureFlipAction(this.featureFlip);
+  FeatureFlipAction({this.useCvm = false, this.withCampagneRecrutement = false});
 }
