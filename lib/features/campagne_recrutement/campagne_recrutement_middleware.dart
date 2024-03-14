@@ -16,14 +16,14 @@ class CampagneRecrutementMiddleware extends MiddlewareClass<AppState> {
       final isFirstLaunch = await _repository.isFirstLaunch();
       if (isFirstLaunch) {
         await _repository.setCampagneRecrutementInitialRead();
-        store.dispatch(FeatureFlipAction(withCampagneRecrutement: true));
+        store.dispatch(FeatureFlipCampagneRecrutementAction(true));
       } else {
         final shouldShowCampagne = await _repository.shouldShowCampagneRecrutement();
-        store.dispatch(FeatureFlipAction(withCampagneRecrutement: shouldShowCampagne));
+        store.dispatch(FeatureFlipCampagneRecrutementAction(shouldShowCampagne));
       }
     } else if (action is CampagneRecrutementDismissAction) {
       await _repository.dismissCampagneRecrutement();
-      store.dispatch(FeatureFlipAction(withCampagneRecrutement: false));
+      store.dispatch(FeatureFlipCampagneRecrutementAction(false));
     }
   }
 }

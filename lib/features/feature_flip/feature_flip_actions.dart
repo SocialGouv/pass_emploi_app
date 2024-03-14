@@ -1,6 +1,11 @@
-class FeatureFlipAction {
+class FeatureFlipUseCvmAction {
   final bool useCvm;
+
+  FeatureFlipUseCvmAction(this.useCvm);
+}
+
+class FeatureFlipCampagneRecrutementAction {
   final bool withCampagneRecrutement;
 
-  FeatureFlipAction({this.useCvm = false, this.withCampagneRecrutement = false});
+  FeatureFlipCampagneRecrutementAction(this.withCampagneRecrutement);
 }

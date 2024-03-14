@@ -55,7 +55,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   }
 
   bool _shouldStartCvm(dynamic action) {
-    return action is CvmRequestAction || (action is FeatureFlipAction && action.useCvm);
+    return action is CvmRequestAction || (action is FeatureFlipUseCvmAction && action.useCvm);
   }
 
   void _start(Store<AppState> store) async {

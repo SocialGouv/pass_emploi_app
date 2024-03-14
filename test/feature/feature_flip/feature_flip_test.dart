@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pass_emploi_app/features/feature_flip/feature_flip_actions.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 
@@ -88,6 +89,21 @@ void main() {
 
           sut.thenExpectNever(_shouldHaveUseCvmValue(true));
         });
+      });
+    });
+
+    group("when updating a feature flip value", () {
+      sut.whenDispatchingAction(() => FeatureFlipCampagneRecrutementAction(true));
+
+      test('must not modify other values', () {
+        when(() => remoteConfigRepository.useCvm()).thenReturn(true);
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .withFeatureFlip(useCvm: true)
+            .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
+
+        sut.thenExpectAtSomePoint(_shouldHaveUseCvmValue(true));
       });
     });
   });
