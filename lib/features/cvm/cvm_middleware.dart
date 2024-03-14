@@ -40,7 +40,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     } else if (action is CvmLoadMoreAction) {
       _facade.loadMore();
     } else if (action is CvmLastReadingAction) {
-      lastReadingRepository.saveLastReading(clock.now());
+      _handleLastReading(store);
     } else if (action is CvmSuccessAction) {
       _handleChatStatus(store, action.messages);
     }
@@ -70,6 +70,11 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
           (messages) => store.dispatch(CvmSuccessAction(messages)),
           onError: (_) => store.dispatch(CvmFailureAction()),
         );
+  }
+
+  void _handleLastReading(Store<AppState> store) {
+    lastReadingRepository.saveLastReading(clock.now());
+    store.dispatch(ChatConseillerMessageAction(ConseillerMessageInfo(false, null)));
   }
 
   Future<void> _handleChatStatus(Store<AppState> store, List<CvmMessage> messages) async {

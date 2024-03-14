@@ -130,17 +130,37 @@ void main() {
       });
     });
 
-    test('CvmLastReadingAction', () {
-      final now = DateTime(2024);
-      withClock(Clock.fixed(now), () {
-        // Given
-        final store = givenState().store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
+    group('Last reading', () {
+      test('CvmLastReadingAction should save current date', () {
+        final now = DateTime(2024);
+        withClock(Clock.fixed(now), () {
+          // Given
+          final store = givenState().store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
 
-        // When
-        store.dispatch(CvmLastReadingAction());
+          // When
+          store.dispatch(CvmLastReadingAction());
 
-        // Then
-        verify(() => lastReadingRepository.saveLastReading(now)).called(1);
+          // Then
+          verify(() => lastReadingRepository.saveLastReading(now)).called(1);
+        });
+      });
+
+      group('when updating last reading value', () {
+        sut.whenDispatchingAction(() => CvmLastReadingAction());
+
+        test('should reset chat status', () {
+          sut.givenStore = givenState() //
+              .loggedInPoleEmploiUser()
+              .copyWith(
+                chatStatusState: ChatStatusSuccessState(
+                  hasUnreadMessages: true,
+                  lastConseillerReading: DateTime(2020),
+                ),
+              )
+              .store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
+
+          sut.thenExpectChangingStatesThroughOrder([_shouldResetChatStatus()]);
+        });
       });
     });
   });
@@ -152,3 +172,5 @@ Matcher _shouldHaveUnreadMessage(bool hasUnreadMessages) {
     (state) => expect(state.hasUnreadMessages, hasUnreadMessages),
   );
 }
+
+Matcher _shouldResetChatStatus() => StateIs<ChatStatusEmptyState>((state) => state.chatStatusState);
