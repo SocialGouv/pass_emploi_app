@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_last_reading_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
@@ -163,6 +164,12 @@ class MockCvmLastReadingRepository extends Mock implements CvmLastReadingReposit
   MockCvmLastReadingRepository() {
     when(() => saveLastReading(any())).thenAnswer((_) async {});
     when(() => getLastReading()).thenAnswer((_) async => null);
+  }
+}
+
+class MockCvmAlertingRepository extends Mock implements CvmAlertingRepository {
+  MockCvmAlertingRepository() {
+    when(() => traceFailure(any())).thenAnswer((_) async {});
   }
 }
 

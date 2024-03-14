@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_facade.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_last_reading_repository.dart';
@@ -18,15 +19,17 @@ import 'package:redux/redux.dart';
 
 class CvmMiddleware extends MiddlewareClass<AppState> {
   final CvmFacade _facade;
-  final CvmLastReadingRepository lastReadingRepository;
+  final CvmLastReadingRepository _lastReadingRepository;
+  final CvmAlertingRepository _alertingRepository;
   StreamSubscription<List<CvmMessage>>? _subscription;
 
   CvmMiddleware(
     CvmBridge bridge,
     CvmTokenRepository tokenRepository,
-    this.lastReadingRepository, [
-    Crashlytics? crashlytics,
-  ]) : _facade = CvmFacade(bridge, tokenRepository, crashlytics);
+    this._lastReadingRepository,
+    this._alertingRepository,
+    Crashlytics crashlytics,
+  ) : _facade = CvmFacade(bridge, tokenRepository, crashlytics);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -67,13 +70,16 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
 
     _subscription?.cancel();
     _subscription = _facade.start(userId).listen(
-          (messages) => store.dispatch(CvmSuccessAction(messages)),
-          onError: (_) => store.dispatch(CvmFailureAction()),
-        );
+      (messages) => store.dispatch(CvmSuccessAction(messages)),
+      onError: (_) {
+        store.dispatch(CvmFailureAction());
+        _alertingRepository.traceFailure(userId);
+      },
+    );
   }
 
   void _handleLastReading(Store<AppState> store) {
-    lastReadingRepository.saveLastReading(clock.now());
+    _lastReadingRepository.saveLastReading(clock.now());
     store.dispatch(ChatConseillerMessageAction(ConseillerMessageInfo(false, null)));
   }
 
@@ -81,7 +87,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     final lastConseillerMessage = messages.where((message) => message.isFromConseiller()).lastOrNull;
     if (lastConseillerMessage == null) return;
 
-    final lastReading = await lastReadingRepository.getLastReading();
+    final lastReading = await _lastReadingRepository.getLastReading();
     if (lastReading == null || lastConseillerMessage.date.isAfter(lastReading)) {
       store.dispatch(ChatConseillerMessageAction(ConseillerMessageInfo(true, null)));
     }
