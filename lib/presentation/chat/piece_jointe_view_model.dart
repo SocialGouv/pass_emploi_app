@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -21,9 +23,10 @@ class PieceJointeViewModel extends Equatable {
     return PieceJointeViewModel._(
       displayState: (fileId) => _displayState(fileId, piecesJointesState),
       onDownloadTypeId: (fileId, fileName) => store.dispatch(PieceJointeFromIdRequestAction(fileId, fileName)),
-      onDownloadTypeUrl: (url, fileId, fileName) => store.dispatch(
-        PieceJointeFromUrlRequestAction(url, fileId, fileName),
-      ),
+      onDownloadTypeUrl: (url, fileId, fileName) {
+        store.dispatch(PieceJointeFromUrlRequestAction(url, fileId, fileName));
+        store.dispatch(TrackingEventAction(EventType.PIECE_JOINTE_TELECHARGEE));
+      },
     );
   }
 

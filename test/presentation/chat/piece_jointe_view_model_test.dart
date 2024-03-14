@@ -1,5 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/chat/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
@@ -76,7 +80,7 @@ void main() {
     expect((store.dispatchedAction as PieceJointeFromIdRequestAction).fileName, "file.pdf");
   });
 
-  test('onDownloadTypeUrl should trigger proper action', () {
+  test("onDownloadTypeUrl should trigger proper action AND propagate événement d'engagement", () {
     // Given
     final store = StoreSpy();
     final viewModel = PieceJointeViewModel.create(store);
@@ -85,9 +89,16 @@ void main() {
     viewModel.onDownloadTypeUrl("url", "id", "file.pdf");
 
     // Then
-    expect(store.dispatchedAction, isA<PieceJointeFromUrlRequestAction>());
-    expect((store.dispatchedAction as PieceJointeFromUrlRequestAction).url, "url");
-    expect((store.dispatchedAction as PieceJointeFromUrlRequestAction).fileId, "id");
-    expect((store.dispatchedAction as PieceJointeFromUrlRequestAction).fileName, "file.pdf");
+    expect(store.dispatchedActions.first, isA<PieceJointeFromUrlRequestAction>());
+    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).url, "url");
+    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileId, "id");
+    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileName, "file.pdf");
+
+    // Only when downloading from url we should trigger a tracking event.
+    // When downloading from id, the tracking event is directly triggered by the server.
+    expect(store.dispatchedActions.last, isA<TrackingEventAction>());
+    expect((store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_TELECHARGEE);
   });
 }
+
+class MockBuildContext extends Mock implements BuildContext {}
