@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
@@ -99,5 +100,18 @@ void main() {
       // Then
       expect(viewModel.brouillon, isNull);
     });
+  });
+
+  test('sendMessage', () {
+    // Given
+    final store = givenState().spyStore();
+    final viewModel = CvmChatPageViewModel.create(store);
+
+    // When
+    viewModel.onSendMessage('message');
+
+    // Then
+    expect(store.dispatchedAction, isA<CvmSendMessageAction>());
+    expect((store.dispatchedAction as CvmSendMessageAction).message, 'message');
   });
 }

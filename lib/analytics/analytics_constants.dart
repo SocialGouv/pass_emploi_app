@@ -253,10 +253,20 @@ class AnalyticsEventNames {
   static const evenementEmploiDetailsCategory = "Détails événement emploi";
   static const evenementEmploiDetailsInscriptionAction = "Clic inscription événement emploi";
 
-  static const cvmCategory = "CVM";
+  static const cvmLoadingCategory = "CVM - temps de chargement";
   static const cvmLoadingAndroidAction = "Chargement Android";
   static const cvmLoadingIosAction = "Chargement iOS";
   static const cvmLoadingEventName = "Durée";
+
+  static const cvmResultCategory = "CVM - état de la page";
+  static const cvmResultAndroidSuccessAction = "Chargement Android réussi";
+  static const cvmResultAndroidFailureAction = "Chargement Android échoué";
+  static const cvmResultIosSuccessAction = "Chargement iOS réussi";
+  static const cvmResultIosFailureAction = "Chargement iOS échoué";
+
+  static const cvmMessageCategory = "CVM - messages envoyés";
+  static const cvmMessageAndroidAction = "Envoi message Android";
+  static const cvmMessageIosAction = "Envoi message iOS";
 }
 
 class AnalyticsCustomDimensions {
