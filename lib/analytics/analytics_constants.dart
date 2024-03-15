@@ -19,7 +19,7 @@ class AnalyticsScreenNames {
   static const monSuiviV2 = "mon_suivi/v2";
   static const agenda = "agenda";
   static const chat = "chat";
-  static const cvmChat = "chatCvm";
+  static const cvmChat = "chat_cvm";
   static const profil = "profil";
 
   static const contactProfil = "profil/contact";
