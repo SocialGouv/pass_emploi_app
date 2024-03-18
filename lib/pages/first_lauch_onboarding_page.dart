@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_actions.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -50,7 +51,11 @@ class _FirstScreen extends StatelessWidget {
               padding: const EdgeInsets.all(Margins.spacing_xl),
               child: SizedBox(
                 width: double.infinity,
-                child: SecondaryButton(label: Strings.start, onPressed: onStart),
+                child: SecondaryButton(
+                  label: Strings.start,
+                  foregroundColor: Brand.isCej() ? AppColors.primary : AppColors.primaryDarkenStrong,
+                  onPressed: onStart,
+                ),
               ),
             ),
           ),
@@ -201,6 +206,7 @@ class _PageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = Brand.isCej() ? AppColors.primary : AppColors.primaryDarkenStrong;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
       child: CardContainer(
@@ -210,18 +216,18 @@ class _PageContent extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: Icon(
-                icon,
-                color: AppColors.primary,
-                size: 32,
-              ),
+              child: Icon(icon, color: color, size: 32),
             ),
             SizedBox(height: Margins.spacing_s),
             Text(title, style: TextStyles.textBaseBold),
             SizedBox(height: Margins.spacing_s),
             Text(subtitle, style: TextStyles.textSRegular()),
             Expanded(child: SizedBox.shrink()),
-            PrimaryActionButton(label: Strings.continueLabel, onPressed: onContinue),
+            PrimaryActionButton(
+              label: Strings.continueLabel,
+              backgroundColor: color,
+              onPressed: onContinue,
+            ),
             SizedBox(height: Margins.spacing_s),
           ],
         ),
