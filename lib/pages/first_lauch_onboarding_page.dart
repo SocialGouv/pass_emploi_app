@@ -56,9 +56,7 @@ class _ContentState extends State<_Content> {
           Expanded(child: SizedBox()),
           Expanded(
             flex: 2,
-            child: Center(
-              child: _AppWelcomeTexts(),
-            ),
+            child: Center(child: _Welcome(firstScreen: _index == 0)),
           ),
           AnimatedSwitcher(
             duration: AnimationDurations.medium,
@@ -80,18 +78,25 @@ class _ContentState extends State<_Content> {
   }
 }
 
-class _AppWelcomeTexts extends StatelessWidget {
+class _Welcome extends StatelessWidget {
+  final bool firstScreen;
+
+  const _Welcome({required this.firstScreen});
+
   @override
   Widget build(BuildContext context) {
+    final bool withText = firstScreen || MediaQuery.of(context).size.height > 700;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         AppLogo(width: 120),
         const SizedBox(height: Margins.spacing_base),
-        Text(Strings.welcome, style: TextStyles.textLBold(color: Colors.white), textAlign: TextAlign.center),
-        SizedBox(height: Margins.spacing_base),
-        Text(Strings.welcomeMessage, style: TextStyles.textSMedium(color: Colors.white), textAlign: TextAlign.center),
-        SizedBox(height: Margins.spacing_m),
+        if (withText) ...[
+          Text(Strings.welcome, style: TextStyles.textLBold(color: Colors.white), textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_base),
+          Text(Strings.welcomeMessage, style: TextStyles.textSMedium(color: Colors.white), textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_m),
+        ],
       ],
     );
   }
