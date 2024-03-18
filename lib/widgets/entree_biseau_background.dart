@@ -3,8 +3,6 @@ import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 
 class EntreeBiseauBackground extends StatelessWidget {
-  const EntreeBiseauBackground({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Stack(
