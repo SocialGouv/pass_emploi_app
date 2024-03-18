@@ -73,7 +73,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
       (messages) => store.dispatch(CvmSuccessAction(messages)),
       onError: (_) {
         store.dispatch(CvmFailureAction());
-        _alertingRepository.traceFailure(userId);
+        _alertingRepository.traceFailure();
       },
     );
   }

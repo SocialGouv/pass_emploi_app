@@ -169,7 +169,7 @@ class MockCvmLastReadingRepository extends Mock implements CvmLastReadingReposit
 
 class MockCvmAlertingRepository extends Mock implements CvmAlertingRepository {
   MockCvmAlertingRepository() {
-    when(() => traceFailure(any())).thenAnswer((_) async {});
+    when(() => traceFailure()).thenAnswer((_) async {});
   }
 }
 

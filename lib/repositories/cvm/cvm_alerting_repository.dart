@@ -5,9 +5,9 @@ class CvmAlertingRepository {
 
   CvmAlertingRepository(this._httpClient);
 
-  Future<void> traceFailure(String userId) async {
+  Future<void> traceFailure() async {
     try {
-      await _httpClient.post('/app/logs/cvm/failure/$userId');
+      await _httpClient.post('/app/logs/cvm/failure');
     } catch (_) {}
   }
 }
