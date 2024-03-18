@@ -122,8 +122,6 @@ class Strings {
 
   static String firstLaunchOnboardingCardTitle1 =
       Brand.isCej() ? firstLaunchOnboardingCardTitle1Cej : firstLaunchOnboardingCardTitle1Brsa;
-  static String firstLaunchOnboardingCardContent1 =
-      Brand.isCej() ? firstLaunchOnboardingCardContent1Cej : firstLaunchOnboardingCardContent1Brsa;
   static String firstLaunchOnboardingCardTitle2 =
       Brand.isCej() ? firstLaunchOnboardingCardTitle2Cej : firstLaunchOnboardingCardTitle2Brsa;
   static String firstLaunchOnboardingCardContent2 =
@@ -134,8 +132,8 @@ class Strings {
       Brand.isCej() ? firstLaunchOnboardingCardContent3Cej : firstLaunchOnboardingCardContent3Brsa;
 
   static String firstLaunchOnboardingCardTitle1Cej = "Le CEJ, un suivi personnalisé avec un conseiller dédié";
-  static String firstLaunchOnboardingCardContent1Cej =
-      "Avec le CEJ, vous êtes accompagné 15 à 20h par semaine minimum par un conseiller dédié tout au long de votre parcours.";
+  static String firstLaunchOnboardingCardContent1 =
+      'Vous suivez un programme de 15h à 20h par semaine, avec un conseiller dédié tout au long du parcours.';
   static String firstLaunchOnboardingCardTitle2Cej = "Une application pour suivre vos actions et rester en contact";
   static String firstLaunchOnboardingCardContent2Cej =
       "Recherchez un emploi, suivez vos activités et gardez contact avec votre conseiller grâce à une messagerie instantanée.";
@@ -144,8 +142,6 @@ class Strings {
       "Connectez-vous pour bénéficier de toutes les fonctionnalités de l’application et profitez d’un environnement sécurisé pour échanger avec votre conseiller. ";
 
   static String firstLaunchOnboardingCardTitle1Brsa = "Un suivi personnalisé avec un conseiller dédié";
-  static String firstLaunchOnboardingCardContent1Brsa =
-      "Vous suivez un programme de 15 à 20h par semaine, avec un conseiller dédié tout au long de votre parcours.";
   static String firstLaunchOnboardingCardTitle2Brsa = "Une application pour suivre vos actions et rester en contact";
   static String firstLaunchOnboardingCardContent2Brsa =
       "Recherchez un emploi, suivez vos démarches et gardez contact avec votre conseiller grâce à une messagerie instantanée.";
@@ -720,6 +716,7 @@ class Strings {
   static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
 
   static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
+
   static String rechercheCriteresActifsTooltip(bool isOpen) => "Bandeau de recherche ${isOpen ? 'ouvert' : 'fermé'}";
 
   static String rechercheCriteresActifsPlural(int count) => "($count) critères actifs";
@@ -970,6 +967,7 @@ class Strings {
   static String suppressionAccountLabel =
       Brand.isCej() ? _CejStrings.suppressionAccountLabel : _BrsaStrings.suppressionAccountLabel;
   static String activityShareLabel = "Partage de votre activité";
+
   static String partageFavorisEnabled(bool enabled) =>
       enabled ? "Désactiver le partage de mes favoris" : "Activer le partage de mes favoris";
   static String activityShareDescription =
