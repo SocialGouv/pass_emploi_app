@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_actions.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/presentation/entree_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -31,12 +32,20 @@ class EntreePage extends StatelessWidget {
       child: StoreConnector<AppState, EntreePageViewModel>(
         onInit: (store) => store.dispatch(PreferredLoginModeRequestAction()),
         converter: (store) => EntreePageViewModel.create(store),
-        builder: (context, viewModel) => _scaffold(context, viewModel),
+        builder: (context, viewModel) => _Scaffold(viewModel),
       ),
     );
   }
+}
 
-  Widget _scaffold(BuildContext context, EntreePageViewModel viewModel) {
+class _Scaffold extends StatelessWidget {
+  final EntreePageViewModel viewModel;
+
+  _Scaffold(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    final shrinkOnSmallDevices = Brand.isCej() && MediaQuery.of(context).size.height < 800;
     return Scaffold(
       body: Stack(
         children: [
@@ -49,11 +58,11 @@ class EntreePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _FlexibleSpace(),
+                    _FlexibleTopSpace(),
                     HiddenMenuGesture(child: AppLogo(width: 120)),
-                    SizedBox(height: Margins.spacing_m),
+                    SizedBox(height: shrinkOnSmallDevices ? Margins.spacing_base : Margins.spacing_m),
                     _WelcomeText(),
-                    SizedBox(height: Margins.spacing_xl),
+                    SizedBox(height: shrinkOnSmallDevices ? 0 : Margins.spacing_xl),
                     CardContainer(
                       padding: EdgeInsets.only(
                         left: Margins.spacing_m,
@@ -104,27 +113,26 @@ class EntreePage extends StatelessWidget {
   }
 }
 
-class _FlexibleSpace extends StatelessWidget {
+class _FlexibleTopSpace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
-    late final double height;
+    final double height;
     if (deviceHeight < 800) {
-      height = 50;
+      height = 16;
     } else if (deviceHeight < 900) {
       height = 150;
     } else {
       height = 200;
     }
 
-    return SizedBox(
-      height: height,
-    );
+    return SizedBox(height: height);
   }
 }
 
 class _LoginButton extends StatelessWidget {
   const _LoginButton(this.viewModel);
+
   final EntreePageViewModel viewModel;
 
   @override
@@ -132,6 +140,7 @@ class _LoginButton extends StatelessWidget {
     if (viewModel.withLoading) return Center(child: CircularProgressIndicator());
     return PrimaryActionButton(
       label: Strings.loginAction,
+      backgroundColor: Brand.isCej() ? AppColors.primary : AppColors.primaryDarkenStrong,
       onPressed: () {
         viewModel.onLogin != null ? viewModel.onLogin!.call() : LoginBottomSheet.show(context);
       },
@@ -143,9 +152,7 @@ class _WelcomeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Margins.spacing_m,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
       child: Column(
         children: [
           Text(Strings.welcome, style: TextStyles.textLBold(color: Colors.white), textAlign: TextAlign.center),
@@ -310,6 +317,7 @@ class _ErrorInfoDialog extends StatelessWidget {
 
 class _PreferredLoginMode extends StatelessWidget {
   const _PreferredLoginMode(this.loginMode);
+
   final PreferredLoginModeViewModel loginMode;
 
   @override
