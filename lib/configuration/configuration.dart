@@ -121,7 +121,7 @@ class Configuration extends Equatable {
   }
 
   static String getCvmEx160Url(String cvmPath) {
-    return 'https://$cvmPath/identificationcej/v1/authentification/CEJ';
+    return 'https://$cvmPath/identification/v1/authentification/CEJ';
   }
 
   static String getCvmAttachmentUrl(String cvmPath) {
