@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
@@ -23,6 +24,7 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/hidden_menu.dart';
+import 'package:pass_emploi_app/widgets/welcome.dart';
 
 class EntreePage extends StatelessWidget {
   @override
@@ -45,7 +47,7 @@ class _Scaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shrinkOnSmallDevices = Brand.isCej() && MediaQuery.of(context).size.height < 800;
+    final shrink = Brand.isCej() && MediaQuery.of(context).size.height < MediaSizes.height_xs;
     return Scaffold(
       body: Stack(
         children: [
@@ -58,11 +60,11 @@ class _Scaffold extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _FlexibleTopSpace(),
+                    _TopSpacer(),
                     HiddenMenuGesture(child: AppLogo(width: 120)),
-                    SizedBox(height: shrinkOnSmallDevices ? Margins.spacing_base : Margins.spacing_m),
-                    _WelcomeText(),
-                    SizedBox(height: shrinkOnSmallDevices ? 0 : Margins.spacing_xl),
+                    SizedBox(height: shrink ? Margins.spacing_base : Margins.spacing_m),
+                    Welcome(),
+                    SizedBox(height: shrink ? 0 : Margins.spacing_xl),
                     CardContainer(
                       padding: EdgeInsets.only(
                         left: Margins.spacing_m,
@@ -113,20 +115,17 @@ class _Scaffold extends StatelessWidget {
   }
 }
 
-class _FlexibleTopSpace extends StatelessWidget {
+class _TopSpacer extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height;
-    final double height;
-    if (deviceHeight < 800) {
-      height = 16;
-    } else if (deviceHeight < 900) {
-      height = 150;
-    } else {
-      height = 200;
-    }
+  Widget build(BuildContext context) => SizedBox(height: _spacerHeight(context));
 
-    return SizedBox(height: height);
+  double _spacerHeight(BuildContext context) {
+    final deviceHeight = MediaQuery.of(context).size.height;
+    if (deviceHeight < MediaSizes.height_xs) return 16;
+    if (deviceHeight < MediaSizes.height_s) return 50;
+    if (deviceHeight < MediaSizes.height_m) return 100;
+    if (deviceHeight < MediaSizes.height_l) return 150;
+    return 200;
   }
 }
 
@@ -144,23 +143,6 @@ class _LoginButton extends StatelessWidget {
       onPressed: () {
         viewModel.onLogin != null ? viewModel.onLogin!.call() : LoginBottomSheet.show(context);
       },
-    );
-  }
-}
-
-class _WelcomeText extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-      child: Column(
-        children: [
-          Text(Strings.welcome, style: TextStyles.textLBold(color: Colors.white), textAlign: TextAlign.center),
-          SizedBox(height: Margins.spacing_base),
-          Text(Strings.welcomeMessage, style: TextStyles.textSMedium(color: Colors.white), textAlign: TextAlign.center),
-          SizedBox(height: Margins.spacing_m),
-        ],
-      ),
     );
   }
 }

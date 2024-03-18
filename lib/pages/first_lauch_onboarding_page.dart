@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
@@ -13,10 +14,9 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
+import 'package:pass_emploi_app/widgets/welcome.dart';
 
 class FirstLaunchOnboardingPage extends StatefulWidget {
-  static const int _mediumHeight = 700;
-
   @override
   State<FirstLaunchOnboardingPage> createState() => _FirstLaunchOnboardingPageState();
 }
@@ -70,7 +70,7 @@ class _PageViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final smallDevice = MediaQuery.of(context).size.height < FirstLaunchOnboardingPage._mediumHeight;
+    final shrink = MediaQuery.of(context).size.height < MediaSizes.height_s;
     return Scaffold(
       body: Stack(
         children: [
@@ -80,11 +80,11 @@ class _PageViewScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                flex: smallDevice ? 0 : 13,
+                flex: shrink ? 0 : 13,
                 child: SizedBox.shrink(),
               ),
               Expanded(
-                flex: smallDevice ? 15 : 37,
+                flex: shrink ? 15 : 37,
                 child: Center(child: _Welcome(firstScreen: false)),
               ),
               Expanded(
@@ -99,7 +99,7 @@ class _PageViewScreen extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: smallDevice ? 5 : 10,
+                flex: shrink ? 5 : 10,
                 child: Center(
                   child: _CarouselStepperIndicator(_pageController),
                 ),
@@ -119,26 +119,16 @@ class _Welcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool withText = firstScreen || MediaQuery.of(context).size.height > FirstLaunchOnboardingPage._mediumHeight;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AppLogo(width: 120),
-          if (withText) ...[
-            const SizedBox(height: Margins.spacing_base),
-            Text(Strings.welcome, style: TextStyles.textLBold(color: Colors.white), textAlign: TextAlign.center),
-            SizedBox(height: Margins.spacing_base),
-            Text(
-              Strings.welcomeMessage,
-              style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: Margins.spacing_m),
-          ],
+    final bool withText = firstScreen || MediaQuery.of(context).size.height > MediaSizes.height_s;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AppLogo(width: 120),
+        if (withText) ...[
+          const SizedBox(height: Margins.spacing_base),
+          Welcome(),
         ],
-      ),
+      ],
     );
   }
 }
