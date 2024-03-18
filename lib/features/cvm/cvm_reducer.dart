@@ -11,6 +11,7 @@ bool? _cvmSetupTracked;
 
 CvmState cvmReducer(CvmState current, dynamic action) {
   _trackCvmSetupTime(action);
+  _trackCvmState(current, action);
   if (action is CvmLoadingAction) return CvmLoadingState();
   if (action is CvmFailureAction) return CvmFailureState();
   if (action is CvmSuccessAction) return CvmSuccessState(action.messages);
@@ -26,10 +27,29 @@ void _trackCvmSetupTime(dynamic action) {
     _cvmSetupTracked = true;
     final duration = _cvmEndSetupDate!.difference(_cvmBeginSetupDate!).inSeconds;
     PassEmploiMatomoTracker.instance.trackEvent(
-      eventCategory: AnalyticsEventNames.cvmCategory,
+      eventCategory: AnalyticsEventNames.cvmLoadingCategory,
       action: Platform.isIOS ? AnalyticsEventNames.cvmLoadingIosAction : AnalyticsEventNames.cvmLoadingAndroidAction,
       eventName: AnalyticsEventNames.cvmLoadingEventName,
       eventValue: duration,
+    );
+  }
+}
+
+void _trackCvmState(CvmState current, dynamic action) {
+  if (current is! CvmSuccessState && action is CvmSuccessAction) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.cvmResultCategory,
+      action: Platform.isIOS
+          ? AnalyticsEventNames.cvmResultIosSuccessAction
+          : AnalyticsEventNames.cvmResultAndroidSuccessAction,
+    );
+  }
+  if (action is CvmFailureAction) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.cvmResultCategory,
+      action: Platform.isIOS
+          ? AnalyticsEventNames.cvmResultIosFailureAction
+          : AnalyticsEventNames.cvmResultAndroidFailureAction,
     );
   }
 }

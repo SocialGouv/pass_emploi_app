@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
@@ -9,6 +12,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:redux/redux.dart';
 
 class CvmChatPageViewModel extends Equatable {
@@ -32,7 +36,7 @@ class CvmChatPageViewModel extends Equatable {
       displayState: _displayState(chatState),
       brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is CvmSuccessState ? _messagesToChatItems(chatState.messages) : [],
-      onSendMessage: (String message) => store.dispatch(CvmSendMessageAction(message)),
+      onSendMessage: (String message) => _sendMessage(store, message),
       onRetry: () => store.dispatch(CvmRequestAction()),
     );
   }
@@ -45,6 +49,14 @@ DisplayState _displayState(CvmState state) {
   if (state is CvmLoadingState) return DisplayState.LOADING;
   if (state is CvmFailureState) return DisplayState.FAILURE;
   return DisplayState.CONTENT;
+}
+
+void _sendMessage(Store<AppState> store, String message) {
+  store.dispatch(CvmSendMessageAction(message));
+  PassEmploiMatomoTracker.instance.trackEvent(
+    eventCategory: AnalyticsEventNames.cvmMessageCategory,
+    action: Platform.isIOS ? AnalyticsEventNames.cvmMessageIosAction : AnalyticsEventNames.cvmMessageAndroidAction,
+  );
 }
 
 List<CvmChatItem> _messagesToChatItems(List<CvmMessage> messages) {

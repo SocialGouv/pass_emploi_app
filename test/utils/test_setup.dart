@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_last_reading_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
@@ -144,6 +145,7 @@ class TestStoreFactory {
   CvmBridge cvmBridge = MockCvmBridge();
   CvmTokenRepository cvmTokenRepository = MockCvmTokenRepository();
   CvmLastReadingRepository cvmLastReadingRepository = MockCvmLastReadingRepository();
+  CvmAlertingRepository cvmAlertingRepository = MockCvmAlertingRepository();
   CampagneRecrutementRepository campagneRecrutementRepository = MockCampagneRecrutementRepository();
   PreferredLoginModeRepository preferredLoginModeRepository = MockPreferredLoginModeRepository();
   OnboardingRepository onboardingRepository = MockOnboardingRepository();
@@ -219,6 +221,7 @@ class TestStoreFactory {
       cvmBridge,
       cvmTokenRepository,
       cvmLastReadingRepository,
+      cvmAlertingRepository,
       campagneRecrutementRepository,
       preferredLoginModeRepository,
       onboardingRepository,

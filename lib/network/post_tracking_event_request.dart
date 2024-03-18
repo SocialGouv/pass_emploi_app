@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/network/json_serializable.dart';
 
 enum EventType {
   MESSAGE_ENVOYE,
+  PIECE_JOINTE_TELECHARGEE,
   MESSAGE_OFFRE_PARTAGEE,
   OFFRE_EMPLOI_AFFICHEE,
   OFFRE_EMPLOI_POSTULEE,
@@ -77,6 +78,7 @@ extension on EventType {
   String serialized() {
     return switch (this) {
       EventType.MESSAGE_ENVOYE => 'MESSAGE_ENVOYE',
+      EventType.PIECE_JOINTE_TELECHARGEE => 'PIECE_JOINTE_TELECHARGEE',
       EventType.MESSAGE_OFFRE_PARTAGEE => 'MESSAGE_OFFRE_PARTAGEE',
       EventType.OFFRE_EMPLOI_POSTULEE => 'OFFRE_EMPLOI_POSTULEE',
       EventType.OFFRE_EMPLOI_PARTAGEE => 'OFFRE_EMPLOI_PARTAGEE',

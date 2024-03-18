@@ -104,6 +104,7 @@ import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_last_reading_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
@@ -220,6 +221,7 @@ class StoreFactory {
   final CvmBridge cvmBridge;
   final CvmTokenRepository cvmTokenRepository;
   final CvmLastReadingRepository cvmLastReadingRepository;
+  final CvmAlertingRepository cvmAlertingRepository;
   final CampagneRecrutementRepository campagneRecrutementRepository;
   final PreferredLoginModeRepository preferredLoginModeRepository;
   final OnboardingRepository onboardingRepository;
@@ -294,6 +296,7 @@ class StoreFactory {
     this.cvmBridge,
     this.cvmTokenRepository,
     this.cvmLastReadingRepository,
+    this.cvmAlertingRepository,
     this.campagneRecrutementRepository,
     this.preferredLoginModeRepository,
     this.onboardingRepository,
@@ -385,7 +388,7 @@ class StoreFactory {
         SessionMiloDetailsMiddleware(sessionMiloRepository).call,
         ConnectivityMiddleware(connectivityWrapper).call,
         MonSuiviMiddleware(monSuiviRepository).call,
-        CvmMiddleware(cvmBridge, cvmTokenRepository, cvmLastReadingRepository, crashlytics).call,
+        CvmMiddleware(cvmBridge, cvmTokenRepository, cvmLastReadingRepository, cvmAlertingRepository, crashlytics).call,
         CampagneRecrutementMiddleware(campagneRecrutementRepository).call,
         PreferredLoginModeMiddleware(preferredLoginModeRepository).call,
         OnboardingMiddleware(onboardingRepository).call,

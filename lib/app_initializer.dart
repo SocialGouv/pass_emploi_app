@@ -48,6 +48,7 @@ import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
+import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_last_reading_repository.dart';
@@ -271,6 +272,7 @@ class AppInitializer {
       ),
       CvmTokenRepository(dioClient, crashlytics),
       CvmLastReadingRepository(securedPreferences),
+      CvmAlertingRepository(dioClient),
       CampagneRecrutementRepository(remoteConfigRepository, securedPreferences),
       PreferredLoginModeRepository(securedPreferences),
       OnboardingRepository(securedPreferences),
