@@ -71,7 +71,8 @@ class _ContentState extends State<_Content> {
             },
           ),
           SizedBox(height: Margins.spacing_base),
-          _CarousselStepperIndicator(index: _index - 1, length: 3),
+          if (_index == 0) SizedBox(height: Margins.spacing_s),
+          if (_index != 0) _CarouselStepperIndicator(index: _index - 1, length: 3),
           SizedBox(height: MediaQuery.of(context).padding.bottom + Margins.spacing_base),
         ],
       ),
@@ -80,8 +81,6 @@ class _ContentState extends State<_Content> {
 }
 
 class _AppWelcomeTexts extends StatelessWidget {
-  const _AppWelcomeTexts();
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -98,8 +97,9 @@ class _AppWelcomeTexts extends StatelessWidget {
   }
 }
 
-class _CarousselStepperIndicator extends StatelessWidget {
-  const _CarousselStepperIndicator({required this.index, required this.length});
+class _CarouselStepperIndicator extends StatelessWidget {
+  const _CarouselStepperIndicator({required this.index, required this.length});
+
   final int index;
   final int length;
 
@@ -109,8 +109,8 @@ class _CarousselStepperIndicator extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(length, (i) {
         return Container(
-          width: 8,
-          height: 8,
+          width: Margins.spacing_s,
+          height: Margins.spacing_s,
           margin: const EdgeInsets.symmetric(horizontal: Margins.spacing_xs),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -163,6 +163,7 @@ class _FirstLaunchOnboardingCard extends StatelessWidget {
 
 class _InitialPageContent extends StatelessWidget {
   const _InitialPageContent({required this.onStart});
+
   final VoidCallback onStart;
 
   @override
@@ -173,6 +174,7 @@ class _InitialPageContent extends StatelessWidget {
 
 class _FirstPageContent extends StatelessWidget {
   const _FirstPageContent({required this.onContinue});
+
   final VoidCallback onContinue;
 
   @override
@@ -188,6 +190,7 @@ class _FirstPageContent extends StatelessWidget {
 
 class _SecondPageContent extends StatelessWidget {
   const _SecondPageContent({required this.onContinue});
+
   final VoidCallback onContinue;
 
   @override
@@ -203,6 +206,7 @@ class _SecondPageContent extends StatelessWidget {
 
 class _ThirdPageContent extends StatelessWidget {
   const _ThirdPageContent({required this.onContinue});
+
   final VoidCallback onContinue;
 
   @override
