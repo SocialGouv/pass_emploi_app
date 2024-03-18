@@ -140,7 +140,7 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
                       ),
                       SizedBox(height: Margins.spacing_s),
                       SecondaryButton(
-                        label: Strings.continueLabel,
+                        label: Strings.accueilOnboardingButtonDeclineNotifications,
                         onPressed: onDeclineNotifications,
                       ),
                     ],

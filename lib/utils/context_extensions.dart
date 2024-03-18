@@ -5,7 +5,9 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
 extension TrackingExtension on BuildContext {
-  void trackEvent(EventType eventType) {
-    StoreProvider.of<AppState>(this).dispatch(TrackingEventAction(eventType));
-  }
+  void trackEvent(EventType eventType) => dispatch(TrackingEventAction(eventType));
+}
+
+extension StoreExtension on BuildContext {
+  void dispatch(dynamic action) => StoreProvider.of<AppState>(this).dispatch(action);
 }
