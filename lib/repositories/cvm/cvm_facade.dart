@@ -6,6 +6,8 @@ import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 
 class CvmFacade {
+  static const int _timeout_in_seconds = 10;
+
   final CvmBridge _bridge;
   final CvmTokenRepository _tokenRepository;
   final Crashlytics? _crashlytics;
@@ -15,8 +17,8 @@ class CvmFacade {
   CvmFacade(this._bridge, this._tokenRepository, [this._crashlytics]) : _state = _CvmState();
 
   Stream<List<CvmMessage>> start(String userId) {
-    _streamController?.close();
     _streamController = StreamController<List<CvmMessage>>();
+    _assertInteractionsOnStreamBeforeTimeout();
 
     _subscribeToMessageStream()
         .then((_) => _initCvm())
@@ -25,10 +27,10 @@ class CvmFacade {
         .then((_) => _joinRoom())
         .then((isRoomJoined) => isRoomJoined ? _startListenMessages() : _getRoomsAndJoin())
         .catchError((Object error) {
-      _crashlytics?.recordCvmException(error);
-      _streamController!.addError(error);
+      _addErrorToStream(error);
       return false;
     });
+
     return _streamController!.stream;
   }
 
@@ -83,11 +85,10 @@ class CvmFacade {
     _state.isSubscribingToMessageStream = true;
 
     _bridge.getMessages().listen(
-      (messages) => _streamController?.add(messages),
+          (messages) => _addMessagesToStream(messages),
       onError: (Object error) {
-        _crashlytics?.recordCvmException(error);
         _state.isSubscribingToMessageStream = false;
-        _streamController?.addError(error);
+        _addErrorToStream(error);
       },
     );
   }
@@ -122,11 +123,10 @@ class CvmFacade {
     _state.isSubscribingToHasRoomStream = true;
 
     _bridge.hasRoom().listen(
-      (hasRoom) => _handleHasRoom(hasRoom),
+          (hasRoom) => _handleHasRoom(hasRoom),
       onError: (Object error) {
-        _crashlytics?.recordCvmException(error);
         _state.isSubscribingToHasRoomStream = false;
-        _streamController?.addError(error);
+        _addErrorToStream(error);
       },
     );
   }
@@ -140,6 +140,28 @@ class CvmFacade {
     await _joinRoom();
     return await _startListenMessages();
   }
+
+  void _assertInteractionsOnStreamBeforeTimeout() {
+    Future.delayed(Duration(seconds: _timeout_in_seconds), () {
+      if (!_state.hasInteractionOnStream) _streamController?.addError(_NoInteractionOnSteamError());
+    });
+  }
+
+  void _addMessagesToStream(List<CvmMessage> messages) {
+    _state.hasInteractionOnStream = true;
+    _streamController?.add(messages);
+  }
+
+  void _addErrorToStream(Object error) {
+    _state.hasInteractionOnStream = true;
+    _crashlytics?.recordCvmException(error);
+    _streamController?.addError(error);
+  }
+}
+
+class _NoInteractionOnSteamError extends Error {
+  @override
+  String toString() => "Nothing happens on stream";
 }
 
 // Made to offer a proper retry mechanism. Only unsuccessful steps should be retried.
@@ -153,6 +175,7 @@ class _CvmState {
   bool hasRoom = false;
   bool isListeningMessages = false;
   bool isListeningRooms = false;
+  bool hasInteractionOnStream = false;
 
   void reset() {
     // isInit is not reset because of Android behavior, which makes app crashes when trying to reinitialize CVM.
@@ -164,5 +187,6 @@ class _CvmState {
     hasRoom = false;
     isListeningMessages = false;
     isListeningRooms = false;
+    hasInteractionOnStream = false;
   }
 }

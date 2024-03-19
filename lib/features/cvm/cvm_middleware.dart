@@ -69,6 +69,7 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(CvmLoadingAction());
 
     _subscription?.cancel();
+    _facade.stop();
     _subscription = _facade.start(userId).listen(
       (messages) => store.dispatch(CvmSuccessAction(messages)),
       onError: (_) {
