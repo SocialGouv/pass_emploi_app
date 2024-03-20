@@ -8,9 +8,11 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet_height_factor.dart';
 
 class OnboardingNavigationBottomSheet extends StatelessWidget {
   const OnboardingNavigationBottomSheet({super.key});
@@ -30,6 +32,7 @@ class OnboardingNavigationBottomSheet extends StatelessWidget {
     return BottomSheetWrapper(
       padding: EdgeInsets.zero,
       hideTitle: true,
+      heightFactor: _heightFactor(context),
       body: Stack(
         children: [
           Column(
@@ -66,6 +69,12 @@ class OnboardingNavigationBottomSheet extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  double _heightFactor(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    if (height < MediaSizes.height_xs) return 0.9;
+    return onboardingBottomSheetHeightFactor(context) - 0.05;
   }
 }
 

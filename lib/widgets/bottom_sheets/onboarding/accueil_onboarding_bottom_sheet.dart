@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet_height_factor.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
@@ -44,6 +45,7 @@ class _AccueilOnboardingBottomSheetState extends State<AccueilOnboardingBottomSh
         return BottomSheetWrapper(
           hideTitle: true,
           padding: EdgeInsets.zero,
+          heightFactor: _currentPage == 0 ? onboardingBottomSheetHeightFactor(context) + 0.05 : 0.9,
           body: AnimatedSwitcher(
             duration: AnimationDurations.fast,
             child: _currentPage == 0
@@ -51,10 +53,7 @@ class _AccueilOnboardingBottomSheetState extends State<AccueilOnboardingBottomSh
                 : _AccueilOnboardingPage2(
                     viewModel: viewModel,
                     onAcceptNotifications: () => viewModel.onRequestNotificationsPermission(),
-                    onDeclineNotifications: () {
-                      viewModel.onOnboardingCompleted();
-                      Navigator.of(context).pop();
-                    },
+                    onDeclineNotifications: () => viewModel.onOnboardingCompleted(),
                   ),
           ),
         );
@@ -100,7 +99,7 @@ class _AccueilOnboardingPage1 extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: Margins.spacing_x_huge),
+            SizedBox(height: Margins.spacing_base),
           ],
         ),
       ),
@@ -154,7 +153,7 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: Margins.spacing_x_huge),
+                  SizedBox(height: Margins.spacing_base),
                 ],
               ),
             )
