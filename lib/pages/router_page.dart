@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/pages/spash_screen_page.dart';
 import 'package:pass_emploi_app/pages/tutorial_page.dart';
 import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
 import 'package:pass_emploi_app/push/deep_link_factory.dart';
-import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
+import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
