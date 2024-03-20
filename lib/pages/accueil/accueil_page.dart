@@ -27,7 +27,7 @@ import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/accueil_onboarding_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_accueil_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_navigation_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
@@ -94,7 +94,7 @@ class _AccueilPageState extends State<AccueilPage> {
   void _handleOnboarding(BuildContext context, AccueilViewModel newViewModel) {
     if (newViewModel.shouldShowOnboarding && !_onboardingShown) {
       _onboardingShown = true;
-      AccueilOnboardingBottomSheet.show(context).then((_) => OnboardingNavigationBottomSheet.show(context));
+      OnboardingAccueilBottomSheet.show(context).then((_) => OnboardingNavigationBottomSheet.show(context));
     }
   }
 }

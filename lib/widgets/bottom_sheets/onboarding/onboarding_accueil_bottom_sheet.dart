@@ -13,24 +13,24 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bott
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
-class AccueilOnboardingBottomSheet extends StatefulWidget {
-  const AccueilOnboardingBottomSheet({super.key});
+class OnboardingAccueilBottomSheet extends StatefulWidget {
+  const OnboardingAccueilBottomSheet({super.key});
 
   static Future<void> show(BuildContext context) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => const AccueilOnboardingBottomSheet(),
+      builder: (context) => const OnboardingAccueilBottomSheet(),
       isDismissible: false,
       enableDrag: false,
     );
   }
 
   @override
-  State<AccueilOnboardingBottomSheet> createState() => _AccueilOnboardingBottomSheetState();
+  State<OnboardingAccueilBottomSheet> createState() => _OnboardingAccueilBottomSheetState();
 }
 
-class _AccueilOnboardingBottomSheetState extends State<AccueilOnboardingBottomSheet> {
+class _OnboardingAccueilBottomSheetState extends State<OnboardingAccueilBottomSheet> {
   int _currentPage = 0;
 
   void nextPage() => setState(() => _currentPage++);
@@ -49,8 +49,8 @@ class _AccueilOnboardingBottomSheetState extends State<AccueilOnboardingBottomSh
           body: AnimatedSwitcher(
             duration: AnimationDurations.fast,
             child: _currentPage == 0
-                ? _AccueilOnboardingPage1(viewModel: viewModel, onContinue: () => nextPage())
-                : _AccueilOnboardingPage2(
+                ? _OnboardingAccueilPage(viewModel: viewModel, onContinue: () => nextPage())
+                : _OnboardingPushNotificationPermissionPage(
                     viewModel: viewModel,
                     onAcceptNotifications: () => viewModel.onRequestNotificationsPermission(),
                     onDeclineNotifications: () => viewModel.onOnboardingCompleted(),
@@ -68,8 +68,8 @@ class _AccueilOnboardingBottomSheetState extends State<AccueilOnboardingBottomSh
   }
 }
 
-class _AccueilOnboardingPage1 extends StatelessWidget {
-  const _AccueilOnboardingPage1({required this.viewModel, required this.onContinue});
+class _OnboardingAccueilPage extends StatelessWidget {
+  const _OnboardingAccueilPage({required this.viewModel, required this.onContinue});
 
   final AccueilOnboardingViewModel viewModel;
   final void Function() onContinue;
@@ -107,8 +107,8 @@ class _AccueilOnboardingPage1 extends StatelessWidget {
   }
 }
 
-class _AccueilOnboardingPage2 extends StatelessWidget {
-  const _AccueilOnboardingPage2({
+class _OnboardingPushNotificationPermissionPage extends StatelessWidget {
+  const _OnboardingPushNotificationPermissionPage({
     required this.onAcceptNotifications,
     required this.onDeclineNotifications,
     required this.viewModel,
