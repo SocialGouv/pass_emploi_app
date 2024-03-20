@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_actions.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
-import 'package:pass_emploi_app/presentation/entree_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/login_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -31,9 +31,9 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.login,
-      child: StoreConnector<AppState, EntreePageViewModel>(
+      child: StoreConnector<AppState, LoginPageViewModel>(
         onInit: (store) => store.dispatch(PreferredLoginModeRequestAction()),
-        converter: (store) => EntreePageViewModel.create(store),
+        converter: (store) => LoginPageViewModel.create(store),
         builder: (context, viewModel) => _Scaffold(viewModel),
         onWillChange: _onWillChange,
         distinct: true,
@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void _onWillChange(EntreePageViewModel? previousVM, EntreePageViewModel newVM) {
+  void _onWillChange(LoginPageViewModel? previousVM, LoginPageViewModel newVM) {
     if (previousVM?.withLoading != false) return;
     if (newVM.withWrongDeviceClockMessage || newVM.technicalErrorMessage != null) {
       _trackLoginResult(successful: false);
@@ -59,7 +59,7 @@ class LoginPage extends StatelessWidget {
 }
 
 class _Scaffold extends StatelessWidget {
-  final EntreePageViewModel viewModel;
+  final LoginPageViewModel viewModel;
 
   _Scaffold(this.viewModel);
 
@@ -150,7 +150,7 @@ class _TopSpacer extends StatelessWidget {
 class _LoginButton extends StatelessWidget {
   const _LoginButton(this.viewModel);
 
-  final EntreePageViewModel viewModel;
+  final LoginPageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {

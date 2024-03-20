@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_state.dart';
-import 'package:pass_emploi_app/presentation/entree_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/login_page_view_model.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 
 import '../dsl/app_state_dsl.dart';
@@ -14,7 +14,7 @@ void main() {
       final store = givenBrsaState().agenda().store();
 
       // When
-      final viewModel = EntreePageViewModel.create(store);
+      final viewModel = LoginPageViewModel.create(store);
 
       // Then
       expect(viewModel.withRequestAccountButton, false);
@@ -25,7 +25,7 @@ void main() {
       final store = givenState().agenda().store();
 
       // When
-      final viewModel = EntreePageViewModel.create(store);
+      final viewModel = LoginPageViewModel.create(store);
 
       // Then
       expect(viewModel.withRequestAccountButton, true);
@@ -36,7 +36,7 @@ void main() {
       final store = givenState().copyWith(loginState: LoginLoadingState()).store();
 
       // When
-      final viewModel = EntreePageViewModel.create(store);
+      final viewModel = LoginPageViewModel.create(store);
 
       // Then
       expect(viewModel.withLoading, isTrue);
@@ -49,7 +49,7 @@ void main() {
       final store = givenState().copyWith(loginState: LoginGenericFailureState('error-message')).store();
 
       // When
-      final viewModel = EntreePageViewModel.create(store);
+      final viewModel = LoginPageViewModel.create(store);
 
       // Then
       expect(viewModel.withLoading, isFalse);
@@ -62,7 +62,7 @@ void main() {
       final store = givenState().copyWith(loginState: LoginWrongDeviceClockState()).store();
 
       // When
-      final viewModel = EntreePageViewModel.create(store);
+      final viewModel = LoginPageViewModel.create(store);
 
       // Then
       expect(viewModel.withLoading, isFalse);
@@ -75,7 +75,7 @@ void main() {
       final store = givenState().copyWith(loginState: UserNotLoggedInState()).store();
 
       // When
-      final viewModel = EntreePageViewModel.create(store);
+      final viewModel = LoginPageViewModel.create(store);
 
       // Then
       expect(viewModel.withLoading, isFalse);
@@ -88,7 +88,7 @@ void main() {
       final store = givenState().loggedInUser().store();
 
       // When
-      final viewModel = EntreePageViewModel.create(store);
+      final viewModel = LoginPageViewModel.create(store);
 
       // Then
       expect(viewModel.withLoading, isFalse);
@@ -105,7 +105,7 @@ void main() {
             .store();
 
         // When
-        final viewModel = EntreePageViewModel.create(store);
+        final viewModel = LoginPageViewModel.create(store);
 
         // Then
         expect(viewModel.preferredLoginMode, isNull);
@@ -117,7 +117,7 @@ void main() {
             givenState().copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(null)).loggedInUser().store();
 
         // When
-        final viewModel = EntreePageViewModel.create(store);
+        final viewModel = LoginPageViewModel.create(store);
 
         // Then
         expect(viewModel.preferredLoginMode, isNull);
@@ -131,7 +131,7 @@ void main() {
             .store();
 
         // When
-        final viewModel = EntreePageViewModel.create(store);
+        final viewModel = LoginPageViewModel.create(store);
 
         // Then
         expect(
@@ -150,7 +150,7 @@ void main() {
             .store();
 
         // When
-        final viewModel = EntreePageViewModel.create(store);
+        final viewModel = LoginPageViewModel.create(store);
 
         // Then
         expect(
@@ -169,7 +169,7 @@ void main() {
             .store();
 
         // When
-        final viewModel = EntreePageViewModel.create(store);
+        final viewModel = LoginPageViewModel.create(store);
 
         // Then
         expect(
@@ -188,7 +188,7 @@ void main() {
             .store();
 
         // When
-        final viewModel = EntreePageViewModel.create(store);
+        final viewModel = LoginPageViewModel.create(store);
 
         // Then
         expect(viewModel.preferredLoginMode, null);
