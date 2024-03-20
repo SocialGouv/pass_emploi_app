@@ -6,6 +6,8 @@ class OnboardingSuccessAction {
   OnboardingSuccessAction(this.result);
 }
 
+class OnboardingPushNotificationPermissionRequestAction {}
+
 sealed class OnboardingSaveAction {}
 
 class OnboardingAccueilSaveAction extends OnboardingSaveAction {}

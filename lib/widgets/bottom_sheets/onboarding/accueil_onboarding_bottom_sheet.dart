@@ -35,35 +35,41 @@ class _AccueilOnboardingBottomSheetState extends State<AccueilOnboardingBottomSh
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AccueilOnboardingViewModel>(
-        converter: (store) => AccueilOnboardingViewModel.create(store),
-        builder: (context, viewModel) {
-          return BottomSheetWrapper(
-            hideTitle: true,
-            padding: EdgeInsets.zero,
-            body: AnimatedSwitcher(
-              duration: AnimationDurations.fast,
-              child: _currentPage == 0
-                  ? _AccueilOnboardingPage1(viewModel: viewModel, onContinue: () => nextPage())
-                  : _AccueilOnboardingPage2(
-                      viewModel: viewModel,
-                      onAcceptNotifications: () {
-                        viewModel.onRequestiNotificationsPermission();
-                        viewModel.onOnboardingCompleted();
-                        Navigator.of(context).pop();
-                      },
-                      onDeclineNotifications: () {
-                        viewModel.onOnboardingCompleted();
-                        Navigator.of(context).pop();
-                      },
-                    ),
-            ),
-          );
-        });
+      converter: (store) => AccueilOnboardingViewModel.create(store),
+      distinct: true,
+      onWillChange: _onWillChange,
+      builder: (context, viewModel) {
+        return BottomSheetWrapper(
+          hideTitle: true,
+          padding: EdgeInsets.zero,
+          body: AnimatedSwitcher(
+            duration: AnimationDurations.fast,
+            child: _currentPage == 0
+                ? _AccueilOnboardingPage1(viewModel: viewModel, onContinue: () => nextPage())
+                : _AccueilOnboardingPage2(
+                    viewModel: viewModel,
+                    onAcceptNotifications: () => viewModel.onRequestNotificationsPermission(),
+                    onDeclineNotifications: () {
+                      viewModel.onOnboardingCompleted();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _onWillChange(AccueilOnboardingViewModel? previousVM, AccueilOnboardingViewModel newVM) {
+    if ((previousVM?.shouldDismiss == false) && newVM.shouldDismiss) {
+      Navigator.of(context).pop();
+    }
   }
 }
 
 class _AccueilOnboardingPage1 extends StatelessWidget {
   const _AccueilOnboardingPage1({required this.viewModel, required this.onContinue});
+
   final AccueilOnboardingViewModel viewModel;
   final void Function() onContinue;
 
@@ -83,7 +89,7 @@ class _AccueilOnboardingPage1 extends StatelessWidget {
                 children: [
                   _OnboardingTitle(Strings.accueilOnboardingTitle1(viewModel.userName)),
                   SizedBox(height: Margins.spacing_m),
-                  _OnboardingBodyText(viewModel.body1),
+                  _OnboardingBodyText(viewModel.body),
                   SizedBox(height: Margins.spacing_m),
                   PrimaryActionButton(
                     label: Strings.continueLabel,
@@ -106,6 +112,7 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
     required this.onDeclineNotifications,
     required this.viewModel,
   });
+
   final void Function() onAcceptNotifications;
   final void Function() onDeclineNotifications;
   final AccueilOnboardingViewModel viewModel;
@@ -168,6 +175,7 @@ class _AccueilOnboardingPage2 extends StatelessWidget {
 
 class _OnboardingIllustration extends StatelessWidget {
   const _OnboardingIllustration(this.asset);
+
   final String asset;
 
   @override
@@ -181,6 +189,7 @@ class _OnboardingIllustration extends StatelessWidget {
 
 class _OnboardingTitle extends StatelessWidget {
   const _OnboardingTitle(this.text);
+
   final String text;
 
   @override
@@ -194,6 +203,7 @@ class _OnboardingTitle extends StatelessWidget {
 
 class _OnboardingBodyText extends StatelessWidget {
   const _OnboardingBodyText(this.text);
+
   final String text;
 
   @override

@@ -16,8 +16,9 @@ void main() {
   group('Onboarding', () {
     final sut = StoreSut();
     final repository = MockOnboardingRepository();
+    final pushNotificationManager = MockPushNotificationManager();
 
-    group("when requesting", () {
+    group("on bootstrap", () {
       sut.whenDispatchingAction(() => BootstrapAction());
 
       test('should succeed when request succeeds', () {
@@ -28,6 +29,23 @@ void main() {
             .store((f) => {f.onboardingRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding())]);
+      });
+    });
+
+    group("when requesting push notification permission", () {
+      sut.whenDispatchingAction(() => OnboardingPushNotificationPermissionRequestAction());
+
+      test('should wait for requested permission and update onboarding state', () {
+        when(() => repository.get()).thenAnswer((_) async => Onboarding());
+        when(() => repository.save(any())).thenAnswer((_) async {});
+        when(() => pushNotificationManager.requestPermission()).thenAnswer((_) async {});
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .store((f) => {f.onboardingRepository = repository, f.pushNotificationManager = pushNotificationManager});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showAccueilOnboarding: false))]);
+        verify(() => pushNotificationManager.requestPermission()).called(1);
       });
     });
 
@@ -42,8 +60,7 @@ void main() {
               .loggedInUser()
               .store((f) => {f.onboardingRepository = repository});
 
-          sut.thenExpectChangingStatesThroughOrder(
-              [_shouldSucceed(Onboarding().copyWith(showAccueilOnboarding: false))]);
+          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showAccueilOnboarding: false))]);
         });
       });
 
@@ -57,8 +74,7 @@ void main() {
               .loggedInUser()
               .store((f) => {f.onboardingRepository = repository});
 
-          sut.thenExpectChangingStatesThroughOrder(
-              [_shouldSucceed(Onboarding().copyWith(showMonSuiviOnboarding: false))]);
+          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showMonSuiviOnboarding: false))]);
         });
       });
 
@@ -72,7 +88,7 @@ void main() {
               .loggedInUser()
               .store((f) => {f.onboardingRepository = repository});
 
-          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding().copyWith(showChatOnboarding: false))]);
+          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showChatOnboarding: false))]);
         });
       });
 
@@ -86,8 +102,7 @@ void main() {
               .loggedInUser()
               .store((f) => {f.onboardingRepository = repository});
 
-          sut.thenExpectChangingStatesThroughOrder(
-              [_shouldSucceed(Onboarding().copyWith(showRechercheOnboarding: false))]);
+          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showRechercheOnboarding: false))]);
         });
       });
 
@@ -101,8 +116,7 @@ void main() {
               .loggedInUser()
               .store((f) => {f.onboardingRepository = repository});
 
-          sut.thenExpectChangingStatesThroughOrder(
-              [_shouldSucceed(Onboarding().copyWith(showEvenementsOnboarding: false))]);
+          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showEvenementsOnboarding: false))]);
         });
       });
     });

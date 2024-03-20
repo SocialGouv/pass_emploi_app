@@ -1,14 +1,16 @@
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
+import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
 import 'package:redux/redux.dart';
 
 class OnboardingMiddleware extends MiddlewareClass<AppState> {
   final OnboardingRepository _repository;
+  final PushNotificationManager _manager;
 
-  OnboardingMiddleware(this._repository);
+  OnboardingMiddleware(this._repository, this._manager);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -21,6 +23,9 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
       final updatedOnboarding = _updateOnboarding(action, result);
       await _repository.save(updatedOnboarding);
       store.dispatch(OnboardingSuccessAction(updatedOnboarding));
+    } else if (action is OnboardingPushNotificationPermissionRequestAction) {
+      await _manager.requestPermission();
+      store.dispatch(OnboardingAccueilSaveAction());
     }
   }
 }

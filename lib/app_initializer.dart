@@ -207,6 +207,7 @@ class AppInitializer {
       cryptoStorage,
       requestCacheManager,
       ConnectivityWrapper.fromConnectivity(),
+      pushNotificationManager,
       remoteConfigRepository,
       UserActionRepository(dioClient, crashlytics),
       UserActionPendingCreationRepository(securedPreferences),

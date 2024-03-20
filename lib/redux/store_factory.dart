@@ -52,7 +52,7 @@ import 'package:pass_emploi_app/features/onboarding/onboarding_middleware.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_middleware.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_middleware.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_middleware.dart';
-import 'package:pass_emploi_app/features/push/register_push_notification_token_middleware.dart';
+import 'package:pass_emploi_app/features/push_notification/register/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/features/rating/rating_middleware.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/recherche_emploi_middleware.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/recherche_evenement_emploi_middleware.dart';
@@ -84,6 +84,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
+import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
@@ -162,6 +163,7 @@ class StoreFactory {
   final ChatEncryptionLocalStorage cryptoStorage;
   final PassEmploiCacheManager cacheManager;
   final ConnectivityWrapper connectivityWrapper;
+  final PushNotificationManager pushNotificationManager;
   final RemoteConfigRepository remoteConfigRepository;
   final UserActionRepository userActionRepository;
   final UserActionPendingCreationRepository userActionPendingCreationRepository;
@@ -237,6 +239,7 @@ class StoreFactory {
     this.cryptoStorage,
     this.cacheManager,
     this.connectivityWrapper,
+    this.pushNotificationManager,
     this.remoteConfigRepository,
     this.userActionRepository,
     this.userActionPendingCreationRepository,
@@ -335,7 +338,7 @@ class StoreFactory {
         ChatStatusMiddleware(chatRepository).call,
         RendezvousListMiddleware(rendezvousRepository, sessionMiloRepository).call,
         RendezvousDetailsMiddleware(rendezvousRepository).call,
-        RegisterPushNotificationTokenMiddleware(registerTokenRepository, configuration).call,
+        PushNotificationRegisterTokenMiddleware(registerTokenRepository, configuration).call,
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository).call,
         FavoriIdsMiddleware<OffreEmploi>(offreEmploiFavorisRepository).call,
         FavoriUpdateMiddleware<OffreEmploi>(offreEmploiFavorisRepository, OffreEmploiDataFromIdExtractor()).call,
@@ -391,7 +394,7 @@ class StoreFactory {
         CvmMiddleware(cvmBridge, cvmTokenRepository, cvmLastReadingRepository, cvmAlertingRepository, crashlytics).call,
         CampagneRecrutementMiddleware(campagneRecrutementRepository).call,
         PreferredLoginModeMiddleware(preferredLoginModeRepository).call,
-        OnboardingMiddleware(onboardingRepository).call,
+        OnboardingMiddleware(onboardingRepository, pushNotificationManager).call,
         FirstLaunchOnboardingMiddleware(firstLaunchOnboardingRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
