@@ -197,6 +197,10 @@ class AnalyticsActionNames {
 class AnalyticsEventNames {
   AnalyticsEventNames._();
 
+  static const loginPageLoginModeCategory = "Login - mode de connexion";
+  static const loginPageLoginChoseModeAction = "Connexion en choisissant un mode";
+  static const loginPageLoginDefaultModeAction = "Connexion sans choisir de mode";
+
   static const createActionEventCategory = "Création action/démarche";
   static const createActionDisplaySnackBarAction = "Affichage SnackBar succès";
   static const createActionClickOnSnackBarAction = "Clic détail action/démarche";

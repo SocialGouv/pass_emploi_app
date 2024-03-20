@@ -161,6 +161,12 @@ class _LoginButton extends StatelessWidget {
       backgroundColor: Brand.isCej() ? AppColors.primary : AppColors.primaryDarkenStrong,
       onPressed: () {
         viewModel.onLogin != null ? viewModel.onLogin!.call() : LoginBottomSheet.show(context);
+        if (viewModel.preferredLoginMode != null) {
+          PassEmploiMatomoTracker.instance.trackEvent(
+            eventCategory: AnalyticsEventNames.loginPageLoginModeCategory,
+            action: AnalyticsEventNames.loginPageLoginDefaultModeAction,
+          );
+        }
       },
     );
   }
@@ -324,7 +330,13 @@ class _PreferredLoginMode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButtonTile(
-      onPressed: () => LoginBottomSheet.show(context),
+      onPressed: () {
+        LoginBottomSheet.show(context);
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.loginPageLoginModeCategory,
+          action: AnalyticsEventNames.loginPageLoginChoseModeAction,
+        );
+      },
       label: loginMode.title,
       leading: SizedBox(
         width: 40,
