@@ -20,6 +20,8 @@ class AccueilOnboardingBottomSheet extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       builder: (context) => const AccueilOnboardingBottomSheet(),
+      isDismissible: false,
+      enableDrag: false,
     );
   }
 

@@ -24,6 +24,8 @@ class OnboardingBottomSheet extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       builder: (context) => OnboardingBottomSheet(source: source),
+      isDismissible: false,
+      enableDrag: false,
     );
   }
 
