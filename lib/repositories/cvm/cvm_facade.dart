@@ -26,10 +26,7 @@ class CvmFacade {
         .then((_) => _login())
         .then((_) => _joinRoom())
         .then((isRoomJoined) => isRoomJoined ? _startListenMessages() : _getRoomsAndJoin())
-        .catchError((Object error) {
-      _addErrorToStream(error);
-      return false;
-    });
+        .catchError((Object error) => _addErrorToStream(error));
 
     return _streamController!.stream;
   }
@@ -60,85 +57,62 @@ class CvmFacade {
     }
   }
 
-  Future<bool> _initCvm() async {
-    if (_state.isInit) return true;
+  Future<void> _initCvm() async {
+    if (_state.isInit) return;
     await _bridge.initializeCvm();
     _state.isInit = true;
-    return _state.isInit;
   }
 
-  Future<String?> _getToken(String userId) async {
-    if (_state.token != null) return _state.token;
+  Future<void> _getToken(String userId) async {
     _state.token = await _tokenRepository.getToken(userId);
-    return _state.token;
   }
 
   Future<bool> _login() async {
-    if (_state.isLoggedIn) return true;
     if (_state.token == null) return false;
     _state.isLoggedIn = await _bridge.login(_state.token!);
     return _state.isLoggedIn;
   }
 
   Future<void> _subscribeToMessageStream() async {
-    if (_state.isSubscribingToMessageStream) return;
-    _state.isSubscribingToMessageStream = true;
-
     _bridge.getMessages().listen(
           (messages) => _addMessagesToStream(messages),
-      onError: (Object error) {
-        _state.isSubscribingToMessageStream = false;
-        _addErrorToStream(error);
-      },
-    );
+          onError: (Object error) => _addErrorToStream(error),
+        );
   }
 
   Future<bool> _joinRoom() async {
-    if (_state.isRoomJoined) return true;
+    if (!_state.isLoggedIn) return false;
     _state.isRoomJoined = await _bridge.joinFirstRoom();
     return _state.isRoomJoined;
   }
 
-  Future<bool> _startListenMessages() async {
-    if (_state.isListeningMessages) return true;
-    if (!_state.isRoomJoined) return false;
-    _state.isListeningMessages = await _bridge.startListenMessages();
-    return _state.isListeningMessages;
+  Future<void> _startListenMessages() async {
+    if (!_state.isRoomJoined) return;
+    await _bridge.startListenMessages();
   }
 
   Future<bool> _getRoomsAndJoin() async {
     await _subscribeToHasRoomStream();
-    await _startListeningRooms();
-    return _state.isListeningRooms;
+    return await _startListeningRooms();
   }
 
   Future<bool> _startListeningRooms() async {
-    if (_state.isListeningRooms) return true;
-    _state.isListeningRooms = await _bridge.startListenRooms();
-    return _state.isListeningRooms;
+    return await _bridge.startListenRooms();
   }
 
   Future<void> _subscribeToHasRoomStream() async {
-    if (_state.isSubscribingToHasRoomStream) return;
-    _state.isSubscribingToHasRoomStream = true;
-
     _bridge.hasRoom().listen(
-          (hasRoom) => _handleHasRoom(hasRoom),
-      onError: (Object error) {
-        _state.isSubscribingToHasRoomStream = false;
-        _addErrorToStream(error);
+      (hasRoom) async {
+        // Required because callback is called multiple times on iOS
+        if (_state.hasRoom) return;
+        if (!hasRoom) return;
+        _state.hasRoom = true;
+        await _bridge.stopListenRooms();
+        await _joinRoom();
+        await _startListenMessages();
       },
+      onError: (Object error) => _addErrorToStream(error),
     );
-  }
-
-  Future<bool> _handleHasRoom(bool hasRoom) async {
-    // Required because callback is called multiple times on iOS
-    if (_state.hasRoom) return true;
-    _state.hasRoom = hasRoom;
-    if (!_state.hasRoom) return false;
-    await _bridge.stopListenRooms();
-    await _joinRoom();
-    return await _startListenMessages();
   }
 
   void _assertInteractionsOnStreamBeforeTimeout() {
@@ -164,17 +138,13 @@ class _NoInteractionOnSteamError extends Error {
   String toString() => "Nothing happens on stream";
 }
 
-// Made to offer a proper retry mechanism. Only unsuccessful steps should be retried.
+// Made both to ensure if steps should be called, and to offer a proper retry mechanism.
 class _CvmState {
   bool isInit = false;
   String? token;
   bool isLoggedIn = false;
   bool isRoomJoined = false;
-  bool isSubscribingToMessageStream = false;
-  bool isSubscribingToHasRoomStream = false;
   bool hasRoom = false;
-  bool isListeningMessages = false;
-  bool isListeningRooms = false;
   bool hasInteractionOnStream = false;
 
   void reset() {
@@ -182,11 +152,7 @@ class _CvmState {
     token = null;
     isLoggedIn = false;
     isRoomJoined = false;
-    isSubscribingToMessageStream = false;
-    isSubscribingToHasRoomStream = false;
     hasRoom = false;
-    isListeningMessages = false;
-    isListeningRooms = false;
     hasInteractionOnStream = false;
   }
 }
