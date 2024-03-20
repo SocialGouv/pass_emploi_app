@@ -25,7 +25,7 @@ import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart
 import 'package:pass_emploi_app/network/pass_emploi_dio_builder.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
-import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
+import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
@@ -57,6 +57,7 @@ import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
+import 'package:pass_emploi_app/repositories/developer_option_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
@@ -159,7 +160,7 @@ class AppInitializer {
     FirebaseRemoteConfig? firebaseRemoteConfig,
   ) async {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
-    final pushNotificationManager = FirebasePushNotificationManager();
+    final pushNotificationManager = PushNotificationManager();
     final securedPreferences = SecureStorageExceptionHandlerDecorator(
       FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
     );
@@ -207,7 +208,9 @@ class AppInitializer {
       cryptoStorage,
       requestCacheManager,
       ConnectivityWrapper.fromConnectivity(),
+      pushNotificationManager,
       remoteConfigRepository,
+      DeveloperOptionRepository(securedPreferences),
       UserActionRepository(dioClient, crashlytics),
       UserActionPendingCreationRepository(securedPreferences),
       PageDemarcheRepository(dioClient, crashlytics),

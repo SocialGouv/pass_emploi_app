@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_actions.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
@@ -9,11 +11,11 @@ import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/biseau_background.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
-import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/welcome.dart';
 
 class FirstLaunchOnboardingPage extends StatefulWidget {
@@ -26,7 +28,10 @@ class _FirstLaunchOnboardingPageState extends State<FirstLaunchOnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return _firstScreen ? _FirstScreen(onStart: () => setState(() => _firstScreen = false)) : _PageViewScreen();
+    return Tracker(
+      tracking: AnalyticsScreenNames.onboardingFirstLaunch,
+      child: _firstScreen ? _FirstScreen(onStart: () => setState(() => _firstScreen = false)) : _PageViewScreen(),
+    );
   }
 }
 
@@ -40,7 +45,7 @@ class _FirstScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          EntreeBiseauBackground(),
+          BiseauBackground(),
           Align(
             alignment: Alignment.center,
             child: _Welcome(firstScreen: true),
@@ -74,7 +79,7 @@ class _PageViewScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          EntreeBiseauBackground(),
+          BiseauBackground(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.max,

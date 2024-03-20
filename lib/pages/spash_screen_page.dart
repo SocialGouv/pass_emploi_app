@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/biseau_background.dart';
 import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
-import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 
 class SplashScreenPage extends StatelessWidget {
   @override
@@ -15,7 +15,7 @@ class SplashScreenPage extends StatelessWidget {
         return Scaffold(
           body: Stack(
             children: [
-              EntreeBiseauBackground(),
+              BiseauBackground(),
               Center(child: AppLogo()),
               if (appVersion != null) _AppVersion(appVersion),
             ],

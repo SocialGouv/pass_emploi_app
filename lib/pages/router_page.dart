@@ -6,14 +6,14 @@ import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
-import 'package:pass_emploi_app/pages/entree_page.dart';
 import 'package:pass_emploi_app/pages/first_lauch_onboarding_page.dart';
+import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/pages/main_page.dart';
 import 'package:pass_emploi_app/pages/spash_screen_page.dart';
 import 'package:pass_emploi_app/pages/tutorial_page.dart';
 import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
 import 'package:pass_emploi_app/push/deep_link_factory.dart';
-import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
+import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
@@ -71,21 +71,16 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
   }
 
   Widget _content(RouterPageViewModel viewModel) {
-    switch (viewModel.routerPageDisplayState) {
-      case RouterPageDisplayState.SPLASH:
-        return SplashScreenPage();
-      case RouterPageDisplayState.ONBOARDING:
-        return FirstLaunchOnboardingPage();
-      case RouterPageDisplayState.LOGIN:
-        return EntreePage();
-      case RouterPageDisplayState.TUTORIAL:
-        return TutorialPage();
-      case RouterPageDisplayState.MAIN:
-        return MainPage(
+    return switch (viewModel.routerPageDisplayState) {
+      RouterPageDisplayState.SPLASH => SplashScreenPage(),
+      RouterPageDisplayState.ONBOARDING => FirstLaunchOnboardingPage(),
+      RouterPageDisplayState.LOGIN => LoginPage(),
+      RouterPageDisplayState.TUTORIAL => TutorialPage(),
+      RouterPageDisplayState.MAIN => MainPage(
           displayState: viewModel.mainPageDisplayState,
           deepLinkKey: viewModel.deepLinkKey,
-        );
-    }
+        )
+    };
   }
 
   Future<void> _onWillChange(RouterPageViewModel? oldVm, RouterPageViewModel newVm) async {

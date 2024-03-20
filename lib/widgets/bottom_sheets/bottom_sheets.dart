@@ -23,6 +23,7 @@ Future<T?> showPassEmploiBottomSheet<T>({required BuildContext context, required
 
 class BottomSheetHeader extends StatelessWidget {
   const BottomSheetHeader({super.key, this.title, this.padding});
+
   final String? title;
   final EdgeInsets? padding;
 
@@ -66,8 +67,15 @@ class BottomSheetHeader extends StatelessWidget {
 }
 
 class BottomSheetWrapper extends StatelessWidget {
-  const BottomSheetWrapper(
-      {super.key, this.title, required this.body, this.heightFactor = 0.9, this.padding, this.hideTitle = false});
+  const BottomSheetWrapper({
+    super.key,
+    this.title,
+    required this.body,
+    this.heightFactor = 0.9,
+    this.padding,
+    this.hideTitle = false,
+  });
+
   final double heightFactor;
   final String? title;
   final Widget body;

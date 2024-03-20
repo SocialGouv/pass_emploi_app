@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
-class EntreePageViewModel extends Equatable {
+class LoginPageViewModel extends Equatable {
   final bool withRequestAccountButton;
   final bool withLoading;
   final bool withWrongDeviceClockMessage;
@@ -17,7 +17,7 @@ class EntreePageViewModel extends Equatable {
   final PreferredLoginModeViewModel? preferredLoginMode;
   final void Function()? onLogin;
 
-  EntreePageViewModel({
+  LoginPageViewModel({
     required this.withRequestAccountButton,
     required this.withLoading,
     required this.withWrongDeviceClockMessage,
@@ -26,10 +26,10 @@ class EntreePageViewModel extends Equatable {
     required this.onLogin,
   });
 
-  factory EntreePageViewModel.create(Store<AppState> store) {
+  factory LoginPageViewModel.create(Store<AppState> store) {
     final loginState = store.state.loginState;
     final brand = store.state.configurationState.getBrand();
-    return EntreePageViewModel(
+    return LoginPageViewModel(
       withRequestAccountButton: brand.isCej,
       withLoading: loginState is LoginLoadingState,
       withWrongDeviceClockMessage: loginState is LoginWrongDeviceClockState,
@@ -45,6 +45,7 @@ class EntreePageViewModel extends Equatable {
         withLoading,
         withWrongDeviceClockMessage,
         technicalErrorMessage,
+        preferredLoginMode,
       ];
 }
 

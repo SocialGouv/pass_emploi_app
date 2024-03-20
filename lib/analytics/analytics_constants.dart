@@ -1,9 +1,17 @@
 class AnalyticsScreenNames {
   AnalyticsScreenNames._();
 
+  static const onboardingFirstLaunch = "onboarding/first-launch";
+  static const onboardingAccueil = "onboarding/accueil";
+  static const onboardingPushNotificationPermission = "onboarding/push-notification-permission";
+  static const onboardingNavigation = "onboarding/navigation";
+  static const onboardingMonSuivi = "onboarding/mon-suivi";
+  static const onboardingChat = "onboarding/chat";
+  static const onboardingRecherche = "onboarding/recherche";
+  static const onboardingEvenements = "onboarding/evenements";
+
   static const login = "login";
   static const forceUpdate = "force_update";
-  static const entree = "entree";
   static const choixOrganisme = "entree/choix-organisme";
   static const choixOrganismePE = "entree/choix-organisme/pe";
   static const choixOrganismeMilo = "entree/choix-organisme/milo";
@@ -189,6 +197,10 @@ class AnalyticsActionNames {
 class AnalyticsEventNames {
   AnalyticsEventNames._();
 
+  static const loginPageLoginModeCategory = "Login - mode de connexion";
+  static const loginPageLoginChoseModeAction = "Connexion en choisissant un mode";
+  static const loginPageLoginDefaultModeAction = "Connexion sans choisir de mode";
+
   static const createActionEventCategory = "Création action/démarche";
   static const createActionDisplaySnackBarAction = "Affichage SnackBar succès";
   static const createActionClickOnSnackBarAction = "Clic détail action/démarche";
@@ -248,6 +260,10 @@ class AnalyticsEventNames {
 
   static const pushNotificationAuthorizationStatusEventCategory = "Autorisation des push notifications sur mobile";
   static const pushNotificationAuthorizationStatusAction = "Autorisation";
+
+  static const onboardingPushNotificationPermissionCategory = "Onboarding - Autorisation des push notifications";
+  static const onboardingPushNotificationPermissionAcceptAction = "Activer";
+  static const onboardingPushNotificationPermissionDeclineAction = "Plus tard";
 
   static const evenementEmploiDetailsCategory = "Détails événement emploi";
   static const evenementEmploiDetailsInscriptionAction = "Clic inscription événement emploi";

@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
+import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
@@ -32,6 +33,7 @@ import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
+import 'package:pass_emploi_app/repositories/developer_option_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
@@ -88,7 +90,9 @@ class TestStoreFactory {
   ChatRepository chatRepository = DummyChatRepository();
   PassEmploiCacheManager cacheManager = DummyPassEmploiCacheManager();
   ConnectivityWrapper connectivityWrapper = MockConnectivityWrapper();
+  PushNotificationManager pushNotificationManager = MockPushNotificationManager();
   RemoteConfigRepository remoteConfigRepository = MockRemoteConfigRepository();
+  DeveloperOptionRepository developerOptionRepository = MockDeveloperOptionRepository();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
   OffreEmploiDetailsRepository detailedOfferRepository = DummyDetailedRepository();
   ConfigurationApplicationRepository registerTokenRepository = DummyRegisterTokenRepository();
@@ -162,7 +166,9 @@ class TestStoreFactory {
       cryptoStorage,
       cacheManager,
       connectivityWrapper,
+      pushNotificationManager,
       remoteConfigRepository,
+      developerOptionRepository,
       userActionRepository,
       userActionPendingCreationRepository,
       pageDemarcheRepository,

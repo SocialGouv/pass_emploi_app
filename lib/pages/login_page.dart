@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_actions.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
-import 'package:pass_emploi_app/presentation/entree_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/login_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -16,32 +16,51 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/biseau_background.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/login_bottom_sheet/login_bottom_sheet_home.dart';
 import 'package:pass_emploi_app/widgets/buttons/elevated_button_tile.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
-import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/hidden_menu.dart';
 import 'package:pass_emploi_app/widgets/welcome.dart';
 
-class EntreePage extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: AnalyticsScreenNames.entree,
-      child: StoreConnector<AppState, EntreePageViewModel>(
+      tracking: AnalyticsScreenNames.login,
+      child: StoreConnector<AppState, LoginPageViewModel>(
         onInit: (store) => store.dispatch(PreferredLoginModeRequestAction()),
-        converter: (store) => EntreePageViewModel.create(store),
+        converter: (store) => LoginPageViewModel.create(store),
         builder: (context, viewModel) => _Scaffold(viewModel),
+        onWillChange: _onWillChange,
+        distinct: true,
       ),
+    );
+  }
+
+  void _onWillChange(LoginPageViewModel? previousVM, LoginPageViewModel newVM) {
+    final bool isAfterWebAuthPage = previousVM?.withLoading == true && newVM.withLoading == false;
+    if (!isAfterWebAuthPage) return;
+    if (newVM.withWrongDeviceClockMessage || newVM.technicalErrorMessage != null) {
+      _trackLoginResult(successful: false);
+    } else {
+      _trackLoginResult(successful: true);
+    }
+  }
+
+  void _trackLoginResult({required bool successful}) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.webAuthPageEventCategory,
+      action: successful ? AnalyticsEventNames.webAuthPageSuccessAction : AnalyticsEventNames.webAuthPageErrorAction,
     );
   }
 }
 
 class _Scaffold extends StatelessWidget {
-  final EntreePageViewModel viewModel;
+  final LoginPageViewModel viewModel;
 
   _Scaffold(this.viewModel);
 
@@ -51,7 +70,7 @@ class _Scaffold extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          EntreeBiseauBackground(),
+          BiseauBackground(),
           SafeArea(
             bottom: false,
             child: Padding(
@@ -132,7 +151,7 @@ class _TopSpacer extends StatelessWidget {
 class _LoginButton extends StatelessWidget {
   const _LoginButton(this.viewModel);
 
-  final EntreePageViewModel viewModel;
+  final LoginPageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +161,12 @@ class _LoginButton extends StatelessWidget {
       backgroundColor: Brand.isCej() ? AppColors.primary : AppColors.primaryDarkenStrong,
       onPressed: () {
         viewModel.onLogin != null ? viewModel.onLogin!.call() : LoginBottomSheet.show(context);
+        if (viewModel.preferredLoginMode != null) {
+          PassEmploiMatomoTracker.instance.trackEvent(
+            eventCategory: AnalyticsEventNames.loginPageLoginModeCategory,
+            action: AnalyticsEventNames.loginPageLoginDefaultModeAction,
+          );
+        }
       },
     );
   }
@@ -305,7 +330,13 @@ class _PreferredLoginMode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButtonTile(
-      onPressed: () => LoginBottomSheet.show(context),
+      onPressed: () {
+        LoginBottomSheet.show(context);
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.loginPageLoginModeCategory,
+          action: AnalyticsEventNames.loginPageLoginChoseModeAction,
+        );
+      },
       label: loginMode.title,
       leading: SizedBox(
         width: 40,

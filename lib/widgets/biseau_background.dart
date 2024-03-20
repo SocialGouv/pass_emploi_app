@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 
-class EntreeBiseauBackground extends StatelessWidget {
+class BiseauBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(

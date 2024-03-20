@@ -2,8 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/presentation/question_page_view_model.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:redux/redux.dart';
 
 import '../dsl/app_state_dsl.dart';
 
@@ -98,50 +96,28 @@ void main() {
 
   test('should dispatch CampagneUpdateAnswersAction on submit button press', () {
     // Given
-    final storeSpy = StoreSpy();
-    final store = Store<AppState>(
-      storeSpy.reducer,
-      initialState: givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions),
-    );
+    final store = givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions).spyStore();
     final viewModel = QuestionPageViewModel.create(store, 0);
 
     // When
     viewModel.onButtonClick(1, 1, null);
 
     // Then
-    expect(storeSpy.calledWithCampagneResults, true);
-    expect(storeSpy.calledWithReset, false);
+    expect(store.dispatchedActions, hasLength(1));
+    expect(store.dispatchedAction, isA<CampagneAnswerAction>());
   });
 
   test('should dispatch UserActionListSuccessAction on last question submit button press', () {
     // Given
-    final storeSpy = StoreSpy();
-    final store = Store<AppState>(
-      storeSpy.reducer,
-      initialState: givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions),
-    );
+    final store = givenState().loggedInMiloUser().withCampagne(campagneWithTwoQuestions).spyStore();
     final viewModel = QuestionPageViewModel.create(store, 1);
 
     // When
     viewModel.onButtonClick(2, 1, null);
 
     // Then
-    expect(storeSpy.calledWithCampagneResults, true);
-    expect(storeSpy.calledWithReset, true);
+    expect(store.dispatchedActions, hasLength(2));
+    expect(store.dispatchedActions.first, isA<CampagneAnswerAction>());
+    expect(store.dispatchedActions.last, isA<CampagneResetAction>());
   });
-}
-
-class StoreSpy {
-  var calledWithReset = false;
-  var calledWithCampagneResults = false;
-
-  AppState reducer(AppState currentState, dynamic action) {
-    if (action is CampagneAnswerAction) {
-      calledWithCampagneResults = true;
-    }
-    if (action is CampagneResetAction) {
-      calledWithReset = true;
-    }
-    return currentState;
-  }
 }

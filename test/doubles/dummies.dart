@@ -9,10 +9,7 @@ import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
-import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/push/push_notification_manager.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/agenda_repository.dart';
@@ -64,27 +61,14 @@ import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
-/*AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT*/
-import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
 import 'dio_mock.dart';
 import 'fixtures.dart';
 import 'mocks.dart';
 
-class DummyPushNotificationManager extends PushNotificationManager {
-  @override
-  Future<String?> getToken() async => "";
-
-  @override
-  Future<void> init(Store<AppState> store) async {}
-
-  @override
-  Future<void> requestPermission() async {}
-}
-
 class DummyRegisterTokenRepository extends ConfigurationApplicationRepository {
-  DummyRegisterTokenRepository() : super(DioMock(), DummyFirebaseInstanceIdGetter(), DummyPushNotificationManager());
+  DummyRegisterTokenRepository() : super(DioMock(), DummyFirebaseInstanceIdGetter(), MockPushNotificationManager());
 
   @override
   Future<void> configureApplication(String userId, String fuseauHoraire) async {}
@@ -406,5 +390,3 @@ class DummyTopDemarcheRepository extends TopDemarcheRepository {
 class DummyMonSuiviRepository extends MonSuiviRepository {
   DummyMonSuiviRepository() : super(DioMock());
 }
-
-final dummyOnboarding = Onboarding();

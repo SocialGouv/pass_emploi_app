@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
@@ -12,6 +13,7 @@ import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_last_reading_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
+import 'package:pass_emploi_app/repositories/developer_option_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
@@ -35,7 +37,6 @@ import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
-import 'dummies.dart';
 import 'fixtures.dart';
 
 class MockAuthenticator extends Mock implements Authenticator {
@@ -204,7 +205,7 @@ class MockPreferredLoginModeRepository extends Mock implements PreferredLoginMod
 
 class MockOnboardingRepository extends Mock implements OnboardingRepository {
   MockOnboardingRepository() {
-    when(() => get()).thenAnswer((_) async => dummyOnboarding);
+    when(() => get()).thenAnswer((_) async => Onboarding());
   }
 }
 
@@ -222,4 +223,6 @@ class MockFirstLaunchOnboardingRepository extends Mock implements FirstLaunchOnb
     when(() => showFirstLaunchOnboarding()).thenAnswer((_) async => false);
   }
 }
+
+class MockDeveloperOptionRepository extends Mock implements DeveloperOptionRepository {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

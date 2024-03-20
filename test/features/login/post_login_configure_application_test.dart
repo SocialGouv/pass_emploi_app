@@ -8,6 +8,7 @@ import 'package:redux/src/store.dart';
 import '../../doubles/dio_mock.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
+import '../../doubles/mocks.dart';
 import '../../utils/test_setup.dart';
 import '../favoris/offre_emploi_favoris_test.dart';
 
@@ -32,7 +33,7 @@ void main() {
 class _RegisterTokenRepositorySpy extends ConfigurationApplicationRepository {
   bool wasCalled = false;
 
-  _RegisterTokenRepositorySpy() : super(DioMock(), DummyFirebaseInstanceIdGetter(), DummyPushNotificationManager());
+  _RegisterTokenRepositorySpy() : super(DioMock(), DummyFirebaseInstanceIdGetter(), MockPushNotificationManager());
 
   @override
   Future<void> configureApplication(String userId, String fuseauHoraire) async {
