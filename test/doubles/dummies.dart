@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
-import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
@@ -391,5 +390,3 @@ class DummyTopDemarcheRepository extends TopDemarcheRepository {
 class DummyMonSuiviRepository extends MonSuiviRepository {
   DummyMonSuiviRepository() : super(DioMock());
 }
-
-final dummyOnboarding = Onboarding();
