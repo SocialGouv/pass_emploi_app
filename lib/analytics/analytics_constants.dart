@@ -1,6 +1,15 @@
 class AnalyticsScreenNames {
   AnalyticsScreenNames._();
 
+  static const onboardingFirstLaunch = "onboarding/first-launch";
+  static const onboardingAccueil = "onboarding/accueil";
+  static const onboardingPushNotificationPermission = "onboarding/push-notification-permission";
+  static const onboardingNavigation = "onboarding/navigation";
+  static const onboardingMonSuivi = "onboarding/mon-suivi";
+  static const onboardingChat = "onboarding/chat";
+  static const onboardingRecherche = "onboarding/recherche";
+  static const onboardingEvenements = "onboarding/evenements";
+
   static const login = "login";
   static const forceUpdate = "force_update";
   static const entree = "entree";
@@ -248,6 +257,10 @@ class AnalyticsEventNames {
 
   static const pushNotificationAuthorizationStatusEventCategory = "Autorisation des push notifications sur mobile";
   static const pushNotificationAuthorizationStatusAction = "Autorisation";
+
+  static const onboardingPushNotificationPermissionCategory = "Onboarding - Autorisation des push notifications";
+  static const onboardingPushNotificationPermissionAcceptAction = "Activer";
+  static const onboardingPushNotificationPermissionDeclineAction = "Plus tard";
 
   static const evenementEmploiDetailsCategory = "Détails événement emploi";
   static const evenementEmploiDetailsInscriptionAction = "Clic inscription événement emploi";

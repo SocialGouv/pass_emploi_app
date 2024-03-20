@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -29,44 +31,47 @@ class OnboardingNavigationBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomSheetWrapper(
-      padding: EdgeInsets.zero,
-      hideTitle: true,
-      heightFactor: _heightFactor(context),
-      body: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Image.asset(
-                Drawables.illustrationNavigationBottomSheet,
-                fit: BoxFit.fitWidth,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: Margins.spacing_xl),
-                    Text(
-                      Strings.onboardingNavigationTitle,
-                      style: TextStyles.textMBold,
-                    ),
-                    SizedBox(height: Margins.spacing_m),
-                    Text(
-                      Strings.onboardingNavigationBody,
-                      style: TextStyles.textBaseRegular,
-                    ),
-                  ],
+    return Tracker(
+      tracking: AnalyticsScreenNames.onboardingNavigation,
+      child: BottomSheetWrapper(
+        padding: EdgeInsets.zero,
+        hideTitle: true,
+        heightFactor: _heightFactor(context),
+        body: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Image.asset(
+                  Drawables.illustrationNavigationBottomSheet,
+                  fit: BoxFit.fitWidth,
                 ),
-              )
-            ],
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: _FakeNavBar(),
-          ),
-        ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: Margins.spacing_xl),
+                      Text(
+                        Strings.onboardingNavigationTitle,
+                        style: TextStyles.textMBold,
+                      ),
+                      SizedBox(height: Margins.spacing_m),
+                      Text(
+                        Strings.onboardingNavigationBody,
+                        style: TextStyles.textBaseRegular,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: _FakeNavBar(),
+            ),
+          ],
+        ),
       ),
     );
   }

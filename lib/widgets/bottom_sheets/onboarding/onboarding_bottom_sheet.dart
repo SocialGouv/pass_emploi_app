@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/onboarding/onboarding_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -33,17 +35,29 @@ class OnboardingBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, OnboardingViewModel>(
-      converter: (store) => OnboardingViewModel.create(store, source),
-      builder: (context, viewModel) {
-        return BottomSheetWrapper(
-          hideTitle: true,
-          padding: EdgeInsets.zero,
-          body: _Body(viewModel),
-          heightFactor: onboardingBottomSheetHeightFactor(context),
-        );
-      },
+    return Tracker(
+      tracking: _tracking(),
+      child: StoreConnector<AppState, OnboardingViewModel>(
+        converter: (store) => OnboardingViewModel.create(store, source),
+        builder: (context, viewModel) {
+          return BottomSheetWrapper(
+            hideTitle: true,
+            padding: EdgeInsets.zero,
+            body: _Body(viewModel),
+            heightFactor: onboardingBottomSheetHeightFactor(context),
+          );
+        },
+      ),
     );
+  }
+
+  String _tracking() {
+    return switch (source) {
+      OnboardingSource.monSuivi => AnalyticsScreenNames.onboardingMonSuivi,
+      OnboardingSource.chat => AnalyticsScreenNames.onboardingChat,
+      OnboardingSource.reherche => AnalyticsScreenNames.onboardingRecherche,
+      OnboardingSource.evenements => AnalyticsScreenNames.onboardingEvenements
+    };
   }
 }
 
