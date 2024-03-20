@@ -12,7 +12,6 @@ class AnalyticsScreenNames {
 
   static const login = "login";
   static const forceUpdate = "force_update";
-  static const entree = "entree";
   static const choixOrganisme = "entree/choix-organisme";
   static const choixOrganismePE = "entree/choix-organisme/pe";
   static const choixOrganismeMilo = "entree/choix-organisme/milo";

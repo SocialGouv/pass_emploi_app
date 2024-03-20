@@ -26,16 +26,34 @@ import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/hidden_menu.dart';
 import 'package:pass_emploi_app/widgets/welcome.dart';
 
-class EntreePage extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: AnalyticsScreenNames.entree,
+      tracking: AnalyticsScreenNames.login,
       child: StoreConnector<AppState, EntreePageViewModel>(
         onInit: (store) => store.dispatch(PreferredLoginModeRequestAction()),
         converter: (store) => EntreePageViewModel.create(store),
         builder: (context, viewModel) => _Scaffold(viewModel),
+        onWillChange: _onWillChange,
+        distinct: true,
       ),
+    );
+  }
+
+  void _onWillChange(EntreePageViewModel? previousVM, EntreePageViewModel newVM) {
+    if (previousVM?.withLoading != false) return;
+    if (newVM.withWrongDeviceClockMessage || newVM.technicalErrorMessage != null) {
+      _trackLoginResult(successful: false);
+    } else {
+      _trackLoginResult(successful: true);
+    }
+  }
+
+  void _trackLoginResult({required bool successful}) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.webAuthPageEventCategory,
+      action: successful ? AnalyticsEventNames.webAuthPageSuccessAction : AnalyticsEventNames.webAuthPageErrorAction,
     );
   }
 }

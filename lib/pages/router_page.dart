@@ -6,8 +6,8 @@ import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
-import 'package:pass_emploi_app/pages/entree_page.dart';
 import 'package:pass_emploi_app/pages/first_lauch_onboarding_page.dart';
+import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/pages/main_page.dart';
 import 'package:pass_emploi_app/pages/spash_screen_page.dart';
 import 'package:pass_emploi_app/pages/tutorial_page.dart';
@@ -77,7 +77,7 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
       case RouterPageDisplayState.ONBOARDING:
         return FirstLaunchOnboardingPage();
       case RouterPageDisplayState.LOGIN:
-        return EntreePage();
+        return LoginPage();
       case RouterPageDisplayState.TUTORIAL:
         return TutorialPage();
       case RouterPageDisplayState.MAIN:
