@@ -33,6 +33,7 @@ import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
+import 'package:pass_emploi_app/repositories/developer_option_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
@@ -91,6 +92,7 @@ class TestStoreFactory {
   ConnectivityWrapper connectivityWrapper = MockConnectivityWrapper();
   PushNotificationManager pushNotificationManager = MockPushNotificationManager();
   RemoteConfigRepository remoteConfigRepository = MockRemoteConfigRepository();
+  DeveloperOptionRepository developerOptionRepository = MockDeveloperOptionRepository();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
   OffreEmploiDetailsRepository detailedOfferRepository = DummyDetailedRepository();
   ConfigurationApplicationRepository registerTokenRepository = DummyRegisterTokenRepository();
@@ -166,6 +168,7 @@ class TestStoreFactory {
       connectivityWrapper,
       pushNotificationManager,
       remoteConfigRepository,
+      developerOptionRepository,
       userActionRepository,
       userActionPendingCreationRepository,
       pageDemarcheRepository,

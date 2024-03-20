@@ -1,3 +1,5 @@
-class DeveloperOptionsActivationRequestAction{}
+class DeveloperOptionsActivationRequestAction {}
 
-class DeveloperOptionsActivationSuccessAction{}
+class DeveloperOptionsActivationSuccessAction {}
+
+class DeveloperOptionsDeleteAllPrefsAction {}

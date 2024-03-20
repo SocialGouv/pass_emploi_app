@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
+import 'package:pass_emploi_app/features/developer_option/activation/developer_options_action.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/pages/cv/cv_list_page.dart';
 import 'package:pass_emploi_app/pages/diagoriente/diagoriente_entry_page.dart';
@@ -18,6 +19,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
@@ -27,6 +29,7 @@ import 'package:pass_emploi_app/widgets/contact_page.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 import 'package:pass_emploi_app/widgets/rating_page.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class ProfilPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => ProfilPage());
@@ -136,13 +139,18 @@ class _Scaffold extends StatelessWidget {
                       title: Strings.developerOptionMatomo,
                       onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
                     ),
+                    _ListTileData(
+                      title: Strings.developerOptionDeleteAllPrefs,
+                      onTap: () {
+                        context.dispatch(DeveloperOptionsDeleteAllPrefsAction());
+                        showSnackBarWithSystemError(context, "Killez 💀- voire supprimer 🗑 - l'app");
+                      },
+                    ),
                   ]),
                   SizedBox(height: Margins.spacing_l),
                 ],
                 SecondaryButton(
-                  onPressed: () {
-                    StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction(LogoutReason.userLogout));
-                  },
+                  onPressed: () => context.dispatch(RequestLogoutAction(LogoutReason.userLogout)),
                   label: Strings.logoutAction,
                 ),
               ],
