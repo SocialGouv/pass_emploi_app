@@ -42,7 +42,8 @@ class LoginPage extends StatelessWidget {
   }
 
   void _onWillChange(LoginPageViewModel? previousVM, LoginPageViewModel newVM) {
-    if (previousVM?.withLoading != false) return;
+    final bool isAfterWebAuthPage = previousVM?.withLoading == true && newVM.withLoading == false;
+    if (!isAfterWebAuthPage) return;
     if (newVM.withWrongDeviceClockMessage || newVM.technicalErrorMessage != null) {
       _trackLoginResult(successful: false);
     } else {
