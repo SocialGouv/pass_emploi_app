@@ -71,21 +71,16 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
   }
 
   Widget _content(RouterPageViewModel viewModel) {
-    switch (viewModel.routerPageDisplayState) {
-      case RouterPageDisplayState.SPLASH:
-        return SplashScreenPage();
-      case RouterPageDisplayState.ONBOARDING:
-        return FirstLaunchOnboardingPage();
-      case RouterPageDisplayState.LOGIN:
-        return LoginPage();
-      case RouterPageDisplayState.TUTORIAL:
-        return TutorialPage();
-      case RouterPageDisplayState.MAIN:
-        return MainPage(
+    return switch (viewModel.routerPageDisplayState) {
+      RouterPageDisplayState.SPLASH => SplashScreenPage(),
+      RouterPageDisplayState.ONBOARDING => FirstLaunchOnboardingPage(),
+      RouterPageDisplayState.LOGIN => LoginPage(),
+      RouterPageDisplayState.TUTORIAL => TutorialPage(),
+      RouterPageDisplayState.MAIN => MainPage(
           displayState: viewModel.mainPageDisplayState,
           deepLinkKey: viewModel.deepLinkKey,
-        );
-    }
+        )
+    };
   }
 
   Future<void> _onWillChange(RouterPageViewModel? oldVm, RouterPageViewModel newVm) async {
