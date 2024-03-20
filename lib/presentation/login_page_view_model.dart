@@ -45,6 +45,7 @@ class LoginPageViewModel extends Equatable {
         withLoading,
         withWrongDeviceClockMessage,
         technicalErrorMessage,
+        preferredLoginMode,
       ];
 }
 
