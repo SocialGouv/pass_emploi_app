@@ -57,10 +57,7 @@ class _MonSuiviMiloPageState extends State<MonSuiviMiloPage> {
     );
   }
 
-  void _handleOnboarding(
-    BuildContext context,
-    MonSuiviViewModel viewModel,
-  ) {
+  void _handleOnboarding(BuildContext context, MonSuiviViewModel viewModel) {
     if (viewModel.shouldShowOnboarding && !_onboardingShown) {
       _onboardingShown = true;
       OnboardingBottomSheet.show(context, source: OnboardingSource.monSuivi);

@@ -19,6 +19,7 @@ class CvmChatPageViewModel extends Equatable {
   final DisplayState displayState;
   final String? brouillon;
   final List<CvmChatItem> items;
+  final bool shouldShowOnboarding;
   final Function(String message) onSendMessage;
   final Function() onRetry;
 
@@ -26,6 +27,7 @@ class CvmChatPageViewModel extends Equatable {
     required this.displayState,
     required this.brouillon,
     required this.items,
+    required this.shouldShowOnboarding,
     required this.onSendMessage,
     required this.onRetry,
   });
@@ -36,13 +38,14 @@ class CvmChatPageViewModel extends Equatable {
       displayState: _displayState(chatState),
       brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is CvmSuccessState ? _messagesToChatItems(chatState.messages) : [],
+      shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
       onSendMessage: (String message) => _sendMessage(store, message),
       onRetry: () => store.dispatch(CvmRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, brouillon, items];
+  List<Object?> get props => [displayState, brouillon, items, shouldShowOnboarding];
 }
 
 DisplayState _displayState(CvmState state) {

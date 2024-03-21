@@ -39,7 +39,7 @@ class ChatPageViewModel extends Equatable {
       displayState: _displayState(chatState),
       brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
-      shouldShowOnboarding: _shouldShowOnboarding(store),
+      shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
       onRetry: () => store.dispatch(SubscribeToChatAction()),
     );
@@ -199,8 +199,4 @@ List<dynamic> _messagesWithDaySections(List<Message> messages) {
 
 String _getDayLabel(DateTime dateTime) {
   return dateTime.isAtSameDayAs(DateTime.now()) ? Strings.today : Strings.simpleDayFormat(dateTime.toDay());
-}
-
-bool _shouldShowOnboarding(Store<AppState> store) {
- return store.state.onboardingState.showChatOnboarding;
 }
