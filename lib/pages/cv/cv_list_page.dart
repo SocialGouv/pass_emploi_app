@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/external_links.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -195,7 +196,7 @@ class _ApiPeKo extends StatelessWidget {
 }
 
 class _EmptyListPlaceholder extends StatelessWidget {
-  static const espaceCandidatLink = "https://candidat.pole-emploi.fr/espacepersonnel/";
+  static const espaceCandidatLink = ExternalLinks.espaceCandidats;
 
   final bool insideBottomSheet;
 

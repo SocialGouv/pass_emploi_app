@@ -329,7 +329,10 @@ class Strings {
   static String accueilOutilsSection = "Boîte à outils";
   static String accueilOutilsSectionDescription = "Découvrez des outils pour vous aider dans vos projets";
   static String accueilVoirLesOutils = "Voir tous les outils";
-  static String accueilCampagneRecrutementLabel = "Aidez-nous à améliorer l’application du CEJ\u{00A0}!";
+  static String accueilCampagneRecrutementLabelCej = "Aidez-nous à améliorer l’application du CEJ\u{00A0}!";
+  static String accueilCampagneRecrutementLabelBrsa = "Aidez-nous à améliorer l’application pass emploi\u{00A0}!";
+  static String accueilCampagneRecrutementLabel =
+      Brand.isCej() ? accueilCampagneRecrutementLabelCej : accueilCampagneRecrutementLabelBrsa;
   static String accueilCampagneRecrutementPressedTip = "Participer";
 
   // Mon Suivi Tabs

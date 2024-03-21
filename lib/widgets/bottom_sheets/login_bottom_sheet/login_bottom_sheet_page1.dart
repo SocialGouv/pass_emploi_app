@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/presentation/login_bottom_sheet_view_model.dart'
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/external_links.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -46,7 +47,7 @@ class LoginBottomSheetPage1 extends StatelessWidget {
 }
 
 class _NoOrganismButton extends StatelessWidget {
-  static const noOrganismeLink = "https://www.1jeune1solution.gouv.fr/contrat-engagement-jeune";
+  static const noOrganismeLink = ExternalLinks.unJeuneUneSolution;
 
   @override
   Widget build(BuildContext context) {

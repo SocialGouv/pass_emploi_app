@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/external_links.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -15,8 +17,6 @@ class CampagneRecrutementCard extends StatelessWidget {
   const CampagneRecrutementCard(this.campagneRecrutementCej);
 
   final CampagneRecrutementCej campagneRecrutementCej;
-  static const url =
-      "https://framaforms.org/participez-a-la-conception-de-lapplication-du-contrat-dengagement-jeune-1707239593";
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +24,9 @@ class CampagneRecrutementCard extends StatelessWidget {
       backgroundColor: Colors.transparent,
       splashColor: AppColors.primaryDarken.withOpacity(0.5),
       padding: EdgeInsets.zero,
-      onTap: () => launchExternalUrl(url),
+      onTap: () => launchExternalUrl(ExternalLinks.campagneRecrutement),
       image: DecorationImage(
-        image: AssetImage("assets/campagne_recrutement_bg.webp"),
+        image: AssetImage(Drawables.campagneRecrutementBg),
         fit: BoxFit.cover,
       ),
       child: Stack(
@@ -44,7 +44,7 @@ class CampagneRecrutementCard extends StatelessWidget {
                         child: SizedBox(
                           width: 72,
                           height: 72,
-                          child: Image.asset("assets/cej_in_progress.webp"),
+                          child: Image.asset(Drawables.logoInProgress),
                         ),
                       ),
                     ),
