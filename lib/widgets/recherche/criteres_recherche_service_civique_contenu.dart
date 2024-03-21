@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/presentation/recherche/service_civique/criteres_
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/location_autocomplete.dart';
@@ -78,6 +77,5 @@ class _CriteresRechercheServiceCiviqueContenuState extends State<CriteresRecherc
 
   void _search(CriteresRechercheServiceCiviqueContenuViewModel viewModel) {
     viewModel.onSearchingRequest(_selectedLocation);
-    Keyboard.dismiss(context);
   }
 }
