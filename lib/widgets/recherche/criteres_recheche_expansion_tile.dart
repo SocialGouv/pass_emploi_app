@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/focused_border_builder.dart';
 
 class CriteresRechercheExpansionTile extends StatelessWidget {
   final int criteresActifsCount;
@@ -13,7 +15,7 @@ class CriteresRechercheExpansionTile extends StatelessWidget {
   final Widget child;
   final Function(bool isOpen) onExpansionChanged;
 
-  const CriteresRechercheExpansionTile({
+  CriteresRechercheExpansionTile({
     required this.initiallyExpanded,
     required this.criteresActifsCount,
     required this.child,
@@ -22,7 +24,6 @@ class CriteresRechercheExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mainAnimationDuration = Duration(milliseconds: 300);
     const mainAnimationCurve = Curves.ease;
     return AnimatedContainer(
       decoration: BoxDecoration(
@@ -30,7 +31,7 @@ class CriteresRechercheExpansionTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(Dimens.radius_base),
         boxShadow: [Shadows.radius_base],
       ),
-      duration: mainAnimationDuration,
+      duration: AnimationDurations.medium,
       curve: mainAnimationCurve,
       child: Column(
         children: [
@@ -43,7 +44,7 @@ class CriteresRechercheExpansionTile extends StatelessWidget {
             firstChild: Container(),
             secondChild: child,
             crossFadeState: initiallyExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-            duration: mainAnimationDuration,
+            duration: AnimationDurations.medium,
             sizeCurve: mainAnimationCurve,
           ),
         ],
@@ -52,7 +53,7 @@ class CriteresRechercheExpansionTile extends StatelessWidget {
   }
 }
 
-class _CriteresRechercheBandeau extends StatelessWidget {
+class _CriteresRechercheBandeau extends StatefulWidget {
   final int criteresActifsCount;
   final bool isOpen;
   final void Function() onTap;
@@ -64,44 +65,58 @@ class _CriteresRechercheBandeau extends StatelessWidget {
   });
 
   @override
+  State<_CriteresRechercheBandeau> createState() => _CriteresRechercheBandeauState();
+}
+
+class _CriteresRechercheBandeauState extends State<_CriteresRechercheBandeau> {
+  @override
   Widget build(BuildContext context) {
-    final iconColor = isOpen ? AppColors.primary : Colors.white;
-    return Semantics(
-      button: true,
-      enabled: true,
-      label: Strings.rechercheCriteresActifsTooltip(isOpen),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(Dimens.radius_base),
-        child: GestureDetector(
-          onTap: onTap,
-          child: Padding(
-            padding: EdgeInsets.all(Margins.spacing_base),
-            child: Row(
-              children: [
-                Icon(Icons.search, color: iconColor),
-                SizedBox(width: Margins.spacing_base),
-                Expanded(
-                  child: Text(
-                    Intl.plural(
-                      criteresActifsCount,
-                      zero: Strings.rechercheCriteresActifsSingular(criteresActifsCount),
-                      one: Strings.rechercheCriteresActifsSingular(criteresActifsCount),
-                      other: Strings.rechercheCriteresActifsPlural(criteresActifsCount),
+    final iconColor = widget.isOpen ? AppColors.primary : Colors.white;
+    return FocusedBorderBuilder(
+      borderColor: AppColors.primaryDarkenStrong,
+      borderRadius: Dimens.radius_base,
+      builder: (focusNode) {
+        return Semantics(
+          button: true,
+          enabled: true,
+          label: Strings.rechercheCriteresActifsTooltip(widget.isOpen),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(Dimens.radius_base),
+            child: InkWell(
+              onTap: widget.onTap,
+              focusNode: focusNode,
+              child: Padding(
+                padding: EdgeInsets.all(Margins.spacing_base),
+                child: Row(
+                  children: [
+                    Icon(Icons.search, color: iconColor),
+                    SizedBox(width: Margins.spacing_base),
+                    Expanded(
+                      child: Text(
+                        Intl.plural(
+                          widget.criteresActifsCount,
+                          zero: Strings.rechercheCriteresActifsSingular(widget.criteresActifsCount),
+                          one: Strings.rechercheCriteresActifsSingular(widget.criteresActifsCount),
+                          other: Strings.rechercheCriteresActifsPlural(widget.criteresActifsCount),
+                        ),
+                        style: TextStyles.textBaseMediumBold(
+                          color: widget.isOpen ? AppColors.contentColor : Colors.white,
+                        ),
+                      ),
                     ),
-                    style: TextStyles.textBaseMediumBold(color: isOpen ? AppColors.contentColor : Colors.white),
-                  ),
+                    AnimatedRotation(
+                      turns: !widget.isOpen ? -0.5 : 0,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.ease,
+                      child: Icon(Icons.expand_less_rounded, color: iconColor),
+                    ),
+                  ],
                 ),
-                AnimatedRotation(
-                  turns: !isOpen ? -0.5 : 0,
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.ease,
-                  child: Icon(Icons.expand_less_rounded, color: iconColor),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

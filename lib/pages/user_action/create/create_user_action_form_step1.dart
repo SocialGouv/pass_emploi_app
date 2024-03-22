@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
@@ -48,10 +50,11 @@ class ActionCategorySelector extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: Margins.spacing_base,
         crossAxisSpacing: Margins.spacing_base,
+        childAspectRatio: _responsiveChildAspectRatioForA11y(context),
       ),
       itemCount: UserActionReferentielTypePresentation.all.length,
       itemBuilder: (context, index) {
@@ -64,6 +67,11 @@ class ActionCategorySelector extends StatelessWidget {
         );
       },
     );
+  }
+
+  double _responsiveChildAspectRatioForA11y(BuildContext context) {
+    final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
+    return min(1, 1 / textScaleFactor);
   }
 }
 
@@ -109,42 +117,42 @@ class ActionCategoryCard extends StatelessWidget {
 
 extension UserActionReferentielTypePresentation on UserActionReferentielType {
   static List<UserActionReferentielType> get all => [
-        UserActionReferentielType.emploi,
-        UserActionReferentielType.projetProfessionnel,
-        UserActionReferentielType.cultureSportLoisirs,
-        UserActionReferentielType.citoyennete,
-        UserActionReferentielType.formation,
-        UserActionReferentielType.logement,
-        UserActionReferentielType.sante,
-      ];
+    UserActionReferentielType.emploi,
+    UserActionReferentielType.projetProfessionnel,
+    UserActionReferentielType.cultureSportLoisirs,
+    UserActionReferentielType.citoyennete,
+    UserActionReferentielType.formation,
+    UserActionReferentielType.logement,
+    UserActionReferentielType.sante,
+  ];
 
   String get label => switch (this) {
-        UserActionReferentielType.emploi => Strings.userActionEmploiLabel,
-        UserActionReferentielType.projetProfessionnel => Strings.userActionProjetProfessionnelLabel,
-        UserActionReferentielType.cultureSportLoisirs => Strings.userActionCultureSportLoisirsLabel,
-        UserActionReferentielType.citoyennete => Strings.userActionCitoyenneteLabel,
-        UserActionReferentielType.formation => Strings.userActionFormationLabel,
-        UserActionReferentielType.logement => Strings.userActionLogementLabel,
-        UserActionReferentielType.sante => Strings.userActionSanteLabel,
-      };
+    UserActionReferentielType.emploi => Strings.userActionEmploiLabel,
+    UserActionReferentielType.projetProfessionnel => Strings.userActionProjetProfessionnelLabel,
+    UserActionReferentielType.cultureSportLoisirs => Strings.userActionCultureSportLoisirsLabel,
+    UserActionReferentielType.citoyennete => Strings.userActionCitoyenneteLabel,
+    UserActionReferentielType.formation => Strings.userActionFormationLabel,
+    UserActionReferentielType.logement => Strings.userActionLogementLabel,
+    UserActionReferentielType.sante => Strings.userActionSanteLabel,
+  };
 
   String get description => switch (this) {
-        UserActionReferentielType.emploi => Strings.userActionEmploiDescription,
-        UserActionReferentielType.projetProfessionnel => Strings.userActionProjetProfessionnelDescription,
-        UserActionReferentielType.cultureSportLoisirs => Strings.userActionCultureSportLoisirsDescription,
-        UserActionReferentielType.citoyennete => Strings.userActionCitoyenneteDescription,
-        UserActionReferentielType.formation => Strings.userActionFormationDescription,
-        UserActionReferentielType.logement => Strings.userActionLogementDescription,
-        UserActionReferentielType.sante => Strings.userActionSanteDescription,
-      };
+    UserActionReferentielType.emploi => Strings.userActionEmploiDescription,
+    UserActionReferentielType.projetProfessionnel => Strings.userActionProjetProfessionnelDescription,
+    UserActionReferentielType.cultureSportLoisirs => Strings.userActionCultureSportLoisirsDescription,
+    UserActionReferentielType.citoyennete => Strings.userActionCitoyenneteDescription,
+    UserActionReferentielType.formation => Strings.userActionFormationDescription,
+    UserActionReferentielType.logement => Strings.userActionLogementDescription,
+    UserActionReferentielType.sante => Strings.userActionSanteDescription,
+  };
 
   IconData get icon => switch (this) {
-        UserActionReferentielType.emploi => AppIcons.emploi,
-        UserActionReferentielType.projetProfessionnel => AppIcons.projetPro,
-        UserActionReferentielType.cultureSportLoisirs => AppIcons.sportLoisirs,
-        UserActionReferentielType.citoyennete => AppIcons.citoyennete,
-        UserActionReferentielType.formation => AppIcons.formation,
-        UserActionReferentielType.logement => AppIcons.logement,
-        UserActionReferentielType.sante => AppIcons.sante,
-      };
+    UserActionReferentielType.emploi => AppIcons.emploi,
+    UserActionReferentielType.projetProfessionnel => AppIcons.projetPro,
+    UserActionReferentielType.cultureSportLoisirs => AppIcons.sportLoisirs,
+    UserActionReferentielType.citoyennete => AppIcons.citoyennete,
+    UserActionReferentielType.formation => AppIcons.formation,
+    UserActionReferentielType.logement => AppIcons.logement,
+    UserActionReferentielType.sante => AppIcons.sante,
+  };
 }

@@ -51,7 +51,8 @@ class LoginBottomSheetPage2 extends StatelessWidget {
         SecondaryButton(
           label: Strings.askAccount,
           onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
-        )
+        ),
+        SizedBox(height: Margins.spacing_base),
       ],
     );
   }

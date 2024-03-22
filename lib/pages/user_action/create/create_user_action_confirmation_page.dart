@@ -33,46 +33,56 @@ class CreateUserActionConfirmationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: SecondaryAppBar(title: Strings.createActionAppBarTitle, backgroundColor: Colors.white),
-        floatingActionButton: _Buttons(
-          onGoActionDetail: () => Navigator.pop(context, NavigateToUserActionDetails(userActionId, source)),
-          onCreateMore: () => Navigator.pop(context, CreateNewUserAction()),
+      backgroundColor: Colors.white,
+      appBar: SecondaryAppBar(title: Strings.createActionAppBarTitle, backgroundColor: Colors.white),
+      floatingActionButton: _Buttons(
+        onGoActionDetail: () => Navigator.pop(context, NavigateToUserActionDetails(userActionId, source)),
+        onCreateMore: () => Navigator.pop(context, CreateNewUserAction()),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: _Body(),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: Margins.spacing_xl),
+            Center(
+              child: SizedBox(
+                height: 130,
+                width: 130,
+                child: Illustration.green(AppIcons.check_rounded),
+              ),
+            ),
+            SizedBox(height: Margins.spacing_xl),
+            Text(
+              Strings.userActionConfirmationTitle,
+              style: TextStyles.textMBold,
+            ),
+            SizedBox(height: Margins.spacing_s),
+            Text(
+              Strings.userActionConfirmatioSubtitle,
+              style: TextStyles.textSRegular(),
+            ),
+            SizedBox(height: Margins.spacing_xx_huge),
+          ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Center(
-                  child: SizedBox(
-                    height: 130,
-                    width: 130,
-                    child: Illustration.green(AppIcons.check_rounded),
-                  ),
-                ),
-              ),
-              SizedBox(height: Margins.spacing_m),
-              Text(
-                Strings.userActionConfirmationTitle,
-                style: TextStyles.textMBold,
-              ),
-              SizedBox(height: Margins.spacing_s),
-              Text(
-                Strings.userActionConfirmatioSubtitle,
-                style: TextStyles.textSRegular(),
-              ),
-              Expanded(child: SizedBox()),
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }
 
 class _Buttons extends StatelessWidget {
   const _Buttons({required this.onGoActionDetail, required this.onCreateMore});
+
   final void Function() onGoActionDetail;
   final void Function() onCreateMore;
 

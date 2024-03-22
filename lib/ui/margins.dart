@@ -9,4 +9,5 @@ class Margins {
   static const double spacing_xl = 40;
   static const double spacing_huge = 80;
   static const double spacing_x_huge = 120;
+  static const double spacing_xx_huge = 240;
 }

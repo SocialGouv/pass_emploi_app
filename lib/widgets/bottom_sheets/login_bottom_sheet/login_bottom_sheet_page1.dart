@@ -26,6 +26,7 @@ class LoginBottomSheetPage1 extends StatelessWidget {
         SizedBox(height: Margins.spacing_base),
         ..._buildLoginButtons(),
         _NoOrganismButton(),
+        SizedBox(height: Margins.spacing_base),
       ],
     );
   }

@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/presentation/recherche/emploi/criteres_recherche
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/keyword_text_form_field.dart';
@@ -95,6 +94,5 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
 
   void _search(CriteresRechercheEmploiContenuViewModel viewModel) {
     viewModel.onSearchingRequest(_keyword ?? '', _selectedLocation, widget.onlyAlternance);
-    Keyboard.dismiss(context);
   }
 }

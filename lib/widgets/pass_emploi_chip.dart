@@ -66,9 +66,8 @@ class _CustomChip extends StatelessWidget {
             border: Border.all(color: borderColor),
           ),
           padding: EdgeInsets.symmetric(horizontal: Margins.spacing_s, vertical: Margins.spacing_xs),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Wrap(
+            runAlignment: WrapAlignment.center,
             children: [
               Text(
                 label,
