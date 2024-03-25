@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/version.dart';
@@ -74,7 +74,7 @@ class Configuration extends Equatable {
     final authClientSecret = getOrThrow('AUTH_CLIENT_SECRET');
     final iSRGX1CertificateForOldDevices = utf8.decode(base64Decode(getOrThrow('ISRGX1_CERT_FOR_OLD_DEVICES')));
     final actualisationPoleEmploiUrl = getOrThrow('ACTUALISATION_PE_URL');
-    final fuseauHoraire = await FlutterNativeTimezone.getLocalTimezone();
+    final fuseauHoraire = await FlutterTimezone.getLocalTimezone();
     final cvmEx160Url = getCvmEx160Url(getOrThrow('CVM_PATH'));
     final cvmAttachmentUrl = getCvmAttachmentUrl(getOrThrow('CVM_PATH'));
     return Configuration(

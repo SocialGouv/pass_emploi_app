@@ -46,14 +46,14 @@ dependencies:
   flutter_linkify: "6.0.0"
   # Native features
   webview_flutter: "4.4.2"
-  flutter_local_notifications: "16.1.0"
+  flutter_local_notifications: "17.0.0"
   flutter_appauth: "6.0.2"
   flutter_secure_storage: "9.0.0"
   url_launcher: "6.2.1"
   share_plus: "7.2.1"
   open_filex: "4.3.4"
   in_app_review: "2.0.8"
-  flutter_native_timezone: "2.0.0"
+  flutter_timezone: "1.0.8"
   connectivity_plus: "4.0.2" # Versions >= 5.0.0 require iOS 12 or higher
   # Others
   flutter_redux: "0.10.0"
