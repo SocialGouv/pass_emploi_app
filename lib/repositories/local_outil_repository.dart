@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/outil.dart';
+import 'package:pass_emploi_app/ui/external_links.dart';
 
 class LocalOutilRepository {
   List<Outil> getOutils(Brand brand) {
@@ -43,7 +44,7 @@ class Outils {
     description:
         "Explorez vos expériences, analysez vos compétences transversales et identifiez vos intérêts personnels afin de faciliter votre orientation.",
     actionLabel: "Créer mon compte Diagoriente",
-    urlRedirect: "https://app.diagoriente.beta.gouv.fr/register",
+    urlRedirect: ExternalLinks.boiteAOutilsDiagoriente,
     imagePath: "diagoriente.png",
   );
   static Outil aides = Outil(
@@ -51,7 +52,7 @@ class Outils {
     description:
         "Trouvez en quelques clics les aides auxquelles vous avez droit : logement, santé, mobilité, emploi, culture, etc.",
     actionLabel: "Lancer ma simulation",
-    urlRedirect: "https://mes-aides.1jeune1solution.beta.gouv.fr/simulation/individu/demandeur/date_naissance",
+    urlRedirect: ExternalLinks.boiteAOutilsAides,
     imagePath: "aides.png",
   );
 
@@ -60,7 +61,7 @@ class Outils {
     description:
         "Expliquez nous votre situation et vos besoins. Nous vous mettrons en relation avec une association qui vous proposera un mentor.",
     actionLabel: "Me faire accompagner",
-    urlRedirect: "https://www.1jeune1mentor.fr/formulaire?1jeune1solution",
+    urlRedirect: ExternalLinks.boiteAOutilsMentor,
     imagePath: "mentor.png",
   );
 
@@ -68,7 +69,7 @@ class Outils {
     title: "Je m’engage bénévolement",
     description: "Trouvez une mission de bénévolat près de chez vous ou à distance grâce à JeVeuxAider.gouv.fr",
     actionLabel: "Je recherche une mission",
-    urlRedirect: "http://api.api-engagement.beta.gouv.fr/r/campaign/64ddc9185331346074141cb1",
+    urlRedirect: ExternalLinks.boiteAOutilsBenevolatCej,
     imagePath: "boite_outil_benevolat.png",
   );
 
@@ -76,7 +77,7 @@ class Outils {
     title: "Je m’engage bénévolement",
     description: "Trouvez une mission de bénévolat près de chez vous ou à distance grâce à JeVeuxAider.gouv.fr",
     actionLabel: "Je recherche une mission",
-    urlRedirect: "http://api.api-engagement.beta.gouv.fr/r/campaign/64ddca09533134607414370b",
+    urlRedirect: ExternalLinks.boiteAOutilsBenevolatBrsa,
     imagePath: "boite_outil_benevolat.png",
   );
 
@@ -84,7 +85,7 @@ class Outils {
     title: "Trouver une formation",
     description: "Trouvez la formation qui vous intéresse pour réaliser votre projet professionnel.",
     actionLabel: "Je recherche une formation",
-    urlRedirect: "https://www.1jeune1solution.gouv.fr/formations",
+    urlRedirect: ExternalLinks.boiteAOutilsFormation,
     imagePath: null,
   );
 
@@ -92,7 +93,7 @@ class Outils {
     title: "Événements de recrutement",
     description: "Trouvez des centaines d’événements de recrutement pour tous les jeunes partout en France.",
     actionLabel: "Je recherche un événement",
-    urlRedirect: "https://www.1jeune1solution.gouv.fr/evenements",
+    urlRedirect: ExternalLinks.boiteAOutilsEvenementRecrutement,
     imagePath: null,
   );
 
@@ -101,7 +102,7 @@ class Outils {
     description:
         "Une plateforme pour trouver les sites et applications dédiés à la recherche d'emploi ainsi qu’à la formation et à la création d'entreprise en France et à l'international.",
     actionLabel: "Me diriger vers l’Emploi-Store",
-    urlRedirect: "https://www.emploi-store.fr/portail/accueil",
+    urlRedirect: ExternalLinks.boiteAOutilsEmploiStore,
     imagePath: null,
   );
 
@@ -109,7 +110,7 @@ class Outils {
     title: "Je postule pour un job dans une entreprise solidaire",
     description: "Prenez contact avec un employeur solidaire et postulez aux offres qui correspondent à vos attentes.",
     actionLabel: "Trouver une entreprise solidaire",
-    urlRedirect: "https://emplois.inclusion.beta.gouv.fr/",
+    urlRedirect: ExternalLinks.boiteAOutilsEmploiSolidaire,
     imagePath: null,
   );
 
@@ -118,7 +119,7 @@ class Outils {
     description:
         "Envoyez votre CV à la bonne entreprise ! Découvrez en un clic les entreprises qui recrutent dans votre métier près de chez vous.",
     actionLabel: "Trouver la bonne boîte",
-    urlRedirect: "https://labonneboite.pole-emploi.fr/",
+    urlRedirect: ExternalLinks.boiteAOutilsLaBonneBoite,
     imagePath: null,
   );
 
@@ -126,7 +127,7 @@ class Outils {
     title: "Alternance avec 1 jeune, 1 solution",
     description: "Trouvez la formation et l’entreprise pour réaliser votre projet d’alternance.",
     actionLabel: "Je recherche une altenance",
-    urlRedirect: "https://www.1jeune1solution.gouv.fr/apprentissage",
+    urlRedirect: ExternalLinks.boiteAOutilsAlternance,
     imagePath: null,
   );
 }

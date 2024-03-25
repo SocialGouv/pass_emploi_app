@@ -22,4 +22,10 @@ class Drawables {
   static String onboardingChatIllustration = "${_assets}onboarding/illustration_onboarding_chat.webp";
   static String onboardingRechercheIllustration = "${_assets}onboarding/illustration_onboarding_recherche.webp";
   static String onboardingEvenementsIllustration = "${_assets}onboarding/illustration_onboarding_evenements.webp";
+
+  static String campagneRecrutementBg = "${_assets}campagne_recrutement_bg.webp";
+
+  static String logoInProgress = Brand.isCej() ? cejLogoInProgress : brsaLogoInProgress;
+  static String cejLogoInProgress = "${_assets}cej_in_progress.webp";
+  static String brsaLogoInProgress = "${_assets}brsa_in_progress.webp";
 }
