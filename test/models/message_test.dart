@@ -34,7 +34,8 @@ void main() {
           DateTime(2021, 7, 30, 9, 43, 9),
           Sender.jeune,
           MessageType.message,
-          MessageStatus.sent,
+          MessageSendingStatus.sent,
+          MessageContentStatus.content,
           [],
         ));
   });
@@ -68,7 +69,8 @@ void main() {
           DateTime(2021, 7, 30, 9, 43, 9),
           Sender.jeune,
           MessageType.message,
-          MessageStatus.sent,
+          MessageSendingStatus.sent,
+          MessageContentStatus.content,
           [
             PieceJointe(
               "id-pj-343",
@@ -76,6 +78,52 @@ void main() {
             )
           ],
         ));
+  });
+
+  test("toJson when message status is deleted", () {
+    // Given
+    final chatCryptoSpy = _FakeChatCrypto();
+
+    // When
+    final message = Message.fromJson(
+      "uid",
+      {
+        "content": "qsldmkjqslmdj",
+        "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+        "iv": "ivvv",
+        "sentBy": "jeune",
+        "type": "MESSAGE",
+        "status": "deleted"
+      },
+      chatCryptoSpy,
+      DummyCrashlytics(),
+    );
+
+    // Then
+    expect(message!.contentStatus, MessageContentStatus.deleted);
+  });
+
+  test("toJson when message status is edited", () {
+    // Given
+    final chatCryptoSpy = _FakeChatCrypto();
+
+    // When
+    final message = Message.fromJson(
+      "uid",
+      {
+        "content": "qsldmkjqslmdj",
+        "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+        "iv": "ivvv",
+        "sentBy": "jeune",
+        "type": "MESSAGE",
+        "status": "edited"
+      },
+      chatCryptoSpy,
+      DummyCrashlytics(),
+    );
+
+    // Then
+    expect(message!.contentStatus, MessageContentStatus.edited);
   });
 
   test("toJson when message typed as MESSAGE", () {
@@ -134,7 +182,8 @@ void main() {
               DateTime(2021, 7, 30, 9, 43, 9),
               Sender.jeune,
               MessageType.offre,
-              MessageStatus.sent,
+              MessageSendingStatus.sent,
+              MessageContentStatus.content,
               [],
               Offre(
                 "343",
@@ -186,7 +235,8 @@ void main() {
               DateTime(2021, 7, 30, 9, 43, 9),
               Sender.jeune,
               MessageType.event,
-              MessageStatus.sent,
+              MessageSendingStatus.sent,
+              MessageContentStatus.content,
               [],
               null,
               Event(
@@ -238,7 +288,8 @@ void main() {
             DateTime(2022, 7, 30, 9, 43, 9),
             Sender.jeune,
             MessageType.evenementEmploi,
-            MessageStatus.sent,
+            MessageSendingStatus.sent,
+            MessageContentStatus.content,
             [],
             null,
             null,

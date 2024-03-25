@@ -75,7 +75,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   Future<void> _addMessageToRemote(Store<AppState> store, String userId, Message message) async {
     final sendMessageSuceed = await _repository.sendMessage(userId, message);
     if (!sendMessageSuceed) {
-      _addMessageToLocal(store, message.copyWith(status: MessageStatus.failed));
+      _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
     }
   }
 

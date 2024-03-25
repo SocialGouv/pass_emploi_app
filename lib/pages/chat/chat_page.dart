@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/widgets/apparition_animation.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/chat_message_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
@@ -97,7 +98,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         onSendMessage: viewModel.onSendMessage,
         itemBuilder: (context, index) {
           final item = viewModel.items.reversed.toList()[index];
-          final widget = item.toWidget();
+          final widget = item.toWidget(context);
 
           if (index == 0 && _animateMessage && item.shouldAnimate) {
             return ApparitionAnimation(
@@ -128,14 +129,23 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 }
 
 extension on ChatItem {
-  Widget toWidget() {
-    return switch (this) {
-      final DayItem item => ChatDaySection(dayLabel: item.dayLabel),
-      final TextMessageItem item => ChatTextMessage(item.toParams()),
-      final InformationItem item => ChatInformation(item.title, item.description),
-      final PieceJointeConseillerMessageItem item => ChatPieceJointe(item.toParams()),
-      final PartageMessageItem item => PartageMessage(item),
-    };
+  Widget toWidget(BuildContext context) {
+    return GestureDetector(
+      onLongPress: () => switch (this) {
+        final TextMessageItem item => ChatMessageBottomSheet.show(context, item),
+        final PieceJointeConseillerMessageItem item => ChatMessageBottomSheet.show(context, item),
+        final PartageMessageItem item => ChatMessageBottomSheet.show(context, item),
+        InformationItem() => null,
+        DayItem() => null,
+      },
+      child: switch (this) {
+        final DayItem item => ChatDaySection(dayLabel: item.dayLabel),
+        final TextMessageItem item => ChatTextMessage(item.toParams()),
+        final InformationItem item => ChatInformation(item.title, item.description),
+        final PieceJointeConseillerMessageItem item => ChatPieceJointe(item.toParams()),
+        final PartageMessageItem item => PartageMessage(item),
+      },
+    );
   }
 }
 

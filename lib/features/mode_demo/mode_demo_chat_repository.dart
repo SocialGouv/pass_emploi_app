@@ -9,7 +9,8 @@ List<Message> modeDemoChat() => [
         DateTime.now().subtract(Duration(minutes: 40)),
         Sender.conseiller,
         MessageType.message,
-        MessageStatus.sent,
+        MessageSendingStatus.sent,
+        MessageContentStatus.content,
         [],
       ),
       Message(
@@ -18,7 +19,8 @@ List<Message> modeDemoChat() => [
         DateTime.now().subtract(Duration(minutes: 34)),
         Sender.jeune,
         MessageType.message,
-        MessageStatus.sent,
+        MessageSendingStatus.sent,
+        MessageContentStatus.content,
         [],
       ),
       Message(
@@ -27,7 +29,8 @@ List<Message> modeDemoChat() => [
         DateTime.now().subtract(Duration(minutes: 21)),
         Sender.conseiller,
         MessageType.message,
-        MessageStatus.sent,
+        MessageSendingStatus.sent,
+        MessageContentStatus.content,
         [],
       ),
       Message(
@@ -36,7 +39,8 @@ List<Message> modeDemoChat() => [
         DateTime.now().subtract(Duration(minutes: 18)),
         Sender.jeune,
         MessageType.offre,
-        MessageStatus.sent,
+        MessageSendingStatus.sent,
+        MessageContentStatus.content,
         [],
         Offre(
           "132WNLT",

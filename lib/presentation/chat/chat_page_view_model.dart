@@ -149,16 +149,16 @@ ChatItem _pieceJointeItem(Message message) {
 }
 
 Color? _captionColor(Message message) {
-  return switch (message.status) {
-    MessageStatus.sending => null,
-    MessageStatus.sent => null,
-    MessageStatus.failed => AppColors.warning,
+  return switch (message.sendingStatus) {
+    MessageSendingStatus.sending => null,
+    MessageSendingStatus.sent => null,
+    MessageSendingStatus.failed => AppColors.warning,
   };
 }
 
 bool _shouldAnimate(Message message) {
-  return switch (message.status) {
-    MessageStatus.sending => true,
+  return switch (message.sendingStatus) {
+    MessageSendingStatus.sending => true,
     _ => false,
   };
 }
@@ -166,10 +166,10 @@ bool _shouldAnimate(Message message) {
 String _caption(Message message, DateTime lastConseillerReading) {
   final hourLabel = message.creationDate.toHour();
   if (message.sentBy == Sender.jeune) {
-    final status = switch (message.status) {
-      MessageStatus.sending => Strings.sending,
-      MessageStatus.sent => lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent,
-      MessageStatus.failed => Strings.sendingFailed,
+    final status = switch (message.sendingStatus) {
+      MessageSendingStatus.sending => Strings.sending,
+      MessageSendingStatus.sent => lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent,
+      MessageSendingStatus.failed => Strings.sendingFailed,
     };
     return "$hourLabel · $status";
   } else {

@@ -105,6 +105,8 @@ class Strings {
   static String chatEmptySubtitle =
       "Obtenez les informations que vous recherchez en contactant directement votre conseiller";
 
+  static String chatCopyMessage = "Copier";
+
   // Force Update
   static String updateTitle = "Mise à jour";
   static String updateButton = "Mettre à jour";

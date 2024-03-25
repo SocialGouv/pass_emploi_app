@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
 import 'package:uuid/uuid.dart';
 
-
 enum MessageType {
   message,
   nouveauConseiller,
@@ -22,7 +21,9 @@ enum MessageType {
 
 enum OffreType { emploi, alternance, immersion, civique, inconnu }
 
-enum MessageStatus { sent, sending, failed }
+enum MessageSendingStatus { sent, sending, failed }
+
+enum MessageContentStatus { content, deleted, edited }
 
 class Message extends Equatable {
   final String id;
@@ -35,7 +36,8 @@ class Message extends Equatable {
   final Event? event;
   final ChatEvenementEmploi? evenementEmploi;
   final ChatSessionMilo? sessionMilo;
-  final MessageStatus status;
+  final MessageSendingStatus sendingStatus;
+  final MessageContentStatus contentStatus;
 
   Message(
     this.id,
@@ -43,7 +45,8 @@ class Message extends Equatable {
     this.creationDate,
     this.sentBy,
     this.type,
-    this.status,
+    this.sendingStatus,
+    this.contentStatus,
     this.pieceJointes, [
     this.offre,
     this.event,
@@ -58,7 +61,8 @@ class Message extends Equatable {
       DateTime.now(),
       Sender.jeune,
       MessageType.message,
-      MessageStatus.sending,
+      MessageSendingStatus.sending,
+      MessageContentStatus.content,
       [],
     );
   }
@@ -74,7 +78,8 @@ class Message extends Equatable {
     Event? event,
     ChatEvenementEmploi? evenementEmploi,
     ChatSessionMilo? sessionMilo,
-    MessageStatus? status,
+    MessageSendingStatus? sendingStatus,
+    MessageContentStatus? contentStatus,
   }) {
     return Message(
       id ?? this.id,
@@ -82,7 +87,8 @@ class Message extends Equatable {
       creationDate ?? this.creationDate,
       sentBy ?? this.sentBy,
       type ?? this.type,
-      status ?? this.status,
+      sendingStatus ?? this.sendingStatus,
+      contentStatus ?? this.contentStatus,
       pieceJointes ?? this.pieceJointes,
       offre ?? this.offre,
       event ?? this.event,
@@ -102,13 +108,23 @@ class Message extends Equatable {
       creationDate,
       json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
       _type(json),
-      MessageStatus.sent,
+      MessageSendingStatus.sent,
+      _contentStatus(json),
       _pieceJointes(json, chatCrypto, crashlytics),
       _offre(json),
       _event(json),
       _evenementEmploi(json),
       _sessionMilo(json),
     );
+  }
+
+  static MessageContentStatus _contentStatus(dynamic json) {
+    final contentStatus = json['status'] as String?;
+    return switch (contentStatus) {
+      "deleted" => MessageContentStatus.deleted,
+      "edited" => MessageContentStatus.edited,
+      _ => MessageContentStatus.content,
+    };
   }
 
   static Offre? _offre(dynamic json) {
