@@ -6,10 +6,12 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class ChatMessageBottomSheetViewModel extends Equatable {
+  final String content;
   final bool withDeleteOption;
   final void Function() onDelete;
 
   ChatMessageBottomSheetViewModel({
+    required this.content,
     required this.withDeleteOption,
     required this.onDelete,
   });
@@ -18,13 +20,18 @@ class ChatMessageBottomSheetViewModel extends Equatable {
     final chatState = store.state.chatState;
     final message = (chatState as ChatSuccessState).messages.firstWhere((element) => element.id == messageId);
     return ChatMessageBottomSheetViewModel(
+      content: _content(message),
       withDeleteOption: _withDeleteOption(message),
       onDelete: () {}, // TODO:
     );
   }
 
   @override
-  List<Object?> get props => [withDeleteOption];
+  List<Object?> get props => [content, withDeleteOption];
+}
+
+String _content(Message message) {
+  return message.content;
 }
 
 bool _withDeleteOption(Message message) {

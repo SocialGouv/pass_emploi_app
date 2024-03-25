@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_message_bottom_sheet_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -20,34 +24,42 @@ class ChatMessageBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomSheetWrapper(
-      heightFactor: 0.4,
-      body: SizedBox(
-        width: double.infinity,
-        child: OverflowBox(
-          maxHeight: double.infinity,
-          maxWidth: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              Divider(color: AppColors.grey100),
-              _CopyMessageButton(),
-            ],
-          ),
-        ),
-      ),
-    );
+    return StoreConnector<AppState, ChatMessageBottomSheetViewModel>(
+        converter: (store) => ChatMessageBottomSheetViewModel.create(store, chatItem.messageId),
+        builder: (context, viewModel) {
+          return BottomSheetWrapper(
+            heightFactor: 0.4,
+            body: SizedBox(
+              width: double.infinity,
+              child: OverflowBox(
+                maxHeight: double.infinity,
+                maxWidth: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    Divider(color: AppColors.grey100),
+                    _CopyMessageButton(viewModel.content),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
 
 class _CopyMessageButton extends StatelessWidget {
-  const _CopyMessageButton();
+  const _CopyMessageButton(this.text);
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return _ChatBottomSheetButton(
       icon: AppIcons.content_copy_rounded,
       text: Strings.chatCopyMessage,
-      onPressed: () {}, //TODO:
+      onPressed: () async {
+        await Clipboard.setData(ClipboardData(text: text));
+        Navigator.pop(context);
+      },
     );
   }
 }
