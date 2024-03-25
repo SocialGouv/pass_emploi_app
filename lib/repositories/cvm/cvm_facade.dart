@@ -92,6 +92,7 @@ class CvmFacade {
   }
 
   Future<bool> _getRoomsAndJoin() async {
+    if (!_state.isLoggedIn) return false;
     await _subscribeToHasRoomStream();
     return await _startListeningRooms();
   }
