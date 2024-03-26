@@ -29,14 +29,14 @@ void main() {
     expect(
         message,
         Message(
-          "uid",
-          "toto-chiffré-déchiffré",
-          DateTime(2021, 7, 30, 9, 43, 9),
-          Sender.jeune,
-          MessageType.message,
-          MessageSendingStatus.sent,
-          MessageContentStatus.content,
-          [],
+          id: "uid",
+          content: "toto-chiffré-déchiffré",
+          creationDate: DateTime(2021, 7, 30, 9, 43, 9),
+          sentBy: Sender.jeune,
+          type: MessageType.message,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [],
         ));
   });
 
@@ -64,14 +64,14 @@ void main() {
     expect(
         message,
         Message(
-          "uid",
-          "toto-chiffré-déchiffré",
-          DateTime(2021, 7, 30, 9, 43, 9),
-          Sender.jeune,
-          MessageType.message,
-          MessageSendingStatus.sent,
-          MessageContentStatus.content,
-          [
+          id: "uid",
+          content: "toto-chiffré-déchiffré",
+          creationDate: DateTime(2021, 7, 30, 9, 43, 9),
+          sentBy: Sender.jeune,
+          type: MessageType.message,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [
             PieceJointe(
               "id-pj-343",
               "nom-secretement-chiffré-déchiffré",
@@ -177,15 +177,15 @@ void main() {
         expect(
             message,
             Message(
-              "uid",
-              "toto-chiffré-déchiffré",
-              DateTime(2021, 7, 30, 9, 43, 9),
-              Sender.jeune,
-              MessageType.offre,
-              MessageSendingStatus.sent,
-              MessageContentStatus.content,
-              [],
-              Offre(
+              id: "uid",
+              content: "toto-chiffré-déchiffré",
+              creationDate: DateTime(2021, 7, 30, 9, 43, 9),
+              sentBy: Sender.jeune,
+              type: MessageType.offre,
+              sendingStatus: MessageSendingStatus.sent,
+              contentStatus: MessageContentStatus.content,
+              pieceJointes: [],
+              offre: Offre(
                 "343",
                 "Chevalier",
                 offreType,
@@ -230,16 +230,15 @@ void main() {
         expect(
             message,
             Message(
-              "uid",
-              "toto-chiffré-déchiffré",
-              DateTime(2021, 7, 30, 9, 43, 9),
-              Sender.jeune,
-              MessageType.event,
-              MessageSendingStatus.sent,
-              MessageContentStatus.content,
-              [],
-              null,
-              Event(
+              id: "uid",
+              content: "toto-chiffré-déchiffré",
+              creationDate: DateTime(2021, 7, 30, 9, 43, 9),
+              sentBy: Sender.jeune,
+              type: MessageType.event,
+              sendingStatus: MessageSendingStatus.sent,
+              contentStatus: MessageContentStatus.content,
+              pieceJointes: [],
+              event: Event(
                 id: "343",
                 titre: "Chevalier",
                 type: rdvType,
@@ -283,17 +282,15 @@ void main() {
       expect(
           message,
           Message(
-            "uid",
-            "toto-chiffré-déchiffré",
-            DateTime(2022, 7, 30, 9, 43, 9),
-            Sender.jeune,
-            MessageType.evenementEmploi,
-            MessageSendingStatus.sent,
-            MessageContentStatus.content,
-            [],
-            null,
-            null,
-            ChatEvenementEmploi(
+            id: "uid",
+            content: "toto-chiffré-déchiffré",
+            creationDate: DateTime(2022, 7, 30, 9, 43, 9),
+            sentBy: Sender.jeune,
+            type: MessageType.evenementEmploi,
+            sendingStatus: MessageSendingStatus.sent,
+            contentStatus: MessageContentStatus.content,
+            pieceJointes: [],
+            evenementEmploi: ChatEvenementEmploi(
               "343",
               "Salon de l'emploi",
               "https://www.mon-url.fr",

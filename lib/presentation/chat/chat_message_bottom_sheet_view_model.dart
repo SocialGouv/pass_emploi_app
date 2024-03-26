@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
+// TODO: test me
 class ChatMessageBottomSheetViewModel extends Equatable {
   final String content;
   final bool withDeleteOption;
@@ -22,7 +24,7 @@ class ChatMessageBottomSheetViewModel extends Equatable {
     return ChatMessageBottomSheetViewModel(
       content: _content(message),
       withDeleteOption: _withDeleteOption(message),
-      onDelete: () {}, // TODO:
+      onDelete: () => store.dispatch(DeleteMessageAction(message)),
     );
   }
 

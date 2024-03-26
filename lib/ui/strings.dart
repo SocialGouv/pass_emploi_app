@@ -106,6 +106,7 @@ class Strings {
       "Obtenez les informations que vous recherchez en contactant directement votre conseiller";
 
   static String chatCopyMessage = "Copier";
+  static String chatDeleteMessage = "Supprimer";
 
   // Force Update
   static String updateTitle = "Mise à jour";

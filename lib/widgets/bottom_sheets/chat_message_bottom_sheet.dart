@@ -38,6 +38,7 @@ class ChatMessageBottomSheet extends StatelessWidget {
                   children: [
                     Divider(color: AppColors.grey100),
                     _CopyMessageButton(viewModel.content),
+                    if (viewModel.withDeleteOption) _DeleteMessageButton(viewModel.onDelete),
                   ],
                 ),
               ),
@@ -56,9 +57,27 @@ class _CopyMessageButton extends StatelessWidget {
     return _ChatBottomSheetButton(
       icon: AppIcons.content_copy_rounded,
       text: Strings.chatCopyMessage,
-      onPressed: () async {
-        await Clipboard.setData(ClipboardData(text: text));
-        Navigator.pop(context);
+      onPressed: () {
+        Clipboard.setData(ClipboardData(text: text)) //
+            .then((value) => Navigator.pop(context));
+      },
+    );
+  }
+}
+
+class _DeleteMessageButton extends StatelessWidget {
+  const _DeleteMessageButton(this.onDelete);
+  final void Function() onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    return _ChatBottomSheetButton(
+      icon: AppIcons.delete,
+      text: Strings.chatDeleteMessage,
+      color: AppColors.warning,
+      onPressed: () {
+        onDelete();
+        Future.delayed(Duration.zero, () => Navigator.pop(context));
       },
     );
   }
@@ -69,16 +88,18 @@ class _ChatBottomSheetButton extends StatelessWidget {
     required this.icon,
     required this.text,
     required this.onPressed,
+    this.color,
   });
   final IconData icon;
   final String text;
   final VoidCallback onPressed;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon),
-      title: Text(text, style: TextStyles.textBaseBold),
+      leading: Icon(icon, color: color),
+      title: Text(text, style: TextStyles.textBaseBold.copyWith(color: color)),
       onTap: onPressed,
     );
   }

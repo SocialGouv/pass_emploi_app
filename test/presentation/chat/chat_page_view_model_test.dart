@@ -45,54 +45,54 @@ void main() {
     // Given
     final messages = [
       Message(
-        "id1",
-        '1',
-        DateTime(2021, 1, 1, 12, 30),
-        Sender.jeune,
-        MessageType.message,
-        MessageSendingStatus.sent,
-        MessageContentStatus.content,
-        [],
+        id: "id1",
+        content: '1',
+        creationDate: DateTime(2021, 1, 1, 12, 30),
+        sentBy: Sender.jeune,
+        type: MessageType.message,
+        sendingStatus: MessageSendingStatus.sent,
+        contentStatus: MessageContentStatus.content,
+        pieceJointes: [],
       ),
       Message(
-        "id2",
-        '2',
-        DateTime(2021, 1, 1, 15, 30),
-        Sender.conseiller,
-        MessageType.message,
-        MessageSendingStatus.sent,
-        MessageContentStatus.content,
-        [],
+        id: "id2",
+        content: '2',
+        creationDate: DateTime(2021, 1, 1, 15, 30),
+        sentBy: Sender.conseiller,
+        type: MessageType.message,
+        sendingStatus: MessageSendingStatus.sent,
+        contentStatus: MessageContentStatus.content,
+        pieceJointes: [],
       ),
       Message(
-        "id3",
-        '3',
-        DateTime(2021, 1, 2, 16, 00),
-        Sender.jeune,
-        MessageType.message,
-        MessageSendingStatus.sent,
-        MessageContentStatus.content,
-        [],
+        id: "id3",
+        content: '3',
+        creationDate: DateTime(2021, 1, 2, 16, 00),
+        sentBy: Sender.jeune,
+        type: MessageType.message,
+        sendingStatus: MessageSendingStatus.sent,
+        contentStatus: MessageContentStatus.content,
+        pieceJointes: [],
       ),
       Message(
-        "id4",
-        '4',
-        DateTime(2021, 1, 2, 18, 30),
-        Sender.conseiller,
-        MessageType.message,
-        MessageSendingStatus.sent,
-        MessageContentStatus.content,
-        [],
+        id: "id4",
+        content: '4',
+        creationDate: DateTime(2021, 1, 2, 18, 30),
+        sentBy: Sender.conseiller,
+        type: MessageType.message,
+        sendingStatus: MessageSendingStatus.sent,
+        contentStatus: MessageContentStatus.content,
+        pieceJointes: [],
       ),
       Message(
-        "id5",
-        '5',
-        todayAtNoon,
-        Sender.jeune,
-        MessageType.message,
-        MessageSendingStatus.sent,
-        MessageContentStatus.content,
-        [],
+        id: "id5",
+        content: '5',
+        creationDate: todayAtNoon,
+        sentBy: Sender.jeune,
+        type: MessageType.message,
+        sendingStatus: MessageSendingStatus.sent,
+        contentStatus: MessageContentStatus.content,
+        pieceJointes: [],
       ),
     ];
 
@@ -148,14 +148,14 @@ void main() {
   test('should display piece jointe from conseiller', () {
     // Given
     final message = Message(
-      "uid",
-      'Une PJ',
-      todayAtNoon,
-      Sender.conseiller,
-      MessageType.messagePj,
-      MessageSendingStatus.sent,
-      MessageContentStatus.content,
-      [PieceJointe("id-1", "super.pdf")],
+      id: "uid",
+      content: 'Une PJ',
+      creationDate: todayAtNoon,
+      sentBy: Sender.conseiller,
+      type: MessageType.messagePj,
+      sendingStatus: MessageSendingStatus.sent,
+      contentStatus: MessageContentStatus.content,
+      pieceJointes: [PieceJointe("id-1", "super.pdf")],
     );
 
     final store = givenState()
@@ -190,15 +190,15 @@ void main() {
       // Given
       final messages = [
         Message(
-          "uid",
-          'Super offre',
-          todayAtNoon,
-          Sender.jeune,
-          MessageType.offre,
-          MessageSendingStatus.sent,
-          MessageContentStatus.content,
-          [],
-          Offre(
+          id: "uid",
+          content: 'Super offre',
+          creationDate: todayAtNoon,
+          sentBy: Sender.jeune,
+          type: MessageType.offre,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [],
+          offre: Offre(
             "343",
             "Chevalier",
             OffreType.emploi,
@@ -230,15 +230,15 @@ void main() {
       // Given
       final messages = [
         Message(
-          "uid",
-          'Super offre',
-          todayAtNoon,
-          Sender.conseiller,
-          MessageType.offre,
-          MessageSendingStatus.sent,
-          MessageContentStatus.content,
-          [],
-          Offre("343", "Chevalier", OffreType.emploi),
+          id: "uid",
+          content: 'Super offre',
+          creationDate: todayAtNoon,
+          sentBy: Sender.conseiller,
+          type: MessageType.offre,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [],
+          offre: Offre("343", "Chevalier", OffreType.emploi),
         )
       ];
       final store = givenState().chatSuccess(messages).store();
@@ -268,18 +268,15 @@ void main() {
       // Given
       final messages = [
         Message(
-          "uid",
-          'Super session milo',
-          todayAtNoon,
-          Sender.jeune,
-          MessageType.sessionMilo,
-          MessageSendingStatus.sent,
-          MessageContentStatus.content,
-          [],
-          null,
-          null,
-          null,
-          ChatSessionMilo("id-1", "Salon de l'emploi"),
+          id: "uid",
+          content: 'Super session milo',
+          creationDate: todayAtNoon,
+          sentBy: Sender.jeune,
+          type: MessageType.sessionMilo,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [],
+          sessionMilo: ChatSessionMilo("id-1", "Salon de l'emploi"),
         ),
       ];
 
@@ -307,18 +304,15 @@ void main() {
       // Given
       final messages = [
         Message(
-          "uid",
-          'Super session milo',
-          todayAtNoon,
-          Sender.conseiller,
-          MessageType.sessionMilo,
-          MessageSendingStatus.sent,
-          MessageContentStatus.content,
-          [],
-          null,
-          null,
-          null,
-          ChatSessionMilo("id-1", "Salon de l'emploi"),
+          id: "uid",
+          content: 'Super session milo',
+          creationDate: todayAtNoon,
+          sentBy: Sender.conseiller,
+          type: MessageType.sessionMilo,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [],
+          sessionMilo: ChatSessionMilo("id-1", "Salon de l'emploi"),
         ),
       ];
 
@@ -348,16 +342,15 @@ void main() {
       // Given
       final messages = [
         Message(
-          "uid",
-          'Super event',
-          todayAtNoon,
-          Sender.jeune,
-          MessageType.event,
-          MessageSendingStatus.sent,
-          MessageContentStatus.content,
-          [],
-          null,
-          Event(
+          id: "uid",
+          content: 'Super event',
+          creationDate: todayAtNoon,
+          sentBy: Sender.jeune,
+          type: MessageType.event,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [],
+          event: Event(
             id: "id-1",
             type: RendezvousTypeCode.ATELIER,
             titre: "atelier catapulte",
@@ -388,16 +381,15 @@ void main() {
       // Given
       final messages = [
         Message(
-          "uid",
-          'Super event',
-          todayAtNoon,
-          Sender.conseiller,
-          MessageType.event,
-          MessageSendingStatus.sent,
-          MessageContentStatus.content,
-          [],
-          null,
-          Event(
+          id: "uid",
+          content: 'Super event',
+          creationDate: todayAtNoon,
+          sentBy: Sender.conseiller,
+          type: MessageType.event,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [],
+          event: Event(
             id: "id-1",
             type: RendezvousTypeCode.ATELIER,
             titre: "atelier catapulte",
@@ -430,17 +422,15 @@ void main() {
       // Given
       final messages = [
         Message(
-          "uid",
-          'Super evenement emploi',
-          todayAtNoon,
-          Sender.jeune,
-          MessageType.evenementEmploi,
-          MessageSendingStatus.sent,
-          MessageContentStatus.content,
-          [],
-          null,
-          null,
-          ChatEvenementEmploi("oinzinfz98dqz", "Salon de l'emploi", "https://www.salondelemploi.fr"),
+          id: "uid",
+          content: 'Super evenement emploi',
+          creationDate: todayAtNoon,
+          sentBy: Sender.jeune,
+          type: MessageType.evenementEmploi,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [],
+          evenementEmploi: ChatEvenementEmploi("oinzinfz98dqz", "Salon de l'emploi", "https://www.salondelemploi.fr"),
         ),
       ];
       final store = givenState().chatSuccess(messages).store();
@@ -467,17 +457,15 @@ void main() {
       // Given
       final messages = [
         Message(
-          "uid",
-          'Super evenement emploi',
-          todayAtNoon,
-          Sender.conseiller,
-          MessageType.evenementEmploi,
-          MessageSendingStatus.sent,
-          MessageContentStatus.content,
-          [],
-          null,
-          null,
-          ChatEvenementEmploi("oinzinfz98dqz", "Salon de l'emploi", "https://www.salondelemploi.fr"),
+          id: "uid",
+          content: 'Super evenement emploi',
+          creationDate: todayAtNoon,
+          sentBy: Sender.conseiller,
+          type: MessageType.evenementEmploi,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [],
+          evenementEmploi: ChatEvenementEmploi("oinzinfz98dqz", "Salon de l'emploi", "https://www.salondelemploi.fr"),
         ),
       ];
       final store = givenState().chatSuccess(messages).store();
@@ -507,14 +495,14 @@ void main() {
       chatState: ChatSuccessState(
         [
           Message(
-            "uid",
-            'Jean-Paul',
-            DateTime(2021, 1, 1, 12, 30),
-            Sender.conseiller,
-            MessageType.nouveauConseiller,
-            MessageSendingStatus.sent,
-            MessageContentStatus.content,
-            [],
+            id: "uid",
+            content: 'Jean-Paul',
+            creationDate: DateTime(2021, 1, 1, 12, 30),
+            sentBy: Sender.conseiller,
+            type: MessageType.nouveauConseiller,
+            sendingStatus: MessageSendingStatus.sent,
+            contentStatus: MessageContentStatus.content,
+            pieceJointes: [],
           )
         ],
       ),
@@ -538,14 +526,14 @@ void main() {
       chatState: ChatSuccessState(
         [
           Message(
-            "uid",
-            'Jean',
-            DateTime(2021, 1, 1, 12, 30),
-            Sender.conseiller,
-            MessageType.nouveauConseillerTemporaire,
-            MessageSendingStatus.sent,
-            MessageContentStatus.content,
-            [],
+            id: "uid",
+            content: 'Jean',
+            creationDate: DateTime(2021, 1, 1, 12, 30),
+            sentBy: Sender.conseiller,
+            type: MessageType.nouveauConseillerTemporaire,
+            sendingStatus: MessageSendingStatus.sent,
+            contentStatus: MessageContentStatus.content,
+            pieceJointes: [],
           )
         ],
       ),
@@ -570,14 +558,14 @@ void main() {
       chatState: ChatSuccessState(
         [
           Message(
-            "uid",
-            'Jean-Paul',
-            DateTime(2021, 1, 1, 12, 30),
-            Sender.conseiller,
-            MessageType.inconnu,
-            MessageSendingStatus.sent,
-            MessageContentStatus.content,
-            [],
+            id: "uid",
+            content: 'Jean-Paul',
+            creationDate: DateTime(2021, 1, 1, 12, 30),
+            sentBy: Sender.conseiller,
+            type: MessageType.inconnu,
+            sendingStatus: MessageSendingStatus.sent,
+            contentStatus: MessageContentStatus.content,
+            pieceJointes: [],
           )
         ],
       ),
@@ -603,14 +591,14 @@ void main() {
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState([
         Message(
-          "uid",
-          'PJ',
-          DateTime(2021, 1, 1, 12, 30),
-          Sender.jeune,
-          MessageType.messagePj,
-          MessageSendingStatus.sent,
-          MessageContentStatus.content,
-          [PieceJointe("1", "a.pdf")],
+          id: "uid",
+          content: 'PJ',
+          creationDate: DateTime(2021, 1, 1, 12, 30),
+          sentBy: Sender.jeune,
+          type: MessageType.messagePj,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [PieceJointe("1", "a.pdf")],
         ),
       ]),
     );
@@ -706,12 +694,12 @@ void main() {
 }
 
 Message _messageWithStatus(MessageSendingStatus status) => Message(
-      "uid",
-      '1',
-      DateTime(2023, 10, 31),
-      Sender.jeune,
-      MessageType.message,
-      status,
-      MessageContentStatus.content,
-      [],
+      id: "uid",
+      content: '1',
+      creationDate: DateTime(2023, 10, 31),
+      sentBy: Sender.jeune,
+      type: MessageType.message,
+      sendingStatus: status,
+      contentStatus: MessageContentStatus.content,
+      pieceJointes: [],
     );

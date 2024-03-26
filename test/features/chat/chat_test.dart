@@ -491,27 +491,27 @@ StateIs<ChatSuccessState> _stateIsChatSuccessStateOfMessageStatus(MessageSending
 
 Message _mockMessage([String id = '1']) {
   return Message(
-    "uid",
-    "content $id",
-    DateTime.utc(2022, 1, 1),
-    Sender.conseiller,
-    MessageType.message,
-    MessageSendingStatus.sent,
-    MessageContentStatus.content,
-    [],
+    id: "uid",
+    content: "content $id",
+    creationDate: DateTime.utc(2022, 1, 1),
+    sentBy: Sender.conseiller,
+    type: MessageType.message,
+    sendingStatus: MessageSendingStatus.sent,
+    contentStatus: MessageContentStatus.content,
+    pieceJointes: [],
   );
 }
 
 Message _message(int date) {
   return Message(
-    "uid $date",
-    "content $date",
-    DateTime.utc(date),
-    Sender.conseiller,
-    MessageType.message,
-    MessageSendingStatus.sent,
-    MessageContentStatus.content,
-    [],
+    id: "uid $date",
+    content: "content $date",
+    creationDate: DateTime.utc(date),
+    sentBy: Sender.conseiller,
+    type: MessageType.message,
+    sendingStatus: MessageSendingStatus.sent,
+    contentStatus: MessageContentStatus.content,
+    pieceJointes: [],
   );
 }
 

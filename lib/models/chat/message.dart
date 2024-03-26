@@ -23,7 +23,17 @@ enum OffreType { emploi, alternance, immersion, civique, inconnu }
 
 enum MessageSendingStatus { sent, sending, failed }
 
-enum MessageContentStatus { content, deleted, edited }
+enum MessageContentStatus {
+  content,
+  deleted,
+  edited;
+
+  String get toJson => switch (this) {
+        MessageContentStatus.content => "content",
+        MessageContentStatus.deleted => "deleted",
+        MessageContentStatus.edited => "edited",
+      };
+}
 
 class Message extends Equatable {
   final String id;
@@ -39,31 +49,31 @@ class Message extends Equatable {
   final MessageSendingStatus sendingStatus;
   final MessageContentStatus contentStatus;
 
-  Message(
-    this.id,
-    this.content,
-    this.creationDate,
-    this.sentBy,
-    this.type,
-    this.sendingStatus,
-    this.contentStatus,
-    this.pieceJointes, [
+  Message({
+    required this.id,
+    required this.content,
+    required this.creationDate,
+    required this.sentBy,
+    required this.type,
+    required this.sendingStatus,
+    required this.contentStatus,
+    required this.pieceJointes,
     this.offre,
     this.event,
     this.evenementEmploi,
     this.sessionMilo,
-  ]);
+  });
 
   factory Message.fromText(String text) {
     return Message(
-      Uuid().v1(),
-      text,
-      DateTime.now(),
-      Sender.jeune,
-      MessageType.message,
-      MessageSendingStatus.sending,
-      MessageContentStatus.content,
-      [],
+      id: Uuid().v1(),
+      content: text,
+      creationDate: DateTime.now(),
+      sentBy: Sender.jeune,
+      type: MessageType.message,
+      sendingStatus: MessageSendingStatus.sending,
+      contentStatus: MessageContentStatus.content,
+      pieceJointes: [],
     );
   }
 
@@ -82,18 +92,18 @@ class Message extends Equatable {
     MessageContentStatus? contentStatus,
   }) {
     return Message(
-      id ?? this.id,
-      content ?? this.content,
-      creationDate ?? this.creationDate,
-      sentBy ?? this.sentBy,
-      type ?? this.type,
-      sendingStatus ?? this.sendingStatus,
-      contentStatus ?? this.contentStatus,
-      pieceJointes ?? this.pieceJointes,
-      offre ?? this.offre,
-      event ?? this.event,
-      evenementEmploi ?? this.evenementEmploi,
-      sessionMilo ?? this.sessionMilo,
+      id: id ?? this.id,
+      content: content ?? this.content,
+      creationDate: creationDate ?? this.creationDate,
+      sentBy: sentBy ?? this.sentBy,
+      type: type ?? this.type,
+      sendingStatus: sendingStatus ?? this.sendingStatus,
+      contentStatus: contentStatus ?? this.contentStatus,
+      pieceJointes: pieceJointes ?? this.pieceJointes,
+      offre: offre ?? this.offre,
+      event: event ?? this.event,
+      evenementEmploi: evenementEmploi ?? this.evenementEmploi,
+      sessionMilo: sessionMilo ?? this.sessionMilo,
     );
   }
 
@@ -103,18 +113,18 @@ class Message extends Equatable {
     final content = _content(json, chatCrypto, crashlytics);
     if (content == null) return null;
     return Message(
-      id,
-      content,
-      creationDate,
-      json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
-      _type(json),
-      MessageSendingStatus.sent,
-      _contentStatus(json),
-      _pieceJointes(json, chatCrypto, crashlytics),
-      _offre(json),
-      _event(json),
-      _evenementEmploi(json),
-      _sessionMilo(json),
+      id: id,
+      content: content,
+      creationDate: creationDate,
+      sentBy: json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
+      type: _type(json),
+      sendingStatus: MessageSendingStatus.sent,
+      contentStatus: _contentStatus(json),
+      pieceJointes: _pieceJointes(json, chatCrypto, crashlytics),
+      offre: _offre(json),
+      event: _event(json),
+      evenementEmploi: _evenementEmploi(json),
+      sessionMilo: _sessionMilo(json),
     );
   }
 

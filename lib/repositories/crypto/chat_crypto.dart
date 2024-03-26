@@ -25,6 +25,15 @@ class ChatCrypto {
     );
   }
 
+  String encryptWithIv(String plainText, String initializationVector) {
+    final encrypter = _encrypter;
+    if (encrypter == null) {
+      _store?.dispatch(TryConnectChatAgainAction());
+      throw Exception("Trying to encrypt without a key.");
+    }
+    return encrypter.encrypt(plainText, iv: IV.fromBase64(initializationVector)).base64;
+  }
+
   String decrypt(EncryptedTextWithIv encrypted) {
     final encrypter = _encrypter;
     if (encrypter == null) {

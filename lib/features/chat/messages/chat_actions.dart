@@ -25,6 +25,12 @@ class SendMessageAction {
   SendMessageAction(this.message);
 }
 
+class DeleteMessageAction {
+  final Message message;
+
+  DeleteMessageAction(this.message);
+}
+
 class ChatPartagerOffreAction {
   final OffrePartagee offre;
 
