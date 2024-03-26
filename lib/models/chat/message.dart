@@ -37,6 +37,7 @@ enum MessageContentStatus {
 
 class Message extends Equatable {
   final String id;
+  final String? iv;
   final String content;
   final DateTime creationDate;
   final Sender sentBy;
@@ -51,6 +52,7 @@ class Message extends Equatable {
 
   Message({
     required this.id,
+    this.iv,
     required this.content,
     required this.creationDate,
     required this.sentBy,
@@ -79,6 +81,7 @@ class Message extends Equatable {
 
   Message copyWith({
     String? id,
+    String? iv,
     String? content,
     DateTime? creationDate,
     Sender? sentBy,
@@ -93,6 +96,7 @@ class Message extends Equatable {
   }) {
     return Message(
       id: id ?? this.id,
+      iv: iv ?? this.iv,
       content: content ?? this.content,
       creationDate: creationDate ?? this.creationDate,
       sentBy: sentBy ?? this.sentBy,
@@ -114,6 +118,7 @@ class Message extends Equatable {
     if (content == null) return null;
     return Message(
       id: id,
+      iv: json['iv'] as String,
       content: content,
       creationDate: creationDate,
       sentBy: json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,

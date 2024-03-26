@@ -143,7 +143,7 @@ class ChatRepository {
     final chatDocumentId = await _getChatDocumentId(userId);
     if (chatDocumentId == null) return false;
 
-    const iv = "message.iv"; // TODO: add iv to message
+    final iv = message.iv ?? "";
     final encryptedNewMessage = _chatCrypto.encryptWithIv(content, iv);
 
     final encryptedOldMessage = _chatCrypto.encryptWithIv(message.content, iv);

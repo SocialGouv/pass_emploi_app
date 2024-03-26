@@ -38,7 +38,7 @@ class ChatMessageBottomSheet extends StatelessWidget {
                   children: [
                     Divider(color: AppColors.grey100),
                     _CopyMessageButton(viewModel.content),
-                    if (viewModel.withDeleteOption) _DeleteMessageButton(viewModel.onDelete),
+                    _DeleteMessageButton(viewModel.onDelete),
                   ],
                 ),
               ),
