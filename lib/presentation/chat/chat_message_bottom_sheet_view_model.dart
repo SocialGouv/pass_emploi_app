@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-// TODO: test me
 class ChatMessageBottomSheetViewModel extends Equatable {
   final String content;
   final bool withDeleteOption;
