@@ -61,6 +61,11 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       return DayItem(element);
     } else {
       final message = element as Message;
+
+      if (message.contentStatus == MessageContentStatus.deleted) {
+        return _deletedMessageItem(message);
+      }
+
       return switch (message.type) {
         MessageType.message => _buildMessageItem(message, lastConseillerReading),
         MessageType.nouveauConseiller => InformationItem(Strings.newConseillerTitle, Strings.newConseillerDescription),
@@ -77,6 +82,10 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       };
     }
   }).toList();
+}
+
+ChatItem _deletedMessageItem(Message message) {
+  return DeletedMessageItem(message.id, message.sentBy == Sender.jeune);
 }
 
 ChatItem _sessionMiloItem(Message message, DateTime lastConseillerReading) {

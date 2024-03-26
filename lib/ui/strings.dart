@@ -108,6 +108,8 @@ class Strings {
   static String chatCopyMessage = "Copier";
   static String chatDeleteMessage = "Supprimer";
 
+  static String chatDeletedMessage = "Message supprimé";
+
   // Force Update
   static String updateTitle = "Mise à jour";
   static String updateButton = "Mettre à jour";

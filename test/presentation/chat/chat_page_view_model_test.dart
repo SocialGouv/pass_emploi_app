@@ -45,6 +45,16 @@ void main() {
     // Given
     final messages = [
       Message(
+        id: "id0",
+        content: '1',
+        creationDate: DateTime(2021, 1, 1, 11, 30),
+        sentBy: Sender.jeune,
+        type: MessageType.message,
+        sendingStatus: MessageSendingStatus.sent,
+        contentStatus: MessageContentStatus.deleted,
+        pieceJointes: [],
+      ),
+      Message(
         id: "id1",
         content: '1',
         creationDate: DateTime(2021, 1, 1, 12, 30),
@@ -113,6 +123,7 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Le 01/01/2021'),
+      DeletedMessageItem("id0", true),
       TextMessageItem(messageId: "id1", content: '1', caption: '12:30 · Lu', sender: Sender.jeune),
       TextMessageItem(messageId: "id2", content: '2', caption: '15:30', sender: Sender.conseiller),
       DayItem('Le 02/01/2021'),

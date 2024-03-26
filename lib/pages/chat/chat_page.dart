@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/chat_message_bottom_sheet.
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_deleted_message.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_scaffold.dart';
@@ -135,6 +136,7 @@ extension on ChatItem {
         final TextMessageItem item => ChatMessageBottomSheet.show(context, item),
         final PieceJointeConseillerMessageItem item => ChatMessageBottomSheet.show(context, item),
         final PartageMessageItem item => ChatMessageBottomSheet.show(context, item),
+        DeletedMessageItem() => null,
         InformationItem() => null,
         DayItem() => null,
       },
@@ -142,6 +144,7 @@ extension on ChatItem {
         final DayItem item => ChatDaySection(dayLabel: item.dayLabel),
         final TextMessageItem item => ChatTextMessage(item.toParams()),
         final InformationItem item => ChatInformation(item.title, item.description),
+        final DeletedMessageItem item => DeletedMessage(item),
         final PieceJointeConseillerMessageItem item => ChatPieceJointe(item.toParams()),
         final PartageMessageItem item => PartageMessage(item),
       },

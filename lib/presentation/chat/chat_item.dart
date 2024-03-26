@@ -32,6 +32,15 @@ class InformationItem extends ChatItem {
   List<Object?> get props => [messageId, title, description];
 }
 
+class DeletedMessageItem extends ChatItem {
+  DeletedMessageItem(super.messageId, this.isMyMessage);
+
+  final bool isMyMessage;
+
+  @override
+  List<Object?> get props => [messageId];
+}
+
 sealed class MessageItem extends ChatItem {
   final String content;
   final String caption;
