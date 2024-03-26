@@ -18,23 +18,20 @@ dependencies:
   collection: "1.18.0"
   equatable: "2.0.5"
   synchronized: "3.1.0+1"
-  uuid: "3.0.7"
+  uuid: "3.0.7" # Bump to 4.3.3 or greater when matomo_tracker > 4.1.1 is published.
   clock: "1.1.1"
   # Dio
   dio: "5.3.4"
   dio_cache_interceptor: "3.4.4"
   dio_cache_interceptor_file_store: "1.2.3"
   # Firebase
-  # firebase_core versions higher than 2.21.0 require iOS Firebase plugins 10.17.0 or higher.
-  # This is problematic since it prevent to use invertase as mentionned in this issue:
-  # https://github.com/invertase/firestore-ios-sdk-frameworks/issues/79
-  firebase_core: "2.21.0"
-  firebase_crashlytics: "3.4.3"
-  firebase_remote_config: "4.3.3"
-  firebase_messaging: "14.7.3"
-  firebase_auth: "4.12.1"
-  firebase_app_installations: "0.2.4+3"
-  cloud_firestore: "4.12.2"
+  firebase_core: "2.27.2"
+  firebase_crashlytics: "3.4.20"
+  firebase_remote_config: "4.3.19"
+  firebase_messaging: "14.7.21"
+  firebase_auth: "4.18.0"
+  firebase_app_installations: "0.2.4+19"
+  cloud_firestore: "4.15.10"
   # UI
   flutter_svg: "2.0.10+1"
   smooth_page_indicator: "1.1.0"
@@ -59,10 +56,10 @@ dependencies:
   flutter_redux: "0.10.0"
   redux: "5.0.0"
   flutter_dotenv: "5.1.0"
-  package_info_plus: "5.0.1"
-  encrypt: "5.0.1" # Versions 5.0.3 make 1 test crash
-  matomo_tracker: "4.1.1"
+  package_info_plus: "4.2.0" # Bump to 6.0.0 or greater when matomo_tracker > 4.1.1 is published.
+  encrypt: "5.0.1" # Version 5.0.3 makes 1 test crash
   logger: "2.0.2+1"
+  matomo_tracker: "4.1.1"
 
 dev_dependencies:
   flutter_test:

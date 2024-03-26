@@ -10,7 +10,6 @@ import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pass_emploi_app/auth/auth_access_checker.dart';
 import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
@@ -99,6 +98,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
+import 'package:pass_emploi_app/wrappers/package_info_wrapper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -147,9 +147,8 @@ class AppInitializer {
 
   Future<bool> _shouldForceUpdate(FirebaseRemoteConfig? remoteConfig) async {
     if (remoteConfig == null) return false;
-    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final minimumVersionKey = Platform.isAndroid ? 'app_android_min_required_version' : 'app_ios_min_required_version';
-    final currentVersion = packageInfo.version;
+    final currentVersion = await PackageInfoWrapper.getVersion();
     final minimumVersion = remoteConfig.getString(minimumVersionKey);
     return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
   }

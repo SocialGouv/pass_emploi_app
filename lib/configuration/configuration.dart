@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/utils/log.dart';
+import 'package:pass_emploi_app/wrappers/package_info_wrapper.dart';
 
 enum Flavor { STAGING, PROD }
 
@@ -54,9 +54,8 @@ class Configuration extends Equatable {
   );
 
   static Future<Configuration> build() async {
-    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    final currentVersion = Version.fromString(packageInfo.version);
-    final packageName = packageInfo.packageName;
+    final currentVersion = Version.fromString(await PackageInfoWrapper.getVersion());
+    final packageName = await PackageInfoWrapper.getPackageName();
     final flavor = packageName.contains("staging") ? Flavor.STAGING : Flavor.PROD;
     Log.i("Flavor = $flavor");
     await loadEnvironmentVariables(flavor);

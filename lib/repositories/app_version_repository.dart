@@ -1,4 +1,4 @@
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:pass_emploi_app/wrappers/package_info_wrapper.dart';
 
 class AppVersionRepository {
   String? _appVersion;
@@ -8,7 +8,7 @@ class AppVersionRepository {
     if (appVersionCopy != null) {
       return appVersionCopy;
     } else {
-      final appVersion = (await PackageInfo.fromPlatform()).version;
+      final appVersion = await PackageInfoWrapper.getVersion();
       _appVersion = appVersion;
       return appVersion;
     }
