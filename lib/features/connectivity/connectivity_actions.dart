@@ -5,7 +5,7 @@ class SubscribeToConnectivityUpdatesAction {}
 class UnsubscribeFromConnectivityUpdatesAction {}
 
 class ConnectivityUpdatedAction {
-  final ConnectivityResult result;
+  final List<ConnectivityResult> results;
 
-  ConnectivityUpdatedAction(this.result);
+  ConnectivityUpdatedAction(this.results);
 }

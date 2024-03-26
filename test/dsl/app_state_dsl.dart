@@ -816,7 +816,7 @@ extension AppStateDSL on AppState {
   }
 
   AppState withConnectivity(ConnectivityResult result) {
-    return copyWith(connectivityState: ConnectivityState.fromResult(result));
+    return copyWith(connectivityState: ConnectivityState.fromResults([result]));
   }
 
   AppState withOnboardingSuccessState(Onboarding onboarding) {

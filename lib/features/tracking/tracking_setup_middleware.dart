@@ -1,8 +1,8 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_actions.dart';
+import 'package:pass_emploi_app/features/connectivity/connectivity_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -41,22 +41,18 @@ class TrackingSetupMiddleware extends MiddlewareClass<AppState> {
   void _trackConnexionStatus(Store<AppState> store, ConnectivityUpdatedAction action) {
     final configuration = store.state.configurationState.configuration;
     if (configuration != null) {
-      final isConnected = action.result != ConnectivityResult.none;
-      _tracker.setDimension(configuration.matomoDimensionAvecConnexionId, isConnected.toString());
+      final isOnline = action.results.isOnline();
+      _tracker.setDimension(configuration.matomoDimensionAvecConnexionId, isOnline.toString());
     }
   }
 
   String _getStructureName(LoginMode loginMode) {
-    switch (loginMode) {
-      case LoginMode.MILO:
-        return "Mission Locale";
-      case LoginMode.POLE_EMPLOI:
-        return "Pôle emploi";
-      case LoginMode.PASS_EMPLOI:
-        return "pass emploi";
-      case LoginMode.DEMO_PE:
-      case LoginMode.DEMO_MILO:
-        return "Mode demo";
-    }
+    return switch (loginMode) {
+      LoginMode.MILO => "Mission Locale",
+      LoginMode.POLE_EMPLOI => "Pôle emploi",
+      LoginMode.PASS_EMPLOI => "pass emploi",
+      LoginMode.DEMO_PE => "Mode demo",
+      LoginMode.DEMO_MILO => "Mode demo",
+    };
   }
 }

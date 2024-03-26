@@ -54,7 +54,7 @@ dependencies:
   open_filex: "4.3.4"
   in_app_review: "2.0.8"
   flutter_timezone: "1.0.8"
-  connectivity_plus: "4.0.2" # Versions >= 5.0.0 require iOS 12 or higher
+  connectivity_plus: "6.0.1"
   # Others
   flutter_redux: "0.10.0"
   redux: "5.0.0"

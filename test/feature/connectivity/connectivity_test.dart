@@ -21,18 +21,18 @@ void main() {
 
       test('should receive connectivity updates and change state accordingly', () async {
         // Given
-        final controller = StreamController<ConnectivityResult>();
+        final controller = StreamController<List<ConnectivityResult>>();
         sut.givenStore = givenState() //
             .loggedInUser()
             .store((f) => {f.connectivityWrapper = ConnectivityWrapper(controller.stream)});
 
         // When
-        controller.sink.add(ConnectivityResult.wifi);
+        controller.sink.add([ConnectivityResult.wifi]);
 
         // Then
         sut.thenExpectChangingStatesThroughOrder([
-          _shouldHaveConnectivity(ConnectivityResult.none),
-          _shouldHaveConnectivity(ConnectivityResult.wifi),
+          _shouldHaveConnectivity([]),
+          _shouldHaveConnectivity([ConnectivityResult.wifi]),
         ]);
       });
     });
@@ -55,9 +55,9 @@ void main() {
   });
 }
 
-Matcher _shouldHaveConnectivity(ConnectivityResult result) {
+Matcher _shouldHaveConnectivity(List<ConnectivityResult> results) {
   return StateIs<ConnectivityState>(
     (state) => state.connectivityState,
-    (state) => expect(state.result, result),
+    (state) => expect(state.results, results),
   );
 }

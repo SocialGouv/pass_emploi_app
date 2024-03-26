@@ -2,24 +2,22 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 
 class ConnectivityState extends Equatable {
-  final ConnectivityResult result;
+  final List<ConnectivityResult> results;
 
   @override
-  List<Object?> get props => [result];
+  List<Object?> get props => [results];
 
-  ConnectivityState._(this.result);
+  ConnectivityState._(this.results);
 
-  factory ConnectivityState.notInitialized() => ConnectivityState._(ConnectivityResult.none);
+  factory ConnectivityState.notInitialized() => ConnectivityState._([]);
 
-  factory ConnectivityState.fromResult(ConnectivityResult result) => ConnectivityState._(result);
+  factory ConnectivityState.fromResults(List<ConnectivityResult> results) => ConnectivityState._(results);
 
-  bool isOnline() => result.isOnline();
+  bool isOnline() => results.isOnline();
 
-  bool isOffline() => result.isOffline();
+  bool isOffline() => !results.isOnline();
 }
 
-extension ConnectivityResultExtension on ConnectivityResult {
-  bool isOnline() => this != ConnectivityResult.none;
-
-  bool isOffline() => !isOnline();
+extension ConnectivityResultExtension on List<ConnectivityResult> {
+  bool isOnline() => !contains(ConnectivityResult.none);
 }
