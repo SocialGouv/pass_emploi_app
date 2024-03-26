@@ -13,16 +13,16 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  intl: any
   # Dart
-  intl: "0.18.1"
   collection: "1.18.0"
   equatable: "2.0.5"
   synchronized: "3.1.0+1"
   uuid: "3.0.7" # Bump to 4.3.3 or greater when matomo_tracker > 4.1.1 is published.
   clock: "1.1.1"
   # Dio
-  dio: "5.3.4"
-  dio_cache_interceptor: "3.4.4"
+  dio: "5.4.2"
+  dio_cache_interceptor: "3.5.0"
   dio_cache_interceptor_file_store: "1.2.3"
   # Firebase
   firebase_core: "2.27.2"
@@ -42,13 +42,13 @@ dependencies:
   dotted_border: "2.1.0"
   flutter_linkify: "6.0.0"
   # Native features
-  webview_flutter: "4.4.2"
+  webview_flutter: "4.7.0"
   flutter_local_notifications: "17.0.0"
   flutter_appauth: "6.0.5"
   flutter_secure_storage: "9.0.0"
   url_launcher: "6.2.5"
-  share_plus: "7.2.1"
-  open_filex: "4.3.4"
+  share_plus: "8.0.2"
+  open_filex: "4.4.0"
   in_app_review: "2.0.9"
   flutter_timezone: "1.0.8"
   connectivity_plus: "6.0.1"
@@ -58,14 +58,14 @@ dependencies:
   flutter_dotenv: "5.1.0"
   package_info_plus: "4.2.0" # Bump to 6.0.0 or greater when matomo_tracker > 4.1.1 is published.
   encrypt: "5.0.1" # Version 5.0.3 makes 1 test crash
-  logger: "2.0.2+1"
+  logger: "2.2.0"
   matomo_tracker: "4.1.1"
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   # Assets generation
-  flutter_native_splash: "2.3.6"
+  flutter_native_splash: "2.4.0"
   flutter_launcher_icons: "0.13.1"
   # Test
   mocktail: "1.0.3"
