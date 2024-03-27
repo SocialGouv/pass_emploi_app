@@ -51,6 +51,11 @@ jobs:
         with:
           varFilePath: ./.github/variables/myvars.env
 
+      - uses: actions/setup-java@v4
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+
       - uses: subosito/flutter-action@v2
         with:
           cache: true

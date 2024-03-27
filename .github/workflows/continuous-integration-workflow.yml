@@ -29,10 +29,7 @@ jobs:
 
       - name: Launch tests
         run: |
-          java --version
-          echo "JAVA_HOME=$JAVA_HOME"
-          flutter doctor -v
-  #          flutter test
+          flutter test
 
   pre-build:
     if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
