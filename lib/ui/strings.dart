@@ -81,6 +81,7 @@ class Strings {
   static String yourMessage = "Votre message…";
   static String yourConseiller = "Votre conseiller";
   static String today = "Aujourd'hui";
+  static String edited = "Modifié";
   static String read = "Lu";
   static String sent = "Envoyé";
   static String sending = "Envoi en cours";

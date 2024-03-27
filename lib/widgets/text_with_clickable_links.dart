@@ -40,7 +40,7 @@ class SelectableTextWithClickableLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SelectableLinkify(
+    return Linkify(
       textScaleFactor: MediaQuery.of(context).textScaler.scale(1.0),
       text: content,
       style: style,

@@ -174,7 +174,9 @@ bool _shouldAnimate(Message message) {
 
 String _caption(Message message, DateTime lastConseillerReading) {
   final hourLabel = message.creationDate.toHour();
-  if (message.sentBy == Sender.jeune) {
+  if (message.contentStatus == MessageContentStatus.edited) {
+    return "$hourLabel · ${Strings.edited}";
+  } else if (message.sentBy == Sender.jeune) {
     final status = switch (message.sendingStatus) {
       MessageSendingStatus.sending => Strings.sending,
       MessageSendingStatus.sent => lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent,
