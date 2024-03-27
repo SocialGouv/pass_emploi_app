@@ -84,7 +84,7 @@ void main() {
       final store = givenState(configuration()).store((f) => f.matomoTracker = tracker);
 
       // When
-      await store.dispatch(ConnectivityUpdatedAction(ConnectivityResult.wifi));
+      await store.dispatch(ConnectivityUpdatedAction([ConnectivityResult.wifi]));
 
       // Then
       verify(() => tracker.setDimension('matomoDimensionAvecConnexionId', 'true')).called(1);
@@ -95,7 +95,7 @@ void main() {
       final store = givenState(configuration()).store((f) => f.matomoTracker = tracker);
 
       // When
-      await store.dispatch(ConnectivityUpdatedAction(ConnectivityResult.none));
+      await store.dispatch(ConnectivityUpdatedAction([ConnectivityResult.none]));
 
       // Then
       verify(() => tracker.setDimension('matomoDimensionAvecConnexionId', 'false')).called(1);

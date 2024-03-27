@@ -26,7 +26,7 @@ class UserActionCreatePendingMiddleware extends MiddlewareClass<AppState> {
       final pendingCreationsCount = await _pendingCreationRepository.save(action.request);
       store.dispatch(UserActionCreatePendingAction(pendingCreationsCount));
     }
-    if (action is ConnectivityUpdatedAction && action.result.isOnline()) {
+    if (action is ConnectivityUpdatedAction && action.results.isOnline()) {
       _lock.synchronized(() => _synchronizePendingUserActions(store));
     }
   }

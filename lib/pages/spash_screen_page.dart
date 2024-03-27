@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/biseau_background.dart';
 import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
+import 'package:pass_emploi_app/wrappers/package_info_wrapper.dart';
 
 class SplashScreenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
-      future: PackageInfo.fromPlatform().then((platform) => platform.version),
+      future: PackageInfoWrapper.getVersion(),
       builder: (context, snapshot) {
         final appVersion = snapshot.data;
         return Scaffold(

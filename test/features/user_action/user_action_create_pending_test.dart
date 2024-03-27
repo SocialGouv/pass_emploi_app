@@ -81,7 +81,7 @@ void main() {
               );
         });
 
-        sut.whenDispatchingAction(() => ConnectivityUpdatedAction(ConnectivityResult.wifi));
+        sut.whenDispatchingAction(() => ConnectivityUpdatedAction([ConnectivityResult.wifi]));
 
         test('should try to synchronize actions and delete them locally if it is successful', () async {
           // Given
@@ -129,8 +129,8 @@ void main() {
         });
 
         sut.whenDispatchingActions([
-          ConnectivityUpdatedAction(ConnectivityResult.wifi),
-          ConnectivityUpdatedAction(ConnectivityResult.wifi),
+          ConnectivityUpdatedAction([ConnectivityResult.wifi]),
+          ConnectivityUpdatedAction([ConnectivityResult.wifi]),
         ]);
 
         test('should not create actions multiple times', () async {
