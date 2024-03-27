@@ -28,8 +28,7 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Launch tests
-        run: |
-          flutter test
+        run: flutter test
 
   pre-build:
     if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
