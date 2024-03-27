@@ -31,6 +31,7 @@ jobs:
         run: |
           java --version
           echo "JAVA_HOME=$JAVA_HOME"
+          flutter doctor -v
           flutter test
 
   pre-build:
