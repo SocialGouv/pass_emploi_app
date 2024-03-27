@@ -123,7 +123,7 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Le 01/01/2021'),
-      DeletedMessageItem("id0", true),
+      DeletedMessageItem("id0", Sender.jeune),
       TextMessageItem(messageId: "id1", content: '1', caption: '12:30 · Lu', sender: Sender.jeune),
       TextMessageItem(messageId: "id2", content: '2', caption: '15:30 · Modifié', sender: Sender.conseiller),
       DayItem('Le 02/01/2021'),

@@ -63,7 +63,7 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       final message = element as Message;
 
       if (message.contentStatus == MessageContentStatus.deleted) {
-        return _deletedMessageItem(message);
+        return DeletedMessageItem(message.id, message.sentBy);
       }
 
       return switch (message.type) {
@@ -82,10 +82,6 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       };
     }
   }).toList();
-}
-
-ChatItem _deletedMessageItem(Message message) {
-  return DeletedMessageItem(message.id, message.sentBy == Sender.jeune);
 }
 
 ChatItem _sessionMiloItem(Message message, DateTime lastConseillerReading) {

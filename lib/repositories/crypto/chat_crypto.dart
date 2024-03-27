@@ -13,34 +13,19 @@ class ChatCrypto {
   void setStore(Store<AppState> store) => _store = store;
 
   EncryptedTextWithIv encrypt(String plainText) {
-    final encrypter = _encrypter;
-    if (encrypter == null) {
-      _store?.dispatch(TryConnectChatAgainAction());
-      throw Exception("Trying to encrypt without a key.");
-    }
     final initializationVector = IV.fromSecureRandom(16);
     return EncryptedTextWithIv(
       initializationVector.base64,
-      encrypter.encrypt(plainText, iv: initializationVector).base64,
+      _assertEncrypter().encrypt(plainText, iv: initializationVector).base64,
     );
   }
 
   String encryptWithIv(String plainText, String initializationVector) {
-    final encrypter = _encrypter;
-    if (encrypter == null) {
-      _store?.dispatch(TryConnectChatAgainAction());
-      throw Exception("Trying to encrypt without a key.");
-    }
-    return encrypter.encrypt(plainText, iv: IV.fromBase64(initializationVector)).base64;
+    return _assertEncrypter().encrypt(plainText, iv: IV.fromBase64(initializationVector)).base64;
   }
 
   String decrypt(EncryptedTextWithIv encrypted) {
-    final encrypter = _encrypter;
-    if (encrypter == null) {
-      _store?.dispatch(TryConnectChatAgainAction());
-      throw Exception("Trying to decrypt without a key.");
-    }
-    return encrypter.decrypt(
+    return _assertEncrypter().decrypt(
       Encrypted.fromBase64(encrypted.base64Message),
       iv: IV.fromBase64(encrypted.base64InitializationVector),
     );
@@ -52,6 +37,14 @@ class ChatCrypto {
 
   bool isInitialized() {
     return _encrypter != null;
+  }
+
+  Encrypter _assertEncrypter() {
+    if (_encrypter == null) {
+      _store?.dispatch(TryConnectChatAgainAction());
+      throw Exception("Trying to encrypt without a key.");
+    }
+    return _encrypter!;
   }
 }
 

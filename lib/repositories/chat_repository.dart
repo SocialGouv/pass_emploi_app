@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/iterable_extensions.dart';
 import 'package:pass_emploi_app/utils/log.dart';
@@ -123,10 +124,9 @@ class ChatRepository {
   }
 
   Future<bool> deleteMessage(String userId, Message message, bool isLastMessage) async {
-    const deletedMessageContent = '(message supprimé)';
     return await _updateMessage(
       userId: userId,
-      content: deletedMessageContent,
+      content: Strings.chatDeletedMessageContent,
       message: message,
       status: MessageContentStatus.deleted,
       shouldUpdateChat: isLastMessage,

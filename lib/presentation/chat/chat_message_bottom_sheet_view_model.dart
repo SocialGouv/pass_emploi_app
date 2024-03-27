@@ -26,7 +26,7 @@ class ChatMessageBottomSheetViewModel extends Equatable {
     final message = (chatState as ChatSuccessState).messages.firstWhere((element) => element.id == messageId);
     final candEditMessage = _canEditMessage(message);
     return ChatMessageBottomSheetViewModel(
-      content: _content(message),
+      content: message.content,
       withDeleteOption: candEditMessage,
       onDelete: () => store.dispatch(DeleteMessageAction(message)),
       withEditOption: candEditMessage,
@@ -36,10 +36,6 @@ class ChatMessageBottomSheetViewModel extends Equatable {
 
   @override
   List<Object?> get props => [content, withDeleteOption];
-}
-
-String _content(Message message) {
-  return message.content;
 }
 
 bool _canEditMessage(Message message) {
