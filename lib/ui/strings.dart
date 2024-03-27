@@ -107,8 +107,11 @@ class Strings {
 
   static String chatCopyMessage = "Copier";
   static String chatDeleteMessage = "Supprimer";
+  static String chatEditMessage = "Modifier";
 
   static String chatDeletedMessage = "Message supprimé";
+  static String chatEditMessageAppBar = "Modifier le message";
+  static String editMessageSave = "Enregistrer";
 
   // Force Update
   static String updateTitle = "Mise à jour";

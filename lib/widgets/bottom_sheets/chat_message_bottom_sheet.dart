@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/pages/chat_edit_message_page.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_message_bottom_sheet_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -38,7 +39,8 @@ class ChatMessageBottomSheet extends StatelessWidget {
                   children: [
                     Divider(color: AppColors.grey100),
                     _CopyMessageButton(viewModel.content),
-                    _DeleteMessageButton(viewModel.onDelete),
+                    if (viewModel.withEditOption) _EditMessageButton(viewModel.onEdit, viewModel.content),
+                    if (viewModel.withDeleteOption) _DeleteMessageButton(viewModel.onDelete),
                   ],
                 ),
               ),
@@ -60,6 +62,28 @@ class _CopyMessageButton extends StatelessWidget {
       onPressed: () {
         Clipboard.setData(ClipboardData(text: text)) //
             .then((value) => Navigator.pop(context));
+      },
+    );
+  }
+}
+
+class _EditMessageButton extends StatelessWidget {
+  const _EditMessageButton(this.onEditMessage, this.content);
+  final void Function(String) onEditMessage;
+  final String content;
+
+  @override
+  Widget build(BuildContext context) {
+    return _ChatBottomSheetButton(
+      icon: AppIcons.edit_rounded,
+      text: Strings.chatEditMessage,
+      withNavigationSuffix: true,
+      onPressed: () async {
+        final updatedContent = await Navigator.of(context).push(ChatEditMessagePage.route(content));
+        if (updatedContent != null) {
+          onEditMessage(updatedContent);
+          Future.delayed(Duration.zero, () => Navigator.pop(context));
+        }
       },
     );
   }
@@ -88,11 +112,13 @@ class _ChatBottomSheetButton extends StatelessWidget {
     required this.icon,
     required this.text,
     required this.onPressed,
+    this.withNavigationSuffix = false,
     this.color,
   });
   final IconData icon;
   final String text;
   final VoidCallback onPressed;
+  final bool withNavigationSuffix;
   final Color? color;
 
   @override
@@ -100,6 +126,7 @@ class _ChatBottomSheetButton extends StatelessWidget {
     return ListTile(
       leading: Icon(icon, color: color),
       title: Text(text, style: TextStyles.textBaseBold.copyWith(color: color)),
+      trailing: withNavigationSuffix ? Icon(AppIcons.chevron_right_rounded) : null,
       onTap: onPressed,
     );
   }

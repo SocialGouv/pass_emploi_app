@@ -133,6 +133,16 @@ class ChatRepository {
     );
   }
 
+  Future<bool> editMessage(String userId, Message message, bool isLastMessage, String content) async {
+    return await _updateMessage(
+      userId: userId,
+      content: content,
+      message: message,
+      status: MessageContentStatus.edited,
+      shouldUpdateChat: isLastMessage,
+    );
+  }
+
   Future<bool> _updateMessage({
     required String userId,
     required String content,
