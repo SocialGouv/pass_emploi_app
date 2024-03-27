@@ -30,6 +30,7 @@ jobs:
       - name: Launch tests
         run: |
           java --version
+          echo "JAVA_HOME=$JAVA_HOME"
           flutter test
 
   pre-build:
