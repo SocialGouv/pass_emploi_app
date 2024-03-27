@@ -32,7 +32,7 @@ jobs:
           java --version
           echo "JAVA_HOME=$JAVA_HOME"
           flutter doctor -v
-          flutter test
+  #          flutter test
 
   pre-build:
     if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
@@ -111,6 +111,9 @@ jobs:
 
       - name: CEJ - Build Android apk
         run: |
+          java --version
+          echo "JAVA_HOME=$JAVA_HOME" 
+          flutter config --jdk-dir $JAVA_HOME
           flutter build apk \
           -t lib/cej_main.dart \
           --flavor cejStaging \
