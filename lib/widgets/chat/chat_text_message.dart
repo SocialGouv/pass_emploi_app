@@ -26,7 +26,9 @@ class ChatTextMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isMyMessage = params.sender == Sender.jeune;
-    final TextStyle textStyle = isMyMessage ? TextStyles.textSRegular(color: Colors.white) : TextStyles.textSRegular();
+    final TextStyle textStyle = isMyMessage
+        ? TextStyles.textSRegular(color: Colors.white) //
+        : TextStyles.textSRegular();
     return ChatMessageContainer(
       content: SelectableTextWithClickableLinks(
         params.content,

@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/presentation/chat/chat_message_bottom_sheet_view
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
@@ -29,7 +30,8 @@ class ChatMessageBottomSheet extends StatelessWidget {
         converter: (store) => ChatMessageBottomSheetViewModel.create(store, chatItem.messageId),
         builder: (context, viewModel) {
           return BottomSheetWrapper(
-            heightFactor: 0.4,
+            title: Strings.chatMessageBottomSheetTitle,
+            heightFactor: BottomSheetWrapper.smallHeightFactor(context),
             body: SizedBox(
               width: double.infinity,
               child: OverflowBox(
@@ -37,7 +39,7 @@ class ChatMessageBottomSheet extends StatelessWidget {
                 maxWidth: MediaQuery.of(context).size.width,
                 child: Column(
                   children: [
-                    Divider(color: AppColors.grey100),
+                    SizedBox(height: Margins.spacing_base),
                     _CopyMessageButton(viewModel.content),
                     if (viewModel.withEditOption) _EditMessageButton(viewModel.onEdit, viewModel.content),
                     if (viewModel.withDeleteOption) _DeleteMessageButton(viewModel.onDelete),

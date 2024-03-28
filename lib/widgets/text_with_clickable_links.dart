@@ -7,16 +7,15 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 class TextWithClickableLinks extends StatelessWidget {
   final String content;
   final TextStyle style;
-  final TextStyle? linkStyle;
 
-  TextWithClickableLinks(this.content, {required this.style, this.linkStyle});
+  TextWithClickableLinks(this.content, {required this.style});
 
   @override
   Widget build(BuildContext context) {
     return Linkify(
       text: content,
       style: style,
-      linkStyle: linkStyle ?? TextStyles.externalLink,
+      linkStyle: TextStyles.externalLink,
       onOpen: (link) {
         final String baseUrl = Uri.parse(link.url).origin;
         PassEmploiMatomoTracker.instance.trackOutlink(baseUrl);

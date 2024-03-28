@@ -92,31 +92,30 @@ class ChatRepository {
 
     final messageCreationDate = FieldValue.serverTimestamp();
     final encryptedMessage = _chatCrypto.encrypt(message);
-    final succeed = await FirebaseFirestore.instance.runTransaction((transaction) async {
-      final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(messageId);
-      transaction
-        ..set(newDocId, {
-          'iv': encryptedMessage.base64InitializationVector,
-          'content': encryptedMessage.base64Message,
-          'sentBy': "jeune",
-          'creationDate': messageCreationDate,
-          ...customPayload,
+    return await FirebaseFirestore.instance
+        .runTransaction((transaction) async {
+          final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(messageId);
+          transaction
+            ..set(newDocId, {
+              'iv': encryptedMessage.base64InitializationVector,
+              'content': encryptedMessage.base64Message,
+              'sentBy': "jeune",
+              'creationDate': messageCreationDate,
+              ...customPayload,
+            })
+            ..update(_chatCollection(chatDocumentId), {
+              'lastMessageContent': encryptedMessage.base64Message,
+              'lastMessageIv': encryptedMessage.base64InitializationVector,
+              'lastMessageSentBy': "jeune",
+              'lastMessageSentAt': messageCreationDate,
+              'seenByConseiller': false,
+            });
         })
-        ..update(_chatCollection(chatDocumentId), {
-          'lastMessageContent': encryptedMessage.base64Message,
-          'lastMessageIv': encryptedMessage.base64InitializationVector,
-          'lastMessageSentBy': "jeune",
-          'lastMessageSentAt': messageCreationDate,
-          'seenByConseiller': false,
+        .then((value) => true) //
+        .catchError((e, StackTrace stack) {
+          _crashlytics.recordNonNetworkException(e, stack);
+          return false;
         });
-    }).then((value) {
-      Log.d("New message sent $message && chat status updated");
-      return true;
-    }).catchError((e, StackTrace stack) {
-      _crashlytics.recordNonNetworkException(e, stack);
-      return false;
-    });
-    return succeed;
   }
 
   Future<bool> sendMessage(String userId, Message message) async {
@@ -150,39 +149,40 @@ class ChatRepository {
     required MessageContentStatus status,
     required bool shouldUpdateChat,
   }) async {
+    final iv = message.iv;
+    if (iv == null) return false;
+
     final chatDocumentId = await _getChatDocumentId(userId);
     if (chatDocumentId == null) return false;
 
-    final iv = message.iv ?? "";
     final encryptedNewMessage = _chatCrypto.encryptWithIv(content, iv);
-
     final encryptedOldMessage = _chatCrypto.encryptWithIv(message.content, iv);
 
-    final succeed = await FirebaseFirestore.instance.runTransaction((transaction) async {
-      final messageRef = _chatCollection(chatDocumentId).collection('messages').doc(message.id);
-      transaction.update(messageRef, {
-        'content': encryptedNewMessage,
-        'status': status.toJson,
-      });
+    return FirebaseFirestore.instance
+        .runTransaction((transaction) async {
+          final messageRef = _chatCollection(chatDocumentId).collection('messages').doc(message.id);
+          transaction.update(messageRef, {
+            'content': encryptedNewMessage,
+            'status': status.toJson,
+          });
 
-      final historyRef = messageRef.collection('history').doc();
-      transaction.set(historyRef, {
-        "date": FieldValue.serverTimestamp(),
-        "previousContent": encryptedOldMessage,
-      });
+          final historyRef = messageRef.collection('history').doc();
+          transaction.set(historyRef, {
+            "date": FieldValue.serverTimestamp(),
+            "previousContent": encryptedOldMessage,
+          });
 
-      if (shouldUpdateChat) {
-        transaction.update(_chatCollection(chatDocumentId), {
-          'lastMessageContent': encryptedNewMessage,
+          if (shouldUpdateChat) {
+            transaction.update(_chatCollection(chatDocumentId), {
+              'lastMessageContent': encryptedNewMessage,
+            });
+          }
+        })
+        .then((_) => true) //
+        .catchError((e, StackTrace stack) {
+          _crashlytics.recordNonNetworkException(e, stack);
+          return false;
         });
-      }
-    }).then((value) {
-      return true;
-    }).catchError((e, StackTrace stack) {
-      _crashlytics.recordNonNetworkException(e, stack);
-      return false;
-    });
-    return succeed;
   }
 
   Future<bool> sendOffrePartagee(String userId, OffrePartagee offrePartagee) async {

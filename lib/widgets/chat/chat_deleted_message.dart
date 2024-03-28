@@ -15,7 +15,7 @@ class DeletedMessage extends StatelessWidget {
     return Align(
       alignment: item.sender.isJeune ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.only(top: Margins.spacing_s),
+        margin: EdgeInsets.symmetric(vertical: Margins.spacing_s),
         padding: EdgeInsets.symmetric(vertical: Margins.spacing_s, horizontal: Margins.spacing_base),
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.grey500),

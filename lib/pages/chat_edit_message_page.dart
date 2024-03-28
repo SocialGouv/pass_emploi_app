@@ -18,6 +18,19 @@ class ChatEditMessagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = TextEditingController(text: content);
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Margins.spacing_base,
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          child: PrimaryActionButton(
+            label: Strings.editMessageSave,
+            onPressed: () => Navigator.of(context).pop(controller.text),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: Colors.white,
       appBar: SecondaryAppBar(title: Strings.chatEditMessageAppBar),
       body: Padding(
@@ -27,14 +40,11 @@ class ChatEditMessagePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               BaseTextField(
+                autofocus: true,
                 minLines: 5,
                 controller: controller,
               ),
-              SizedBox(height: Margins.spacing_base),
-              PrimaryActionButton(
-                label: Strings.editMessageSave,
-                onPressed: () => Navigator.of(context).pop(controller.text),
-              ),
+              SizedBox(height: Margins.spacing_huge),
             ],
           ),
         ),

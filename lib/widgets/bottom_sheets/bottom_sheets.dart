@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
@@ -81,6 +82,13 @@ class BottomSheetWrapper extends StatelessWidget {
   final Widget body;
   final EdgeInsets? padding;
   final bool hideTitle;
+
+  static double smallHeightFactor(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    if (height < MediaSizes.height_xs) return 0.4;
+    if (height < MediaSizes.height_m) return 0.35;
+    return 0.3;
+  }
 
   @override
   Widget build(BuildContext context) {

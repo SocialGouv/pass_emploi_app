@@ -106,13 +106,14 @@ class Strings {
   static String chatEmptySubtitle =
       "Obtenez les informations que vous recherchez en contactant directement votre conseiller";
 
+  static String chatMessageBottomSheetTitle = "Paramètres du message";
   static String chatCopyMessage = "Copier";
   static String chatDeleteMessage = "Supprimer";
   static String chatEditMessage = "Modifier";
 
   static String chatDeletedMessage = "Message supprimé";
   static String chatEditMessageAppBar = "Modifier le message";
-  static String editMessageSave = "Enregistrer";
+  static String editMessageSave = "Modifier";
 
   static String chatDeletedMessageContent = "(Message supprimé)";
 
