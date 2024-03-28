@@ -95,21 +95,23 @@ class AccueilOutilsItem extends AccueilItem {
   List<Object?> get props => [outils];
 }
 
-class AccueilCampagneItem extends AccueilItem {
+class CampagneEvaluationItem extends AccueilItem {
   final String titre;
   final String description;
 
-  AccueilCampagneItem({required this.titre, required this.description});
+  CampagneEvaluationItem({required this.titre, required this.description});
 
   @override
   List<Object?> get props => [titre, description];
 }
 
-class CampagneRecrutementCej extends AccueilItem {
+class CampagneRecrutementItem extends AccueilItem {
   final void Function() onDismiss;
 
-  CampagneRecrutementCej({required this.onDismiss});
+  CampagneRecrutementItem({required this.onDismiss});
 }
+
+class RatingAppItem extends AccueilItem {}
 
 String _actionsOuDemarchesLabel(LoginMode loginMode, int actionsOuDemarches) {
   final usePlural = actionsOuDemarches > 1;

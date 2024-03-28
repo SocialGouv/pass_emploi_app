@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
@@ -76,8 +77,9 @@ List<AccueilItem> _items(Store<AppState> store) {
   if (accueilState is! AccueilSuccessState || user == null) return [];
 
   return [
-    _campagneRecrutementCej(store, store.state),
-    _campagneItem(store.state),
+    _ratingAppItem(store.state),
+    _campagneRecrutementItem(store, store.state),
+    _campagneEvaluationItem(store.state),
     _cetteSemaineItem(user.loginMode, accueilState),
     _prochainRendezvousItem(accueilState),
     _evenementsItem(accueilState),
@@ -155,18 +157,21 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Brand brand) {
   };
 }
 
-AccueilItem? _campagneItem(AppState state) {
+AccueilItem? _ratingAppItem(AppState state) {
+  return state.ratingState is ShowRatingState ? RatingAppItem() : null;
+}
+
+AccueilItem? _campagneEvaluationItem(AppState state) {
   final campagne = state.campagneState.campagne;
   if (campagne != null) {
-    return AccueilCampagneItem(titre: campagne.titre, description: campagne.description);
+    return CampagneEvaluationItem(titre: campagne.titre, description: campagne.description);
   }
   return null;
 }
 
-CampagneRecrutementCej? _campagneRecrutementCej(Store<AppState> store, AppState state) {
-  final isCej = Brand.isCej();
-  if (isCej && state.featureFlipState.featureFlip.withCampagneRecrutement) {
-    return CampagneRecrutementCej(onDismiss: () => store.dispatch(CampagneRecrutementDismissAction()));
+AccueilItem? _campagneRecrutementItem(Store<AppState> store, AppState state) {
+  if (state.featureFlipState.featureFlip.withCampagneRecrutement) {
+    return CampagneRecrutementItem(onDismiss: () => store.dispatch(CampagneRecrutementDismissAction()));
   }
   return null;
 }

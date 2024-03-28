@@ -8,4 +8,5 @@ class Dimens {
 
   static const double icon_size_base = 16;
   static const double icon_size_m = 24;
+  static const double icon_size_l = 40;
 }

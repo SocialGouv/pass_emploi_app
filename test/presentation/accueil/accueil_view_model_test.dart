@@ -53,6 +53,7 @@ void main() {
       // Given
       final store = givenState() //
           .loggedInMiloUser()
+          .showRating()
           .withAccueilMiloSuccess()
           .withFeatureFlip(withCampagneRecrutement: true)
           .withCampagne(campagne())
@@ -65,8 +66,9 @@ void main() {
       expect(
         viewModel.items,
         [
-          CampagneRecrutementCej(onDismiss: () {}),
-          AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
+          RatingAppItem(),
+          CampagneRecrutementItem(onDismiss: () {}),
+          CampagneEvaluationItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
             rendezvousCount: "3",
             actionsOuDemarchesCount: "1",
@@ -114,7 +116,7 @@ void main() {
       expect(
         viewModel.items,
         [
-          AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
+          CampagneEvaluationItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
             rendezvousCount: "3",
             actionsOuDemarchesCount: "2",
@@ -154,8 +156,8 @@ void main() {
       expect(
         viewModel.items,
         [
-          CampagneRecrutementCej(onDismiss: () {}),
-          AccueilCampagneItem(titre: "Questionnaire", description: "Super test"),
+          CampagneRecrutementItem(onDismiss: () {}),
+          CampagneEvaluationItem(titre: "Questionnaire", description: "Super test"),
           AccueilCetteSemaineItem(
             rendezvousCount: "3",
             actionsOuDemarchesCount: "1",

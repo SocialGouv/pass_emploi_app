@@ -13,7 +13,6 @@ class _BrsaStrings {
       "La suppression de votre compte sur l’application pass emploi n'entraîne pas la suppression de votre accompagnement.";
   static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application pass emploi";
   static String modeDemoExplicationPremierPoint3 = " l’application pass emploi utilisée par vos bénéficiaires.";
-  static String ratingLabel = "Aimez-vous l’application pass emploi ?";
   static String legalNoticeUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/pass_emploi_mentions_legales";
   static String privacyPolicyUrl =
       "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_pass_emploi_politique_de_confidentialite";
@@ -35,7 +34,6 @@ class _CejStrings {
       "La suppression de votre compte sur l’application CEJ n'entraîne pas la suppression de votre accompagnement.";
   static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application CEJ";
   static String modeDemoExplicationPremierPoint3 = " l’application CEJ utilisée par vos bénéficiaires.";
-  static String ratingLabel = "Aimez-vous l’application CEJ ?";
   static String legalNoticeUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_mentions_legales";
   static String privacyPolicyUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_politique_de_confidentialite";
   static String termsOfServiceUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_conditions_generales";
@@ -1092,7 +1090,8 @@ class Strings {
   static String finish = "Terminer";
 
   //Appstore rating
-  static String ratingLabel = Brand.isCej() ? _CejStrings.ratingLabel : _BrsaStrings.ratingLabel;
+  static String ratingLabel = 'Êtes-vous satisfait de l’application\u{00A0}?';
+  static String ratingButton = 'Je donne mon avis';
   static String positiveRating = "Oui ! \nBeau boulot, j’adore l’app.";
   static String negativeRating = "Non... \nJ’ai quelques remarques.";
   static String happyEmoji = "😍";

@@ -26,7 +26,6 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
 import 'package:pass_emploi_app/widgets/pass_emploi_material_app.dart';
-import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class MainPage extends StatefulWidget {
@@ -81,9 +80,6 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
       },
       onInit: (store) => store.dispatch(SubscribeToChatStatusAction()),
       onDispose: (store) => store.dispatch(UnsubscribeFromChatStatusAction()),
-      onDidChange: (oldViewModel, newViewModel) {
-        if (newViewModel.showRating) ratingSnackBar(context);
-      },
       builder: (context, viewModel) => _body(viewModel, context),
       distinct: true,
     );

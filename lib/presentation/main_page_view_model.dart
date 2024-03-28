@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -22,7 +21,6 @@ enum MainPageDisplayState {
 class MainPageViewModel extends Equatable {
   final List<MainTab> tabs;
   final bool withChatBadge;
-  final bool showRating;
   final bool useCvm;
   final LoginMode? loginMode;
   final Function resetDeeplink;
@@ -31,7 +29,6 @@ class MainPageViewModel extends Equatable {
   MainPageViewModel({
     required this.tabs,
     required this.withChatBadge,
-    required this.showRating,
     required this.useCvm,
     required this.loginMode,
     required this.resetDeeplink,
@@ -40,7 +37,6 @@ class MainPageViewModel extends Equatable {
 
   factory MainPageViewModel.create(Store<AppState> store) {
     final chatStatusState = store.state.chatStatusState;
-    final ratingState = store.state.ratingState;
     final loginState = store.state.loginState;
     return MainPageViewModel(
       tabs: [
@@ -51,7 +47,6 @@ class MainPageViewModel extends Equatable {
         MainTab.evenements,
       ],
       withChatBadge: (chatStatusState is ChatStatusSuccessState) && (chatStatusState.hasUnreadMessages),
-      showRating: ratingState is ShowRatingState,
       useCvm: store.state.featureFlipState.featureFlip.useCvm,
       loginMode: loginState is LoginSuccessState ? loginState.user.loginMode : null,
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
@@ -60,5 +55,5 @@ class MainPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [tabs, withChatBadge, showRating, useCvm, loginMode];
+  List<Object?> get props => [tabs, withChatBadge, useCvm, loginMode];
 }
