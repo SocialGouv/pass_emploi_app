@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
 import 'package:uuid/uuid.dart';
 
-
 enum MessageType {
   message,
   nouveauConseiller,
@@ -22,10 +21,23 @@ enum MessageType {
 
 enum OffreType { emploi, alternance, immersion, civique, inconnu }
 
-enum MessageStatus { sent, sending, failed }
+enum MessageSendingStatus { sent, sending, failed }
+
+enum MessageContentStatus {
+  content,
+  deleted,
+  edited;
+
+  String get toJson => switch (this) {
+        MessageContentStatus.content => "content",
+        MessageContentStatus.deleted => "deleted",
+        MessageContentStatus.edited => "edited",
+      };
+}
 
 class Message extends Equatable {
   final String id;
+  final String? iv;
   final String content;
   final DateTime creationDate;
   final Sender sentBy;
@@ -35,36 +47,41 @@ class Message extends Equatable {
   final Event? event;
   final ChatEvenementEmploi? evenementEmploi;
   final ChatSessionMilo? sessionMilo;
-  final MessageStatus status;
+  final MessageSendingStatus sendingStatus;
+  final MessageContentStatus contentStatus;
 
-  Message(
-    this.id,
-    this.content,
-    this.creationDate,
-    this.sentBy,
-    this.type,
-    this.status,
-    this.pieceJointes, [
+  Message({
+    required this.id,
+    this.iv,
+    required this.content,
+    required this.creationDate,
+    required this.sentBy,
+    required this.type,
+    required this.sendingStatus,
+    required this.contentStatus,
+    required this.pieceJointes,
     this.offre,
     this.event,
     this.evenementEmploi,
     this.sessionMilo,
-  ]);
+  });
 
   factory Message.fromText(String text) {
     return Message(
-      Uuid().v1(),
-      text,
-      DateTime.now(),
-      Sender.jeune,
-      MessageType.message,
-      MessageStatus.sending,
-      [],
+      id: Uuid().v1(),
+      content: text,
+      creationDate: DateTime.now(),
+      sentBy: Sender.jeune,
+      type: MessageType.message,
+      sendingStatus: MessageSendingStatus.sending,
+      contentStatus: MessageContentStatus.content,
+      pieceJointes: [],
     );
   }
 
   Message copyWith({
     String? id,
+    String? iv,
     String? content,
     DateTime? creationDate,
     Sender? sentBy,
@@ -74,20 +91,23 @@ class Message extends Equatable {
     Event? event,
     ChatEvenementEmploi? evenementEmploi,
     ChatSessionMilo? sessionMilo,
-    MessageStatus? status,
+    MessageSendingStatus? sendingStatus,
+    MessageContentStatus? contentStatus,
   }) {
     return Message(
-      id ?? this.id,
-      content ?? this.content,
-      creationDate ?? this.creationDate,
-      sentBy ?? this.sentBy,
-      type ?? this.type,
-      status ?? this.status,
-      pieceJointes ?? this.pieceJointes,
-      offre ?? this.offre,
-      event ?? this.event,
-      evenementEmploi ?? this.evenementEmploi,
-      sessionMilo ?? this.sessionMilo,
+      id: id ?? this.id,
+      iv: iv ?? this.iv,
+      content: content ?? this.content,
+      creationDate: creationDate ?? this.creationDate,
+      sentBy: sentBy ?? this.sentBy,
+      type: type ?? this.type,
+      sendingStatus: sendingStatus ?? this.sendingStatus,
+      contentStatus: contentStatus ?? this.contentStatus,
+      pieceJointes: pieceJointes ?? this.pieceJointes,
+      offre: offre ?? this.offre,
+      event: event ?? this.event,
+      evenementEmploi: evenementEmploi ?? this.evenementEmploi,
+      sessionMilo: sessionMilo ?? this.sessionMilo,
     );
   }
 
@@ -97,18 +117,29 @@ class Message extends Equatable {
     final content = _content(json, chatCrypto, crashlytics);
     if (content == null) return null;
     return Message(
-      id,
-      content,
-      creationDate,
-      json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
-      _type(json),
-      MessageStatus.sent,
-      _pieceJointes(json, chatCrypto, crashlytics),
-      _offre(json),
-      _event(json),
-      _evenementEmploi(json),
-      _sessionMilo(json),
+      id: id,
+      iv: json['iv'] as String,
+      content: content,
+      creationDate: creationDate,
+      sentBy: json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
+      type: _type(json),
+      sendingStatus: MessageSendingStatus.sent,
+      contentStatus: _contentStatus(json),
+      pieceJointes: _pieceJointes(json, chatCrypto, crashlytics),
+      offre: _offre(json),
+      event: _event(json),
+      evenementEmploi: _evenementEmploi(json),
+      sessionMilo: _sessionMilo(json),
     );
+  }
+
+  static MessageContentStatus _contentStatus(dynamic json) {
+    final contentStatus = json['status'] as String?;
+    return switch (contentStatus) {
+      "deleted" => MessageContentStatus.deleted,
+      "edited" => MessageContentStatus.edited,
+      _ => MessageContentStatus.content,
+    };
   }
 
   static Offre? _offre(dynamic json) {

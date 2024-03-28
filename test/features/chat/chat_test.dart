@@ -466,7 +466,7 @@ void main() {
 
         // When & Then
         sut.thenExpectChangingStatesThroughOrder([
-          _stateIsChatSuccessStateOfMessageStatus(MessageStatus.sending),
+          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
         ]);
       });
 
@@ -476,39 +476,42 @@ void main() {
 
         // When & Then
         sut.thenExpectChangingStatesThroughOrder([
-          _stateIsChatSuccessStateOfMessageStatus(MessageStatus.sending),
-          _stateIsChatSuccessStateOfMessageStatus(MessageStatus.failed),
+          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
+          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.failed),
         ]);
       });
     });
   });
 }
 
-StateIs<ChatSuccessState> _stateIsChatSuccessStateOfMessageStatus(MessageStatus status) {
-  return StateIs<ChatSuccessState>((state) => state.chatState, (state) => expect(state.messages.last.status, status));
+StateIs<ChatSuccessState> _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus status) {
+  return StateIs<ChatSuccessState>(
+      (state) => state.chatState, (state) => expect(state.messages.last.sendingStatus, status));
 }
 
 Message _mockMessage([String id = '1']) {
   return Message(
-    "uid",
-    "content $id",
-    DateTime.utc(2022, 1, 1),
-    Sender.conseiller,
-    MessageType.message,
-    MessageStatus.sent,
-    [],
+    id: "uid",
+    content: "content $id",
+    creationDate: DateTime.utc(2022, 1, 1),
+    sentBy: Sender.conseiller,
+    type: MessageType.message,
+    sendingStatus: MessageSendingStatus.sent,
+    contentStatus: MessageContentStatus.content,
+    pieceJointes: [],
   );
 }
 
 Message _message(int date) {
   return Message(
-    "uid $date",
-    "content $date",
-    DateTime.utc(date),
-    Sender.conseiller,
-    MessageType.message,
-    MessageStatus.sent,
-    [],
+    id: "uid $date",
+    content: "content $date",
+    creationDate: DateTime.utc(date),
+    sentBy: Sender.conseiller,
+    type: MessageType.message,
+    sendingStatus: MessageSendingStatus.sent,
+    contentStatus: MessageContentStatus.content,
+    pieceJointes: [],
   );
 }
 

@@ -48,6 +48,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _subscription?.cancel();
         } else if (action is SendMessageAction) {
           _sendMessage(store, userId, action.message);
+        } else if (action is DeleteMessageAction) {
+          _deleteMessage(store, userId, action.message);
         } else if (action is ChatPartagerOffreAction) {
           _partagerOffre(store, userId, action.offre);
         } else if (action is ChatPartagerEventAction) {
@@ -72,10 +74,16 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     Future.delayed(AnimationDurations.slow, () => _addMessageToRemote(store, userId, message));
   }
 
+  void _deleteMessage(Store<AppState> store, String userId, Message message) async {
+    final chatState = store.state.chatState;
+    final bool isLastMessage = chatState is ChatSuccessState && (chatState.messages.last.id == message.id);
+    _repository.deleteMessage(userId, message, isLastMessage);
+  }
+
   Future<void> _addMessageToRemote(Store<AppState> store, String userId, Message message) async {
     final sendMessageSuceed = await _repository.sendMessage(userId, message);
     if (!sendMessageSuceed) {
-      _addMessageToLocal(store, message.copyWith(status: MessageStatus.failed));
+      _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
     }
   }
 

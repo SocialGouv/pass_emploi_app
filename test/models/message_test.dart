@@ -29,13 +29,14 @@ void main() {
     expect(
         message,
         Message(
-          "uid",
-          "toto-chiffré-déchiffré",
-          DateTime(2021, 7, 30, 9, 43, 9),
-          Sender.jeune,
-          MessageType.message,
-          MessageStatus.sent,
-          [],
+          id: "uid",
+          content: "toto-chiffré-déchiffré",
+          creationDate: DateTime(2021, 7, 30, 9, 43, 9),
+          sentBy: Sender.jeune,
+          type: MessageType.message,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [],
         ));
   });
 
@@ -63,19 +64,66 @@ void main() {
     expect(
         message,
         Message(
-          "uid",
-          "toto-chiffré-déchiffré",
-          DateTime(2021, 7, 30, 9, 43, 9),
-          Sender.jeune,
-          MessageType.message,
-          MessageStatus.sent,
-          [
+          id: "uid",
+          content: "toto-chiffré-déchiffré",
+          creationDate: DateTime(2021, 7, 30, 9, 43, 9),
+          sentBy: Sender.jeune,
+          type: MessageType.message,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [
             PieceJointe(
               "id-pj-343",
               "nom-secretement-chiffré-déchiffré",
             )
           ],
         ));
+  });
+
+  test("toJson when message status is deleted", () {
+    // Given
+    final chatCryptoSpy = _FakeChatCrypto();
+
+    // When
+    final message = Message.fromJson(
+      "uid",
+      {
+        "content": "qsldmkjqslmdj",
+        "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+        "iv": "ivvv",
+        "sentBy": "jeune",
+        "type": "MESSAGE",
+        "status": "deleted"
+      },
+      chatCryptoSpy,
+      DummyCrashlytics(),
+    );
+
+    // Then
+    expect(message!.contentStatus, MessageContentStatus.deleted);
+  });
+
+  test("toJson when message status is edited", () {
+    // Given
+    final chatCryptoSpy = _FakeChatCrypto();
+
+    // When
+    final message = Message.fromJson(
+      "uid",
+      {
+        "content": "qsldmkjqslmdj",
+        "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+        "iv": "ivvv",
+        "sentBy": "jeune",
+        "type": "MESSAGE",
+        "status": "edited"
+      },
+      chatCryptoSpy,
+      DummyCrashlytics(),
+    );
+
+    // Then
+    expect(message!.contentStatus, MessageContentStatus.edited);
   });
 
   test("toJson when message typed as MESSAGE", () {
@@ -129,14 +177,15 @@ void main() {
         expect(
             message,
             Message(
-              "uid",
-              "toto-chiffré-déchiffré",
-              DateTime(2021, 7, 30, 9, 43, 9),
-              Sender.jeune,
-              MessageType.offre,
-              MessageStatus.sent,
-              [],
-              Offre(
+              id: "uid",
+              content: "toto-chiffré-déchiffré",
+              creationDate: DateTime(2021, 7, 30, 9, 43, 9),
+              sentBy: Sender.jeune,
+              type: MessageType.offre,
+              sendingStatus: MessageSendingStatus.sent,
+              contentStatus: MessageContentStatus.content,
+              pieceJointes: [],
+              offre: Offre(
                 "343",
                 "Chevalier",
                 offreType,
@@ -181,15 +230,15 @@ void main() {
         expect(
             message,
             Message(
-              "uid",
-              "toto-chiffré-déchiffré",
-              DateTime(2021, 7, 30, 9, 43, 9),
-              Sender.jeune,
-              MessageType.event,
-              MessageStatus.sent,
-              [],
-              null,
-              Event(
+              id: "uid",
+              content: "toto-chiffré-déchiffré",
+              creationDate: DateTime(2021, 7, 30, 9, 43, 9),
+              sentBy: Sender.jeune,
+              type: MessageType.event,
+              sendingStatus: MessageSendingStatus.sent,
+              contentStatus: MessageContentStatus.content,
+              pieceJointes: [],
+              event: Event(
                 id: "343",
                 titre: "Chevalier",
                 type: rdvType,
@@ -233,16 +282,15 @@ void main() {
       expect(
           message,
           Message(
-            "uid",
-            "toto-chiffré-déchiffré",
-            DateTime(2022, 7, 30, 9, 43, 9),
-            Sender.jeune,
-            MessageType.evenementEmploi,
-            MessageStatus.sent,
-            [],
-            null,
-            null,
-            ChatEvenementEmploi(
+            id: "uid",
+            content: "toto-chiffré-déchiffré",
+            creationDate: DateTime(2022, 7, 30, 9, 43, 9),
+            sentBy: Sender.jeune,
+            type: MessageType.evenementEmploi,
+            sendingStatus: MessageSendingStatus.sent,
+            contentStatus: MessageContentStatus.content,
+            pieceJointes: [],
+            evenementEmploi: ChatEvenementEmploi(
               "343",
               "Salon de l'emploi",
               "https://www.mon-url.fr",

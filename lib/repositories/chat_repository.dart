@@ -122,6 +122,59 @@ class ChatRepository {
     return _sendMessage(userId: userId, message: message.content, messageId: message.id);
   }
 
+  Future<bool> deleteMessage(String userId, Message message, bool isLastMessage) async {
+    const deletedMessageContent = '(message supprimé)';
+    return await _updateMessage(
+      userId: userId,
+      content: deletedMessageContent,
+      message: message,
+      status: MessageContentStatus.deleted,
+      shouldUpdateChat: isLastMessage,
+    );
+  }
+
+  Future<bool> _updateMessage({
+    required String userId,
+    required String content,
+    required Message message,
+    required MessageContentStatus status,
+    required bool shouldUpdateChat,
+  }) async {
+    final chatDocumentId = await _getChatDocumentId(userId);
+    if (chatDocumentId == null) return false;
+
+    final iv = message.iv ?? "";
+    final encryptedNewMessage = _chatCrypto.encryptWithIv(content, iv);
+
+    final encryptedOldMessage = _chatCrypto.encryptWithIv(message.content, iv);
+
+    final succeed = await FirebaseFirestore.instance.runTransaction((transaction) async {
+      final messageRef = _chatCollection(chatDocumentId).collection('messages').doc(message.id);
+      transaction.update(messageRef, {
+        'content': encryptedNewMessage,
+        'status': status.toJson,
+      });
+
+      final historyRef = messageRef.collection('history').doc();
+      transaction.set(historyRef, {
+        "date": FieldValue.serverTimestamp(),
+        "previousContent": encryptedOldMessage,
+      });
+
+      if (shouldUpdateChat) {
+        transaction.update(_chatCollection(chatDocumentId), {
+          'lastMessageContent': encryptedNewMessage,
+        });
+      }
+    }).then((value) {
+      return true;
+    }).catchError((e, StackTrace stack) {
+      _crashlytics.recordNonNetworkException(e, stack);
+      return false;
+    });
+    return succeed;
+  }
+
   Future<bool> sendOffrePartagee(String userId, OffrePartagee offrePartagee) async {
     final customPayload = {
       'offre': {
