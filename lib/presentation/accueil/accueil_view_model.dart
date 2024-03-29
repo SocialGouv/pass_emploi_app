@@ -53,6 +53,7 @@ class AccueilViewModel extends Equatable {
 }
 
 DisplayState _displayState(Store<AppState> store) {
+  if (1 == 1) return DisplayState.FAILURE;
   return switch (store.state.accueilState) {
     AccueilSuccessState _ => DisplayState.CONTENT,
     AccueilFailureState _ => DisplayState.FAILURE,
