@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -28,9 +30,15 @@ class ChatMessageBottomSheetViewModel extends Equatable {
     return ChatMessageBottomSheetViewModel(
       content: message.content,
       withDeleteOption: candEditMessage,
-      onDelete: () => store.dispatch(DeleteMessageAction(message)),
+      onDelete: () {
+        store.dispatch(DeleteMessageAction(message));
+        store.dispatch(TrackingEventAction(EventType.MESSAGE_DELETED));
+      },
       withEditOption: candEditMessage,
-      onEdit: (content) => store.dispatch(EditMessageAction(message, content)),
+      onEdit: (content) {
+        store.dispatch(EditMessageAction(message, content));
+        store.dispatch(TrackingEventAction(EventType.MESSAGE_EDITED));
+      },
     );
   }
 
