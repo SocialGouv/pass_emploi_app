@@ -115,10 +115,14 @@ extension AppStateDSL on AppState {
 
   AppState withDemoMode() => copyWith(demoState: true);
 
-  AppState withFeatureFlip({bool? useCvm, bool? withCampagneRecrutement}) {
+  AppState withFeatureFlip({
+    bool? useCvm,
+    bool? usePj,
+    bool? withCampagneRecrutement,
+  }) {
     return copyWith(
       featureFlipState: FeatureFlipState(
-        FeatureFlip.initial().copyWith(useCvm: useCvm, withCampagneRecrutement: withCampagneRecrutement),
+        FeatureFlip.initial().copyWith(useCvm: useCvm, usePj: usePj, withCampagneRecrutement: withCampagneRecrutement),
       ),
     );
   }
