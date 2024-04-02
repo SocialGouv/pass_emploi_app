@@ -104,7 +104,7 @@ User mockedPoleEmploiUser() {
   );
 }
 
-DetailsJeune mockDetailsJeune({String idConseiller = "id"}) {
+DetailsJeune mockDetailsJeune({String idConseiller = "id", StructureMilo? structure}) {
   return DetailsJeune(
     conseiller: DetailsJeuneConseiller(
       id: idConseiller,
@@ -112,7 +112,7 @@ DetailsJeune mockDetailsJeune({String idConseiller = "id"}) {
       lastname: "L",
       sinceDate: DateTime(2021, 1, 1),
     ),
-    structure: null,
+    structure: structure,
   );
 }
 
@@ -1125,7 +1125,7 @@ OffrePartagee dummyOffrePartagee() => OffrePartagee(
     );
 
 EvenementEmploiPartage dummyEvenementEmploiPartage() => EvenementEmploiPartage(
-  id: "106757",
+      id: "106757",
       titre: "Devenir conseiller à France Travail",
       url: "https://mesevenementsemploi-t.pe-qvr.fr/mes-evenements-emploi/mes-evenements-emploi/evenement/106757",
       message: "Regardes ça",

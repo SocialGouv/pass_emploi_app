@@ -29,4 +29,14 @@ class RemoteConfigRepository {
     if (_firebaseRemoteConfig == null) return [];
     return _firebaseRemoteConfig.getString('ids_conseiller_cvm_early_adopters').split(',');
   }
+
+  bool usePj() {
+    if (_firebaseRemoteConfig == null) return false;
+    return _firebaseRemoteConfig.getBool('use_pj');
+  }
+
+  List<String> getIdsMiloPjEarlyAdopters() {
+    if (_firebaseRemoteConfig == null) return [];
+    return _firebaseRemoteConfig.getString('ids_milo_pj_early_adopters').split(',');
+  }
 }
