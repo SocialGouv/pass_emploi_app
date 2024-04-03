@@ -45,6 +45,7 @@ class Strings {
 
   // Common
   static String appName = Brand.isCej() ? _CejStrings.appName : _BrsaStrings.appName;
+  static String error = "Une erreur s’est produite";
   static String retry = "Réessayer";
   static String logoDescription = Brand.isCej() ? _CejStrings.logoDescription : _BrsaStrings.logoDescription;
   static String close = "Fermer";

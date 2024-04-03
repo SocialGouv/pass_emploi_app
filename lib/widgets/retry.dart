@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 class Retry extends StatelessWidget {
   final String text;
@@ -13,8 +18,28 @@ class Retry extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(text, textAlign: TextAlign.center),
-        TextButton(onPressed: onRetry, child: Text(Strings.retry, style: TextStyles.textSecondaryButton)),
+        SizedBox.square(
+          dimension: 180,
+          child: Illustration.grey(
+            AppIcons.warning_rounded,
+            withWhiteBackground: true,
+          ),
+        ),
+        SizedBox(height: Margins.spacing_l),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(Strings.error, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+            SizedBox(height: Margins.spacing_base),
+            Text(text, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+            SizedBox(height: Margins.spacing_l),
+            PrimaryActionButton(
+              label: Strings.retry,
+              onPressed: onRetry,
+            ),
+          ],
+        ),
       ],
     );
   }
