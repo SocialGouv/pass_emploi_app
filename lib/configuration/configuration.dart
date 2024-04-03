@@ -124,7 +124,7 @@ class Configuration extends Equatable {
   }
 
   static String getCvmAttachmentUrl(String cvmPath) {
-    return 'https://$cvmPath/_matrix/media/v3/download/$cvmPath/';
+    return 'https://$cvmPath/_matrix/media/v3/download/';
   }
 
   @override
