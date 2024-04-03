@@ -16,7 +16,7 @@ import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 class CampagneRecrutementCard extends StatelessWidget {
   const CampagneRecrutementCard(this.campagneRecrutementCej);
 
-  final CampagneRecrutementCej campagneRecrutementCej;
+  final CampagneRecrutementItem campagneRecrutementCej;
 
   @override
   Widget build(BuildContext context) {

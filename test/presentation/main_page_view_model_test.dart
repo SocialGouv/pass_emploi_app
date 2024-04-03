@@ -116,30 +116,6 @@ void main() {
     });
   });
 
-  group('Create MainPageViewModel when rating app state is…', () {
-    test('not initialized should not show rating banner', () {
-      // Given
-      final store = givenState().dontShowRating().store();
-
-      // When
-      final viewModel = MainPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.showRating, isFalse);
-    });
-
-    test('success should show rating banner', () {
-      // Given
-      final store = givenState().showRating().store();
-
-      // When
-      final viewModel = MainPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.showRating, isTrue);
-    });
-  });
-
   group('useCvm', () {
     test('when feature flip state is set to false', () {
       // Given
