@@ -69,7 +69,7 @@ class Strings {
   // Menu
   static String menuAccueil = "Accueil";
   static String menuMonSuivi = "Mon suivi";
-  static String menuChat = "Messages";
+  static const String menuChat = "Messages";
   static String menuSolutions = "Recherche";
   static String menuFavoris = "Favoris";
   static String menuRendezvous = "Rendez-vous";

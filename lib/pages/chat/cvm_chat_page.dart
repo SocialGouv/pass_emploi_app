@@ -67,6 +67,7 @@ class CvmChatPageState extends State<CvmChatPage> {
     return ChatScaffold(
       displayState: viewModel.displayState,
       onRetry: viewModel.onRetry,
+      title: 'Messagerie', // to distinguish from the other chat page
       content: ChatContent(
         reversedItems: viewModel.items.reversed.toList(),
         controller: _controller!,
