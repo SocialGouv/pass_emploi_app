@@ -72,15 +72,9 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
                 if (viewModel.isCommentMandatory) _SelectLabel(Strings.selectComment),
                 ..._buildComments(viewModel.comments),
                 _Section(Strings.quand),
-                MandatoryFieldsLabel.all(),
-                SizedBox(height: Margins.spacing_base),
                 _SelectLabel(Strings.selectQuand),
                 DatePicker(
-                  onDateSelected: (date) {
-                    setState(() {
-                      _endDate = date;
-                    });
-                  },
+                  onDateSelected: (date) => setState(() => _endDate = date),
                   initialDateValue: _endDate,
                   isActiveDate: true,
                 ),
@@ -142,7 +136,7 @@ class _Mandatory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: Margins.spacing_l),
-      child: MandatoryFieldsLabel.some(),
+      child: MandatoryFieldsLabel.all(),
     );
   }
 }

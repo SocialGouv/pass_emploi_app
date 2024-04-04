@@ -14,7 +14,6 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -58,8 +57,6 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _Subtitle(text: Strings.demarcheRechercheSubtitle),
-              SizedBox(height: Margins.spacing_base),
-              MandatoryFieldsLabel.some(),
               SizedBox(height: Margins.spacing_base),
               Text(Strings.searchDemarcheHint, style: TextStyles.textBaseMedium),
               SizedBox(height: Margins.spacing_base),
