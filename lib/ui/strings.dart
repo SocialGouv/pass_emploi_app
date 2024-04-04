@@ -59,8 +59,8 @@ class Strings {
   static String consulter = "Consulter";
   static String copie = "Copié";
   static String notConnected = "Vous êtes hors connexion";
-  static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
-  static const String allMandatoryFields = "Tous les champs sont obligatoires";
+  static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires.";
+  static const String allMandatoryFields = "Tous les champs sont obligatoires.";
 
   static String stepCounter(int current, int total) => "Étape $current sur $total";
   static String selectDateTooltip = "Sélectionner une date";
@@ -460,17 +460,16 @@ class Strings {
   static const String userActionTitleStep2 = 'Mon action';
   static const String userActionTitleStep3 = 'Statut et date';
 
-  static const String userActionSubtitleStep1 = '*Choisissez une catégorie';
+  static const String userActionSubtitleStep1 = 'Choisissez une catégorie';
 
   static const String userActionSubtitleStep2 = '*Pouvez-vous nous en dire plus ?';
   static const String userActionTitleTextfieldStep2 = '*Pouvez-vous nous en dire plus ?';
   static const String userActionDescriptionTextfieldStep2 = 'Décrire mon action';
 
-  static const String userActionStatusRadioStep3 = '*L’action est :';
+  static const String userActionStatusRadioStep3 = 'L’action est :';
   static const String userActionStatusRadioCompletedStep3 = 'Terminée';
   static const String userActionStatusRadioTodoStep3 = 'En cours';
-  static const String datePickerTitle = '*Date';
-  static const String dateFormat = "Format de date attendu : JJ/MM/AAAA";
+  static const String datePickerTitle = 'Date';
 
   static const String userActionDateSuggestion1 = 'Aujourd’hui';
   static const String userActionDateSuggestion2 = 'Demain';
@@ -650,7 +649,7 @@ class Strings {
   static const String descriptionDemarche = "Description de la démarche";
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
-  static const String selectEcheance = "Sélectionner une date d'échéance format: jj/mm/aaaa";
+  static const String selectEcheance = "Sélectionner une date d'échéance";
   static const String addADemarche = "Ajouter une démarche";
   static const String createDemarcheTitle = "Création d'une démarche";
   static const String createDemarcheStep2EmptyTitle = "Aucune démarche ne correspond à votre recherche";
@@ -661,12 +660,12 @@ class Strings {
   static const String noDemarcheFound = "Aucune démarche pre-renseignée n’a été trouvée";
   static const String selectDemarche = "Sélectionnez une démarche ou créez une démarche personnalisée";
   static const String addALaDemarche = "Créer la démarche";
-  static const String searchDemarcheHint = "*Renseigner un mot clé pour rechercher une démarche à créer";
+  static const String searchDemarcheHint = "Renseigner un mot clé pour rechercher une démarche à créer";
   static const String searchDemarcheButton = "Rechercher une démarche";
   static const String mandatoryField = "Le champ est obligatoire";
   static const String comment = "Comment";
-  static const String selectComment = "*Sélectionner un des moyens";
-  static const String selectQuand = "*Sélectionner une date d’échéance format: jj/mm/aaaa";
+  static const String selectComment = "Sélectionner un des moyens";
+  static const String selectQuand = "Sélectionner une date d’échéance";
 
   static String demarcheActiveLabel = "À réaliser pour le ";
 
@@ -741,8 +740,8 @@ class Strings {
   static String keywordAlternanceHint = "Saisissez un métier, une compétence, un secteur d'activité…";
   static String metierLabel = "Métier";
   static String metierImmersionHint = "Renseignez le métier pour lequel vous souhaitez faire une immersion.";
-  static String jobLocationTitle = "Localisation";
-  static String jobLocationMandatoryTitle = "*Localisation";
+  static String locationTitle = "Localisation";
+  static String locationMandatoryTitle = "*Localisation";
   static String jobLocationEmploiHint = "Sélectionnez une ville ou un département dans lequel vous cherchez un emploi.";
   static String jobLocationAlternanceHint =
       "Sélectionnez une ville ou un département dans lequel vous cherchez une alternance.";
@@ -857,7 +856,7 @@ class Strings {
 
   // Service Civique
   static String serviceCiviqueFiltresTitle = "Filtrer les missions";
-  static String startDateFiltreTitle = "Date de début format: jj/mm/aaaa";
+  static String startDateFiltreTitle = "Date de début";
   static String startDate = "Dès le";
   static String domainFiltreTitle = "Domaine";
   static String asSoonAs = "Dès le ";
@@ -1038,7 +1037,7 @@ class Strings {
   // alertes
   static String createAlert = "Créer une alerte";
   static String createAlerteTitle = "Créer une alerte pour la recherche";
-  static String alerteTitle = "* Nom de la recherche";
+  static String alerteTitle = "Nom de la recherche";
   static String mandatoryAlerteTitleError = "Renseigner un nom pour votre recherche";
   static String alerteFilters = "Critères de la recherche";
   static String alerteInfo = "Les filtres appliqués seront aussi enregistrés.";
@@ -1182,8 +1181,8 @@ class Strings {
   static const String evenementEmploiFiltresModalites = "Modalités d'accès";
   static const String evenementEmploiFiltresType = "Par type d’événement";
   static const String evenementEmploiFiltresDate = "Période";
-  static const String evenementEmploiFiltresDateDebut = "Date de début format: jj/mm/aaaa";
-  static const String evenementEmploiFiltresDateFin = "Date de fin format: jj/mm/aaaa";
+  static const String evenementEmploiFiltresDateDebut = "Date de début";
+  static const String evenementEmploiFiltresDateFin = "Date de fin";
 
   // Mode dégradé France Travail
   static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
@@ -1246,7 +1245,6 @@ class Strings {
 
   // Suggestions alertes location form
   static String suggestionLocalisationAppBarTitle = "Paramétrer votre alerte";
-  static String suggestionLocalisationFormTitle = "Localisation";
   static String suggestionLocalisationFormEmploiSubtitle =
       "Sélectionnez une ville ou un département dans lequel vous cherchez un emploi.";
   static String suggestionLocalisationFormImmersionSubtitle =

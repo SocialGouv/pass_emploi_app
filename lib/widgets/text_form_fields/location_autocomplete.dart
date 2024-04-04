@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_form_field.dart';
@@ -82,12 +83,11 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
 }
 
 class _LocationAutocompletePage extends StatefulWidget {
-  final String title;
   final String? hint;
   final bool villesOnly;
   final Location? selectedLocation;
 
-  _LocationAutocompletePage({required this.title, required this.hint, required this.villesOnly, this.selectedLocation});
+  _LocationAutocompletePage({required this.hint, required this.villesOnly, this.selectedLocation});
 
   static MaterialPageRoute<Location?> materialPageRoute({
     required String title,
@@ -98,7 +98,6 @@ class _LocationAutocompletePage extends StatefulWidget {
     return MaterialPageRoute(
       fullscreenDialog: true,
       builder: (context) => _LocationAutocompletePage(
-        title: title,
         hint: hint,
         villesOnly: villesOnly,
         selectedLocation: selectedLocation,
@@ -140,7 +139,7 @@ class _LocationAutocompletePageState extends State<_LocationAutocompletePage> {
       body: Column(
         children: [
           MultilineAppBar(
-            title: widget.title,
+            title: Strings.locationTitle,
             hint: widget.hint,
             onCloseButtonPressed: () => Navigator.pop(context, widget.selectedLocation),
           ),

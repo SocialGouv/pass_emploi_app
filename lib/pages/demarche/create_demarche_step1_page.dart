@@ -58,8 +58,6 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
             children: [
               _Subtitle(text: Strings.demarcheRechercheSubtitle),
               SizedBox(height: Margins.spacing_base),
-              _Mandatory(),
-              SizedBox(height: Margins.spacing_base),
               Text(Strings.searchDemarcheHint, style: TextStyles.textBaseMedium),
               SizedBox(height: Margins.spacing_base),
               _ChampRecherche(
@@ -192,13 +190,6 @@ class _Subtitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text, style: TextStyles.textMBold.copyWith(color: AppColors.grey800));
-  }
-}
-
-class _Mandatory extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text(Strings.mandatoryFields, style: TextStyles.textSRegular());
   }
 }
 

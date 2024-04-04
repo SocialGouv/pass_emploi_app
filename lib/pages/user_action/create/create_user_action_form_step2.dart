@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
@@ -35,7 +36,7 @@ class CreateUserActionFormStep2 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: Margins.spacing_m),
-            Text(Strings.mandatoryFields, style: TextStyles.textSRegular()),
+            MandatoryFieldsLabel.some(),
             const SizedBox(height: Margins.spacing_m),
             Text(Strings.userActionSubtitleStep2, style: TextStyles.textBaseBold),
             const SizedBox(height: Margins.spacing_m),

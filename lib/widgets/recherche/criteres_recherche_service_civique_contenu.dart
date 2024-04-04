@@ -48,7 +48,7 @@ class _CriteresRechercheServiceCiviqueContenuState extends State<CriteresRecherc
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           LocationAutocomplete(
-            title: Strings.jobLocationTitle,
+            title: Strings.locationTitle,
             hint: Strings.jobLocationServiceCiviqueHint,
             villesOnly: true,
             initialValue: viewModel.initialLocation,

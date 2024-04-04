@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/presentation/recherche/evenement_emploi/criteres
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/recherche/secteur_activite_selector.dart';
@@ -55,10 +55,10 @@ class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRecher
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(Strings.mandatoryFields, style: TextStyles.textSRegular()),
+          MandatoryFieldsLabel.some(),
           const SizedBox(height: Margins.spacing_base),
           LocationAutocomplete(
-            title: Strings.jobLocationMandatoryTitle,
+            title: Strings.locationMandatoryTitle,
             hint: Strings.jobEvenementEmploiHint,
             initialValue: _selectedLocation,
             villesOnly: true,

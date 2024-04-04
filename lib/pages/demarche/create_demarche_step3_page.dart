@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -71,15 +72,9 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
                 if (viewModel.isCommentMandatory) _SelectLabel(Strings.selectComment),
                 ..._buildComments(viewModel.comments),
                 _Section(Strings.quand),
-                Text(Strings.allMandatoryFields, style: TextStyles.textSRegular()),
-                SizedBox(height: Margins.spacing_base),
                 _SelectLabel(Strings.selectQuand),
                 DatePicker(
-                  onDateSelected: (date) {
-                    setState(() {
-                      _endDate = date;
-                    });
-                  },
+                  onDateSelected: (date) => setState(() => _endDate = date),
                   initialDateValue: _endDate,
                   isActiveDate: true,
                 ),
@@ -141,7 +136,7 @@ class _Mandatory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: Margins.spacing_l),
-      child: Text(Strings.mandatoryFields, style: TextStyles.textSRegular()),
+      child: MandatoryFieldsLabel.all(),
     );
   }
 }
@@ -193,6 +188,7 @@ class _Section extends StatelessWidget {
 
 class UnicTopDemarcheTrackingWrapper extends StatefulWidget {
   const UnicTopDemarcheTrackingWrapper({super.key, required this.source, required this.child, required this.viewModel});
+
   final DemarcheSource source;
   final Widget child;
   final CreateDemarcheStep3ViewModel viewModel;
