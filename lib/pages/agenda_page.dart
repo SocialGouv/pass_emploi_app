@@ -158,24 +158,9 @@ class _Body extends StatelessWidget {
         DisplayState.LOADING => _AgendaLoading(),
         DisplayState.CONTENT => _Content(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap),
         DisplayState.EMPTY => SizedBox.shrink(),
-        DisplayState.FAILURE => _Retry(viewModel: viewModel),
+        DisplayState.FAILURE => Retry(Strings.agendaError, () => viewModel.reload(DateTime.now())),
       },
     );
-  }
-}
-
-class _Retry extends StatelessWidget {
-  final AgendaPageViewModel viewModel;
-
-  const _Retry({required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Retry(Strings.agendaError, () => viewModel.reload(DateTime.now())),
-    ));
   }
 }
 

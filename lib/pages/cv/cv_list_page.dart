@@ -30,11 +30,7 @@ class CvListPage extends StatelessWidget {
   final bool insideBottomSheet;
 
   static MaterialPageRoute<void> materialPageRoute({bool insideBottomSheet = false}) {
-    return MaterialPageRoute(
-      builder: (context) => CvListPage(
-        insideBottomSheet: insideBottomSheet,
-      ),
-    );
+    return MaterialPageRoute(builder: (context) => CvListPage(insideBottomSheet: insideBottomSheet));
   }
 
   CvListPage({required this.insideBottomSheet});
@@ -78,19 +74,13 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (viewModel.apiPeKo) {
-      return _ApiPeKo(viewModel);
-    }
-    switch (viewModel.displayState) {
-      case DisplayState.LOADING:
-        return Center(child: CircularProgressIndicator());
-      case DisplayState.CONTENT:
-        return _Content(viewModel);
-      case DisplayState.EMPTY:
-        return _EmptyListPlaceholder(insideBottomSheet);
-      case DisplayState.FAILURE:
-        return Center(child: Retry(Strings.cvError, () => viewModel.retry()));
-    }
+    if (viewModel.apiPeKo) return _ApiPeKo(viewModel);
+    return switch (viewModel.displayState) {
+      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+      DisplayState.CONTENT => _Content(viewModel),
+      DisplayState.EMPTY => _EmptyListPlaceholder(insideBottomSheet),
+      DisplayState.FAILURE => Retry(Strings.cvError, () => viewModel.retry())
+    };
   }
 }
 

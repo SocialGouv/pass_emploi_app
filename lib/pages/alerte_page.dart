@@ -123,7 +123,7 @@ class _AlertePageState extends State<AlertePage> {
       duration: AnimationDurations.fast,
       child: switch (displayState) {
         DisplayState.LOADING => _AlerteLoading(),
-        DisplayState.FAILURE => Center(child: Retry(Strings.alerteGetError, () => viewModel.onRetry())),
+        DisplayState.FAILURE => Retry(Strings.alerteGetError, () => viewModel.onRetry()),
         _ => _alertes(viewModel),
       },
     );

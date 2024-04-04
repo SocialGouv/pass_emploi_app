@@ -71,15 +71,15 @@ class ImmersionDetailsPage extends StatelessWidget {
   }
 
   Widget _body(BuildContext context, ImmersionDetailsViewModel viewModel) {
-    switch (viewModel.displayState) {
-      case ImmersionDetailsPageDisplayState.SHOW_DETAILS:
-      case ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS:
-        return _content(context, viewModel);
-      case ImmersionDetailsPageDisplayState.SHOW_LOADER:
-        return _loading();
-      case ImmersionDetailsPageDisplayState.SHOW_ERROR:
-        return _retry(viewModel);
-    }
+    return switch (viewModel.displayState) {
+      ImmersionDetailsPageDisplayState.SHOW_DETAILS => _content(context, viewModel),
+      ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS => _content(context, viewModel),
+      ImmersionDetailsPageDisplayState.SHOW_LOADER => Center(child: CircularProgressIndicator()),
+      ImmersionDetailsPageDisplayState.SHOW_ERROR => Retry(
+          Strings.offreDetailsError,
+          () => viewModel.onRetry(_immersionId),
+        ),
+    };
   }
 
   Scaffold _scaffold(Widget body, BuildContext context) {
@@ -90,11 +90,6 @@ class ImmersionDetailsPage extends StatelessWidget {
       body: DefaultAnimatedSwitcher(child: body),
     );
   }
-
-  Widget _loading() => Center(child: CircularProgressIndicator());
-
-  Center _retry(ImmersionDetailsViewModel viewModel) =>
-      Center(child: Retry(Strings.offreDetailsError, () => viewModel.onRetry(_immersionId)));
 
   Widget _content(BuildContext context, ImmersionDetailsViewModel viewModel) {
     return Stack(

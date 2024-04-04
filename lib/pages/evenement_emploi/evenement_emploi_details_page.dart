@@ -70,7 +70,10 @@ class _Body extends StatelessWidget {
     return switch (viewModel.displayState) {
       DisplayState.LOADING => Center(child: CircularProgressIndicator()),
       DisplayState.CONTENT => _Content(viewModel: viewModel),
-      DisplayState.EMPTY || DisplayState.FAILURE => _Retry(viewModel: viewModel, eventId: eventId),
+      DisplayState.EMPTY || DisplayState.FAILURE => Retry(
+          Strings.miscellaneousErrorRetry,
+          () => viewModel.retry(eventId),
+        ),
     };
   }
 }
@@ -229,22 +232,5 @@ class _FooterButtons extends StatelessWidget {
       action: AnalyticsEventNames.evenementEmploiDetailsInscriptionAction,
     );
     launchExternalUrl(viewModel.url!);
-  }
-}
-
-class _Retry extends StatelessWidget {
-  final EvenementEmploiDetailsPageViewModel viewModel;
-  final String eventId;
-
-  const _Retry({required this.viewModel, required this.eventId});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.retry(eventId)),
-      ),
-    );
   }
 }

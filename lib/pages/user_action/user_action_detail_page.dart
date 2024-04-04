@@ -158,7 +158,7 @@ class _Body extends StatelessWidget {
     return switch (viewModel.displayState) {
       DisplayState.CONTENT => _Content(viewModel, onActionDone),
       DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-      _ => Center(child: Retry(Strings.userActionDetailsError, () => viewModel.onRetry()))
+      _ => Retry(Strings.userActionDetailsError, () => viewModel.onRetry())
     };
   }
 }
@@ -395,14 +395,11 @@ class _CommentCard extends StatelessWidget {
   }
 
   Widget _build(BuildContext context, ActionCommentaireViewModel viewModel) {
-    switch (viewModel.displayState) {
-      case DisplayState.CONTENT:
-        return _content(context, viewModel, actionId, actionTitle);
-      case DisplayState.FAILURE:
-        return Center(child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()));
-      default:
-        return Center(child: CircularProgressIndicator());
-    }
+    return switch (viewModel.displayState) {
+      DisplayState.CONTENT => _content(context, viewModel, actionId, actionTitle),
+      DisplayState.FAILURE => Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()),
+      _ => Center(child: CircularProgressIndicator())
+    };
   }
 
   Widget _content(BuildContext context, ActionCommentaireViewModel viewModel, String actionId, String actionTitle) {

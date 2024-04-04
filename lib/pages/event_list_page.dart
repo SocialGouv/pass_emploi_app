@@ -42,13 +42,14 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-        duration: AnimationDurations.fast,
-        child: switch (viewModel.displayState) {
-          DisplayState.LOADING => _EventListLoading(),
-          DisplayState.EMPTY => _EmptyListPlaceholder(viewModel),
-          DisplayState.CONTENT => _Content(viewModel),
-          DisplayState.FAILURE => Center(child: Retry(Strings.eventListError, () => viewModel.onRetry())),
-        });
+      duration: AnimationDurations.fast,
+      child: switch (viewModel.displayState) {
+        DisplayState.LOADING => _EventListLoading(),
+        DisplayState.EMPTY => _EmptyListPlaceholder(viewModel),
+        DisplayState.CONTENT => _Content(viewModel),
+        DisplayState.FAILURE => Retry(Strings.eventListError, () => viewModel.onRetry()),
+      },
+    );
   }
 }
 

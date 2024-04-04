@@ -97,7 +97,7 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
     return switch (viewModel.displayState) {
       DisplayState.CONTENT => _content(context, viewModel),
       DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-      _ => Center(child: Retry(Strings.rendezVousDetailsError, () => viewModel.onRetry()))
+      _ => Retry(Strings.rendezVousDetailsError, () => viewModel.onRetry())
     };
   }
 

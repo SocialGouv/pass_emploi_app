@@ -4,8 +4,8 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_actions.dart';
 import 'package:pass_emploi_app/pages/diagoriente/diagoriente_webview_page.dart';
-import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_webview_view_model.dart';
 import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_entry_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/diagoriente/diagoriente_webview_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -61,14 +61,11 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (viewModel.displayState) {
-      case DisplayState.FAILURE:
-        return Center(child: Retry(Strings.diagorienteMetiersCardError, () => viewModel.onRetry()));
-      case DisplayState.CONTENT:
-        return _Content(viewModel);
-      default:
-        return Center(child: CircularProgressIndicator());
-    }
+    return switch (viewModel.displayState) {
+      DisplayState.FAILURE => Retry(Strings.diagorienteMetiersCardError, () => viewModel.onRetry()),
+      DisplayState.CONTENT => _Content(viewModel),
+      _ => Center(child: CircularProgressIndicator()),
+    };
   }
 }
 
@@ -102,9 +99,7 @@ class _DiagorienteMetiersFavorisCard extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         DiagorienteWebviewPage.materialPageRoute(DiagorienteWebviewMode.favoris),
-      ).then(
-        (_) => viewModel.onRetry(),
-      ),
+      ).then((_) => viewModel.onRetry()),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
@@ -66,12 +65,7 @@ class _Body extends StatelessWidget {
     return switch (displayState) {
       DisplayState.CONTENT => content,
       DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-      _ => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(Margins.spacing_base),
-            child: Retry(Strings.chatError, () => onRetry()),
-          ),
-        ),
+      _ => Retry(Strings.chatError, () => onRetry()),
     };
   }
 }

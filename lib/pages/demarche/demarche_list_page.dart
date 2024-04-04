@@ -22,7 +22,6 @@ import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_page.dart';
-import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/refresh_indicator_ext.dart';
 import 'package:pass_emploi_app/widgets/reloadable_page.dart';
@@ -71,16 +70,12 @@ class DemarcheListPage extends StatelessWidget {
   }
 
   Widget _animatedBody(BuildContext context, DemarcheListPageViewModel viewModel) {
-    switch (viewModel.displayState) {
-      case DisplayState.CONTENT:
-        return _userActionsList(context, viewModel);
-      case DisplayState.LOADING:
-        return DemarcheListLoading();
-      case DisplayState.EMPTY:
-        return _emptyPage(context, viewModel);
-      case DisplayState.FAILURE:
-        return _Error(viewModel: viewModel);
-    }
+    return switch (viewModel.displayState) {
+      DisplayState.CONTENT => _userActionsList(context, viewModel),
+      DisplayState.LOADING => DemarcheListLoading(),
+      DisplayState.EMPTY => _emptyPage(context, viewModel),
+      DisplayState.FAILURE => Retry(Strings.demarchesError, () => viewModel.onRetry()),
+    };
   }
 
   Widget _userActionsList(BuildContext context, DemarcheListPageViewModel viewModel) {
@@ -143,30 +138,6 @@ class DemarcheListPage extends StatelessWidget {
               subtitle: Strings.emptyContentSubtitle(Strings.demarche),
             ),
           );
-  }
-}
-
-class _Error extends StatelessWidget {
-  final DemarcheListPageViewModel viewModel;
-
-  const _Error({required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox.square(dimension: 130, child: Illustration.orange(AppIcons.construction)),
-          SizedBox(height: Margins.spacing_base),
-          Retry(
-            Strings.demarchesError,
-            () => viewModel.onRetry(),
-          )
-        ],
-      ),
-    );
   }
 }
 

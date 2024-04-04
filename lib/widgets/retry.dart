@@ -11,36 +11,41 @@ class Retry extends StatelessWidget {
   final String text;
   final VoidCallback onRetry;
 
-  const Retry(this.text, this.onRetry) : super();
+  const Retry(this.text, this.onRetry);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox.square(
-          dimension: 180,
-          child: Illustration.grey(
-            AppIcons.warning_rounded,
-            withWhiteBackground: true,
-          ),
-        ),
-        SizedBox(height: Margins.spacing_l),
-        Column(
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Margins.spacing_base),
+        child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(Strings.error, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
-            SizedBox(height: Margins.spacing_base),
-            Text(text, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+            SizedBox.square(
+              dimension: 180,
+              child: Illustration.grey(
+                AppIcons.warning_rounded,
+                withWhiteBackground: true,
+              ),
+            ),
             SizedBox(height: Margins.spacing_l),
-            PrimaryActionButton(
-              label: Strings.retry,
-              onPressed: onRetry,
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(Strings.error, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+                SizedBox(height: Margins.spacing_base),
+                Text(text, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+                SizedBox(height: Margins.spacing_l),
+                PrimaryActionButton(
+                  label: Strings.retry,
+                  onPressed: onRetry,
+                ),
+              ],
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 }

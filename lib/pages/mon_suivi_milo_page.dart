@@ -174,7 +174,7 @@ class _Body extends StatelessWidget {
     return AnimatedSwitcher(
       duration: AnimationDurations.fast,
       child: switch (viewModel.displayState) {
-        DisplayState.FAILURE => Center(child: Retry(Strings.monSuiviError, () => viewModel.onRetry())),
+        DisplayState.FAILURE => Retry(Strings.monSuiviError, () => viewModel.onRetry()),
         DisplayState.CONTENT => _Content(viewModel),
         _ => _MonSuiviLoader(),
       },

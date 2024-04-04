@@ -80,16 +80,13 @@ class _CommentsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (viewModel.listDisplayState) {
-      case DisplayState.FAILURE:
-        return Center(child: Retry(Strings.chatError, () => viewModel.onRetry()));
-      case DisplayState.CONTENT:
-        return viewModel.comments.isEmpty
-            ? Text(Strings.noComments, style: TextStyles.textBaseRegular)
-            : _CommentsList(comments: viewModel.comments);
-      default:
-        return Container();
-    }
+    return switch (viewModel.listDisplayState) {
+      DisplayState.FAILURE => Retry(Strings.chatError, () => viewModel.onRetry()),
+      DisplayState.CONTENT => viewModel.comments.isEmpty
+          ? Text(Strings.noComments, style: TextStyles.textBaseRegular)
+          : _CommentsList(comments: viewModel.comments),
+      _ => SizedBox.shrink(),
+    };
   }
 }
 

@@ -112,7 +112,7 @@ class _Body extends StatelessWidget {
       child: switch (viewModel.displayState) {
         DisplayState.LOADING => AccueilLoading(),
         DisplayState.CONTENT => _Blocs(viewModel),
-        DisplayState.EMPTY || DisplayState.FAILURE => _Retry(viewModel: viewModel),
+        DisplayState.EMPTY || DisplayState.FAILURE => Retry(Strings.agendaError, () => viewModel.retry()),
       },
     );
   }
@@ -149,22 +149,6 @@ class _Blocs extends StatelessWidget {
       final AccueilOutilsItem item => AccueilOutils(item),
       RatingAppItem() => AccueilRatingAppCard(),
     };
-  }
-}
-
-class _Retry extends StatelessWidget {
-  final AccueilViewModel viewModel;
-
-  const _Retry({required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Retry(Strings.agendaError, () => viewModel.retry()),
-      ),
-    );
   }
 }
 

@@ -112,7 +112,7 @@ class _Body extends StatelessWidget {
           DisplayState.EMPTY => _Empty(viewModel: viewModel),
           DisplayState.CONTENT => _Content(viewModel: viewModel),
           DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-          DisplayState.FAILURE => _Retry(viewModel: viewModel),
+          DisplayState.FAILURE => Retry(Strings.vosSuggestionsAlertesError, () => viewModel.retryFetchSuggestions()),
         },
         if (viewModel.traiterDisplayState == DisplayState.LOADING) LoadingOverlay(),
       ],
@@ -405,22 +405,6 @@ class _SeeResults extends StatelessWidget {
             color: AppColors.secondary,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _Retry extends StatelessWidget {
-  final SuggestionsRechercheListViewModel viewModel;
-
-  const _Retry({required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Retry(Strings.vosSuggestionsAlertesError, () => viewModel.retryFetchSuggestions()),
       ),
     );
   }

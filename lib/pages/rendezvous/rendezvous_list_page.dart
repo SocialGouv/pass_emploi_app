@@ -121,19 +121,15 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (viewModel.displayState) {
-      case DisplayState.LOADING:
-        return RendezVousListLoader();
-      case DisplayState.CONTENT:
-        return _Content(
+    return switch (viewModel.displayState) {
+      DisplayState.LOADING => RendezVousListLoader(),
+      DisplayState.CONTENT => _Content(
           viewModel: viewModel,
           onPageOffsetChanged: onPageOffsetChanged,
           onNextRendezvousButtonTap: onNextRendezvousButtonTap,
-        );
-      case DisplayState.FAILURE:
-      default:
-        return Retry(Strings.rendezVousListError, () => viewModel.onRetry());
-    }
+        ),
+      _ => Retry(Strings.rendezVousListError, () => viewModel.onRetry()),
+    };
   }
 }
 

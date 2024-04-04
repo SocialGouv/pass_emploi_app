@@ -39,14 +39,11 @@ class PartageActivitePage extends StatelessWidget {
   }
 
   Widget _body(PartageActivitePageViewModel viewModel) {
-    switch (viewModel.displayState) {
-      case DisplayState.LOADING:
-        return Center(child: CircularProgressIndicator());
-      case DisplayState.CONTENT:
-        return _content(viewModel);
-      default:
-        return Center(child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()));
-    }
+    return switch (viewModel.displayState) {
+      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+      DisplayState.CONTENT => _content(viewModel),
+      _ => Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry())
+    };
   }
 
   Widget _content(PartageActivitePageViewModel viewModel) {
