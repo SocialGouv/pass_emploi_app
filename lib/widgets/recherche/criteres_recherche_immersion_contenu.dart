@@ -67,7 +67,7 @@ class _CriteresRechercheImmersionContenuState extends State<CriteresRechercheImm
           ),
           SizedBox(height: Margins.spacing_m),
           LocationAutocomplete(
-            title: Strings.jobLocationTitle,
+            title: Strings.locationTitle,
             hint: Strings.jobLocationImmersionHint,
             villesOnly: true,
             initialValue: viewModel.initialLocation,

@@ -20,8 +20,6 @@ class DatePickerSuggestions extends StatelessWidget {
       children: [
         Text(Strings.datePickerTitle, style: TextStyles.textBaseBold),
         const SizedBox(height: Margins.spacing_s),
-        Text(Strings.dateFormat, style: TextStyles.textXsRegular()),
-        const SizedBox(height: Margins.spacing_s),
         DatePicker(
           onDateSelected: (date) => onDateChanged(DateFromPicker(date)),
           onDateDeleted: () => onDateChanged(DateNotInitialized()),

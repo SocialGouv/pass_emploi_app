@@ -49,7 +49,7 @@ class _SuggestionsAlerteLocationFormState extends State<SuggestionsAlerteLocatio
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
                 child: LocationAutocomplete(
-                  title: Strings.suggestionLocalisationFormTitle,
+                  title: Strings.locationTitle,
                   hint: viewModel.hint,
                   villesOnly: viewModel.villesOnly,
                   initialValue: _selectedLocation,

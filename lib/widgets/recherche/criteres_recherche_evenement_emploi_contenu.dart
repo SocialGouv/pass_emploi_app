@@ -58,7 +58,7 @@ class _CriteresRechercheEvenementEmploiContenuState extends State<CriteresRecher
           MandatoryFieldsLabel.some(),
           const SizedBox(height: Margins.spacing_base),
           LocationAutocomplete(
-            title: Strings.jobLocationMandatoryTitle,
+            title: Strings.locationMandatoryTitle,
             hint: Strings.jobEvenementEmploiHint,
             initialValue: _selectedLocation,
             villesOnly: true,

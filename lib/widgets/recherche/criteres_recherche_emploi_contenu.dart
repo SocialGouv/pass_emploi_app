@@ -65,7 +65,7 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
           ),
           const SizedBox(height: Margins.spacing_m),
           LocationAutocomplete(
-            title: Strings.jobLocationTitle,
+            title: Strings.locationTitle,
             hint: widget.onlyAlternance ? Strings.jobLocationAlternanceHint : Strings.jobLocationEmploiHint,
             initialValue: _selectedLocation,
             onLocationSelected: (location) {
