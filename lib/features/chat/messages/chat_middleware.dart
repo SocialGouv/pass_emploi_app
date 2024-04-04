@@ -51,7 +51,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
         } else if (action is DeleteMessageAction) {
           _deleteMessage(store, userId, action.message);
         } else if (action is EditMessageAction) {
-          _editMessage(store, userId, action.message, action.content);
+          _editMessage(store, userId, action.message, action.newContent);
         } else if (action is ChatPartagerOffreAction) {
           _partagerOffre(store, userId, action.offre);
         } else if (action is ChatPartagerEventAction) {

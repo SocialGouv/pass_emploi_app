@@ -42,7 +42,7 @@ class ChatMessageBottomSheet extends StatelessWidget {
                     SizedBox(height: Margins.spacing_base),
                     _CopyMessageButton(viewModel.content),
                     if (viewModel.withEditOption) _EditMessageButton(viewModel.onEdit, viewModel.content),
-                    if (viewModel.withDeleteOption) _DeleteMessageButton(viewModel.onDelete),
+                    if (viewModel.withEditOption) _DeleteMessageButton(viewModel.onDelete),
                   ],
                 ),
               ),

@@ -10,31 +10,27 @@ import 'package:redux/redux.dart';
 
 class ChatMessageBottomSheetViewModel extends Equatable {
   final String content;
-  final bool withDeleteOption;
-  final void Function() onDelete;
   final bool withEditOption;
+  final void Function() onDelete;
   final void Function(String) onEdit;
 
   ChatMessageBottomSheetViewModel({
     required this.content,
-    required this.withDeleteOption,
-    required this.onDelete,
     required this.withEditOption,
+    required this.onDelete,
     required this.onEdit,
   });
 
   factory ChatMessageBottomSheetViewModel.create(Store<AppState> store, String messageId) {
     final chatState = store.state.chatState;
     final message = (chatState as ChatSuccessState).messages.firstWhere((element) => element.id == messageId);
-    final candEditMessage = _canEditMessage(message);
     return ChatMessageBottomSheetViewModel(
       content: message.content,
-      withDeleteOption: candEditMessage,
       onDelete: () {
         store.dispatch(DeleteMessageAction(message));
         store.dispatch(TrackingEventAction(EventType.MESSAGE_DELETED));
       },
-      withEditOption: candEditMessage,
+      withEditOption: _canEditMessage(message),
       onEdit: (content) {
         store.dispatch(EditMessageAction(message, content));
         store.dispatch(TrackingEventAction(EventType.MESSAGE_EDITED));
@@ -43,7 +39,7 @@ class ChatMessageBottomSheetViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [content, withDeleteOption];
+  List<Object?> get props => [content, withEditOption];
 }
 
 bool _canEditMessage(Message message) {

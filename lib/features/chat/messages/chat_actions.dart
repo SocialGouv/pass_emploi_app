@@ -33,9 +33,9 @@ class DeleteMessageAction {
 
 class EditMessageAction {
   final Message message;
-  final String content;
+  final String newContent;
 
-  EditMessageAction(this.message, this.content);
+  EditMessageAction(this.message, this.newContent);
 }
 
 class ChatPartagerOffreAction {
