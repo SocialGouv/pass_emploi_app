@@ -13,8 +13,9 @@ class DeletedMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: item.isMyMessage ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: item.sender.isJeune ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
+        margin: EdgeInsets.symmetric(vertical: Margins.spacing_s),
         padding: EdgeInsets.symmetric(vertical: Margins.spacing_s, horizontal: Margins.spacing_base),
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.grey500),

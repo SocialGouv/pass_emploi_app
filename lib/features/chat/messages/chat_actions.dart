@@ -31,6 +31,13 @@ class DeleteMessageAction {
   DeleteMessageAction(this.message);
 }
 
+class EditMessageAction {
+  final Message message;
+  final String newContent;
+
+  EditMessageAction(this.message, this.newContent);
+}
+
 class ChatPartagerOffreAction {
   final OffrePartagee offre;
 

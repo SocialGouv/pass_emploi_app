@@ -1,1 +1,6 @@
-enum Sender { jeune, conseiller }
+enum Sender {
+  jeune,
+  conseiller;
+
+  bool get isJeune => this == Sender.jeune;
+}

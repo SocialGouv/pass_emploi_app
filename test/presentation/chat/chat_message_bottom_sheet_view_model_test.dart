@@ -17,7 +17,7 @@ void main() {
       contentStatus: MessageContentStatus.content,
       pieceJointes: [],
     );
-    test('should display delete option when message is from jeune and not already deleted', () {
+    test('should display edit options when message is from jeune and not already deleted', () {
       // Given
       final message = messageBase;
 
@@ -27,10 +27,10 @@ void main() {
       final viewModel = ChatMessageBottomSheetViewModel.create(store, message.id);
 
       // Then
-      expect(viewModel.withDeleteOption, true);
+      expect(viewModel.withEditOption, true);
     });
 
-    test('should not display delete option when message is already deleted', () {
+    test('should not display edit options option when message is already deleted', () {
       // Given
       final message = messageBase.copyWith(sentBy: Sender.jeune, contentStatus: MessageContentStatus.deleted);
 
@@ -40,10 +40,10 @@ void main() {
       final viewModel = ChatMessageBottomSheetViewModel.create(store, message.id);
 
       // Then
-      expect(viewModel.withDeleteOption, false);
+      expect(viewModel.withEditOption, false);
     });
 
-    test('should not display delete option when message is from conseiller', () {
+    test('should not display edit options option when message is from conseiller', () {
       // Given
       final message = messageBase.copyWith(sentBy: Sender.conseiller);
 
@@ -53,23 +53,10 @@ void main() {
       final viewModel = ChatMessageBottomSheetViewModel.create(store, message.id);
 
       // Then
-      expect(viewModel.withDeleteOption, false);
+      expect(viewModel.withEditOption, false);
     });
 
-    test('should not display delete option when message is from conseiller', () {
-      // Given
-      final message = messageBase.copyWith(sentBy: Sender.conseiller);
-
-      final store = givenState().chatSuccess([message]).store();
-
-      // When
-      final viewModel = ChatMessageBottomSheetViewModel.create(store, message.id);
-
-      // Then
-      expect(viewModel.withDeleteOption, false);
-    });
-
-    test('should not display delete option when message is not sent', () {
+    test('should not display delete and edit option when message is not sent', () {
       // Given
       final message = messageBase.copyWith(sendingStatus: MessageSendingStatus.sending);
 
@@ -79,7 +66,7 @@ void main() {
       final viewModel = ChatMessageBottomSheetViewModel.create(store, message.id);
 
       // Then
-      expect(viewModel.withDeleteOption, false);
+      expect(viewModel.withEditOption, false);
     });
   });
 }

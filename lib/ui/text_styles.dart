@@ -166,9 +166,12 @@ class TextStyles {
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle textSRegular({Color color = AppColors.contentColor}) {
+  static TextStyle textSRegular({
+    Color color = AppColors.contentColor,
+  }) {
     return TextStyle(
       color: color,
+      decorationColor: color,
       fontFamily: 'Marianne',
       fontSize: FontSizes.normal,
       fontWeight: FontWeight.w400,

@@ -50,6 +50,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _sendMessage(store, userId, action.message);
         } else if (action is DeleteMessageAction) {
           _deleteMessage(store, userId, action.message);
+        } else if (action is EditMessageAction) {
+          _editMessage(store, userId, action.message, action.newContent);
         } else if (action is ChatPartagerOffreAction) {
           _partagerOffre(store, userId, action.offre);
         } else if (action is ChatPartagerEventAction) {
@@ -78,6 +80,12 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     final chatState = store.state.chatState;
     final bool isLastMessage = chatState is ChatSuccessState && (chatState.messages.last.id == message.id);
     _repository.deleteMessage(userId, message, isLastMessage);
+  }
+
+  void _editMessage(Store<AppState> store, String userId, Message message, String content) async {
+    final chatState = store.state.chatState;
+    final bool isLastMessage = chatState is ChatSuccessState && (chatState.messages.last.id == message.id);
+    _repository.editMessage(userId, message, isLastMessage, content);
   }
 
   Future<void> _addMessageToRemote(Store<AppState> store, String userId, Message message) async {
