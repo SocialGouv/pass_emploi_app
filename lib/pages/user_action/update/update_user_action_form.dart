@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -92,10 +93,7 @@ class _BodyState extends State<_Body> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    Strings.mandatoryFields,
-                    style: TextStyles.textSRegular(),
-                  ),
+                  MandatoryFieldsLabel.some(),
                   SizedBox(height: Margins.spacing_m),
                   DatePickerSuggestions(
                     onDateChanged: (dateSource) => _changeNotifier.updateDate(dateSource),

@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/presentation/user_action/creation_form/create_us
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker_suggestions.dart';
 
 class CreateUserActionFormStep3 extends StatelessWidget {
@@ -31,7 +32,7 @@ class CreateUserActionFormStep3 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: Margins.spacing_m),
-            Text(Strings.allMandatoryFields, style: TextStyles.textSRegular()),
+            MandatoryFieldsLabel.all(),
             const SizedBox(height: Margins.spacing_m),
             Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
             const SizedBox(height: Margins.spacing_base),
