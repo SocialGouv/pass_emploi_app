@@ -68,6 +68,7 @@ class CreateUserActionFormStep2 extends StatelessWidget {
                 _scrollToDescription(context);
               },
             ),
+            const SizedBox(height: 500), // To ensure scrolling is available, and hence closing of keyboard
           ],
         ),
       ),
