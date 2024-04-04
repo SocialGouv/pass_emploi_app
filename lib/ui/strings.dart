@@ -460,16 +460,16 @@ class Strings {
   static const String userActionTitleStep2 = 'Mon action';
   static const String userActionTitleStep3 = 'Statut et date';
 
-  static const String userActionSubtitleStep1 = '*Choisissez une catégorie';
+  static const String userActionSubtitleStep1 = 'Choisissez une catégorie';
 
   static const String userActionSubtitleStep2 = '*Pouvez-vous nous en dire plus ?';
   static const String userActionTitleTextfieldStep2 = '*Pouvez-vous nous en dire plus ?';
   static const String userActionDescriptionTextfieldStep2 = 'Décrire mon action';
 
-  static const String userActionStatusRadioStep3 = '*L’action est :';
+  static const String userActionStatusRadioStep3 = 'L’action est :';
   static const String userActionStatusRadioCompletedStep3 = 'Terminée';
   static const String userActionStatusRadioTodoStep3 = 'En cours';
-  static const String datePickerTitle = '*Date';
+  static const String datePickerTitle = 'Date';
   static const String dateFormat = "Format de date attendu : JJ/MM/AAAA";
 
   static const String userActionDateSuggestion1 = 'Aujourd’hui';
