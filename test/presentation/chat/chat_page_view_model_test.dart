@@ -701,6 +701,30 @@ void main() {
         expect(viewModel.shouldShowOnboarding, isFalse);
       });
     });
+
+    group('piece jointe', () {
+      test('should display pj picker', () {
+        // Given
+        final store = givenState().withFeatureFlip(usePj: true).store();
+
+        // When
+        final viewModel = ChatPageViewModel.create(store);
+
+        // Then
+        expect(viewModel.pjEnabled, isTrue);
+      });
+
+      test('should not display pj picker', () {
+        // Given
+        final store = givenState().withFeatureFlip(usePj: false).store();
+
+        // When
+        final viewModel = ChatPageViewModel.create(store);
+
+        // Then
+        expect(viewModel.pjEnabled, isFalse);
+      });
+    });
   });
 }
 

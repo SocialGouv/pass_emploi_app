@@ -15,8 +15,14 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is LoginSuccessAction && action.user.loginMode.isPe()) {
-      _handleCvmFeatureFlip(store, action.user.id);
+    if (action is LoginSuccessAction) {
+      if (action.user.loginMode.isPe()) {
+        _handleCvmFeatureFlip(store, action.user.id);
+      }
+
+      if (action.user.loginMode.isMiLo()) {
+        _handlePjFeatureFlip(store, action.user.id);
+      }
     }
   }
 
@@ -30,6 +36,20 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
       final jeune = await _detailsJeuneRepository.fetch(userId);
       if (idsConseiller.contains(jeune?.conseiller.id)) {
         store.dispatch(FeatureFlipUseCvmAction(true));
+      }
+    }
+  }
+
+  void _handlePjFeatureFlip(Store<AppState> store, String userId) async {
+    if (_remoteConfigRepository.usePj()) {
+      store.dispatch(FeatureFlipUsePjAction(true));
+    } else {
+      final idsMilo = _remoteConfigRepository.getIdsMiloPjEarlyAdopters();
+      if (idsMilo.isEmpty) return;
+
+      final jeune = await _detailsJeuneRepository.fetch(userId);
+      if (idsMilo.contains(jeune?.structure?.id)) {
+        store.dispatch(FeatureFlipUsePjAction(true));
       }
     }
   }

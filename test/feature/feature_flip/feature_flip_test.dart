@@ -3,6 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_actions.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/models/details_jeune.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
@@ -18,9 +19,8 @@ void main() {
 
     group("useCvm", () {
       group("when user is PE", () {
+        sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiUser()));
         group("and CVM generally enabled", () {
-          sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiUser()));
-
           test('should set useCvm to true', () {
             when(() => remoteConfigRepository.useCvm()).thenReturn(true);
 
@@ -33,8 +33,6 @@ void main() {
         });
 
         group("and CVM not generally enabled, but user's conseiller is an early adopter", () {
-          sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiUser()));
-
           test('should load then succeed when request succeeds', () {
             when(() => remoteConfigRepository.useCvm()).thenReturn(false);
             when(() => remoteConfigRepository.getIdsConseillerCvmEarlyAdopters()).thenReturn(["id-conseiller-ea"]);
@@ -55,8 +53,6 @@ void main() {
         });
 
         group("and CVM not generally enabled, and user's conseiller is not an early adopter", () {
-          sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiUser()));
-
           test('should load then succeed when request succeeds', () async {
             when(() => remoteConfigRepository.useCvm()).thenReturn(false);
             when(() => remoteConfigRepository.getIdsConseillerCvmEarlyAdopters()).thenReturn(["id-conseiller-ea"]);
@@ -92,6 +88,82 @@ void main() {
       });
     });
 
+    group('use pj', () {
+      group('when user is PE', () {
+        sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiUser()));
+        test('should never use pj', () {
+          // Given
+          when(() => remoteConfigRepository.usePj()).thenReturn(true);
+
+          // When
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
+
+          // Then
+          sut.thenExpectNever(_shouldHaveUsePjValue(true));
+        });
+      });
+
+      group('when user is milo', () {
+        sut.whenDispatchingAction(() => LoginSuccessAction(mockedMiloUser()));
+        test('and pj enabled should display pj', () {
+          // Given
+          when(() => remoteConfigRepository.usePj()).thenReturn(true);
+
+          // When
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
+
+          // Then
+          sut.thenExpectAtSomePoint(_shouldHaveUsePjValue(true));
+        });
+
+        test('and pj not enabled but user is early adopter should display pj', () {
+          // Given
+          when(() => remoteConfigRepository.usePj()).thenReturn(false);
+          when(() => remoteConfigRepository.getIdsMiloPjEarlyAdopters()).thenReturn(["id-mission-locale-ea"]);
+          when(() => detailsJeuneRepository.fetch("id")) //
+              .thenAnswer((_) async => mockDetailsJeune(structure: StructureMilo("id-mission-locale-ea", null)));
+
+          // When
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store(
+                (f) => {
+                  f.remoteConfigRepository = remoteConfigRepository,
+                  f.detailsJeuneRepository = detailsJeuneRepository,
+                },
+              );
+
+          // Then
+          sut.thenExpectAtSomePoint(_shouldHaveUsePjValue(true));
+        });
+
+        test('and pj not enabled and user not early adopter should not display pj', () {
+          // Given
+          when(() => remoteConfigRepository.usePj()).thenReturn(false);
+          when(() => remoteConfigRepository.getIdsMiloPjEarlyAdopters()).thenReturn(["id-mission-locale-ea"]);
+          when(() => detailsJeuneRepository.fetch("id")) //
+              .thenAnswer((_) async => mockDetailsJeune(structure: StructureMilo("id-mission-locale", null)));
+
+          // When
+          sut.givenStore = givenState() //
+              .loggedInUser()
+              .store(
+                (f) => {
+                  f.remoteConfigRepository = remoteConfigRepository,
+                  f.detailsJeuneRepository = detailsJeuneRepository,
+                },
+              );
+
+          // Then
+          sut.thenExpectNever(_shouldHaveUsePjValue(true));
+        });
+      });
+    });
+
     group("when updating a feature flip value", () {
       sut.whenDispatchingAction(() => FeatureFlipCampagneRecrutementAction(true));
 
@@ -113,5 +185,12 @@ Matcher _shouldHaveUseCvmValue(bool useCvm) {
   return StateIs<FeatureFlipState>(
     (state) => state.featureFlipState,
     (state) => expect(state.featureFlip.useCvm, useCvm),
+  );
+}
+
+Matcher _shouldHaveUsePjValue(bool usePj) {
+  return StateIs<FeatureFlipState>(
+    (state) => state.featureFlipState,
+    (state) => expect(state.featureFlip.usePj, usePj),
   );
 }
