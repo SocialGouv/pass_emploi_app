@@ -8,6 +8,10 @@ void main() {
   final SharedPreferencesSpy prefs = SharedPreferencesSpy();
   final TutorialRepository repository = TutorialRepository(prefs);
 
+  setUp(() {
+    prefs.reset();
+  });
+
   test("getMiloTutorial returns tutorial pages for MILO", () {
     // When
     final pages = repository.getMiloTutorial();

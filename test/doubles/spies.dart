@@ -39,6 +39,7 @@ class StoreSpy extends Store<AppState> {
 
 class SharedPreferencesSpy extends FlutterSecureStorage {
   final Map<String, String> _storedValues = {};
+  void reset() => _storedValues.clear();
 
   @override
   Future<void> write({
