@@ -71,6 +71,12 @@
 		<key>UIStatusBarHidden</key>
 		<false/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-</dict>
+		<true/>
+		<key>NSCameraUsageDescription</key>
+		<string>Our app uses the camera to capture photos and send them to your advisor.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Allow microphone access for recording sounds on videos you take for your advisor.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Allow photo access to send photos to your advisor in the chat.</string>
+	</dict>
 </plist>

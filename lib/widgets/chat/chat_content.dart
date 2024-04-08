@@ -1,3 +1,4 @@
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_list_view.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_text_field.dart';
@@ -8,6 +9,8 @@ class ChatContent extends StatelessWidget {
   final ScrollController scrollController;
   final TextEditingController controller;
   final Function(String) onSendMessage;
+  final Function(XFile) onSendImage;
+  final bool pjEnabled;
   final NullableIndexedWidgetBuilder itemBuilder;
 
   const ChatContent({
@@ -15,6 +18,8 @@ class ChatContent extends StatelessWidget {
     required this.controller,
     required this.scrollController,
     required this.onSendMessage,
+    required this.onSendImage,
+    required this.pjEnabled,
     required this.itemBuilder,
   });
 
@@ -34,6 +39,8 @@ class ChatContent extends StatelessWidget {
           child: ChatTextField(
             controller: controller,
             onSendMessage: onSendMessage,
+            onSendImage: onSendImage,
+            pjEnabled: pjEnabled,
           ),
         )
       ],

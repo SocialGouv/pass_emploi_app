@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_deleted_message.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_local_image.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_scaffold.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_text_message.dart';
@@ -97,6 +98,8 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         controller: _controller!,
         scrollController: _scrollController,
         onSendMessage: viewModel.onSendMessage,
+        onSendImage: viewModel.onSendImage,
+        pjEnabled: viewModel.pjEnabled,
         itemBuilder: (context, index) {
           final item = viewModel.items.reversed.toList()[index];
           final widget = item.toWidget(context);
@@ -135,6 +138,7 @@ extension on ChatItem {
       onLongPress: () => switch (this) {
         final TextMessageItem item => ChatMessageBottomSheet.show(context, item),
         final PieceJointeConseillerMessageItem item => ChatMessageBottomSheet.show(context, item),
+        LocalImageMessageItem() => null,
         final PartageMessageItem item => ChatMessageBottomSheet.show(context, item),
         DeletedMessageItem() => null,
         InformationItem() => null,
@@ -146,6 +150,7 @@ extension on ChatItem {
         final InformationItem item => ChatInformation(item.title, item.description),
         final DeletedMessageItem item => DeletedMessage(item),
         final PieceJointeConseillerMessageItem item => ChatPieceJointe(item.toParams()),
+        final LocalImageMessageItem item => ChatLocalImage(item),
         final PartageMessageItem item => PartageMessage(item),
       },
     );

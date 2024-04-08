@@ -52,6 +52,8 @@ dependencies:
   in_app_review: "2.0.9"
   flutter_timezone: "1.0.8"
   connectivity_plus: "6.0.1"
+  image_picker: "1.0.7"
+  cross_file: "0.3.4"
   # Others
   flutter_redux: "0.10.0"
   redux: "5.0.0"

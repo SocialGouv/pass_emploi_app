@@ -86,6 +86,7 @@ class Strings {
   static String sending = "Envoi en cours";
   static String sendingFailed = "L'envoi a échoué";
   static String sendMessageTooltip = "Envoyer le message";
+  static String sendAttachmentTooltip = "Envoyer une pièce jointe";
   static String chatError = "Erreur lors de la récupération de votre messagerie";
   static String newConseillerTitle = "Vous échangez avec votre nouveau conseiller";
   static String newConseillerTemporaireTitle = "Vous échangez temporairement avec un nouveau conseiller";

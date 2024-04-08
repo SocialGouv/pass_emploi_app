@@ -1,0 +1,29 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_message_container.dart';
+
+class ChatLocalImage extends StatelessWidget {
+  const ChatLocalImage(this.message);
+  final LocalImageMessageItem message;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChatMessageContainer(
+      caption: message.caption,
+      captionColor: message.captionColor,
+      isMyMessage: true,
+      content: Stack(
+        alignment: Alignment.center,
+        children: [
+          Image.file(File(message.file.path)),
+          SizedBox.square(
+            dimension: 40,
+            child: CircularProgressIndicator(),
+          ),
+        ],
+      ),
+    );
+  }
+}
