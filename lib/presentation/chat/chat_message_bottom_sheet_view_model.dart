@@ -28,12 +28,12 @@ class ChatMessageBottomSheetViewModel extends Equatable {
       content: message.content,
       onDelete: () {
         store.dispatch(DeleteMessageAction(message));
-        store.dispatch(TrackingEventAction(EventType.MESSAGE_DELETED));
+        store.dispatch(TrackingEventAction(EventType.MESSAGE_SUPPRIME));
       },
       withEditOption: _canEditMessage(message),
       onEdit: (content) {
         store.dispatch(EditMessageAction(message, content));
-        store.dispatch(TrackingEventAction(EventType.MESSAGE_EDITED));
+        store.dispatch(TrackingEventAction(EventType.MESSAGE_MODIFIE));
       },
     );
   }
