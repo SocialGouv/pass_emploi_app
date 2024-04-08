@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -70,8 +71,10 @@ class ActionCategorySelector extends StatelessWidget {
   }
 
   double _responsiveChildAspectRatioForA11y(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final minAspectRatio = height < MediaSizes.height_xs ? 2 / 3 : 1.0;
     final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
-    return min(1, 1 / textScaleFactor);
+    return min(minAspectRatio, 1 / textScaleFactor);
   }
 }
 
