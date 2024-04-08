@@ -192,7 +192,6 @@ class _CreateUserActionForm extends StatelessWidget {
                     ),
                   _ => const SizedBox.shrink(),
                 },
-                SizedBox(height: Margins.spacing_huge * 4),
               ],
             ),
           ),

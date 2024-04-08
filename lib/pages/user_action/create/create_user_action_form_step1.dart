@@ -33,7 +33,7 @@ class CreateUserActionFormStep1 extends StatelessWidget {
               label: Strings.listSemanticsLabel,
               child: ActionCategorySelector(onActionSelected: onActionTypeSelected),
             ),
-            const SizedBox(height: Margins.spacing_huge),
+            const SizedBox(height: Margins.spacing_base),
           ],
         ),
       ),
