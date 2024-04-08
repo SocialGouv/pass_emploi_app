@@ -21,7 +21,10 @@ class TutorialRepository {
   Future<bool> shouldShowTutorial() async {
     final keys = (await _preferences.readAll()).keys;
     final firstInstall = keys.firstWhereOrNull((key) => key.startsWith(_keyPrefix)) == null;
-    if (firstInstall) return false;
+    if (firstInstall) {
+      await setTutorialRead();
+      return false;
+    }
 
     final String? tutorialRead = await _preferences.read(key: '$_keyPrefix${Tutorial.versionTimestamp}');
     return tutorialRead == null;
