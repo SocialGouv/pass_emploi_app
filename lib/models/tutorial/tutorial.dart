@@ -1,7 +1,7 @@
 import 'package:pass_emploi_app/models/tutorial/tutorial_page.dart';
 
 class Tutorial {
-  static const String versionTimestamp = '1712584491';
+  static const String versionTimestamp = '1712584492';
   static List<TutorialPage> milo = [
     TutorialPage(
       title: "Modifier ou supprimer les messages envoyés",
