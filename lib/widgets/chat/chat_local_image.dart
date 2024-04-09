@@ -17,7 +17,7 @@ class ChatLocalImage extends StatelessWidget {
       content: Stack(
         alignment: Alignment.center,
         children: [
-          Image.file(File(message.file.path)),
+          Image.file(File(message.imagePath)),
           SizedBox.square(
             dimension: 40,
             child: CircularProgressIndicator(),

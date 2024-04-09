@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cross_file/cross_file.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
@@ -45,7 +44,7 @@ class Message extends Equatable {
   final Sender sentBy;
   final MessageType type;
   final List<PieceJointe> pieceJointes;
-  final XFile? localPieceJointe;
+  final String? localPieceJointePath;
   final Offre? offre;
   final Event? event;
   final ChatEvenementEmploi? evenementEmploi;
@@ -63,7 +62,7 @@ class Message extends Equatable {
     required this.sendingStatus,
     required this.contentStatus,
     required this.pieceJointes,
-    this.localPieceJointe,
+    this.localPieceJointePath,
     this.offre,
     this.event,
     this.evenementEmploi,
@@ -83,7 +82,7 @@ class Message extends Equatable {
     );
   }
 
-  factory Message.fromImage(XFile file) {
+  factory Message.fromImage(String imagePath) {
     return Message(
       id: Uuid().v1(),
       content: "",
@@ -93,7 +92,7 @@ class Message extends Equatable {
       sendingStatus: MessageSendingStatus.sending,
       contentStatus: MessageContentStatus.content,
       pieceJointes: [],
-      localPieceJointe: file,
+      localPieceJointePath: imagePath,
     );
   }
 
@@ -105,7 +104,7 @@ class Message extends Equatable {
     Sender? sentBy,
     MessageType? type,
     List<PieceJointe>? pieceJointes,
-    XFile? localPieceJointe,
+    String? localPieceJointePath,
     Offre? offre,
     Event? event,
     ChatEvenementEmploi? evenementEmploi,
@@ -123,7 +122,7 @@ class Message extends Equatable {
       sendingStatus: sendingStatus ?? this.sendingStatus,
       contentStatus: contentStatus ?? this.contentStatus,
       pieceJointes: pieceJointes ?? this.pieceJointes,
-      localPieceJointe: localPieceJointe ?? this.localPieceJointe,
+      localPieceJointePath: localPieceJointePath ?? this.localPieceJointePath,
       offre: offre ?? this.offre,
       event: event ?? this.event,
       evenementEmploi: evenementEmploi ?? this.evenementEmploi,
@@ -234,7 +233,7 @@ class Message extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, content, creationDate, sentBy, type, pieceJointes, localPieceJointe, offre, event, evenementEmploi];
+      [id, content, creationDate, sentBy, type, pieceJointes, localPieceJointePath, offre, event, evenementEmploi];
 }
 
 extension _DecryptString on String {

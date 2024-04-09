@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cross_file/cross_file.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_history_aggregator.dart';
@@ -52,7 +51,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
         } else if (action is DeleteMessageAction) {
           _deleteMessage(store, userId, action.message);
         } else if (action is SendImageAction) {
-          _sendImage(store, userId, action.image);
+          _sendImage(store, userId, action.imagePath);
         } else if (action is EditMessageAction) {
           _editMessage(store, userId, action.message, action.newContent);
         } else if (action is ChatPartagerOffreAction) {
@@ -85,8 +84,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     _repository.deleteMessage(userId, message, isLastMessage);
   }
 
-  void _sendImage(Store<AppState> store, String userId, XFile image) async {
-    final message = Message.fromImage(image);
+  void _sendImage(Store<AppState> store, String userId, String imagePath) async {
+    final message = Message.fromImage(imagePath);
     _addMessageToLocal(store, message);
     // TODO: Implement image sending
   }

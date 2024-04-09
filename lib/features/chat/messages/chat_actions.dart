@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
-import 'package:share_plus/share_plus.dart';
 
 class ChatRequestAction {}
 
@@ -27,9 +26,9 @@ class SendMessageAction {
 }
 
 class SendImageAction {
-  final XFile image;
+  final String imagePath;
 
-  SendImageAction(this.image);
+  SendImageAction(this.imagePath);
 }
 
 class DeleteMessageAction {

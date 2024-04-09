@@ -1,4 +1,3 @@
-import 'package:cross_file/cross_file.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
@@ -190,13 +189,13 @@ class PieceJointeConseillerMessageItem extends ChatItem {
 }
 
 class LocalImageMessageItem extends ChatItem {
-  final XFile file;
+  final String imagePath;
   final String caption;
   final Color? captionColor;
 
   LocalImageMessageItem({
     required String messageId,
-    required this.file,
+    required this.imagePath,
     required this.caption,
     this.captionColor,
     bool shouldAnimate = false,

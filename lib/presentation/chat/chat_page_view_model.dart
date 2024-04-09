@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:cross_file/cross_file.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
@@ -22,7 +21,7 @@ class ChatPageViewModel extends Equatable {
   final bool shouldShowOnboarding;
   final bool pjEnabled;
   final Function(String message) onSendMessage;
-  final Function(XFile image) onSendImage;
+  final Function(String imagePath) onSendImage;
   final Function() onRetry;
 
   ChatPageViewModel({
@@ -47,7 +46,7 @@ class ChatPageViewModel extends Equatable {
       shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
       pjEnabled: store.state.featureFlipState.featureFlip.usePj,
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
-      onSendImage: (XFile image) => store.dispatch(SendImageAction(image)),
+      onSendImage: (String imagePath) => store.dispatch(SendImageAction(imagePath)),
       onRetry: () => store.dispatch(SubscribeToChatAction()),
     );
   }
@@ -164,7 +163,7 @@ ChatItem _pieceJointeItem(Message message) {
 ChatItem _localPieceJointeItem(Message message) {
   return LocalImageMessageItem(
     messageId: message.id,
-    file: message.localPieceJointe!,
+    imagePath: message.localPieceJointePath ?? "",
     caption: "${message.creationDate.toHour()} · ${Strings.sending}",
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),

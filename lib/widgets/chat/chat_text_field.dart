@@ -1,4 +1,3 @@
-import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/credentials_page.dart';
@@ -15,7 +14,7 @@ class ChatTextField extends StatefulWidget {
   final TextEditingController controller;
   final bool pjEnabled;
   final Function(String) onSendMessage;
-  final Function(XFile) onSendImage;
+  final Function(String) onSendImage;
 
   const ChatTextField({
     required this.controller,
