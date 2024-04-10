@@ -29,8 +29,12 @@ class CvmRepository(
     }
 
     fun login(ex160: String, token: String, onResult: (Boolean) -> Unit) {
-        MatrixManager.getInstance().loginAndStartSession(token, ex160)
-        onResult(true)
+        try {
+            MatrixManager.getInstance().loginAndStartSession(token, ex160)
+            onResult(true)
+        } catch (ignored: Exception) {
+            onResult(false)
+        }
     }
 
     fun joinFirstRoom(onResult: (Boolean) -> Unit) {
