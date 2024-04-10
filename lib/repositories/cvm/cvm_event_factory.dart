@@ -52,7 +52,7 @@ class CvmEventFactory {
     );
   }
 
-  String _fileId(String fileInfo) => fileInfo.split('/').last;
+  String _fileId(String fileInfo) => fileInfo.replaceFirst('mxc://', '');
 
   String _url(String fileInfo) => cvmAttachmentUrl + _fileId(fileInfo);
 }
