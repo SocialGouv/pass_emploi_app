@@ -209,6 +209,7 @@ class _InformationsLegales extends StatelessWidget {
       expandedAlignment: Alignment.topLeft,
       children: [
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: Margins.spacing_s),
             Link(Strings.legalNoticeLabel, Strings.legalNoticeUrl),
