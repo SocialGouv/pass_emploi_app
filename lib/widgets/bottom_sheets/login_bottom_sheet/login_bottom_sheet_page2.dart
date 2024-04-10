@@ -52,7 +52,7 @@ class LoginBottomSheetPage2 extends StatelessWidget {
           label: Strings.askAccount,
           onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
         ),
-        SizedBox(height: Margins.spacing_base),
+        SizedBox(height: Margins.spacing_xl),
       ],
     );
   }

@@ -122,7 +122,7 @@ class _Scaffold extends StatelessWidget {
                       SizedBox(height: Margins.spacing_base),
                       _AskAccount(),
                     ],
-                    SizedBox(height: Margins.spacing_base),
+                    SizedBox(height: Margins.spacing_xl),
                   ],
                 ),
               ),
