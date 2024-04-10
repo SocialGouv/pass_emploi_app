@@ -40,7 +40,7 @@ void main() {
         'type': 'file',
         'isFromUser': false,
         'message': 'file.jpg',
-        'fileInfo': 'mxc://matrix.org/id-file',
+        'fileInfo': 'mxc://url-pe/id-file',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
 
@@ -54,8 +54,8 @@ void main() {
           id: 'id',
           sentBy: Sender.conseiller,
           fileName: 'file.jpg',
-          url: 'https://cvm.fr/download/id-file',
-          fileId: 'id-file',
+          url: 'https://cvm.fr/download/url-pe/id-file',
+          fileId: 'url-pe/id-file',
           date: DateTime(2024, 1, 1),
         ),
       );
@@ -69,7 +69,7 @@ void main() {
         'type': 'file',
         'isFromUser': false,
         'message': 'file.jpg',
-        'fileInfo': 'id-file',
+        'fileInfo': 'url-pe/id-file',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
 
@@ -83,8 +83,8 @@ void main() {
           id: 'id',
           sentBy: Sender.conseiller,
           fileName: 'file.jpg',
-          url: 'https://cvm.fr/download/id-file',
-          fileId: 'id-file',
+          url: 'https://cvm.fr/download/url-pe/id-file',
+          fileId: 'url-pe/id-file',
           date: DateTime(2024, 1, 1),
         ),
       );
@@ -97,7 +97,7 @@ void main() {
         'type': 'image',
         'isFromUser': false,
         'message': 'file.jpg',
-        'fileInfo': 'mxc://matrix.org/id-file',
+        'fileInfo': 'url-pe/id-file',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
 
@@ -111,8 +111,8 @@ void main() {
           id: 'id',
           sentBy: Sender.conseiller,
           fileName: 'file.jpg',
-          url: 'https://cvm.fr/download/id-file',
-          fileId: 'id-file',
+          url: 'https://cvm.fr/download/url-pe/id-file',
+          fileId: 'url-pe/id-file',
           date: DateTime(2024, 1, 1),
         ),
       );
