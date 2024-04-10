@@ -187,20 +187,39 @@ class PieceJointeConseillerMessageItem extends ChatItem {
   @override
   List<Object?> get props => [messageId, pieceJointeId, message, filename, caption, captionColor, shouldAnimate];
 }
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 
 class LocalImageMessageItem extends ChatItem {
   final String imagePath;
   final String caption;
+<<<<<<< Updated upstream
+=======
+  final bool showLoading;
+>>>>>>> Stashed changes
   final Color? captionColor;
 
   LocalImageMessageItem({
     required String messageId,
     required this.imagePath,
     required this.caption,
+<<<<<<< Updated upstream
+=======
+    required this.showLoading,
+>>>>>>> Stashed changes
     this.captionColor,
     bool shouldAnimate = false,
   }) : super(messageId, shouldAnimate: shouldAnimate);
 
   @override
+<<<<<<< Updated upstream
   List<Object?> get props => [messageId, caption, captionColor, shouldAnimate];
 }
+=======
+  List<Object?> get props => [messageId, caption, showLoading, captionColor, shouldAnimate];
+}
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes

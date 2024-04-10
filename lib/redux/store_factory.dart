@@ -337,7 +337,7 @@ class StoreFactory {
           modeDemoRepository,
           cryptoStorage,
         ).call,
-        ChatMiddleware(chatRepository).call,
+        ChatMiddleware(chatRepository, pieceJointeRepository).call,
         ChatStatusMiddleware(chatRepository).call,
         RendezvousListMiddleware(rendezvousRepository, sessionMiloRepository).call,
         RendezvousDetailsMiddleware(rendezvousRepository).call,

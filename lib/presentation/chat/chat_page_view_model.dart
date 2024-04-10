@@ -160,16 +160,30 @@ ChatItem _pieceJointeItem(Message message) {
   }
 }
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 ChatItem _localPieceJointeItem(Message message) {
   return LocalImageMessageItem(
     messageId: message.id,
     imagePath: message.localPieceJointePath ?? "",
+<<<<<<< Updated upstream
     caption: "${message.creationDate.toHour()} · ${Strings.sending}",
+=======
+    showLoading: message.sendingStatus == MessageSendingStatus.sending,
+    caption: _caption(message, minDateTime),
+>>>>>>> Stashed changes
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );
 }
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 Color? _captionColor(Message message) {
   return switch (message.sendingStatus) {
     MessageSendingStatus.sending => null,
