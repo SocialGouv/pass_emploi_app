@@ -110,6 +110,7 @@ extension on CvmChatItem {
 extension on CvmPieceJointeConseillerMessageItem {
   PieceJointeParams toParams() {
     return PieceJointeTypeUrlParams(
+      sender: sender,
       caption: caption,
       filename: fileName,
       fileId: fileId,

@@ -147,6 +147,7 @@ ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
 ChatItem _pieceJointeItem(Message message) {
   if (message.sentBy == Sender.conseiller) {
     return PieceJointeConseillerMessageItem(
+      sender: message.sentBy,
       messageId: message.id,
       pieceJointeId: message.pieceJointes[0].id,
       message: message.content,
@@ -156,34 +157,29 @@ ChatItem _pieceJointeItem(Message message) {
       shouldAnimate: _shouldAnimate(message),
     );
   } else {
-    return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
+    return PieceJointeJeuneMessageItem(
+      sender: message.sentBy,
+      messageId: message.id,
+      pieceJointeId: message.pieceJointes[0].id,
+      filename: message.pieceJointes.first.nom,
+      caption: message.creationDate.toHour(),
+      captionColor: _captionColor(message),
+      shouldAnimate: _shouldAnimate(message),
+    );
   }
 }
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
 ChatItem _localPieceJointeItem(Message message) {
   return LocalImageMessageItem(
     messageId: message.id,
     imagePath: message.localPieceJointePath ?? "",
-<<<<<<< Updated upstream
-    caption: "${message.creationDate.toHour()} · ${Strings.sending}",
-=======
     showLoading: message.sendingStatus == MessageSendingStatus.sending,
     caption: _caption(message, minDateTime),
->>>>>>> Stashed changes
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );
 }
 
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 Color? _captionColor(Message message) {
   return switch (message.sendingStatus) {
     MessageSendingStatus.sending => null,

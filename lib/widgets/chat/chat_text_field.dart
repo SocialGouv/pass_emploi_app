@@ -69,7 +69,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
                     color: AppColors.primary,
                   ),
                   onPressed: () async {
-                    final result = await PhotoServices.pickSingleImage();
+                    final result = await GalleryPicker.pickSingleImage();
                     if (result != null) {
                       widget.onSendImage(result);
                     }

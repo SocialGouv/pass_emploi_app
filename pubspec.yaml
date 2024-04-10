@@ -24,6 +24,7 @@ dependencies:
   dio: "5.4.2"
   dio_cache_interceptor: "3.5.0"
   dio_cache_interceptor_file_store: "1.2.3"
+  http_parser: "4.0.2"
   # Firebase
   firebase_core: "2.27.2"
   firebase_crashlytics: "3.4.20"
@@ -53,6 +54,7 @@ dependencies:
   flutter_timezone: "1.0.8"
   connectivity_plus: "6.0.1"
   image_picker: "1.0.7"
+  flutter_image_compress: "2.2.0"
   # Others
   flutter_redux: "0.10.0"
   redux: "5.0.0"

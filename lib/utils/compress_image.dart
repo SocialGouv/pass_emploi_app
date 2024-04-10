@@ -9,7 +9,7 @@ class CompressImage {
 
   static const int maxImageMaxDimension = 1080;
 
-  static Future<String?> compressImage(String filePath) async {
+  static Future<(String?, String?)> compressImage(String filePath) async {
     final file = File(filePath);
     final imageBytes = await file.readAsBytes();
     final image = await decodeImageFromList(imageBytes);
@@ -25,17 +25,18 @@ class CompressImage {
     }
 
     final dir = await getTemporaryDirectory();
-    final newPath = '${dir.path}/${DateTime.now().millisecondsSinceEpoch}.png';
+    final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+    final newPath = '${dir.path}/$fileName';
 
     final compressedFile = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       newPath,
       quality: 80,
-      format: CompressFormat.png,
+      format: CompressFormat.jpeg,
       minHeight: minHeight,
       minWidth: minWidth,
     );
 
-    return compressedFile?.path;
+    return (fileName, compressedFile?.path);
   }
 }

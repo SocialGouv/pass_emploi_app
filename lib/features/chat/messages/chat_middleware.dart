@@ -91,17 +91,20 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     final message = Message.fromImage(imagePath);
     _addMessageToLocal(store, message);
 
-    final compressedFilePath = await CompressImage.compressImage(imagePath);
+    final (fileName, compressedFilePath) = await CompressImage.compressImage(imagePath);
 
-    if (compressedFilePath == null) {
+    if (fileName == null || compressedFilePath == null) {
       _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
       return;
     }
 
-    final result = await _pieceJointeRepository.postPieceJointe(fileName: message.id, filePath: compressedFilePath);
-    if (!result) {
+    final piceJointe = await _pieceJointeRepository.postPieceJointe(fileName: fileName, filePath: compressedFilePath);
+    if (piceJointe == null) {
       _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
+      return;
     }
+
+    await _chatRepository.sendPieceJointeMessage(userId, piceJointe, message.id);
   }
 
   void _editMessage(Store<AppState> store, String userId, Message message, String content) async {

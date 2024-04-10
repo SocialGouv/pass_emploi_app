@@ -20,8 +20,9 @@ class ChatCrypto {
     );
   }
 
-  String encryptWithIv(String plainText, String initializationVector) {
-    return _assertEncrypter().encrypt(plainText, iv: IV.fromBase64(initializationVector)).base64;
+  EncryptedTextWithIv encryptWithIv(String plainText, String initializationVector) {
+    final message = _assertEncrypter().encrypt(plainText, iv: IV.fromBase64(initializationVector)).base64;
+    return EncryptedTextWithIv(initializationVector, message);
   }
 
   String decrypt(EncryptedTextWithIv encrypted) {

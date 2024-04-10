@@ -187,6 +187,7 @@ void main() {
     expect(viewModel.items, [
       DayItem('Aujourd\'hui'),
       PieceJointeConseillerMessageItem(
+        sender: Sender.conseiller,
         messageId: "uid",
         pieceJointeId: "id-1",
         message: "Une PJ",

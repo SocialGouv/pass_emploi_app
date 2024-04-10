@@ -168,6 +168,7 @@ class SessionMiloMessageItem extends PartageMessageItem {
 }
 
 class PieceJointeConseillerMessageItem extends ChatItem {
+  final Sender sender;
   final String pieceJointeId;
   final String message;
   final String filename;
@@ -175,6 +176,7 @@ class PieceJointeConseillerMessageItem extends ChatItem {
   final Color? captionColor;
 
   PieceJointeConseillerMessageItem({
+    required this.sender,
     required String messageId,
     required this.pieceJointeId,
     required this.message,
@@ -185,41 +187,46 @@ class PieceJointeConseillerMessageItem extends ChatItem {
   }) : super(messageId, shouldAnimate: shouldAnimate);
 
   @override
-  List<Object?> get props => [messageId, pieceJointeId, message, filename, caption, captionColor, shouldAnimate];
+  List<Object?> get props =>
+      [sender, messageId, pieceJointeId, message, filename, caption, captionColor, shouldAnimate];
 }
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
+
+class PieceJointeJeuneMessageItem extends ChatItem {
+  final Sender sender;
+  final String pieceJointeId;
+  final String filename;
+  final String caption;
+  final Color? captionColor;
+
+  PieceJointeJeuneMessageItem({
+    required this.sender,
+    required String messageId,
+    required this.pieceJointeId,
+    required this.filename,
+    required this.caption,
+    this.captionColor,
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate: shouldAnimate);
+
+  @override
+  List<Object?> get props => [sender, messageId, pieceJointeId, filename, caption, captionColor, shouldAnimate];
+}
 
 class LocalImageMessageItem extends ChatItem {
   final String imagePath;
   final String caption;
-<<<<<<< Updated upstream
-=======
   final bool showLoading;
->>>>>>> Stashed changes
   final Color? captionColor;
 
   LocalImageMessageItem({
     required String messageId,
     required this.imagePath,
     required this.caption,
-<<<<<<< Updated upstream
-=======
     required this.showLoading,
->>>>>>> Stashed changes
     this.captionColor,
     bool shouldAnimate = false,
   }) : super(messageId, shouldAnimate: shouldAnimate);
 
   @override
-<<<<<<< Updated upstream
-  List<Object?> get props => [messageId, caption, captionColor, shouldAnimate];
-}
-=======
   List<Object?> get props => [messageId, caption, showLoading, captionColor, shouldAnimate];
 }
->>>>>>> Stashed changes
->>>>>>> Stashed changes

@@ -85,13 +85,15 @@ class ChatRepository {
     required String userId,
     required String message,
     String? messageId,
+    String? givenIv,
     Map<String, dynamic> customPayload = const {},
   }) async {
     final chatDocumentId = await _getChatDocumentId(userId);
     if (chatDocumentId == null) return false;
 
     final messageCreationDate = FieldValue.serverTimestamp();
-    final encryptedMessage = _chatCrypto.encrypt(message);
+    final encryptedMessage =
+        givenIv != null ? _chatCrypto.encryptWithIv(message, givenIv) : _chatCrypto.encrypt(message);
     return await FirebaseFirestore.instance
         .runTransaction((transaction) async {
           final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(messageId);
@@ -162,19 +164,19 @@ class ChatRepository {
         .runTransaction((transaction) async {
           final messageRef = _chatCollection(chatDocumentId).collection('messages').doc(message.id);
           transaction.update(messageRef, {
-            'content': encryptedNewMessage,
+            'content': encryptedNewMessage.base64Message,
             'status': status.toJson,
           });
 
           final historyRef = messageRef.collection('history').doc();
           transaction.set(historyRef, {
             "date": FieldValue.serverTimestamp(),
-            "previousContent": encryptedOldMessage,
+            "previousContent": encryptedOldMessage.base64Message,
           });
 
           if (shouldUpdateChat) {
             transaction.update(_chatCollection(chatDocumentId), {
-              'lastMessageContent': encryptedNewMessage,
+              'lastMessageContent': encryptedNewMessage.base64Message,
             });
           }
         })
@@ -232,6 +234,26 @@ class ChatRepository {
       'type': "MESSAGE_EVENEMENT_EMPLOI",
     };
     return _sendMessage(userId: userId, message: emploiPartage.message, customPayload: customPayload);
+  }
+
+  Future<bool> sendPieceJointeMessage(String userId, PieceJointe pieceJointe, String messageId) {
+    final nomPjEncrypted = _chatCrypto.encrypt(pieceJointe.nom);
+    final customPayload = {
+      'piecesJointes': [
+        {
+          "id": pieceJointe.id,
+          "nom": nomPjEncrypted.base64Message,
+        }
+      ],
+      'type': "MESSAGE_PJ",
+    };
+    return _sendMessage(
+      userId: userId,
+      message: pieceJointe.nom,
+      messageId: messageId,
+      customPayload: customPayload,
+      givenIv: nomPjEncrypted.base64InitializationVector,
+    );
   }
 
   Future<void> setLastMessageSeen(String userId) async {

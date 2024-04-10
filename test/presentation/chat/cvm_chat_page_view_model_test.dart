@@ -73,7 +73,8 @@ void main() {
         'Pour avoir l\'accès au contenu veuillez mettre à jour l\'application',
       ),
       CvmDayItem('Le 02/01/2021'),
-      CvmPieceJointeConseillerMessageItem(messageId: 'id3', url: 'u', fileName: 'fn', fileId: 'fi', caption: '16:00'),
+      CvmPieceJointeConseillerMessageItem(
+          sender: Sender.conseiller, messageId: 'id3', url: 'u', fileName: 'fn', fileId: 'fi', caption: '16:00'),
       CvmDayItem('Aujourd\'hui'),
       CvmTextMessageItem(messageId: 'id4', content: '4', caption: '12:00', sender: Sender.jeune),
     ]);

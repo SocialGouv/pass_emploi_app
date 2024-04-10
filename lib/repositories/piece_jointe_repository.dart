@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -12,7 +13,8 @@ class PieceJointeRepository {
   final Crashlytics? _crashlytics;
 
   PieceJointeRepository(this._httpClient, this._pieceJointeSaver, [this._crashlytics]);
-  Future<bool> postPieceJointe({
+
+  Future<PieceJointe?> postPieceJointe({
     required String fileName,
     required String filePath,
   }) async {
@@ -20,18 +22,16 @@ class PieceJointeRepository {
       final MultipartFile fichier = await MultipartFile.fromFile(
         filePath,
         filename: fileName,
-        contentType: MediaType('image', 'png'),
+        contentType: MediaType('image', 'jpg'),
       );
 
-      // Création d'un objet FormData
       final FormData formData = FormData.fromMap({
         'fichier': fichier,
         'nom': fileName,
-        'jeunesIds': [""],
+        'jeunesIds': [""], // TODO: voir avec malek
       });
 
-      // Utilisation de Dio pour envoyer la requête multipart/form-data
-      await _httpClient.post(
+      final result = await _httpClient.post(
         "/fichiers",
         data: formData,
         options: Options(
@@ -39,10 +39,10 @@ class PieceJointeRepository {
         ),
       );
 
-      return true;
+      return PieceJointe.fromJson(result.data);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack);
-      return false;
+      return null;
     }
   }
 

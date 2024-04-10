@@ -190,7 +190,7 @@ class Message extends Equatable {
     final iv = json['iv'] as String?;
     if (piecesJointes == null) return [];
     return piecesJointes
-        .map((e) => PieceJointe.fromJson(e, chatCrypto, crashlytics, iv))
+        .map((e) => PieceJointe.fromEncryptedJson(e, chatCrypto, crashlytics, iv))
         .whereType<PieceJointe>()
         .toList();
   }
@@ -261,11 +261,17 @@ class PieceJointe extends Equatable {
   @override
   List<Object?> get props => [id, nom];
 
-  static PieceJointe? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics, String? iv) {
+  static PieceJointe? fromEncryptedJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics, String? iv) {
     final id = json["id"] as String;
     final encryptedNom = json["nom"] as String;
     final nom = encryptedNom.decrypt(chatCrypto, crashlytics, iv);
     if (nom == null) return null;
+    return PieceJointe(id, nom);
+  }
+
+  static PieceJointe fromJson(dynamic json) {
+    final id = json["id"] as String;
+    final nom = json["nom"] as String;
     return PieceJointe(id, nom);
   }
 }
