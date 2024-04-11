@@ -21,15 +21,13 @@ class RemoteConfigRepository {
   }
 
   bool useCvm() {
-    return false;
-    //if (_firebaseRemoteConfig == null) return false;
-    //return _firebaseRemoteConfig.getBool('use_cvm');
+    if (_firebaseRemoteConfig == null) return false;
+    return _firebaseRemoteConfig.getBool('use_cvm');
   }
 
   List<String> getIdsConseillerCvmEarlyAdopters() {
-    return [];
-    //if (_firebaseRemoteConfig == null) return [];
-    //return _firebaseRemoteConfig.getString('ids_conseiller_cvm_early_adopters').split(',');
+    if (_firebaseRemoteConfig == null) return [];
+    return _firebaseRemoteConfig.getString('ids_conseiller_cvm_early_adopters').split(',');
   }
 
   bool usePj() {
