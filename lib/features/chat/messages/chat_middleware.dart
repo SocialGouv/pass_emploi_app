@@ -98,7 +98,12 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
       return;
     }
 
-    final piceJointe = await _pieceJointeRepository.postPieceJointe(fileName: fileName, filePath: compressedFilePath);
+    final piceJointe = await _pieceJointeRepository.postPieceJointe(
+      fileName: fileName,
+      filePath: compressedFilePath,
+      userId: userId,
+    );
+
     if (piceJointe == null) {
       _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
       return;

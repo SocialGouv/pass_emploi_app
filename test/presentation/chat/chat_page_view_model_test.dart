@@ -186,7 +186,7 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Aujourd\'hui'),
-      PieceJointeConseillerMessageItem(
+      PieceJointeMessageItem(
         sender: Sender.conseiller,
         messageId: "uid",
         pieceJointeId: "id-1",

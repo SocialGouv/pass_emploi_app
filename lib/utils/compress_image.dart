@@ -25,14 +25,14 @@ class CompressImage {
     }
 
     final dir = await getTemporaryDirectory();
-    final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+    final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
     final newPath = '${dir.path}/$fileName';
 
     final compressedFile = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       newPath,
       quality: 80,
-      format: CompressFormat.jpeg,
+      format: CompressFormat.png,
       minHeight: minHeight,
       minWidth: minWidth,
     );

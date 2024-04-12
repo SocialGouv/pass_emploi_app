@@ -137,8 +137,7 @@ extension on ChatItem {
     return GestureDetector(
       onLongPress: () => switch (this) {
         final TextMessageItem item => ChatMessageBottomSheet.show(context, item),
-        final PieceJointeConseillerMessageItem item => ChatMessageBottomSheet.show(context, item),
-        final PieceJointeJeuneMessageItem item => ChatMessageBottomSheet.show(context, item),
+        final PieceJointeMessageItem item => ChatMessageBottomSheet.show(context, item),
         LocalImageMessageItem() => null,
         final PartageMessageItem item => ChatMessageBottomSheet.show(context, item),
         DeletedMessageItem() => null,
@@ -150,8 +149,7 @@ extension on ChatItem {
         final TextMessageItem item => ChatTextMessage(item.toParams()),
         final InformationItem item => ChatInformation(item.title, item.description),
         final DeletedMessageItem item => DeletedMessage(item),
-        final PieceJointeConseillerMessageItem item => ChatPieceJointe(item.toParams()),
-        final PieceJointeJeuneMessageItem item => ChatPieceJointe(item.toParams()),
+        final PieceJointeMessageItem item => ChatPieceJointe(item.toParams()),
         final LocalImageMessageItem item => ChatLocalImage(item),
         final PartageMessageItem item => PartageMessage(item),
       },
@@ -159,7 +157,7 @@ extension on ChatItem {
   }
 }
 
-extension on PieceJointeConseillerMessageItem {
+extension on PieceJointeMessageItem {
   PieceJointeParams toParams() {
     return PieceJointeTypeIdParams(
       sender: sender,
@@ -167,17 +165,6 @@ extension on PieceJointeConseillerMessageItem {
       filename: filename,
       caption: caption,
       content: message,
-    );
-  }
-}
-
-extension on PieceJointeJeuneMessageItem {
-  PieceJointeParams toParams() {
-    return PieceJointeTypeIdParams(
-      sender: sender,
-      fileId: pieceJointeId,
-      filename: filename,
-      caption: caption,
     );
   }
 }

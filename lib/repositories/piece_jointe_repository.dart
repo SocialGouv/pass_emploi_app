@@ -17,18 +17,19 @@ class PieceJointeRepository {
   Future<PieceJointe?> postPieceJointe({
     required String fileName,
     required String filePath,
+    required String userId,
   }) async {
     try {
       final MultipartFile fichier = await MultipartFile.fromFile(
         filePath,
         filename: fileName,
-        contentType: MediaType('image', 'jpg'),
+        contentType: MediaType('image', 'png'),
       );
 
       final FormData formData = FormData.fromMap({
         'fichier': fichier,
         'nom': fileName,
-        'jeunesIds': [""], // TODO: voir avec malek
+        'jeunesIds': [userId],
       });
 
       final result = await _httpClient.post(

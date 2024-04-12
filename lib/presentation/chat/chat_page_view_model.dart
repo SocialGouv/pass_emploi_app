@@ -145,28 +145,16 @@ ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
 }
 
 ChatItem _pieceJointeItem(Message message) {
-  if (message.sentBy == Sender.conseiller) {
-    return PieceJointeConseillerMessageItem(
-      sender: message.sentBy,
-      messageId: message.id,
-      pieceJointeId: message.pieceJointes[0].id,
-      message: message.content,
-      filename: message.pieceJointes.first.nom,
-      caption: message.creationDate.toHour(),
-      captionColor: _captionColor(message),
-      shouldAnimate: _shouldAnimate(message),
-    );
-  } else {
-    return PieceJointeJeuneMessageItem(
-      sender: message.sentBy,
-      messageId: message.id,
-      pieceJointeId: message.pieceJointes[0].id,
-      filename: message.pieceJointes.first.nom,
-      caption: message.creationDate.toHour(),
-      captionColor: _captionColor(message),
-      shouldAnimate: _shouldAnimate(message),
-    );
-  }
+  return PieceJointeMessageItem(
+    sender: message.sentBy,
+    messageId: message.id,
+    pieceJointeId: message.pieceJointes[0].id,
+    message: message.sentBy.isJeune ? null : message.content,
+    filename: message.pieceJointes.first.nom,
+    caption: message.creationDate.toHour(),
+    captionColor: _captionColor(message),
+    shouldAnimate: _shouldAnimate(message),
+  );
 }
 
 ChatItem _localPieceJointeItem(Message message) {
