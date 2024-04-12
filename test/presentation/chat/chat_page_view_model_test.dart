@@ -623,9 +623,15 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem("Le 01/01/2021"),
-      InformationItem(
-        "Le message est inaccessible",
-        "Pour avoir l'accès au contenu veuillez mettre à jour l'application",
+      PieceJointeMessageItem(
+        sender: Sender.jeune,
+        messageId: "uid",
+        pieceJointeId: "1",
+        message: null,
+        filename: "a.pdf",
+        caption: "12:30",
+        captionColor: null,
+        shouldAnimate: false,
       ),
     ]);
   });
