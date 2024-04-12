@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/utils/gallery_picker.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/chat_piece_jointe_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class ChatTextField extends StatefulWidget {
@@ -69,9 +69,9 @@ class _ChatTextFieldState extends State<ChatTextField> {
                     color: AppColors.primary,
                   ),
                   onPressed: () async {
-                    final result = await GalleryPicker.pickSingleImage();
-                    if (result != null) {
-                      widget.onSendImage(result);
+                    final filePath = await ChatPieceJointeBottomSheet.show(context);
+                    if (filePath != null) {
+                      widget.onSendImage(filePath);
                     }
                   },
                 ),

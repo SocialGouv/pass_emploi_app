@@ -117,6 +117,11 @@ class Strings {
 
   static String chatDeletedMessageContent = "(Message supprimé)";
 
+  static String chatPieceJointeBottomSheetTitle = "Ajouter une pièce jointe";
+  static String chatPieceJointeBottomSheetSubtitle =
+      "Ne partagez pas des documents contenant votre numéro de sécurité sociale (ex: Carte Vitale, etc.)";
+  static String chatPieceJointeBottomSheetImageButton = "Sélectionner une photo";
+
   // Force Update
   static String updateTitle = "Mise à jour";
   static String updateButton = "Mettre à jour";
