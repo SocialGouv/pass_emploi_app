@@ -9,7 +9,7 @@ class CompressImage {
 
   static const int maxImageMaxDimension = 1080;
 
-  static Future<(String?, String?)> compressImage(String filePath) async {
+  Future<(String?, String?)> compressImage(String filePath) async {
     final file = File(filePath);
     final imageBytes = await file.readAsBytes();
     final image = await decodeImageFromList(imageBytes);

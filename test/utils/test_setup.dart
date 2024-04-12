@@ -71,6 +71,7 @@ import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_r
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
+import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
@@ -154,6 +155,7 @@ class TestStoreFactory {
   PreferredLoginModeRepository preferredLoginModeRepository = MockPreferredLoginModeRepository();
   OnboardingRepository onboardingRepository = MockOnboardingRepository();
   FirstLaunchOnboardingRepository firstLaunchOnboardingRepository = MockFirstLaunchOnboardingRepository();
+  CompressImage compressImage = MockCompressImage();
 
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
@@ -232,6 +234,7 @@ class TestStoreFactory {
       preferredLoginModeRepository,
       onboardingRepository,
       firstLaunchOnboardingRepository,
+      compressImage,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }

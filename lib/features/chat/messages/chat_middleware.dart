@@ -25,10 +25,15 @@ import 'package:redux/redux.dart';
 class ChatMiddleware extends MiddlewareClass<AppState> {
   final ChatRepository _chatRepository;
   final PieceJointeRepository _pieceJointeRepository;
+  final CompressImage _compressImage;
   StreamSubscription<List<Message>>? _subscription;
   final ChatHistoryAggregator _chatHistoryAggregator = ChatHistoryAggregator();
 
-  ChatMiddleware(this._chatRepository, this._pieceJointeRepository);
+  ChatMiddleware(
+    this._chatRepository,
+    this._pieceJointeRepository,
+    this._compressImage,
+  );
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -91,7 +96,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     final message = Message.fromImage(imagePath);
     _addMessageToLocal(store, message);
 
-    final (fileName, compressedFilePath) = await CompressImage.compressImage(imagePath);
+    final (fileName, compressedFilePath) = await _compressImage.compressImage(imagePath);
 
     if (fileName == null || compressedFilePath == null) {
       _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
@@ -109,7 +114,10 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
       return;
     }
 
-    await _chatRepository.sendPieceJointeMessage(userId, piceJointe, message.id);
+    final messageResult = await _chatRepository.sendPieceJointeMessage(userId, piceJointe, message.id);
+    if (!messageResult) {
+      _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
+    }
   }
 
   void _editMessage(Store<AppState> store, String userId, Message message, String content) async {

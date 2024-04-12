@@ -390,3 +390,5 @@ class DummyTopDemarcheRepository extends TopDemarcheRepository {
 class DummyMonSuiviRepository extends MonSuiviRepository {
   DummyMonSuiviRepository() : super(DioMock());
 }
+
+final PieceJointe dummyPieceJointe = PieceJointe("id", "nom");
