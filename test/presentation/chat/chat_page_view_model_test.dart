@@ -755,7 +755,7 @@ void main() {
       final viewModel = ChatPageViewModel.create(store);
 
       // Then
-      expect(viewModel.pjEnabled, isTrue);
+      expect(viewModel.jeunePjEnabled, isTrue);
     });
 
     test('should not display pj picker', () {
@@ -766,7 +766,7 @@ void main() {
       final viewModel = ChatPageViewModel.create(store);
 
       // Then
-      expect(viewModel.pjEnabled, isFalse);
+      expect(viewModel.jeunePjEnabled, isFalse);
     });
   });
 }

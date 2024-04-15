@@ -19,7 +19,7 @@ class ChatPageViewModel extends Equatable {
   final String? brouillon;
   final List<ChatItem> items;
   final bool shouldShowOnboarding;
-  final bool pjEnabled;
+  final bool jeunePjEnabled;
   final Function(String message) onSendMessage;
   final Function(String imagePath) onSendImage;
   final Function() onRetry;
@@ -29,7 +29,7 @@ class ChatPageViewModel extends Equatable {
     required this.brouillon,
     required this.items,
     required this.shouldShowOnboarding,
-    required this.pjEnabled,
+    required this.jeunePjEnabled,
     required this.onSendMessage,
     required this.onSendImage,
     required this.onRetry,
@@ -44,7 +44,7 @@ class ChatPageViewModel extends Equatable {
       brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
-      pjEnabled: store.state.featureFlipState.featureFlip.usePj,
+      jeunePjEnabled: store.state.featureFlipState.featureFlip.usePj,
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
       onSendImage: (String imagePath) => store.dispatch(SendImageAction(imagePath)),
       onRetry: () => store.dispatch(SubscribeToChatAction()),
@@ -52,7 +52,7 @@ class ChatPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, brouillon, items, shouldShowOnboarding, pjEnabled];
+  List<Object?> get props => [displayState, brouillon, items, shouldShowOnboarding, jeunePjEnabled];
 }
 
 DisplayState _displayState(ChatState state) {

@@ -12,13 +12,13 @@ import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.da
 
 class ChatTextField extends StatefulWidget {
   final TextEditingController controller;
-  final bool pjEnabled;
+  final bool jeunePjEnabled;
   final Function(String) onSendMessage;
   final Function(String) onSendImage;
 
   const ChatTextField({
     required this.controller,
-    required this.pjEnabled,
+    required this.jeunePjEnabled,
     required this.onSendMessage,
     required this.onSendImage,
   });
@@ -32,7 +32,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
 
   @override
   void initState() {
-    showSendButton = !widget.pjEnabled && widget.controller.text.isNotEmpty;
+    showSendButton = !widget.jeunePjEnabled && widget.controller.text.isNotEmpty;
     widget.controller.addListener(_onTextFieldChanged);
     super.initState();
   }
@@ -78,7 +78,8 @@ class _ChatTextFieldState extends State<ChatTextField> {
                 SizedBox(width: Margins.spacing_s),
               ],
             ),
-            crossFadeState: widget.pjEnabled && !showSendButton ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState:
+                widget.jeunePjEnabled && !showSendButton ? CrossFadeState.showSecond : CrossFadeState.showFirst,
             duration: AnimationDurations.fast,
           ),
           Expanded(

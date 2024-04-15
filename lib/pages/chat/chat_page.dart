@@ -100,7 +100,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         scrollController: _scrollController,
         onSendMessage: viewModel.onSendMessage,
         onSendImage: viewModel.onSendImage,
-        pjEnabled: viewModel.pjEnabled,
+        jeunePjEnabled: viewModel.jeunePjEnabled,
         itemBuilder: (context, index) {
           final item = viewModel.items.reversed.toList()[index];
           final widget = item.toWidget(context);

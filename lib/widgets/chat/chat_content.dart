@@ -9,7 +9,7 @@ class ChatContent extends StatelessWidget {
   final TextEditingController controller;
   final Function(String) onSendMessage;
   final Function(String imagePath) onSendImage;
-  final bool pjEnabled;
+  final bool jeunePjEnabled;
   final NullableIndexedWidgetBuilder itemBuilder;
 
   const ChatContent({
@@ -18,7 +18,7 @@ class ChatContent extends StatelessWidget {
     required this.scrollController,
     required this.onSendMessage,
     required this.onSendImage,
-    required this.pjEnabled,
+    required this.jeunePjEnabled,
     required this.itemBuilder,
   });
 
@@ -39,7 +39,7 @@ class ChatContent extends StatelessWidget {
             controller: controller,
             onSendMessage: onSendMessage,
             onSendImage: onSendImage,
-            pjEnabled: pjEnabled,
+            jeunePjEnabled: jeunePjEnabled,
           ),
         )
       ],
