@@ -1,8 +1,9 @@
 class PieceJointeFromIdRequestAction {
   final String fileId;
   final String fileName;
+  final bool isImage;
 
-  PieceJointeFromIdRequestAction(this.fileId, this.fileName);
+  PieceJointeFromIdRequestAction(this.fileId, this.fileName, {this.isImage = false});
 }
 
 class PieceJointeFromUrlRequestAction {
@@ -16,8 +17,9 @@ class PieceJointeFromUrlRequestAction {
 class PieceJointeSuccessAction {
   final String fileId;
   final String path;
+  final bool isImage;
 
-  PieceJointeSuccessAction({required this.fileId, required this.path});
+  PieceJointeSuccessAction({required this.fileId, required this.path, this.isImage = false});
 }
 
 class PieceJointeUnavailableAction {

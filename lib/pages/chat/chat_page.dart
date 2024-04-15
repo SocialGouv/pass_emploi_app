@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bott
 import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_deleted_message.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_image_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_local_image.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
@@ -138,6 +139,7 @@ extension on ChatItem {
       onLongPress: () => switch (this) {
         final TextMessageItem item => ChatMessageBottomSheet.show(context, item),
         final PieceJointeMessageItem item => ChatMessageBottomSheet.show(context, item),
+        final PieceJointeImageItem item => ChatMessageBottomSheet.show(context, item),
         LocalImageMessageItem() => null,
         final PartageMessageItem item => ChatMessageBottomSheet.show(context, item),
         DeletedMessageItem() => null,
@@ -150,6 +152,7 @@ extension on ChatItem {
         final InformationItem item => ChatInformation(item.title, item.description),
         final DeletedMessageItem item => DeletedMessage(item),
         final PieceJointeMessageItem item => ChatPieceJointe(item.toParams()),
+        final PieceJointeImageItem item => ChatImagePieceJointe(item),
         final LocalImageMessageItem item => ChatLocalImage(item),
         final PartageMessageItem item => PartageMessage(item),
       },

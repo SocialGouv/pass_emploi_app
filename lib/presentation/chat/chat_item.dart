@@ -167,7 +167,14 @@ class SessionMiloMessageItem extends PartageMessageItem {
       [messageId, content, caption, captionColor, shouldAnimate, sender, idPartage, titrePartage];
 }
 
-class PieceJointeMessageItem extends ChatItem {
+sealed class PieceJointeItem extends ChatItem {
+  PieceJointeItem({
+    required String messageId,
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate: shouldAnimate);
+}
+
+class PieceJointeMessageItem extends PieceJointeItem {
   final Sender sender;
   final String pieceJointeId;
   final String? message;
@@ -176,19 +183,38 @@ class PieceJointeMessageItem extends ChatItem {
   final Color? captionColor;
 
   PieceJointeMessageItem({
+    required super.messageId,
+    super.shouldAnimate,
     required this.sender,
-    required String messageId,
     required this.pieceJointeId,
     required this.message,
     required this.filename,
     required this.caption,
     this.captionColor,
-    bool shouldAnimate = false,
-  }) : super(messageId, shouldAnimate: shouldAnimate);
+  });
 
   @override
   List<Object?> get props =>
       [sender, messageId, pieceJointeId, message, filename, caption, captionColor, shouldAnimate];
+}
+
+class PieceJointeImageItem extends PieceJointeItem {
+  final String pieceJointeId;
+  final String pieceJointeName;
+  final String caption;
+  final Color? captionColor;
+
+  PieceJointeImageItem({
+    required super.messageId,
+    super.shouldAnimate = false,
+    required this.pieceJointeId,
+    required this.pieceJointeName,
+    required this.caption,
+    this.captionColor,
+  });
+
+  @override
+  List<Object?> get props => [messageId, pieceJointeId, pieceJointeName, caption, captionColor, shouldAnimate];
 }
 
 class LocalImageMessageItem extends ChatItem {

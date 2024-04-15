@@ -145,6 +145,19 @@ ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
 }
 
 ChatItem _pieceJointeItem(Message message) {
+  final isJeuneImage =
+      message.pieceJointes.length == 1 && message.sentBy.isJeune && message.pieceJointes.first.nom.isImage();
+  if (isJeuneImage) {
+    return PieceJointeImageItem(
+      messageId: message.id,
+      pieceJointeId: message.pieceJointes[0].id,
+      pieceJointeName: message.pieceJointes[0].nom,
+      caption: message.creationDate.toHour(),
+      captionColor: _captionColor(message),
+      shouldAnimate: _shouldAnimate(message),
+    );
+  }
+
   return PieceJointeMessageItem(
     sender: message.sentBy,
     messageId: message.id,
@@ -221,4 +234,8 @@ List<dynamic> _messagesWithDaySections(List<Message> messages) {
 
 String _getDayLabel(DateTime dateTime) {
   return dateTime.isAtSameDayAs(DateTime.now()) ? Strings.today : Strings.simpleDayFormat(dateTime.toDay());
+}
+
+extension on String {
+  bool isImage() => endsWith(".jpg") || endsWith(".jpeg") || endsWith(".png") || endsWith(".webp");
 }

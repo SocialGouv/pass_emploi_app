@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -17,7 +18,11 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
 
     if (action is PieceJointeFromIdRequestAction) {
       final String? path = await _repository.downloadFromId(fileId: action.fileId, fileName: action.fileName);
-      _handleDownload(store, action.fileId, path);
+      final pieceJointeState = store.state.piecesJointesState;
+      if (pieceJointeState.status[action.fileId] == PieceJointeStatus.success) {
+        return;
+      }
+      _handleDownload(store, action.fileId, path, isImage: action.isImage);
     }
 
     if (action is PieceJointeFromUrlRequestAction) {
@@ -30,13 +35,13 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _handleDownload(Store<AppState> store, String fileId, String? path) {
+  void _handleDownload(Store<AppState> store, String fileId, String? path, {bool isImage = false}) {
     if (path == null || path.isEmpty) {
       store.dispatch(PieceJointeFailureAction(fileId));
     } else if (path == Strings.fileNotAvailableError) {
       store.dispatch(PieceJointeUnavailableAction(fileId));
     } else {
-      store.dispatch(PieceJointeSuccessAction(fileId: fileId, path: path));
+      store.dispatch(PieceJointeSuccessAction(fileId: fileId, path: path, isImage: isImage));
     }
   }
 }
