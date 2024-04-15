@@ -31,6 +31,7 @@ import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_r
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
+import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
@@ -229,5 +230,7 @@ class MockFirstLaunchOnboardingRepository extends Mock implements FirstLaunchOnb
 
 class MockDeveloperOptionRepository extends Mock implements DeveloperOptionRepository {}
 
-class MockCompressImage extends Mock implements CompressImage {}
+class MockImageCompressor extends Mock implements ImageCompressor {}
+
+class MockPieceJointeUseCase extends Mock implements PieceJointeUseCase {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

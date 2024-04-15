@@ -19,7 +19,7 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
-import 'package:pass_emploi_app/utils/compress_image.dart';
+import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/dummies.dart';
@@ -488,24 +488,24 @@ void main() {
       final sut = StoreSut();
       late _MockChatRepository mockChatRepository;
       late _MockPieceJointeRepository mockPieceJointeRepository;
-      late _MockCompressImage mockCompressImage;
+      late _MockPieceJointeUseCase mockPieceJointeUseCase;
 
       setUp(() {
         mockChatRepository = _MockChatRepository();
         mockPieceJointeRepository = _MockPieceJointeRepository();
-        mockCompressImage = _MockCompressImage();
+        mockPieceJointeUseCase = _MockPieceJointeUseCase();
         sut.givenStore = givenState() //
             .loggedInUser()
             .store(
               (f) => {
                 f.chatRepository = mockChatRepository,
                 f.pieceJointeRepository = mockPieceJointeRepository,
-                f.compressImage = mockCompressImage,
+                f.pieceJointeUseCase = mockPieceJointeUseCase,
               },
             );
       });
 
-      setUpAll(() => registerFallbackValue(dummyPieceJointe));
+      setUpAll(() => registerFallbackValue(_dummyPieceJointe));
 
       sut.whenDispatchingAction(() => SendImageAction("filePath"));
 
@@ -513,7 +513,7 @@ void main() {
         // Given
         mockChatRepository.onSendPieceJointeSuccess();
         mockPieceJointeRepository.onPostPieceJointeSuccess();
-        mockCompressImage.onCompressImageSuccess();
+        mockPieceJointeUseCase.onSuccess();
 
         // When & Then
         sut.thenExpectChangingStatesThroughOrder([
@@ -521,37 +521,11 @@ void main() {
         ]);
       });
 
-      test('should display error message when compressing image fails', () {
+      test('should display error message when use case fails', () {
         // Given
         mockChatRepository.onSendPieceJointeSuccess();
         mockPieceJointeRepository.onPostPieceJointeSuccess();
-        mockCompressImage.onCompressImageFailure();
-
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
-          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.failed),
-        ]);
-      });
-
-      test('should display error when upload image fails', () {
-        // Given
-        mockChatRepository.onSendPieceJointeSuccess();
-        mockPieceJointeRepository.onPostPieceJointeFailure();
-        mockCompressImage.onCompressImageSuccess();
-
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
-          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.failed),
-        ]);
-      });
-
-      test('should display error when sending message fails', () {
-        // Given
-        mockChatRepository.onSendPieceJointeFailure();
-        mockPieceJointeRepository.onPostPieceJointeSuccess();
-        mockCompressImage.onCompressImageSuccess();
+        mockPieceJointeUseCase.onFailure();
 
         // When & Then
         sut.thenExpectChangingStatesThroughOrder([
@@ -648,7 +622,7 @@ class _MockPieceJointeRepository extends Mock implements PieceJointeRepository {
   void onPostPieceJointeSuccess() {
     when(() => postPieceJointe(
         fileName: any(named: "fileName"), filePath: any(named: "filePath"), userId: any(named: "userId"))).thenAnswer(
-      (_) async => dummyPieceJointe,
+      (_) async => _dummyPieceJointe,
     );
   }
 
@@ -660,12 +634,14 @@ class _MockPieceJointeRepository extends Mock implements PieceJointeRepository {
   }
 }
 
-class _MockCompressImage extends Mock implements CompressImage {
-  void onCompressImageSuccess() {
-    when(() => compressImage(any())).thenAnswer((_) async => ("fileName", "newPath"));
+class _MockPieceJointeUseCase extends Mock implements PieceJointeUseCase {
+  void onSuccess() {
+    when(() => sendPieceJointe(any(), any(), any())).thenAnswer((_) async => true);
   }
 
-  void onCompressImageFailure() {
-    when(() => compressImage(any())).thenAnswer((_) async => (null, null));
+  void onFailure() {
+    when(() => sendPieceJointe(any(), any(), any())).thenAnswer((_) async => false);
   }
 }
+
+final PieceJointe _dummyPieceJointe = PieceJointe("id", "nom");

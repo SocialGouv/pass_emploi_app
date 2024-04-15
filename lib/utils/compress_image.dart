@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
 
-class CompressImage {
-  CompressImage();
+class ImageCompressor {
+  ImageCompressor();
 
   static const int maxImageMaxDimension = 1080;
 

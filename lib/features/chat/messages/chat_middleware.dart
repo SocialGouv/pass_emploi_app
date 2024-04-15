@@ -17,22 +17,19 @@ import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
-import 'package:pass_emploi_app/utils/compress_image.dart';
+import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:redux/redux.dart';
 
 class ChatMiddleware extends MiddlewareClass<AppState> {
   final ChatRepository _chatRepository;
-  final PieceJointeRepository _pieceJointeRepository;
-  final CompressImage _compressImage;
+  final PieceJointeUseCase _pieceJointeUseCase;
   StreamSubscription<List<Message>>? _subscription;
   final ChatHistoryAggregator _chatHistoryAggregator = ChatHistoryAggregator();
 
   ChatMiddleware(
     this._chatRepository,
-    this._pieceJointeRepository,
-    this._compressImage,
+    this._pieceJointeUseCase,
   );
 
   @override
@@ -95,29 +92,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   void _sendImage(Store<AppState> store, String userId, String imagePath) async {
     final message = Message.fromImage(imagePath);
     _addMessageToLocal(store, message);
-
-    final (fileName, compressedFilePath) = await _compressImage.compressImage(imagePath);
-
-    if (fileName == null || compressedFilePath == null) {
-      _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
-      return;
-    }
-
-    final piceJointe = await _pieceJointeRepository.postPieceJointe(
-      fileName: fileName,
-      filePath: compressedFilePath,
-      userId: userId,
-    );
-
-    if (piceJointe == null) {
-      _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
-      return;
-    }
-
-    final messageResult = await _chatRepository.sendPieceJointeMessage(userId, piceJointe, message.id);
-    if (!messageResult) {
-      _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
-    }
+    final result = await _pieceJointeUseCase.sendPieceJointe(userId, message, imagePath);
+    if (!result) _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
   }
 
   void _editMessage(Store<AppState> store, String userId, Message message, String content) async {

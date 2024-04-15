@@ -151,7 +151,7 @@ import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_r
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
-import 'package:pass_emploi_app/utils/compress_image.dart';
+import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
@@ -231,7 +231,7 @@ class StoreFactory {
   final PreferredLoginModeRepository preferredLoginModeRepository;
   final OnboardingRepository onboardingRepository;
   final FirstLaunchOnboardingRepository firstLaunchOnboardingRepository;
-  final CompressImage compressImage;
+  final PieceJointeUseCase pieceJointeUseCase;
 
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
@@ -309,7 +309,7 @@ class StoreFactory {
     this.preferredLoginModeRepository,
     this.onboardingRepository,
     this.firstLaunchOnboardingRepository,
-    this.compressImage,
+    this.pieceJointeUseCase,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -340,7 +340,7 @@ class StoreFactory {
           modeDemoRepository,
           cryptoStorage,
         ).call,
-        ChatMiddleware(chatRepository, pieceJointeRepository, compressImage).call,
+        ChatMiddleware(chatRepository, pieceJointeUseCase).call,
         ChatStatusMiddleware(chatRepository).call,
         RendezvousListMiddleware(rendezvousRepository, sessionMiloRepository).call,
         RendezvousDetailsMiddleware(rendezvousRepository).call,
