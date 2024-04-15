@@ -230,6 +230,7 @@ class LocalImageMessageItem extends ChatItem {
   final String caption;
   final bool showLoading;
   final Color? captionColor;
+  final IconData? captionSuffixIcon;
 
   LocalImageMessageItem({
     required String messageId,
@@ -237,6 +238,7 @@ class LocalImageMessageItem extends ChatItem {
     required this.caption,
     required this.showLoading,
     this.captionColor,
+    this.captionSuffixIcon,
     bool shouldAnimate = false,
   }) : super(messageId, shouldAnimate: shouldAnimate);
 

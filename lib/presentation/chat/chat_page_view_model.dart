@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
@@ -176,6 +177,7 @@ ChatItem _localPieceJointeItem(Message message) {
     imagePath: message.localPieceJointePath ?? "",
     showLoading: message.sendingStatus == MessageSendingStatus.sending,
     caption: _caption(message, minDateTime),
+    captionSuffixIcon: message.sendingStatus == MessageSendingStatus.failed ? AppIcons.error_rounded : null,
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );

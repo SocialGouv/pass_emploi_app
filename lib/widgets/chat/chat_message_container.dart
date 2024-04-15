@@ -10,11 +10,13 @@ class ChatMessageContainer extends StatelessWidget {
     required this.caption,
     required this.captionColor,
     required this.isMyMessage,
+    this.captionSuffixIcon,
   });
   final Widget content;
   final String caption;
   final Color? captionColor;
   final bool isMyMessage;
+  final IconData? captionSuffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,18 @@ class ChatMessageContainer extends StatelessWidget {
             isMyMessage: isMyMessage,
             child: content,
           ),
-          _Caption(caption, captionColor),
+          Row(
+            mainAxisAlignment: isMyMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _Caption(caption, captionColor),
+              SizedBox(width: Margins.spacing_s),
+              Padding(
+                padding: const EdgeInsets.only(top: Margins.spacing_xs),
+                child: Icon(captionSuffixIcon, color: captionColor),
+              ),
+            ],
+          ),
         ],
       ),
     );

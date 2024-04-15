@@ -13,6 +13,7 @@ class ChatLocalImage extends StatelessWidget {
     return ChatMessageContainer(
       caption: message.caption,
       captionColor: message.captionColor,
+      captionSuffixIcon: message.captionSuffixIcon,
       isMyMessage: true,
       content: Stack(
         alignment: Alignment.center,
