@@ -64,8 +64,6 @@ class _Content extends StatelessWidget {
 }
 
 class _Loading extends StatelessWidget {
-  const _Loading();
-
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
@@ -85,8 +83,6 @@ class _Loading extends StatelessWidget {
 }
 
 class _Failure extends StatelessWidget {
-  const _Failure();
-
   @override
   Widget build(BuildContext context) {
     return Container(

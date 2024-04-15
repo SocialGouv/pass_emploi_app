@@ -42,8 +42,6 @@ class ChatPieceJointeBottomSheet extends StatelessWidget {
 }
 
 class _PieceJointeWarning extends StatelessWidget {
-  const _PieceJointeWarning();
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -54,8 +52,6 @@ class _PieceJointeWarning extends StatelessWidget {
 }
 
 class _SelectPictureButton extends StatelessWidget {
-  const _SelectPictureButton();
-
   @override
   Widget build(BuildContext context) {
     return ListTile(
