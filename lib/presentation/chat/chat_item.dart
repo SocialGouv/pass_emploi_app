@@ -194,8 +194,16 @@ class PieceJointeMessageItem extends PieceJointeItem {
   });
 
   @override
-  List<Object?> get props =>
-      [sender, messageId, pieceJointeId, message, filename, caption, captionColor, shouldAnimate];
+  List<Object?> get props => [
+        sender,
+        messageId,
+        pieceJointeId,
+        message,
+        filename,
+        caption,
+        captionColor,
+        shouldAnimate,
+      ];
 }
 
 class PieceJointeImageItem extends PieceJointeItem {

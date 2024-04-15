@@ -57,7 +57,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
       child: Row(
         children: [
           AnimatedCrossFade(
-            firstChild: SizedBox(height: 32, width: 0),
+            firstChild: SizedBox(height: 32),
             secondChild: Row(
               children: [
                 FloatingActionButton(
@@ -92,7 +92,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
             ),
           ),
           AnimatedCrossFade(
-            firstChild: SizedBox(height: 32, width: 0),
+            firstChild: SizedBox(height: 32),
             secondChild: Row(
               children: [
                 SizedBox(width: Margins.spacing_s),

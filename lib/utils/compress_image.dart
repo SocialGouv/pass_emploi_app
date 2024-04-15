@@ -8,13 +8,14 @@ class ImageCompressor {
   ImageCompressor();
 
   static const int maxImageMaxDimension = 1080;
+  static const int qualityPercentage = 80;
 
-  Future<(String?, String?)> compressImage(String filePath) async {
+  Future<(String? fileName, String? filePath)> compressImage(String filePath) async {
     final file = File(filePath);
     final imageBytes = await file.readAsBytes();
     final image = await decodeImageFromList(imageBytes);
-    late final int minWidth;
-    late final int minHeight;
+    final int minWidth;
+    final int minHeight;
 
     if (image.width > image.height) {
       minWidth = maxImageMaxDimension;
@@ -31,7 +32,7 @@ class ImageCompressor {
     final compressedFile = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       newPath,
-      quality: 80,
+      quality: qualityPercentage,
       format: CompressFormat.png,
       minHeight: minHeight,
       minWidth: minWidth,

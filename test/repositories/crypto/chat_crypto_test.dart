@@ -52,8 +52,10 @@ void main() {
 
     // When
     final encryptedWithIv = chatCrypto.encryptWithIv(message, encrypted.base64InitializationVector);
-    final decrypted =
-        chatCrypto.decrypt(EncryptedTextWithIv(encrypted.base64InitializationVector, encryptedWithIv.base64Message));
+    final decrypted = chatCrypto.decrypt(EncryptedTextWithIv(
+      encrypted.base64InitializationVector,
+      encryptedWithIv.base64Message,
+    ));
 
     // Then
     expect(encrypted.base64Message != base64.encode(utf8.encode(message)), true);
