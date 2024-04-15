@@ -16,8 +16,13 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
     if (userId == null) return;
 
     if (action is PieceJointeFromIdRequestAction) {
+      final pieceJointeState = store.state.piecesJointesState;
+      final boolIsLoaded = pieceJointeState.isLoaded(action.fileId);
+      if (boolIsLoaded) {
+        return;
+      }
       final String? path = await _repository.downloadFromId(fileId: action.fileId, fileName: action.fileName);
-      _handleDownload(store, action.fileId, path);
+      _handleDownload(store, action.fileId, path, isImage: action.isImage);
     }
 
     if (action is PieceJointeFromUrlRequestAction) {
@@ -30,13 +35,13 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _handleDownload(Store<AppState> store, String fileId, String? path) {
+  void _handleDownload(Store<AppState> store, String fileId, String? path, {bool isImage = false}) {
     if (path == null || path.isEmpty) {
       store.dispatch(PieceJointeFailureAction(fileId));
     } else if (path == Strings.fileNotAvailableError) {
       store.dispatch(PieceJointeUnavailableAction(fileId));
     } else {
-      store.dispatch(PieceJointeSuccessAction(fileId: fileId, path: path));
+      store.dispatch(PieceJointeSuccessAction(fileId: fileId, path: path, isImage: isImage));
     }
   }
 }

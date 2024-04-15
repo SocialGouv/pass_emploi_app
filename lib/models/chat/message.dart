@@ -12,6 +12,7 @@ enum MessageType {
   nouveauConseiller,
   nouveauConseillerTemporaire,
   messagePj,
+  localPj,
   offre,
   event,
   evenementEmploi,
@@ -43,6 +44,7 @@ class Message extends Equatable {
   final Sender sentBy;
   final MessageType type;
   final List<PieceJointe> pieceJointes;
+  final String? localPieceJointePath;
   final Offre? offre;
   final Event? event;
   final ChatEvenementEmploi? evenementEmploi;
@@ -60,6 +62,7 @@ class Message extends Equatable {
     required this.sendingStatus,
     required this.contentStatus,
     required this.pieceJointes,
+    this.localPieceJointePath,
     this.offre,
     this.event,
     this.evenementEmploi,
@@ -79,6 +82,20 @@ class Message extends Equatable {
     );
   }
 
+  factory Message.fromImage(String imagePath) {
+    return Message(
+      id: Uuid().v1(),
+      content: "",
+      creationDate: DateTime.now(),
+      sentBy: Sender.jeune,
+      type: MessageType.localPj,
+      sendingStatus: MessageSendingStatus.sending,
+      contentStatus: MessageContentStatus.content,
+      pieceJointes: [],
+      localPieceJointePath: imagePath,
+    );
+  }
+
   Message copyWith({
     String? id,
     String? iv,
@@ -87,6 +104,7 @@ class Message extends Equatable {
     Sender? sentBy,
     MessageType? type,
     List<PieceJointe>? pieceJointes,
+    String? localPieceJointePath,
     Offre? offre,
     Event? event,
     ChatEvenementEmploi? evenementEmploi,
@@ -104,6 +122,7 @@ class Message extends Equatable {
       sendingStatus: sendingStatus ?? this.sendingStatus,
       contentStatus: contentStatus ?? this.contentStatus,
       pieceJointes: pieceJointes ?? this.pieceJointes,
+      localPieceJointePath: localPieceJointePath ?? this.localPieceJointePath,
       offre: offre ?? this.offre,
       event: event ?? this.event,
       evenementEmploi: evenementEmploi ?? this.evenementEmploi,
@@ -171,7 +190,7 @@ class Message extends Equatable {
     final iv = json['iv'] as String?;
     if (piecesJointes == null) return [];
     return piecesJointes
-        .map((e) => PieceJointe.fromJson(e, chatCrypto, crashlytics, iv))
+        .map((e) => PieceJointe.fromEncryptedJson(e, chatCrypto, crashlytics, iv))
         .whereType<PieceJointe>()
         .toList();
   }
@@ -213,7 +232,8 @@ class Message extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, content, creationDate, sentBy, type, pieceJointes, offre, event, evenementEmploi];
+  List<Object?> get props =>
+      [id, content, creationDate, sentBy, type, pieceJointes, localPieceJointePath, offre, event, evenementEmploi];
 }
 
 extension _DecryptString on String {
@@ -241,11 +261,17 @@ class PieceJointe extends Equatable {
   @override
   List<Object?> get props => [id, nom];
 
-  static PieceJointe? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics, String? iv) {
+  static PieceJointe? fromEncryptedJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics, String? iv) {
     final id = json["id"] as String;
     final encryptedNom = json["nom"] as String;
     final nom = encryptedNom.decrypt(chatCrypto, crashlytics, iv);
     if (nom == null) return null;
+    return PieceJointe(id, nom);
+  }
+
+  static PieceJointe fromJson(dynamic json) {
+    final id = json["id"] as String;
+    final nom = json["nom"] as String;
     return PieceJointe(id, nom);
   }
 }

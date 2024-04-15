@@ -167,23 +167,79 @@ class SessionMiloMessageItem extends PartageMessageItem {
       [messageId, content, caption, captionColor, shouldAnimate, sender, idPartage, titrePartage];
 }
 
-class PieceJointeConseillerMessageItem extends ChatItem {
+sealed class PieceJointeItem extends ChatItem {
+  PieceJointeItem({
+    required String messageId,
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate: shouldAnimate);
+}
+
+class PieceJointeMessageItem extends PieceJointeItem {
+  final Sender sender;
   final String pieceJointeId;
-  final String message;
+  final String? message;
   final String filename;
   final String caption;
   final Color? captionColor;
 
-  PieceJointeConseillerMessageItem({
-    required String messageId,
+  PieceJointeMessageItem({
+    required super.messageId,
+    super.shouldAnimate,
+    required this.sender,
     required this.pieceJointeId,
     required this.message,
     required this.filename,
     required this.caption,
     this.captionColor,
+  });
+
+  @override
+  List<Object?> get props => [
+        sender,
+        messageId,
+        pieceJointeId,
+        message,
+        filename,
+        caption,
+        captionColor,
+        shouldAnimate,
+      ];
+}
+
+class PieceJointeImageItem extends PieceJointeItem {
+  final String pieceJointeId;
+  final String pieceJointeName;
+  final String caption;
+  final Color? captionColor;
+
+  PieceJointeImageItem({
+    required super.messageId,
+    super.shouldAnimate = false,
+    required this.pieceJointeId,
+    required this.pieceJointeName,
+    required this.caption,
+    this.captionColor,
+  });
+
+  @override
+  List<Object?> get props => [messageId, pieceJointeId, pieceJointeName, caption, captionColor, shouldAnimate];
+}
+
+class LocalImageMessageItem extends ChatItem {
+  final String imagePath;
+  final String caption;
+  final bool showLoading;
+  final Color? captionColor;
+
+  LocalImageMessageItem({
+    required String messageId,
+    required this.imagePath,
+    required this.caption,
+    required this.showLoading,
+    this.captionColor,
     bool shouldAnimate = false,
   }) : super(messageId, shouldAnimate: shouldAnimate);
 
   @override
-  List<Object?> get props => [messageId, pieceJointeId, message, filename, caption, captionColor, shouldAnimate];
+  List<Object?> get props => [messageId, caption, showLoading, captionColor, shouldAnimate];
 }

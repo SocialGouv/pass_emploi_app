@@ -18,14 +18,19 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
+import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:redux/redux.dart';
 
 class ChatMiddleware extends MiddlewareClass<AppState> {
-  final ChatRepository _repository;
+  final ChatRepository _chatRepository;
+  final PieceJointeUseCase _pieceJointeUseCase;
   StreamSubscription<List<Message>>? _subscription;
   final ChatHistoryAggregator _chatHistoryAggregator = ChatHistoryAggregator();
 
-  ChatMiddleware(this._repository);
+  ChatMiddleware(
+    this._chatRepository,
+    this._pieceJointeUseCase,
+  );
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -50,6 +55,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _sendMessage(store, userId, action.message);
         } else if (action is DeleteMessageAction) {
           _deleteMessage(store, userId, action.message);
+        } else if (action is SendImageAction) {
+          _sendImage(store, userId, action.imagePath);
         } else if (action is EditMessageAction) {
           _editMessage(store, userId, action.message, action.newContent);
         } else if (action is ChatPartagerOffreAction) {
@@ -61,7 +68,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
         } else if (action is ChatPartagerSessionMiloAction) {
           _partageSessionMilo(store, userId, action.sessionMilo);
         } else if (action is LastMessageSeenAction) {
-          _repository.setLastMessageSeen(userId);
+          _chatRepository.setLastMessageSeen(userId);
         } else if (action is ChatRequestMorePastAction) {
           _loadOldMessages(userId, store);
         }
@@ -79,17 +86,24 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   void _deleteMessage(Store<AppState> store, String userId, Message message) async {
     final chatState = store.state.chatState;
     final bool isLastMessage = chatState is ChatSuccessState && (chatState.messages.last.id == message.id);
-    _repository.deleteMessage(userId, message, isLastMessage);
+    _chatRepository.deleteMessage(userId, message, isLastMessage);
+  }
+
+  void _sendImage(Store<AppState> store, String userId, String imagePath) async {
+    final message = Message.fromImage(imagePath);
+    _addMessageToLocal(store, message);
+    final result = await _pieceJointeUseCase.sendPieceJointe(userId, message, imagePath);
+    if (!result) _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
   }
 
   void _editMessage(Store<AppState> store, String userId, Message message, String content) async {
     final chatState = store.state.chatState;
     final bool isLastMessage = chatState is ChatSuccessState && (chatState.messages.last.id == message.id);
-    _repository.editMessage(userId, message, isLastMessage, content);
+    _chatRepository.editMessage(userId, message, isLastMessage, content);
   }
 
   Future<void> _addMessageToRemote(Store<AppState> store, String userId, Message message) async {
-    final sendMessageSuceed = await _repository.sendMessage(userId, message);
+    final sendMessageSuceed = await _chatRepository.sendMessage(userId, message);
     if (!sendMessageSuceed) {
       _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
     }
@@ -97,7 +111,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
 
   void _partagerOffre(Store<AppState> store, String userId, OffrePartagee offre) async {
     store.dispatch(ChatPartageLoadingAction());
-    final succeed = await _repository.sendOffrePartagee(userId, offre);
+    final succeed = await _chatRepository.sendOffrePartagee(userId, offre);
     if (succeed) {
       store.dispatch(TrackingEventAction(EventType.MESSAGE_OFFRE_PARTAGEE));
       store.dispatch(ChatPartageSuccessAction());
@@ -108,7 +122,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
 
   void _partagerEvenementEmploi(Store<AppState> store, String userId, EvenementEmploiPartage evenementEmploi) async {
     store.dispatch(ChatPartageLoadingAction());
-    final succeed = await _repository.sendEvenementEmploiPartage(userId, evenementEmploi);
+    final succeed = await _chatRepository.sendEvenementEmploiPartage(userId, evenementEmploi);
     if (succeed) {
       store.dispatch(TrackingEventAction(EventType.EVENEMENT_EXTERNE_PARTAGE));
       store.dispatch(ChatPartageSuccessAction());
@@ -119,7 +133,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
 
   void _partagerEvent(Store<AppState> store, String userId, EventPartage eventPartage) async {
     store.dispatch(ChatPartageLoadingAction());
-    final succeed = await _repository.sendEventPartage(userId, eventPartage);
+    final succeed = await _chatRepository.sendEventPartage(userId, eventPartage);
     if (succeed) {
       store.dispatch(TrackingEventAction(EventType.ANIMATION_COLLECTIVE_PARTAGEE));
       store.dispatch(ChatPartageSuccessAction());
@@ -130,7 +144,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
 
   void _partageSessionMilo(Store<AppState> store, String userId, SessionMiloPartage sessionMilo) async {
     store.dispatch(ChatPartageLoadingAction());
-    final succeed = await _repository.sendSessionMiloPartage(userId, sessionMilo);
+    final succeed = await _chatRepository.sendSessionMiloPartage(userId, sessionMilo);
     if (succeed) {
       store.dispatch(TrackingEventAction(EventType.MESSAGE_SESSION_MILO_PARTAGE));
       store.dispatch(ChatPartageSuccessAction());
@@ -149,7 +163,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _subscribeToChatStream(String userId, Store<AppState> store) {
-    _subscription = _repository.messagesStream(userId).listen(
+    _subscription = _chatRepository.messagesStream(userId).listen(
       (messages) {
         _chatHistoryAggregator.onNewMessages(messages);
         _dispatchAllMessages(store);
@@ -169,8 +183,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     final oldestMessageDate = _chatHistoryAggregator.oldestMessageDate();
     if (oldestMessageDate == null) return;
 
-    final messages = await _repository.oldMessages(userId, oldestMessageDate);
-    _chatHistoryAggregator.onOldMessages(messages, _repository.numberOfHistoryMessage);
+    final messages = await _chatRepository.oldMessages(userId, oldestMessageDate);
+    _chatHistoryAggregator.onOldMessages(messages, _chatRepository.numberOfHistoryMessage);
     _dispatchAllMessages(store);
   }
 

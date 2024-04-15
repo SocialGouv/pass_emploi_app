@@ -89,6 +89,7 @@ CvmChatItem _textMessageItem(CvmTextMessage message) {
 CvmChatItem _pieceJointeItem(CvmFileMessage message) {
   if (message.sentBy == Sender.conseiller) {
     return CvmPieceJointeConseillerMessageItem(
+      sender: message.sentBy,
       messageId: message.id,
       url: message.url,
       fileName: message.fileName,

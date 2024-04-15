@@ -73,6 +73,8 @@ class CvmChatPageState extends State<CvmChatPage> {
         controller: _controller!,
         scrollController: _scrollController,
         onSendMessage: viewModel.onSendMessage,
+        onSendImage: (_) {},
+        jeunePjEnabled: false,
         itemBuilder: (context, index) {
           final item = viewModel.items.reversed.toList()[index];
           final widget = item.toWidget();
@@ -108,6 +110,7 @@ extension on CvmChatItem {
 extension on CvmPieceJointeConseillerMessageItem {
   PieceJointeParams toParams() {
     return PieceJointeTypeUrlParams(
+      sender: sender,
       caption: caption,
       filename: fileName,
       fileId: fileId,

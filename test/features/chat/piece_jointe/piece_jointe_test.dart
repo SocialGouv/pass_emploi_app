@@ -2,12 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../../doubles/stubs.dart';
 import '../../../dsl/app_state_dsl.dart';
 
 void main() {
-
   test("should be previewed after loading", () async {
     // Given
     final store = givenState()
@@ -87,4 +87,45 @@ void main() {
     expect(appState.piecesJointesState.status["id1"], PieceJointeStatus.unavailable);
   });
 
+  test("should not load pj when already loaded", () async {
+    // Given
+    final store = givenState()
+        .piecesJointesWithIdOneSuccess()
+        .loggedInUser() //
+        .store();
+
+    // When
+    await store.dispatch(PieceJointeFromIdRequestAction("id-1", "png"));
+
+    // Then
+    Future.delayed(Duration(milliseconds: 50), () => store.teardown());
+    expect(store.onChange, neverEmits(isA<AppState>()));
+  });
+
+  test("should not be previewed when file is image", () async {
+    // Given
+    final store = givenState()
+        .loggedInUser() //
+        .store((factory) => {factory.pieceJointeRepository = PieceJointeRepositorySuccessStub()});
+
+    final displayedLoading = store.onChange.any((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.loading);
+    final pieceJointesStateFuture =
+        store.onChange.firstWhere((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.success);
+
+    // When
+    await store.dispatch(PieceJointeFromIdRequestAction("id1", "png", isImage: true));
+
+    // Then
+    expect(await displayedLoading, true);
+    final pieceJointesState = await pieceJointesStateFuture;
+    expect(pieceJointesState.piecesJointesState.status["id1"], PieceJointeStatus.success);
+    Future.delayed(Duration(milliseconds: 50), () => store.teardown());
+    expect(
+        store.onChange,
+        neverEmits(isA<AppState>().having(
+          (appState) => appState.previewFileState,
+          "previewFileState",
+          PreviewFileSuccessState("id1-path"),
+        )));
+  });
 }

@@ -2,19 +2,26 @@ import 'package:equatable/equatable.dart';
 
 class PiecesJointesState extends Equatable {
   final Map<String, PieceJointeStatus> status;
+  final Map<String, String?> paths;
 
-  PiecesJointesState(this.status);
+  PiecesJointesState(this.status, this.paths);
 
-  PiecesJointesState updated(String id, PieceJointeStatus state) {
+  PiecesJointesState updated(String id, PieceJointeStatus state, {String? path}) {
     final updatedData = status;
     updatedData.update(id, (value) => state, ifAbsent: () => state);
-    return PiecesJointesState(updatedData);
+
+    final updatedPaths = paths;
+    updatedPaths.update(id, (value) => path, ifAbsent: () => path);
+
+    return PiecesJointesState(updatedData, updatedPaths);
+  }
+
+  bool isLoaded(String id) {
+    return status[id] == PieceJointeStatus.success;
   }
 
   @override
-  List<Object?> get props => [status];
+  List<Object?> get props => [status, paths];
 }
 
-enum PieceJointeStatus {
-  loading, success, failure, unavailable
-}
+enum PieceJointeStatus { loading, success, failure, unavailable }

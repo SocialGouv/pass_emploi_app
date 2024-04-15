@@ -27,12 +27,14 @@ class AppIcons {
   static const IconData attach_file_rounded = Icons.attach_file_rounded;
   static const IconData delete = AppIconsAdditional.delete;
   static const IconData send_rounded = Icons.send_rounded;
+  static const IconData attach_file = Icons.attach_file;
   static const IconData tune_rounded = Icons.tune_rounded;
   static const IconData add_rounded = Icons.add_rounded;
   static const IconData share_rounded = Icons.share_rounded;
   static const IconData bookmark_rounded = Icons.bookmark_rounded;
   static const IconData bookmark_outline_rounded = Icons.bookmark_outline_rounded;
   static const IconData content_copy_rounded = Icons.content_copy_rounded;
+  static const IconData image_outlined = Icons.image_outlined;
 
   // Information
   static const IconData videocam_rounded = Icons.videocam_rounded;

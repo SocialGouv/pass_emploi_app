@@ -60,12 +60,14 @@ class CvmTextMessageItem extends CvmChatItem {
 }
 
 class CvmPieceJointeConseillerMessageItem extends CvmChatItem {
+  final Sender sender;
   final String url;
   final String fileId;
   final String fileName;
   final String caption;
 
   CvmPieceJointeConseillerMessageItem({
+    required this.sender,
     required String messageId,
     required this.url,
     required this.fileName,
@@ -74,5 +76,5 @@ class CvmPieceJointeConseillerMessageItem extends CvmChatItem {
   }) : super(messageId);
 
   @override
-  List<Object?> get props => [messageId, url, fileId, fileName, caption];
+  List<Object?> get props => [sender, messageId, url, fileId, fileName, caption];
 }

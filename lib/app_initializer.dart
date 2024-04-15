@@ -94,6 +94,8 @@ import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_r
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
+import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
+import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
@@ -199,6 +201,8 @@ class AppInitializer {
     final chatCrypto = ChatCrypto();
     final cryptoStorage = ChatEncryptionLocalStorage(storage: securedPreferences);
     final firebaseInstanceIdGetter = FirebaseInstanceIdGetter();
+    final chatRepository = ChatRepository(chatCrypto, crashlytics, modeDemoRepository);
+    final pieceJointeRepository = PieceJointeRepository(dioClient, PieceJointeFileSaver(), crashlytics);
     final reduxStore = StoreFactory(
       configuration,
       authenticator,
@@ -215,7 +219,7 @@ class AppInitializer {
       PageDemarcheRepository(dioClient, crashlytics),
       RendezvousRepository(dioClient, crashlytics),
       OffreEmploiRepository(dioClient, crashlytics),
-      ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
+      chatRepository,
       ConfigurationApplicationRepository(dioClient, firebaseInstanceIdGetter, pushNotificationManager, crashlytics),
       OffreEmploiDetailsRepository(dioClient, crashlytics),
       OffreEmploiFavorisRepository(dioClient, crashlytics),
@@ -243,7 +247,7 @@ class AppInitializer {
       UpdateDemarcheRepository(dioClient, crashlytics),
       CreateDemarcheRepository(dioClient, crashlytics),
       SearchDemarcheRepository(dioClient, crashlytics),
-      PieceJointeRepository(dioClient, PieceJointeFileSaver(), crashlytics),
+      pieceJointeRepository,
       TutorialRepository(securedPreferences),
       PartageActiviteRepository(dioClient, crashlytics),
       RatingRepository(securedPreferences),
@@ -279,6 +283,7 @@ class AppInitializer {
       PreferredLoginModeRepository(securedPreferences),
       OnboardingRepository(securedPreferences),
       FirstLaunchOnboardingRepository(securedPreferences),
+      PieceJointeUseCase(chatRepository, pieceJointeRepository, ImageCompressor()),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

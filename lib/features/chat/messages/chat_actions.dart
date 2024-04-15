@@ -25,6 +25,12 @@ class SendMessageAction {
   SendMessageAction(this.message);
 }
 
+class SendImageAction {
+  final String imagePath;
+
+  SendImageAction(this.imagePath);
+}
+
 class DeleteMessageAction {
   final Message message;
 

@@ -186,12 +186,87 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Aujourd\'hui'),
-      PieceJointeConseillerMessageItem(
+      PieceJointeMessageItem(
+        sender: Sender.conseiller,
         messageId: "uid",
         pieceJointeId: "id-1",
         message: "Une PJ",
         filename: "super.pdf",
         caption: "12:00",
+      ),
+    ]);
+  });
+
+  test('should display piece jointe from jeune', () {
+    // Given
+    final state = AppState.initialState().copyWith(
+      chatState: ChatSuccessState([
+        Message(
+          id: "uid",
+          content: 'PJ',
+          creationDate: DateTime(2021, 1, 1, 12, 30),
+          sentBy: Sender.jeune,
+          type: MessageType.messagePj,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [PieceJointe("1", "a.pdf")],
+        ),
+      ]),
+    );
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem("Le 01/01/2021"),
+      PieceJointeMessageItem(
+        sender: Sender.jeune,
+        messageId: "uid",
+        pieceJointeId: "1",
+        message: null,
+        filename: "a.pdf",
+        caption: "12:30",
+        captionColor: null,
+        shouldAnimate: false,
+      ),
+    ]);
+  });
+
+  test('should display image from jeune', () {
+    // Given
+    final state = AppState.initialState().copyWith(
+      chatState: ChatSuccessState([
+        Message(
+          id: "uid",
+          content: 'PJ',
+          creationDate: DateTime(2021, 1, 1, 12, 30),
+          sentBy: Sender.jeune,
+          type: MessageType.messagePj,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [PieceJointe("1", "a.png")],
+        ),
+      ]),
+    );
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem("Le 01/01/2021"),
+      PieceJointeImageItem(
+        messageId: "uid",
+        pieceJointeId: "1",
+        pieceJointeName: "a.png",
+        caption: "12:30",
+        captionColor: null,
+        shouldAnimate: false,
       ),
     ]);
   });
@@ -597,38 +672,6 @@ void main() {
     ]);
   });
 
-  test('create when chat state is SUCCESS and message type is PJ from jeune', () {
-    // Given
-    final state = AppState.initialState().copyWith(
-      chatState: ChatSuccessState([
-        Message(
-          id: "uid",
-          content: 'PJ',
-          creationDate: DateTime(2021, 1, 1, 12, 30),
-          sentBy: Sender.jeune,
-          type: MessageType.messagePj,
-          sendingStatus: MessageSendingStatus.sent,
-          contentStatus: MessageContentStatus.content,
-          pieceJointes: [PieceJointe("1", "a.pdf")],
-        ),
-      ]),
-    );
-    final store = Store<AppState>(reducer, initialState: state);
-
-    // When
-    final viewModel = ChatPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.items, [
-      DayItem("Le 01/01/2021"),
-      InformationItem(
-        "Le message est inaccessible",
-        "Pour avoir l'accès au contenu veuillez mettre à jour l'application",
-      ),
-    ]);
-  });
-
   group('MessageStatus', () {
     test('when status is sending should display sending captions', () {
       // Given
@@ -677,53 +720,53 @@ void main() {
       expect(messageItem.caption.contains("L'envoi a échoué"), true);
       expect(messageItem.captionColor, AppColors.warning);
     });
+  });
 
-    group('onboarding', () {
-      test('should display onboarding', () {
-        // Given
-        final store = givenState().withOnboardingSuccessState(Onboarding(showChatOnboarding: true)).store();
+  group('onboarding', () {
+    test('should display onboarding', () {
+      // Given
+      final store = givenState().withOnboardingSuccessState(Onboarding(showChatOnboarding: true)).store();
 
-        // When
-        final viewModel = ChatPageViewModel.create(store);
+      // When
+      final viewModel = ChatPageViewModel.create(store);
 
-        // Then
-        expect(viewModel.shouldShowOnboarding, isTrue);
-      });
-
-      test('should not display onboarding', () {
-        // Given
-        final store = givenState().withOnboardingSuccessState(Onboarding(showChatOnboarding: false)).store();
-
-        // When
-        final viewModel = ChatPageViewModel.create(store);
-
-        // Then
-        expect(viewModel.shouldShowOnboarding, isFalse);
-      });
+      // Then
+      expect(viewModel.shouldShowOnboarding, isTrue);
     });
 
-    group('piece jointe', () {
-      test('should display pj picker', () {
-        // Given
-        final store = givenState().withFeatureFlip(usePj: true).store();
+    test('should not display onboarding', () {
+      // Given
+      final store = givenState().withOnboardingSuccessState(Onboarding(showChatOnboarding: false)).store();
 
-        // When
-        final viewModel = ChatPageViewModel.create(store);
+      // When
+      final viewModel = ChatPageViewModel.create(store);
 
-        // Then
-        expect(viewModel.pjEnabled, isTrue);
-      });
+      // Then
+      expect(viewModel.shouldShowOnboarding, isFalse);
+    });
+  });
 
-      test('should not display pj picker', () {
-        // Given
-        final store = givenState().withFeatureFlip(usePj: false).store();
+  group('piece jointe', () {
+    test('should display pj picker', () {
+      // Given
+      final store = givenState().withFeatureFlip(usePj: true).store();
 
-        // When
-        final viewModel = ChatPageViewModel.create(store);
+      // When
+      final viewModel = ChatPageViewModel.create(store);
 
-        // Then
-        expect(viewModel.pjEnabled, isFalse);
-      });
+      // Then
+      expect(viewModel.jeunePjEnabled, isTrue);
+    });
+
+    test('should not display pj picker', () {
+      // Given
+      final store = givenState().withFeatureFlip(usePj: false).store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.jeunePjEnabled, isFalse);
     });
   });
 }

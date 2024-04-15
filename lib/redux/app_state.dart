@@ -410,7 +410,7 @@ class AppState extends Equatable {
       demoState: false,
       suppressionCompteState: SuppressionCompteNotInitializedState(),
       campagneState: CampagneState(null, []),
-      piecesJointesState: PiecesJointesState({}),
+      piecesJointesState: PiecesJointesState({}, {}),
       developerOptionsState: DeveloperOptionsNotInitializedState(),
       matomoLoggingState: MatomoLoggingState([]),
       previewFileState: PreviewFileNotInitializedState(),
@@ -450,8 +450,7 @@ class AppState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         featureFlipState,
         deepLinkState,
         userActionDetailsState,

@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -11,6 +13,39 @@ class PieceJointeRepository {
   final Crashlytics? _crashlytics;
 
   PieceJointeRepository(this._httpClient, this._pieceJointeSaver, [this._crashlytics]);
+
+  Future<PieceJointe?> postPieceJointe({
+    required String fileName,
+    required String filePath,
+    required String userId,
+  }) async {
+    try {
+      final MultipartFile fichier = await MultipartFile.fromFile(
+        filePath,
+        filename: fileName,
+        contentType: MediaType('image', 'webp'),
+      );
+
+      final FormData formData = FormData.fromMap({
+        'fichier': fichier,
+        'nom': fileName,
+        'jeunesIds': [userId],
+      });
+
+      final result = await _httpClient.post(
+        "/fichiers",
+        data: formData,
+        options: Options(
+          contentType: 'multipart/form-data',
+        ),
+      );
+
+      return PieceJointe.fromJson(result.data);
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack);
+      return null;
+    }
+  }
 
   Future<String?> downloadFromId({required String fileId, required String fileName}) async {
     return downloadFromUrl(url: "/fichiers/$fileId", fileId: fileId, fileName: fileName);

@@ -86,6 +86,7 @@ class Strings {
   static String sending = "Envoi en cours";
   static String sendingFailed = "L'envoi a échoué";
   static String sendMessageTooltip = "Envoyer le message";
+  static String sendAttachmentTooltip = "Envoyer une pièce jointe";
   static String chatError = "Erreur lors de la récupération de votre messagerie";
   static String newConseillerTitle = "Vous échangez avec votre nouveau conseiller";
   static String newConseillerTemporaireTitle = "Vous échangez temporairement avec un nouveau conseiller";
@@ -115,6 +116,11 @@ class Strings {
   static String editMessageSave = "Modifier";
 
   static String chatDeletedMessageContent = "(Message supprimé)";
+
+  static String chatPieceJointeBottomSheetTitle = "Ajouter une pièce jointe";
+  static String chatPieceJointeBottomSheetSubtitle =
+      "Ne partagez pas des documents contenant votre numéro de sécurité sociale (ex: Carte Vitale, etc.)";
+  static String chatPieceJointeBottomSheetImageButton = "Sélectionner une photo";
 
   // Force Update
   static String updateTitle = "Mise à jour";

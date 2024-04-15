@@ -44,6 +44,17 @@ void main() {
     expect(viewModel.displayState("id-1"), DisplayState.CONTENT);
   });
 
+  test('should provide path from loaded file', () {
+    // Given
+    final store = givenState().piecesJointesWithIdOneSuccess().store();
+
+    // When
+    final viewModel = PieceJointeViewModel.create(store);
+
+    // Then
+    expect(viewModel.imagePath?.call("id-1"), "path");
+  });
+
   test('should display content when no status', () {
     // Given
     final store = givenState().store();

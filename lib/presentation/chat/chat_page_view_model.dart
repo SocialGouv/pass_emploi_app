@@ -19,8 +19,9 @@ class ChatPageViewModel extends Equatable {
   final String? brouillon;
   final List<ChatItem> items;
   final bool shouldShowOnboarding;
-  final bool pjEnabled;
+  final bool jeunePjEnabled;
   final Function(String message) onSendMessage;
+  final Function(String imagePath) onSendImage;
   final Function() onRetry;
 
   ChatPageViewModel({
@@ -28,8 +29,9 @@ class ChatPageViewModel extends Equatable {
     required this.brouillon,
     required this.items,
     required this.shouldShowOnboarding,
-    required this.pjEnabled,
+    required this.jeunePjEnabled,
     required this.onSendMessage,
+    required this.onSendImage,
     required this.onRetry,
   });
 
@@ -42,14 +44,15 @@ class ChatPageViewModel extends Equatable {
       brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
-      pjEnabled: store.state.featureFlipState.featureFlip.usePj,
+      jeunePjEnabled: store.state.featureFlipState.featureFlip.usePj,
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
+      onSendImage: (String imagePath) => store.dispatch(SendImageAction(imagePath)),
       onRetry: () => store.dispatch(SubscribeToChatAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, brouillon, items, shouldShowOnboarding, pjEnabled];
+  List<Object?> get props => [displayState, brouillon, items, shouldShowOnboarding, jeunePjEnabled];
 }
 
 DisplayState _displayState(ChatState state) {
@@ -77,6 +80,7 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
             Strings.newConseillerDescription,
           ),
         MessageType.messagePj => _pieceJointeItem(message),
+        MessageType.localPj => _localPieceJointeItem(message),
         MessageType.offre => _offreMessageItem(message, lastConseillerReading),
         MessageType.event => _eventMessageItem(message, lastConseillerReading),
         MessageType.evenementEmploi => _evenementEmploiItem(message, lastConseillerReading),
@@ -141,19 +145,40 @@ ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
 }
 
 ChatItem _pieceJointeItem(Message message) {
-  if (message.sentBy == Sender.conseiller) {
-    return PieceJointeConseillerMessageItem(
+  final isJeuneImage =
+      message.pieceJointes.length == 1 && message.sentBy.isJeune && message.pieceJointes.first.nom.isImage();
+  if (isJeuneImage) {
+    return PieceJointeImageItem(
       messageId: message.id,
       pieceJointeId: message.pieceJointes[0].id,
-      message: message.content,
-      filename: message.pieceJointes.first.nom,
+      pieceJointeName: message.pieceJointes[0].nom,
       caption: message.creationDate.toHour(),
       captionColor: _captionColor(message),
       shouldAnimate: _shouldAnimate(message),
     );
-  } else {
-    return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
   }
+
+  return PieceJointeMessageItem(
+    sender: message.sentBy,
+    messageId: message.id,
+    pieceJointeId: message.pieceJointes[0].id,
+    message: message.sentBy.isJeune ? null : message.content,
+    filename: message.pieceJointes.first.nom,
+    caption: message.creationDate.toHour(),
+    captionColor: _captionColor(message),
+    shouldAnimate: _shouldAnimate(message),
+  );
+}
+
+ChatItem _localPieceJointeItem(Message message) {
+  return LocalImageMessageItem(
+    messageId: message.id,
+    imagePath: message.localPieceJointePath ?? "",
+    showLoading: message.sendingStatus == MessageSendingStatus.sending,
+    caption: _caption(message, minDateTime),
+    captionColor: _captionColor(message),
+    shouldAnimate: _shouldAnimate(message),
+  );
 }
 
 Color? _captionColor(Message message) {
@@ -209,4 +234,8 @@ List<dynamic> _messagesWithDaySections(List<Message> messages) {
 
 String _getDayLabel(DateTime dateTime) {
   return dateTime.isAtSameDayAs(DateTime.now()) ? Strings.today : Strings.simpleDayFormat(dateTime.toDay());
+}
+
+extension on String {
+  bool isImage() => endsWith(".jpg") || endsWith(".jpeg") || endsWith(".png") || endsWith(".webp");
 }
