@@ -131,7 +131,7 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (viewModel.displayState(params.fileId)) {
       DisplayState.LOADING => Center(child: CircularProgressIndicator()),
-      DisplayState.EMPTY => _FileWasDeleted(),
+      DisplayState.EMPTY => FileWasDeleted(),
       _ => _Button(viewModel: viewModel, params: params),
     };
   }
@@ -163,7 +163,7 @@ class _Button extends StatelessWidget {
   }
 }
 
-class _FileWasDeleted extends StatelessWidget {
+class FileWasDeleted extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(

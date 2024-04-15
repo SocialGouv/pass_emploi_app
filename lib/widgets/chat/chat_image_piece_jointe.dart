@@ -7,6 +7,12 @@ import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_message_container.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 
 class ChatImagePieceJointe extends StatelessWidget {
   const ChatImagePieceJointe(this.item);
@@ -32,12 +38,17 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return switch (viewModel.displayState.call(item.pieceJointeId)) {
-      DisplayState.CONTENT => _Content(viewModel.imagePath?.call(item.pieceJointeId)),
-      DisplayState.LOADING => _Loading(),
-      DisplayState.FAILURE => _Failure(),
-      DisplayState.EMPTY => _Unavailable(),
-    };
+    return ChatMessageContainer(
+      content: switch (viewModel.displayState.call(item.pieceJointeId)) {
+        DisplayState.CONTENT => _Content(viewModel.imagePath?.call(item.pieceJointeId)),
+        DisplayState.LOADING => _Loading(),
+        DisplayState.FAILURE => _Failure(),
+        DisplayState.EMPTY => _Failure(),
+      },
+      isMyMessage: true,
+      caption: item.caption,
+      captionColor: null,
+    );
   }
 }
 
@@ -57,7 +68,19 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ColoredBox(
+      color: Colors.white,
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Icon(AppIcons.image_outlined, color: AppColors.grey100, size: 180),
+            CircularProgressIndicator(),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -66,15 +89,10 @@ class _Failure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-class _Unavailable extends StatelessWidget {
-  const _Unavailable();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      padding: const EdgeInsets.all(Margins.spacing_s),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(Dimens.radius_base)),
+      child: FileWasDeleted(),
+    );
   }
 }

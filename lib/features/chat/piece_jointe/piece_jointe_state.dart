@@ -16,6 +16,10 @@ class PiecesJointesState extends Equatable {
     return PiecesJointesState(updatedData, updatedPaths);
   }
 
+  bool isLoaded(String id) {
+    return status[id] == PieceJointeStatus.success;
+  }
+
   @override
   List<Object?> get props => [status, paths];
 }

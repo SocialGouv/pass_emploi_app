@@ -1,5 +1,4 @@
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
-import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -17,11 +16,12 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
     if (userId == null) return;
 
     if (action is PieceJointeFromIdRequestAction) {
-      final String? path = await _repository.downloadFromId(fileId: action.fileId, fileName: action.fileName);
       final pieceJointeState = store.state.piecesJointesState;
-      if (pieceJointeState.status[action.fileId] == PieceJointeStatus.success) {
+      final boolIsLoaded = pieceJointeState.isLoaded(action.fileId);
+      if (boolIsLoaded) {
         return;
       }
+      final String? path = await _repository.downloadFromId(fileId: action.fileId, fileName: action.fileName);
       _handleDownload(store, action.fileId, path, isImage: action.isImage);
     }
 

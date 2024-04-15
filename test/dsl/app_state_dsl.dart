@@ -174,13 +174,13 @@ extension AppStateDSL on AppState {
       copyWith(piecesJointesState: PiecesJointesState({"id-1": PieceJointeStatus.success}, {"id-1": "path"}));
 
   AppState piecesJointesLoading(String id) =>
-      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.loading}, {"id-1": "path"}));
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.loading}, {}));
 
   AppState piecesJointesFailure(String id) =>
-      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.failure}, {"id-1": "path"}));
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.failure}, {}));
 
   AppState piecesJointesUnavailable(String id) =>
-      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.unavailable}, {"id-1": "path"}));
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.unavailable}, {}));
 
   AppState previewFileNotInit() => copyWith(previewFileState: PreviewFileNotInitializedState());
 
