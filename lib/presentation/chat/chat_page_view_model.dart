@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -47,7 +49,10 @@ class ChatPageViewModel extends Equatable {
       shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
       jeunePjEnabled: store.state.featureFlipState.featureFlip.usePj,
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
-      onSendImage: (String imagePath) => store.dispatch(SendImageAction(imagePath)),
+      onSendImage: (String imagePath) {
+        store.dispatch(TrackingEventAction(EventType.IMAGE_ENVOYEE));
+        store.dispatch(SendImageAction(imagePath));
+      },
       onRetry: () => store.dispatch(SubscribeToChatAction()),
     );
   }
