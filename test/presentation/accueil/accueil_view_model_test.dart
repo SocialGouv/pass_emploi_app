@@ -82,9 +82,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
+            Outils.benevolatCej.withoutImage(),
             Outils.diagoriente.withoutImage(),
             Outils.aides.withoutImage(),
-            Outils.benevolatCej.withoutImage(),
           ]),
         ],
       );
@@ -130,9 +130,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
+            Outils.benevolatCej.withoutImage(),
             Outils.diagoriente.withoutImage(),
             Outils.aides.withoutImage(),
-            Outils.benevolatCej.withoutImage(),
           ]),
         ],
       );
@@ -167,9 +167,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
+            Outils.benevolatCej.withoutImage(),
             Outils.diagoriente.withoutImage(),
             Outils.aides.withoutImage(),
-            Outils.benevolatCej.withoutImage(),
           ]),
         ],
       );
@@ -190,9 +190,9 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
+          Outils.benevolatCej.withoutImage(),
           Outils.diagoriente.withoutImage(),
           Outils.aides.withoutImage(),
-          Outils.benevolatCej.withoutImage(),
         ],
       );
     });

@@ -16,7 +16,7 @@ class BoiteAOutilsCard extends StatelessWidget {
       title: outil.title,
       body: outil.description,
       imagePath: outil.imagePath,
-      pressedTip: PressedTip.externalLink(outil.actionLabel),
+      pressedTip: outil.actionLabel != null ? PressedTip.externalLink(outil.actionLabel!) : null,
       onTap: () {
         PassEmploiMatomoTracker.instance.trackOutlink(outil.urlRedirect);
         launchExternalUrl(outil.urlRedirect);

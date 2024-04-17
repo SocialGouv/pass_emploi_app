@@ -25,10 +25,10 @@ void main() {
       final outilsCej = localOutilRepository.getOutils(Brand.cej);
       // Then
       expect(outilsCej.length, 10);
-      expect(outilsCej[0].title, "Diagoriente");
-      expect(outilsCej[1].title, "J'accède à mes aides");
-      expect(outilsCej[2].title, "Trouver un mentor avec 1 jeune, 1 mentor");
-      expect(outilsCej[3].title, "Je m’engage bénévolement");
+      expect(outilsCej[0].title, "Je m’engage bénévolement");
+      expect(outilsCej[1].title, "Diagoriente");
+      expect(outilsCej[2].title, "J'accède à mes aides");
+      expect(outilsCej[3].title, "Trouver un mentor avec 1 jeune, 1 mentor");
       expect(outilsCej[4].title, "Trouver une formation");
       expect(outilsCej[5].title, "Événements de recrutement");
       expect(outilsCej[6].title, "Emploi-Store");

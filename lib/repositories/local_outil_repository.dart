@@ -4,20 +4,15 @@ import 'package:pass_emploi_app/ui/external_links.dart';
 
 class LocalOutilRepository {
   List<Outil> getOutils(Brand brand) {
-    switch (brand) {
-      case Brand.cej:
-        return _getOutilsCej();
-      case Brand.brsa:
-        return _getOutilsBrsa();
-    }
+    return switch (brand) { Brand.cej => _getOutilsCej(), Brand.brsa => _getOutilsBrsa() };
   }
 
   List<Outil> _getOutilsCej() {
     return [
+      Outils.benevolatCej,
       Outils.diagoriente,
       Outils.aides,
       Outils.mentor,
-      Outils.benevolatCej,
       Outils.formation,
       Outils.evenement,
       Outils.emploiStore,
@@ -67,8 +62,8 @@ class Outils {
 
   static Outil benevolatCej = Outil(
     title: "Je m’engage bénévolement",
-    description: "Trouvez une mission de bénévolat près de chez vous ou à distance grâce à JeVeuxAider.gouv.fr",
-    actionLabel: "Je recherche une mission",
+    description:
+        "Trouvez une mission de bénévolat à distance ou en présentiel, comptabilisée dans vos heures d’activités CEJ, sur JeVeuxAider.gouv.fr",
     urlRedirect: ExternalLinks.boiteAOutilsBenevolatCej,
     imagePath: "boite_outil_benevolat.png",
   );
