@@ -210,9 +210,9 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
+          Outils.benevolatBrsa.withoutImage(),
           Outils.emploiSolidaire.withoutImage(),
           Outils.emploiStore.withoutImage(),
-          Outils.benevolatBrsa.withoutImage(),
         ],
       );
     });

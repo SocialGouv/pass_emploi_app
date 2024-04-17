@@ -11,8 +11,8 @@ void main() {
       final outilsBrsa = localOutilRepository.getOutils(Brand.brsa);
       // Then
       expect(outilsBrsa.length, 5);
-      expect(outilsBrsa[0].title, "J'accède à mes aides");
-      expect(outilsBrsa[1].title, "Je m’engage bénévolement");
+      expect(outilsBrsa[0].title, "Je m’engage bénévolement");
+      expect(outilsBrsa[1].title, "J'accède à mes aides");
       expect(outilsBrsa[2].title, "Emploi-Store");
       expect(outilsBrsa[3].title, "Je postule pour un job dans une entreprise solidaire");
       expect(outilsBrsa[4].title, "La bonne boîte");

@@ -24,8 +24,8 @@ class LocalOutilRepository {
 
   List<Outil> _getOutilsBrsa() {
     return [
-      Outils.aides,
       Outils.benevolatBrsa,
+      Outils.aides,
       Outils.emploiStore,
       Outils.emploiSolidaire,
       Outils.laBonneBoite,
@@ -70,10 +70,9 @@ class Outils {
 
   static Outil benevolatBrsa = Outil(
     title: "Je m’engage bénévolement",
-    description: "Trouvez une mission de bénévolat près de chez vous ou à distance grâce à JeVeuxAider.gouv.fr",
-    actionLabel: "Je recherche une mission",
+    description: "Trouvez une mission de bénévolat à distance ou en présentiel sur JeVeuxAider.gouv.fr",
     urlRedirect: ExternalLinks.boiteAOutilsBenevolatBrsa,
-    imagePath: "boite_outil_benevolat.png",
+    imagePath: "boite_outil_benevolat.webp",
   );
 
   static Outil formation = Outil(

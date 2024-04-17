@@ -150,9 +150,9 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Brand brand) {
         Outils.aides.withoutImage(),
       ]),
     Brand.brsa => AccueilOutilsItem([
+        Outils.benevolatBrsa.withoutImage(),
         Outils.emploiSolidaire.withoutImage(),
         Outils.emploiStore.withoutImage(),
-        Outils.benevolatBrsa.withoutImage(),
       ]),
   };
 }
