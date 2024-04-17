@@ -65,10 +65,7 @@ class BaseCard extends StatelessWidget {
                   ],
                 ),
               ],
-              if (imagePath != null) ...[
-                SizedBox(height: Margins.spacing_base),
-                _CardIllustration(imagePath: imagePath!),
-              ],
+              if (imagePath != null) _CardIllustration(imagePath: imagePath!),
               if (title.isNotEmpty) ...[
                 SizedBox(height: Margins.spacing_m),
                 Row(

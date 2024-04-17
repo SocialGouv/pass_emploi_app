@@ -65,7 +65,7 @@ class Outils {
     description:
         "Trouvez une mission de bénévolat à distance ou en présentiel, comptabilisée dans vos heures d’activités CEJ, sur JeVeuxAider.gouv.fr",
     urlRedirect: ExternalLinks.boiteAOutilsBenevolatCej,
-    imagePath: "boite_outil_benevolat.png",
+    imagePath: "boite_outil_benevolat.webp",
   );
 
   static Outil benevolatBrsa = Outil(
