@@ -89,6 +89,7 @@ class TextStyles {
     fontWeight: FontWeight.w400,
     fontFamily: 'Marianne',
     decoration: TextDecoration.underline,
+    decorationColor: AppColors.primary,
   );
 
   static final textSecondaryButton = TextStyle(

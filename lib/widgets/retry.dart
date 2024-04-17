@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -15,6 +16,7 @@ class Retry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Center(
       child: Padding(
         padding: EdgeInsets.all(Margins.spacing_base),
@@ -22,7 +24,7 @@ class Retry extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox.square(
-              dimension: 180,
+              dimension: height < MediaSizes.height_xs ? 90 : 180,
               child: Illustration.grey(
                 AppIcons.warning_rounded,
                 withWhiteBackground: true,

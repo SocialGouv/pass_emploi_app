@@ -57,7 +57,8 @@ class _CejInformationPageState extends State<CejInformationPage> {
                     onContinue: () => _onPageChanged(1),
                     onFinish: () => Navigator.of(context).pop(),
                     currentPage: _currentPage,
-                  )
+                  ),
+                  SizedBox(height: Margins.spacing_xl),
                 ],
               ),
             ),
