@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -47,7 +49,10 @@ class ChatPageViewModel extends Equatable {
       shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
       jeunePjEnabled: store.state.featureFlipState.featureFlip.usePj,
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
-      onSendImage: (String imagePath) => store.dispatch(SendImageAction(imagePath)),
+      onSendImage: (String imagePath) {
+        store.dispatch(TrackingEventAction(EventType.IMAGE_ENVOYEE));
+        store.dispatch(SendImageAction(imagePath));
+      },
       onRetry: () => store.dispatch(SubscribeToChatAction()),
     );
   }
@@ -80,7 +85,7 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
             Strings.newConseillerTemporaireTitle,
             Strings.newConseillerDescription,
           ),
-        MessageType.messagePj => _pieceJointeItem(message),
+        MessageType.messagePj => _pieceJointeItem(message, lastConseillerReading),
         MessageType.localPj => _localPieceJointeItem(message),
         MessageType.offre => _offreMessageItem(message, lastConseillerReading),
         MessageType.event => _eventMessageItem(message, lastConseillerReading),
@@ -145,7 +150,7 @@ ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
   );
 }
 
-ChatItem _pieceJointeItem(Message message) {
+ChatItem _pieceJointeItem(Message message, DateTime lastConseillerReading) {
   final isJeuneImage =
       message.pieceJointes.length == 1 && message.sentBy.isJeune && message.pieceJointes.first.nom.isImage();
   if (isJeuneImage) {
@@ -153,7 +158,7 @@ ChatItem _pieceJointeItem(Message message) {
       messageId: message.id,
       pieceJointeId: message.pieceJointes[0].id,
       pieceJointeName: message.pieceJointes[0].nom,
-      caption: message.creationDate.toHour(),
+      caption: _caption(message, lastConseillerReading),
       captionColor: _captionColor(message),
       shouldAnimate: _shouldAnimate(message),
     );
