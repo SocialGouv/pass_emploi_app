@@ -329,7 +329,6 @@ class Strings {
       "Cliquez sur les onglets pour découvrir les fonctionnalités de l’application.";
 
   // Accueil
-
   static String accueilAppBarTitle = "Bienvenue";
   static String accueilCetteSemaineSection = "Cette semaine";
   static String accueilVoirDetailsCetteSemaine = "Voir le détail de ma semaine";
@@ -1250,6 +1249,9 @@ class Strings {
   static String cvDownload = "Télécharger";
   static String cvErrorApiPeKoMessage = "Impossible de se synchroniser avec votre espace France Travail";
   static String cvErrorApiPeKoButton = "Recharger la page";
+
+  // Bénévolat
+  static String benevolatTitle = "Je m’engage bénévolement ";
 
   // Postuler
   static String postulerOffreTitle = "Postuler";
