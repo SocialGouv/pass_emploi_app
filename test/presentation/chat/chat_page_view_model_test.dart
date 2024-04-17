@@ -264,7 +264,7 @@ void main() {
         messageId: "uid",
         pieceJointeId: "1",
         pieceJointeName: "a.png",
-        caption: "12:30",
+        caption: "12:30 · Envoyé",
         captionColor: null,
         shouldAnimate: false,
       ),

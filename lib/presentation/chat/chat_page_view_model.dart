@@ -80,7 +80,7 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
             Strings.newConseillerTemporaireTitle,
             Strings.newConseillerDescription,
           ),
-        MessageType.messagePj => _pieceJointeItem(message),
+        MessageType.messagePj => _pieceJointeItem(message, lastConseillerReading),
         MessageType.localPj => _localPieceJointeItem(message),
         MessageType.offre => _offreMessageItem(message, lastConseillerReading),
         MessageType.event => _eventMessageItem(message, lastConseillerReading),
@@ -145,7 +145,7 @@ ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
   );
 }
 
-ChatItem _pieceJointeItem(Message message) {
+ChatItem _pieceJointeItem(Message message, DateTime lastConseillerReading) {
   final isJeuneImage =
       message.pieceJointes.length == 1 && message.sentBy.isJeune && message.pieceJointes.first.nom.isImage();
   if (isJeuneImage) {
@@ -153,7 +153,7 @@ ChatItem _pieceJointeItem(Message message) {
       messageId: message.id,
       pieceJointeId: message.pieceJointes[0].id,
       pieceJointeName: message.pieceJointes[0].nom,
-      caption: message.creationDate.toHour(),
+      caption: _caption(message, lastConseillerReading),
       captionColor: _captionColor(message),
       shouldAnimate: _shouldAnimate(message),
     );

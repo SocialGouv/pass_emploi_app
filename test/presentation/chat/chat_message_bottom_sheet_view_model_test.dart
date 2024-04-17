@@ -17,7 +17,7 @@ void main() {
       contentStatus: MessageContentStatus.content,
       pieceJointes: [],
     );
-    test('should display edit options when message is from jeune and not already deleted', () {
+    test('should display edit and delete options when message is from jeune and not already deleted', () {
       // Given
       final message = messageBase;
 
@@ -28,6 +28,7 @@ void main() {
 
       // Then
       expect(viewModel.withEditOption, true);
+      expect(viewModel.withDeleteOption, true);
     });
 
     test('should not display edit options option when message is already deleted', () {
@@ -41,6 +42,7 @@ void main() {
 
       // Then
       expect(viewModel.withEditOption, false);
+      expect(viewModel.withDeleteOption, false);
     });
 
     test('should not display edit options option when message is from conseiller', () {
@@ -54,6 +56,7 @@ void main() {
 
       // Then
       expect(viewModel.withEditOption, false);
+      expect(viewModel.withDeleteOption, false);
     });
 
     test('should not display delete and edit option when message is not sent', () {
@@ -67,6 +70,22 @@ void main() {
 
       // Then
       expect(viewModel.withEditOption, false);
+      expect(viewModel.withDeleteOption, false);
+    });
+
+    test('should not display edit and copy option when message is pj', () {
+      // Given
+      final message = messageBase.copyWith(type: MessageType.messagePj);
+
+      final store = givenState().chatSuccess([message]).store();
+
+      // When
+      final viewModel = ChatMessageBottomSheetViewModel.create(store, message.id);
+
+      // Then
+      expect(viewModel.withCopyOption, false);
+      expect(viewModel.withEditOption, false);
+      expect(viewModel.withDeleteOption, true);
     });
   });
 }

@@ -40,9 +40,9 @@ class ChatMessageBottomSheet extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: Margins.spacing_base),
-                    _CopyMessageButton(viewModel.content),
+                    if (viewModel.withCopyOption) _CopyMessageButton(viewModel.content),
                     if (viewModel.withEditOption) _EditMessageButton(viewModel.onEdit, viewModel.content),
-                    if (viewModel.withEditOption) _DeleteMessageButton(viewModel.onDelete),
+                    if (viewModel.withDeleteOption) _DeleteMessageButton(viewModel.onDelete),
                   ],
                 ),
               ),

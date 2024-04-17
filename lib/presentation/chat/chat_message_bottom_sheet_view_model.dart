@@ -11,12 +11,16 @@ import 'package:redux/redux.dart';
 class ChatMessageBottomSheetViewModel extends Equatable {
   final String content;
   final bool withEditOption;
+  final bool withDeleteOption;
+  final bool withCopyOption;
   final void Function() onDelete;
   final void Function(String) onEdit;
 
   ChatMessageBottomSheetViewModel({
     required this.content,
     required this.withEditOption,
+    required this.withDeleteOption,
+    required this.withCopyOption,
     required this.onDelete,
     required this.onEdit,
   });
@@ -31,6 +35,8 @@ class ChatMessageBottomSheetViewModel extends Equatable {
         store.dispatch(TrackingEventAction(EventType.MESSAGE_SUPPRIME));
       },
       withEditOption: _canEditMessage(message),
+      withDeleteOption: _canDeleteMessage(message),
+      withCopyOption: _canCopyMessage(message),
       onEdit: (content) {
         store.dispatch(EditMessageAction(message, content));
         store.dispatch(TrackingEventAction(EventType.MESSAGE_MODIFIE));
@@ -39,11 +45,23 @@ class ChatMessageBottomSheetViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [content, withEditOption];
+  List<Object?> get props => [content, withEditOption, withDeleteOption, withCopyOption];
 }
 
 bool _canEditMessage(Message message) {
+  if (message.type == MessageType.messagePj) return false;
+
   return message.sentBy == Sender.jeune &&
       message.sendingStatus == MessageSendingStatus.sent &&
       message.contentStatus != MessageContentStatus.deleted;
+}
+
+bool _canDeleteMessage(Message message) {
+  return message.sentBy == Sender.jeune &&
+      message.sendingStatus == MessageSendingStatus.sent &&
+      message.contentStatus != MessageContentStatus.deleted;
+}
+
+bool _canCopyMessage(Message message) {
+  return !(message.type == MessageType.messagePj && message.sentBy == Sender.jeune);
 }
