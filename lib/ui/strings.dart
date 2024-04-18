@@ -66,6 +66,13 @@ class Strings {
   static String selectDateTooltip = "Sélectionner une date";
   static String removeDateTooltip = "Supprimer la date";
 
+  // Login mode
+  static const String milo = "Mission Locale";
+  static const String poleEmploi = "France Travail";
+  static const String demoMilo = "Demo Mission Locale";
+  static const String demoPe = "Demo France Travail";
+  static const String passEmploi = "Pass Emploi";
+
   // Menu
   static String menuAccueil = "Accueil";
   static String menuMonSuivi = "Mon suivi";
@@ -1035,7 +1042,7 @@ class Strings {
   static String contactPageBodyBullet3 = "Toute autre remarque";
   static String contactPageButton = "Continuer";
 
-  static String objetPriseDeContact = Brand.isCej()
+  static String objetPriseDeContact(Brand brand) => brand == Brand.cej
       ? "Prise de contact avec l’équipe de l’application du CEJ"
       : "Prise de contact avec l’équipe de l’application pass emploi";
   static String corpsPriseDeContact = "Décrivez nous votre problème ou vos suggestions d’évolution : ";
