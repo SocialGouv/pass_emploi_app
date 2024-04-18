@@ -32,7 +32,7 @@ enum EventType {
   MESSAGE_SESSION_MILO_PARTAGE,
   MESSAGE_SUPPRIME,
   MESSAGE_MODIFIE,
-  IMAGE_ENVOYEE,
+  MESSAGE_ENVOYE_PJ,
 }
 
 class PostTrackingEmetteur extends JsonSerializable {
@@ -109,7 +109,7 @@ extension on EventType {
       EventType.MESSAGE_SESSION_MILO_PARTAGE => 'MESSAGE_SESSION_MILO_PARTAGE',
       EventType.MESSAGE_SUPPRIME => 'MESSAGE_SUPPRIME',
       EventType.MESSAGE_MODIFIE => 'MESSAGE_MODIFIE',
-      EventType.IMAGE_ENVOYEE => 'IMAGE_ENVOYEE',
+      EventType.MESSAGE_ENVOYE_PJ => 'MESSAGE_ENVOYE_PJ',
     };
   }
 }

@@ -50,7 +50,7 @@ class ChatPageViewModel extends Equatable {
       jeunePjEnabled: store.state.featureFlipState.featureFlip.usePj,
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
       onSendImage: (String imagePath) {
-        store.dispatch(TrackingEventAction(EventType.IMAGE_ENVOYEE));
+        store.dispatch(TrackingEventAction(EventType.MESSAGE_ENVOYE_PJ));
         store.dispatch(SendImageAction(imagePath));
       },
       onRetry: () => store.dispatch(SubscribeToChatAction()),
