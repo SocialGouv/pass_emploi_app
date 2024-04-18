@@ -61,4 +61,5 @@ class AppColors {
 
   // Unreferenced colors
   static const Color loadingGreyPlaceholder = Color(0xFFE7E7E7);
+  static const Color benevolat = Color(0xFF0A0E93);
 }

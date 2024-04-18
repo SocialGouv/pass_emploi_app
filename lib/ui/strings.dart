@@ -1250,9 +1250,6 @@ class Strings {
   static String cvErrorApiPeKoMessage = "Impossible de se synchroniser avec votre espace France Travail";
   static String cvErrorApiPeKoButton = "Recharger la page";
 
-  // Bénévolat
-  static String benevolatTitle = "Je m’engage bénévolement ";
-
   // Postuler
   static String postulerOffreTitle = "Postuler";
   static String postulerTitle = "Récupérez votre CV sur votre téléphone";
