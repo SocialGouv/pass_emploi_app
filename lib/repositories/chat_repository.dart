@@ -246,6 +246,7 @@ class ChatRepository {
         }
       ],
       'type': "MESSAGE_PJ",
+      'statutPJ': "analyse_a_faire",
     };
     return _sendMessage(
       userId: userId,
