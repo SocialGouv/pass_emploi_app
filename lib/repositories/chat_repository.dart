@@ -243,10 +243,10 @@ class ChatRepository {
         {
           "id": pieceJointe.id,
           "nom": nomPjEncrypted.base64Message,
+          "statut": "analyse_a_faire",
         }
       ],
       'type': "MESSAGE_PJ",
-      'statutPJ': "analyse_a_faire",
     };
     return _sendMessage(
       userId: userId,
