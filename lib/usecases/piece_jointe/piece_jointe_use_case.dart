@@ -18,7 +18,12 @@ class PieceJointeUseCase {
     final (fileName, newPath) = await _imageCompressor.compressImage(imagePath);
     if (fileName == null || newPath == null) return false;
 
-    final pj = await _pieceJointeRepository.postPieceJointe(fileName: fileName, filePath: newPath, userId: userId);
+    final pj = await _pieceJointeRepository.postPieceJointe(
+      fileName: fileName,
+      filePath: newPath,
+      messageId: message.id,
+      userId: userId,
+    );
     if (pj == null) return false;
 
     return await _chatRepository.sendPieceJointeMessage(userId, pj, message.id);

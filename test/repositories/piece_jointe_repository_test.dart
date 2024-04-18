@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
@@ -11,11 +14,50 @@ import '../utils/expects.dart';
 void main() {
   final saverMock = MockPieceJointeSaver();
   final sut = DioRepositorySut<PieceJointeRepository>();
+  final file = File('path');
   sut.givenRepository((client) => PieceJointeRepository(client, saverMock));
 
-  setUp(() {
+  setUp(() async {
     reset(saverMock);
     saverMock.mockSaveFile();
+    await file.create();
+  });
+
+  tearDown(() async {
+    await file.delete();
+  });
+
+  group("postPieceJointe", () {
+    sut.when(
+      (repository) => repository.postPieceJointe(
+        fileName: 'fileName',
+        filePath: file.path,
+        messageId: 'messageId',
+        userId: 'userId',
+      ),
+    );
+
+    group('when response is valid', () {
+      sut.givenJsonResponse(fromJson: 'piece_jointe.json');
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: HttpMethod.post,
+          url: "/fichiers",
+          options: Options(contentType: 'multipart/form-data'),
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectResult<PieceJointe?>((result) => expect(result, PieceJointe("id-1", "nom-1")));
+      });
+    });
+
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
+
+      test('response should be null', () async => await sut.expectNullResult());
+    });
   });
 
   group("downloadFromId", () {
@@ -52,7 +94,7 @@ void main() {
     });
 
     group('when response is not found', () {
-      sut.givenResponseCode(404);
+      sut.givenResponseCode(410);
 
       test('response should be path not found', () async {
         await sut.expectResult<String?>((path) => expect(path, Strings.fileNotAvailableError));

@@ -152,7 +152,7 @@ class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
 
   @override
   Future<String?> downloadFromId({required String fileId, required String fileName}) async {
-    return "ERROR: 404";
+    return "ERROR: 410";
   }
 }
 

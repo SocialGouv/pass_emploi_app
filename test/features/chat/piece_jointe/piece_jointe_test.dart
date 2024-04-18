@@ -68,7 +68,7 @@ void main() {
     expect(appState.piecesJointesState.status["id-2"], PieceJointeStatus.failure);
   });
 
-  test("should display a unavailable message when fetching return 404 error", () async {
+  test("should display a unavailable message when fetching return 410 error", () async {
     // Given
     final store = givenState()
         .loggedInUser() //

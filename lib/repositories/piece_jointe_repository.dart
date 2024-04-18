@@ -17,6 +17,7 @@ class PieceJointeRepository {
   Future<PieceJointe?> postPieceJointe({
     required String fileName,
     required String filePath,
+    required String messageId,
     required String userId,
   }) async {
     try {
@@ -30,6 +31,7 @@ class PieceJointeRepository {
         'fichier': fichier,
         'nom': fileName,
         'jeunesIds': [userId],
+        'idMessage': messageId,
       });
 
       final result = await _httpClient.post(
@@ -57,7 +59,7 @@ class PieceJointeRepository {
       return await _pieceJointeSaver.saveFile(fileName: fileName, fileId: fileId, response: response);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
-      if (e is DioException && e.response?.statusCode == HttpStatus.notFound) {
+      if (e is DioException && e.response?.statusCode == HttpStatus.gone) {
         return Strings.fileNotAvailableError;
       }
     }

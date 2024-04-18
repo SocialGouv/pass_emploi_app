@@ -100,7 +100,7 @@ class Strings {
 
   static String simpleDayFormat(day) => "Le $day";
   static String open = "Ouvrir";
-  static String fileNotAvailableError = "ERROR: 404";
+  static String fileNotAvailableError = "ERROR: 410";
   static String fileNotAvailableTitle = "Le fichier n'est plus disponible";
   static String chatEmpty = "Commencez une conversation avec votre conseiller";
   static String chatEmptySubtitle =

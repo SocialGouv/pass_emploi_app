@@ -91,12 +91,14 @@ class _MockPieceJointeRepository extends Mock implements PieceJointeRepository {
   void onSuccess() => when(() => postPieceJointe(
         fileName: any(named: "fileName"),
         filePath: any(named: "filePath"),
+        messageId: any(named: "messageId"),
         userId: any(named: "userId"),
       )).thenAnswer((_) async => _dummyPieceJointe);
 
   void onFailure() => when(() => postPieceJointe(
         fileName: any(named: "fileName"),
         filePath: any(named: "filePath"),
+        messageId: any(named: "messageId"),
         userId: any(named: "userId"),
       )).thenAnswer((_) async => null);
 }
