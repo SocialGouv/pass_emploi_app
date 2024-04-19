@@ -126,7 +126,7 @@ class Strings {
 
   static String chatPieceJointeBottomSheetTitle = "Ajouter une pièce jointe";
   static String chatPieceJointeBottomSheetSubtitle =
-      "Attention à ne pas partager vos données personnelles ou d’informations sensibles notamment votre numéro de Sécurité Sociale (ex :Carte Vitale, etc.)";
+      "Attention à ne pas partager vos données personnelles ou d’informations sensibles notamment votre numéro de Sécurité Sociale (ex : Carte Vitale, etc.)";
   static String chatPieceJointeBottomSheetImageButton = "Sélectionner une photo";
 
   // Force Update

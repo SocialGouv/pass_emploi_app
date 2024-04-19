@@ -34,11 +34,13 @@ class ChatMessageContainer extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               _Caption(caption, captionColor),
-              SizedBox(width: Margins.spacing_s),
-              Padding(
-                padding: const EdgeInsets.only(top: Margins.spacing_xs),
-                child: Icon(captionSuffixIcon, color: captionColor),
-              ),
+              if (captionSuffixIcon != null) ...[
+                SizedBox(width: Margins.spacing_s),
+                Padding(
+                  padding: const EdgeInsets.only(top: Margins.spacing_xs),
+                  child: Icon(captionSuffixIcon, color: captionColor),
+                ),
+              ]
             ],
           ),
         ],

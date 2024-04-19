@@ -35,32 +35,49 @@ class BottomSheetHeader extends StatelessWidget {
       child: Container(
         padding: padding ?? EdgeInsets.only(top: Margins.spacing_base),
         color: Colors.white,
-        child: Stack(
-          alignment: AlignmentDirectional.topCenter,
+        child: Row(
+          // alignment: AlignmentDirectional.topCenter,
           children: [
-            if (title != null) Text(title!, style: TextStyles.textBaseBold),
-            Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: SizedBox.square(
-                dimension: Dimens.icon_size_m,
-                child: OverflowBox(
-                  // to avoid extra padding
-                  maxHeight: 40,
-                  maxWidth: 40,
-                  child: IconButton(
-                    iconSize: Dimens.icon_size_m,
-                    onPressed: () => Navigator.pop(context),
-                    tooltip: Strings.close,
-                    icon: Icon(
-                      AppIcons.close_rounded,
-                      color: AppColors.contentColor,
-                      size: Dimens.icon_size_m,
-                    ),
-                  ),
+            _CloseButton(),
+            if (title != null)
+              Expanded(
+                child: Text(
+                  title!,
+                  style: TextStyles.textBaseBold,
+                  textAlign: TextAlign.center,
                 ),
+              ),
+            IgnorePointer(
+              child: Opacity(
+                opacity: 0,
+                child: _CloseButton(),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CloseButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.square(
+      dimension: Dimens.icon_size_m,
+      child: OverflowBox(
+        // to avoid extra padding
+        maxHeight: 40,
+        maxWidth: 40,
+        child: IconButton(
+          iconSize: Dimens.icon_size_m,
+          onPressed: () => Navigator.pop(context),
+          tooltip: Strings.close,
+          icon: Icon(
+            AppIcons.close_rounded,
+            color: AppColors.contentColor,
+            size: Dimens.icon_size_m,
+          ),
         ),
       ),
     );

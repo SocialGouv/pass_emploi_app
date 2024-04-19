@@ -27,13 +27,15 @@ class ChatPieceJointeBottomSheet extends StatelessWidget {
         child: OverflowBox(
           maxHeight: double.infinity,
           maxWidth: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              SizedBox(height: Margins.spacing_m),
-              _PieceJointeWarning(),
-              SizedBox(height: Margins.spacing_base),
-              _SelectPictureButton(),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: Margins.spacing_m),
+                _PieceJointeWarning(),
+                SizedBox(height: Margins.spacing_base),
+                _SelectPictureButton(),
+              ],
+            ),
           ),
         ),
       ),
