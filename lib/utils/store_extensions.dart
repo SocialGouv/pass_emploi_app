@@ -14,10 +14,7 @@ extension StoreDeeplinks on Store<AppState> {
 
   DeepLink? getDeepLink() {
     final deeplinkState = state.deepLinkState;
-    if (deeplinkState is HandleDeepLinkState) {
-      return deeplinkState.deepLink;
-    }
-    return null;
+    return deeplinkState is HandleDeepLinkState ? deeplinkState.deepLink : null;
   }
 
   T? getDeepLinkAs<T>() {

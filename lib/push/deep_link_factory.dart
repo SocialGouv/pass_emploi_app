@@ -22,6 +22,7 @@ class DeepLinkFactory {
       _DeepLink.savedSearches => AlertesDeepLink(),
       _DeepLink.recherche => RechercheDeepLink(),
       _DeepLink.outils => OutilsDeepLink(),
+      _DeepLink.benevolat => BenevolatDeepLink(),
       null => null,
     };
   }
@@ -40,7 +41,8 @@ enum _DeepLink {
   favoris(["FAVORIS"]),
   savedSearches(["SAVED_SEARCHES"]),
   recherche(["RECHERCHE"]),
-  outils(["OUTILS"]);
+  outils(["OUTILS"]),
+  benevolat(["BENEVOLAT"]);
 
   final List<String> possibleTypes;
 

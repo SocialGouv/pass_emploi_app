@@ -112,6 +112,12 @@ void main() {
           NouvellesFonctionnalitesDeepLink(lastVersion: Version(1, 9, 0)),
           DeepLinkOrigin.pushNotification,
         );
+
+        assertStateWithJson(
+          {"type": "BENEVOLAT"},
+          BenevolatDeepLink(),
+          DeepLinkOrigin.pushNotification,
+        );
       });
 
       group('In app', () {

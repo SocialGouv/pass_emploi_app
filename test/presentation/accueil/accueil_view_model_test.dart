@@ -274,6 +274,17 @@ void main() {
         // Then
         expect(viewModel.shouldResetDeeplink, isTrue);
       });
+
+      test('BenevolatDeepLink > no double opening of pages required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(BenevolatDeepLink()).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isTrue);
+      });
     });
 
     group('should return false when deeplink needs two pages to be opened', () {
