@@ -740,7 +740,8 @@ class Strings {
   static String recherchePlaceholderTitle = "Effectuez votre recherche pour afficher des résultats";
   static String rechercheLancerUneRechercheHint = "Lancez une recherche pour afficher les offres vous correspondant";
 
-  static String rechercheCriteresActifsSingular(int count) => "($count) critère actif";
+  static String rechercheCriteresActifsZero = "0 critère actif";
+  static String rechercheCriteresActifsOne = "(1) critère actif";
 
   static String rechercheCriteresActifsTooltip(bool isOpen) => "Bandeau de recherche ${isOpen ? 'ouvert' : 'fermé'}";
 

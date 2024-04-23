@@ -95,8 +95,8 @@ class _CriteresRechercheBandeauState extends State<_CriteresRechercheBandeau> {
                       child: Text(
                         Intl.plural(
                           widget.criteresActifsCount,
-                          zero: Strings.rechercheCriteresActifsSingular(widget.criteresActifsCount),
-                          one: Strings.rechercheCriteresActifsSingular(widget.criteresActifsCount),
+                          zero: Strings.rechercheCriteresActifsZero,
+                          one: Strings.rechercheCriteresActifsOne,
                           other: Strings.rechercheCriteresActifsPlural(widget.criteresActifsCount),
                         ),
                         style: TextStyles.textBaseMediumBold(
