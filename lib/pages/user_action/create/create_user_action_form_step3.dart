@@ -39,8 +39,9 @@ class CreateUserActionFormStep3 extends StatelessWidget {
             _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
             const SizedBox(height: Margins.spacing_m),
             DatePickerSuggestions(
-              onDateChanged: onDateChanged,
+              title: Strings.datePickerTitle,
               dateSource: viewModel.dateSource,
+              onDateChanged: onDateChanged,
             ),
             const SizedBox(height: Margins.spacing_m),
             if (viewModel.shouldDisplayRappelNotification())

@@ -482,6 +482,7 @@ class Strings {
   static const String userActionStatusRadioCompletedStep3 = 'Terminée';
   static const String userActionStatusRadioTodoStep3 = 'En cours';
   static const String datePickerTitle = 'Date';
+  static const String datePickerTitleMandatory = '*Date';
 
   static const String userActionDateSuggestion1 = 'Aujourd’hui';
   static const String userActionDateSuggestion2 = 'Demain';

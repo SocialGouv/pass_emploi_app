@@ -96,6 +96,7 @@ class _BodyState extends State<_Body> {
                   MandatoryFieldsLabel.some(),
                   SizedBox(height: Margins.spacing_m),
                   DatePickerSuggestions(
+                    title: Strings.datePickerTitleMandatory,
                     onDateChanged: (dateSource) => _changeNotifier.updateDate(dateSource),
                     dateSource: _changeNotifier.dateInputSource,
                   ),

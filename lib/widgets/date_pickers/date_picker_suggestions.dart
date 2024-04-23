@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/model/date_input_source.dart';
 import 'package:pass_emploi_app/presentation/model/date_suggestions_view_model.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 
 class DatePickerSuggestions extends StatelessWidget {
-  const DatePickerSuggestions({super.key, required this.onDateChanged, required this.dateSource});
-  final void Function(DateInputSource) onDateChanged;
+  final String title;
   final DateInputSource dateSource;
+  final void Function(DateInputSource) onDateChanged;
+
+  const DatePickerSuggestions({
+    super.key,
+    required this.title,
+    required this.onDateChanged,
+    required this.dateSource,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,7 @@ class DatePickerSuggestions extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.datePickerTitle, style: TextStyles.textBaseBold),
+        Text(title, style: TextStyles.textBaseBold),
         const SizedBox(height: Margins.spacing_s),
         DatePicker(
           onDateSelected: (date) => onDateChanged(DateFromPicker(date)),
