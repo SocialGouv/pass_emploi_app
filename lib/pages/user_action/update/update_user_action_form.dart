@@ -124,7 +124,7 @@ class _BodyState extends State<_Body> {
                   Divider(height: 1, color: AppColors.primaryLighten),
                   const SizedBox(height: Margins.spacing_base),
                   _Buttons(
-                    canSave: _changeNotifier.hasChanged,
+                    canSave: _changeNotifier.canSave(),
                     onSave: () => widget.viewModel.save(
                       _changeNotifier.dateInputSource.selectedDate,
                       _changeNotifier.title,
