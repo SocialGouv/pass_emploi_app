@@ -98,6 +98,7 @@ class AnalyticsScreenNames {
   static const serviceCiviqueCreateAlert = "/saved_searches/service_civique/create";
 
   static const toolbox = "recherche/boite_a_outils";
+  static const benevolat = "benevolat";
 
   static const eventList = "events/list";
 

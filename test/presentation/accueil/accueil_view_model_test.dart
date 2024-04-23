@@ -82,9 +82,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
+            Outils.benevolatCej.withoutImage(),
             Outils.diagoriente.withoutImage(),
             Outils.aides.withoutImage(),
-            Outils.benevolatCej.withoutImage(),
           ]),
         ],
       );
@@ -130,9 +130,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
+            Outils.benevolatCej.withoutImage(),
             Outils.diagoriente.withoutImage(),
             Outils.aides.withoutImage(),
-            Outils.benevolatCej.withoutImage(),
           ]),
         ],
       );
@@ -167,9 +167,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
+            Outils.benevolatCej.withoutImage(),
             Outils.diagoriente.withoutImage(),
             Outils.aides.withoutImage(),
-            Outils.benevolatCej.withoutImage(),
           ]),
         ],
       );
@@ -190,9 +190,9 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
+          Outils.benevolatCej.withoutImage(),
           Outils.diagoriente.withoutImage(),
           Outils.aides.withoutImage(),
-          Outils.benevolatCej.withoutImage(),
         ],
       );
     });
@@ -210,9 +210,9 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
+          Outils.benevolatBrsa.withoutImage(),
           Outils.emploiSolidaire.withoutImage(),
           Outils.emploiStore.withoutImage(),
-          Outils.benevolatBrsa.withoutImage(),
         ],
       );
     });
@@ -267,6 +267,17 @@ void main() {
       test('AlertesDeepLink > no double opening of pages required', () {
         // Given
         final store = givenState().withHandleDeepLink(AlertesDeepLink()).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isTrue);
+      });
+
+      test('BenevolatDeepLink > no double opening of pages required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(BenevolatDeepLink()).store();
 
         // When
         final viewModel = AccueilViewModel.create(store);

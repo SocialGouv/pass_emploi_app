@@ -63,3 +63,5 @@ class AlertesDeepLink extends DeepLink {}
 class RechercheDeepLink extends DeepLink {}
 
 class OutilsDeepLink extends DeepLink {}
+
+class BenevolatDeepLink extends DeepLink {}

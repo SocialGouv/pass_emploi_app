@@ -20,6 +20,7 @@ class PrimaryActionButton extends StatelessWidget {
   final double iconRightPadding;
   final double heightPadding;
   final double widthPadding;
+  final bool underlined;
   final Widget? suffix;
 
   PrimaryActionButton({
@@ -38,12 +39,15 @@ class PrimaryActionButton extends StatelessWidget {
     this.iconRightPadding = Margins.spacing_s,
     this.heightPadding = Margins.spacing_base,
     this.widthPadding = Margins.spacing_m,
+    this.underlined = false,
     this.suffix,
   }) : backgroundColor = backgroundColor ?? AppColors.primary;
 
   @override
   Widget build(BuildContext context) {
-    final baseTextStyle = TextStyles.textPrimaryButton;
+    final baseTextStyle = TextStyles.textPrimaryButton.copyWith(
+      decoration: underlined ? TextDecoration.underline : null,
+    );
     final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
     return FocusedBorderBuilder(builder: (focusNode) {
       return TextButton(
@@ -59,15 +63,11 @@ class PrimaryActionButton extends StatelessWidget {
             return (states.contains(MaterialState.disabled) || !withShadow) ? 0 : 10;
           }),
           alignment: Alignment.center,
-          shape:
-              MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(200)))),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(200))),
+          ),
           overlayColor: MaterialStateProperty.resolveWith(
-            (states) {
-              if (states.contains(MaterialState.pressed)) {
-                return rippleColor;
-              }
-              return null;
-            },
+            (states) => states.contains(MaterialState.pressed) ? rippleColor : null,
           ),
         ),
         onPressed: onPressed,

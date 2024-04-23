@@ -145,14 +145,14 @@ AccueilItem? _favorisItem(AccueilSuccessState successState) {
 AccueilItem? _outilsItem(AccueilSuccessState successState, Brand brand) {
   return switch (brand) {
     Brand.cej => AccueilOutilsItem([
+        Outils.benevolatCej.withoutImage(),
         Outils.diagoriente.withoutImage(),
         Outils.aides.withoutImage(),
-        Outils.benevolatCej.withoutImage(),
       ]),
     Brand.brsa => AccueilOutilsItem([
+        Outils.benevolatBrsa.withoutImage(),
         Outils.emploiSolidaire.withoutImage(),
         Outils.emploiStore.withoutImage(),
-        Outils.benevolatBrsa.withoutImage(),
       ]),
   };
 }

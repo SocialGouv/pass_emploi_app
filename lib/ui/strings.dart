@@ -329,7 +329,6 @@ class Strings {
       "Cliquez sur les onglets pour découvrir les fonctionnalités de l’application.";
 
   // Accueil
-
   static String accueilAppBarTitle = "Bienvenue";
   static String accueilCetteSemaineSection = "Cette semaine";
   static String accueilVoirDetailsCetteSemaine = "Voir le détail de ma semaine";
