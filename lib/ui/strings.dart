@@ -652,7 +652,7 @@ class Strings {
   static String modifierStatut = "Modifier le statut";
   static String historiqueDemarche = "Historique";
   static String modifiedBy = "Modifiée le ";
-  static String createdBy = "Crée le ";
+  static String createdBy = "Créée le ";
   static String par = " par ";
   static String votreConseiller = "votre conseiller";
   static const String late = "En retard : ";
@@ -687,7 +687,7 @@ class Strings {
 
   static String demarcheDoneDateFormat(String formattedDate) => demarcheDoneLabel + formattedDate;
 
-  static String demarcheCancelledLabel = "Annulé le ";
+  static String demarcheCancelledLabel = "Annulée le ";
 
   static String demarcheCancelledDateFormat(String formattedDate) => demarcheCancelledLabel + formattedDate;
 
@@ -979,7 +979,7 @@ class Strings {
   static String privacyPolicyLabel = "Politique de confidentialité";
   static String accessibilityLevelLabel = "Niveau d’accessibilité";
   static String accessibilityLevelNonConforme = "Non conforme";
-  static String termsOfServiceLabel = "Conditions d'Utilisation";
+  static String termsOfServiceLabel = "Conditions d'utilisation";
 
   static String legalNoticeUrl = Brand.isCej() ? _CejStrings.legalNoticeUrl : _BrsaStrings.legalNoticeUrl;
   static String privacyPolicyUrl = Brand.isCej() ? _CejStrings.privacyPolicyUrl : _BrsaStrings.privacyPolicyUrl;
@@ -1039,7 +1039,7 @@ class Strings {
   static String contactPageBodyBullet1 = "Un problème sur l’application";
   static String contactPageBodyBullet2 = "Une suggestion d’évolution";
   static String contactPageBodyBullet3 = "Toute autre remarque";
-  static String contactPageButton = "Continuer";
+  static String contactPageButton = "Contacter l'équipe";
 
   static String objetPriseDeContact(Brand brand) => brand == Brand.cej
       ? "Prise de contact avec l’équipe de l’application du CEJ"
