@@ -3,14 +3,14 @@ import 'package:equatable/equatable.dart';
 class Outil extends Equatable {
   final String title;
   final String description;
-  final OutilRedirect outilRedirect;
+  final OutilRedirectMode redirectMode;
   final String? actionLabel;
   final String? imagePath;
 
   Outil({
     required this.title,
     required this.description,
-    required this.outilRedirect,
+    required this.redirectMode,
     this.actionLabel,
     this.imagePath,
   });
@@ -20,32 +20,32 @@ class Outil extends Equatable {
       title: title,
       description: description,
       actionLabel: actionLabel,
-      outilRedirect: outilRedirect,
+      redirectMode: redirectMode,
       imagePath: null,
     );
   }
 
   @override
-  List<Object?> get props => [title, description, actionLabel, outilRedirect, imagePath];
+  List<Object?> get props => [title, description, actionLabel, redirectMode, imagePath];
 }
 
 enum OutilInternalLink { benevolat }
 
-sealed class OutilRedirect extends Equatable {}
+sealed class OutilRedirectMode extends Equatable {}
 
-class OutilExternalRedirect extends OutilRedirect {
+class OutilExternalRedirectMode extends OutilRedirectMode {
   final String url;
 
-  OutilExternalRedirect(this.url);
+  OutilExternalRedirectMode(this.url);
 
   @override
   List<Object?> get props => [url];
 }
 
-class OutilInternalRedirect extends OutilRedirect {
+class OutilInternalRedirectMode extends OutilRedirectMode {
   final OutilInternalLink internalLink;
 
-  OutilInternalRedirect(this.internalLink);
+  OutilInternalRedirectMode(this.internalLink);
 
   @override
   List<Object?> get props => [internalLink];

@@ -39,7 +39,7 @@ class Outils {
     description:
         "Explorez vos expériences, analysez vos compétences transversales et identifiez vos intérêts personnels afin de faciliter votre orientation.",
     actionLabel: "Créer mon compte Diagoriente",
-    outilRedirect: OutilExternalRedirect(ExternalLinks.boiteAOutilsDiagoriente),
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsDiagoriente),
     imagePath: "diagoriente.png",
   );
   static Outil aides = Outil(
@@ -47,7 +47,7 @@ class Outils {
     description:
         "Trouvez en quelques clics les aides auxquelles vous avez droit : logement, santé, mobilité, emploi, culture, etc.",
     actionLabel: "Lancer ma simulation",
-    outilRedirect: OutilExternalRedirect(ExternalLinks.boiteAOutilsAides),
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsAides),
     imagePath: "aides.png",
   );
 
@@ -56,7 +56,7 @@ class Outils {
     description:
         "Expliquez nous votre situation et vos besoins. Nous vous mettrons en relation avec une association qui vous proposera un mentor.",
     actionLabel: "Me faire accompagner",
-    outilRedirect: OutilExternalRedirect(ExternalLinks.boiteAOutilsMentor),
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsMentor),
     imagePath: "mentor.png",
   );
 
@@ -64,14 +64,14 @@ class Outils {
     title: "Je m’engage bénévolement",
     description:
         "Trouvez une mission de bénévolat à distance ou en présentiel, comptabilisée dans vos heures d’activités CEJ, sur JeVeuxAider.gouv.fr",
-    outilRedirect: OutilInternalRedirect(OutilInternalLink.benevolat),
+    redirectMode: OutilInternalRedirectMode(OutilInternalLink.benevolat),
     imagePath: "boite_outil_benevolat.webp",
   );
 
   static Outil benevolatBrsa = Outil(
     title: "Je m’engage bénévolement",
     description: "Trouvez une mission de bénévolat à distance ou en présentiel sur JeVeuxAider.gouv.fr",
-    outilRedirect: OutilInternalRedirect(OutilInternalLink.benevolat),
+    redirectMode: OutilInternalRedirectMode(OutilInternalLink.benevolat),
     imagePath: "boite_outil_benevolat.webp",
   );
 
@@ -79,7 +79,7 @@ class Outils {
     title: "Trouver une formation",
     description: "Trouvez la formation qui vous intéresse pour réaliser votre projet professionnel.",
     actionLabel: "Je recherche une formation",
-    outilRedirect: OutilExternalRedirect(ExternalLinks.boiteAOutilsFormation),
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsFormation),
     imagePath: null,
   );
 
@@ -87,7 +87,7 @@ class Outils {
     title: "Événements de recrutement",
     description: "Trouvez des centaines d’événements de recrutement pour tous les jeunes partout en France.",
     actionLabel: "Je recherche un événement",
-    outilRedirect: OutilExternalRedirect(ExternalLinks.boiteAOutilsEvenementRecrutement),
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsEvenementRecrutement),
     imagePath: null,
   );
 
@@ -96,7 +96,7 @@ class Outils {
     description:
         "Une plateforme pour trouver les sites et applications dédiés à la recherche d'emploi ainsi qu’à la formation et à la création d'entreprise en France et à l'international.",
     actionLabel: "Me diriger vers l’Emploi-Store",
-    outilRedirect: OutilExternalRedirect(ExternalLinks.boiteAOutilsEmploiStore),
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsEmploiStore),
     imagePath: null,
   );
 
@@ -104,7 +104,7 @@ class Outils {
     title: "Je postule pour un job dans une entreprise solidaire",
     description: "Prenez contact avec un employeur solidaire et postulez aux offres qui correspondent à vos attentes.",
     actionLabel: "Trouver une entreprise solidaire",
-    outilRedirect: OutilExternalRedirect(ExternalLinks.boiteAOutilsEmploiSolidaire),
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsEmploiSolidaire),
     imagePath: null,
   );
 
@@ -113,7 +113,7 @@ class Outils {
     description:
         "Envoyez votre CV à la bonne entreprise ! Découvrez en un clic les entreprises qui recrutent dans votre métier près de chez vous.",
     actionLabel: "Trouver la bonne boîte",
-    outilRedirect: OutilExternalRedirect(ExternalLinks.boiteAOutilsLaBonneBoite),
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsLaBonneBoite),
     imagePath: null,
   );
 
@@ -121,7 +121,7 @@ class Outils {
     title: "Alternance avec 1 jeune, 1 solution",
     description: "Trouvez la formation et l’entreprise pour réaliser votre projet d’alternance.",
     actionLabel: "Je recherche une altenance",
-    outilRedirect: OutilExternalRedirect(ExternalLinks.boiteAOutilsAlternance),
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsAlternance),
     imagePath: null,
   );
 }
