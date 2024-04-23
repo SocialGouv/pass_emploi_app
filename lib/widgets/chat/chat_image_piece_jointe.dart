@@ -66,14 +66,15 @@ class _Content extends StatelessWidget {
 class _Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
+    return Container(
       color: Colors.white,
-      child: AspectRatio(
-        aspectRatio: 1,
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(Margins.spacing_base),
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Icon(AppIcons.image_outlined, color: AppColors.grey100, size: 180),
+            Icon(AppIcons.image_outlined, color: AppColors.grey100, size: Dimens.icon_size_l),
             CircularProgressIndicator(),
           ],
         ),
