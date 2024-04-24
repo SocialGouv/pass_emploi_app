@@ -24,7 +24,7 @@ class PieceJointeRepository {
       final MultipartFile fichier = await MultipartFile.fromFile(
         filePath,
         filename: fileName,
-        contentType: MediaType('image', 'webp'),
+        contentType: MediaType('image', 'png'),
       );
 
       final FormData formData = FormData.fromMap({
