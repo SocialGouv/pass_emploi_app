@@ -282,6 +282,13 @@ class ChatRepository {
   }
 
   Future<MessageInformatif?> getMessageInformatif(String conseillerId) async {
+    if (1 == 1) {
+      return MessageInformatif(
+        message: "hello",
+        dateDebut: DateTime(2022),
+        dateFin: DateTime(2025),
+      );
+    }
     try {
       final result = await FirebaseFirestore.instance //
           .collection("messageImportant")

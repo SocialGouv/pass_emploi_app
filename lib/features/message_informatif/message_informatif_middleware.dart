@@ -12,8 +12,7 @@ class MessageInformatifMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    final conseillerId = store.state.conseillerId();
-    if (conseillerId == null) return;
+    final conseillerId = store.state.conseillerId() ?? "TODO: remove me";
     if (action is SubscribeToChatAction) {
       final result = await _repository.getMessageInformatif(conseillerId);
       if (result != null) {

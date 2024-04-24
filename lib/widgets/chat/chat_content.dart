@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/widgets/chat/chat_list_view.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_text_field.dart';
 import 'package:pass_emploi_app/widgets/chat/empty_chat_placeholder.dart';
 
-class ChatContent extends StatelessWidget {
+class ChatContent extends StatefulWidget {
   final List<dynamic> reversedItems;
   final ScrollController scrollController;
   final TextEditingController controller;
@@ -30,50 +30,85 @@ class ChatContent extends StatelessWidget {
   });
 
   @override
+  State<ChatContent> createState() => _ChatContentState();
+}
+
+class _ChatContentState extends State<ChatContent> {
+  final FocusNode _focusNode = FocusNode();
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
-          child: reversedItems.isEmpty
+          child: widget.reversedItems.isEmpty
               ? EmptyChatPlaceholder()
               : SingleChildScrollView(
                   reverse: true,
                   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                  controller: scrollController,
+                  controller: widget.scrollController,
                   child: Column(
                     children: [
                       ChatListView(
-                        reversedItems: reversedItems,
-                        itemBuilder: itemBuilder,
+                        reversedItems: widget.reversedItems,
+                        itemBuilder: widget.itemBuilder,
                       ),
-                      if (messageImportant != null) _MessageImportantItem(messageImportant!),
+                      if (widget.messageImportant != null)
+                        _MessageImportantItem(
+                          message: widget.messageImportant!,
+                          focusNode: _focusNode,
+                        ),
                     ],
                   ),
                 ),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: ChatTextField(
-            controller: controller,
-            onSendMessage: onSendMessage,
-            onSendImage: onSendImage,
-            jeunePjEnabled: jeunePjEnabled,
-          ),
+        ChatTextField(
+          controller: widget.controller,
+          focusNode: _focusNode,
+          onSendMessage: widget.onSendMessage,
+          onSendImage: widget.onSendImage,
+          jeunePjEnabled: widget.jeunePjEnabled,
         )
       ],
     );
   }
 }
 
-class _MessageImportantItem extends StatelessWidget {
-  const _MessageImportantItem(this.message);
+class _MessageImportantItem extends StatefulWidget {
+  const _MessageImportantItem({required this.message, required this.focusNode});
   final String message;
+  final FocusNode focusNode;
+
+  @override
+  State<_MessageImportantItem> createState() => _MessageImportantItemState();
+}
+
+class _MessageImportantItemState extends State<_MessageImportantItem> {
+  bool isKeyboardVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.focusNode.addListener(listener);
+  }
+
+  @override
+  void dispose() {
+    widget.focusNode.removeListener(listener);
+    super.dispose();
+  }
+
+  void listener() {
+    final hasFocus = widget.focusNode.hasFocus;
+    setState(() {
+      isKeyboardVisible = hasFocus;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     const foregroundColor = AppColors.grey100;
-    final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
-    if (isKeyboardOpen) {
+    if (isKeyboardVisible) {
       return SizedBox.shrink();
     }
     return Container(
@@ -86,7 +121,7 @@ class _MessageImportantItem extends StatelessWidget {
         children: [
           Icon(AppIcons.info_rounded, color: foregroundColor),
           SizedBox(width: Margins.spacing_s),
-          Expanded(child: Text(message, style: TextStyles.textSRegular(color: foregroundColor))),
+          Expanded(child: Text(widget.message, style: TextStyles.textSRegular(color: foregroundColor))),
         ],
       ),
     );
