@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
+import 'package:pass_emploi_app/features/message_informatif/message_informatif_state.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/chat/message_informatif.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -13,6 +15,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:redux/redux.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
@@ -767,6 +770,95 @@ void main() {
 
       // Then
       expect(viewModel.jeunePjEnabled, isFalse);
+    });
+  });
+
+  group('messageInformatif', () {
+    test('should display nothing when date debut is in the future', () {
+      // Given
+      final state = AppState.initialState().copyWith(
+        messageInformatifState:
+            MessageInformatifSuccessState(message: dummyMessageInformatif(dateDebut: now.add(Duration(days: 1)))),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.messageImportant, null);
+    });
+
+    test('should display nothing when date fin is in the past', () {
+      // Given
+      final state = AppState.initialState().copyWith(
+        messageInformatifState:
+            MessageInformatifSuccessState(message: dummyMessageInformatif(dateFin: now.subtract(Duration(days: 1)))),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.messageImportant, null);
+    });
+
+    test('should display nothing when message is null', () {
+      // Given
+      final state = AppState.initialState().copyWith(
+        messageInformatifState: MessageInformatifSuccessState(
+            message: MessageInformatif(
+          dateFin: now.add(Duration(days: 1)),
+          dateDebut: now.subtract(Duration(days: 1)),
+          message: null,
+        )),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.messageImportant, null);
+    });
+
+    test('should display nothing when message is empty', () {
+      // Given
+      final state = AppState.initialState().copyWith(
+        messageInformatifState: MessageInformatifSuccessState(
+            message: MessageInformatif(
+          dateFin: now.add(Duration(days: 1)),
+          dateDebut: now.subtract(Duration(days: 1)),
+          message: "",
+        )),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.messageImportant, null);
+    });
+
+    test('should display message', () {
+      // Given
+      final state = AppState.initialState().copyWith(
+        messageInformatifState: MessageInformatifSuccessState(
+            message: MessageInformatif(
+          dateFin: now.add(Duration(days: 1)),
+          dateDebut: now.subtract(Duration(days: 1)),
+          message: "Je veux revoir les montages Gandalf",
+        )),
+      );
+      final store = Store<AppState>(reducer, initialState: state);
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.messageImportant, "Je veux revoir les montages Gandalf");
     });
   });
 }

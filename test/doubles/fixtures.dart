@@ -1245,8 +1245,13 @@ CvmMessage mockCvmTextMessage({String? id, String? content, DateTime? date, Send
   );
 }
 
-MessageInformatif dummyMessageInformatif() => MessageInformatif(
-      message: "Message informatif",
-      dateDebut: DateTime(2023),
-      dateFin: DateTime(2024),
+MessageInformatif dummyMessageInformatif({
+  String? message,
+  DateTime? dateDebut,
+  DateTime? dateFin,
+}) =>
+    MessageInformatif(
+      message: message ?? "Message informatif",
+      dateDebut: dateDebut ?? DateTime(2023),
+      dateFin: dateFin ?? DateTime(2024),
     );

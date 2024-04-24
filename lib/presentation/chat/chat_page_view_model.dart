@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
+import 'package:pass_emploi_app/features/message_informatif/message_informatif_state.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
@@ -21,6 +22,7 @@ class ChatPageViewModel extends Equatable {
   final DisplayState displayState;
   final String? brouillon;
   final List<ChatItem> items;
+  final String? messageImportant;
   final bool shouldShowOnboarding;
   final bool jeunePjEnabled;
   final Function(String message) onSendMessage;
@@ -31,6 +33,7 @@ class ChatPageViewModel extends Equatable {
     required this.displayState,
     required this.brouillon,
     required this.items,
+    required this.messageImportant,
     required this.shouldShowOnboarding,
     required this.jeunePjEnabled,
     required this.onSendMessage,
@@ -46,6 +49,7 @@ class ChatPageViewModel extends Equatable {
       displayState: _displayState(chatState),
       brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
+      messageImportant: _messageImportant(store),
       shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
       jeunePjEnabled: store.state.featureFlipState.featureFlip.usePj,
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
@@ -58,7 +62,7 @@ class ChatPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, brouillon, items, shouldShowOnboarding, jeunePjEnabled];
+  List<Object?> get props => [displayState, brouillon, items, messageImportant, shouldShowOnboarding, jeunePjEnabled];
 }
 
 DisplayState _displayState(ChatState state) {
@@ -241,6 +245,21 @@ List<dynamic> _messagesWithDaySections(List<Message> messages) {
 
 String _getDayLabel(DateTime dateTime) {
   return dateTime.isAtSameDayAs(DateTime.now()) ? Strings.today : Strings.simpleDayFormat(dateTime.toDay());
+}
+
+String? _messageImportant(Store<AppState> store) {
+  final chatState = store.state.messageInformatifState;
+  if (chatState is MessageInformatifSuccessState) {
+    final messageInformatif = chatState.message;
+    final now = DateTime.now();
+    if (messageInformatif.dateDebut.isBefore(now) &&
+        messageInformatif.dateFin.isAfter(now) &&
+        messageInformatif.message != null &&
+        messageInformatif.message!.isNotEmpty) {
+      return messageInformatif.message!;
+    }
+  }
+  return null;
 }
 
 extension on String {
