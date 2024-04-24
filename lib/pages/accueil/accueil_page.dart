@@ -53,8 +53,8 @@ class _AccueilPageState extends State<AccueilPage> {
         converter: (store) => AccueilViewModel.create(store),
         builder: _builder,
         onDidChange: (previousViewModel, viewModel) {
-          _handleOnboarding(context, viewModel);
-          _handleDeeplink(context, previousViewModel, viewModel);
+          _handleOnboarding(viewModel);
+          _handleDeeplink(previousViewModel, viewModel);
         },
         distinct: true,
       ),
@@ -69,7 +69,7 @@ class _AccueilPageState extends State<AccueilPage> {
     );
   }
 
-  void _handleDeeplink(BuildContext context, AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) {
+  void _handleDeeplink(AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) {
     final route = switch (newViewModel.deepLink) {
       final RendezvousDeepLink deeplink => RendezvousDetailsPage.materialPageRoute(
           RendezvousStateSource.noSource,
@@ -94,7 +94,7 @@ class _AccueilPageState extends State<AccueilPage> {
     if (newViewModel.shouldResetDeeplink) newViewModel.resetDeeplink();
   }
 
-  void _handleOnboarding(BuildContext context, AccueilViewModel newViewModel) {
+  void _handleOnboarding(AccueilViewModel newViewModel) {
     if (newViewModel.shouldShowOnboarding && !_onboardingShown) {
       _onboardingShown = true;
       OnboardingAccueilBottomSheet.show(context).then((_) => OnboardingNavigationBottomSheet.show(context));
