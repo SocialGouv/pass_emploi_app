@@ -78,6 +78,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_reducer.dart';
+import 'package:pass_emploi_app/features/message_informatif/message_informatif_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -187,6 +188,7 @@ AppState reducer(AppState current, dynamic action) {
     preferredLoginModeState: preferredLoginModeReducer(current.preferredLoginModeState, action),
     onboardingState: onboardingReducer(current.onboardingState, action),
     firstLaunchOnboardingState: firstLaunchOnboardingReducer(current.firstLaunchOnboardingState, action),
+    messageInformatifState: messageInformatifReducer(current.messageInformatifState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }
