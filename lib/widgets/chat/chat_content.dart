@@ -71,7 +71,7 @@ class _MessageImportantItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const foregroundColor = AppColors.warning;
+    const foregroundColor = AppColors.grey100;
     final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
     if (isKeyboardOpen) {
       return SizedBox.shrink();
@@ -79,7 +79,7 @@ class _MessageImportantItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(Margins.spacing_base),
       decoration: BoxDecoration(
-        color: AppColors.warningLighten,
+        color: AppColors.disabled,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
