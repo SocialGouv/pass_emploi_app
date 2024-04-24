@@ -33,16 +33,6 @@ void main() {
         // When & Then
         sut.thenExpectAtSomePoint(_shouldSucceed());
       });
-
-      test("On chat first subscription, should display nothing when failure occurs", () async {
-        // Given
-        sut.givenStore = givenState()
-            .copyWith(detailsJeuneState: DetailsJeuneSuccessState(detailsJeune: detailsJeune())) //
-            .store((f) => {f.chatRepository = chatRepository..withGetMessageInformatifFailure()});
-
-        // When & Then
-        sut.thenExpectAtSomePoint(_shouldFail());
-      });
     });
   });
 }
@@ -59,10 +49,9 @@ class _MockChatRepository extends Mock implements ChatRepository {
   void withGetMessageInformatifFailure() => when(() => getMessageInformatif(any())).thenAnswer((_) async => null);
 
   void withMessageStream() => when(() => messagesStream(any())).thenAnswer((_) => Stream.value([]));
+
   void withChatStatusStream() =>
       when(() => chatStatusStream(any())).thenAnswer((_) => Stream.value(ConseillerMessageInfo(false, null)));
 }
-
-Matcher _shouldFail() => StateIs<MessageInformatifFailureState>((state) => state.messageInformatifState);
 
 Matcher _shouldSucceed() => StateIs<MessageInformatifSuccessState>((state) => state.messageInformatifState);

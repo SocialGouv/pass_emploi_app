@@ -5,5 +5,3 @@ class MessageInformatifSuccessAction {
 
   MessageInformatifSuccessAction(this.result);
 }
-
-class MessageInformatifFailureAction {}

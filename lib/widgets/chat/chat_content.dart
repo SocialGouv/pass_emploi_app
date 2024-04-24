@@ -84,7 +84,7 @@ class _MessageImportantItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(AppIcons.info_rounded, color: foregroundColor, size: 20),
+          Icon(AppIcons.info_rounded, color: foregroundColor),
           SizedBox(width: Margins.spacing_s),
           Expanded(child: Text(message, style: TextStyles.textSRegular(color: foregroundColor))),
         ],

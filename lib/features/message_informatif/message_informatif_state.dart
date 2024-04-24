@@ -8,8 +8,6 @@ sealed class MessageInformatifState extends Equatable {
 
 class MessageInformatifNotInitializedState extends MessageInformatifState {}
 
-class MessageInformatifLoadingState extends MessageInformatifState {}
-
 class MessageInformatifFailureState extends MessageInformatifState {}
 
 class MessageInformatifSuccessState extends MessageInformatifState {

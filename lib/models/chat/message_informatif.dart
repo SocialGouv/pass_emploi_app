@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 class MessageInformatif extends Equatable {
-  final String? message;
+  final String message;
   final DateTime dateDebut;
   final DateTime dateFin;
 
@@ -22,23 +22,21 @@ class MessageInformatif extends Equatable {
         dateFin,
       ];
 
-  static MessageInformatif fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
+  static MessageInformatif? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
     final dateDebutValue = json['dateDebut'];
     final dateFinValue = json['dateFin'];
     final dateDebut = dateDebutValue is Timestamp ? dateDebutValue.toDate() : DateTime.now();
     final dateFin = dateFinValue is Timestamp ? dateFinValue.toDate() : DateTime.now();
+    final message = _message(json, chatCrypto, crashlytics);
+
+    if (message == null || message.isEmpty) {
+      return null;
+    }
+
     return MessageInformatif(
-      message: _message(json, chatCrypto, crashlytics),
+      message: message,
       dateDebut: dateDebut,
       dateFin: dateFin,
-    );
-  }
-
-  factory MessageInformatif.emptyMessageInformatif() {
-    return MessageInformatif(
-      message: null,
-      dateDebut: DateTime.now(),
-      dateFin: DateTime.now(),
     );
   }
 

@@ -776,7 +776,7 @@ void main() {
   group('messageInformatif', () {
     test('should display nothing when date debut is in the future', () {
       // Given
-      final state = AppState.initialState().copyWith(
+      final state = givenState().copyWith(
         messageInformatifState:
             MessageInformatifSuccessState(message: dummyMessageInformatif(dateDebut: now.add(Duration(days: 1)))),
       );
@@ -791,7 +791,7 @@ void main() {
 
     test('should display nothing when date fin is in the past', () {
       // Given
-      final state = AppState.initialState().copyWith(
+      final state = givenState().copyWith(
         messageInformatifState:
             MessageInformatifSuccessState(message: dummyMessageInformatif(dateFin: now.subtract(Duration(days: 1)))),
       );
@@ -804,28 +804,9 @@ void main() {
       expect(viewModel.messageImportant, null);
     });
 
-    test('should display nothing when message is null', () {
-      // Given
-      final state = AppState.initialState().copyWith(
-        messageInformatifState: MessageInformatifSuccessState(
-            message: MessageInformatif(
-          dateFin: now.add(Duration(days: 1)),
-          dateDebut: now.subtract(Duration(days: 1)),
-          message: null,
-        )),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
-
-      // When
-      final viewModel = ChatPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.messageImportant, null);
-    });
-
     test('should display nothing when message is empty', () {
       // Given
-      final state = AppState.initialState().copyWith(
+      final state = givenState().copyWith(
         messageInformatifState: MessageInformatifSuccessState(
             message: MessageInformatif(
           dateFin: now.add(Duration(days: 1)),
@@ -844,7 +825,7 @@ void main() {
 
     test('should display message', () {
       // Given
-      final state = AppState.initialState().copyWith(
+      final state = givenState().copyWith(
         messageInformatifState: MessageInformatifSuccessState(
             message: MessageInformatif(
           dateFin: now.add(Duration(days: 1)),

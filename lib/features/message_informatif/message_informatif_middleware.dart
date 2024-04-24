@@ -18,8 +18,6 @@ class MessageInformatifMiddleware extends MiddlewareClass<AppState> {
       final result = await _repository.getMessageInformatif(conseillerId);
       if (result != null) {
         store.dispatch(MessageInformatifSuccessAction(result));
-      } else {
-        store.dispatch(MessageInformatifFailureAction());
       }
     }
   }

@@ -299,7 +299,7 @@ class ChatRepository {
       _crashlytics.recordNonNetworkException(e, stack);
       return null;
     }
-    return MessageInformatif.emptyMessageInformatif();
+    return null;
   }
 
   DocumentReference<Map<String, dynamic>> _chatCollection(String chatDocumentId) {
