@@ -254,9 +254,8 @@ String? _messageImportant(Store<AppState> store) {
     final now = DateTime.now();
     if (messageInformatif.dateDebut.isBefore(now) &&
         messageInformatif.dateFin.isAfter(now) &&
-        messageInformatif.message != null &&
-        messageInformatif.message!.isNotEmpty) {
-      return messageInformatif.message!;
+        messageInformatif.message.isNotEmpty) {
+      return messageInformatif.message;
     }
   }
   return null;
