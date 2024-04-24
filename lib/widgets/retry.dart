@@ -24,13 +24,13 @@ class Retry extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox.square(
-              dimension: height < MediaSizes.height_xs ? 90 : 180,
+              dimension: height < MediaSizes.height_xs ? 60 : 180,
               child: Illustration.grey(
                 AppIcons.warning_rounded,
                 withWhiteBackground: true,
               ),
             ),
-            SizedBox(height: Margins.spacing_l),
+            SizedBox(height: height < MediaSizes.height_xs ? Margins.spacing_base : Margins.spacing_l),
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,

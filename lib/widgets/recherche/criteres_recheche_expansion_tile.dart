@@ -71,7 +71,6 @@ class _CriteresRechercheBandeau extends StatefulWidget {
 class _CriteresRechercheBandeauState extends State<_CriteresRechercheBandeau> {
   @override
   Widget build(BuildContext context) {
-    final iconColor = widget.isOpen ? AppColors.primary : Colors.white;
     return FocusedBorderBuilder(
       borderColor: AppColors.primaryDarkenStrong,
       borderRadius: Dimens.radius_base,
@@ -89,26 +88,20 @@ class _CriteresRechercheBandeauState extends State<_CriteresRechercheBandeau> {
                 padding: EdgeInsets.all(Margins.spacing_base),
                 child: Row(
                   children: [
-                    Icon(Icons.search, color: iconColor),
+                    Icon(Icons.search, color: widget.isOpen ? AppColors.primary : Colors.white),
                     SizedBox(width: Margins.spacing_base),
                     Expanded(
                       child: Text(
                         Intl.plural(
                           widget.criteresActifsCount,
-                          zero: Strings.rechercheCriteresActifsSingular(widget.criteresActifsCount),
-                          one: Strings.rechercheCriteresActifsSingular(widget.criteresActifsCount),
+                          zero: Strings.rechercheCriteresActifsZero,
+                          one: Strings.rechercheCriteresActifsOne,
                           other: Strings.rechercheCriteresActifsPlural(widget.criteresActifsCount),
                         ),
                         style: TextStyles.textBaseMediumBold(
                           color: widget.isOpen ? AppColors.contentColor : Colors.white,
                         ),
                       ),
-                    ),
-                    AnimatedRotation(
-                      turns: !widget.isOpen ? -0.5 : 0,
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.ease,
-                      child: Icon(Icons.expand_less_rounded, color: iconColor),
                     ),
                   ],
                 ),

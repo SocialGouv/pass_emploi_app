@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
@@ -54,7 +55,7 @@ class ActionsRecherche extends StatelessWidget {
               label: Strings.createAlert,
               icon: AppIcons.notifications_rounded,
               rippleColor: AppColors.primaryDarken,
-              iconSize: 16,
+              iconSize: Dimens.icon_size_base,
               onPressed: () => _onAlertButtonPressed(context),
             ),
           if (viewModel.withFiltreButton)

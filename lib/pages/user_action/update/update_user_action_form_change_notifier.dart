@@ -7,7 +7,7 @@ class UpdateUserActionFormChangeNotifier extends ChangeNotifier {
   String title;
   String description;
   UserActionReferentielType? type;
-  bool hasChanged = false;
+  bool _hasChanged = false;
 
   UpdateUserActionFormChangeNotifier({
     required DateTime date,
@@ -40,7 +40,9 @@ class UpdateUserActionFormChangeNotifier extends ChangeNotifier {
 
   @override
   void notifyListeners() {
-    hasChanged = true;
+    _hasChanged = true;
     super.notifyListeners();
   }
+
+  bool canSave() => _hasChanged && title.trim().isNotEmpty && dateInputSource.isValid;
 }

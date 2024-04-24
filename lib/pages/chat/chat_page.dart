@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
@@ -136,16 +137,18 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 extension on ChatItem {
   Widget toWidget(BuildContext context) {
     return GestureDetector(
-      onLongPress: () => switch (this) {
-        final TextMessageItem item => ChatMessageBottomSheet.show(context, item),
-        final PieceJointeMessageItem item => ChatMessageBottomSheet.show(context, item),
-        final PieceJointeImageItem item => ChatMessageBottomSheet.show(context, item),
-        LocalImageMessageItem() => null,
-        final PartageMessageItem item => ChatMessageBottomSheet.show(context, item),
-        DeletedMessageItem() => null,
-        InformationItem() => null,
-        DayItem() => null,
-      },
+      onLongPress: _vibrate(
+        () => switch (this) {
+          final TextMessageItem item => ChatMessageBottomSheet.show(context, item),
+          final PieceJointeMessageItem item => ChatMessageBottomSheet.show(context, item),
+          final PieceJointeImageItem item => ChatMessageBottomSheet.show(context, item),
+          final PartageMessageItem item => ChatMessageBottomSheet.show(context, item),
+          LocalImageMessageItem() => null,
+          DeletedMessageItem() => null,
+          InformationItem() => null,
+          DayItem() => null,
+        },
+      ),
       child: switch (this) {
         final DayItem item => ChatDaySection(dayLabel: item.dayLabel),
         final TextMessageItem item => ChatTextMessage(item.toParams()),
@@ -181,4 +184,13 @@ extension on TextMessageItem {
       captionColor: captionColor,
     );
   }
+}
+
+// Inspired for Feedback.wrapForLongPress(), except it does make device vibrate whatever its platform is
+GestureLongPressCallback? _vibrate(GestureLongPressCallback? callback) {
+  if (callback == null) return null;
+  return () {
+    HapticFeedback.vibrate();
+    callback();
+  };
 }

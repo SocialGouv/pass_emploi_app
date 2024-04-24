@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
@@ -69,7 +70,8 @@ class CreateUserActionFormStep2 extends StatelessWidget {
                 _scrollToDescription(context);
               },
             ),
-            const SizedBox(height: 500), // To ensure scrolling is available, and hence closing of keyboard
+            // To ensure scrolling is available, and hence closing of keyboard
+            SizedBox(height: MediaQuery.of(context).size.height < MediaSizes.height_l ? 300 : 500),
           ],
         ),
       ),
