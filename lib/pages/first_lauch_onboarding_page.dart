@@ -206,24 +206,31 @@ class _PageContent extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
       child: CardContainer(
         padding: const EdgeInsets.all(Margins.spacing_m),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Icon(icon, color: color, size: 32),
-            ),
-            SizedBox(height: Margins.spacing_s),
-            Text(title, style: TextStyles.textBaseBold),
-            SizedBox(height: Margins.spacing_s),
-            Text(subtitle, style: TextStyles.textSRegular()),
-            Expanded(child: SizedBox.shrink()),
-            PrimaryActionButton(
-              label: Strings.continueLabel,
-              backgroundColor: color,
-              onPressed: onContinue,
-            ),
-            SizedBox(height: Margins.spacing_s),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Icon(icon, color: color, size: 32),
+                  ),
+                  SizedBox(height: Margins.spacing_s),
+                  Text(title, style: TextStyles.textBaseBold),
+                  SizedBox(height: Margins.spacing_s),
+                  Text(subtitle, style: TextStyles.textSRegular()),
+                  Expanded(child: SizedBox.shrink()),
+                  PrimaryActionButton(
+                    label: Strings.continueLabel,
+                    backgroundColor: color,
+                    onPressed: onContinue,
+                  ),
+                  SizedBox(height: Margins.spacing_s),
+                ],
+              ),
+            )
           ],
         ),
       ),
