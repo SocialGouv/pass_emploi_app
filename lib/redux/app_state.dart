@@ -37,7 +37,7 @@ import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_on
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/message_informatif/message_informatif_state.dart';
+import 'package:pass_emploi_app/features/message_important/message_important_state.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
@@ -146,7 +146,7 @@ class AppState extends Equatable {
   final PreferredLoginModeState preferredLoginModeState;
   final OnboardingState onboardingState;
   final FirstLaunchOnboardingState firstLaunchOnboardingState;
-  final MessageInformatifState messageInformatifState;
+  final MessageImportantState messageImportantState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -221,7 +221,7 @@ class AppState extends Equatable {
     required this.preferredLoginModeState,
     required this.onboardingState,
     required this.firstLaunchOnboardingState,
-    required this.messageInformatifState,
+    required this.messageImportantState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -297,7 +297,7 @@ class AppState extends Equatable {
     final PreferredLoginModeState? preferredLoginModeState,
     final OnboardingState? onboardingState,
     final FirstLaunchOnboardingState? firstLaunchOnboardingState,
-    final MessageInformatifState? messageInformatifState,
+    final MessageImportantState? messageImportantState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -372,7 +372,7 @@ class AppState extends Equatable {
       preferredLoginModeState: preferredLoginModeState ?? this.preferredLoginModeState,
       onboardingState: onboardingState ?? this.onboardingState,
       firstLaunchOnboardingState: firstLaunchOnboardingState ?? this.firstLaunchOnboardingState,
-      messageInformatifState: messageInformatifState ?? this.messageInformatifState,
+      messageImportantState: messageImportantState ?? this.messageImportantState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -450,7 +450,7 @@ class AppState extends Equatable {
       preferredLoginModeState: PreferredLoginModeNotInitializedState(),
       onboardingState: OnboardingNotInitializedState(),
       firstLaunchOnboardingState: FirstLaunchOnboardingNotInitializedState(),
-      messageInformatifState: MessageInformatifNotInitializedState(),
+      messageImportantState: MessageImportantNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -521,7 +521,7 @@ class AppState extends Equatable {
         preferredLoginModeState,
         onboardingState,
         firstLaunchOnboardingState,
-        messageInformatifState,
+        messageImportantState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
-import 'package:pass_emploi_app/features/message_informatif/message_informatif_state.dart';
+import 'package:pass_emploi_app/features/message_important/message_important_state.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
@@ -248,14 +248,14 @@ String _getDayLabel(DateTime dateTime) {
 }
 
 String? _messageImportant(Store<AppState> store) {
-  final chatState = store.state.messageInformatifState;
-  if (chatState is MessageInformatifSuccessState) {
-    final messageInformatif = chatState.message;
+  final chatState = store.state.messageImportantState;
+  if (chatState is MessageImportantSuccessState) {
+    final messageImportant = chatState.message;
     final now = DateTime.now();
-    if (messageInformatif.dateDebut.isBefore(now) &&
-        messageInformatif.dateFin.isAfter(now) &&
-        messageInformatif.message.isNotEmpty) {
-      return messageInformatif.message;
+    if (messageImportant.dateDebut.isBefore(now) &&
+        messageImportant.dateFin.isAfter(now) &&
+        messageImportant.message.isNotEmpty) {
+      return messageImportant.message;
     }
   }
   return null;

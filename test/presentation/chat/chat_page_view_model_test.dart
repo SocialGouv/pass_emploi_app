@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
-import 'package:pass_emploi_app/features/message_informatif/message_informatif_state.dart';
+import 'package:pass_emploi_app/features/message_important/message_important_state.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
-import 'package:pass_emploi_app/models/chat/message_informatif.dart';
+import 'package:pass_emploi_app/models/chat/message_important.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -773,12 +773,12 @@ void main() {
     });
   });
 
-  group('messageInformatif', () {
+  group('messageImportant', () {
     test('should display nothing when date debut is in the future', () {
       // Given
       final state = givenState().copyWith(
-        messageInformatifState:
-            MessageInformatifSuccessState(message: dummyMessageInformatif(dateDebut: now.add(Duration(days: 1)))),
+        messageImportantState:
+            MessageImportantSuccessState(message: dummyMessageImportant(dateDebut: now.add(Duration(days: 1)))),
       );
       final store = Store<AppState>(reducer, initialState: state);
 
@@ -792,8 +792,8 @@ void main() {
     test('should display nothing when date fin is in the past', () {
       // Given
       final state = givenState().copyWith(
-        messageInformatifState:
-            MessageInformatifSuccessState(message: dummyMessageInformatif(dateFin: now.subtract(Duration(days: 1)))),
+        messageImportantState:
+            MessageImportantSuccessState(message: dummyMessageImportant(dateFin: now.subtract(Duration(days: 1)))),
       );
       final store = Store<AppState>(reducer, initialState: state);
 
@@ -807,8 +807,8 @@ void main() {
     test('should display nothing when message is empty', () {
       // Given
       final state = givenState().copyWith(
-        messageInformatifState: MessageInformatifSuccessState(
-            message: MessageInformatif(
+        messageImportantState: MessageImportantSuccessState(
+            message: MessageImportant(
           dateFin: now.add(Duration(days: 1)),
           dateDebut: now.subtract(Duration(days: 1)),
           message: "",
@@ -826,8 +826,8 @@ void main() {
     test('should display message', () {
       // Given
       final state = givenState().copyWith(
-        messageInformatifState: MessageInformatifSuccessState(
-            message: MessageInformatif(
+        messageImportantState: MessageImportantSuccessState(
+            message: MessageImportant(
           dateFin: now.add(Duration(days: 1)),
           dateDebut: now.subtract(Duration(days: 1)),
           message: "Je veux revoir les montages Gandalf",

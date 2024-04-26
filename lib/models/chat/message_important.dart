@@ -4,12 +4,12 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
-class MessageInformatif extends Equatable {
+class MessageImportant extends Equatable {
   final String message;
   final DateTime dateDebut;
   final DateTime dateFin;
 
-  MessageInformatif({
+  MessageImportant({
     required this.message,
     required this.dateDebut,
     required this.dateFin,
@@ -22,7 +22,7 @@ class MessageInformatif extends Equatable {
         dateFin,
       ];
 
-  static MessageInformatif? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
+  static MessageImportant? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
     final dateDebutValue = json['dateDebut'];
     final dateFinValue = json['dateFin'];
     final dateDebut = dateDebutValue is Timestamp ? dateDebutValue.toDate() : DateTime.now();
@@ -33,7 +33,7 @@ class MessageInformatif extends Equatable {
       return null;
     }
 
-    return MessageInformatif(
+    return MessageImportant(
       message: message,
       dateDebut: dateDebut,
       dateFin: dateFin,

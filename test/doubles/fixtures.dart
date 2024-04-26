@@ -21,7 +21,7 @@ import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/models/chat/message.dart' as message;
-import 'package:pass_emploi_app/models/chat/message_informatif.dart';
+import 'package:pass_emploi_app/models/chat/message_important.dart';
 import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
@@ -1245,12 +1245,12 @@ CvmMessage mockCvmTextMessage({String? id, String? content, DateTime? date, Send
   );
 }
 
-MessageInformatif dummyMessageInformatif({
+MessageImportant dummyMessageImportant({
   String? message,
   DateTime? dateDebut,
   DateTime? dateFin,
 }) =>
-    MessageInformatif(
+    MessageImportant(
       message: message ?? "Message informatif",
       dateDebut: dateDebut ?? DateTime(2023),
       dateFin: dateFin ?? DateTime(2024),

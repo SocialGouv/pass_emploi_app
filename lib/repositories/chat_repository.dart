@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
-import 'package:pass_emploi_app/models/chat/message_informatif.dart';
+import 'package:pass_emploi_app/models/chat/message_important.dart';
 import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
@@ -281,9 +281,9 @@ class ChatRepository {
     return chats.docs.first.id;
   }
 
-  Future<MessageInformatif?> getMessageInformatif(String conseillerId) async {
+  Future<MessageImportant?> getMessageImportant(String conseillerId) async {
     if (1 == 1) {
-      return MessageInformatif(
+      return MessageImportant(
         message: "hello",
         dateDebut: DateTime(2022),
         dateFin: DateTime(2025),
@@ -296,7 +296,7 @@ class ChatRepository {
           .get();
 
       if (result.docs.isNotEmpty) {
-        return MessageInformatif.fromJson(
+        return MessageImportant.fromJson(
           result.docs.first.data(),
           _chatCrypto,
           _crashlytics,
