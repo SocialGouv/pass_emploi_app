@@ -236,7 +236,7 @@ class Message extends Equatable {
       [id, content, creationDate, sentBy, type, pieceJointes, localPieceJointePath, offre, event, evenementEmploi];
 }
 
-extension _DecryptString on String {
+extension DecryptString on String {
   String? decrypt(ChatCrypto chatCrypto, Crashlytics crashlytics, String? iv) {
     if (iv == null) {
       crashlytics.recordNonNetworkException("Error while reading message : iv is null", StackTrace.current);

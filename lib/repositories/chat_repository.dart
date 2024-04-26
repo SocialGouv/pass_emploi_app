@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/chat/message_important.dart';
 import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
@@ -278,6 +279,34 @@ class ChatRepository {
     final chats =
         await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
     return chats.docs.first.id;
+  }
+
+  Future<MessageImportant?> getMessageImportant(String conseillerId) async {
+    if (1 == 1) {
+      return MessageImportant(
+        message: "hello",
+        dateDebut: DateTime(2022),
+        dateFin: DateTime(2025),
+      );
+    }
+    try {
+      final result = await FirebaseFirestore.instance //
+          .collection("messageImportant")
+          .where('conseillerId', isEqualTo: conseillerId)
+          .get();
+
+      if (result.docs.isNotEmpty) {
+        return MessageImportant.fromJson(
+          result.docs.first.data(),
+          _chatCrypto,
+          _crashlytics,
+        );
+      }
+    } catch (e, stack) {
+      _crashlytics.recordNonNetworkException(e, stack);
+      return null;
+    }
+    return null;
   }
 
   DocumentReference<Map<String, dynamic>> _chatCollection(String chatDocumentId) {

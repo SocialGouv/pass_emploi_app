@@ -44,6 +44,7 @@ import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_on
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_middleware.dart';
 import 'package:pass_emploi_app/features/location/search_location_middleware.dart';
 import 'package:pass_emploi_app/features/login/login_middleware.dart';
+import 'package:pass_emploi_app/features/message_important/message_important_middleware.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_middleware.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_middleware.dart';
@@ -232,7 +233,6 @@ class StoreFactory {
   final OnboardingRepository onboardingRepository;
   final FirstLaunchOnboardingRepository firstLaunchOnboardingRepository;
   final PieceJointeUseCase pieceJointeUseCase;
-
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -402,6 +402,7 @@ class StoreFactory {
         PreferredLoginModeMiddleware(preferredLoginModeRepository).call,
         OnboardingMiddleware(onboardingRepository, pushNotificationManager).call,
         FirstLaunchOnboardingMiddleware(firstLaunchOnboardingRepository).call,
+        MessageImportantMiddleware(chatRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

@@ -12,12 +12,14 @@ import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.da
 
 class ChatTextField extends StatefulWidget {
   final TextEditingController controller;
+  final FocusNode focusNode;
   final bool jeunePjEnabled;
   final Function(String) onSendMessage;
   final Function(String) onSendImage;
 
   const ChatTextField({
     required this.controller,
+    required this.focusNode,
     required this.jeunePjEnabled,
     required this.onSendMessage,
     required this.onSendImage,
@@ -85,6 +87,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
           Expanded(
             child: BaseTextField(
               controller: widget.controller,
+              focusNode: widget.focusNode,
               keyboardType: TextInputType.multiline,
               minLines: 1,
               maxLines: 5,
