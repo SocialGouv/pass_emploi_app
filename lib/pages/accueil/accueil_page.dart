@@ -64,7 +64,6 @@ class _AccueilPageState extends State<AccueilPage> {
   Widget _builder(BuildContext context, AccueilViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      appBar: PrimaryAppBar(title: Strings.accueilAppBarTitle),
       body: ConnectivityContainer(child: _Body(viewModel)),
     );
   }
@@ -109,13 +108,22 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: AnimationDurations.fast,
-      child: switch (viewModel.displayState) {
-        DisplayState.LOADING => AccueilLoading(),
-        DisplayState.CONTENT => _Blocs(viewModel),
-        DisplayState.EMPTY || DisplayState.FAILURE => Retry(Strings.agendaError, () => viewModel.retry()),
-      },
+    return CustomScrollView(
+      slivers: [
+        PrimarySliverAppbar(
+          title: Strings.accueilAppBarTitle,
+        ),
+        SliverToBoxAdapter(
+          child: AnimatedSwitcher(
+            duration: AnimationDurations.fast,
+            child: switch (viewModel.displayState) {
+              DisplayState.LOADING => AccueilLoading(),
+              DisplayState.CONTENT => _Blocs(viewModel),
+              DisplayState.EMPTY || DisplayState.FAILURE => Retry(Strings.agendaError, () => viewModel.retry()),
+            },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -130,6 +138,8 @@ class _Blocs extends StatelessWidget {
     return RefreshIndicator.adaptive(
       onRefresh: () async => viewModel.retry(),
       child: ListView.separated(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_base),
         itemCount: viewModel.items.length,
         itemBuilder: _itemBuilder,
