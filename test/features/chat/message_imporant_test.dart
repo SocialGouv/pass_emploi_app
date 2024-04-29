@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart'
 import 'package:pass_emploi_app/features/message_important/message_important_state.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -13,9 +14,11 @@ import '../../dsl/sut_redux.dart';
 
 void main() {
   late _MockChatRepository chatRepository;
+  late _MockDetailsJeuneRepository detailsJeuneRepository;
 
   setUp(() {
     chatRepository = _MockChatRepository();
+    detailsJeuneRepository = _MockDetailsJeuneRepository();
   });
 
   group('MessageImportant', () {
@@ -27,11 +30,29 @@ void main() {
       test("On chat first subscription, should display display message informatif", () async {
         // Given
         sut.givenStore = givenState()
+            .loggedInMiloUser()
             .copyWith(detailsJeuneState: DetailsJeuneSuccessState(detailsJeune: detailsJeune())) //
-            .store((f) => {f.chatRepository = chatRepository..withGetMessageImportantSuccess()});
+            .store((f) => {
+                  f.chatRepository = chatRepository..withGetMessageImportantSuccess(),
+                  f.detailsJeuneRepository = detailsJeuneRepository..withFetchDetailsJeuneSuccess(),
+                });
 
         // When & Then
         sut.thenExpectAtSomePoint(_shouldSucceed());
+      });
+
+      test("On chat first subscription, should display display nothing on fetch details jeune error", () async {
+        // Given
+        sut.givenStore = givenState()
+            .loggedInMiloUser()
+            .copyWith(detailsJeuneState: DetailsJeuneSuccessState(detailsJeune: detailsJeune())) //
+            .store((f) => {
+                  f.chatRepository = chatRepository..withGetMessageImportantSuccess(),
+                  f.detailsJeuneRepository = detailsJeuneRepository..withFetchDetailsJeuneFailure(),
+                });
+
+        // When & Then
+        sut.thenExpectNever(_shouldSucceed());
       });
     });
   });
@@ -52,6 +73,12 @@ class _MockChatRepository extends Mock implements ChatRepository {
 
   void withChatStatusStream() =>
       when(() => chatStatusStream(any())).thenAnswer((_) => Stream.value(ConseillerMessageInfo(false, null)));
+}
+
+class _MockDetailsJeuneRepository extends Mock implements DetailsJeuneRepository {
+  void withFetchDetailsJeuneSuccess() => when(() => fetch(any())).thenAnswer((_) async => detailsJeune());
+
+  void withFetchDetailsJeuneFailure() => when(() => fetch(any())).thenAnswer((_) async => null);
 }
 
 Matcher _shouldSucceed() => StateIs<MessageImportantSuccessState>((state) => state.messageImportantState);

@@ -282,17 +282,10 @@ class ChatRepository {
   }
 
   Future<MessageImportant?> getMessageImportant(String conseillerId) async {
-    if (1 == 1) {
-      return MessageImportant(
-        message: "hello",
-        dateDebut: DateTime(2022),
-        dateFin: DateTime(2025),
-      );
-    }
     try {
       final result = await FirebaseFirestore.instance //
           .collection("messageImportant")
-          .where('conseillerId', isEqualTo: conseillerId)
+          .where('idConseiller', isEqualTo: conseillerId)
           .get();
 
       if (result.docs.isNotEmpty) {

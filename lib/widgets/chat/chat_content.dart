@@ -84,7 +84,7 @@ class _MessageImportantItem extends StatefulWidget {
 }
 
 class _MessageImportantItemState extends State<_MessageImportantItem> {
-  bool isKeyboardVisible = true;
+  bool isKeyboardVisible = false;
 
   @override
   void initState() {

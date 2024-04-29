@@ -41,7 +41,7 @@ class MessageImportant extends Equatable {
   }
 
   static String? _message(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
-    final content = json['message'] as String;
+    final content = json['content'] as String;
     final iv = json['iv'] as String?;
     return content.decrypt(chatCrypto, crashlytics, iv);
   }

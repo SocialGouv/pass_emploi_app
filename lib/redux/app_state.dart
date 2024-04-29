@@ -539,11 +539,4 @@ extension AppStateUser on AppState {
   }
 
   String? userId() => user()?.id;
-
-  String? conseillerId() {
-    if (detailsJeuneState is DetailsJeuneSuccessState) {
-      return (detailsJeuneState as DetailsJeuneSuccessState).detailsJeune.conseiller.id;
-    }
-    return null;
-  }
 }

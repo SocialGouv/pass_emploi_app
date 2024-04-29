@@ -402,7 +402,7 @@ class StoreFactory {
         PreferredLoginModeMiddleware(preferredLoginModeRepository).call,
         OnboardingMiddleware(onboardingRepository, pushNotificationManager).call,
         FirstLaunchOnboardingMiddleware(firstLaunchOnboardingRepository).call,
-        MessageImportantMiddleware(chatRepository).call,
+        MessageImportantMiddleware(chatRepository, detailsJeuneRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
