@@ -76,7 +76,15 @@ class UserActionDetailsViewModel extends Equatable {
     final updateState = store.state.userActionUpdateState;
     final deleteState = store.state.userActionDeleteState;
 
-    if (userAction == null) return UserActionDetailsViewModel.empty(store, source, userActionId);
+    if (userAction == null) {
+      return UserActionDetailsViewModel.empty(
+        store,
+        source,
+        userActionId,
+        updateState,
+        deleteState,
+      );
+    }
 
     final commentsState = store.state.actionCommentaireListState;
     final hasComments = commentsState is ActionCommentaireListSuccessState ? commentsState.comments.isNotEmpty : false;
@@ -116,7 +124,13 @@ class UserActionDetailsViewModel extends Equatable {
     );
   }
 
-  factory UserActionDetailsViewModel.empty(Store<AppState> store, UserActionStateSource source, String userActionId) {
+  factory UserActionDetailsViewModel.empty(
+    Store<AppState> store,
+    UserActionStateSource source,
+    String userActionId,
+    UserActionUpdateState updateState,
+    UserActionDeleteState deleteState,
+  ) {
     return UserActionDetailsViewModel._(
       displayState: _displayStateForEmptyViewModel(store, source),
       id: '',
@@ -137,8 +151,8 @@ class UserActionDetailsViewModel extends Equatable {
       onRetry: () => store.dispatch(UserActionDetailsRequestAction(userActionId)),
       resetUpdateStatus: () {},
       updateStatus: (status) {},
-      updateDisplayState: UpdateDisplayState.NOT_INIT,
-      deleteDisplayState: DeleteDisplayState.NOT_INIT,
+      updateDisplayState: _updateStateDisplayState(updateState),
+      deleteDisplayState: _deleteStateDisplayState(deleteState),
     );
   }
 
@@ -186,15 +200,12 @@ String _category(UserAction? action) => action?.type?.label ?? Strings.userActio
 String _date(UserAction? action) => action?.dateEcheance.toDayWithFullMonth() ?? '';
 
 DeleteDisplayState _deleteStateDisplayState(UserActionDeleteState state) {
-  if (state is UserActionDeleteSuccessState) {
-    return DeleteDisplayState.TO_DISMISS_AFTER_DELETION;
-  } else if (state is UserActionDeleteLoadingState) {
-    return DeleteDisplayState.SHOW_LOADING;
-  } else if (state is UserActionDeleteFailureState) {
-    return DeleteDisplayState.SHOW_DELETE_ERROR;
-  } else {
-    return DeleteDisplayState.NOT_INIT;
-  }
+  return switch (state) {
+    UserActionDeleteNotInitializedState() => DeleteDisplayState.NOT_INIT,
+    UserActionDeleteLoadingState() => DeleteDisplayState.SHOW_LOADING,
+    UserActionDeleteSuccessState() => DeleteDisplayState.TO_DISMISS_AFTER_DELETION,
+    UserActionDeleteFailureState() => DeleteDisplayState.SHOW_DELETE_ERROR,
+  };
 }
 
 UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {

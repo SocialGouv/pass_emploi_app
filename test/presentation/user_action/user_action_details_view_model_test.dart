@@ -475,6 +475,17 @@ void main() {
       // Then
       expect(viewModel.deleteDisplayState, DeleteDisplayState.NOT_INIT);
     });
+
+    test("deleteDisplayState should be returned even if action has been deleted", () {
+      // Given
+      final store = givenState().deleteActionSuccess().store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
+
+      // Then
+      expect(viewModel.deleteDisplayState, DeleteDisplayState.TO_DISMISS_AFTER_DELETION);
+    });
   });
 
   test('updateStatus when update status has changed should dispatch a UserActionUpdateRequestAction', () {
