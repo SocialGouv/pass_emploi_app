@@ -1,4 +1,4 @@
-abstract class UserActionDeleteState {}
+sealed class UserActionDeleteState {}
 
 class UserActionDeleteNotInitializedState extends UserActionDeleteState {}
 
