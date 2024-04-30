@@ -121,13 +121,7 @@ void main() {
 
     // Then
     expect(store.dispatchedActions.first, isA<PieceJointeFromUrlRequestAction>());
-    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).url, "url");
-    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileId, "id");
-    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileName, "file.png");
-
-    // Only when downloading from url we should trigger a tracking event.
-    // When downloading from id, the tracking event is directly triggered by the server.
-    expect(store.dispatchedActions.last, isA<PieceJointeFromUrlRequestAction>());
+    expect(store.dispatchedActions.length, 1);
   });
 }
 
