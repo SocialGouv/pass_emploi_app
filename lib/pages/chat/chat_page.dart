@@ -191,7 +191,7 @@ extension on TextMessageItem {
 GestureLongPressCallback? _vibrate(GestureLongPressCallback? callback) {
   if (callback == null) return null;
   return () {
-    HapticFeedback.vibrate();
+    HapticFeedback.selectionClick();
     callback();
   };
 }
