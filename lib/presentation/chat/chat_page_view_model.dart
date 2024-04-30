@@ -261,6 +261,6 @@ String? _messageImportant(Store<AppState> store) {
   return null;
 }
 
-extension on String {
+extension StringImageExt on String {
   bool isImage() => endsWith(".jpg") || endsWith(".jpeg") || endsWith(".png") || endsWith(".webp");
 }
