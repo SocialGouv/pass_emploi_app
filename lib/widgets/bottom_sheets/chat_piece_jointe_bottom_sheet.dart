@@ -24,18 +24,14 @@ class ChatPieceJointeBottomSheet extends StatelessWidget {
       heightFactor: BottomSheetWrapper.smallHeightFactor(context),
       body: SizedBox(
         width: double.infinity,
-        child: OverflowBox(
-          maxHeight: double.infinity,
-          maxWidth: MediaQuery.of(context).size.width,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: Margins.spacing_m),
-                _PieceJointeWarning(),
-                SizedBox(height: Margins.spacing_base),
-                _SelectPictureButton(),
-              ],
-            ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: Margins.spacing_m),
+              _PieceJointeWarning(),
+              SizedBox(height: Margins.spacing_base),
+              _SelectPictureButton(),
+            ],
           ),
         ),
       ),
@@ -46,10 +42,7 @@ class ChatPieceJointeBottomSheet extends StatelessWidget {
 class _PieceJointeWarning extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Text(Strings.chatPieceJointeBottomSheetSubtitle, style: TextStyles.textSRegular()),
-    );
+    return Text(Strings.chatPieceJointeBottomSheetSubtitle, style: TextStyles.textSRegular());
   }
 }
 
@@ -58,6 +51,7 @@ class _SelectPictureButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(AppIcons.image_outlined),
+      contentPadding: EdgeInsets.zero,
       title: Text(Strings.chatPieceJointeBottomSheetImageButton, style: TextStyles.textBaseBold),
       onTap: () async {
         final result = await ImagePickerWrapper.pickSingleImage();
