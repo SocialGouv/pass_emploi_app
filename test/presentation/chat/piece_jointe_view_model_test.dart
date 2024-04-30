@@ -110,6 +110,25 @@ void main() {
     expect(store.dispatchedActions.last, isA<TrackingEventAction>());
     expect((store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_TELECHARGEE);
   });
+
+  test("onDownloadTypeUrl should not trigger action if file is image", () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = PieceJointeViewModel.create(store);
+
+    // When
+    viewModel.onDownloadTypeUrl("url", "id", "file.png");
+
+    // Then
+    expect(store.dispatchedActions.first, isA<PieceJointeFromUrlRequestAction>());
+    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).url, "url");
+    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileId, "id");
+    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileName, "file.png");
+
+    // Only when downloading from url we should trigger a tracking event.
+    // When downloading from id, the tracking event is directly triggered by the server.
+    expect(store.dispatchedActions.last, isA<PieceJointeFromUrlRequestAction>());
+  });
 }
 
 class MockBuildContext extends Mock implements BuildContext {}
