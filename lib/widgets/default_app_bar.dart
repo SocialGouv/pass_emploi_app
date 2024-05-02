@@ -1,11 +1,93 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/profile_button.dart';
+
+class PrimarySliverAppbar extends StatelessWidget {
+  final String title;
+  final bool withProfileButton;
+  const PrimarySliverAppbar({
+    required this.title,
+    this.withProfileButton = true,
+  });
+
+  static double expandedHeight = 90.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverLayoutBuilder(builder: (context, constraints) {
+      return SliverAppBar(
+        surfaceTintColor: Colors.transparent,
+        bottom: _BottomBorder(),
+        expandedHeight: expandedHeight,
+        floating: false,
+        pinned: true,
+        automaticallyImplyLeading: false,
+        elevation: 0.2,
+        backgroundColor: _expandedColor(constraints.scrollOffset),
+        flexibleSpace: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 8,
+              sigmaY: 8,
+            ),
+            child: FlexibleSpaceBar(
+              expandedTitleScale: FontSizes.xl / FontSizes.huge,
+              title: Padding(
+                padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: TextStyles.primaryAppBar
+                            .copyWith(fontSize: FontSizes.huge)
+                            .copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                    if (withProfileButton) ...[
+                      ProfileButton(isDarkColor: Brand.isCej()),
+                    ]
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  Color _expandedColor(double scrollOffset) {
+    final scrollTotalDepth = expandedHeight - kToolbarHeight;
+    final expandProgress = min(scrollOffset, scrollTotalDepth);
+    const maxOpacity = 0.90;
+    return Colors.white.withOpacity((expandProgress / scrollTotalDepth) * maxOpacity);
+  }
+}
+
+class _BottomBorder extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 1,
+      color: AppColors.grey100.withOpacity(0.6),
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(1.0);
+}
 
 class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;

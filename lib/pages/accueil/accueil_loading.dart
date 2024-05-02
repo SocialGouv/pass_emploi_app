@@ -10,6 +10,7 @@ class AccueilLoading extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final placeholders = _placeholders(screenWidth);
     return AnimatedListLoader(
+      nested: true,
       placeholders: placeholders,
     );
   }

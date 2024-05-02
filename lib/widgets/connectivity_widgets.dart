@@ -26,8 +26,8 @@ class ConnectivityContainer extends StatelessWidget {
   Widget _builder(BuildContext context, ConnectivityViewModel viewModel) {
     return Column(
       children: [
-        if (!viewModel.isOnline) ConnectivityBandeau(),
         Expanded(child: child),
+        if (!viewModel.isOnline) ConnectivityBandeau(),
       ],
     );
   }

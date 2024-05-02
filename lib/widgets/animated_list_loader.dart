@@ -7,8 +7,9 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:shimmer/shimmer.dart';
 
 class AnimatedListLoader extends StatelessWidget {
-  const AnimatedListLoader({super.key, required this.placeholders});
+  const AnimatedListLoader({super.key, required this.placeholders, this.nested = false});
   final List<Widget> placeholders;
+  final bool nested;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,8 @@ class AnimatedListLoader extends StatelessWidget {
         baseColor: AppColors.loadingGreyPlaceholder,
         highlightColor: Colors.white,
         child: ListView.builder(
+          shrinkWrap: nested,
+          physics: nested ? const NeverScrollableScrollPhysics() : null,
           padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_base),
           itemCount: placeholders.length,
           itemBuilder: (context, index) => AnimationConfiguration.staggeredList(

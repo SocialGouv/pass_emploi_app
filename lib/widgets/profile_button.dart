@@ -13,8 +13,8 @@ class ProfileButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FocusedBorderBuilder(builder: (focusNode) {
       return Container(
-        width: 48,
-        height: 48,
+        width: 44,
+        height: 44,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: isDarkColor ? AppColors.primary : AppColors.grey100,
