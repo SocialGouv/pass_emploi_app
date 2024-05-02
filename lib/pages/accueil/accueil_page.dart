@@ -110,9 +110,7 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        PrimarySliverAppbar(
-          title: Strings.accueilAppBarTitle,
-        ),
+        PrimarySliverAppbar(title: Strings.accueilAppBarTitle),
         SliverToBoxAdapter(
           child: AnimatedSwitcher(
             duration: AnimationDurations.fast,
