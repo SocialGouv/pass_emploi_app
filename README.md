@@ -8,8 +8,7 @@ Celles-ci sont spécifiées dans le fichier [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
 Créer un fichier dans le répertoire `env` intitulé `env.staging` en vous inspirant du
 fichier `env.template` situé à la racine du projet. Y insérer toutes les bonnes valeurs. Elles se
-trouvent dans les notes partagées Dashlane (`[APP MOBILE] .env.staging` ou `[APP MOBILE] .env.prod`)
-.
+trouvent dans les notes partagées Dashlane (`[APP MOBILE] .env.staging` ou `[APP MOBILE] .env.prod`).
 
 ## Lancer l'application
 
@@ -144,13 +143,13 @@ En se basant sur https://pub.dev/packages/flutter_native_splash
   splash screen souhaitées.
 - Exécutez dans un terminal : `sh scripts/generate_splash_screens.sh`
 - [Étapes supplémentaires pour iOS]
-    - Ouvrez Finder à `ios/Base.lproj/`. Vous verrez deux fichiers : `LaunchScreenBrsa.storyboard`
-      et `LaunchScreenCej.storyboard`.
-    - Ouvrez Xcode.
-    - Dans l'explorateur de fichiers d'Xcode, ouvrez le dossier `Runner/Runner/`.
-    - Glissez les fichiers générés depuis la fenêtre Finder dans l'explorateur de fichiers d'Xcode.
-    - [ATTENTION] Pour voir les modifications, il faut lancer l'app, la fermer, puis la relancer
-      depuis la page d'accueil du téléphone.
+  - Ouvrez Finder à `ios/Base.lproj/`. Vous verrez deux fichiers : `LaunchScreenBrsa.storyboard`
+    et `LaunchScreenCej.storyboard`.
+  - Ouvrez Xcode.
+  - Dans l'explorateur de fichiers d'Xcode, ouvrez le dossier `Runner/Runner/`.
+  - Glissez les fichiers générés depuis la fenêtre Finder dans l'explorateur de fichiers d'Xcode.
+  - [ATTENTION] Pour voir les modifications, il faut lancer l'app, la fermer, puis la relancer
+    depuis la page d'accueil du téléphone.
 
 # Dépendances
 
@@ -217,7 +216,7 @@ apps **CEJ** et **pass emploi** se retrouvent :
 ## Déployer un hotfix de l'app en bêta test sur les stores publics
 
 1. Faire un checkout du dernier tag envoyé en prod.
-   (Note : La suite se fera sur un *detached HEAD*).
+   (Note : La suite se fera sur un _detached HEAD_).
 2. Corriger les problèmes, puis committer en local.
 3. Mettre à jour les release notes
    comme [dans la section dédiée](#release-notes-pour-la-soumission-sur-les-stores-apple-et-google).
