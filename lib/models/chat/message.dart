@@ -12,7 +12,8 @@ enum MessageType {
   nouveauConseiller,
   nouveauConseillerTemporaire,
   messagePj,
-  localPj,
+  localImagePj,
+  localFilePj,
   offre,
   event,
   evenementEmploi,
@@ -88,7 +89,21 @@ class Message extends Equatable {
       content: "",
       creationDate: DateTime.now(),
       sentBy: Sender.jeune,
-      type: MessageType.localPj,
+      type: MessageType.localImagePj,
+      sendingStatus: MessageSendingStatus.sending,
+      contentStatus: MessageContentStatus.content,
+      pieceJointes: [],
+      localPieceJointePath: imagePath,
+    );
+  }
+
+  factory Message.fromFile(String imagePath) {
+    return Message(
+      id: Uuid().v1(),
+      content: "",
+      creationDate: DateTime.now(),
+      sentBy: Sender.jeune,
+      type: MessageType.localFilePj,
       sendingStatus: MessageSendingStatus.sending,
       contentStatus: MessageContentStatus.content,
       pieceJointes: [],

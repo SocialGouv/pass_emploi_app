@@ -644,11 +644,11 @@ class _MockPieceJointeRepository extends Mock implements PieceJointeRepository {
 
 class _MockPieceJointeUseCase extends Mock implements PieceJointeUseCase {
   void onSuccess() {
-    when(() => sendPieceJointe(any(), any(), any())).thenAnswer((_) async => true);
+    when(() => sendImagePieceJointe(any(), any(), any())).thenAnswer((_) async => true);
   }
 
   void onFailure() {
-    when(() => sendPieceJointe(any(), any(), any())).thenAnswer((_) async => false);
+    when(() => sendImagePieceJointe(any(), any(), any())).thenAnswer((_) async => false);
   }
 }
 

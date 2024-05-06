@@ -245,3 +245,24 @@ class LocalImageMessageItem extends ChatItem {
   @override
   List<Object?> get props => [messageId, caption, showLoading, captionColor, shouldAnimate];
 }
+
+class LocalFileMessageItem extends ChatItem {
+  final String caption;
+  final String fileName;
+  final bool showLoading;
+  final Color? captionColor;
+  final IconData? captionSuffixIcon;
+
+  LocalFileMessageItem({
+    required String messageId,
+    required this.caption,
+    required this.fileName,
+    required this.showLoading,
+    this.captionColor,
+    this.captionSuffixIcon,
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate: shouldAnimate);
+
+  @override
+  List<Object?> get props => [messageId, caption, showLoading, captionColor, shouldAnimate];
+}

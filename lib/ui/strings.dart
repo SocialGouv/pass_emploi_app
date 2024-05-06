@@ -128,6 +128,7 @@ class Strings {
   static String chatPieceJointeBottomSheetSubtitle =
       "Attention à ne pas partager vos données personnelles ou d’informations sensibles notamment votre numéro de Sécurité Sociale (ex : Carte Vitale, etc.)";
   static String chatPieceJointeBottomSheetImageButton = "Sélectionner une photo";
+  static String chatPieceJointeBottomSheetFileButton = "Sélectionner un fichier";
 
   // Force Update
   static String updateTitle = "Mise à jour";

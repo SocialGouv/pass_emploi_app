@@ -102,8 +102,8 @@ class BottomSheetWrapper extends StatelessWidget {
 
   static double smallHeightFactor(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    if (height < MediaSizes.height_xs) return 0.4;
-    if (height < MediaSizes.height_m) return 0.35;
+    if (height < MediaSizes.height_xs) return 0.5;
+    if (height < MediaSizes.height_m) return 0.4;
     return 0.3;
   }
 

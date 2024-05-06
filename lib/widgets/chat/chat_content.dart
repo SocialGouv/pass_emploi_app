@@ -14,6 +14,7 @@ class ChatContent extends StatefulWidget {
   final TextEditingController controller;
   final Function(String) onSendMessage;
   final Function(String imagePath) onSendImage;
+  final Function(String imagePath) onSendFile;
   final bool jeunePjEnabled;
   final NullableIndexedWidgetBuilder itemBuilder;
   final String? messageImportant;
@@ -24,6 +25,7 @@ class ChatContent extends StatefulWidget {
     required this.scrollController,
     required this.onSendMessage,
     required this.onSendImage,
+    required this.onSendFile,
     required this.jeunePjEnabled,
     required this.itemBuilder,
     this.messageImportant,
@@ -67,6 +69,7 @@ class _ChatContentState extends State<ChatContent> {
           focusNode: _focusNode,
           onSendMessage: widget.onSendMessage,
           onSendImage: widget.onSendImage,
+          onSendFile: widget.onSendFile,
           jeunePjEnabled: widget.jeunePjEnabled,
         )
       ],
