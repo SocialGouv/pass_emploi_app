@@ -43,11 +43,13 @@ class ChatPieceJointeBottomSheet extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: Margins.spacing_m),
-              _PieceJointeWarning(),
+              _TakePictureButton(),
               SizedBox(height: Margins.spacing_base),
               _SelectFileButton(),
               SizedBox(height: Margins.spacing_base),
               _SelectPictureButton(),
+              SizedBox(height: Margins.spacing_base),
+              _PieceJointeWarning(),
             ],
           ),
         ),
@@ -69,9 +71,26 @@ class _SelectPictureButton extends StatelessWidget {
     return ListTile(
       leading: Icon(AppIcons.image_outlined),
       contentPadding: EdgeInsets.zero,
-      title: Text(Strings.chatPieceJointeBottomSheetImageButton, style: TextStyles.textBaseBold),
+      title: Text(Strings.chatPieceJointeBottomSheetSelectImageButton, style: TextStyles.textBaseBold),
       onTap: () async {
         final result = await ImagePickerWrapper.pickSingleImage();
+        if (result != null) {
+          Future.delayed(Duration.zero, () => Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result)));
+        }
+      },
+    );
+  }
+}
+
+class _TakePictureButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(AppIcons.camera_alt_outlined),
+      contentPadding: EdgeInsets.zero,
+      title: Text(Strings.chatPieceJointeBottomSheetTakeImageButton, style: TextStyles.textBaseBold),
+      onTap: () async {
+        final result = await ImagePickerWrapper.takeSinglePicture();
         if (result != null) {
           Future.delayed(Duration.zero, () => Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result)));
         }
