@@ -57,105 +57,105 @@ class _Scaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
+      appBar: PrimaryAppBar(
+        title: Strings.menuProfil,
+        withProfileButton: false,
+        canPop: true,
+      ),
       body: Semantics(
         label: Strings.listSemanticsLabel,
-        child: CustomScrollView(
-          slivers: [
-            PrimarySliverAppbar(title: Strings.menuProfil),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
-                    SizedBox(height: Margins.spacing_base),
-                    _DiscoverDiagorienteCard(),
-                    SizedBox(height: Margins.spacing_base),
-                    if (viewModel.withDownloadCv) ...[
-                      _CurriculumVitaeCard(),
-                      SizedBox(height: Margins.spacing_base),
-                    ],
-                    _MailCard(userEmail: viewModel.userEmail),
-                    SizedBox(height: Margins.spacing_base),
-                    if (viewModel.displayMonConseiller) MonConseillerCard(),
-                    _SectionTitle(Strings.settingsLabel),
-                    SizedBox(height: Margins.spacing_base),
-                    _ListTileCard(tiles: [
-                      _ListTileData(
-                        title: Strings.suppressionAccountLabel,
-                        onTap: () => Navigator.push(context, SuppressionComptePage.materialPageRoute()),
-                      ),
-                      _ListTileData(
-                        title: Strings.activityShareLabel,
-                        onTap: () => Navigator.push(context, PartageActivitePage.materialPageRoute()),
-                      ),
-                    ]),
-                    SizedBox(height: Margins.spacing_m),
-                    _SectionTitle(Strings.legalInformation),
-                    SizedBox(height: Margins.spacing_base),
-                    _ListTileCard(
-                      externalRedirect: true,
-                      tiles: [
-                        _ListTileData(
-                          title: Strings.legalNoticeLabel,
-                          onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
-                        ),
-                        _ListTileData(
-                          title: Strings.termsOfServiceLabel,
-                          onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
-                        ),
-                        _ListTileData(
-                          title: Strings.privacyPolicyLabel,
-                          onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
-                        ),
-                        _ListTileData(
-                          title: Strings.accessibilityLevelLabel,
-                          onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
-                        ),
-                      ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(Margins.spacing_m),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
+                SizedBox(height: Margins.spacing_base),
+                _DiscoverDiagorienteCard(),
+                SizedBox(height: Margins.spacing_base),
+                if (viewModel.withDownloadCv) ...[
+                  _CurriculumVitaeCard(),
+                  SizedBox(height: Margins.spacing_base),
+                ],
+                _MailCard(userEmail: viewModel.userEmail),
+                SizedBox(height: Margins.spacing_base),
+                if (viewModel.displayMonConseiller) MonConseillerCard(),
+                _SectionTitle(Strings.settingsLabel),
+                SizedBox(height: Margins.spacing_base),
+                _ListTileCard(tiles: [
+                  _ListTileData(
+                    title: Strings.suppressionAccountLabel,
+                    onTap: () => Navigator.push(context, SuppressionComptePage.materialPageRoute()),
+                  ),
+                  _ListTileData(
+                    title: Strings.activityShareLabel,
+                    onTap: () => Navigator.push(context, PartageActivitePage.materialPageRoute()),
+                  ),
+                ]),
+                SizedBox(height: Margins.spacing_m),
+                _SectionTitle(Strings.legalInformation),
+                SizedBox(height: Margins.spacing_base),
+                _ListTileCard(
+                  externalRedirect: true,
+                  tiles: [
+                    _ListTileData(
+                      title: Strings.legalNoticeLabel,
+                      onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
                     ),
-                    SizedBox(height: Margins.spacing_m),
-                    _SectionTitle(Strings.helpTitle),
-                    SizedBox(height: Margins.spacing_base),
-                    _ListTileCard(tiles: [
-                      _ListTileData(
-                        title: Strings.ratingAppLabel,
-                        onTap: () => Navigator.push(context, RatingPage.materialPageRoute()),
-                      ),
-                      _ListTileData(
-                        title: Strings.contactTeamLabel,
-                        onTap: () => Navigator.push(context, ContactPage.materialPageRoute()),
-                      ),
-                    ]),
-                    SizedBox(height: Margins.spacing_m),
-                    if (kDebugMode || viewModel.displayDeveloperOptions) ...[
-                      _SectionTitle(Strings.developerOptions),
-                      SizedBox(height: Margins.spacing_base),
-                      _ListTileCard(tiles: [
-                        _ListTileData(
-                          title: Strings.developerOptionMatomo,
-                          onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
-                        ),
-                        _ListTileData(
-                          title: Strings.developerOptionDeleteAllPrefs,
-                          onTap: () {
-                            context.dispatch(DeveloperOptionsDeleteAllPrefsAction());
-                            showSnackBarWithSystemError(context, "Killez 💀- voire supprimer 🗑 - l'app");
-                          },
-                        ),
-                      ]),
-                      SizedBox(height: Margins.spacing_l),
-                    ],
-                    SecondaryButton(
-                      onPressed: () => context.dispatch(RequestLogoutAction(LogoutReason.userLogout)),
-                      label: Strings.logoutAction,
+                    _ListTileData(
+                      title: Strings.termsOfServiceLabel,
+                      onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
+                    ),
+                    _ListTileData(
+                      title: Strings.privacyPolicyLabel,
+                      onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
+                    ),
+                    _ListTileData(
+                      title: Strings.accessibilityLevelLabel,
+                      onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
                     ),
                   ],
                 ),
-              ),
+                SizedBox(height: Margins.spacing_m),
+                _SectionTitle(Strings.helpTitle),
+                SizedBox(height: Margins.spacing_base),
+                _ListTileCard(tiles: [
+                  _ListTileData(
+                    title: Strings.ratingAppLabel,
+                    onTap: () => Navigator.push(context, RatingPage.materialPageRoute()),
+                  ),
+                  _ListTileData(
+                    title: Strings.contactTeamLabel,
+                    onTap: () => Navigator.push(context, ContactPage.materialPageRoute()),
+                  ),
+                ]),
+                SizedBox(height: Margins.spacing_m),
+                if (kDebugMode || viewModel.displayDeveloperOptions) ...[
+                  _SectionTitle(Strings.developerOptions),
+                  SizedBox(height: Margins.spacing_base),
+                  _ListTileCard(tiles: [
+                    _ListTileData(
+                      title: Strings.developerOptionMatomo,
+                      onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
+                    ),
+                    _ListTileData(
+                      title: Strings.developerOptionDeleteAllPrefs,
+                      onTap: () {
+                        context.dispatch(DeveloperOptionsDeleteAllPrefsAction());
+                        showSnackBarWithSystemError(context, "Killez 💀- voire supprimer 🗑 - l'app");
+                      },
+                    ),
+                  ]),
+                  SizedBox(height: Margins.spacing_l),
+                ],
+                SecondaryButton(
+                  onPressed: () => context.dispatch(RequestLogoutAction(LogoutReason.userLogout)),
+                  label: Strings.logoutAction,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
