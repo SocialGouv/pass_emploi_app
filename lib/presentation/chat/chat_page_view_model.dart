@@ -53,7 +53,7 @@ class ChatPageViewModel extends Equatable {
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       messageImportant: _messageImportant(store),
       shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
-      jeunePjEnabled: store.state.featureFlipState.featureFlip.usePj || 1 == 1, // TODO: remove me
+      jeunePjEnabled: store.state.featureFlipState.featureFlip.usePj,
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
       onSendImage: (String imagePath) => _sendImage(store, imagePath),
       onSendFile: (String filePath) => _sendFile(store, filePath),
