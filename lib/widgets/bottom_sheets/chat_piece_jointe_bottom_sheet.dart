@@ -92,6 +92,7 @@ class _TakePictureButton extends StatelessWidget {
       onTap: () async {
         final result = await ImagePickerWrapper.takeSinglePicture();
         if (result != null) {
+          // Navigator.pop is called in a future to avoir error with context:
           Future.delayed(Duration.zero, () => Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result)));
         }
       },
@@ -105,10 +106,11 @@ class _SelectFileButton extends StatelessWidget {
     return ListTile(
       leading: Icon(AppIcons.description_outlined),
       contentPadding: EdgeInsets.zero,
-      title: Text(Strings.chatPieceJointeBottomSheetFileButton, style: TextStyles.textBaseBold),
+      title: Text(Strings.chatPieceJointeBottomSheetSelectFileButton, style: TextStyles.textBaseBold),
       onTap: () async {
         final result = await FilePickerWrapper.pickFile();
         if (result != null) {
+          // Navigator.pop is called in a future to avoir error with context:
           Future.delayed(Duration.zero, () => Navigator.of(context).pop(ChatPieceJointeBottomSheetFileResult(result)));
         }
       },

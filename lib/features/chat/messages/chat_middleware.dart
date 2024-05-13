@@ -98,10 +98,10 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     if (!result) _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
   }
 
-  void _sendFile(Store<AppState> store, String userId, String imagePath) async {
-    final message = Message.fromFile(imagePath);
+  void _sendFile(Store<AppState> store, String userId, String filePath) async {
+    final message = Message.fromFile(filePath);
     _addMessageToLocal(store, message);
-    final result = await _pieceJointeUseCase.sendFilePieceJointe(userId, message, imagePath);
+    final result = await _pieceJointeUseCase.sendFilePieceJointe(userId, message, filePath);
     if (!result) _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
   }
 

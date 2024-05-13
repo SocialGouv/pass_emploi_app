@@ -27,7 +27,7 @@ class ChatPageViewModel extends Equatable {
   final bool jeunePjEnabled;
   final Function(String message) onSendMessage;
   final Function(String imagePath) onSendImage;
-  final Function(String imagePath) onSendFile;
+  final Function(String filePath) onSendFile;
   final Function() onRetry;
 
   ChatPageViewModel({

@@ -6,9 +6,6 @@ class FilePickerWrapper {
       type: FileType.custom,
       allowedExtensions: ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'odt', 'ods'],
     );
-    if (result != null) {
-      return result.files.single.path!;
-    }
-    return null;
+    return result?.files.single.path;
   }
 }

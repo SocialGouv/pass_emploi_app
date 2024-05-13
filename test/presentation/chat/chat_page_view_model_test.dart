@@ -276,7 +276,7 @@ void main() {
 
   test('should display local image from jeune', () {
     // Given
-    final state = AppState.initialState().copyWith(
+    final state = givenState().copyWith(
       chatState: ChatSuccessState([
         Message(
           id: "uid",

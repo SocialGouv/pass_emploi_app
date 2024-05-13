@@ -264,5 +264,5 @@ class LocalFileMessageItem extends ChatItem {
   }) : super(messageId, shouldAnimate: shouldAnimate);
 
   @override
-  List<Object?> get props => [messageId, caption, showLoading, captionColor, shouldAnimate];
+  List<Object?> get props => [messageId, caption, fileName, showLoading, captionColor, shouldAnimate];
 }

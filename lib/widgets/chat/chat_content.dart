@@ -14,7 +14,7 @@ class ChatContent extends StatefulWidget {
   final TextEditingController controller;
   final Function(String) onSendMessage;
   final Function(String imagePath) onSendImage;
-  final Function(String imagePath) onSendFile;
+  final Function(String filePath) onSendFile;
   final bool jeunePjEnabled;
   final NullableIndexedWidgetBuilder itemBuilder;
   final String? messageImportant;
