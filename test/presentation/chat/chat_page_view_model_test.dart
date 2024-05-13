@@ -318,7 +318,7 @@ void main() {
         Message(
           id: "uid",
           content: 'PJ',
-          localPieceJointePath: "path",
+          localPieceJointePath: "a.pdf",
           creationDate: DateTime(2021, 1, 1, 12, 30),
           sentBy: Sender.jeune,
           type: MessageType.localFilePj,
