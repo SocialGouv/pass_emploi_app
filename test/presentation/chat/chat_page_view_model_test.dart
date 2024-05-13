@@ -274,6 +274,80 @@ void main() {
     ]);
   });
 
+  test('should display local image from jeune', () {
+    // Given
+    final state = givenState().copyWith(
+      chatState: ChatSuccessState([
+        Message(
+          id: "uid",
+          content: 'PJ',
+          localPieceJointePath: "path",
+          creationDate: DateTime(2021, 1, 1, 12, 30),
+          sentBy: Sender.jeune,
+          type: MessageType.localImagePj,
+          sendingStatus: MessageSendingStatus.sending,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [PieceJointe("1", "a.png")],
+        ),
+      ]),
+    );
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem("Le 01/01/2021"),
+      LocalImageMessageItem(
+        messageId: "uid",
+        imagePath: "path",
+        showLoading: true,
+        caption: "12:30 · Envoi en cours",
+        captionColor: null,
+        shouldAnimate: true,
+      ),
+    ]);
+  });
+
+  test('should display local file from jeune', () {
+    // Given
+    final state = AppState.initialState().copyWith(
+      chatState: ChatSuccessState([
+        Message(
+          id: "uid",
+          content: 'PJ',
+          localPieceJointePath: "a.pdf",
+          creationDate: DateTime(2021, 1, 1, 12, 30),
+          sentBy: Sender.jeune,
+          type: MessageType.localFilePj,
+          sendingStatus: MessageSendingStatus.sending,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [PieceJointe("1", "a.pdf")],
+        ),
+      ]),
+    );
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem("Le 01/01/2021"),
+      LocalFileMessageItem(
+        messageId: "uid",
+        showLoading: true,
+        fileName: "a.pdf",
+        caption: "12:30 · Envoi en cours",
+        captionColor: null,
+        shouldAnimate: true,
+      ),
+    ]);
+  });
+
   group('Offre partagée', () {
     test('should display offre partagée from jeune', () {
       // Given

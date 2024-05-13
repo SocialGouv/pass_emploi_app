@@ -34,7 +34,7 @@ void main() {
       imageCompressor.onFailure();
 
       // When
-      final result = await useCase.sendPieceJointe("userId", _mockMessage(), "imagePath");
+      final result = await useCase.sendImagePieceJointe("userId", _mockMessage(), "imagePath");
 
       // Then
       expect(result, false);
@@ -47,7 +47,7 @@ void main() {
       imageCompressor.onSuccess();
 
       // When
-      final result = await useCase.sendPieceJointe("userId", _mockMessage(), "imagePath");
+      final result = await useCase.sendImagePieceJointe("userId", _mockMessage(), "imagePath");
 
       // Then
       expect(result, false);
@@ -60,7 +60,7 @@ void main() {
       imageCompressor.onSuccess();
 
       // When
-      final result = await useCase.sendPieceJointe("userId", _mockMessage(), "imagePath");
+      final result = await useCase.sendImagePieceJointe("userId", _mockMessage(), "imagePath");
 
       // Then
       expect(result, false);
@@ -73,7 +73,7 @@ void main() {
       imageCompressor.onSuccess();
 
       // When
-      final result = await useCase.sendPieceJointe("userId", _mockMessage(), "imagePath");
+      final result = await useCase.sendImagePieceJointe("userId", _mockMessage(), "imagePath");
 
       // Then
       expect(result, true);

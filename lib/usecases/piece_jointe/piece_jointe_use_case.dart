@@ -14,13 +14,27 @@ class PieceJointeUseCase {
     this._imageCompressor,
   );
 
-  Future<bool> sendPieceJointe(String userId, Message message, String imagePath) async {
+  Future<bool> sendImagePieceJointe(String userId, Message message, String imagePath) async {
     final (fileName, newPath) = await _imageCompressor.compressImage(imagePath);
     if (fileName == null || newPath == null) return false;
 
     final pj = await _pieceJointeRepository.postPieceJointe(
       fileName: fileName,
       filePath: newPath,
+      messageId: message.id,
+      userId: userId,
+    );
+    if (pj == null) return false;
+
+    return await _chatRepository.sendPieceJointeMessage(userId, pj, message.id);
+  }
+
+  Future<bool> sendFilePieceJointe(String userId, Message message, String filePath) async {
+    final fileName = filePath.split('/').last;
+
+    final pj = await _pieceJointeRepository.postPieceJointe(
+      fileName: fileName,
+      filePath: filePath,
       messageId: message.id,
       userId: userId,
     );

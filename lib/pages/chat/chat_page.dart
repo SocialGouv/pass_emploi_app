@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_deleted_message.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_image_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_local_file.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_local_image.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_scaffold.dart';
@@ -102,6 +103,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         messageImportant: viewModel.messageImportant,
         onSendMessage: viewModel.onSendMessage,
         onSendImage: viewModel.onSendImage,
+        onSendFile: viewModel.onSendFile,
         jeunePjEnabled: viewModel.jeunePjEnabled,
         itemBuilder: (context, index) {
           final item = viewModel.items.reversed.toList()[index];
@@ -145,6 +147,7 @@ extension on ChatItem {
           final PieceJointeImageItem item => ChatMessageBottomSheet.show(context, item),
           final PartageMessageItem item => ChatMessageBottomSheet.show(context, item),
           LocalImageMessageItem() => null,
+          LocalFileMessageItem() => null,
           DeletedMessageItem() => null,
           InformationItem() => null,
           DayItem() => null,
@@ -158,6 +161,7 @@ extension on ChatItem {
         final PieceJointeMessageItem item => ChatPieceJointe(item.toParams()),
         final PieceJointeImageItem item => ChatImagePieceJointe(item),
         final LocalImageMessageItem item => ChatLocalImage(item),
+        final LocalFileMessageItem item => ChatLocalFile(item),
         final PartageMessageItem item => PartageMessage(item),
       },
     );

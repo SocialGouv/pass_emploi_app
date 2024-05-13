@@ -57,6 +57,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _deleteMessage(store, userId, action.message);
         } else if (action is SendImageAction) {
           _sendImage(store, userId, action.imagePath);
+        } else if (action is SendFileAction) {
+          _sendFile(store, userId, action.imagePath);
         } else if (action is EditMessageAction) {
           _editMessage(store, userId, action.message, action.newContent);
         } else if (action is ChatPartagerOffreAction) {
@@ -92,7 +94,14 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   void _sendImage(Store<AppState> store, String userId, String imagePath) async {
     final message = Message.fromImage(imagePath);
     _addMessageToLocal(store, message);
-    final result = await _pieceJointeUseCase.sendPieceJointe(userId, message, imagePath);
+    final result = await _pieceJointeUseCase.sendImagePieceJointe(userId, message, imagePath);
+    if (!result) _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
+  }
+
+  void _sendFile(Store<AppState> store, String userId, String filePath) async {
+    final message = Message.fromFile(filePath);
+    _addMessageToLocal(store, message);
+    final result = await _pieceJointeUseCase.sendFilePieceJointe(userId, message, filePath);
     if (!result) _addMessageToLocal(store, message.copyWith(sendingStatus: MessageSendingStatus.failed));
   }
 

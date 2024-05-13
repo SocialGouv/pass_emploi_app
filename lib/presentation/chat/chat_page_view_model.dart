@@ -27,6 +27,7 @@ class ChatPageViewModel extends Equatable {
   final bool jeunePjEnabled;
   final Function(String message) onSendMessage;
   final Function(String imagePath) onSendImage;
+  final Function(String filePath) onSendFile;
   final Function() onRetry;
 
   ChatPageViewModel({
@@ -38,6 +39,7 @@ class ChatPageViewModel extends Equatable {
     required this.jeunePjEnabled,
     required this.onSendMessage,
     required this.onSendImage,
+    required this.onSendFile,
     required this.onRetry,
   });
 
@@ -53,16 +55,24 @@ class ChatPageViewModel extends Equatable {
       shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
       jeunePjEnabled: store.state.featureFlipState.featureFlip.usePj,
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
-      onSendImage: (String imagePath) {
-        store.dispatch(TrackingEventAction(EventType.MESSAGE_ENVOYE_PJ));
-        store.dispatch(SendImageAction(imagePath));
-      },
+      onSendImage: (String imagePath) => _sendImage(store, imagePath),
+      onSendFile: (String filePath) => _sendFile(store, filePath),
       onRetry: () => store.dispatch(SubscribeToChatAction()),
     );
   }
 
   @override
   List<Object?> get props => [displayState, brouillon, items, messageImportant, shouldShowOnboarding, jeunePjEnabled];
+}
+
+void _sendImage(Store<AppState> store, String imagePath) {
+  store.dispatch(TrackingEventAction(EventType.MESSAGE_ENVOYE_PJ));
+  store.dispatch(SendImageAction(imagePath));
+}
+
+void _sendFile(Store<AppState> store, String filePath) {
+  store.dispatch(TrackingEventAction(EventType.MESSAGE_ENVOYE_PJ));
+  store.dispatch(SendFileAction(filePath));
 }
 
 DisplayState _displayState(ChatState state) {
@@ -90,7 +100,8 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
             Strings.newConseillerDescription,
           ),
         MessageType.messagePj => _pieceJointeItem(message, lastConseillerReading),
-        MessageType.localPj => _localPieceJointeItem(message),
+        MessageType.localImagePj => _localImagePieceJointeItem(message),
+        MessageType.localFilePj => _localFilePieceJointeItem(message),
         MessageType.offre => _offreMessageItem(message, lastConseillerReading),
         MessageType.event => _eventMessageItem(message, lastConseillerReading),
         MessageType.evenementEmploi => _evenementEmploiItem(message, lastConseillerReading),
@@ -180,10 +191,22 @@ ChatItem _pieceJointeItem(Message message, DateTime lastConseillerReading) {
   );
 }
 
-ChatItem _localPieceJointeItem(Message message) {
+ChatItem _localImagePieceJointeItem(Message message) {
   return LocalImageMessageItem(
     messageId: message.id,
     imagePath: message.localPieceJointePath ?? "",
+    showLoading: message.sendingStatus == MessageSendingStatus.sending,
+    caption: _caption(message, minDateTime),
+    captionSuffixIcon: message.sendingStatus == MessageSendingStatus.failed ? AppIcons.error_rounded : null,
+    captionColor: _captionColor(message),
+    shouldAnimate: _shouldAnimate(message),
+  );
+}
+
+ChatItem _localFilePieceJointeItem(Message message) {
+  return LocalFileMessageItem(
+    messageId: message.id,
+    fileName: message.localPieceJointePath?.split("/").last ?? "",
     showLoading: message.sendingStatus == MessageSendingStatus.sending,
     caption: _caption(message, minDateTime),
     captionSuffixIcon: message.sendingStatus == MessageSendingStatus.failed ? AppIcons.error_rounded : null,

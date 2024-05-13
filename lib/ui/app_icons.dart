@@ -34,7 +34,9 @@ class AppIcons {
   static const IconData bookmark_rounded = Icons.bookmark_rounded;
   static const IconData bookmark_outline_rounded = Icons.bookmark_outline_rounded;
   static const IconData content_copy_rounded = Icons.content_copy_rounded;
+  static const IconData camera_alt_outlined = Icons.camera_alt_outlined;
   static const IconData image_outlined = Icons.image_outlined;
+  static const IconData description_outlined = Icons.description_outlined;
 
   // Information
   static const IconData videocam_rounded = Icons.videocam_rounded;

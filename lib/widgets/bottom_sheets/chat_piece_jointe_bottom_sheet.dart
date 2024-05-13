@@ -3,14 +3,29 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/file_picker_wrapper.dart';
 import 'package:pass_emploi_app/utils/image_picker_wrapper.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+
+sealed class ChatPieceJointeBottomSheetResult {
+  final String path;
+
+  ChatPieceJointeBottomSheetResult({required this.path});
+}
+
+class ChatPieceJointeBottomSheetImageResult extends ChatPieceJointeBottomSheetResult {
+  ChatPieceJointeBottomSheetImageResult(String path) : super(path: path);
+}
+
+class ChatPieceJointeBottomSheetFileResult extends ChatPieceJointeBottomSheetResult {
+  ChatPieceJointeBottomSheetFileResult(String path) : super(path: path);
+}
 
 class ChatPieceJointeBottomSheet extends StatelessWidget {
   const ChatPieceJointeBottomSheet({super.key});
 
-  static Future<String?> show(BuildContext context) async {
-    return await showModalBottomSheet<String>(
+  static Future<ChatPieceJointeBottomSheetResult?> show(BuildContext context) async {
+    return await showModalBottomSheet<ChatPieceJointeBottomSheetResult>(
       context: context,
       isScrollControlled: true,
       builder: (context) => ChatPieceJointeBottomSheet(),
@@ -28,9 +43,13 @@ class ChatPieceJointeBottomSheet extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: Margins.spacing_m),
-              _PieceJointeWarning(),
+              _TakePictureButton(),
+              SizedBox(height: Margins.spacing_base),
+              _SelectFileButton(),
               SizedBox(height: Margins.spacing_base),
               _SelectPictureButton(),
+              SizedBox(height: Margins.spacing_base),
+              _PieceJointeWarning(),
             ],
           ),
         ),
@@ -52,11 +71,47 @@ class _SelectPictureButton extends StatelessWidget {
     return ListTile(
       leading: Icon(AppIcons.image_outlined),
       contentPadding: EdgeInsets.zero,
-      title: Text(Strings.chatPieceJointeBottomSheetImageButton, style: TextStyles.textBaseBold),
+      title: Text(Strings.chatPieceJointeBottomSheetSelectImageButton, style: TextStyles.textBaseBold),
       onTap: () async {
         final result = await ImagePickerWrapper.pickSingleImage();
         if (result != null) {
-          Future.delayed(Duration.zero, () => Navigator.of(context).pop(result));
+          Future.delayed(Duration.zero, () => Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result)));
+        }
+      },
+    );
+  }
+}
+
+class _TakePictureButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(AppIcons.camera_alt_outlined),
+      contentPadding: EdgeInsets.zero,
+      title: Text(Strings.chatPieceJointeBottomSheetTakeImageButton, style: TextStyles.textBaseBold),
+      onTap: () async {
+        final result = await ImagePickerWrapper.takeSinglePicture();
+        if (result != null) {
+          // Navigator.pop is called in a future to avoir error with context:
+          Future.delayed(Duration.zero, () => Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result)));
+        }
+      },
+    );
+  }
+}
+
+class _SelectFileButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(AppIcons.description_outlined),
+      contentPadding: EdgeInsets.zero,
+      title: Text(Strings.chatPieceJointeBottomSheetSelectFileButton, style: TextStyles.textBaseBold),
+      onTap: () async {
+        final result = await FilePickerWrapper.pickFile();
+        if (result != null) {
+          // Navigator.pop is called in a future to avoir error with context:
+          Future.delayed(Duration.zero, () => Navigator.of(context).pop(ChatPieceJointeBottomSheetFileResult(result)));
         }
       },
     );

@@ -16,6 +16,7 @@ class ChatTextField extends StatefulWidget {
   final bool jeunePjEnabled;
   final Function(String) onSendMessage;
   final Function(String) onSendImage;
+  final Function(String) onSendFile;
 
   const ChatTextField({
     required this.controller,
@@ -23,6 +24,7 @@ class ChatTextField extends StatefulWidget {
     required this.jeunePjEnabled,
     required this.onSendMessage,
     required this.onSendImage,
+    required this.onSendFile,
   });
 
   @override
@@ -66,16 +68,11 @@ class _ChatTextFieldState extends State<ChatTextField> {
                   elevation: 0,
                   backgroundColor: AppColors.primaryLighten,
                   tooltip: Strings.sendAttachmentTooltip,
+                  onPressed: onSelectPieceJointe,
                   child: Icon(
                     AppIcons.attach_file,
                     color: AppColors.primary,
                   ),
-                  onPressed: () async {
-                    final filePath = await ChatPieceJointeBottomSheet.show(context);
-                    if (filePath != null) {
-                      widget.onSendImage(filePath);
-                    }
-                  },
                 ),
                 SizedBox(width: Margins.spacing_s),
               ],
@@ -127,5 +124,16 @@ class _ChatTextFieldState extends State<ChatTextField> {
         ],
       ),
     );
+  }
+
+  void onSelectPieceJointe() async {
+    final fileSource = await ChatPieceJointeBottomSheet.show(context);
+    if (fileSource != null) {
+      if (fileSource is ChatPieceJointeBottomSheetImageResult) {
+        widget.onSendImage(fileSource.path);
+      } else if (fileSource is ChatPieceJointeBottomSheetFileResult) {
+        widget.onSendFile(fileSource.path);
+      }
+    }
   }
 }

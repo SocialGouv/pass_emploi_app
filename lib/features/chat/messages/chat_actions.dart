@@ -31,6 +31,12 @@ class SendImageAction {
   SendImageAction(this.imagePath);
 }
 
+class SendFileAction {
+  final String imagePath;
+
+  SendFileAction(this.imagePath);
+}
+
 class DeleteMessageAction {
   final Message message;
 

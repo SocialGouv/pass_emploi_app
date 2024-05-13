@@ -12,7 +12,8 @@ enum MessageType {
   nouveauConseiller,
   nouveauConseillerTemporaire,
   messagePj,
-  localPj,
+  localImagePj,
+  localFilePj,
   offre,
   event,
   evenementEmploi,
@@ -83,16 +84,24 @@ class Message extends Equatable {
   }
 
   factory Message.fromImage(String imagePath) {
+    return Message.fromAttachment(imagePath, MessageType.localImagePj);
+  }
+
+  factory Message.fromFile(String filePath) {
+    return Message.fromAttachment(filePath, MessageType.localFilePj);
+  }
+
+  factory Message.fromAttachment(String attachmentPath, MessageType type) {
     return Message(
       id: Uuid().v1(),
       content: "",
       creationDate: DateTime.now(),
       sentBy: Sender.jeune,
-      type: MessageType.localPj,
+      type: MessageType.localFilePj,
       sendingStatus: MessageSendingStatus.sending,
       contentStatus: MessageContentStatus.content,
       pieceJointes: [],
-      localPieceJointePath: imagePath,
+      localPieceJointePath: attachmentPath,
     );
   }
 

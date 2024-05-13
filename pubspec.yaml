@@ -55,6 +55,7 @@ dependencies:
   connectivity_plus: "6.0.1"
   image_picker: "1.0.7"
   flutter_image_compress: "2.2.0"
+  file_picker: "8.0.3"
   # Others
   flutter_redux: "0.10.0"
   redux: "5.0.0"

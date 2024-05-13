@@ -74,6 +74,7 @@ class CvmChatPageState extends State<CvmChatPage> {
         scrollController: _scrollController,
         onSendMessage: viewModel.onSendMessage,
         onSendImage: (_) {},
+        onSendFile: (_) {},
         jeunePjEnabled: false,
         itemBuilder: (context, index) {
           final item = viewModel.items.reversed.toList()[index];

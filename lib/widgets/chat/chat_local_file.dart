@@ -1,12 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_message_container.dart';
 
-class ChatLocalImage extends StatelessWidget {
-  const ChatLocalImage(this.message);
-  final LocalImageMessageItem message;
+class ChatLocalFile extends StatelessWidget {
+  final LocalFileMessageItem message;
+
+  const ChatLocalFile(this.message);
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +16,14 @@ class ChatLocalImage extends StatelessWidget {
       captionColor: message.captionColor,
       captionSuffixIcon: message.captionSuffixIcon,
       isMyMessage: true,
-      content: Stack(
-        alignment: Alignment.center,
+      content: Row(
         children: [
-          Expanded(child: Image.file(File(message.imagePath))),
           SizedBox.square(
-            dimension: 40,
+            dimension: 24,
             child: CircularProgressIndicator(),
           ),
+          SizedBox(width: Margins.spacing_s),
+          Text(message.fileName, style: TextStyles.textBaseBold.copyWith(color: Colors.white))
         ],
       ),
     );
