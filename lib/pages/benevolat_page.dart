@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
-import 'package:pass_emploi_app/widgets/sliver_scaffold.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class BenevolatPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => BenevolatPage());
@@ -21,8 +21,8 @@ class BenevolatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.benevolat,
-      child: SliverScaffold(
-        appBarTitle: BenevolatAssets.title,
+      child: Scaffold(
+        appBar: SecondaryAppBar(title: BenevolatAssets.title),
         floatingActionButton: _Button(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: SingleChildScrollView(

@@ -8,8 +8,8 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_stepper.dart';
-import 'package:pass_emploi_app/widgets/sliver_scaffold.dart';
 
 class CreateUserActionForm extends StatefulWidget {
   const CreateUserActionForm({super.key, required this.onSubmit, required this.onAbort});
@@ -42,13 +42,15 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverScaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBarTitle: Strings.createActionAppBarTitle,
-      appBarLeading: IconButton(
-        icon: Icon(Icons.close_rounded),
-        onPressed: () => Navigator.pop(context),
+      appBar: SecondaryAppBar(
+        title: Strings.createActionAppBarTitle,
+        leading: IconButton(
+          icon: Icon(Icons.close_rounded),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Visibility(
@@ -157,39 +159,41 @@ class _CreateUserActionForm extends StatelessWidget {
             currentStep: formState.displayState.stepIndex,
           ),
         ),
-        SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: Margins.spacing_s),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                child: UserActionStepperTexts(
-                  displayState: formState.displayState,
-                  category: formState.step1.actionCategory?.label ?? "",
+        Expanded(
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: Margins.spacing_s),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                  child: UserActionStepperTexts(
+                    displayState: formState.displayState,
+                    category: formState.step1.actionCategory?.label ?? "",
+                  ),
                 ),
-              ),
-              switch (formState.displayState) {
-                CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(
-                    onActionTypeSelected: (type) => formState.userActionTypeSelected(type),
-                  ),
-                CreateUserActionDisplayState.step2 => CreateUserActionFormStep2(
-                    actionType: formState.step1.actionCategory!,
-                    viewModel: formState.step2,
-                    onTitleChanged: (titleSource) => formState.titleChanged(titleSource),
-                    onDescriptionChanged: (description) => formState.descriptionChanged(description),
-                  ),
-                CreateUserActionDisplayState.step3 => CreateUserActionFormStep3(
-                    viewModel: formState.step3,
-                    onStatusChanged: (estTerminee) => formState.statusChanged(estTerminee),
-                    onDateChanged: (dateSource) => formState.dateChanged(dateSource),
-                    withRappelChanged: (withRappel) => formState.withRappelChanged(withRappel),
-                  ),
-                _ => const SizedBox.shrink(),
-              },
-            ],
+                switch (formState.displayState) {
+                  CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(
+                      onActionTypeSelected: (type) => formState.userActionTypeSelected(type),
+                    ),
+                  CreateUserActionDisplayState.step2 => CreateUserActionFormStep2(
+                      actionType: formState.step1.actionCategory!,
+                      viewModel: formState.step2,
+                      onTitleChanged: (titleSource) => formState.titleChanged(titleSource),
+                      onDescriptionChanged: (description) => formState.descriptionChanged(description),
+                    ),
+                  CreateUserActionDisplayState.step3 => CreateUserActionFormStep3(
+                      viewModel: formState.step3,
+                      onStatusChanged: (estTerminee) => formState.statusChanged(estTerminee),
+                      onDateChanged: (dateSource) => formState.dateChanged(dateSource),
+                      withRappelChanged: (withRappel) => formState.withRappelChanged(withRappel),
+                    ),
+                  _ => const SizedBox.shrink(),
+                },
+              ],
+            ),
           ),
         ),
       ],
