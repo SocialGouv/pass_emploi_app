@@ -52,6 +52,7 @@ class PrimarySliverAppbar extends StatelessWidget {
                             .copyWith(fontSize: FontSizes.huge)
                             .copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
                         overflow: TextOverflow.fade,
+                        maxLines: 1,
                       ),
                     ),
                     if (withProfileButton) ...[
@@ -134,7 +135,7 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  static const toolBarHeight = 72.0;
+  static const toolBarHeight = 64.0;
 
   @override
   Size get preferredSize => Size.fromHeight(toolBarHeight);
@@ -172,7 +173,7 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  static const toolBarHeight = 64.0;
+  static const toolBarHeight = 56.0;
 
   @override
   Size get preferredSize => Size.fromHeight(toolBarHeight);

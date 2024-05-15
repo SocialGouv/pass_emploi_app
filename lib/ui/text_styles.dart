@@ -182,11 +182,11 @@ class TextStyles {
   static TextStyle primaryAppBar = TextStyle(
     color: AppColors.primary,
     fontFamily: 'Marianne',
-    fontSize: FontSizes.xl,
-    fontWeight: FontWeight.w700,
+    fontSize: FontSizes.large,
+    fontWeight: FontWeight.bold,
   );
 
-  static final secondaryAppBar = TextStyles.textLBold(color: AppColors.primary);
+  static final secondaryAppBar = TextStyles.textMBoldWithColor(color: AppColors.primary);
 
   static final accueilSection = TextStyles.textLBold(color: AppColors.primary);
 
