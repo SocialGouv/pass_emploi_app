@@ -125,23 +125,21 @@ class ChatRepository {
     return _sendMessage(userId: userId, message: message.content, messageId: message.id);
   }
 
-  Future<bool> deleteMessage(String userId, Message message, bool isLastMessage) async {
+  Future<bool> deleteMessage(String userId, Message message) async {
     return await _updateMessage(
       userId: userId,
       content: Strings.chatDeletedMessageContent,
       message: message,
       status: MessageContentStatus.deleted,
-      shouldUpdateChat: isLastMessage,
     );
   }
 
-  Future<bool> editMessage(String userId, Message message, bool isLastMessage, String content) async {
+  Future<bool> editMessage(String userId, Message message, String content) async {
     return await _updateMessage(
       userId: userId,
       content: content,
       message: message,
       status: MessageContentStatus.edited,
-      shouldUpdateChat: isLastMessage,
     );
   }
 
@@ -150,7 +148,6 @@ class ChatRepository {
     required String content,
     required Message message,
     required MessageContentStatus status,
-    required bool shouldUpdateChat,
   }) async {
     final iv = message.iv;
     if (iv == null) return false;
@@ -164,6 +161,10 @@ class ChatRepository {
     return FirebaseFirestore.instance
         .runTransaction((transaction) async {
           final messageRef = _chatCollection(chatDocumentId).collection('messages').doc(message.id);
+          final lastMessage =
+              await _chatCollection(chatDocumentId).collection('messages').orderBy('creationDate').limitToLast(1).get();
+          final shouldUpdateChat = lastMessage.docs.first.id == message.id;
+
           transaction.update(messageRef, {
             'content': encryptedNewMessage.base64Message,
             'status': status.toJson,
