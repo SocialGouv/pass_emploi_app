@@ -129,6 +129,11 @@ Map<String, List<MonSuiviEntry>> _entriesByDay(MonSuiviState state) {
   for (var action in state.monSuivi.actions) {
     entriesByDay.add(action.dateEcheance, UserActionMonSuiviEntry(action.id));
   }
+  for (var demarche in state.monSuivi.demarches) {
+    if (demarche.endDate != null) {
+      entriesByDay.add(demarche.endDate!, DemarcheMonSuiviEntry(demarche.id));
+    }
+  }
   for (var rdv in state.monSuivi.rendezvous) {
     entriesByDay.add(rdv.date, RendezvousMonSuiviEntry(rdv.id));
   }
@@ -215,6 +220,15 @@ class UserActionMonSuiviEntry extends MonSuiviEntry {
   final String id;
 
   UserActionMonSuiviEntry(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class DemarcheMonSuiviEntry extends MonSuiviEntry {
+  final String id;
+
+  DemarcheMonSuiviEntry(this.id);
 
   @override
   List<Object?> get props => [id];

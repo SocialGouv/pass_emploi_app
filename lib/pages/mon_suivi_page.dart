@@ -5,8 +5,10 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -23,6 +25,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
@@ -313,11 +316,15 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
                   eventValue: _StateProvider.maybeOf(context)?.previousPeriodCount,
                 );
               }
-              if (viewModel.withPagination && index == pastItems.length) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: Margins.spacing_base),
-                  child: _PaginationLoader(),
-                );
+              if (index == pastItems.length) {
+                if (viewModel.withPagination) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: Margins.spacing_base),
+                    child: _PaginationLoader(),
+                  );
+                } else {
+                  return SizedBox(height: Margins.spacing_base);
+                }
               }
               return pastItems[index].toWidget();
             },
@@ -339,11 +346,15 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
                   eventValue: _StateProvider.maybeOf(context)?.nextPeriodCount,
                 );
               }
-              if (viewModel.withPagination && index == presentAndFutureItems.length) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-                  child: _PaginationLoader(),
-                );
+              if (index == presentAndFutureItems.length) {
+                if (viewModel.withPagination) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+                    child: _PaginationLoader(),
+                  );
+                } else {
+                  return SizedBox(height: Margins.spacing_base);
+                }
               }
               return Padding(
                 padding: EdgeInsets.only(top: index == 0 ? Margins.spacing_base : 0),
@@ -482,6 +493,27 @@ class _UserActionMonSuiviItem extends StatelessWidget {
         Navigator.push(
           context,
           UserActionDetailPage.materialPageRoute(entry.id, UserActionStateSource.monSuivi),
+        );
+      },
+    );
+  }
+}
+
+class _DemarcheMonSuiviItem extends StatelessWidget {
+  final DemarcheMonSuiviEntry entry;
+
+  const _DemarcheMonSuiviItem(this.entry);
+
+  @override
+  Widget build(BuildContext context) {
+    return DemarcheCard(
+      demarcheId: entry.id,
+      source: DemarcheStateSource.monSuivi,
+      onTap: () {
+        context.trackEvent(EventType.ACTION_DETAIL);
+        Navigator.push(
+          context,
+          DemarcheDetailPage.materialPageRoute(entry.id, DemarcheStateSource.monSuivi),
         );
       },
     );
@@ -668,6 +700,7 @@ extension on MonSuiviEntry {
   Widget toWidget() {
     return switch (this) {
       final UserActionMonSuiviEntry entry => _UserActionMonSuiviItem(entry),
+      final DemarcheMonSuiviEntry entry => _DemarcheMonSuiviItem(entry),
       final RendezvousMonSuiviEntry entry => _RendezvousMonSuiviItem(entry),
       final SessionMiloMonSuiviEntry entry => _SessionMiloMonSuiviItem(entry),
     };

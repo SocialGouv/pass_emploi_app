@@ -8,12 +8,12 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement
 
 class DemarcheCard extends StatelessWidget {
   final String demarcheId;
-  final DemarcheStateSource stateSource;
+  final DemarcheStateSource source;
   final Function() onTap;
 
   const DemarcheCard({
     required this.demarcheId,
-    required this.stateSource,
+    required this.source,
     required this.onTap,
   }) : super();
 
@@ -23,7 +23,7 @@ class DemarcheCard extends StatelessWidget {
       rebuildOnChange: false,
       converter: (store) => DemarcheCardViewModel.create(
         store: store,
-        stateSource: stateSource,
+        stateSource: source,
         demarcheId: demarcheId,
       ),
       builder: _build,

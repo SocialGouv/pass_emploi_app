@@ -105,7 +105,7 @@ class DemarcheListPage extends StatelessWidget {
       final id = (item as IdItem).demarcheId;
       return DemarcheCard(
         demarcheId: id,
-        stateSource: DemarcheStateSource.demarcheList,
+        source: DemarcheStateSource.demarcheList,
         onTap: () {
           context.trackEvent(EventType.ACTION_DETAIL);
           Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.demarcheList));

@@ -87,7 +87,7 @@ void main() {
       });
     });
 
-    test('when data on period', () {
+    test('when data on period for Milo users', () {
       withClock(Clock.fixed(DateTime(2022)), () {
         // Given
         final store = givenState()
@@ -118,6 +118,43 @@ void main() {
           FilledDayMonSuiviItem(MonSuiviDay('dim.', '7'), [
             RendezvousMonSuiviEntry('rendezvousId'),
             SessionMiloMonSuiviEntry('sessionMiloId'),
+          ]),
+        ]);
+      });
+    });
+
+    test('when data on period for Pôle emploi users', () {
+      withClock(Clock.fixed(DateTime(2022)), () {
+        // Given
+        final store = givenState()
+            .monSuivi(
+              interval: Interval(lundi1Janvier, dimanche7Janvier),
+              monSuivi: mockMonSuivi(
+                demarches: [
+                  mockDemarche(id: 'demarcheId', endDate: lundi1Janvier),
+                  mockDemarche(id: 'demarche without end date > should be filtered'),
+                ],
+                rendezvous: [mockRendezvous(id: 'rendezvousId', date: dimanche7Janvier)],
+              ),
+            )
+            .store();
+
+        // When
+        final viewModel = MonSuiviViewModel.create(store);
+
+        // Then
+        expect(viewModel.items, [
+          SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
+          FilledDayMonSuiviItem(MonSuiviDay('lun.', '1'), [
+            DemarcheMonSuiviEntry('demarcheId'),
+          ]),
+          EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Rien de prévu'),
+          EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Rien de prévu'),
+          EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Rien de prévu'),
+          EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Rien de prévu'),
+          EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Rien de prévu'),
+          FilledDayMonSuiviItem(MonSuiviDay('dim.', '7'), [
+            RendezvousMonSuiviEntry('rendezvousId'),
           ]),
         ]);
       });
