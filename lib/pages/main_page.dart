@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/pages/accueil/accueil_page.dart';
 import 'package:pass_emploi_app/pages/chat/chat_page.dart';
 import 'package:pass_emploi_app/pages/chat/cvm_chat_page.dart';
 import 'package:pass_emploi_app/pages/events_tab_page.dart';
-import 'package:pass_emploi_app/pages/mon_suivi_milo_page.dart';
+import 'package:pass_emploi_app/pages/mon_suivi_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
@@ -126,7 +126,7 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
     final isMilo = viewModel.loginMode?.isMiLo() == true;
     return switch (viewModel.tabs[index]) {
       MainTab.accueil => AccueilPage(),
-      MainTab.monSuivi => isMilo ? MonSuiviMiloPage() : MonSuiviTabPage(),
+      MainTab.monSuivi => isMilo ? MonSuiviPage() : MonSuiviTabPage(),
       MainTab.chat => viewModel.useCvm ? CvmChatPage() : ChatPage(),
       MainTab.solutions => _solutionsPage(viewModel),
       MainTab.evenements => EventsTabPage(),

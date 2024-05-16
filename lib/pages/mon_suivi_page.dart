@@ -32,12 +32,12 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:shimmer/shimmer.dart';
 
-class MonSuiviMiloPage extends StatefulWidget {
+class MonSuiviPage extends StatefulWidget {
   @override
-  State<MonSuiviMiloPage> createState() => _MonSuiviMiloPageState();
+  State<MonSuiviPage> createState() => _MonSuiviPageState();
 }
 
-class _MonSuiviMiloPageState extends State<MonSuiviMiloPage> {
+class _MonSuiviPageState extends State<MonSuiviPage> {
   bool _onboardingShown = false;
 
   @override
