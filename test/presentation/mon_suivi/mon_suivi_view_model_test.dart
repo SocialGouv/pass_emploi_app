@@ -251,6 +251,30 @@ void main() {
     expect((store.dispatchedAction as MonSuiviRequestAction).period, MonSuiviPeriod.previous);
   });
 
+  group('withPagination', () {
+    test('should return true for Milo users', () {
+      // Given
+      final store = givenState().loggedInMiloUser().store();
+
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
+
+      // Then
+      expect(viewModel.withPagination, isTrue);
+    });
+
+    test('should return false for Pôle emploi users', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().store();
+
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
+
+      // Then
+      expect(viewModel.withPagination, isFalse);
+    });
+  });
+
   test('onLoadNextPeriod', () {
     // Given
     final store = StoreSpy();

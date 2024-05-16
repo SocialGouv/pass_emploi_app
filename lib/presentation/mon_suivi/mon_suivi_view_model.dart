@@ -1,6 +1,7 @@
 import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -16,6 +17,7 @@ class MonSuiviViewModel extends Equatable {
   final bool withCreateButton;
   final bool withWarningOnWrongSessionMiloRetrieval;
   final int pendingActionCreations;
+  final bool withPagination;
   final bool shouldShowOnboarding;
   final Function() onLoadPreviousPeriod;
   final Function() onLoadNextPeriod;
@@ -28,6 +30,7 @@ class MonSuiviViewModel extends Equatable {
     required this.withCreateButton,
     required this.withWarningOnWrongSessionMiloRetrieval,
     required this.pendingActionCreations,
+    required this.withPagination,
     required this.shouldShowOnboarding,
     required this.onLoadPreviousPeriod,
     required this.onLoadNextPeriod,
@@ -44,6 +47,7 @@ class MonSuiviViewModel extends Equatable {
       withCreateButton: state is MonSuiviSuccessState,
       withWarningOnWrongSessionMiloRetrieval: _withWarningOnWrongSessionMiloRetrieval(state),
       pendingActionCreations: store.state.userActionCreatePendingState.getPendingCreationsCount(),
+      withPagination: store.state.user()?.loginMode.isMiLo() ?? false,
       shouldShowOnboarding: _shouldShowOnboarding(store),
       onLoadPreviousPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.previous)),
       onLoadNextPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.next)),
@@ -62,6 +66,7 @@ class MonSuiviViewModel extends Equatable {
         withCreateButton,
         withWarningOnWrongSessionMiloRetrieval,
         pendingActionCreations,
+        withPagination,
         shouldShowOnboarding,
       ];
 }

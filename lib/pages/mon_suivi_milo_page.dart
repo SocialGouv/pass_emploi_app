@@ -301,7 +301,7 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: pastItems.length + 1,
             itemBuilder: (context, index) {
-              if (index > pastItems.length - 2 && !loadingPreviousPeriod) {
+              if (viewModel.withPagination && index > pastItems.length - 2 && !loadingPreviousPeriod) {
                 viewModel.onLoadPreviousPeriod();
                 loadingPreviousPeriod = true;
 
@@ -313,7 +313,7 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
                   eventValue: _StateProvider.maybeOf(context)?.previousPeriodCount,
                 );
               }
-              if (index == pastItems.length) {
+              if (viewModel.withPagination && index == pastItems.length) {
                 return Padding(
                   padding: const EdgeInsets.only(top: Margins.spacing_base),
                   child: _PaginationLoader(),
@@ -327,7 +327,7 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: presentAndFutureItems.length + 1,
             itemBuilder: (context, index) {
-              if (index > presentAndFutureItems.length - 2 && !loadingNextPeriod) {
+              if (viewModel.withPagination && index > presentAndFutureItems.length - 2 && !loadingNextPeriod) {
                 viewModel.onLoadNextPeriod();
                 loadingNextPeriod = true;
 
@@ -339,7 +339,7 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
                   eventValue: _StateProvider.maybeOf(context)?.nextPeriodCount,
                 );
               }
-              if (index == presentAndFutureItems.length) {
+              if (viewModel.withPagination && index == presentAndFutureItems.length) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: Margins.spacing_base),
                   child: _PaginationLoader(),
