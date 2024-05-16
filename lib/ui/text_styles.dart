@@ -182,7 +182,7 @@ class TextStyles {
   static TextStyle primaryAppBar = TextStyle(
     color: AppColors.primary,
     fontFamily: 'Marianne',
-    fontSize: FontSizes.large,
+    fontSize: FontSizes.huge,
     fontWeight: FontWeight.bold,
   );
 
