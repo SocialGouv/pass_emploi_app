@@ -86,9 +86,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deleteMessage(Store<AppState> store, String userId, Message message) async {
-    final chatState = store.state.chatState;
-    final bool isLastMessage = chatState is ChatSuccessState && (chatState.messages.last.id == message.id);
-    _chatRepository.deleteMessage(userId, message, isLastMessage);
+    _chatRepository.deleteMessage(userId, message);
   }
 
   void _sendImage(Store<AppState> store, String userId, String imagePath) async {
@@ -106,9 +104,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _editMessage(Store<AppState> store, String userId, Message message, String content) async {
-    final chatState = store.state.chatState;
-    final bool isLastMessage = chatState is ChatSuccessState && (chatState.messages.last.id == message.id);
-    _chatRepository.editMessage(userId, message, isLastMessage, content);
+    _chatRepository.editMessage(userId, message, content);
   }
 
   Future<void> _addMessageToRemote(Store<AppState> store, String userId, Message message) async {
