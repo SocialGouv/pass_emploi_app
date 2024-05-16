@@ -12,6 +12,11 @@ class RemoteConfigRepository {
     return value > 0 ? value : null;
   }
 
+  int monSuiviPoleEmploiStartDateInMonths() {
+    if (_firebaseRemoteConfig == null) return 0;
+    return _firebaseRemoteConfig.getInt("mon_suivi_ft_start_date_in_months");
+  }
+
   String? lastCampagneRecrutementId() {
     if (_firebaseRemoteConfig == null) return null;
 

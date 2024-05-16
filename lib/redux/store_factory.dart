@@ -396,7 +396,7 @@ class StoreFactory {
         TopDemarcheMiddleware(topDemarcheRepository).call,
         SessionMiloDetailsMiddleware(sessionMiloRepository).call,
         ConnectivityMiddleware(connectivityWrapper).call,
-        MonSuiviMiddleware(monSuiviRepository).call,
+        MonSuiviMiddleware(monSuiviRepository, remoteConfigRepository).call,
         CvmMiddleware(cvmBridge, cvmTokenRepository, cvmLastReadingRepository, cvmAlertingRepository, crashlytics).call,
         CampagneRecrutementMiddleware(campagneRecrutementRepository).call,
         PreferredLoginModeMiddleware(preferredLoginModeRepository).call,

@@ -10,7 +10,7 @@ class MonSuiviRepository {
 
   MonSuiviRepository(this._httpClient, [this._crashlytics]);
 
-  Future<MonSuivi?> getMonSuivi(String userId, Interval interval) async {
+  Future<MonSuivi?> getMonSuiviMilo(String userId, Interval interval) async {
     final url = "/jeunes/milo/$userId/mon-suivi";
 
     try {
@@ -22,6 +22,21 @@ class MonSuiviRepository {
         },
       );
       return MonSuivi.fromJson(response.data);
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
+    }
+    return null;
+  }
+
+  Future<MonSuivi?> getMonSuiviPe(String userId, DateTime debut) async {
+    final url = "/jeunes/pole-emploi/$userId/mon-suivi";
+
+    try {
+      final response = await _httpClient.get(
+        url,
+        queryParameters: {"dateDebut": debut.toIso8601WithOffsetDateTime()},
+      );
+      return MonSuivi.fromJson(response.data).copyWith(errorOnSessionMiloRetrieval: false);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }

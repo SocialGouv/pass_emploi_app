@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
@@ -147,6 +148,7 @@ class AppState extends Equatable {
   final OnboardingState onboardingState;
   final FirstLaunchOnboardingState firstLaunchOnboardingState;
   final MessageImportantState messageImportantState;
+
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -537,6 +539,10 @@ extension AppStateUser on AppState {
     }
     return null;
   }
+
+  bool isMiloLoginMode() => user()?.loginMode.isMiLo() ?? false;
+
+  bool isPeLoginMode() => user()?.loginMode.isPe() ?? false;
 
   String? userId() => user()?.id;
 }
