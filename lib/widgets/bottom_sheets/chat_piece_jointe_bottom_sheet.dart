@@ -43,13 +43,11 @@ class ChatPieceJointeBottomSheet extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: Margins.spacing_m),
-              _TakePictureButton(),
-              SizedBox(height: Margins.spacing_base),
-              _SelectFileButton(),
-              SizedBox(height: Margins.spacing_base),
-              _SelectPictureButton(),
-              SizedBox(height: Margins.spacing_base),
               _PieceJointeWarning(),
+              SizedBox(height: Margins.spacing_base),
+              _TakePictureButton(),
+              _SelectFileButton(),
+              _SelectPictureButton(),
             ],
           ),
         ),
