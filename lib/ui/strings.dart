@@ -130,6 +130,8 @@ class Strings {
   static String chatPieceJointeBottomSheetTakeImageButton = "Prendre une photo";
   static String chatPieceJointeBottomSheetSelectImageButton = "Sélectionner une photo";
   static String chatPieceJointeBottomSheetSelectFileButton = "Sélectionner un fichier";
+  static String chatPieceJointeBottomSheetFileTooLarge =
+      "Le fichier est trop volumineux. Veuillez sélectionner un fichier de moins de 5 Mo.";
 
   // Force Update
   static String updateTitle = "Mise à jour";
