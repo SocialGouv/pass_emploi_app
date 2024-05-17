@@ -117,9 +117,8 @@ class _SelectPictureButton extends StatelessWidget {
       title: Text(Strings.chatPieceJointeBottomSheetSelectImageButton, style: TextStyles.textBaseBold),
       onTap: () async {
         final result = await ImagePickerWrapper.pickSingleImage();
-        if (result != null) {
-          // Navigator.pop is called in a future to avoir error with context:
-          Future.delayed(Duration.zero, () => Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result)));
+        if (result != null && context.mounted) {
+          Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result));
         }
       },
     );
@@ -135,9 +134,8 @@ class _TakePictureButton extends StatelessWidget {
       title: Text(Strings.chatPieceJointeBottomSheetTakeImageButton, style: TextStyles.textBaseBold),
       onTap: () async {
         final result = await ImagePickerWrapper.takeSinglePicture();
-        if (result != null) {
-          // Navigator.pop is called in a future to avoir error with context:
-          Future.delayed(Duration.zero, () => Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result)));
+        if (result != null && context.mounted) {
+          Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result));
         }
       },
     );
@@ -185,8 +183,10 @@ class _FileTooLargeWarning extends StatelessWidget {
       children: [
         SizedBox.square(dimension: 100, child: Illustration.red(AppIcons.error_rounded)),
         SizedBox(height: Margins.spacing_base),
-        Text(Strings.chatPieceJointeBottomSheetFileTooLarge,
-            style: TextStyles.textBaseRegular.copyWith(color: AppColors.warning)),
+        Text(
+          Strings.chatPieceJointeBottomSheetFileTooLarge,
+          style: TextStyles.textBaseRegular.copyWith(color: AppColors.warning),
+        ),
       ],
     );
   }
