@@ -16,11 +16,6 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
     if (userId == null) return;
 
     if (action is PieceJointeFromIdRequestAction) {
-      final pieceJointeState = store.state.piecesJointesState;
-      final boolIsLoaded = pieceJointeState.isLoaded(action.fileId);
-      if (boolIsLoaded) {
-        return;
-      }
       final String? path = await _repository.downloadFromId(fileId: action.fileId, fileName: action.fileName);
       _handleDownload(store, action.fileId, path, isImage: action.isImage);
     }
