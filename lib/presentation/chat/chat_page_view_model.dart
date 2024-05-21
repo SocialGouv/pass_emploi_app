@@ -275,8 +275,8 @@ String? _messageImportant(Store<AppState> store) {
   if (chatState is MessageImportantSuccessState) {
     final messageImportant = chatState.message;
     final now = DateTime.now();
-    if (messageImportant.dateDebut.isBefore(now) &&
-        messageImportant.dateFin.isAfter(now) &&
+    if ((messageImportant.dateDebut.toStartOfDay()).isBefore(now) &&
+        (messageImportant.dateFin.toEndOfDay()).isAfter(now) &&
         messageImportant.message.isNotEmpty) {
       return messageImportant.message;
     }
