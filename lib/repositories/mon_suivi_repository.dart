@@ -21,14 +21,14 @@ class MonSuiviRepository {
           "dateFin": interval.fin.toIso8601WithOffsetDateTime(),
         },
       );
-      return MonSuivi.fromJson(response.data);
+      return MonSuivi.fromMiloJson(response.data);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return null;
   }
 
-  Future<MonSuivi?> getMonSuiviPe(String userId, DateTime debut) async {
+  Future<MonSuivi?> getMonSuiviPoleEmploi(String userId, DateTime debut) async {
     final url = "/jeunes/pole-emploi/$userId/mon-suivi";
 
     try {
@@ -36,7 +36,7 @@ class MonSuiviRepository {
         url,
         queryParameters: {"dateDebut": debut.toIso8601WithOffsetDateTime()},
       );
-      return MonSuivi.fromJson(response.data).copyWith(errorOnSessionMiloRetrieval: false);
+      return MonSuivi.fromPoleEmploiJson(response.data);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }

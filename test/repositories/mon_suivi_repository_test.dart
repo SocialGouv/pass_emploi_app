@@ -82,8 +82,8 @@ void main() {
       });
     });
 
-    group('getMonSuiviPe', () {
-      sut.when((repository) => repository.getMonSuiviPe('user-id', DateTime.utc(2024, 1)));
+    group('getMonSuiviPoleEmploi', () {
+      sut.when((repository) => repository.getMonSuiviPoleEmploi('user-id', DateTime.utc(2024, 1)));
 
       group('when response is valid', () {
         sut.givenJsonResponse(fromJson: "mon_suivi_pole_emploi.json");

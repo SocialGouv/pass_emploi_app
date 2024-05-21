@@ -20,16 +20,24 @@ class MonSuivi extends Equatable {
     required this.errorOnSessionMiloRetrieval,
   });
 
-  factory MonSuivi.fromJson(dynamic json) {
-    final jsonActions = json["actions"];
-    final jsonDemarches = json["demarches"];
+  factory MonSuivi.fromMiloJson(dynamic json) {
     final jsonSessionMilo = json["sessionsMilo"];
     return MonSuivi(
-      actions: jsonActions != null ? (jsonActions as List).map(UserAction.fromJson).toList() : [],
-      demarches: jsonDemarches != null ? (jsonDemarches as List).map(Demarche.fromJson).toList() : [],
+      actions: (json["actions"] as List).map(UserAction.fromJson).toList(),
       rendezvous: (json["rendezVous"] as List).map((e) => JsonRendezvous.fromJson(e).toRendezvous()).toList(),
       sessionsMilo: jsonSessionMilo != null ? (jsonSessionMilo as List).map(SessionMilo.fromJson).toList() : [],
       errorOnSessionMiloRetrieval: jsonSessionMilo == null,
+      demarches: [],
+    );
+  }
+
+  factory MonSuivi.fromPoleEmploiJson(dynamic json) {
+    return MonSuivi(
+      demarches: (json["demarches"] as List).map(Demarche.fromJson).toList(),
+      rendezvous: (json["rendezVous"] as List).map((e) => JsonRendezvous.fromJson(e).toRendezvous()).toList(),
+      actions: [],
+      sessionsMilo: [],
+      errorOnSessionMiloRetrieval: false,
     );
   }
 

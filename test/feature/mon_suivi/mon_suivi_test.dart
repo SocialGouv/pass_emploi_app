@@ -199,7 +199,8 @@ void main() {
         test('should load, then request interval determined from remote config, then succeed when request succeeds',
             () {
           withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-            when(() => monSuiviRepository.getMonSuiviPe('id', vendredi29Decembre2023)).thenAnswer((_) async => suiviPe);
+            when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', vendredi29Decembre2023))
+                .thenAnswer((_) async => suiviPe);
 
             sut.givenStore = givenState() //
                 .loggedInPoleEmploiUser()
@@ -216,7 +217,8 @@ void main() {
 
         test('should load then fail when request fails', () {
           withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-            when(() => monSuiviRepository.getMonSuiviPe('id', vendredi29Decembre2023)).thenAnswer((_) async => null);
+            when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', vendredi29Decembre2023))
+                .thenAnswer((_) async => null);
 
             sut.givenStore = givenState() //
                 .loggedInPoleEmploiUser()
