@@ -38,7 +38,7 @@ class MonSuiviViewModel extends Equatable {
 
   factory MonSuiviViewModel.create(Store<AppState> store) {
     final state = store.state.monSuiviState;
-    final items = _items(state);
+    final items = _items(store);
     return MonSuiviViewModel._(
       displayState: _displayState(state),
       items: items,
@@ -83,7 +83,8 @@ bool _withWarningOnWrongSessionMiloRetrieval(MonSuiviState state) {
   return state is MonSuiviSuccessState && state.monSuivi.errorOnSessionMiloRetrieval;
 }
 
-List<MonSuiviItem> _items(MonSuiviState state) {
+List<MonSuiviItem> _items(Store<AppState> store) {
+  final state = store.state.monSuiviState;
   if (state is! MonSuiviSuccessState) return [];
   final entriesByDay = _entriesByDay(state);
   // Day is set to midday to avoid timezone issues while adding Duration(days: 1)
@@ -100,7 +101,7 @@ List<MonSuiviItem> _items(MonSuiviState state) {
     items.add(
       entries != null
           ? FilledDayMonSuiviItem(day, entries, isToday)
-          : EmptyDayMonSuiviItem(day, _emptyText(jourCourant), isToday),
+          : EmptyDayMonSuiviItem(day, _emptyText(store, jourCourant), isToday),
     );
 
     jourCourant = jourCourant.add(Duration(days: 1));
@@ -143,8 +144,12 @@ Map<String, List<MonSuiviEntry>> _entriesByDay(MonSuiviState state) {
   return entriesByDay;
 }
 
-String _emptyText(DateTime date) {
-  return date.isBefore(clock.now().toStartOfDay()) ? Strings.monSuiviEmptyPast : Strings.monSuiviEmptyFuture;
+String _emptyText(Store<AppState> store, DateTime date) {
+  if (date.isBefore(clock.now().toStartOfDay())) {
+    return store.state.isMiloLoginMode() ? Strings.monSuiviEmptyPastMilo : Strings.monSuiviEmptyPastPoleEmploi;
+  } else {
+    return Strings.monSuiviEmptyFuture;
+  }
 }
 
 extension on Map<String, List<MonSuiviEntry>> {

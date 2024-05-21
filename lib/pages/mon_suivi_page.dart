@@ -139,7 +139,7 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
       title: Strings.monSuiviAppBarTitle,
       actionButton: withActionButton
           ? IconButton(
-        onPressed: () => _StateProvider.maybeOf(context)?.scrollController.animateTo(
+              onPressed: () => _StateProvider.maybeOf(context)?.scrollController.animateTo(
                     0,
                     duration: AnimationDurations.fast,
                     curve: Curves.fastEaseInToSlowEaseOut,
@@ -317,14 +317,12 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
                 );
               }
               if (index == pastItems.length) {
-                if (viewModel.withPagination) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: Margins.spacing_base),
-                    child: _PaginationLoader(),
-                  );
-                } else {
-                  return SizedBox(height: Margins.spacing_base);
-                }
+                return Padding(
+                  padding: const EdgeInsets.only(top: Margins.spacing_base),
+                  child: viewModel.withPagination
+                      ? _PaginationLoader()
+                      : _LimitReachedBanner(Strings.monSuiviPePastLimitReached),
+                );
               }
               return pastItems[index].toWidget();
             },
@@ -347,14 +345,14 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
                 );
               }
               if (index == presentAndFutureItems.length) {
-                if (viewModel.withPagination) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-                    child: _PaginationLoader(),
-                  );
-                } else {
-                  return SizedBox(height: Margins.spacing_base);
-                }
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: viewModel.withPagination ? Margins.spacing_base : Margins.spacing_huge,
+                  ),
+                  child: viewModel.withPagination
+                      ? _PaginationLoader()
+                      : _LimitReachedBanner(Strings.monSuiviPeFutureLimitReached),
+                );
               }
               return Padding(
                 padding: EdgeInsets.only(top: index == 0 ? Margins.spacing_base : 0),
@@ -592,6 +590,21 @@ class _PaginationLoader extends StatelessWidget {
       baseColor: AppColors.loadingGreyPlaceholder,
       highlightColor: Colors.white,
       child: _MonSuiviItemLoader(),
+    );
+  }
+}
+
+class _LimitReachedBanner extends StatelessWidget {
+  final String text;
+
+  const _LimitReachedBanner(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyles.textXsMedium(color: AppColors.disabled),
+      textAlign: TextAlign.center,
     );
   }
 }
