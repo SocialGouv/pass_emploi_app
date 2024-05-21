@@ -90,6 +90,22 @@ void main() {
       expect(viewModel.showDelete, isFalse);
     });
 
+    test("when creator is jeune and action is done should be false", () {
+      // Given
+      final action = mockUserAction(
+        id: 'id',
+        creator: JeuneActionCreator(),
+        status: UserActionStatus.DONE,
+      );
+      final store = givenState().withAction(action).store();
+
+      // When
+      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
+
+      // Then
+      expect(viewModel.showDelete, isFalse);
+    });
+
     test("when creator is jeune and action is not qualified should be true", () {
       // Given
       final action = mockUserAction(
