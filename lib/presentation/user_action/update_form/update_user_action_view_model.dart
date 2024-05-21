@@ -84,7 +84,8 @@ class UpdateUserActionViewModel extends Equatable {
 
 bool _showDelete(UserAction userAction) {
   return userAction.creator is JeuneActionCreator &&
-      userAction.qualificationStatus != UserActionQualificationStatus.QUALIFIEE;
+      userAction.qualificationStatus != UserActionQualificationStatus.QUALIFIEE &&
+      userAction.status != UserActionStatus.DONE;
 }
 
 bool _showLoading(UserActionUpdateState updateState, UserActionDeleteState deleteState) {
