@@ -25,8 +25,8 @@ final lundi29Janvier00h00 = DateTime.utc(2024, 1, 29);
 final dimanche3Mars23h59 = DateTime.utc(2024, 3, 3, 23, 59, 59, 999);
 
 // Current period Pe: 1 month (remote config) + 2 weeks before - 3 years after
-final currentPeriodIntervalPe = Interval(vendredi29Decembre2023, mercredi13Fevrier2027);
-final vendredi29Decembre2023 = DateTime.utc(2023, 12, 29);
+final currentPeriodIntervalPe = Interval(samedi30Decembre2023, mercredi13Fevrier2027);
+final samedi30Decembre2023 = DateTime.utc(2023, 12, 30);
 final mercredi13Fevrier2027 = DateTime.utc(2027, 2, 13, 23, 59, 59, 999);
 
 // Previous period: 4 weeks before current period
@@ -199,7 +199,7 @@ void main() {
         test('should load, then request interval determined from remote config, then succeed when request succeeds',
             () {
           withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-            when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', vendredi29Decembre2023))
+            when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', samedi30Decembre2023))
                 .thenAnswer((_) async => suiviPe);
 
             sut.givenStore = givenState() //
@@ -217,7 +217,7 @@ void main() {
 
         test('should load then fail when request fails', () {
           withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-            when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', vendredi29Decembre2023))
+            when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', samedi30Decembre2023))
                 .thenAnswer((_) async => null);
 
             sut.givenStore = givenState() //

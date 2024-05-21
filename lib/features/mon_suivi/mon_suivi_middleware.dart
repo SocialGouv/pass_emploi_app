@@ -12,9 +12,8 @@ import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
-const _maxYearsInFutureForPeUsers = 3;
-
 class MonSuiviMiddleware extends MiddlewareClass<AppState> {
+  static const _maxYearsInFutureForPeUsers = 3;
   final MonSuiviRepository _monSuiviRepository;
   final RemoteConfigRepository _remoteConfigRepository;
 
@@ -56,11 +55,13 @@ class MonSuiviMiddleware extends MiddlewareClass<AppState> {
 
   Interval _getCurrentPeriodInterval(Store<AppState> store) {
     if (store.state.isPeLoginMode()) {
-      final months = _remoteConfigRepository.monSuiviPoleEmploiStartDateInMonths();
-      return Interval(
-        clock.now().toMondayOn2PreviousWeeks().subtract(Duration(days: 31 * months)).toStartOfDay(),
-        clock.now().add(Duration(days: 365 * _maxYearsInFutureForPeUsers)).toEndOfDay(),
-      );
+      final twoWeeksPlusNMonthsBefore = clock //
+          .now()
+          .toMondayOn2PreviousWeeks()
+          .subtract(Duration(days: 30 * _remoteConfigRepository.monSuiviPoleEmploiStartDateInMonths()))
+          .toStartOfDay();
+      final threeYearsAfter = clock.now().add(Duration(days: 365 * _maxYearsInFutureForPeUsers)).toEndOfDay();
+      return Interval(twoWeeksPlusNMonthsBefore, threeYearsAfter);
     }
     return Interval(clock.now().toMondayOn2PreviousWeeks(), clock.now().toSundayOn2NextWeeks());
   }
