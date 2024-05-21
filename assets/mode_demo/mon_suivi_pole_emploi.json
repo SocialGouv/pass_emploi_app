@@ -341,35 +341,6 @@
       },
       "presenceConseiller": true,
       "invitation": false
-    },
-    {
-      "id": "12345678-b3e6-4dce-89c9-361be54a04f5",
-      "source": "MILO",
-      "date": "<NOW_LESS_10>",
-      "isLocaleDate": false,
-      "modality": "par visio",
-      "duration": 120,
-      "title": "Événement de ma mission locale",
-      "jeune": {
-        "id": "SEVP",
-        "nom": "Sevier",
-        "prenom": "Paul"
-      },
-      "type": {
-        "code": "ATELIER",
-        "label": "Atelier"
-      },
-      "createur": {
-        "id": "0",
-        "nom": "Milo",
-        "prenom": "Système"
-      },
-      "conseiller": {
-        "id": "1",
-        "nom": "Tavernier",
-        "prenom": "Nils"
-      },
-      "invitation": false
     }
   ]
 }
