@@ -9,11 +9,14 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
+enum MonSuiviCtaType { createAction, createDemarche }
+
 class MonSuiviViewModel extends Equatable {
   final DisplayState displayState;
   final List<MonSuiviItem> items;
   final int indexOfTodayItem;
   final bool withCreateButton;
+  final MonSuiviCtaType ctaType;
   final bool withWarningOnWrongSessionMiloRetrieval;
   final int pendingActionCreations;
   final bool withPagination;
@@ -27,6 +30,7 @@ class MonSuiviViewModel extends Equatable {
     required this.items,
     required this.indexOfTodayItem,
     required this.withCreateButton,
+    required this.ctaType,
     required this.withWarningOnWrongSessionMiloRetrieval,
     required this.pendingActionCreations,
     required this.withPagination,
@@ -44,6 +48,7 @@ class MonSuiviViewModel extends Equatable {
       items: items,
       indexOfTodayItem: items.indexWhere((e) => e is DayMonSuiviItem && e.isToday),
       withCreateButton: state is MonSuiviSuccessState,
+      ctaType: store.state.isMiloLoginMode() ? MonSuiviCtaType.createAction : MonSuiviCtaType.createDemarche,
       withWarningOnWrongSessionMiloRetrieval: _withWarningOnWrongSessionMiloRetrieval(state),
       pendingActionCreations: store.state.userActionCreatePendingState.getPendingCreationsCount(),
       withPagination: store.state.isMiloLoginMode(),
@@ -63,6 +68,7 @@ class MonSuiviViewModel extends Equatable {
         items,
         indexOfTodayItem,
         withCreateButton,
+        ctaType,
         withWarningOnWrongSessionMiloRetrieval,
         pendingActionCreations,
         withPagination,

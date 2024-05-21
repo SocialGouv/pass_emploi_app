@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
@@ -51,7 +52,11 @@ class _MonSuiviPageState extends State<MonSuiviPage> {
         child: StoreConnector<AppState, MonSuiviViewModel>(
           onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
           converter: (store) => MonSuiviViewModel.create(store),
-          builder: (_, viewModel) => _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
+          builder: (_, viewModel) => _Scaffold(
+            body: _Body(viewModel),
+            withCreateButton: viewModel.withCreateButton,
+            ctaType: viewModel.ctaType,
+          ),
           onDispose: (store) => store.dispatch(MonSuiviResetAction()),
           onDidChange: (_, viewModel) => _handleOnboarding(context, viewModel),
           distinct: true,
@@ -90,8 +95,9 @@ class _StateProvider extends InheritedWidget {
 class _Scaffold extends StatelessWidget {
   final Widget body;
   final bool withCreateButton;
+  final MonSuiviCtaType ctaType;
 
-  const _Scaffold({required this.body, required this.withCreateButton});
+  const _Scaffold({required this.body, required this.withCreateButton, required this.ctaType});
 
   @override
   Widget build(BuildContext context) {
@@ -102,14 +108,16 @@ class _Scaffold extends StatelessWidget {
       floatingActionButton: Visibility(
         visible: withCreateButton,
         child: PrimaryActionButton(
-          label: Strings.addAnAction,
-          icon: AppIcons.add_rounded,
+            label: ctaType == MonSuiviCtaType.createAction ? Strings.addAnAction : Strings.addADemarche,
+            icon: AppIcons.add_rounded,
           rippleColor: AppColors.primaryDarken,
-          onPressed: () => CreateUserActionFormPage.pushUserActionCreationTunnel(
-            context,
-            UserActionStateSource.monSuivi,
-          ),
-        ),
+            onPressed: () => switch (ctaType) {
+                  MonSuiviCtaType.createDemarche => CreateDemarcheStep1Page.pushDemarcheCreationTunnel(context),
+                  MonSuiviCtaType.createAction => CreateUserActionFormPage.pushUserActionCreationTunnel(
+                      context,
+                      UserActionStateSource.monSuivi,
+                    ),
+                }),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

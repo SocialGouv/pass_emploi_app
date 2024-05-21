@@ -286,6 +286,30 @@ void main() {
     });
   });
 
+  group('ctaType', () {
+    test('for Milo users', () {
+      // Given
+      final store = givenState().loggedInMiloUser().monSuivi().store();
+
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
+
+      // Then
+      expect(viewModel.ctaType, MonSuiviCtaType.createAction);
+    });
+
+    test('for Pôle emploi users', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().monSuivi().store();
+
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
+
+      // Then
+      expect(viewModel.ctaType, MonSuiviCtaType.createDemarche);
+    });
+  });
+
   test('pendingActionCreations', () {
     // Given
     final store = givenState().copyWith(userActionCreatePendingState: UserActionCreatePendingSuccessState(10)).store();
