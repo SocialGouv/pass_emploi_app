@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
@@ -93,26 +92,6 @@ void main() {
         MainTab.solutions,
         MainTab.evenements,
       ]);
-    });
-  });
-
-  group('Create MainPageViewModel loginMode when user is...', () {
-    test('pole emploi', () {
-      // Given
-      final store = givenState().loggedInPoleEmploiUser().store();
-      // When
-      final viewModel = MainPageViewModel.create(store);
-      // Then
-      expect(viewModel.loginMode, LoginMode.POLE_EMPLOI);
-    });
-
-    test('milo', () {
-      // Given
-      final store = givenState().loggedInMiloUser().store();
-      // When
-      final viewModel = MainPageViewModel.create(store);
-      // Then
-      expect(viewModel.loginMode, LoginMode.MILO);
     });
   });
 

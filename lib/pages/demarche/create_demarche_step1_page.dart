@@ -4,20 +4,24 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/demarche/thematiques_demarche_page.dart';
 import 'package:pass_emploi_app/pages/demarche/top_demarche_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 const _minQueryLength = 2;
@@ -25,6 +29,30 @@ const _minQueryLength = 2;
 class CreateDemarcheStep1Page extends StatefulWidget {
   static MaterialPageRoute<String?> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateDemarcheStep1Page());
+  }
+
+  static void pushDemarcheCreationTunnel(BuildContext context) {
+    Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
+      if (value != null) _showDemarcheSnackBarWithDetail(context, value);
+    });
+  }
+
+  static void _showDemarcheSnackBarWithDetail(BuildContext context, String demarcheId) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
+    );
+    showSnackBarWithSuccess(
+      context,
+      Strings.createDemarcheSuccess,
+      () {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.createActionEventCategory,
+          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+        );
+        Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheId, DemarcheStateSource.monSuivi));
+      },
+    );
   }
 
   @override

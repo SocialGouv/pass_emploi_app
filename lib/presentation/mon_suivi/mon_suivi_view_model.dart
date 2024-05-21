@@ -9,13 +9,17 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
+enum MonSuiviCtaType { createAction, createDemarche }
+
 class MonSuiviViewModel extends Equatable {
   final DisplayState displayState;
   final List<MonSuiviItem> items;
   final int indexOfTodayItem;
   final bool withCreateButton;
+  final MonSuiviCtaType ctaType;
   final bool withWarningOnWrongSessionMiloRetrieval;
   final int pendingActionCreations;
+  final bool withPagination;
   final bool shouldShowOnboarding;
   final Function() onLoadPreviousPeriod;
   final Function() onLoadNextPeriod;
@@ -26,8 +30,10 @@ class MonSuiviViewModel extends Equatable {
     required this.items,
     required this.indexOfTodayItem,
     required this.withCreateButton,
+    required this.ctaType,
     required this.withWarningOnWrongSessionMiloRetrieval,
     required this.pendingActionCreations,
+    required this.withPagination,
     required this.shouldShowOnboarding,
     required this.onLoadPreviousPeriod,
     required this.onLoadNextPeriod,
@@ -36,14 +42,16 @@ class MonSuiviViewModel extends Equatable {
 
   factory MonSuiviViewModel.create(Store<AppState> store) {
     final state = store.state.monSuiviState;
-    final items = _items(state);
+    final items = _items(store);
     return MonSuiviViewModel._(
       displayState: _displayState(state),
       items: items,
       indexOfTodayItem: items.indexWhere((e) => e is DayMonSuiviItem && e.isToday),
       withCreateButton: state is MonSuiviSuccessState,
+      ctaType: store.state.isMiloLoginMode() ? MonSuiviCtaType.createAction : MonSuiviCtaType.createDemarche,
       withWarningOnWrongSessionMiloRetrieval: _withWarningOnWrongSessionMiloRetrieval(state),
       pendingActionCreations: store.state.userActionCreatePendingState.getPendingCreationsCount(),
+      withPagination: store.state.isMiloLoginMode(),
       shouldShowOnboarding: _shouldShowOnboarding(store),
       onLoadPreviousPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.previous)),
       onLoadNextPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.next)),
@@ -60,8 +68,10 @@ class MonSuiviViewModel extends Equatable {
         items,
         indexOfTodayItem,
         withCreateButton,
+        ctaType,
         withWarningOnWrongSessionMiloRetrieval,
         pendingActionCreations,
+        withPagination,
         shouldShowOnboarding,
       ];
 }
@@ -79,7 +89,8 @@ bool _withWarningOnWrongSessionMiloRetrieval(MonSuiviState state) {
   return state is MonSuiviSuccessState && state.monSuivi.errorOnSessionMiloRetrieval;
 }
 
-List<MonSuiviItem> _items(MonSuiviState state) {
+List<MonSuiviItem> _items(Store<AppState> store) {
+  final state = store.state.monSuiviState;
   if (state is! MonSuiviSuccessState) return [];
   final entriesByDay = _entriesByDay(state);
   // Day is set to midday to avoid timezone issues while adding Duration(days: 1)
@@ -96,7 +107,7 @@ List<MonSuiviItem> _items(MonSuiviState state) {
     items.add(
       entries != null
           ? FilledDayMonSuiviItem(day, entries, isToday)
-          : EmptyDayMonSuiviItem(day, _emptyText(jourCourant), isToday),
+          : EmptyDayMonSuiviItem(day, _emptyText(store, jourCourant), isToday),
     );
 
     jourCourant = jourCourant.add(Duration(days: 1));
@@ -125,6 +136,11 @@ Map<String, List<MonSuiviEntry>> _entriesByDay(MonSuiviState state) {
   for (var action in state.monSuivi.actions) {
     entriesByDay.add(action.dateEcheance, UserActionMonSuiviEntry(action.id));
   }
+  for (var demarche in state.monSuivi.demarches) {
+    if (demarche.endDate != null) {
+      entriesByDay.add(demarche.endDate!, DemarcheMonSuiviEntry(demarche.id));
+    }
+  }
   for (var rdv in state.monSuivi.rendezvous) {
     entriesByDay.add(rdv.date, RendezvousMonSuiviEntry(rdv.id));
   }
@@ -134,8 +150,12 @@ Map<String, List<MonSuiviEntry>> _entriesByDay(MonSuiviState state) {
   return entriesByDay;
 }
 
-String _emptyText(DateTime date) {
-  return date.isBefore(clock.now().toStartOfDay()) ? Strings.monSuiviEmptyPast : Strings.monSuiviEmptyFuture;
+String _emptyText(Store<AppState> store, DateTime date) {
+  if (date.isBefore(clock.now().toStartOfDay())) {
+    return store.state.isMiloLoginMode() ? Strings.monSuiviEmptyPastMilo : Strings.monSuiviEmptyPastPoleEmploi;
+  } else {
+    return Strings.monSuiviEmptyFuture;
+  }
 }
 
 extension on Map<String, List<MonSuiviEntry>> {
@@ -211,6 +231,15 @@ class UserActionMonSuiviEntry extends MonSuiviEntry {
   final String id;
 
   UserActionMonSuiviEntry(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class DemarcheMonSuiviEntry extends MonSuiviEntry {
+  final String id;
+
+  DemarcheMonSuiviEntry(this.id);
 
   @override
   List<Object?> get props => [id];

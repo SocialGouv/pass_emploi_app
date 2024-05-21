@@ -19,156 +19,218 @@ import '../../dsl/sut_redux.dart';
 // Today
 final mercredi14Fevrier12h00 = DateTime.utc(2024, 2, 14, 12);
 
-// Current period : 2 weeks before and 2 weeks after current week
-final currentPeriodInterval = Interval(lundi29Janvier00h00, dimanche3Mars23h59);
+// Current period Milo: 2 weeks before and 2 weeks after current week
+final currentPeriodIntervalMilo = Interval(lundi29Janvier00h00, dimanche3Mars23h59);
 final lundi29Janvier00h00 = DateTime.utc(2024, 1, 29);
 final dimanche3Mars23h59 = DateTime.utc(2024, 3, 3, 23, 59, 59, 999);
 
-// Previous period : 4 weeks before current period
-final previousPeriodInterval = Interval(lundi1Janvier00h00, dimanche28Janvier23h59);
+// Current period Pe: 1 month (remote config) + 2 weeks before - 3 years after
+final currentPeriodIntervalPe = Interval(samedi30Decembre2023, mercredi13Fevrier2027);
+final samedi30Decembre2023 = DateTime.utc(2023, 12, 30);
+final mercredi13Fevrier2027 = DateTime.utc(2027, 2, 13, 23, 59, 59, 999);
+
+// Previous period: 4 weeks before current period
+final previousPeriodIntervalMilo = Interval(lundi1Janvier00h00, dimanche28Janvier23h59);
 final lundi1Janvier00h00 = DateTime.utc(2024, 1, 1);
 final dimanche28Janvier23h59 = DateTime.utc(2024, 1, 28, 23, 59, 59, 999);
 
-// NextPeriod : 4 weeks after current period
-final nextPeriodInterval = Interval(lundi4Mars00h00, lundi1Avril00h59);
+// NextPeriod: 4 weeks after current period
+final nextPeriodIntervalMilo = Interval(lundi4Mars00h00, lundi1Avril00h59);
 final lundi4Mars00h00 = DateTime.utc(2024, 3, 4);
 final lundi1Avril00h59 = DateTime.utc(2024, 3, 31, 23, 59, 59, 999);
 
-final currentPeriodSuivi = mockMonSuivi(
+final currentPeriodSuiviMilo = mockMonSuivi(
   actions: [mockUserAction(dateEcheance: mercredi14Fevrier12h00)],
   rendezvous: [mockRendezvous(date: dimanche3Mars23h59)],
 );
 
-final previousPeriodSuivi = mockMonSuivi(
+final previousPeriodSuiviMilo = mockMonSuivi(
   actions: [mockUserAction(dateEcheance: lundi1Janvier00h00)],
   rendezvous: [mockRendezvous(date: dimanche28Janvier23h59)],
 );
 
-final nextPeriodSuivi = mockMonSuivi(
+final nextPeriodSuiviMilo = mockMonSuivi(
   actions: [mockUserAction(dateEcheance: lundi4Mars00h00)],
   sessionsMilo: [mockSessionMilo(dateDeDebut: lundi1Avril00h59)],
+);
+
+final suiviPe = mockMonSuivi(
+  demarches: [mockDemarche(endDate: lundi29Janvier00h00)],
+  rendezvous: [mockRendezvous(date: dimanche3Mars23h59)],
 );
 
 void main() {
   group('MonSuivi', () {
     final sut = StoreSut();
-    final repository = MockMonSuiviRepository();
+    final monSuiviRepository = MockMonSuiviRepository();
+    final remoteConfigRepository = MockRemoteConfigRepository();
 
-    group("when requesting current period ([START OF 2 WEEKS BEFORE CURRENT, END OF 2 WEEKS AFTER CURRENT])", () {
-      sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.current));
+    group('for Milo users', () {
+      group("when requesting current period ([START OF 2 WEEKS BEFORE CURRENT, END OF 2 WEEKS AFTER CURRENT])", () {
+        sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.current));
 
-      test('should load, then request interval, then succeed when request succeeds', () {
-        withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-          when(() => repository.getMonSuivi('id', currentPeriodInterval)).thenAnswer((_) async => currentPeriodSuivi);
+        test('should load, then request interval, then succeed when request succeeds', () {
+          withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+            when(() => monSuiviRepository.getMonSuiviMilo('id', currentPeriodIntervalMilo))
+                .thenAnswer((_) async => currentPeriodSuiviMilo);
 
-          sut.givenStore = givenState() //
-              .loggedInUser()
-              .store((f) => {f.monSuiviRepository = repository});
+            sut.givenStore = givenState() //
+                .loggedInMiloUser()
+                .store((f) => {f.monSuiviRepository = monSuiviRepository});
 
-          sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedForCurrentPeriod()]);
+            sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedForMiloOnCurrentPeriod()]);
+          });
+        });
+
+        test('should load then fail when request fails', () {
+          withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+            when(() => monSuiviRepository.getMonSuiviMilo('id', currentPeriodIntervalMilo))
+                .thenAnswer((_) async => null);
+
+            sut.givenStore = givenState() //
+                .loggedInMiloUser()
+                .store((f) => {f.monSuiviRepository = monSuiviRepository});
+
+            sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+          });
         });
       });
 
-      test('should load then fail when request fails', () {
-        withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-          when(() => repository.getMonSuivi('id', currentPeriodInterval)).thenAnswer((_) async => null);
+      group("when requesting previous period (4 WEEKS BEFORE START OF CURRENT PERIOD)", () {
+        sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.previous));
 
-          sut.givenStore = givenState() //
-              .loggedInUser()
-              .store((f) => {f.monSuiviRepository = repository});
+        test('should request interval, aggregate data, then succeed when request succeeds', () {
+          withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+            when(() => monSuiviRepository.getMonSuiviMilo('id', previousPeriodIntervalMilo))
+                .thenAnswer((_) async => previousPeriodSuiviMilo);
 
-          sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+            sut.givenStore = givenState() //
+                .loggedInMiloUser()
+                .monSuivi(interval: currentPeriodIntervalMilo, monSuivi: currentPeriodSuiviMilo)
+                .store((f) => {f.monSuiviRepository = monSuiviRepository});
+
+            sut.thenExpectChangingStatesThroughOrder([
+              _shouldSucceedForMiloOnCurrentPeriod(),
+              _shouldSucceedForMiloOnPreviousPeriodWithAggregatedData(),
+            ]);
+          });
+        });
+
+        test('should not load neither fail when request fails', () {
+          withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+            when(() => monSuiviRepository.getMonSuiviMilo('id', previousPeriodIntervalMilo))
+                .thenAnswer((_) async => null);
+
+            sut.givenStore = givenState() //
+                .loggedInMiloUser()
+                .monSuivi(interval: currentPeriodIntervalMilo, monSuivi: currentPeriodSuiviMilo)
+                .store((f) => {f.monSuiviRepository = monSuiviRepository});
+
+            sut.thenExpectChangingStatesThroughOrder([_shouldSucceedForMiloOnCurrentPeriod()]);
+          });
+        });
+      });
+
+      group("when requesting next period (4 WEEKS AFTER END OF CURRENT PERIOD)", () {
+        sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.next));
+
+        test('should request interval, aggregate data, then succeed when request succeeds', () {
+          withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+            when(() => monSuiviRepository.getMonSuiviMilo('id', nextPeriodIntervalMilo))
+                .thenAnswer((_) async => nextPeriodSuiviMilo);
+
+            sut.givenStore = givenState() //
+                .loggedInMiloUser()
+                .monSuivi(interval: currentPeriodIntervalMilo, monSuivi: currentPeriodSuiviMilo)
+                .store((f) => {f.monSuiviRepository = monSuiviRepository});
+
+            sut.thenExpectChangingStatesThroughOrder([
+              _shouldSucceedForMiloOnCurrentPeriod(),
+              _shouldSucceedForMiloOnNextPeriodWithAggregatedData(),
+            ]);
+          });
+        });
+
+        test('should not load neither fail when request fails', () {
+          withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+            when(() => monSuiviRepository.getMonSuiviMilo('id', nextPeriodIntervalMilo)).thenAnswer((_) async => null);
+
+            sut.givenStore = givenState() //
+                .loggedInMiloUser()
+                .monSuivi(interval: currentPeriodIntervalMilo, monSuivi: currentPeriodSuiviMilo)
+                .store((f) => {f.monSuiviRepository = monSuiviRepository});
+
+            sut.thenExpectChangingStatesThroughOrder([_shouldSucceedForMiloOnCurrentPeriod()]);
+          });
+        });
+      });
+
+      group("when current period has error on sessions milo, but other period has not", () {
+        sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.next));
+
+        test('should keep information on session milo error', () {
+          withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+            when(() => monSuiviRepository.getMonSuiviMilo('id', nextPeriodIntervalMilo)).thenAnswer(
+              (_) async => nextPeriodSuiviMilo.copyWith(errorOnSessionMiloRetrieval: false),
+            );
+
+            sut.givenStore = givenState() //
+                .loggedInMiloUser()
+                .monSuivi(
+                  interval: currentPeriodIntervalMilo,
+                  monSuivi: currentPeriodSuiviMilo.copyWith(errorOnSessionMiloRetrieval: true),
+                )
+                .store((f) => {f.monSuiviRepository = monSuiviRepository});
+
+            sut.thenExpectChangingStatesThroughOrder([
+              _shouldSucceedForMiloOnCurrentPeriod(errorOnSessionMilo: true),
+              _shouldSucceedForMiloOnNextPeriodWithAggregatedData(errorOnSessionMilo: true),
+            ]);
+          });
         });
       });
     });
 
-    group("when requesting previous period (4 WEEKS BEFORE START OF CURRENT PERIOD)", () {
-      sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.previous));
+    group('for Pôle emploi users', () {
+      group("when requesting current period", () {
+        sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.current));
+        when(() => remoteConfigRepository.monSuiviPoleEmploiStartDateInMonths()).thenReturn(1);
 
-      test('should request interval, aggregate data, then succeed when request succeeds', () {
-        withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-          when(() => repository.getMonSuivi('id', previousPeriodInterval)).thenAnswer((_) async => previousPeriodSuivi);
+        test('should load, then request interval determined from remote config, then succeed when request succeeds',
+            () {
+          withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+            when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', samedi30Decembre2023))
+                .thenAnswer((_) async => suiviPe);
 
-          sut.givenStore = givenState() //
-              .loggedInUser()
-              .monSuivi(interval: currentPeriodInterval, monSuivi: currentPeriodSuivi)
-              .store((f) => {f.monSuiviRepository = repository});
+            sut.givenStore = givenState() //
+                .loggedInPoleEmploiUser()
+                .store(
+                  (f) => {
+                    f.monSuiviRepository = monSuiviRepository,
+                    f.remoteConfigRepository = remoteConfigRepository,
+                  },
+                );
 
-          sut.thenExpectChangingStatesThroughOrder([
-            _shouldSucceedForCurrentPeriod(),
-            _shouldSucceedForPreviousPeriodWithAggregatedData(),
-          ]);
+            sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedForPeOnPeriod()]);
+          });
         });
-      });
 
-      test('should not load neither fail when request fails', () {
-        withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-          when(() => repository.getMonSuivi('id', previousPeriodInterval)).thenAnswer((_) async => null);
+        test('should load then fail when request fails', () {
+          withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+            when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', samedi30Decembre2023))
+                .thenAnswer((_) async => null);
 
-          sut.givenStore = givenState() //
-              .loggedInUser()
-              .monSuivi(interval: currentPeriodInterval, monSuivi: currentPeriodSuivi)
-              .store((f) => {f.monSuiviRepository = repository});
+            sut.givenStore = givenState() //
+                .loggedInPoleEmploiUser()
+                .store(
+                  (f) => {
+                    f.monSuiviRepository = monSuiviRepository,
+                    f.remoteConfigRepository = remoteConfigRepository,
+                  },
+                );
 
-          sut.thenExpectChangingStatesThroughOrder([_shouldSucceedForCurrentPeriod()]);
-        });
-      });
-    });
-
-    group("when requesting next period (4 WEEKS AFTER END OF CURRENT PERIOD)", () {
-      sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.next));
-
-      test('should request interval, aggregate data, then succeed when request succeeds', () {
-        withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-          when(() => repository.getMonSuivi('id', nextPeriodInterval)).thenAnswer((_) async => nextPeriodSuivi);
-
-          sut.givenStore = givenState() //
-              .loggedInUser()
-              .monSuivi(interval: currentPeriodInterval, monSuivi: currentPeriodSuivi)
-              .store((f) => {f.monSuiviRepository = repository});
-
-          sut.thenExpectChangingStatesThroughOrder([
-            _shouldSucceedForCurrentPeriod(),
-            _shouldSucceedForNextPeriodWithAggregatedData(),
-          ]);
-        });
-      });
-
-      test('should not load neither fail when request fails', () {
-        withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-          when(() => repository.getMonSuivi('id', nextPeriodInterval)).thenAnswer((_) async => null);
-
-          sut.givenStore = givenState() //
-              .loggedInUser()
-              .monSuivi(interval: currentPeriodInterval, monSuivi: currentPeriodSuivi)
-              .store((f) => {f.monSuiviRepository = repository});
-
-          sut.thenExpectChangingStatesThroughOrder([_shouldSucceedForCurrentPeriod()]);
-        });
-      });
-    });
-
-    group("when current period has error on sessions milo, but other period has not", () {
-      sut.whenDispatchingAction(() => MonSuiviRequestAction(MonSuiviPeriod.next));
-
-      test('should keep information on session milo error', () {
-        withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-          when(() => repository.getMonSuivi('id', nextPeriodInterval)).thenAnswer(
-            (_) async => nextPeriodSuivi.copyWith(errorOnSessionMiloRetrieval: false),
-          );
-
-          sut.givenStore = givenState() //
-              .loggedInUser()
-              .monSuivi(
-                interval: currentPeriodInterval,
-                monSuivi: currentPeriodSuivi.copyWith(errorOnSessionMiloRetrieval: true),
-              )
-              .store((f) => {f.monSuiviRepository = repository});
-
-          sut.thenExpectChangingStatesThroughOrder([
-            _shouldSucceedForCurrentPeriod(errorOnSessionMilo: true),
-            _shouldSucceedForNextPeriodWithAggregatedData(errorOnSessionMilo: true),
-          ]);
+            sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+          });
         });
       });
     });
@@ -178,18 +240,19 @@ void main() {
 
       test('should re-fetch mon suivi', () {
         withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-          when(() => repository.getMonSuivi('id', currentPeriodInterval)).thenAnswer((_) async => currentPeriodSuivi);
+          when(() => monSuiviRepository.getMonSuiviMilo('id', currentPeriodIntervalMilo))
+              .thenAnswer((_) async => currentPeriodSuiviMilo);
 
           sut.givenStore = givenState() //
               .loggedInUser()
-              .monSuivi(interval: currentPeriodInterval, monSuivi: currentPeriodSuivi)
-              .store((f) => {f.monSuiviRepository = repository});
+              .monSuivi(interval: currentPeriodIntervalMilo, monSuivi: currentPeriodSuiviMilo)
+              .store((f) => {f.monSuiviRepository = monSuiviRepository});
 
           sut.thenExpectChangingStatesThroughOrder([
-            _shouldSucceedForCurrentPeriod(),
+            _shouldSucceedForMiloOnCurrentPeriod(),
             _shouldReset(),
             _shouldLoad(),
-            _shouldSucceedForCurrentPeriod(),
+            _shouldSucceedForMiloOnCurrentPeriod(),
           ]);
         });
       });
@@ -203,20 +266,27 @@ Matcher _shouldFail() => StateIs<MonSuiviFailureState>((state) => state.monSuivi
 
 Matcher _shouldReset() => StateIs<MonSuiviNotInitializedState>((state) => state.monSuiviState);
 
-Matcher _shouldSucceedForCurrentPeriod({bool errorOnSessionMilo = false}) {
+Matcher _shouldSucceedForMiloOnCurrentPeriod({bool errorOnSessionMilo = false}) {
   return StateIs<MonSuiviSuccessState>(
     (state) => state.monSuiviState,
     (state) => expect(
       state,
       MonSuiviSuccessState(
-        currentPeriodInterval,
-        currentPeriodSuivi.copyWith(errorOnSessionMiloRetrieval: errorOnSessionMilo),
+        currentPeriodIntervalMilo,
+        currentPeriodSuiviMilo.copyWith(errorOnSessionMiloRetrieval: errorOnSessionMilo),
       ),
     ),
   );
 }
 
-Matcher _shouldSucceedForPreviousPeriodWithAggregatedData() {
+Matcher _shouldSucceedForPeOnPeriod() {
+  return StateIs<MonSuiviSuccessState>(
+    (state) => state.monSuiviState,
+    (state) => expect(state, MonSuiviSuccessState(currentPeriodIntervalPe, suiviPe)),
+  );
+}
+
+Matcher _shouldSucceedForMiloOnPreviousPeriodWithAggregatedData() {
   return StateIs<MonSuiviSuccessState>(
     (state) => state.monSuiviState,
     (state) => expect(
@@ -238,7 +308,7 @@ Matcher _shouldSucceedForPreviousPeriodWithAggregatedData() {
   );
 }
 
-Matcher _shouldSucceedForNextPeriodWithAggregatedData({bool errorOnSessionMilo = false}) {
+Matcher _shouldSucceedForMiloOnNextPeriodWithAggregatedData({bool errorOnSessionMilo = false}) {
   return StateIs<MonSuiviSuccessState>(
     (state) => state.monSuiviState,
     (state) => expect(

@@ -5,8 +5,11 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -23,6 +26,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
@@ -32,12 +36,12 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:shimmer/shimmer.dart';
 
-class MonSuiviMiloPage extends StatefulWidget {
+class MonSuiviPage extends StatefulWidget {
   @override
-  State<MonSuiviMiloPage> createState() => _MonSuiviMiloPageState();
+  State<MonSuiviPage> createState() => _MonSuiviPageState();
 }
 
-class _MonSuiviMiloPageState extends State<MonSuiviMiloPage> {
+class _MonSuiviPageState extends State<MonSuiviPage> {
   bool _onboardingShown = false;
 
   @override
@@ -48,7 +52,11 @@ class _MonSuiviMiloPageState extends State<MonSuiviMiloPage> {
         child: StoreConnector<AppState, MonSuiviViewModel>(
           onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
           converter: (store) => MonSuiviViewModel.create(store),
-          builder: (_, viewModel) => _Scaffold(body: _Body(viewModel), withCreateButton: viewModel.withCreateButton),
+          builder: (_, viewModel) => _Scaffold(
+            body: _Body(viewModel),
+            withCreateButton: viewModel.withCreateButton,
+            ctaType: viewModel.ctaType,
+          ),
           onDispose: (store) => store.dispatch(MonSuiviResetAction()),
           onDidChange: (_, viewModel) => _handleOnboarding(context, viewModel),
           distinct: true,
@@ -87,8 +95,9 @@ class _StateProvider extends InheritedWidget {
 class _Scaffold extends StatelessWidget {
   final Widget body;
   final bool withCreateButton;
+  final MonSuiviCtaType ctaType;
 
-  const _Scaffold({required this.body, required this.withCreateButton});
+  const _Scaffold({required this.body, required this.withCreateButton, required this.ctaType});
 
   @override
   Widget build(BuildContext context) {
@@ -99,14 +108,16 @@ class _Scaffold extends StatelessWidget {
       floatingActionButton: Visibility(
         visible: withCreateButton,
         child: PrimaryActionButton(
-          label: Strings.addAnAction,
-          icon: AppIcons.add_rounded,
+            label: ctaType == MonSuiviCtaType.createAction ? Strings.addAnAction : Strings.addADemarche,
+            icon: AppIcons.add_rounded,
           rippleColor: AppColors.primaryDarken,
-          onPressed: () => CreateUserActionFormPage.pushUserActionCreationTunnel(
-            context,
-            UserActionStateSource.monSuivi,
-          ),
-        ),
+            onPressed: () => switch (ctaType) {
+                  MonSuiviCtaType.createDemarche => CreateDemarcheStep1Page.pushDemarcheCreationTunnel(context),
+                  MonSuiviCtaType.createAction => CreateUserActionFormPage.pushUserActionCreationTunnel(
+                      context,
+                      UserActionStateSource.monSuivi,
+                    ),
+                }),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -136,7 +147,7 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
       title: Strings.monSuiviAppBarTitle,
       actionButton: withActionButton
           ? IconButton(
-        onPressed: () => _StateProvider.maybeOf(context)?.scrollController.animateTo(
+              onPressed: () => _StateProvider.maybeOf(context)?.scrollController.animateTo(
                     0,
                     duration: AnimationDurations.fast,
                     curve: Curves.fastEaseInToSlowEaseOut,
@@ -301,7 +312,7 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: pastItems.length + 1,
             itemBuilder: (context, index) {
-              if (index > pastItems.length - 2 && !loadingPreviousPeriod) {
+              if (viewModel.withPagination && index > pastItems.length - 2 && !loadingPreviousPeriod) {
                 viewModel.onLoadPreviousPeriod();
                 loadingPreviousPeriod = true;
 
@@ -316,7 +327,9 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
               if (index == pastItems.length) {
                 return Padding(
                   padding: const EdgeInsets.only(top: Margins.spacing_base),
-                  child: _PaginationLoader(),
+                  child: viewModel.withPagination
+                      ? _PaginationLoader()
+                      : _LimitReachedBanner(Strings.monSuiviPePastLimitReached),
                 );
               }
               return pastItems[index].toWidget();
@@ -327,7 +340,7 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: presentAndFutureItems.length + 1,
             itemBuilder: (context, index) {
-              if (index > presentAndFutureItems.length - 2 && !loadingNextPeriod) {
+              if (viewModel.withPagination && index > presentAndFutureItems.length - 2 && !loadingNextPeriod) {
                 viewModel.onLoadNextPeriod();
                 loadingNextPeriod = true;
 
@@ -341,8 +354,12 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
               }
               if (index == presentAndFutureItems.length) {
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-                  child: _PaginationLoader(),
+                  padding: EdgeInsets.only(
+                    bottom: viewModel.withPagination ? Margins.spacing_base : Margins.spacing_huge,
+                  ),
+                  child: viewModel.withPagination
+                      ? _PaginationLoader()
+                      : _LimitReachedBanner(Strings.monSuiviPeFutureLimitReached),
                 );
               }
               return Padding(
@@ -488,6 +505,27 @@ class _UserActionMonSuiviItem extends StatelessWidget {
   }
 }
 
+class _DemarcheMonSuiviItem extends StatelessWidget {
+  final DemarcheMonSuiviEntry entry;
+
+  const _DemarcheMonSuiviItem(this.entry);
+
+  @override
+  Widget build(BuildContext context) {
+    return DemarcheCard(
+      demarcheId: entry.id,
+      source: DemarcheStateSource.monSuivi,
+      onTap: () {
+        context.trackEvent(EventType.ACTION_DETAIL);
+        Navigator.push(
+          context,
+          DemarcheDetailPage.materialPageRoute(entry.id, DemarcheStateSource.monSuivi),
+        );
+      },
+    );
+  }
+}
+
 class _RendezvousMonSuiviItem extends StatelessWidget {
   final RendezvousMonSuiviEntry entry;
 
@@ -560,6 +598,21 @@ class _PaginationLoader extends StatelessWidget {
       baseColor: AppColors.loadingGreyPlaceholder,
       highlightColor: Colors.white,
       child: _MonSuiviItemLoader(),
+    );
+  }
+}
+
+class _LimitReachedBanner extends StatelessWidget {
+  final String text;
+
+  const _LimitReachedBanner(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyles.textXsMedium(color: AppColors.disabled),
+      textAlign: TextAlign.center,
     );
   }
 }
@@ -668,6 +721,7 @@ extension on MonSuiviEntry {
   Widget toWidget() {
     return switch (this) {
       final UserActionMonSuiviEntry entry => _UserActionMonSuiviItem(entry),
+      final DemarcheMonSuiviEntry entry => _DemarcheMonSuiviItem(entry),
       final RendezvousMonSuiviEntry entry => _RendezvousMonSuiviItem(entry),
       final SessionMiloMonSuiviEntry entry => _SessionMiloMonSuiviItem(entry),
     };

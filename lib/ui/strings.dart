@@ -371,14 +371,17 @@ class Strings {
   static String rendezvousTabTitle = "Rendez-vous";
   static String demarcheTabTitle = "Démarches";
 
-  // Mon Suivi Milo
+  // Mon Suivi
   static String monSuiviCetteSemaine = "Cette semaine";
   static String monSuiviSemaineProchaine = "Semaine prochaine";
-  static String monSuiviEmptyPast = "Aucun événement ni action";
+  static String monSuiviEmptyPastMilo = "Aucun événement ni action";
+  static String monSuiviEmptyPastPoleEmploi = "Aucun rendez-vous ni démarche";
   static String monSuiviEmptyFuture = "Rien de prévu";
   static String monSuiviError = "Erreur lors de la récupération de votre suivi";
   static String monSuiviSessionMiloError = "Des événements n’ont peut-être pas pu être récupérés.";
   static String monSuiviTooltip = "Aller à aujourd'hui";
+  static String monSuiviPePastLimitReached = "Les démarches et les rendez-vous plus anciens ne sont pas disponibles";
+  static String monSuiviPeFutureLimitReached = "Les démarches et les rendez-vous plus récents ne sont pas disponibles";
 
   // Agenda
   static String agendaEmptyTitle = "Vous n’avez rien de prévu cette semaine";

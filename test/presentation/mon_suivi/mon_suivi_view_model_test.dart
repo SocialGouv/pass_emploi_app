@@ -65,61 +65,146 @@ void main() {
   });
 
   group('items', () {
-    test('when no data on period', () {
-      withClock(Clock.fixed(dimanche14Janvier), () {
-        // Given
-        final store = givenState().monSuivi(interval: Interval(lundi1Janvier, dimanche7Janvier)).store();
+    group('for Milo users', () {
+      test('without data on period', () {
+        withClock(Clock.fixed(dimanche14Janvier), () {
+          // Given
+          final store = givenState() //
+              .loggedInMiloUser()
+              .monSuivi(interval: Interval(lundi1Janvier, dimanche7Janvier))
+              .store();
 
-        // When
-        final viewModel = MonSuiviViewModel.create(store);
+          // When
+          final viewModel = MonSuiviViewModel.create(store);
 
-        // Then
-        expect(viewModel.items, [
-          SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
-          EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1'), 'Aucun événement ni action'),
-          EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Aucun événement ni action'),
-          EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Aucun événement ni action'),
-          EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Aucun événement ni action'),
-          EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Aucun événement ni action'),
-          EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Aucun événement ni action'),
-          EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7'), 'Aucun événement ni action'),
-        ]);
+          // Then
+          expect(viewModel.items, [
+            SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
+            EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1'), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7'), 'Aucun événement ni action'),
+          ]);
+        });
       });
-    });
 
-    test('when data on period', () {
-      withClock(Clock.fixed(DateTime(2022)), () {
+      test('with data on period', () {
+        withClock(Clock.fixed(DateTime(2022)), () {
+          // Given
+          final store = givenState() //
+              .loggedInMiloUser()
+              .monSuivi(
+                interval: Interval(lundi1Janvier, dimanche7Janvier),
+                monSuivi: mockMonSuivi(
+                  actions: [mockUserAction(id: 'actionId', dateEcheance: lundi1Janvier)],
+                  rendezvous: [mockRendezvous(id: 'rendezvousId', date: dimanche7Janvier)],
+                  sessionsMilo: [mockSessionMilo(id: 'sessionMiloId', dateDeDebut: dimanche7Janvier)],
+                ),
+              )
+              .store();
+
+          // When
+          final viewModel = MonSuiviViewModel.create(store);
+
+          // Then
+          expect(viewModel.items, [
+            SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
+            FilledDayMonSuiviItem(MonSuiviDay('lun.', '1'), [
+              UserActionMonSuiviEntry('actionId'),
+            ]),
+            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Rien de prévu'),
+            FilledDayMonSuiviItem(MonSuiviDay('dim.', '7'), [
+              RendezvousMonSuiviEntry('rendezvousId'),
+              SessionMiloMonSuiviEntry('sessionMiloId'),
+            ]),
+          ]);
+        });
+      });
+
+      test('when error on session milo occurred on period should display warning', () {
         // Given
-        final store = givenState()
-            .monSuivi(
-              interval: Interval(lundi1Janvier, dimanche7Janvier),
-              monSuivi: mockMonSuivi(
-                actions: [mockUserAction(id: 'actionId', dateEcheance: lundi1Janvier)],
-                rendezvous: [mockRendezvous(id: 'rendezvousId', date: dimanche7Janvier)],
-                sessionsMilo: [mockSessionMilo(id: 'sessionMiloId', dateDeDebut: dimanche7Janvier)],
-              ),
-            )
+        final store = givenState() //
+            .loggedInMiloUser()
+            .monSuivi(monSuivi: mockMonSuivi(errorOnSessionMiloRetrieval: true))
             .store();
 
         // When
         final viewModel = MonSuiviViewModel.create(store);
 
         // Then
-        expect(viewModel.items, [
-          SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
-          FilledDayMonSuiviItem(MonSuiviDay('lun.', '1'), [
-            UserActionMonSuiviEntry('actionId'),
-          ]),
-          EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Rien de prévu'),
-          EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Rien de prévu'),
-          EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Rien de prévu'),
-          EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Rien de prévu'),
-          EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Rien de prévu'),
-          FilledDayMonSuiviItem(MonSuiviDay('dim.', '7'), [
-            RendezvousMonSuiviEntry('rendezvousId'),
-            SessionMiloMonSuiviEntry('sessionMiloId'),
-          ]),
-        ]);
+        expect(viewModel.withWarningOnWrongSessionMiloRetrieval, isTrue);
+      });
+    });
+
+    group('for Pôle emploi users', () {
+      test('without data on period', () {
+        withClock(Clock.fixed(dimanche14Janvier), () {
+          // Given
+          final store = givenState() //
+              .loggedInPoleEmploiUser()
+              .monSuivi(interval: Interval(lundi1Janvier, dimanche7Janvier))
+              .store();
+
+          // When
+          final viewModel = MonSuiviViewModel.create(store);
+
+          // Then
+          expect(viewModel.items, [
+            SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
+            EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1'), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7'), 'Aucun rendez-vous ni démarche'),
+          ]);
+        });
+      });
+
+      test('with data on period', () {
+        withClock(Clock.fixed(DateTime(2022)), () {
+          // Given
+          final store = givenState() //
+              .loggedInPoleEmploiUser()
+              .monSuivi(
+                interval: Interval(lundi1Janvier, dimanche7Janvier),
+                monSuivi: mockMonSuivi(
+                  demarches: [
+                    mockDemarche(id: 'demarcheId', endDate: lundi1Janvier),
+                    mockDemarche(id: 'demarche without end date > should be filtered'),
+                  ],
+                  rendezvous: [mockRendezvous(id: 'rendezvousId', date: dimanche7Janvier)],
+                ),
+              )
+              .store();
+
+          // When
+          final viewModel = MonSuiviViewModel.create(store);
+
+          // Then
+          expect(viewModel.items, [
+            SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
+            FilledDayMonSuiviItem(MonSuiviDay('lun.', '1'), [
+              DemarcheMonSuiviEntry('demarcheId'),
+            ]),
+            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Rien de prévu'),
+            FilledDayMonSuiviItem(MonSuiviDay('dim.', '7'), [
+              RendezvousMonSuiviEntry('rendezvousId'),
+            ]),
+          ]);
+        });
       });
     });
 
@@ -162,17 +247,6 @@ void main() {
         expect(viewModel.items.whereType<FilledDayMonSuiviItem>().firstOrNull, isNotNull);
       });
     });
-
-    test('when error on session milo occurred on period should display warning', () {
-      // Given
-      final store = givenState().monSuivi(monSuivi: mockMonSuivi(errorOnSessionMiloRetrieval: true)).store();
-
-      // When
-      final viewModel = MonSuiviViewModel.create(store);
-
-      // Then
-      expect(viewModel.withWarningOnWrongSessionMiloRetrieval, isTrue);
-    });
   });
 
   test('indexOfTodayItem', () {
@@ -212,6 +286,30 @@ void main() {
     });
   });
 
+  group('ctaType', () {
+    test('for Milo users', () {
+      // Given
+      final store = givenState().loggedInMiloUser().monSuivi().store();
+
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
+
+      // Then
+      expect(viewModel.ctaType, MonSuiviCtaType.createAction);
+    });
+
+    test('for Pôle emploi users', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().monSuivi().store();
+
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
+
+      // Then
+      expect(viewModel.ctaType, MonSuiviCtaType.createDemarche);
+    });
+  });
+
   test('pendingActionCreations', () {
     // Given
     final store = givenState().copyWith(userActionCreatePendingState: UserActionCreatePendingSuccessState(10)).store();
@@ -236,6 +334,30 @@ void main() {
     expect(store.dispatchedActions[0] is MonSuiviResetAction, isTrue);
     expect(store.dispatchedActions[1] is MonSuiviRequestAction, isTrue);
     expect((store.dispatchedActions[1] as MonSuiviRequestAction).period, MonSuiviPeriod.current);
+  });
+
+  group('withPagination', () {
+    test('should return true for Milo users', () {
+      // Given
+      final store = givenState().loggedInMiloUser().store();
+
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
+
+      // Then
+      expect(viewModel.withPagination, isTrue);
+    });
+
+    test('should return false for Pôle emploi users', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().store();
+
+      // When
+      final viewModel = MonSuiviViewModel.create(store);
+
+      // Then
+      expect(viewModel.withPagination, isFalse);
+    });
   });
 
   test('onLoadPreviousPeriod', () {

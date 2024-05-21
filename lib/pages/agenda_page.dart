@@ -383,7 +383,7 @@ class _DemarcheAgendaItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
       child: DemarcheCard(
         demarcheId: demarcheAgendaItem.demarcheId,
-        stateSource: DemarcheStateSource.agenda,
+        source: DemarcheStateSource.agenda,
         onTap: () {
           context.trackEvent(EventType.ACTION_DETAIL);
           Navigator.push(

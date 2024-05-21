@@ -1224,12 +1224,14 @@ UserActionUpdateRequest mockUserActionUpdateRequest([UserActionStatus status = U
 
 MonSuivi mockMonSuivi({
   List<UserAction>? actions,
+  List<Demarche>? demarches,
   List<Rendezvous>? rendezvous,
   List<SessionMilo>? sessionsMilo,
   bool errorOnSessionMiloRetrieval = false,
 }) {
   return MonSuivi(
     actions: actions ?? [],
+    demarches: demarches ?? [],
     rendezvous: rendezvous ?? [],
     sessionsMilo: sessionsMilo ?? [],
     errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval,
