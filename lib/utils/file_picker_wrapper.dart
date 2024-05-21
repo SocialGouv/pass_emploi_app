@@ -8,7 +8,7 @@ class FilePickerOutput {
 }
 
 class FilePickerWrapper {
-  static const int maxFilesize = 10 * 1024 * 1024;
+  static const int maxFilesize = 5 * 1024 * 1024;
   static Future<FilePickerOutput?> pickFile() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
