@@ -36,6 +36,7 @@ class AppIcons {
   static const IconData content_copy_rounded = Icons.content_copy_rounded;
   static const IconData camera_alt_outlined = Icons.camera_alt_outlined;
   static const IconData image_outlined = Icons.image_outlined;
+  static const IconData image_not_supported_outlined = Icons.image_not_supported_outlined;
   static const IconData description_outlined = Icons.description_outlined;
 
   // Information
