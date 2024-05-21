@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -7,6 +8,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/file_picker_wrapper.dart';
 import 'package:pass_emploi_app/utils/image_picker_wrapper.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 sealed class ChatPieceJointeBottomSheetResult {
@@ -41,6 +43,7 @@ class ChatPieceJointeBottomSheet extends StatefulWidget {
 class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet> {
   bool showFileTooLargeMessage = false;
   bool showLoading = false;
+  bool showPermissionDenied = false;
 
   void _isFileTooLarge(bool isFileTooLarge) {
     setState(() {
@@ -56,6 +59,12 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
     });
   }
 
+  void _onPickImagePermissionError() {
+    setState(() {
+      showPermissionDenied = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomSheetWrapper(
@@ -66,6 +75,10 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
         child: SingleChildScrollView(
           child: Column(
             children: [
+              if (showPermissionDenied) ...[
+                SizedBox(height: Margins.spacing_m),
+                _PermissionDeniedWarning(),
+              ],
               if (showFileTooLargeMessage) ...[
                 SizedBox(height: Margins.spacing_m),
                 _FileTooLargeWarning(),
@@ -77,12 +90,16 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
               SizedBox(height: Margins.spacing_m),
               _PieceJointeWarning(),
               SizedBox(height: Margins.spacing_base),
-              _TakePictureButton(),
+              _TakePictureButton(
+                onPickImagePermissionError: _onPickImagePermissionError,
+              ),
               _SelectFileButton(
                 isFileTooLarge: _isFileTooLarge,
                 pickFileSarted: _pickFileSarted,
               ),
-              _SelectPictureButton(),
+              _SelectPictureButton(
+                onPickImagePermissionError: _onPickImagePermissionError,
+              ),
             ],
           ),
         ),
@@ -109,6 +126,9 @@ class _PieceJointeWarning extends StatelessWidget {
 }
 
 class _SelectPictureButton extends StatelessWidget {
+  final void Function() onPickImagePermissionError;
+
+  const _SelectPictureButton({required this.onPickImagePermissionError});
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -117,8 +137,10 @@ class _SelectPictureButton extends StatelessWidget {
       title: Text(Strings.chatPieceJointeBottomSheetSelectImageButton, style: TextStyles.textBaseBold),
       onTap: () async {
         final result = await ImagePickerWrapper.pickSingleImage();
-        if (result != null && context.mounted) {
-          Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result));
+        if (context.mounted && result is ImagePickerSuccessResult) {
+          Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result.path));
+        } else if (result is ImagePickerPermissionErrorResult) {
+          onPickImagePermissionError();
         }
       },
     );
@@ -126,6 +148,9 @@ class _SelectPictureButton extends StatelessWidget {
 }
 
 class _TakePictureButton extends StatelessWidget {
+  final void Function() onPickImagePermissionError;
+
+  const _TakePictureButton({required this.onPickImagePermissionError});
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -134,8 +159,10 @@ class _TakePictureButton extends StatelessWidget {
       title: Text(Strings.chatPieceJointeBottomSheetTakeImageButton, style: TextStyles.textBaseBold),
       onTap: () async {
         final result = await ImagePickerWrapper.takeSinglePicture();
-        if (result != null && context.mounted) {
-          Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result));
+        if (context.mounted && result is ImagePickerSuccessResult) {
+          Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result.path));
+        } else if (result is ImagePickerPermissionErrorResult) {
+          onPickImagePermissionError();
         }
       },
     );
@@ -187,6 +214,30 @@ class _FileTooLargeWarning extends StatelessWidget {
           Strings.chatPieceJointeBottomSheetFileTooLarge,
           style: TextStyles.textBaseRegular.copyWith(color: AppColors.warning),
         ),
+      ],
+    );
+  }
+}
+
+class _PermissionDeniedWarning extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox.square(dimension: 100, child: Illustration.orange(AppIcons.image_not_supported_outlined)),
+        SizedBox(height: Margins.spacing_base),
+        Text(
+          Strings.chatPieceJointePermissionError,
+          style: TextStyles.textBaseRegular.copyWith(color: AppColors.alert),
+        ),
+        SizedBox(height: Margins.spacing_base),
+        SizedBox(
+          width: double.infinity,
+          child: SecondaryButton(
+            label: Strings.chatPieceJointeOpenAppSettings,
+            onPressed: () => AppSettings.openAppSettings(),
+          ),
+        )
       ],
     );
   }
