@@ -1,4 +1,6 @@
 import 'package:clock/clock.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
@@ -78,6 +80,12 @@ class MonSuiviMiddleware extends MiddlewareClass<AppState> {
   }
 
   bool _needUpdatingMonSuivi(Store<AppState> store, dynamic action) {
-    return action is UserActionCreateSuccessAction && store.state.monSuiviState is MonSuiviSuccessState;
+    if (store.state.monSuiviState is! MonSuiviSuccessState) return false;
+    return switch (action) {
+      UserActionCreateSuccessAction _ => true,
+      CreateDemarcheSuccessAction _ => true,
+      UpdateDemarcheSuccessAction _ => true,
+      _ => false,
+    };
   }
 }
