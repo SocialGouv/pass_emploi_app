@@ -28,10 +28,11 @@ class MonSuiviSuccessState extends MonSuiviState {
       interval,
       MonSuivi(
         actions: actions,
-        demarches: monSuivi.demarches,
         rendezvous: monSuivi.rendezvous,
         sessionsMilo: monSuivi.sessionsMilo,
         errorOnSessionMiloRetrieval: monSuivi.errorOnSessionMiloRetrieval,
+        demarches: [],
+        errorOnPoleEmploiDataRetrieval: false,
       ),
     );
   }

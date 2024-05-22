@@ -61,9 +61,6 @@ class _AgendaPageState extends State<AgendaPage> {
   }
 
   void _onDidChange(BuildContext context, AgendaPageViewModel? previous, AgendaPageViewModel current) {
-    if (previous?.isReloading == true && _currentAgendaIsUpToDate(current)) {
-      showSnackBarWithInformation(context, Strings.agendaPeUpToDate);
-    }
     _handleOnboarding(current);
   }
 
@@ -72,11 +69,6 @@ class _AgendaPageState extends State<AgendaPage> {
       _onboardingShown = true;
       OnboardingBottomSheet.show(context, source: OnboardingSource.monSuivi);
     }
-  }
-
-  bool _currentAgendaIsUpToDate(AgendaPageViewModel current) {
-    return [DisplayState.CONTENT, DisplayState.EMPTY].contains(current.displayState) &&
-        (current.events.isEmpty || current.events.first is! NotUpToDateAgendaItem);
   }
 }
 
@@ -221,7 +213,7 @@ class _NotUpToDateMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NotUpToDateMessage(
-      message: Strings.agendaPeNotUpToDate,
+      message: Strings.monSuiviPeNotUpToDate,
       margin: EdgeInsets.only(bottom: Margins.spacing_base),
       onRefresh: () => _viewModel.reload(DateTime.now()),
     );

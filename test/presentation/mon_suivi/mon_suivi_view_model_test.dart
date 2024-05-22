@@ -206,6 +206,20 @@ void main() {
           ]);
         });
       });
+
+      test('when error on Pôle emploi data occurred on period should display warning', () {
+        // Given
+        final store = givenState() //
+            .loggedInPoleEmploiUser()
+            .monSuivi(monSuivi: mockMonSuivi(errorOnPoleEmploiDataRetrieval: true))
+            .store();
+
+        // When
+        final viewModel = MonSuiviViewModel.create(store);
+
+        // Then
+        expect(viewModel.withWarningOnWrongPoleEmploiDataRetrieval, isTrue);
+      });
     });
 
     test('when period contains current and next week', () {
