@@ -3,8 +3,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
-import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 
 class DemarcheCard extends StatelessWidget {
   final String demarcheId;
@@ -20,25 +22,28 @@ class DemarcheCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, DemarcheCardViewModel>(
-      rebuildOnChange: false,
-      converter: (store) => DemarcheCardViewModel.create(
-        store: store,
-        stateSource: source,
-        demarcheId: demarcheId,
-      ),
-      builder: _build,
+      converter: (store) => DemarcheCardViewModel.create(store: store, stateSource: source, demarcheId: demarcheId),
+      builder: _builder,
+      distinct: true,
     );
   }
 
-  Widget _build(BuildContext context, DemarcheCardViewModel viewModel) {
-    return BaseCard(
-      pillule: viewModel.pilluleType?.toDemarcheCardPillule(),
-      title: viewModel.titre,
-      body: viewModel.sousTitre,
-      onTap: onTap,
-      complements: [
-        viewModel.isLate ? CardComplement.dateLate(text: viewModel.date) : CardComplement.date(text: viewModel.date),
-      ],
+  Widget _builder(BuildContext context, DemarcheCardViewModel viewModel) {
+    return Semantics(
+      label: viewModel.semanticLabel,
+      child: BaseCard(
+        onTap: onTap,
+        title: viewModel.title,
+        tag: viewModel.categoryText != null
+            ? CardTag(
+                icon: AppIcons.emploi,
+                text: viewModel.categoryText!,
+                contentColor: AppColors.primary,
+                backgroundColor: AppColors.primaryLighten,
+              )
+            : null,
+        pillule: viewModel.pillule.toDemarcheCardPillule(),
+      ),
     );
   }
 }

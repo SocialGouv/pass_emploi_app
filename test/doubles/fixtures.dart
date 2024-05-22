@@ -680,6 +680,8 @@ UserAction mockUserAction({
 
 Demarche mockDemarche({
   String id = 'id',
+  String? content,
+  String? label,
   DemarcheStatus status = DemarcheStatus.NOT_STARTED,
   DateTime? endDate,
   DateTime? deletionDate,
@@ -687,12 +689,12 @@ Demarche mockDemarche({
 }) {
   return Demarche(
     id: id,
-    content: null,
+    content: content,
     status: status,
     endDate: endDate,
     deletionDate: deletionDate,
     createdByAdvisor: true,
-    label: null,
+    label: label,
     possibleStatus: [],
     creationDate: null,
     modifiedByAdvisor: false,
