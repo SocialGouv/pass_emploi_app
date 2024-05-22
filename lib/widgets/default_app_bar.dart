@@ -40,6 +40,10 @@ class PrimarySliverAppbar extends StatelessWidget {
               sigmaY: 8,
             ),
             child: FlexibleSpaceBar(
+              titlePadding: EdgeInsetsDirectional.only(
+                start: 0,
+                bottom: Margins.spacing_base,
+              ),
               expandedTitleScale: FontSizes.xl / FontSizes.huge,
               title: Padding(
                 padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
