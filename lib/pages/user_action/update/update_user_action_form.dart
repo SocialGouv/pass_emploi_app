@@ -125,6 +125,7 @@ class _BodyState extends State<_Body> {
                   const SizedBox(height: Margins.spacing_base),
                   _Buttons(
                     canSave: _changeNotifier.canSave(),
+                    canDelete: widget.viewModel.showDelete,
                     onSave: () => widget.viewModel.save(
                       _changeNotifier.dateInputSource.selectedDate,
                       _changeNotifier.title,
@@ -195,9 +196,10 @@ class _CategorySelectionPage extends StatelessWidget {
 }
 
 class _Buttons extends StatelessWidget {
-  const _Buttons({required this.canSave, required this.onSave, required this.onDelete});
+  const _Buttons({required this.canSave, required this.canDelete, required this.onSave, required this.onDelete});
 
   final bool canSave;
+  final bool canDelete;
   final void Function() onSave;
   final void Function() onDelete;
 
