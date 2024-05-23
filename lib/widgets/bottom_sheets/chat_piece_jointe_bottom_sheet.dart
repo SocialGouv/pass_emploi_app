@@ -59,6 +59,12 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
     });
   }
 
+  void _pickFileEnded() {
+    setState(() {
+      showLoading = false;
+    });
+  }
+
   void _onPickImagePermissionError() {
     setState(() {
       showPermissionDenied = true;
@@ -96,6 +102,7 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
               _SelectFileButton(
                 isFileTooLarge: _isFileTooLarge,
                 pickFileSarted: _pickFileSarted,
+                pickFileEnded: _pickFileEnded,
               ),
               _SelectPictureButton(
                 onPickImagePermissionError: _onPickImagePermissionError,
@@ -172,7 +179,8 @@ class _TakePictureButton extends StatelessWidget {
 class _SelectFileButton extends StatelessWidget {
   final void Function(bool isFileTooLarge) isFileTooLarge;
   final void Function() pickFileSarted;
-  const _SelectFileButton({required this.isFileTooLarge, required this.pickFileSarted});
+  final void Function() pickFileEnded;
+  const _SelectFileButton({required this.isFileTooLarge, required this.pickFileSarted, required this.pickFileEnded});
 
   @override
   Widget build(BuildContext context) {
@@ -186,6 +194,7 @@ class _SelectFileButton extends StatelessWidget {
         if (context.mounted) {
           _onFilePicked(context, result);
         }
+        pickFileEnded();
       },
     );
   }
