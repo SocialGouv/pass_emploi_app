@@ -211,7 +211,7 @@ class _Buttons extends StatelessWidget {
       children: [
         _SaveButton(isActive: canSave, onSave: onSave),
         const SizedBox(height: Margins.spacing_s),
-        _DeleteButton(onDelete: onDelete),
+        if (canDelete) _DeleteButton(onDelete: onDelete),
       ],
     );
   }
