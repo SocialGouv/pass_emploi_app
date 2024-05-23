@@ -32,7 +32,7 @@ class MonSuiviSuccessState extends MonSuiviState {
         sessionsMilo: monSuivi.sessionsMilo,
         errorOnSessionMiloRetrieval: monSuivi.errorOnSessionMiloRetrieval,
         demarches: [],
-        errorOnPoleEmploiDataRetrieval: false,
+        dateDerniereMiseAJourPoleEmploi: null,
       ),
     );
   }

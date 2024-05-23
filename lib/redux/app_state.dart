@@ -50,7 +50,6 @@ import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
-import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
@@ -100,7 +99,6 @@ class AppState extends Equatable {
   final FavoriUpdateState favoriUpdateState;
   final SearchLocationState searchLocationState;
   final SearchMetierState searchMetierState;
-  final RendezvousListState rendezvousListState;
   final RendezvousDetailsState rendezvousDetailsState;
   final ImmersionDetailsState immersionDetailsState;
   final AlerteCreateState<OffreEmploiAlerte> offreEmploiAlerteCreateState;
@@ -176,7 +174,6 @@ class AppState extends Equatable {
     required this.favoriUpdateState,
     required this.searchLocationState,
     required this.searchMetierState,
-    required this.rendezvousListState,
     required this.rendezvousDetailsState,
     required this.immersionDetailsState,
     required this.offreEmploiAlerteCreateState,
@@ -250,7 +247,6 @@ class AppState extends Equatable {
     final FavoriUpdateState? favoriUpdateState,
     final SearchLocationState? searchLocationState,
     final SearchMetierState? searchMetierState,
-    final RendezvousListState? rendezvousListState,
     final RendezvousDetailsState? rendezvousDetailsState,
     final OffreEmploiDetailsState? offreEmploiDetailsState,
     final ImmersionDetailsState? immersionDetailsState,
@@ -326,7 +322,6 @@ class AppState extends Equatable {
       favoriUpdateState: favoriUpdateState ?? this.favoriUpdateState,
       searchLocationState: searchLocationState ?? this.searchLocationState,
       searchMetierState: searchMetierState ?? this.searchMetierState,
-      rendezvousListState: rendezvousListState ?? this.rendezvousListState,
       rendezvousDetailsState: rendezvousDetailsState ?? this.rendezvousDetailsState,
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
       offreEmploiAlerteCreateState: offreEmploiAlerteCreateState ?? this.offreEmploiAlerteCreateState,
@@ -404,7 +399,6 @@ class AppState extends Equatable {
       favoriUpdateState: FavoriUpdateState({}),
       searchLocationState: SearchLocationState([]),
       searchMetierState: SearchMetierState([]),
-      rendezvousListState: RendezvousListState.notInitialized(),
       rendezvousDetailsState: RendezvousDetailsNotInitializedState(),
       immersionDetailsState: ImmersionDetailsNotInitializedState(),
       offreEmploiAlerteCreateState: AlerteCreateState<OffreEmploiAlerte>.notInitialized(),
@@ -479,7 +473,6 @@ class AppState extends Equatable {
         searchLocationState,
         searchMetierState,
         loginState,
-        rendezvousListState,
         rendezvousDetailsState,
         immersionDetailsState,
         offreEmploiAlerteCreateState,

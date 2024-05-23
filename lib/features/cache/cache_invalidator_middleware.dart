@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_actions.dart';
-import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
@@ -65,12 +64,6 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
       await cacheManager.removeResource(CachedResource.UPDATE_PARTAGE_ACTIVITE, userId);
     }
 
-    if (_shouldInvalidateRendezvous(action)) {
-      await cacheManager.removeResource(CachedResource.RENDEZVOUS_FUTURS, userId);
-      await cacheManager.removeResource(CachedResource.RENDEZVOUS_PASSES, userId);
-      next(RendezvousListResetAction());
-    }
-
     next(action);
   }
 }
@@ -113,19 +106,12 @@ bool _shouldInvalidateDemarchesList(dynamic action) {
       action is UpdateDemarcheSuccessAction;
 }
 
-bool _shouldInvalidateRendezvous(dynamic action) {
-  return (action is RendezvousListRequestReloadAction && action.forceRefresh) ||
-      _isExternalDeepLinkOf<RendezvousDeepLink>(action);
-}
-
 bool _shouldInvalidateAnimationsCollectives(dynamic action) {
   return (action is EventListRequestAction && action.forceRefresh);
 }
 
 bool _shouldInvalidateSessionsMiloInscrit(dynamic action) {
-  return (action is RendezvousListRequestReloadAction && action.forceRefresh) ||
-      _isExternalDeepLinkOf<RendezvousDeepLink>(action) ||
-      _isExternalDeepLinkOf<SessionMiloDeepLink>(action);
+  return _isExternalDeepLinkOf<RendezvousDeepLink>(action) || _isExternalDeepLinkOf<SessionMiloDeepLink>(action);
 }
 
 bool _shouldInvalidateSessionsMiloList(dynamic action) {

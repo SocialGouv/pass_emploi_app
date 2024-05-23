@@ -56,7 +56,6 @@ import 'package:pass_emploi_app/features/recherche/service_civique/service_civiq
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_reducer.dart';
-import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_reducer.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_reducer.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_reducer.dart';
@@ -117,7 +116,6 @@ AppState reducer(AppState current, dynamic action) {
     searchLocationState: searchLocationReducer(current.searchLocationState, action),
     searchMetierState: searchMetierReducer(current.searchMetierState, action),
     loginState: loginReducer(current.loginState, action),
-    rendezvousListState: rendezvousListReducer(current.rendezvousListState, action),
     rendezvousDetailsState: rendezvousDetailsReducer(current.rendezvousDetailsState, action),
     immersionDetailsState: immersionDetailsReducer(current.immersionDetailsState, action),
     offreEmploiAlerteCreateState: alerteCreateReducer<OffreEmploiAlerte>(

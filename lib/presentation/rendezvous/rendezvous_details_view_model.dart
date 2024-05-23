@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
@@ -222,10 +222,8 @@ class RendezvousDetailsViewModel extends Equatable {
 }
 
 DateTime? _getDateDerniereMiseAJour(Store<AppState> store, RendezvousStateSource source) {
-  if (source == RendezvousStateSource.agenda && store.state.agendaState is AgendaSuccessState) {
-    return (store.state.agendaState as AgendaSuccessState).agenda.dateDerniereMiseAJour;
-  } else if (source == RendezvousStateSource.rendezvousList) {
-    return store.state.rendezvousListState.dateDerniereMiseAJour;
+  if (source == RendezvousStateSource.monSuivi && store.state.monSuiviState is MonSuiviSuccessState) {
+    return (store.state.monSuiviState as MonSuiviSuccessState).monSuivi.dateDerniereMiseAJourPoleEmploi;
   }
   return null;
 }

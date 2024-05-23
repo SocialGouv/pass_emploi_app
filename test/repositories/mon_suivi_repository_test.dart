@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../dsl/sut_dio_repository.dart';
+import '../utils/test_datetime.dart';
 
 void main() {
   group('MonSuiviRepository', () {
@@ -42,7 +43,7 @@ void main() {
                   rendezvous: [rendezvousStub()],
                   sessionsMilo: [mockSessionMiloAtelierCv()],
                   errorOnSessionMiloRetrieval: false,
-                  errorOnPoleEmploiDataRetrieval: false,
+                  dateDerniereMiseAJourPoleEmploi: null,
                 ),
               );
             });
@@ -75,7 +76,7 @@ void main() {
                   rendezvous: [rendezvousStub()],
                   sessionsMilo: [],
                   errorOnSessionMiloRetrieval: true,
-                  errorOnPoleEmploiDataRetrieval: false,
+                  dateDerniereMiseAJourPoleEmploi: null,
                 ),
               );
             });
@@ -109,7 +110,7 @@ void main() {
                 rendezvous: [rendezvousStub()],
                 sessionsMilo: [],
                 errorOnSessionMiloRetrieval: false,
-                errorOnPoleEmploiDataRetrieval: false,
+                dateDerniereMiseAJourPoleEmploi: null,
               ),
             );
           });
@@ -141,7 +142,10 @@ void main() {
           test('response should be valid', () async {
             await sut.expectResult<MonSuivi?>((result) {
               expect(result, isNotNull);
-              expect(result!.errorOnPoleEmploiDataRetrieval, isTrue);
+              expect(
+                result!.dateDerniereMiseAJourPoleEmploi,
+                parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
+              );
             });
           });
         });

@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
-import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_partage_page_view_model.dart';
@@ -16,47 +15,40 @@ import 'package:redux/redux.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
-import '../../utils/test_setup.dart';
 
 void main() {
   group('with RendezvousStateSource', () {
-    test('create when rendezvous list state is not successful throws exception', () {
+    test('create when mon suivi state is not successful throws exception', () {
       // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(rendezvousListState: RendezvousListState.loadingFuture()),
-      );
+      final store = givenState().store();
 
       // Then
       expect(
           () => RendezvousDetailsViewModel.create(
                 store: store,
-                source: RendezvousStateSource.rendezvousList,
+                source: RendezvousStateSource.monSuivi,
                 rdvId: '1',
                 platform: Platform.IOS,
               ),
           throwsException);
     });
 
-    test('create when rendezvous list state is successful but no rendezvous is matching ID throws exception', () {
+    test('create when mon suivi state is successful but no rendezvous is matching ID throws exception', () {
       // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(
-          rendezvousListState: RendezvousListState.successfulFuture(rendezvous: [mockRendezvous(id: '1')]),
-        ),
-      );
+      final store = _store(mockRendezvous(id: '1'));
 
       // Then
       expect(
           () => RendezvousDetailsViewModel.create(
                 store: store,
-                source: RendezvousStateSource.rendezvousList,
+                source: RendezvousStateSource.monSuivi,
                 rdvId: '2',
                 platform: Platform.IOS,
               ),
           throwsException);
     });
 
-    group('create when rendezvous list state is successful…', () {
+    group('create when mon suivi state is successful…', () {
       test('and date is neither today neither tomorrow', () {
         // Given
         final store = _store(mockRendezvous(id: '1', date: DateTime(2022, 3, 1)));
@@ -64,7 +56,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -80,7 +72,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -96,7 +88,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -112,7 +104,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -128,7 +120,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -144,7 +136,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -160,7 +152,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -178,7 +170,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -196,7 +188,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -214,7 +206,7 @@ void main() {
             // When
             final viewModel = RendezvousDetailsViewModel.create(
               store: store,
-              source: RendezvousStateSource.rendezvousList,
+              source: RendezvousStateSource.monSuivi,
               rdvId: '1',
               platform: Platform.IOS,
             );
@@ -254,7 +246,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -270,7 +262,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -287,7 +279,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -304,7 +296,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -325,7 +317,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -342,7 +334,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -358,7 +350,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.ANDROID,
         );
@@ -379,7 +371,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -402,7 +394,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -424,7 +416,7 @@ void main() {
           // When
           final viewModel = RendezvousDetailsViewModel.create(
             store: store,
-            source: RendezvousStateSource.rendezvousList,
+            source: RendezvousStateSource.monSuivi,
             rdvId: '1',
             platform: Platform.IOS,
           );
@@ -446,7 +438,7 @@ void main() {
           // When
           final viewModel = RendezvousDetailsViewModel.create(
             store: store,
-            source: RendezvousStateSource.rendezvousList,
+            source: RendezvousStateSource.monSuivi,
             rdvId: '1',
             platform: Platform.IOS,
           );
@@ -463,7 +455,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -479,7 +471,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -495,7 +487,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -511,7 +503,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -527,7 +519,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -545,7 +537,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -563,7 +555,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -579,7 +571,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -596,7 +588,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -612,7 +604,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -630,7 +622,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -646,7 +638,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -669,7 +661,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -864,7 +856,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.rendezvousList,
+          source: RendezvousStateSource.monSuivi,
           rdvId: '1',
           platform: Platform.IOS,
         );
@@ -1106,12 +1098,12 @@ void main() {
     test('is of type ATELIER should be track as an Animation Collective', () {
       // Given
       final rdv = mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ATELIER, ''));
-      final store = givenState().loggedInUser().rendezvous(rendezvous: [rdv]).store();
+      final store = _store(rdv);
 
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.rendezvousList,
+        source: RendezvousStateSource.monSuivi,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -1123,12 +1115,12 @@ void main() {
     test('is of type INFORMATION_COLLECTIVE should be track as an Animation Collective', () {
       // Given
       final rdv = mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.INFORMATION_COLLECTIVE, ''));
-      final store = givenState().loggedInUser().rendezvous(rendezvous: [rdv]).store();
+      final store = _store(rdv);
 
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.rendezvousList,
+        source: RendezvousStateSource.monSuivi,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -1140,12 +1132,12 @@ void main() {
     test('otherwise should be track as a Rendezvous', () {
       // Given
       final rdv = mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, ''));
-      final store = givenState().loggedInUser().rendezvous(rendezvous: [rdv]).store();
+      final store = _store(rdv);
 
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.rendezvousList,
+        source: RendezvousStateSource.monSuivi,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -1156,13 +1148,16 @@ void main() {
   });
 }
 
-Store<AppState> _store(Rendezvous rendezvous) {
-  return givenState().loggedInUser().rendezvous(rendezvous: [rendezvous]).store();
-}
+Store<AppState> _store(Rendezvous rendezvous) => _storeNotUpToDate(rendezvous, null);
 
-Store<AppState> _storeNotUpToDate(Rendezvous rendezvous, DateTime dateDerniereMiseAJour) {
+Store<AppState> _storeNotUpToDate(Rendezvous rendezvous, DateTime? dateDerniereMiseAJour) {
   return givenState()
       .loggedInUser()
-      .rendezvous(rendezvous: [rendezvous], dateDerniereMiseAJour: dateDerniereMiseAJour) //
+      .monSuivi(
+        monSuivi: mockMonSuivi(
+          rendezvous: [rendezvous],
+          dateDerniereMiseAJourPoleEmploi: dateDerniereMiseAJour,
+        ),
+      )
       .store();
 }

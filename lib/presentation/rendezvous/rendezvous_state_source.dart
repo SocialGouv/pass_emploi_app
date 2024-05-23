@@ -5,8 +5,6 @@ enum RendezvousStateSource {
   accueilLesEvenementsSession,
   agenda,
   monSuivi,
-  rendezvousList,
-  rendezvousListSession,
   eventListAnimationsCollectives,
   eventListSessionsMilo,
   sessionMiloDetails,

@@ -36,7 +36,7 @@ class RendezvousCardViewModel extends Equatable {
     return RendezvousCardViewModel(
       id: rdv.id,
       tag: rdv.type.label,
-      date: _date(source, rdv),
+      date: rdv.date.toHourWithHSeparator(),
       inscriptionStatus: _inscription(rdv, source),
       isAnnule: rdv.isAnnule,
       title: rdv.title ?? '',
@@ -67,10 +67,4 @@ String? _place(Rendezvous rdv) {
     return Strings.rendezvousModalityCardMessage(modality, '${conseiller.firstName} ${conseiller.lastName}');
   }
   return modality;
-}
-
-String _date(RendezvousStateSource source, Rendezvous rdv) {
-  return [RendezvousStateSource.monSuivi, RendezvousStateSource.monSuiviSessionMilo].contains(source)
-      ? rdv.date.toHourWithHSeparator()
-      : rdv.date.toDayAndHourContextualized();
 }

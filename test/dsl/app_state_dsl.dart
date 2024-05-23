@@ -37,7 +37,6 @@ import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
-import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
@@ -126,47 +125,6 @@ extension AppStateDSL on AppState {
       ),
     );
   }
-
-  AppState rendezvousFutur({
-    List<Rendezvous> rendezvous = const [],
-    List<SessionMilo> sessionsMilo = const [],
-  }) {
-    return copyWith(
-        rendezvousListState: RendezvousListState.successfulFuture(
-      rendezvous: rendezvous,
-      sessionsMilo: sessionsMilo,
-    ));
-  }
-
-  AppState rendezvous({
-    List<Rendezvous> rendezvous = const [],
-    List<SessionMilo> sessionsMilo = const [],
-    DateTime? dateDerniereMiseAJour,
-  }) {
-    return copyWith(
-      rendezvousListState: RendezvousListState.successful(
-        rendezvous: rendezvous,
-        sessionsMilo: sessionsMilo,
-        dateDerniereMiseAJour: dateDerniereMiseAJour,
-      ),
-    );
-  }
-
-  AppState withRendezvous(Rendezvous rendezvous) {
-    return copyWith(rendezvousListState: RendezvousListState.successful(rendezvous: [rendezvous]));
-  }
-
-  AppState rendezvousNotInitialized() => copyWith(rendezvousListState: RendezvousListState.notInitialized());
-
-  AppState loadingFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.loadingFuture());
-
-  AppState reloadingFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.reloadingFuture());
-
-  AppState failedFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.failedFuture());
-
-  AppState loadingPastRendezvous() => copyWith(rendezvousListState: RendezvousListState.loadingPast());
-
-  AppState failedPastRendezvous() => copyWith(rendezvousListState: RendezvousListState.failedPast());
 
   AppState withCampagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
 

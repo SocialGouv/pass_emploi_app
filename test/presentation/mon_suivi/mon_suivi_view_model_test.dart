@@ -211,7 +211,7 @@ void main() {
         // Given
         final store = givenState() //
             .loggedInPoleEmploiUser()
-            .monSuivi(monSuivi: mockMonSuivi(errorOnPoleEmploiDataRetrieval: true))
+            .monSuivi(monSuivi: mockMonSuivi(dateDerniereMiseAJourPoleEmploi: DateTime.now()))
             .store();
 
         // When

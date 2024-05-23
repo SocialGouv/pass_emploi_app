@@ -61,7 +61,6 @@ import 'package:pass_emploi_app/features/recherche/immersion/recherche_immersion
 import 'package:pass_emploi_app/features/recherche/service_civique/recherche_service_civique_middleware.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_middleware.dart';
-import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_middleware.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_middleware.dart';
@@ -342,7 +341,6 @@ class StoreFactory {
         ).call,
         ChatMiddleware(chatRepository, pieceJointeUseCase).call,
         ChatStatusMiddleware(chatRepository).call,
-        RendezvousListMiddleware(rendezvousRepository, sessionMiloRepository).call,
         RendezvousDetailsMiddleware(rendezvousRepository).call,
         PushNotificationRegisterTokenMiddleware(registerTokenRepository, configuration).call,
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository).call,

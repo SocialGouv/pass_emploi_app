@@ -368,7 +368,6 @@ class Strings {
   // Mon Suivi Tabs
   static String monSuiviAppBarTitle = "Mon suivi";
   static String agendaTabTitle = "Cette semaine";
-  static String rendezvousTabTitle = "Rendez-vous";
   static String demarcheTabTitle = "Démarches";
 
   // Mon Suivi
@@ -414,9 +413,6 @@ class Strings {
   static String shouldInformConseiller =
       Brand.isCej() ? _CejStrings.shouldInformConseiller : _BrsaStrings.shouldInformConseiller;
 
-  static String noUpcomingRendezVous =
-      "Vous n’avez pas de rendez-vous prévu.\nContactez votre conseiller pour prendre rendez-vous";
-  static String rendezVousListError = "Erreur lors de la récupération de vos rendez-vous";
   static String rendezVousDetailsError = "Erreur lors de la récupération de l'événement";
   static String conseillerIsPresent = "Votre conseiller sera présent";
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
@@ -437,8 +433,6 @@ class Strings {
   static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
   static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévu";
   static String withConseiller = "avec";
-  static String goToNextRendezvous = "Aller au prochain rendez-vous";
-  static String seeMoreRendezvous = "Voir plus de rendez-vous";
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
   static String shareToConseiller = "Partager à mon conseiller";
@@ -1210,9 +1204,6 @@ class Strings {
   static const String evenementEmploiFiltresDateFin = "Date de fin";
 
   // Mode dégradé France Travail
-  static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
-  static String rendezvousNotUpToDateMessage =
-      "Une erreur technique s’est produite. Certains de vos rendez-vous ne sont peut-être pas à jour.";
   static String demarchesUpToDate = "Vos démarches sont à jour";
   static String demarchesNotUpToDateMessage =
       "Une erreur technique s’est produite. Certaines de vos démarches ne sont peut-être pas à jour.";

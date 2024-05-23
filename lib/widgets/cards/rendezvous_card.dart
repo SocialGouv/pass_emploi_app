@@ -91,7 +91,6 @@ RendezvousStateSource _stateSource(RendezvousStateSource stateSource) {
     RendezvousStateSource.accueilProchaineSession ||
     RendezvousStateSource.accueilLesEvenementsSession ||
     RendezvousStateSource.monSuiviSessionMilo ||
-    RendezvousStateSource.rendezvousListSession ||
     RendezvousStateSource.sessionMiloDetails =>
       RendezvousStateSource.sessionMiloDetails,
     RendezvousStateSource.noSource ||
@@ -99,8 +98,7 @@ RendezvousStateSource _stateSource(RendezvousStateSource stateSource) {
     RendezvousStateSource.agenda ||
     RendezvousStateSource.monSuivi ||
     RendezvousStateSource.eventListAnimationsCollectives ||
-    RendezvousStateSource.accueilLesEvenements ||
-    RendezvousStateSource.rendezvousList =>
+    RendezvousStateSource.accueilLesEvenements =>
       stateSource,
   };
 }

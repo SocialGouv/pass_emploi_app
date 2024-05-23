@@ -50,9 +50,6 @@ class AnalyticsScreenNames {
 
   static String topDemarcheDetails(String demarche) => "demarches/top-demarches/$demarche";
 
-  static const rendezvousListPast = "rdv/list-past";
-  static const rendezvousListFuture = "rdv/list-future";
-  static const rendezvousListWeek = "rdv/list-week-";
   static const rendezvousDetails = "rdv/detail";
   static const animationCollectiveDetails = "animation_collective/detail";
   static const sessionMiloDetails = "session_milo/detail";
