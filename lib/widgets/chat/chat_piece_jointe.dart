@@ -70,6 +70,7 @@ class ChatPieceJointe extends StatelessWidget {
           _DownloadButton(params),
         ],
       ),
+      isPj: true,
       isMyMessage: params.sender.isJeune,
       caption: params.caption,
       captionColor: null,

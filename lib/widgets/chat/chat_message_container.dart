@@ -10,12 +10,14 @@ class ChatMessageContainer extends StatelessWidget {
     required this.caption,
     required this.captionColor,
     required this.isMyMessage,
+    required this.isPj,
     this.captionSuffixIcon,
   });
   final Widget content;
   final String caption;
   final Color? captionColor;
   final bool isMyMessage;
+  final bool isPj;
   final IconData? captionSuffixIcon;
 
   @override
@@ -26,6 +28,7 @@ class ChatMessageContainer extends StatelessWidget {
         crossAxisAlignment: isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           _ChatBubble(
+            isPj: isPj,
             isMyMessage: isMyMessage,
             child: content,
           ),
@@ -50,7 +53,8 @@ class ChatMessageContainer extends StatelessWidget {
 }
 
 class _ChatBubble extends StatelessWidget {
-  const _ChatBubble({required this.isMyMessage, required this.child});
+  const _ChatBubble({required this.isMyMessage, required this.child, required this.isPj});
+  final bool isPj;
   final bool isMyMessage;
   final Widget child;
 
@@ -61,7 +65,7 @@ class _ChatBubble extends StatelessWidget {
         left: isMyMessage ? 77.0 : 0,
         right: !isMyMessage ? 77.0 : 0,
       ),
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(isPj ? Margins.spacing_s : Margins.spacing_base),
       decoration: BoxDecoration(
         color: isMyMessage ? AppColors.primary : Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(16)),

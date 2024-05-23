@@ -48,6 +48,7 @@ class _ChatContentState extends State<ChatContent> {
               : SingleChildScrollView(
                   reverse: true,
                   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  physics: const ClampingScrollPhysics(),
                   controller: widget.scrollController,
                   child: Column(
                     children: [
