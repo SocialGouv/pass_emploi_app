@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
@@ -11,25 +10,17 @@ import 'package:redux/redux.dart';
 
 class DemarcheCardViewModel extends Equatable {
   final String id;
-  final String titre;
-  final String? sousTitre;
-  final DemarcheStatus status;
-  final bool createdByAdvisor;
-  final bool modifiedByAdvisor;
-  final CardPilluleType? pilluleType;
-  final String date;
-  final bool isLate;
+  final String title;
+  final String semanticLabel;
+  final String? categoryText;
+  final CardPilluleType pillule;
 
   DemarcheCardViewModel({
     required this.id,
-    required this.titre,
-    required this.sousTitre,
-    required this.status,
-    required this.createdByAdvisor,
-    required this.modifiedByAdvisor,
-    required this.pilluleType,
-    required this.date,
-    required this.isLate,
+    required this.title,
+    required this.semanticLabel,
+    required this.categoryText,
+    required this.pillule,
   });
 
   factory DemarcheCardViewModel.create({
@@ -38,66 +29,56 @@ class DemarcheCardViewModel extends Equatable {
     required String demarcheId,
   }) {
     final demarche = getDemarche(store, stateSource, demarcheId);
-    final isLate = _isLate(demarche);
     return DemarcheCardViewModel(
       id: demarche.id,
-      titre: demarche.content ?? Strings.withoutContent,
-      sousTitre: _description(demarche),
-      status: demarche.status,
-      createdByAdvisor: demarche.createdByAdvisor,
-      modifiedByAdvisor: demarche.modifiedByAdvisor,
-      pilluleType: _pillule(demarche, isLate),
-      date: _dateFormat(demarche, isLate),
-      isLate: isLate,
+      title: demarche.content ?? Strings.withoutContent,
+      semanticLabel: demarche.semanticLabel(),
+      categoryText: demarche.label,
+      pillule: demarche.pillule(),
     );
   }
 
   @override
   List<Object?> get props => [
         id,
-        titre,
-        sousTitre,
-        status,
-        createdByAdvisor,
-        modifiedByAdvisor,
-        pilluleType,
-        date,
-        isLate,
+        title,
+        semanticLabel,
+        categoryText,
+        pillule,
       ];
 }
 
-String? _description(Demarche demarche) {
-  return demarche.attributs.firstWhereOrNull((e) => e.key == 'description')?.value;
-}
-
-String _dateFormat(Demarche demarche, bool isLate) {
-  final String formattedDate;
-  if (demarche.status == DemarcheStatus.CANCELLED && demarche.deletionDate != null) {
-    formattedDate = demarche.deletionDate!.toDay();
-  } else if (demarche.endDate != null) {
-    formattedDate = demarche.endDate!.toDay();
-  } else {
-    formattedDate = Strings.withoutDate;
+extension on Demarche {
+  CardPilluleType pillule() {
+    if (isLate()) return CardPilluleType.late;
+    return switch (status) {
+      DemarcheStatus.CANCELLED => CardPilluleType.canceled,
+      DemarcheStatus.DONE => CardPilluleType.done,
+      DemarcheStatus.IN_PROGRESS => CardPilluleType.doing,
+      DemarcheStatus.NOT_STARTED => CardPilluleType.todo,
+    };
   }
-  return formattedDate;
-}
 
-CardPilluleType? _pillule(Demarche demarche, bool isLate) {
-  if (isLate) {
-    return CardPilluleType.late;
+  bool isLate() {
+    if (endDate != null && (status == DemarcheStatus.NOT_STARTED || status == DemarcheStatus.IN_PROGRESS)) {
+      return endDate!.isBefore(DateTime.now()) && (endDate!.numberOfDaysUntilToday() > 0);
+    }
+    return false;
   }
-  return switch (demarche.status) {
-    DemarcheStatus.CANCELLED => CardPilluleType.canceled,
-    DemarcheStatus.DONE => CardPilluleType.done,
-    DemarcheStatus.IN_PROGRESS => CardPilluleType.doing,
-    DemarcheStatus.NOT_STARTED => CardPilluleType.todo,
-  };
-}
 
-bool _isLate(Demarche demarche) {
-  if (demarche.endDate != null &&
-      (demarche.status == DemarcheStatus.NOT_STARTED || demarche.status == DemarcheStatus.IN_PROGRESS)) {
-    return demarche.endDate!.isBefore(DateTime.now()) && (demarche.endDate!.numberOfDaysUntilToday() > 0);
+  String semanticLabel() {
+    final prefix = label != null
+        ? '${Strings.accueilDemarcheSingular} $label' //
+        : Strings.accueilDemarcheSingular;
+
+    final suffix = switch (pillule()) {
+      CardPilluleType.todo => Strings.doingPillule,
+      CardPilluleType.doing => Strings.doingPillule,
+      CardPilluleType.done => Strings.donePillule,
+      CardPilluleType.late => Strings.latePillule,
+      CardPilluleType.canceled => Strings.donePillule,
+    };
+
+    return '$prefix : $content - $suffix';
   }
-  return false;
 }

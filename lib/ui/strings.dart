@@ -382,6 +382,8 @@ class Strings {
   static String monSuiviTooltip = "Aller à aujourd'hui";
   static String monSuiviPePastLimitReached = "Les démarches et les rendez-vous plus anciens ne sont pas disponibles";
   static String monSuiviPeFutureLimitReached = "Les démarches et les rendez-vous plus récents ne sont pas disponibles";
+  static String monSuiviPeNotUpToDate =
+      "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
 
   // Agenda
   static String agendaEmptyTitle = "Vous n’avez rien de prévu cette semaine";
@@ -1216,9 +1218,6 @@ class Strings {
   static String demarchesNotUpToDateMessage =
       "Une erreur technique s’est produite. Certaines de vos démarches ne sont peut-être pas à jour.";
   static String reloadPage = "Recharger la page";
-  static String agendaPeUpToDate = "Vos rendez-vous et démarches sont à jour";
-  static String agendaPeNotUpToDate =
-      "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
 
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 

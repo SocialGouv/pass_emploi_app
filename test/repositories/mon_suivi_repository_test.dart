@@ -42,6 +42,7 @@ void main() {
                   rendezvous: [rendezvousStub()],
                   sessionsMilo: [mockSessionMiloAtelierCv()],
                   errorOnSessionMiloRetrieval: false,
+                  errorOnPoleEmploiDataRetrieval: false,
                 ),
               );
             });
@@ -74,6 +75,7 @@ void main() {
                   rendezvous: [rendezvousStub()],
                   sessionsMilo: [],
                   errorOnSessionMiloRetrieval: true,
+                  errorOnPoleEmploiDataRetrieval: false,
                 ),
               );
             });
@@ -107,6 +109,7 @@ void main() {
                 rendezvous: [rendezvousStub()],
                 sessionsMilo: [],
                 errorOnSessionMiloRetrieval: false,
+                errorOnPoleEmploiDataRetrieval: false,
               ),
             );
           });
@@ -118,6 +121,29 @@ void main() {
 
         test('response should be null', () async {
           await sut.expectNullResult();
+        });
+      });
+
+      group('get last update in  payload', () {
+        sut.when((repository) => repository.getMonSuiviPoleEmploi('user-id', DateTime.utc(2024, 1)));
+
+        group('when response is valid', () {
+          sut.givenJsonResponse(fromJson: "mon_suivi_pole_emploi_date_derniere_maj.json");
+
+          test('request should be valid', () async {
+            await sut.expectRequestBody(
+              method: HttpMethod.get,
+              url: "/jeunes/pole-emploi/user-id/mon-suivi",
+              queryParameters: {"dateDebut": '2024-01-01T00:00:00+00:00'},
+            );
+          });
+
+          test('response should be valid', () async {
+            await sut.expectResult<MonSuivi?>((result) {
+              expect(result, isNotNull);
+              expect(result!.errorOnPoleEmploiDataRetrieval, isTrue);
+            });
+          });
         });
       });
     });

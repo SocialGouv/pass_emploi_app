@@ -18,6 +18,7 @@ class MonSuiviViewModel extends Equatable {
   final bool withCreateButton;
   final MonSuiviCtaType ctaType;
   final bool withWarningOnWrongSessionMiloRetrieval;
+  final bool withWarningOnWrongPoleEmploiDataRetrieval;
   final int pendingActionCreations;
   final bool withPagination;
   final bool shouldShowOnboarding;
@@ -32,6 +33,7 @@ class MonSuiviViewModel extends Equatable {
     required this.withCreateButton,
     required this.ctaType,
     required this.withWarningOnWrongSessionMiloRetrieval,
+    required this.withWarningOnWrongPoleEmploiDataRetrieval,
     required this.pendingActionCreations,
     required this.withPagination,
     required this.shouldShowOnboarding,
@@ -50,6 +52,7 @@ class MonSuiviViewModel extends Equatable {
       withCreateButton: state is MonSuiviSuccessState,
       ctaType: store.state.isMiloLoginMode() ? MonSuiviCtaType.createAction : MonSuiviCtaType.createDemarche,
       withWarningOnWrongSessionMiloRetrieval: _withWarningOnWrongSessionMiloRetrieval(state),
+      withWarningOnWrongPoleEmploiDataRetrieval: _withWarningOnWrongPoleEmploiDataRetrieval(state),
       pendingActionCreations: store.state.userActionCreatePendingState.getPendingCreationsCount(),
       withPagination: store.state.isMiloLoginMode(),
       shouldShowOnboarding: _shouldShowOnboarding(store),
@@ -70,6 +73,7 @@ class MonSuiviViewModel extends Equatable {
         withCreateButton,
         ctaType,
         withWarningOnWrongSessionMiloRetrieval,
+        withWarningOnWrongPoleEmploiDataRetrieval,
         pendingActionCreations,
         withPagination,
         shouldShowOnboarding,
@@ -87,6 +91,10 @@ DisplayState _displayState(MonSuiviState state) {
 
 bool _withWarningOnWrongSessionMiloRetrieval(MonSuiviState state) {
   return state is MonSuiviSuccessState && state.monSuivi.errorOnSessionMiloRetrieval;
+}
+
+bool _withWarningOnWrongPoleEmploiDataRetrieval(MonSuiviState state) {
+  return state is MonSuiviSuccessState && state.monSuivi.errorOnPoleEmploiDataRetrieval;
 }
 
 List<MonSuiviItem> _items(Store<AppState> store) {

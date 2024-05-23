@@ -680,6 +680,8 @@ UserAction mockUserAction({
 
 Demarche mockDemarche({
   String id = 'id',
+  String? content,
+  String? label,
   DemarcheStatus status = DemarcheStatus.NOT_STARTED,
   DateTime? endDate,
   DateTime? deletionDate,
@@ -687,12 +689,12 @@ Demarche mockDemarche({
 }) {
   return Demarche(
     id: id,
-    content: null,
+    content: content,
     status: status,
     endDate: endDate,
     deletionDate: deletionDate,
     createdByAdvisor: true,
-    label: null,
+    label: label,
     possibleStatus: [],
     creationDate: null,
     modifiedByAdvisor: false,
@@ -1228,6 +1230,7 @@ MonSuivi mockMonSuivi({
   List<Rendezvous>? rendezvous,
   List<SessionMilo>? sessionsMilo,
   bool errorOnSessionMiloRetrieval = false,
+  bool errorOnPoleEmploiDataRetrieval = false,
 }) {
   return MonSuivi(
     actions: actions ?? [],
@@ -1235,6 +1238,7 @@ MonSuivi mockMonSuivi({
     rendezvous: rendezvous ?? [],
     sessionsMilo: sessionsMilo ?? [],
     errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval,
+    errorOnPoleEmploiDataRetrieval: errorOnPoleEmploiDataRetrieval,
   );
 }
 

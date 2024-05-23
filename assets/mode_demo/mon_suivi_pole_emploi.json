@@ -1,46 +1,4 @@
 {
-  "actions": [
-    {
-      "id": "03eb52bb-56ee-497e-8c7a-da0007c30625",
-      "comment": "Carrefour, Intermarché et Auchan",
-      "content": "Contacter entreprises",
-      "creator": "Paul Sevier",
-      "creatorType": "jeune",
-      "dateEcheance": "<NOW_PLUS_2>",
-      "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
-      "status": "in_progress"
-    },
-    {
-      "id": "0e1eaa4d-1f0d-40c0-80b5-c9923f131746",
-      "comment": "",
-      "content": "Document : penser à ramener à mon conseiller le bilan du stage Carrefour",
-      "creator": "Paul Sevier",
-      "creatorType": "jeune",
-      "dateEcheance": "<NOW_LESS_5>",
-      "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
-      "status": "not_started"
-    },
-    {
-      "id": "03dc47d4-bde7-4358-98f9-cd77d289bcdd",
-      "comment": "Proposer à l'employeur (CARREFOUR) une periode de stage de 15 jours pour découvrir le métier d'Employé Libre-Service",
-      "content": "Contacter un employeur pour effectuer une période d'immersion en entreprise",
-      "creator": "Nils Tavernier",
-      "creatorType": "conseiller",
-      "dateEcheance": "<NOW_PLUS_10>",
-      "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
-      "status": "not_started"
-    },
-    {
-      "id": "9a66b2ea-4607-4dd0-af86-880556abb548",
-      "comment": "Ajouter le titre employé libre service et savoir-être : travail en équipe et rigueur ",
-      "content": "Mettre à jour mon CV ",
-      "creator": "Paul Sevier",
-      "creatorType": "jeune",
-      "dateEcheance": "<NOW_PLUS_20>",
-      "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
-      "status": "not_started"
-    }
-  ],
   "demarches": [
     {
       "id": "2342236",
@@ -342,5 +300,6 @@
       "presenceConseiller": true,
       "invitation": false
     }
-  ]
+  ],
+  "dateDerniereMiseAJour": "2023-01-01T00:00:00.000Z"
 }

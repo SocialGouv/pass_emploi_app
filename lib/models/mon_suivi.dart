@@ -11,6 +11,7 @@ class MonSuivi extends Equatable {
   final List<Rendezvous> rendezvous;
   final List<SessionMilo> sessionsMilo;
   final bool errorOnSessionMiloRetrieval;
+  final bool errorOnPoleEmploiDataRetrieval;
 
   MonSuivi({
     required this.actions,
@@ -18,6 +19,7 @@ class MonSuivi extends Equatable {
     required this.rendezvous,
     required this.sessionsMilo,
     required this.errorOnSessionMiloRetrieval,
+    required this.errorOnPoleEmploiDataRetrieval,
   });
 
   factory MonSuivi.fromMiloJson(dynamic json) {
@@ -28,6 +30,7 @@ class MonSuivi extends Equatable {
       sessionsMilo: jsonSessionMilo != null ? (jsonSessionMilo as List).map(SessionMilo.fromJson).toList() : [],
       errorOnSessionMiloRetrieval: jsonSessionMilo == null,
       demarches: [],
+      errorOnPoleEmploiDataRetrieval: false,
     );
   }
 
@@ -38,6 +41,7 @@ class MonSuivi extends Equatable {
       actions: [],
       sessionsMilo: [],
       errorOnSessionMiloRetrieval: false,
+      errorOnPoleEmploiDataRetrieval: json["dateDerniereMiseAJour"] != null,
     );
   }
 
@@ -48,6 +52,7 @@ class MonSuivi extends Equatable {
       rendezvous: [...rendezvous, ...monSuivi.rendezvous],
       sessionsMilo: [...sessionsMilo, ...monSuivi.sessionsMilo],
       errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval || monSuivi.errorOnSessionMiloRetrieval,
+      errorOnPoleEmploiDataRetrieval: errorOnPoleEmploiDataRetrieval || monSuivi.errorOnPoleEmploiDataRetrieval,
     );
   }
 
@@ -57,6 +62,7 @@ class MonSuivi extends Equatable {
     List<Rendezvous>? rendezvous,
     List<SessionMilo>? sessionsMilo,
     bool? errorOnSessionMiloRetrieval,
+    bool? errorOnPoleEmploiDataRetrieval,
   }) {
     return MonSuivi(
       actions: actions ?? this.actions,
@@ -64,9 +70,17 @@ class MonSuivi extends Equatable {
       rendezvous: rendezvous ?? this.rendezvous,
       sessionsMilo: sessionsMilo ?? this.sessionsMilo,
       errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval ?? this.errorOnSessionMiloRetrieval,
+      errorOnPoleEmploiDataRetrieval: errorOnPoleEmploiDataRetrieval ?? this.errorOnPoleEmploiDataRetrieval,
     );
   }
 
   @override
-  List<Object?> get props => [actions, demarches, rendezvous, sessionsMilo, errorOnSessionMiloRetrieval];
+  List<Object?> get props => [
+        actions,
+        demarches,
+        rendezvous,
+        sessionsMilo,
+        errorOnSessionMiloRetrieval,
+        errorOnPoleEmploiDataRetrieval,
+      ];
 }

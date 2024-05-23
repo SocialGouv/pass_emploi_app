@@ -33,6 +33,7 @@ import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -110,7 +111,7 @@ class _Scaffold extends StatelessWidget {
         child: PrimaryActionButton(
             label: ctaType == MonSuiviCtaType.createAction ? Strings.addAnAction : Strings.addADemarche,
             icon: AppIcons.add_rounded,
-          rippleColor: AppColors.primaryDarken,
+            rippleColor: AppColors.primaryDarken,
             onPressed: () => switch (ctaType) {
                   MonSuiviCtaType.createDemarche => CreateDemarcheStep1Page.pushDemarcheCreationTunnel(context),
                   MonSuiviCtaType.createAction => CreateUserActionFormPage.pushUserActionCreationTunnel(
@@ -202,6 +203,10 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        if (viewModel.withWarningOnWrongPoleEmploiDataRetrieval) ...[
+          SizedBox(height: Margins.spacing_s),
+          NotUpToDateMessage(message: Strings.monSuiviPeNotUpToDate, onRefresh: () => viewModel.onRetry()),
+        ],
         if (viewModel.withWarningOnWrongSessionMiloRetrieval) ...[
           SizedBox(height: Margins.spacing_s),
           _SessionMiloWarningCard(viewModel),

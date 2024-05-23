@@ -9,198 +9,166 @@ import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
-  test("create full test", () {
-    // Given
-    final demarche = Demarche(
-      id: 'id',
-      content: "Faire le CV",
-      status: DemarcheStatus.NOT_STARTED,
-      endDate: parseDateTimeUtcWithCurrentTimeZone('2032-04-28T16:06:48.396Z'),
-      deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-      createdByAdvisor: true,
-      label: "label",
-      possibleStatus: [
-        DemarcheStatus.NOT_STARTED,
-        DemarcheStatus.IN_PROGRESS,
-        DemarcheStatus.DONE,
-      ],
-      creationDate: DateTime(2022, 12, 23, 0, 0, 0),
-      modifiedByAdvisor: false,
-      sousTitre: "sous titre",
-      titre: "titre",
-      modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
-      attributs: [DemarcheAttribut(key: 'description', value: 'commentaire')],
-    );
-    final store = givenState().withDemarches([demarche]).store();
-
-    // When
-    final viewModel = DemarcheCardViewModel.create(
-      store: store,
-      stateSource: DemarcheStateSource.demarcheList,
-      demarcheId: 'id',
-    );
-
-    // Then
-    expect(
-      viewModel,
-      DemarcheCardViewModel(
-        id: 'id',
-        titre: 'Faire le CV',
-        sousTitre: 'commentaire',
-        status: DemarcheStatus.NOT_STARTED,
-        createdByAdvisor: true,
-        modifiedByAdvisor: false,
-        pilluleType: CardPilluleType.todo,
-        date: "28/04/2032",
-        isLate: false,
-      ),
-    );
-  });
-
-  test("create when source is agenda should create view model properly", () {
-    // Given
-    final store = givenState().agenda(demarches: [(mockDemarche())]).store();
-
-    // When
-    final viewModel = DemarcheCardViewModel.create(
-      store: store,
-      stateSource: DemarcheStateSource.agenda,
-      demarcheId: 'id',
-    );
-
-    // Then
-    expect(viewModel, isNotNull);
-  });
-
-  test("create when status is IS_NOT_STARTED and end date is in the future should create view model properly", () {
+  test("create should return id, title and category", () {
     // Given
     final demarche = mockDemarche(
-      status: DemarcheStatus.NOT_STARTED,
+      id: 'id',
+      content: 'titre',
+      label: "Mes entretiens d'embauche",
       endDate: parseDateTimeUtcWithCurrentTimeZone('2050-04-28T16:06:48.396Z'),
     );
-    final store = givenState().withDemarches([demarche]).store();
+    final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
     // When
     final viewModel = DemarcheCardViewModel.create(
       store: store,
-      stateSource: DemarcheStateSource.demarcheList,
+      stateSource: DemarcheStateSource.monSuivi,
       demarcheId: 'id',
     );
 
     // Then
-    expect(viewModel.status, DemarcheStatus.NOT_STARTED);
-    expect(viewModel.date, "28/04/2050");
-    expect(viewModel.pilluleType, CardPilluleType.todo);
+    expect(viewModel.id, 'id');
+    expect(viewModel.title, 'titre');
+    expect(viewModel.categoryText, "Mes entretiens d'embauche");
   });
 
-  test("create when status is IS_NOT_STARTED and end date is in the past should create view model properly", () {
-    // Given
-    final demarche = mockDemarche(
-      status: DemarcheStatus.NOT_STARTED,
-      endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-    );
-    final store = givenState().withDemarches([demarche]).store();
+  group('semanticLabel', () {
+    test('with category', () {
+      // Given
+      final demarche = mockDemarche(
+        content: 'Faire mon CV',
+        label: "Mes entretiens d'embauche",
+        status: DemarcheStatus.DONE,
+        endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      );
+      final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
-    // When
-    final viewModel = DemarcheCardViewModel.create(
-      store: store,
-      stateSource: DemarcheStateSource.demarcheList,
-      demarcheId: 'id',
-    );
+      // When
+      final viewModel = DemarcheCardViewModel.create(
+        store: store,
+        stateSource: DemarcheStateSource.monSuivi,
+        demarcheId: 'id',
+      );
 
-    // Then
-    expect(viewModel.status, DemarcheStatus.NOT_STARTED);
-    expect(
-      viewModel.date,
-      "28/03/2022",
-    );
-    expect(viewModel.pilluleType, CardPilluleType.late);
+      // Then
+      expect(viewModel.semanticLabel, "Démarche Mes entretiens d'embauche : Faire mon CV - Terminée");
+    });
+
+    test('without category', () {
+      // Given
+      final demarche = mockDemarche(
+        content: 'Faire mon CV',
+        status: DemarcheStatus.DONE,
+        endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      );
+      final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
+
+      // When
+      final viewModel = DemarcheCardViewModel.create(
+        store: store,
+        stateSource: DemarcheStateSource.monSuivi,
+        demarcheId: 'id',
+      );
+
+      // Then
+      expect(viewModel.semanticLabel, "Démarche : Faire mon CV - Terminée");
+    });
   });
 
-  test("create when status is IN_PROGRESS should create view model properly", () {
-    // Given
-    final demarche = mockDemarche(
-      status: DemarcheStatus.IN_PROGRESS,
-      endDate: parseDateTimeUtcWithCurrentTimeZone('2050-03-28T16:06:48.396Z'),
-    );
-    final store = givenState().withDemarches([demarche]).store();
+  group('pillule', () {
+    test("when end date is in the past should return CardPilluleType.late", () {
+      // Given
+      final demarche = mockDemarche(
+        status: DemarcheStatus.IN_PROGRESS,
+        endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      );
+      final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
-    // When
-    final viewModel = DemarcheCardViewModel.create(
-      store: store,
-      stateSource: DemarcheStateSource.demarcheList,
-      demarcheId: 'id',
-    );
+      // When
+      final viewModel = DemarcheCardViewModel.create(
+        store: store,
+        stateSource: DemarcheStateSource.monSuivi,
+        demarcheId: 'id',
+      );
 
-    // Then
-    expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
-    expect(viewModel.date, '28/03/2050');
-    expect(viewModel.pilluleType, CardPilluleType.doing);
-  });
+      // Then
+      expect(viewModel.pillule, CardPilluleType.late);
+    });
 
-  test("create when status is IN_PROGRESS and end date is in the past should create view model properly", () {
-    // Given
-    final demarche = mockDemarche(
-      status: DemarcheStatus.IN_PROGRESS,
-      endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-    );
-    final store = givenState().withDemarches([demarche]).store();
+    test("when status is CANCELLED should return CardPilluleType.canceled", () {
+      // Given
+      final demarche = mockDemarche(
+        status: DemarcheStatus.CANCELLED,
+        deletionDate: parseDateTimeUtcWithCurrentTimeZone('2020-03-28T16:06:48.396Z'),
+      );
+      final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
-    // When
-    final viewModel = DemarcheCardViewModel.create(
-      store: store,
-      stateSource: DemarcheStateSource.demarcheList,
-      demarcheId: 'id',
-    );
+      // When
+      final viewModel = DemarcheCardViewModel.create(
+        store: store,
+        stateSource: DemarcheStateSource.monSuivi,
+        demarcheId: 'id',
+      );
 
-    // Then
-    expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
-    expect(
-      viewModel.date,
-      "28/03/2022",
-    );
-    expect(viewModel.pilluleType, CardPilluleType.late);
-  });
+      // Then
+      expect(viewModel.pillule, CardPilluleType.canceled);
+    });
 
-  test("create when status is DONE should create view model properly", () {
-    // Given
-    final demarche = mockDemarche(
-      status: DemarcheStatus.DONE,
-      endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-    );
-    final store = givenState().withDemarches([demarche]).store();
+    test("when status is DONE should return CardPilluleType.done", () {
+      // Given
+      final demarche = mockDemarche(
+        status: DemarcheStatus.DONE,
+        endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      );
+      final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
-    // When
-    final viewModel = DemarcheCardViewModel.create(
-      store: store,
-      stateSource: DemarcheStateSource.demarcheList,
-      demarcheId: 'id',
-    );
+      // When
+      final viewModel = DemarcheCardViewModel.create(
+        store: store,
+        stateSource: DemarcheStateSource.monSuivi,
+        demarcheId: 'id',
+      );
 
-    // Then
-    expect(viewModel.status, DemarcheStatus.DONE);
-    expect(viewModel.date, "28/03/2022");
-    expect(viewModel.pilluleType, CardPilluleType.done);
-  });
+      // Then
+      expect(viewModel.pillule, CardPilluleType.done);
+    });
 
-  test("create when status is CANCELLED should create view model properly", () {
-    // Given
-    final demarche = mockDemarche(
-      status: DemarcheStatus.CANCELLED,
-      deletionDate: parseDateTimeUtcWithCurrentTimeZone('2020-03-28T16:06:48.396Z'),
-    );
-    final store = givenState().withDemarches([demarche]).store();
+    test("when status is IN_PROGRESS should return CardPilluleType.doing", () {
+      // Given
+      final demarche = mockDemarche(
+        status: DemarcheStatus.IN_PROGRESS,
+        endDate: parseDateTimeUtcWithCurrentTimeZone('2050-03-28T16:06:48.396Z'),
+      );
+      final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
-    // When
-    final viewModel = DemarcheCardViewModel.create(
-      store: store,
-      stateSource: DemarcheStateSource.demarcheList,
-      demarcheId: 'id',
-    );
+      // When
+      final viewModel = DemarcheCardViewModel.create(
+        store: store,
+        stateSource: DemarcheStateSource.monSuivi,
+        demarcheId: 'id',
+      );
 
-    // Then
-    expect(viewModel.status, DemarcheStatus.CANCELLED);
-    expect(viewModel.date, '28/03/2020');
-    expect(viewModel.pilluleType, CardPilluleType.canceled);
+      // Then
+      expect(viewModel.pillule, CardPilluleType.doing);
+    });
+
+    test("when status is NOT_STARTED should return CardPilluleType.todo", () {
+      // Given
+      final demarche = mockDemarche(
+        status: DemarcheStatus.NOT_STARTED,
+        endDate: parseDateTimeUtcWithCurrentTimeZone('2050-04-28T16:06:48.396Z'),
+      );
+      final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
+
+      // When
+      final viewModel = DemarcheCardViewModel.create(
+        store: store,
+        stateSource: DemarcheStateSource.monSuivi,
+        demarcheId: 'id',
+      );
+
+      // Then
+      expect(viewModel.pillule, CardPilluleType.todo);
+    });
   });
 }
