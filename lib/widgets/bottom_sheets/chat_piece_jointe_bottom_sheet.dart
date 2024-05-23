@@ -65,7 +65,7 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
     });
   }
 
-  void _onPickImagePermissionError() {
+  void _onPermissionError() {
     setState(() {
       showPermissionDenied = true;
     });
@@ -97,15 +97,16 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
               _PieceJointeWarning(),
               SizedBox(height: Margins.spacing_base),
               _TakePictureButton(
-                onPickImagePermissionError: _onPickImagePermissionError,
+                onPickImagePermissionError: _onPermissionError,
               ),
               _SelectFileButton(
                 isFileTooLarge: _isFileTooLarge,
+                onPermissionError: _onPermissionError,
                 pickFileSarted: _pickFileSarted,
                 pickFileEnded: _pickFileEnded,
               ),
               _SelectPictureButton(
-                onPickImagePermissionError: _onPickImagePermissionError,
+                onPickImagePermissionError: _onPermissionError,
               ),
             ],
           ),
@@ -178,9 +179,15 @@ class _TakePictureButton extends StatelessWidget {
 
 class _SelectFileButton extends StatelessWidget {
   final void Function(bool isFileTooLarge) isFileTooLarge;
+  final void Function() onPermissionError;
   final void Function() pickFileSarted;
   final void Function() pickFileEnded;
-  const _SelectFileButton({required this.isFileTooLarge, required this.pickFileSarted, required this.pickFileEnded});
+  const _SelectFileButton({
+    required this.isFileTooLarge,
+    required this.onPermissionError,
+    required this.pickFileSarted,
+    required this.pickFileEnded,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -191,21 +198,21 @@ class _SelectFileButton extends StatelessWidget {
       onTap: () async {
         pickFileSarted();
         final result = await FilePickerWrapper.pickFile();
-        if (context.mounted) {
+        if (result is FilePickerSuccessResult && context.mounted) {
           _onFilePicked(context, result);
+        } else if (result is FilePickerPermissionErrorResult) {
+          onPermissionError();
         }
         pickFileEnded();
       },
     );
   }
 
-  void _onFilePicked(BuildContext context, FilePickerOutput? result) {
-    if (result != null) {
-      final isTooLarge = result.isTooLarge;
-      isFileTooLarge(isTooLarge);
-      if (!isTooLarge) {
-        Navigator.of(context).pop(ChatPieceJointeBottomSheetFileResult(result.path));
-      }
+  void _onFilePicked(BuildContext context, FilePickerSuccessResult result) {
+    final isTooLarge = result.isTooLarge;
+    isFileTooLarge(isTooLarge);
+    if (context.mounted && !isTooLarge) {
+      Navigator.of(context).pop(ChatPieceJointeBottomSheetFileResult(result.path));
     }
   }
 }
