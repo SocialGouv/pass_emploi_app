@@ -368,7 +368,6 @@ class Strings {
   // Mon Suivi Tabs
   static String monSuiviAppBarTitle = "Mon suivi";
   static String agendaTabTitle = "Cette semaine";
-  static String demarcheTabTitle = "Démarches";
 
   // Mon Suivi
   static String monSuiviCetteSemaine = "Cette semaine";
@@ -654,7 +653,6 @@ class Strings {
   static String commentsUnavailableOffline = "Les commentaires de l'action ne sont pas disponibles hors connexion.";
 
   // Demarches
-  static String demarchesError = "Erreur lors de la récupération de vos démarches";
   static String modifierStatut = "Modifier le statut";
   static String historiqueDemarche = "Historique";
   static String modifiedBy = "Modifiée le ";
@@ -960,10 +958,6 @@ class Strings {
   static String filterAlternance = "Alternance";
   static String filterServiceCivique = "Service civique";
 
-  static String demarchesToDo = "démarche prévue.";
-  static String demarches = "démarches";
-  static String demarche = "démarche";
-
   static String poleEmploiUrlButton = "Accéder à mon espace France Travail";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 
@@ -1204,11 +1198,7 @@ class Strings {
   static const String evenementEmploiFiltresDateFin = "Date de fin";
 
   // Mode dégradé France Travail
-  static String demarchesUpToDate = "Vos démarches sont à jour";
-  static String demarchesNotUpToDateMessage =
-      "Une erreur technique s’est produite. Certaines de vos démarches ne sont peut-être pas à jour.";
   static String reloadPage = "Recharger la page";
-
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";

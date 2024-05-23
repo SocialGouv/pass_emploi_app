@@ -12,7 +12,6 @@ import 'package:pass_emploi_app/features/cv/cv_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
@@ -308,7 +307,7 @@ extension AppStateDSL on AppState {
   }
 
   AppState withDemarches(List<Demarche> demarches) {
-    return copyWith(demarcheListState: DemarcheListSuccessState(demarches));
+    return monSuivi(monSuivi: mockMonSuivi(demarches: demarches));
   }
 
   AppState updateDemarcheNotInit() {

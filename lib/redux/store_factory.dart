@@ -25,7 +25,6 @@ import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_mid
 import 'package:pass_emploi_app/features/cv/cv_middleware.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
@@ -131,7 +130,6 @@ import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
@@ -170,7 +168,6 @@ class StoreFactory {
   final DeveloperOptionRepository developerOptionRepository;
   final UserActionRepository userActionRepository;
   final UserActionPendingCreationRepository userActionPendingCreationRepository;
-  final PageDemarcheRepository pageDemarcheRepository;
   final RendezvousRepository rendezvousRepository;
   final OffreEmploiRepository offreEmploiRepository;
   final ChatRepository chatRepository;
@@ -247,7 +244,6 @@ class StoreFactory {
     this.developerOptionRepository,
     this.userActionRepository,
     this.userActionPendingCreationRepository,
-    this.pageDemarcheRepository,
     this.rendezvousRepository,
     this.offreEmploiRepository,
     this.chatRepository,
@@ -327,7 +323,6 @@ class StoreFactory {
         UserActionCreatePendingMiddleware(userActionRepository, userActionPendingCreationRepository).call,
         UserActionUpdateMiddleware(userActionRepository).call,
         UserActionDeleteMiddleware(userActionRepository).call,
-        DemarcheListMiddleware(pageDemarcheRepository).call,
         CreateDemarcheMiddleware(createDemarcheRepository).call,
         UpdateDemarcheMiddleware(updateDemarcheRepository).call,
         SearchDemarcheMiddleware(demarcheDuReferentielRepository).call,

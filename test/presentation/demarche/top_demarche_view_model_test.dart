@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_list_item.dart';
 import 'package:pass_emploi_app/presentation/demarche/top_demarche_view_model.dart';
 
 import '../../doubles/fixtures.dart';

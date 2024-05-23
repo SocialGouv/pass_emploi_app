@@ -51,7 +51,6 @@ import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
@@ -86,7 +85,6 @@ class TestStoreFactory {
   Authenticator authenticator = DummyAuthenticator();
   UserActionRepository userActionRepository = DummyUserActionRepository();
   UserActionPendingCreationRepository userActionPendingCreationRepository = MockUserActionPendingCreationRepository();
-  PageDemarcheRepository pageDemarcheRepository = DummyPageDemarcheRepository();
   RendezvousRepository rendezvousRepository = MockRendezvousRepository();
   ChatRepository chatRepository = DummyChatRepository();
   PassEmploiCacheManager cacheManager = DummyPassEmploiCacheManager();
@@ -172,7 +170,6 @@ class TestStoreFactory {
       developerOptionRepository,
       userActionRepository,
       userActionPendingCreationRepository,
-      pageDemarcheRepository,
       rendezvousRepository,
       offreEmploiRepository,
       chatRepository,

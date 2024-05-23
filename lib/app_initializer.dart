@@ -74,7 +74,6 @@ import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
@@ -216,7 +215,6 @@ class AppInitializer {
       DeveloperOptionRepository(securedPreferences),
       UserActionRepository(dioClient, crashlytics),
       UserActionPendingCreationRepository(securedPreferences),
-      PageDemarcheRepository(dioClient, crashlytics),
       RendezvousRepository(dioClient, crashlytics),
       OffreEmploiRepository(dioClient, crashlytics),
       chatRepository,

@@ -20,7 +20,6 @@ import 'package:pass_emploi_app/features/cv/cv_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
@@ -84,7 +83,6 @@ class AppState extends Equatable {
   final UserActionCreatePendingState userActionCreatePendingState;
   final UserActionUpdateState userActionUpdateState;
   final UserActionDeleteState userActionDeleteState;
-  final DemarcheListState demarcheListState;
   final CreateDemarcheState createDemarcheState;
   final SearchDemarcheState searchDemarcheState;
   final UpdateDemarcheState updateDemarcheState;
@@ -159,7 +157,6 @@ class AppState extends Equatable {
     required this.userActionCreatePendingState,
     required this.userActionUpdateState,
     required this.userActionDeleteState,
-    required this.demarcheListState,
     required this.createDemarcheState,
     required this.searchDemarcheState,
     required this.updateDemarcheState,
@@ -232,7 +229,6 @@ class AppState extends Equatable {
     final UserActionCreatePendingState? userActionCreatePendingState,
     final UserActionUpdateState? userActionUpdateState,
     final UserActionDeleteState? userActionDeleteState,
-    final DemarcheListState? demarcheListState,
     final CreateDemarcheState? createDemarcheState,
     final SearchDemarcheState? searchDemarcheState,
     final UpdateDemarcheState? updateDemarcheState,
@@ -307,7 +303,6 @@ class AppState extends Equatable {
       userActionCreatePendingState: userActionCreatePendingState ?? this.userActionCreatePendingState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
       userActionDeleteState: userActionDeleteState ?? this.userActionDeleteState,
-      demarcheListState: demarcheListState ?? this.demarcheListState,
       createDemarcheState: createDemarcheState ?? this.createDemarcheState,
       searchDemarcheState: searchDemarcheState ?? this.searchDemarcheState,
       updateDemarcheState: updateDemarcheState ?? this.updateDemarcheState,
@@ -384,7 +379,6 @@ class AppState extends Equatable {
       userActionCreatePendingState: UserActionCreatePendingNotInitializedState(),
       userActionUpdateState: UserActionUpdateNotInitializedState(),
       userActionDeleteState: UserActionDeleteNotInitializedState(),
-      demarcheListState: DemarcheListNotInitializedState(),
       detailsJeuneState: DetailsJeuneNotInitializedState(),
       createDemarcheState: CreateDemarcheNotInitializedState(),
       searchDemarcheState: SearchDemarcheNotInitializedState(),
@@ -460,7 +454,6 @@ class AppState extends Equatable {
         userActionCreatePendingState,
         userActionUpdateState,
         userActionDeleteState,
-        demarcheListState,
         createDemarcheState,
         searchDemarcheState,
         updateDemarcheState,

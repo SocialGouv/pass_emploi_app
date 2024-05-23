@@ -31,7 +31,6 @@ class AnalyticsScreenNames {
 
   static const contactProfil = "profil/contact";
 
-  static const userActionList = "actions/list";
   static const userActionDetails = "actions/detail";
   static const userActionUpdate = "actions/update";
   static const updateUserAction = "actions/detail?modifySuccess=true";

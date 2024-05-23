@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_view_model_helper.dart';
@@ -97,8 +96,7 @@ class DemarcheDetailViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         createdByAdvisor,
         modifiedByAdvisor,
         withOfflineBehavior,
@@ -119,11 +117,8 @@ class DemarcheDetailViewModel extends Equatable {
 }
 
 DateTime? _getDateDerniereMiseAJour(Store<AppState> store, DemarcheStateSource stateSource) {
-  if (stateSource == DemarcheStateSource.agenda && store.state.agendaState is AgendaSuccessState) {
-    return (store.state.agendaState as AgendaSuccessState).agenda.dateDerniereMiseAJour;
-  } else if (stateSource == DemarcheStateSource.demarcheList &&
-      store.state.demarcheListState is DemarcheListSuccessState) {
-    return (store.state.demarcheListState as DemarcheListSuccessState).dateDerniereMiseAJour;
+  if (stateSource == DemarcheStateSource.monSuivi && store.state.monSuiviState is MonSuiviSuccessState) {
+    return (store.state.monSuiviState as MonSuiviSuccessState).monSuivi.dateDerniereMiseAJourPoleEmploi;
   }
   return null;
 }

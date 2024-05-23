@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
@@ -117,4 +118,16 @@ class DemarcheAttribut extends Equatable {
 
   @override
   List<Object?> get props => [key, value];
+}
+
+extension DemarcheList on List<Demarche> {
+  List<Demarche> withUpdatedDemarche(Demarche updatedDemarche) {
+    final demarcheToUpdate = firstWhereOrNull((d) => d.id == updatedDemarche.id);
+    if (demarcheToUpdate == null) return this;
+
+    return List<Demarche>.from(this) //
+        .where((d) => d.id != updatedDemarche.id)
+        .toList()
+      ..insert(0, updatedDemarche);
+  }
 }

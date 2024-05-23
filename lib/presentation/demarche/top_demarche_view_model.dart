@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_list_item.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 

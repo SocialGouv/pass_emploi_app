@@ -49,7 +49,6 @@ enum CachedResource {
   ACCUEIL,
   AGENDA,
   ANIMATIONS_COLLECTIVES,
-  DEMARCHES_LIST,
   SESSIONS_MILO_LIST,
   SESSIONS_MILO_INSCRIT,
   SESSIONS_MILO_NOT_INSCRIT,
@@ -64,7 +63,6 @@ enum CachedResource {
     if (url.contains('/accueil')) return ACCUEIL;
     if (url.contains('/home/agenda')) return AGENDA;
     if (url.contains('/animations-collectives')) return ANIMATIONS_COLLECTIVES;
-    if (url.contains('/home/demarches')) return DEMARCHES_LIST;
     if (url.endsWith('/favoris')) return FAVORIS;
     if (url.endsWith('/favoris/offres-emploi')) return FAVORIS_EMPLOI;
     if (url.endsWith('/favoris/offres-immersion')) return FAVORIS_IMMERSION;

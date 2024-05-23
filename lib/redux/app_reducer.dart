@@ -16,7 +16,6 @@ import 'package:pass_emploi_app/features/cv/cv_reducer.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_reducer.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
@@ -92,7 +91,6 @@ AppState reducer(AppState current, dynamic action) {
     userActionCreatePendingState: userActionCreatePendingReducer(current.userActionCreatePendingState, action),
     userActionUpdateState: userActionUpdateReducer(current.userActionUpdateState, action),
     userActionDeleteState: userActionDeleteReducer(current.userActionDeleteState, action),
-    demarcheListState: demarcheListReducer(current.demarcheListState, action),
     createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
     searchDemarcheState: searchDemarcheReducer(current.searchDemarcheState, action),
     updateDemarcheState: updateDemarcheReducer(current.updateDemarcheState, action),

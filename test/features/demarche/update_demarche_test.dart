@@ -1,14 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
-import '../../utils/expects.dart';
 
 void main() {
   test("update demarche when repo succeeds should display loading and then update demarche", () async {
@@ -38,7 +36,7 @@ void main() {
     expect(successUpdate.updateDemarcheState is UpdateDemarcheSuccessState, isTrue);
   });
 
-  test("update demarche when repo succeeds should update demarches' list with modified demarche", () async {
+  test("update demarche when repo succeeds should update mon suivi with modified demarche", () async {
     // Given
     final now = DateTime.now();
     final repository = UpdateDemarcheRepositorySuccessStub();
@@ -60,16 +58,9 @@ void main() {
 
     // Then
     await successUpdateState;
-    expect(
-      store.state.demarcheListState,
-      DemarcheListSuccessState(
-        [
-          mockDemarche(id: '1', status: DemarcheStatus.IN_PROGRESS),
-          mockDemarche(id: '2', status: DemarcheStatus.DONE),
-          mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
-        ],
-      ),
-    );
+    final demarches = (store.state.monSuiviState as MonSuiviSuccessState).monSuivi.demarches;
+    expect(demarches.length, 3);
+    expect(demarches.firstWhere((d) => d.id == '2'), mockDemarche(id: '2', status: DemarcheStatus.DONE));
   });
 
   test("update demarche when repo fails should display loading and then show failure", () async {
@@ -91,7 +82,7 @@ void main() {
     expect(failureUpdate.updateDemarcheState is UpdateDemarcheFailureState, isTrue);
   });
 
-  test("update demarche when repo fails should not update demarches' list", () async {
+  test("update demarche when repo fails should not update mon suivi", () async {
     // Given
     final now = DateTime.now();
     final store = givenState().loggedInPoleEmploiUser().withDemarches(
@@ -110,42 +101,12 @@ void main() {
     // Then
     await failureUpdateState;
     expect(
-      store.state.demarcheListState,
-      DemarcheListSuccessState(
-        [
-          mockDemarche(id: '1', status: DemarcheStatus.IN_PROGRESS),
-          mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
-          mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
-        ],
-      ),
+      (store.state.monSuiviState as MonSuiviSuccessState).monSuivi.demarches,
+      [
+        mockDemarche(id: '1', status: DemarcheStatus.IN_PROGRESS),
+        mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
+        mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
+      ],
     );
-  });
-
-  test("an edited demarche contained in agenda should be updated", () async {
-    // Given
-    final demarches = [
-      mockDemarche(id: '1', status: DemarcheStatus.NOT_STARTED),
-      mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
-    ];
-    final now = DateTime.now();
-    final repository = UpdateDemarcheRepositorySuccessStub();
-    repository.withArgsResolves('id', '1', DemarcheStatus.DONE, now, now);
-    final store = givenState()
-        .loggedInPoleEmploiUser()
-        .agenda(demarches: demarches)
-        .withDemarches(demarches)
-        .store((factory) => {factory.updateDemarcheRepository = repository});
-
-    final successUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheSuccessState);
-
-    // When
-    await store.dispatch(UpdateDemarcheRequestAction('1', now, now, DemarcheStatus.DONE));
-
-    // Then
-    await successUpdateState;
-    expectTypeThen<AgendaSuccessState>(store.state.agendaState, (agendaState) {
-      expect(agendaState.agenda.demarches[0].id, '1');
-      expect(agendaState.agenda.demarches[0].status, DemarcheStatus.DONE);
-    });
   });
 }

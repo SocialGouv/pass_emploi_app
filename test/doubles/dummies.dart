@@ -45,7 +45,6 @@ import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
@@ -92,10 +91,6 @@ class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyUserActionRepository extends UserActionRepository {
   DummyUserActionRepository() : super(DioMock());
-}
-
-class DummyPageDemarcheRepository extends PageDemarcheRepository {
-  DummyPageDemarcheRepository() : super(DioMock());
 }
 
 class DummyChatRepository extends ChatRepository {

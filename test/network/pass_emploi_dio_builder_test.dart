@@ -15,7 +15,7 @@ import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:redux/redux.dart';
 
 void main() {
-  const path = '/home/agenda';
+  const path = '/milo/accueil';
   const responseData = {'message': 'Success!'};
 
   late Dio dio;

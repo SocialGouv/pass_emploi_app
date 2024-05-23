@@ -6,11 +6,9 @@ import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 
@@ -18,44 +16,6 @@ import 'dio_mock.dart';
 import 'dummies.dart';
 import 'fixtures.dart';
 import 'mocks.dart';
-
-class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
-  PageDemarcheRepositorySuccessStub() : super(DioMock());
-
-  @override
-  Future<PageDemarches?> getPageDemarches(String userId) async {
-    return PageDemarches(
-      demarches: [
-        Demarche(
-          id: "id",
-          content: "content",
-          status: DemarcheStatus.NOT_STARTED,
-          endDate: DateTime(2022, 12, 23, 0, 0, 0),
-          deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
-          createdByAdvisor: true,
-          label: "label",
-          possibleStatus: [],
-          creationDate: DateTime(2022, 12, 23, 0, 0, 0),
-          modifiedByAdvisor: false,
-          sousTitre: "sous titre",
-          titre: "titre",
-          modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
-          attributs: [],
-        ),
-      ],
-      dateDerniereMiseAJour: DateTime(2023, 1, 1),
-    );
-  }
-}
-
-class PageDemarcheRepositoryFailureStub extends PageDemarcheRepository {
-  PageDemarcheRepositoryFailureStub() : super(DioMock());
-
-  @override
-  Future<PageDemarches?> getPageDemarches(String userId) async {
-    return null;
-  }
-}
 
 class ChatRepositoryStub extends ChatRepository {
   List<Message> _messages = [];

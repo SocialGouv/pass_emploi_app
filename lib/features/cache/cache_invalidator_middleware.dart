@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/features/alerte/create/alerte_create_actions.dar
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
@@ -30,10 +29,6 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
 
     if (_shouldInvalidateAccueil(store, action)) {
       await cacheManager.removeResource(CachedResource.ACCUEIL, userId);
-    }
-
-    if (_shouldInvalidateDemarchesList(action)) {
-      await cacheManager.removeResource(CachedResource.DEMARCHES_LIST, userId);
     }
 
     if (_shouldInvalidateAgenda(store, action)) {
@@ -98,12 +93,6 @@ bool _shouldInvalidateAgenda(Store<AppState> store, dynamic action) {
       _isExternalDeepLinkOf<ActionDeepLink>(action) ||
       _isExternalDeepLinkOf<RendezvousDeepLink>(action) ||
       _isExternalDeepLinkOf<SessionMiloDeepLink>(action);
-}
-
-bool _shouldInvalidateDemarchesList(dynamic action) {
-  return (action is DemarcheListRequestReloadAction && action.forceRefresh) ||
-      action is CreateDemarcheSuccessAction ||
-      action is UpdateDemarcheSuccessAction;
 }
 
 bool _shouldInvalidateAnimationsCollectives(dynamic action) {
