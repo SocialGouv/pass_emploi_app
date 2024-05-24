@@ -32,6 +32,7 @@ class PartageMessage extends StatelessWidget {
           _PartageCard(item: item),
         ],
       ),
+      isPj: false,
       isMyMessage: item.sender == Sender.jeune,
       caption: item.caption,
       captionColor: item.captionColor,

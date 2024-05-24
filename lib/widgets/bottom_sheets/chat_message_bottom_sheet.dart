@@ -31,19 +31,21 @@ class ChatMessageBottomSheet extends StatelessWidget {
         builder: (context, viewModel) {
           return BottomSheetWrapper(
             title: Strings.chatMessageBottomSheetTitle,
-            heightFactor: BottomSheetWrapper.smallHeightFactor(context),
+            heightFactor: 0.6,
             body: SizedBox(
               width: double.infinity,
               child: OverflowBox(
                 maxHeight: double.infinity,
                 maxWidth: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    SizedBox(height: Margins.spacing_base),
-                    if (viewModel.withCopyOption) _CopyMessageButton(viewModel.content),
-                    if (viewModel.withEditOption) _EditMessageButton(viewModel.onEdit, viewModel.content),
-                    if (viewModel.withDeleteOption) _DeleteMessageButton(viewModel.onDelete),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: Margins.spacing_base),
+                      if (viewModel.withCopyOption) _CopyMessageButton(viewModel.content),
+                      if (viewModel.withEditOption) _EditMessageButton(viewModel.onEdit, viewModel.content),
+                      if (viewModel.withDeleteOption) _DeleteMessageButton(viewModel.onDelete),
+                    ],
+                  ),
                 ),
               ),
             ),

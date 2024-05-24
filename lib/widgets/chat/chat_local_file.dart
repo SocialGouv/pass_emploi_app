@@ -16,6 +16,7 @@ class ChatLocalFile extends StatelessWidget {
       captionColor: message.captionColor,
       captionSuffixIcon: message.captionSuffixIcon,
       isMyMessage: true,
+      isPj: true,
       content: Row(
         children: [
           SizedBox.square(
@@ -23,7 +24,7 @@ class ChatLocalFile extends StatelessWidget {
             child: CircularProgressIndicator(),
           ),
           SizedBox(width: Margins.spacing_s),
-          Text(message.fileName, style: TextStyles.textBaseBold.copyWith(color: Colors.white))
+          Expanded(child: Text(message.fileName, style: TextStyles.textBaseBold.copyWith(color: Colors.white)))
         ],
       ),
     );

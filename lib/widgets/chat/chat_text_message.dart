@@ -35,6 +35,7 @@ class ChatTextMessage extends StatelessWidget {
         linkStyle: textStyle,
         style: textStyle,
       ),
+      isPj: false,
       isMyMessage: isMyMessage,
       caption: params.caption,
       captionColor: params.captionColor,

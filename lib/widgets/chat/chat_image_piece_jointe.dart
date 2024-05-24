@@ -45,6 +45,7 @@ class _Body extends StatelessWidget {
         DisplayState.FAILURE => _Failure(),
         DisplayState.EMPTY => _Failure(),
       },
+      isPj: true,
       isMyMessage: true,
       caption: item.caption,
       captionColor: null,
@@ -59,7 +60,10 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (imagePath == null) return _Failure();
-    return Image.file(File(imagePath!));
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(Dimens.radius_base),
+      child: Image.file(File(imagePath!)),
+    );
   }
 }
 
