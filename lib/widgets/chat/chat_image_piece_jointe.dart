@@ -24,7 +24,7 @@ class ChatImagePieceJointe extends StatelessWidget {
       onInit: (store) {
         store.dispatch(PieceJointeFromIdRequestAction(item.pieceJointeId, item.pieceJointeName, isImage: true));
       },
-      converter: (store) => PieceJointeViewModel.create(store),
+      converter: (store) => PieceJointeViewModel.create(store, PieceJointeImagePreviewSource()),
       builder: (context, viewModel) => _Body(item: item, viewModel: viewModel),
       distinct: true,
     );
