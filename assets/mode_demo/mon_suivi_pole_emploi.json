@@ -239,7 +239,9 @@
         "prenom": "Nils"
       },
       "presenceConseiller": true,
-      "invitation": false
+      "invitation": false,
+      "visio": true,
+      "lienVisio": "https://visio.com/123456"
     },
     {
       "id": "020fe52d-50c8-4ea2-a8f8-73a7771ca3d9",
