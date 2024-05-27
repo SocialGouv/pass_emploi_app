@@ -95,7 +95,6 @@ RendezvousStateSource _stateSource(RendezvousStateSource stateSource) {
       RendezvousStateSource.sessionMiloDetails,
     RendezvousStateSource.noSource ||
     RendezvousStateSource.accueilProchainRendezvous ||
-    RendezvousStateSource.agenda ||
     RendezvousStateSource.monSuivi ||
     RendezvousStateSource.eventListAnimationsCollectives ||
     RendezvousStateSource.accueilLesEvenements =>

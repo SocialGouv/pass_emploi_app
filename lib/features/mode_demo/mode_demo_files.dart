@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/utils/log.dart';
 String? getDemoFileName(String url, String query) {
   if (url.contains('/milo/accueil')) return 'accueil_mission_locale';
   if (url.contains('/pole-emploi/accueil')) return 'accueil_pole_emploi';
-  if (url.contains('/home/agenda/pole-emploi')) return 'home_agenda_pole_emploi';
   if (url.endsWith('/favoris/offres-immersion')) return 'favoris_ids_immersion';
   if (url.endsWith('/favoris/offres-emploi')) return 'favoris_ids_offres_emploi';
   if (url.endsWith('/favoris/services-civique')) return 'favoris_ids_service_civique';

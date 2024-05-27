@@ -10,7 +10,7 @@ void main() {
     final sut = DioRepositorySut<AnimationsCollectivesRepository>();
     sut.givenRepository((client) => AnimationsCollectivesRepository(client));
 
-    group('getAgendaPoleEmploi', () {
+    group('get', () {
       sut.when(
         (repository) => repository.get("UID", DateTime.utc(2022, 11, 5)),
       );

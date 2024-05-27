@@ -29,7 +29,6 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
-import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/alerte_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/get_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/immersion_alerte_repository.dart';
@@ -250,7 +249,6 @@ class AppInitializer {
       PartageActiviteRepository(dioClient, crashlytics),
       RatingRepository(securedPreferences),
       ActionCommentaireRepository(dioClient, requestCacheManager, crashlytics),
-      AgendaRepository(dioClient, crashlytics),
       SuggestionsRechercheRepository(dioClient, requestCacheManager, crashlytics),
       AnimationsCollectivesRepository(dioClient, crashlytics),
       SessionMiloRepository(dioClient, crashlytics),

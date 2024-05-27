@@ -1,5 +1,4 @@
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/alerte/create/alerte_create_actions.dart';
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
@@ -29,10 +28,6 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
 
     if (_shouldInvalidateAccueil(store, action)) {
       await cacheManager.removeResource(CachedResource.ACCUEIL, userId);
-    }
-
-    if (_shouldInvalidateAgenda(store, action)) {
-      await cacheManager.removeResource(CachedResource.AGENDA, userId);
     }
 
     if (_shouldInvalidateAnimationsCollectives(action)) {
@@ -80,19 +75,6 @@ bool _shouldInvalidateAccueil(Store<AppState> store, dynamic action) {
       _isExternalDeepLinkOf<RendezvousDeepLink>(action) ||
       _isExternalDeepLinkOf<SessionMiloDeepLink>(action) ||
       _isExternalDeepLinkOf<AlerteDeepLink>(action);
-}
-
-bool _shouldInvalidateAgenda(Store<AppState> store, dynamic action) {
-  return (action is AgendaRequestReloadAction && action.forceRefresh) ||
-      action is UserActionCreateSuccessAction ||
-      action is UserActionDeleteSuccessAction ||
-      action is UserActionUpdateSuccessAction ||
-      action is CreateDemarcheSuccessAction ||
-      action is UpdateDemarcheSuccessAction ||
-      _newUserActionsCreated(store, action) ||
-      _isExternalDeepLinkOf<ActionDeepLink>(action) ||
-      _isExternalDeepLinkOf<RendezvousDeepLink>(action) ||
-      _isExternalDeepLinkOf<SessionMiloDeepLink>(action);
 }
 
 bool _shouldInvalidateAnimationsCollectives(dynamic action) {

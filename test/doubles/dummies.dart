@@ -12,7 +12,6 @@ import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
-import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/alerte_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/get_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/immersion_alerte_repository.dart';
@@ -307,10 +306,6 @@ class DummyRatingRepository extends RatingRepository {
 
 class DummyActionCommentaireRepository extends ActionCommentaireRepository {
   DummyActionCommentaireRepository() : super(DioMock(), DummyPassEmploiCacheManager());
-}
-
-class DummyAgendaRepository extends AgendaRepository {
-  DummyAgendaRepository() : super(DioMock());
 }
 
 class DummySuggestionsRechercheRepository extends SuggestionsRechercheRepository {

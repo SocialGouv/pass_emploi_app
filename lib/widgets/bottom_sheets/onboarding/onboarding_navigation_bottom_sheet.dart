@@ -125,7 +125,7 @@ class _FakeNavBar extends StatelessWidget {
     Navigator.of(context).pop();
     StoreProvider.of<AppState>(context).dispatch(
       HandleDeepLinkAction(
-        AgendaDeepLink(),
+        MonSuiviDeepLink(),
         DeepLinkOrigin.inAppNavigation,
       ),
     );

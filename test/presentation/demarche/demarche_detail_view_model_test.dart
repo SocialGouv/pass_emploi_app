@@ -130,17 +130,6 @@ void main() {
     });
   });
 
-  test('DemarcheDetailViewModel.create when demarche is from agenda should create view model properly', () {
-    // Given
-    final store = givenState().agenda(demarches: [(mockDemarche())]).store();
-
-    // When
-    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.agenda, 'id');
-
-    // Then
-    expect(viewModel, isNotNull);
-  });
-
   group("update display state ...", () {
     test("is empty when UpdateDemarcheState is not initialized", () {
       // Given

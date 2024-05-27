@@ -119,7 +119,7 @@ class _Body extends StatelessWidget {
             child: switch (viewModel.displayState) {
               DisplayState.LOADING => AccueilLoading(),
               DisplayState.CONTENT => _Blocs(viewModel),
-              DisplayState.EMPTY || DisplayState.FAILURE => Retry(Strings.agendaError, () => viewModel.retry()),
+              DisplayState.EMPTY || DisplayState.FAILURE => Retry(Strings.accueilError, () => viewModel.retry()),
             },
           ),
         ),

@@ -47,7 +47,6 @@ class PassEmploiCacheManager {
 
 enum CachedResource {
   ACCUEIL,
-  AGENDA,
   ANIMATIONS_COLLECTIVES,
   SESSIONS_MILO_LIST,
   SESSIONS_MILO_INSCRIT,
@@ -61,7 +60,6 @@ enum CachedResource {
 
   static CachedResource? fromUrl(String url) {
     if (url.contains('/accueil')) return ACCUEIL;
-    if (url.contains('/home/agenda')) return AGENDA;
     if (url.contains('/animations-collectives')) return ANIMATIONS_COLLECTIVES;
     if (url.endsWith('/favoris')) return FAVORIS;
     if (url.endsWith('/favoris/offres-emploi')) return FAVORIS_EMPLOI;

@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
@@ -18,7 +17,6 @@ extension RendezvousStoreExtension on Store<AppState> {
       RendezvousStateSource.accueilProchaineSession => _getRendezvousFromAccueilProchaineSessionState(rdvId),
       RendezvousStateSource.accueilLesEvenements => _getRendezvousFromAccueilLesEvenementsState(rdvId),
       RendezvousStateSource.accueilLesEvenementsSession => _getRendezvousFromAccueilSessionsMiloAVenirState(rdvId),
-      RendezvousStateSource.agenda => _getRendezvousFromAgendaState(rdvId),
       RendezvousStateSource.monSuivi => _getRendezvousFromMonSuiviState(rdvId),
       RendezvousStateSource.monSuiviSessionMilo => _getRendezvousFromMonSuiviSessionState(rdvId),
       RendezvousStateSource.eventListAnimationsCollectives => _getRendezvousFromEventListState(rdvId),
@@ -49,14 +47,6 @@ extension RendezvousStoreExtension on Store<AppState> {
     if (state is! SessionMiloDetailsSuccessState) throw Exception('Invalid state.');
     final sessionMilo = state.details;
     return sessionMilo.toRendezVous;
-  }
-
-  Rendezvous _getRendezvousFromAgendaState(String rdvId) {
-    final state = this.state.agendaState;
-    if (state is! AgendaSuccessState) throw Exception('Invalid state.');
-    final rendezvous = state.agenda.rendezvous.where((e) => e.id == rdvId).firstOrNull;
-    if (rendezvous == null) throw Exception('No Rendezvous matching id $rdvId');
-    return rendezvous;
   }
 
   Rendezvous _getRendezvousFromMonSuiviState(String rdvId) {

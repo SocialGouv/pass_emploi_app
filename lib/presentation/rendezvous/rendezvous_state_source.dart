@@ -3,7 +3,6 @@ enum RendezvousStateSource {
   accueilProchainRendezvous,
   accueilLesEvenements,
   accueilLesEvenementsSession,
-  agenda,
   monSuivi,
   eventListAnimationsCollectives,
   eventListSessionsMilo,

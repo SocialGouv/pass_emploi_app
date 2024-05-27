@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_middleware.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_middleware.dart';
 import 'package:pass_emploi_app/features/alerte/create/immersion_alerte_create_middleware.dart';
 import 'package:pass_emploi_app/features/alerte/create/offre_emploi_alerte_create_middleware.dart';
 import 'package:pass_emploi_app/features/alerte/create/service_civique_alerte_create_middleware.dart';
@@ -88,7 +87,6 @@ import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
-import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/alerte_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/get_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/immersion_alerte_repository.dart';
@@ -203,7 +201,6 @@ class StoreFactory {
   final PartageActiviteRepository partageActiviteRepository;
   final RatingRepository ratingRepository;
   final ActionCommentaireRepository actionCommentaireRepository;
-  final AgendaRepository agendaRepository;
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
   final AnimationsCollectivesRepository animationsCollectivesRepository;
   final SessionMiloRepository sessionMiloRepository;
@@ -279,7 +276,6 @@ class StoreFactory {
     this.partageActiviteRepository,
     this.ratingRepository,
     this.actionCommentaireRepository,
-    this.agendaRepository,
     this.suggestionsRechercheRepository,
     this.animationsCollectivesRepository,
     this.sessionMiloRepository,
@@ -369,7 +365,6 @@ class StoreFactory {
         PartageActiviteUpdateMiddleware(partageActiviteRepository).call,
         RatingMiddleware(ratingRepository, detailsJeuneRepository).call,
         ActionCommentaireListMiddleware(actionCommentaireRepository).call,
-        AgendaMiddleware(agendaRepository).call,
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository).call,
         TraiterSuggestionRechercheMiddleware(suggestionsRechercheRepository).call,
         EventListMiddleware(animationsCollectivesRepository, sessionMiloRepository).call,

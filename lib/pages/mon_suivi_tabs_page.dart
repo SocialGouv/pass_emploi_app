@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/pages/agenda_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
@@ -62,7 +61,7 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
               PassEmploiTabBar(
                 controller: _tabController,
                 tabLabels: [
-                  Strings.agendaTabTitle,
+                  "Cette semaine",
                   "Démarches",
                   "Rendez-vous",
                 ],
@@ -71,7 +70,7 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    AgendaPage(() => _tabController.animateTo(1)),
+                    SizedBox.shrink(),
                     SizedBox.shrink(),
                     SizedBox.shrink(),
                   ],

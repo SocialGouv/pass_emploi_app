@@ -1,4 +1,3 @@
-import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -39,7 +38,6 @@ class CreateDemarcheMiddleware extends MiddlewareClass<AppState> {
   void _dispatchCreateDemarche(String? demarcheId, Store<AppState> store) {
     if (demarcheId != null) {
       store.dispatch(CreateDemarcheSuccessAction(demarcheId));
-      store.dispatch(AgendaRequestAction(DateTime.now()));
     } else {
       store.dispatch(CreateDemarcheFailureAction());
     }

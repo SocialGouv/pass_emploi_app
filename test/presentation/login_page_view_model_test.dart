@@ -11,7 +11,7 @@ void main() {
   group('EntreePageViewModel', () {
     test('entree page view model should not display demander un compte when brand is BRSA', () {
       // Given
-      final store = givenBrsaState().agenda().store();
+      final store = givenBrsaState().store();
 
       // When
       final viewModel = LoginPageViewModel.create(store);
@@ -22,7 +22,7 @@ void main() {
 
     test('entree page view model should display demander un compte when brand is CEJ', () {
       // Given
-      final store = givenState().agenda().store();
+      final store = givenState().store();
 
       // When
       final viewModel = LoginPageViewModel.create(store);

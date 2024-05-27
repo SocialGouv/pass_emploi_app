@@ -895,23 +895,6 @@ void main() {
         );
       });
 
-      test('when source is agenda should get rendezvous from agenda state', () {
-        // Given
-        final rendezvous = mockRendezvous(id: '1', description: 'description');
-        final store = givenState().agenda(rendezvous: [rendezvous]).store();
-
-        // When
-        final viewModel = RendezvousDetailsViewModel.create(
-          store: store,
-          source: RendezvousStateSource.agenda,
-          rdvId: '1',
-          platform: Platform.IOS,
-        );
-
-        // Then
-        expect(viewModel.description, 'description');
-      });
-
       test('when source is accueil should get rendezvous from accueil state', () {
         // Given
         final store = givenState().withAccueilMiloSuccess().store();

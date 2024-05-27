@@ -61,7 +61,7 @@ class AccueilCetteSemaine extends StatelessWidget {
                   label: Strings.accueilVoirDetailsCetteSemaine,
                   onPressed: () => StoreProvider.of<AppState>(context).dispatch(
                     HandleDeepLinkAction(
-                      AgendaDeepLink(),
+                      MonSuiviDeepLink(),
                       DeepLinkOrigin.inAppNavigation,
                     ),
                   ),

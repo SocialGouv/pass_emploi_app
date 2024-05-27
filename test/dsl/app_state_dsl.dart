@@ -1,7 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
@@ -49,7 +48,6 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_s
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
-import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
@@ -260,37 +258,6 @@ extension AppStateDSL on AppState {
 
   AppState actionCommentsNotInitState() {
     return copyWith(actionCommentaireListState: ActionCommentaireListNotInitializedState());
-  }
-
-  AppState emptyAgenda() {
-    final agenda = Agenda(
-      demarches: [],
-      rendezvous: [],
-      sessionsMilo: [],
-      delayedActions: 0,
-      dateDeDebut: DateTime(2042),
-    );
-    return copyWith(agendaState: AgendaSuccessState(agenda));
-  }
-
-  AppState agenda({
-    List<Demarche>? demarches,
-    List<Rendezvous>? rendezvous,
-    List<SessionMilo>? sessionsMilo,
-    int delayedActions = 0,
-    DateTime? dateDeDebut,
-    DateTime? dateDerniereMiseAjour,
-  }) {
-    return copyWith(
-      agendaState: AgendaSuccessState(Agenda(
-        demarches: demarches ?? [],
-        rendezvous: rendezvous ?? [],
-        sessionsMilo: sessionsMilo ?? [],
-        delayedActions: delayedActions,
-        dateDeDebut: dateDeDebut ?? DateTime(2042),
-        dateDerniereMiseAJour: dateDerniereMiseAjour,
-      )),
-    );
   }
 
   AppState monSuivi({Interval? interval, MonSuivi? monSuivi}) {

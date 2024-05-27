@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/alerte/create/alerte_create_state.dart';
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_state.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_state.dart';
@@ -119,7 +118,6 @@ class AppState extends Equatable {
   final PartageActiviteUpdateState partageActiviteUpdateState;
   final RatingState ratingState;
   final ActionCommentaireListState actionCommentaireListState;
-  final AgendaState agendaState;
   final SuggestionsRechercheState suggestionsRechercheState;
   final TraiterSuggestionRechercheState traiterSuggestionRechercheState;
   final EventListState eventListState;
@@ -193,7 +191,6 @@ class AppState extends Equatable {
     required this.partageActiviteUpdateState,
     required this.ratingState,
     required this.actionCommentaireListState,
-    required this.agendaState,
     required this.suggestionsRechercheState,
     required this.traiterSuggestionRechercheState,
     required this.eventListState,
@@ -267,7 +264,6 @@ class AppState extends Equatable {
     final PartageActiviteUpdateState? partageActiviteUpdateState,
     final RatingState? ratingState,
     final ActionCommentaireListState? actionCommentaireListState,
-    final AgendaState? agendaState,
     final SuggestionsRechercheState? suggestionsRechercheState,
     final TraiterSuggestionRechercheState? traiterSuggestionRechercheState,
     final EventListState? eventListState,
@@ -340,7 +336,6 @@ class AppState extends Equatable {
       partageActiviteUpdateState: partageActiviteUpdateState ?? this.partageActiviteUpdateState,
       ratingState: ratingState ?? this.ratingState,
       actionCommentaireListState: actionCommentaireListState ?? this.actionCommentaireListState,
-      agendaState: agendaState ?? this.agendaState,
       suggestionsRechercheState: suggestionsRechercheState ?? this.suggestionsRechercheState,
       traiterSuggestionRechercheState: traiterSuggestionRechercheState ?? this.traiterSuggestionRechercheState,
       eventListState: eventListState ?? this.eventListState,
@@ -416,7 +411,6 @@ class AppState extends Equatable {
       partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),
       ratingState: RatingNotInitializedState(),
       actionCommentaireListState: ActionCommentaireListNotInitializedState(),
-      agendaState: AgendaNotInitializedState(),
       suggestionsRechercheState: SuggestionsRechercheNotInitializedState(),
       traiterSuggestionRechercheState: TraiterSuggestionRechercheNotInitializedState(),
       eventListState: EventListNotInitializedState(),
@@ -485,7 +479,6 @@ class AppState extends Equatable {
         partageActiviteUpdateState,
         ratingState,
         actionCommentaireListState,
-        agendaState,
         suggestionsRechercheState,
         traiterSuggestionRechercheState,
         eventListState,

@@ -76,8 +76,6 @@ class AppIcons {
   static const IconData favorite_outline_rounded = Icons.favorite_outline_rounded;
   static const IconData group_rounded = Icons.group_rounded;
   static const IconData group_outlined = Icons.group_outlined;
-  static const IconData view_agenda_rounded = Icons.view_agenda_rounded;
-  static const IconData view_agenda_outlined = Icons.view_agenda_outlined;
   static const IconData check_circle_rounded = Icons.check_circle_rounded;
   static const IconData check_circle_outline_rounded = Icons.check_circle_outline_rounded;
   static const IconData arrow_circle_right_rounded = Icons.arrow_circle_right_rounded;

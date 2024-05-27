@@ -1,5 +1,4 @@
 import 'package:pass_emploi_app/features/accueil/accueil_reducer.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_reducer.dart';
 import 'package:pass_emploi_app/features/alerte/create/alerte_create_reducer.dart';
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_reducer.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_reducer.dart';
@@ -145,7 +144,6 @@ AppState reducer(AppState current, dynamic action) {
     partageActiviteUpdateState: partageActiviteUpdateReducer(current.partageActiviteUpdateState, action),
     ratingState: ratingReducer(current.ratingState, action),
     actionCommentaireListState: actionCommentaireListReducer(current.actionCommentaireListState, action),
-    agendaState: agendaReducer(current.agendaState, action),
     suggestionsRechercheState: suggestionsRechercheReducer(current.suggestionsRechercheState, action),
     traiterSuggestionRechercheState: traiterSuggestionRechercheReducer(current.traiterSuggestionRechercheState, action),
     eventListState: eventListReducer(current.eventListState, action),

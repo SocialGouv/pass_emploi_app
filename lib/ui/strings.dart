@@ -342,6 +342,7 @@ class Strings {
   static String accueilRendezvousSection = "Votre prochain rendez-vous";
   static String accueilActionSingular = "Action";
   static String accueilActionPlural = "Actions";
+  static String accueilError = "Erreur lors de la récupération de votre page d’accueil";
   static String accueilDemarcheSingular = "Démarche";
   static String accueilDemarchePlural = "Démarches";
   static String accueilRendezvous = "Rendez-vous";
@@ -367,7 +368,6 @@ class Strings {
 
   // Mon Suivi Tabs
   static String monSuiviAppBarTitle = "Mon suivi";
-  static String agendaTabTitle = "Cette semaine";
 
   // Mon Suivi
   static String monSuiviCetteSemaine = "Cette semaine";
@@ -381,20 +381,6 @@ class Strings {
   static String monSuiviPePastLimitReached = "Les démarches et les rendez-vous plus anciens ne sont pas disponibles";
   static String monSuiviPeFutureLimitReached = "Les démarches et les rendez-vous plus récents ne sont pas disponibles";
   static String monSuiviPoleEmploiDataError = "Certaines démarches et rendez-vous ne sont peut-être pas à jour.";
-
-  // Agenda
-  static String agendaEmptyTitle = "Vous n’avez rien de prévu cette semaine";
-  static String agendaEmptySubtitlePoleEmploi =
-      "Commencez en ajoutant une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran";
-  static String agendaError = "Erreur lors de la récupération de vos actions et rendez-vous";
-  static String agendaEmptyForDayPoleEmploi = "Pas de démarche ni de rendez-vous";
-  static String agendaEmptyForWeekPoleEmploi =
-      "Pas de démarche ni de rendez-vous. Ajoutez une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran.";
-  static String nextWeek = "Semaine prochaine";
-  static String semaineEnCours = "Semaine en cours";
-  static String agendaNoActionThisWeekTitle = "Vous n’avez pas d’action ni de rendez-vous prévus cette semaine";
-  static String agendaNoActionThisWeekDescription = "Vous pouvez voir les événements à venir dans votre Mission locale";
-  static String agendaSeeEventInAgenceButton = "Voir les événements de votre mission locale";
 
   // Actualisation PE
   static String actualisationPePopUpTitle = "La période d’actualisation France Travail a commencé";
