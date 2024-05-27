@@ -22,7 +22,6 @@ class AnalyticsScreenNames {
 
   static const accueil = "accueil";
   static const accueilSuggestionsListe = "accueil/suggested_list";
-  static const monSuivi = "mon_suivi";
   static const monSuiviV2 = "mon_suivi/v2";
   static const chat = "chat";
   static const cvmChat = "chat_cvm";

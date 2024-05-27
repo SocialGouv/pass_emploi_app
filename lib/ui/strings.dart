@@ -366,10 +366,8 @@ class Strings {
       Brand.isCej() ? accueilCampagneRecrutementLabelCej : accueilCampagneRecrutementLabelBrsa;
   static String accueilCampagneRecrutementPressedTip = "Participer";
 
-  // Mon Suivi Tabs
-  static String monSuiviAppBarTitle = "Mon suivi";
-
   // Mon Suivi
+  static String monSuiviTitle = "Mon suivi";
   static String monSuiviCetteSemaine = "Cette semaine";
   static String monSuiviSemaineProchaine = "Semaine prochaine";
   static String monSuiviEmptyPastMilo = "Aucun événement ni action";

@@ -144,7 +144,7 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
   @override
   Widget build(BuildContext context) {
     return PrimaryAppBar(
-      title: Strings.monSuiviAppBarTitle,
+      title: Strings.monSuiviTitle,
       actionButton: withActionButton
           ? IconButton(
               onPressed: () => _StateProvider.maybeOf(context)?.scrollController.animateTo(
