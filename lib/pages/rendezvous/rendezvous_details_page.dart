@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
 import 'package:pass_emploi_app/pages/chat/chat_partage_bottom_sheet.dart';
@@ -75,12 +76,12 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
     );
   }
 
-  void _onInit(Store<AppState> store) {
-    if (widget._source == RendezvousStateSource.sessionMiloDetails) {
-      store.dispatch(SessionMiloDetailsRequestAction(widget._rendezvousId));
-    } else if (widget._source == RendezvousStateSource.noSource) {
-      store.dispatch(RendezvousDetailsRequestAction(widget._rendezvousId));
-    }
+  dynamic _onInit(Store<AppState> store) {
+    return switch (widget._source) {
+      RendezvousStateSource.sessionMiloDetails => store.dispatch(SessionMiloDetailsRequestAction(widget._rendezvousId)),
+      RendezvousStateSource.noSource => store.dispatch(RendezvousDetailsRequestAction(widget._rendezvousId)),
+      _ => {},
+    };
   }
 
   Widget _scaffold(BuildContext context, RendezvousDetailsViewModel viewModel) {
@@ -186,6 +187,7 @@ class _Modality extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _trackVisioButtonDisplay();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -229,7 +231,10 @@ class _Modality extends StatelessWidget {
               children: [
                 PrimaryActionButton(
                   label: Strings.seeVisio,
-                  onPressed: () => launchExternalUrl(viewModel.visioRedirectUrl!),
+                  onPressed: () {
+                    _trackVisioButtonClick();
+                    launchExternalUrl(viewModel.visioRedirectUrl!);
+                  },
                 ),
               ],
             ),
@@ -277,6 +282,22 @@ class _Modality extends StatelessWidget {
   bool _withActiveVisioButton() => viewModel.visioButtonState == VisioButtonState.ACTIVE;
 
   bool _withInactiveVisioButton() => viewModel.visioButtonState == VisioButtonState.INACTIVE;
+
+  void _trackVisioButtonDisplay() {
+    if (_withActiveVisioButton()) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: AnalyticsEventNames.rendezvousVisioCategory,
+        action: AnalyticsEventNames.rendezvousVisioDisplayAction,
+      );
+    }
+  }
+
+  void _trackVisioButtonClick() {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.rendezvousVisioCategory,
+      action: AnalyticsEventNames.rendezvousVisioClickAction,
+    );
+  }
 }
 
 class _DescriptionPart extends StatelessWidget {

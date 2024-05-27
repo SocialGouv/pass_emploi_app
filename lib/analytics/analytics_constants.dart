@@ -269,6 +269,10 @@ class AnalyticsEventNames {
   static const cvmMessageCategory = "CVM - messages envoyés";
   static const cvmMessageAndroidAction = "Envoi message Android";
   static const cvmMessageIosAction = "Envoi message iOS";
+
+  static const rendezvousVisioCategory = "Rendez-vous bénéficiaire - visio";
+  static const rendezvousVisioDisplayAction = "Affichage";
+  static const rendezvousVisioClickAction = "Clic";
 }
 
 class AnalyticsCustomDimensions {
