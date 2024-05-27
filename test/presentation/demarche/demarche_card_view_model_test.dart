@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 
 import '../../doubles/fixtures.dart';
@@ -20,11 +19,7 @@ void main() {
     final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
     // When
-    final viewModel = DemarcheCardViewModel.create(
-      store: store,
-      stateSource: DemarcheStateSource.monSuivi,
-      demarcheId: 'id',
-    );
+    final viewModel = DemarcheCardViewModel.create(store: store, demarcheId: 'id');
 
     // Then
     expect(viewModel.id, 'id');
@@ -44,11 +39,7 @@ void main() {
       final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
       // When
-      final viewModel = DemarcheCardViewModel.create(
-        store: store,
-        stateSource: DemarcheStateSource.monSuivi,
-        demarcheId: 'id',
-      );
+      final viewModel = DemarcheCardViewModel.create(store: store, demarcheId: 'id');
 
       // Then
       expect(viewModel.semanticLabel, "Démarche Mes entretiens d'embauche : Faire mon CV - Terminée");
@@ -64,11 +55,7 @@ void main() {
       final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
       // When
-      final viewModel = DemarcheCardViewModel.create(
-        store: store,
-        stateSource: DemarcheStateSource.monSuivi,
-        demarcheId: 'id',
-      );
+      final viewModel = DemarcheCardViewModel.create(store: store, demarcheId: 'id');
 
       // Then
       expect(viewModel.semanticLabel, "Démarche : Faire mon CV - Terminée");
@@ -85,11 +72,7 @@ void main() {
       final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
       // When
-      final viewModel = DemarcheCardViewModel.create(
-        store: store,
-        stateSource: DemarcheStateSource.monSuivi,
-        demarcheId: 'id',
-      );
+      final viewModel = DemarcheCardViewModel.create(store: store, demarcheId: 'id');
 
       // Then
       expect(viewModel.pillule, CardPilluleType.late);
@@ -104,11 +87,7 @@ void main() {
       final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
       // When
-      final viewModel = DemarcheCardViewModel.create(
-        store: store,
-        stateSource: DemarcheStateSource.monSuivi,
-        demarcheId: 'id',
-      );
+      final viewModel = DemarcheCardViewModel.create(store: store, demarcheId: 'id');
 
       // Then
       expect(viewModel.pillule, CardPilluleType.canceled);
@@ -123,11 +102,7 @@ void main() {
       final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
       // When
-      final viewModel = DemarcheCardViewModel.create(
-        store: store,
-        stateSource: DemarcheStateSource.monSuivi,
-        demarcheId: 'id',
-      );
+      final viewModel = DemarcheCardViewModel.create(store: store, demarcheId: 'id');
 
       // Then
       expect(viewModel.pillule, CardPilluleType.done);
@@ -142,11 +117,7 @@ void main() {
       final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
       // When
-      final viewModel = DemarcheCardViewModel.create(
-        store: store,
-        stateSource: DemarcheStateSource.monSuivi,
-        demarcheId: 'id',
-      );
+      final viewModel = DemarcheCardViewModel.create(store: store, demarcheId: 'id');
 
       // Then
       expect(viewModel.pillule, CardPilluleType.doing);
@@ -161,11 +132,7 @@ void main() {
       final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
 
       // When
-      final viewModel = DemarcheCardViewModel.create(
-        store: store,
-        stateSource: DemarcheStateSource.monSuivi,
-        demarcheId: 'id',
-      );
+      final viewModel = DemarcheCardViewModel.create(store: store, demarcheId: 'id');
 
       // Then
       expect(viewModel.pillule, CardPilluleType.todo);

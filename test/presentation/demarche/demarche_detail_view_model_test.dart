@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_detail_view_model.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
@@ -43,7 +42,7 @@ void main() {
       final store = givenState().withDemarches([demarche]).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.monSuivi, "8802034");
+      final viewModel = DemarcheDetailViewModel.create(store, "8802034");
 
       // Then
       expect(viewModel.createdByAdvisor, isTrue);
@@ -95,7 +94,7 @@ void main() {
       final store = givenState().withDemarches([demarche]).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.monSuivi, "8802034");
+      final viewModel = DemarcheDetailViewModel.create(store, "8802034");
 
       // Then
       expect(
@@ -123,7 +122,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.monSuivi, "8802034");
+      final viewModel = DemarcheDetailViewModel.create(store, "8802034");
 
       // Then
       expect(viewModel.withDateDerniereMiseAJour, "Dernière actualisation de vos démarches le 25/12/2022 à 12h30");
@@ -136,7 +135,7 @@ void main() {
       final store = givenState().updateDemarcheNotInit().withDemarches(mockDemarches()).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.monSuivi, "demarcheId");
+      final viewModel = DemarcheDetailViewModel.create(store, "demarcheId");
 
       // Then
       expect(viewModel.updateDisplayState, DisplayState.EMPTY);
@@ -147,7 +146,7 @@ void main() {
       final store = givenState().updateDemarcheLoading().withDemarches(mockDemarches()).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.monSuivi, "demarcheId");
+      final viewModel = DemarcheDetailViewModel.create(store, "demarcheId");
 
       // Then
       expect(viewModel.updateDisplayState, DisplayState.LOADING);
@@ -158,7 +157,7 @@ void main() {
       final store = givenState().updateDemarcheSuccess().withDemarches(mockDemarches()).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.monSuivi, "demarcheId");
+      final viewModel = DemarcheDetailViewModel.create(store, "demarcheId");
 
       // Then
       expect(viewModel.updateDisplayState, DisplayState.EMPTY);
@@ -169,7 +168,7 @@ void main() {
       final store = givenState().updateDemarcheFailure().withDemarches(mockDemarches()).store();
 
       // When
-      final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.monSuivi, "demarcheId");
+      final viewModel = DemarcheDetailViewModel.create(store, "demarcheId");
 
       // Then
       expect(viewModel.updateDisplayState, DisplayState.FAILURE);
@@ -185,7 +184,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.monSuivi, "demarcheId");
+    final viewModel = DemarcheDetailViewModel.create(store, "demarcheId");
 
     // Then
     expect(viewModel.withOfflineBehavior, isFalse);
@@ -200,7 +199,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.monSuivi, "demarcheId");
+    final viewModel = DemarcheDetailViewModel.create(store, "demarcheId");
 
     // Then
     expect(viewModel.withOfflineBehavior, isTrue);
@@ -210,7 +209,7 @@ void main() {
     // Given
     final store = StoreSpy.withState(givenState().withDemarches(mockDemarches()));
 
-    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.monSuivi, "demarcheId");
+    final viewModel = DemarcheDetailViewModel.create(store, "demarcheId");
 
     // When
     viewModel.onModifyStatus(UserActionTagViewModel(
@@ -229,7 +228,7 @@ void main() {
     // Given
     final store = StoreSpy.withState(givenState().withDemarches(mockDemarches()));
 
-    final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.monSuivi, "demarcheId");
+    final viewModel = DemarcheDetailViewModel.create(store, "demarcheId");
 
     // When
     viewModel.resetUpdateStatus();

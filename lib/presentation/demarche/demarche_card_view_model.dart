@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_view_model_helper.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_store_extension.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
@@ -25,10 +24,9 @@ class DemarcheCardViewModel extends Equatable {
 
   factory DemarcheCardViewModel.create({
     required Store<AppState> store,
-    required DemarcheStateSource stateSource,
     required String demarcheId,
   }) {
-    final demarche = getDemarche(store, stateSource, demarcheId);
+    final demarche = store.getDemarche(demarcheId);
     return DemarcheCardViewModel(
       id: demarche.id,
       title: demarche.content ?? Strings.withoutContent,

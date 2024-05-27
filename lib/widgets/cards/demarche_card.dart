@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -10,19 +9,17 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 
 class DemarcheCard extends StatelessWidget {
   final String demarcheId;
-  final DemarcheStateSource source;
   final Function() onTap;
 
   const DemarcheCard({
     required this.demarcheId,
-    required this.source,
     required this.onTap,
-  }) : super();
+  });
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, DemarcheCardViewModel>(
-      converter: (store) => DemarcheCardViewModel.create(store: store, stateSource: source, demarcheId: demarcheId),
+      converter: (store) => DemarcheCardViewModel.create(store: store, demarcheId: demarcheId),
       builder: _builder,
       distinct: true,
     );

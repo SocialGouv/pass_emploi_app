@@ -4,8 +4,7 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_view_model_helper.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_store_extension.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
@@ -57,9 +56,9 @@ class DemarcheDetailViewModel extends Equatable {
     required this.updateDisplayState,
   });
 
-  factory DemarcheDetailViewModel.create(Store<AppState> store, DemarcheStateSource stateSource, String demarcheId) {
-    final demarche = getDemarche(store, stateSource, demarcheId);
-    final dateDerniereMiseAJour = _getDateDerniereMiseAJour(store, stateSource);
+  factory DemarcheDetailViewModel.create(Store<AppState> store, String demarcheId) {
+    final demarche = store.getDemarche(demarcheId);
+    final dateDerniereMiseAJour = _getDateDerniereMiseAJour(store);
     demarche.possibleStatus.sort((a, b) => a.compareTo(b));
     final isLate = _isLate(demarche.status, demarche.endDate);
     final updateState = store.state.updateDemarcheState;
@@ -116,8 +115,8 @@ class DemarcheDetailViewModel extends Equatable {
       ];
 }
 
-DateTime? _getDateDerniereMiseAJour(Store<AppState> store, DemarcheStateSource stateSource) {
-  if (stateSource == DemarcheStateSource.monSuivi && store.state.monSuiviState is MonSuiviSuccessState) {
+DateTime? _getDateDerniereMiseAJour(Store<AppState> store) {
+  if (store.state.monSuiviState is MonSuiviSuccessState) {
     return (store.state.monSuiviState as MonSuiviSuccessState).monSuivi.dateDerniereMiseAJourPoleEmploi;
   }
   return null;

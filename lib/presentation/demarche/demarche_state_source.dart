@@ -1,1 +1,0 @@
-enum DemarcheStateSource { monSuivi }

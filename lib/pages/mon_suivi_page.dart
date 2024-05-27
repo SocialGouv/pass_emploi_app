@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -525,12 +524,11 @@ class _DemarcheMonSuiviItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return DemarcheCard(
       demarcheId: entry.id,
-      source: DemarcheStateSource.monSuivi,
       onTap: () {
         context.trackEvent(EventType.ACTION_DETAIL);
         Navigator.push(
           context,
-          DemarcheDetailPage.materialPageRoute(entry.id, DemarcheStateSource.monSuivi),
+          DemarcheDetailPage.materialPageRoute(entry.id),
         );
       },
     );
