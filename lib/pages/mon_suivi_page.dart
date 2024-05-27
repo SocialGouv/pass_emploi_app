@@ -33,7 +33,6 @@ import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -205,11 +204,17 @@ class _Content extends StatelessWidget {
       children: [
         if (viewModel.withWarningOnWrongPoleEmploiDataRetrieval) ...[
           SizedBox(height: Margins.spacing_s),
-          NotUpToDateMessage(message: Strings.monSuiviPeNotUpToDate, onRefresh: () => viewModel.onRetry()),
+          _WarningCard(
+            label: Strings.monSuiviPoleEmploiDataError,
+            onPressed: () => viewModel.onRetry(),
+          ),
         ],
         if (viewModel.withWarningOnWrongSessionMiloRetrieval) ...[
           SizedBox(height: Margins.spacing_s),
-          _SessionMiloWarningCard(viewModel),
+          _WarningCard(
+            label: Strings.monSuiviSessionMiloError,
+            onPressed: () => viewModel.onRetry(),
+          ),
         ],
         if (viewModel.pendingActionCreations > 0) ...[
           SizedBox(height: Margins.spacing_s),
@@ -229,15 +234,16 @@ class _Content extends StatelessWidget {
   }
 }
 
-class _SessionMiloWarningCard extends StatelessWidget {
-  final MonSuiviViewModel viewModel;
+class _WarningCard extends StatelessWidget {
+  final String label;
+  final VoidCallback onPressed;
 
-  const _SessionMiloWarningCard(this.viewModel);
+  const _WarningCard({required this.label, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_s),
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: CardContainer(
         backgroundColor: AppColors.disabled,
         padding: EdgeInsets.zero, // Padding is set in row children because of inner padding of OutlinedButton
@@ -253,11 +259,11 @@ class _SessionMiloWarningCard extends StatelessWidget {
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: Margins.spacing_base),
-                child: Text(Strings.monSuiviSessionMiloError, style: TextStyles.textXsRegular(color: Colors.white)),
+                child: Text(label, style: TextStyles.textXsRegular(color: Colors.white)),
               ),
             ),
             OutlinedButton(
-              onPressed: () => viewModel.onRetry(),
+              onPressed: onPressed,
               child: Text(Strings.retry, style: TextStyles.textSBoldWithColor(Colors.white)),
             ),
           ],

@@ -382,8 +382,7 @@ class Strings {
   static String monSuiviTooltip = "Aller à aujourd'hui";
   static String monSuiviPePastLimitReached = "Les démarches et les rendez-vous plus anciens ne sont pas disponibles";
   static String monSuiviPeFutureLimitReached = "Les démarches et les rendez-vous plus récents ne sont pas disponibles";
-  static String monSuiviPeNotUpToDate =
-      "Une erreur technique s’est produite. Certains de vos rendez-vous et démarches ne sont peut-être pas à jour.";
+  static String monSuiviPoleEmploiDataError = "Certaines démarches et rendez-vous ne sont peut-être pas à jour.";
 
   // Agenda
   static String agendaEmptyTitle = "Vous n’avez rien de prévu cette semaine";
