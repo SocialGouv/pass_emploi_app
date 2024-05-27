@@ -227,7 +227,7 @@ class _AlertePageState extends State<AlertePage> {
   }
 
   void _onTapShowSuggestions() {
-    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.alerteSuggestionsListe);
+    PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.alerteSuggestionsList);
     Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
   }
 

@@ -46,7 +46,7 @@ class _MonSuiviPageState extends State<MonSuiviPage> {
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: AnalyticsScreenNames.monSuiviV2,
+      tracking: AnalyticsScreenNames.monSuivi,
       child: _StateProvider(
         child: StoreConnector<AppState, MonSuiviViewModel>(
           onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
@@ -328,9 +328,9 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
 
                 _StateProvider.maybeOf(context)?.previousPeriodCount--;
                 PassEmploiMatomoTracker.instance.trackEvent(
-                  eventCategory: AnalyticsEventNames.monSuiviV2Category,
-                  action: AnalyticsEventNames.monSuiviV2PreviousPeriodAction,
-                  eventName: AnalyticsEventNames.monSuiviV2PeriodName,
+                  eventCategory: AnalyticsEventNames.monSuiviCategory,
+                  action: AnalyticsEventNames.monSuiviPreviousPeriodAction,
+                  eventName: AnalyticsEventNames.monSuiviPeriodName,
                   eventValue: _StateProvider.maybeOf(context)?.previousPeriodCount,
                 );
               }
@@ -356,9 +356,9 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
 
                 _StateProvider.maybeOf(context)?.nextPeriodCount++;
                 PassEmploiMatomoTracker.instance.trackEvent(
-                  eventCategory: AnalyticsEventNames.monSuiviV2Category,
-                  action: AnalyticsEventNames.monSuiviV2NextPeriodAction,
-                  eventName: AnalyticsEventNames.monSuiviV2PeriodName,
+                  eventCategory: AnalyticsEventNames.monSuiviCategory,
+                  action: AnalyticsEventNames.monSuiviNextPeriodAction,
+                  eventName: AnalyticsEventNames.monSuiviPeriodName,
                   eventValue: _StateProvider.maybeOf(context)?.nextPeriodCount,
                 );
               }

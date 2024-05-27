@@ -75,25 +75,16 @@ class FavoriHeart<T> extends StatelessWidget {
 
 class FavoriHeartAnalyticsHelper {
   String? getAnalyticsWidgetName(OffrePage from, bool isFavori) {
-    switch (from) {
-      case OffrePage.emploiResults:
-        return AnalyticsActionNames.emploiResultUpdateFavori(isFavori);
-      case OffrePage.emploiDetails:
-        return AnalyticsActionNames.emploiDetailUpdateFavori(isFavori);
-      case OffrePage.alternanceResults:
-        return AnalyticsActionNames.alternanceResultUpdateFavori(isFavori);
-      case OffrePage.alternanceDetails:
-        return AnalyticsActionNames.alternanceDetailUpdateFavori(isFavori);
-      case OffrePage.immersionResults:
-        return AnalyticsActionNames.immersionResultUpdateFavori(isFavori);
-      case OffrePage.immersionDetails:
-        return AnalyticsActionNames.immersionDetailUpdateFavori(isFavori);
-      case OffrePage.serviceCiviqueResults:
-        return AnalyticsActionNames.serviceCiviqueResultUpdateFavori(isFavori);
-      case OffrePage.serviceCiviqueDetails:
-        return AnalyticsActionNames.serviceCiviqueDetailUpdateFavori(isFavori);
-      case OffrePage.offreFavoris:
-        return AnalyticsActionNames.offreFavoriUpdateFavori(isFavori);
-    }
+    return switch (from) {
+      OffrePage.emploiResults => AnalyticsActionNames.emploiResultUpdateFavori(isFavori),
+      OffrePage.emploiDetails => AnalyticsActionNames.emploiDetailUpdateFavori(isFavori),
+      OffrePage.alternanceResults => AnalyticsActionNames.alternanceResultUpdateFavori(isFavori),
+      OffrePage.alternanceDetails => AnalyticsActionNames.alternanceDetailUpdateFavori(isFavori),
+      OffrePage.immersionResults => AnalyticsActionNames.immersionResultUpdateFavori(isFavori),
+      OffrePage.immersionDetails => AnalyticsActionNames.immersionDetailUpdateFavori(isFavori),
+      OffrePage.serviceCiviqueResults => AnalyticsActionNames.serviceCiviqueResultUpdateFavori(isFavori),
+      OffrePage.serviceCiviqueDetails => AnalyticsActionNames.serviceCiviqueDetailUpdateFavori(isFavori),
+      OffrePage.offreFavoris => AnalyticsActionNames.offreFavoriUpdateFavori(isFavori)
+    };
   }
 }
