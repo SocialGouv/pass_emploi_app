@@ -1,7 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
@@ -12,7 +11,6 @@ import 'package:pass_emploi_app/features/cv/cv_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
@@ -37,7 +35,6 @@ import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
-import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
@@ -51,7 +48,6 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_s
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
-import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
@@ -126,47 +122,6 @@ extension AppStateDSL on AppState {
       ),
     );
   }
-
-  AppState rendezvousFutur({
-    List<Rendezvous> rendezvous = const [],
-    List<SessionMilo> sessionsMilo = const [],
-  }) {
-    return copyWith(
-        rendezvousListState: RendezvousListState.successfulFuture(
-      rendezvous: rendezvous,
-      sessionsMilo: sessionsMilo,
-    ));
-  }
-
-  AppState rendezvous({
-    List<Rendezvous> rendezvous = const [],
-    List<SessionMilo> sessionsMilo = const [],
-    DateTime? dateDerniereMiseAJour,
-  }) {
-    return copyWith(
-      rendezvousListState: RendezvousListState.successful(
-        rendezvous: rendezvous,
-        sessionsMilo: sessionsMilo,
-        dateDerniereMiseAJour: dateDerniereMiseAJour,
-      ),
-    );
-  }
-
-  AppState withRendezvous(Rendezvous rendezvous) {
-    return copyWith(rendezvousListState: RendezvousListState.successful(rendezvous: [rendezvous]));
-  }
-
-  AppState rendezvousNotInitialized() => copyWith(rendezvousListState: RendezvousListState.notInitialized());
-
-  AppState loadingFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.loadingFuture());
-
-  AppState reloadingFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.reloadingFuture());
-
-  AppState failedFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.failedFuture());
-
-  AppState loadingPastRendezvous() => copyWith(rendezvousListState: RendezvousListState.loadingPast());
-
-  AppState failedPastRendezvous() => copyWith(rendezvousListState: RendezvousListState.failedPast());
 
   AppState withCampagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
 
@@ -305,37 +260,6 @@ extension AppStateDSL on AppState {
     return copyWith(actionCommentaireListState: ActionCommentaireListNotInitializedState());
   }
 
-  AppState emptyAgenda() {
-    final agenda = Agenda(
-      demarches: [],
-      rendezvous: [],
-      sessionsMilo: [],
-      delayedActions: 0,
-      dateDeDebut: DateTime(2042),
-    );
-    return copyWith(agendaState: AgendaSuccessState(agenda));
-  }
-
-  AppState agenda({
-    List<Demarche>? demarches,
-    List<Rendezvous>? rendezvous,
-    List<SessionMilo>? sessionsMilo,
-    int delayedActions = 0,
-    DateTime? dateDeDebut,
-    DateTime? dateDerniereMiseAjour,
-  }) {
-    return copyWith(
-      agendaState: AgendaSuccessState(Agenda(
-        demarches: demarches ?? [],
-        rendezvous: rendezvous ?? [],
-        sessionsMilo: sessionsMilo ?? [],
-        delayedActions: delayedActions,
-        dateDeDebut: dateDeDebut ?? DateTime(2042),
-        dateDerniereMiseAJour: dateDerniereMiseAjour,
-      )),
-    );
-  }
-
   AppState monSuivi({Interval? interval, MonSuivi? monSuivi}) {
     return copyWith(
       monSuiviState: MonSuiviSuccessState(
@@ -350,7 +274,7 @@ extension AppStateDSL on AppState {
   }
 
   AppState withDemarches(List<Demarche> demarches) {
-    return copyWith(demarcheListState: DemarcheListSuccessState(demarches));
+    return monSuivi(monSuivi: mockMonSuivi(demarches: demarches));
   }
 
   AppState updateDemarcheNotInit() {

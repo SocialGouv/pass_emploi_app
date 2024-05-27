@@ -154,10 +154,4 @@ extension UpdateActionList on List<UserAction> {
         .toList()
       ..insert(0, updatedAction);
   }
-
-  bool shouldUpdateActionStatus(String id, UserActionStatus status) {
-    final userAction = firstWhereOrNull((e) => e.id == id);
-    if (userAction == null) return false;
-    return userAction.status != status;
-  }
 }

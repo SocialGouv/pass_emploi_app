@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_middleware.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_middleware.dart';
 import 'package:pass_emploi_app/features/alerte/create/immersion_alerte_create_middleware.dart';
 import 'package:pass_emploi_app/features/alerte/create/offre_emploi_alerte_create_middleware.dart';
 import 'package:pass_emploi_app/features/alerte/create/service_civique_alerte_create_middleware.dart';
@@ -25,7 +24,6 @@ import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_mid
 import 'package:pass_emploi_app/features/cv/cv_middleware.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
@@ -61,7 +59,6 @@ import 'package:pass_emploi_app/features/recherche/immersion/recherche_immersion
 import 'package:pass_emploi_app/features/recherche/service_civique/recherche_service_civique_middleware.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_middleware.dart';
-import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_middleware.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_middleware.dart';
@@ -90,7 +87,6 @@ import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
-import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/alerte_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/get_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/immersion_alerte_repository.dart';
@@ -132,7 +128,6 @@ import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
@@ -171,7 +166,6 @@ class StoreFactory {
   final DeveloperOptionRepository developerOptionRepository;
   final UserActionRepository userActionRepository;
   final UserActionPendingCreationRepository userActionPendingCreationRepository;
-  final PageDemarcheRepository pageDemarcheRepository;
   final RendezvousRepository rendezvousRepository;
   final OffreEmploiRepository offreEmploiRepository;
   final ChatRepository chatRepository;
@@ -207,7 +201,6 @@ class StoreFactory {
   final PartageActiviteRepository partageActiviteRepository;
   final RatingRepository ratingRepository;
   final ActionCommentaireRepository actionCommentaireRepository;
-  final AgendaRepository agendaRepository;
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
   final AnimationsCollectivesRepository animationsCollectivesRepository;
   final SessionMiloRepository sessionMiloRepository;
@@ -248,7 +241,6 @@ class StoreFactory {
     this.developerOptionRepository,
     this.userActionRepository,
     this.userActionPendingCreationRepository,
-    this.pageDemarcheRepository,
     this.rendezvousRepository,
     this.offreEmploiRepository,
     this.chatRepository,
@@ -284,7 +276,6 @@ class StoreFactory {
     this.partageActiviteRepository,
     this.ratingRepository,
     this.actionCommentaireRepository,
-    this.agendaRepository,
     this.suggestionsRechercheRepository,
     this.animationsCollectivesRepository,
     this.sessionMiloRepository,
@@ -328,7 +319,6 @@ class StoreFactory {
         UserActionCreatePendingMiddleware(userActionRepository, userActionPendingCreationRepository).call,
         UserActionUpdateMiddleware(userActionRepository).call,
         UserActionDeleteMiddleware(userActionRepository).call,
-        DemarcheListMiddleware(pageDemarcheRepository).call,
         CreateDemarcheMiddleware(createDemarcheRepository).call,
         UpdateDemarcheMiddleware(updateDemarcheRepository).call,
         SearchDemarcheMiddleware(demarcheDuReferentielRepository).call,
@@ -342,7 +332,6 @@ class StoreFactory {
         ).call,
         ChatMiddleware(chatRepository, pieceJointeUseCase).call,
         ChatStatusMiddleware(chatRepository).call,
-        RendezvousListMiddleware(rendezvousRepository, sessionMiloRepository).call,
         RendezvousDetailsMiddleware(rendezvousRepository).call,
         PushNotificationRegisterTokenMiddleware(registerTokenRepository, configuration).call,
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository).call,
@@ -376,7 +365,6 @@ class StoreFactory {
         PartageActiviteUpdateMiddleware(partageActiviteRepository).call,
         RatingMiddleware(ratingRepository, detailsJeuneRepository).call,
         ActionCommentaireListMiddleware(actionCommentaireRepository).call,
-        AgendaMiddleware(agendaRepository).call,
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository).call,
         TraiterSuggestionRechercheMiddleware(suggestionsRechercheRepository).call,
         EventListMiddleware(animationsCollectivesRepository, sessionMiloRepository).call,

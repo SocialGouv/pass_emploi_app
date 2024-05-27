@@ -143,11 +143,6 @@ class Strings {
   static String forceUpdateOnFirebaseLabel =
       "Votre application nécessite d'être mise à jour sur Firebase pour son bon fonctionnement";
 
-  static String hello(firstName) => "Bonjour $firstName";
-
-  // Loader (Splash)
-  static String welcomeOn = "Bienvenue sur";
-
   // First Launch Onboarding
   static String start = "Démarrer";
 
@@ -299,7 +294,6 @@ class Strings {
   static String loginGenericError = "Erreur lors de la connexion";
   static String loginGenericErrorDescription =
       "Réessayer plus tard. Si le problème persiste, vous pouvez contacter votre conseiller.";
-  static String loginPassEmploi = "pass emploi";
   static String loginPoleEmploi = "France Travail";
   static String loginMissionLocale = "Mission Locale";
   static String loginAction = "Se connecter";
@@ -342,6 +336,7 @@ class Strings {
   static String accueilRendezvousSection = "Votre prochain rendez-vous";
   static String accueilActionSingular = "Action";
   static String accueilActionPlural = "Actions";
+  static String accueilError = "Erreur lors de la récupération de votre page d’accueil";
   static String accueilDemarcheSingular = "Démarche";
   static String accueilDemarchePlural = "Démarches";
   static String accueilRendezvous = "Rendez-vous";
@@ -365,13 +360,8 @@ class Strings {
       Brand.isCej() ? accueilCampagneRecrutementLabelCej : accueilCampagneRecrutementLabelBrsa;
   static String accueilCampagneRecrutementPressedTip = "Participer";
 
-  // Mon Suivi Tabs
-  static String monSuiviAppBarTitle = "Mon suivi";
-  static String agendaTabTitle = "Cette semaine";
-  static String rendezvousTabTitle = "Rendez-vous";
-  static String demarcheTabTitle = "Démarches";
-
   // Mon Suivi
+  static String monSuiviTitle = "Mon suivi";
   static String monSuiviCetteSemaine = "Cette semaine";
   static String monSuiviSemaineProchaine = "Semaine prochaine";
   static String monSuiviEmptyPastMilo = "Aucun événement ni action";
@@ -383,20 +373,6 @@ class Strings {
   static String monSuiviPePastLimitReached = "Les démarches et les rendez-vous plus anciens ne sont pas disponibles";
   static String monSuiviPeFutureLimitReached = "Les démarches et les rendez-vous plus récents ne sont pas disponibles";
   static String monSuiviPoleEmploiDataError = "Certaines démarches et rendez-vous ne sont peut-être pas à jour.";
-
-  // Agenda
-  static String agendaEmptyTitle = "Vous n’avez rien de prévu cette semaine";
-  static String agendaEmptySubtitlePoleEmploi =
-      "Commencez en ajoutant une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran";
-  static String agendaError = "Erreur lors de la récupération de vos actions et rendez-vous";
-  static String agendaEmptyForDayPoleEmploi = "Pas de démarche ni de rendez-vous";
-  static String agendaEmptyForWeekPoleEmploi =
-      "Pas de démarche ni de rendez-vous. Ajoutez une nouvelle démarche ou découvrez des événements en cliquant sur “Événements”, en bas de l’écran.";
-  static String nextWeek = "Semaine prochaine";
-  static String semaineEnCours = "Semaine en cours";
-  static String agendaNoActionThisWeekTitle = "Vous n’avez pas d’action ni de rendez-vous prévus cette semaine";
-  static String agendaNoActionThisWeekDescription = "Vous pouvez voir les événements à venir dans votre Mission locale";
-  static String agendaSeeEventInAgenceButton = "Voir les événements de votre mission locale";
 
   // Actualisation PE
   static String actualisationPePopUpTitle = "La période d’actualisation France Travail a commencé";
@@ -414,9 +390,6 @@ class Strings {
   static String shouldInformConseiller =
       Brand.isCej() ? _CejStrings.shouldInformConseiller : _BrsaStrings.shouldInformConseiller;
 
-  static String noUpcomingRendezVous =
-      "Vous n’avez pas de rendez-vous prévu.\nContactez votre conseiller pour prendre rendez-vous";
-  static String rendezVousListError = "Erreur lors de la récupération de vos rendez-vous";
   static String rendezVousDetailsError = "Erreur lors de la récupération de l'événement";
   static String conseillerIsPresent = "Votre conseiller sera présent";
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
@@ -426,28 +399,12 @@ class Strings {
   static String seeVisio = 'Accéder à la visio';
   static String rendezvousVisioModalityMessage =
       'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.';
-  static String rendezVousPassesTitre = "Rendez-vous passés";
-  static String rendezVousCetteSemaineTitre = "Cette semaine";
-  static String rendezSemaineTitre = "Semaine du";
-  static String rendezVousFutursTitre = "Rendez-vous futurs";
-  static String noRendezVousThisWeek = "Vous n’avez pas encore de rendez-vous prévu cette semaine";
-  static String noRendezVousThisWeekSubtitle =
-      "Retrouvez vos rendez-vous passés ou à venir avec les flèches en haut de page.";
-  static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévu pour la semaine du ";
-  static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
-  static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévu";
   static String withConseiller = "avec";
-  static String goToNextRendezvous = "Aller au prochain rendez-vous";
-  static String seeMoreRendezvous = "Voir plus de rendez-vous";
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
   static String shareToConseiller = "Partager à mon conseiller";
   static String shareToConseillerDemandeInscription = "Faire une demande d’inscription";
   static String withAnimateurTitle = "Animateur de la session";
-
-  static String rendezvousSinceDate(String date) => "depuis le $date";
-
-  static String rendezvousStartingAtDate(String date) => "à partir du $date";
 
   static String rendezvousWithConseiller(String conseiller) => "votre conseiller $conseiller";
 
@@ -466,7 +423,6 @@ class Strings {
   static String evalDescription = "Aidez-nous à améliorer l’application en répondant à quelques questions.";
   static String evalButton = "Donner son avis";
 
-  static String questionIndexTitle(String index, String total) => "Votre expérience $index/$total";
   static String nextButtonTitle = "Suivant";
   static String validateButtonTitle = "Valider";
   static String mandatory = "Les questions marquées d'une * sont obligatoires";
@@ -655,12 +611,9 @@ class Strings {
   static String addComment = "Ajouter un commentaire";
 
   static String seeNComments(String n) => "Voir les $n commentaires";
-  static String yourComment = "Votre commentaire...";
-  static String sendCommentError = "Erreur lors de l'envoi du commentaire. Veuillez réessayer";
   static String commentsUnavailableOffline = "Les commentaires de l'action ne sont pas disponibles hors connexion.";
 
   // Demarches
-  static String demarchesError = "Erreur lors de la récupération de vos démarches";
   static String modifierStatut = "Modifier le statut";
   static String historiqueDemarche = "Historique";
   static String modifiedBy = "Modifiée le ";
@@ -966,10 +919,6 @@ class Strings {
   static String filterAlternance = "Alternance";
   static String filterServiceCivique = "Service civique";
 
-  static String demarchesToDo = "démarche prévue.";
-  static String demarches = "démarches";
-  static String demarche = "démarche";
-
   static String poleEmploiUrlButton = "Accéder à mon espace France Travail";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 
@@ -1210,14 +1159,7 @@ class Strings {
   static const String evenementEmploiFiltresDateFin = "Date de fin";
 
   // Mode dégradé France Travail
-  static String rendezvousUpToDate = "Vos rendez-vous sont à jour";
-  static String rendezvousNotUpToDateMessage =
-      "Une erreur technique s’est produite. Certains de vos rendez-vous ne sont peut-être pas à jour.";
-  static String demarchesUpToDate = "Vos démarches sont à jour";
-  static String demarchesNotUpToDateMessage =
-      "Une erreur technique s’est produite. Certaines de vos démarches ne sont peut-être pas à jour.";
   static String reloadPage = "Recharger la page";
-
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";

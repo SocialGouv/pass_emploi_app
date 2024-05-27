@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
@@ -18,15 +17,12 @@ extension RendezvousStoreExtension on Store<AppState> {
       RendezvousStateSource.accueilProchaineSession => _getRendezvousFromAccueilProchaineSessionState(rdvId),
       RendezvousStateSource.accueilLesEvenements => _getRendezvousFromAccueilLesEvenementsState(rdvId),
       RendezvousStateSource.accueilLesEvenementsSession => _getRendezvousFromAccueilSessionsMiloAVenirState(rdvId),
-      RendezvousStateSource.agenda => _getRendezvousFromAgendaState(rdvId),
       RendezvousStateSource.monSuivi => _getRendezvousFromMonSuiviState(rdvId),
       RendezvousStateSource.monSuiviSessionMilo => _getRendezvousFromMonSuiviSessionState(rdvId),
-      RendezvousStateSource.rendezvousList => _getRendezvousFromRendezvousListState(rdvId),
       RendezvousStateSource.eventListAnimationsCollectives => _getRendezvousFromEventListState(rdvId),
       RendezvousStateSource.noSource => _getRendezvousFromDetailsState(),
       RendezvousStateSource.eventListSessionsMilo => _getRendezvousFromSessionMiloListState(rdvId),
       RendezvousStateSource.sessionMiloDetails => _getRendezvousFromSessionMiloDetailsState(rdvId),
-      RendezvousStateSource.rendezvousListSession => _getRendezvousFromRendezvousListSessionState(rdvId)
     };
   }
 
@@ -51,28 +47,6 @@ extension RendezvousStoreExtension on Store<AppState> {
     if (state is! SessionMiloDetailsSuccessState) throw Exception('Invalid state.');
     final sessionMilo = state.details;
     return sessionMilo.toRendezVous;
-  }
-
-  Rendezvous _getRendezvousFromRendezvousListState(String rdvId) {
-    final state = this.state.rendezvousListState;
-    final rendezvous = state.rendezvous.where((e) => e.id == rdvId);
-    if (rendezvous.isEmpty) throw Exception('No Rendezvous matching id $rdvId');
-    return rendezvous.first;
-  }
-
-  Rendezvous _getRendezvousFromRendezvousListSessionState(String rdvId) {
-    final state = this.state.rendezvousListState;
-    final session = state.sessionsMilo.where((e) => e.id == rdvId).firstOrNull;
-    if (session == null) throw Exception('No session matching id $rdvId');
-    return session.toRendezVous;
-  }
-
-  Rendezvous _getRendezvousFromAgendaState(String rdvId) {
-    final state = this.state.agendaState;
-    if (state is! AgendaSuccessState) throw Exception('Invalid state.');
-    final rendezvous = state.agenda.rendezvous.where((e) => e.id == rdvId).firstOrNull;
-    if (rendezvous == null) throw Exception('No Rendezvous matching id $rdvId');
-    return rendezvous;
   }
 
   Rendezvous _getRendezvousFromMonSuiviState(String rdvId) {

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 
@@ -32,7 +33,21 @@ class MonSuiviSuccessState extends MonSuiviState {
         sessionsMilo: monSuivi.sessionsMilo,
         errorOnSessionMiloRetrieval: monSuivi.errorOnSessionMiloRetrieval,
         demarches: [],
-        errorOnPoleEmploiDataRetrieval: false,
+        dateDerniereMiseAJourPoleEmploi: null,
+      ),
+    );
+  }
+
+  MonSuiviSuccessState withUpdatedDemarches(List<Demarche> demarches) {
+    return MonSuiviSuccessState(
+      interval,
+      MonSuivi(
+        demarches: demarches,
+        rendezvous: monSuivi.rendezvous,
+        dateDerniereMiseAJourPoleEmploi: monSuivi.dateDerniereMiseAJourPoleEmploi,
+        sessionsMilo: [],
+        actions: [],
+        errorOnSessionMiloRetrieval: false,
       ),
     );
   }

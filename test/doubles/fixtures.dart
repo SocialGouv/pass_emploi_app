@@ -1230,7 +1230,7 @@ MonSuivi mockMonSuivi({
   List<Rendezvous>? rendezvous,
   List<SessionMilo>? sessionsMilo,
   bool errorOnSessionMiloRetrieval = false,
-  bool errorOnPoleEmploiDataRetrieval = false,
+  DateTime? dateDerniereMiseAJourPoleEmploi,
 }) {
   return MonSuivi(
     actions: actions ?? [],
@@ -1238,7 +1238,7 @@ MonSuivi mockMonSuivi({
     rendezvous: rendezvous ?? [],
     sessionsMilo: sessionsMilo ?? [],
     errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval,
-    errorOnPoleEmploiDataRetrieval: errorOnPoleEmploiDataRetrieval,
+    dateDerniereMiseAJourPoleEmploi: dateDerniereMiseAJourPoleEmploi,
   );
 }
 

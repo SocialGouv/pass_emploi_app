@@ -29,7 +29,6 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
-import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/alerte_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/get_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/immersion_alerte_repository.dart';
@@ -74,7 +73,6 @@ import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
@@ -216,7 +214,6 @@ class AppInitializer {
       DeveloperOptionRepository(securedPreferences),
       UserActionRepository(dioClient, crashlytics),
       UserActionPendingCreationRepository(securedPreferences),
-      PageDemarcheRepository(dioClient, crashlytics),
       RendezvousRepository(dioClient, crashlytics),
       OffreEmploiRepository(dioClient, crashlytics),
       chatRepository,
@@ -252,7 +249,6 @@ class AppInitializer {
       PartageActiviteRepository(dioClient, crashlytics),
       RatingRepository(securedPreferences),
       ActionCommentaireRepository(dioClient, requestCacheManager, crashlytics),
-      AgendaRepository(dioClient, crashlytics),
       SuggestionsRechercheRepository(dioClient, requestCacheManager, crashlytics),
       AnimationsCollectivesRepository(dioClient, crashlytics),
       SessionMiloRepository(dioClient, crashlytics),

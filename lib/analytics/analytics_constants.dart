@@ -12,26 +12,17 @@ class AnalyticsScreenNames {
 
   static const login = "login";
   static const forceUpdate = "force_update";
-  static const choixOrganisme = "entree/choix-organisme";
-  static const choixOrganismePE = "entree/choix-organisme/pe";
-  static const choixOrganismeMilo = "entree/choix-organisme/milo";
 
   static String cejInformationPage(int pageNumber) => "entree2/etape-$pageNumber";
 
-  static const evaluationDetails = "actions/tuile-evaluation";
-
   static const accueil = "accueil";
-  static const accueilSuggestionsListe = "accueil/suggested_list";
-  static const monSuivi = "mon_suivi";
-  static const monSuiviV2 = "mon_suivi/v2";
-  static const agenda = "agenda";
+  static const monSuivi = "mon_suivi/v2";
   static const chat = "chat";
   static const cvmChat = "chat_cvm";
   static const profil = "profil";
 
   static const contactProfil = "profil/contact";
 
-  static const userActionList = "actions/list";
   static const userActionDetails = "actions/detail";
   static const userActionUpdate = "actions/update";
   static const updateUserAction = "actions/detail?modifySuccess=true";
@@ -50,9 +41,6 @@ class AnalyticsScreenNames {
 
   static String topDemarcheDetails(String demarche) => "demarches/top-demarches/$demarche";
 
-  static const rendezvousListPast = "rdv/list-past";
-  static const rendezvousListFuture = "rdv/list-future";
-  static const rendezvousListWeek = "rdv/list-week-";
   static const rendezvousDetails = "rdv/detail";
   static const animationCollectiveDetails = "animation_collective/detail";
   static const sessionMiloDetails = "session_milo/detail";
@@ -60,7 +48,7 @@ class AnalyticsScreenNames {
   static const animationCollectivePartagePageSuccess = "animation_collective/detail?partage-conseiller=true";
   static const sessionMiloPartagePageSuccess = "session_milo/detail?partage-conseiller=true";
 
-  static const rechercheV2Home = "recherche/home";
+  static const rechercheHome = "recherche/home";
   static const rechercheSuggestionsListe = "recherche/suggested_list";
 
   static String rechercheInitiale(String type) => "recherche/$type/search";
@@ -113,7 +101,7 @@ class AnalyticsScreenNames {
   static const offreFavorisListFilterImmersion = "favoris/list?filtre=immersion";
   static const offreFavorisListFilterServiceCivique = "favoris/list?filtre=service_civique";
 
-  static const alerteSuggestionsListe = "saved_searches/suggested_list";
+  static const alerteSuggestionsList = "saved_searches/suggested_list";
   static const alerteList = "saved_searches/list";
   static const alerteListFromAccueil = "saved_searches/list/from-accueil";
   static const alerteListFilterEmploi = "saved_searches/list?filtre=emploi";
@@ -132,7 +120,6 @@ class AnalyticsScreenNames {
   static const explicationModeDemo = "/entree/mode-demo";
 
   static const tutorialPage = "/new-feature_tutorial";
-  static const ratingPage = "/notation";
 
   static const actionCommentsPage = "/actions/detail/comments/view";
 
@@ -192,7 +179,6 @@ class AnalyticsActionNames {
   static const contactEmailSent = "/contact/email-sent";
 
   static const accessToActionComments = "/actions/detail/comments/add";
-  static const sendComment = "/actions/detail/comments/send";
 }
 
 class AnalyticsEventNames {
@@ -207,10 +193,10 @@ class AnalyticsEventNames {
   static const createActionClickOnSnackBarAction = "Clic détail action/démarche";
   static const createActionOfflineAction = "Action créée hors connexion";
 
-  static const monSuiviV2Category = "Mon suivi v2";
-  static const monSuiviV2PreviousPeriodAction = "Affichage semaines précédentes";
-  static const monSuiviV2NextPeriodAction = "Affichage semaines suivantes";
-  static const monSuiviV2PeriodName = "Période";
+  static const monSuiviCategory = "Mon suivi v2";
+  static const monSuiviPreviousPeriodAction = "Affichage semaines précédentes";
+  static const monSuiviNextPeriodAction = "Affichage semaines suivantes";
+  static const monSuiviPeriodName = "Période";
 
   static const createActionv2EventCategory = "Création action v2";
   static const createActionResultDetailsAction = "Ouvrir le détail d'une action créée";

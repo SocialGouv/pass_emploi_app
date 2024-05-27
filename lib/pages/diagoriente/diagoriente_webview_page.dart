@@ -170,11 +170,9 @@ class DiagorienteBottomButtonsNotifier extends ChangeNotifier {
 
 extension _DiagorienteWebviewMode on DiagorienteWebviewMode {
   String tracking() {
-    switch (this) {
-      case DiagorienteWebviewMode.chatbot:
-        return AnalyticsScreenNames.diagorienteChatBot;
-      case DiagorienteWebviewMode.favoris:
-        return AnalyticsScreenNames.diagorienteFavoris;
-    }
+    return switch (this) {
+      DiagorienteWebviewMode.chatbot => AnalyticsScreenNames.diagorienteChatBot,
+      DiagorienteWebviewMode.favoris => AnalyticsScreenNames.diagorienteFavoris
+    };
   }
 }

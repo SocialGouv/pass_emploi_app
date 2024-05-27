@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
-import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/alerte_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/get_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/immersion_alerte_repository.dart';
@@ -51,7 +50,6 @@ import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
@@ -86,7 +84,6 @@ class TestStoreFactory {
   Authenticator authenticator = DummyAuthenticator();
   UserActionRepository userActionRepository = DummyUserActionRepository();
   UserActionPendingCreationRepository userActionPendingCreationRepository = MockUserActionPendingCreationRepository();
-  PageDemarcheRepository pageDemarcheRepository = DummyPageDemarcheRepository();
   RendezvousRepository rendezvousRepository = MockRendezvousRepository();
   ChatRepository chatRepository = DummyChatRepository();
   PassEmploiCacheManager cacheManager = DummyPassEmploiCacheManager();
@@ -130,7 +127,6 @@ class TestStoreFactory {
   PartageActiviteRepository partageActiviteRepository = DummyPartageActiviteRepository();
   RatingRepository ratingRepository = DummyRatingRepository();
   ActionCommentaireRepository actionCommentaireRepository = DummyActionCommentaireRepository();
-  AgendaRepository agendaRepository = DummyAgendaRepository();
   SuggestionsRechercheRepository suggestionsRechercheRepository = DummySuggestionsRechercheRepository();
   AnimationsCollectivesRepository animationsCollectivesRepository = DummyAnimationsCollectivesRepository();
   SessionMiloRepository sessionMiloRepository = DummySessionMiloRepository();
@@ -172,7 +168,6 @@ class TestStoreFactory {
       developerOptionRepository,
       userActionRepository,
       userActionPendingCreationRepository,
-      pageDemarcheRepository,
       rendezvousRepository,
       offreEmploiRepository,
       chatRepository,
@@ -208,7 +203,6 @@ class TestStoreFactory {
       partageActiviteRepository,
       ratingRepository,
       actionCommentaireRepository,
-      agendaRepository,
       suggestionsRechercheRepository,
       animationsCollectivesRepository,
       sessionMiloRepository,

@@ -185,8 +185,7 @@ void main() {
     test('user is logged out from authenticator and state is fully reset except for configuration', () async {
       // Given
       when(() => authenticator.logout('id', LogoutReason.apiResponse401)).thenAnswer((_) async => true);
-      final Store<AppState> store =
-          givenState(configuration(flavor: Flavor.PROD)).loggedInUser().loadingFutureRendezvous().store((f) {
+      final Store<AppState> store = givenState(configuration(flavor: Flavor.PROD)).loggedInUser().store((f) {
         f.authenticator = authenticator;
         f.matomoTracker = matomoTracker;
       });
@@ -196,7 +195,6 @@ void main() {
 
       // Then
       expect(store.state.loginState is LoginNotInitializedState, isTrue);
-      expect(store.state.rendezvousListState.isNotInitialized(), isTrue);
       expect(store.state.configurationState.getFlavor(), Flavor.PROD);
       verify(() => authenticator.logout('id', LogoutReason.apiResponse401)).called(1);
     });

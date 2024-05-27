@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -47,7 +46,7 @@ class _MonSuiviPageState extends State<MonSuiviPage> {
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: AnalyticsScreenNames.monSuiviV2,
+      tracking: AnalyticsScreenNames.monSuivi,
       child: _StateProvider(
         child: StoreConnector<AppState, MonSuiviViewModel>(
           onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
@@ -144,7 +143,7 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
   @override
   Widget build(BuildContext context) {
     return PrimaryAppBar(
-      title: Strings.monSuiviAppBarTitle,
+      title: Strings.monSuiviTitle,
       actionButton: withActionButton
           ? IconButton(
               onPressed: () => _StateProvider.maybeOf(context)?.scrollController.animateTo(
@@ -329,9 +328,9 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
 
                 _StateProvider.maybeOf(context)?.previousPeriodCount--;
                 PassEmploiMatomoTracker.instance.trackEvent(
-                  eventCategory: AnalyticsEventNames.monSuiviV2Category,
-                  action: AnalyticsEventNames.monSuiviV2PreviousPeriodAction,
-                  eventName: AnalyticsEventNames.monSuiviV2PeriodName,
+                  eventCategory: AnalyticsEventNames.monSuiviCategory,
+                  action: AnalyticsEventNames.monSuiviPreviousPeriodAction,
+                  eventName: AnalyticsEventNames.monSuiviPeriodName,
                   eventValue: _StateProvider.maybeOf(context)?.previousPeriodCount,
                 );
               }
@@ -357,9 +356,9 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
 
                 _StateProvider.maybeOf(context)?.nextPeriodCount++;
                 PassEmploiMatomoTracker.instance.trackEvent(
-                  eventCategory: AnalyticsEventNames.monSuiviV2Category,
-                  action: AnalyticsEventNames.monSuiviV2NextPeriodAction,
-                  eventName: AnalyticsEventNames.monSuiviV2PeriodName,
+                  eventCategory: AnalyticsEventNames.monSuiviCategory,
+                  action: AnalyticsEventNames.monSuiviNextPeriodAction,
+                  eventName: AnalyticsEventNames.monSuiviPeriodName,
                   eventValue: _StateProvider.maybeOf(context)?.nextPeriodCount,
                 );
               }
@@ -525,12 +524,11 @@ class _DemarcheMonSuiviItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return DemarcheCard(
       demarcheId: entry.id,
-      source: DemarcheStateSource.monSuivi,
       onTap: () {
         context.trackEvent(EventType.ACTION_DETAIL);
         Navigator.push(
           context,
-          DemarcheDetailPage.materialPageRoute(entry.id, DemarcheStateSource.monSuivi),
+          DemarcheDetailPage.materialPageRoute(entry.id),
         );
       },
     );

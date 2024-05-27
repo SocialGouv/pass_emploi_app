@@ -32,7 +32,7 @@ class _RechercheHomePageState extends State<RechercheHomePage> {
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: AnalyticsScreenNames.rechercheV2Home,
+      tracking: AnalyticsScreenNames.rechercheHome,
       child: StoreConnector<AppState, RechercheHomePageViewModel>(
         converter: (store) => RechercheHomePageViewModel.create(store),
         builder: _builder,

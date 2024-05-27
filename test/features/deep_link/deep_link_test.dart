@@ -134,8 +134,8 @@ void main() {
         );
 
         assertStateWithJson(
-          {"type": "AGENDA"},
-          AgendaDeepLink(),
+          {"type": "MON_SUIVI"},
+          MonSuiviDeepLink(),
           DeepLinkOrigin.inAppNavigation,
         );
 

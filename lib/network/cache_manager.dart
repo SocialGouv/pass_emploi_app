@@ -47,11 +47,7 @@ class PassEmploiCacheManager {
 
 enum CachedResource {
   ACCUEIL,
-  AGENDA,
   ANIMATIONS_COLLECTIVES,
-  DEMARCHES_LIST,
-  RENDEZVOUS_FUTURS,
-  RENDEZVOUS_PASSES,
   SESSIONS_MILO_LIST,
   SESSIONS_MILO_INSCRIT,
   SESSIONS_MILO_NOT_INSCRIT,
@@ -64,16 +60,12 @@ enum CachedResource {
 
   static CachedResource? fromUrl(String url) {
     if (url.contains('/accueil')) return ACCUEIL;
-    if (url.contains('/home/agenda')) return AGENDA;
     if (url.contains('/animations-collectives')) return ANIMATIONS_COLLECTIVES;
-    if (url.contains('/home/demarches')) return DEMARCHES_LIST;
     if (url.endsWith('/favoris')) return FAVORIS;
     if (url.endsWith('/favoris/offres-emploi')) return FAVORIS_EMPLOI;
     if (url.endsWith('/favoris/offres-immersion')) return FAVORIS_IMMERSION;
     if (url.endsWith('/favoris/services-civique')) return FAVORIS_SERVICE_CIVIQUE;
     if (url.contains('/preferences')) return UPDATE_PARTAGE_ACTIVITE;
-    if (url.contains('/rendezvous') && url.contains('FUTURS')) return RENDEZVOUS_FUTURS;
-    if (url.contains('/rendezvous') && url.contains('PASSES')) return RENDEZVOUS_PASSES;
     if (url.endsWith('/recherches')) return alerte;
     if (url.contains('/milo') && url.endsWith('sessions')) return SESSIONS_MILO_LIST;
     if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=true')) return SESSIONS_MILO_INSCRIT;

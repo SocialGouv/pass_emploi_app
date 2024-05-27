@@ -54,7 +54,7 @@ class AlerteDeepLink extends DeepLink {
 
 class ActualisationPeDeepLink extends DeepLink {}
 
-class AgendaDeepLink extends DeepLink {}
+class MonSuiviDeepLink extends DeepLink {}
 
 class FavorisDeepLink extends DeepLink {}
 

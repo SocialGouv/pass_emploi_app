@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_custom_demarche.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step3_page.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_list_item.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/demarche/top_demarche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';

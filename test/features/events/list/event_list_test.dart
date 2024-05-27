@@ -21,7 +21,7 @@ void main() {
       reset(sessionMiloRepository);
     });
 
-    group("when requesting agenda", () {
+    group("when requesting event list", () {
       sut.whenDispatchingAction(() => EventListRequestAction(DateTime.now()));
 
       test('should load then succeed when both request succeed', () {

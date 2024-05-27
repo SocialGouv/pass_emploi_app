@@ -94,7 +94,7 @@ bool _withWarningOnWrongSessionMiloRetrieval(MonSuiviState state) {
 }
 
 bool _withWarningOnWrongPoleEmploiDataRetrieval(MonSuiviState state) {
-  return state is MonSuiviSuccessState && state.monSuivi.errorOnPoleEmploiDataRetrieval;
+  return state is MonSuiviSuccessState && state.monSuivi.dateDerniereMiseAJourPoleEmploi != null;
 }
 
 List<MonSuiviItem> _items(Store<AppState> store) {

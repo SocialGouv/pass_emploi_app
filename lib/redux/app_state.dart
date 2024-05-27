@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
-import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/alerte/create/alerte_create_state.dart';
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_state.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_state.dart';
@@ -20,7 +19,6 @@ import 'package:pass_emploi_app/features/cv/cv_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
@@ -50,7 +48,6 @@ import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
-import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
@@ -85,7 +82,6 @@ class AppState extends Equatable {
   final UserActionCreatePendingState userActionCreatePendingState;
   final UserActionUpdateState userActionUpdateState;
   final UserActionDeleteState userActionDeleteState;
-  final DemarcheListState demarcheListState;
   final CreateDemarcheState createDemarcheState;
   final SearchDemarcheState searchDemarcheState;
   final UpdateDemarcheState updateDemarcheState;
@@ -100,7 +96,6 @@ class AppState extends Equatable {
   final FavoriUpdateState favoriUpdateState;
   final SearchLocationState searchLocationState;
   final SearchMetierState searchMetierState;
-  final RendezvousListState rendezvousListState;
   final RendezvousDetailsState rendezvousDetailsState;
   final ImmersionDetailsState immersionDetailsState;
   final AlerteCreateState<OffreEmploiAlerte> offreEmploiAlerteCreateState;
@@ -123,7 +118,6 @@ class AppState extends Equatable {
   final PartageActiviteUpdateState partageActiviteUpdateState;
   final RatingState ratingState;
   final ActionCommentaireListState actionCommentaireListState;
-  final AgendaState agendaState;
   final SuggestionsRechercheState suggestionsRechercheState;
   final TraiterSuggestionRechercheState traiterSuggestionRechercheState;
   final EventListState eventListState;
@@ -161,7 +155,6 @@ class AppState extends Equatable {
     required this.userActionCreatePendingState,
     required this.userActionUpdateState,
     required this.userActionDeleteState,
-    required this.demarcheListState,
     required this.createDemarcheState,
     required this.searchDemarcheState,
     required this.updateDemarcheState,
@@ -176,7 +169,6 @@ class AppState extends Equatable {
     required this.favoriUpdateState,
     required this.searchLocationState,
     required this.searchMetierState,
-    required this.rendezvousListState,
     required this.rendezvousDetailsState,
     required this.immersionDetailsState,
     required this.offreEmploiAlerteCreateState,
@@ -199,7 +191,6 @@ class AppState extends Equatable {
     required this.partageActiviteUpdateState,
     required this.ratingState,
     required this.actionCommentaireListState,
-    required this.agendaState,
     required this.suggestionsRechercheState,
     required this.traiterSuggestionRechercheState,
     required this.eventListState,
@@ -235,7 +226,6 @@ class AppState extends Equatable {
     final UserActionCreatePendingState? userActionCreatePendingState,
     final UserActionUpdateState? userActionUpdateState,
     final UserActionDeleteState? userActionDeleteState,
-    final DemarcheListState? demarcheListState,
     final CreateDemarcheState? createDemarcheState,
     final SearchDemarcheState? searchDemarcheState,
     final UpdateDemarcheState? updateDemarcheState,
@@ -250,7 +240,6 @@ class AppState extends Equatable {
     final FavoriUpdateState? favoriUpdateState,
     final SearchLocationState? searchLocationState,
     final SearchMetierState? searchMetierState,
-    final RendezvousListState? rendezvousListState,
     final RendezvousDetailsState? rendezvousDetailsState,
     final OffreEmploiDetailsState? offreEmploiDetailsState,
     final ImmersionDetailsState? immersionDetailsState,
@@ -275,7 +264,6 @@ class AppState extends Equatable {
     final PartageActiviteUpdateState? partageActiviteUpdateState,
     final RatingState? ratingState,
     final ActionCommentaireListState? actionCommentaireListState,
-    final AgendaState? agendaState,
     final SuggestionsRechercheState? suggestionsRechercheState,
     final TraiterSuggestionRechercheState? traiterSuggestionRechercheState,
     final EventListState? eventListState,
@@ -311,7 +299,6 @@ class AppState extends Equatable {
       userActionCreatePendingState: userActionCreatePendingState ?? this.userActionCreatePendingState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
       userActionDeleteState: userActionDeleteState ?? this.userActionDeleteState,
-      demarcheListState: demarcheListState ?? this.demarcheListState,
       createDemarcheState: createDemarcheState ?? this.createDemarcheState,
       searchDemarcheState: searchDemarcheState ?? this.searchDemarcheState,
       updateDemarcheState: updateDemarcheState ?? this.updateDemarcheState,
@@ -326,7 +313,6 @@ class AppState extends Equatable {
       favoriUpdateState: favoriUpdateState ?? this.favoriUpdateState,
       searchLocationState: searchLocationState ?? this.searchLocationState,
       searchMetierState: searchMetierState ?? this.searchMetierState,
-      rendezvousListState: rendezvousListState ?? this.rendezvousListState,
       rendezvousDetailsState: rendezvousDetailsState ?? this.rendezvousDetailsState,
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
       offreEmploiAlerteCreateState: offreEmploiAlerteCreateState ?? this.offreEmploiAlerteCreateState,
@@ -350,7 +336,6 @@ class AppState extends Equatable {
       partageActiviteUpdateState: partageActiviteUpdateState ?? this.partageActiviteUpdateState,
       ratingState: ratingState ?? this.ratingState,
       actionCommentaireListState: actionCommentaireListState ?? this.actionCommentaireListState,
-      agendaState: agendaState ?? this.agendaState,
       suggestionsRechercheState: suggestionsRechercheState ?? this.suggestionsRechercheState,
       traiterSuggestionRechercheState: traiterSuggestionRechercheState ?? this.traiterSuggestionRechercheState,
       eventListState: eventListState ?? this.eventListState,
@@ -389,7 +374,6 @@ class AppState extends Equatable {
       userActionCreatePendingState: UserActionCreatePendingNotInitializedState(),
       userActionUpdateState: UserActionUpdateNotInitializedState(),
       userActionDeleteState: UserActionDeleteNotInitializedState(),
-      demarcheListState: DemarcheListNotInitializedState(),
       detailsJeuneState: DetailsJeuneNotInitializedState(),
       createDemarcheState: CreateDemarcheNotInitializedState(),
       searchDemarcheState: SearchDemarcheNotInitializedState(),
@@ -404,7 +388,6 @@ class AppState extends Equatable {
       favoriUpdateState: FavoriUpdateState({}),
       searchLocationState: SearchLocationState([]),
       searchMetierState: SearchMetierState([]),
-      rendezvousListState: RendezvousListState.notInitialized(),
       rendezvousDetailsState: RendezvousDetailsNotInitializedState(),
       immersionDetailsState: ImmersionDetailsNotInitializedState(),
       offreEmploiAlerteCreateState: AlerteCreateState<OffreEmploiAlerte>.notInitialized(),
@@ -428,7 +411,6 @@ class AppState extends Equatable {
       partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),
       ratingState: RatingNotInitializedState(),
       actionCommentaireListState: ActionCommentaireListNotInitializedState(),
-      agendaState: AgendaNotInitializedState(),
       suggestionsRechercheState: SuggestionsRechercheNotInitializedState(),
       traiterSuggestionRechercheState: TraiterSuggestionRechercheNotInitializedState(),
       eventListState: EventListNotInitializedState(),
@@ -466,7 +448,6 @@ class AppState extends Equatable {
         userActionCreatePendingState,
         userActionUpdateState,
         userActionDeleteState,
-        demarcheListState,
         createDemarcheState,
         searchDemarcheState,
         updateDemarcheState,
@@ -479,7 +460,6 @@ class AppState extends Equatable {
         searchLocationState,
         searchMetierState,
         loginState,
-        rendezvousListState,
         rendezvousDetailsState,
         immersionDetailsState,
         offreEmploiAlerteCreateState,
@@ -499,7 +479,6 @@ class AppState extends Equatable {
         partageActiviteUpdateState,
         ratingState,
         actionCommentaireListState,
-        agendaState,
         suggestionsRechercheState,
         traiterSuggestionRechercheState,
         eventListState,

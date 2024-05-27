@@ -1,11 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/models/rendezvous_list_result.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
-import '../../doubles/fixtures.dart';
 import '../../dsl/sut_dio_repository.dart';
 import '../../utils/test_datetime.dart';
 
@@ -13,102 +10,17 @@ void main() {
   final sut = DioRepositorySut<RendezvousRepository>();
   sut.givenRepository((client) => RendezvousRepository(client));
 
-  group('getRendezvousList', () {
-    group('on past', () {
-      sut.when((repository) => repository.getRendezvousList('userID', RendezvousPeriod.PASSE));
-
-      group('when response is valid', () {
-        sut.givenJsonResponse(fromJson: 'rendezvous.json');
-
-        test('request should be valid', () async {
-          await sut.expectRequestBody(
-            method: HttpMethod.get,
-            url: '/v2/jeunes/userID/rendezvous?periode=PASSES',
-          );
-        });
-
-        test('response should be valid', () async {
-          await sut.expectResult<RendezvousListResult?>((result) {
-            expect(result, isNotNull);
-            expect(result!.rendezvous.length, 3);
-            expect(result.rendezvous[0], mockRendezvousMiloCV());
-            expect(
-              result.rendezvous[1],
-              Rendezvous(
-                id: '2d663392-b9ff-4b20-81ca-70a3c779e300',
-                source: RendezvousSource.passEmploi,
-                date: parseDateTimeUtcWithCurrentTimeZone('2021-11-29T13:34:00.000Z'),
-                modality: null,
-                isInVisio: false,
-                duration: 23,
-                withConseiller: false,
-                isAnnule: false,
-                type: RendezvousType(RendezvousTypeCode.VISITE, 'Visite'),
-                organism: 'Entreprise Bio Carburant',
-                address: '1 rue de la Boétie, 67000 Strasbourg',
-                precision: 'Visite',
-              ),
-            );
-            expect(
-              result.rendezvous[2].date,
-              parseDateTimeUnconsideringTimeZone('2001-01-17T03:43:00.000Z'),
-            );
-          });
-        });
-      });
-
-      group('when response is invalid', () {
-        sut.givenResponseCode(500);
-
-        test('response should be null', () async {
-          await sut.expectNullResult();
-        });
-      });
-    });
-
-    group('on future', () {
-      sut.when((repository) => repository.getRendezvousList('userID', RendezvousPeriod.FUTUR));
-
-      group('when response is valid', () {
-        sut.givenJsonResponse(fromJson: 'rendezvous.json');
-
-        test('request should be valid', () async {
-          await sut.expectRequestBody(
-            method: HttpMethod.get,
-            url: '/v2/jeunes/userID/rendezvous?periode=FUTURS',
-          );
-        });
-
-        test('response should be valid', () async {
-          await sut.expectResult<RendezvousListResult?>((result) {
-            expect(result, isNotNull);
-            expect(result!.rendezvous.length, 3);
-          });
-        });
-      });
-
-      group('when response is invalid', () {
-        sut.givenResponseCode(500);
-
-        test('response should be null', () async {
-          await sut.expectNullResult();
-        });
-      });
-    });
-
-    group('for Pôle Emploi rendezvous', () {
+  group('getRendezvousPoleEmploi', () {
+    group('when response is valid', () {
       sut.givenJsonResponse(fromJson: 'rendezvous_pole_emploi.json');
 
-      sut.when((repository) => repository.getRendezvousList('userID', RendezvousPeriod.PASSE));
+      sut.when((repository) => repository.getRendezvousPoleEmploi('userID', '4995ea8a-4f6a-48be-925e-f45593c481f6'));
 
-      test('retrieve rendezvous list correctly', () async {
-        await sut.expectResult<RendezvousListResult?>((result) {
+      test('retrieve rendezvous list and filter on ID locally', () async {
+        await sut.expectResult<Rendezvous?>((result) {
           expect(result, isNotNull);
-          expect(result!.dateDerniereMiseAJour, parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'));
-          expect(result.rendezvous.length, 10);
-          expect(result.rendezvous[0].organism, 'Agence France Travail');
           expect(
-            result.rendezvous[0],
+            result,
             Rendezvous(
               id: '4995ea8a-4f6a-48be-925e-f45593c481f6',
               source: RendezvousSource.passEmploi,
@@ -130,20 +42,30 @@ void main() {
           );
         });
       });
+    });
+
+    group('case where organism overrides agence', () {
+      sut.givenJsonResponse(fromJson: 'rendezvous_pole_emploi.json');
+
+      sut.when((repository) => repository.getRendezvousPoleEmploi('userID', '620e0dc7-7d4a-456c-95b6-ec11f4d4587d'));
 
       test('an organism should be more important than an agence Pole Emploi', () async {
-        await sut.expectResult<RendezvousListResult?>((result) {
+        await sut.expectResult<Rendezvous?>((result) {
           expect(result, isNotNull);
-          expect(result!.rendezvous.length, 10);
-          expect(result.rendezvous[4].organism, 'MBCCE');
+          expect(result!.organism, 'MBCCE');
         });
       });
+    });
+
+    group('case where agence overrides organsim', () {
+      sut.givenJsonResponse(fromJson: 'rendezvous_pole_emploi.json');
+
+      sut.when((repository) => repository.getRendezvousPoleEmploi('userID', '4995ea8a-4f6a-48be-925e-f45593c481f6'));
 
       test('an agence Pole Emploi should be an organism', () async {
-        await sut.expectResult<RendezvousListResult?>((result) {
+        await sut.expectResult<Rendezvous?>((result) {
           expect(result, isNotNull);
-          expect(result!.rendezvous.length, 10);
-          expect(result.rendezvous[0].organism, 'Agence France Travail');
+          expect(result!.organism, 'Agence France Travail');
         });
       });
     });

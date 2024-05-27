@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/pages/demarche/thematiques_demarche_page.dart';
 import 'package:pass_emploi_app/pages/demarche/top_demarche_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -50,7 +49,7 @@ class CreateDemarcheStep1Page extends StatefulWidget {
           eventCategory: AnalyticsEventNames.createActionEventCategory,
           action: AnalyticsEventNames.createActionClickOnSnackBarAction,
         );
-        Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheId, DemarcheStateSource.monSuivi));
+        Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheId));
       },
     );
   }

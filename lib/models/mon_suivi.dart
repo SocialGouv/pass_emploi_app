@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class MonSuivi extends Equatable {
   final List<UserAction> actions;
@@ -11,7 +12,7 @@ class MonSuivi extends Equatable {
   final List<Rendezvous> rendezvous;
   final List<SessionMilo> sessionsMilo;
   final bool errorOnSessionMiloRetrieval;
-  final bool errorOnPoleEmploiDataRetrieval;
+  final DateTime? dateDerniereMiseAJourPoleEmploi;
 
   MonSuivi({
     required this.actions,
@@ -19,7 +20,7 @@ class MonSuivi extends Equatable {
     required this.rendezvous,
     required this.sessionsMilo,
     required this.errorOnSessionMiloRetrieval,
-    required this.errorOnPoleEmploiDataRetrieval,
+    required this.dateDerniereMiseAJourPoleEmploi,
   });
 
   factory MonSuivi.fromMiloJson(dynamic json) {
@@ -30,7 +31,7 @@ class MonSuivi extends Equatable {
       sessionsMilo: jsonSessionMilo != null ? (jsonSessionMilo as List).map(SessionMilo.fromJson).toList() : [],
       errorOnSessionMiloRetrieval: jsonSessionMilo == null,
       demarches: [],
-      errorOnPoleEmploiDataRetrieval: false,
+      dateDerniereMiseAJourPoleEmploi: null,
     );
   }
 
@@ -41,7 +42,7 @@ class MonSuivi extends Equatable {
       actions: [],
       sessionsMilo: [],
       errorOnSessionMiloRetrieval: false,
-      errorOnPoleEmploiDataRetrieval: json["dateDerniereMiseAJour"] != null,
+      dateDerniereMiseAJourPoleEmploi: (json["dateDerniereMiseAJour"] as String?)?.toDateTimeUtcOnLocalTimeZone(),
     );
   }
 
@@ -52,7 +53,7 @@ class MonSuivi extends Equatable {
       rendezvous: [...rendezvous, ...monSuivi.rendezvous],
       sessionsMilo: [...sessionsMilo, ...monSuivi.sessionsMilo],
       errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval || monSuivi.errorOnSessionMiloRetrieval,
-      errorOnPoleEmploiDataRetrieval: errorOnPoleEmploiDataRetrieval || monSuivi.errorOnPoleEmploiDataRetrieval,
+      dateDerniereMiseAJourPoleEmploi: monSuivi.dateDerniereMiseAJourPoleEmploi,
     );
   }
 
@@ -62,7 +63,7 @@ class MonSuivi extends Equatable {
     List<Rendezvous>? rendezvous,
     List<SessionMilo>? sessionsMilo,
     bool? errorOnSessionMiloRetrieval,
-    bool? errorOnPoleEmploiDataRetrieval,
+    DateTime? dateDerniereMiseAJourPoleEmploi,
   }) {
     return MonSuivi(
       actions: actions ?? this.actions,
@@ -70,7 +71,7 @@ class MonSuivi extends Equatable {
       rendezvous: rendezvous ?? this.rendezvous,
       sessionsMilo: sessionsMilo ?? this.sessionsMilo,
       errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval ?? this.errorOnSessionMiloRetrieval,
-      errorOnPoleEmploiDataRetrieval: errorOnPoleEmploiDataRetrieval ?? this.errorOnPoleEmploiDataRetrieval,
+      dateDerniereMiseAJourPoleEmploi: dateDerniereMiseAJourPoleEmploi ?? this.dateDerniereMiseAJourPoleEmploi,
     );
   }
 
@@ -81,6 +82,6 @@ class MonSuivi extends Equatable {
         rendezvous,
         sessionsMilo,
         errorOnSessionMiloRetrieval,
-        errorOnPoleEmploiDataRetrieval,
+        dateDerniereMiseAJourPoleEmploi,
       ];
 }

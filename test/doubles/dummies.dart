@@ -12,7 +12,6 @@ import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
-import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/alerte_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/get_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/alerte/immersion_alerte_repository.dart';
@@ -45,7 +44,6 @@ import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
@@ -92,10 +90,6 @@ class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyUserActionRepository extends UserActionRepository {
   DummyUserActionRepository() : super(DioMock());
-}
-
-class DummyPageDemarcheRepository extends PageDemarcheRepository {
-  DummyPageDemarcheRepository() : super(DioMock());
 }
 
 class DummyChatRepository extends ChatRepository {
@@ -312,10 +306,6 @@ class DummyRatingRepository extends RatingRepository {
 
 class DummyActionCommentaireRepository extends ActionCommentaireRepository {
   DummyActionCommentaireRepository() : super(DioMock(), DummyPassEmploiCacheManager());
-}
-
-class DummyAgendaRepository extends AgendaRepository {
-  DummyAgendaRepository() : super(DioMock());
 }
 
 class DummySuggestionsRechercheRepository extends SuggestionsRechercheRepository {

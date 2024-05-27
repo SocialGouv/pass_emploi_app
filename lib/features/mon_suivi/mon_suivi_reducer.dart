@@ -1,8 +1,10 @@
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 
 MonSuiviState monSuiviReducer(MonSuiviState current, dynamic action) {
@@ -12,6 +14,7 @@ MonSuiviState monSuiviReducer(MonSuiviState current, dynamic action) {
   if (action is MonSuiviSuccessAction) return _successState(current, action);
   if (action is UserActionDeleteSuccessAction) return _withDeletedAction(current, action);
   if (action is UserActionUpdateSuccessAction) return _withUpdatedAction(current, action);
+  if (action is UpdateDemarcheSuccessAction) return _withUpdatedDemarche(current, action);
   return current;
 }
 
@@ -54,4 +57,10 @@ MonSuiviState _withUpdatedAction(MonSuiviState current, UserActionUpdateSuccessA
   if (current is! MonSuiviSuccessState) return current;
   final newActions = current.monSuivi.actions.withUpdatedAction(action.actionId, action.request);
   return current.withUpdatedActions(newActions);
+}
+
+MonSuiviState _withUpdatedDemarche(MonSuiviState current, UpdateDemarcheSuccessAction action) {
+  if (current is! MonSuiviSuccessState) return current;
+  final newDemarches = current.monSuivi.demarches.withUpdatedDemarche(action.modifiedDemarche);
+  return current.withUpdatedDemarches(newDemarches);
 }
