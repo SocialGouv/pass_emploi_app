@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/chat/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -16,7 +17,7 @@ void main() {
     final store = givenState().piecesJointesLoading("id-1").store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store);
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
 
     // Then
     expect(viewModel.displayState("id-1"), DisplayState.LOADING);
@@ -27,7 +28,7 @@ void main() {
     final store = givenState().piecesJointesFailure("id-1").store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store);
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
 
     // Then
     expect(viewModel.displayState("id-1"), DisplayState.FAILURE);
@@ -38,7 +39,7 @@ void main() {
     final store = givenState().piecesJointesWithIdOneSuccess().store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store);
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
 
     // Then
     expect(viewModel.displayState("id-1"), DisplayState.CONTENT);
@@ -49,7 +50,7 @@ void main() {
     final store = givenState().piecesJointesWithIdOneSuccess().store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store);
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
 
     // Then
     expect(viewModel.imagePath?.call("id-1"), "path");
@@ -60,7 +61,7 @@ void main() {
     final store = givenState().store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store);
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
 
     // Then
     expect(viewModel.displayState("id-1"), DisplayState.CONTENT);
@@ -71,7 +72,7 @@ void main() {
     final store = givenState().piecesJointesUnavailable("id-1").store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store);
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
 
     // Then
     expect(viewModel.displayState("id-1"), DisplayState.EMPTY);
@@ -80,7 +81,7 @@ void main() {
   test('onDownloadTypeId should trigger proper action', () {
     // Given
     final store = StoreSpy();
-    final viewModel = PieceJointeViewModel.create(store);
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
 
     // When
     viewModel.onDownloadTypeId("id", "file.pdf");
@@ -91,10 +92,10 @@ void main() {
     expect((store.dispatchedAction as PieceJointeFromIdRequestAction).fileName, "file.pdf");
   });
 
-  test("onDownloadTypeUrl should trigger proper action AND propagate événement d'engagement", () {
+  test("onDownloadTypeUrl should trigger proper action AND propagate événement d'engagement for jeune pj", () {
     // Given
     final store = StoreSpy();
-    final viewModel = PieceJointeViewModel.create(store);
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.jeune));
 
     // When
     viewModel.onDownloadTypeUrl("url", "id", "file.pdf");
@@ -104,23 +105,88 @@ void main() {
     expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).url, "url");
     expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileId, "id");
     expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileName, "file.pdf");
-
-    // Only when downloading from url we should trigger a tracking event.
-    // When downloading from id, the tracking event is directly triggered by the server.
     expect(store.dispatchedActions.last, isA<TrackingEventAction>());
-    expect((store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_TELECHARGEE);
+    expect(
+        (store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_BENEFICIAIRE_TELECHARGEE);
+  });
+
+  test("onDownloadTypeUrl should trigger proper action AND propagate événement d'engagement for conseiller pj", () {
+    // Given
+    final store = StoreSpy();
+    final viewModel =
+        PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.conseiller));
+
+    // When
+    viewModel.onDownloadTypeUrl("url", "id", "file.pdf");
+
+    // Then
+    expect(store.dispatchedActions.first, isA<PieceJointeFromUrlRequestAction>());
+    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).url, "url");
+    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileId, "id");
+    expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileName, "file.pdf");
+    expect(store.dispatchedActions.last, isA<TrackingEventAction>());
+    expect((store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_CONSEILLER_TELECHARGEE);
   });
 
   test("onDownloadTypeUrl should not trigger action if file is image", () {
     // Given
     final store = StoreSpy();
-    final viewModel = PieceJointeViewModel.create(store);
+    final viewModel =
+        PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.conseiller));
 
     // When
     viewModel.onDownloadTypeUrl("url", "id", "file.png");
 
     // Then
     expect(store.dispatchedActions.first, isA<PieceJointeFromUrlRequestAction>());
+    expect(store.dispatchedActions.length, 1);
+  });
+
+  test("onDownloadTypeId should trigger proper action AND propagate événement d'engagement for jeune pj", () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.jeune));
+
+    // When
+    viewModel.onDownloadTypeId("id", "file.pdf");
+
+    // Then
+    expect(store.dispatchedActions.first, isA<PieceJointeFromIdRequestAction>());
+    expect((store.dispatchedActions.first as PieceJointeFromIdRequestAction).fileId, "id");
+    expect((store.dispatchedActions.first as PieceJointeFromIdRequestAction).fileName, "file.pdf");
+    expect(store.dispatchedActions.last, isA<TrackingEventAction>());
+    expect(
+        (store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_BENEFICIAIRE_TELECHARGEE);
+  });
+
+  test("onDownloadTypeId should trigger proper action AND propagate événement d'engagement for conseiller pj", () {
+    // Given
+    final store = StoreSpy();
+    final viewModel =
+        PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.conseiller));
+
+    // When
+    viewModel.onDownloadTypeId("id", "file.pdf");
+
+    // Then
+    expect(store.dispatchedActions.first, isA<PieceJointeFromIdRequestAction>());
+    expect((store.dispatchedActions.first as PieceJointeFromIdRequestAction).fileId, "id");
+    expect((store.dispatchedActions.first as PieceJointeFromIdRequestAction).fileName, "file.pdf");
+    expect(store.dispatchedActions.last, isA<TrackingEventAction>());
+    expect((store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_CONSEILLER_TELECHARGEE);
+  });
+
+  test("onDownloadTypeId should not trigger action if file is image", () {
+    // Given
+    final store = StoreSpy();
+    final viewModel =
+        PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.conseiller));
+
+    // When
+    viewModel.onDownloadTypeId("id", "file.png");
+
+    // Then
+    expect(store.dispatchedActions.first, isA<PieceJointeFromIdRequestAction>());
     expect(store.dispatchedActions.length, 1);
   });
 }
