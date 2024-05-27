@@ -143,11 +143,6 @@ class Strings {
   static String forceUpdateOnFirebaseLabel =
       "Votre application nécessite d'être mise à jour sur Firebase pour son bon fonctionnement";
 
-  static String hello(firstName) => "Bonjour $firstName";
-
-  // Loader (Splash)
-  static String welcomeOn = "Bienvenue sur";
-
   // First Launch Onboarding
   static String start = "Démarrer";
 
@@ -299,7 +294,6 @@ class Strings {
   static String loginGenericError = "Erreur lors de la connexion";
   static String loginGenericErrorDescription =
       "Réessayer plus tard. Si le problème persiste, vous pouvez contacter votre conseiller.";
-  static String loginPassEmploi = "pass emploi";
   static String loginPoleEmploi = "France Travail";
   static String loginMissionLocale = "Mission Locale";
   static String loginAction = "Se connecter";
@@ -405,26 +399,12 @@ class Strings {
   static String seeVisio = 'Accéder à la visio';
   static String rendezvousVisioModalityMessage =
       'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.';
-  static String rendezVousPassesTitre = "Rendez-vous passés";
-  static String rendezVousCetteSemaineTitre = "Cette semaine";
-  static String rendezSemaineTitre = "Semaine du";
-  static String rendezVousFutursTitre = "Rendez-vous futurs";
-  static String noRendezVousThisWeek = "Vous n’avez pas encore de rendez-vous prévu cette semaine";
-  static String noRendezVousThisWeekSubtitle =
-      "Retrouvez vos rendez-vous passés ou à venir avec les flèches en haut de page.";
-  static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévu pour la semaine du ";
-  static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
-  static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévu";
   static String withConseiller = "avec";
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
   static String shareToConseiller = "Partager à mon conseiller";
   static String shareToConseillerDemandeInscription = "Faire une demande d’inscription";
   static String withAnimateurTitle = "Animateur de la session";
-
-  static String rendezvousSinceDate(String date) => "depuis le $date";
-
-  static String rendezvousStartingAtDate(String date) => "à partir du $date";
 
   static String rendezvousWithConseiller(String conseiller) => "votre conseiller $conseiller";
 
@@ -443,7 +423,6 @@ class Strings {
   static String evalDescription = "Aidez-nous à améliorer l’application en répondant à quelques questions.";
   static String evalButton = "Donner son avis";
 
-  static String questionIndexTitle(String index, String total) => "Votre expérience $index/$total";
   static String nextButtonTitle = "Suivant";
   static String validateButtonTitle = "Valider";
   static String mandatory = "Les questions marquées d'une * sont obligatoires";
@@ -632,8 +611,6 @@ class Strings {
   static String addComment = "Ajouter un commentaire";
 
   static String seeNComments(String n) => "Voir les $n commentaires";
-  static String yourComment = "Votre commentaire...";
-  static String sendCommentError = "Erreur lors de l'envoi du commentaire. Veuillez réessayer";
   static String commentsUnavailableOffline = "Les commentaires de l'action ne sont pas disponibles hors connexion.";
 
   // Demarches
