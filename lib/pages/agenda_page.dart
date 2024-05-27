@@ -213,7 +213,7 @@ class _NotUpToDateMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NotUpToDateMessage(
-      message: Strings.monSuiviPeNotUpToDate,
+      message: Strings.monSuiviPoleEmploiDataError,
       margin: EdgeInsets.only(bottom: Margins.spacing_base),
       onRefresh: () => _viewModel.reload(DateTime.now()),
     );
