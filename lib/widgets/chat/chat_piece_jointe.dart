@@ -114,8 +114,7 @@ class _DownloadButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, PieceJointeViewModel>(
-      converter: (store) =>
-          PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: params.sender)),
+      converter: (store) => PieceJointeViewModel.create(store, PieceJointeDownloadButtonSource(sender: params.sender)),
       builder: (context, viewModel) => _Body(viewModel: viewModel, params: params),
       distinct: true,
     );

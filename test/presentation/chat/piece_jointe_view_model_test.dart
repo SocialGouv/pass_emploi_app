@@ -17,7 +17,7 @@ void main() {
     final store = givenState().piecesJointesLoading("id-1").store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeImagePreviewSource());
 
     // Then
     expect(viewModel.displayState("id-1"), DisplayState.LOADING);
@@ -28,7 +28,7 @@ void main() {
     final store = givenState().piecesJointesFailure("id-1").store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeImagePreviewSource());
 
     // Then
     expect(viewModel.displayState("id-1"), DisplayState.FAILURE);
@@ -39,7 +39,7 @@ void main() {
     final store = givenState().piecesJointesWithIdOneSuccess().store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeImagePreviewSource());
 
     // Then
     expect(viewModel.displayState("id-1"), DisplayState.CONTENT);
@@ -50,7 +50,7 @@ void main() {
     final store = givenState().piecesJointesWithIdOneSuccess().store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeImagePreviewSource());
 
     // Then
     expect(viewModel.imagePath?.call("id-1"), "path");
@@ -61,7 +61,7 @@ void main() {
     final store = givenState().store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeImagePreviewSource());
 
     // Then
     expect(viewModel.displayState("id-1"), DisplayState.CONTENT);
@@ -72,7 +72,7 @@ void main() {
     final store = givenState().piecesJointesUnavailable("id-1").store();
 
     // When
-    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeImagePreviewSource());
 
     // Then
     expect(viewModel.displayState("id-1"), DisplayState.EMPTY);
@@ -81,7 +81,7 @@ void main() {
   test('onDownloadTypeId should trigger proper action', () {
     // Given
     final store = StoreSpy();
-    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromImagePreview());
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeImagePreviewSource());
 
     // When
     viewModel.onDownloadTypeId("id", "file.pdf");
@@ -95,7 +95,7 @@ void main() {
   test("onDownloadTypeUrl should trigger proper action AND propagate événement d'engagement for jeune pj", () {
     // Given
     final store = StoreSpy();
-    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.jeune));
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeDownloadButtonSource(sender: Sender.jeune));
 
     // When
     viewModel.onDownloadTypeUrl("url", "id", "file.pdf");
@@ -113,8 +113,7 @@ void main() {
   test("onDownloadTypeUrl should trigger proper action AND propagate événement d'engagement for conseiller pj", () {
     // Given
     final store = StoreSpy();
-    final viewModel =
-        PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.conseiller));
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeDownloadButtonSource(sender: Sender.conseiller));
 
     // When
     viewModel.onDownloadTypeUrl("url", "id", "file.pdf");
@@ -131,8 +130,7 @@ void main() {
   test("onDownloadTypeUrl should not trigger action if file is image", () {
     // Given
     final store = StoreSpy();
-    final viewModel =
-        PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.conseiller));
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeDownloadButtonSource(sender: Sender.conseiller));
 
     // When
     viewModel.onDownloadTypeUrl("url", "id", "file.png");
@@ -145,7 +143,7 @@ void main() {
   test("onDownloadTypeId should trigger proper action AND propagate événement d'engagement for jeune pj", () {
     // Given
     final store = StoreSpy();
-    final viewModel = PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.jeune));
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeDownloadButtonSource(sender: Sender.jeune));
 
     // When
     viewModel.onDownloadTypeId("id", "file.pdf");
@@ -162,8 +160,7 @@ void main() {
   test("onDownloadTypeId should trigger proper action AND propagate événement d'engagement for conseiller pj", () {
     // Given
     final store = StoreSpy();
-    final viewModel =
-        PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.conseiller));
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeDownloadButtonSource(sender: Sender.conseiller));
 
     // When
     viewModel.onDownloadTypeId("id", "file.pdf");
@@ -179,8 +176,7 @@ void main() {
   test("onDownloadTypeId should not trigger action if file is image", () {
     // Given
     final store = StoreSpy();
-    final viewModel =
-        PieceJointeViewModel.create(store, PieceJointeViewModeFromDownloadButton(sender: Sender.conseiller));
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeDownloadButtonSource(sender: Sender.conseiller));
 
     // When
     viewModel.onDownloadTypeId("id", "file.png");

@@ -9,15 +9,15 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-sealed class PieceJointeViewModelSource {}
+sealed class PieceJointeSource {}
 
-class PieceJointeViewModeFromDownloadButton extends PieceJointeViewModelSource {
+class PieceJointeDownloadButtonSource extends PieceJointeSource {
   final Sender sender;
 
-  PieceJointeViewModeFromDownloadButton({required this.sender});
+  PieceJointeDownloadButtonSource({required this.sender});
 }
 
-class PieceJointeViewModeFromImagePreview extends PieceJointeViewModelSource {}
+class PieceJointeImagePreviewSource extends PieceJointeSource {}
 
 class PieceJointeViewModel extends Equatable {
   final DisplayState Function(String fileId) displayState;
@@ -32,7 +32,7 @@ class PieceJointeViewModel extends Equatable {
     required this.onDownloadTypeUrl,
   });
 
-  factory PieceJointeViewModel.create(Store<AppState> store, PieceJointeViewModelSource source) {
+  factory PieceJointeViewModel.create(Store<AppState> store, PieceJointeSource source) {
     final piecesJointesState = store.state.piecesJointesState;
     return PieceJointeViewModel._(
       displayState: (fileId) => _displayState(fileId, piecesJointesState),
@@ -63,23 +63,22 @@ String? _imagePath(String id, PiecesJointesState piecesJointesState) {
   };
 }
 
-void _onDownloadTypeId(String fileId, String fileName, PieceJointeViewModelSource source, Store<AppState> store) {
+void _onDownloadTypeId(String fileId, String fileName, PieceJointeSource source, Store<AppState> store) {
   store.dispatch(PieceJointeFromIdRequestAction(fileId, fileName));
   if (!fileName.isImage()) {
     _trackPieceJointeDownload(source, store);
   }
 }
 
-void _onDownloadTypeUrl(
-    String url, String fileId, String fileName, PieceJointeViewModelSource source, Store<AppState> store) {
+void _onDownloadTypeUrl(String url, String fileId, String fileName, PieceJointeSource source, Store<AppState> store) {
   store.dispatch(PieceJointeFromUrlRequestAction(url, fileId, fileName));
   if (!fileName.isImage()) {
     _trackPieceJointeDownload(source, store);
   }
 }
 
-void _trackPieceJointeDownload(PieceJointeViewModelSource source, Store<AppState> store) {
-  if (source is PieceJointeViewModeFromDownloadButton) {
+void _trackPieceJointeDownload(PieceJointeSource source, Store<AppState> store) {
+  if (source is PieceJointeDownloadButtonSource) {
     store.dispatch(TrackingEventAction(source.sender.isJeune
         ? EventType.PIECE_JOINTE_BENEFICIAIRE_TELECHARGEE
         : EventType.PIECE_JOINTE_CONSEILLER_TELECHARGEE));
