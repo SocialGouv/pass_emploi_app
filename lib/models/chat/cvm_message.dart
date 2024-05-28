@@ -19,16 +19,18 @@ sealed class CvmMessage extends Equatable {
 class CvmTextMessage extends CvmMessage {
   final Sender sentBy;
   final String content;
+  final bool readByConseiller;
 
   CvmTextMessage({
     required super.id,
     required super.date,
     required this.sentBy,
     required this.content,
+    required this.readByConseiller,
   });
 
   @override
-  List<Object?> get props => [id, date, sentBy, content];
+  List<Object?> get props => [id, date, sentBy, content, readByConseiller];
 }
 
 class CvmFileMessage extends CvmMessage {

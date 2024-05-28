@@ -52,11 +52,23 @@ void main() {
     final january2 = DateTime(2021, 1, 2, 16);
     // Given
     final store = givenState().withCvmMessage(messages: [
-      CvmTextMessage(id: 'id1', content: '1', date: DateTime(2021, 1, 1, 12, 30), sentBy: Sender.jeune),
-      CvmTextMessage(id: 'id2', content: '2', date: DateTime(2021, 1, 1, 15, 30), sentBy: Sender.conseiller),
+      CvmTextMessage(
+        id: 'id1',
+        content: '1',
+        date: DateTime(2021, 1, 1, 12, 30),
+        sentBy: Sender.jeune,
+        readByConseiller: false,
+      ),
+      CvmTextMessage(
+        id: 'id2',
+        content: '2',
+        date: DateTime(2021, 1, 1, 15, 30),
+        sentBy: Sender.conseiller,
+        readByConseiller: false,
+      ),
       CvmUnknownMessage(id: 'id5', date: DateTime(2021, 1, 1, 19, 00)),
       CvmFileMessage(id: 'id3', url: 'u', fileName: 'fn', fileId: 'fi', date: january2, sentBy: Sender.conseiller),
-      CvmTextMessage(id: 'id4', content: '4', date: todayAtNoon, sentBy: Sender.jeune),
+      CvmTextMessage(id: 'id4', content: '4', date: todayAtNoon, sentBy: Sender.jeune, readByConseiller: false),
     ]).store();
 
     // When

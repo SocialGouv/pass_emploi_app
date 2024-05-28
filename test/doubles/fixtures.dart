@@ -1234,12 +1234,19 @@ MonSuivi mockMonSuivi({
   );
 }
 
-CvmMessage mockCvmTextMessage({String? id, String? content, DateTime? date, Sender? sentBy}) {
+CvmMessage mockCvmTextMessage({
+  String? id,
+  String? content,
+  DateTime? date,
+  Sender? sentBy,
+  bool? readByConseiller,
+}) {
   return CvmTextMessage(
     id: id ?? "id",
     content: content ?? "content",
     date: date ?? DateTime(2032),
     sentBy: sentBy ?? Sender.jeune,
+    readByConseiller: readByConseiller ?? false,
   );
 }
 

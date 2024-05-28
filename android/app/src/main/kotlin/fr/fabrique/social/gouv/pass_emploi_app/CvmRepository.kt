@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import com.poleemploi.matrixlib.Manager.MatrixManager
 import com.poleemploi.matrixlib.Manager.SessionManager
+import com.poleemploi.matrixlib.Model.Event
 import com.poleemploi.matrixlib.Model.EventType
 import com.poleemploi.matrixlib.Model.Room
 
@@ -14,7 +15,7 @@ class CvmRepository(
 
     private var room: Room? = null
     private var onMessage: (List<Map<String, Any?>>) -> Unit = {}
-    private var onRoom : (Boolean) -> Unit = {}
+    private var onRoom: (Boolean) -> Unit = {}
 
     fun setEventCallback(callback: (List<Map<String, Any?>>) -> Unit) {
         this.onMessage = callback
@@ -39,8 +40,8 @@ class CvmRepository(
 
     fun joinFirstRoom(onResult: (Boolean) -> Unit) {
         MatrixManager.getInstance().joinFirstRoom(lifecycleOwner) {
-                this.room = it
-                onResult(true)
+            this.room = it
+            onResult(true)
         }
     }
 
@@ -56,7 +57,6 @@ class CvmRepository(
     }
 
 
-
     fun startListenMessages(callback: (Boolean) -> Unit) {
         if (this.room == null) {
             callback(false)
@@ -70,7 +70,8 @@ class CvmRepository(
                     "isFromUser" to (event.senderId == SessionManager.matrixUserId),
                     "message" to event.message,
                     "fileInfo" to event.url,
-                    "date" to event.date?.time
+                    "date" to event.date?.time,
+                    "readByConseiller" to event.readByConseiller()
                 )
             }
             this.onMessage(allMessages)
@@ -114,4 +115,13 @@ private fun stringify(eventType: EventType): String {
         EventType.TYPING -> "typing"
         else -> "unknown"
     }
+}
+
+private fun Event.readByConseiller(): Boolean {
+    println("🚀🚀🚀 CvmRepository.kotlin#message ->  $message")
+    println("🚀🚀🚀 CvmRepository.kotlin#readBy ->  $readBy")
+    val readByConseiller = readBy?.filterNot { it == SessionManager.matrixUserId }?.isNotEmpty() == true
+    println("🚀🚀🚀 CvmRepository.kotlin#readByConseiller ->  $readByConseiller")
+    println("🚀🚀🚀 ----------")
+    return readByConseiller
 }

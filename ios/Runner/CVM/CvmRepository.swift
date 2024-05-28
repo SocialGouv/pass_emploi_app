@@ -95,7 +95,8 @@ private extension Event {
             "isFromUser": senderID == SessionManager.sharedInstance.userId,
             "message": message,
             "date": timestamp,
-            "fileInfo": attachmentID
+            "fileInfo": attachmentID,
+            "readByConseiller": readByConseiller
         ]
     }
 
@@ -104,6 +105,12 @@ private extension Event {
             return nil
         }
         return Int64((date.timeIntervalSince1970) * 1000)
+    }
+    
+    private var readByConseiller: Bool{
+        print("🚀🚀🚀 CvmRepository.swift#message -> ", message)
+        print("🚀🚀🚀 CvmRepository.swift#readBy -> ", readBy)
+        return !readBy.filter({ $0 != SessionManager.sharedInstance.userId }).isEmpty
     }
 }
 

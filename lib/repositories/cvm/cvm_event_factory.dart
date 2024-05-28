@@ -31,6 +31,7 @@ class CvmEventFactory {
       sentBy: jsonEvent.isFromUser! ? Sender.jeune : Sender.conseiller,
       content: jsonEvent.content!,
       date: jsonEvent.date!,
+      readByConseiller: jsonEvent.readByConseiller!,
     );
   }
 
@@ -83,6 +84,7 @@ class _JsonCvmEvent {
   final String? id;
   final DateTime? date;
   final bool? isFromUser;
+  final bool? readByConseiller;
   final String? content;
   final String? fileInfo;
 
@@ -91,6 +93,7 @@ class _JsonCvmEvent {
     required this.id,
     required this.date,
     required this.isFromUser,
+    required this.readByConseiller,
     required this.content,
     required this.fileInfo,
   });
@@ -101,6 +104,7 @@ class _JsonCvmEvent {
       id: json['id'] as String?,
       date: json['date'] is int ? DateTime.fromMillisecondsSinceEpoch(json['date'] as int) : null,
       isFromUser: json['isFromUser'] as bool?,
+      readByConseiller: json['readByConseiller'] as bool?,
       content: json['message'] as String?,
       fileInfo: json['fileInfo'] as String?,
     );

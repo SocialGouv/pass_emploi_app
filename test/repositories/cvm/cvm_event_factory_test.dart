@@ -12,9 +12,10 @@ void main() {
       final dynamic json = {
         'id': 'id',
         'type': 'message',
-        'isFromUser': true,
+        'isFromUser': false,
         'message': 'message',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
+        'readByConseiller': true,
       };
 
       // When
@@ -25,9 +26,10 @@ void main() {
         result,
         CvmTextMessage(
           id: 'id',
-          sentBy: Sender.jeune,
+          sentBy: Sender.conseiller,
           content: 'message',
           date: DateTime(2024, 1, 1),
+          readByConseiller: true,
         ),
       );
     });
