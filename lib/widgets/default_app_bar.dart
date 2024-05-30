@@ -149,8 +149,9 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Color? backgroundColor;
   final Widget? leading;
+  final List<Widget>? actions;
 
-  const SecondaryAppBar({super.key, required this.title, this.backgroundColor, this.leading});
+  const SecondaryAppBar({super.key, required this.title, this.backgroundColor, this.leading, this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +163,7 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: false,
       scrolledUnderElevation: 0,
       leading: leading,
+      actions: actions,
       backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       title: Semantics(
         header: true,

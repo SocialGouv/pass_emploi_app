@@ -590,6 +590,12 @@ class Strings {
 
   static String userActionDetailsError = "Erreur lors de la récupération de l'action";
 
+  // User action bottom sheet
+  static String userActionBottomSheetTitle = "Éditer l’action";
+  static String userActionBottomSheetDelete = "Supprimer";
+  static String userActionBottomSheetEdit = "Modifier";
+  static String userActionBottomSheetDuplicate = "Dupliquer";
+
   // Update user action
   static String updateUserActionPageTitle = "Modifier l'action";
   static String updateUserAction = "Modifier l'action";
