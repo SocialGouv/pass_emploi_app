@@ -94,7 +94,7 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: HttpMethod.get,
-            url: "/jeunes/pole-emploi/user-id/mon-suivi",
+            url: "/jeunes/user-id/pole-emploi/mon-suivi",
             queryParameters: {"dateDebut": '2024-01-01T00:00:00+00:00'},
           );
         });
@@ -134,7 +134,7 @@ void main() {
           test('request should be valid', () async {
             await sut.expectRequestBody(
               method: HttpMethod.get,
-              url: "/jeunes/pole-emploi/user-id/mon-suivi",
+              url: "/jeunes/user-id/pole-emploi/mon-suivi",
               queryParameters: {"dateDebut": '2024-01-01T00:00:00+00:00'},
             );
           });

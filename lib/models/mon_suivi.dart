@@ -37,8 +37,11 @@ class MonSuivi extends Equatable {
 
   factory MonSuivi.fromPoleEmploiJson(dynamic json) {
     return MonSuivi(
-      demarches: (json["demarches"] as List).map(Demarche.fromJson).toList(),
-      rendezvous: (json["rendezVous"] as List).map((e) => JsonRendezvous.fromJson(e).toRendezvous()).toList(),
+      demarches: (json["resultat"]["demarches"] as List).map(Demarche.fromJson).toList(),
+      rendezvous: (json["resultat"]["rendezVous"] as List) //
+          .map(JsonRendezvous.fromJson)
+          .map((e) => e.toRendezvous())
+          .toList(),
       actions: [],
       sessionsMilo: [],
       errorOnSessionMiloRetrieval: false,

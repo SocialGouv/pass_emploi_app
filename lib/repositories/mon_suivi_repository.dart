@@ -29,7 +29,7 @@ class MonSuiviRepository {
   }
 
   Future<MonSuivi?> getMonSuiviPoleEmploi(String userId, DateTime debut) async {
-    final url = "/jeunes/pole-emploi/$userId/mon-suivi";
+    final url = "/jeunes/$userId/pole-emploi/mon-suivi";
 
     try {
       final response = await _httpClient.get(
