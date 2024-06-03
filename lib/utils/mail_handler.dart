@@ -1,8 +1,8 @@
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 
 class MailHandler {
-  static Future<bool> sendEmail({required String email, required String subject, required String body}) async {
-    final mailUrl = _getEmailString(email: email, subject: subject, body: body);
+  static Future<bool> sendEmail({required String email, required String object, required String body}) async {
+    final mailUrl = _getEmailString(email: email, object: object, body: body);
     try {
       final launched = await launchExternalUrl(mailUrl);
       return launched;
@@ -11,11 +11,11 @@ class MailHandler {
     }
   }
 
-  static String _getEmailString({required String email, required String subject, required String body}) {
+  static String _getEmailString({required String email, required String object, required String body}) {
     final Uri emailReportUri = Uri(
       scheme: 'mailto',
       path: email,
-      query: _encodeQueryParameters(<String, String>{'subject': subject, 'body': body}),
+      query: _encodeQueryParameters(<String, String>{'subject': object, 'body': body}),
     );
     return emailReportUri.toString();
   }
