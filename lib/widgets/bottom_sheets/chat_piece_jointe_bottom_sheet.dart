@@ -99,14 +99,14 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
               _TakePictureButton(
                 onPickImagePermissionError: _onPermissionError,
               ),
+              _SelectPictureButton(
+                onPickImagePermissionError: _onPermissionError,
+              ),
               _SelectFileButton(
                 isFileTooLarge: _isFileTooLarge,
                 onPermissionError: _onPermissionError,
                 pickFileSarted: _pickFileSarted,
                 pickFileEnded: _pickFileEnded,
-              ),
-              _SelectPictureButton(
-                onPickImagePermissionError: _onPermissionError,
               ),
             ],
           ),
