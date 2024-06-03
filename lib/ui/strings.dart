@@ -1003,7 +1003,7 @@ class Strings {
   static String contactPageBodyBullet3 = "Toute autre remarque";
   static String contactPageButton = "Contacter l'équipe";
 
-  static String objetPriseDeContact(Brand brand) => brand == Brand.cej
+  static String objetPriseDeContact(Brand brand) => brand.isCej
       ? "Prise de contact avec l’équipe de l’application du CEJ"
       : "Prise de contact avec l’équipe de l’application pass emploi";
   static String corpsPriseDeContact = "Décrivez nous votre problème ou vos suggestions d’évolution : ";
@@ -1079,7 +1079,10 @@ class Strings {
   static String sadEmoji = "😫";
 
   static String supportMail = "support@pass-emploi.beta.gouv.fr";
-  static String titleSupportMail = "Mon avis sur l’application";
+
+  static String ratingEmailObject(Brand brand) =>
+      brand.isCej ? "Mon avis sur l’application du CEJ" : "Mon avis sur l’application pass emploi";
+
   static String contentSupportMail = "Aidez-nous à améliorer l’application en nous donnant votre avis :\n";
 
   // Suggestions de recherche
@@ -1160,6 +1163,7 @@ class Strings {
 
   // Mode dégradé France Travail
   static String reloadPage = "Recharger la page";
+
   static String dateDerniereMiseAJourRendezvous(String date) => "Dernière actualisation de vos rendez-vous le $date";
 
   static String dateDerniereMiseAJourDemarches(String date) => "Dernière actualisation de vos démarches le $date";

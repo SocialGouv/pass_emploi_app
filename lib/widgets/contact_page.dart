@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/presentation/contact_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/email_subject_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -20,8 +20,8 @@ class ContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ContactPageViewModel>(
-        converter: (store) => ContactPageViewModel.create(store),
+    return StoreConnector<AppState, EmailObjectViewModel>(
+        converter: (store) => EmailObjectViewModel.create(store),
         builder: (context, viewModel) {
           return Tracker(
             tracking: AnalyticsScreenNames.contactProfil,
@@ -76,10 +76,10 @@ class ContactPage extends StatelessWidget {
     );
   }
 
-  void _sendContactEmail(BuildContext context, ContactPageViewModel viewModel) async {
+  void _sendContactEmail(BuildContext context, EmailObjectViewModel viewModel) async {
     final mailSent = await MailHandler.sendEmail(
       email: Strings.supportMail,
-      subject: viewModel.emailSubject,
+      object: viewModel.contactEmailObject,
       body: Strings.corpsPriseDeContact,
     );
     if (!context.mounted) return;

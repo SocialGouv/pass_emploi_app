@@ -53,4 +53,37 @@ void main() {
     // Then
     expect(viewModel.shouldSendEmailOnNegativeRating, isFalse);
   });
+
+  test('should not send email on negative rating when platform is iOS and brand is BRSA', () {
+    // Given
+    final store = givenBrsaState().showRating().store();
+
+    // When
+    final viewModel = RatingViewModel.create(store, Platform.IOS);
+
+    // Then
+    expect(viewModel.shouldSendEmailOnNegativeRating, isFalse);
+  });
+
+  test('ratingEmailObject when brand is BRSA and user is from Pôle emploi should return object properly formatted', () {
+    // Given
+    final store = givenBrsaState().showRating().store();
+
+    // When
+    final viewModel = RatingViewModel.create(store, Platform.IOS);
+
+    // Then
+    expect(viewModel.ratingEmailObject, 'France Travail - Mon avis sur l’application pass emploi');
+  });
+
+  test('ratingEmailObject when brand is CEJ and user is from Milo should return object properly formatted', () {
+    // Given
+    final store = givenState().loggedInMiloUser().showRating().store();
+
+    // When
+    final viewModel = RatingViewModel.create(store, Platform.IOS);
+
+    // Then
+    expect(viewModel.ratingEmailObject, 'Mission Locale - Mon avis sur l’application du CEJ');
+  });
 }
