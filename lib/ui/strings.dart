@@ -132,9 +132,8 @@ class Strings {
   static String chatPieceJointeBottomSheetSelectFileButton = "Sélectionner un fichier";
   static String chatPieceJointeBottomSheetFileTooLarge =
       "Le fichier est trop volumineux. Veuillez sélectionner un fichier de moins de 5 Mo.";
-  static String chatPieceJointePermissionError =
-      "Vous devez accorder l’autorisation d’accéder à vos photos ou fichiers pour pouvoir ajouter une pièce jointe.";
-  static String chatPieceJointeOpenAppSettings = "Ouvrir les paramètres";
+  static String chatPieceJointePermissionError = "Autorisez l’accès à la galerie pour pouvoir sélectionner une image.";
+  static String chatPieceJointeOpenAppSettings = "Paramètres";
 
   // Force Update
   static String updateTitle = "Mise à jour";

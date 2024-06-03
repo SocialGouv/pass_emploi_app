@@ -1,15 +1,13 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/file_picker_wrapper.dart';
 import 'package:pass_emploi_app/utils/image_picker_wrapper.dart';
+import 'package:pass_emploi_app/widgets/alert_message.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
-import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
-import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 sealed class ChatPieceJointeBottomSheetResult {
   final String path;
@@ -219,15 +217,8 @@ class _FileTooLargeWarning extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox.square(dimension: 100, child: Illustration.red(AppIcons.error_rounded)),
-        SizedBox(height: Margins.spacing_base),
-        Text(
-          Strings.chatPieceJointeBottomSheetFileTooLarge,
-          style: TextStyles.textBaseRegular.copyWith(color: AppColors.warning),
-        ),
-      ],
+    return AlertMessage(
+      message: Strings.chatPieceJointeBottomSheetFileTooLarge,
     );
   }
 }
@@ -235,23 +226,10 @@ class _FileTooLargeWarning extends StatelessWidget {
 class _PermissionDeniedWarning extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox.square(dimension: 100, child: Illustration.orange(AppIcons.image_not_supported_outlined)),
-        SizedBox(height: Margins.spacing_base),
-        Text(
-          Strings.chatPieceJointePermissionError,
-          style: TextStyles.textBaseRegular.copyWith(color: AppColors.alert),
-        ),
-        SizedBox(height: Margins.spacing_base),
-        SizedBox(
-          width: double.infinity,
-          child: SecondaryButton(
-            label: Strings.chatPieceJointeOpenAppSettings,
-            onPressed: () => AppSettings.openAppSettings(),
-          ),
-        )
-      ],
+    return AlertMessage(
+      message: Strings.chatPieceJointePermissionError,
+      retryMessage: Strings.chatPieceJointeOpenAppSettings,
+      onRetry: () => AppSettings.openAppSettings(),
     );
   }
 }
