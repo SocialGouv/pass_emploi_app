@@ -61,6 +61,32 @@ class SecureStorageExceptionHandlerDecorator extends FlutterSecureStorage {
   }
 
   @override
+  Future<Map<String, String>> readAll({
+    IOSOptions? iOptions,
+    AndroidOptions? aOptions,
+    LinuxOptions? lOptions,
+    WebOptions? webOptions,
+    MacOsOptions? mOptions,
+    WindowsOptions? wOptions,
+  }) async {
+    {
+      try {
+        return await decorated.readAll(
+          iOptions: iOptions,
+          aOptions: aOptions,
+          lOptions: lOptions,
+          webOptions: webOptions,
+          mOptions: mOptions,
+          wOptions: wOptions,
+        );
+      } catch (exception, stack) {
+        crashlytics?.recordNonNetworkException(exception, stack);
+        return {};
+      }
+    }
+  }
+
+  @override
   Future<void> delete({
     required String key,
     IOSOptions? iOptions,
