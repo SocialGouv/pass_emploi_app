@@ -139,11 +139,10 @@ class _SelectPictureButton extends StatelessWidget {
   const _SelectPictureButton({required this.onPickImagePermissionError});
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(AppIcons.image_outlined),
-      contentPadding: EdgeInsets.zero,
-      title: Text(Strings.chatPieceJointeBottomSheetSelectImageButton, style: TextStyles.textBaseBold),
-      onTap: () async {
+    return _PieceJointeListTile(
+      icon: AppIcons.image_outlined,
+      text: Strings.chatPieceJointeBottomSheetSelectImageButton,
+      onPressed: () async {
         final result = await ImagePickerWrapper.pickSingleImage();
         if (context.mounted && result is ImagePickerSuccessResult) {
           Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result.path));
@@ -161,11 +160,10 @@ class _TakePictureButton extends StatelessWidget {
   const _TakePictureButton({required this.onPickImagePermissionError});
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(AppIcons.camera_alt_outlined),
-      contentPadding: EdgeInsets.zero,
-      title: Text(Strings.chatPieceJointeBottomSheetTakeImageButton, style: TextStyles.textBaseBold),
-      onTap: () async {
+    return _PieceJointeListTile(
+      icon: AppIcons.camera_alt_outlined,
+      text: Strings.chatPieceJointeBottomSheetTakeImageButton,
+      onPressed: () async {
         final result = await ImagePickerWrapper.takeSinglePicture();
         if (context.mounted && result is ImagePickerSuccessResult) {
           Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result.path));
@@ -191,11 +189,10 @@ class _SelectFileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(AppIcons.description_outlined),
-      contentPadding: EdgeInsets.zero,
-      title: Text(Strings.chatPieceJointeBottomSheetSelectFileButton, style: TextStyles.textBaseBold),
-      onTap: () async {
+    return _PieceJointeListTile(
+      icon: AppIcons.description_outlined,
+      text: Strings.chatPieceJointeBottomSheetSelectFileButton,
+      onPressed: () async {
         pickFileSarted();
         final result = await FilePickerWrapper.pickFile();
         if (result is FilePickerSuccessResult && context.mounted) {
@@ -255,6 +252,29 @@ class _PermissionDeniedWarning extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+}
+
+class _PieceJointeListTile extends StatelessWidget {
+  const _PieceJointeListTile({
+    required this.icon,
+    required this.text,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final String text;
+  final void Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(icon),
+      contentPadding: EdgeInsets.zero,
+      dense: true,
+      title: Text(text, style: TextStyles.textBaseBold),
+      onTap: onPressed,
     );
   }
 }
