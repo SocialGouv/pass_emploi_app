@@ -32,12 +32,12 @@ class PrimarySliverAppbar extends StatelessWidget {
         pinned: true,
         automaticallyImplyLeading: false,
         elevation: 0.2,
-        backgroundColor: _expandedColor(constraints.scrollOffset),
+        backgroundColor: Brand.isCej() ? _expandedCejColor(constraints.scrollOffset) : AppColors.primary,
         flexibleSpace: ClipRRect(
           child: BackdropFilter(
             filter: ImageFilter.blur(
-              sigmaX: 8,
-              sigmaY: 8,
+              sigmaX: Brand.isCej() ? 8 : 0,
+              sigmaY: Brand.isCej() ? 8 : 0,
             ),
             child: FlexibleSpaceBar(
               titlePadding: EdgeInsetsDirectional.only(
@@ -72,7 +72,7 @@ class PrimarySliverAppbar extends StatelessWidget {
     });
   }
 
-  Color _expandedColor(double scrollOffset) {
+  Color _expandedCejColor(double scrollOffset) {
     final scrollTotalDepth = expandedHeight - kToolbarHeight;
     final expandProgress = min(scrollOffset, scrollTotalDepth);
     const maxOpacity = 0.90;
