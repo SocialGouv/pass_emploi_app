@@ -250,7 +250,7 @@ class _PieceJointeListTile extends StatelessWidget {
     return ListTile(
       leading: Icon(icon),
       contentPadding: EdgeInsets.zero,
-      dense: true,
+      visualDensity: VisualDensity(vertical: -2),
       title: Text(text, style: TextStyles.textBaseBold),
       onTap: onPressed,
     );
