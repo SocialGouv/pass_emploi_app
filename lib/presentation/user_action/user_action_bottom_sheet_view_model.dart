@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_store_extension.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:redux/redux.dart';
 
 class UserActionBottomSheetViewModel extends Equatable {
@@ -47,7 +49,10 @@ class UserActionBottomSheetViewModel extends Equatable {
       withEditButton: _withUpdateButton(userAction),
       withDeleteButton: _withDeleteButton(userAction),
       onDuplicate: () => _onDuplicate(userAction),
-      onDelete: () => store.dispatch(UserActionDeleteRequestAction(userAction.id)),
+      onDelete: () {
+        store.dispatch(UserActionDeleteRequestAction(userAction.id));
+        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.deleteUserAction);
+      },
     );
   }
 }
