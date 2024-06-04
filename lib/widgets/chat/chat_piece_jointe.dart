@@ -58,17 +58,20 @@ class ChatPieceJointe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChatMessageContainer(
-      content: Column(
-        crossAxisAlignment: params.sender.isJeune ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: [
-          if (params.content != null) ...[
-            SelectableText(params.content!, style: TextStyles.textSRegular()),
-            SizedBox(height: Margins.spacing_s),
+      content: Padding(
+        padding: const EdgeInsets.all(Margins.spacing_s),
+        child: Column(
+          crossAxisAlignment: params.sender.isJeune ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          children: [
+            if (params.content != null) ...[
+              SelectableText(params.content!, style: TextStyles.textSRegular()),
+              SizedBox(height: Margins.spacing_s),
+            ],
+            _PieceJointeName(params.filename, params.sender),
+            SizedBox(height: Margins.spacing_base),
+            _DownloadButton(params),
           ],
-          _PieceJointeName(params.filename, params.sender),
-          SizedBox(height: Margins.spacing_base),
-          _DownloadButton(params),
-        ],
+        ),
       ),
       isPj: true,
       isMyMessage: params.sender.isJeune,
@@ -86,23 +89,9 @@ class _PieceJointeName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: Icon(
-            AppIcons.attach_file_rounded,
-            color: AppColors.primary,
-          ),
-        ),
-        Flexible(
-          child: Text(
-            filename,
-            style: TextStyles.textSBoldWithColor(sender.isJeune ? Colors.white : AppColors.contentColor),
-          ),
-        ),
-      ],
+    return Text(
+      filename,
+      style: TextStyles.textSBoldWithColor(sender.isJeune ? Colors.white : AppColors.contentColor),
     );
   }
 }
@@ -146,20 +135,18 @@ class _Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: PrimaryActionButton(
-        label: viewModel.displayState(params.fileId) == DisplayState.FAILURE ? Strings.retry : Strings.open,
-        icon: AppIcons.download_rounded,
-        onPressed: () => switch (params) {
-          final PieceJointeTypeIdParams params => viewModel.onDownloadTypeId(params.fileId, params.filename),
-          final PieceJointeTypeUrlParams params => viewModel.onDownloadTypeUrl(
-              params.url,
-              params.fileId,
-              params.filename,
-            ),
-        },
-        heightPadding: 2,
-      ),
+    return PrimaryActionButton(
+      label: viewModel.displayState(params.fileId) == DisplayState.FAILURE ? Strings.retry : Strings.open,
+      icon: AppIcons.download_rounded,
+      onPressed: () => switch (params) {
+        final PieceJointeTypeIdParams params => viewModel.onDownloadTypeId(params.fileId, params.filename),
+        final PieceJointeTypeUrlParams params => viewModel.onDownloadTypeUrl(
+            params.url,
+            params.fileId,
+            params.filename,
+          ),
+      },
+      heightPadding: 2,
     );
   }
 }

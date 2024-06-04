@@ -1,15 +1,13 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/file_picker_wrapper.dart';
 import 'package:pass_emploi_app/utils/image_picker_wrapper.dart';
+import 'package:pass_emploi_app/widgets/alert_message.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
-import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
-import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 sealed class ChatPieceJointeBottomSheetResult {
   final String path;
@@ -99,14 +97,14 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
               _TakePictureButton(
                 onPickImagePermissionError: _onPermissionError,
               ),
+              _SelectPictureButton(
+                onPickImagePermissionError: _onPermissionError,
+              ),
               _SelectFileButton(
                 isFileTooLarge: _isFileTooLarge,
                 onPermissionError: _onPermissionError,
                 pickFileSarted: _pickFileSarted,
                 pickFileEnded: _pickFileEnded,
-              ),
-              _SelectPictureButton(
-                onPickImagePermissionError: _onPermissionError,
               ),
             ],
           ),
@@ -139,11 +137,10 @@ class _SelectPictureButton extends StatelessWidget {
   const _SelectPictureButton({required this.onPickImagePermissionError});
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(AppIcons.image_outlined),
-      contentPadding: EdgeInsets.zero,
-      title: Text(Strings.chatPieceJointeBottomSheetSelectImageButton, style: TextStyles.textBaseBold),
-      onTap: () async {
+    return _PieceJointeListTile(
+      icon: AppIcons.image_outlined,
+      text: Strings.chatPieceJointeBottomSheetSelectImageButton,
+      onPressed: () async {
         final result = await ImagePickerWrapper.pickSingleImage();
         if (context.mounted && result is ImagePickerSuccessResult) {
           Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result.path));
@@ -161,11 +158,10 @@ class _TakePictureButton extends StatelessWidget {
   const _TakePictureButton({required this.onPickImagePermissionError});
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(AppIcons.camera_alt_outlined),
-      contentPadding: EdgeInsets.zero,
-      title: Text(Strings.chatPieceJointeBottomSheetTakeImageButton, style: TextStyles.textBaseBold),
-      onTap: () async {
+    return _PieceJointeListTile(
+      icon: AppIcons.camera_alt_outlined,
+      text: Strings.chatPieceJointeBottomSheetTakeImageButton,
+      onPressed: () async {
         final result = await ImagePickerWrapper.takeSinglePicture();
         if (context.mounted && result is ImagePickerSuccessResult) {
           Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result.path));
@@ -191,11 +187,10 @@ class _SelectFileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(AppIcons.description_outlined),
-      contentPadding: EdgeInsets.zero,
-      title: Text(Strings.chatPieceJointeBottomSheetSelectFileButton, style: TextStyles.textBaseBold),
-      onTap: () async {
+    return _PieceJointeListTile(
+      icon: AppIcons.description_outlined,
+      text: Strings.chatPieceJointeBottomSheetSelectFileButton,
+      onPressed: () async {
         pickFileSarted();
         final result = await FilePickerWrapper.pickFile();
         if (result is FilePickerSuccessResult && context.mounted) {
@@ -222,15 +217,8 @@ class _FileTooLargeWarning extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox.square(dimension: 100, child: Illustration.red(AppIcons.error_rounded)),
-        SizedBox(height: Margins.spacing_base),
-        Text(
-          Strings.chatPieceJointeBottomSheetFileTooLarge,
-          style: TextStyles.textBaseRegular.copyWith(color: AppColors.warning),
-        ),
-      ],
+    return AlertMessage(
+      message: Strings.chatPieceJointeBottomSheetFileTooLarge,
     );
   }
 }
@@ -238,23 +226,34 @@ class _FileTooLargeWarning extends StatelessWidget {
 class _PermissionDeniedWarning extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox.square(dimension: 100, child: Illustration.orange(AppIcons.image_not_supported_outlined)),
-        SizedBox(height: Margins.spacing_base),
-        Text(
-          Strings.chatPieceJointePermissionError,
-          style: TextStyles.textBaseRegular.copyWith(color: AppColors.alert),
-        ),
-        SizedBox(height: Margins.spacing_base),
-        SizedBox(
-          width: double.infinity,
-          child: SecondaryButton(
-            label: Strings.chatPieceJointeOpenAppSettings,
-            onPressed: () => AppSettings.openAppSettings(),
-          ),
-        )
-      ],
+    return AlertMessage(
+        message: Strings.chatPieceJointePermissionError,
+        retryMessage: AlertMessageRetry(
+          message: Strings.chatPieceJointeOpenAppSettings,
+          onRetry: () => AppSettings.openAppSettings(),
+        ));
+  }
+}
+
+class _PieceJointeListTile extends StatelessWidget {
+  const _PieceJointeListTile({
+    required this.icon,
+    required this.text,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final String text;
+  final void Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(icon),
+      contentPadding: EdgeInsets.zero,
+      visualDensity: VisualDensity(vertical: -2),
+      title: Text(text, style: TextStyles.textBaseBold),
+      onTap: onPressed,
     );
   }
 }
