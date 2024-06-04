@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/features/user_action/details/user_action_details
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
-import 'package:pass_emploi_app/pages/user_action/update/update_user_action_form.dart';
+import 'package:pass_emploi_app/pages/user_action/update/update_user_action_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
@@ -361,7 +361,7 @@ class _UpdateButton extends StatelessWidget {
       width: double.infinity,
       child: SecondaryButton(
         label: Strings.updateUserAction,
-        onPressed: () => Navigator.push(context, UpdateUserActionForm.route(source, userActionId)),
+        onPressed: () => Navigator.push(context, UpdateUserActionPage.route(source, userActionId)),
       ),
     );
   }

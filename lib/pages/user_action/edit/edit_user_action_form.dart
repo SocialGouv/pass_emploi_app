@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step1.dart';
-import 'package:pass_emploi_app/pages/user_action/update/update_user_action_form_change_notifier.dart';
+import 'package:pass_emploi_app/pages/user_action/edit/edit_user_action_form_change_notifier.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -27,8 +27,8 @@ class EditUserActionFormDto {
     required this.type,
   });
 
-  UpdateUserActionFormChangeNotifier get toChangeNotifier {
-    return UpdateUserActionFormChangeNotifier(
+  EditUserActionFormChangeNotifier get toChangeNotifier {
+    return EditUserActionFormChangeNotifier(
       date: date,
       title: title,
       description: description,
@@ -36,7 +36,7 @@ class EditUserActionFormDto {
     );
   }
 
-  static EditUserActionFormDto fromChangeNotifier(UpdateUserActionFormChangeNotifier changeNotifier) {
+  static EditUserActionFormDto fromChangeNotifier(EditUserActionFormChangeNotifier changeNotifier) {
     return EditUserActionFormDto(
       date: changeNotifier.dateInputSource.selectedDate,
       title: changeNotifier.title,
@@ -57,7 +57,7 @@ class EditUserActionForm extends StatefulWidget {
 }
 
 class _EditUserActionFormState extends State<EditUserActionForm> {
-  late final UpdateUserActionFormChangeNotifier _changeNotifier;
+  late final EditUserActionFormChangeNotifier _changeNotifier;
 
   @override
   void initState() {
@@ -122,7 +122,7 @@ class _EditUserActionFormState extends State<EditUserActionForm> {
 class _CategorySelector extends StatelessWidget {
   const _CategorySelector(this.changeNotifier);
 
-  final UpdateUserActionFormChangeNotifier changeNotifier;
+  final EditUserActionFormChangeNotifier changeNotifier;
 
   @override
   Widget build(BuildContext context) {

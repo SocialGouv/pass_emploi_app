@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/pages/user_action/update/update_user_action_form.dart';
+import 'package:pass_emploi_app/pages/user_action/update/update_user_action_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_bottom_sheet_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -85,7 +85,7 @@ class _EditButton extends StatelessWidget {
       withNavigationSuffix: true,
       onPressed: () async {
         Navigator.pop(context);
-        Navigator.push(context, UpdateUserActionForm.route(viewModel.source, viewModel.userActionId));
+        Navigator.push(context, UpdateUserActionPage.route(viewModel.source, viewModel.userActionId));
       },
     );
   }
