@@ -227,10 +227,11 @@ class _PermissionDeniedWarning extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertMessage(
-      message: Strings.chatPieceJointePermissionError,
-      retryMessage: Strings.chatPieceJointeOpenAppSettings,
-      onRetry: () => AppSettings.openAppSettings(),
-    );
+        message: Strings.chatPieceJointePermissionError,
+        retryMessage: AlertMessageRetry(
+          message: Strings.chatPieceJointeOpenAppSettings,
+          onRetry: () => AppSettings.openAppSettings(),
+        ));
   }
 }
 
