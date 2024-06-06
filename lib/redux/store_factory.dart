@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
+import 'package:pass_emploi_app/features/chat/partage/chat_partage_middleware.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_middleware.dart';
@@ -331,6 +332,7 @@ class StoreFactory {
           cryptoStorage,
         ).call,
         ChatMiddleware(chatRepository, pieceJointeUseCase).call,
+        ChatPartageMiddleware(chatRepository).call,
         ChatStatusMiddleware(chatRepository).call,
         RendezvousDetailsMiddleware(rendezvousRepository).call,
         PushNotificationRegisterTokenMiddleware(registerTokenRepository, configuration).call,
