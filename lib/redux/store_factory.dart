@@ -332,7 +332,7 @@ class StoreFactory {
           cryptoStorage,
         ).call,
         ChatMiddleware(chatRepository, pieceJointeUseCase).call,
-        ChatPartageMiddleware(chatRepository).call,
+        ChatPartageMiddleware(chatRepository, cvmBridge, crashlytics).call,
         ChatStatusMiddleware(chatRepository).call,
         RendezvousDetailsMiddleware(rendezvousRepository).call,
         PushNotificationRegisterTokenMiddleware(registerTokenRepository, configuration).call,

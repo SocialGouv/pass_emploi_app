@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
@@ -91,11 +92,6 @@ void main() {
 
     group('partage offre emploi action', () {
       sut.whenDispatchingAction(() => ChatPartagerOffreAction(dummyOffrePartagee()));
-
-      setUpAll(() {
-        registerFallbackValue(EventType.EVENEMENT_EXTERNE_PARTAGE);
-        registerFallbackValue(LoginMode.MILO);
-      });
 
       test('should dispatch loading then succeed when an offre is successfully partagée', () async {
         // Given
@@ -216,6 +212,177 @@ void main() {
               userId: 'id',
               event: EventType.MESSAGE_SESSION_MILO_PARTAGE,
               loginMode: LoginMode.MILO,
+              brand: Brand.cej,
+            ),
+          ).called(1),
+        );
+      });
+    });
+  });
+
+  group('Partage with CVM chat', () {
+    final sut = StoreSut();
+    late MockTrackingEventRepository trackingEventRepository;
+    late MockCvmBridge cvmBridge;
+
+    setUp(() {
+      trackingEventRepository = MockTrackingEventRepository();
+      registerFallbackValue(EventType.ANIMATION_COLLECTIVE_PARTAGEE);
+      when(
+        () => trackingEventRepository.sendEvent(
+          userId: 'id',
+          event: any(named: "event"),
+          loginMode: LoginMode.POLE_EMPLOI,
+          brand: Brand.cej,
+        ),
+      ).thenAnswer((_) async => true);
+
+      cvmBridge = MockCvmBridge();
+      sut.givenStore = givenState() //
+          .loggedInPoleEmploiUser()
+          .withCvmMessage()
+          .store(
+            (f) => {
+              f.cvmBridge = cvmBridge,
+              f.trackingEventRepository = trackingEventRepository,
+            },
+          );
+    });
+
+    group('partage event action', () {
+      sut.whenDispatchingAction(() => ChatPartagerEventAction(dummyEventPartage()));
+
+      test('should dispatch loading then succeed when an event is successfully partagé', () async {
+        // Given
+        when(() => cvmBridge.sendMessage(any())).thenAnswer((_) async => true);
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
+        ]);
+
+        final evenement = dummyEventPartage();
+        final message = "${evenement.message}\n\n${evenement.titre} le ${evenement.date.toDayAndHour()}";
+        verify(() => cvmBridge.sendMessage(message)).called(1);
+      });
+
+      test('should dispatch loading then failure when an event fails to be shared', () {
+        // Given
+        when(() => cvmBridge.sendMessage(any())).thenAnswer((_) async => false);
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageFailureState>((state) => state.chatPartageState),
+        ]);
+      });
+
+      test('should track when event is successfully partagé', () async {
+        // Given
+        when(() => cvmBridge.sendMessage(any())).thenAnswer((_) async => true);
+
+        // Then
+        sut.then(
+          () => verify(
+            () => trackingEventRepository.sendEvent(
+              userId: 'id',
+              event: EventType.ANIMATION_COLLECTIVE_PARTAGEE,
+              loginMode: LoginMode.POLE_EMPLOI,
+              brand: Brand.cej,
+            ),
+          ).called(1),
+        );
+      });
+    });
+
+    group('partage offre emploi action', () {
+      sut.whenDispatchingAction(() => ChatPartagerOffreAction(dummyOffrePartagee()));
+
+      test('should dispatch loading then succeed when an offre is successfully partagée', () async {
+        // Given
+        when(() => cvmBridge.sendMessage(any())).thenAnswer((_) async => true);
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
+        ]);
+
+        final offre = dummyOffrePartagee();
+        final message = "${offre.message}\n\n${offre.titre}\n\n${offre.url}";
+        verify(() => cvmBridge.sendMessage(message)).called(1);
+      });
+
+      test('should dispatch loading then failure when an offre fails to be shared', () {
+        // Given
+        when(() => cvmBridge.sendMessage(any())).thenAnswer((_) async => false);
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageFailureState>((state) => state.chatPartageState),
+        ]);
+      });
+
+      test('should track when offre is successfully partagé', () async {
+        // Given
+        when(() => cvmBridge.sendMessage(any())).thenAnswer((_) async => true);
+
+        // Then
+        sut.then(
+          () => verify(
+            () => trackingEventRepository.sendEvent(
+              userId: 'id',
+              event: EventType.MESSAGE_OFFRE_PARTAGEE,
+              loginMode: LoginMode.POLE_EMPLOI,
+              brand: Brand.cej,
+            ),
+          ).called(1),
+        );
+      });
+    });
+
+    group('partage evenement emploi', () {
+      sut.whenDispatchingAction(() => ChatPartagerEvenementEmploiAction(dummyEvenementEmploiPartage()));
+
+      test('should dispatch loading then succeed action an evenement emploi is successfully partagé', () async {
+        // Given
+        when(() => cvmBridge.sendMessage(any())).thenAnswer((_) async => true);
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
+        ]);
+
+        final evenementEmploi = dummyEvenementEmploiPartage();
+        final message = "${evenementEmploi.message}\n\n${evenementEmploi.titre}\n\n${evenementEmploi.url}";
+        verify(() => cvmBridge.sendMessage(message)).called(1);
+      });
+
+      test('should dispatch loading then failure when an evenement emploi fails to be shared', () {
+        // Given
+        when(() => cvmBridge.sendMessage(any())).thenAnswer((_) async => false);
+
+        // When & Then
+        sut.thenExpectChangingStatesThroughOrder([
+          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
+          StateIs<ChatPartageFailureState>((state) => state.chatPartageState),
+        ]);
+      });
+
+      test('should track when evenement emploi is successfully partagé', () async {
+        // Given
+        when(() => cvmBridge.sendMessage(any())).thenAnswer((_) async => true);
+
+        // Then
+        sut.then(
+          () => verify(
+            () => trackingEventRepository.sendEvent(
+              userId: 'id',
+              event: EventType.EVENEMENT_EXTERNE_PARTAGE,
+              loginMode: LoginMode.POLE_EMPLOI,
               brand: Brand.cej,
             ),
           ).called(1),
