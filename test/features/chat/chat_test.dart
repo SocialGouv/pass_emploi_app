@@ -1,21 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_actions.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
-import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
-import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
-import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
-import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
-import 'package:pass_emploi_app/models/event_partage.dart';
-import 'package:pass_emploi_app/models/session_milo_partage.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
@@ -24,7 +16,6 @@ import 'package:redux/redux.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../doubles/mocks.dart';
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -238,301 +229,95 @@ void main() {
     expect(appState.chatBrouillonState, ChatBrouillonState(null));
   });
 
-  group('Partage actions', () {
+  group('sendMessage', () {
     final sut = StoreSut();
-    late MockTrackingEventRepository trackingEventRepository;
     late _MockChatRepository mockChatRepository;
 
     setUp(() {
-      trackingEventRepository = MockTrackingEventRepository();
-      registerFallbackValue(EventType.ANIMATION_COLLECTIVE_PARTAGEE);
-      when(
-        () => trackingEventRepository.sendEvent(
-          userId: 'id',
-          event: any(named: "event"),
-          loginMode: LoginMode.MILO,
-          brand: Brand.cej,
-        ),
-      ).thenAnswer((_) async => true);
-
       mockChatRepository = _MockChatRepository();
       sut.givenStore = givenState() //
           .loggedInUser()
           .store(
             (f) => {
               f.chatRepository = mockChatRepository,
-              f.trackingEventRepository = trackingEventRepository,
             },
           );
     });
 
-    group('partage event action', () {
-      sut.whenDispatchingAction(() => ChatPartagerEventAction(dummyEventPartage()));
+    sut.whenDispatchingAction(() => SendMessageAction("message"));
 
-      test('should dispatch loading then succeed when an event is successfully partagé', () async {
-        // Given
-        mockChatRepository.onSendEventPartageSuccess(dummyEventPartage());
+    setUpAll(() => registerFallbackValue(_mockMessage()));
 
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
-          StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
-        ]);
-      });
+    test('should display a message when sending is in progress', () async {
+      // Given
+      mockChatRepository.onSendMessageSuccess();
 
-      test('should dispatch loading then failure when an event fails to be shared', () {
-        // Given
-        mockChatRepository.onSendEventPartageFailure(dummyEventPartage());
-
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
-          StateIs<ChatPartageFailureState>((state) => state.chatPartageState),
-        ]);
-      });
-
-      test('should track when event is successfully partagé', () async {
-        // Given
-        mockChatRepository.onSendEventPartageSuccess(dummyEventPartage());
-
-        // Then
-        sut.then(
-          () => verify(
-            () => trackingEventRepository.sendEvent(
-              userId: 'id',
-              event: EventType.ANIMATION_COLLECTIVE_PARTAGEE,
-              loginMode: LoginMode.MILO,
-              brand: Brand.cej,
-            ),
-          ).called(1),
-        );
-      });
+      // When & Then
+      sut.thenExpectChangingStatesThroughOrder([
+        _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
+      ]);
     });
 
-    group('partage offre emploi action', () {
-      sut.whenDispatchingAction(() => ChatPartagerOffreAction(dummyOffrePartagee()));
+    test('should display a message when sending failed', () async {
+      // Given
+      mockChatRepository.onSendMessageFailure();
 
-      setUpAll(() {
-        registerFallbackValue(EventType.EVENEMENT_EXTERNE_PARTAGE);
-        registerFallbackValue(LoginMode.MILO);
-      });
+      // When & Then
+      sut.thenExpectChangingStatesThroughOrder([
+        _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
+        _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.failed),
+      ]);
+    });
+  });
 
-      test('should dispatch loading then succeed when an offre is successfully partagée', () async {
-        // Given
-        mockChatRepository.onPartageOffreEmploiSucceeds(dummyOffrePartagee());
+  group('sendImage', () {
+    final sut = StoreSut();
+    late _MockChatRepository mockChatRepository;
+    late _MockPieceJointeRepository mockPieceJointeRepository;
+    late _MockPieceJointeUseCase mockPieceJointeUseCase;
 
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
-          StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
-        ]);
-      });
-
-      test('should dispatch loading then failure when an offre fails to be shared', () {
-        // Given
-        mockChatRepository.onPartageOffreEmploiFails(dummyOffrePartagee());
-
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
-          StateIs<ChatPartageFailureState>((state) => state.chatPartageState),
-        ]);
-      });
-
-      test('should track when offre is successfully partagé', () async {
-        // Given
-        mockChatRepository.onPartageOffreEmploiSucceeds(dummyOffrePartagee());
-
-        // Then
-        sut.then(
-          () => verify(
-            () => trackingEventRepository.sendEvent(
-              userId: 'id',
-              event: EventType.MESSAGE_OFFRE_PARTAGEE,
-              loginMode: LoginMode.MILO,
-              brand: Brand.cej,
-            ),
-          ).called(1),
-        );
-      });
+    setUp(() {
+      mockChatRepository = _MockChatRepository();
+      mockPieceJointeRepository = _MockPieceJointeRepository();
+      mockPieceJointeUseCase = _MockPieceJointeUseCase();
+      sut.givenStore = givenState() //
+          .loggedInUser()
+          .store(
+            (f) => {
+              f.chatRepository = mockChatRepository,
+              f.pieceJointeRepository = mockPieceJointeRepository,
+              f.pieceJointeUseCase = mockPieceJointeUseCase,
+            },
+          );
     });
 
-    group('partage evenement emploi', () {
-      sut.whenDispatchingAction(() => ChatPartagerEvenementEmploiAction(dummyEvenementEmploiPartage()));
+    setUpAll(() => registerFallbackValue(_dummyPieceJointe));
 
-      test('should dispatch loading then succeed action an evenement emploi is successfully partagé', () async {
-        // Given
-        mockChatRepository.onPartageEvenementEmploiSucceeds(dummyEvenementEmploiPartage());
+    sut.whenDispatchingAction(() => SendImageAction("filePath"));
 
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
-          StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
-        ]);
-      });
+    test('should add message locally', () {
+      // Given
+      mockChatRepository.onSendPieceJointeSuccess();
+      mockPieceJointeRepository.onPostPieceJointeSuccess();
+      mockPieceJointeUseCase.onSuccess();
 
-      test('should dispatch loading then failure when an evenement emploi fails to be shared', () {
-        // Given
-        mockChatRepository.onPartageEvenementEmploiFails(dummyEvenementEmploiPartage());
-
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
-          StateIs<ChatPartageFailureState>((state) => state.chatPartageState),
-        ]);
-      });
-
-      test('should track when event is successfully partagé', () async {
-        // Given
-        mockChatRepository.onPartageEvenementEmploiSucceeds(dummyEvenementEmploiPartage());
-
-        // Then
-        sut.then(
-          () => verify(
-            () => trackingEventRepository.sendEvent(
-              userId: 'id',
-              event: EventType.EVENEMENT_EXTERNE_PARTAGE,
-              loginMode: LoginMode.MILO,
-              brand: Brand.cej,
-            ),
-          ).called(1),
-        );
-      });
+      // When & Then
+      sut.thenExpectChangingStatesThroughOrder([
+        _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
+      ]);
     });
 
-    group('partage session milo', () {
-      sut.whenDispatchingAction(() => ChatPartagerSessionMiloAction(dummySessionMiloPartage()));
+    test('should display error message when use case fails', () {
+      // Given
+      mockChatRepository.onSendPieceJointeSuccess();
+      mockPieceJointeRepository.onPostPieceJointeSuccess();
+      mockPieceJointeUseCase.onFailure();
 
-      test('should dispatch loading then succeed action a session milo is successfully partagé', () async {
-        // Given
-        mockChatRepository.onPartageSessionMiloSuccess(dummySessionMiloPartage());
-
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
-          StateIs<ChatPartageSuccessState>((state) => state.chatPartageState),
-        ]);
-      });
-
-      test('should dispatch loading then failure when a session milo fails to be shared', () {
-        // Given
-        mockChatRepository.onPartageSessionMiloFails(dummySessionMiloPartage());
-
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          StateIs<ChatPartageLoadingState>((state) => state.chatPartageState),
-          StateIs<ChatPartageFailureState>((state) => state.chatPartageState),
-        ]);
-      });
-
-      test('should track when session milo is successfully partagé', () async {
-        // Given
-        mockChatRepository.onPartageSessionMiloSuccess(dummySessionMiloPartage());
-
-        // Then
-        sut.then(
-          () => verify(
-            () => trackingEventRepository.sendEvent(
-              userId: 'id',
-              event: EventType.MESSAGE_SESSION_MILO_PARTAGE,
-              loginMode: LoginMode.MILO,
-              brand: Brand.cej,
-            ),
-          ).called(1),
-        );
-      });
-    });
-
-    group('sendMessage', () {
-      final sut = StoreSut();
-      late _MockChatRepository mockChatRepository;
-
-      setUp(() {
-        mockChatRepository = _MockChatRepository();
-        sut.givenStore = givenState() //
-            .loggedInUser()
-            .store(
-              (f) => {
-                f.chatRepository = mockChatRepository,
-              },
-            );
-      });
-
-      sut.whenDispatchingAction(() => SendMessageAction("message"));
-
-      setUpAll(() => registerFallbackValue(_mockMessage()));
-
-      test('should display a message when sending is in progress', () async {
-        // Given
-        mockChatRepository.onSendMessageSuccess();
-
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
-        ]);
-      });
-
-      test('should display a message when sending failed', () async {
-        // Given
-        mockChatRepository.onSendMessageFailure();
-
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
-          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.failed),
-        ]);
-      });
-    });
-
-    group('sendImage', () {
-      final sut = StoreSut();
-      late _MockChatRepository mockChatRepository;
-      late _MockPieceJointeRepository mockPieceJointeRepository;
-      late _MockPieceJointeUseCase mockPieceJointeUseCase;
-
-      setUp(() {
-        mockChatRepository = _MockChatRepository();
-        mockPieceJointeRepository = _MockPieceJointeRepository();
-        mockPieceJointeUseCase = _MockPieceJointeUseCase();
-        sut.givenStore = givenState() //
-            .loggedInUser()
-            .store(
-              (f) => {
-                f.chatRepository = mockChatRepository,
-                f.pieceJointeRepository = mockPieceJointeRepository,
-                f.pieceJointeUseCase = mockPieceJointeUseCase,
-              },
-            );
-      });
-
-      setUpAll(() => registerFallbackValue(_dummyPieceJointe));
-
-      sut.whenDispatchingAction(() => SendImageAction("filePath"));
-
-      test('should add message locally', () {
-        // Given
-        mockChatRepository.onSendPieceJointeSuccess();
-        mockPieceJointeRepository.onPostPieceJointeSuccess();
-        mockPieceJointeUseCase.onSuccess();
-
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
-        ]);
-      });
-
-      test('should display error message when use case fails', () {
-        // Given
-        mockChatRepository.onSendPieceJointeSuccess();
-        mockPieceJointeRepository.onPostPieceJointeSuccess();
-        mockPieceJointeUseCase.onFailure();
-
-        // When & Then
-        sut.thenExpectChangingStatesThroughOrder([
-          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
-          _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.failed),
-        ]);
-      });
+      // When & Then
+      sut.thenExpectChangingStatesThroughOrder([
+        _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.sending),
+        _stateIsChatSuccessStateOfMessageStatus(MessageSendingStatus.failed),
+      ]);
     });
   });
 }
@@ -569,38 +354,6 @@ Message _message(int date) {
 }
 
 class _MockChatRepository extends Mock implements ChatRepository {
-  void onSendEventPartageSuccess(EventPartage eventPartage) {
-    when(() => sendEventPartage(any(), eventPartage)).thenAnswer((_) async => true);
-  }
-
-  void onSendEventPartageFailure(EventPartage eventPartage) {
-    when(() => sendEventPartage(any(), eventPartage)).thenAnswer((_) async => false);
-  }
-
-  void onPartageOffreEmploiSucceeds(OffrePartagee offrePartagee) {
-    when(() => sendOffrePartagee(any(), offrePartagee)).thenAnswer((_) async => true);
-  }
-
-  void onPartageOffreEmploiFails(OffrePartagee offrePartagee) {
-    when(() => sendOffrePartagee(any(), offrePartagee)).thenAnswer((_) async => false);
-  }
-
-  void onPartageEvenementEmploiSucceeds(EvenementEmploiPartage evenementEmploiPartage) {
-    when(() => sendEvenementEmploiPartage(any(), evenementEmploiPartage)).thenAnswer((_) async => true);
-  }
-
-  void onPartageEvenementEmploiFails(EvenementEmploiPartage evenementEmploiPartage) {
-    when(() => sendEvenementEmploiPartage(any(), evenementEmploiPartage)).thenAnswer((_) async => false);
-  }
-
-  void onPartageSessionMiloSuccess(SessionMiloPartage sessionMiloPartage) {
-    when(() => sendSessionMiloPartage(any(), sessionMiloPartage)).thenAnswer((_) async => true);
-  }
-
-  void onPartageSessionMiloFails(SessionMiloPartage sessionMiloPartage) {
-    when(() => sendSessionMiloPartage(any(), sessionMiloPartage)).thenAnswer((_) async => false);
-  }
-
   void onSendMessageSuccess() {
     when(() => sendMessage(any(), any())).thenAnswer((_) async => true);
   }
