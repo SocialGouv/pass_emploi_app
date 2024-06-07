@@ -27,12 +27,13 @@ class EditUserActionFormDto {
     required this.type,
   });
 
-  EditUserActionFormChangeNotifier get toChangeNotifier {
+  EditUserActionFormChangeNotifier toChangeNotifier(bool requireUpdate) {
     return EditUserActionFormChangeNotifier(
       date: date,
       title: title,
       description: description,
       type: type,
+      requireUpdate: requireUpdate,
     );
   }
 
@@ -47,9 +48,16 @@ class EditUserActionFormDto {
 }
 
 class EditUserActionForm extends StatefulWidget {
-  const EditUserActionForm({required this.actionDto, required this.onSaved});
+  const EditUserActionForm({
+    required this.actionDto,
+    required this.requireUpdate,
+    required this.onSaved,
+    required this.confirmationLabel,
+  });
 
   final EditUserActionFormDto actionDto;
+  final bool requireUpdate;
+  final String confirmationLabel;
   final void Function(EditUserActionFormDto) onSaved;
 
   @override
@@ -62,7 +70,7 @@ class _EditUserActionFormState extends State<EditUserActionForm> {
   @override
   void initState() {
     super.initState();
-    _changeNotifier = widget.actionDto.toChangeNotifier;
+    _changeNotifier = widget.actionDto.toChangeNotifier(widget.requireUpdate);
     _changeNotifier.addListener(() {
       setState(() {});
     });
@@ -108,6 +116,7 @@ class _EditUserActionFormState extends State<EditUserActionForm> {
           SizedBox(
             width: double.infinity,
             child: _SaveButton(
+              label: widget.confirmationLabel,
               isActive: _changeNotifier.canSave(),
               onSave: () => widget.onSaved(EditUserActionFormDto.fromChangeNotifier(_changeNotifier)),
             ),
@@ -163,15 +172,17 @@ class _SaveButton extends StatelessWidget {
   const _SaveButton({
     required this.isActive,
     required this.onSave,
+    required this.label,
   });
 
   final bool isActive;
+  final String label;
   final void Function() onSave;
 
   @override
   Widget build(BuildContext context) {
     return PrimaryActionButton(
-      label: Strings.updateUserActionSaveButton,
+      label: label,
       onPressed: isActive ? onSave : null,
     );
   }

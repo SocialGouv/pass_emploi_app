@@ -14,7 +14,6 @@ class UserActionBottomSheetViewModel extends Equatable {
   final String userActionId;
   final bool withEditButton;
   final bool withDeleteButton;
-  final void Function() onDuplicate;
   final void Function() onDelete;
 
   UserActionBottomSheetViewModel({
@@ -22,7 +21,6 @@ class UserActionBottomSheetViewModel extends Equatable {
     required this.userActionId,
     required this.withEditButton,
     required this.withDeleteButton,
-    required this.onDuplicate,
     required this.onDelete,
   });
 
@@ -39,7 +37,6 @@ class UserActionBottomSheetViewModel extends Equatable {
         userActionId: userActionId,
         withEditButton: false,
         withDeleteButton: false,
-        onDuplicate: () {},
         onDelete: () {},
       );
     }
@@ -48,7 +45,6 @@ class UserActionBottomSheetViewModel extends Equatable {
       userActionId: userActionId,
       withEditButton: _withUpdateButton(userAction),
       withDeleteButton: _withDeleteButton(userAction),
-      onDuplicate: () => _onDuplicate(userAction),
       onDelete: () {
         store.dispatch(UserActionDeleteRequestAction(userAction.id));
         PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.deleteUserAction);
@@ -65,8 +61,4 @@ bool _withDeleteButton(UserAction userAction) {
   return userAction.creator is JeuneActionCreator &&
       userAction.qualificationStatus != UserActionQualificationStatus.QUALIFIEE &&
       userAction.status != UserActionStatus.DONE;
-}
-
-void _onDuplicate(UserAction? userAction) {
-  // TODO:
 }

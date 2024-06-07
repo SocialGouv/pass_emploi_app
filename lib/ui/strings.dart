@@ -608,6 +608,10 @@ class Strings {
   static String deleteAction = "Supprimer l'action";
   static String deleteActionDescription = "Vous ne pourrez plus consulter ni modifier l'action.";
 
+  // Duplicate user action
+  static String duplicateUserAction = "Dupliquer l'action";
+  static String duplicateUserActionConfirmationTitle = "Action dupliquée";
+
   // Commentaires d'action
   static String actionCommentsTitle = "Commentaire de l’action";
   static String lastComment = "Dernier commentaire";

@@ -7,13 +7,14 @@ class EditUserActionFormChangeNotifier extends ChangeNotifier {
   String title;
   String description;
   UserActionReferentielType? type;
-  bool _hasChanged = false;
+  bool requireUpdate;
 
   EditUserActionFormChangeNotifier({
     required DateTime date,
     required this.title,
     required this.description,
     required this.type,
+    required this.requireUpdate,
   }) : dateInputSource = DateFromPicker(date);
 
   void updateDate(DateInputSource dateSource) {
@@ -40,9 +41,9 @@ class EditUserActionFormChangeNotifier extends ChangeNotifier {
 
   @override
   void notifyListeners() {
-    _hasChanged = true;
+    requireUpdate = false;
     super.notifyListeners();
   }
 
-  bool canSave() => _hasChanged && title.trim().isNotEmpty && dateInputSource.isValid;
+  bool canSave() => !requireUpdate && title.trim().isNotEmpty && dateInputSource.isValid;
 }

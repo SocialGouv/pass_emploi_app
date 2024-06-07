@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/pages/user_action/duplicate/duplicate_user_action_page.dart';
 import 'package:pass_emploi_app/pages/user_action/update/update_user_action_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_bottom_sheet_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
@@ -64,9 +65,9 @@ class _DuplicateButton extends StatelessWidget {
       icon: AppIcons.content_copy_rounded,
       text: Strings.userActionBottomSheetDuplicate,
       onPressed: () {
-        viewModel.onDuplicate();
         if (context.mounted) {
           Navigator.pop(context);
+          Navigator.push(context, DuplicateUserActionPage.route(viewModel.source, viewModel.userActionId));
         }
       },
     );
