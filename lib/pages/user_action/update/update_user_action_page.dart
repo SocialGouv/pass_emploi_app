@@ -29,9 +29,17 @@ class UpdateUserActionPage extends StatelessWidget {
       child: StoreConnector<AppState, UpdateUserActionViewModel>(
         converter: (store) => UpdateUserActionViewModel.create(store, source, userActionId),
         builder: (context, viewModel) => _Body(viewModel),
+        onDidChange: (previousViewModel, viewModel) => _popOnUpdateSuccess(context, previousViewModel, viewModel),
         distinct: true,
       ),
     );
+  }
+
+  void _popOnUpdateSuccess(
+      BuildContext context, UpdateUserActionViewModel? previousViewModel, UpdateUserActionViewModel viewModel) {
+    if (viewModel.shouldPop && (previousViewModel?.shouldPop != viewModel.shouldPop)) {
+      Navigator.of(context).pop();
+    }
   }
 }
 

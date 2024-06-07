@@ -17,6 +17,7 @@ class UpdateUserActionViewModel extends Equatable {
   final String description;
   final UserActionReferentielType? type;
   final bool showLoading;
+  final bool shouldPop;
   final void Function(DateTime date, String title, String description, UserActionReferentielType? type) save;
   final void Function() delete;
 
@@ -27,6 +28,7 @@ class UpdateUserActionViewModel extends Equatable {
     required this.description,
     required this.type,
     required this.showLoading,
+    required this.shouldPop,
     required this.save,
     required this.delete,
   });
@@ -43,6 +45,7 @@ class UpdateUserActionViewModel extends Equatable {
       description: userAction.comment,
       type: userAction.type,
       showLoading: _showLoading(store.state.userActionUpdateState, store.state.userActionDeleteState),
+      shouldPop: store.state.userActionUpdateState is UserActionUpdateSuccessState,
       save: (date, title, description, type) => store.dispatch(
         UserActionUpdateRequestAction(
           actionId: userActionId,
@@ -67,6 +70,7 @@ class UpdateUserActionViewModel extends Equatable {
       description: "",
       type: null,
       showLoading: false,
+      shouldPop: false,
       save: (date, title, description, type) {},
       delete: () {},
     );
