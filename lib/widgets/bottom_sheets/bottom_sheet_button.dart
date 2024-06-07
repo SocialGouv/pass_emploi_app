@@ -19,6 +19,7 @@ class BottomSheetButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       leading: Icon(icon, color: color),
       title: Text(text, style: TextStyles.textBaseBold.copyWith(color: color)),
       trailing: withNavigationSuffix ? Icon(AppIcons.chevron_right_rounded) : null,

@@ -31,22 +31,15 @@ class UserActionDetailsBottomSheet extends StatelessWidget {
         builder: (context, viewModel) {
           return BottomSheetWrapper(
             title: Strings.userActionBottomSheetTitle,
-            heightFactor: 0.6,
-            body: SizedBox(
-              width: double.infinity,
-              child: OverflowBox(
-                maxHeight: double.infinity,
-                maxWidth: MediaQuery.of(context).size.width,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: Margins.spacing_base),
-                      _DuplicateButton(viewModel),
-                      if (viewModel.withUpdateButton) _EditButton(viewModel),
-                      if (viewModel.withDeleteButton) _DeleteButton(viewModel),
-                    ],
-                  ),
-                ),
+            maxHeightFactor: 0.6,
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: Margins.spacing_base),
+                  _DuplicateButton(viewModel),
+                  if (viewModel.withUpdateButton) _EditButton(viewModel),
+                  if (viewModel.withDeleteButton) _DeleteButton(viewModel),
+                ],
               ),
             ),
           );

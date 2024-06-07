@@ -73,41 +73,38 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
   Widget build(BuildContext context) {
     return BottomSheetWrapper(
       title: Strings.chatPieceJointeBottomSheetTitle,
-      heightFactor: 0.7,
-      body: SizedBox(
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              if (showPermissionDenied) ...[
-                SizedBox(height: Margins.spacing_m),
-                _PermissionDeniedWarning(),
-              ],
-              if (showFileTooLargeMessage) ...[
-                SizedBox(height: Margins.spacing_m),
-                _FileTooLargeWarning(),
-              ],
-              if (showLoading) ...[
-                SizedBox(height: Margins.spacing_m),
-                _Loading(),
-              ],
+      maxHeightFactor: 0.7,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            if (showPermissionDenied) ...[
               SizedBox(height: Margins.spacing_m),
-              _PieceJointeWarning(),
-              SizedBox(height: Margins.spacing_base),
-              _TakePictureButton(
-                onPickImagePermissionError: _onPermissionError,
-              ),
-              _SelectPictureButton(
-                onPickImagePermissionError: _onPermissionError,
-              ),
-              _SelectFileButton(
-                isFileTooLarge: _isFileTooLarge,
-                onPermissionError: _onPermissionError,
-                pickFileSarted: _pickFileSarted,
-                pickFileEnded: _pickFileEnded,
-              ),
+              _PermissionDeniedWarning(),
             ],
-          ),
+            if (showFileTooLargeMessage) ...[
+              SizedBox(height: Margins.spacing_m),
+              _FileTooLargeWarning(),
+            ],
+            if (showLoading) ...[
+              SizedBox(height: Margins.spacing_m),
+              _Loading(),
+            ],
+            SizedBox(height: Margins.spacing_m),
+            _PieceJointeWarning(),
+            SizedBox(height: Margins.spacing_base),
+            _TakePictureButton(
+              onPickImagePermissionError: _onPermissionError,
+            ),
+            _SelectFileButton(
+              isFileTooLarge: _isFileTooLarge,
+              onPermissionError: _onPermissionError,
+              pickFileSarted: _pickFileSarted,
+              pickFileEnded: _pickFileEnded,
+            ),
+            _SelectPictureButton(
+              onPickImagePermissionError: _onPermissionError,
+            ),
+          ],
         ),
       ),
     );
