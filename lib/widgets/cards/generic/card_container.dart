@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/ui/shadows.dart';
 class CardContainer extends StatelessWidget {
   final Widget child;
   final void Function()? onTap;
+  final void Function()? onLongPress;
   final Color backgroundColor;
   final Color splashColor;
   final EdgeInsets padding;
@@ -17,6 +18,7 @@ class CardContainer extends StatelessWidget {
     super.key,
     required this.child,
     this.onTap,
+    this.onLongPress,
     this.backgroundColor = Colors.white,
     this.splashColor = AppColors.primaryLighten,
     this.padding = const EdgeInsets.all(Margins.spacing_base),
@@ -41,6 +43,7 @@ class CardContainer extends StatelessWidget {
           child: InkWell(
             borderRadius: cardBorderRadius,
             onTap: onTap,
+            onLongPress: onLongPress,
             splashColor: splashColor,
             child: Padding(
               padding: padding,

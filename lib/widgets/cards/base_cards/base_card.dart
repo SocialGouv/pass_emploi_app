@@ -22,6 +22,7 @@ class BaseCard extends StatelessWidget {
   final List<Widget>? actions;
   final Widget? additionalChild;
   final void Function()? onTap;
+  final void Function()? onLongPress;
   final PressedTip? pressedTip;
   final String? imagePath;
 
@@ -37,6 +38,7 @@ class BaseCard extends StatelessWidget {
     this.actions,
     this.additionalChild,
     this.onTap,
+    this.onLongPress,
     this.pressedTip,
     this.imagePath,
   });
@@ -55,6 +57,7 @@ class BaseCard extends StatelessWidget {
             bottom: Margins.spacing_base,
           ),
           onTap: onTap,
+          onLongPress: onLongPress,
           child: SizedBox(
             width: double.infinity,
             child: Column(
