@@ -42,7 +42,7 @@ class UserActionDetailsBottomSheet extends StatelessWidget {
                     children: [
                       SizedBox(height: Margins.spacing_base),
                       _DuplicateButton(viewModel),
-                      if (viewModel.withEditButton) _EditButton(viewModel),
+                      if (viewModel.withUpdateButton) _EditButton(viewModel),
                       if (viewModel.withDeleteButton) _DeleteButton(viewModel),
                     ],
                   ),

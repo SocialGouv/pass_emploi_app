@@ -4,8 +4,6 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_s
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_store_extension.dart';
@@ -18,7 +16,6 @@ class UpdateUserActionViewModel extends Equatable {
   final String title;
   final String description;
   final UserActionReferentielType? type;
-  final bool showDelete;
   final bool showLoading;
   final void Function(DateTime date, String title, String description, UserActionReferentielType? type) save;
   final void Function() delete;
@@ -29,7 +26,6 @@ class UpdateUserActionViewModel extends Equatable {
     required this.title,
     required this.description,
     required this.type,
-    required this.showDelete,
     required this.showLoading,
     required this.save,
     required this.delete,
@@ -46,7 +42,6 @@ class UpdateUserActionViewModel extends Equatable {
       title: userAction.content,
       description: userAction.comment,
       type: userAction.type,
-      showDelete: _showDelete(userAction),
       showLoading: _showLoading(store.state.userActionUpdateState, store.state.userActionDeleteState),
       save: (date, title, description, type) => store.dispatch(
         UserActionUpdateRequestAction(
@@ -71,7 +66,6 @@ class UpdateUserActionViewModel extends Equatable {
       title: "",
       description: "",
       type: null,
-      showDelete: false,
       showLoading: false,
       save: (date, title, description, type) {},
       delete: () {},
@@ -79,13 +73,7 @@ class UpdateUserActionViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, date, title, description, type, showLoading, showDelete, save, delete];
-}
-
-bool _showDelete(UserAction userAction) {
-  return userAction.creator is JeuneActionCreator &&
-      userAction.qualificationStatus != UserActionQualificationStatus.QUALIFIEE &&
-      userAction.status != UserActionStatus.DONE;
+  List<Object?> get props => [id, date, title, description, type, showLoading, save, delete];
 }
 
 bool _showLoading(UserActionUpdateState updateState, UserActionDeleteState deleteState) {

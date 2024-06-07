@@ -12,20 +12,20 @@ import 'package:redux/redux.dart';
 class UserActionBottomSheetViewModel extends Equatable {
   final UserActionStateSource source;
   final String userActionId;
-  final bool withEditButton;
+  final bool withUpdateButton;
   final bool withDeleteButton;
   final void Function() onDelete;
 
   UserActionBottomSheetViewModel({
     required this.source,
     required this.userActionId,
-    required this.withEditButton,
+    required this.withUpdateButton,
     required this.withDeleteButton,
     required this.onDelete,
   });
 
   @override
-  List<Object?> get props => [withEditButton, withDeleteButton];
+  List<Object?> get props => [withUpdateButton, withDeleteButton];
 
   factory UserActionBottomSheetViewModel.create(
       Store<AppState> store, UserActionStateSource source, String userActionId) {
@@ -35,7 +35,7 @@ class UserActionBottomSheetViewModel extends Equatable {
       return UserActionBottomSheetViewModel(
         source: source,
         userActionId: userActionId,
-        withEditButton: false,
+        withUpdateButton: false,
         withDeleteButton: false,
         onDelete: () {},
       );
@@ -43,7 +43,7 @@ class UserActionBottomSheetViewModel extends Equatable {
     return UserActionBottomSheetViewModel(
       source: source,
       userActionId: userActionId,
-      withEditButton: _withUpdateButton(userAction),
+      withUpdateButton: _withUpdateButton(userAction),
       withDeleteButton: _withDeleteButton(userAction),
       onDelete: () {
         store.dispatch(UserActionDeleteRequestAction(userAction.id));

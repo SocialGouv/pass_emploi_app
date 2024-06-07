@@ -82,6 +82,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   }
 
   void _pageNavigationHandling(UserActionDetailsViewModel viewModel) {
+    // TODO: remove tout ça
     if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_UPDATE_ERROR) {
       showSnackBarWithSystemError(context, Strings.updateStatusError);
       viewModel.resetUpdateStatus();
