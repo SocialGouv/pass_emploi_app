@@ -18,9 +18,6 @@ class AuthAccessChecker {
 
 extension _StringExtension on String {
   bool containsExpiredToken() {
-    if (contains("token_pole_emploi_expired")) return true;
-    if (contains("token_milo_expired")) return true;
-    if (contains("auth_user_not_found")) return true;token
-    return false;
+    return contains("token_pole_emploi_expired") || contains("token_milo_expired") || contains("auth_user_not_found");
   }
 }
