@@ -7,7 +7,7 @@ class AuthAccessChecker {
   late Store<AppState> _store;
 
   void logoutUserIfTokenIsExpired(String? message, int statusCode) {
-    if (message?.containsExpiredToken() == true && statusCode == 401) {
+    if (message?.containsExpiredToken() == true || statusCode == 401) {
       Log.i("Logout user on token expired: $message.");
       _store.dispatch(RequestLogoutAction(LogoutReason.apiResponse401));
     }
@@ -20,6 +20,7 @@ extension _StringExtension on String {
   bool containsExpiredToken() {
     if (contains("token_pole_emploi_expired")) return true;
     if (contains("token_milo_expired")) return true;
+    if (contains("auth_user_not_found")) return true;token
     return false;
   }
 }
