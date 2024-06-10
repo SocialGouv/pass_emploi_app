@@ -28,10 +28,11 @@ void main() {
 
     assertLogout(null, 200, expectLogout: false);
     assertLogout('message', 200, expectLogout: false);
-    assertLogout('token_pole_emploi_expired', 200, expectLogout: false);
-    assertLogout('message', 401, expectLogout: false);
+    assertLogout('token_pole_emploi_expired', 200, expectLogout: true);
+    assertLogout('message', 401, expectLogout: true);
     assertLogout('token_pole_emploi_expired', 401, expectLogout: true);
     assertLogout('token_milo_expired', 401, expectLogout: true);
+    assertLogout('auth_user_not_found', 403, expectLogout: true);
     assertLogout(
       '{"statusCode":401,"message":"Unauthorized","code":"token_pole_emploi_expired"}',
       401,
