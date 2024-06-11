@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
@@ -34,10 +35,12 @@ class CvmChatPageViewModel extends Equatable {
 
   factory CvmChatPageViewModel.create(Store<AppState> store) {
     final chatState = store.state.cvmState;
+    final statusState = store.state.chatStatusState;
+    final lastReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : minDateTime;
     return CvmChatPageViewModel(
       displayState: _displayState(chatState),
       brouillon: store.state.chatBrouillonState.brouillon,
-      items: chatState is CvmSuccessState ? _messagesToChatItems(chatState.messages) : [],
+      items: chatState is CvmSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
       onSendMessage: (String message) => _sendMessage(store, message),
       onRetry: () => store.dispatch(CvmRequestAction()),
@@ -62,14 +65,14 @@ void _sendMessage(Store<AppState> store, String message) {
   );
 }
 
-List<CvmChatItem> _messagesToChatItems(List<CvmMessage> messages) {
+List<CvmChatItem> _messagesToChatItems(List<CvmMessage> messages, DateTime lastConseillerReading) {
   return _messagesWithDaySections(messages).map<CvmChatItem>((element) {
     if (element is String) {
       return CvmDayItem(element);
     } else {
       final message = element as CvmMessage;
       return switch (message) {
-        final CvmTextMessage item => _textMessageItem(item),
+        final CvmTextMessage item => _textMessageItem(item, lastConseillerReading),
         final CvmFileMessage item => _pieceJointeItem(item),
         CvmUnknownMessage() => CvmInformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription),
       };
@@ -77,13 +80,21 @@ List<CvmChatItem> _messagesToChatItems(List<CvmMessage> messages) {
   }).toList();
 }
 
-CvmChatItem _textMessageItem(CvmTextMessage message) {
+CvmChatItem _textMessageItem(CvmTextMessage message, DateTime lastConseillerReading) {
   return CvmTextMessageItem(
     messageId: message.id,
     content: message.content,
-    caption: message.date.toHour(),
+    caption: _caption(message, lastConseillerReading),
     sender: message.sentBy,
   );
+}
+
+String _caption(CvmTextMessage message, DateTime lastConseillerReading) {
+  final date = message.date;
+  final hourLabel = date.toHour();
+  if (message.sentBy == Sender.conseiller) return hourLabel;
+  final status = date == lastConseillerReading || date.isBefore(lastConseillerReading) ? Strings.read : Strings.sent;
+  return "$hourLabel · $status";
 }
 
 CvmChatItem _pieceJointeItem(CvmFileMessage message) {
