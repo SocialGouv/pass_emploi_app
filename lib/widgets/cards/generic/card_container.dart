@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -43,7 +44,10 @@ class CardContainer extends StatelessWidget {
           child: InkWell(
             borderRadius: cardBorderRadius,
             onTap: onTap,
-            onLongPress: onLongPress,
+            onLongPress: () {
+              HapticFeedback.heavyImpact();
+              onLongPress?.call();
+            },
             splashColor: splashColor,
             child: Padding(
               padding: padding,

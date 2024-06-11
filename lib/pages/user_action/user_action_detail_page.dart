@@ -89,7 +89,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
       showPassEmploiBottomSheet(context: context, builder: _successBottomSheet).then((value) => Navigator.pop(context));
     } else if (viewModel.updateDisplayState == UpdateDisplayState.TO_DISMISS_AFTER_UPDATE) {
       _trackSuccessfulUpdate();
-      // Navigator.pop(context);
     } else if (viewModel.deleteDisplayState == DeleteDisplayState.TO_DISMISS_AFTER_DELETION) {
       _popBothUpdateAndDetailsPages();
       showSnackBarWithSuccess(context, Strings.deleteActionSuccess);

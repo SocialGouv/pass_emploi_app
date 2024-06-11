@@ -70,6 +70,7 @@ class _DuplicateButton extends StatelessWidget {
           Navigator.push(context, DuplicateUserActionPage.route(viewModel.source, viewModel.userActionId));
         }
       },
+      withNavigationSuffix: true,
     );
   }
 }

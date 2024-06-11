@@ -72,7 +72,7 @@ void main() {
     expect(viewModel.displayState, isA<DismissWithFailure>());
   });
 
-  test('createUserAction should dispatch CreateUserAction', () {
+  test('duplicate should dispatch CreateUserAction', () {
     // Given
     final store = StoreSpy.withState(
       givenState()

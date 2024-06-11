@@ -52,7 +52,7 @@ class DuplicateUserActionViewModel extends Equatable {
             date,
             false,
             userAction.status,
-            type ?? UserActionReferentielType.citoyennete,
+            type ?? UserActionReferentielType.emploi,
           ),
         ),
       ),
