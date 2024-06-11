@@ -25,6 +25,7 @@ class AnalyticsScreenNames {
 
   static const userActionDetails = "actions/detail";
   static const userActionUpdate = "actions/update";
+  static const userActionDuplicate = "actions/duplicate";
   static const updateUserAction = "actions/detail?modifySuccess=true";
   static const createUserActionStep1 = "actions/create/v2/step1";
   static const createUserActionStep2 = "actions/create/v2/step2";

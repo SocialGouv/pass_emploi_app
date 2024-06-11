@@ -8,7 +8,8 @@ import 'package:pass_emploi_app/features/user_action/details/user_action_details
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
-import 'package:pass_emploi_app/pages/user_action/update/update_user_action_form.dart';
+import 'package:pass_emploi_app/pages/user_action/update/update_user_action_page.dart';
+import 'package:pass_emploi_app/pages/user_action/user_action_detail_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
@@ -88,7 +89,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
       showPassEmploiBottomSheet(context: context, builder: _successBottomSheet).then((value) => Navigator.pop(context));
     } else if (viewModel.updateDisplayState == UpdateDisplayState.TO_DISMISS_AFTER_UPDATE) {
       _trackSuccessfulUpdate();
-      Navigator.pop(context, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
     } else if (viewModel.deleteDisplayState == DeleteDisplayState.TO_DISMISS_AFTER_DELETION) {
       _popBothUpdateAndDetailsPages();
       showSnackBarWithSuccess(context, Strings.deleteActionSuccess);
@@ -124,7 +124,10 @@ class _Scaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.actionDetails),
+      appBar: SecondaryAppBar(
+        title: Strings.actionDetails,
+        actions: [_MoreButton(source: source, actionId: viewModel.id)],
+      ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
         child: Column(
@@ -357,7 +360,7 @@ class _UpdateButton extends StatelessWidget {
       width: double.infinity,
       child: SecondaryButton(
         label: Strings.updateUserAction,
-        onPressed: () => Navigator.push(context, UpdateUserActionForm.route(source, userActionId)),
+        onPressed: () => Navigator.push(context, UpdateUserActionPage.route(source, userActionId)),
       ),
     );
   }
@@ -492,20 +495,19 @@ class _DateAndCategory extends StatelessWidget {
         )
       ],
     );
-    // return Column(
-    //   mainAxisSize: MainAxisSize.min,
-    //   crossAxisAlignment: CrossAxisAlignment.start,
-    //   children: [
-    //     Row(
-    //       children: [
-    //         Icon(sectionIcon, color: AppColors.grey500, size: Dimens.icon_size_base),
-    //         SizedBox(width: Margins.spacing_xs),
-    //         Text(sectionTitle, style: TextStyles.textSRegular(color: AppColors.grey700)),
-    //       ],
-    //     ),
-    //     SizedBox(height: Margins.spacing_xs),
-    //     Text(value, style: TextStyles.textSBold)
-    //   ],
-    // );
+  }
+}
+
+class _MoreButton extends StatelessWidget {
+  const _MoreButton({required this.source, required this.actionId});
+  final UserActionStateSource source;
+  final String actionId;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(AppIcons.more_vert_rounded),
+      onPressed: () => UserActionDetailsBottomSheet.show(context, source, actionId),
+    );
   }
 }

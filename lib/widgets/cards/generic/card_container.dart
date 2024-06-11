@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -7,6 +8,7 @@ import 'package:pass_emploi_app/ui/shadows.dart';
 class CardContainer extends StatelessWidget {
   final Widget child;
   final void Function()? onTap;
+  final void Function()? onLongPress;
   final Color backgroundColor;
   final Color splashColor;
   final EdgeInsets padding;
@@ -17,6 +19,7 @@ class CardContainer extends StatelessWidget {
     super.key,
     required this.child,
     this.onTap,
+    this.onLongPress,
     this.backgroundColor = Colors.white,
     this.splashColor = AppColors.primaryLighten,
     this.padding = const EdgeInsets.all(Margins.spacing_base),
@@ -41,6 +44,10 @@ class CardContainer extends StatelessWidget {
           child: InkWell(
             borderRadius: cardBorderRadius,
             onTap: onTap,
+            onLongPress: () {
+              HapticFeedback.heavyImpact();
+              onLongPress?.call();
+            },
             splashColor: splashColor,
             child: Padding(
               padding: padding,

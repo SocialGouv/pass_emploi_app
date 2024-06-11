@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/model/date_input_source.dart';
 
-class UpdateUserActionFormChangeNotifier extends ChangeNotifier {
+class EditUserActionFormChangeNotifier extends ChangeNotifier {
   DateInputSource dateInputSource;
   String title;
   String description;
   UserActionReferentielType? type;
-  bool _hasChanged = false;
+  bool requireUpdate;
 
-  UpdateUserActionFormChangeNotifier({
+  EditUserActionFormChangeNotifier({
     required DateTime date,
     required this.title,
     required this.description,
     required this.type,
+    required this.requireUpdate,
   }) : dateInputSource = DateFromPicker(date);
 
   void updateDate(DateInputSource dateSource) {
@@ -40,9 +41,9 @@ class UpdateUserActionFormChangeNotifier extends ChangeNotifier {
 
   @override
   void notifyListeners() {
-    _hasChanged = true;
+    requireUpdate = false;
     super.notifyListeners();
   }
 
-  bool canSave() => _hasChanged && title.trim().isNotEmpty && dateInputSource.isValid;
+  bool canSave() => !requireUpdate && title.trim().isNotEmpty && dateInputSource.isValid;
 }

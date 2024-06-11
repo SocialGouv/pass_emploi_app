@@ -589,6 +589,12 @@ class Strings {
 
   static String userActionDetailsError = "Erreur lors de la récupération de l'action";
 
+  // User action bottom sheet
+  static String userActionBottomSheetTitle = "Éditer l’action";
+  static String userActionBottomSheetDelete = "Supprimer";
+  static String userActionBottomSheetEdit = "Modifier";
+  static String userActionBottomSheetDuplicate = "Dupliquer";
+
   // Update user action
   static String updateUserActionPageTitle = "Modifier l'action";
   static String updateUserAction = "Modifier l'action";
@@ -600,6 +606,10 @@ class Strings {
   static String updateUserActionSaveButton = "Enregistrer les modifications";
   static String deleteAction = "Supprimer l'action";
   static String deleteActionDescription = "Vous ne pourrez plus consulter ni modifier l'action.";
+
+  // Duplicate user action
+  static String duplicateUserAction = "Dupliquer l'action";
+  static String duplicateUserActionConfirmationTitle = "Action dupliquée";
 
   // Commentaires d'action
   static String actionCommentsTitle = "Commentaire de l’action";

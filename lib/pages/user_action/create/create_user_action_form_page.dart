@@ -66,7 +66,7 @@ class CreateUserActionFormPage extends StatelessWidget {
     Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, source));
   }
 
-  static void _showSnackBarForOfflineCreation(BuildContext context) {
+  static void showSnackBarForOfflineCreation(BuildContext context) {
     PassEmploiMatomoTracker.instance.trackEvent(
       eventCategory: AnalyticsEventNames.createActionEventCategory,
       action: AnalyticsEventNames.createActionOfflineAction,
@@ -87,7 +87,7 @@ class CreateUserActionFormPage extends StatelessWidget {
   Future<void> _handleDisplayState(BuildContext context, UserActionCreateViewModel viewModel) async {
     final displayState = viewModel.displayState;
     if (displayState is DismissWithFailure) {
-      _showSnackBarForOfflineCreation(context);
+      showSnackBarForOfflineCreation(context);
       Navigator.pop(context);
     } else if (displayState is ShowConfirmationPage) {
       Navigator.push(

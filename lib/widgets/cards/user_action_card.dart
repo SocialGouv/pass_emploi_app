@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/pages/user_action/user_action_detail_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -33,6 +34,7 @@ class UserActionCard extends StatelessWidget {
       label: viewModel.semanticLabel,
       child: BaseCard(
         onTap: onTap,
+        onLongPress: () => UserActionDetailsBottomSheet.show(context, source, viewModel.id),
         title: viewModel.title,
         tag: CardTag(
           icon: viewModel.categoryIcon,
