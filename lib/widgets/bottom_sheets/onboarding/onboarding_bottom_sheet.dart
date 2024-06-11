@@ -8,7 +8,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet_height_factor.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
 enum OnboardingSource {
@@ -44,7 +43,7 @@ class OnboardingBottomSheet extends StatelessWidget {
             hideTitle: true,
             padding: EdgeInsets.zero,
             body: _Body(viewModel),
-            heightFactor: onboardingBottomSheetHeightFactor(context),
+            maxHeightFactor: 0.9,
           );
         },
       ),
@@ -68,35 +67,33 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _OnboardingIllustration(viewModel.illustration),
-            SizedBox(height: Margins.spacing_xl),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _OnboardingTitle(viewModel.title),
-                  SizedBox(height: Margins.spacing_m),
-                  _OnboardingBodyText(viewModel.body),
-                  SizedBox(height: Margins.spacing_xl),
-                  PrimaryActionButton(
-                    label: Strings.gotIt,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      viewModel.onGotIt();
-                    },
-                  ),
-                ],
-              ),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _OnboardingIllustration(viewModel.illustration),
+          SizedBox(height: Margins.spacing_xl),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _OnboardingTitle(viewModel.title),
+                SizedBox(height: Margins.spacing_m),
+                _OnboardingBodyText(viewModel.body),
+                SizedBox(height: Margins.spacing_xl),
+                PrimaryActionButton(
+                  label: Strings.gotIt,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    viewModel.onGotIt();
+                  },
+                ),
+              ],
             ),
-            SizedBox(height: Margins.spacing_base),
-          ],
-        ),
+          ),
+          SizedBox(height: Margins.spacing_base),
+        ],
       ),
     );
   }

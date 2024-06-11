@@ -32,7 +32,7 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
         converter: (store) => LoginBottomSheetViewModel.create(store),
         builder: (context, viewModel) {
           return BottomSheetWrapper(
-            heightFactor: 0.8,
+            maxHeightFactor: 0.9,
             body: SingleChildScrollView(
               child: AnimatedSwitcher(
                 duration: AnimationDurations.fast,

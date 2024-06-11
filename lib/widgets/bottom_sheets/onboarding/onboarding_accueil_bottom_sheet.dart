@@ -12,7 +12,6 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet_height_factor.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
@@ -48,13 +47,13 @@ class _OnboardingAccueilBottomSheetState extends State<OnboardingAccueilBottomSh
         return BottomSheetWrapper(
           hideTitle: true,
           padding: EdgeInsets.zero,
-          heightFactor: _currentPage == 0 ? onboardingBottomSheetHeightFactor(context) + 0.05 : 0.9,
+          maxHeightFactor: 0.9,
           body: AnimatedSwitcher(
             duration: AnimationDurations.fast,
             child: _currentPage == 0
                 ? _OnboardingAccueilPage(viewModel: viewModel, onContinue: () => nextPage())
                 : _OnboardingPushNotificationPermissionPage(
-              viewModel: viewModel,
+                    viewModel: viewModel,
                     onAcceptNotifications: () {
                       viewModel.onRequestNotificationsPermission();
                       PassEmploiMatomoTracker.instance.trackEvent(
@@ -93,32 +92,30 @@ class _OnboardingAccueilPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.onboardingAccueil,
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _OnboardingIllustration(Drawables.accueilOnboardingIllustration1),
-              SizedBox(height: Margins.spacing_xl),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _OnboardingTitle(Strings.accueilOnboardingTitle1(viewModel.userName)),
-                    SizedBox(height: Margins.spacing_m),
-                    _OnboardingBodyText(viewModel.body),
-                    SizedBox(height: Margins.spacing_m),
-                    PrimaryActionButton(
-                      label: Strings.continueLabel,
-                      onPressed: onContinue,
-                    ),
-                  ],
-                ),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _OnboardingIllustration(Drawables.accueilOnboardingIllustration1),
+            SizedBox(height: Margins.spacing_xl),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _OnboardingTitle(Strings.accueilOnboardingTitle1(viewModel.userName)),
+                  SizedBox(height: Margins.spacing_m),
+                  _OnboardingBodyText(viewModel.body),
+                  SizedBox(height: Margins.spacing_m),
+                  PrimaryActionButton(
+                    label: Strings.continueLabel,
+                    onPressed: onContinue,
+                  ),
+                ],
               ),
-              SizedBox(height: Margins.spacing_base),
-            ],
-          ),
+            ),
+            SizedBox(height: Margins.spacing_base),
+          ],
         ),
       ),
     );
@@ -140,45 +137,43 @@ class _OnboardingPushNotificationPermissionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.onboardingPushNotificationPermission,
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              _OnboardingIllustration(Drawables.accueilOnboardingIllustration2),
-              SizedBox(height: Margins.spacing_xl),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-                child: Column(
-                  children: [
-                    _OnboardingTitle(Strings.accueilOnboardingTitle2),
-                    SizedBox(height: Margins.spacing_m),
-                    _OnboardingBodyText(Strings.accueilOnboardingBody2),
-                    SizedBox(height: Margins.spacing_base),
-                    _section(Icons.notifications, Strings.accueilOnboardingSection1),
-                    SizedBox(height: Margins.spacing_base),
-                    _section(Icons.calendar_today, Strings.accueilOnboardingSection2),
-                    SizedBox(height: Margins.spacing_m),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        PrimaryActionButton(
-                          label: Strings.accueilOnboardingButtonAcceptNotifications,
-                          onPressed: onAcceptNotifications,
-                        ),
-                        SizedBox(height: Margins.spacing_s),
-                        SecondaryButton(
-                          label: Strings.accueilOnboardingButtonDeclineNotifications,
-                          onPressed: onDeclineNotifications,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: Margins.spacing_base),
-                  ],
-                ),
-              )
-            ],
-          ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _OnboardingIllustration(Drawables.accueilOnboardingIllustration2),
+            SizedBox(height: Margins.spacing_xl),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+              child: Column(
+                children: [
+                  _OnboardingTitle(Strings.accueilOnboardingTitle2),
+                  SizedBox(height: Margins.spacing_m),
+                  _OnboardingBodyText(Strings.accueilOnboardingBody2),
+                  SizedBox(height: Margins.spacing_base),
+                  _section(Icons.notifications, Strings.accueilOnboardingSection1),
+                  SizedBox(height: Margins.spacing_base),
+                  _section(Icons.calendar_today, Strings.accueilOnboardingSection2),
+                  SizedBox(height: Margins.spacing_m),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      PrimaryActionButton(
+                        label: Strings.accueilOnboardingButtonAcceptNotifications,
+                        onPressed: onAcceptNotifications,
+                      ),
+                      SizedBox(height: Margins.spacing_s),
+                      SecondaryButton(
+                        label: Strings.accueilOnboardingButtonDeclineNotifications,
+                        onPressed: onDeclineNotifications,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: Margins.spacing_base),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

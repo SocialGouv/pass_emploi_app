@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
@@ -89,39 +88,36 @@ class BottomSheetWrapper extends StatelessWidget {
     super.key,
     this.title,
     required this.body,
-    this.heightFactor = 0.9,
+    this.maxHeightFactor = 0.9,
     this.padding,
     this.hideTitle = false,
   });
 
-  final double heightFactor;
+  final double maxHeightFactor;
   final String? title;
   final Widget body;
   final EdgeInsets? padding;
   final bool hideTitle;
 
-  static double smallHeightFactor(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    if (height < MediaSizes.height_xs) return 0.5;
-    if (height < MediaSizes.height_m) return 0.4;
-    return 0.3;
-  }
-
   @override
   Widget build(BuildContext context) {
     final padding = this.padding ?? EdgeInsets.symmetric(horizontal: Margins.spacing_m);
-    return FractionallySizedBox(
-      heightFactor: heightFactor,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * maxHeightFactor,
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(Dimens.radius_l),
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          body: Padding(
+        child: Material(
+          color: Colors.white,
+          child: Padding(
             padding: padding,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 if (hideTitle == false) BottomSheetHeader(title: title),
-                Expanded(child: body),
+                Flexible(child: body),
+                SizedBox(height: Margins.spacing_base),
               ],
             ),
           ),
