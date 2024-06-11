@@ -42,8 +42,8 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
       _facade.sendMessage(action.message);
     } else if (action is CvmLoadMoreAction) {
       _facade.loadMore();
-    } else if (action is CvmLastReadingAction) {
-      _handleLastReading(store);
+    } else if (action is CvmLastJeuneReadingAction) {
+      _handleLastJeuneReading(store);
     } else if (action is CvmSuccessAction) {
       _handleChatStatus(store, action.messages);
     }
@@ -79,8 +79,8 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     );
   }
 
-  void _handleLastReading(Store<AppState> store) {
-    _lastReadingRepository.saveLastReading(clock.now());
+  void _handleLastJeuneReading(Store<AppState> store) {
+    _lastReadingRepository.saveLastJeuneReading(clock.now());
     store.dispatch(ChatConseillerMessageAction(ConseillerMessageInfo(false, null)));
   }
 
@@ -88,8 +88,8 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
     final lastConseillerMessage = messages.where((message) => message.isFromConseiller()).lastOrNull;
     if (lastConseillerMessage == null) return;
 
-    final lastReading = await _lastReadingRepository.getLastReading();
-    if (lastReading == null || lastConseillerMessage.date.isAfter(lastReading)) {
+    final lastJeuneReading = await _lastReadingRepository.getLastJeuneReading();
+    if (lastJeuneReading == null || lastConseillerMessage.date.isAfter(lastJeuneReading)) {
       store.dispatch(ChatConseillerMessageAction(ConseillerMessageInfo(true, null)));
     }
   }

@@ -15,8 +15,8 @@ void main() {
     final date = DateTime(2024, 4, 12);
 
     // When
-    await repository.saveLastReading(date);
-    final result = await repository.getLastReading();
+    await repository.saveLastJeuneReading(date);
+    final result = await repository.getLastJeuneReading();
 
     // Then
     expect(result, date);
@@ -24,7 +24,7 @@ void main() {
 
   test('when nothing saved', () async {
     // When
-    final result = await repository.getLastReading();
+    final result = await repository.getLastJeuneReading();
 
     // Then
     expect(result, isNull);

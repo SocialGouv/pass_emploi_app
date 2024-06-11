@@ -7,11 +7,11 @@ class CvmLastReadingRepository {
 
   CvmLastReadingRepository(this._preferences);
 
-  Future<void> saveLastReading(DateTime lastReading) async {
+  Future<void> saveLastJeuneReading(DateTime lastReading) async {
     await _preferences.write(key: _key, value: lastReading.toIso8601String());
   }
 
-  Future<DateTime?> getLastReading() async {
+  Future<DateTime?> getLastJeuneReading() async {
     final String? lastReading = await _preferences.read(key: _key);
     return lastReading != null ? DateTime.parse(lastReading) : null;
   }

@@ -165,8 +165,8 @@ class MockCvmTokenRepository extends Mock implements CvmTokenRepository {}
 
 class MockCvmLastReadingRepository extends Mock implements CvmLastReadingRepository {
   MockCvmLastReadingRepository() {
-    when(() => saveLastReading(any())).thenAnswer((_) async {});
-    when(() => getLastReading()).thenAnswer((_) async => null);
+    when(() => saveLastJeuneReading(any())).thenAnswer((_) async {});
+    when(() => getLastJeuneReading()).thenAnswer((_) async => null);
   }
 }
 

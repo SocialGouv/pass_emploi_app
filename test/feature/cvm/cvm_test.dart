@@ -84,8 +84,8 @@ void main() {
           ]),
         );
 
-        test('and no last reading', () {
-          when(() => lastReadingRepository.getLastReading()).thenAnswer((_) async => null);
+        test('and no jeune last reading', () {
+          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => null);
 
           sut.givenStore = givenState() //
               .loggedInPoleEmploiUser()
@@ -94,8 +94,8 @@ void main() {
           sut.thenExpectChangingStatesThroughOrder([_shouldHaveUnreadMessage(true)]);
         });
 
-        test('and last reading before last message conseiller', () {
-          when(() => lastReadingRepository.getLastReading()).thenAnswer((_) async => DateTime(2021));
+        test('and last jeune reading before last message conseiller', () {
+          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => DateTime(2021));
 
           sut.givenStore = givenState() //
               .loggedInPoleEmploiUser()
@@ -104,8 +104,8 @@ void main() {
           sut.thenExpectChangingStatesThroughOrder([_shouldHaveUnreadMessage(true)]);
         });
 
-        test('and last reading after last message conseiller', () {
-          when(() => lastReadingRepository.getLastReading()).thenAnswer((_) async => DateTime(2023));
+        test('and last jeune reading after last message conseiller', () {
+          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => DateTime(2023));
 
           sut.givenStore = givenState() //
               .loggedInPoleEmploiUser()
@@ -119,7 +119,7 @@ void main() {
         sut.whenDispatchingAction(() => CvmSuccessAction([mockCvmTextMessage(sentBy: Sender.jeune)]));
 
         test('should not update chat status', () {
-          when(() => lastReadingRepository.getLastReading()).thenAnswer((_) async => DateTime(2020));
+          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => DateTime(2020));
 
           sut.givenStore = givenState() //
               .loggedInPoleEmploiUser()
@@ -130,7 +130,7 @@ void main() {
       });
     });
 
-    group('Last reading', () {
+    group('Last jeune reading', () {
       test('CvmLastReadingAction should save current date', () {
         final now = DateTime(2024);
         withClock(Clock.fixed(now), () {
@@ -138,15 +138,15 @@ void main() {
           final store = givenState().store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
 
           // When
-          store.dispatch(CvmLastReadingAction());
+          store.dispatch(CvmLastJeuneReadingAction());
 
           // Then
-          verify(() => lastReadingRepository.saveLastReading(now)).called(1);
+          verify(() => lastReadingRepository.saveLastJeuneReading(now)).called(1);
         });
       });
 
-      group('when updating last reading value', () {
-        sut.whenDispatchingAction(() => CvmLastReadingAction());
+      group('when updating last jeune reading value', () {
+        sut.whenDispatchingAction(() => CvmLastJeuneReadingAction());
 
         test('should reset chat status', () {
           sut.givenStore = givenState() //
