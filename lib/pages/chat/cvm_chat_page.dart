@@ -56,7 +56,10 @@ class CvmChatPageState extends State<CvmChatPage> {
         converter: CvmChatPageViewModel.create,
         builder: _builder,
         onInitialBuild: _handleOnboarding,
-        onDidChange: (_, __) => _isLoadingMorePast = false,
+        onDidChange: (_, __) {
+          StoreProvider.of<AppState>(context).dispatch(CvmLastJeuneReadingAction());
+          _isLoadingMorePast = false;
+        },
         distinct: true,
       ),
     );

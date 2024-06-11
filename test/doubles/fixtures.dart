@@ -1250,6 +1250,21 @@ CvmMessage mockCvmTextMessage({
   );
 }
 
+CvmMessage mockCvmFileMessage({
+  String? id,
+  DateTime? date,
+  Sender? sentBy,
+}) {
+  return CvmFileMessage(
+    id: id ?? "id",
+    date: date ?? DateTime(2032),
+    sentBy: sentBy ?? Sender.conseiller,
+    url: 'url',
+    fileName: 'fileName',
+    fileId: 'fileId',
+  );
+}
+
 MessageImportant dummyMessageImportant({
   String? message,
   DateTime? dateDebut,

@@ -70,6 +70,15 @@ class CvmRepository {
         
         MatrixManager.sharedInstance.loadMoreMessage(room: room, withPaginationSize: limit, completion: completion)
     }
+    
+    func markAsRead(_ eventId: String, completion: @escaping SuccessCompletion) {
+        guard let room = self.room else {
+            completion(false)
+            return
+        }
+        
+        MatrixManager.sharedInstance.markAsRead(room.id, eventId: eventId, completion: completion)
+    }
 
     func startListenRoom() {
         MatrixManager.sharedInstance.startRoomListener { [weak self] rooms in

@@ -131,26 +131,59 @@ void main() {
     });
 
     group('Last jeune reading', () {
-      test('CvmLastReadingAction should save current date', () {
-        final now = DateTime(2024);
-        withClock(Clock.fixed(now), () {
-          // Given
-          final store = givenState().store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
+      group('CvmLastReadingAction should save current date and mark last conseiller message as read', () {
+        test('when last conseiller message is of type text', () {
+          final now = DateTime(2024);
+          withClock(Clock.fixed(now), () {
+            // Given
+            final store = givenState().withCvmMessage(messages: [
+              mockCvmTextMessage(id: '1', date: now, sentBy: Sender.conseiller),
+              mockCvmTextMessage(id: '2', date: now.add(Duration(hours: 2)), sentBy: Sender.conseiller),
+              mockCvmFileMessage(id: '3', date: now.add(Duration(hours: 3)), sentBy: Sender.conseiller),
+              mockCvmTextMessage(id: '4', date: now.add(Duration(hours: 4)), sentBy: Sender.conseiller),
+              mockCvmTextMessage(id: '5', date: now.add(Duration(hours: 5)), sentBy: Sender.jeune),
+            ]).store((f) => {f.cvmLastReadingRepository = lastReadingRepository, f.cvmBridge = bridge});
+            when(() => bridge.markAsRead(any())).thenAnswer((_) async => true);
 
-          // When
-          store.dispatch(CvmLastJeuneReadingAction());
+            // When
+            store.dispatch(CvmLastJeuneReadingAction());
 
-          // Then
-          verify(() => lastReadingRepository.saveLastJeuneReading(now)).called(1);
+            // Then
+            verify(() => lastReadingRepository.saveLastJeuneReading(now)).called(1);
+            verify(() => bridge.markAsRead('4')).called(1);
+          });
+        });
+
+        test('when last conseiller message is of type file', () {
+          final now = DateTime(2024);
+          withClock(Clock.fixed(now), () {
+            // Given
+            final store = givenState().withCvmMessage(messages: [
+              mockCvmTextMessage(id: '1', date: now, sentBy: Sender.conseiller),
+              mockCvmTextMessage(id: '2', date: now.add(Duration(hours: 2)), sentBy: Sender.conseiller),
+              mockCvmTextMessage(id: '3', date: now.add(Duration(hours: 3)), sentBy: Sender.conseiller),
+              mockCvmFileMessage(id: '7', date: now.add(Duration(hours: 7)), sentBy: Sender.conseiller),
+              mockCvmTextMessage(id: '10', date: now.add(Duration(hours: 10)), sentBy: Sender.jeune),
+            ]).store((f) => {f.cvmLastReadingRepository = lastReadingRepository, f.cvmBridge = bridge});
+            when(() => bridge.markAsRead(any())).thenAnswer((_) async => true);
+
+            // When
+            store.dispatch(CvmLastJeuneReadingAction());
+
+            // Then
+            verify(() => lastReadingRepository.saveLastJeuneReading(now)).called(1);
+            verify(() => bridge.markAsRead('7')).called(1);
+          });
         });
       });
 
       group('when updating last jeune reading value', () {
         sut.whenDispatchingAction(() => CvmLastJeuneReadingAction());
 
-        test('should reset chat status', () {
+        test('should update hasUnreadMessage', () {
           sut.givenStore = givenState() //
               .loggedInPoleEmploiUser()
+              .withCvmMessage(messages: [mockCvmTextMessage(date: DateTime(2022), sentBy: Sender.conseiller)])
               .copyWith(
                 chatStatusState: ChatStatusSuccessState(
                   hasUnreadMessages: true,
@@ -159,7 +192,9 @@ void main() {
               )
               .store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
 
-          sut.thenExpectChangingStatesThroughOrder([_shouldResetChatStatus()]);
+          sut.thenExpectAtSomePoint(
+            _shouldHaveChatStatus(hasUnreadMessages: false, lastConseillerReading: DateTime(2020)),
+          );
         });
       });
     });
@@ -221,5 +256,3 @@ Matcher _shouldHaveChatStatus({required bool hasUnreadMessages, required DateTim
     ),
   );
 }
-
-Matcher _shouldResetChatStatus() => StateIs<ChatStatusEmptyState>((state) => state.chatStatusState);

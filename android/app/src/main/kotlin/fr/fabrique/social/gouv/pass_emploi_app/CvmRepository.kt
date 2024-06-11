@@ -86,6 +86,13 @@ class CvmRepository(
         callback(true)
     }
 
+    suspend fun markAsRead(eventId: String, callback: (Boolean) -> Unit) {
+        this.room?.let { room ->
+            MatrixManager.getInstance().markAsRead(room.id!!, eventId)
+            callback(true)
+        } ?: callback(false)
+    }
+
     fun stopListenMessage() {
         MatrixManager.getInstance().stopListenMessage()
     }

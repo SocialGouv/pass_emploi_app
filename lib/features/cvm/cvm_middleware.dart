@@ -4,11 +4,13 @@ import 'package:clock/clock.dart';
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
+import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
+import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
@@ -81,8 +83,25 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _handleLastJeuneReading(Store<AppState> store) {
+    if (store.state.cvmState is! CvmSuccessState) return;
+    final lastConseillerMessage = (store.state.cvmState as CvmSuccessState)
+        .messages //
+        .where((e) =>
+            (e is CvmTextMessage && e.sentBy == Sender.conseiller) ||
+            (e is CvmFileMessage && e.sentBy == Sender.conseiller))
+        .sorted((a, b) => a.date.compareTo(b.date))
+        .lastOrNull;
+    if (lastConseillerMessage != null) {
+      _facade.markAsRead(lastConseillerMessage.id);
+    }
+
+    // TODO Delete _lastReadingRepository when markAsRead is fully functional
     _lastReadingRepository.saveLastJeuneReading(clock.now());
-    store.dispatch(ChatConseillerMessageAction(ConseillerMessageInfo(false, null)));
+    final statusState = store.state.chatStatusState;
+    final lastConseillerReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : null;
+    store.dispatch(
+      ChatConseillerMessageAction(ConseillerMessageInfo(false, lastConseillerReading)),
+    );
   }
 
   Future<void> _handleChatStatus(Store<AppState> store, List<CvmMessage> messages) async {

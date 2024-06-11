@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MethodChannelHandler(
-    private val flutterEngine: FlutterEngine,
+    flutterEngine: FlutterEngine,
     private val cvmRepository: CvmRepository,
 ) : MethodCallHandler {
 
@@ -33,6 +33,7 @@ class MethodChannelHandler(
             "stopListenMessages" -> stopListenMessages(result)
             "sendMessage" -> sendMessage(call, result)
             "loadMore" -> loadMore(call, result)
+            "markAsRead" -> markAsRead(call, result)
             "logout" -> logout(result)
             else -> result.notImplemented()
         }
@@ -104,6 +105,18 @@ class MethodChannelHandler(
         }
         cvmRepository.loadMore(limit) { success ->
             result.success(success)
+        }
+    }
+
+    private fun markAsRead(call: MethodCall, result: Result) {
+        val eventId: String = call.argument("eventId") ?: run {
+            result.error("ARGUMENT_ERROR", "eventId is missing", null)
+            return
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            cvmRepository.markAsRead(eventId) { success ->
+                result.success(success)
+            }
         }
     }
 

@@ -57,6 +57,16 @@ class CvmFacade {
     }
   }
 
+  Future<bool> markAsRead(String messageId) async {
+    try {
+      return await _bridge.markAsRead(messageId);
+    } catch (e, s) {
+      _crashlytics?.log("CvmFacade.markAsRead error");
+      _crashlytics?.recordCvmException(e, s);
+      return false;
+    }
+  }
+
   Future<void> _initCvm() async {
     if (_state.isInit) return;
     await _bridge.initializeCvm();

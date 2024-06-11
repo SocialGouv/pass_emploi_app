@@ -114,4 +114,13 @@ class CvmBridge {
     await MethodChannel(_cvmMethodChannel).invokeMethod('loadMore', {'limit': _pageLimit});
     Log.d('--- CvmBridge.loadMore ✅');
   }
+
+  Future<bool> markAsRead(String messageId) async {
+    Log.d('--- CvmBridge.markAsRead…');
+    final success = await MethodChannel(_cvmMethodChannel) //
+            .invokeMethod<bool>('markAsRead', {'eventId': messageId}) ??
+        false;
+    Log.d('--- CvmBridge.markAsRead: ${success ? '✅' : '❌'}');
+    return success;
+  }
 }
