@@ -16,6 +16,7 @@ void main() {
         'message': 'message',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
         'readByConseiller': true,
+        'readByJeune': false,
       };
 
       // When
@@ -26,9 +27,10 @@ void main() {
         result,
         CvmTextMessage(
           id: 'id',
+          date: DateTime(2024, 1, 1),
+          readByJeune: false,
           sentBy: Sender.conseiller,
           content: 'message',
-          date: DateTime(2024, 1, 1),
           readByConseiller: true,
         ),
       );
@@ -43,6 +45,7 @@ void main() {
         'isFromUser': false,
         'message': 'file.jpg',
         'fileInfo': 'mxc://url-pe/id-file',
+        'readByJeune': true,
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
 
@@ -53,13 +56,13 @@ void main() {
       expect(
         result,
         CvmFileMessage(
-          id: 'id',
-          sentBy: Sender.conseiller,
-          fileName: 'file.jpg',
-          url: 'https://cvm.fr/download/url-pe/id-file',
-          fileId: 'url-pe/id-file',
-          date: DateTime(2024, 1, 1),
-        ),
+            id: 'id',
+            date: DateTime(2024, 1, 1),
+            readByJeune: true,
+            sentBy: Sender.conseiller,
+            fileName: 'file.jpg',
+            url: 'https://cvm.fr/download/url-pe/id-file',
+            fileId: 'url-pe/id-file'),
       );
     });
 
@@ -72,6 +75,7 @@ void main() {
         'isFromUser': false,
         'message': 'file.jpg',
         'fileInfo': 'url-pe/id-file',
+        'readByJeune': true,
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
 
@@ -83,11 +87,12 @@ void main() {
         result,
         CvmFileMessage(
           id: 'id',
+          date: DateTime(2024, 1, 1),
+          readByJeune: true,
           sentBy: Sender.conseiller,
           fileName: 'file.jpg',
           url: 'https://cvm.fr/download/url-pe/id-file',
           fileId: 'url-pe/id-file',
-          date: DateTime(2024, 1, 1),
         ),
       );
     });
@@ -100,6 +105,7 @@ void main() {
         'isFromUser': false,
         'message': 'file.jpg',
         'fileInfo': 'url-pe/id-file',
+        'readByJeune': false,
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
       };
 
@@ -111,11 +117,12 @@ void main() {
         result,
         CvmFileMessage(
           id: 'id',
+          date: DateTime(2024, 1, 1),
+          readByJeune: false,
           sentBy: Sender.conseiller,
           fileName: 'file.jpg',
           url: 'https://cvm.fr/download/url-pe/id-file',
           fileId: 'url-pe/id-file',
-          date: DateTime(2024, 1, 1),
         ),
       );
     });
@@ -126,6 +133,7 @@ void main() {
         'id': 'id',
         'type': 'unknown',
         'date': DateTime(2024, 1, 1).millisecondsSinceEpoch,
+        'readByJeune': true,
       };
 
       // When
@@ -137,6 +145,7 @@ void main() {
         CvmUnknownMessage(
           id: 'id',
           date: DateTime(2024, 1, 1),
+          readByJeune: true,
         ),
       );
     });

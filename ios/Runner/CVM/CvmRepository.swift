@@ -105,7 +105,8 @@ private extension Event {
             "message": message,
             "date": timestamp,
             "fileInfo": attachmentID,
-            "readByConseiller": readByConseiller
+            "readByConseiller": readByConseiller,
+            "readByJeune": readByJeune
         ]
     }
 
@@ -117,9 +118,17 @@ private extension Event {
     }
     
     private var readByConseiller: Bool{
-        print("🚀🚀🚀 CvmRepository.swift#message -> ", message)
-        print("🚀🚀🚀 CvmRepository.swift#readBy -> ", readBy)
+        print("🚀🚀🚀 CvmRepository.swift#readByConseiller#message -> ", message)
+        print("🚀🚀🚀 CvmRepository.swift#readByConseiller#readBy -> ", readBy)
+        print("🚀🚀🚀 ----------")
         return !readBy.filter({ $0 != SessionManager.sharedInstance.userId }).isEmpty
+    }
+    
+    private var readByJeune: Bool{
+        print("🚀🚀🚀 CvmRepository.swift#readByJeune#message -> ", message)
+        print("🚀🚀🚀 CvmRepository.swift#readByJeune#readBy -> ", readBy)
+        print("🚀🚀🚀 ----------")
+        return !readBy.filter({ $0 == SessionManager.sharedInstance.userId }).isEmpty
     }
 }
 

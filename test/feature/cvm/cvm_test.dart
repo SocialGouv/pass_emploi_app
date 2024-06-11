@@ -14,11 +14,9 @@ import '../../dsl/sut_redux.dart';
 
 void main() {
   late MockCvmBridge bridge;
-  late MockCvmLastReadingRepository lastReadingRepository;
 
   setUp(() {
     bridge = MockCvmBridge();
-    lastReadingRepository = MockCvmLastReadingRepository();
   });
 
   group('Cvm', () {
@@ -77,61 +75,54 @@ void main() {
     });
 
     group('Chat status', () {
-      group('when has messages from conseiller', () {
+      group('when not any messages from conseiller with jeune last reading', () {
         sut.whenDispatchingAction(
           () => CvmSuccessAction([
-            mockCvmTextMessage(date: DateTime(2022), sentBy: Sender.conseiller),
+            mockCvmTextMessage(date: DateTime(2022), sentBy: Sender.conseiller, readByJeune: false),
           ]),
         );
 
-        test('and no jeune last reading', () {
-          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => null);
-
+        test('should have unread message', () {
           sut.givenStore = givenState() //
               .loggedInPoleEmploiUser()
-              .store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
+              .store();
 
           sut.thenExpectChangingStatesThroughOrder([_shouldHaveUnreadMessage(true)]);
-        });
-
-        test('and last jeune reading before last message conseiller', () {
-          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => DateTime(2021));
-
-          sut.givenStore = givenState() //
-              .loggedInPoleEmploiUser()
-              .store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
-
-          sut.thenExpectChangingStatesThroughOrder([_shouldHaveUnreadMessage(true)]);
-        });
-
-        test('and last jeune reading after last message conseiller', () {
-          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => DateTime(2023));
-
-          sut.givenStore = givenState() //
-              .loggedInPoleEmploiUser()
-              .store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
-
-          sut.thenExpectNever(_shouldHaveUnreadMessage(true));
         });
       });
 
-      group('when has not any messages from conseiller', () {
-        sut.whenDispatchingAction(() => CvmSuccessAction([mockCvmTextMessage(sentBy: Sender.jeune)]));
+      group('when message from conseiller with jeune last reading', () {
+        sut.whenDispatchingAction(
+          () => CvmSuccessAction([
+            mockCvmTextMessage(date: DateTime(2022), sentBy: Sender.conseiller, readByJeune: false),
+            mockCvmTextMessage(date: DateTime(2023), sentBy: Sender.conseiller, readByJeune: true),
+          ]),
+        );
 
-        test('should not update chat status', () {
-          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => DateTime(2020));
-
+        test('should not have unread message', () {
           sut.givenStore = givenState() //
               .loggedInPoleEmploiUser()
-              .store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
+              .store();
 
           sut.thenExpectNever(_shouldHaveUnreadMessage(true));
         });
       });
     });
 
+    group('when has not any messages from conseiller', () {
+      sut.whenDispatchingAction(() => CvmSuccessAction([mockCvmTextMessage(sentBy: Sender.jeune)]));
+
+      test('should not update chat status', () {
+        sut.givenStore = givenState() //
+            .loggedInPoleEmploiUser()
+            .store();
+
+        sut.thenExpectNever(_shouldHaveUnreadMessage(true));
+      });
+    });
+
     group('Last jeune reading', () {
-      group('CvmLastReadingAction should save current date and mark last conseiller message as read', () {
+      group('CvmLastReadingAction should mark last conseiller message as read', () {
         test('when last conseiller message is of type text', () {
           final now = DateTime(2024);
           withClock(Clock.fixed(now), () {
@@ -142,14 +133,13 @@ void main() {
               mockCvmFileMessage(id: '3', date: now.add(Duration(hours: 3)), sentBy: Sender.conseiller),
               mockCvmTextMessage(id: '4', date: now.add(Duration(hours: 4)), sentBy: Sender.conseiller),
               mockCvmTextMessage(id: '5', date: now.add(Duration(hours: 5)), sentBy: Sender.jeune),
-            ]).store((f) => {f.cvmLastReadingRepository = lastReadingRepository, f.cvmBridge = bridge});
+            ]).store((f) => {f.cvmBridge = bridge});
             when(() => bridge.markAsRead(any())).thenAnswer((_) async => true);
 
             // When
             store.dispatch(CvmLastJeuneReadingAction());
 
             // Then
-            verify(() => lastReadingRepository.saveLastJeuneReading(now)).called(1);
             verify(() => bridge.markAsRead('4')).called(1);
           });
         });
@@ -164,15 +154,35 @@ void main() {
               mockCvmTextMessage(id: '3', date: now.add(Duration(hours: 3)), sentBy: Sender.conseiller),
               mockCvmFileMessage(id: '7', date: now.add(Duration(hours: 7)), sentBy: Sender.conseiller),
               mockCvmTextMessage(id: '10', date: now.add(Duration(hours: 10)), sentBy: Sender.jeune),
-            ]).store((f) => {f.cvmLastReadingRepository = lastReadingRepository, f.cvmBridge = bridge});
+            ]).store((f) => {f.cvmBridge = bridge});
             when(() => bridge.markAsRead(any())).thenAnswer((_) async => true);
 
             // When
             store.dispatch(CvmLastJeuneReadingAction());
 
             // Then
-            verify(() => lastReadingRepository.saveLastJeuneReading(now)).called(1);
             verify(() => bridge.markAsRead('7')).called(1);
+          });
+        });
+
+        test('when last conseiller message is of type unknown', () {
+          final now = DateTime(2024);
+          withClock(Clock.fixed(now), () {
+            // Given
+            final store = givenState().withCvmMessage(messages: [
+              mockCvmTextMessage(id: '1', date: now, sentBy: Sender.conseiller),
+              mockCvmTextMessage(id: '2', date: now.add(Duration(hours: 2)), sentBy: Sender.conseiller),
+              mockCvmTextMessage(id: '3', date: now.add(Duration(hours: 3)), sentBy: Sender.conseiller),
+              mockCvmUnknownMessage(id: '9', date: now.add(Duration(hours: 9))),
+              mockCvmTextMessage(id: '10', date: now.add(Duration(hours: 10)), sentBy: Sender.jeune),
+            ]).store((f) => {f.cvmBridge = bridge});
+            when(() => bridge.markAsRead(any())).thenAnswer((_) async => true);
+
+            // When
+            store.dispatch(CvmLastJeuneReadingAction());
+
+            // Then
+            verify(() => bridge.markAsRead('9')).called(1);
           });
         });
       });
@@ -190,7 +200,7 @@ void main() {
                   lastConseillerReading: DateTime(2020),
                 ),
               )
-              .store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
+              .store();
 
           sut.thenExpectAtSomePoint(
             _shouldHaveChatStatus(hasUnreadMessages: false, lastConseillerReading: DateTime(2020)),
@@ -200,7 +210,7 @@ void main() {
     });
 
     group('Last conseiller reading', () {
-      group('when a messages is read from conseiller', () {
+      group('when a message is read from conseiller but no conseiller message', () {
         sut.whenDispatchingAction(
           () => CvmSuccessAction([
             mockCvmTextMessage(date: DateTime(2022, 1, 1), sentBy: Sender.jeune),
@@ -212,24 +222,84 @@ void main() {
           ]),
         );
 
-        test('and no jeune last reading', () {
-          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => null);
-
+        test('should update chat status properly', () {
           sut.givenStore = givenState() //
               .loggedInPoleEmploiUser()
-              .store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
+              .store();
+
+          sut.thenExpectChangingStatesThroughOrder([
+            _shouldHaveChatStatus(hasUnreadMessages: false, lastConseillerReading: DateTime(2022, 1, 3)),
+          ]);
+        });
+      });
+
+      group('when a message is read from conseiller but no jeune last reading', () {
+        sut.whenDispatchingAction(
+          () => CvmSuccessAction([
+            mockCvmTextMessage(date: DateTime(2022, 1, 1), sentBy: Sender.jeune),
+            // Just to make sure production code properly retrieve the latest date of messages read by conseiller.
+            // CVM should normally not send more than one message with readByConseiller to true.
+            mockCvmTextMessage(date: DateTime(2022, 1, 2), sentBy: Sender.jeune, readByConseiller: true),
+            mockCvmTextMessage(date: DateTime(2022, 1, 3), sentBy: Sender.jeune, readByConseiller: true),
+            mockCvmTextMessage(date: DateTime(2022, 1, 4), sentBy: Sender.jeune),
+            mockCvmTextMessage(date: DateTime(2022, 1, 5), sentBy: Sender.conseiller, readByJeune: false),
+          ]),
+        );
+
+        test('should update chat status properly', () {
+          sut.givenStore = givenState() //
+              .loggedInPoleEmploiUser()
+              .store();
 
           sut.thenExpectChangingStatesThroughOrder([
             _shouldHaveChatStatus(hasUnreadMessages: true, lastConseillerReading: DateTime(2022, 1, 3)),
           ]);
         });
+      });
 
-        test('and last jeune reading after last message conseiller', () {
-          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => DateTime(2023));
+      group('when a message is read from conseiller and last reading on old message', () {
+        sut.whenDispatchingAction(
+          () => CvmSuccessAction([
+            mockCvmTextMessage(date: DateTime(2022, 1, 1), sentBy: Sender.jeune),
+            // Just to make sure production code properly retrieve the latest date of messages read by conseiller.
+            // CVM should normally not send more than one message with readByConseiller to true.
+            mockCvmTextMessage(date: DateTime(2022, 1, 2), sentBy: Sender.jeune, readByConseiller: true),
+            mockCvmTextMessage(date: DateTime(2022, 1, 3), sentBy: Sender.jeune, readByConseiller: true),
+            mockCvmTextMessage(date: DateTime(2022, 1, 4), sentBy: Sender.jeune),
+            mockCvmTextMessage(date: DateTime(2022, 1, 5), sentBy: Sender.conseiller, readByJeune: true),
+            mockCvmTextMessage(date: DateTime(2022, 1, 6), sentBy: Sender.conseiller, readByJeune: false),
+          ]),
+        );
 
+        test('should update chat status properly', () {
           sut.givenStore = givenState() //
               .loggedInPoleEmploiUser()
-              .store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
+              .store();
+
+          sut.thenExpectChangingStatesThroughOrder([
+            _shouldHaveChatStatus(hasUnreadMessages: true, lastConseillerReading: DateTime(2022, 1, 3)),
+          ]);
+        });
+      });
+
+      group('when a message is read from conseiller and last reading on latest message', () {
+        sut.whenDispatchingAction(
+          () => CvmSuccessAction([
+            mockCvmTextMessage(date: DateTime(2022, 1, 1), sentBy: Sender.jeune),
+            // Just to make sure production code properly retrieve the latest date of messages read by conseiller.
+            // CVM should normally not send more than one message with readByConseiller to true.
+            mockCvmTextMessage(date: DateTime(2022, 1, 2), sentBy: Sender.jeune, readByConseiller: true),
+            mockCvmTextMessage(date: DateTime(2022, 1, 3), sentBy: Sender.jeune, readByConseiller: true),
+            mockCvmTextMessage(date: DateTime(2022, 1, 4), sentBy: Sender.jeune),
+            mockCvmTextMessage(date: DateTime(2022, 1, 5), sentBy: Sender.conseiller, readByJeune: false),
+            mockCvmTextMessage(date: DateTime(2022, 1, 6), sentBy: Sender.conseiller, readByJeune: true),
+          ]),
+        );
+
+        test('should update chat status properly', () {
+          sut.givenStore = givenState() //
+              .loggedInPoleEmploiUser()
+              .store();
 
           sut.thenExpectChangingStatesThroughOrder([
             _shouldHaveChatStatus(hasUnreadMessages: false, lastConseillerReading: DateTime(2022, 1, 3)),

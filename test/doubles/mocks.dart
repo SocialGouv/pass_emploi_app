@@ -10,7 +10,6 @@ import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dar
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_last_reading_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/developer_option_repository.dart';
@@ -162,13 +161,6 @@ class MockEvenementEngagementRepository extends Mock implements EvenementEngagem
 class MockCvmBridge extends Mock implements CvmBridge {}
 
 class MockCvmTokenRepository extends Mock implements CvmTokenRepository {}
-
-class MockCvmLastReadingRepository extends Mock implements CvmLastReadingRepository {
-  MockCvmLastReadingRepository() {
-    when(() => saveLastJeuneReading(any())).thenAnswer((_) async {});
-    when(() => getLastJeuneReading()).thenAnswer((_) async => null);
-  }
-}
 
 class MockCvmAlertingRepository extends Mock implements CvmAlertingRepository {
   MockCvmAlertingRepository() {

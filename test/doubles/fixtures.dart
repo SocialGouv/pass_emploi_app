@@ -1239,12 +1239,14 @@ CvmMessage mockCvmTextMessage({
   String? content,
   DateTime? date,
   Sender? sentBy,
+  bool? readByJeune,
   bool? readByConseiller,
 }) {
   return CvmTextMessage(
     id: id ?? "id",
-    content: content ?? "content",
     date: date ?? DateTime(2032),
+    readByJeune: readByJeune ?? false,
+    content: content ?? "content",
     sentBy: sentBy ?? Sender.jeune,
     readByConseiller: readByConseiller ?? false,
   );
@@ -1253,15 +1255,32 @@ CvmMessage mockCvmTextMessage({
 CvmMessage mockCvmFileMessage({
   String? id,
   DateTime? date,
+  bool? readByJeune,
   Sender? sentBy,
+  String? url,
+  String? fileName,
+  String? fileId,
 }) {
   return CvmFileMessage(
     id: id ?? "id",
     date: date ?? DateTime(2032),
+    readByJeune: readByJeune ?? false,
     sentBy: sentBy ?? Sender.conseiller,
-    url: 'url',
-    fileName: 'fileName',
-    fileId: 'fileId',
+    url: url ?? 'url',
+    fileName: fileName ?? 'fileName',
+    fileId: fileId ?? 'fileId',
+  );
+}
+
+CvmMessage mockCvmUnknownMessage({
+  String? id,
+  DateTime? date,
+  bool? readByJeune,
+}) {
+  return CvmUnknownMessage(
+    id: id ?? "id",
+    date: date ?? DateTime(2032),
+    readByJeune: readByJeune ?? false,
   );
 }
 

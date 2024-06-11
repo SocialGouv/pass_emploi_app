@@ -71,7 +71,8 @@ class CvmRepository(
                     "message" to event.message,
                     "fileInfo" to event.url,
                     "date" to event.date?.time,
-                    "readByConseiller" to event.readByConseiller()
+                    "readByConseiller" to event.readByConseiller(),
+                    "readByJeune" to event.readByJeune()
                 )
             }
             this.onMessage(allMessages)
@@ -131,4 +132,8 @@ private fun Event.readByConseiller(): Boolean {
     println("🚀🚀🚀 CvmRepository.kotlin#readByConseiller ->  $readByConseiller")
     println("🚀🚀🚀 ----------")
     return readByConseiller
+}
+
+private fun Event.readByJeune(): Boolean {
+    return readBy?.any { it == SessionManager.matrixUserId } == true
 }

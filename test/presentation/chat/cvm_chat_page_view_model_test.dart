@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
-import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/presentation/chat/cvm_chat_item.dart';
@@ -59,8 +58,8 @@ void main() {
           mockCvmTextMessage(id: 'id0', content: '0', date: DateTime(2021, 1, 1, 12, 30), sentBy: Sender.jeune),
           mockCvmTextMessage(id: 'id1', content: '1', date: DateTime(2021, 1, 1, 15, 30), sentBy: Sender.conseiller),
           mockCvmTextMessage(id: 'id2', content: '2', date: lastConseillerReading, sentBy: Sender.jeune),
-          CvmUnknownMessage(id: 'id5', date: DateTime(2021, 1, 1, 19, 00)),
-          CvmFileMessage(id: 'id3', url: 'u', fileName: 'fn', fileId: 'fi', date: january2, sentBy: Sender.conseiller),
+          mockCvmUnknownMessage(id: 'id5', date: DateTime(2021, 1, 1, 19, 00)),
+          mockCvmFileMessage(id: 'id3', url: 'u', fileName: 'fn', fileId: 'fi', date: january2),
           mockCvmTextMessage(id: 'id4', content: '4', date: todayAtNoon, sentBy: Sender.jeune),
         ])
         .copyWith(
