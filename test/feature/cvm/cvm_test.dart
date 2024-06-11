@@ -163,6 +163,45 @@ void main() {
         });
       });
     });
+
+    group('Last conseiller reading', () {
+      group('when a messages is read from conseiller', () {
+        sut.whenDispatchingAction(
+          () => CvmSuccessAction([
+            mockCvmTextMessage(date: DateTime(2022, 1, 1), sentBy: Sender.jeune),
+            // Just to make sure production code properly retrieve the latest date of messages read by conseiller.
+            // CVM should normally not send more than one message with readByConseiller to true.
+            mockCvmTextMessage(date: DateTime(2022, 1, 2), sentBy: Sender.jeune, readByConseiller: true),
+            mockCvmTextMessage(date: DateTime(2022, 1, 3), sentBy: Sender.jeune, readByConseiller: true),
+            mockCvmTextMessage(date: DateTime(2022, 1, 4), sentBy: Sender.jeune),
+          ]),
+        );
+
+        test('and no jeune last reading', () {
+          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => null);
+
+          sut.givenStore = givenState() //
+              .loggedInPoleEmploiUser()
+              .store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
+
+          sut.thenExpectChangingStatesThroughOrder([
+            _shouldHaveChatStatus(hasUnreadMessages: true, lastConseillerReading: DateTime(2022, 1, 3)),
+          ]);
+        });
+
+        test('and last jeune reading after last message conseiller', () {
+          when(() => lastReadingRepository.getLastJeuneReading()).thenAnswer((_) async => DateTime(2023));
+
+          sut.givenStore = givenState() //
+              .loggedInPoleEmploiUser()
+              .store((f) => {f.cvmLastReadingRepository = lastReadingRepository});
+
+          sut.thenExpectChangingStatesThroughOrder([
+            _shouldHaveChatStatus(hasUnreadMessages: false, lastConseillerReading: DateTime(2022, 1, 3)),
+          ]);
+        });
+      });
+    });
   });
 }
 
@@ -170,6 +209,16 @@ Matcher _shouldHaveUnreadMessage(bool hasUnreadMessages) {
   return StateIs<ChatStatusSuccessState>(
     (state) => state.chatStatusState,
     (state) => expect(state.hasUnreadMessages, hasUnreadMessages),
+  );
+}
+
+Matcher _shouldHaveChatStatus({required bool hasUnreadMessages, required DateTime lastConseillerReading}) {
+  return StateIs<ChatStatusSuccessState>(
+    (state) => state.chatStatusState,
+    (state) => expect(
+      state,
+      ChatStatusSuccessState(hasUnreadMessages: hasUnreadMessages, lastConseillerReading: lastConseillerReading),
+    ),
   );
 }
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:clock/clock.dart';
+import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
@@ -85,12 +86,18 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _handleChatStatus(Store<AppState> store, List<CvmMessage> messages) async {
-    final lastConseillerMessage = messages.where((message) => message.isFromConseiller()).lastOrNull;
-    if (lastConseillerMessage == null) return;
+    final lastConseillerReading = messages //
+        .whereType<CvmTextMessage>()
+        .where((e) => e.readByConseiller)
+        .map((e) => e.date)
+        .maxOrNull;
 
+    final lastConseillerMessage = messages.where((message) => message.isFromConseiller()).lastOrNull;
     final lastJeuneReading = await _lastReadingRepository.getLastJeuneReading();
-    if (lastJeuneReading == null || lastConseillerMessage.date.isAfter(lastJeuneReading)) {
-      store.dispatch(ChatConseillerMessageAction(ConseillerMessageInfo(true, null)));
+    final hasUnreadMessages = lastJeuneReading == null || lastConseillerMessage?.date.isAfter(lastJeuneReading) == true;
+
+    if (hasUnreadMessages || lastConseillerReading != null) {
+      store.dispatch(ChatConseillerMessageAction(ConseillerMessageInfo(hasUnreadMessages, lastConseillerReading)));
     }
   }
 }
