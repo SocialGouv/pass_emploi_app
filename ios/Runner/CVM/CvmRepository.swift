@@ -105,8 +105,8 @@ private extension Event {
             "message": message,
             "date": timestamp,
             "fileInfo": attachmentID,
-            "readByConseiller": readByConseiller,
-            "readByJeune": readByJeune
+            "readByConseiller": readByConseiller(),
+            "readByJeune": readByJeune()
         ]
     }
 
@@ -117,14 +117,14 @@ private extension Event {
         return Int64((date.timeIntervalSince1970) * 1000)
     }
     
-    private var readByConseiller: Bool{
+    private func readByConseiller() -> Bool{
         print("🚀🚀🚀 CvmRepository.swift#readByConseiller#message -> ", message)
         print("🚀🚀🚀 CvmRepository.swift#readByConseiller#readBy -> ", readBy)
         print("🚀🚀🚀 ----------")
         return !readBy.filter({ $0 != SessionManager.sharedInstance.userId }).isEmpty
     }
     
-    private var readByJeune: Bool{
+    private func readByJeune() -> Bool{
         print("🚀🚀🚀 CvmRepository.swift#readByJeune#message -> ", message)
         print("🚀🚀🚀 CvmRepository.swift#readByJeune#readBy -> ", readBy)
         print("🚀🚀🚀 ----------")
