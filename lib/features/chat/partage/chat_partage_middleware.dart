@@ -47,7 +47,7 @@ class ChatPartageMiddleware extends MiddlewareClass<AppState> {
       store: store,
       onPartage: () {
         return store.useCvm()
-            ? _sendCvmMessage("${offre.message}\n\n${offre.titre}\n\n${offre.url}")
+            ? _sendCvmMessage("${offre.message}\n\n${offre.titre}\n↗ ${offre.url}")
             : _chatRepository.sendOffrePartagee(userId, offre);
       },
       eventType: EventType.MESSAGE_OFFRE_PARTAGEE,
@@ -59,7 +59,7 @@ class ChatPartageMiddleware extends MiddlewareClass<AppState> {
       store: store,
       onPartage: () {
         return store.useCvm()
-            ? _sendCvmMessage("${evenementEmploi.message}\n\n${evenementEmploi.titre}\n\n${evenementEmploi.url}")
+            ? _sendCvmMessage("${evenementEmploi.message}\n\n${evenementEmploi.titre}\n↗ ${evenementEmploi.url}")
             : _chatRepository.sendEvenementEmploiPartage(userId, evenementEmploi);
       },
       eventType: EventType.EVENEMENT_EXTERNE_PARTAGE,

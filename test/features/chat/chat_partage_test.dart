@@ -310,7 +310,7 @@ void main() {
         ]);
 
         final offre = dummyOffrePartagee();
-        final message = "${offre.message}\n\n${offre.titre}\n\n${offre.url}";
+        final message = "${offre.message}\n\n${offre.titre}\n↗ ${offre.url}";
         verify(() => cvmBridge.sendMessage(message)).called(1);
       });
 
@@ -357,7 +357,7 @@ void main() {
         ]);
 
         final evenementEmploi = dummyEvenementEmploiPartage();
-        final message = "${evenementEmploi.message}\n\n${evenementEmploi.titre}\n\n${evenementEmploi.url}";
+        final message = "${evenementEmploi.message}\n\n${evenementEmploi.titre}\n↗ ${evenementEmploi.url}";
         verify(() => cvmBridge.sendMessage(message)).called(1);
       });
 
