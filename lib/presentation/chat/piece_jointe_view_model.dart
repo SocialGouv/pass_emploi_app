@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.da
 import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/presentation/chat/chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -65,16 +64,12 @@ String? _imagePath(String id, PiecesJointesState piecesJointesState) {
 
 void _onDownloadTypeId(String fileId, String fileName, PieceJointeSource source, Store<AppState> store) {
   store.dispatch(PieceJointeFromIdRequestAction(fileId, fileName));
-  if (!fileName.isImage()) {
-    _trackPieceJointeDownload(source, store);
-  }
+  _trackPieceJointeDownload(source, store);
 }
 
 void _onDownloadTypeUrl(String url, String fileId, String fileName, PieceJointeSource source, Store<AppState> store) {
   store.dispatch(PieceJointeFromUrlRequestAction(url, fileId, fileName));
-  if (!fileName.isImage()) {
-    _trackPieceJointeDownload(source, store);
-  }
+  _trackPieceJointeDownload(source, store);
 }
 
 void _trackPieceJointeDownload(PieceJointeSource source, Store<AppState> store) {
