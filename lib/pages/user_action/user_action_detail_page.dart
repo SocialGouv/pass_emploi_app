@@ -8,7 +8,6 @@ import 'package:pass_emploi_app/features/user_action/details/user_action_details
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
-import 'package:pass_emploi_app/pages/user_action/update/update_user_action_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
@@ -66,9 +65,10 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
             },
             converter: (store) => UserActionDetailsViewModel.create(store, widget.source, widget.userActionId),
             builder: (context, viewModel) => _Scaffold(
-              body: _Body(viewModel, () => confettiController.play()),
+              body: _Body(viewModel),
               viewModel: viewModel,
               source: widget.source,
+              onActionDone: () => confettiController.play(),
             ),
             onDispose: (store) {
               if (widget.source == UserActionStateSource.noSource) store.dispatch(UserActionDetailsResetAction());
@@ -114,11 +114,13 @@ class _Scaffold extends StatelessWidget {
   final Widget body;
   final UserActionDetailsViewModel viewModel;
   final UserActionStateSource source;
+  final void Function() onActionDone;
 
   const _Scaffold({
     required this.body,
     required this.viewModel,
     required this.source,
+    required this.onActionDone,
   });
 
   @override
@@ -133,14 +135,8 @@ class _Scaffold extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (viewModel.withUnfinishedButton) ...[
-              SizedBox(height: Margins.spacing_base),
-              _UnfinishedActionButton(viewModel),
-            ],
-            if (viewModel.withUpdateButton) ...[
-              SizedBox(height: Margins.spacing_base),
-              _UpdateButton(source, viewModel.id),
-            ],
+            if (viewModel.withUnfinishedButton) _UnfinishedActionButton(viewModel),
+            if (viewModel.withFinishedButton) _FinishActionButton(viewModel, onActionDone),
           ],
         ),
       ),
@@ -152,14 +148,13 @@ class _Scaffold extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   final UserActionDetailsViewModel viewModel;
-  final VoidCallback onActionDone;
 
-  const _Body(this.viewModel, this.onActionDone);
+  const _Body(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
     return switch (viewModel.displayState) {
-      DisplayState.CONTENT => _Content(viewModel, onActionDone),
+      DisplayState.CONTENT => _Content(viewModel),
       DisplayState.LOADING => Center(child: CircularProgressIndicator()),
       _ => Retry(Strings.userActionDetailsError, () => viewModel.onRetry())
     };
@@ -168,9 +163,8 @@ class _Body extends StatelessWidget {
 
 class _Content extends StatelessWidget {
   final UserActionDetailsViewModel viewModel;
-  final VoidCallback onActionDone;
 
-  const _Content(this.viewModel, this.onActionDone);
+  const _Content(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -192,8 +186,6 @@ class _Content extends StatelessWidget {
                       viewModel.pillule.toActionCardPillule(),
                       SizedBox(height: Margins.spacing_base),
                       _Title(title: viewModel.title),
-                      SizedBox(height: Margins.spacing_base),
-                      if (viewModel.withFinishedButton) _FinishActionButton(viewModel, onActionDone),
                       SizedBox(height: Margins.spacing_m),
                       _Separator(),
                       SizedBox(height: Margins.spacing_m),
@@ -345,24 +337,6 @@ class _Description extends StatelessWidget {
     } else {
       return SizedBox(height: Margins.spacing_s);
     }
-  }
-}
-
-class _UpdateButton extends StatelessWidget {
-  final UserActionStateSource source;
-  final String userActionId;
-
-  const _UpdateButton(this.source, this.userActionId);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: SecondaryButton(
-        label: Strings.updateUserAction,
-        onPressed: () => Navigator.push(context, UpdateUserActionPage.route(source, userActionId)),
-      ),
-    );
   }
 }
 
