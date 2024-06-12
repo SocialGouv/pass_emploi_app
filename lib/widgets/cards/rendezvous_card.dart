@@ -69,12 +69,12 @@ extension RendezvousCardFromId on String {
   Widget rendezvousCard({
     required BuildContext context,
     required RendezvousStateSource stateSource,
-    required EvenementEngagement trackedEvent,
+    required EvenementEngagement evenementEngagement,
   }) {
     return RendezvousCard(
       converter: (store) => RendezvousCardViewModel.create(store, stateSource, this),
       onTap: () {
-        context.trackEvent(trackedEvent);
+        context.trackEvenementEngagement(evenementEngagement);
         Navigator.push(
           context,
           RendezvousDetailsPage.materialPageRoute(_stateSource(stateSource), this),

@@ -62,7 +62,7 @@ class _EventCard extends StatelessWidget {
           stateSource: type == AccueilEvenementsType.sessionMilo
               ? RendezvousStateSource.accueilLesEvenementsSession
               : RendezvousStateSource.accueilLesEvenements,
-          trackedEvent: EvenementEngagement.RDV_DETAIL,
+          evenementEngagement: EvenementEngagement.RDV_DETAIL,
         ),
         SizedBox(height: Margins.spacing_base),
       ],

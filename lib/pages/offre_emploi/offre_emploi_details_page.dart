@@ -67,7 +67,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       child: StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
         onInit: (store) => store.dispatch(OffreEmploiDetailsRequestAction(_offreId)),
         onInitialBuild: (_) {
-          context.trackEvent(_offreAfficheeEvent());
+          context.trackEvenementEngagement(_offreAfficheeEvent());
         },
         converter: (store) => OffreEmploiDetailsPageViewModel.create(store),
         builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
@@ -441,10 +441,10 @@ class OffreEmploiDetailsPage extends StatelessWidget {
 
   void _applyToOffer(BuildContext context, String url) {
     launchExternalUrl(url);
-    context.trackEvent(_postulerEvent());
+    context.trackEvenementEngagement(_postulerEvent());
   }
 
-  void _shareOffer(BuildContext context) => context.trackEvent(_partagerEvent());
+  void _shareOffer(BuildContext context) => context.trackEvenementEngagement(_partagerEvent());
 
   EvenementEngagement _offreAfficheeEvent() {
     return _fromAlternance ? EvenementEngagement.OFFRE_ALTERNANCE_AFFICHEE : EvenementEngagement.OFFRE_EMPLOI_AFFICHEE;

@@ -112,7 +112,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
                     if (widget.controller.value.text.isNotEmpty == true) {
                       widget.onSendMessage(widget.controller.value.text);
                       widget.controller.clear();
-                      context.trackEvent(EvenementEngagement.MESSAGE_ENVOYE);
+                      context.trackEvenementEngagement(EvenementEngagement.MESSAGE_ENVOYE);
                     }
                   },
                 ),

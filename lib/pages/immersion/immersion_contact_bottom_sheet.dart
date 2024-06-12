@@ -30,7 +30,7 @@ class ImmersionContactBottomSheet extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.immersionContact,
       child: StoreConnector<AppState, ImmersionContactViewModel>(
-        onInitialBuild: (_) => context.trackEvent(EvenementEngagement.OFFRE_IMMERSION_CONTACT_AFFICHEE),
+        onInitialBuild: (_) => context.trackEvenementEngagement(EvenementEngagement.OFFRE_IMMERSION_CONTACT_AFFICHEE),
         converter: (store) => ImmersionContactViewModel.create(store: store, platform: platform),
         builder: (context, viewModel) => _Content(viewModel.callToAction),
         distinct: true,
@@ -177,7 +177,7 @@ class _ContactButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return PrimaryActionButton(
       onPressed: () {
-        context.trackEvent(callToAction.eventType);
+        context.trackEvenementEngagement(callToAction.eventType);
         launchExternalUrl(callToAction.uri.toString());
       },
       label: callToAction.label,

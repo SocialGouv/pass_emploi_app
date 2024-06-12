@@ -158,7 +158,7 @@ class _Header extends StatelessWidget {
   }
 
   void partagerConseiller(BuildContext context) {
-    context.trackEvent(EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE_CONSEILLER);
+    context.trackEvenementEngagement(EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE_CONSEILLER);
     ChatPartageBottomSheet.show(context, ChatPartageEvenementEmploiSource());
   }
 }
@@ -217,7 +217,7 @@ class _FooterButtons extends StatelessWidget {
           ShareButton(
             viewModel.url!,
             viewModel.titre,
-            () => context.trackEvent(EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE),
+            () => context.trackEvenementEngagement(EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE),
           ),
         ],
       ],
@@ -226,7 +226,7 @@ class _FooterButtons extends StatelessWidget {
 
   void _openInscriptionUrl(BuildContext context) {
     if (viewModel.url == null) return;
-    context.trackEvent(EvenementEngagement.EVENEMENT_EXTERNE_INSCRIPTION);
+    context.trackEvenementEngagement(EvenementEngagement.EVENEMENT_EXTERNE_INSCRIPTION);
     PassEmploiMatomoTracker.instance.trackEvent(
       eventCategory: AnalyticsEventNames.evenementEmploiDetailsCategory,
       action: AnalyticsEventNames.evenementEmploiDetailsInscriptionAction,

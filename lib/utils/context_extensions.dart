@@ -4,8 +4,10 @@ import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
-extension TrackingExtension on BuildContext {
-  void trackEvent(EvenementEngagement eventType) => dispatch(TrackingEvenementEngagementAction(eventType));
+extension EvenementEngagementExtension on BuildContext {
+  void trackEvenementEngagement(EvenementEngagement evenementEngagement) {
+    dispatch(TrackingEvenementEngagementAction(evenementEngagement));
+  }
 }
 
 extension StoreExtension on BuildContext {

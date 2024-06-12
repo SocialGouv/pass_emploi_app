@@ -57,7 +57,7 @@ class ImmersionDetailsPage extends StatelessWidget {
       child: StoreConnector<AppState, ImmersionDetailsViewModel>(
         onInit: (store) => store.dispatch(ImmersionDetailsRequestAction(_immersionId)),
         onInitialBuild: (_) {
-          context.trackEvent(EvenementEngagement.OFFRE_IMMERSION_AFFICHEE);
+          context.trackEvenementEngagement(EvenementEngagement.OFFRE_IMMERSION_AFFICHEE);
         },
         onDispose: (store) => store.dispatch(ImmersionDetailsResetAction()),
         converter: (store) => ImmersionDetailsViewModel.create(store, platform),
@@ -207,7 +207,7 @@ class ImmersionDetailsPage extends StatelessWidget {
             label: cta.label,
             icon: cta.icon,
             onPressed: () {
-              context.trackEvent(cta.eventType);
+              context.trackEvenementEngagement(cta.eventType);
               launchExternalUrl(cta.uri.toString());
             },
           ),

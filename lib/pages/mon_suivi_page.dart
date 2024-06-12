@@ -505,7 +505,7 @@ class _UserActionMonSuiviItem extends StatelessWidget {
       userActionId: entry.id,
       source: UserActionStateSource.monSuivi,
       onTap: () {
-        context.trackEvent(EvenementEngagement.ACTION_DETAIL);
+        context.trackEvenementEngagement(EvenementEngagement.ACTION_DETAIL);
         Navigator.push(
           context,
           UserActionDetailPage.materialPageRoute(entry.id, UserActionStateSource.monSuivi),
@@ -525,7 +525,7 @@ class _DemarcheMonSuiviItem extends StatelessWidget {
     return DemarcheCard(
       demarcheId: entry.id,
       onTap: () {
-        context.trackEvent(EvenementEngagement.ACTION_DETAIL);
+        context.trackEvenementEngagement(EvenementEngagement.ACTION_DETAIL);
         Navigator.push(
           context,
           DemarcheDetailPage.materialPageRoute(entry.id),
@@ -545,7 +545,7 @@ class _RendezvousMonSuiviItem extends StatelessWidget {
     return entry.id.rendezvousCard(
       context: context,
       stateSource: RendezvousStateSource.monSuivi,
-      trackedEvent: EvenementEngagement.RDV_DETAIL,
+      evenementEngagement: EvenementEngagement.RDV_DETAIL,
     );
   }
 }
@@ -560,7 +560,7 @@ class _SessionMiloMonSuiviItem extends StatelessWidget {
     return entry.id.rendezvousCard(
       context: context,
       stateSource: RendezvousStateSource.monSuiviSessionMilo,
-      trackedEvent: EvenementEngagement.RDV_DETAIL,
+      evenementEngagement: EvenementEngagement.RDV_DETAIL,
     );
   }
 }

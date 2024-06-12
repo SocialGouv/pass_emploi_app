@@ -30,7 +30,7 @@ class AccueilProchainRendezVous extends StatelessWidget {
         id.rendezvousCard(
           context: context,
           stateSource: stateSource,
-          trackedEvent: EvenementEngagement.RDV_DETAIL,
+          evenementEngagement: EvenementEngagement.RDV_DETAIL,
         ),
       ],
     );

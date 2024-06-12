@@ -140,7 +140,7 @@ class _CvListView extends StatelessWidget {
 
   void _downloadCv(BuildContext context, CvPoleEmploi cv) {
     viewModel.onDownload(cv);
-    context.trackEvent(EvenementEngagement.CV_PE_TELECHARGE);
+    context.trackEvenementEngagement(EvenementEngagement.CV_PE_TELECHARGE);
   }
 }
 

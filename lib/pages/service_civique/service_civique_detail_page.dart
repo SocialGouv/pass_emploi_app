@@ -50,7 +50,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
       child: StoreConnector<AppState, ServiceCiviqueDetailViewModel>(
         onInit: (store) => store.dispatch(GetServiceCiviqueDetailAction(idOffre)),
         onInitialBuild: (_) {
-          context.trackEvent(EvenementEngagement.OFFRE_SERVICE_CIVIQUE_AFFICHEE);
+          context.trackEvenementEngagement(EvenementEngagement.OFFRE_SERVICE_CIVIQUE_AFFICHEE);
         },
         converter: (store) => ServiceCiviqueDetailViewModel.create(store),
         builder: (context, viewModel) {
@@ -265,10 +265,10 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
 
   void _applyToOffer(BuildContext context, String url) {
     launchExternalUrl(url);
-    context.trackEvent(_postulerEvent());
+    context.trackEvenementEngagement(_postulerEvent());
   }
 
-  void _shareOffer(BuildContext context) => context.trackEvent(_partagerEvent());
+  void _shareOffer(BuildContext context) => context.trackEvenementEngagement(_partagerEvent());
 
   EvenementEngagement _partagerEvent() => EvenementEngagement.OFFRE_SERVICE_CIVIQUE_PARTAGEE;
 
